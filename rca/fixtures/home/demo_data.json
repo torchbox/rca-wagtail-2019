@@ -1,0 +1,15 @@
+[
+  {
+    "model": "home.homepage",
+    "pk": 3,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": "",
+      "strapline": "",
+      "call_to_action": null
+    }
+  }
+]

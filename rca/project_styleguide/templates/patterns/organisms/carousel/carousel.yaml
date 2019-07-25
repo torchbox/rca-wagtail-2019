@@ -1,0 +1,18 @@
+context:
+  carousel:
+    - slide:
+      title: 'Slide 1'
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+      link: 'http://www.torchbox.com'
+    - slide:
+      title: 'Slide 2'
+      text: 'Etiam magna justo, sollicitudin sit amet laoreet id, sodales vel metus'
+      link: 'http://www.torchbox.com'
+    - slide:
+      title: 'Slide 3'
+      text: 'Donec quis dolor at tellus viverra molestie.'
+      link: 'http://www.torchbox.com'
+    - slide:
+      title: 'Slide 4'
+      text: 'Aliquam eu aliquet metus'
+      link: 'http://www.torchbox.com'

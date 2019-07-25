@@ -1,0 +1,40 @@
+[
+  {
+    "model": "standardpages.informationpage",
+    "pk": 8,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": "",
+      "introduction": "Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. In hac habitasse platea dictumst. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Fusce id purus. Praesent ac massa at ligula laoreet iaculis. Pellentesque ut neque.",
+      "body": "[{\"type\": \"paragraph\", \"value\": \"<p>Praesent egestas tristique nibh. Phasellus consectetuer vestibulum elit. Quisque malesuada placerat nisl. Pellentesque auctor neque nec urna. Aenean vulputate eleifend tellus.</p><p>Nam commodo suscipit quam. Ut varius tincidunt libero. Proin faucibus arcu quis ante. Morbi mollis tellus ac sapien. Phasellus gravida semper nisi.</p><ul><li>Item 1</li><li>Item 2</li></ul><p>Cras sagittis. Nam pretium turpis et arcu. Praesent vestibulum dapibus nibh. Phasellus magna. Vestibulum suscipit nulla quis orci.</p>\", \"id\": \"f3eea6c2-f541-437e-98bb-8b48f8ab2771\"}, {\"type\": \"embed\", \"value\": \"https://www.youtube.com/watch?v=oUJNweMWwVQ\", \"id\": \"58fd090e-43ba-4c02-86fe-dbd9de1475c3\"}, {\"type\": \"paragraph\", \"value\": \"<p>Praesent egestas tristique nibh. Phasellus consectetuer vestibulum elit. Quisque malesuada placerat nisl. Pellentesque auctor neque nec urna. Aenean vulputate eleifend tellus.</p><p></p>\", \"id\": \"107fb471-36d9-4d70-8aa0-8530d678b66a\"}, {\"type\": \"call_to_action\", \"value\": 1, \"id\": \"76621010-c15a-4a2b-a67d-bcd989697bb5\"}]"
+    }
+  },
+  {
+    "model": "standardpages.informationpage",
+    "pk": 9,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": "",
+      "introduction": "Morbi ac felis. Curabitur suscipit suscipit tellus. Phasellus viverra nulla ut metus varius laoreet. Fusce neque. Nam commodo suscipit quam.",
+      "body": "[{\"type\": \"heading\", \"value\": \"Heading Block\", \"id\": \"5fc2ab19-92c4-4c7b-a9dd-46c5abda22ac\"}, {\"type\": \"paragraph\", \"value\": \"<p>Praesent ac massa at ligula laoreet iaculis.. Phasellus ullamcorper ipsum rutrum nunc. Nulla porta dolor. Curabitur suscipit suscipit tellus.</p><p>Nam eget dui. Nulla porta dolor. Cras ultricies mi eu turpis hendrerit fringilla. Fusce risus nisl, viverra et, tempor et, pretium in, sapien. Praesent ac massa at ligula laoreet iaculis.</p>\", \"id\": \"62b5bc8c-77fb-420b-a231-0972554de6c3\"}, {\"type\": \"embed\", \"value\": \"https://vimeo.com/86036070\", \"id\": \"6614f8f9-458c-4d59-bd3a-2a3d8c278275\"}, {\"type\": \"quote\", \"value\": {\"quote\": \"Phasellus ullamcorper ipsum rutrum nunc.\", \"attribution\": \"Miles Davis\"}, \"id\": \"53d4a2e6-f723-4a9c-91b8-294fac36131d\"}]"
+    }
+  },
+  {
+    "model": "standardpages.indexpage",
+    "pk": 7,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": "",
+      "introduction": "Morbi ac felis. Curabitur suscipit suscipit tellus. Phasellus viverra nulla ut metus varius laoreet. Fusce neque. Nam commodo suscipit quam."
+    }
+  }
+]

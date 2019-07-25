@@ -1,0 +1,34 @@
+{% load wagtailcore_tags %}
+<h2>An accordion</h2>
+<div role="tablist" aria-multiselectable="true">
+    {% for accordion in accordions %}
+        <div class="accordion" data-accordion>
+            <a
+                href=""
+                class="accordion__title"
+                data-accordion-question
+                role="tab"
+                aria-controls="answer-{{ forloop.counter }}"
+                aria-expanded="false"
+                aria-selected="false"
+                tabindex="0"
+                id="question-{{ forloop.counter }}">
+                <svg class="accordion__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.8 103.7" aria-hidden="true">
+                    <title>Arrow icon</title>
+                    <use xlink:href="#arrow"></use>
+                </svg>
+                <h3>{{ accordion.title }}</h3>
+            </a>
+            <div
+                aria-live="polite"
+                class="accordion__content"
+                data-accordion-answer
+                id="answer-{{ forloop.counter }}"
+                role="tabpanel"
+                aria-labelledby="question-{{ forloop.counter }}"
+                aria-hidden="false">
+                {{ accordion.content|richtext }}
+            </div>
+        </div>
+    {% endfor %}
+</div>

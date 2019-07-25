@@ -1,0 +1,56 @@
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$120000$vRhaZI3tIblf$xWi07RjyUf0Uakvvsnwagu+AzXJtRIpAMkPsiPAq+H8=",
+      "last_login": "2019-06-18T14:36:04.983Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2019-06-18T13:19:16.960Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$120000$EPEzztBQsgrX$zs8MKgl4vX4EnNrUbvX1aftBr62B/8zy3/4Jflm4UbY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "editor",
+      "first_name": "Jane",
+      "last_name": "Editor",
+      "email": "editor@wagtail-kit.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2019-06-18T13:21:18.061Z",
+      "groups": [["Editors"]],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$120000$A5YMjdh2IFmc$6xmDHBWYe7Dx4UQz7Vy1QId456G4EWTO+saOfJx2GLo=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "moderator",
+      "first_name": "John",
+      "last_name": "Moderator",
+      "email": "moderator@wagtail-kit.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2019-06-18T13:21:41.572Z",
+      "groups": [["Moderators"]],
+      "user_permissions": []
+    }
+  }
+]

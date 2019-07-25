@@ -1,0 +1,15 @@
+site_name: RCA
+repo_url: https://git.torchbox.com/rca/rca
+repo_name: Gitlab
+dev_addr: 0.0.0.0:8001
+theme:
+  name: 'readthedocs'
+markdown_extensions:
+  - codehilite
+  - admonition
+  - toc:
+      permalink: true
+
+nav:
+  - 'Home': 'index.md'
+  - 'Front end tooling': 'front-end-tooling.md'

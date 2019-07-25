@@ -1,0 +1,91 @@
+[
+  {
+    "model": "people.socialmediaprofile",
+    "pk": 1,
+    "fields": {
+      "person_page": 11,
+      "service": "twitter",
+      "username": "torchbox"
+    }
+  },
+  {
+    "model": "people.socialmediaprofile",
+    "pk": 2,
+    "fields": {
+      "person_page": 12,
+      "service": "twitter",
+      "username": "torchbox"
+    }
+  },
+  { "model": "people.persontype", "pk": 1, "fields": { "title": "Reporter" } },
+  { "model": "people.persontype", "pk": 2, "fields": { "title": "Publisher" } },
+  {
+    "model": "people.persontype",
+    "pk": 3,
+    "fields": { "title": "Fund raiser" }
+  },
+  {
+    "model": "people.personpagepersontype",
+    "pk": 1,
+    "fields": { "page": 11, "person_type": 1 }
+  },
+  {
+    "model": "people.personpagepersontype",
+    "pk": 2,
+    "fields": { "page": 12, "person_type": 3 }
+  },
+  {
+    "model": "people.personpagephonenumber",
+    "pk": 1,
+    "fields": { "page": 11, "phone_number": "01608 811870" }
+  },
+  {
+    "model": "people.personpage",
+    "pk": 11,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": "",
+      "first_name": "Jane",
+      "last_name": "Doe",
+      "photo": null,
+      "job_title": "Editor",
+      "introduction": "Nunc egestas augue at pellentesque",
+      "website": "http://torchbox.com",
+      "biography": "[{\"type\": \"paragraph\", \"value\": \"<p>Cras varius. In hac habitasse platea dictumst. Sed augue ipsum, egestas nec, vestibulum et, malesuada adipiscing, dui. Maecenas ullamcorper, dui et placerat feugiat, eros pede varius nisi, condimentum viverra felis nunc et lorem. Nulla neque dolor, sagittis eget, iaculis quis, molestie non, velit.</p><p>Nam at tortor in tellus interdum sagittis. Nunc sed turpis. Pellentesque commodo eros a enim. Donec mi odio, faucibus at, scelerisque quis, convallis in, nisi. Curabitur at lacus ac velit ornare lobortis.</p><p>Aliquam eu nunc. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Nunc sed turpis. Nullam sagittis. Nullam tincidunt adipiscing enim.</p><p>Morbi mattis ullamcorper velit. Praesent nec nisl a purus blandit viverra. Praesent egestas tristique nibh. Proin pretium, leo ac pellentesque mollis, felis nunc ultrices eros, sed gravida augue augue mollis justo. Praesent ut ligula non mi varius sagittis.</p><p>Cras ultricies mi eu turpis hendrerit fringilla. Fusce egestas elit eget lorem. Nunc egestas, augue at pellentesque laoreet, felis eros vehicula leo, at malesuada velit leo quis pede. Sed magna purus, fermentum eu, tincidunt eu, varius ut, felis. Praesent venenatis metus at tortor pulvinar varius.</p>\", \"id\": \"f88657b7-e274-4b34-87e0-1d78eb2ab18c\"}]",
+      "email": "jane@wagtail-kit-demo.com"
+    }
+  },
+  {
+    "model": "people.personpage",
+    "pk": 12,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": "",
+      "first_name": "John",
+      "last_name": "Doe",
+      "photo": null,
+      "job_title": "Fund manager",
+      "introduction": "Aenean posuere tortor sed cursus",
+      "website": "https://torchbox.com",
+      "biography": "[{\"type\": \"paragraph\", \"value\": \"<p>Phasellus dolor. Etiam sit amet orci eget eros faucibus tincidunt. Vestibulum ullamcorper mauris at ligula. Sed hendrerit. Praesent turpis.</p><p>Sed libero. Pellentesque commodo eros a enim. Aenean imperdiet. Suspendisse eu ligula. Praesent egestas neque eu enim.</p><p>Ut leo. Nulla porta dolor. Curabitur vestibulum aliquam leo. Fusce convallis metus id felis luctus adipiscing. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam.</p><h3>Heading 3</h3><p>Curabitur vestibulum aliquam leo. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Praesent egestas neque eu enim. Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Ut id nisl quis enim dignissim sagittis.</p><p>Donec mi odio, faucibus at, scelerisque quis, convallis in, nisi. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In turpis. In ac felis quis tortor malesuada pretium.</p>\", \"id\": \"c79004bb-ee5b-4dff-923c-4be76acd73f9\"}]",
+      "email": "john@wagtail-kit-demo.com"
+    }
+  },
+  {
+    "model": "people.personindexpage",
+    "pk": 10,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": ""
+    }
+  }
+]

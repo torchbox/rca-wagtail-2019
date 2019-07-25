@@ -1,0 +1,73 @@
+[
+  { "model": "news.newstype", "pk": 1, "fields": { "title": "Sport" } },
+  { "model": "news.newstype", "pk": 2, "fields": { "title": "Politics" } },
+  { "model": "news.newstype", "pk": 3, "fields": { "title": "Music" } },
+  {
+    "model": "news.newspagenewstype",
+    "pk": 1,
+    "fields": { "page": 13, "news_type": 1 }
+  },
+  {
+    "model": "news.newspagenewstype",
+    "pk": 2,
+    "fields": { "page": 14, "news_type": 2 }
+  },
+  {
+    "model": "news.newspagenewstype",
+    "pk": 3,
+    "fields": { "page": 15, "news_type": 3 }
+  },
+  {
+    "model": "news.newspage",
+    "pk": 13,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": "",
+      "publication_date": "2019-06-18T13:52:00Z",
+      "introduction": "Fusce neque. Nunc nec neque. Donec sodales sagittis magna. Phasellus a est. Cras risus ipsum, faucibus ut, ullamcorper id, varius ac, leo.",
+      "body": "[{\"type\": \"paragraph\", \"value\": \"<p>Fusce vulputate eleifend sapien. Ut leo. Pellentesque auctor neque nec urna. Suspendisse nisl elit, rhoncus eget, elementum ac, condimentum eget, diam. Aliquam erat volutpat.</p><p>In auctor lobortis lacus. Ut leo. Sed hendrerit. Etiam vitae tortor. Phasellus tempus.</p><p>In hac habitasse platea dictumst. Maecenas nec odio et ante tincidunt tempus. Maecenas ullamcorper, dui et placerat feugiat, eros pede varius nisi, condimentum viverra felis nunc et lorem. Fusce commodo aliquam arcu. Proin faucibus arcu quis ante.</p><p>Cras ultricies mi eu turpis hendrerit fringilla. Pellentesque egestas, neque sit amet convallis pulvinar, justo nulla eleifend augue, ac auctor orci leo non est. Pellentesque posuere. Praesent metus tellus, elementum eu, semper a, adipiscing nec, purus. Sed hendrerit.</p>\", \"id\": \"48feba73-cc2f-43d8-9fd4-91d2aab8f966\"}, {\"type\": \"heading\", \"value\": \"Heading title\", \"id\": \"a30141f0-66c6-4c7d-8668-e5a49e35e091\"}, {\"type\": \"paragraph\", \"value\": \"<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin magna. Pellentesque auctor neque nec urna. Curabitur at lacus ac velit ornare lobortis. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam.</p><p>Fusce convallis metus id felis luctus adipiscing. Phasellus tempus. Donec posuere vulputate arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Praesent vestibulum dapibus nibh.</p><p>Sed cursus turpis vitae tortor. Maecenas malesuada. Praesent porttitor, nulla vitae posuere iaculis, arcu nisl dignissim dolor, a pretium mi sem ut ipsum. Nulla facilisi. Maecenas egestas arcu quis ligula mattis placerat.</p><p>Proin sapien ipsum, porta a, auctor quis, euismod ut, mi. Pellentesque auctor neque nec urna. Nullam quis ante. Maecenas malesuada. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed aliquam, nisi quis porttitor congue, elit erat euismod orci, ac placerat dolor lectus quis orci.</p><p>Fusce fermentum. Sed augue ipsum, egestas nec, vestibulum et, malesuada adipiscing, dui. Nam pretium turpis et arcu. Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus. Donec mi odio, faucibus at, scelerisque quis, convallis in, nisi.</p>\", \"id\": \"0c3181ec-99aa-4b26-bcc8-13c824e7e037\"}]"
+    }
+  },
+  {
+    "model": "news.newspage",
+    "pk": 14,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": "",
+      "publication_date": "2019-06-15T13:53:00Z",
+      "introduction": "In consectetuer turpis ut velit. Donec vitae orci sed dolor rutrum auctor. Nullam tincidunt adipiscing enim. Aliquam lobortis. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.",
+      "body": "[{\"type\": \"paragraph\", \"value\": \"<p>Suspendisse potenti. Vivamus consectetuer hendrerit lacus. Mauris sollicitudin fermentum libero. Pellentesque posuere. Suspendisse potenti.</p><p>Ut tincidunt tincidunt erat. Duis arcu tortor, suscipit eget, imperdiet nec, imperdiet iaculis, ipsum. Cras non dolor. Phasellus ullamcorper ipsum rutrum nunc. Aenean tellus metus, bibendum sed, posuere ac, mattis non, nunc.</p><h3>Heading 3</h3><p>Phasellus tempus. Suspendisse feugiat. Maecenas nec odio et ante tincidunt tempus. Vivamus consectetuer hendrerit lacus. Suspendisse nisl elit, rhoncus eget, elementum ac, condimentum eget, diam.</p><p>Aenean imperdiet. Nulla neque dolor, sagittis eget, iaculis quis, molestie non, velit. Ut leo. Nulla facilisi. Nunc sed turpis.</p><p>Praesent nonummy mi in odio. Nullam dictum felis eu pede mollis pretium. In auctor lobortis lacus. Vestibulum turpis sem, aliquet eget, lobortis pellentesque, rutrum eu, nisl. Vestibulum volutpat pretium libero.</p><p>Fusce ac felis sit amet ligula pharetra condimentum. Phasellus blandit leo ut odio. In ac felis quis tortor malesuada pretium. Nullam nulla eros, ultricies sit amet, nonummy id, imperdiet feugiat, pede. Vivamus laoreet.</p>\", \"id\": \"1040eb7a-223e-4d3f-9e37-9f2827b93974\"}]"
+    }
+  },
+  {
+    "model": "news.newspage",
+    "pk": 15,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": "",
+      "publication_date": "2019-06-13T13:54:00Z",
+      "introduction": "Donec sodales sagittis magna. Vivamus in erat ut urna cursus vestibulum. Nunc sed turpis. Duis lobortis massa imperdiet quam. Duis lobortis massa imperdiet quam.",
+      "body": "[{\"type\": \"paragraph\", \"value\": \"<p>Fusce vel dui. Phasellus nec sem in justo pellentesque facilisis. Donec vitae orci sed dolor rutrum auctor. Vivamus consectetuer hendrerit lacus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Fusce id purus.</p><p>Sed aliquam ultrices mauris. Donec venenatis vulputate lorem. Fusce egestas elit eget lorem. Nunc nec neque. Sed mollis, eros et ultrices tempus, mauris ipsum aliquam libero, non adipiscing dolor urna a orci.Maecenas nec odio et ante tincidunt tempus. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Proin magna. Nullam tincidunt adipiscing enim. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed aliquam, nisi quis porttitor congue, elit erat euismod orci, ac placerat dolor lectus quis orci.</p><p></p><p>Vestibulum rutrum, mi nec elementum vehicula, eros quam gravida nisl, id fringilla neque ante vel mi. Suspendisse eu ligula. Mauris sollicitudin fermentum libero. Maecenas nec odio et ante tincidunt tempus. Morbi mollis tellus ac sapien.Integer tincidunt. Aliquam eu nunc. In ac felis quis tortor malesuada pretium. Phasellus leo dolor, tempus non, auctor et, hendrerit quis, nisi. Praesent ut ligula non mi varius sagittis.</p>\", \"id\": \"64403f71-329c-40ee-be93-b7c8cf130f95\"}, {\"type\": \"heading\", \"value\": \"Heading Title\", \"id\": \"d7bda574-91de-4045-b9ae-85d9b3b121e0\"}, {\"type\": \"quote\", \"value\": {\"quote\": \"Maecenas malesuada. Etiam imperdiet imperdiet orci.\", \"attribution\": \"John Doe\"}, \"id\": \"7e0e5364-1ebb-4f39-b739-a1c6954f4572\"}, {\"type\": \"paragraph\", \"value\": \"<p>Vivamus aliquet elit ac nisl. Fusce vel dui. Pellentesque dapibus hendrerit tortor. Sed in libero ut nibh placerat accumsan. Nunc sed turpis.</p><p>Vestibulum volutpat pretium libero. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. Sed cursus turpis vitae tortor. Nullam accumsan lorem in dui. In dui magna, posuere eget, vestibulum et, tempor auctor, justo.</p><p>Quisque id odio. Phasellus gravida semper nisi. Phasellus tempus. Sed cursus turpis vitae tortor. Cras varius.</p>\", \"id\": \"e704bc15-93ea-4ddc-9fcb-2dd331f1f6ac\"}]"
+    }
+  },
+  {
+    "model": "news.newsindex",
+    "pk": 4,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": ""
+    }
+  }
+]

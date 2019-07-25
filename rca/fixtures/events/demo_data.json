@@ -1,0 +1,108 @@
+[
+  {
+    "model": "events.eventtype",
+    "pk": 1,
+    "fields": { "title": "Fund raising" }
+  },
+  { "model": "events.eventtype", "pk": 2, "fields": { "title": "Seminar" } },
+  {
+    "model": "events.eventpagerelatedpage",
+    "pk": 1,
+    "fields": { "sort_order": 0, "page": 16, "source_page": 17 }
+  },
+  {
+    "model": "events.eventpageeventtype",
+    "pk": 1,
+    "fields": { "event_type": 1, "page": 16 }
+  },
+  {
+    "model": "events.eventpageeventtype",
+    "pk": 2,
+    "fields": { "event_type": 1, "page": 17 }
+  },
+  {
+    "model": "events.eventpageeventtype",
+    "pk": 3,
+    "fields": { "event_type": 2, "page": 18 }
+  },
+  {
+    "model": "events.eventpage",
+    "pk": 16,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": "",
+      "start_date": "2019-06-29",
+      "start_time": "12:00:00",
+      "end_date": "2019-06-29",
+      "end_time": "17:00:00",
+      "street_address_1": "Unit 9",
+      "street_address_2": "Southill Business Park",
+      "city": "Charlbury",
+      "region": "Oxfordshire",
+      "postcode": "OX7 3EW",
+      "country": "UK",
+      "introduction": "In hac habitasse platea dictumst. Praesent ac sem eget est egestas volutpat. Nullam cursus lacinia erat. Donec mollis hendrerit risus. Donec mollis hendrerit risus.",
+      "body": "[{\"type\": \"paragraph\", \"value\": \"<p>Quisque libero metus, condimentum nec, tempor a, commodo mollis, magna. Integer tincidunt. Nullam cursus lacinia erat. Suspendisse nisl elit, rhoncus eget, elementum ac, condimentum eget, diam. In auctor lobortis lacus.</p><p>Phasellus accumsan cursus velit. Nunc sed turpis. Morbi mollis tellus ac sapien. Praesent porttitor, nulla vitae posuere iaculis, arcu nisl dignissim dolor, a pretium mi sem ut ipsum. Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla.</p><p>Praesent metus tellus, elementum eu, semper a, adipiscing nec, purus. Sed cursus turpis vitae tortor. Cras risus ipsum, faucibus ut, ullamcorper id, varius ac, leo. Sed fringilla mauris sit amet nibh. Quisque id odio.</p><p>In auctor lobortis lacus. Donec venenatis vulputate lorem. Sed mollis, eros et ultrices tempus, mauris ipsum aliquam libero, non adipiscing dolor urna a orci. Aliquam lobortis. Phasellus blandit leo ut odio.</p>\", \"id\": \"367869b2-39ad-47a6-904b-aa644f8c90f1\"}]"
+    }
+  },
+  {
+    "model": "events.eventpage",
+    "pk": 17,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": "",
+      "start_date": "2019-06-30",
+      "start_time": "13:00:00",
+      "end_date": "2019-06-30",
+      "end_time": "15:00:00",
+      "street_address_1": "Unit 9",
+      "street_address_2": "Southill Business Park",
+      "city": "Charlbury",
+      "region": "Oxfordshire",
+      "postcode": "OX7 3EW",
+      "country": "United Kingdom",
+      "introduction": "Maecenas egestas arcu quis ligula mattis placerat. Maecenas nec odio et ante tincidunt tempus. Duis lobortis massa imperdiet quam. Praesent blandit laoreet nibh. Praesent ac massa at ligula laoreet iaculis.",
+      "body": "[{\"type\": \"paragraph\", \"value\": \"<p>Sed in libero ut nibh placerat accumsan. Nulla porta dolor. Nullam sagittis. Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Donec sodales sagittis magna.</p><p>Nunc nulla. Sed aliquam ultrices mauris. Nullam quis ante. Morbi mattis ullamcorper velit. Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla.</p><p>Suspendisse potenti. Donec sodales sagittis magna. In ut quam vitae odio lacinia tincidunt. Sed fringilla mauris sit amet nibh. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>\", \"id\": \"1d8f2c07-a77e-48d3-adc9-5df388c87b11\"}]"
+    }
+  },
+  {
+    "model": "events.eventpage",
+    "pk": 18,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": "",
+      "start_date": "2019-07-06",
+      "start_time": "15:00:00",
+      "end_date": "2019-07-07",
+      "end_time": "15:00:00",
+      "street_address_1": "Unit 9",
+      "street_address_2": "Southill Business Park",
+      "city": "Charlbury",
+      "region": "Oxfordshire",
+      "postcode": "OX7 3EW",
+      "country": "United Kingdom",
+      "introduction": "Sed fringilla mauris sit amet",
+      "body": "[{\"type\": \"paragraph\", \"value\": \"<p>Praesent adipiscing. Pellentesque dapibus hendrerit tortor. Cras sagittis. Maecenas egestas arcu quis ligula mattis placerat. Curabitur ullamcorper ultricies nisi.</p><p>Pellentesque posuere. Praesent turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras dapibus. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p><p>Curabitur at lacus ac velit ornare lobortis. Sed in libero ut nibh placerat accumsan. Vivamus consectetuer hendrerit lacus. Maecenas vestibulum mollis diam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos.</p><p>Nam adipiscing. Suspendisse non nisl sit amet velit hendrerit rutrum. Curabitur blandit mollis lacus. Nam eget dui. Vestibulum ullamcorper mauris at ligula.</p>\", \"id\": \"db865884-d26a-4d37-b7e1-5a81c5b049c3\"}]"
+    }
+  },
+  {
+    "model": "events.eventindexpage",
+    "pk": 5,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": ""
+    }
+  }
+]

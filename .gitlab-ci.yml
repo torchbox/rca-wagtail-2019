@@ -1,0 +1,249 @@
+# vim:set sw=2 ts=2 et:
+# This is a sample .gitlab-ci.yml created by wagtail-kit.  You should review
+# it for any necessary changes.
+
+# Stages are groups that jobs can be groupped into.
+# Jobs within each stage run in parallel and if one of them fails, the next
+# stage won't be run.
+# This will set up the following:
+#
+# - Build stage: build of static assets.
+# - Test stage: code style, migration, basic configuration checks and unit
+#   tests.
+# - Deploy stage: deploy to Heroku.
+stages:
+  - build
+  - test
+  - deploy
+
+# Test if static assets can be built succesfully.
+static:
+  image: node:12-alpine
+  stage: build
+  before_script:
+    - apk add --no-cache rsync
+  script:
+    # Make sure your project has a package-lock.json lockfile, otherwise this install will fail.
+    - npm ci
+    - npm run build:prod
+  # Saving the job result as an artifact means that the files can be used by
+  # other jobs.
+  artifacts:
+    name: 'static-$CI_JOB_ID'
+    paths:
+      - ./node_modules
+      - ./rca/static_compiled
+    expire_in: 1 week
+
+# Check python code style.
+flake8:
+  image: python:3.6
+  stage: test
+  script:
+    # Remember to update a version in requirements-dev.txt
+    - pip install flake8==3.7.7
+    - flake8 rca
+
+# Check imports sort order, i.e. check whether they are in an alphabetical
+# order and grouped properly.
+isort:
+  image: python:3.6
+  stage: test
+  before_script:
+    # Remember to update a version in requirements-dev.txt
+    - pip install isort==4.3.15
+  script:
+    - isort --check-only --diff --recursive rca
+
+lint_js:
+  image: node:12-alpine
+  stage: test
+  dependencies:
+    - static
+  script:
+    - npm run lint:js
+
+lint_css:
+  image: node:12-alpine
+  stage: test
+  dependencies:
+    - static
+  script:
+    - npm run lint:css
+
+lint_format:
+  image: node:12-alpine
+  stage: test
+  dependencies:
+    - static
+  script:
+    - npm run lint:format
+
+# Run black and check for changes
+black:
+  image: python:3.7
+  stage: test
+  before_script:
+    # Remember to update a version in requirements-dev.txt
+    - pip install black==19.3b0
+  script:
+    - black --check ./
+
+# Check settings, migrations and run tests.
+test_python:
+  # Make sure this Python version matches the version in your Dockerfile.
+  image: python:3.6.6
+  stage: test
+  services:
+    # Make sure this matches the Postgres version you run on your servers.
+    - postgres:9.6
+  dependencies:
+    - static
+  variables:
+    # Run tests with the production settings.
+    DJANGO_SETTINGS_MODULE: rca.settings.production
+
+    # SECRET_KEY is required by Django to start.
+    SECRET_KEY: fake_secret_key_to_run_tests
+
+    # Silence RECAPTCHA
+    RECAPTCHA_PUBLIC_KEY: 'dummy-key-value'
+    RECAPTCHA_PRIVATE_KEY: 'dummy-key-value'
+
+    # This is the URL used by databases on our CI.
+    DATABASE_URL: postgres://postgres@postgres/postgres
+
+    # Don't redirect to HTTPS in tests.
+    SECURE_SSL_REDIRECT: 'false'
+  before_script:
+    # Install requirements
+    - pip install wheel
+    - pip install -r requirements.txt
+  script:
+    # We need to run the collectstatic command, because we use ManifestStaticFilesStorage.
+    # Otherwise the check command will fail
+    - python manage.py collectstatic --verbosity 0 --noinput --clear
+
+    # Run system checks
+    - python manage.py check
+
+    # Check for missing migrations
+    - python manage.py makemigrations --check --noinput
+
+    # Create cache table.
+    - python manage.py createcachetable
+
+    # Run back-end tests
+    - python manage.py test
+
+test_js:
+  image: node:12-alpine
+  stage: test
+  dependencies:
+    - static
+  script:
+    # Run front-end tests
+    - npm run test:coverage
+
+.heroku_deploy_job_template: &heroku_deploy_job_definition
+  before_script:
+    # Install cURL and GnuPG to install Heroku CLI.
+    # Install Git to push the code to Heroku. It uses HTTP to push the code.
+    - apt-get update -y
+    - apt-get install -y curl git gnupg
+
+    # Install Heroku CLI.
+    - curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+
+    # Use Heroku credentials that you can add in your project settings on
+    # GitLab. They can be obtained from sysadmin or pwman.
+    - |
+      cat >~/.netrc <<EOF
+      machine api.heroku.com
+        login $HEROKU_EMAIL
+        password $HEROKU_TOKEN
+      machine git.heroku.com
+        login $HEROKU_EMAIL
+        password $HEROKU_TOKEN
+      EOF
+    - chmod 600 ~/.netrc
+
+    # Add Heroku's Git remote using Heroku CLI.
+    - heroku git:remote --app $HEROKU_APP --remote heroku
+  script:
+    # Push to Heroku's Git via HTTP. Heroku always expects you to push to
+    # master.
+    - git push heroku HEAD:master
+
+# Deploy to the staging server.
+deploy_staging:
+  # We use Debian image because Heroku has a lot of dependencies and is well
+  # supported on Debian based distributions.
+  image: debian:stretch
+  stage: deploy
+  variables:
+    # Your app's name.
+    #   $ heroku apps - t torchbox
+    HEROKU_APP: rca-staging
+  only:
+    - staging
+  <<: *heroku_deploy_job_definition
+
+# Deploy to the production site.
+deploy_production:
+  # We use Debian image because Heroku has a lot of dependencies and is well
+  # supported on Debian based distributions.
+  image: debian:stretch
+  stage: deploy
+  variables:
+    # Your app's name.
+    #   $ heroku apps - t torchbox
+    HEROKU_APP: rca-production
+  only:
+    - master
+  when: manual
+  before_script:
+    # Install cURL and GnuPG to install Heroku CLI.
+    # Install Git to push the code to Heroku. It uses HTTP to push the code.
+    - apt-get update -y
+    - apt-get install -y curl git gnupg
+
+    # Install Heroku CLI.
+    - curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+
+    # Use Heroku credentials that you can add in your project settings on
+    # GitLab. They can be obtained from sysadmin or pwman.
+    - |
+      cat >~/.netrc <<EOF
+      machine api.heroku.com
+        login $HEROKU_EMAIL
+        password $HEROKU_TOKEN
+      machine git.heroku.com
+        login $HEROKU_EMAIL
+        password $HEROKU_TOKEN
+      EOF
+    - chmod 600 ~/.netrc
+
+    # Add Heroku's Git remote using Heroku CLI.
+    - heroku git:remote --app $HEROKU_APP --remote heroku-production
+  script:
+    # Push to Heroku's Git via HTTP. Heroku always expects you to push to
+    # master.
+    - git push heroku-production HEAD:master
+
+docs:
+  image: python:3.6
+  stage: deploy
+  only:
+    - master
+  script:
+    - pip install -r requirements-docs.txt
+    - mkdocs build
+    - pushd site
+    - tar -cvzf docs.tar.gz *
+    - popd
+    - mv site/docs.tar.gz .
+  artifacts:
+    paths:
+      - docs.tar.gz
+    expire_in: 1 week
