@@ -53,13 +53,10 @@ INSTALLED_APPS = [
     # first - http://help.apm.scoutapp.com/#django.
     "scout_apm.django",
     "rca.documents",
-    "rca.events",
     "rca.forms",
     "rca.home",
     "rca.images",
     "rca.navigation",
-    "rca.news",
-    "rca.people",
     "rca.search",
     "rca.standardpages",
     "rca.users",
@@ -146,9 +143,7 @@ WSGI_APPLICATION = "rca.wsgi.application"
 # https://github.com/kennethreitz/dj-database-url
 
 DATABASES = {
-    "default": dj_database_url.config(
-        conn_max_age=600, default="postgres:///rca"
-    )
+    "default": dj_database_url.config(conn_max_age=600, default="postgres:///rca")
 }
 
 
@@ -339,11 +334,7 @@ LOGGING = {
         }
     },
     "loggers": {
-        "rca": {
-            "handlers": ["console", "sentry"],
-            "level": "INFO",
-            "propagate": False,
-        },
+        "rca": {"handlers": ["console", "sentry"], "level": "INFO", "propagate": False},
         "wagtail": {
             "handlers": ["console", "sentry"],
             "level": "INFO",
@@ -587,9 +578,7 @@ if env.get("BASIC_AUTH_ENABLED", "false").lower().strip() == "true":
 
     # This is the credentials users will have to use to access the site.
     BASIC_AUTH_LOGIN = env.get("BASIC_AUTH_LOGIN", "rca")
-    BASIC_AUTH_PASSWORD = env.get(
-        "BASIC_AUTH_PASSWORD", "showmerca"
-    )
+    BASIC_AUTH_PASSWORD = env.get("BASIC_AUTH_PASSWORD", "showmerca")
 
     # This is the list of network IP addresses that are allowed in without
     # basic authentication check.

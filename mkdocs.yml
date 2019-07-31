@@ -3,7 +3,7 @@ repo_url: https://git.torchbox.com/rca/rca
 repo_name: Gitlab
 dev_addr: 0.0.0.0:8001
 theme:
-  name: 'readthedocs'
+  name: 'material'
 markdown_extensions:
   - codehilite
   - admonition
@@ -13,3 +13,6 @@ markdown_extensions:
 nav:
   - 'Home': 'index.md'
   - 'Front end tooling': 'front-end-tooling.md'
+  - Implementation Specs:
+      - 'Rebuild Approach': 'implementation-specs/finalised-rebuild-approach.md'
+      - 'Programme Page': 'implementation-specs/programme-page.md'
