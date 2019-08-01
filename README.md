@@ -1,4 +1,4 @@
-# RCA Wagtail 2019 site
+# RCA Wagtail 2019
 
 ## Technical documentation
 
