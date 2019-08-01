@@ -43,7 +43,7 @@ a fabfile for running common commands with Fabric.
 To set up a new build:
 
 ```bash
-git clone [URL TO GIT REMOTE]
+git clone https://github.com/torchbox/rca-wagtail-2019.git
 cd rca
 vagrant up
 vagrant ssh
@@ -92,7 +92,6 @@ host machine if you want to be able to use it in both places.
 To populate your local database with the content of staging/production:
 
 ```bash
-fab pull-dev-data
 fab pull-staging-data
 fab pull-production-data
 ```
@@ -100,7 +99,6 @@ fab pull-production-data
 To fetch images and other media:
 
 ```bash
-fab pull-dev-media
 fab pull-staging-media
 fab pull-production-media
 ```
@@ -108,7 +106,6 @@ fab pull-production-media
 To fetch only original images, with no extra media files and no renditions:
 
 ```bash
-fab pull-dev-images
 fab pull-staging-images
 fab pull-production-images
 ```
@@ -118,7 +115,6 @@ fab pull-production-images
 To deploy the site to dev/staging/production:
 
 ```bash
-fab deploy-dev
 fab deploy-staging
 fab deploy-production
 ```
@@ -128,7 +124,6 @@ fab deploy-production
 To open the shell of the servers.
 
 ```bash
-fab dev-shell
 fab staging-shell
 fab production-shell
 ```
@@ -141,7 +136,6 @@ sure to take backups.
 If you want to push your local database to the servers.
 
 ```bash
-fab push-dev-data
 fab push-staging-data
 fab push-production-data
 ```
@@ -149,7 +143,6 @@ fab push-production-data
 Or if you want to push your local media files.
 
 ```bash
-fab push-dev-media
 fab push-staging-media
 fab push-production-media
 ```
