@@ -16,7 +16,7 @@ The documentation will be available at: http://localhost:8001/
 
 1. Make changes on a new branch, including a broad category and the ticket number if relevant e.g. `feature/123-extra-squiggles`, `fix/newsletter-signup`.
 2. Push your branch to the remote.
-3. Make merge requests at e.g. https://git.torchbox.com/[client_name]/rca, no trailing slash/merge_requests/new, setting the 'Source branch' to your feature branch and the 'Target branch' to `master`. Select 'Compare branches and continue'.
+3. Make merge requests at e.g. https://github.com/torchbox/rca-wagtail-2019, no trailing slash/merge_requests/new, setting the 'Source branch' to your feature branch and the 'Target branch' to `master`. Select 'Compare branches and continue'.
 4. Edit details as necessary.
 
 Gitlab has built-in CI tests. These can be configured by editing `.gitlab-ci.yml`. By default these are run on all pushes and merge requests.

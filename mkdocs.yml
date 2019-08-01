@@ -1,5 +1,5 @@
 site_name: RCA
-repo_url: https://git.torchbox.com/rca/rca
+repo_url: https://github.com/torchbox/rca-wagtail-2019
 repo_name: Gitlab
 dev_addr: 0.0.0.0:8001
 theme:
