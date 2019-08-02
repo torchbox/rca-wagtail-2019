@@ -2,88 +2,52 @@
     $TYPOGRAPHY
 \*------------------------------------*/
 
-/* ============================================
-    Base font
-*/
 html {
-    font-size: ($base-font-size / 16px) * 100%;
-    line-height: $base-line-height / $base-font-size;
+    @include font-size(xs);
+    line-height: 1.4;
     color: $color--primary;
 }
 
-/* ============================================
-    Families – one mixin per typeface
-    :: For each font mixin defined here, make sure each property is negated (set
-    :: to its default value, usually `inherit`) in all other font mixins.
-*/
-@mixin heading-text() {
-    font-family: $font--primary;
-    font-style: inherit;
-    font-weight: inherit;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    @include heading-text();
+    margin: 0 0 1rem;
 }
 
-@mixin body-text() {
-    font-family: $font--primary;
-    font-style: inherit;
-    font-weight: inherit;
-    text-transform: inherit;
-}
-
-@mixin quote-text() {
+blockquote {
     font-family: $font--secondary;
     font-style: italic;
     font-weight: inherit;
     text-transform: inherit;
 }
 
-// sass-lint:disable single-line-per-selector
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    margin: 0 0 1rem;
-}
-// sass-lint:enddisable
-
-// sass-lint:disable single-line-per-selector
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.heading-text {
-    @include heading-text();
-}
-// sass-lint:enddisable
-
-html,
-.body-text {
-    @include body-text();
-}
-
-blockquote {
-    @include quote-text();
-}
-
-// Default sizes
 h1 {
-    @include font-size(xl);
+    @include font-size(xxl);
 }
 
 h2 {
+    @include font-size(xl);
+}
+
+h3 {
     @include font-size(l);
 }
 
-h3,
-h4,
+h4 {
+    @include font-size(m);
+    line-height: $line-height-large;
+}
+
 h5,
 h6 {
-    @include font-size(m);
+    @include font-size(s);
+    line-height: $line-height-small;
 }
 
 small {
-    @include font-size(xxs);
+    @include font-size(xs);
 }

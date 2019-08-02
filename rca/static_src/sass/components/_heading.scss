@@ -1,0 +1,33 @@
+.heading {
+    line-height: $line-height-medium;
+
+    &--display-one {
+        @include font-size(xxxxl);
+    }
+
+    &--display-two {
+        @include font-size(xxxl);
+    }
+
+    &--one {
+        @include font-size(xxl);
+    }
+
+    &--two {
+        @include font-size(xl);
+    }
+
+    &--three {
+        @include font-size(l);
+    }
+
+    &--four {
+        @include font-size(m);
+        line-height: $line-height-large;
+    }
+
+    &--five {
+        @include font-size(s);
+        line-height: $line-height-small;
+    }
+}

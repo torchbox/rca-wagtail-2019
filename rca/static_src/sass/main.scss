@@ -12,28 +12,28 @@
 @import 'base/typography';
 
 // Components
+@import 'components/accordion';
 @import 'components/button';
 @import 'components/blockquote';
-@import 'components/card';
+@import 'components/body';
 @import 'components/call-to-action';
+@import 'components/cookie-message';
+@import 'components/card';
+@import 'components/carousel';
 @import 'components/form';
 @import 'components/form-item';
 @import 'components/grid';
+@import 'components/heading';
 @import 'components/icon';
 @import 'components/nav';
+@import 'components/progress-bar';
 @import 'components/responsive-object';
 @import 'components/rich-text';
 @import 'components/section';
-@import 'components/wrapper';
-@import 'components/cookie-message';
-@import 'components/accordion';
-@import 'components/carousel';
-@import 'components/progress-bar';
 @import 'components/video-modal';
+@import 'components/wrapper';
 
 // Layout
 @import 'layout/footer';
 @import 'layout/header';
 @import 'layout/sidebar';
-
-// Pages

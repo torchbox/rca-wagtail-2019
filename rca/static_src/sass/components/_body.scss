@@ -1,0 +1,13 @@
+.body {
+    &--one {
+        @include font-size(xs);
+    }
+
+    &--two {
+        @include font-size(xxs);
+    }
+
+    &--support {
+        @include font-size(xxxs);
+    }
+}

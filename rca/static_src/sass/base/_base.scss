@@ -39,14 +39,17 @@ img {
     max-width: 100%;
 }
 
-// sass-lint:disable single-line-per-selector
 button,
 input,
 select,
 textarea {
     font-family: inherit;
 }
-// sass-lint:enddisable
+
+p {
+    line-height: $line-height-small;
+    margin: 0 0 1rem;
+}
 
 a {
     color: $color--tertiary;

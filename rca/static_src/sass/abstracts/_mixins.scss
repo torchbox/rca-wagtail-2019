@@ -64,7 +64,7 @@
 @mixin native-vertical-scroll() {
     overflow-x: hidden;
     overflow-y: scroll;
-    -webkit-overflow-scrolling: touch; // sass-lint:disable-line no-misspelled-properties
+    -webkit-overflow-scrolling: touch;
 }
 
 /* ============================================
@@ -99,12 +99,31 @@
 /* ============================================
     Font sizes
 */
-@mixin font-size($keyword) {
-    $size: map-get($font-sizes, $keyword);
-
+@mixin font-size($size) {
     @if $size == null {
         @warn 'Font size ‘#{$keyword}’ does not exist';
     } @else {
-        @include rem-font-size($size);
+        $small-size: map-get($small-font-sizes, $size);
+        @include rem-font-size($small-size);
+
+        @include media-query(medium) {
+            $medium-size: map-get($medium-font-sizes, $size);
+            @include rem-font-size($medium-size);
+        }
+
+        @include media-query(large) {
+            $large-size: map-get($large-font-sizes, $size);
+            @include rem-font-size($large-size);
+        }
     }
+}
+
+/* ============================================
+    Heading text
+*/
+@mixin heading-text() {
+    font-family: $font--primary;
+    font-style: inherit;
+    font-weight: inherit;
+    line-height: $line-height-medium;
 }
