@@ -12,22 +12,6 @@ $color--black: #141414;
 
 $color--default: $color--black;
 
-// Button colours
-$button-colours: (
-    primary: (
-        bg: $color--primary,
-        color: #fff,
-    ),
-    secondary: (
-        bg: $color--secondary,
-        color: #000,
-    ),
-    tertiary: (
-        bg: $color--tertiary,
-        color: #000,
-    ),
-);
-
 // --------------------------------- Fonts --------------------------------------
 
 $font--primary: Sans-Serif;
@@ -55,8 +39,6 @@ $font-sizes: (
 );
 
 // --------------------------------- Breakpoints --------------------------------------
-// Ensure that all breakpoints are duplicated in the gutters array
-
 $breakpoints: (
     'mob-portrait' '(min-width: 320px)',
     'mob-landscape' '(min-width: 480px)',
@@ -71,20 +53,6 @@ $breakpoints: (
 // Wrappers
 $site-width: 1280px;
 $wrapper--small: 790px;
-
-// Grid setup
-$grid: 20px;
-
-// These should match the breakpoints array
-$gutters: (
-    'default': $grid,
-    'mob-portrait': $grid,
-    'mob-landscape': $grid,
-    'tablet-portrait': $grid,
-    'tablet-landscape': $grid * 1.25,
-    'desktop': $grid * 1.25,
-    'desktop-wide': $grid * 1.5,
-) !default;
 
 // --------------------------------- Transitions --------------------------------------
 
