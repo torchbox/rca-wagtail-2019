@@ -1,16 +1,2 @@
 .wrapper {
-    &--small {
-        max-width: $wrapper--small;
-        margin: 0 auto;
-    }
-
-    &--large {
-        max-width: $site-width;
-        margin: 0 auto;
-    }
-
-    &--main {
-        padding: 20px;
-        background-color: $color--white;
-    }
 }

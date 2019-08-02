@@ -24,25 +24,30 @@
         {% block extra_css %}{% endblock %}
     </head>
 
-    <body class="{% block body_class %}template-{{ page.get_verbose_name|slugify }}{% endblock %}">
+    <body class="app {% block body_class %}template-{{ page.get_verbose_name|slugify }}{% endblock %}">
         {% block body_top %}{% endblock %}
 
-        {% include "patterns/atoms/sprites/sprites.html" %}
+        <div class="app__container">
+            {% include "patterns/atoms/sprites/sprites.html" %}
 
-        {% wagtailuserbar %}
+            {% wagtailuserbar %}
 
-        {% block header %}{% endblock %}
+            <header class="app__header">
+                {% block header %}{% endblock %}
+            </header>
 
-        <main class="wrapper wrapper--large wrapper--main">
-            {% block content %}
-                {{ pattern_library_rendered_pattern }}
-            {% endblock %}
-        </main>
+            <main class="app__content">
+                {% block content %}
+                    {{ pattern_library_rendered_pattern }}
+                {% endblock %}
+            </main>
 
-        {% block footer %}{% endblock %}
+            <footer class="app__footer">
+                {% block footer %}{% endblock %}
+            </footer>
+        </div>
 
         <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
-
         {% block extra_js %}{% endblock %}
     </body>
 </html>

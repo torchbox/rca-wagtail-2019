@@ -1,0 +1,20 @@
+.app {
+
+    &__container {
+        max-width: $site-width;
+        margin: 0 auto;
+
+    }
+
+    &__content {
+        margin: $grid;
+
+        @include media-query(medium) {
+            margin: $grid * 3;
+        }
+    }
+
+    &__grid-lines {
+        display: grid;
+    }
+}
