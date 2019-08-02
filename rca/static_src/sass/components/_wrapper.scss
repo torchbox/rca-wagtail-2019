@@ -13,13 +13,4 @@
         padding: 20px;
         background-color: $color--white;
     }
-
-    &--flex {
-        display: flex;
-        flex-direction: column;
-
-        @include media-query(tablet-portrait) {
-            flex-direction: row;
-        }
-    }
 }
