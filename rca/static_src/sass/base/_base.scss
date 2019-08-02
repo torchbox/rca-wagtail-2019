@@ -52,12 +52,12 @@ p {
 }
 
 a {
-    color: $color--tertiary;
+    font-family: $font--secondary;
+    color: $color--primary;
     text-decoration: none;
-    transition: color $transition;
 
+    &:focus,
     &:hover {
-        color: darken($color--tertiary, 20%);
         cursor: pointer;
     }
 }
