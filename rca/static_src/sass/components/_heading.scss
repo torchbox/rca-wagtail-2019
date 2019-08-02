@@ -30,4 +30,8 @@
         @include font-size(s);
         line-height: $line-height-small;
     }
+
+    &--link {
+        font-family: $font--secondary;
+    }
 }
