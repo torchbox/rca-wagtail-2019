@@ -20,7 +20,7 @@ html {
 
 body {
     overflow-x: hidden;
-    background-color: $color--tertiary;
+    background-color: $color--secondary;
 
     &.no-scroll {
         overflow-y: hidden;
@@ -49,12 +49,12 @@ textarea {
 // sass-lint:enddisable
 
 a {
-    color: $color--primary;
+    color: $color--tertiary;
     text-decoration: none;
     transition: color $transition;
 
     &:hover {
-        color: darken($color--primary, 20%);
+        color: darken($color--tertiary, 20%);
         cursor: pointer;
     }
 }

@@ -1,16 +1,14 @@
 // --------------------------------- Colors -------------------------------------
-$color--primary: #6a737c;
-$color--secondary: #eaeaea;
-$color--tertiary: #f9f9f9;
 
+$color--black: #000;
 $color--white: #fff;
-$color--black: #141414;
-$color--border: rgba($color--black, 0.2);
+$color--orange: #ff5d1c;
+$color--light-grey: #797979;
+$color--dark-grey: #676767;
 
-$color--white: #fff;
-$color--black: #141414;
-
-$color--default: $color--black;
+$color--primary: $color--black;
+$color--secondary: $color--white;
+$color--tertiary: $color--orange;
 
 // --------------------------------- Fonts --------------------------------------
 
