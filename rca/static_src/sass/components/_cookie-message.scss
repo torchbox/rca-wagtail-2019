@@ -1,5 +1,4 @@
 .cookie {
-    @include gutter(0, 0.5, 0.5, 0.5);
     $root: &;
     position: fixed;
     right: auto;
@@ -24,17 +23,17 @@
 
     &__container {
         @include font-size(xs);
-        @include gutter(0.25, 0.5, 0.25, 0.5);
         display: flex;
         align-items: center;
         justify-content: space-between;
-        max-width: ($grid * 35);
+        max-width: (20px * 35);
         margin: 0 auto;
         line-height: 1.4;
         color: $color--black;
         background-color: $color--white;
-        border: 1px solid $color--border;
+        border: 1px solid $color--dark-grey;
         border-radius: 5px;
+        padding: 0 10px 10px;
 
         @include media-query(tablet-landscape) {
             @include font-size(s);

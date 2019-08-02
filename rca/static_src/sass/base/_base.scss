@@ -20,7 +20,7 @@ html {
 
 body {
     overflow-x: hidden;
-    background-color: $color--tertiary;
+    background-color: $color--secondary;
 
     &.no-scroll {
         overflow-y: hidden;
@@ -39,22 +39,25 @@ img {
     max-width: 100%;
 }
 
-// sass-lint:disable single-line-per-selector
 button,
 input,
 select,
 textarea {
     font-family: inherit;
 }
-// sass-lint:enddisable
+
+p {
+    line-height: $line-height-small;
+    margin: 0 0 1rem;
+}
 
 a {
+    font-family: $font--secondary;
     color: $color--primary;
     text-decoration: none;
-    transition: color $transition;
 
+    &:focus,
     &:hover {
-        color: darken($color--primary, 20%);
         cursor: pointer;
     }
 }

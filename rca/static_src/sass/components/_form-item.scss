@@ -73,7 +73,7 @@
     &__help {
         @include font-size(s);
         margin-top: 5px;
-        color: rgba($color--default, 0.6);
+        color: rgba($color--primary, 0.6);
     }
 
     input:not([type='checkbox']),
@@ -81,7 +81,7 @@
     select {
         width: 100%;
         padding: 10px;
-        border: 1px solid $color--default;
+        border: 1px solid $color--primary;
     }
 
     input[type='checkbox'] {

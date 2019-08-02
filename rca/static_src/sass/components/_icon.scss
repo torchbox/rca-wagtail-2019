@@ -2,17 +2,10 @@
     width: 20px;
     height: 20px;
     transition: fill $transition;
-    fill: $color--white;
+    fill: $color--primary;
 
     &:hover {
-        fill: darken($color--white, 20%);
-    }
-
-    &--home {
-        width: 15px;
-        height: 15px;
-        margin-right: 5px;
-        fill: $color--primary;
+        fill: darken($color--primary, 20%);
     }
 
     &--footer-social {
