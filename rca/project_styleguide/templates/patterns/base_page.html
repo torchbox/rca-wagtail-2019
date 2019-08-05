@@ -64,42 +64,8 @@
 {% endblock header %}
 
 {% block footer %}
-    <footer class="footer">
-        <div class="footer__inner wrapper wrapper--large">
-            <div class="footer__nav-container">
-                {% if settings.utils.SocialMediaSettings.twitter_handle or settings.utils.SocialMediaSettings.facebook_app_id %}
-                    <section class="footer__social-links">
-                        <h5 class="footer__heading">Follow us:</h5>
-                        {% if settings.utils.SocialMediaSettings.twitter_handle %}
-                            <a href="https://twitter.com/{{ settings.utils.SocialMediaSettings.twitter_handle }}">
-                                <svg class="icon icon--footer-social"><use xlink:href="#twitter"></use></svg>
-                            </a>
-                        {% endif %}
-                        {% if settings.utils.SocialMediaSettings.facebook_app_id %}
-                            <a href="https://www.facebook.com/{{ settings.utils.SocialMediaSettings.facebook_app_id }}">
-                                <svg class="icon icon--footer-social"><use xlink:href="#facebook"></use></svg>
-                            </a>
-                        {% endif %}
-                    </section>
-                {% endif %}
 
-                <section>
-                    {% footernav %}
-                </section>
-
-                <section>
-                    {% footerlinks %}
-                </section>
-            </div>
-
-            <div class="footer__credit" role="contentinfo">
-                {% if COPYRIGHT %}
-                    <p>© {% now "Y" %} {{ COPYRIGHT }}</p>
-                {% endif %}
-                <div>Site by <a href="https://torchbox.com/">Torchbox</a></div>
-            </div>
-        </div>
-    </footer>
-
+    {% include 'patterns/organisms/footer/footer.html' %}
     {% include "patterns/molecules/cookie-message/cookie-message.html" %}
+
 {% endblock footer %}
