@@ -1,9 +1,7 @@
 .app {
-
     &__container {
         max-width: $site-width;
         margin: 0 auto;
-
     }
 
     &__content {
@@ -16,5 +14,51 @@
 
     &__grid-lines {
         display: grid;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-width: $site-width;
+        margin: 0 auto;
+        grid-template-columns: 1fr 1fr;
+        margin: 0 20px;
+        grid-gap: 4.28%;
+
+        @include media-query(medium) {
+            grid-gap: 1.85%;
+        }
+
+        @include media-query(large) {
+            grid-template-columns: 16.74% 1fr 1fr 1fr 16.74%;
+            grid-gap: 1.81%;
+            margin: 0 auto;
+        }
+
+        > div {
+            border-right: 1px solid lightgray;
+            display: none;
+
+            &:last-child,
+            &:first-child {
+                display: block;
+            }
+
+            &:first-child {
+                border-left: 1px solid lightgray;
+            }
+
+            @include media-query(large) {
+                display: block;
+
+                &:first-child {
+                    border-left: 0;
+                }
+
+                &:last-child {
+                    border-right: 0;
+                }
+            }
+        }
     }
 }
