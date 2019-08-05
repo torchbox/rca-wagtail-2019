@@ -147,3 +147,11 @@
         margin: 0 auto;
     }
 }
+
+/* ============================================
+    z-index
+*/
+
+@mixin z-index($key) {
+    z-index: z-index($key);
+}
