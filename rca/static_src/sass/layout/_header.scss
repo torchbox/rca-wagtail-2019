@@ -5,6 +5,11 @@
     background-color: $color--black;
     transition: transform $transition;
 
+    &__container {
+        max-width: $site-width;
+        margin: 0 auto;
+    }
+
     .headroom--not-top & {
         transform: translate3d(0, -100%, 0);
     }

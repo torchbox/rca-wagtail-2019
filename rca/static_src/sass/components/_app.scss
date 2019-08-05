@@ -1,8 +1,4 @@
 .app {
-    &__container {
-        max-width: $site-width;
-        margin: 0 auto;
-    }
 
     &__grid-lines {
         @include grid-layout();
