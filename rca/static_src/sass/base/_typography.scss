@@ -3,7 +3,16 @@
 \*------------------------------------*/
 
 html {
-    @include font-size(xs);
+    font-size: (map-get($small-font-sizes, xs) / 16px) * 100%;
+
+    @include media-query(medium) {
+        font-size: (map-get($medium-font-sizes, xs) / 16px) * 100%;
+    }
+
+    @include media-query(large) {
+        font-size: (map-get($large-font-sizes, xs) / 16px) * 100%;
+    }
+
     line-height: 1.4;
     color: $color--primary;
 }

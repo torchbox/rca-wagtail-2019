@@ -13,6 +13,12 @@ $color--primary: $color--black;
 $color--secondary: $color--white;
 $color--tertiary: $color--orange;
 
+$color--link-lightbg: $color--black;
+$color--link-darkbg: $color--white;
+
+$color--link-lightbg-hover: $color--tertiary;
+$color--link-darkbg-hover: $color--tertiary;
+
 // --------------------------------- Fonts --------------------------------------
 
 $font--primary: 'Benton Sans', 'BentonSans', 'Helvetica Neue', Arial, Helvetica, Sans-Serif;
@@ -79,9 +85,25 @@ $breakpoints: (
     'large' '(min-width: 1023px)',
 );
 
+// --------------------------------- Z-indices --------------------------------------
+
+$z-index: (
+    free1: 10,
+    free2: 20,
+    free3: 30,
+    free4: 40,
+    header: 50,
+    free5: 60,
+    free6: 70,
+    free7: 80,
+    gridlines: 90,
+    modal: 100
+);
+
 // --------------------------------- Grid Dimensions --------------------------------------
 
 $grid: 20px;
+$gutter: $grid;
 
 // Wrappers
 $site-width: 1440px;
