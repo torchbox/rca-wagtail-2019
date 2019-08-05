@@ -1,0 +1,36 @@
+<div class="header header--dark-bg"> {# modifier needs to be set by BE #}
+    <div class="header__container grid">
+
+        <div class="header__logo">
+            {% include 'patterns/atoms/logo/logo.html' %}
+        </div>
+
+        <div class="header__navigation-toggle">
+
+            <div class="header__menu-toggle burger">
+                <button class="burger__toggle" data-mobile-menu-toggle aria-haspopup="true" aria-label="Mobile menu toggle">
+                    <span class="burger__line"></span>
+                    <span class="burger__line"></span>
+                    <span class="burger__line"></span>
+                    <span class="burger__line"></span>
+                </button>
+                <div class="burger__toggle-label">Menu</div>
+            </div>
+
+            <div class="header__search-toggle search-toggle">
+                <svg class="search-toggle__icon" width="24" height="23">
+                    <use xlink:href="#magnifying-glass" />
+                </svg>
+                <div class="search-toggle__label">Search</div>
+            </div>
+
+        </div>
+
+        {% include 'patterns/atoms/audience-nav-item/audience-nav-item.html' %}
+        {% include 'patterns/atoms/audience-nav-item/audience-nav-item.html' %}
+        {% include 'patterns/atoms/audience-nav-item/audience-nav-item.html' %}
+
+    </div>
+
+
+</div>

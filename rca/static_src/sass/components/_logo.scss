@@ -1,0 +1,35 @@
+.logo {
+    $root: &;
+    display: block;
+
+    &__image {
+        width: 100%;
+        height: auto;
+    }
+
+    .header & {
+        width: 130px;
+        height: auto;
+
+        @include media-query(medium) {
+            width: 162px;
+        }
+
+    }
+
+    .header--dark-bg & {
+
+        #{$root}__image {
+            fill: $color--white;
+        }
+
+    }
+
+    .header--light-bg & {
+
+        #{$root}__image {
+            fill: $color--black;
+        }
+
+    }
+}

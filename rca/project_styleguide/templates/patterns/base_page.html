@@ -58,41 +58,9 @@
 
 
 {% block header %}
-    <header class="header">
-        <div class="header__inner wrapper wrapper--large">
-            <a href="{% slugurl 'home' %}">
-                <img class="header__logo" src="https://placehold.it/150x100" alt="Logo for RCA Website">
-            </a>
 
-            <div class="header__menu-toggle">
-                <span>Menu</span>
-                <button class="button button-menu-toggle" data-mobile-menu-toggle aria-haspopup="true" aria-label="Mobile menu toggle">
-                    <span class="button-menu-toggle__line"></span>
-                    <span class="button-menu-toggle__line"></span>
-                    <span class="button-menu-toggle__line"></span>
-                    <span class="button-menu-toggle__line"></span>
-                </button>
-            </div>
+    {% include 'patterns/organisms/header/header.html' %}
 
-            <section class="header__menus header__menus--desktop">
-                <div class="header__inner--top">
-                    {% secondarynav %}
-                    <form action="{% url 'search' %}" method="get" role="search" class="form form--header-search">
-                        <input class="input" type="text" placeholder="Search…" name="query"{% if search_query %} value="{{ search_query }}{% endif %}">
-                        <button class="button" type="submit">
-                            <svg class="icon icon--magnifying-glass"><use xlink:href="#magnifying-glass"></use></svg>
-                        </button>
-                    </form>
-                </div>
-
-                {% primarynav %}
-            </section>
-
-            <section class="header__menus header__menus--mobile" data-mobile-menu>
-                {% primarynav %}
-            </section>
-        </div>
-    </header>
 {% endblock header %}
 
 {% block footer %}
@@ -135,4 +103,3 @@
 
     {% include "patterns/molecules/cookie-message/cookie-message.html" %}
 {% endblock footer %}
-
