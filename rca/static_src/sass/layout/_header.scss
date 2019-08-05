@@ -26,7 +26,35 @@
     }
 
     &__menu-toggle {
-        margin-right: ($gutter);
+        margin-top: $grid / 4;
+        margin-right: $gutter;
+        cursor: pointer;
+    }
+
+    &__menus {
+        @include grid-layout();
+
+        &::before {
+            content: '';
+            background: $color--primary;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            display: block;
+            transform: translate3d(-100%, 0%, 0);
+            max-height: 900px;
+         }
+    }
+
+    &__inner {
+        background: $color--primary;
+        height: 900px;
+
+        p {
+            color: white;
+        }
+
+
     }
 
     // Hide when scrolling down
