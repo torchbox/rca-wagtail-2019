@@ -2,7 +2,7 @@ version: 2
 jobs:
   test:
     docker:
-      - image: circleci/python:3.6.1
+      - image: circleci/python:3.6-stretch-node
         environment:
           DJANGO_SETTINGS_MODULE: rca.settings.production
           SECRET_KEY: testingsecretkey
