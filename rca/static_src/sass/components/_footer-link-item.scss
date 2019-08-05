@@ -1,0 +1,20 @@
+.footer-link-item {
+    margin-bottom: $gutter;
+
+    @include media-query(large) {
+        flex-basis: 33.333%;
+        max-width: 33.333%;
+        min-width: 33.333%;
+    }
+
+    &__link {
+        @include font-size(xxs);
+        color: $color--link-darkbg;
+
+        &:hover {
+            color: $color--link-darkbg-hover;
+        }
+
+    }
+
+}
