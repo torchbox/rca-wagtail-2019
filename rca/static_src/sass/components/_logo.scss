@@ -17,6 +17,20 @@
 
     }
 
+    .footer & {
+        width: 92px;
+        height: auto;
+
+        @include media-query(medium) {
+            width: 230px;
+        }
+
+        #{$root}__image {
+            fill: $color--white;
+        }
+
+    }
+
     .header--dark-bg & {
 
         #{$root}__image {

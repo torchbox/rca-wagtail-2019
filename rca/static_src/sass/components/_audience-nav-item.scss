@@ -3,11 +3,10 @@
 
     &__link {
         display: flex;
-        align-items: baseline;
+        align-items: center;
     }
 
     &__label {
-        @include font-size(xxs);
         margin-right: 5px;
     }
 
@@ -52,6 +51,29 @@
 
         @include media-query(large) {
             display: block;
+        }
+
+        #{$root}__label {
+            @include font-size(xxs);
+        }
+    }
+
+    .footer & {
+
+        #{$root}__link {
+            color: $color--white;
+
+            &:hover {
+                color: $color--link-lightbg-hover;
+            }
+        }
+
+        #{$root}__icon {
+            fill: $color--white;
+        }
+
+        #{$root}__label {
+            @include font-size(xs);
         }
     }
 }
