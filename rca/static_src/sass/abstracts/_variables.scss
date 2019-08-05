@@ -10,6 +10,12 @@ $color--primary: $color--black;
 $color--secondary: $color--white;
 $color--tertiary: $color--orange;
 
+$color--link-lightbg: $color--black;
+$color--link-darkbg: $color--white;
+
+$color--link-lightbg-hover: $color--tertiary;
+$color--link-darkbg-hover: $color--tertiary;
+
 // --------------------------------- Fonts --------------------------------------
 
 $font--primary: 'Benton Sans', 'BentonSans', 'Helvetica Neue', Arial, Helvetica, Sans-Serif;
@@ -79,6 +85,7 @@ $breakpoints: (
 // --------------------------------- Grid Dimensions --------------------------------------
 
 $grid: 20px;
+$gutter: $grid;
 
 // Wrappers
 $site-width: 1440px;
