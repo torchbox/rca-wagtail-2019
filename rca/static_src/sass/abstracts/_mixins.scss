@@ -68,35 +68,6 @@
 }
 
 /* ============================================
-    Output a rem and px fallback value for the given property
-*/
-@mixin rem($property, $values) {
-    $px: ();
-    $rem: ();
-
-    @each $value in $values {
-        @if $value == 0 or $value == auto or $value == inherit {
-            $px: append($px, $value);
-            $rem: append($rem, $value);
-        } @else {
-            $px: append($px, $value);
-            $rem: append($rem, rem(strip-unit($value)));
-        }
-    }
-    // sass-lint:disable no-duplicate-properties
-    #{$property}: $px;
-    #{$property}: $rem;
-    // sass-lint:enddisable
-}
-
-/* ============================================
-    Output a `font-size: [x]rem;` declaration for the given px value
-*/
-@mixin rem-font-size($font-size) {
-    @include rem(font-size, $font-size);
-}
-
-/* ============================================
     Font sizes
 */
 @mixin font-size($size) {
@@ -104,16 +75,16 @@
         @warn 'Font size ‘#{$keyword}’ does not exist';
     } @else {
         $small-size: map-get($small-font-sizes, $size);
-        @include rem-font-size($small-size);
+        font-size: $small-size;
 
         @include media-query(medium) {
             $medium-size: map-get($medium-font-sizes, $size);
-            @include rem-font-size($medium-size);
+            font-size: $medium-size;
         }
 
         @include media-query(large) {
             $large-size: map-get($large-font-sizes, $size);
-            @include rem-font-size($large-size);
+            font-size: $large-size;
         }
     }
 }
