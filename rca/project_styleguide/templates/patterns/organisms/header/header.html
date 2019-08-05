@@ -1,31 +1,35 @@
 <header class="header header--dark-bg"> {# modifier needs to be set by BE #}
+    <div class="header__container grid">
 
-    <div class="header__logo">
-        {% include 'patterns/atoms/logo/logo.html' %}
-    </div>
-
-    <div class="header__navigation-toggle">
-
-        <div class="header__menu-toggle">
-            <span>Menu</span>
-            <button class="button button-menu-toggle" data-mobile-menu-toggle aria-haspopup="true" aria-label="Mobile menu toggle">
-                <span class="button-menu-toggle__line"></span>
-                <span class="button-menu-toggle__line"></span>
-                <span class="button-menu-toggle__line"></span>
-                <span class="button-menu-toggle__line"></span>
-            </button>
+        <div class="header__logo">
+            {% include 'patterns/atoms/logo/logo.html' %}
         </div>
 
-        <div class="header__search-toggle">
-            <svg class="search__toggle" width="24" height="23">
-                <use xlink:href="#magnifying-glass" />
-            </svg>
+        <div class="header__navigation-toggle">
+
+            <div class="header__menu-toggle">
+                <span>Menu</span>
+                <button class="button button-menu-toggle" data-mobile-menu-toggle aria-haspopup="true" aria-label="Mobile menu toggle">
+                    <span class="button-menu-toggle__line"></span>
+                    <span class="button-menu-toggle__line"></span>
+                    <span class="button-menu-toggle__line"></span>
+                    <span class="button-menu-toggle__line"></span>
+                </button>
+            </div>
+
+            <div class="header__search-toggle">
+                <svg class="search__toggle" width="24" height="23">
+                    <use xlink:href="#magnifying-glass" />
+                </svg>
+            </div>
+
         </div>
+
+        {% include 'patterns/atoms/audience-nav-item/audience-nav-item.html' %}
+        {% include 'patterns/atoms/audience-nav-item/audience-nav-item.html' %}
+        {% include 'patterns/atoms/audience-nav-item/audience-nav-item.html' %}
 
     </div>
 
-    <nav class="header__audience-nav">
-        {% include 'patterns/molecules/audience-nav/audience-nav.html' %}
-    </nav>
 
 </header>
