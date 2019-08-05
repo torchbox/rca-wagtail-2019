@@ -1,0 +1,18 @@
+.logo {
+    display: block;
+
+    &__image {
+        width: 100%;
+        height: auto;
+    }
+
+    .header & {
+        width: 130px;
+        height: auto;
+
+        @include media-query(medium) {
+            width: 162px;
+        }
+
+    }
+}
