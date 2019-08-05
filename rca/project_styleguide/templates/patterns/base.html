@@ -25,6 +25,7 @@
     </head>
 
     <body class="app {% block body_class %}template-{{ page.get_verbose_name|slugify }}{% endblock %}">
+    <body class="app {% block body_class %}app--{{ page.get_verbose_name|slugify }}{% endblock %}">
         {% block body_top %}{% endblock %}
 
         <div class="app__container">
