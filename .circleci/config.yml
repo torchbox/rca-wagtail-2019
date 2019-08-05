@@ -1,0 +1,99 @@
+# Python CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
+      - image: circleci/python:3.6.1
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+
+      # run tests!
+      # this example uses Django's built-in test-runner
+      # other common Python testing frameworks include pytest and nose
+      # https://pytest.org
+      # https://nose.readthedocs.io
+      - run:
+          name: run tests
+          command: |
+            . venv/bin/activate
+            python manage.py test
+
+      - store_artifacts:
+          path: test-reports
+          destination: test-reports
+
+.heroku_deploy_job_template: &heroku_deploy_job_definition
+  before_script:
+    # Install cURL and GnuPG to install Heroku CLI.
+    # Install Git to push the code to Heroku. It uses HTTP to push the code.
+    - apt-get update -y
+    - apt-get install -y curl git gnupg
+
+    # Install Heroku CLI.
+    - curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+
+    # Use Heroku credentials that you can add in your project settings on
+    # GitLab. They can be obtained from sysadmin or pwman.
+    - |
+      cat >~/.netrc <<EOF
+      machine api.heroku.com
+        login $HEROKU_EMAIL
+        password $HEROKU_TOKEN
+      machine git.heroku.com
+        login $HEROKU_EMAIL
+        password $HEROKU_TOKEN
+      EOF
+    - chmod 600 ~/.netrc
+
+    # Add Heroku's Git remote using Heroku CLI.
+    - heroku git:remote --app $HEROKU_APP --remote heroku
+  script:
+    # Push to Heroku's Git via HTTP. Heroku always expects you to push to
+    # master.
+    - git push heroku HEAD:master
+
+# Deploy to the staging server.
+deploy_staging:
+  # We use Debian image because Heroku has a lot of dependencies and is well
+  # supported on Debian based distributions.
+  image: debian:stretch
+  stage: deploy
+  variables:
+    # Your app's name.
+    #   $ heroku apps - t torchbox
+    HEROKU_APP: rca-staging
+  only:
+    - staging
+  <<: *heroku_deploy_job_definition
