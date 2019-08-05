@@ -85,16 +85,14 @@ jobs:
     # master.
     - git push heroku HEAD:master
 
-# Deploy to the staging server.
-deploy_staging:
-  # We use Debian image because Heroku has a lot of dependencies and is well
-  # supported on Debian based distributions.
-  image: debian:stretch
-  stage: deploy
-  variables:
-    # Your app's name.
-    #   $ heroku apps - t torchbox
-    HEROKU_APP: rca-staging
-  only:
-    - staging
-  <<: *heroku_deploy_job_definition
+  # Deploy to the staging server.
+  deploy_staging:
+    # We use Debian image because Heroku has a lot of dependencies and is well
+    # supported on Debian based distributions.
+    image: debian:stretch
+    stage: deploy
+    variables:
+      HEROKU_APP: rca-staging
+    only:
+      - staging
+    <<: *heroku_deploy_job_definition
