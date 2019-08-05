@@ -2,7 +2,6 @@ from django.conf import settings
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.template.response import TemplateResponse
 from django.utils.cache import add_never_cache_headers, patch_cache_control
-
 from wagtail.core.models import Page
 from wagtail.search.models import Query
 

@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
-
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
     FieldPanel,
@@ -12,7 +11,6 @@ from wagtail.admin.edit_handlers import (
 from wagtail.contrib.forms.models import AbstractFormField
 from wagtail.core.fields import RichTextField
 from wagtail.search import index
-
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
 
 from rca.utils.models import BasePage
