@@ -127,3 +127,21 @@
     font-weight: inherit;
     line-height: $line-height-medium;
 }
+
+/* ============================================
+    Grid layout
+*/
+@mixin grid-layout() {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 $grid;
+
+    @include media-query(medium) {
+        padding: 0 $grid * 3;
+    }
+
+    @include media-query(large) {
+        grid-template-columns: 16.74% 1fr 1fr 1fr 16.74%;
+        margin: 0 auto;
+    }
+}
