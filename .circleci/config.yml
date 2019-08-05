@@ -18,6 +18,14 @@ jobs:
             pip install -r requirements.txt
             pip install -r requirements-dev.txt
       - run:
+          name: install node dependencies
+          command: |
+            npm install --quiet
+      - run:
+          name: compile static assets
+          command: |
+            npm run build
+      - run:
           name: run tests
           command: |
             . venv/bin/activate
