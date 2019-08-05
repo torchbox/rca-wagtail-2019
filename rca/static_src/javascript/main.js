@@ -7,6 +7,7 @@ import Accordion from './components/accordion';
 import Carousel from './components/carousel';
 import ProgressBar from './components/progress-bar';
 import VideoModal from './components/video-modal';
+import './components/sticky-header';
 
 import '../sass/main.scss';
 
@@ -51,15 +52,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    for (const progressbar of document.querySelectorAll(
-        ProgressBar.selector(),
-    )) {
+    for (const progressbar of document.querySelectorAll(ProgressBar.selector())) {
         new ProgressBar(progressbar);
     }
 
     for (const videomodal of document.querySelectorAll(VideoModal.selector())) {
         new VideoModal(videomodal);
     }
-
-    
 });

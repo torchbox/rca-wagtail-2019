@@ -6,9 +6,18 @@ $color--orange: #ff5d1c;
 $color--light-grey: #797979;
 $color--dark-grey: #676767;
 
+$color--white-12: rgba(255, 255, 255, 0.12);
+$color--black-80: rgba(0, 0, 0, 0.8);
+
 $color--primary: $color--black;
 $color--secondary: $color--white;
 $color--tertiary: $color--orange;
+
+$color--link-lightbg: $color--black;
+$color--link-darkbg: $color--white;
+
+$color--link-lightbg-hover: $color--tertiary;
+$color--link-darkbg-hover: $color--tertiary;
 
 // --------------------------------- Fonts --------------------------------------
 
@@ -76,9 +85,25 @@ $breakpoints: (
     'large' '(min-width: 1023px)',
 );
 
+// --------------------------------- Z-indices --------------------------------------
+
+$z-index: (
+    free1: 10,
+    free2: 20,
+    free3: 30,
+    free4: 40,
+    header: 50,
+    free5: 60,
+    free6: 70,
+    free7: 80,
+    gridlines: 90,
+    modal: 100
+);
+
 // --------------------------------- Grid Dimensions --------------------------------------
 
 $grid: 20px;
+$gutter: $grid;
 
 // Wrappers
 $site-width: 1440px;
