@@ -1,6 +1,7 @@
 .app {
 
     &__grid-lines {
+        @include z-index(gridlines);
         @include grid-layout();
         position: fixed;
         top: 0;
@@ -8,6 +9,7 @@
         right: 0;
         bottom: 0;
         max-width: $site-width;
+        pointer-events: none;
 
         > div {
             display: none;
