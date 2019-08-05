@@ -4,40 +4,19 @@
         margin: 0 auto;
     }
 
-    &__content {
-        margin: $grid;
-
-        @include media-query(medium) {
-            margin: $grid * 3;
-        }
-    }
-
     &__grid-lines {
-        display: grid;
+        @include grid-layout();
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
         max-width: $site-width;
-        margin: 0 auto;
-        grid-template-columns: 1fr 1fr;
-        margin: 0 20px;
-        grid-gap: 4.28%;
-
-        @include media-query(medium) {
-            grid-gap: 1.85%;
-        }
-
-        @include media-query(large) {
-            grid-template-columns: 16.74% 1fr 1fr 1fr 16.74%;
-            grid-gap: 1.81%;
-            margin: 0 auto;
-        }
 
         > div {
-            border-right: 1px solid lightgray;
             display: none;
+            border-right: 1px solid $color--white-12;
+            padding-right: 4.28%;
 
             &:last-child,
             &:first-child {
@@ -45,11 +24,16 @@
             }
 
             &:first-child {
-                border-left: 1px solid lightgray;
+                border-left: 1px solid $color--white-12;
+            }
+
+            @include media-query(medium) {
+                padding-right: 1.85%;
             }
 
             @include media-query(large) {
                 display: block;
+                padding-right: 1.81%;
 
                 &:first-child {
                     border-left: 0;
