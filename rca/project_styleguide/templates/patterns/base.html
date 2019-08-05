@@ -26,8 +26,15 @@
 
     <body class="app {% block body_class %}app--{{ page.get_verbose_name|slugify }}{% endblock %}">
         {% block body_top %}{% endblock %}
-
         <div class="app__container">
+            <div class="app__grid-lines" aria-hidden="true">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
             {% include "patterns/atoms/sprites/sprites.html" %}
 
             {% wagtailuserbar %}

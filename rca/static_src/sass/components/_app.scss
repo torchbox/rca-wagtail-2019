@@ -1,20 +1,48 @@
 .app {
-
     &__container {
         max-width: $site-width;
         margin: 0 auto;
-
-    }
-
-    &__content {
-        margin: $grid;
-
-        @include media-query(medium) {
-            margin: $grid * 3;
-        }
     }
 
     &__grid-lines {
-        display: grid;
+        @include grid-layout();
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-width: $site-width;
+
+        > div {
+            display: none;
+            border-right: 1px solid $color--white-12;
+            padding-right: 4.28%;
+
+            &:last-child,
+            &:first-child {
+                display: block;
+            }
+
+            &:first-child {
+                border-left: 1px solid $color--white-12;
+            }
+
+            @include media-query(medium) {
+                padding-right: 1.85%;
+            }
+
+            @include media-query(large) {
+                display: block;
+                padding-right: 1.81%;
+
+                &:first-child {
+                    border-left: 0;
+                }
+
+                &:last-child {
+                    border-right: 0;
+                }
+            }
+        }
     }
 }
