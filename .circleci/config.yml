@@ -4,10 +4,10 @@ jobs:
     docker:
       - image: circleci/python:3.6-stretch-node
         environment:
-          DJANGO_SETTINGS_MODULE: rca.settings.production
           SECRET_KEY: testingsecretkey
           SECURE_SSL_REDIRECT: false
           ALLOWED_HOSTS: localhost
+    working_directory: ~/repo
     steps:
       - checkout
       - run:
