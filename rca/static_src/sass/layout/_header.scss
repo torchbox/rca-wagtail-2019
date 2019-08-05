@@ -3,8 +3,15 @@
     position: fixed;
     width: 100%;
     top: 0;
-    background-color: $color--black;
     transition: transform $transition;
+
+    &--dark-bg {
+        background-color: $color--black;
+    }
+
+    &--light-bg {
+        background-color: $color--white;
+    }
 
     &__container {
         max-width: $site-width;
@@ -22,7 +29,13 @@
         margin-right: ($gutter);
     }
 
+    // Hide when scrolling down
     .headroom--not-top & {
         transform: translate3d(0, -100%, 0);
+    }
+
+    // Show when scrolling back up
+    .headroom--pinned & {
+        transform: translate3d(0, 0, 0);
     }
 }

@@ -28,7 +28,6 @@
         display: block;
         width: 100%;
         height: 4px;
-        background: $color--white;
         opacity: 1;
         transform: rotate(0deg);
         transition: top, width, opacity, transform, left, $transition;
@@ -78,6 +77,10 @@
 
     .header--dark-bg & {
 
+        #{$root}__line {
+            background: $color--white;
+        }
+
         #{$root}__toggle-label {
             color: $color--white;
         }
@@ -85,6 +88,10 @@
     }
 
     .header--light-bg & {
+
+        #{$root}__line {
+            background: $color--black;
+        }
 
         #{$root}__toggle-label {
             color: $color--black;
