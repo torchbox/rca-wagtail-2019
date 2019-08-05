@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/torchbox/rca-wagtail-2019/tree/staging.svg?style=svg)](https://circleci.com/gh/torchbox/rca-wagtail-2019/tree/staging)
+
 # RCA Wagtail 2019
 
 ## Technical documentation
