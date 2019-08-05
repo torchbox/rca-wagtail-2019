@@ -26,63 +26,62 @@
 
     <body class="app {% block body_class %}app--{{ page.get_verbose_name|slugify }}{% endblock %}">
         {% block body_top %}{% endblock %}
-        <div class="app__container">
-            <div class="app__grid-lines" aria-hidden="true">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
 
-            {% include "patterns/atoms/sprites/sprites.html" %}
-
-            {% wagtailuserbar %}
-
-            <header class="app__header">
-                {% block header %}{% endblock %}
-            </header>
-
-            <nav class="app__navigation">
-                <section class="header__menus header__menus--desktop">
-                    <div class="header__inner--top">
-                        {% secondarynav %}
-                        <form action="{% url 'search' %}" method="get" role="search" class="form form--header-search">
-                            <input class="input" type="text" placeholder="Search…" name="query"{% if search_query %} value="{{ search_query }}{% endif %}">
-                            <button class="button" type="submit">
-                                <svg class="icon icon--magnifying-glass"><use xlink:href="#magnifying-glass"></use></svg>
-                            </button>
-                        </form>
-                    </div>
-
-                    {% primarynav %}
-                </section>
-
-                <section class="header__menus header__menus--mobile" data-mobile-menu>
-                    {% primarynav %}
-                </section>
-            </nav>
-
-            <div class="app__search">
-                <form class="form form--search">
-                    <div class="form__item">
-                        <label for="search">Search</label>
-                        <input type="input" id="search" name="search" placeholder="Enter search term">
-                    </div>
-                    <button class="button">Search</button>
-                </form>
-            </div>
-
-            <main class="app__content">
-                {% block content %}
-                    {{ pattern_library_rendered_pattern }}
-                {% endblock %}
-            </main>
-
-            <footer class="app__footer">
-                {% block footer %}{% endblock %}
-            </footer>
+        <div class="app__grid-lines" aria-hidden="true">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
+
+        {% include "patterns/atoms/sprites/sprites.html" %}
+
+        {% wagtailuserbar %}
+
+        <header class="app__header">
+            {% block header %}{% endblock %}
+        </header>
+
+        <nav class="app__navigation">
+            <section class="header__menus header__menus--desktop">
+                <div class="header__inner--top">
+                    {% secondarynav %}
+                    <form action="{% url 'search' %}" method="get" role="search" class="form form--header-search">
+                        <input class="input" type="text" placeholder="Search…" name="query"{% if search_query %} value="{{ search_query }}{% endif %}">
+                        <button class="button" type="submit">
+                            <svg class="icon icon--magnifying-glass"><use xlink:href="#magnifying-glass"></use></svg>
+                        </button>
+                    </form>
+                </div>
+
+                {% primarynav %}
+            </section>
+
+            <section class="header__menus header__menus--mobile" data-mobile-menu>
+                {% primarynav %}
+            </section>
+        </nav>
+
+        <div class="app__search">
+            <form class="form form--search">
+                <div class="form__item">
+                    <label for="search">Search</label>
+                    <input type="input" id="search" name="search" placeholder="Enter search term">
+                </div>
+                <button class="button">Search</button>
+            </form>
+        </div>
+
+        <main class="app__content">
+            {% block content %}
+                {{ pattern_library_rendered_pattern }}
+            {% endblock %}
+        </main>
+
+        <footer class="app__footer">
+            {% block footer %}{% endblock %}
+        </footer>
 
         <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
         {% block extra_js %}{% endblock %}
