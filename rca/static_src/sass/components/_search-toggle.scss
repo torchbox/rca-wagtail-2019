@@ -1,0 +1,28 @@
+.search-toggle {
+    $root: &;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &__label {
+        @include font-size(xxxs);
+        margin-left: ($gutter / 2);
+    }
+
+    .header--dark-bg & {
+
+        #{$root}__label {
+            color: $color--white;
+        }
+
+    }
+
+    .header--light-bg & {
+
+        #{$root}__label {
+            color: $color--black;
+        }
+
+    }
+
+}
