@@ -22,7 +22,7 @@
 
         > div {
             display: none;
-            border-right: 1px solid $color--white-12;
+            border-right: 1px solid $color--grid-line-light;
             padding-right: 4.28%;
 
             &:last-child,
@@ -31,7 +31,7 @@
             }
 
             &:first-child {
-                border-left: 1px solid $color--white-12;
+                border-left: 1px solid $color--grid-line-light;
             }
 
             @include media-query(medium) {
