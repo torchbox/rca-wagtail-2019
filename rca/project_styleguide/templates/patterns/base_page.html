@@ -58,45 +58,9 @@
 
 
 {% block header %}
-    <header class="header">
-        <a class="logo" href="{% slugurl 'home' %}">
-            <svg class="logo__image" width="162" height="70">
-                <use xlink:href="#logo" />
-            </svg>
-        </a>
 
-        <div class="header__navigation-toggle">
+    {% include 'patterns/organisms/header/header.html' %}
 
-            <div class="header__menu-toggle">
-                <span>Menu</span>
-                <button class="button button-menu-toggle" data-mobile-menu-toggle aria-haspopup="true" aria-label="Mobile menu toggle">
-                    <span class="button-menu-toggle__line"></span>
-                    <span class="button-menu-toggle__line"></span>
-                    <span class="button-menu-toggle__line"></span>
-                    <span class="button-menu-toggle__line"></span>
-                </button>
-            </div>
-
-            <div class="header__search-toggle">
-                <svg class="search__toggle" width="24" height="23">
-                    <use xlink:href="#magnifying-glass" />
-                </svg>
-            </div>
-
-        </div>
-
-        <nav class="header__audience-nav">
-            <div class="audience-nav-item">
-                <a class="audience-nav-item__link" href="#">Study at RCA</a>
-            </div>
-            <div class="audience-nav-item">
-                <a class="audience-nav-item__link" href="#">Research and Innovation</a>
-            </div>
-            <div class="audience-nav-item">
-                <a class="audience-nav-item__link" href="#">Life at RCA</a>
-            </div>
-        </nav>
-    </header>
 {% endblock header %}
 
 {% block footer %}
