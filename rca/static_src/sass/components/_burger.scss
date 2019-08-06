@@ -26,28 +26,23 @@
         stroke: $color--white;
     }
 
-
     .header--dark-bg & {
-
-        #{$root}__toggle-icon {
-            stroke: $color--white;
+        #{$root}__line {
+            background: $color--white;
         }
 
         #{$root}__toggle-label {
             color: $color--white;
         }
-
     }
 
     .header--light-bg & {
-
-        #{$root}__toggle-icon {
-            stroke: $color--black;
+        #{$root}__line {
+            background: $color--black;
         }
 
         #{$root}__toggle-label {
             color: $color--black;
         }
-
     }
 }

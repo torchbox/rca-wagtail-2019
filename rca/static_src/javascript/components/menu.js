@@ -28,11 +28,11 @@ class Menu {
 
     toggle() {
         // if the drawer is open
-        if(this.body.classList.contains(this.drawerOpenClass)) {
+        if (this.body.classList.contains(this.drawerOpenClass)) {
             // and search is clicked
-            if((this.node.dataset.active === 'search')) {
+            if (this.node.dataset.active === 'search') {
                 // and the search is active
-                if(this.body.classList.contains(this.searchOpenClass)){
+                if (this.body.classList.contains(this.searchOpenClass)) {
                     // close the drawer
                     this.close();
                 } else {
@@ -40,10 +40,10 @@ class Menu {
                     this.body.classList.remove(this.menuOpenClass);
                     this.body.classList.add(this.searchOpenClass);
                 }
-            // and menu is clicked
+                // and menu is clicked
             } else if (this.node.dataset.active === 'menu') {
                 // and the menu is active
-                if(this.body.classList.contains(this.menuOpenClass)){
+                if (this.body.classList.contains(this.menuOpenClass)) {
                     // close the drawer
                     this.close();
                 } else {
