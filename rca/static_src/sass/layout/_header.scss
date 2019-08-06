@@ -29,6 +29,16 @@
         margin-top: $grid / 4;
         margin-right: $gutter;
         cursor: pointer;
+        color: $color--white;
+    }
+
+    &__search-toggle {
+        color: $color--white;
+    }
+
+    &__menu-close {
+        fill: $color--white;
+        margin: ($grid / 4) $grid 0 auto;
     }
 
     &__menus {
@@ -43,18 +53,13 @@
             display: block;
             transform: translate3d(-100%, 0%, 0);
             max-height: 900px;
-         }
+        }
     }
 
     &__inner {
         background: $color--primary;
         height: 900px;
-
-        p {
-            color: white;
-        }
-
-
+        padding-top: ($gutter * 2);
     }
 
     // Hide when scrolling down

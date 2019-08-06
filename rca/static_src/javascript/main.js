@@ -11,15 +11,6 @@ import './components/sticky-header';
 
 import '../sass/main.scss';
 
-// Open the mobile menu callback
-function afterOpenMenu() {
-    document.querySelector('body').classList.add('nav-open');
-}
-
-// Close the mobile menu callback.
-function afterCloseMenu() {
-}
-
 document.addEventListener('DOMContentLoaded', function() {
     const cookie = document.querySelector(CookieWarning.selector());
     new CookieWarning(cookie);
@@ -33,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     for (const menu of document.querySelectorAll(Menu.selector())) {
-        new Menu(menu, afterOpenMenu, afterCloseMenu);
+        new Menu(menu);
     }
 
     for (const mobilesubmenu of document.querySelectorAll(

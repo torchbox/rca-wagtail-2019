@@ -3,42 +3,31 @@ class Menu {
         return '[data-menu-toggle]';
     }
 
-    constructor(node, openCb = () => {}, closeCb = () => {}) {
+    constructor(node) {
         this.node = node;
-
-        // Any callbacks to be called on open or close.
-        this.openCb = openCb;
-        this.closeCb = closeCb;
-
-        this.state = {
-            open: false,
-        };
+        this.body = document.querySelector('body');
+        this.activeClass = 'nav-open';
 
         this.bindEventListeners();
     }
 
     bindEventListeners() {
-        this.node.addEventListener('click', () => {
+        this.node.addEventListener('click', (e) => {
+            e.preventDefault();
             this.toggle();
         });
     }
 
     toggle() {
-        this.state.open ? this.close() : this.open();
+        this.body.classList.contains(this.activeClass) ? this.close() : this.open();
     }
 
     open() {
-        this.node.classList.add('is-open');
-        this.openCb();
-
-        this.state.open = true;
+        this.body.classList.add(this.activeClass);
     }
 
     close() {
-        this.node.classList.remove('is-open');
-        this.closeCb();
-
-        this.state.open = false;
+        this.body.classList.remove(this.activeClass);
     }
 }
 
