@@ -26,12 +26,6 @@
             max-width: 50%;
             min-width: 50%;
         }
-
-        @include media-query(large) {
-            flex-basis: 66.666%;
-            max-width: 66.666%;
-            min-width: 66.666%;
-        }
     }
 
     &__author-info {
@@ -40,13 +34,6 @@
             max-width: 50%;
             min-width: 50%;
             text-align: right;
-        }
-
-        @include media-query(large) {
-            flex-basis: 33.333%;
-            max-width: 33.333%;
-            min-width: 33.333%;
-            text-align: left;
         }
     }
 
@@ -70,18 +57,6 @@
     .glide--dragging & {
         #{$root}__meta {
             opacity: 0;
-        }
-    }
-
-    .bg--dark & {
-        #{$root}__author {
-            color: $color--white;
-        }
-    }
-
-    .bg--light & {
-        #{$root}__author {
-            color: $color--black;
         }
     }
 }
