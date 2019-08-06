@@ -1,0 +1,7 @@
+.slideshow {
+
+    &__liveregion {
+        @include hidden();
+    }
+
+}

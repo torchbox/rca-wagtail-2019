@@ -1,0 +1,15 @@
+<div class="slideshow glide" data-slideshow data-slidetotal="{{ carousel|length }}">
+    <div data-glide-el="track" class="showshow__container glide__track">
+        <ul class="slideshow__slides glide__slides" aria-live="polite">
+            {% for slide in carousel %}
+                <li class="slideshow__item glide__slide">
+                    {% include 'patterns/molecules/slide/slide.html' with slide=slide %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="slideshow__controls" data-glide-el="controls">
+      <button class="slideshow__button slideshow__button--next button" data-glide-dir=">">Next</button>
+      <button class="slideshow__button slideshow__button--prev button" data-glide-dir="<">Previous</button>
+  </div>
+</div>
