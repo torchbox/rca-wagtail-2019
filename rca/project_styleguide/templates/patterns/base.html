@@ -46,10 +46,12 @@
             <section class="header__menus">
                 <div class="header__inner">
                     {% include 'patterns/atoms/logo/logo.html' %}
+                    {% include 'patterns/molecules/menu-toggle/menu-toggle.html' with modifier="header__menu-toggle--small" %}
                 </div>
                 <div class="header__inner">
                     <div class="header__navigation-toggle">
-                        {% include 'patterns/molecules/nav-toggles/nav-toggles.html' %}
+                        {% include 'patterns/molecules/menu-toggle/menu-toggle.html' with modifier="header__menu-toggle--medium" %}
+                        {% include 'patterns/molecules/search-toggle/search-toggle.html' %}
 
                         <a class="header__menu-close" href="#" data-close-menu>
                             <svg width="14" height="14"><use xlink:href="#close"></use></svg>

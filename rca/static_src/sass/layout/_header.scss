@@ -27,12 +27,36 @@
 
     &__menu-toggle {
         margin-top: $grid / 4;
-        margin-right: $gutter;
+        margin-left: auto;
         cursor: pointer;
         color: $color--white;
 
+        @include media-query(medium) {
+            margin-right: $gutter;
+            margin-left: unset;
+        }
+
+        &--small {
+            @include media-query(medium) {
+                display: none;
+            }
+        }
+
+        &--medium {
+            display: none;
+
+            @include media-query(medium) {
+                display: flex;
+            }
+        }
+
         .app__navigation & {
+            margin-top: $grid * 2.5;
             opacity: 0.4;
+
+            @include media-query(medium) {
+                margin-top: $grid / 4;
+            }
         }
 
         .menu-active & {
