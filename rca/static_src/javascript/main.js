@@ -1,6 +1,7 @@
 import '@babel/polyfill';
 
 import Menu from './components/menu';
+import SubMenu from './components/submenu';
 import MobileSubMenu from './components/mobile-sub-menu';
 import CookieWarning from './components/cookie-message';
 import Accordion from './components/accordion';
@@ -30,6 +31,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     for (const menu of document.querySelectorAll(Menu.selector())) {
         new Menu(menu);
+    }
+
+    for (const submenu of document.querySelectorAll(SubMenu.selector())) {
+        new SubMenu(submenu);
     }
 
     for (const mobilesubmenu of document.querySelectorAll(

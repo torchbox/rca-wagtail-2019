@@ -94,6 +94,23 @@
         background: $color--primary;
         height: 900px;
         padding-top: ($gutter * 2);
+
+        &--level-zero {
+            @include z-index(nav);
+            position: relative;
+        }
+
+        &--level-one {
+            transform: translate3d(-100%, 0%, 0);
+            transition: transform $cubic-transition;
+            pointer-events: none;
+
+            &:hover,
+            &.is-visible {
+                transform: translate3d(0, 0, 0);
+                pointer-events: all;
+            }
+        }
     }
 
     .header-content-light & {

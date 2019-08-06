@@ -99,7 +99,7 @@
         @include z-index(nav);
         pointer-events: none;
         transform: translate3d(-100%, 0%, 0);
-        transition: transform 250ms cubic-bezier(0.24, 0.26, 0.2, 1) 0.75ms;
+        transition: transform $cubic-transition 0.75ms;
         position: fixed;
         top: 0;
         left: 0;
