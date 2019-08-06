@@ -1,5 +1,17 @@
 {% load wagtailimages_tags %}
-<h2>{{ slide.title }}</h2>
-{% image slide.image fill-450x450 %}
-<p>{{ slide.text }}</p>
-<a href="{{ slide.link }}">A link to somewhere else. This could surround the whole slide.</a>
+<div class="slide" data-slide>
+    {% image slide.image fill-829x585 class="slide__image" %}
+    <div class="slide__meta">
+        <h2 class="slide__heading">{{ slide.title }}</h2>
+        <div class="slide_author-info">
+            {% if slide.link %}
+                <a class="slide__link" href="{{ slide.link }}">
+            {% endif %}
+                <h3 class="slide__author">{{ slide.author }}</h3>
+            {% if slide.link %}
+                </a>
+            {% endif %}
+            <p class="slide__author-course">{{ slide.course }}</p>
+        </div>
+    </div>
+</div>

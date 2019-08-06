@@ -1,18 +1,22 @@
 context:
-  carousel:
+  slideshow:
     - slide:
-      title: 'Slide 1'
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
+      title: 'Albertopolis 550-metre pedestrian tunnel '
+      author: 'Nick Lee'
       link: 'http://www.torchbox.com'
+      course: 'Design'
     - slide:
-      title: 'Slide 2'
-      text: 'Etiam magna justo, sollicitudin sit amet laoreet id, sodales vel metus'
+      title: 'Albertopolis 550-metre pedestrian tunnel '
+      author: 'Chris Lawton'
       link: 'http://www.torchbox.com'
+      course: 'Architecture'
     - slide:
-      title: 'Slide 3'
-      text: 'Donec quis dolor at tellus viverra molestie.'
+      title: 'Albertopolis 550-metre pedestrian tunnel '
+      author: 'Nick Lee'
       link: 'http://www.torchbox.com'
+      course: 'Design'
     - slide:
-      title: 'Slide 4'
-      text: 'Aliquam eu aliquet metus'
+      title: 'Albertopolis 550-metre pedestrian tunnel '
+      author: 'Chris Lawton'
       link: 'http://www.torchbox.com'
+      course: 'Architecture'

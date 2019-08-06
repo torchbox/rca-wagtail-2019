@@ -7,7 +7,7 @@ class Slideshow {
 
     constructor(node) {
         this.node = node;
-        this.slideTotal = this.node.dataset.slidetotal;
+        this.progressbar = this.node.querySelector('[data-scroll-progress]');
 
         this.slideshow = new Glide(node, {
             type: 'slider',
@@ -16,10 +16,21 @@ class Slideshow {
             keyboard: true,
             perView: 1,
             rewind: false,
-            peek: { before: 200, after: 50 },
-            autoplay: false
+            autoplay: false,
+            breakpoints: {
+                598: {
+                    peek: { before: 20, after: 20 },
+                },
+                1022: {
+                    peek: { before: 60, after: 60 },
+                },
+                4000: {
+                    peek: { before: 200, after: 300 },
+                },
+            }
         });
 
+        this.slideTotal = this.node.dataset.slidetotal;
         this.slideshow.mount();
         this.bindEvents();
         this.setLiveRegion();
@@ -29,6 +40,7 @@ class Slideshow {
         this.slideshow.on('move.after', () => {
             this.updateAriaRoles();
             this.updateLiveRegion();
+            this.updateScrollbar();
         });
     }
 
@@ -60,6 +72,18 @@ class Slideshow {
         this.node.querySelector('[data-liveregion]').textContent =
             'Item ' + this.slideshow.index + ' of ' + this.slideTotal;
     }
+
+    // Update scrollbar position for mobile and tablet.
+    updateScrollbar() {
+        var total = this.slideTotal;
+        var current = (this.slideshow.index + 1); // array starts from 0 so plus 1
+        var percentage = (100 / total) * current;
+        var space = 100 - percentage;
+        var scrollsize = (100 / total);
+        this.progressbar.style.width = `${scrollsize}%`;
+        this.progressbar.style.right = `${space}%`;
+    }
+
 }
 
 export default Slideshow;
