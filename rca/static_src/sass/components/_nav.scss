@@ -1,20 +1,20 @@
 .nav {
-    display: none;
     margin-bottom: 1rem;
 
-    .menu-active & {
-        display: block;
-    }
-
-    a,p {
+    a,
+    p {
         color: $color--white; // temp
     }
 
     &--primary {
-        @include media-query(tablet-portrait) {
-            flex-direction: row;
-            justify-content: flex-end;
-            margin-top: 0;
+        display: none;
+
+        @include media-query(large) {
+            margin-top: $gutter * 6;
+        }
+
+        .menu-active & {
+            display: block;
         }
     }
 
@@ -23,7 +23,12 @@
     }
 
     &--subnav {
+        height: 100%;
         display: none;
+
+        @include media-query(large) {
+            padding-top: $gutter * 9.5;
+        }
 
         &:hover,
         &.is-visible {
@@ -48,63 +53,11 @@
     }
 
     &__item {
-        margin: 1rem 0;
-        text-align: center;
+        margin-bottom: $gutter + 4px;
 
-        .nav--tertiary & {
-            width: 100%;
-            padding-bottom: 5px;
-            margin-bottom: 0;
-            border-bottom: 0;
-
-            @include media-query(tablet-portrait) {
-                width: auto;
-            }
-        }
-
-        &:last-child {
-            border-bottom: 0;
-        }
-
-        @include media-query(tablet-portrait) {
-            width: auto;
-            padding: 0;
-            margin: 0;
-            font-weight: $weight--light;
-            text-align: left;
-            border-bottom: 0;
-
-            &::after {
-                color: $color--tertiary;
-                content: '|';
-            }
-
-            &:last-of-type {
-                &::after {
-                    content: '';
-                }
-            }
-        }
 
         &--secondary {
             font-weight: $weight--light;
-        }
-
-        &--footer {
-            a {
-                color: $color--white;
-            }
-        }
-
-        &--footer-column {
-            &::after {
-                display: none;
-            }
-
-            a {
-                margin: 0;
-                color: $color--white;
-            }
         }
 
         &--back {
@@ -168,13 +121,6 @@
                 color: lighten($color--primary, 20%);
                 border-bottom: 1px solid $color--primary;
             }
-        }
-    }
-
-    &__icon {
-        @include media-query(tablet-landscape) {
-            // @todo - desktop dropdown styles
-            display: none;
         }
     }
 }

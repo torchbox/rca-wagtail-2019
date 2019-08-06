@@ -104,6 +104,7 @@
             transform: translate3d(-100%, 0%, 0);
             transition: transform $cubic-transition;
             pointer-events: none;
+            padding-top: 0;
 
             &:hover,
             &.is-visible {
