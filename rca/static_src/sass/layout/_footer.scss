@@ -23,7 +23,6 @@
         @include media-query(medium) {
             padding-top: ($gutter * 5.5);
         }
-
     }
 
     &__mid {
@@ -31,11 +30,9 @@
     }
 
     &__logo {
-
         @include media-query(large) {
             grid-column-start: 2;
         }
-
     }
 
     &__action {
@@ -44,7 +41,6 @@
         @include media-query(large) {
             grid-column-start: 4;
         }
-
     }
 
     &__social-links {
@@ -66,14 +62,12 @@
     }
 
     &__links {
-
         @include media-query(large) {
             grid-column-start: 2;
             grid-column-end: 5;
             display: flex;
             flex-direction: row;
         }
-
     }
 
     &__credit {
@@ -92,11 +86,9 @@
     }
 
     &__credit-item {
-
         &:first-child {
             padding-bottom: $gutter;
             border-bottom: 1px solid $color--grid-line-light;
         }
-
     }
 }

@@ -24,8 +24,10 @@ $color--grid-line-dark: $color--black-80;
 
 // --------------------------------- Fonts --------------------------------------
 
-$font--primary: 'Benton Sans', 'BentonSans', 'Helvetica Neue', Arial, Helvetica, Sans-Serif;
-$font--secondary: 'Benton Sans Medium', 'BentonSans-Medium', 'Helvetica Neue', Arial, Helvetica, Sans-Serif;
+$font--primary: 'Benton Sans', 'BentonSans', 'Helvetica Neue', Arial, Helvetica,
+    Sans-Serif;
+$font--secondary: 'Benton Sans Medium', 'BentonSans-Medium', 'Helvetica Neue',
+    Arial, Helvetica, Sans-Serif;
 
 // Font weights
 $weight--bold: 700;
@@ -78,15 +80,13 @@ $small-font-sizes: (
     m: 22px,
     s: 18px,
     xs: 14px,
-    xxs: 14px, // no value in styleguide
-    xxxs: 12px,
+    xxs: 14px,
+    // no value in styleguide
+        xxxs: 12px,
 );
 
 // --------------------------------- Breakpoints --------------------------------------
-$breakpoints: (
-    'medium' '(min-width: 599px)',
-    'large' '(min-width: 1023px)',
-);
+$breakpoints: ('medium' '(min-width: 599px)', 'large' '(min-width: 1023px)');
 
 // --------------------------------- Z-indices --------------------------------------
 
@@ -100,7 +100,7 @@ $z-index: (
     nav-overlay: 70,
     nav: 80,
     gridlines: 90,
-    modal: 100
+    modal: 100,
 );
 
 // --------------------------------- Grid Dimensions --------------------------------------

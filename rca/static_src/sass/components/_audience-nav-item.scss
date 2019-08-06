@@ -15,7 +15,6 @@
     }
 
     .header--dark-bg & {
-
         #{$root}__link {
             color: $color--link-darkbg;
 
@@ -27,11 +26,9 @@
         #{$root}__icon {
             fill: $color--white;
         }
-
     }
 
     .header--light-bg & {
-
         #{$root}__link {
             color: $color--link-lightbg;
 
@@ -43,7 +40,6 @@
         #{$root}__icon {
             fill: $color--black;
         }
-
     }
 
     .header & {
@@ -59,7 +55,6 @@
     }
 
     .footer & {
-
         #{$root}__link {
             color: $color--white;
 

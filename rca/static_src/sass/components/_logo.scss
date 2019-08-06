@@ -15,7 +15,6 @@
         @include media-query(medium) {
             width: 162px;
         }
-
     }
 
     .footer & {
@@ -29,23 +28,18 @@
         #{$root}__image {
             fill: $color--white;
         }
-
     }
 
     .app__navigation &,
     .header--dark-bg & {
-
         #{$root}__image {
             fill: $color--white;
         }
-
     }
 
     .header--light-bg & {
-
         #{$root}__image {
             fill: $color--black;
         }
-
     }
 }

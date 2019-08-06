@@ -23,7 +23,6 @@
     }
 
     .header--dark-bg & {
-
         #{$root}__label {
             color: $color--white;
         }
@@ -31,11 +30,9 @@
         #{$root}__icon {
             fill: $color--white;
         }
-
     }
 
     .header--light-bg & {
-
         #{$root}__label {
             color: $color--black;
         }
@@ -43,7 +40,5 @@
         #{$root}__icon {
             fill: $color--black;
         }
-
     }
-
 }

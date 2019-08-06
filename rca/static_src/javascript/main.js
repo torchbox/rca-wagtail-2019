@@ -40,7 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    for (const progressbar of document.querySelectorAll(ProgressBar.selector())) {
+    for (const progressbar of document.querySelectorAll(
+        ProgressBar.selector(),
+    )) {
         new ProgressBar(progressbar);
     }
 

@@ -26,13 +26,29 @@ jobs:
       - run:
           name: install node dependencies
           command: |
-            npm install --quiet
+            npm ci
+      - run:
+          name: Linting js
+          command: |
+            npm run lint:js
+      - run:
+          name: Linting css
+          command: |
+            npm run lint:css
+      - run:
+          name: Linting format
+          command: |
+            npm run lint:format
+      - run:
+          name: Front end tests
+          command: |
+            npm run test:coverage
       - run:
           name: compile static assets
           command: |
             npm run build:prod
       - run:
-          name: run tests
+          name: Run Django tests
           command: |
             . venv/bin/activate
             isort --recursive --check-only --diff ./rca
@@ -40,6 +56,12 @@ jobs:
             ./manage.py makemigrations --check --noinput
             ./manage.py check
             ./manage.py test
+      - run:
+          name: Run Black
+          command: |
+            . venv/bin/activate
+            black --check ./rca
+
   deploy_staging:
     docker:
       - image: buildpack-deps:trusty
