@@ -1,3 +1,21 @@
 .breadcrumb {
+    $root: &;
+    display: flex;
+    flex-direction: row;
+    grid-column: span 2;
 
+    &__item {
+        @include font-size(xxs);
+
+        &:first-child {
+            opacity: 0.8;
+        }
+
+        &::after {
+            display: inline-block;
+            content: '/';
+            padding-left: ($gutter / 2);
+            margin-right: ($gutter / 2);
+        }
+    }
 }
