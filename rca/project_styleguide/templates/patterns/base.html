@@ -51,15 +51,23 @@
                     <div class="header__navigation-toggle">
                         {% include 'patterns/molecules/nav-toggles/nav-toggles.html' %}
 
-                        <a class="header__menu-close" href="#" data-menu-toggle>
+                        <a class="header__menu-close" href="#" data-close-menu>
                             <svg width="14" height="14"><use xlink:href="#close"></use></svg>
                         </a>
+                    </div>
+
+                    <div class="nav" data-nav>
+                        <p>Nav here</p>
+                        {% primarynav %}
+                        {% secondarynav %}
+                    </div>
+
+                    <div class="search" data-search>
+                        <p>Search here</p>
                     </div>
                 </div>
             </section>
         </nav>
-        {% primarynav %}
-        {% secondarynav %}
 
         <!-- <section class="header__menus header__menus--mobile" data-mobile-menu> </section> -->
         <div class="app__search">

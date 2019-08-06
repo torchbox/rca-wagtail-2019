@@ -6,8 +6,11 @@ class Menu {
     constructor(node) {
         this.node = node;
         this.body = document.querySelector('body');
-        this.activeClass = 'nav-open';
-
+        this.closeIcon = document.querySelector('[data-close-menu]');
+        this.drawerOpenClass = 'nav-open';
+        this.menuOpenClass = 'menu-active';
+        this.searchOpenClass = 'search-active';
+        this.activeClass = `${this.node.dataset.active}-active`;
         this.bindEventListeners();
     }
 
@@ -16,18 +19,37 @@ class Menu {
             e.preventDefault();
             this.toggle();
         });
+
+        this.closeIcon.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.close();
+        });
     }
 
     toggle() {
-        this.body.classList.contains(this.activeClass) ? this.close() : this.open();
+        // if the drawer is open
+        if(this.body.classList.contains(this.drawerOpenClass)) {
+            // and search is clicked, activate search
+            if(this.node.dataset.active === 'search') {
+                this.body.classList.remove(this.menuOpenClass);
+                this.body.classList.add(this.searchOpenClass);
+            // and menu is clicked, activate menu
+            } else if (this.node.dataset.active === 'menu') {
+                this.body.classList.remove(this.searchOpenClass);
+                this.body.classList.add(this.menuOpenClass);
+            }
+            // open the drawer
+        } else {
+            this.body.classList.contains(this.drawerOpenClass) ? this.close() : this.open();
+        }
     }
 
     open() {
-        this.body.classList.add(this.activeClass);
+        this.body.classList.add(this.drawerOpenClass, this.activeClass);
     }
 
     close() {
-        this.body.classList.remove(this.activeClass);
+        this.body.classList.remove(this.drawerOpenClass, this.activeClass);
     }
 }
 

@@ -1,0 +1,11 @@
+.search {
+    display: none;
+
+    .search-active & {
+        display: block;
+    }
+
+    p {
+        color: $color--white; //temp
+    }
+}

@@ -30,10 +30,26 @@
         margin-right: $gutter;
         cursor: pointer;
         color: $color--white;
+
+        .app__navigation & {
+            opacity: 0.4;
+        }
+
+        .menu-active & {
+            opacity: 1;
+        }
     }
 
     &__search-toggle {
         color: $color--white;
+
+        .app__navigation & {
+            opacity: 0.4;
+        }
+
+        .search-active & {
+            opacity: 1;
+        }
     }
 
     &__menu-close {
