@@ -1,0 +1,7 @@
+.search {
+    display: none;
+
+    .search-active & {
+        display: block;
+    }
+}

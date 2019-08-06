@@ -26,7 +26,80 @@
     }
 
     &__menu-toggle {
-        margin-right: ($gutter);
+        margin-top: ($grid / 4);
+        margin-left: auto;
+        cursor: pointer;
+        color: $color--white;
+
+        @include media-query(medium) {
+            margin-right: $gutter;
+            margin-left: unset;
+        }
+
+        &--small {
+            @include media-query(medium) {
+                display: none;
+            }
+        }
+
+        &--medium {
+            display: none;
+
+            @include media-query(medium) {
+                display: flex;
+            }
+        }
+
+        .app__navigation & {
+            margin-top: ($grid * 2.5);
+            opacity: 0.4;
+
+            @include media-query(medium) {
+                margin-top: ($grid / 4);
+            }
+        }
+
+        .menu-active & {
+            opacity: 1;
+        }
+    }
+
+    &__search-toggle {
+        color: $color--white;
+
+        .app__navigation & {
+            opacity: 0.4;
+        }
+
+        .search-active & {
+            opacity: 1;
+        }
+    }
+
+    &__menu-close {
+        fill: $color--white;
+        margin: ($grid / 4) $grid 0 auto;
+    }
+
+    &__menus {
+        @include grid-layout();
+
+        &::before {
+            content: '';
+            background: $color--primary;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            display: block;
+            transform: translate3d(-100%, 0%, 0);
+            max-height: 900px;
+        }
+    }
+
+    &__inner {
+        background: $color--primary;
+        height: 900px;
+        padding-top: ($gutter * 2);
     }
 
     // Hide when scrolling down
