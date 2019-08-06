@@ -1,12 +1,12 @@
 .nav {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
+    display: none;
 
-    @include media-query(tablet-portrait) {
-        flex-direction: row;
+    .menu-active & {
+        display: block;
+    }
+
+    p {
+        color: $color--white; // temp
     }
 
     &--primary {
