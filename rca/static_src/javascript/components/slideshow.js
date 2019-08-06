@@ -9,7 +9,35 @@ class Slideshow {
         this.node = node;
         this.progressbar = this.node.querySelector('[data-scroll-progress]');
 
-        this.slideshow = new Glide(node, {
+        this.getMargins();
+        this.createSlideshow();
+        this.slideTotal = this.node.dataset.slidetotal;
+        this.slideshow.mount();
+        this.bindEvents();
+        this.setLiveRegion();
+    }
+
+    bindEvents() {
+        this.slideshow.on('move.after', () => {
+            this.updateAriaRoles();
+            this.updateLiveRegion();
+            this.updateScrollbar();
+        });
+
+        window.addEventListener("resize", () => {
+            this.getMargins();
+            this.updateSlideshowBreakpoint();
+        });
+    }
+
+    getMargins() {
+        // https://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
+        var leftEdge = document.querySelector('[data-left-edge');
+        this.leftEdgeCoords = leftEdge.getBoundingClientRect();
+    }
+
+    createSlideshow() {
+        this.slideshow = new Glide(this.node, {
             type: 'slider',
             startAt: 0,
             gap: 0,
@@ -25,23 +53,17 @@ class Slideshow {
                     peek: { before: 60, after: 60 },
                 },
                 4000: {
-                    peek: { before: 200, after: 300 },
+                    peek: { before: this.leftEdgeCoords.right, after: this.leftEdgeCoords.right },
                 },
             }
         });
-
-        this.slideTotal = this.node.dataset.slidetotal;
-        this.slideshow.mount();
-        this.bindEvents();
-        this.setLiveRegion();
     }
 
-    bindEvents() {
-        this.slideshow.on('move.after', () => {
-            this.updateAriaRoles();
-            this.updateLiveRegion();
-            this.updateScrollbar();
-        });
+    updateSlideshowBreakpoint() {
+        this.slideshow.destroy();
+        this.createSlideshow();
+        this.slideTotal = this.node.dataset.slidetotal;
+        this.slideshow.mount();
     }
 
     // sets aria-hidden on inactive slides
