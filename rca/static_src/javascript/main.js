@@ -5,6 +5,7 @@ import MobileSubMenu from './components/mobile-sub-menu';
 import CookieWarning from './components/cookie-message';
 import Accordion from './components/accordion';
 import Carousel from './components/carousel';
+import Slideshow from './components/slideshow';
 import ProgressBar from './components/progress-bar';
 import VideoModal from './components/video-modal';
 import './components/sticky-header';
@@ -21,6 +22,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     for (const carousel of document.querySelectorAll(Carousel.selector())) {
         new Carousel(carousel);
+    }
+
+    for (const slideshow of document.querySelectorAll(Slideshow.selector())) {
+        new Slideshow(slideshow);
     }
 
     for (const menu of document.querySelectorAll(Menu.selector())) {
