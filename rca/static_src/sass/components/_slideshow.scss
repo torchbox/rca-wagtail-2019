@@ -6,10 +6,6 @@
         @include hidden();
     }
 
-    &__slides {
-
-    }
-
     &__item {
         opacity: 0.8;
         transition: opacity $transition;
