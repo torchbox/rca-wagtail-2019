@@ -24,7 +24,7 @@ class Slideshow {
             this.updateScrollbar();
         });
 
-        window.addEventListener("resize", () => {
+        window.addEventListener('resize', () => {
             this.getMargins();
             this.updateSlideshowBreakpoint();
         });
