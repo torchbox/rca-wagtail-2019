@@ -1,4 +1,13 @@
 .app {
+    padding-top: $header-height-small;
+
+    @include media-query(medium) {
+        padding-top: $header-height-medium;
+    }
+
+    @include media-query(large) {
+        padding-top: $header-height-large;
+    }
 
     &__grid-lines {
         @include z-index(gridlines);
@@ -13,7 +22,7 @@
 
         > div {
             display: none;
-            border-right: 1px solid $color--white-12;
+            border-right: 1px solid $color--grid-line-light;
             padding-right: 4.28%;
 
             &:last-child,
@@ -22,7 +31,7 @@
             }
 
             &:first-child {
-                border-left: 1px solid $color--white-12;
+                border-left: 1px solid $color--grid-line-light;
             }
 
             @include media-query(medium) {
