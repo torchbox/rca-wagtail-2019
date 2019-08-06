@@ -1,0 +1,28 @@
+<div class="slideshow glide" data-slideshow data-slidetotal="{{ slideshow|length }}">
+    <div data-glide-el="track" class="slideshow__container glide__track">
+        <ul class="slideshow__slides glide__slides" aria-live="polite">
+            {% for slide in slideshow %}
+            <li class="slideshow__item glide__slide">
+                {% include 'patterns/molecules/slide/slide.html' with slide=slide %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="slideshow__controls grid">
+        <div class="slideshow__scrollbar">
+            <div class="slideshow__scrollbar-progress" data-scroll-progress></div>
+        </div>
+        <div class="slideshow__controls-group" data-glide-el="controls">
+            <button class="slideshow__button slideshow__button--prev button" aria-label="Previous" data-glide-dir="<">
+                <svg class="slideshow__button-icon" width="46" height="46">
+                    <use xlink:href="#arrow-left" />
+                </svg>
+            </button>
+            <button class="slideshow__button slideshow__button--next button" aria-label="Next" data-glide-dir=">">
+                <svg class="slideshow__button-icon" width="46" height="46">
+                    <use xlink:href="#arrow-right" />
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>

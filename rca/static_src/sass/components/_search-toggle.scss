@@ -1,16 +1,28 @@
 .search-toggle {
     $root: &;
-    display: flex;
+    display: none;
     flex-direction: row;
     align-items: center;
+
+    @include media-query(medium) {
+        display: flex;
+    }
 
     &__label {
         @include font-size(xxxs);
         margin-left: ($gutter / 2);
     }
 
-    .header--dark-bg & {
+    .app__navigation & {
+        margin-top: $grid * 5;
+        display: flex;
 
+        @include media-query(medium) {
+            margin-top: 0;
+        }
+    }
+
+    .header--dark-bg & {
         #{$root}__label {
             color: $color--white;
         }
@@ -18,11 +30,9 @@
         #{$root}__icon {
             fill: $color--white;
         }
-
     }
 
     .header--light-bg & {
-
         #{$root}__label {
             color: $color--black;
         }
@@ -30,7 +40,5 @@
         #{$root}__icon {
             fill: $color--black;
         }
-
     }
-
 }

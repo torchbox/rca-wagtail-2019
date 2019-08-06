@@ -22,61 +22,11 @@
         margin-left: ($gutter / 2);
     }
 
-    &__line {
-        position: absolute;
-        left: 0;
-        display: block;
-        width: 100%;
-        height: 4px;
-        opacity: 1;
-        transform: rotate(0deg);
-        transition: top, width, opacity, transform, left, $transition;
-
-        &:nth-child(1) {
-            top: 0;
-
-            .is-open & {
-                top: 10px;
-                left: 50%;
-                width: 0%;
-            }
-        }
-
-        &:nth-child(2),
-        &:nth-child(3) {
-            top: 12px;
-            opacity: 0.25;
-
-            .is-open & {
-                opacity: 1;
-            }
-        }
-
-        &:nth-child(2) {
-            .is-open & {
-                transform: rotate(45deg);
-            }
-        }
-
-        &:nth-child(3) {
-            .is-open & {
-                transform: rotate(-45deg);
-            }
-        }
-
-        &:nth-child(4) {
-            top: 24px;
-
-            .is-open & {
-                top: 10px;
-                left: 50%;
-                width: 0%;
-            }
-        }
+    &__toggle-icon {
+        stroke: $color--white;
     }
 
     .header--dark-bg & {
-
         #{$root}__line {
             background: $color--white;
         }
@@ -84,11 +34,9 @@
         #{$root}__toggle-label {
             color: $color--white;
         }
-
     }
 
     .header--light-bg & {
-
         #{$root}__line {
             background: $color--black;
         }
@@ -96,6 +44,5 @@
         #{$root}__toggle-label {
             color: $color--black;
         }
-
     }
 }

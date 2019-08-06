@@ -1,0 +1,69 @@
+.slide {
+    $root: &;
+
+    &__image {
+        width: 100%;
+        height: auto;
+        margin-bottom: ($gutter);
+    }
+
+    &__meta {
+        @include z-index(base);
+        position: relative;
+        opacity: 0;
+        transition: opacity $transition;
+
+        @include media-query(medium) {
+            display: flex;
+        }
+    }
+
+    &__heading {
+        @include font-size(xs);
+
+        @include media-query(medium) {
+            flex-basis: 75%;
+            max-width: 75%;
+            min-width: 75%;
+        }
+
+    }
+
+    &__author-info {
+
+        @include media-query(medium) {
+            flex-basis: 25%;
+            max-width: 25%;
+            min-width: 25%;
+        }
+
+    }
+
+    &__author {
+        @include font-size(xs);
+        font-weight: $weight--medium;
+        margin-bottom: ($gutter / 4);
+    }
+
+    &__author-course {
+        @include font-size(xxs);
+        color: $color--light-grey;
+    }
+
+    .glide__slide--active & {
+
+        #{$root}__meta {
+            opacity: 1;
+        }
+
+    }
+
+    .glide--dragging & {
+
+        #{$root}__meta {
+            opacity: 0;
+        }
+
+    }
+
+}

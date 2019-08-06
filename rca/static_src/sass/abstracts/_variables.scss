@@ -7,7 +7,9 @@ $color--light-grey: #797979;
 $color--dark-grey: #676767;
 
 $color--white-12: rgba(255, 255, 255, 0.12);
+$color--white-24: rgba(255, 255, 255, 0.24);
 $color--black-80: rgba(0, 0, 0, 0.8);
+$color--black-24: rgba(0, 0, 0, 0.24);
 
 $color--primary: $color--black;
 $color--secondary: $color--white;
@@ -19,13 +21,19 @@ $color--link-darkbg: $color--white;
 $color--link-lightbg-hover: $color--tertiary;
 $color--link-darkbg-hover: $color--tertiary;
 
+$color--scrollbar-darkbg-bg: $color--white-24;
+$color--scrollbar-lightbg-bg: $color--black-24;
+
 $color--grid-line-light: $color--white-12;
 $color--grid-line-dark: $color--black-80;
 
+
 // --------------------------------- Fonts --------------------------------------
 
-$font--primary: 'Benton Sans', 'BentonSans', 'Helvetica Neue', Arial, Helvetica, Sans-Serif;
-$font--secondary: 'Benton Sans Medium', 'BentonSans-Medium', 'Helvetica Neue', Arial, Helvetica, Sans-Serif;
+$font--primary: 'Benton Sans', 'BentonSans', 'Helvetica Neue', Arial, Helvetica,
+    Sans-Serif;
+$font--secondary: 'Benton Sans Medium', 'BentonSans-Medium', 'Helvetica Neue',
+    Arial, Helvetica, Sans-Serif;
 
 // Font weights
 $weight--bold: 700;
@@ -78,29 +86,28 @@ $small-font-sizes: (
     m: 22px,
     s: 18px,
     xs: 14px,
-    xxs: 14px, // no value in styleguide
-    xxxs: 12px,
+    xxs: 14px,
+    // no value in styleguide
+        xxxs: 12px,
 );
 
 // --------------------------------- Breakpoints --------------------------------------
-$breakpoints: (
-    'medium' '(min-width: 599px)',
-    'large' '(min-width: 1023px)',
-);
+$breakpoints: ('medium' '(min-width: 599px)', 'large' '(min-width: 1023px)');
 
 // --------------------------------- Z-indices --------------------------------------
 
 $z-index: (
-    free1: 10,
-    free2: 20,
+    under: -10,
+    base: 10,
+    overlap: 20,
     free3: 30,
     free4: 40,
     header: 50,
     free5: 60,
-    free6: 70,
-    free7: 80,
+    nav-overlay: 70,
+    nav: 80,
     gridlines: 90,
-    modal: 100
+    modal: 100,
 );
 
 // --------------------------------- Grid Dimensions --------------------------------------

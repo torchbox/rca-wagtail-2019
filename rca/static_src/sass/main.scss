@@ -20,7 +20,7 @@
 @import 'components/body';
 @import 'components/breadcrumb';
 @import 'components/burger';
-@import 'components/call-to-action';
+// @import 'components/call-to-action';
 @import 'components/cookie-message';
 @import 'components/card';
 @import 'components/carousel';
@@ -36,16 +36,16 @@
 @import 'components/logo';
 @import 'components/nav';
 @import 'components/page';
-@import 'components/progress-bar';
 @import 'components/responsive-object';
 @import 'components/rich-text';
+@import 'components/search';
 @import 'components/search-toggle';
-@import 'components/section';
+// @import 'components/section';
+@import 'components/slide';
+@import 'components/slideshow';
 @import 'components/social-item';
-@import 'components/video-modal';
-@import 'components/wrapper';
+// @import 'components/video-modal';
 
 // Layout
 @import 'layout/footer';
 @import 'layout/header';
-@import 'layout/sidebar';

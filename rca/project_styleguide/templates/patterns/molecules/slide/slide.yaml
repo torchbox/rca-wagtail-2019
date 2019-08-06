@@ -1,11 +1,12 @@
 context:
   slide:
-    title: 'This is a slide'
-    text: 'This is the slide text'
+    title: 'This is a slide title'
     link: 'http://www.whatshouldireadnext.com'
+    author: 'Nick Lee'
+    course: 'Design'
 
 tags:
   image:
-    slide.image fill-450x450:
+    slide.image fill-829x585 class="slide__image":
       raw: |
-        <img src="http://placekitten.com/450/450" alt="kitten">
+        <img src="http://placekitten.com/829/585" alt="kitten" class="slide__image">

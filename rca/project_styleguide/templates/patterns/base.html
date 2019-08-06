@@ -28,7 +28,7 @@
         {% block body_top %}{% endblock %}
 
         <div class="app__grid-lines" aria-hidden="true">
-            <div></div>
+            <div data-left-edge></div>
             <div></div>
             <div></div>
             <div></div>
@@ -38,38 +38,44 @@
         {% include "patterns/atoms/sprites/sprites.html" %}
 
         {% wagtailuserbar %}
-
         <header class="app__header">
             {% block header %}{% endblock %}
         </header>
 
         <nav class="app__navigation">
-            <section class="header__menus header__menus--desktop">
-                <div class="header__inner--top">
-                    {% secondarynav %}
-                    <form action="{% url 'search' %}" method="get" role="search" class="form form--header-search">
-                        <input class="input" type="text" placeholder="Search…" name="query"{% if search_query %} value="{{ search_query }}{% endif %}">
-                        <button class="button" type="submit">
-                            <svg class="icon icon--magnifying-glass"><use xlink:href="#magnifying-glass"></use></svg>
-                        </button>
-                    </form>
+            <section class="header__menus">
+                <div class="header__inner">
+                    {% include 'patterns/atoms/logo/logo.html' %}
+                    {% include 'patterns/molecules/menu-toggle/menu-toggle.html' with modifier="header__menu-toggle--small" %}
                 </div>
+                <div class="header__inner">
+                    <div class="header__navigation-toggle">
+                        {% include 'patterns/molecules/menu-toggle/menu-toggle.html' with modifier="header__menu-toggle--medium" %}
+                        {% include 'patterns/molecules/search-toggle/search-toggle.html' %}
 
-                {% primarynav %}
-            </section>
+                        <a class="header__menu-close" href="#" data-close-menu>
+                            <svg width="14" height="14"><use xlink:href="#close"></use></svg>
+                        </a>
+                    </div>
 
-            <section class="header__menus header__menus--mobile" data-mobile-menu>
-                {% primarynav %}
+                    <div class="nav" data-nav>
+                        {% primarynav %}
+                        {% secondarynav %}
+                    </div>
+
+                    <div class="search" data-search>
+                    </div>
+                </div>
             </section>
         </nav>
 
+        <!-- <section class="header__menus header__menus--mobile" data-mobile-menu> </section> -->
         <div class="app__search">
-            <form class="form form--search">
-                <div class="form__item">
-                    <label for="search">Search</label>
-                    <input type="input" id="search" name="search" placeholder="Enter search term">
-                </div>
-                <button class="button">Search</button>
+            <form action="{% url 'search' %}" method="get" role="search" class="form form--header-search">
+                <input class="input" type="text" placeholder="Search…" name="query"{% if search_query %} value="{{ search_query }}{% endif %}">
+                <button class="button" type="submit">
+                    <svg class="icon icon--magnifying-glass"><use xlink:href="#magnifying-glass"></use></svg>
+                </button>
             </form>
         </div>
 

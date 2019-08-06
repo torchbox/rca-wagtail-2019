@@ -1,0 +1,22 @@
+context:
+  slideshow:
+    - slide:
+      title: 'Albertopolis 550-metre pedestrian tunnel '
+      author: 'Nick Lee'
+      link: 'http://www.torchbox.com'
+      course: 'Design'
+    - slide:
+      title: 'Albertopolis 550-metre pedestrian tunnel '
+      author: 'Chris Lawton'
+      link: 'http://www.torchbox.com'
+      course: 'Architecture'
+    - slide:
+      title: 'Albertopolis 550-metre pedestrian tunnel '
+      author: 'Nick Lee'
+      link: 'http://www.torchbox.com'
+      course: 'Design'
+    - slide:
+      title: 'Albertopolis 550-metre pedestrian tunnel '
+      author: 'Chris Lawton'
+      link: 'http://www.torchbox.com'
+      course: 'Architecture'

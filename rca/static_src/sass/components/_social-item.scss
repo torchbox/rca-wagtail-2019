@@ -13,23 +13,16 @@
     }
 
     .footer & {
-
         #{$root}__icon {
             fill: $color--white;
         }
 
         #{$root}__link {
-
             &:hover {
-
                 #{$root}__icon {
                     fill: $color--link-darkbg-hover;
                 }
-
             }
-
         }
-
     }
-
 }

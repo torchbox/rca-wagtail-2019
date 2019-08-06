@@ -1,0 +1,88 @@
+.slideshow {
+    $meta-height: 60px;
+    margin-bottom: ($gutter * 2);
+
+    &__liveregion {
+        @include hidden();
+    }
+
+    &__item {
+        opacity: 0.8;
+        transition: opacity $transition;
+
+        &.glide__slide--active {
+            opacity: 1;
+        }
+    }
+
+    &__controls {
+
+        @include media-query(large) {
+            position: relative;
+            top: -$meta-height;
+            margin-bottom: -$meta-height;
+            pointer-events: none; // ensure links in overlaid content still work
+        }
+
+    }
+
+    &__controls-group {
+        display: none;
+        grid-column: 5;
+        pointer-events: auto; // ensure prev/next buttons are clickable
+
+        @include media-query(large) {
+            @include z-index(overlap);
+            display: block;
+            background-color: $color--white;
+
+            &::after {
+                @include z-index(under);
+                content: '';
+                position: absolute;
+                display: block;
+                background-color: $color--white;
+                right: -20%;
+                top: 0;
+                height: $meta-height;
+                width: 30%;
+            }
+        }
+    }
+
+    &__button {
+        opacity: 1;
+        transition: opacity $transition;
+
+        &:hover,
+        &:active,
+        &:focus {
+            opacity: 0.8;
+        }
+    }
+
+    &__scrollbar {
+        position: relative;
+        height: 2px;
+        grid-column: 1 / span 2;
+        margin-top: $gutter;
+        background-color: $color--scrollbar-lightbg-bg;
+
+        @include media-query(medium) {
+            margin-top: 0;
+        }
+
+        @include media-query(large) {
+            display: none;
+        }
+
+    }
+
+    &__scrollbar-progress {
+        position: absolute;
+        height: 100%;
+        width: 33.333%;
+        background-color: $color--black;
+    }
+
+}
