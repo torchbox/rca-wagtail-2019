@@ -26,7 +26,7 @@
     }
 
     &__menu-toggle {
-        margin-top: $grid / 4;
+        margin-top: ($grid / 4);
         margin-left: auto;
         cursor: pointer;
         color: $color--white;
@@ -51,11 +51,11 @@
         }
 
         .app__navigation & {
-            margin-top: $grid * 2.5;
+            margin-top: ($grid * 2.5);
             opacity: 0.4;
 
             @include media-query(medium) {
-                margin-top: $grid / 4;
+                margin-top: ($grid / 4);
             }
         }
 

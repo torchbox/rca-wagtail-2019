@@ -1,16 +1,4 @@
 .nav {
-    // temp comment out
-
-    // display: flex;
-    // align-items: center;
-    // flex-direction: column;
-    // width: 100%;
-    // height: 100%;
-
-    // @include media-query(tablet-portrait) {
-    //     flex-direction: row;
-    // }
-
     display: none;
 
     .menu-active & {
