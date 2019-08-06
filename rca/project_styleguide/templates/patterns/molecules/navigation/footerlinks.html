@@ -1,10 +1,13 @@
 {% load wagtailcore_tags %}
-<nav role="navigation" aria-label="Quaternary">
-    <ul class="nav nav--tertiary">
-        {% for link in footerlinks %}
-            <li class="nav__item nav__item--footer" role="presentation">
-                {% include_block link %}
-            </li>
-        {% endfor %}
-    </ul>
-</nav>
+
+{# for link in footerlinks #}
+<div class="footer-link-item" role="presentation">
+    <a class="footer-link-item__link" href="#">Privacy & Cookies</a>
+</div>
+<div class="footer-link-item" role="presentation">
+    <a class="footer-link-item__link" href="#">Terms & Conditions</a>
+</div>
+<div class="footer-link-item" role="presentation">
+    <a class="footer-link-item__link" href="#">Accessibility</a>
+</div>
+{# endfor #}
