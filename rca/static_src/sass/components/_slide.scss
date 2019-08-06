@@ -8,6 +8,7 @@
     }
 
     &__meta {
+        @include z-index(base);
         position: relative;
         opacity: 0;
         transition: opacity $transition;
