@@ -2,6 +2,8 @@
     $root: &;
 
     &__link {
+        @include underline-hover();
+        position: relative;
         display: flex;
         align-items: center;
     }
@@ -18,10 +20,6 @@
     .header-content-dark .header & {
         #{$root}__link {
             color: $color--link-lightbg;
-
-            &:hover {
-                color: $color--link-lightbg-hover;
-            }
         }
 
         #{$root}__icon {
@@ -34,10 +32,6 @@
     .headroom--pinned.headroom--not-top .header & {
         #{$root}__link {
             color: $color--link-darkbg;
-
-            &:hover {
-                color: $color--link-darkbg-hover;
-            }
         }
 
         #{$root}__icon {
@@ -49,7 +43,8 @@
         display: none;
 
         @include media-query(large) {
-            display: block;
+            display: flex;
+            align-items: flex-start;
         }
 
         #{$root}__label {
@@ -60,10 +55,6 @@
     .footer & {
         #{$root}__link {
             color: $color--white;
-
-            &:hover {
-                color: $color--link-lightbg-hover;
-            }
         }
 
         #{$root}__icon {
@@ -73,5 +64,9 @@
         #{$root}__label {
             @include font-size(xs);
         }
+    }
+
+    .headroom--pinned.headroom--not-top .header & {
+        align-items: center;
     }
 }

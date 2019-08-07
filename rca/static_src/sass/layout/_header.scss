@@ -128,5 +128,9 @@
         #{$root}__menu-toggle {
             color: $color--white;
         }
+
+        #{$root}__navigation-toggle {
+            align-items: center;
+        }
     }
 }
