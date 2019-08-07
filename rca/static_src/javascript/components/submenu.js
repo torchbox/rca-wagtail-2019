@@ -24,6 +24,20 @@ class SubMenu {
                 this.getMenuContext(e.target.dataset);
             }
         });
+
+        this.levelThree.addEventListener('mouseover', (e) => {
+            this.levelTwo.classList.add(this.activeClass);
+            if (e.target.tagName === 'A') {
+                this.showPrevSubMenu(e.target.dataset.menu);
+            }
+        });
+
+        this.levelThree.addEventListener('mouseout', (e) => {
+            this.levelTwo.classList.remove(this.activeClass);
+            if (e.target.tagName === 'A') {
+                this.hidePrevSubMenu(e.target.dataset.menu);
+            }
+        });
     }
 
     getMenuContext(dataset) {
@@ -33,9 +47,20 @@ class SubMenu {
         // slide out the menu drawer
         this.toggleDrawer(menuLevel);
 
-        console.log(menu);
         // show the sub-menu
         this.toggleSubMenu(menuLevel, menu);
+    }
+
+    // keep level two open if we're on level three
+    showPrevSubMenu(menu) {
+        const targetMenu = document.querySelector(`[data-nav-level-two] [data-menu-${menu}]`);
+        targetMenu.classList.add(this.activeClass);
+    }
+
+    // hide level two if we leave level three
+    hidePrevSubMenu(menu) {
+        const targetMenu = document.querySelector(`[data-nav-level-two] [data-menu-${menu}]`);
+        targetMenu.classList.remove(this.activeClass);
     }
 
     toggleSubMenu(menuLevel, menu) {
