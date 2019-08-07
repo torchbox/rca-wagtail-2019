@@ -53,9 +53,12 @@ class Slideshow {
                     peek: { before: 60, after: 60 },
                 },
                 4000: {
-                    peek: { before: this.leftEdgeCoords.right, after: this.leftEdgeCoords.right },
+                    peek: {
+                        before: this.leftEdgeCoords.right,
+                        after: this.leftEdgeCoords.right,
+                    },
                 },
-            }
+            },
         });
     }
 
@@ -98,14 +101,13 @@ class Slideshow {
     // Update scrollbar position for mobile and tablet.
     updateScrollbar() {
         var total = this.slideTotal;
-        var current = (this.slideshow.index + 1); // array starts from 0 so plus 1
+        var current = this.slideshow.index + 1; // array starts from 0 so plus 1
         var percentage = (100 / total) * current;
         var space = 100 - percentage;
-        var scrollsize = (100 / total);
+        var scrollsize = 100 / total;
         this.progressbar.style.width = `${scrollsize}%`;
         this.progressbar.style.right = `${space}%`;
     }
-
 }
 
 export default Slideshow;
