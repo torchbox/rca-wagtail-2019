@@ -26,7 +26,6 @@
         margin-top: ($grid / 4);
         margin-left: auto;
         cursor: pointer;
-        color: $color--white;
 
         @include media-query(medium) {
             margin-right: $gutter;
@@ -62,7 +61,6 @@
     }
 
     &__search-toggle {
-        color: $color--white;
 
         .app__navigation & {
             opacity: 0.4;
@@ -99,13 +97,31 @@
         padding-top: ($gutter * 2);
     }
 
+    .header-content-light & {
+
+        #{$root}__search-toggle,
+        #{$root}__menu-toggle {
+            color: $color--white;
+        }
+
+    }
+
+    .header-content-dark & {
+
+        #{$root}__search-toggle,
+        #{$root}__menu-toggle {
+            color: $color--black;
+        }
+
+    }
+
     // Hide when scrolling down
     .headroom--not-top & {
         transform: translate3d(0, -100%, 0);
     }
 
     // Show when scrolling back up
-    .headroom--pinned & {
+    .headroom--pinned.headroom--not-top & {
         transform: translate3d(0, 0, 0);
         background-color: $color--black;
 
@@ -113,21 +129,10 @@
             padding-top: ($gutter);
         }
 
-        #{$root}__search-toggle {
+        #{$root}__search-toggle,
+        #{$root}__menu-toggle {
             color: $color--white;
         }
     }
 
-    // Ensure no bg colour when at top
-    .headroom--top & {
-        background-color: transparent;
-
-        #{$root}__container {
-            padding-top: ($gutter * 1.5);
-
-            @include media-query(medium) {
-                padding-top: ($gutter * 2);
-            }
-        }
-    }
 }

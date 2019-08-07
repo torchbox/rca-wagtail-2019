@@ -28,8 +28,8 @@
         }
     }
 
-    .headroom--pinned .header &,
-    .headroom--pinned .app__navigation & {
+    .headroom--pinned.headroom--not-top .header &,
+    .headroom--pinned.headroom--not-top .app__navigation & {
 
         #{$root}__image {
             width: 92px;
@@ -39,17 +39,17 @@
 
     }
 
-    .headroom--top .header &,
-    .headroom--top .app__navigation & {
-
-        #{$root}__image {
-            width: 130px;
-            height: auto;
-
-            @include media-query(medium) {
-                width: 162px;
-            }
-        }
-
-    }
+    // .headroom--top .header &,
+    // .headroom--top .app__navigation & {
+    //
+    //     #{$root}__image {
+    //         width: 130px;
+    //         height: auto;
+    //
+    //         @include media-query(medium) {
+    //             width: 162px;
+    //         }
+    //     }
+    //
+    // }
 }
