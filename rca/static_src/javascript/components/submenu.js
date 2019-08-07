@@ -12,32 +12,42 @@ class SubMenu {
     }
 
     bindEventListeners() {
-        this.node.addEventListener('mouseover', (e) => {
-            // get matching child menu
-            if (e.target.tagName === 'A') {
+        // todo - change depending on window size
+        const condition = false;
+
+        if(condition) {
+            this.node.addEventListener('mouseover', (e) => {
+                // get matching child menu
+                if (e.target.tagName === 'A') {
+                    this.getMenuContext(e.target.dataset);
+                }
+            });
+
+            this.node.addEventListener('mouseout', (e) => {
+                if (e.target.tagName === 'A') {
+                    this.getMenuContext(e.target.dataset);
+                }
+            });
+
+            this.levelThree.addEventListener('mouseover', (e) => {
+                this.levelTwo.classList.add(this.activeClass);
+                if (e.target.tagName === 'A') {
+                    this.showPrevSubMenu(e.target.dataset.menu);
+                }
+            });
+
+            this.levelThree.addEventListener('mouseout', (e) => {
+                this.levelTwo.classList.remove(this.activeClass);
+                if (e.target.tagName === 'A') {
+                    this.hidePrevSubMenu(e.target.dataset.menu);
+                }
+            });
+        } else {
+            this.node.addEventListener('click', (e) => {
+                e.preventDefault();
                 this.getMenuContext(e.target.dataset);
-            }
-        });
-
-        this.node.addEventListener('mouseout', (e) => {
-            if (e.target.tagName === 'A') {
-                this.getMenuContext(e.target.dataset);
-            }
-        });
-
-        this.levelThree.addEventListener('mouseover', (e) => {
-            this.levelTwo.classList.add(this.activeClass);
-            if (e.target.tagName === 'A') {
-                this.showPrevSubMenu(e.target.dataset.menu);
-            }
-        });
-
-        this.levelThree.addEventListener('mouseout', (e) => {
-            this.levelTwo.classList.remove(this.activeClass);
-            if (e.target.tagName === 'A') {
-                this.hidePrevSubMenu(e.target.dataset.menu);
-            }
-        });
+            });
+        }
     }
 
     getMenuContext(dataset) {

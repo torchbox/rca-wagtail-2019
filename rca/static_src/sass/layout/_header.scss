@@ -1,4 +1,5 @@
 .header {
+    $root: &;
     @include z-index(header);
     $root: &;
     position: fixed;
@@ -20,6 +21,12 @@
     &__navigation-toggle {
         display: flex;
         align-items: flex-start;
+
+        .header__menus & {
+            @include z-index(nav);
+            position: relative;
+            padding-top: ($gutter * 2);
+        }
     }
 
     &__menu-toggle {
@@ -101,14 +108,20 @@
         }
 
         &--drawer {
+            pointer-events: none;
             transition: transform $cubic-transition;
-            padding-top: 0;
             position: absolute;
             top: 0;
             right: 0;
             left: 0;
             bottom: 0;
             display: none;
+            padding-top: ($gutter * 6.25);
+            margin-top: $menu-toggle-buttons-height;
+
+            &.is-visible {
+                pointer-events: all;
+            }
 
             .menu-active & {
                 display: block;
@@ -118,17 +131,37 @@
         &--level-one {
             @include z-index(nav);
             position: relative;
+            padding-top: ($gutter * 6.25);
         }
 
         &--level-two {
             @include z-index(nav);
             transform: translate3d(100%, 0, 0);
-            pointer-events: none;
 
             &:hover,
             &.is-visible {
                 transform: translate3d(0, 0, 0);
-                pointer-events: all;
+
+                // keep level three attached to level two
+                // to prevent overlapping
+                + #{$root}__inner--level-three {
+                    @include media-query(large) {
+                        z-index: 40;
+                        transform: translate3d(100%, 0, 0);
+                    }
+
+                    // level three open styles
+                    &:hover,
+                    &.is-visible {
+                        @include z-index(nav);
+                        transform: translate3d(0, 0, 0);
+
+                        @include media-query(large) {
+                            z-index: 40;
+                            transform: translate3d(200%, 0, 0);
+                        }
+                    }
+                }
             }
 
             @include media-query(large) {
@@ -142,15 +175,13 @@
             }
         }
 
+        // level three closed styles
         &--level-three {
-            @include media-query(large) {
-                // z-index: 50;
-                transform: translate3d(0, 0, 0);
+            transform: translate3d(100%, 0, 0);
 
-                &:hover,
-                &.is-visible {
-                    transform: translate3d(200%, 0, 0);
-                }
+            @include media-query(large) {
+                transform: translate3d(0, 0, 0);
+                z-index: 50;
             }
         }
     }

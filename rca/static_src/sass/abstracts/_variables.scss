@@ -90,7 +90,7 @@ $small-font-sizes: (
     xs: 14px,
     xxs: 14px,
     // no value in styleguide
-        xxxs: 12px,
+    xxxs: 12px,
 );
 
 // --------------------------------- Breakpoints --------------------------------------
@@ -131,3 +131,4 @@ $cubic-transition: 250ms cubic-bezier(0.24, 0.26, 0.2, 1);
 $header-height-small: 130px;
 $header-height-medium: 130px;
 $header-height-large: 130px;
+$menu-toggle-buttons-height: 67px;
