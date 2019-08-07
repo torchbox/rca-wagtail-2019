@@ -166,3 +166,29 @@
         }
     }
 }
+
+/* ============================================
+    Underline Hover
+*/
+
+@mixin underline-hover() {
+    &::after {
+        content: '';
+        display: block;
+        height: 2px;
+        left: 0;
+        position: absolute;
+        background: currentColor;
+        transition: width $transition, left $transition;
+        width: 0;
+        bottom: -2px;
+    }
+
+    &:focus,
+    &:hover {
+        &::after {
+            width: 100%;
+            left: 0;
+        }
+    }
+}
