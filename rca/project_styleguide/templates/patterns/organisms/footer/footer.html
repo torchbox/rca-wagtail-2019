@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags navigation_tags %}
+{% load static wagtailcore_tags navigation_tags util_tags %}
 
 <div class="footer">
 
@@ -11,64 +11,33 @@
             </div>
 
             <div class="footer__action">
-                {% include 'patterns/atoms/audience-nav-item/audience-nav-item.html' %}
+                {% footernav %}
             </div>
 
         </div>
 
-        {# if settings.utils.SocialMediaSettings.twitter_handle or settings.utils.SocialMediaSettings.facebook_app_id #}
-            <div class="footer__mid grid">
-                <ul class="footer__social-links">
-                    <li class="social-item social-item--twitter">
-                        <a class="social-item__link" href="#" aria-label="Twitter">
-                            <svg class="social-item__icon" width="24" height="24">
-                                <use xlink:href="#twitter">
-                                </use>
-                            </svg>
-                        </a>
-                    </li>
-                    <li class="social-item social-item--facebook">
-                        <a class="social-item__link" href="#" aria-label="Facebook">
-                            <svg class="social-item__icon" width="24" height="24">
-                                <use xlink:href="#facebook">
-                                </use>
-                            </svg>
-                        </a>
-                    </li>
-                    <li class="social-item social-item--instagram">
-                        <a class="social-item__link" href="#" aria-label="Instagram">
-                            <svg class="social-item__icon" width="24" height="24">
-                                <use xlink:href="#instagram">
-                                </use>
-                            </svg>
-                        </a>
-                    </li>
-                    <li class="social-item social-item--youtube">
-                        <a class="social-item__link" href="#" aria-label="YouTube">
-                            <svg class="social-item__icon" width="24" height="24">
-                                <use xlink:href="#youtube">
-                                </use>
-                            </svg>
-                        </a>
-                    </li>
-                    <li class="social-item social-item--linkedin">
-                        <a class="social-item__link" href="https://twitter.com/{{ settings.utils.SocialMediaSettings.twitter_handle }}" aria-label="Linkedin">
-                            <svg class="social-item__icon" width="24" height="24">
-                                <use xlink:href="#linkedin">
-                                </use>
-                            </svg>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        {# endif #}
-
+        <div class="footer__mid grid">
+            {% social_media_links as social_links %}
+            <ul class="footer__social-links">
+                {% for link in social_links %}
+                    {# Only render if we have a link #}
+                    {% if link.url %}
+                        <li class="social-item social-item--{{link.type}}">
+                            <a class="social-item__link" href="{{link.url}}" aria-label="{{link.label}}">
+                                <svg class="social-item__icon" width="24" height="24">
+                                    <use xlink:href="#{{link.type}}">
+                                    </use>
+                                </svg>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
         <div class="footer__lower grid">
-
             <nav class="footer__links" role="navigation" aria-label="Footer navigation">
                 {% footerlinks %}
             </nav>
-
             <div class="footer__credit" role="contentinfo">
                 <p class="footer__credit-item">Royal College of Art, Kensington Gore, London SW7 2EU</p>
                 <p class="footer__credit-item">RCA&trade; Royal College of Art&trade; are trademarks of the Royal College of Art </p>

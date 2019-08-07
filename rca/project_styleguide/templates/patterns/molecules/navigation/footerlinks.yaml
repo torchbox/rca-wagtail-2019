@@ -1,8 +1,11 @@
 context:
   footerlinks:
-    - dummy
-    - dummy
-    - dummy
+    - link:
+      text: 'Footer link'
+      url: '#'
+    - link:
+      text: 'Footer link'
+      url: '#'
 
 tags:
   include_block:

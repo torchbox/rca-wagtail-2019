@@ -253,6 +253,18 @@ class SocialMediaSettings(BaseSetting):
     facebook_app_id = models.CharField(
         max_length=255, blank=True, help_text="Your Facebook app ID."
     )
+    facebook_page_name = models.CharField(
+        max_length=255, blank=True, help_text="Your Facebook Page URL e.g. torchbox"
+    )
+    instagram = models.CharField(
+        max_length=255, blank=True, help_text="Your Instagram username."
+    )
+    youtube = models.CharField(
+        max_length=255, blank=True, help_text="Your YouTube username."
+    )
+    linkedin_url = models.URLField(
+        blank=True, help_text="Your full Linked in page url."
+    )
     default_sharing_text = models.CharField(
         max_length=255,
         blank=True,
