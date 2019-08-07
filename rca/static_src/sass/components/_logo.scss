@@ -31,13 +31,13 @@
     }
 
     .app__navigation &,
-    .header--dark-bg & {
+    .bg--dark & {
         #{$root}__image {
             fill: $color--white;
         }
     }
 
-    .header--light-bg & {
+    .bg--light & {
         #{$root}__image {
             fill: $color--black;
         }

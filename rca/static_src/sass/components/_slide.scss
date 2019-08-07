@@ -66,4 +66,20 @@
 
     }
 
+    .bg--dark & {
+
+        #{$root}__author {
+            color: $color--white;
+        }
+
+    }
+
+    .bg--light & {
+
+        #{$root}__author {
+            color: $color--black;
+        }
+
+    }
+
 }

@@ -1,0 +1,13 @@
+.bg {
+
+    &--dark {
+        background-color: $color--black;
+        color: $color--white;
+    }
+
+    &--light {
+        background-color: $color--white;
+        color: $color--black;
+    }
+
+}

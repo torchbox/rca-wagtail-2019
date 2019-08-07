@@ -18,4 +18,21 @@
             margin-right: ($gutter / 2);
         }
     }
+
+    .bg--dark & {
+
+        #{$root}__item-link {
+            color: $color--white;
+        }
+
+    }
+
+    .bg--light & {
+
+        #{$root}__item-link {
+            color: $color--black;
+        }
+
+    }
+
 }

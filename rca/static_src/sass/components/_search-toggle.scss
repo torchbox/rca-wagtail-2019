@@ -22,7 +22,7 @@
         }
     }
 
-    .header--dark-bg & {
+    .bg--dark & {
         #{$root}__label {
             color: $color--white;
         }
@@ -32,7 +32,7 @@
         }
     }
 
-    .header--light-bg & {
+    .bg--light & {
         #{$root}__label {
             color: $color--black;
         }
