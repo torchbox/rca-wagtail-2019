@@ -62,9 +62,7 @@
 
         &--back {
             @include font-size(xs);
-            display: none;
             color: white;
-            text-transform: uppercase;
         }
 
         &--breadcrumb {

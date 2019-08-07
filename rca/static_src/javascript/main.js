@@ -2,6 +2,7 @@ import '@babel/polyfill';
 
 import Menu from './components/menu';
 import SubMenu from './components/submenu';
+import BackLink from './components/back-link';
 import MobileSubMenu from './components/mobile-sub-menu';
 import CookieWarning from './components/cookie-message';
 import Accordion from './components/accordion';
@@ -31,6 +32,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     for (const menu of document.querySelectorAll(Menu.selector())) {
         new Menu(menu);
+    }
+
+    for (const backlink of document.querySelectorAll(BackLink.selector())) {
+        new BackLink(backlink);
     }
 
     for (const submenu of document.querySelectorAll(SubMenu.selector())) {
