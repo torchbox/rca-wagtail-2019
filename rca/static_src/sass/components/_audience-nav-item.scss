@@ -14,7 +14,7 @@
         transform: rotate(-45deg) translate(0, 0);
     }
 
-    .header--dark-bg & {
+    .bg--dark & {
         #{$root}__link {
             color: $color--link-darkbg;
 
@@ -28,7 +28,7 @@
         }
     }
 
-    .header--light-bg & {
+    .bg--light & {
         #{$root}__link {
             color: $color--link-lightbg;
 
