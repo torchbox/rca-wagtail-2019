@@ -16,14 +16,12 @@
     }
 
     &__controls {
-
         @include media-query(large) {
             position: relative;
             top: -$meta-height;
             margin-bottom: -$meta-height;
             pointer-events: none; // ensure links in overlaid content still work
         }
-
     }
 
     &__controls-group {
@@ -75,7 +73,6 @@
         @include media-query(large) {
             display: none;
         }
-
     }
 
     &__scrollbar-progress {
@@ -84,5 +81,4 @@
         width: 33.333%;
         background-color: $color--black;
     }
-
 }
