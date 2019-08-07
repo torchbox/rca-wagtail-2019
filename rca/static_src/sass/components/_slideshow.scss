@@ -84,7 +84,6 @@
     }
 
     &.bg--dark {
-
         #{$root}__controls-group {
             background-color: $color--black;
 
@@ -92,11 +91,9 @@
                 background-color: $color--black;
             }
         }
-
     }
 
     &.bg--light {
-
         #{$root}__controls-group {
             background-color: $color--white;
 
@@ -104,7 +101,5 @@
                 background-color: $color--white;
             }
         }
-
     }
-
 }

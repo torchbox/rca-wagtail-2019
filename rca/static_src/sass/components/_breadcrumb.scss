@@ -21,19 +21,14 @@
     }
 
     .bg--dark & {
-
         #{$root}__item-link {
             color: $color--white;
         }
-
     }
 
     .bg--light & {
-
         #{$root}__item-link {
             color: $color--black;
         }
-
     }
-
 }

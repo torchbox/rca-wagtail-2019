@@ -61,7 +61,6 @@
     }
 
     &__search-toggle {
-
         .app__navigation & {
             opacity: 0.4;
         }
@@ -98,21 +97,17 @@
     }
 
     .header-content-light & {
-
         #{$root}__search-toggle,
         #{$root}__menu-toggle {
             color: $color--white;
         }
-
     }
 
     .header-content-dark & {
-
         #{$root}__search-toggle,
         #{$root}__menu-toggle {
             color: $color--black;
         }
-
     }
 
     // Hide when scrolling down
@@ -134,5 +129,4 @@
             color: $color--white;
         }
     }
-
 }

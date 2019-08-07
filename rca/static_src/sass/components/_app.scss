@@ -1,5 +1,4 @@
 .app {
-
     &__grid-lines {
         @include z-index(gridlines);
         @include grid-layout();

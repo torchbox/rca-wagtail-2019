@@ -2,13 +2,11 @@
     $root: &;
 
     &--full {
-
         #{$root}__container {
             max-width: 0;
             padding: 0;
             margin: 0;
         }
-
     }
 
     &__row {
@@ -18,5 +16,4 @@
     &__container {
         // Holder for notch work
     }
-
 }

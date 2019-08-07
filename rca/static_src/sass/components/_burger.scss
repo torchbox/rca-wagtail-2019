@@ -27,34 +27,26 @@
     }
 
     .header-content-dark .header & {
-
         #{$root}__toggle-icon {
             stroke: $color--black;
         }
-
     }
 
     .header-content-light .header & {
-
         #{$root}__toggle-icon {
             stroke: $color--white;
         }
-
     }
 
     .headroom--pinned.headroom--not-top & {
-
         #{$root}__toggle-icon {
             stroke: $color--white;
         }
-
     }
 
     .app__navigation & {
-
         #{$root}__toggle-label {
             color: $color--white;
         }
-
     }
 }

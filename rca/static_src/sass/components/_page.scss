@@ -4,7 +4,6 @@
     $notch-large-height: 100px;
 
     &--overlap {
-
         @include media-query(medium) {
             position: relative;
             top: -$notch-medium-height;
@@ -15,11 +14,9 @@
             top: -$notch-large-height;
             margin-bottom: -$notch-large-height;
         }
-
     }
 
     &__notch-block {
-
         @include media-query(medium) {
             position: relative;
             grid-column: 1 / span 2;
@@ -32,38 +29,35 @@
         }
 
         &::before {
-
             @include media-query(medium) {
                 position: absolute;
                 content: '';
                 display: block;
                 width: 100%;
                 left: 0;
-                transform: translate3d(-90%, 0%, 0); // if 100 someones shows a subpixel
+                transform: translate3d(
+                    -90%,
+                    0%,
+                    0
+                ); // if 100 someones shows a subpixel
                 height: $notch-medium-height;
             }
 
             @include media-query(large) {
                 height: $notch-large-height;
             }
-
         }
 
         &.bg--dark {
-
             &::before {
                 background-color: $color--black;
             }
-
         }
 
         &.bg--light {
-
             &::before {
                 background-color: $color--white;
             }
-
         }
     }
-
 }
