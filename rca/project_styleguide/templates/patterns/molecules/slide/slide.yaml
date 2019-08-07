@@ -9,4 +9,4 @@ tags:
   image:
     slide.image fill-829x585 class="slide__image":
       raw: |
-        <img src="http://placekitten.com/829/585" alt="kitten" class="slide__image">
+        <img src="//placekitten.com/829/585" alt="kitten" class="slide__image">
