@@ -5,33 +5,47 @@ class SubMenu {
 
     constructor(node) {
         this.node = node;
-        this.levelOne = document.querySelector('[data-nav-level-one]');
+        this.levelTwo = document.querySelector('[data-nav-level-two]');
+        this.levelThree = document.querySelector('[data-nav-level-three]');
         this.activeClass = 'is-visible';
         this.bindEventListeners();
     }
 
     bindEventListeners() {
-        this.node.addEventListener('mouseover', () => {
+        this.node.addEventListener('mouseover', (e) => {
             // get matching child menu
-            this.getSubMenu();
+            if (e.target.tagName === 'A') {
+                this.getMenuContext(e.target.dataset);
+            }
         });
 
-        this.node.addEventListener('mouseout', () => {
-            this.getSubMenu();
+        this.node.addEventListener('mouseout', (e) => {
+            if (e.target.tagName === 'A') {
+                this.getMenuContext(e.target.dataset);
+            }
         });
     }
 
-    getSubMenu() {
-        const activeMenu = document.querySelector(`[data-nav-level-one] [data-menu-${this.node.dataset.menu}]`);
+    getMenuContext(dataset) {
+        const menuLevel = dataset.targetLevel;
+        const menu = dataset.menu;
 
-        // toggle matching child menu
-        this.toggleMenu(activeMenu);
+        // slide out the menu drawer
+        this.toggleDrawer(menuLevel);
+
+        console.log(menu);
+        // show the sub-menu
+        this.toggleSubMenu(menuLevel, menu);
     }
 
-    toggleMenu(menu) {
-        menu.classList.contains(this.activeClass) ? menu.classList.remove(this.activeClass) : menu.classList.add(this.activeClass);
-        this.levelOne.classList.contains(this.activeClass) ? this.levelOne.classList.remove(this.activeClass) : this.levelOne.classList.add(this.activeClass);
+    toggleSubMenu(menuLevel, menu) {
+        const targetMenu = document.querySelector(`[data-nav-level-${menuLevel}] [data-menu-${menu}]`);
+        targetMenu.classList.contains(this.activeClass) ? targetMenu.classList.remove(this.activeClass) : targetMenu.classList.add(this.activeClass);
+    }
 
+    toggleDrawer(menuLevel) {
+        const drawer = document.querySelector(`[data-nav-level-${menuLevel}]`);
+        drawer.classList.contains(this.activeClass) ? drawer.classList.remove(this.activeClass) : drawer.classList.add(this.activeClass);
     }
 }
 

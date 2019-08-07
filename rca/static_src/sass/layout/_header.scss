@@ -100,6 +100,21 @@
             padding-top: 0;
         }
 
+        &--drawer {
+            transition: transform $cubic-transition;
+            padding-top: 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            display: none;
+
+            .menu-active & {
+                display: block;
+            }
+        }
+
         &--level-one {
             @include z-index(nav);
             position: relative;
@@ -108,15 +123,7 @@
         &--level-two {
             @include z-index(nav);
             transform: translate3d(100%, 0, 0);
-            transition: transform $cubic-transition;
             pointer-events: none;
-            padding-top: 0;
-            position: absolute;
-            top: 0;
-            right: 0;
-            left: 0;
-            bottom: 0;
-            display: none;
 
             &:hover,
             &.is-visible {
@@ -133,9 +140,17 @@
                     transform: translate3d(100%, 0, 0);
                 }
             }
+        }
 
-            .menu-active & {
-                display: block;
+        &--level-three {
+            @include media-query(large) {
+                // z-index: 50;
+                transform: translate3d(0, 0, 0);
+
+                &:hover,
+                &.is-visible {
+                    transform: translate3d(200%, 0, 0);
+                }
             }
         }
     }

@@ -53,9 +53,6 @@
     }
 
     &__item {
-        margin-bottom: $gutter + 4px;
-
-
         &--secondary {
             font-weight: $weight--light;
         }
@@ -95,23 +92,12 @@
     }
 
     &__link {
+        display: block;
+        padding: $gutter 0;
         color: $color--white;
 
         &:hover {
             cursor: pointer;
-        }
-
-        @include media-query(tablet-landscape) {
-            &:hover {
-                color: lighten($color--secondary, 20%);
-                border-bottom: 1px solid $color--secondary;
-            }
-        }
-
-        @include media-query(tablet-portrait) {
-            padding: 5px 0;
-            margin: 0 10px;
-            color: $color--secondary;
         }
 
         &--breadcrumb {
