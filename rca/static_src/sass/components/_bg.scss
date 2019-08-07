@@ -3,6 +3,11 @@
     &--dark {
         background-color: $color--black;
         color: $color--white;
+
+        a {
+            color: $color--white; // Remove this, too specific, just for testing
+        }
+
     }
 
     &--light {
