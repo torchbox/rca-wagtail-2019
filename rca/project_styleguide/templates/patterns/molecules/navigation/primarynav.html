@@ -2,22 +2,34 @@
 <nav role="navigation" aria-label="Primary">
     <ul class="nav nav--primary" role="menubar">
         {% for link in primarynav %}
-            {% with children=link.value.page.get_children.live.public.in_menu %}
-                <li class="nav__item nav__item--primary {% if children.exists %}nav__item--is-parent{% endif %}" role="presentation">
-                    {% include_block link with has_children=children.exists %}
-                    {% if children.exists %}
-                        <ul class="nav nav--subnav" role="menu">
-                            <li class="nav__item nav__item--back" data-subnav-back>&lsaquo; Back</li>
-                            <li class="nav__item" role="presentation">{% include_block link %}</li>
-                            {% for child in children.all %}
-                                <li class="nav__item nav__item--secondary" role="presentation">
-                                    {% include "patterns/molecules/navigation/includes/menu_item.html" with page=child %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </li>
-            {% endwith %}
+            <li class="" role="menuitem">
+                <a href="{{ link.url }}" class="">
+                    <span class="">{{ link.text }}</span>
+                </a>
+                {% if link.secondary_links %}
+                    <ul class="list">
+                        {% for item in link.secondary_links %}
+                            <li class="">
+                                <a href="{{ item.url }}" class="">
+                                    <span class="">{{ item.text }}</span>
+                                </a>
+                                {% if item.tertiary_links %}
+                                    <ul class="list">
+                                        {% for tertiary_item in item.tertiary_links %}
+                                            <li class="">
+                                                <a href="{{ tertiary_item.url }}" class="">
+                                                    <span class="">{{ tertiary_item.text }}</span>
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+            <br>
         {% endfor %}
     </ul>
 </nav>

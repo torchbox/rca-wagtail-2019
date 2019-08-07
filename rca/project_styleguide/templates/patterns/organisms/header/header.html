@@ -1,4 +1,5 @@
-<div class="header">
+{% load wagtailcore_tags navigation_tags %}
+<div class="header header--dark-bg"> {# modifier needs to be set by BE #}
     <div class="header__container grid">
 
         <div class="header__logo">
@@ -10,11 +11,9 @@
             {% include 'patterns/molecules/search-toggle/search-toggle.html' %}
         </div>
 
-        {% include 'patterns/atoms/audience-nav-item/audience-nav-item.html' %}
-        {% include 'patterns/atoms/audience-nav-item/audience-nav-item.html' %}
-        {% include 'patterns/atoms/audience-nav-item/audience-nav-item.html' %}
-
+        {% audience_links as links %}
+        {% for value in links %}
+            {% include 'patterns/atoms/audience-nav-item/audience-nav-item.html' %}
+        {% endfor %}
     </div>
-
-
 </div>
