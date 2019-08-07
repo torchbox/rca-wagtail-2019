@@ -1,4 +1,4 @@
-<div class="slideshow glide" data-slideshow data-slidetotal="{{ slideshow|length }}">
+<div class="slideshow glide {{ modifier }}" data-slideshow data-slidetotal="{{ slideshow|length }}">
     <div data-glide-el="track" class="slideshow__container glide__track">
         <ul class="slideshow__slides glide__slides" aria-live="polite">
             {% for slide in slideshow %}
