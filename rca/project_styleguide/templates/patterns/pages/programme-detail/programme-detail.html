@@ -5,17 +5,126 @@
 
     {% include "patterns/molecules/hero/hero.html" with modifier="programme" %}
 
-    <div class="page page--overlap grid">
-        <header class="page__header">
-            <nav class="page__breadcrumb">
-                {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
-            </nav>
-            <h1 class="page__header heading heading--display-two">{{ page.title }}</h1>
-            <p class="page__introduction introduction">MA</p>
+    <div class="page page--overlap">
+
+        <div class="page__notch grid">
+            <div class="page__notch-block bg bg--dark"></div>
+        </div>
+
+        <header class="page__header bg bg--dark">
+            <div class="title-area grid">
+                <div class="title-area__content">
+                    <nav class="title-area__breadcrumb">
+                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
+                    </nav>
+                    <h1 class="title-area__header heading heading--display-two">{{ page.title }}</h1>
+                    <p class="title-area__introduction introduction">MA</p>
+                </div>
+            </div>
         </header>
+
+        <nav class="page__nav">
+            {% include "patterns/molecules/tabs/tabs.html" with modifier="bg bg--dark" %}
+        </nav>
+
         <div class="page__content">
 
-            {% include "patterns/organisms/slideshow/slideshow.html" %}
+            <div class="section bg bg--dark">
+
+                <div class="section__row grid programme-overview grid">
+                    <h2 class="heading heading--two">We inspire design innovation</h2>
+                    <div class="programme-overview__key-details">
+                        {% include "patterns/molecules/key-details/key-details.html" %}
+                    </div>
+                    <div class="programme-overview__body">
+                        <p class="introduction">Extend your knowledge, skills and creativity through research and experimentation.<p>
+                        <p>The programme conceives of architecture as a diverse and complex set of practices that move beyond traditional distinctions and limits in the field. The programme expands the possibilities of architecture and its agency in the world by encouraging an independent and critical ethos among its students.</p>
+                        <p>Fostering a culture of independent postgraduate research and experimentation in design underpinned by a strong connection to practice and the material reality of the discipline is central to the pedagogy. Teaching aims to harness and extend student knowledge, skills and creativity, preparing them to engage critically with the world.</p>
+                        <div class="programme-overview__pathways">
+                            <h3 class="heading heading--five">Pathways</h3>
+                            <p>MA Animation comprises of three specialist pathways one of which students select as part of their application. </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section__row grid feature-image">
+                    Image here
+                </div>
+
+                <div class="section__row">
+                    <h3 class="heading heading--four">Architecture gallery</h3>
+                    {% include "patterns/organisms/slideshow/slideshow.html" with modifier="bg bg--dark" %}
+                </div>
+
+            </div>
+
+            <div class="section bg bg--light">
+
+                <div class="section__row grid staff">
+                    <h2 class="heading heading--four staff__heading">Staff</h2>
+                    {% include "patterns/molecules/staff-detail/staff-detail.html" %}
+                    {% include "patterns/molecules/staff-detail/staff-detail.html" %}
+                    <a class="staff__view-all" href="#">See all programme staff</a>
+                </div>
+
+                <div class="section__row grid facilities">
+                    <h2 class="heading heading--four staff__heading">Facilities</h2>
+                    <div class="facilities__introduction">
+                        <p class="introduction">The School of Architecture is located across both the RCA's historic Kensington site and London's newest cultural and research culture in White City.</p>
+                        <a href="#" class="facilites__view-all">See all college facilities</a>
+                    </div>
+                    <div class="facilities__body">
+                        <p>The School of Architecture studios are the heart of day-to-day activity for the programmes and are purpose-designed for inspiration and interaction between students of different design disciplines. As well as an individual studio space, students have access to traditional 3D-making facilities, contemporary digital fabrication equipment and a suite of bookable project and making spaces.</p>
+                    </div>
+                </div>
+
+                <div class="section__row">
+                    {% include "patterns/organisms/slideshow/slideshow.html" with modifier="bg bg--light" %}
+                </div>
+
+                <div class="section__row grid featured-alumni">
+                    <h2 class="heading heading--four featured-alumni__heading">Facilities</h2>
+                    <div class="featured-alumni__introduction">
+                        <p class="introduction">Alumni from the RCA form an international network of creative individuals who have shaped and continue to shape the culture surrounding all of us.</p>
+                    </div>
+                    <ul class="featured-alumni__list">
+                        <li><a href="#">James Dyson</a></li>
+                        <li><a href="#">Anton Furst</a></li>
+                        <li><a href="#">Golifer Langston Architects</a></li>
+                        <li><a href="#">Ben Kelly</a></li>
+                        <li><a href="#">Kirsten MacKay</a></li>
+                        <li><a href="#">Sheila O’Donnell</a></li>
+                        <li><a href="#">Urban Salon</a></li>
+                        <li><a href="#">Tonkin Liu</a></li>
+                        <li><a href="#">Theis & Khan</a></li>
+                        <li><a href="#">FreeState - Adam Scott and Charlotte Boyens</a></li>
+                    </ul>
+                </div>
+
+                <div class="section__row">
+                    Carousel module
+                </div>
+
+            </div>
+
+
+            <div class="section bg bg--dark">
+                <div class="section__container">
+                    News
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section__container">
+                    Contact us
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section__container">
+                    Related
+                </div>
+            </div>
 
         </div>
     </div>
