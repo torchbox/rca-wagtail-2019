@@ -1,0 +1,15 @@
+.bg {
+    &--dark {
+        background-color: $color--black;
+        color: $color--white;
+
+        a {
+            color: $color--white; // Remove this, too specific, just for testing
+        }
+    }
+
+    &--light {
+        background-color: $color--white;
+        color: $color--black;
+    }
+}

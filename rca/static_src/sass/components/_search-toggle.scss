@@ -22,7 +22,9 @@
         }
     }
 
-    .header--dark-bg & {
+    .header-content-light &,
+    .headroom--pinned.headroom--not-top &,
+    .app__navigation & {
         #{$root}__label {
             color: $color--white;
         }
@@ -32,7 +34,7 @@
         }
     }
 
-    .header--light-bg & {
+    .header-content-dark & {
         #{$root}__label {
             color: $color--black;
         }

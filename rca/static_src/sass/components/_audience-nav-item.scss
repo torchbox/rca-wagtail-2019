@@ -14,21 +14,8 @@
         transform: rotate(-45deg) translate(0, 0);
     }
 
-    .header--dark-bg & {
-        #{$root}__link {
-            color: $color--link-darkbg;
-
-            &:hover {
-                color: $color--link-darkbg-hover;
-            }
-        }
-
-        #{$root}__icon {
-            fill: $color--white;
-        }
-    }
-
-    .header--light-bg & {
+    .bg--light &,
+    .header-content-dark .header & {
         #{$root}__link {
             color: $color--link-lightbg;
 
@@ -39,6 +26,22 @@
 
         #{$root}__icon {
             fill: $color--black;
+        }
+    }
+
+    .bg--dark &,
+    .header-content-light .header &,
+    .headroom--pinned.headroom--not-top .header & {
+        #{$root}__link {
+            color: $color--link-darkbg;
+
+            &:hover {
+                color: $color--link-darkbg-hover;
+            }
+        }
+
+        #{$root}__icon {
+            fill: $color--white;
         }
     }
 

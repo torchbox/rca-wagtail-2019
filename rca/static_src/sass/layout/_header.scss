@@ -1,23 +1,20 @@
 .header {
     @include z-index(header);
+    $root: &;
     position: fixed;
     width: 100%;
     top: 0;
     transition: transform $transition;
 
-    &--dark-bg {
-        background-color: $color--black;
-    }
-
-    &--light-bg {
-        background-color: $color--white;
-    }
-
     &__container {
         max-width: $site-width;
         margin: 0 auto;
-        padding-top: ($gutter * 2);
+        padding-top: ($gutter * 1.5);
         padding-bottom: ($gutter);
+
+        @include media-query(medium) {
+            padding-top: ($gutter * 2);
+        }
     }
 
     &__navigation-toggle {
@@ -29,7 +26,6 @@
         margin-top: ($grid / 4);
         margin-left: auto;
         cursor: pointer;
-        color: $color--white;
 
         @include media-query(medium) {
             margin-right: $gutter;
@@ -65,8 +61,6 @@
     }
 
     &__search-toggle {
-        color: $color--white;
-
         .app__navigation & {
             opacity: 0.4;
         }
@@ -102,13 +96,37 @@
         padding-top: ($gutter * 2);
     }
 
+    .header-content-light & {
+        #{$root}__search-toggle,
+        #{$root}__menu-toggle {
+            color: $color--white;
+        }
+    }
+
+    .header-content-dark & {
+        #{$root}__search-toggle,
+        #{$root}__menu-toggle {
+            color: $color--black;
+        }
+    }
+
     // Hide when scrolling down
     .headroom--not-top & {
         transform: translate3d(0, -100%, 0);
     }
 
     // Show when scrolling back up
-    .headroom--pinned & {
+    .headroom--pinned.headroom--not-top & {
         transform: translate3d(0, 0, 0);
+        background-color: $color--black;
+
+        #{$root}__container {
+            padding-top: ($gutter);
+        }
+
+        #{$root}__search-toggle,
+        #{$root}__menu-toggle {
+            color: $color--white;
+        }
     }
 }

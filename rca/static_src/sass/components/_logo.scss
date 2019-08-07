@@ -2,21 +2,6 @@
     $root: &;
     display: block;
 
-    &__image {
-        width: 100%;
-        height: auto;
-    }
-
-    .app__navigation &,
-    .header & {
-        width: 130px;
-        height: auto;
-
-        @include media-query(medium) {
-            width: 162px;
-        }
-    }
-
     .footer & {
         width: 92px;
         height: auto;
@@ -30,16 +15,39 @@
         }
     }
 
+    .header-content-dark & {
+        #{$root}__image {
+            fill: $color--black;
+        }
+    }
+
     .app__navigation &,
-    .header--dark-bg & {
+    .header-content-light & {
         #{$root}__image {
             fill: $color--white;
         }
     }
 
-    .header--light-bg & {
+    .headroom--pinned.headroom--not-top .header &,
+    .headroom--pinned.headroom--not-top .app__navigation & {
         #{$root}__image {
-            fill: $color--black;
+            width: 92px;
+            height: auto;
+            fill: $color--white;
         }
     }
+
+    // .headroom--top .header &,
+    // .headroom--top .app__navigation & {
+    //
+    //     #{$root}__image {
+    //         width: 130px;
+    //         height: auto;
+    //
+    //         @include media-query(medium) {
+    //             width: 162px;
+    //         }
+    //     }
+    //
+    // }
 }

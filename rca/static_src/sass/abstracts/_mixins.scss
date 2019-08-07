@@ -5,6 +5,7 @@
 /* ============================================
     Media queries
 */
+
 @mixin media-query($queries...) {
     @each $query in $queries {
         @each $breakpoint in $breakpoints {
@@ -21,8 +22,9 @@
 }
 
 /* ============================================
-  Placeholder text
+    Placeholder text
 */
+
 @mixin placeholder-text() {
     // sass-lint:disable no-vendor-prefixes
     &.placeholder {
@@ -48,8 +50,9 @@
 }
 
 /* ============================================
-  Hide text
+    Hide text
 */
+
 @mixin hidden() {
     position: absolute;
     width: 1px;
@@ -59,8 +62,9 @@
 }
 
 /* ============================================
-  iOS Native vertical scroll
+    iOS Native vertical scroll
 */
+
 @mixin native-vertical-scroll() {
     overflow-x: hidden;
     overflow-y: scroll;
@@ -70,6 +74,7 @@
 /* ============================================
     Font sizes
 */
+
 @mixin font-size($size) {
     @if $size == null {
         @warn 'Font size ‘#{$keyword}’ does not exist';
@@ -92,6 +97,7 @@
 /* ============================================
     Heading text
 */
+
 @mixin heading-text() {
     font-family: $font--primary;
     font-style: inherit;
@@ -102,6 +108,7 @@
 /* ============================================
     Grid layout
 */
+
 @mixin grid-layout() {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -125,4 +132,37 @@
 
 @mixin z-index($key) {
     z-index: z-index($key);
+}
+
+/* ============================================
+    Notch
+*/
+
+@mixin notch($bg, $notch-position) {
+    padding: 7rem 0;
+    background-color: $bg;
+    position: relative;
+
+    @if $bg == black {
+        color: $color--white;
+    } @else {
+        color: $color--black;
+    }
+
+    &::after {
+        content: '';
+        width: 70%;
+        height: 100px;
+        position: absolute;
+        display: block;
+        bottom: -100px;
+        background-color: $bg;
+        z-index: 1;
+
+        @if $notch-position == left {
+            left: 0;
+        } @else {
+            right: 0;
+        }
+    }
 }

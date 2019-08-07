@@ -1,14 +1,4 @@
 .app {
-    padding-top: $header-height-small;
-
-    @include media-query(medium) {
-        padding-top: $header-height-medium;
-    }
-
-    @include media-query(large) {
-        padding-top: $header-height-large;
-    }
-
     &__grid-lines {
         @include z-index(gridlines);
         @include grid-layout();

@@ -1,0 +1,34 @@
+.breadcrumb {
+    $root: &;
+    display: flex;
+    flex-direction: row;
+    grid-column: span 2;
+    margin-bottom: $gutter;
+
+    &__item {
+        @include font-size(xxs);
+
+        &:first-child {
+            opacity: 0.8;
+        }
+
+        &::after {
+            display: inline-block;
+            content: '/';
+            padding-left: ($gutter / 2);
+            margin-right: ($gutter / 2);
+        }
+    }
+
+    .bg--dark & {
+        #{$root}__item-link {
+            color: $color--white;
+        }
+    }
+
+    .bg--light & {
+        #{$root}__item-link {
+            color: $color--black;
+        }
+    }
+}

@@ -1,0 +1,17 @@
+{% load wagtailimages_tags %}
+
+<div class="hero {% if modifier %}hero--{{ modifier }}{% endif %}">
+    {% image page.hero_image fill-320x285 as imageSmall %}
+    {% image page.hero_image fill-768x530 as imageMedium %}
+    {% image page.hero_image fill-1440x530 as imageLarge %}
+
+    <img srcset="{{ imageSmall.url }} 290w,
+                 {{ imageMedium.url }} 690w,
+                 {{ imageLarge.url }} 350w"
+                 sizes="(max-width: 598px) 290px,
+                        (max-width: 1022px) and (min-width: 599px) 768px,
+                        (min-width: 1023px) 1440px"
+                 src="{{ imageLarge.url }}"
+                 alt="{{ imageLarge.alt }}"
+                 class="hero__image">
+</div>
