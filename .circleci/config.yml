@@ -68,7 +68,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: deploy master to heroku
+          name: deploy staging to heroku
           command: |
             git push https://heroku:$HEROKU_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git master
 workflows:
