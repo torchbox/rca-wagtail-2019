@@ -1,2 +1,22 @@
 .section {
+    $root: &;
+
+    &--full {
+
+        #{$root}__container {
+            max-width: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+    }
+
+    &__row {
+        // Holder for notch work
+    }
+
+    &__container {
+        // Holder for notch work
+    }
+
 }
