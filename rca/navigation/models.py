@@ -33,16 +33,6 @@ class LinkBlock(blocks.StructBlock):
         return result
 
 
-class LinkColumnWithHeader(blocks.StructBlock):
-    heading = blocks.CharBlock(
-        required=False, help_text="Leave blank if no header required."
-    )
-    links = blocks.ListBlock(LinkBlock())
-
-    class Meta:
-        template = ("patterns/molecules/navigation/blocks/footer_column.html",)
-
-
 class SecondaryLinkBlock(LinkBlock):
     tertiary_links = blocks.ListBlock(LinkBlock())
 
@@ -66,7 +56,7 @@ class NavigationSettings(BaseSetting, ClusterableModel):
     quick_links = StreamField([("link", QuickLinkBlock())], blank=True)
 
     footer_navigation = StreamField(
-        [("column", LinkColumnWithHeader())],
+        [("link", LinkBlock())],
         blank=True,
         help_text="Multiple columns of footer links with optional header.",
     )

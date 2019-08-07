@@ -1,6 +1,6 @@
 from django import template
 
-from rca.navigation.models import NavigationSettings
+from rca.navigation.templatetags import utils
 
 register = template.Library()
 
@@ -112,10 +112,10 @@ def audience_links(context):
 )
 def footernav(context):
     request = context["request"]
-    return {
-        "footernav": NavigationSettings.for_site(request.site).footer_navigation,
-        "request": request,
-    }
+    settings = context["settings"]
+    links = settings["navigation"]["NavigationSettings"].footer_navigation
+    items = utils.process_link_block(links, request)
+    return {"footernav": items}
 
 
 # Footer nav snippets
@@ -135,7 +135,7 @@ def sidebar(context):
 )
 def footerlinks(context):
     request = context["request"]
-    return {
-        "footerlinks": NavigationSettings.for_site(request.site).footer_links,
-        "request": request,
-    }
+    settings = context["settings"]
+    links = settings["navigation"]["NavigationSettings"].footer_links
+    items = utils.process_link_block(links, request)
+    return {"footerlinks": items}

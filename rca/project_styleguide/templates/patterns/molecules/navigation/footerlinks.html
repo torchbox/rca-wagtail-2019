@@ -1,13 +1,7 @@
 {% load wagtailcore_tags %}
 
-{# for link in footerlinks #}
-<div class="footer-link-item" role="presentation">
-    <a class="footer-link-item__link" href="#">Privacy & Cookies</a>
-</div>
-<div class="footer-link-item" role="presentation">
-    <a class="footer-link-item__link" href="#">Terms & Conditions</a>
-</div>
-<div class="footer-link-item" role="presentation">
-    <a class="footer-link-item__link" href="#">Accessibility</a>
-</div>
-{# endfor #}
+{% for link in footerlinks %}
+    <div class="footer-link-item" role="presentation">
+        <a class="footer-link-item__link" href="{{link.url}}">{{link.text}}</a>
+    </div>
+{% endfor %}

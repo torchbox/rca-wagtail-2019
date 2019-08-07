@@ -1,0 +1,13 @@
+tags:
+  audience_links:
+    as links:
+      raw:
+        - value:
+          text: 'Study at RCA'
+          url: '#'
+        - value:
+          text: 'Research and Innovation'
+          url: '#'
+        - value:
+          text: 'Life at the RCA'
+          url: '#'
