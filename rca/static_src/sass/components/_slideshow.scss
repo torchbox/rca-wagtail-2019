@@ -1,7 +1,7 @@
 .slideshow {
     $root: &;
     $meta-height: 60px;
-    margin-bottom: ($gutter * 2);
+    padding-bottom: ($gutter * 2);
 
     &__liveregion {
         @include hidden();
@@ -20,7 +20,6 @@
         @include media-query(large) {
             position: relative;
             top: -$meta-height;
-            margin-bottom: -$meta-height;
             pointer-events: none; // ensure links in overlaid content still work
         }
     }
@@ -65,7 +64,7 @@
         height: 2px;
         grid-column: 1 / span 2;
         margin-top: $gutter;
-        background-color: $color--scrollbar-lightbg-bg;
+
 
         @include media-query(medium) {
             margin-top: 0;
@@ -80,7 +79,6 @@
         position: absolute;
         height: 100%;
         width: 33.333%;
-        background-color: $color--black;
     }
 
     &.bg--dark {
@@ -91,6 +89,15 @@
                 background-color: $color--black;
             }
         }
+
+        #{$root}__scrollbar {
+            background-color: $color--scrollbar-darkbg-bg;
+        }
+
+        #{$root}__scrollbar-progress {
+            background-color: $color--white;
+        }
+
     }
 
     &.bg--light {
@@ -100,6 +107,14 @@
             &::after {
                 background-color: $color--white;
             }
+        }
+
+        #{$root}__scrollbar {
+            background-color: $color--scrollbar-lightbg-bg;
+        }
+
+        #{$root}__scrollbar-progress {
+            background-color: $color--black;
         }
     }
 }
