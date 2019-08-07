@@ -1,0 +1,32 @@
+.title-area {
+    padding-bottom: ($gutter * 3);
+
+    @include media-query(medium) {
+        padding-bottom: ($gutter * 4);
+    }
+
+    @include media-query(large) {
+        padding-bottom: ($gutter * 3);
+    }
+
+    &__header {
+        margin-bottom: ($gutter / 2);
+    }
+
+    &__content {
+        padding-top: ($gutter * 1.5);
+        grid-column: 1 / span 2;
+
+        @include media-query(medium) {
+            position: relative;
+            padding-top: 0;
+            top: -14px; // specific value to align baseline of font with notch bottom
+        }
+
+        @include media-query(large) {
+            grid-column: 2 / span 2;
+            top: 0;
+        }
+
+    }
+}
