@@ -49,7 +49,7 @@
     }
 
     &--anchor {
-        position: relative;
         @include underline-hover();
+        position: relative;
     }
 }
