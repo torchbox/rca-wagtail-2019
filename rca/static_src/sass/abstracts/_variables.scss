@@ -30,10 +30,8 @@ $color--grid-line-dark: $color--black-80;
 
 // --------------------------------- Fonts --------------------------------------
 
-$font--primary: 'Benton Sans', 'BentonSans', 'Helvetica Neue', Arial, Helvetica,
-    Sans-Serif;
-$font--secondary: 'Benton Sans Medium', 'BentonSans-Medium', 'Helvetica Neue',
-    Arial, Helvetica, Sans-Serif;
+$font--primary: 'Benton Sans', 'BentonSans', 'Helvetica Neue', Arial, Helvetica, Sans-Serif;
+$font--secondary: 'Benton Sans Medium', 'BentonSans-Medium', 'Helvetica Neue', Arial, Helvetica, Sans-Serif;
 
 // Font weights
 $weight--bold: 700;
@@ -88,7 +86,7 @@ $small-font-sizes: (
     xs: 14px,
     xxs: 14px,
     // no value in styleguide
-        xxxs: 12px,
+    xxxs: 12px,
 );
 
 // --------------------------------- Breakpoints --------------------------------------
