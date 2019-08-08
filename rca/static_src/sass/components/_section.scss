@@ -16,4 +16,14 @@
     &__container {
         // Holder for notch work
     }
+
+    &__heading {
+        grid-column: 1;
+        margin-bottom: ($gutter * 1.25);
+
+        @include media-query(large) {
+            grid-column: 2 / span 3;
+            margin-bottom: ($gutter * 1.5);
+        }
+    }
 }
