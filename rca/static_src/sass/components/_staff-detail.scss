@@ -22,7 +22,7 @@
         margin-bottom: ($gutter / 4);
     }
 
-    &:nth-child(2n) {
+    &:nth-of-type(2n) {
         @include media-query(medium) {
             margin-top: ($gutter * 8.85); // 177px
         }
@@ -32,7 +32,22 @@
         }
     }
 
+    .staff-overview & {
+        grid-row: 2;
+        grid-column: 2 / span 1;
+
+        &:nth-of-type(2n) {
+            grid-column: 4 / span 1;
+        }
+    }
+
     .staff-overview--single & {
+        grid-column: 2 / span 2;
+
+        #{$root}__image {
+            margin-bottom: ($gutter * 1.5);
+        }
+
         #{$root}__content {
             @include media-query(large) {
                 display: flex;
