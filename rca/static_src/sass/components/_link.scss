@@ -1,16 +1,27 @@
 .link {
+    $root: &;
+    display: inline-flex;
+    align-items: flex-start;
     max-width: 190px;
     position: relative;
-    padding-right: 16px;
 
-    svg {
-        width: 10px;
-        height: 10px;
-        transform: rotate(-45deg) translate(0, 0);
-        right: 0;
-        position: absolute;
-        transition: transform $transition;
-        fill: currentColor;
+    &--primary {
+        color: $color--tertiary;
+    }
+
+    &--secondary {
+        color: $color--primary;
+    }
+
+    &--tertiary {
+        display: inline-flex;
+        align-items: center;
+        max-width: 100%;
+        color: $color--black;
+
+        #{$root}__label {
+            margin-right: 2px;
+        }
     }
 
     &--primary,
@@ -30,8 +41,8 @@
         }
 
         &:hover {
-            svg {
-                transform: rotate(-45deg) translate(6px, 0);
+            #{$root}__icon {
+                transform: rotate(-45deg) translate3d(5px, 0, 0);
             }
 
             &::after {
@@ -40,16 +51,31 @@
         }
     }
 
-    &--primary {
-        color: $color--tertiary;
-    }
+    &--primary,
+    &--secondary,
+    &--anchor {
+        padding-right: 16px;
 
-    &--secondary {
-        color: $color--primary;
+        #{$root}__icon {
+            position: absolute;
+            right: 0;
+        }
     }
 
     &--anchor {
         @include underline-hover();
         position: relative;
+    }
+
+    &__icon {
+        width: 12px;
+        height: 8px;
+        fill: currentColor;
+        transition: transform $transition;
+
+        &--rotated {
+            will-change: transform;
+            transform: rotate(-45deg) translate3d(0, 0, 0);
+        }
     }
 }

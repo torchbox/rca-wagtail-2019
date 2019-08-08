@@ -1,0 +1,11 @@
+context:
+  title: 'Beth Hughes'
+  job_title: 'Head of Programmes'
+  body: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.'
+  link: '#'
+
+tags:
+  image:
+    person.image fill-277x277 class="staff-detail__image":
+      raw: |
+        <img src="//placekitten.com/277/277" width="277" height="277" class="staff-detail__image" alt="">

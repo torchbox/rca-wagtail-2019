@@ -60,15 +60,12 @@
 
             <div class="section bg bg--light">
 
-                <div class="section__row grid staff">
-                    <h2 class="heading heading--four staff__heading">Staff</h2>
-                    {% include "patterns/molecules/staff-detail/staff-detail.html" %}
-                    {% include "patterns/molecules/staff-detail/staff-detail.html" %}
-                    <a class="staff__view-all" href="#">See all programme staff</a>
-                </div>
+                {% include "patterns/organisms/staff-overview/staff-overview.html" %}
+
+                 {% include "patterns/organisms/staff-overview/staff-overview--single.html" %}
 
                 <div class="section__row grid facilities">
-                    <h2 class="heading heading--four staff__heading">Facilities</h2>
+                    <h2 class="heading heading--four facilities__heading">Facilities</h2>
                     <div class="facilities__introduction">
                         <p class="introduction">The School of Architecture is located across both the RCA's historic Kensington site and London's newest cultural and research culture in White City.</p>
                         <a href="#" class="facilites__view-all">See all college facilities</a>

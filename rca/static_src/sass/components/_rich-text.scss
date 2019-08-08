@@ -1,4 +1,33 @@
 .rich-text {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @include heading-text();
+        margin-bottom: $gutter;
+    }
+
+    h2 {
+        @include font-size(xl);
+    }
+
+    h3 {
+        @include font-size(l);
+    }
+
+    h4 {
+        @include font-size(m);
+        line-height: $line-height-large;
+    }
+
+    h5,
+    h6 {
+        @include font-size(s);
+        line-height: $line-height-small;
+    }
+
     ul {
         list-style: inside disc;
     }
