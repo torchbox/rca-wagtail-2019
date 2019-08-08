@@ -108,7 +108,6 @@
         }
 
         &--drawer {
-            pointer-events: none;
             transition: transform $cubic-transition;
             position: absolute;
             top: 0;
@@ -118,10 +117,6 @@
             display: none;
             padding-top: ($gutter * 6.25);
             margin-top: $menu-toggle-buttons-height;
-
-            &.is-visible {
-                pointer-events: all;
-            }
 
             .menu-active & {
                 display: block;
