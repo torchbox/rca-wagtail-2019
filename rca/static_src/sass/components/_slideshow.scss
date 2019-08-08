@@ -72,6 +72,7 @@
         height: 2px;
         grid-column: 1 / span 2;
         margin-top: $gutter;
+        background-color: $color--scrollbar-lightbg-bg; // overriden by theme
 
         @include media-query(medium) {
             margin-top: 0;
@@ -85,7 +86,7 @@
     &__scrollbar-progress {
         position: absolute;
         height: 100%;
-        width: 33.333%;
+        background-color: $color--black; // overriden by theme
     }
 
     .bg--dark & {
