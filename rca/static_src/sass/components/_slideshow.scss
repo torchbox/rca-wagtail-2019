@@ -80,7 +80,7 @@
         width: 33.333%;
     }
 
-    &.bg--dark {
+    .bg--dark & {
         #{$root}__controls-group {
             background-color: $color--black;
 
@@ -98,7 +98,7 @@
         }
     }
 
-    &.bg--light {
+    .bg--light & {
         #{$root}__controls-group {
             background-color: $color--white;
 
