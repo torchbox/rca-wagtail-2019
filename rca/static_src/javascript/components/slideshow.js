@@ -32,7 +32,7 @@ class Slideshow {
 
     getMargins() {
         // https://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
-        var leftEdge = document.querySelector('[data-left-edge');
+        var leftEdge = document.querySelector('[data-left-edge]');
         this.leftEdgeCoords = leftEdge.getBoundingClientRect();
     }
 
