@@ -13,7 +13,7 @@ class Slideshow {
         this.createSlideshow();
         this.slideTotal = this.node.dataset.slidetotal;
         this.slideshow.mount();
-        this.updateScrollbar()
+        this.updateScrollbar();
         this.bindEvents();
         this.setLiveRegion();
     }

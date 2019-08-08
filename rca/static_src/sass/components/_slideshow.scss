@@ -106,14 +106,12 @@
         }
 
         #{$root}__button {
-
             &:hover,
             &:active,
             &:focus {
                 stroke: $color--black;
                 background-color: $color--white;
             }
-
         }
     }
 
@@ -135,15 +133,12 @@
         }
 
         #{$root}__button {
-
             &:hover,
             &:active,
             &:focus {
                 stroke: $color--white;
                 background-color: $color--black;
             }
-
         }
-
     }
 }
