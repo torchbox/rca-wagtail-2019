@@ -1,16 +1,8 @@
 .nav {
     margin-bottom: 1rem;
 
-    p {
-        color: $color--white; // temp
-    }
-
     &--primary {
         display: none;
-
-        @include media-query(large) {
-            margin-top: $gutter * 6;
-        }
 
         .menu-active & {
             display: block;
@@ -24,10 +16,6 @@
     &--subnav {
         height: 100%;
         display: none;
-
-        @include media-query(large) {
-            padding-top: ($gutter * 6);
-        }
 
         &:hover,
         &.is-visible {
@@ -58,11 +46,6 @@
             @include media-query(large) {
                 display: none;
             }
-        }
-
-        &--back {
-            @include font-size(xs);
-            color: white;
         }
 
         &--breadcrumb {
