@@ -28,17 +28,20 @@ class SubMenu {
     initDesktop() {
         // level two and three event listeners
         this.navChildren.forEach(child => {
+            // on hover
             child.addEventListener('mouseover', (e) => {
                 // activate previous menu item
                 this.activatePrevious(e.target.dataset);
             });
 
+            // hover off
             child.addEventListener('mouseout', (e) => {
                 // deactivate previous menu item
                 this.deactivatePrevious(e.target.dataset);
             });
         });
 
+        // on hover
         this.node.addEventListener('mouseover', (e) => {
             if (e.target.tagName === 'A') {
                 // get matching child menu
@@ -46,12 +49,14 @@ class SubMenu {
             }
         });
 
+        // hover off
         this.node.addEventListener('mouseout', (e) => {
             if (e.target.tagName === 'A') {
                 this.getMenuContext(e.target.dataset);
             }
         });
 
+        // level three hover
         this.levelThree.addEventListener('mouseover', (e) => {
             this.levelTwo.classList.add(this.visibleClass);
             if (e.target.tagName === 'A') {
@@ -59,6 +64,7 @@ class SubMenu {
             }
         });
 
+        // level three hover off
         this.levelThree.addEventListener('mouseout', (e) => {
             this.levelTwo.classList.remove(this.visibleClass);
             if (e.target.tagName === 'A') {
