@@ -11,9 +11,30 @@
         pointer-events: none;
 
         > div {
+            position: relative;
             display: none;
-            border-right: 1px solid $color--grid-line-light;
+            // border-right: 1px solid $color--grid-line-light;
             padding-right: 4.28%;
+
+            &::before {
+                content: '';
+                position: absolute;
+                right: 0;
+                width: 1px;
+                height: 100%;
+                background-color: $color--grid-line-dark;
+                mix-blend-mode: multiply;
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                right: 0;
+                width: 1px;
+                height: 100%;
+                background-color: $color--grid-line-light;
+                mix-blend-mode: screen;
+            }
 
             &:last-child,
             &:first-child {
