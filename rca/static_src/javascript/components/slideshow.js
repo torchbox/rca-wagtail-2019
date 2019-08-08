@@ -42,6 +42,8 @@ class Slideshow {
             startAt: 0,
             gap: 0,
             keyboard: true,
+            perTouch: 1,
+            touchRatio: 0.5,
             perView: 1,
             rewind: false,
             autoplay: false,
