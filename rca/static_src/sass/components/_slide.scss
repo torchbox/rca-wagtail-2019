@@ -8,13 +8,13 @@
     }
 
     &__meta {
-        @include z-index(base);
-        position: relative;
         opacity: 0;
         transition: opacity $transition;
 
         @include media-query(medium) {
+            @include z-index(base);
             display: flex;
+            position: relative;
         }
     }
 
