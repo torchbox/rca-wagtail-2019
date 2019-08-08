@@ -85,22 +85,27 @@
     &__menus {
         @include grid-layout();
 
-        &::before {
-            content: '';
-            background: $color--primary;
-            height: 100%;
-            width: 100%;
-            position: absolute;
-            display: block;
-            transform: translate3d(-100%, 0%, 0);
-            max-height: 900px;
+        @include media-query(large) {
+            &::before {
+                content: '';
+                background: $color--primary;
+                height: 100%;
+                width: 100%;
+                position: absolute;
+                display: block;
+                transform: translate3d(-100%, 0%, 0);
+                max-height: 900px;
+            }
         }
     }
 
     &__inner {
         background: $color--primary;
-        height: 900px;
         padding-top: ($gutter * 2);
+
+        @include media-query(large) {
+            height: 900px;
+        }
 
         &--container {
             padding-top: 0;
@@ -148,6 +153,18 @@
 
             .menu-active & {
                 display: block;
+            }
+        }
+
+        &--level-zero {
+            position: relative;
+
+            @include media-query(medium) {
+                height: 100vh;
+            }
+
+            @include media-query(large) {
+                height: 900px;
             }
         }
 

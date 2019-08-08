@@ -39,6 +39,27 @@
         margin-bottom: 10px;
     }
 
+    &--standout {
+        margin-top: ($gutter * 5);
+    }
+
+    &--standout-desktop {
+        display: none;
+        position: absolute;
+        bottom: 0;
+
+        @include media-query(medium) {
+            display: block;
+        }
+    }
+
+    &--standout-mobile {
+
+        @include media-query(medium) {
+            display: none;
+        }
+    }
+
     &__item {
         &--group-heading {
             display: block;
@@ -138,6 +159,20 @@
             }
         }
 
+        &--base {
+            font-size: map-get($small-font-sizes, xs);
+            padding: 0;
+            margin-bottom: $gutter;
+            justify-content: flex-start;
+
+            svg {
+                position: relative;
+            }
+        }
+
+        &--standout {
+            color: $color--tertiary;
+        }
     }
 
     &__icon {
