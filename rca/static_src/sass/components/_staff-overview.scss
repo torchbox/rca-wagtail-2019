@@ -1,26 +1,43 @@
 .staff-overview {
     $root: &;
-    grid-template-rows: auto auto auto;
     padding-top: ($gutter * 4); // Might need adjusting for notches
     padding-bottom: ($gutter * 4);
 
     &--single {
 
         #{$root}__view-all {
-            grid-column: 3 / span 1;
+            grid-column: 1 / span 1;
+
+            @include media-query(large) {
+                grid-column: 3 / span 1;
+            }
+
         }
 
     }
 
     &__heading {
         grid-row: 1;
-        grid-column: 2 / span 4;
         margin-bottom: ($gutter * 2);
+        grid-column: 1 / span 2;
+
+        @include media-query(large) {
+            grid-column: 2 / span 4;
+        }
     }
 
     &__view-all {
-        grid-row: 3;
-        grid-column: 4 / span 1;
+        grid-row: 4;
+        grid-column: 1;
         max-width: 130px;
+
+        @include media-query(medium) {
+            grid-row: 3;
+            grid-column: 2 / span 1;
+        }
+
+        @include media-query(large) {
+            grid-column: 4 / span 1;
+        }
     }
 }
