@@ -32,6 +32,6 @@ repos:
           - eslint-plugin-jsx-a11y@6.2.1
           - eslint-plugin-react@7.13.0
   - repo: https://github.com/prettier/prettier
-    rev: 1.17.1
+    rev: 1.18.2
     hooks:
       - id: prettier
