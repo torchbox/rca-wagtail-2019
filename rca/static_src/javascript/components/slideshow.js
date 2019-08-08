@@ -12,9 +12,9 @@ class Slideshow {
         this.getMargins();
         this.createSlideshow();
         this.slideTotal = this.node.dataset.slidetotal;
+        this.bindEvents();
         this.slideshow.mount();
         this.updateScrollbar();
-        this.bindEvents();
         this.setLiveRegion();
     }
 
@@ -22,20 +22,21 @@ class Slideshow {
         this.slideshow.on('move.after', () => {
             this.updateAriaRoles();
             this.updateLiveRegion();
+            this.updateScrollbar();
         });
 
-        this.slideshow.on('swipe.end', () => {
+        this.slideshow.on('swipe.start', () => {
             this.updateScrollbar();
         });
 
         window.addEventListener('resize', () => {
             this.getMargins();
             this.updateSlideshowBreakpoint();
+            this.updateScrollbar();
         });
     }
 
     getMargins() {
-        // https://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
         var leftEdge = document.querySelector('[data-left-edge]');
         this.leftEdgeCoords = leftEdge.getBoundingClientRect();
     }
@@ -113,7 +114,6 @@ class Slideshow {
         var scrollsize = 100 / total;
         this.progressbar.style.width = `${scrollsize}%`;
         this.progressbar.style.right = `${space}%`;
-        console.log('scrollbar updated');
     }
 }
 
