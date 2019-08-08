@@ -22,6 +22,16 @@
         }
     }
 
+    .header-content-dark & {
+        #{$root}__label {
+            color: $color--black;
+        }
+
+        #{$root}__icon {
+            fill: $color--black;
+        }
+    }
+
     .header-content-light &,
     .headroom--pinned.headroom--not-top &,
     .app__navigation & {
@@ -31,16 +41,6 @@
 
         #{$root}__icon {
             fill: $color--white;
-        }
-    }
-
-    .header-content-dark & {
-        #{$root}__label {
-            color: $color--black;
-        }
-
-        #{$root}__icon {
-            fill: $color--black;
         }
     }
 }
