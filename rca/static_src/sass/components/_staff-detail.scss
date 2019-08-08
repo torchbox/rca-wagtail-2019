@@ -1,0 +1,51 @@
+.staff-detail {
+    $root: &;
+    margin-bottom: ($gutter * 2.25);
+
+    &__image {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin-bottom: $gutter;
+    }
+
+    &__heading {
+        margin-bottom: ($gutter / 4);
+    }
+
+    &__job-title {
+        margin-bottom: $gutter;
+        color: $color--meta;
+    }
+
+    &__body {
+        margin-bottom: ($gutter / 4);
+    }
+
+    &:nth-child(2n) {
+        @include media-query(medium) {
+            margin-top: ($gutter * 8.85); // 177px
+        }
+
+        @include media-query(large) {
+            margin-top: ($gutter * 3.25); // 65px
+        }
+    }
+
+    .staff-overview--single & {
+        #{$root}__content {
+            @include media-query(large) {
+                display: flex;
+            }
+        }
+
+        #{$root}__overview,
+        #{$root}__more {
+            @include media-query(large) {
+                flex-basis: 50%;
+                max-width: 50%;
+                min-width: 50%;
+            }
+        }
+    }
+}
