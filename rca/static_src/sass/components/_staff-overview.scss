@@ -4,16 +4,13 @@
     padding-bottom: ($gutter * 4);
 
     &--single {
-
         #{$root}__view-all {
             grid-column: 1 / span 1;
 
             @include media-query(large) {
                 grid-column: 3 / span 1;
             }
-
         }
-
     }
 
     &__heading {
