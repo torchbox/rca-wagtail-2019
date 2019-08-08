@@ -7,43 +7,33 @@
     height: 24px;
 
     &--twitter {
-
         #{$root}__icon {
             width: 18px;
         }
-
     }
 
     &--instagram {
-
         #{$root}__icon {
             width: 18px;
         }
-
     }
 
     &--facebook {
-
         #{$root}__icon {
             height: 18px;
         }
-
     }
 
     &--linkedin {
-
         #{$root}__icon {
             width: 18px;
         }
-
     }
 
     &--youtube {
-
         #{$root}__icon {
             width: 24px;
         }
-
     }
 
     &:last-child {
@@ -60,7 +50,6 @@
     }
 
     .footer & {
-
         #{$root}__icon {
             fill: $color--white;
         }
