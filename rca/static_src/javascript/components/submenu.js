@@ -24,20 +24,24 @@ class SubMenu {
         }
     }
 
+    // desktop hover events
     initDesktop() {
+        // level two and three event listeners
         this.navChildren.forEach(child => {
             child.addEventListener('mouseover', (e) => {
+                // activate previous menu item
                 this.activatePrevious(e.target.dataset);
             });
 
             child.addEventListener('mouseout', (e) => {
+                // deactivate previous menu item
                 this.deactivatePrevious(e.target.dataset);
             });
         });
 
         this.node.addEventListener('mouseover', (e) => {
-            // get matching child menu
             if (e.target.tagName === 'A') {
+                // get matching child menu
                 this.getMenuContext(e.target.dataset);
             }
         });
@@ -63,6 +67,7 @@ class SubMenu {
         });
     }
 
+    // tablet click events
     initTablet() {
         this.node.addEventListener('click', (e) => {
             e.preventDefault();
@@ -93,11 +98,13 @@ class SubMenu {
         targetMenu.classList.remove(this.visibleClass);
     }
 
+    // hide/show a menu
     toggleSubMenu(menuLevel, menu) {
         const targetMenu = document.querySelector(`[data-nav-level-${menuLevel}] [data-menu-${menu}]`);
         targetMenu.classList.contains(this.visibleClass) ? targetMenu.classList.remove(this.visibleClass) : targetMenu.classList.add(this.visibleClass);
     }
 
+    // hide show a drawer, containing the menus
     toggleDrawer(menuLevel) {
         const drawer = document.querySelector(`[data-nav-level-${menuLevel}]`);
         drawer.classList.contains(this.visibleClass) ? drawer.classList.remove(this.visibleClass) : drawer.classList.add(this.visibleClass);
