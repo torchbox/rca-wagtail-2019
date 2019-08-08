@@ -1,8 +1,5 @@
 context:
   footernav:
     - value:
-      text: 'Footer nav link'
-      url: '#'
-    - value:
-      text: 'Footer nav link'
+      text: 'Contact us'
       url: '#'

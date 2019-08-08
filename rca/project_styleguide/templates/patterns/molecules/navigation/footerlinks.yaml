@@ -1,10 +1,13 @@
 context:
   footerlinks:
     - link:
-      text: 'Footer link'
+      text: 'Privacy & Cookies'
       url: '#'
     - link:
-      text: 'Footer link'
+      text: 'Terms & Conditions'
+      url: '#'
+    - link:
+      text: 'Accessibility'
       url: '#'
 
 tags:

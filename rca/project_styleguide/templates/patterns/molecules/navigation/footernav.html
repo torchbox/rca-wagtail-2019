@@ -1,6 +1,5 @@
 {% load wagtailcore_tags %}
-<nav class="grid grid--narrow" role="navigation" aria-label="Tertiary">
-    {% for value in footernav %}
-        {% include 'patterns/atoms/audience-nav-item/audience-nav-item.html' %}
-    {% endfor %}
-</nav>
+
+{% for value in footernav %}
+    {% include 'patterns/atoms/audience-nav-item/audience-nav-item.html' %}
+{% endfor %}
