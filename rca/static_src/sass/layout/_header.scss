@@ -115,8 +115,12 @@
             left: 0;
             bottom: 0;
             display: none;
-            padding-top: ($gutter * 6.25);
+            padding-top: ($gutter * 4.25);
             margin-top: $menu-toggle-buttons-height;
+
+            @include media-query(large) {
+                padding-top: ($gutter * 6.25);
+            }
 
             .menu-active & {
                 display: block;
