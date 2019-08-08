@@ -1,6 +1,13 @@
 .logo {
     $root: &;
     display: block;
+    transition: opacity $transition;
+
+    &:hover,
+    &:focus,
+    &:active {
+        opacity: 0.7;
+    }
 
     &__image {
         height: auto;
@@ -17,7 +24,7 @@
         }
     }
 
-    .header-content-dark & {
+    .header-content-dark .header & {
         #{$root}__image {
             fill: $color--black;
         }

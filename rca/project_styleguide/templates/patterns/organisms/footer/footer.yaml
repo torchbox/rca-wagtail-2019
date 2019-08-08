@@ -1,4 +1,10 @@
 tags:
+  footernav:
+    '':
+      template_name: 'patterns/molecules/navigation/footernav.html'
+  footerlinks:
+    '':
+      template_name: 'patterns/molecules/navigation/footerlinks.html'
   social_media_links:
     as social_links:
       raw:
