@@ -1,5 +1,5 @@
 .heading {
-    line-height: $line-height-medium;
+    line-height: $line-height-large;
 
     &--display-one {
         @include font-size(xxxxl);
@@ -23,12 +23,10 @@
 
     &--four {
         @include font-size(m);
-        line-height: $line-height-large;
     }
 
     &--five {
         @include font-size(s);
-        line-height: $line-height-small;
     }
 
     &--link {

@@ -13,7 +13,7 @@ html {
         font-size: (map-get($large-font-sizes, xs) / 16px) * 100%;
     }
 
-    line-height: 1.4;
+    line-height: $base-line-height;
     color: $color--primary;
 }
 
@@ -39,6 +39,5 @@ small {
 }
 
 p {
-    line-height: $line-height-small;
-    margin: 0 0 1rem;
+    margin: 0 0 $gutter;
 }
