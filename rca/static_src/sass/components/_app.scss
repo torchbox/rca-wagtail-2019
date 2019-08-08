@@ -53,9 +53,7 @@
 
             // First item is only one to have a grid line on left side
             &:first-child {
-
                 div {
-
                     &::before {
                         content: '';
                         position: absolute;
@@ -64,7 +62,6 @@
                         height: 100%;
                         background-color: $color--grid-line-dark;
                         mix-blend-mode: multiply;
-
 
                         @include media-query(large) {
                             content: none;
@@ -85,20 +82,15 @@
                         }
                     }
                 }
-
             }
 
             &:last-child {
-
                 &::before,
                 &::after {
-
                     @include media-query(large) {
                         content: none;
                     }
-
                 }
-
             }
         }
     }
