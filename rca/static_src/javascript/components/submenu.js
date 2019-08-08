@@ -15,52 +15,59 @@ class SubMenu {
     }
 
     bindEventListeners() {
-        // todo - change depending on window size
-        const condition = false;
+        this.isDesktop = window.innerWidth > 1022;
 
-        if(condition) {
-            this.navChildren.forEach(child => {
-                child.addEventListener('mouseover', (e) => {
-                    this.activatePrevious(e.target.dataset);
-                });
-
-                child.addEventListener('mouseout', (e) => {
-                    this.deactivatePrevious(e.target.dataset);
-                });
-            });
-
-            this.node.addEventListener('mouseover', (e) => {
-                // get matching child menu
-                if (e.target.tagName === 'A') {
-                    this.getMenuContext(e.target.dataset);
-                }
-            });
-
-            this.node.addEventListener('mouseout', (e) => {
-                if (e.target.tagName === 'A') {
-                    this.getMenuContext(e.target.dataset);
-                }
-            });
-
-            this.levelThree.addEventListener('mouseover', (e) => {
-                this.levelTwo.classList.add(this.visibleClass);
-                if (e.target.tagName === 'A') {
-                    this.showPrevSubMenu(e.target.dataset.menu);
-                }
-            });
-
-            this.levelThree.addEventListener('mouseout', (e) => {
-                this.levelTwo.classList.remove(this.visibleClass);
-                if (e.target.tagName === 'A') {
-                    this.hidePrevSubMenu(e.target.dataset.menu);
-                }
-            });
+        if(this.isDesktop) {
+            this.initDesktop();
         } else {
-            this.node.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.getMenuContext(e.target.dataset);
-            });
+            this.initTablet();
         }
+    }
+
+    initDesktop() {
+        this.navChildren.forEach(child => {
+            child.addEventListener('mouseover', (e) => {
+                this.activatePrevious(e.target.dataset);
+            });
+
+            child.addEventListener('mouseout', (e) => {
+                this.deactivatePrevious(e.target.dataset);
+            });
+        });
+
+        this.node.addEventListener('mouseover', (e) => {
+            // get matching child menu
+            if (e.target.tagName === 'A') {
+                this.getMenuContext(e.target.dataset);
+            }
+        });
+
+        this.node.addEventListener('mouseout', (e) => {
+            if (e.target.tagName === 'A') {
+                this.getMenuContext(e.target.dataset);
+            }
+        });
+
+        this.levelThree.addEventListener('mouseover', (e) => {
+            this.levelTwo.classList.add(this.visibleClass);
+            if (e.target.tagName === 'A') {
+                this.showPrevSubMenu(e.target.dataset.menu);
+            }
+        });
+
+        this.levelThree.addEventListener('mouseout', (e) => {
+            this.levelTwo.classList.remove(this.visibleClass);
+            if (e.target.tagName === 'A') {
+                this.hidePrevSubMenu(e.target.dataset.menu);
+            }
+        });
+    }
+
+    initTablet() {
+        this.node.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.getMenuContext(e.target.dataset);
+        });
     }
 
     getMenuContext(dataset) {
