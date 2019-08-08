@@ -8,7 +8,6 @@
     &:hover,
     &:active,
     &:focus {
-
         #{$root}__icon--rotated {
             transform: rotate(-45deg) translate3d(5px, 0, 0);
         }
@@ -16,7 +15,6 @@
         #{$root}__icon--down {
             transform: rotate(90deg) translate3d(3px, 0, 0);
         }
-
     }
 
     &--primary {
@@ -57,13 +55,10 @@
         &:hover,
         &:active,
         &:focus {
-
             &::after {
                 width: calc(100% + 6px);
             }
-
         }
-
     }
 
     &--primary,
@@ -106,7 +101,6 @@
             width: 100%;
             top: 0;
         }
-
     }
 
     &__icon {
