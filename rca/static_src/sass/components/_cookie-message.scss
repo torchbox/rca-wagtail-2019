@@ -1,10 +1,10 @@
 .cookie {
+    @include z-index(cookie-message);
     $root: &;
     position: fixed;
     right: auto;
     bottom: 0;
     left: auto;
-    z-index: 13;
     display: none; // Doesn't display unless there isn't a cookie
     width: 100%;
     pointer-events: none;
@@ -22,27 +22,30 @@
     }
 
     &__container {
-        @include font-size(xs);
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        max-width: (20px * 35);
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
         margin: 0 auto;
-        line-height: 1.4;
-        color: $color--black;
-        background-color: $color--white;
-        border: 1px solid $color--dark-grey;
-        border-radius: 5px;
-        padding: 0 10px 10px;
+        color: $color--white;
+        background-color: $color--black;
+        padding: $gutter;
+        pointer-events: auto;
 
-        @include media-query(tablet-landscape) {
-            @include font-size(s);
+        @include media-query(large) {
+            width: ($gutter * 35);
         }
     }
 
     &__message {
+        margin-bottom: $gutter;
+
         p {
             margin-bottom: 0;
+        }
+
+        a {
+            margin-right: ($gutter / 4);
         }
     }
 
@@ -53,25 +56,5 @@
         &:hover {
             color: $color--black;
         }
-    }
-
-    &__btn {
-        @include font-size(s);
-        display: block;
-        width: 24px;
-        height: 24px;
-        pointer-events: auto;
-        cursor: pointer;
-
-        &:hover {
-            #{$root}__btn-icon {
-                fill: $color--secondary;
-            }
-        }
-    }
-
-    &__btn-icon {
-        transition: fill $transition 0s;
-        fill: $color--black;
     }
 }

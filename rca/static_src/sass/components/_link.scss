@@ -5,6 +5,18 @@
     max-width: 190px;
     position: relative;
 
+    &:hover,
+    &:active,
+    &:focus {
+        #{$root}__icon--rotated {
+            transform: rotate(-45deg) translate3d(5px, 0, 0);
+        }
+
+        #{$root}__icon--down {
+            transform: rotate(90deg) translate3d(3px, 0, 0);
+        }
+    }
+
     &--primary {
         color: $color--tertiary;
     }
@@ -40,11 +52,9 @@
             top: 0;
         }
 
-        &:hover {
-            #{$root}__icon {
-                transform: rotate(-45deg) translate3d(5px, 0, 0);
-            }
-
+        &:hover,
+        &:active,
+        &:focus {
             &::after {
                 width: calc(100% + 6px);
             }
@@ -67,15 +77,45 @@
         position: relative;
     }
 
+    &--dark-bg {
+        color: $color--white;
+
+        &:hover,
+        &:active,
+        &:focus {
+            color: $color--white;
+        }
+    }
+
+    &--top-line {
+        padding-top: 10px;
+
+        &::after {
+            content: '';
+            display: block;
+            height: 1px;
+            left: 0;
+            position: absolute;
+            background: currentColor;
+            transition: width $transition;
+            width: 100%;
+            top: 0;
+        }
+    }
+
     &__icon {
         width: 12px;
         height: 8px;
         fill: currentColor;
+        will-change: transform;
         transition: transform $transition;
 
         &--rotated {
-            will-change: transform;
             transform: rotate(-45deg) translate3d(0, 0, 0);
+        }
+
+        &--down {
+            transform: rotate(90deg) translate3d(0, 0, 0);
         }
     }
 }
