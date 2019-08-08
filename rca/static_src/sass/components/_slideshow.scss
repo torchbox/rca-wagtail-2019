@@ -1,6 +1,6 @@
 .slideshow {
     $root: &;
-    $meta-height: 60px;
+    $meta-height: 65px;
     padding-bottom: ($gutter * 2);
 
     &__liveregion {
@@ -8,7 +8,7 @@
     }
 
     &__item {
-        opacity: 0.8;
+        opacity: 0.36;
         transition: opacity $transition;
 
         &.glide__slide--active {
@@ -49,13 +49,21 @@
     }
 
     &__button {
-        opacity: 1;
-        transition: opacity $transition;
+        border-radius: 50%;
+        width: 46px;
+        height: 46px;
+        margin: 0;
+        padding: 0;
+        transition: background-color $transition;
+
+        &:first-child {
+            margin-right: $gutter;
+        }
 
         &:hover,
         &:active,
         &:focus {
-            opacity: 0.8;
+            outline: none;
         }
     }
 
@@ -80,7 +88,7 @@
         width: 33.333%;
     }
 
-    &.bg--dark {
+    .bg--dark & {
         #{$root}__controls-group {
             background-color: $color--black;
 
@@ -96,9 +104,18 @@
         #{$root}__scrollbar-progress {
             background-color: $color--white;
         }
+
+        #{$root}__button {
+            &:hover,
+            &:active,
+            &:focus {
+                stroke: $color--black;
+                background-color: $color--white;
+            }
+        }
     }
 
-    &.bg--light {
+    .bg--light & {
         #{$root}__controls-group {
             background-color: $color--white;
 
@@ -113,6 +130,15 @@
 
         #{$root}__scrollbar-progress {
             background-color: $color--black;
+        }
+
+        #{$root}__button {
+            &:hover,
+            &:active,
+            &:focus {
+                stroke: $color--white;
+                background-color: $color--black;
+            }
         }
     }
 }

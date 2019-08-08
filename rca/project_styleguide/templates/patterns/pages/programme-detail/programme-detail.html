@@ -52,8 +52,10 @@
                 </div>
 
                 <div class="section__row">
-                    <h3 class="heading heading--four">Architecture gallery</h3>
-                    {% include "patterns/organisms/slideshow/slideshow.html" with modifier="bg bg--dark" %}
+                    <header class="section__header grid">
+                        <h3 class="section__heading heading heading--four">Architecture gallery</h3>
+                    </header>
+                    {% include "patterns/organisms/slideshow/slideshow.html" %}
                 </div>
 
             </div>
@@ -76,7 +78,7 @@
                 </div>
 
                 <div class="section__row">
-                    {% include "patterns/organisms/slideshow/slideshow.html" with modifier="bg bg--light" %}
+                    {% include "patterns/organisms/slideshow/slideshow.html"%}
                 </div>
 
                 <div class="section__row grid featured-alumni">
