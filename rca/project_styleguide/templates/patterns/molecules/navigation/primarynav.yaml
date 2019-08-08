@@ -1,10 +1,19 @@
 context:
   primarynav:
-    - dummy
-    - dummy
-    - dummy
-
-tags:
-  include_block:
-    'link with has_children=children.exists class="primary"':
-      template_name: 'patterns/molecules/navigation/blocks/menu_item.html'
+    - link:
+      url: '#'
+      text: 'Primary link'
+      secondary_links:
+        - item:
+          url: '#'
+          text: 'Sub link'
+        - item:
+          url: '#'
+          text: 'Sub link'
+        - item:
+          url: '#'
+          text: 'Third level link'
+          tertiary_links:
+            - tertiary_item:
+              url: '#'
+              text: 'Sub link'

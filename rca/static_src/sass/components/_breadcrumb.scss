@@ -20,6 +20,11 @@
         }
     }
 
+    &__item-link {
+        @include underline-hover();
+        position: relative;
+    }
+
     .bg--dark & {
         #{$root}__item-link {
             color: $color--white;

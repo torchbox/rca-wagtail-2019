@@ -2,16 +2,18 @@
     $root: &;
     display: block;
 
-    .footer & {
-        width: 92px;
+    &__image {
         height: auto;
+    }
 
-        @include media-query(medium) {
-            width: 230px;
-        }
-
+    .footer & {
         #{$root}__image {
+            width: 92px;
             fill: $color--white;
+
+            @include media-query(medium) {
+                width: 230px;
+            }
         }
     }
 
@@ -32,22 +34,7 @@
     .headroom--pinned.headroom--not-top .app__navigation & {
         #{$root}__image {
             width: 92px;
-            height: auto;
             fill: $color--white;
         }
     }
-
-    // .headroom--top .header &,
-    // .headroom--top .app__navigation & {
-    //
-    //     #{$root}__image {
-    //         width: 130px;
-    //         height: auto;
-    //
-    //         @include media-query(medium) {
-    //             width: 162px;
-    //         }
-    //     }
-    //
-    // }
 }

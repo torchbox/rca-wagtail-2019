@@ -4,7 +4,7 @@
     &__link {
         @include underline-hover();
         position: relative;
-        display: flex;
+        display: inline-flex;
         align-items: center;
     }
 

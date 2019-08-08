@@ -1,7 +1,18 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
 <div class="staff-detail">
-    <img src="//placekitten.com/277/277" class="staff-detail__image" alt="">
-    <h3 class="staff-detail__heading heading heading--five">Beth Hughes</h3>
-    <h4 class="staff-detail__job-title body body--one">Head of Programmes</h4>
-    <p class="staff-detail__body">Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.</p>
-    <a href="#" class="staff-detail__link">Read more</a>
+    {% image person.image fill-277x277 class="staff-detail__image" %}
+    <div class="staff-detail__content">
+        <div class="staff-detail__overview">
+            <h3 class="staff-detail__heading heading heading--five">{{ title }}</h3>
+            <h4 class="staff-detail__job-title body body--one">{{ job_title }}</h4>
+        </div>
+        <div class="staff-detail__more">
+            <p class="staff-detail__body body body--two">{{ body }}</p>
+            <a href="{{ link }}" class="body body--two link link--tertiary link--anchor staff-detail__link">
+                <span class="link__label">Read more</span>
+                <svg width="12" height="8" class="link__icon link__icon--rotated"><use xlink:href="#arrow"></use></svg>
+            </a>
+        </div>
+    </div>
 </div>

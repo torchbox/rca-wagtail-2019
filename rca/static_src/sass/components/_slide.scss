@@ -8,13 +8,13 @@
     }
 
     &__meta {
-        @include z-index(base);
-        position: relative;
         opacity: 0;
         transition: opacity $transition;
 
         @include media-query(medium) {
+            @include z-index(base);
             display: flex;
+            position: relative;
         }
     }
 
@@ -22,17 +22,31 @@
         @include font-size(xs);
 
         @include media-query(medium) {
-            flex-basis: 75%;
-            max-width: 75%;
-            min-width: 75%;
+            flex-basis: 50%;
+            max-width: 50%;
+            min-width: 50%;
+        }
+
+        @include media-query(large) {
+            flex-basis: 66.666%;
+            max-width: 66.666%;
+            min-width: 66.666%;
         }
     }
 
     &__author-info {
         @include media-query(medium) {
-            flex-basis: 25%;
-            max-width: 25%;
-            min-width: 25%;
+            flex-basis: 50%;
+            max-width: 50%;
+            min-width: 50%;
+            text-align: right;
+        }
+
+        @include media-query(large) {
+            flex-basis: 33.333%;
+            max-width: 33.333%;
+            min-width: 33.333%;
+            text-align: left;
         }
     }
 
