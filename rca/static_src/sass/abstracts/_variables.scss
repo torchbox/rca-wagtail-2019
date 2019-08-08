@@ -8,6 +8,7 @@ $color--dark-grey: #676767;
 
 $color--white-12: rgba(255, 255, 255, 0.12);
 $color--white-24: rgba(255, 255, 255, 0.24);
+$color--black-12: rgba(0, 0, 0, 0.12);
 $color--black-80: rgba(0, 0, 0, 0.8);
 $color--black-24: rgba(0, 0, 0, 0.24);
 
@@ -25,7 +26,7 @@ $color--scrollbar-darkbg-bg: $color--white-24;
 $color--scrollbar-lightbg-bg: $color--black-24;
 
 $color--grid-line-light: $color--white-12;
-$color--grid-line-dark: $color--black-80;
+$color--grid-line-dark: $color--black-12;
 
 $color--meta: $color--light-grey;
 
