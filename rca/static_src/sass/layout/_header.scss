@@ -148,7 +148,7 @@
             }
 
             @include media-query(large) {
-                padding-top: ($gutter * 9.5);
+                padding-top: 0;
             }
 
             .menu-active & {

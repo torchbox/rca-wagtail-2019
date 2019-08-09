@@ -7,8 +7,6 @@ class SubMenu {
 
     constructor(node) {
         this.node = node;
-        this.levelTwo = document.querySelector('[data-nav-level-2]');
-        this.levelThree = document.querySelector('[data-nav-level-3]');
         this.navLinks = document.querySelectorAll('[data-menu-id]');
         this.visibleClass = 'is-visible';
         this.activeClass = 'is-active';
@@ -30,8 +28,10 @@ class SubMenu {
     initDesktop() {
         this.navLinks.forEach(link => {
             hoverintent(link, (e) => {
+                // on hover
                 this.activateMenu(e.target);
             }, () => {
+                // hover out
                 return;
             }).options(this.hoverintentOptions);
         });
@@ -44,81 +44,65 @@ class SubMenu {
             // mouseout
             this.getMenuContext(e.target.dataset);
         }).options(this.hoverintentOptions);
-
-        // level three hover
-        this.levelThree.addEventListener('mouseover', (e) => {
-            this.levelTwo.classList.add(this.visibleClass);
-            if (e.target.tagName === 'A') {
-                this.showPrevSubMenu(e.target.dataset.menu);
-            }
-        });
-
-        // level three hover off
-        this.levelThree.addEventListener('mouseout', (e) => {
-            this.levelTwo.classList.remove(this.visibleClass);
-            if (e.target.tagName === 'A') {
-                this.hidePrevSubMenu(e.target.dataset.menu);
-            }
-        });
     }
 
     // tablet click events
     initTablet() {
         this.node.addEventListener('click', (e) => {
             e.preventDefault();
-            this.getMenuContext(e.target.dataset);
+            this.activateMenu(e.target);
         });
     }
 
-    getMenuContext(dataset) {
-        const menuLevel = parseInt(dataset.navLevel);
-        const menu = dataset.menu;
-
-        // slide out the menu drawer
-        this.toggleDrawer(menuLevel + 1);
-
-        // show the sub-menu
-        this.toggleSubMenu(menuLevel + 1, menu);
+    removeClass(selector, className) {
+        const toRemove = document.querySelectorAll(selector);
+        toRemove.forEach(item => {
+            item.classList.remove(className);
+        });
+        return toRemove;
     }
 
-    // keep level two open if we're on level three
-    showPrevSubMenu(menu) {
-        const targetMenu = document.querySelector(`[data-nav-level-2] [data-menu-${menu}]`);
-        targetMenu.classList.add(this.visibleClass);
-    }
-
-    // hide level two if we leave level three
-    hidePrevSubMenu(menu) {
-        const targetMenu = document.querySelector(`[data-nav-level-2] [data-menu-${menu}]`);
-        targetMenu.classList.remove(this.visibleClass);
-    }
-
-    // hide/show a menu
-    toggleSubMenu(menuLevel, menu) {
-        const targetMenu = document.querySelector(`[data-nav-level-${menuLevel}] [data-menu-${menu}]`);
-        targetMenu.classList.contains(this.visibleClass) ? targetMenu.classList.remove(this.visibleClass) : targetMenu.classList.add(this.visibleClass);
-    }
-
-    // hide show a drawer, containing the menus
-    toggleDrawer(menuLevel) {
-        const drawer = document.querySelector(`[data-nav-level-${menuLevel}]`);
-        drawer.classList.contains(this.visibleClass) ? drawer.classList.remove(this.visibleClass) : drawer.classList.add(this.visibleClass);
+    addClass(selector, className) {
+        const toAdd = document.querySelectorAll(selector);
+        toAdd.forEach(item => {
+            item.classList.add(className);
+        });
+        return toAdd;
     }
 
     // add active link styles
     activateMenu(navItem) {
-
-        const siblingLinks = document.querySelectorAll(`[data-nav-level="${navItem.dataset.navLevel}"]`);
-        siblingLinks.forEach(sibling => {
-            sibling.classList.remove(this.activeClass);
-        });
-
         const itemLevel = parseInt(navItem.dataset.navLevel);
-        const childLinks = document.querySelectorAll(`[data-nav-level="${itemLevel + 1}"]`);
-        childLinks.forEach(child => {
-            child.classList.remove(this.activeClass);
-        });
+        const childDrawer = `[data-nav-level-${itemLevel + 1}]`;
+        const grandChildDrawer = `[data-nav-level-${itemLevel + 2}]`;
+        const childMenus = `[data-ul="${itemLevel + 1}"]`;
 
+        // hide all <ul> elements in child menus
+        this.removeClass(childMenus, this.visibleClass);
+
+        // show only my child menu
+        const childMenuSelector = `[data-menu-${navItem.dataset.menuId}]`;
+        const childMenu = this.addClass(childMenuSelector, this.visibleClass);
+
+        // only show child drawer if has a menu else make sure it's gone
+        if (childMenu.length > 0) {
+            this.addClass(childDrawer, this.visibleClass);
+        } else {
+            this.removeClass(childDrawer, this.visibleClass);
+        }
+
+        // ensure grandchild drawers are hidden
+        this.removeClass(grandChildDrawer, this.visibleClass);
+
+        // deactivate all sibling links
+        const siblingLinks = `[data-nav-level="${itemLevel}"]`;
+        this.removeClass(siblingLinks, this.activeClass);
+
+        // deactivate all child links
+        const childLinks = `[data-nav-level="${itemLevel + 1}"]`;
+        this.removeClass(childLinks, this.activeClass);
+
+        // activate my link
         navItem.classList.add(this.activeClass);
 
         // find <a> with same id in previous menu and activate
