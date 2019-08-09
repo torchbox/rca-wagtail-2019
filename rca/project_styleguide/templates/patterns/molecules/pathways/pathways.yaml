@@ -1,0 +1,14 @@
+context:
+  pathways:
+    - path:
+      title: 'Graphic Design'
+      link: '#'
+      body: 'Extending and disrupting the tools, intent and role of graphic design.'
+    - path:
+      title: 'Experimental Communication'
+      link: '#'
+      body: 'Extending and disrupting the tools, intent and role of graphic design.'
+    - path:
+      title: 'Illustration'
+      link: '#'
+      body: 'Extending and disrupting the tools, intent and role of graphic design.'

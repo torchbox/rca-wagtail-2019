@@ -1,5 +1,11 @@
 .introduction {
+    line-height: $line-height-large;
+
     .page__header & {
         @include font-size(l);
+    }
+
+    .section__row & {
+        @include font-size(s);
     }
 }

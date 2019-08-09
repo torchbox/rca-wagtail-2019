@@ -1,0 +1,27 @@
+.programme-overview {
+    &__key-details {
+        grid-row: 3;
+        grid-column: 1 / span 2;
+
+        @include media-query(large) {
+            grid-row: auto;
+            grid-column: 1 / span 1;
+        }
+    }
+
+    &__body {
+        grid-column: 1 / span 2;
+
+        @include media-query(large) {
+            grid-column: 3 / span 2;
+        }
+    }
+
+    &__pathways {
+        padding-top: ($gutter * 3.5);
+
+        @include media-query(large) {
+            padding-top: ($gutter * 4);
+        }
+    }
+}
