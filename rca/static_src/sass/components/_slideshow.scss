@@ -1,7 +1,18 @@
 .slideshow {
     $root: &;
-    $meta-height: 65px;
+    $meta-height: 20px;
+    $meta-height-w-author: 65px;
     padding-bottom: ($gutter * 2);
+
+    &--author-info {
+
+        #{$root}__controls {
+            @include media-query(large) {
+                top: -$meta-height-w-author;
+            }
+        }
+
+    }
 
     &__liveregion {
         @include hidden();

@@ -1,0 +1,14 @@
+<div class="section__row grid facilities">
+    <h2 class="facilities__heading heading heading--four">{{ title }}</h2>
+    <div class="facilities__introduction">
+        <p class="introduction">{{ introduction }}</p>
+        <a href="#" class="facilites__view-all">{{ link_text }}</a>
+    </div>
+    <div class="facilities__body">
+        <p>{{ body }}</p>
+    </div>
+</div>
+
+<div class="section__row facilities__slideshow">
+    {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=faclitySlides modifier=slideshowModifier %}
+</div>
