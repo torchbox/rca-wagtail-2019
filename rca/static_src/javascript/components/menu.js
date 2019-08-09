@@ -60,11 +60,19 @@ class Menu {
     }
 
     open() {
-        this.body.classList.add(this.drawerOpenClass, this.activeClass, this.noScrollClass);
+        this.body.classList.add(
+            this.drawerOpenClass,
+            this.activeClass,
+            this.noScrollClass,
+        );
     }
 
     close() {
-        this.body.classList.remove(this.drawerOpenClass, this.activeClass, this.noScrollClass);
+        this.body.classList.remove(
+            this.drawerOpenClass,
+            this.activeClass,
+            this.noScrollClass,
+        );
     }
 }
 
