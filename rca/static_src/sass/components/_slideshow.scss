@@ -5,7 +5,6 @@
     padding-bottom: ($gutter * 2);
 
     &--author-info {
-
         #{$root}__controls {
             @include media-query(large) {
                 top: -$meta-height-w-author;
@@ -17,7 +16,6 @@
                 margin-top: 0;
             }
         }
-
     }
 
     &__liveregion {

@@ -1,5 +1,4 @@
 .facilities {
-
     &__heading {
         grid-column: 1 / span 2;
         margin-bottom: ($grid * 1.5);
@@ -11,7 +10,6 @@
         @include media-query(large) {
             grid-column: 2 / span 1;
         }
-
     }
 
     &__introduction {
@@ -26,7 +24,6 @@
             grid-column: 3 / span 1;
             grid-row: auto;
         }
-
     }
 
     &__action {
@@ -36,7 +33,6 @@
         @include media-query(medium) {
             display: none;
         }
-
     }
 
     &__body {
@@ -60,11 +56,9 @@
         @include media-query(medium) {
             padding-top: ($gutter * 4.5);
         }
-
     }
 
     &__view-all {
-
         &--medium {
             display: none !important; // override link setting
 
@@ -76,7 +70,5 @@
                 margin-top: $gutter;
             }
         }
-
     }
-
 }
