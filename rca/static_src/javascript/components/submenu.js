@@ -1,3 +1,5 @@
+import hoverintent from 'hoverintent';
+
 class SubMenu {
     static selector() {
         return '[data-menu-parent]';
@@ -5,12 +7,12 @@ class SubMenu {
 
     constructor(node) {
         this.node = node;
-        this.body = document.querySelector('body');
         this.levelTwo = document.querySelector('[data-nav-level-2]');
         this.levelThree = document.querySelector('[data-nav-level-3]');
         this.navLinks = document.querySelectorAll('[data-menu-id]');
         this.visibleClass = 'is-visible';
         this.activeClass = 'is-active';
+        this.hoverintentOptions = { timeout: 400 };
         this.bindEventListeners();
     }
 
@@ -26,29 +28,22 @@ class SubMenu {
 
     // desktop hover events
     initDesktop() {
-        // level two and three event listeners
         this.navLinks.forEach(link => {
-            // on hover
-            link.addEventListener('mouseover', (e) => {
-                // activate previous menu item
+            hoverintent(link, (e) => {
                 this.activateMenu(e.target);
-            });
+            }, () => {
+                return;
+            }).options(this.hoverintentOptions);
         });
 
-        // on hover
-        this.node.addEventListener('mouseover', (e) => {
-            if (e.target.tagName === 'A') {
-                // get matching child menu
-                this.getMenuContext(e.target.dataset);
-            }
-        });
-
-        // hover off
-        this.node.addEventListener('mouseout', (e) => {
-            if (e.target.tagName === 'A') {
-                this.getMenuContext(e.target.dataset);
-            }
-        });
+        // delay hover actions to make the menu more useable
+        hoverintent(this.node, (e) => {
+            // mouse over
+            this.getMenuContext(e.target.dataset);
+        }, (e) => {
+            // mouseout
+            this.getMenuContext(e.target.dataset);
+        }).options(this.hoverintentOptions);
 
         // level three hover
         this.levelThree.addEventListener('mouseover', (e) => {
