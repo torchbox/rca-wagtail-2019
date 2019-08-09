@@ -16,10 +16,21 @@
     &--subnav {
         height: 100%;
         display: none;
+        max-height: 500px;
+        overflow: scroll;
 
         &:hover,
         &.is-visible {
             display: block;
+        }
+
+        @include media-query(medium) {
+            max-height: 500px;
+        }
+
+        @include media-query(large) {
+            padding-top: ($gutter * 9.5);
+            max-height: 900px;
         }
     }
 
