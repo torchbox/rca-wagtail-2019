@@ -40,7 +40,7 @@ class SubMenu {
         hoverintent(this.node, (e) => {
             // mouse over
             this.activateMenu(e.target);
-        }, (e) => {
+        }, () => {
             // mouseout
             return;
         }).options(this.hoverintentOptions);
