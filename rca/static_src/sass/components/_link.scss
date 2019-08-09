@@ -2,115 +2,38 @@
     $root: &;
     display: inline-flex;
     align-items: flex-start;
-    max-width: 190px;
     position: relative;
-
-    &:hover,
-    &:active,
-    &:focus {
-        #{$root}__icon--rotated {
-            transform: rotate(-45deg) translate3d(5px, 0, 0);
-        }
-
-        #{$root}__icon--down {
-            transform: rotate(90deg) translate3d(3px, 0, 0);
-        }
-
-        #{$root}__icon--download {
-            transform: translate3d(0, 3px, 0);
-        }
-    }
-
-    &--secondary {
-        color: $color--primary;
-    }
-
-    &--tertiary {
-        display: inline-flex;
-        align-items: center;
-        max-width: 100%;
-        color: $color--black;
-    }
-
-    &--primary,
-    &--secondary {
-        padding-top: 10px;
-
-        &::after {
-            content: '';
-            display: block;
-            height: 2px;
-            left: 0;
-            position: absolute;
-            background: currentColor;
-            transition: width $transition;
-            width: 100%;
-            top: 0;
-        }
-
-        &:hover,
-        &:active,
-        &:focus {
-            &::after {
-                width: calc(100% + 6px);
-            }
-        }
-    }
-
-    &--primary,
-    &--secondary,
-    &--anchor {
-        padding-right: 16px;
-
-        #{$root}__icon {
-            position: absolute;
-            right: 0;
-            top: 0;
-            margin-top: 5px;
-        }
-    }
 
     &--primary {
         color: $color--tertiary;
 
-        #{$root}__icon--rotated {
-            margin-top: 12px;
+        &:hover,
+        &:active,
+        &:focus {
+            color: $color--tertiary;
         }
     }
 
-    &--anchor {
-        @include underline-hover();
-        position: relative;
-    }
-
-    &--download {
-        align-items: flex-start;
-    }
-
-    &--has-icon {
-        #{$root}__label {
-            margin-right: 2px;
-        }
-    }
-
-    &--dark-bg {
-        color: $color--white;
-
-        #{$root}__icon {
-            fill: $color--white;
-            stroke: $color--white;
-        }
+    &--secondary {
+        color: $color--black;
 
         &:hover,
         &:active,
         &:focus {
-            color: $color--white;
+            color: $color--black;
         }
     }
 
-    &--top-line {
+    &--primary,
+    &--secondary {
+        max-width: 190px;
         padding-top: 10px;
 
+        #{$root}__icon {
+            top: 0.25em;
+        }
+
+        // horizontal line
         &::after {
             content: '';
             display: block;
@@ -121,34 +44,171 @@
             transition: width $transition;
             width: 100%;
             top: 0;
+
+            @include media-query(large) {
+                height: 2px;
+            }
+
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+
+            &::after {
+                width: calc(100% + 6px);
+            }
+
         }
     }
 
+    &--tertiary {
+        @include underline-hover();
+        color: $color--black;
+
+        &:hover,
+        &:active,
+        &:focus {
+            color: $color--black;
+        }
+
+        #{$root}__icon {
+            top: 0.15em;
+        }
+
+    }
+
+    &--down {
+
+        #{$root}__icon {
+            transform: rotate(90deg) translate3d(0, 0, 0);
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+
+            #{$root}__icon {
+                transform: rotate(90deg) translate3d(3px, 0, 0);
+            }
+
+        }
+
+    }
+
+    &--download {
+
+        #{$root}__icon {
+            transform: translate3d(0, 0, 0);
+            flex-basis: 8px;
+            min-width: 8px;
+            max-width: 8px;
+            width: 8px;
+            height: 12px;
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+
+            #{$root}__icon {
+                transform: translate3d(0, 3px, 0);
+            }
+
+        }
+
+    }
+
+    &--link {
+
+        #{$root}__icon {
+            transform: rotate(-45deg) translate3d(0, 0, 0);
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+
+            #{$root}__icon {
+                transform: rotate(-45deg) translate3d(5px, 0, 0);
+            }
+
+        }
+
+    }
+
+    &--up {
+
+        #{$root}__icon {
+            transform: rotate(-90deg) translate3d(0, 0, 0);
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+
+            #{$root}__icon {
+                transform: rotate(-90deg) translate3d(3px, 0, 0);
+            }
+
+        }
+
+    }
+
+    &--back {
+
+        #{$root}__label {
+            margin-left: 5px;
+            margin-right: 0;
+        }
+
+        #{$root}__icon {
+            transform: rotate(-180deg) translate3d(0, 0, 0);
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+
+            #{$root}__icon {
+                transform: rotate(-180deg) translate3d(3px, 0, 0);
+            }
+
+        }
+
+    }
+
+    .bg--dark & {
+
+        &#{$root}--secondary,
+        &#{$root}--tertiary {
+            color: $color--white;
+
+            &:hover,
+            &:active,
+            &:focus {
+                color: $color--white;
+            }
+        }
+
+    }
+
     &__icon {
+        position: relative;
         flex-basis: 12px;
         min-width: 12px;
         max-width: 12px;
         width: 12px;
         height: 8px;
         fill: currentColor;
+        stroke: currentColor;
         will-change: transform;
+        transform-origin: center center;
         transition: transform $transition;
-
-        &--rotated {
-            transform: rotate(-45deg) translate3d(0, 0, 0);
-        }
-
-        &--down {
-            transform: rotate(90deg) translate3d(0, 0, 0);
-        }
-
-        &--download {
-            flex-basis: 8px;
-            min-width: 8px;
-            max-width: 8px;
-            max-height: 12px;
-            min-height: 12px;
-            transform: translate3d(0, 0, 0);
-        }
     }
+
+    &__label {
+        margin-right: 5px;
+    }
+
 }
