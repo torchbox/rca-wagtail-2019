@@ -35,7 +35,7 @@
         cursor: pointer;
 
         @include media-query(medium) {
-            margin-right: $gutter;
+            margin-right: ($gutter * 1.5);
             margin-left: unset;
         }
 
@@ -158,6 +158,10 @@
 
         &--level-zero {
             position: relative;
+
+            .search-active & {
+                position: static;
+            }
 
             @include media-query(medium) {
                 height: 100vh;

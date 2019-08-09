@@ -118,4 +118,32 @@
             }
         }
     }
+
+    &__search {
+        &--tablet {
+            width: calc(100% - 40px);
+            position: absolute;
+
+            @include media-query(medium) {
+                position: relative;
+                width: 100%;
+            }
+
+            @include media-query(large) {
+                display: none;
+            }
+        }
+
+        &--desktop {
+            display: none;
+
+            @include media-query(large) {
+                display: block;
+            }
+        }
+
+        .menu-active & {
+            display: none;
+        }
+    }
 }
