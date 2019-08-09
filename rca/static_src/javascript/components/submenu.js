@@ -17,7 +17,7 @@ class SubMenu {
     bindEventListeners() {
         this.isDesktop = window.innerWidth > 1022;
 
-        if(this.isDesktop) {
+        if (this.isDesktop) {
             this.initDesktop();
         } else {
             this.initTablet();
@@ -26,24 +26,32 @@ class SubMenu {
 
     // desktop hover events
     initDesktop() {
-        this.navLinks.forEach(link => {
-            hoverintent(link, (e) => {
-                // on hover
-                this.activateMenu(e.target);
-            }, () => {
-                // hover out
-                return;
-            }).options(this.hoverintentOptions);
+        this.navLinks.forEach((link) => {
+            hoverintent(
+                link,
+                (e) => {
+                    // on hover
+                    this.activateMenu(e.target);
+                },
+                () => {
+                    // hover out
+                    return;
+                },
+            ).options(this.hoverintentOptions);
         });
 
         // delay hover actions to make the menu more useable
-        hoverintent(this.node, (e) => {
-            // mouse over
-            this.activateMenu(e.target);
-        }, () => {
-            // mouseout
-            return;
-        }).options(this.hoverintentOptions);
+        hoverintent(
+            this.node,
+            (e) => {
+                // mouse over
+                this.activateMenu(e.target);
+            },
+            () => {
+                // mouseout
+                return;
+            },
+        ).options(this.hoverintentOptions);
     }
 
     // tablet click events
@@ -56,7 +64,7 @@ class SubMenu {
 
     removeClass(selector, className) {
         const toRemove = document.querySelectorAll(selector);
-        toRemove.forEach(item => {
+        toRemove.forEach((item) => {
             item.classList.remove(className);
         });
         return toRemove;
@@ -64,7 +72,7 @@ class SubMenu {
 
     addClass(selector, className) {
         const toAdd = document.querySelectorAll(selector);
-        toAdd.forEach(item => {
+        toAdd.forEach((item) => {
             item.classList.add(className);
         });
         return toAdd;
@@ -106,7 +114,9 @@ class SubMenu {
         navItem.classList.add(this.activeClass);
 
         // find <a> with same id in previous menu and activate
-        const parentAnchor = document.querySelector(`[data-id="${navItem.dataset.parentId}"]`);
+        const parentAnchor = document.querySelector(
+            `[data-id="${navItem.dataset.parentId}"]`,
+        );
 
         if (parentAnchor) {
             this.activatePrevious(parentAnchor);

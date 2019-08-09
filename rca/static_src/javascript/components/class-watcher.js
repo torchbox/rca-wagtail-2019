@@ -1,6 +1,10 @@
 class ClassWatcher {
-
-    constructor(targetNode, classToWatch, classAddedCallback, classRemovedCallback) {
+    constructor(
+        targetNode,
+        classToWatch,
+        classAddedCallback,
+        classRemovedCallback,
+    ) {
         this.targetNode = targetNode;
         this.classToWatch = classToWatch;
         this.classAddedCallback = classAddedCallback;
@@ -24,22 +28,26 @@ class ClassWatcher {
         this.observer.disconnect();
     }
 
-    mutationCallback = mutationsList => {
-        for(let mutation of mutationsList) {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                let currentClassState = mutation.target.classList.contains(this.classToWatch);
-                if(this.lastClassState !== currentClassState) {
+    mutationCallback = (mutationsList) => {
+        for (let mutation of mutationsList) {
+            if (
+                mutation.type === 'attributes' &&
+                mutation.attributeName === 'class'
+            ) {
+                let currentClassState = mutation.target.classList.contains(
+                    this.classToWatch,
+                );
+                if (this.lastClassState !== currentClassState) {
                     this.lastClassState = currentClassState;
-                    if(currentClassState) {
+                    if (currentClassState) {
                         this.classAddedCallback();
-                    }
-                    else {
+                    } else {
                         this.classRemovedCallback();
                     }
                 }
             }
         }
-    }
+    };
 }
 
 export default ClassWatcher;
