@@ -34,13 +34,7 @@
         grid-row: 4;
 
         @include media-query(medium) {
-            grid-column: 1 / span 1;
-            grid-row: 3;
-        }
-
-        @include media-query(large) {
-            grid-column: 3 / span 1;
-            grid-row: auto;
+            display: none;
         }
 
     }
@@ -70,7 +64,19 @@
     }
 
     &__view-all {
-        margin-top: ($gutter);
+
+        &--medium {
+            display: none !important; // override link setting
+
+            @include media-query(medium) {
+                display: inline-flex !important;
+            }
+
+            @include media-query(large) {
+                margin-top: $gutter;
+            }
+        }
+
     }
 
 }
