@@ -8,7 +8,7 @@ class SubMenu {
         this.body = document.querySelector('body');
         this.levelTwo = document.querySelector('[data-nav-level-2]');
         this.levelThree = document.querySelector('[data-nav-level-3]');
-        this.navChildren = document.querySelectorAll('[data-menu-child]');
+        this.navLinks = document.querySelectorAll('[data-menu-id]');
         this.visibleClass = 'is-visible';
         this.activeClass = 'is-active';
         this.bindEventListeners();
@@ -27,17 +27,11 @@ class SubMenu {
     // desktop hover events
     initDesktop() {
         // level two and three event listeners
-        this.navChildren.forEach(child => {
+        this.navLinks.forEach(link => {
             // on hover
-            child.addEventListener('mouseover', (e) => {
+            link.addEventListener('mouseover', (e) => {
                 // activate previous menu item
-                this.activatePrevious(e.target.dataset);
-            });
-
-            // hover off
-            child.addEventListener('mouseout', (e) => {
-                // deactivate previous menu item
-                this.deactivatePrevious(e.target.dataset);
+                this.activateMenu(e.target);
             });
         });
 
@@ -82,14 +76,14 @@ class SubMenu {
     }
 
     getMenuContext(dataset) {
-        const menuLevel = dataset.targetLevel;
+        const menuLevel = parseInt(dataset.navLevel);
         const menu = dataset.menu;
 
         // slide out the menu drawer
-        this.toggleDrawer(menuLevel);
+        this.toggleDrawer(menuLevel + 1);
 
         // show the sub-menu
-        this.toggleSubMenu(menuLevel, menu);
+        this.toggleSubMenu(menuLevel + 1, menu);
     }
 
     // keep level two open if we're on level three
@@ -116,24 +110,28 @@ class SubMenu {
         drawer.classList.contains(this.visibleClass) ? drawer.classList.remove(this.visibleClass) : drawer.classList.add(this.visibleClass);
     }
 
-    // add active link styles if we navgiate deeper into the menu
-    activatePrevious(dataset) {
-        const targetLevel = dataset.targetLevel;
-        const menu = dataset.menu;
+    // add active link styles
+    activateMenu(navItem) {
 
-        const prevMenuNumber = targetLevel - 2;
-        const prevMenuItem = document.querySelector(`[data-nav-level-${prevMenuNumber}] a[data-menu="${menu}"]`);
-        prevMenuItem.classList.add(this.activeClass);
-    }
+        const siblingLinks = document.querySelectorAll(`[data-nav-level="${navItem.dataset.navLevel}"]`);
+        siblingLinks.forEach(sibling => {
+            sibling.classList.remove(this.activeClass);
+        });
 
-    // add active link styles if we navgiate deeper into the menu
-    deactivatePrevious(dataset) {
-        const targetLevel = dataset.targetLevel;
-        const menu = dataset.menu;
+        const itemLevel = parseInt(navItem.dataset.navLevel);
+        const childLinks = document.querySelectorAll(`[data-nav-level="${itemLevel + 1}"]`);
+        childLinks.forEach(child => {
+            child.classList.remove(this.activeClass);
+        });
 
-        const prevMenuNumber = targetLevel - 2;
-        const prevMenuItem = document.querySelector(`[data-nav-level-${prevMenuNumber}] a[data-menu="${menu}"]`);
-        prevMenuItem.classList.remove(this.activeClass);
+        navItem.classList.add(this.activeClass);
+
+        // find <a> with same id in previous menu and activate
+        const parentAnchor = document.querySelector(`[data-id="${navItem.dataset.parentId}"]`);
+
+        if (parentAnchor) {
+            this.activatePrevious(parentAnchor);
+        }
     }
 }
 
