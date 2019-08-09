@@ -16,12 +16,10 @@
     }
 
     &__header {
-
         @include media-query(medium) {
             // grid-column: 1 / span 2;
             flex-basis: 100%;
         }
-
     }
 
     &__heading {
@@ -31,47 +29,38 @@
 
     // Only used for medium breakpoint rejigged layout
     &__section {
-
         @include media-query(medium) {
             flex-basis: 50%;
         }
 
         &--details {
-
             @include media-query(medium) {
                 order: 2;
             }
-
         }
 
         &--deadline {
-
             @include media-query(medium) {
                 order: 4;
                 flex-grow: 0;
                 flex-shrink: 1;
             }
-
         }
 
         &--open-days {
-
             @include media-query(medium) {
                 order: 3;
                 flex-grow: 0;
                 flex-shrink: 1;
             }
-
         }
 
         &--career {
-
             @include media-query(medium) {
                 order: 5;
                 flex-grow: 0;
                 flex-shrink: 1;
             }
-
         }
 
         &--action {
@@ -89,9 +78,7 @@
                 max-width: 100%;
                 width: auto;
             }
-
         }
-
     }
 
     &__sub-heading {
@@ -114,19 +101,14 @@
     }
 
     .bg--dark & {
-
         @include media-query(large) {
             border-top: 1px solid $color--grid-line-light;
         }
-
     }
 
     .bg--light & {
-
         @include media-query(large) {
             border-top: 1px solid $color--grid-line-dark;
         }
-
     }
-
 }

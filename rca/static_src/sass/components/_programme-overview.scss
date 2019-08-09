@@ -1,5 +1,4 @@
 .programme-overview {
-
     &__key-details {
         grid-row: 3;
         grid-column: 1 / span 2;
@@ -8,7 +7,6 @@
             grid-row: auto;
             grid-column: 1 / span 1;
         }
-
     }
 
     &__body {
@@ -17,7 +15,6 @@
         @include media-query(large) {
             grid-column: 3 / span 2;
         }
-
     }
 
     &__pathways {
@@ -26,7 +23,5 @@
         @include media-query(large) {
             padding-top: ($gutter * 4);
         }
-
     }
-
 }
