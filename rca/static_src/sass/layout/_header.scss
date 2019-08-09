@@ -180,13 +180,16 @@
             @include z-index(nav);
             position: relative;
             padding-top: 0;
+            margin-top: -($gutter * 1.5);
 
             @include media-query(medium) {
+                margin-top: 0;
                 padding-top: ($gutter * 2);
             }
 
             @include media-query(large) {
                 padding-top: ($gutter * 6.25);
+                height: 830px;
             }
         }
 
