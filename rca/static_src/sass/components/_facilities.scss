@@ -1,6 +1,5 @@
 .facilities {
 
-
     &__heading {
 
         @include media-query(large) {
@@ -8,4 +7,17 @@
         }
 
     }
+
+    &__body {
+        @include font-size(xxs);
+    }
+
+    &__slideshow {
+        padding-top: ($gutter * 4.5);
+    }
+
+    &__view-all {
+        margin-top: ($gutter);
+    }
+
 }
