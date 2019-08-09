@@ -1,0 +1,16 @@
+.pathways {
+    padding-bottom: ($gutter * 3);
+
+    @include media-query(large) {
+        padding-bottom: 0;
+    }
+
+    &__heading {
+        margin-bottom: $gutter;
+    }
+
+    &__items {
+        padding-top: ($gutter / 2);
+    }
+
+}

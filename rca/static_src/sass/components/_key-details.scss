@@ -1,0 +1,132 @@
+.key-details {
+    position: relative;
+    margin-bottom: ($gutter * 3);
+
+    @include media-query(medium) {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+    @include media-query(large) {
+        display: block;
+        padding-top: ($gutter * 1.5);
+        margin-bottom: ($gutter * 2);
+    }
+
+    &__header {
+
+        @include media-query(medium) {
+            // grid-column: 1 / span 2;
+            flex-basis: 100%;
+        }
+
+    }
+
+    &__heading {
+        color: $color--light-grey;
+        margin-bottom: ($gutter * 2);
+    }
+
+    // Only used for medium breakpoint rejigged layout
+    &__section {
+
+        @include media-query(medium) {
+            flex-basis: 50%;
+        }
+
+        &--details {
+
+            @include media-query(medium) {
+                order: 2;
+            }
+
+        }
+
+        &--deadline {
+
+            @include media-query(medium) {
+                order: 4;
+                flex-grow: 0;
+                flex-shrink: 1;
+            }
+
+        }
+
+        &--open-days {
+
+            @include media-query(medium) {
+                order: 3;
+                flex-grow: 0;
+                flex-shrink: 1;
+            }
+
+        }
+
+        &--career {
+
+            @include media-query(medium) {
+                order: 5;
+                flex-grow: 0;
+                flex-shrink: 1;
+            }
+
+        }
+
+        &--action {
+            max-width: 230px;
+
+            @include media-query(medium) {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 50%;
+            }
+
+            @include media-query(large) {
+                position: static;
+                max-width: 100%;
+                width: auto;
+            }
+
+        }
+
+    }
+
+    &__sub-heading {
+        color: $color--dark-grey;
+        margin-bottom: ($gutter / 2);
+    }
+
+    &__list {
+        @include font-size(xxs);
+        margin-bottom: ($gutter * 2);
+    }
+
+    &__list-item {
+        margin-bottom: ($gutter / 2.25);
+    }
+
+    &__link {
+        @include font-size(xxs);
+        margin-right: $gutter;
+    }
+
+    .bg--dark & {
+
+        @include media-query(large) {
+            border-top: 1px solid $color--grid-line-light;
+        }
+
+    }
+
+    .bg--light & {
+
+        @include media-query(large) {
+            border-top: 1px solid $color--grid-line-dark;
+        }
+
+    }
+
+}

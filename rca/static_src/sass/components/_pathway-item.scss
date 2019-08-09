@@ -1,0 +1,24 @@
+.pathway-item {
+    display: flex;
+    padding-top: ($gutter * 0.75);
+    padding-bottom: ($gutter * 2);
+
+    &__heading {
+        flex-basis: 50%;
+        max-width: 50%;
+        min-width: 50%;
+    }
+
+    &__link {
+        max-width: 170px;
+    }
+
+    .bg--dark & {
+        border-top: 1px solid $color--grid-line-light;
+    }
+
+    .bg--light & {
+        border-top: 1px solid $color--grid-line-dark;
+    }
+
+}

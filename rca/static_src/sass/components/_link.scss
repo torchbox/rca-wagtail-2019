@@ -15,10 +15,10 @@
         #{$root}__icon--down {
             transform: rotate(90deg) translate3d(3px, 0, 0);
         }
-    }
 
-    &--primary {
-        color: $color--tertiary;
+        #{$root}__icon--download {
+            transform: translate3d(0, 3px, 0);
+        }
     }
 
     &--secondary {
@@ -30,10 +30,6 @@
         align-items: center;
         max-width: 100%;
         color: $color--black;
-
-        #{$root}__label {
-            margin-right: 2px;
-        }
     }
 
     &--primary,
@@ -69,7 +65,18 @@
         #{$root}__icon {
             position: absolute;
             right: 0;
+            top: 0;
+            margin-top: 5px;
         }
+    }
+
+    &--primary {
+        color: $color--tertiary;
+
+        #{$root}__icon--rotated {
+            margin-top: 12px;
+        }
+
     }
 
     &--anchor {
@@ -77,8 +84,25 @@
         position: relative;
     }
 
+    &--download {
+        align-items: flex-start;
+    }
+
+    &--has-icon {
+
+        #{$root}__label {
+            margin-right: 2px;
+        }
+
+    }
+
     &--dark-bg {
         color: $color--white;
+
+        #{$root}__icon {
+            fill: $color--white;
+            stroke: $color--white;
+        }
 
         &:hover,
         &:active,
@@ -104,6 +128,9 @@
     }
 
     &__icon {
+        flex-basis: 12px;
+        min-width: 12px;
+        max-width: 12px;
         width: 12px;
         height: 8px;
         fill: currentColor;
@@ -116,6 +143,15 @@
 
         &--down {
             transform: rotate(90deg) translate3d(0, 0, 0);
+        }
+
+        &--download {
+            flex-basis: 8px;
+            min-width: 8px;
+            max-width: 8px;
+            max-height: 12px;
+            min-height: 12px;
+            transform: translate3d(0, 0, 0);
         }
     }
 }
