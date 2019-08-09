@@ -13,7 +13,7 @@ html {
         font-size: (map-get($large-font-sizes, xs) / 16px) * 100%;
     }
 
-    line-height: $base-line-height;
+    line-height: 1.4;
     color: $color--primary;
 }
 
