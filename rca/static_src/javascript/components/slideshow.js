@@ -14,24 +14,22 @@ class Slideshow {
         this.slideTotal = this.node.dataset.slidetotal;
         this.bindEvents();
         this.slideshow.mount();
-        this.updateScrollbar();
         this.setLiveRegion();
     }
 
     bindEvents() {
-        this.slideshow.on('move.after', () => {
-            this.updateAriaRoles();
-            this.updateLiveRegion();
-            this.updateScrollbar();
-        });
-
-        this.slideshow.on('swipe.start', () => {
-            this.updateScrollbar();
-        });
+        this.slideshowMoveAfter();
 
         window.addEventListener('resize', () => {
             this.getMargins();
             this.updateSlideshowBreakpoint();
+        });
+    }
+
+    slideshowMoveAfter() {
+        this.slideshow.on('move.after', () => {
+            this.updateAriaRoles();
+            this.updateLiveRegion();
             this.updateScrollbar();
         });
     }
@@ -74,6 +72,7 @@ class Slideshow {
         this.createSlideshow();
         this.slideTotal = this.node.dataset.slidetotal;
         this.slideshow.mount();
+        this.slideshowMoveAfter();
     }
 
     // sets aria-hidden on inactive slides
