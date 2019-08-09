@@ -178,6 +178,29 @@
 
     }
 
+    &__icon {
+        position: relative;
+        flex-basis: 12px;
+        min-width: 12px;
+        max-width: 12px;
+        width: 12px;
+        height: 8px;
+        fill: currentColor;
+        will-change: transform;
+        transform-origin: center center;
+        transition: transform $transition;
+
+        #{$root}--download & {
+            stroke: currentColor;
+        }
+
+    }
+
+    &__label {
+        margin-right: 5px;
+    }
+
+
     .bg--dark & {
 
         &#{$root}--secondary,
@@ -191,24 +214,6 @@
             }
         }
 
-    }
-
-    &__icon {
-        position: relative;
-        flex-basis: 12px;
-        min-width: 12px;
-        max-width: 12px;
-        width: 12px;
-        height: 8px;
-        fill: currentColor;
-        stroke: currentColor;
-        will-change: transform;
-        transform-origin: center center;
-        transition: transform $transition;
-    }
-
-    &__label {
-        margin-right: 5px;
     }
 
 }
