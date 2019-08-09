@@ -161,6 +161,10 @@
 
             .search-active & {
                 position: static;
+
+                @include media-query(large) {
+                    position: relative;
+                }
             }
 
             @include media-query(medium) {
