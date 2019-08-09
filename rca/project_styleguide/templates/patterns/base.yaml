@@ -1,0 +1,4 @@
+tags:
+  primarynav:
+    '':
+      template_name: 'patterns/molecules/navigation/primarynav.html'
