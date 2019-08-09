@@ -39,10 +39,10 @@ class SubMenu {
         // delay hover actions to make the menu more useable
         hoverintent(this.node, (e) => {
             // mouse over
-            this.getMenuContext(e.target.dataset);
+            this.activateMenu(e.target);
         }, (e) => {
             // mouseout
-            this.getMenuContext(e.target.dataset);
+            return;
         }).options(this.hoverintentOptions);
     }
 
