@@ -114,7 +114,6 @@
                 position: absolute;
                 display: block;
                 transform: translate3d(-100%, 0%, 0);
-                max-height: 900px;
             }
         }
     }
@@ -124,7 +123,7 @@
         padding-top: ($gutter * 2);
 
         @include media-query(large) {
-            height: 900px;
+            height: 100vh;
         }
 
         .headroom--pinned.headroom--not-top & {
@@ -145,6 +144,10 @@
             width: calc(100% - (#{$gutter} * 2));
             margin-top: ($gutter * 3.75);
             height: 80%;
+
+            .search-active & {
+                margin-top: ($gutter * 5.25);
+            }
 
             @include media-query(medium) {
                 left: unset;
@@ -194,10 +197,6 @@
 
             @include media-query(medium) {
                 height: 100vh;
-            }
-
-            @include media-query(large) {
-                height: 900px;
             }
         }
 
