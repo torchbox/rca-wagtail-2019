@@ -4,7 +4,6 @@
     $notch-height-medium: 74px;
 
     &--image {
-
         #{$root}__content {
             position: relative;
             top: -$notch-height-small;
@@ -37,7 +36,6 @@
                     content: none;
                 }
             }
-
         }
 
         // ensure card__content:after doens't hide content
@@ -59,7 +57,6 @@
         @include media-query(large) {
             grid-column: 2 / span 3;
         }
-
     }
 
     &__image-container {
@@ -93,7 +90,6 @@
             grid-column: 2 / span 2;
             padding-right: $gutter;
         }
-
     }
 
     &__meta {
@@ -118,18 +114,15 @@
     }
 
     &__person {
-
         @include media-query(large) {
             display: flex;
             grid-row: 2;
             grid-column: 4 / span 1;
             padding-top: $gutter;
         }
-
     }
 
     &__person-image {
-
         @include media-query(large) {
             display: block;
             flex-basis: 60px;
@@ -159,9 +152,7 @@
     }
 
     .bg--dark & {
-
         &#{$root}--image {
-
             #{$root}__content {
                 color: $color--white;
 
@@ -172,19 +163,12 @@
                 &::after {
                     background-color: $color--black;
                 }
-
             }
-
         }
-
-
-
     }
 
     .bg--light & {
-
         &#{$root}--image {
-
             #{$root}__content {
                 color: $color--black;
 
@@ -195,10 +179,7 @@
                 &::after {
                     background-color: $color--white;
                 }
-
             }
-
         }
-
     }
 }
