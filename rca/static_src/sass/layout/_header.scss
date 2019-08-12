@@ -47,8 +47,8 @@
         }
 
         @include media-query(medium) {
-            margin-right: ($gutter * 1.5);
-            margin-left: unset;
+            margin-right: 10%;
+            margin-left: 0;
         }
 
         &--small {
@@ -99,7 +99,9 @@
 
     &__menu-close {
         fill: $color--white;
-        margin: ($grid / 4) $grid 0 auto;
+        position: absolute;
+        right: 10px;
+        bottom: -5px;
     }
 
     &__menus {
