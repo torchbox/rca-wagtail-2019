@@ -1,5 +1,8 @@
 .section {
     $root: &;
+    $notch-height-small: 36px;
+    $notch-height-medium: 80px;
+    $notch-height-large: 100px;
 
     &--full {
         #{$root}__container {
@@ -29,6 +32,81 @@
 
             @include media-query(large) {
                 margin-bottom: ($gutter * 1.5);
+            }
+        }
+    }
+
+    &__notch {
+        @include grid-layout();
+    }
+
+    &__notch-fill {
+        position: relative;
+        height: $notch-height-small;
+        grid-column: 1 / span 1;
+
+        @include media-query(medium) {
+            height: $notch-height-medium;
+        }
+
+        @include media-query(large) {
+            height: $notch-height-large;
+        }
+
+        &::before {
+            display: block;
+            position: absolute;
+            left: 1px;
+            top: 0;
+            height: 100%;
+            content: '';
+            width: 200%;
+            transform: translate3d(-100%, 0, 0);
+        }
+
+        &--first-col {
+            @include media-query(large) {
+                grid-column: 1 / span 1;
+            }
+        }
+
+        &--second-col {
+            @include media-query(large) {
+                grid-column: 1 / span 2;
+            }
+        }
+
+        &--third-col {
+            @include media-query(large) {
+                grid-column: 1 / span 3;
+            }
+        }
+
+        &--fourth-col {
+            @include media-query(large) {
+                grid-column: 1 / span 4;
+            }
+        }
+
+        &--fifth-col {
+            @include media-query(large) {
+                grid-column: 1 / span 5;
+            }
+        }
+
+        .bg--dark & {
+            background-color: $color--white;
+
+            &::before {
+                background-color: $color--white;
+            }
+        }
+
+        .bg--light & {
+            background-color: $color--black;
+
+            &::before {
+                background-color: $color--black;
             }
         }
     }
