@@ -8,7 +8,7 @@ class Slideshow {
     constructor(node) {
         this.node = node;
         this.progressbar = this.node.querySelector('[data-scroll-progress]');
-        this.windowWidth = window.innerWidth
+        this.windowWidth = window.innerWidth;
 
         this.getMargins();
         this.createSlideshow();
@@ -25,16 +25,15 @@ class Slideshow {
             this.updateScrollbar();
         });
 
-        // Resize Event
         window.addEventListener('resize', () => {
             // Check window width has actually changed and it's not just iOS triggering a resize event on scroll
             if (window.innerWidth != this.windowWidth) {
                 // Update the window width for next time
-                this.windowWidth = window.innerWidth
+                this.windowWidth = window.innerWidth;
                 this.getMargins();
                 this.updateSlideshowBreakpoint();
             }
-        })
+        });
     }
 
     getMargins() {
