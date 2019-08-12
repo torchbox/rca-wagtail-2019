@@ -68,13 +68,13 @@ textarea {
 
 a {
     font-family: $font--secondary;
-    color: $color--primary;
     text-decoration: none;
 
     &:focus,
     &:hover {
         cursor: pointer;
     }
+
 }
 
 ul,
