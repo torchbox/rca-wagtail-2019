@@ -3,6 +3,7 @@
     $meta-height: 20px;
     $meta-height-w-author: 65px;
     padding-bottom: ($gutter * 2);
+    overflow-x: hidden; // Prevent horizontal scroll on iOS
 
     &--author-info {
         #{$root}__controls {
