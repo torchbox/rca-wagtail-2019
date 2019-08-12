@@ -20,6 +20,10 @@
         @include media-query(medium) {
             margin-top: 0;
         }
+
+        .headroom--not-top & {
+            margin-top: ($grid * 3.75);
+        }
     }
 
     .header-content-dark & {
