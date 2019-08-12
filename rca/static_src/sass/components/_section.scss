@@ -65,11 +65,9 @@
         }
 
         &--first-col {
-
             @include media-query(large) {
                 grid-column: 1 / span 1;
             }
-
         }
 
         &--second-col {
@@ -102,7 +100,6 @@
             &::before {
                 background-color: $color--white;
             }
-
         }
 
         .bg--light & {
@@ -112,6 +109,5 @@
                 background-color: $color--black;
             }
         }
-
     }
 }
