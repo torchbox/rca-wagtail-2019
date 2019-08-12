@@ -34,4 +34,9 @@
         fill: $color--white;
         transform: rotate(180deg);
     }
+
+    .search-active & {
+        visibility: hidden;
+        pointer-events: none;
+    }
 }
