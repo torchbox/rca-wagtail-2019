@@ -223,7 +223,6 @@
             @include z-index(nav);
             transform: translate3d(100%, 0, 0);
 
-            &:hover,
             &.is-visible {
                 transform: translate3d(0, 0, 0);
 
