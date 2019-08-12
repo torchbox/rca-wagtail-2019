@@ -8,6 +8,7 @@ class Slideshow {
     constructor(node) {
         this.node = node;
         this.progressbar = this.node.querySelector('[data-scroll-progress]');
+        this.windowWidth = window.innerWidth;
 
         this.getMargins();
         this.createSlideshow();
@@ -18,19 +19,20 @@ class Slideshow {
     }
 
     bindEvents() {
-        this.slideshowMoveAfter();
-
-        window.addEventListener('resize', () => {
-            this.getMargins();
-            this.updateSlideshowBreakpoint();
-        });
-    }
-
-    slideshowMoveAfter() {
         this.slideshow.on('move.after', () => {
             this.updateAriaRoles();
             this.updateLiveRegion();
             this.updateScrollbar();
+        });
+
+        window.addEventListener('resize', () => {
+            // Check window width has actually changed and it's not just iOS triggering a resize event on scroll
+            if (window.innerWidth != this.windowWidth) {
+                // Update the window width for next time
+                this.windowWidth = window.innerWidth;
+                this.getMargins();
+                this.updateSlideshowBreakpoint();
+            }
         });
     }
 
@@ -72,7 +74,6 @@ class Slideshow {
         this.createSlideshow();
         this.slideTotal = this.node.dataset.slidetotal;
         this.slideshow.mount();
-        this.slideshowMoveAfter();
     }
 
     // sets aria-hidden on inactive slides
