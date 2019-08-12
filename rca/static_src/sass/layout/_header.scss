@@ -120,6 +120,7 @@
             left: $gutter;
             width: calc(100% - (#{$gutter} * 2));
             margin-top: ($gutter * 3.75);
+            height: 80%;
 
             @include media-query(medium) {
                 left: unset;
