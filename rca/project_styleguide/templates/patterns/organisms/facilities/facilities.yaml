@@ -1,0 +1,18 @@
+context:
+  title: 'Facilities'
+  introduction: "The School of Architecture is located across both the RCA's historic Kensington site and London's newest cultural and research culture in White City."
+  link: '#'
+  link_text: 'See all college facilities'
+  body: 'The School of Architecture studios are the heart of day-to-day activity for the programmes and are purpose-designed for inspiration and interaction between students of different design disciplines. As well as an individual studio space, students have access to traditional 3D-making facilities, contemporary digital fabrication equipment and a suite of bookable project and making spaces.'
+  slideshowModifier: ''
+  faclitySlides:
+    - slide:
+      title: 'School of Architecture workshop rooms'
+    - slide:
+      title: 'School of Architecture workshop rooms'
+    - slide:
+      title: 'School of Architecture workshop rooms'
+    - slide:
+      title: 'School of Architecture workshop rooms'
+    - slide:
+      title: 'School of Architecture workshop rooms'

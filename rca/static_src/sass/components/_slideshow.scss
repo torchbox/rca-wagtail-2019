@@ -1,7 +1,22 @@
 .slideshow {
     $root: &;
-    $meta-height: 65px;
+    $meta-height: 20px;
+    $meta-height-w-author: 65px;
     padding-bottom: ($gutter * 2);
+
+    &--author-info {
+        #{$root}__controls {
+            @include media-query(large) {
+                top: -$meta-height-w-author;
+            }
+        }
+
+        #{$root}__scrollbar {
+            @include media-query(medium) {
+                margin-top: 0;
+            }
+        }
+    }
 
     &__liveregion {
         @include hidden();
@@ -75,7 +90,7 @@
         background-color: $color--scrollbar-lightbg-bg; // overriden by theme
 
         @include media-query(medium) {
-            margin-top: 0;
+            margin-top: ($gutter * 2);
         }
 
         @include media-query(large) {

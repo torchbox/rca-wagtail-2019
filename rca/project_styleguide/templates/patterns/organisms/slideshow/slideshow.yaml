@@ -1,4 +1,5 @@
 context:
+  modifier: 'slideshow--author-info'
   slideshow:
     - slide:
       title: 'Albertopolis 550-metre pedestrian tunnel '

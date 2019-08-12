@@ -1,7 +1,7 @@
 .staff-overview {
     $root: &;
     padding-top: ($gutter * 4); // Might need adjusting for notches
-    padding-bottom: ($gutter * 4);
+    padding-bottom: ($gutter * 6);
 
     &--single {
         #{$root}__view-all {
