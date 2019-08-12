@@ -21,8 +21,12 @@
             margin-top: 0;
         }
 
-        .headroom--not-top & {
+        .headroom--pinned.headroom--not-top & {
             margin-top: ($grid * 3.75);
+
+            @include media-query(medium) {
+                margin-top: 0;
+            }
         }
     }
 
