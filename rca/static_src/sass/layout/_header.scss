@@ -216,6 +216,10 @@
             @include media-query(large) {
                 padding-top: ($gutter * 6.25);
                 height: 830px;
+
+                .headroom--pinned.headroom--not-top & {
+                    padding-top: ($gutter * 6.25);
+                }
             }
         }
 
