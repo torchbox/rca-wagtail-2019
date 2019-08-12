@@ -44,40 +44,9 @@
 
         <nav class="app__navigation">
             <section class="header__menus">
-                <div class="header__inner">
-                    {% include 'patterns/atoms/logo/logo.html' %}
-                    {% include 'patterns/molecules/menu-toggle/menu-toggle.html' with modifier="header__menu-toggle--small" %}
-                </div>
-                <div class="header__inner">
-                    <div class="header__navigation-toggle">
-                        {% include 'patterns/molecules/menu-toggle/menu-toggle.html' with modifier="header__menu-toggle--medium" %}
-                        {% include 'patterns/molecules/search-toggle/search-toggle.html' %}
-
-                        <a class="header__menu-close" href="#" data-close-menu>
-                            <svg width="14" height="14"><use xlink:href="#close"></use></svg>
-                        </a>
-                    </div>
-
-                    <div class="nav" data-nav>
-                        {% primarynav %}
-                    </div>
-
-                    <div class="search" data-search>
-                    </div>
-                </div>
+                {% primarynav %}
             </section>
         </nav>
-
-        <!-- <section class="header__menus header__menus--mobile" data-mobile-menu> </section> -->
-        <!--
-        <div class="app__search">
-            <form action="https://www.rca.ac.uk/search" method="get" role="search" class="form form--header-search">
-                <input class="input" type="text" placeholder="Search…" name="q"{% if search_query %} value="{{ search_query }}{% endif %}">
-                <button class="button" type="submit">
-                    <svg class="icon icon--magnifying-glass"><use xlink:href="#magnifying-glass"></use></svg>
-                </button>
-            </form>
-        </div>-->
 
         <main class="app__content">
             {% block content %}

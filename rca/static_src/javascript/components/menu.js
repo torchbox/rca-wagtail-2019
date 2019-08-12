@@ -10,6 +10,7 @@ class Menu {
         this.drawerOpenClass = 'nav-open';
         this.menuOpenClass = 'menu-active';
         this.searchOpenClass = 'search-active';
+        this.noScrollClass = 'no-scroll';
         this.activeClass = `${this.node.dataset.active}-active`;
         this.bindEventListeners();
     }
@@ -59,11 +60,19 @@ class Menu {
     }
 
     open() {
-        this.body.classList.add(this.drawerOpenClass, this.activeClass);
+        this.body.classList.add(
+            this.drawerOpenClass,
+            this.activeClass,
+            this.noScrollClass,
+        );
     }
 
     close() {
-        this.body.classList.remove(this.drawerOpenClass, this.activeClass);
+        this.body.classList.remove(
+            this.drawerOpenClass,
+            this.activeClass,
+            this.noScrollClass,
+        );
     }
 }
 

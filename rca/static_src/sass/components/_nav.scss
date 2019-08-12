@@ -1,19 +1,11 @@
 .nav {
-    display: none;
-
-    .menu-active & {
-        display: block;
-    }
-
-    p {
-        color: $color--white; // temp
-    }
+    margin-bottom: 1rem;
 
     &--primary {
-        @include media-query(tablet-portrait) {
-            flex-direction: row;
-            justify-content: flex-end;
-            margin-top: 0;
+        display: none;
+
+        .menu-active & {
+            display: block;
         }
     }
 
@@ -22,23 +14,23 @@
     }
 
     &--subnav {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 10;
         height: 100%;
-        padding-top: 20px;
-        background: $color--secondary;
-        transform: translate3d(100%, 0%, 0);
-        transition: transform 250ms cubic-bezier(0.24, 0.26, 0.2, 1) 0ms;
+        display: none;
+        max-height: 500px;
+        overflow: scroll;
 
+        &:hover,
         &.is-visible {
-            transform: translate3d(0%, 0%, 0);
+            display: block;
         }
 
-        @include media-query(tablet-portrait) {
-            // @todo - desktop dropdown styles
-            display: none;
+        @include media-query(medium) {
+            max-height: 500px;
+        }
+
+        @include media-query(large) {
+            padding-top: ($gutter * 9.5);
+            max-height: 900px;
         }
     }
 
@@ -58,73 +50,33 @@
         margin-bottom: 10px;
     }
 
+    &--standout {
+        margin-top: ($gutter * 5);
+    }
+
+    &--standout-desktop {
+        display: none;
+        position: absolute;
+        bottom: 0;
+
+        @include media-query(medium) {
+            display: block;
+        }
+    }
+
+    &--standout-mobile {
+        @include media-query(medium) {
+            display: none;
+        }
+    }
+
     &__item {
-        width: 60%;
-        padding-bottom: 10px;
-        margin-bottom: 10px;
-        font-weight: $weight--bold;
-        text-align: center;
-        border-bottom: 1px solid rgba($color--black, 0.2);
+        &--group-heading {
+            display: block;
 
-        .nav--tertiary & {
-            width: 100%;
-            padding-bottom: 5px;
-            margin-bottom: 0;
-            border-bottom: 0;
-
-            @include media-query(tablet-portrait) {
-                width: auto;
-            }
-        }
-
-        &:last-child {
-            border-bottom: 0;
-        }
-
-        @include media-query(tablet-portrait) {
-            width: auto;
-            padding: 0;
-            margin: 0;
-            font-weight: $weight--light;
-            text-align: left;
-            border-bottom: 0;
-
-            &::after {
-                color: $color--tertiary;
-                content: '|';
-            }
-
-            &:last-of-type {
-                &::after {
-                    content: '';
-                }
-            }
-        }
-
-        &--secondary {
-            font-weight: $weight--light;
-        }
-
-        &--footer {
-            a {
-                color: $color--white;
-            }
-        }
-
-        &--footer-column {
-            &::after {
+            @include media-query(large) {
                 display: none;
             }
-
-            a {
-                margin: 0;
-                color: $color--white;
-            }
-        }
-
-        &--back {
-            @include font-size(xs);
-            text-transform: uppercase;
         }
 
         &--breadcrumb {
@@ -155,25 +107,48 @@
     }
 
     &__link {
-        color: rgba($color--black, 0.7);
-        border-bottom: 1px solid transparent;
-        transition: color, border $transition;
+        font-size: map-get($small-font-sizes, xs);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: $gutter 0;
+        color: $color--white;
 
-        &:hover {
-            cursor: pointer;
+        span {
+            pointer-events: none;
         }
 
-        @include media-query(tablet-landscape) {
-            &:hover {
-                color: lighten($color--secondary, 20%);
-                border-bottom: 1px solid $color--secondary;
+        @include media-query(large) {
+            span {
+                position: relative;
+
+                &::after {
+                    content: '';
+                    display: block;
+                    height: 2px;
+                    left: 0;
+                    position: absolute;
+                    background: currentColor;
+                    transition: width $transition, left $transition;
+                    width: 0;
+                    bottom: -2px;
+                }
+            }
+
+            &:hover,
+            &:focus,
+            &.is-active {
+                span {
+                    &::after {
+                        width: 100%;
+                        left: 0;
+                    }
+                }
             }
         }
 
-        @include media-query(tablet-portrait) {
-            padding: 5px 0;
-            margin: 0 10px;
-            color: $color--secondary;
+        @include media-query(medium) {
+            font-size: map-get($large-font-sizes, xs);
         }
 
         &--breadcrumb {
@@ -184,11 +159,36 @@
                 border-bottom: 1px solid $color--primary;
             }
         }
+
+        &--group-heading {
+            font-size: map-get($small-font-sizes, s);
+
+            @include media-query(medium) {
+                font-size: map-get($medium-font-sizes, s);
+            }
+        }
+
+        &--base {
+            font-size: map-get($small-font-sizes, xs);
+            padding: 0;
+            margin-bottom: $gutter;
+            justify-content: flex-start;
+
+            svg {
+                position: relative;
+            }
+        }
+
+        &--standout {
+            color: $color--tertiary;
+        }
     }
 
     &__icon {
-        @include media-query(tablet-landscape) {
-            // @todo - desktop dropdown styles
+        fill: $color--white;
+        pointer-events: none;
+
+        @include media-query(large) {
             display: none;
         }
     }

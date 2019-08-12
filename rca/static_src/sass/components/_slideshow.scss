@@ -130,31 +130,4 @@
             }
         }
     }
-
-    .bg--light & {
-        #{$root}__controls-group {
-            background-color: $color--white;
-
-            &::after {
-                background-color: $color--white;
-            }
-        }
-
-        #{$root}__scrollbar {
-            background-color: $color--scrollbar-lightbg-bg;
-        }
-
-        #{$root}__scrollbar-progress {
-            background-color: $color--black;
-        }
-
-        #{$root}__button {
-            &:hover,
-            &:active,
-            &:focus {
-                stroke: $color--white;
-                background-color: $color--black;
-            }
-        }
-    }
 }

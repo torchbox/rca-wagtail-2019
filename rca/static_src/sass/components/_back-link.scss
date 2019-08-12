@@ -1,0 +1,37 @@
+.back-link {
+    font-size: map-get($small-font-sizes, s);
+    opacity: 0;
+    align-items: center;
+    color: $color--white;
+    margin-top: ($gutter * 2.5);
+    transition: opacity $transition;
+    display: flex;
+    pointer-events: none;
+
+    @include media-query(medium) {
+        margin-top: ($gutter * 3.25);
+    }
+
+    &.is-visible {
+        pointer-events: all;
+        opacity: 1;
+    }
+
+    @include media-query(large) {
+        display: none;
+    }
+
+    &__text {
+        display: none;
+        margin-left: ($gutter / 4);
+
+        @include media-query(medium) {
+            display: block;
+        }
+    }
+
+    &__icon {
+        fill: $color--white;
+        transform: rotate(180deg);
+    }
+}

@@ -36,7 +36,7 @@ body {
         &::after {
             @include z-index(nav-overlay);
             content: '';
-            position: absolute;
+            position: fixed;
             left: 0;
             top: 0;
             right: 0;

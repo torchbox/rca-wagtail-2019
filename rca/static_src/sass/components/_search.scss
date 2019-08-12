@@ -1,7 +1,40 @@
 .search {
-    display: none;
+    position: relative;
 
-    .search-active & {
-        display: block;
+    @include media-query(medium) {
+        margin-right: ($gutter * 1.75);
+    }
+
+    &::before {
+        content: '';
+        width: 1px;
+        background-color: $color--white;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 80%;
+    }
+
+    &__input {
+        background: $color--primary;
+        color: $color--white;
+        border: 0;
+        width: 100%;
+        border-bottom: 1px solid $color--white;
+        padding: ($gutter / 2) ($gutter * 1.5) ($gutter / 2) ($gutter / 2);
+    }
+
+    &__button {
+        position: absolute;
+        right: 0;
+        top: 15px;
+
+        @include media-query(medium) {
+            top: 18px;
+        }
+    }
+
+    &__icon {
+        fill: $color--white;
     }
 }
