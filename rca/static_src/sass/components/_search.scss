@@ -5,16 +5,6 @@
         margin-right: ($gutter * 1.75);
     }
 
-    &::before {
-        content: '';
-        width: 1px;
-        background-color: $color--white;
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 80%;
-    }
-
     &__input {
         background: $color--primary;
         color: $color--white;
