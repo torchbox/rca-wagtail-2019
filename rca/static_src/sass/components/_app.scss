@@ -115,6 +115,7 @@
 
             @include media-query(large) {
                 background: transparent;
+                overflow: hidden;
             }
         }
     }
