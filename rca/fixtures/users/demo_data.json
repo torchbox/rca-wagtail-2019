@@ -3,16 +3,16 @@
     "model": "users.user",
     "pk": 1,
     "fields": {
-      "password": "pbkdf2_sha256$120000$vRhaZI3tIblf$xWi07RjyUf0Uakvvsnwagu+AzXJtRIpAMkPsiPAq+H8=",
-      "last_login": "2019-06-18T14:36:04.983Z",
+      "password": "pbkdf2_sha256$150000$retXACG0JNOu$hubM0rtEm86LONCywyIDlDpjV7om8imBDi2H25w70K4=",
+      "last_login": "2019-08-05T11:44:41.576Z",
       "is_superuser": true,
       "username": "admin",
       "first_name": "",
       "last_name": "",
-      "email": "",
+      "email": "kevin.howbrook@torchbox.com",
       "is_staff": true,
       "is_active": true,
-      "date_joined": "2019-06-18T13:19:16.960Z",
+      "date_joined": "2019-08-05T11:41:30.668Z",
       "groups": [],
       "user_permissions": []
     }
@@ -21,17 +21,17 @@
     "model": "users.user",
     "pk": 2,
     "fields": {
-      "password": "pbkdf2_sha256$120000$EPEzztBQsgrX$zs8MKgl4vX4EnNrUbvX1aftBr62B/8zy3/4Jflm4UbY=",
-      "last_login": null,
-      "is_superuser": false,
-      "username": "editor",
-      "first_name": "Jane",
-      "last_name": "Editor",
-      "email": "editor@wagtail-kit.com",
-      "is_staff": false,
+      "password": "pbkdf2_sha256$150000$oyeNQMJ5tZdC$mJOqg2KRTLaoKnHm9GqBgAALpDuIfmvdZEKcR1s6imc=",
+      "last_login": "2019-08-05T14:08:27.425Z",
+      "is_superuser": true,
+      "username": "abigail.hampson",
+      "first_name": "",
+      "last_name": "",
+      "email": "abigail.hampson@torchbox.com",
+      "is_staff": true,
       "is_active": true,
-      "date_joined": "2019-06-18T13:21:18.061Z",
-      "groups": [["Editors"]],
+      "date_joined": "2019-08-05T11:42:46.001Z",
+      "groups": [],
       "user_permissions": []
     }
   },
@@ -39,17 +39,89 @@
     "model": "users.user",
     "pk": 3,
     "fields": {
-      "password": "pbkdf2_sha256$120000$A5YMjdh2IFmc$6xmDHBWYe7Dx4UQz7Vy1QId456G4EWTO+saOfJx2GLo=",
+      "password": "pbkdf2_sha256$150000$uA7tz3kSFJiJ$fwhZpVC5edaHHyybOLoaiS8Brjhpzo1z8h8vgyx8l3w=",
       "last_login": null,
-      "is_superuser": false,
-      "username": "moderator",
-      "first_name": "John",
-      "last_name": "Moderator",
-      "email": "moderator@wagtail-kit.com",
+      "is_superuser": true,
+      "username": "nick.lee",
+      "first_name": "",
+      "last_name": "",
+      "email": "nick.lee@torchbox.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2019-08-05T11:44:08.259Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$3I9Z6R9y5dpe$rRJy9Ch0cw/fH8I22Jwt765V0vh6se2GIwGqckgloLQ=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "chris.lawton",
+      "first_name": "",
+      "last_name": "",
+      "email": "chris.lawton@torchbox.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2019-08-05T11:46:14.253Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$qsMM6QTg51GE$Iymcfo47r7rVJvQv9GLAaIe5bzyAYjMCMZgPMu1f658=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "chris.danks",
+      "first_name": "",
+      "last_name": "",
+      "email": "chris.danks@torchbox.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2019-08-05T14:14:40.545Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 6,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$3lH8TzVRY62W$g44hMpIMiQ9wicuOT++ENzO6Nztga59irBh/vsaG1v8=",
+      "last_login": "2019-08-12T11:14:50.578Z",
+      "is_superuser": true,
+      "username": "kevin",
+      "first_name": "kevin",
+      "last_name": "howbrook",
+      "email": "kevin2@torchbox.com",
       "is_staff": false,
       "is_active": true,
-      "date_joined": "2019-06-18T13:21:41.572Z",
-      "groups": [["Moderators"]],
+      "date_joined": "2019-08-07T10:17:05.767Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 7,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$7HDsYwCmaJkx$CHOryLVVPUmKvN9wSpxKiZMvLJtSWaVGXpz2ei67m4M=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "nancy",
+      "first_name": "Nancy",
+      "last_name": "Smith",
+      "email": "nancy.smith@rca.ac.uk",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2019-08-07T14:36:12.120Z",
+      "groups": [],
       "user_permissions": []
     }
   }
