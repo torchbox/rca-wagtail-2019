@@ -1,0 +1,25 @@
+context:
+  page:
+    title: 'Architecture'
+    degree_level: 'MA'
+    next_open_day_date: '25 June 2019'
+    link_to_open_days: '#'
+    application_deadline: '14 June 2019'
+    application_deadline_options: '1'
+    get_application_deadline_options_display: 'Still accepting applications'
+    career_opportunities:
+      all:
+        - text: 'Technical Architect'
+        - text: 'Design Architect'
+        - text: 'BIM Manager'
+        - text: 'Project Manager'
+    programme_specification:
+      url: '#'
+    programme_details_credits: '240'
+    programme_details_credits_suffix: 'credits'
+    get_programme_details_credits_suffix_display: 'credits'
+    programme_details_time: '2'
+    programme_details_time_suffix: 'year programme'
+    get_programme_details_time_suffix_display: 'year programme'
+    programme_details_duration: 'Full-time study'
+    get_programme_details_duration_display: 'Full time study'

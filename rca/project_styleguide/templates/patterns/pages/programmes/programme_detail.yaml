@@ -8,3 +8,4 @@ context:
     link: '#'
     image: true
     person: false
+    degree_level: 'MA'
