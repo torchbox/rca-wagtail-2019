@@ -44,4 +44,9 @@
             fill: $color--white;
         }
     }
+
+    .nav-open & {
+        @include z-index(headerLogo);
+        position: relative;
+    }
 }
