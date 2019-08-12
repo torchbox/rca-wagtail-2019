@@ -101,7 +101,11 @@
         fill: $color--white;
         position: absolute;
         right: 10px;
-        bottom: -5px;
+        bottom: 0;
+
+        @include media-query(large) {
+            bottom: -5px;
+        }
     }
 
     &__menus {
