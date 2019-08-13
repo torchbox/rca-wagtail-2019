@@ -143,11 +143,6 @@
         @include font-size(xxs);
     }
 
-    &__person-dept {
-        @include font-size(xxs);
-        color: $color--meta;
-    }
-
     .bg--dark & {
         &#{$root}--image {
             #{$root}__content {

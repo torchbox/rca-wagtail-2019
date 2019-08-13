@@ -2,27 +2,31 @@ context:
   modifier: 'slideshow--author-info'
   carousel:
     - slide:
-      title: 'Albertopolis 550-metre pedestrian tunnel '
-      author: 'Nick Lee'
-      link: 'http://www.torchbox.com'
-      course: 'Design'
+      meta: 'Alumni Story'
+      title: 'Designing the imposible for NASA'
+      description: 'Creating world class experiences that started at the RCA'
+      image: true
+      link: '#'
+      person:
+        image: true
+        title: 'Nelly Ben Hayoun'
     - slide:
-      title: 'Albertopolis 550-metre pedestrian tunnel '
-      author: 'Chris Lawton'
-      link: 'http://www.torchbox.com'
-      course: 'Architecture'
+      meta: 'Event'
+      title: 'Show 2019: School of Architecture'
+      description: '28-29 April'
+      image: true
+      link: '#'
+      person:
+        image: true
+        title: 'Holly Hendry'
+        dept: 'Design Interactions'
     - slide:
-      title: 'Albertopolis 550-metre pedestrian tunnel '
-      author: 'Nick Lee'
-      link: 'http://www.torchbox.com'
-      course: 'Design'
-    - slide:
-      title: 'Albertopolis 550-metre pedestrian tunnel '
-      author: 'Chris Lawton'
-      link: 'http://www.torchbox.com'
-      course: 'Architecture'
-    - slide:
-      title: 'Albertopolis 550-metre pedestrian tunnel '
-      author: 'Kevin Howbrook'
-      link: 'http://www.torchbox.com'
-      course: 'Design'
+      meta: 'Event'
+      title: 'Show 2019: School of Architecture'
+      description: '28-29 April'
+      image: true
+      link: '#'
+      person:
+        image: true
+        title: 'Holly Hendry'
+        dept: 'Design Interactions'

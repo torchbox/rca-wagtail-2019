@@ -21,7 +21,7 @@
 
     &__button {
         position: absolute;
-        top: 50%;
+        top: calc(50% - 23px);
         border-radius: 50%;
         width: 46px;
         height: 46px;
@@ -45,14 +45,6 @@
     }
 
     .bg--dark & {
-        //
-        // #{$root}__scrollbar {
-        //     background-color: $color--scrollbar-darkbg-bg;
-        // }
-        //
-        // #{$root}__scrollbar-progress {
-        //     background-color: $color--white;
-        // }
 
         #{$root}__button {
             &:hover,
@@ -62,6 +54,20 @@
                 background-color: $color--white;
             }
         }
+
+    }
+
+    .bg--light & {
+
+        #{$root}__button {
+            &:hover,
+            &:active,
+            &:focus {
+                stroke: $color--white;
+                background-color: $color--black;
+            }
+        }
+
     }
 
 }
