@@ -1,14 +1,3 @@
-// Simple video modal which doesn't use a third party library like lightbox
-
-// Assumes a strcuture as follows
-// <div data-video-modal>
-//     <a data-video-modal-open>Open video</a>
-//     <div data-modal-window>
-//         <a data-modal-close>close</a>
-//         Video iframe embed
-//     </div>
-// </div>
-
 class VideoModal {
     static selector() {
         return '[data-video-modal]';
@@ -28,14 +17,13 @@ class VideoModal {
         this.modalOpen.addEventListener('click', (e) => {
             e.preventDefault();
             this.modalWindow.classList.add('open');
+            this.src += '&autoplay=1';
             this.iframe.setAttribute('src', this.src);
         });
 
         this.modalClose.addEventListener('click', (e) => {
             e.preventDefault();
             this.modalWindow.classList.remove('open');
-            // stops video playing when window is closed
-            this.iframe.setAttribute('src', '');
         });
     }
 }

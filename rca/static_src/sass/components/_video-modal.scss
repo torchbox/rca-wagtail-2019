@@ -1,6 +1,5 @@
 .video-modal {
     @include z-index(modal);
-    display: none;
     position: fixed;
     left: 0;
     top: 0;
@@ -8,9 +7,13 @@
     height: 100vh;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity $transition;
 
     &.open {
-        display: block;
+        opacity: 1;
+        pointer-events: all;
     }
 
     &__container {
@@ -20,9 +23,9 @@
         width: 90%;
         margin: 0 auto;
 
-        @include media-query(tablet-portrait) {
+        @include media-query(large) {
             width: 56%;
-            max-width: 800px;
+            max-width: 1000px;
         }
     }
 
