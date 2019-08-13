@@ -7,9 +7,16 @@
         flex-basis: 50%;
         max-width: 50%;
         min-width: 50%;
+        font-family: $font--secondary;
     }
 
-    &__link {
+    &__description {
+        @include media-query(medium) {
+            padding-right: ($gutter * 2);
+        }
+    }
+
+    &__heading-container {
         max-width: 170px;
     }
 
