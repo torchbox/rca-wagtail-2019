@@ -31,7 +31,6 @@
                 @include media-query(medium) {
                     content: none;
                 }
-
             }
         }
 
@@ -153,7 +152,6 @@
     .news & {
         margin-bottom: $gutter;
 
-
         @include media-query(medium) {
             grid-row: 2;
             padding-right: $gutter;
@@ -172,11 +170,9 @@
                 padding-top: 0;
                 padding-bottom: $gutter; // additional space for border
             }
-
         }
 
         &:first-child {
-
             @include media-query(medium) {
                 grid-column: 1 / span 2;
                 grid-row: 1;
@@ -190,28 +186,22 @@
             }
 
             #{$root}__container {
-
                 @include media-query(large) {
                     height: 100%;
                 }
-
             }
 
             #{$root}__image-container {
-
                 @include media-query(large) {
                     height: 100%;
                 }
-
             }
 
             #{$root}__image {
-
                 @include media-query(large) {
                     object-fit: cover;
                     height: 100%;
                 }
-
             }
 
             #{$root}__meta {
@@ -220,7 +210,6 @@
                 @include media-query(medium) {
                     @include font-size(xxs);
                 }
-
             }
 
             #{$root}__description {
@@ -229,7 +218,6 @@
                 @include media-query(medium) {
                     @include font-size(xs);
                 }
-
             }
 
             #{$root}__heading {
@@ -238,12 +226,10 @@
                 @include media-query(medium) {
                     @include font-size(s);
                 }
-
             }
         }
 
-        &:nth-child(1n+2) {
-
+        &:nth-child(1n + 2) {
             #{$root}__heading {
                 font-size: map-get($medium-font-sizes, xs);
 
@@ -270,7 +256,6 @@
             }
 
             &#{$root}--image {
-
                 #{$root}__content {
                     top: -10px;
 
@@ -285,11 +270,8 @@
                         width: 80px;
                     }
                 }
-
             }
-
         }
-
     }
 
     .bg--dark & {

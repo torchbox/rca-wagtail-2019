@@ -23,14 +23,11 @@
         @include media-query(large) {
             grid-column: 3;
         }
-
     }
 
     // Theme management
     .bg--dark & {
-
         .card {
-
             &:nth-child(even) {
                 border-top: 1px solid $color--grid-line-light;
 
@@ -38,16 +35,12 @@
                     border-top: 0;
                     border-bottom: 1px solid $color--grid-line-light;
                 }
-
             }
-
         }
     }
 
     .bg--light & {
-
         .card {
-
             &:nth-child(even) {
                 border-top: 1px solid $color--grid-line-dark;
 
@@ -55,9 +48,7 @@
                     border-top: 0;
                     border-bottom: 1px solid $color--grid-line-dark;
                 }
-
             }
-
         }
     }
 }
