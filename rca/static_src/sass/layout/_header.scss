@@ -24,7 +24,6 @@
 
         // When inside pinned nav
         .headroom--pinned.headroom--not-top .header__menus & {
-            // sass-lint:disable-line force-element-nesting
             padding-top: ($gutter / 2);
         }
     }
@@ -128,7 +127,6 @@
         }
 
         .headroom--pinned.headroom--not-top & {
-            // sass-lint:disable-line force-element-nesting
             padding-top: ($gutter);
         }
 
@@ -218,7 +216,6 @@
                 height: 830px;
 
                 .headroom--pinned.headroom--not-top & {
-                    // sass-lint:disable-line force-element-nesting
                     padding-top: ($gutter * 6.25);
                 }
             }

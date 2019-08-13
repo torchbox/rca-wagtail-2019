@@ -15,7 +15,6 @@
 
         // Make visible and apply bg colour when pinned, but not at top
         .headroom--pinned.headroom--not-top & {
-            // sass-lint:disable-line force-element-nesting
             transform: translate3d(0, 0, 0);
             background-color: $color--black;
         }
