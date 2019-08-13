@@ -10,6 +10,7 @@ import Carousel from './components/carousel';
 import Slideshow from './components/slideshow';
 import ProgressBar from './components/progress-bar';
 import VideoModal from './components/video-modal';
+import RelatedContent from './components/related-content';
 import './components/sticky-header';
 
 import '../sass/main.scss';
@@ -40,6 +41,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     for (const submenu of document.querySelectorAll(SubMenu.selector())) {
         new SubMenu(submenu);
+    }
+
+    for (const relatedcontent of document.querySelectorAll(
+        RelatedContent.selector(),
+    )) {
+        new RelatedContent(relatedcontent);
     }
 
     for (const mobilesubmenu of document.querySelectorAll(

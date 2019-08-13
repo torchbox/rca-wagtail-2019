@@ -29,7 +29,7 @@
 
         <div class="page__content">
 
-            <div class="section bg bg--dark">
+            <section class="section bg bg--dark">
 
                 <div class="section__row programme-overview">
                     <header class="section__header grid">
@@ -69,11 +69,11 @@
                     <div class="section__notch-fill section__notch-fill--first-col"></div>
                 </div>
 
-            </div>
+            </section>
 
 
 
-            <div class="section bg bg--light">
+            <section class="section bg bg--light">
 
                 {% include "patterns/organisms/staff-overview/staff-overview.html" %}
 
@@ -104,10 +104,10 @@
                     Carousel module
                 </div>
 
-            </div>
+            </section>
 
 
-            <div class="section bg bg--dark">
+            <section class="section bg bg--dark">
 
                 <div class="section__notch section__notch--top">
                     <div class="section__notch-fill section__notch-fill--third-col"></div>
@@ -124,24 +124,29 @@
                     </div>
 
                 </div>
-            </div>
+            </section>
 
-            <div class="section bg bg--light">
+            <section class="section bg bg--light">
 
                 <div class="section__notch section__notch--top">
                     <div class="section__notch-fill section__notch-fill--third-col"></div>
                 </div>
+            </section>
 
+            <section class="section bg bg--light">
                 <div class="section__container">
                     Contact us
                 </div>
-            </div>
+            </section>
 
-            <div class="section">
-                <div class="section__container">
-                    Related
+            <section class="section bg bg--dark">
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
                 </div>
-            </div>
+                <div class="section__container">
+                    {% include "patterns/molecules/relatedcontent/relatedcontent.html" %}
+                </div>
+            </section>
 
         </div>
     </div>
