@@ -43,7 +43,9 @@ document.addEventListener('DOMContentLoaded', function() {
         new SubMenu(submenu);
     }
 
-    for (const relatedcontent of document.querySelectorAll(RelatedContent.selector())) {
+    for (const relatedcontent of document.querySelectorAll(
+        RelatedContent.selector(),
+    )) {
         new RelatedContent(relatedcontent);
     }
 

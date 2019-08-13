@@ -20,15 +20,19 @@ class RelatedContent {
         const targetImage = e.target.dataset.targetImage;
 
         // get all the images that belong to the group
-        const images = document.querySelectorAll(`[data-group="${parentGroup}"] img`);
+        const images = document.querySelectorAll(
+            `[data-group="${parentGroup}"] img`,
+        );
 
         // hide those images
-        images.forEach(image => {
+        images.forEach((image) => {
             image.classList.remove(this.visibleClass);
         });
 
         // get the image we want
-        const currentImage = document.querySelector(`[data-group="${parentGroup}"] [data-image="${targetImage}"]`);
+        const currentImage = document.querySelector(
+            `[data-group="${parentGroup}"] [data-image="${targetImage}"]`,
+        );
 
         // show it
         currentImage.classList.add(this.visibleClass);
