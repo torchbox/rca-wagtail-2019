@@ -2,9 +2,19 @@
     $root: &;
     position: relative;
     grid-column: 1 / span 2;
+    margin-bottom: ($gutter * 6);
 
     @include media-query(large) {
         grid-column: 2 / span 3;
+    }
+
+    &__item {
+        opacity: 0.36;
+        transition: opacity $transition;
+
+        &.glide__slide--active {
+            opacity: 1;
+        }
     }
 
     &__liveregion {
@@ -16,6 +26,40 @@
 
         @include media-query(large) {
             display: block;
+        }
+    }
+
+    &__bullets {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        width: 100%;
+        pointer-events: none;
+
+        @include media-query(large) {
+            display: none;
+        }
+
+    }
+
+    &__bullet {
+        flex-basis: auto;
+        flex: 1;
+        height: 2px;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        background-color: $color--scrollbar-lightbg-bg;
+
+        &:hover,
+        &:active,
+        &:focus {
+            outline: 0;
+        }
+
+        &.glide__bullet--active {
+            background-color: $color--black;
         }
     }
 
@@ -45,7 +89,6 @@
     }
 
     .bg--dark & {
-
         #{$root}__button {
             &:hover,
             &:active,
@@ -54,11 +97,9 @@
                 background-color: $color--white;
             }
         }
-
     }
 
     .bg--light & {
-
         #{$root}__button {
             &:hover,
             &:active,
@@ -67,7 +108,5 @@
                 background-color: $color--black;
             }
         }
-
     }
-
 }

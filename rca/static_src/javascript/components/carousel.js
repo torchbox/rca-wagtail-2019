@@ -64,7 +64,6 @@ class Carousel {
         this.node.querySelector('[data-liveregion]').textContent =
             'Item ' + this.slideshow.index + ' of ' + this.slideTotal;
     }
-
 }
 
 export default Carousel;
