@@ -40,7 +40,6 @@
         @include media-query(large) {
             display: none;
         }
-
     }
 
     &__bullet {
@@ -105,7 +104,6 @@
                 background-color: $color--white;
             }
         }
-
     }
 
     .bg--light & {
@@ -125,6 +123,5 @@
                 background-color: $color--black;
             }
         }
-
     }
 }

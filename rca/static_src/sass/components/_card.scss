@@ -46,7 +46,6 @@
     }
 
     &--person {
-
         #{$root}__content-container {
             display: flex;
             flex-direction: column;
@@ -58,17 +57,13 @@
             }
         }
 
-
         #{$root}__person {
-
             @include media-query(medium) {
                 flex-basis: 33.33%;
                 min-width: 33.33%;
                 max-width: 33.33%;
             }
-
         }
-
     }
 
     &__container {

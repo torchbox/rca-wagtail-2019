@@ -60,35 +60,26 @@
     }
 
     .bg--dark & {
-
         #{$root}__list {
-
             a {
-
                 &:hover,
                 &:active,
                 &:focus {
                     color: $color--white;
                 }
-
             }
-
         }
     }
 
     .bg--light & {
         #{$root}__list {
-
             a {
-
                 &:hover,
                 &:active,
                 &:focus {
                     color: $color--black;
                 }
-
             }
-
         }
     }
 }
