@@ -1,0 +1,55 @@
+[
+  { "model": "programmes.degreelevel", "pk": 1, "fields": { "title": "MA" } },
+  {
+    "model": "programmes.programmetype",
+    "pk": 1,
+    "fields": { "display_name": "Animation", "slug": "animation" }
+  },
+  {
+    "model": "programmes.programmepageprogrammetype",
+    "pk": 1,
+    "fields": { "programme_type": 1, "page": 5 }
+  },
+  {
+    "model": "programmes.programmepagecareeropportunities",
+    "pk": 1,
+    "fields": { "sort_order": 0, "page": 5, "text": "Animator" }
+  },
+  {
+    "model": "programmes.programmepage",
+    "pk": 5,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": "",
+      "degree_level": 1,
+      "hero_image": null,
+      "hero_video": null,
+      "hero_video_preview_image": null,
+      "programme_details_credits": "240",
+      "programme_details_credits_suffix": "1",
+      "programme_details_time": "2",
+      "programme_details_time_suffix": "1",
+      "programme_details_duration": "2",
+      "next_open_day_date": "2019-08-25",
+      "link_to_open_days": "https://rca.ac.uk",
+      "application_deadline": "2019-08-18",
+      "application_deadline_options": "1",
+      "programme_specification": null
+    }
+  },
+  {
+    "model": "programmes.programmeindexpage",
+    "pk": 4,
+    "fields": {
+      "social_image": null,
+      "social_text": "",
+      "listing_image": null,
+      "listing_title": "",
+      "listing_summary": "",
+      "introduction": ""
+    }
+  }
+]
