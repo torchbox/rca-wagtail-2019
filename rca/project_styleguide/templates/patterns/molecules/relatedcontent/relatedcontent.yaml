@@ -3,8 +3,6 @@ context:
   related_sections:
     - item:
       title: Related programmes
-    - item:
-      title: Related Courses
   related_items:
     - item:
       title: Architecture
