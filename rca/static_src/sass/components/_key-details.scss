@@ -29,6 +29,9 @@
 
     // Only used for medium breakpoint rejigged layout
     &__section {
+        // increase antialiasing weight for legibility
+        -webkit-font-smoothing: subpixel-antialiased; // sass-lint:disable-line no-vendor-prefixes
+
         @include media-query(medium) {
             flex-basis: 50%;
         }
@@ -98,6 +101,7 @@
     &__link {
         @include font-size(xxs);
         margin-right: $gutter;
+        max-width: 100% !important; // sass-lint:disable-line no-important
     }
 
     .bg--dark & {
