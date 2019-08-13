@@ -44,7 +44,7 @@
 
         <main class="app__content">
 
-            {% include "patterns/atoms/grid-lines/grid-lines.html" %}
+            {% include "patterns/atoms/grid-lines/grid-lines.html" with data_tag="data-left-edge" %}
 
             {% block content %}
                 {{ pattern_library_rendered_pattern }}
