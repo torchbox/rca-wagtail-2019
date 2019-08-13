@@ -1,6 +1,7 @@
 context:
   page:
     title: Architecture
+    degree_level: 'MA'
   eventModule:
     meta: 'Event'
     title: 'Show 2019: School of Architecture'
@@ -8,4 +9,3 @@ context:
     link: '#'
     image: true
     person: false
-    degree_level: 'MA'
