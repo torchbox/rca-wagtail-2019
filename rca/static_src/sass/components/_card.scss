@@ -52,19 +52,16 @@
     }
 
     &__image-container {
-        grid-column: 1 / span 2;
-
-        @include media-query(large) {
-            grid-column: 2 / span 3;
-        }
-    }
-
-    &__image-container {
         display: block;
         transition: opacity $transition;
+        grid-column: 1 / span 2;
 
         &:hover {
             opacity: 0.8;
+        }
+
+        @include media-query(large) {
+            grid-column: 2 / span 3;
         }
     }
 

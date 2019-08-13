@@ -1,11 +1,5 @@
 .header {
     $root: &;
-    @include z-index(header);
-    $root: &;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    transition: transform $transition;
 
     &__container {
         max-width: $site-width;
@@ -30,6 +24,7 @@
 
         // When inside pinned nav
         .headroom--pinned.headroom--not-top .header__menus & {
+            // sass-lint:disable-line force-element-nesting
             padding-top: ($gutter / 2);
         }
     }
@@ -133,6 +128,7 @@
         }
 
         .headroom--pinned.headroom--not-top & {
+            // sass-lint:disable-line force-element-nesting
             padding-top: ($gutter);
         }
 
@@ -222,6 +218,7 @@
                 height: 830px;
 
                 .headroom--pinned.headroom--not-top & {
+                    // sass-lint:disable-line force-element-nesting
                     padding-top: ($gutter * 6.25);
                 }
             }
@@ -291,16 +288,8 @@
         }
     }
 
-    // Hide when scrolling down
-    .headroom--not-top & {
-        transform: translate3d(0, -100%, 0);
-    }
-
     // Show when scrolling back up
     .headroom--pinned.headroom--not-top & {
-        transform: translate3d(0, 0, 0);
-        background-color: $color--black;
-
         #{$root}__container {
             padding-top: ($gutter);
         }

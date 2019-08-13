@@ -25,6 +25,7 @@
     }
 
     .header-content-dark .header & {
+        // sass-lint:disable-line force-element-nesting
         #{$root}__image {
             fill: $color--black;
         }
@@ -37,8 +38,9 @@
         }
     }
 
-    .headroom--pinned.headroom--not-top .header &,
+    .headroom--pinned.headroom--not-top .header &, // sass-lint:disable-line force-element-nesting
     .headroom--pinned.headroom--not-top .app__navigation & {
+        // sass-lint:disable-line force-element-nesting
         #{$root}__image {
             width: 92px;
             fill: $color--white;

@@ -1,7 +1,7 @@
 .video-modal {
+    @include z-index(modal);
     display: none;
     position: fixed;
-    z-index: 10;
     left: 0;
     top: 0;
     width: 100vw;
@@ -27,10 +27,10 @@
     }
 
     &__close {
+        @include z-index(modal-controls);
         position: absolute;
         display: inline-block;
         top: 20px;
         right: 20px;
-        z-index: 2;
     }
 }
