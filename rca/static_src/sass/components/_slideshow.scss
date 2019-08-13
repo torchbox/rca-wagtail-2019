@@ -48,14 +48,12 @@
         @include media-query(large) {
             @include z-index(overlap);
             display: block;
-            background-color: $color--white;
 
             &::after {
                 @include z-index(under);
                 content: '';
                 position: absolute;
                 display: block;
-                background-color: $color--white;
                 right: -20%;
                 top: 0;
                 height: $meta-height;
@@ -88,7 +86,6 @@
         height: 2px;
         grid-column: 1 / span 2;
         margin-top: $gutter;
-        background-color: $color--scrollbar-lightbg-bg; // overriden by theme
 
         @include media-query(medium) {
             margin-top: ($gutter * 2);
@@ -131,4 +128,32 @@
             }
         }
     }
+
+    .bg--light & {
+        #{$root}__controls-group {
+            background-color: $color--white;
+
+            &::after {
+                background-color: $color--white;
+            }
+        }
+
+        #{$root}__scrollbar {
+            background-color: $color--scrollbar-lightbg-bg;
+        }
+
+        #{$root}__scrollbar-progress {
+            background-color: $color--black;
+        }
+
+        #{$root}__button {
+            &:hover,
+            &:active,
+            &:focus {
+                stroke: $color--white;
+                background-color: $color--black;
+            }
+        }
+    }
+
 }
