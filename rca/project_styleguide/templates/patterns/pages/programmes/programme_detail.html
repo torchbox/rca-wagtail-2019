@@ -50,8 +50,10 @@
                     </div>
                 </div>
 
-                <div class="section__row feature-image">
-                    {% include "patterns/molecules/card/card.html" with item=eventModule %}
+                <div class="section__row grid">
+                    <div class="feature-image">
+                        {% include "patterns/molecules/card/card.html" with item=eventModule %}
+                    </div>
                 </div>
 
                 <div class="section__row">
@@ -102,23 +104,34 @@
                     Carousel module
                 </div>
 
-                <div class="section__notch section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
-                </div>
-
             </div>
 
 
             <div class="section bg bg--dark">
-                <div class="section__container">
-                    News
-                </div>
-                <div class="section__notch">
+
+                <div class="section__notch section__notch--top">
                     <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+
+                <div class="section__container">
+
+                    <header class="section__header grid">
+                        <h3 class="section__heading section__heading--primary heading heading--two">News & events</h3>
+                    </header>
+
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/news/news.html" %}
+                    </div>
+
                 </div>
             </div>
 
-            <div class="section">
+            <div class="section bg bg--light">
+
+                <div class="section__notch section__notch--top">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+
                 <div class="section__container">
                     Contact us
                 </div>

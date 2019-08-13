@@ -2,18 +2,20 @@
     $root: &;
     $notch-height-small: 24px;
     $notch-height-medium: 74px;
+    $notch-height-large: 95px;
 
     &--image {
         #{$root}__content {
             position: relative;
             top: -$notch-height-small;
+            margin-bottom: -$notch-height-small;
 
             @include media-query(medium) {
                 top: -$notch-height-medium;
             }
 
             @include media-query(large) {
-                top: -95px;
+                top: -$notch-height-large;
             }
 
             &::after {
@@ -24,15 +26,9 @@
                 content: '';
                 display: block;
                 height: $notch-height-small;
-                width: 100%;
-                transform: translate3d(-94px, 0, 0);
+                width: calc(50% + 94px);
 
                 @include media-query(medium) {
-                    transform: translate3d(110px, 0, 0);
-                    height: $notch-height-medium;
-                }
-
-                @include media-query(large) {
                     content: none;
                 }
             }
@@ -48,20 +44,19 @@
     }
 
     &__container {
-        @include grid-layout();
+        display: flex;
+        flex-direction: column;
     }
 
     &__image-container {
         display: block;
+        flex-basis: 100%;
+        min-width: 100%;
+        max-width: 100%;
         transition: opacity $transition;
-        grid-column: 1 / span 2;
 
         &:hover {
             opacity: 0.8;
-        }
-
-        @include media-query(large) {
-            grid-column: 2 / span 3;
         }
     }
 
@@ -72,20 +67,24 @@
     }
 
     &__content {
-        grid-row: 2;
-        grid-column: 1 / span 2;
+        flex-basis: 100%;
+        max-width: 100%;
+        min-width: 100%;
         padding-top: ($gutter * 0.75);
         padding-right: ($gutter * 0.75);
 
         @include media-query(medium) {
-            grid-column: 1 / span 1;
+            flex-basis: 65%;
+            max-width: 65%;
+            min-width: 65%;
             padding-top: $gutter;
-            padding-right: 0;
+            padding-right: $gutter;
         }
 
         @include media-query(large) {
-            grid-column: 2 / span 2;
-            padding-right: $gutter;
+            flex-basis: 66.66%;
+            max-width: 66.66%;
+            min-width: 66.66%;
         }
     }
 
@@ -97,7 +96,9 @@
     }
 
     &__heading {
+        @include font-size(s);
         margin-bottom: ($gutter / 2);
+        line-height: $line-height-large;
     }
 
     &__heading-link {
@@ -146,6 +147,132 @@
     &__person-dept {
         @include font-size(xxs);
         color: $color--meta;
+    }
+
+    .news & {
+        margin-bottom: $gutter;
+
+        @include media-query(medium) {
+            grid-row: 2;
+            padding-right: $gutter;
+        }
+
+        @include media-query(large) {
+            grid-column: 3 / span 1;
+            grid-row: auto;
+            padding-right: 0;
+        }
+
+        &:nth-child(even) {
+            padding-top: $gutter;
+
+            @include media-query(large) {
+                padding-top: 0;
+                padding-bottom: $gutter; // additional space for border
+            }
+        }
+
+        &:first-child {
+            @include media-query(medium) {
+                grid-column: 1 / span 2;
+                grid-row: 1;
+                padding-right: 0;
+            }
+
+            @include media-query(large) {
+                grid-column: 1 / span 2;
+                grid-row: 1 / span 2;
+                padding-right: ($gutter * 1.5);
+            }
+
+            #{$root}__container {
+                @include media-query(large) {
+                    height: 100%;
+                }
+            }
+
+            #{$root}__image-container {
+                @include media-query(large) {
+                    height: 100%;
+                    min-height: 100%;
+                }
+            }
+
+            #{$root}__image {
+                @include media-query(large) {
+                    object-fit: cover;
+                    height: 100%;
+                }
+            }
+
+            #{$root}__meta {
+                @include font-size(xxxs);
+
+                @include media-query(medium) {
+                    @include font-size(xxs);
+                }
+            }
+
+            #{$root}__description {
+                @include font-size(xxs);
+
+                @include media-query(medium) {
+                    @include font-size(xs);
+                }
+            }
+
+            #{$root}__heading {
+                font-size: map-get($medium-font-sizes, xs);
+
+                @include media-query(medium) {
+                    @include font-size(s);
+                }
+            }
+        }
+
+        &:nth-child(1n + 2) {
+            #{$root}__heading {
+                font-size: map-get($medium-font-sizes, xs);
+
+                @include media-query(medium) {
+                    @include font-size(xs);
+                }
+            }
+
+            #{$root}__content {
+                flex-basis: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                top: 0;
+                padding: 0;
+                background-color: transparent !important; // sass-lint:disable-line no-important
+            }
+
+            #{$root}__meta {
+                @include font-size(xxxs);
+            }
+
+            #{$root}__description {
+                @include font-size(xxs);
+            }
+
+            &#{$root}--image {
+                #{$root}__content {
+                    top: -10px;
+
+                    &::after {
+                        @include z-index(base);
+                        position: absolute;
+                        top: -14px; // 24px minus content negative top
+                        left: 0;
+                        content: '';
+                        display: block;
+                        height: 24px;
+                        width: 80px;
+                    }
+                }
+            }
+        }
     }
 
     .bg--dark & {
