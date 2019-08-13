@@ -50,11 +50,14 @@
                     </div>
                 </div>
 
-                <div class="section__row grid">
-                    <div class="feature-image">
-                        {% include "patterns/molecules/card/card.html" with item=eventModule %}
+                {% if eventModule %}
+                    {# BE NOTE: THIS ISNT CURRENTLY USED #}
+                    <div class="section__row grid">
+                        <div class="feature-image">
+                            {% include "patterns/molecules/card/card.html" with item=eventModule %}
+                        </div>
                     </div>
-                </div>
+                {% endif %}
 
                 <div class="section__row">
                     <header class="section__header grid">
