@@ -8,25 +8,39 @@
     {% if related_sections %}
 
         {% for related_section in related_sections %}
-            <div class="related-content__group">
+            <div class="related-content__group" data-group="{{forloop.counter}}">
                 <div class="section__row grid">
                     <h3 class="related-content__subheading heading heading--five">{{related_section.title}}</h3>
                 </div>
 
-                {% for related_item in related_items %}
-                    <div class="section-row grid">
+                <div class="grid">
+
+                    {% for related_item in related_items %}
                         <div class="related-content__meta">
-                            <p class="related-content__title body body--one"><a href="#">{{related_item.title}}</a></p>
+                            <p class="related-content__title body body--one">
+                                <a
+                                    href="#"
+                                    class="link link--tertiary"
+                                    data-related-title
+                                    data-target-image="{{forloop.counter}}"
+                                    data-parent-group={{forloop.parentloop.counter}}
+                                >
+                                    {{related_item.title}}
+                                </a>
+                            </p>
                             <p class="related-content__degree">{{related_item.degree}}</p>
                         </div>
                         <p class="related-content__copy">{{related_item.copy}}</p>
-                        {% if forloop.first %}
-                            <div class="related-content__image-container">
-                                {% image specific_related_page.listing_image fill-300x270 %}
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+
+                    {% for related_item in related_items %}
+                        <div class="related-content__image-container">
+                            <img class="related-content__image {% if forloop.first %}is-visible{% endif %}" src="{{related_item.img}}" data-image="{{forloop.counter}}">
+                        </div>
+                    {% endfor %}
+
+                </div>
+
             </div>
         {% endfor  %}
     {% endif %}

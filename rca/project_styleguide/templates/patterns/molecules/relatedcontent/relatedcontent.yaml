@@ -10,23 +10,20 @@ context:
       title: Architecture
       degree: MA
       copy: Architecture at the RCA sets out to inspire design innovation
+      img: https://source.unsplash.com/300x270/?architecture
     - item:
       title: City design
       degree: MA
       copy: Architecture at the RCA sets out to inspire design innovation
+      img: https://source.unsplash.com/300x270/?city
     - item:
       title: Environmental acrhitecture
       degree: MA
       copy: Architecture at the RCA sets out to inspire design innovation
-
-
+      img: https://source.unsplash.com/300x270/?environment
 
 
 tags:
   pageurl:
     specific_related_page:
       raw: '#'
-  image:
-    specific_related_page.listing_image fill-300x270:
-      raw: |
-        <img src="//placekitten.com/300/270" alt="kitten" class="related-content__image">
