@@ -79,6 +79,15 @@ class ProgrammePage(BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
+    hero_colour_option = models.CharField(
+        max_length=1,
+        choices=(
+            ("1", "Light text on a dark image"),
+            ("2", "Dark text on a light image"),
+        ),
+        blank=True,
+        null=True,
+    )
     # Programme details
     programme_details_credits = models.CharField(max_length=25, blank=True, null=True)
     programme_details_credits_suffix = models.CharField(
@@ -109,9 +118,6 @@ class ProgrammePage(BasePage):
         null=True,
     )
 
-    #   Credits
-    # Time
-    # Duration of study
     next_open_day_date = models.DateField(blank=True, null=True)
     link_to_open_days = models.URLField(blank=True, null=True)
     application_deadline = models.DateField(blank=True, null=True)
@@ -146,6 +152,7 @@ class ProgrammePage(BasePage):
                 ImageChooserPanel("hero_image"),
                 FieldPanel("hero_video"),
                 ImageChooserPanel("hero_video_preview_image"),
+                FieldPanel("hero_colour_option"),
             ],
             heading="Hero",
         ),
@@ -203,6 +210,14 @@ class ProgrammePage(BasePage):
 
         if errors:
             raise ValidationError(errors)
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["hero_colour"] = "dark"
+        if self.hero_colour_option == "1":
+            context["hero_colour"] = "light"
+
+        return context
 
 
 class ProgrammeIndexPage(BasePage):
