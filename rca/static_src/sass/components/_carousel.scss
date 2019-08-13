@@ -1,3 +1,67 @@
-.carousel__liveregion {
-    @include hidden();
+.carousel {
+    $root: &;
+    position: relative;
+    grid-column: 1 / span 2;
+
+    @include media-query(large) {
+        grid-column: 2 / span 3;
+    }
+
+    &__liveregion {
+        @include hidden();
+    }
+
+    &__controls-group {
+        display: none;
+
+        @include media-query(large) {
+            display: block;
+        }
+    }
+
+    &__button {
+        position: absolute;
+        top: 50%;
+        border-radius: 50%;
+        width: 46px;
+        height: 46px;
+        margin: 0;
+        padding: 0;
+        transition: background-color $transition;
+
+        &:hover,
+        &:active,
+        &:focus {
+            outline: none;
+        }
+
+        &--prev {
+            left: -80px;
+        }
+
+        &--next {
+            right: -80px;
+        }
+    }
+
+    .bg--dark & {
+        //
+        // #{$root}__scrollbar {
+        //     background-color: $color--scrollbar-darkbg-bg;
+        // }
+        //
+        // #{$root}__scrollbar-progress {
+        //     background-color: $color--white;
+        // }
+
+        #{$root}__button {
+            &:hover,
+            &:active,
+            &:focus {
+                stroke: $color--black;
+                background-color: $color--white;
+            }
+        }
+    }
+
 }
