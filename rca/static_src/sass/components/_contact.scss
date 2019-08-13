@@ -1,0 +1,79 @@
+.contact {
+    $root: &;
+    padding-top: $gutter;
+    padding-bottom: ($gutter * 4);
+
+    @include media-query(medium) {
+        padding-top: ($gutter * 2);
+        padding-bottom: ($gutter * 6);
+    }
+
+    @include media-query(large) {
+        min-height: ($gutter * 20);
+        padding-top: ($gutter * 4);
+        padding-bottom: ($gutter * 3.5);
+    }
+
+    &__intro {
+        grid-column: 1 / span 2;
+        margin-bottom: ($gutter * 2);
+
+        @include media-query(medium) {
+            grid-column: auto;
+            margin-bottom: 0;
+        }
+
+        @include media-query(large) {
+            grid-column: 2 / span 1;
+        }
+    }
+
+    &__heading {
+        padding-bottom: ($gutter * 1.5);
+        margin-bottom: ($gutter * 1.25);
+
+        .bg--dark & {
+            border-bottom: 1px solid $color--grid-line-light;
+        }
+
+        .bg--light & {
+            border-bottom: 1px solid $color--grid-line-dark;
+        }
+    }
+
+    &__text {
+        color: $color--dark-grey;
+        padding-right: $gutter;
+        margin-bottom: 0;
+    }
+
+    &__link {
+        max-width: 165px !important; // sass-lint:disable-line no-important
+
+        @include media-query(medium) {
+            align-self: flex-end;
+        }
+
+        @include media-query(large) {
+            margin-top: ($gutter * 10);
+        }
+    }
+
+    &__image-container {
+        position: relative;
+        grid-column: 4 / span 2;
+        margin-top: -($gutter * 14);
+        margin-right: -($gutter * 3);
+        display: none;
+
+        #{$root}__image {
+            position: absolute;
+            height: ($gutter * 30);
+            object-fit: cover;
+        }
+
+        @include media-query(large) {
+            display: block;
+        }
+    }
+}
