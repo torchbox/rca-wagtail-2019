@@ -194,6 +194,7 @@
             #{$root}__image-container {
                 @include media-query(large) {
                     height: 100%;
+                    min-height: 100%;
                 }
             }
 
