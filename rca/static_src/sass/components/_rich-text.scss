@@ -34,4 +34,17 @@
     ol {
         list-style: inside decimal;
     }
+
+    a {
+        @include underline-hover();
+        position: relative;
+
+        .bg--dark & {
+            color: $color--white;
+        }
+
+        .bg--light & {
+            color: $color--white;
+        }
+    }
 }

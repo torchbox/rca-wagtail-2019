@@ -1,15 +1,185 @@
 .card {
-    padding: 20px;
-    background-color: $color--tertiary;
-    transition: background-color $transition;
+    $root: &;
+    $notch-height-small: 24px;
+    $notch-height-medium: 74px;
 
-    &:hover {
-        background-color: darken($color--tertiary, 10%);
+    &--image {
+        #{$root}__content {
+            position: relative;
+            top: -$notch-height-small;
+
+            @include media-query(medium) {
+                top: -$notch-height-medium;
+            }
+
+            @include media-query(large) {
+                top: -95px;
+            }
+
+            &::after {
+                @include z-index(base);
+                position: absolute;
+                top: 0;
+                left: 0;
+                content: '';
+                display: block;
+                height: $notch-height-small;
+                width: 100%;
+                transform: translate3d(-94px, 0, 0);
+
+                @include media-query(medium) {
+                    transform: translate3d(110px, 0, 0);
+                    height: $notch-height-medium;
+                }
+
+                @include media-query(large) {
+                    content: none;
+                }
+            }
+        }
+
+        // ensure card__content:after doens't hide content
+        #{$root}__meta,
+        #{$root}__heading,
+        #{$root}__description {
+            @include z-index(overlap);
+            position: relative;
+        }
     }
-}
 
-.card-with-image {
-    &:only-child {
-        max-width: 260px;
+    &__container {
+        @include grid-layout();
+    }
+
+    &__image-container {
+        grid-column: 1 / span 2;
+
+        @include media-query(large) {
+            grid-column: 2 / span 3;
+        }
+    }
+
+    &__image-container {
+        display: block;
+        transition: opacity $transition;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    &__image {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    &__content {
+        grid-row: 2;
+        grid-column: 1 / span 2;
+        padding-top: ($gutter * 0.75);
+        padding-right: ($gutter * 0.75);
+
+        @include media-query(medium) {
+            grid-column: 1 / span 1;
+            padding-top: $gutter;
+            padding-right: 0;
+        }
+
+        @include media-query(large) {
+            grid-column: 2 / span 2;
+            padding-right: $gutter;
+        }
+    }
+
+    &__meta {
+        @include font-size(xxs);
+        color: $color--tertiary;
+        text-transform: uppercase;
+        margin-bottom: ($gutter / 4);
+    }
+
+    &__heading {
+        margin-bottom: ($gutter / 2);
+    }
+
+    &__heading-link {
+        @include underline-hover();
+        position: relative;
+        color: inherit;
+    }
+
+    &__description {
+        color: $color--meta;
+    }
+
+    &__person {
+        @include media-query(large) {
+            display: flex;
+            grid-row: 2;
+            grid-column: 4 / span 1;
+            padding-top: $gutter;
+        }
+    }
+
+    &__person-image {
+        @include media-query(large) {
+            display: block;
+            flex-basis: 60px;
+            min-width: 60px;
+            max-width: 60px;
+            height: 60px;
+        }
+    }
+
+    &__person-info {
+        padding-left: ($gutter * 0.75);
+    }
+
+    &__person-meta {
+        @include font-size(xxs);
+        color: $color--meta;
+        margin-bottom: ($gutter / 4);
+    }
+
+    &__person-title {
+        @include font-size(xxs);
+    }
+
+    &__person-dept {
+        @include font-size(xxs);
+        color: $color--meta;
+    }
+
+    .bg--dark & {
+        &#{$root}--image {
+            #{$root}__content {
+                color: $color--white;
+
+                @include media-query(medium) {
+                    background-color: $color--black;
+                }
+
+                &::after {
+                    background-color: $color--black;
+                }
+            }
+        }
+    }
+
+    .bg--light & {
+        &#{$root}--image {
+            #{$root}__content {
+                color: $color--black;
+
+                @include media-query(medium) {
+                    background-color: $color--white;
+                }
+
+                &::after {
+                    background-color: $color--white;
+                }
+            }
+        }
     }
 }
