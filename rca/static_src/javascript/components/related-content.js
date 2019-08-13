@@ -10,13 +10,9 @@ class RelatedContent {
     }
 
     bindEventListeners() {
-        this.isDesktop = window.innerWidth > 1022;
-
-        if (this.isDesktop) {
-            this.node.addEventListener('mouseover', (e) => {
-                this.updateImage(e);
-            });
-        }
+        this.node.addEventListener('mouseover', (e) => {
+            this.updateImage(e);
+        });
     }
 
     updateImage(e) {
