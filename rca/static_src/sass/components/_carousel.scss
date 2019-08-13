@@ -29,7 +29,7 @@
         }
     }
 
-    &__bullets {
+    &__bullet-container {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
@@ -97,6 +97,15 @@
                 background-color: $color--white;
             }
         }
+
+        #{$root}__bullet {
+            background-color: $color--scrollbar-darkbg-bg;
+
+            &.glide__bullet--active {
+                background-color: $color--white;
+            }
+        }
+
     }
 
     .bg--light & {
@@ -108,5 +117,14 @@
                 background-color: $color--black;
             }
         }
+
+        #{$root}__bullet {
+            background-color: $color--scrollbar-lightbg-bg;
+
+            &.glide__bullet--active {
+                background-color: $color--black;
+            }
+        }
+
     }
 }
