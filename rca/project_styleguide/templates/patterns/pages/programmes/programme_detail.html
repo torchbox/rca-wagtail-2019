@@ -29,7 +29,7 @@
 
         <div class="page__content">
 
-            <div class="section bg bg--dark">
+            <section class="section bg bg--dark">
 
                 <div class="section__row programme-overview">
                     <header class="section__header grid">
@@ -50,8 +50,10 @@
                     </div>
                 </div>
 
-                <div class="section__row feature-image">
-                    {% include "patterns/molecules/card/card.html" with item=eventModule %}
+                <div class="section__row grid">
+                    <div class="feature-image">
+                        {% include "patterns/molecules/card/card.html" with item=eventModule %}
+                    </div>
                 </div>
 
                 <div class="section__row">
@@ -67,11 +69,11 @@
                     <div class="section__notch-fill section__notch-fill--first-col"></div>
                 </div>
 
-            </div>
+            </section>
 
 
 
-            <div class="section bg bg--light">
+            <section class="section bg bg--light">
 
                 {% include "patterns/organisms/staff-overview/staff-overview.html" %}
 
@@ -102,33 +104,49 @@
                     {% include "patterns/organisms/carousel/carousel.html" %}
                 </div>
 
-                <div class="section__notch section__notch">
+            </section>
+
+
+            <section class="section bg bg--dark">
+
+                <div class="section__notch section__notch--top">
                     <div class="section__notch-fill section__notch-fill--third-col"></div>
                 </div>
 
-            </div>
-
-
-            <div class="section bg bg--dark">
                 <div class="section__container">
-                    News
+
+                    <header class="section__header grid">
+                        <h3 class="section__heading section__heading--primary heading heading--two">News & events</h3>
+                    </header>
+
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/news/news.html" %}
+                    </div>
+
                 </div>
-                <div class="section__notch">
+            </section>
+
+            <section class="section bg bg--light">
+
+                <div class="section__notch section__notch--top">
                     <div class="section__notch-fill section__notch-fill--third-col"></div>
                 </div>
-            </div>
+            </section>
 
-            <div class="section">
+            <section class="section bg bg--light">
                 <div class="section__container">
                     Contact us
                 </div>
-            </div>
+            </section>
 
-            <div class="section">
-                <div class="section__container">
-                    Related
+            <section class="section bg bg--dark">
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
                 </div>
-            </div>
+                <div class="section__container">
+                    {% include "patterns/molecules/relatedcontent/relatedcontent.html" %}
+                </div>
+            </section>
 
         </div>
     </div>

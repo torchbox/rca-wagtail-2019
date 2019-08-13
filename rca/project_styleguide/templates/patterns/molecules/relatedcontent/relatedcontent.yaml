@@ -1,27 +1,26 @@
 context:
-  related_documents:
-    - document:
-        url: '#'
-        title: 'Some document'
-        filename: 'some_document.pdf'
-    - document:
-        url: '#'
-        title: 'Some other document'
-        filename: 'some_document.pdf'
-  related_pages:
-    - page:
-        live: true
-        specific:
-          title: Page title
-          listing_image: fake
-          listing_title: Item title
-          listing_summary: Some lorem ipsum
+  title: More opportunities to study at the RCA
+  related_sections:
+    - item:
+      title: Related programmes
+  related_items:
+    - item:
+      title: Architecture
+      degree: MA
+      copy: Architecture at the RCA sets out to inspire design innovation
+      img: http://placehold.it/300x270/fff/000
+    - item:
+      title: City design
+      degree: MA
+      copy: Architecture at the RCA sets out to inspire design innovation
+      img: http://placehold.it/300x270/ff5d1c/fff
+    - item:
+      title: Environmental acrhitecture
+      degree: MA
+      copy: Architecture at the RCA sets out to inspire design innovation
+      img: http://placehold.it/300x270
 
 tags:
   pageurl:
     specific_related_page:
       raw: '#'
-  image:
-    specific_related_page.listing_image fill-450x300:
-      raw: |
-        <img src="http://via.placeholder.com/450x300" width="450" height="300" alt="Some alt">
