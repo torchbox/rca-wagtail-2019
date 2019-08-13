@@ -98,6 +98,7 @@
     &__link {
         @include font-size(xxs);
         margin-right: $gutter;
+        max-width: 100% !important; // sass-lint:disable-line no-important
     }
 
     .bg--dark & {
