@@ -3,6 +3,8 @@
     margin-bottom: ($gutter * 2.25);
 
     &__image {
+        @include z-index(above-gridlines);
+        position: relative;
         display: block;
         width: 100%;
         height: auto;

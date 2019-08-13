@@ -60,10 +60,10 @@
 
     &__view-all {
         &--medium {
-            display: none !important; // override link setting
+            display: none !important; // sass-lint:disable-line no-important
 
             @include media-query(medium) {
-                display: inline-flex !important;
+                display: inline-flex !important; // sass-lint:disable-line no-important
             }
 
             @include media-query(large) {

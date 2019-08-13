@@ -27,28 +27,25 @@
     <body class="app {% block body_class %}app--{{ page.get_verbose_name|slugify }}{% endblock %} {% block header_class %}header-content-light{% endblock %}">
         {% block body_top %}{% endblock %}
 
-        <div class="app__grid-lines" aria-hidden="true">
-            <div class="app__grid-line" data-left-edge><div class="app__grid-line--left"></div></div>
-            <div class="app__grid-line"></div>
-            <div class="app__grid-line"></div>
-            <div class="app__grid-line"></div>
-            <div class="app__grid-line"></div>
-        </div>
-
         {% include "patterns/atoms/sprites/sprites.html" %}
 
         {% wagtailuserbar %}
         <header class="app__header">
+            {% include "patterns/atoms/grid-lines/grid-lines.html" %}
             {% block header %}{% endblock %}
         </header>
 
         <nav class="app__navigation">
+            {% include "patterns/atoms/grid-lines/grid-lines.html" %}
             <section class="header__menus">
                 {% primarynav %}
             </section>
         </nav>
 
         <main class="app__content">
+
+            {% include "patterns/atoms/grid-lines/grid-lines.html" %}
+
             {% block content %}
                 {{ pattern_library_rendered_pattern }}
             {% endblock %}

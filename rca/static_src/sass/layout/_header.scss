@@ -1,11 +1,5 @@
 .header {
     $root: &;
-    @include z-index(header);
-    $root: &;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    transition: transform $transition;
 
     &__container {
         max-width: $site-width;
@@ -291,16 +285,8 @@
         }
     }
 
-    // Hide when scrolling down
-    .headroom--not-top & {
-        transform: translate3d(0, -100%, 0);
-    }
-
     // Show when scrolling back up
     .headroom--pinned.headroom--not-top & {
-        transform: translate3d(0, 0, 0);
-        background-color: $color--black;
-
         #{$root}__container {
             padding-top: ($gutter);
         }

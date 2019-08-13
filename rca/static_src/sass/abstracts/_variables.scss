@@ -102,16 +102,16 @@ $z-index: (
     under: -10,
     base: 10,
     overlap: 20,
-    free3: 30,
-    free4: 40,
-    header: 50,
-    free5: 60,
-    nav-overlay: 70,
+    nav-overlay: 30,
+    headerLogo: 40,
+    gridlines: 50,
+    above-gridlines: 60,
+    header: 70,
     nav: 80,
-    headerLogo: 85,
-    gridlines: 90,
+    header-gridlines: 90,
     cookie-message: 100,
     modal: 110,
+    modal-controls: 120,
 );
 
 // --------------------------------- Grid Dimensions --------------------------------------
@@ -126,10 +126,3 @@ $site-width: 1440px;
 
 $transition: 0.25s ease-out;
 $cubic-transition: 250ms cubic-bezier(0.24, 0.26, 0.2, 1);
-
-// --------------------------------- Magic numbers --------------------------------------
-
-$header-height-small: 130px;
-$header-height-medium: 130px;
-$header-height-large: 130px;
-$menu-toggle-buttons-height: 67px;
