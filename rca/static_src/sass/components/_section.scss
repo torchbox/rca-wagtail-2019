@@ -4,14 +4,6 @@
     $notch-height-medium: 80px;
     $notch-height-large: 100px;
 
-    &--full {
-        #{$root}__container {
-            max-width: 0;
-            padding: 0;
-            margin: 0;
-        }
-    }
-
     &__heading {
         grid-column: 1;
 
@@ -38,6 +30,19 @@
 
     &__notch {
         @include grid-layout();
+
+        &--top {
+            margin-bottom: ($gutter * 4);
+
+            @include media-query(medium) {
+                margin-bottom: ($gutter * 4);
+            }
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 5);
+            }
+
+        }
     }
 
     &__notch-fill {

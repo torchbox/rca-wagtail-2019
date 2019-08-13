@@ -1,0 +1,9 @@
+<div class="news">
+    {% for item in news %}
+        {% include "patterns/molecules/card/card.html" %}
+    {% endfor %}
+    <a class="news__view-all link link--secondary link--link body body--two" href="#">
+        <span class="link__label">See all news & events</span>
+        <svg class="link__icon" width="12" height="8"><use xlink:href="#arrow"></use></svg>
+    </a>
+</div>
