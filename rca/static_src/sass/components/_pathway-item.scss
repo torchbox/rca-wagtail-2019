@@ -9,6 +9,12 @@
         min-width: 50%;
     }
 
+    &__description {
+        @include media-query(medium) {
+            padding-right: ($gutter * 2);
+        }
+    }
+
     &__link {
         max-width: 170px;
     }
