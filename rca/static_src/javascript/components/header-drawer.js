@@ -1,4 +1,4 @@
-class Menu {
+class HeaderDrawer {
     static selector() {
         return '[data-menu-toggle]';
     }
@@ -85,4 +85,4 @@ class Menu {
     }
 }
 
-export default Menu;
+export default HeaderDrawer;

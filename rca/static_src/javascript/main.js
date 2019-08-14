@@ -1,6 +1,6 @@
 import '@babel/polyfill';
 
-import Menu from './components/menu';
+import HeaderDrawer from './components/header-drawer';
 import SubMenu from './components/submenu';
 import BackLink from './components/back-link';
 import MobileSubMenu from './components/mobile-sub-menu';
@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
         new Slideshow(slideshow);
     }
 
-    for (const menu of document.querySelectorAll(Menu.selector())) {
-        new Menu(menu);
+    for (const headerdrawer of document.querySelectorAll(HeaderDrawer.selector())) {
+        new HeaderDrawer(headerdrawer);
     }
 
     for (const backlink of document.querySelectorAll(BackLink.selector())) {
