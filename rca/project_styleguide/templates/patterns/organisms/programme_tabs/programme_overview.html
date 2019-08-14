@@ -19,11 +19,14 @@
         </div>
     </div>
 
-    <div class="section__row grid">
-        <div class="feature-image">
-            {% include "patterns/molecules/card/card.html" with item=eventModule %}
+    {% if eventModule %}
+        {# BE NOTE: THIS ISNT CURRENTLY USED #}
+        <div class="section__row grid">
+            <div class="feature-image">
+                {% include "patterns/molecules/card/card.html" with item=eventModule %}
+            </div>
         </div>
-    </div>
+    {% endif %}
 
     <div class="section__row">
         <header class="section__header grid">
@@ -48,28 +51,7 @@
 
     {% include "patterns/organisms/facilities/facilities.html" %}
 
-    <div class="section__row grid featured-alumni">
-        <h2 class="heading heading--four featured-alumni__heading">Notable Alumni</h2>
-        <div class="featured-alumni__introduction">
-            <p class="introduction">Alumni from the RCA form an international network of creative individuals who have shaped and continue to shape the culture surrounding all of us.</p>
-        </div>
-        <ul class="featured-alumni__list">
-            <li><a href="#">James Dyson</a></li>
-            <li><a href="#">Anton Furst</a></li>
-            <li><a href="#">Golifer Langston Architects</a></li>
-            <li><a href="#">Ben Kelly</a></li>
-            <li><a href="#">Kirsten MacKay</a></li>
-            <li><a href="#">Sheila O’Donnell</a></li>
-            <li><a href="#">Urban Salon</a></li>
-            <li><a href="#">Tonkin Liu</a></li>
-            <li><a href="#">Theis & Khan</a></li>
-            <li><a href="#">FreeState - Adam Scott and Charlotte Boyens</a></li>
-        </ul>
-    </div>
-
-    <div class="section__row">
-        Carousel module
-    </div>
+    {% include "patterns/organisms/featured-alumni/featured-alumni.html" %}
 
 </section>
 
