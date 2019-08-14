@@ -1,16 +1,19 @@
 .video-modal {
     @include z-index(modal);
-    display: none;
     position: fixed;
     left: 0;
     top: 0;
     width: 100vw;
     height: 100vh;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: $color--black-80;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity $transition;
 
-    &.open {
-        display: block;
+    &.is-open {
+        opacity: 1;
+        pointer-events: all;
     }
 
     &__container {
@@ -20,9 +23,9 @@
         width: 90%;
         margin: 0 auto;
 
-        @include media-query(tablet-portrait) {
+        @include media-query(large) {
             width: 56%;
-            max-width: 800px;
+            max-width: 1000px;
         }
     }
 
@@ -32,5 +35,16 @@
         display: inline-block;
         top: 20px;
         right: 20px;
+    }
+
+    &__close-icon {
+        fill: $color--secondary;
+        transition: opacity $transition;
+
+        &:hover,
+        &:active,
+        &:focus {
+            opacity: 0.8;
+        }
     }
 }

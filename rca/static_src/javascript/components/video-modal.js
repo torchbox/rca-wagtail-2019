@@ -1,14 +1,3 @@
-// Simple video modal which doesn't use a third party library like lightbox
-
-// Assumes a strcuture as follows
-// <div data-video-modal>
-//     <a data-video-modal-open>Open video</a>
-//     <div data-modal-window>
-//         <a data-modal-close>close</a>
-//         Video iframe embed
-//     </div>
-// </div>
-
 class VideoModal {
     static selector() {
         return '[data-video-modal]';
@@ -21,20 +10,44 @@ class VideoModal {
         this.modalClose = this.modal.querySelector('[data-modal-close]');
         this.iframe = this.modal.querySelector('iframe');
         this.src = this.iframe.getAttribute('src');
+        this.body = document.querySelector('body');
+        this.noScrollClass = 'no-scroll';
+        this.activeClass = 'is-open';
+        this.storeIframeSrc();
+    }
+
+    storeIframeSrc() {
+        // store the iframe src on the anchor with the autoplay param
+        this.modal.setAttribute('data-embed-url', `${this.src}&autoplay=1`);
+
         this.bindEvents();
     }
 
     bindEvents() {
         this.modalOpen.addEventListener('click', (e) => {
             e.preventDefault();
-            this.modalWindow.classList.add('open');
-            this.iframe.setAttribute('src', this.src);
+
+            // prevent scrolling
+            this.body.classList.add(this.noScrollClass);
+
+            // show the modal
+            this.modalWindow.classList.add(this.activeClass);
+
+            // add the autoplay url to the iframe
+            this.iframe.setAttribute('src', this.modal.dataset.embedUrl);
         });
 
         this.modalClose.addEventListener('click', (e) => {
+            e.stopPropagation();
             e.preventDefault();
-            this.modalWindow.classList.remove('open');
-            // stops video playing when window is closed
+
+            // allow scrolling
+            this.body.classList.remove(this.noScrollClass);
+
+            // hide the modal
+            this.modalWindow.classList.remove(this.activeClass);
+
+            // stop the embed playing
             this.iframe.setAttribute('src', '');
         });
     }

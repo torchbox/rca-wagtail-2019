@@ -1,0 +1,17 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div class="image-caption-link" {% if modal %}data-video-modal{% endif %}>
+    <span {% if modal %}data-modal-open{% endif %} href="#" class="image-caption-link__link">
+        {% image curriculum_intro.image fill-900x415 class="image-caption-link__image" %}
+        {% if modal %}
+            <svg width="24" height="24" class="image-caption-link__image-icon"><use xlink:href="#play-icon"></use></svg>
+            {% include "patterns/molecules/video-modal/video-modal.html" with open_link=False %}
+        {% endif %}
+        <div class="image-caption-link__caption-container">
+            <p class="image-caption-link__caption body body--two">
+                <svg width="24" height="24" class="image-caption-link__caption-icon"><use xlink:href="#play-icon"></use></svg>
+                <span class="image-caption-link__caption-text">{{caption}}</span>
+            </p>
+        </div>
+    </span>
+</div>
