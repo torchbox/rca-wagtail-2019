@@ -12,12 +12,20 @@
         width: 100%;
         border-bottom: 1px solid $color--white;
         padding: ($gutter / 2) ($gutter * 1.5) ($gutter / 2) ($gutter / 2);
+
+        &:focus {
+            outline: 0;
+        }
     }
 
     &__button {
         position: absolute;
         right: 0;
         top: 15px;
+
+        &:focus {
+            outline: 0;
+        }
 
         @include media-query(medium) {
             top: 18px;
