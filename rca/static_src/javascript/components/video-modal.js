@@ -38,6 +38,7 @@ class VideoModal {
         });
 
         this.modalClose.addEventListener('click', (e) => {
+            e.stopPropagation();
             e.preventDefault();
 
             // allow scrolling

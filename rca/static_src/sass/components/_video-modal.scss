@@ -6,7 +6,7 @@
     width: 100vw;
     height: 100vh;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: $color--black-80;
     opacity: 0;
     pointer-events: none;
     transition: opacity $transition;
