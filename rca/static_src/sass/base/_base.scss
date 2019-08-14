@@ -1,5 +1,5 @@
 /*------------------------------------*\
-	$BASE DEFAULTS
+$BASE DEFAULTS
 \*------------------------------------*/
 
 // Box Sizing
@@ -16,10 +16,14 @@ html {
     -webkit-text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+
+    @media (prefers-reduced-motion: reduce) {
+        scroll-behavior: auto;
+    }
 }
 
 body {
-    overflow-x: hidden;
     background-color: $color--secondary;
 
     &.no-scroll {

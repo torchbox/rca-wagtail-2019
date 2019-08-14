@@ -1,0 +1,12 @@
+context:
+  tabs:
+    - tab:
+      title: Programme Overview
+    - tab:
+      title: Curriculum
+    - tab:
+      title: Requirements
+    - tab:
+      title: Fees and funding
+    - tab:
+      title: Apply

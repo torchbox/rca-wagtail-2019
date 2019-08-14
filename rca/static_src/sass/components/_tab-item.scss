@@ -1,0 +1,34 @@
+.tab-item {
+    @include font-size(xxs);
+    $root: &;
+    margin-right: ($gutter * 1.5);
+
+    &:last-child {
+        padding-right: ($gutter);
+
+        @include media-query(medium) {
+            padding-right: ($gutter * 3);
+        }
+
+        @include media-query(large) {
+            padding-right: 0;
+        }
+    }
+
+    &__link {
+        @include underline-hover();
+        position: relative;
+        color: $color--meta;
+        white-space: nowrap;
+
+        &:hover {
+            color: $color--white;
+        }
+    }
+
+    &.active {
+        #{$root}__link {
+            color: $color--white;
+        }
+    }
+}

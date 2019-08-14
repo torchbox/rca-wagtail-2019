@@ -114,4 +114,18 @@
             }
         }
     }
+
+    .tabs__panel & {
+        &:first-child {
+            padding-top: ($gutter * 2.5);
+
+            @include media-query(medium) {
+                padding-top: ($gutter * 3);
+            }
+
+            @include media-query(large) {
+                padding-top: ($gutter * 7);
+            }
+        }
+    }
 }
