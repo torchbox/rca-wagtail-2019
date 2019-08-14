@@ -17,7 +17,10 @@ class Sticky {
         );
         var isStuck = currentOffset <= stickyOffset;
 
-        if (CSS.supports && CSS.supports('position', 'sticky') || CSS.supports('position', '-webkit-sticky')) {
+        if (
+            (CSS.supports && CSS.supports('position', 'sticky')) ||
+            CSS.supports('position', '-webkit-sticky')
+        ) {
             if (isStuck) {
                 sticky.classList.add('js-is-sticky');
             } else {
