@@ -36,4 +36,15 @@
         top: 20px;
         right: 20px;
     }
+
+    &__close-icon {
+        fill: $color--secondary;
+        transition: opacity $transition;
+
+        &:hover,
+        &:active,
+        &:focus {
+            opacity: 0.8;
+        }
+    }
 }

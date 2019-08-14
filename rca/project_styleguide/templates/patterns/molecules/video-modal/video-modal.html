@@ -4,7 +4,9 @@
         <a data-modal-open>Open video</a>
     {% endif %}
     <div data-modal-window class="video-modal" aria-live="polite">
-        <a data-modal-close class="video-modal__close">Close</a>
+        <a data-modal-close class="video-modal__close">
+            <svg class="video-modal__close-icon" width="20" height="20"><use xlink:href="#close"></use></svg>
+        </a>
         <div class="video-modal__container">
             {% include_block value.embed %}
         </div>

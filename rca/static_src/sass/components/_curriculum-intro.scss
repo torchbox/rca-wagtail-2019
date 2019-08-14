@@ -1,13 +1,23 @@
 .curriculum-intro {
+    padding-top: ($gutter * 2);
+    padding-bottom: ($gutter * 4);
+
+    @include media-query(medium) {
+        padding-bottom: ($gutter * 6);
+    }
+
     &__heading {
         grid-column: 1 / span 2;
+        margin-bottom: ($gutter * 1.25);
 
         @include media-query(medium) {
             grid-column: 1 / span 2;
+            margin-bottom: ($gutter * 1.75);
         }
 
         @include media-query(large) {
             grid-column: 2 / span 3;
+            margin-bottom: ($gutter * 2);
         }
     }
 
@@ -22,12 +32,11 @@
         @include media-query(medium) {
             grid-column: 1 / span 1;
             margin-bottom: 0;
-            padding-right: ($gutter / 2);
+            padding-right: $gutter;
         }
 
         @include media-query(large) {
             grid-column: 3 / span 1;
-            padding-right: $gutter;
         }
     }
 
@@ -36,7 +45,7 @@
             grid-column: 2 / span 1;
         }
 
-        @include media-query(medium) {
+        @include media-query(large) {
             grid-column: 4 / span 1;
         }
     }

@@ -1,0 +1,97 @@
+.image-caption-link {
+    $root: &;
+    @include z-index(above-gridlines);
+    margin-bottom: ($gutter * 1.75);
+
+    &:active,
+    &:focus,
+    &:hover {
+        cursor: pointer;
+    }
+
+    &__image {
+        opacity: 0.8;
+
+        @include media-query(medium) {
+            opacity: 1;
+            transition: opacity $transition;
+
+            #{$root}:hover & {
+                opacity: 0.8;
+            }
+        }
+    }
+
+    &__link {
+        display: block;
+        position: relative;
+    }
+
+    &__caption-container {
+        display: grid;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        @include media-query(medium) {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @include media-query(large) {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        #{$root}__caption {
+            display: none;
+            font-family: $font--secondary;
+            background: $color--primary;
+            margin: 0;
+            padding: $gutter;
+            align-items: center;
+            grid-column: 2 / span 1;
+
+            @include media-query(medium) {
+                display: flex;
+            }
+
+            @include media-query(large) {
+                grid-column: 3 / span 1;
+            }
+        }
+
+        #{$root}__caption-text {
+            margin-bottom: -($gutter / 2);
+            flex: 1;
+            max-width: 60%;
+
+            @include media-query(large) {
+                max-width: 80%;
+            }
+        }
+    }
+
+    &__caption-icon {
+        margin-right: ($gutter / 2);
+    }
+
+    &__image-icon {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+
+        @include media-query(medium) {
+            display: none;
+        }
+    }
+
+    .curriculum-intro & {
+        grid-column: 1 / span 2;
+
+        @include media-query(large) {
+            grid-column: 2 / span 3;
+        }
+    }
+}
