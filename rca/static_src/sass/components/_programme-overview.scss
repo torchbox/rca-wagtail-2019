@@ -11,6 +11,7 @@
 
     &__body {
         grid-column: 1 / span 2;
+        padding-right: $gutter;
 
         @include media-query(large) {
             grid-column: 3 / span 2;
