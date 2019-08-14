@@ -82,6 +82,21 @@ class HeaderDrawer {
             this.activeClass,
             this.noScrollClass,
         );
+
+        this.resetMenu();
+    }
+
+    resetMenu() {
+        const visibleItems = document.querySelectorAll('[data-nav-container] .is-visible');
+        const activeItems = document.querySelectorAll('[data-nav-container] .is-active');
+
+        visibleItems.forEach(item => {
+            item.classList.remove('is-visible');
+        });
+
+        activeItems.forEach(item => {
+            item.classList.remove('is-active');
+        });
     }
 }
 
