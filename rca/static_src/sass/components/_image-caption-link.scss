@@ -1,6 +1,5 @@
 .image-caption-link {
     $root: &;
-    @include z-index(above-gridlines);
     margin-bottom: ($gutter * 1.75);
 
     &:active,
@@ -79,7 +78,7 @@
         position: absolute;
         left: 50%;
         top: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate3d(-50%, -50%, 0);
         pointer-events: none;
 
         @include media-query(medium) {
