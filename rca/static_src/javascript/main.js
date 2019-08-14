@@ -11,6 +11,7 @@ import Slideshow from './components/slideshow';
 import ProgressBar from './components/progress-bar';
 import VideoModal from './components/video-modal';
 import RelatedContent from './components/related-content';
+import Tabs from "./components/tabs";
 import './components/sticky-header';
 
 import '../sass/main.scss';
