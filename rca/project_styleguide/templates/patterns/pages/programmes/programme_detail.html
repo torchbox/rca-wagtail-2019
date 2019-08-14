@@ -23,130 +23,44 @@
             </div>
         </header>
 
-        <nav class="page__nav">
-            {% include "patterns/molecules/tabs/tabs.html" with modifier="bg bg--dark" %}
-        </nav>
-
         <div class="page__content">
 
-            <section class="section bg bg--dark">
+            <div class="tabs js-tabs">
 
-                <div class="section__row programme-overview">
-                    <header class="section__header grid">
-                        <h3 class="section__heading section__heading--primary heading heading--two">We inspire design innovation</h3>
-                    </header>
-                    <div class="section__content grid">
-                        <div class="programme-overview__key-details">
-                            {% include "patterns/molecules/key-details/key-details.html" %}
-                        </div>
-                        <div class="programme-overview__body">
-                            <p class="introduction">Extend your knowledge, skills and creativity through research and experimentation.<p>
-                            <p>The programme conceives of architecture as a diverse and complex set of practices that move beyond traditional distinctions and limits in the field. The programme expands the possibilities of architecture and its agency in the world by encouraging an independent and critical ethos among its students.</p>
-                            <p>Fostering a culture of independent postgraduate research and experimentation in design underpinned by a strong connection to practice and the material reality of the discipline is central to the pedagogy. Teaching aims to harness and extend student knowledge, skills and creativity, preparing them to engage critically with the world.</p>
-                            <div class="programme-overview__pathways">
-                                {% include "patterns/molecules/pathways/pathways.html" %}
-                            </div>
-                        </div>
+                {% include "patterns/molecules/tab-nav/tab-nav.html" with modifier="bg bg--dark" sticky="true" %}
+
+                <div class="tabs__panel js-tab-panel" id="tab-panel-programme-overview" role="tabpanel" aria-labelledby="programme-overview">
+                    {% include "patterns/organisms/programme_tabs/programme_overview.html" %}
+                </div>
+                <div class="tabs__panel js-tab-panel" id="tab-panel-curriculum" role="tabpanel" aria-labelledby="curriculum">
+                    {% include "patterns/organisms/programme_tabs/curriculum.html" %}
+                </div>
+                <div class="tabs__panel js-tab-panel" id="tab-panel-requirements" role="tabpanel" aria-labelledby="requirements">
+                    {% include "patterns/organisms/programme_tabs/requirements.html" %}
+                </div>
+                <div class="tabs__panel js-tab-panel" id="tab-panel-fees-and-funding" role="tabpanel" aria-labelledby="fees-and-funding">
+                    {% include "patterns/organisms/programme_tabs/fees-and-funding.html" %}
+                </div>
+                <div class="tabs__panel js-tab-panel" id="tab-panel-apply" role="tabpanel" aria-labelledby="apply">
+                    {% include "patterns/organisms/programme_tabs/apply.html" %}
+                </div>
+
+                <section class="section bg bg--light" id="contact">
+                    <div class="section__container">
+                        {% include "patterns/organisms/contact/contact.html" %}
                     </div>
-                </div>
+                </section>
 
-                <div class="section__row grid">
-                    <div class="feature-image">
-                        {% include "patterns/molecules/card/card.html" with item=eventModule %}
+                <section class="section bg bg--dark">
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
-                </div>
-
-                <div class="section__row">
-                    <header class="section__header grid">
-                        <h3 class="section__heading section__heading--secondary heading heading--four">Architecture gallery</h3>
-                    </header>
-                    <div class="section__content">
-                        {% include "patterns/organisms/slideshow/slideshow.html" %}
+                    <div class="section__container">
+                        {% include "patterns/molecules/relatedcontent/relatedcontent.html" %}
                     </div>
-                </div>
+                </section>
 
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--first-col"></div>
-                </div>
-
-            </section>
-
-
-
-            <section class="section bg bg--light">
-
-                {% include "patterns/organisms/staff-overview/staff-overview.html" %}
-
-                {% include "patterns/organisms/staff-overview/staff-overview--single.html" %}
-
-                {% include "patterns/organisms/facilities/facilities.html" %}
-
-                <div class="section__row grid featured-alumni">
-                    <h2 class="heading heading--four featured-alumni__heading">Notable Alumni</h2>
-                    <div class="featured-alumni__introduction">
-                        <p class="introduction">Alumni from the RCA form an international network of creative individuals who have shaped and continue to shape the culture surrounding all of us.</p>
-                    </div>
-                    <ul class="featured-alumni__list">
-                        <li><a href="#">James Dyson</a></li>
-                        <li><a href="#">Anton Furst</a></li>
-                        <li><a href="#">Golifer Langston Architects</a></li>
-                        <li><a href="#">Ben Kelly</a></li>
-                        <li><a href="#">Kirsten MacKay</a></li>
-                        <li><a href="#">Sheila O’Donnell</a></li>
-                        <li><a href="#">Urban Salon</a></li>
-                        <li><a href="#">Tonkin Liu</a></li>
-                        <li><a href="#">Theis & Khan</a></li>
-                        <li><a href="#">FreeState - Adam Scott and Charlotte Boyens</a></li>
-                    </ul>
-                </div>
-
-                <div class="section__row">
-                    Carousel module
-                </div>
-
-            </section>
-
-
-            <section class="section bg bg--dark">
-
-                <div class="section__notch section__notch--top">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
-                </div>
-
-                <div class="section__container">
-
-                    <header class="section__header grid">
-                        <h3 class="section__heading section__heading--primary heading heading--two">News & events</h3>
-                    </header>
-
-                    <div class="section__content grid">
-                        {% include "patterns/organisms/news/news.html" %}
-                    </div>
-
-                </div>
-            </section>
-
-            <section class="section bg bg--light">
-
-                <div class="section__notch section__notch--top">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
-                </div>
-            </section>
-
-            <section class="section bg bg--light">
-                <div class="section__container">
-                    {% include "patterns/organisms/contact/contact.html" %}
-                </div>
-            </section>
-
-            <section class="section bg bg--dark">
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
-                </div>
-                <div class="section__container">
-                    {% include "patterns/molecules/relatedcontent/relatedcontent.html" %}
-                </div>
-            </section>
+            </div>
 
         </div>
     </div>

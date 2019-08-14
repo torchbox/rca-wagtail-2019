@@ -1,0 +1,25 @@
+.tab-item {
+    @include font-size(xxs);
+    $root: &;
+    margin-right: ($gutter * 1.5);
+
+    &__link {
+        @include underline-hover();
+        position: relative;
+        color: $color--meta;
+
+        &:hover {
+            color: $color--white;
+        }
+
+    }
+
+    &.active {
+
+        #{$root}__link {
+            color: $color--white;
+        }
+
+    }
+
+}

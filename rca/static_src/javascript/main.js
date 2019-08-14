@@ -12,6 +12,7 @@ import ProgressBar from './components/progress-bar';
 import VideoModal from './components/video-modal';
 import RelatedContent from './components/related-content';
 import Tabs from "./components/tabs";
+import Sticky from "./components/position-sticky-event";
 import './components/sticky-header';
 
 import '../sass/main.scss';
@@ -72,4 +73,13 @@ document.addEventListener('DOMContentLoaded', function() {
     for (const videomodal of document.querySelectorAll(VideoModal.selector())) {
         new VideoModal(videomodal);
     }
+
+    for (const tabs of document.querySelectorAll(Tabs.selector())) {
+        new Tabs(tabs);
+    }
+
+    for (const sticky of document.querySelectorAll(Sticky.selector())) {
+        new Sticky(sticky);
+    }
+
 });
