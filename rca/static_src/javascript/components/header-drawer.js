@@ -28,8 +28,8 @@ class HeaderDrawer {
 
         // close menu on overlay click
         document.addEventListener('click', (e) => {
-            if(this.body.classList.contains('nav-open')) {
-                if(e.target.classList.contains('header__menus')){
+            if (this.body.classList.contains('nav-open')) {
+                if (e.target.classList.contains('header__menus')) {
                     this.close();
                 }
             }
@@ -87,14 +87,18 @@ class HeaderDrawer {
     }
 
     resetMenu() {
-        const visibleItems = document.querySelectorAll('[data-nav-container] .is-visible');
-        const activeItems = document.querySelectorAll('[data-nav-container] .is-active');
+        const visibleItems = document.querySelectorAll(
+            '[data-nav-container] .is-visible',
+        );
+        const activeItems = document.querySelectorAll(
+            '[data-nav-container] .is-active',
+        );
 
-        visibleItems.forEach(item => {
+        visibleItems.forEach((item) => {
             item.classList.remove('is-visible');
         });
 
-        activeItems.forEach(item => {
+        activeItems.forEach((item) => {
             item.classList.remove('is-active');
         });
     }

@@ -33,7 +33,9 @@ document.addEventListener('DOMContentLoaded', function() {
         new Slideshow(slideshow);
     }
 
-    for (const headerdrawer of document.querySelectorAll(HeaderDrawer.selector())) {
+    for (const headerdrawer of document.querySelectorAll(
+        HeaderDrawer.selector(),
+    )) {
         new HeaderDrawer(headerdrawer);
     }
 
