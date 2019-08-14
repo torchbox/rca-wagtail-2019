@@ -2,7 +2,7 @@
     <div class="tab-nav__layout grid">
         <ul class="tab-nav__container" role="tablist">
             {% for tab in tabs %}
-                <li id="{{ tab.title|slugify }}" class="tab-item active js-tab-item" role="tab" aria-controls="tab-panel-{{ tab.title|slugify }}" aria-selected="true">
+                <li id="{{ tab.title|slugify }}" class="tab-item js-tab-item {% if forloop.counter == 1 %}active{% endif %}" role="tab" aria-controls="tab-panel-{{ tab.title|slugify }}" aria-selected="true">
                     <a class="tab-item__link" href="#">{{ tab.title }}</a>
                 </li>
             {% endfor %}

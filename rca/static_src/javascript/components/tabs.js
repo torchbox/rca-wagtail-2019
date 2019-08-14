@@ -11,7 +11,6 @@ class Tabs {
         this.tabPanel = document.getElementById(tabPanelId);
         this.allTabPanels = this.tabset.querySelectorAll('.js-tab-panel');
         this.path = '';
-        this.getURLHash();
         this.setActiveHashTab();
         this.bindEvents();
     }
@@ -36,6 +35,8 @@ class Tabs {
     }
 
     setActiveHashTab() {
+        this.getURLHash();
+
         for (let tab of this.allTabs) {
             // Check if path hash matchs any of the tab ids
             if (this.path == tab.id) {
@@ -43,7 +44,6 @@ class Tabs {
                 tab.classList.add('active');
                 tab.setAttribute('aria-selected', 'true');
                 var activePane = document.querySelector(`[aria-labelledby='${tab.id}']`);
-                console.log(activePane);
                 activePane.classList.remove('tabs__panel--hidden');
             }
         }
