@@ -1,6 +1,6 @@
 class Sticky {
     static selector() {
-        return ".sticky";
+        return '.sticky';
     }
 
     constructor(node) {
@@ -28,7 +28,7 @@ class Sticky {
 
         window.addEventListener('scroll', () => {
             this.apply_sticky_class(this.node);
-        })
+        }, {passive: true} );
 
     }
 }
