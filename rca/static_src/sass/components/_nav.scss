@@ -19,6 +19,15 @@
         max-height: 500px;
         overflow-y: scroll;
 
+        // hide scrollbars as per clients request
+        scrollbar-width: none; // sass-lint:disable-line no-misspelled-properties
+        -ms-overflow-style: none; // sass-lint:disable-line no-vendor-prefixes
+
+        &::-webkit-scrollbar {
+            // sass-lint:disable-line no-vendor-prefixes
+            display: none;
+        }
+
         &:hover,
         &.is-visible {
             display: block;

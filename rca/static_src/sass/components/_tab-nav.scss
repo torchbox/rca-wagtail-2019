@@ -1,6 +1,6 @@
 .tab-nav {
     &.sticky {
-        @include z-index(nav);
+        @include z-index(header);
         position: sticky;
         top: 0;
         transition: transform $transition;

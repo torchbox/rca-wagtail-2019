@@ -1,4 +1,4 @@
-class Menu {
+class HeaderDrawer {
     static selector() {
         return '[data-menu-toggle]';
     }
@@ -24,6 +24,15 @@ class Menu {
         this.closeIcon.addEventListener('click', (e) => {
             e.preventDefault();
             this.close();
+        });
+
+        // close menu on overlay click
+        document.addEventListener('click', (e) => {
+            if (this.body.classList.contains('nav-open')) {
+                if (e.target.classList.contains('header__menus')) {
+                    this.close();
+                }
+            }
         });
     }
 
@@ -73,7 +82,26 @@ class Menu {
             this.activeClass,
             this.noScrollClass,
         );
+
+        this.resetMenu();
+    }
+
+    resetMenu() {
+        const visibleItems = document.querySelectorAll(
+            '[data-nav-container] .is-visible',
+        );
+        const activeItems = document.querySelectorAll(
+            '[data-nav-container] .is-active',
+        );
+
+        visibleItems.forEach((item) => {
+            item.classList.remove('is-visible');
+        });
+
+        activeItems.forEach((item) => {
+            item.classList.remove('is-active');
+        });
     }
 }
 
-export default Menu;
+export default HeaderDrawer;

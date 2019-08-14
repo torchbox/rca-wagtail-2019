@@ -108,11 +108,6 @@
             display: grid;
         }
 
-        .nav-open .app__content &,
-        .nav-open .app__header & {
-            display: none; // Hide all other grid lines when menu active
-        }
-
         .app__navigation & {
             @include z-index(header-gridlines);
             display: none;

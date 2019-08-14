@@ -24,7 +24,11 @@
 
         // When inside pinned nav
         .headroom--pinned.headroom--not-top .header__menus & {
-            padding-top: ($gutter / 2);
+            padding-top: 8px;
+        }
+
+        .headroom--pinned.headroom--not-top & {
+            align-items: center;
         }
     }
 
@@ -33,6 +37,12 @@
         margin-left: auto;
         cursor: pointer;
         transition: opacity $transition;
+
+        .headroom--pinned.headroom--not-top & {
+            @include media-query(medium) {
+                margin-top: 0;
+            }
+        }
 
         &:hover,
         &:focus,
@@ -64,7 +74,7 @@
             opacity: 0.4;
 
             @include media-query(medium) {
-                margin-top: ($grid / 4);
+                margin-top: 4px;
             }
         }
 
@@ -294,10 +304,6 @@
         #{$root}__search-toggle,
         #{$root}__menu-toggle {
             color: $color--white;
-        }
-
-        #{$root}__navigation-toggle {
-            align-items: center;
         }
     }
 }
