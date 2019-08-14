@@ -43,14 +43,16 @@ class Tabs {
                 this.removeActive();
                 tab.classList.add('active');
                 tab.setAttribute('aria-selected', 'true');
-                var activePane = document.querySelector(`[aria-labelledby='${tab.id}']`);
+                var activePane = document.querySelector(
+                    `[aria-labelledby='${tab.id}']`,
+                );
                 activePane.classList.remove('tabs__panel--hidden');
             }
         }
     }
 
     bindEvents() {
-        this.tab.addEventListener('click', e => {
+        this.tab.addEventListener('click', (e) => {
             e.preventDefault();
             this.removeActive();
             this.tab.classList.add('active');

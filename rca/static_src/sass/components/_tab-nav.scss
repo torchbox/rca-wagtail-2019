@@ -1,5 +1,4 @@
 .tab-nav {
-
     &.sticky {
         @include z-index(nav);
         position: sticky;
@@ -9,17 +8,13 @@
         .headroom--pinned.headroom--not-top & {
             transform: translate3d(0, 0, 0);
         }
-
     }
 
     &.js-is-sticky {
-
         .headroom--pinned.headroom--not-top & {
             transform: translate3d(0, 80px, 0); // height of sticky-header
         }
-
     }
-
 
     &.bg--dark {
         border-top: 1px solid $color--grid-line-light;
@@ -39,7 +34,6 @@
             padding-right: ($gutter * 3);
             padding-left: ($gutter * 3);
         }
-
     }
 
     &__container {
@@ -58,7 +52,6 @@
             grid-column: 2 / span 3;
             padding: $gutter 0;
         }
-
     }
 
     // Hides white space behind sticky element on dark backgrounds
@@ -75,7 +68,5 @@
             height: 61px;
             background-color: $color--black;
         }
-
     }
-
 }

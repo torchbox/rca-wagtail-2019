@@ -12,7 +12,9 @@ class Sticky {
 
     apply_sticky_class(sticky) {
         var currentOffset = sticky.getBoundingClientRect().top;
-        var stickyOffset = parseInt( getComputedStyle(sticky).top.replace('px', this.offset) );
+        var stickyOffset = parseInt(
+            getComputedStyle(sticky).top.replace('px', this.offset),
+        );
         var isStuck = currentOffset <= stickyOffset;
 
         if (CSS.supports && CSS.supports('position', 'sticky')) {
@@ -25,11 +27,13 @@ class Sticky {
     }
 
     bindEvents() {
-
-        window.addEventListener('scroll', () => {
-            this.apply_sticky_class(this.node);
-        }, {passive: true} );
-
+        window.addEventListener(
+            'scroll',
+            () => {
+                this.apply_sticky_class(this.node);
+            },
+            { passive: true },
+        );
     }
 }
 

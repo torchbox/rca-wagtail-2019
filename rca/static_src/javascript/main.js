@@ -81,5 +81,4 @@ document.addEventListener('DOMContentLoaded', function() {
     for (const sticky of document.querySelectorAll(Sticky.selector())) {
         new Sticky(sticky);
     }
-
 });
