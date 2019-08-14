@@ -31,14 +31,32 @@
         border-bottom: 1px solid $color--grid-line-dark;
     }
 
+    &__layout {
+        padding-right: 0;
+        padding-left: 0;
+
+        @include media-query(large) {
+            padding-right: ($gutter * 3);
+            padding-left: ($gutter * 3);
+        }
+
+    }
+
     &__container {
         display: flex;
+        flex-wrap: nowrap;
         flex-direction: row;
         grid-column: 1 / span 2;
-        padding: $gutter 0;
+        padding: $gutter;
+        overflow-x: auto;
+
+        @include media-query(medium) {
+            padding: $gutter ($gutter * 3);
+        }
 
         @include media-query(large) {
             grid-column: 2 / span 3;
+            padding: $gutter 0;
         }
 
     }

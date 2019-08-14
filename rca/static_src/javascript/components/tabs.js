@@ -21,7 +21,7 @@ class Tabs {
     }
 
     getURLHash() {
-        this.path = window.location.href.split("#")[1];
+        this.path = window.location.href.split('#')[1];
     }
 
     removeActive() {
