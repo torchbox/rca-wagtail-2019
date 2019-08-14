@@ -39,11 +39,9 @@
         transition: opacity $transition;
 
         .headroom--pinned.headroom--not-top & {
-
             @include media-query(medium) {
                 margin-top: 0;
             }
-
         }
 
         &:hover,
