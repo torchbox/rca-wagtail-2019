@@ -25,6 +25,15 @@ class Menu {
             e.preventDefault();
             this.close();
         });
+
+        // close menu on overlay click
+        document.addEventListener('click', (e) => {
+            if(this.body.classList.contains('nav-open')) {
+                if(e.target.classList.contains('header__menus')){
+                    this.close();
+                }
+            }
+        });
     }
 
     toggle() {
