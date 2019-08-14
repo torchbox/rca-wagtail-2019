@@ -1,3 +1,127 @@
-.carousel__liveregion {
-    @include hidden();
+.carousel {
+    $root: &;
+    position: relative;
+    grid-column: 1 / span 2;
+    margin-bottom: ($gutter * 6);
+
+    @include media-query(large) {
+        grid-column: 2 / span 3;
+    }
+
+    &__item {
+        opacity: 0.36;
+        transition: opacity $transition;
+
+        &.glide__slide--active {
+            opacity: 1;
+        }
+    }
+
+    &__liveregion {
+        @include hidden();
+    }
+
+    &__controls-group {
+        display: none;
+
+        @include media-query(large) {
+            display: block;
+        }
+    }
+
+    &__bullet-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        width: 100%;
+        pointer-events: none;
+
+        @include media-query(large) {
+            display: none;
+        }
+    }
+
+    &__bullet {
+        flex-basis: auto;
+        flex: 1;
+        height: 2px;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        background-color: $color--scrollbar-lightbg-bg;
+
+        &:hover,
+        &:active,
+        &:focus {
+            outline: 0;
+        }
+
+        &.glide__bullet--active {
+            background-color: $color--black;
+        }
+    }
+
+    &__button {
+        position: absolute;
+        top: calc(50% - 23px);
+        border-radius: 50%;
+        width: 46px;
+        height: 46px;
+        margin: 0;
+        padding: 0;
+        transition: background-color $transition;
+
+        &:hover,
+        &:active,
+        &:focus {
+            outline: none;
+        }
+
+        &--prev {
+            left: -80px;
+        }
+
+        &--next {
+            right: -80px;
+        }
+    }
+
+    .bg--dark & {
+        #{$root}__button {
+            &:hover,
+            &:active,
+            &:focus {
+                stroke: $color--black;
+                background-color: $color--white;
+            }
+        }
+
+        #{$root}__bullet {
+            background-color: $color--scrollbar-darkbg-bg;
+
+            &.glide__bullet--active {
+                background-color: $color--white;
+            }
+        }
+    }
+
+    .bg--light & {
+        #{$root}__button {
+            &:hover,
+            &:active,
+            &:focus {
+                stroke: $color--white;
+                background-color: $color--black;
+            }
+        }
+
+        #{$root}__bullet {
+            background-color: $color--scrollbar-lightbg-bg;
+
+            &.glide__bullet--active {
+                background-color: $color--black;
+            }
+        }
+    }
 }

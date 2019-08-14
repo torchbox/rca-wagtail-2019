@@ -20,6 +20,7 @@
 
     &__heading {
         @include font-size(xs);
+        margin-bottom: ($gutter * 1.5);
 
         @include media-query(medium) {
             flex-basis: 50%;
@@ -31,6 +32,7 @@
             flex-basis: 66.666%;
             max-width: 66.666%;
             min-width: 66.666%;
+            margin-bottom: 0;
         }
     }
 

@@ -1,0 +1,85 @@
+.featured-alumni {
+    $root: &;
+
+    &__heading {
+        grid-column: 1 / span 2;
+        margin-bottom: ($grid * 1.5);
+
+        @include media-query(medium) {
+            margin-bottom: ($grid * 2.5);
+        }
+
+        @include media-query(large) {
+            grid-column: 2 / span 1;
+        }
+    }
+
+    &__introduction {
+        grid-column: 1 / span 2;
+
+        @include media-query(medium) {
+            grid-column: 1 / span 1;
+            grid-row: 2;
+        }
+
+        @include media-query(large) {
+            grid-column: 3 / span 1;
+            grid-row: auto;
+            margin-top: ($gutter * 3);
+        }
+    }
+
+    &__body {
+        @include font-size(xxs);
+        grid-column: 1 / span 2;
+        margin-bottom: ($gutter * 3);
+
+        @include media-query(medium) {
+            grid-column: 2 / span 1;
+            grid-row: 2;
+            margin-top: ($gutter * 1.5);
+        }
+
+        @include media-query(large) {
+            grid-column: 4 / span 1;
+            grid-row: 1;
+            margin-top: ($gutter * 5);
+        }
+    }
+
+    &__list {
+        @include font-size(xxs);
+
+        li {
+            margin-bottom: ($gutter / 4);
+        }
+
+        a {
+            color: $color--meta;
+        }
+    }
+
+    .bg--dark & {
+        #{$root}__list {
+            a {
+                &:hover,
+                &:active,
+                &:focus {
+                    color: $color--white;
+                }
+            }
+        }
+    }
+
+    .bg--light & {
+        #{$root}__list {
+            a {
+                &:hover,
+                &:active,
+                &:focus {
+                    color: $color--black;
+                }
+            }
+        }
+    }
+}

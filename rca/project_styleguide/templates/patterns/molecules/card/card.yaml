@@ -8,7 +8,6 @@ context:
     person:
       image: true
       title: 'Holly Hendry'
-      dept: 'Design Interactions'
 
 tags:
   image:

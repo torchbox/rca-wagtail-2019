@@ -2,13 +2,7 @@ context:
   page:
     title: Architecture
     degree_level: 'MA'
-  eventModule:
-    meta: 'Event'
-    title: 'Show 2019: School of Architecture'
-    description: '28-29 April'
-    link: '#'
-    image: true
-    person: false
+  eventModule: false
   news:
     - item:
       meta: 'Event'

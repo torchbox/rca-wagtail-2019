@@ -1,18 +1,30 @@
 context:
+  modifier: 'slideshow--author-info'
   carousel:
     - slide:
-      title: 'Slide 1'
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
-      link: 'http://www.torchbox.com'
+      meta: 'Alumni Story'
+      title: 'Designing the imposible for NASA'
+      description: 'Creating world class experiences that started at the RCA'
+      image: true
+      link: '#'
+      person:
+        image: true
+        title: 'Nelly Ben Hayoun'
     - slide:
-      title: 'Slide 2'
-      text: 'Etiam magna justo, sollicitudin sit amet laoreet id, sodales vel metus'
-      link: 'http://www.torchbox.com'
+      meta: 'Alumni Story'
+      title: 'A place with a real focus on making'
+      description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
+      image: true
+      link: '#'
+      person:
+        image: true
+        title: 'Holly Hendry'
     - slide:
-      title: 'Slide 3'
-      text: 'Donec quis dolor at tellus viverra molestie.'
-      link: 'http://www.torchbox.com'
-    - slide:
-      title: 'Slide 4'
-      text: 'Aliquam eu aliquet metus'
-      link: 'http://www.torchbox.com'
+      meta: 'Alumni Story'
+      title: 'Designing the imposible for NASA'
+      description: 'Creating world class experiences that started at the RCA'
+      image: true
+      link: '#'
+      person:
+        image: true
+        title: 'Nelly Ben Hayoun'

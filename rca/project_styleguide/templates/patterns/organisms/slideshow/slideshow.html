@@ -9,8 +9,10 @@
         </ul>
     </div>
     <div class="slideshow__controls grid">
-        <div class="slideshow__scrollbar">
-            <div class="slideshow__scrollbar-progress" data-scroll-progress></div>
+        <div class="slideshow__bullet-container" data-glide-el="controls[nav]">
+            {% for slide in slideshow %}
+                <button class="slideshow__bullet" data-glide-dir="={{ forloop.counter }}"></button>
+            {% endfor %}
         </div>
         <div class="slideshow__controls-group" data-glide-el="controls">
             <button class="slideshow__button slideshow__button--prev button" aria-label="Previous" data-glide-dir="<">

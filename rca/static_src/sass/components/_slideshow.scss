@@ -48,14 +48,12 @@
         @include media-query(large) {
             @include z-index(overlap);
             display: block;
-            background-color: $color--white;
 
             &::after {
                 @include z-index(under);
                 content: '';
                 position: absolute;
                 display: block;
-                background-color: $color--white;
                 right: -20%;
                 top: 0;
                 height: $meta-height;
@@ -83,26 +81,33 @@
         }
     }
 
-    &__scrollbar {
-        position: relative;
-        height: 2px;
+    &__bullet-container {
         grid-column: 1 / span 2;
-        margin-top: $gutter;
-        background-color: $color--scrollbar-lightbg-bg; // overriden by theme
-
-        @include media-query(medium) {
-            margin-top: ($gutter * 2);
-        }
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        width: 100%;
+        pointer-events: none;
 
         @include media-query(large) {
             display: none;
         }
     }
 
-    &__scrollbar-progress {
-        position: absolute;
-        height: 100%;
-        background-color: $color--black; // overriden by theme
+    &__bullet {
+        flex-basis: auto;
+        flex: 1;
+        height: 2px;
+        border: 0;
+        padding: 0;
+        margin: 0;
+
+        &:hover,
+        &:active,
+        &:focus {
+            outline: 0;
+        }
     }
 
     .bg--dark & {
@@ -114,12 +119,12 @@
             }
         }
 
-        #{$root}__scrollbar {
+        #{$root}__bullet {
             background-color: $color--scrollbar-darkbg-bg;
-        }
 
-        #{$root}__scrollbar-progress {
-            background-color: $color--white;
+            &.glide__bullet--active {
+                background-color: $color--white;
+            }
         }
 
         #{$root}__button {
@@ -128,6 +133,33 @@
             &:focus {
                 stroke: $color--black;
                 background-color: $color--white;
+            }
+        }
+    }
+
+    .bg--light & {
+        #{$root}__controls-group {
+            background-color: $color--white;
+
+            &::after {
+                background-color: $color--white;
+            }
+        }
+
+        #{$root}__bullet {
+            background-color: $color--scrollbar-lightbg-bg;
+
+            &.glide__bullet--active {
+                background-color: $color--black;
+            }
+        }
+
+        #{$root}__button {
+            &:hover,
+            &:active,
+            &:focus {
+                stroke: $color--white;
+                background-color: $color--black;
             }
         }
     }
