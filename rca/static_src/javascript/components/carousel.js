@@ -7,32 +7,32 @@ class Carousel {
 
     constructor(node) {
         this.node = node;
+
+        this.createSlideshow();
         this.slideTotal = this.node.dataset.slidetotal;
-
-        this.carousel = new Glide(node, {
-            type: 'carousel',
-            startAt: 0,
-            perView: 3,
-            peek: 100,
-            autoplay: 2000,
-            hoverpause: true, // keep this for accessibility if using autoplay
-            breakpoints: {
-                768: {
-                    perView: 1,
-                    peek: 0,
-                },
-            },
-        });
-
-        this.carousel.mount();
         this.bindEvents();
+        this.slideshow.mount();
         this.setLiveRegion();
     }
 
     bindEvents() {
-        this.carousel.on('move.after', () => {
+        this.slideshow.on('move.after', () => {
             this.updateAriaRoles();
             this.updateLiveRegion();
+        });
+    }
+
+    createSlideshow() {
+        this.slideshow = new Glide(this.node, {
+            type: 'carousel',
+            startAt: 0,
+            gap: 0,
+            keyboard: true,
+            perTouch: 1,
+            touchRatio: 0.5,
+            perView: 1,
+            rewind: false,
+            autoplay: false,
         });
     }
 
@@ -54,7 +54,7 @@ class Carousel {
         const liveregion = document.createElement('div');
         liveregion.setAttribute('aria-live', 'polite');
         liveregion.setAttribute('aria-atomic', 'true');
-        liveregion.setAttribute('class', 'carousel__liveregion');
+        liveregion.setAttribute('class', 'slideshow__liveregion');
         liveregion.setAttribute('data-liveregion', true);
         controls.appendChild(liveregion);
     }
@@ -62,7 +62,7 @@ class Carousel {
     // Update the live region that announces the next slide.
     updateLiveRegion() {
         this.node.querySelector('[data-liveregion]').textContent =
-            'Item ' + this.carousel.index + ' of ' + this.slideTotal;
+            'Item ' + this.slideshow.index + ' of ' + this.slideTotal;
     }
 }
 

@@ -12,10 +12,12 @@
 
             @include media-query(medium) {
                 top: -$notch-height-medium;
+                margin-bottom: -$notch-height-medium;
             }
 
             @include media-query(large) {
                 top: -$notch-height-large;
+                margin-bottom: -$notch-height-large;
             }
 
             &::after {
@@ -40,6 +42,27 @@
         #{$root}__description {
             @include z-index(overlap);
             position: relative;
+        }
+    }
+
+    &--person {
+        #{$root}__content-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+
+            @include media-query(medium) {
+                flex-direction: row;
+            }
+        }
+
+        #{$root}__person {
+            @include media-query(medium) {
+                flex-basis: 33.33%;
+                min-width: 33.33%;
+                max-width: 33.33%;
+            }
         }
     }
 
@@ -89,10 +112,14 @@
     }
 
     &__meta {
-        @include font-size(xxs);
+        font-size: map-get($small-font-sizes, xxxs);
         color: $color--tertiary;
         text-transform: uppercase;
         margin-bottom: ($gutter / 4);
+
+        @include media-query(medium) {
+            @include font-size(xxs);
+        }
     }
 
     &__heading {
@@ -109,20 +136,26 @@
 
     &__description {
         color: $color--meta;
-    }
 
-    &__person {
-        @include media-query(large) {
-            display: flex;
-            grid-row: 2;
-            grid-column: 4 / span 1;
-            padding-top: $gutter;
+        @include media-query(medium) {
+            margin-bottom: $gutter;
         }
     }
 
+    &__person {
+        display: flex;
+        padding-top: ($gutter * 0.75);
+        margin-bottom: $gutter;
+    }
+
     &__person-image {
-        @include media-query(large) {
-            display: block;
+        display: block;
+        flex-basis: 32px;
+        min-width: 32px;
+        max-width: 32px;
+        height: 32px;
+
+        @include media-query(medium) {
             flex-basis: 60px;
             min-width: 60px;
             max-width: 60px;
@@ -135,18 +168,21 @@
     }
 
     &__person-meta {
-        @include font-size(xxs);
+        @include font-size(xxxs);
         color: $color--meta;
-        margin-bottom: ($gutter / 4);
+
+        @include media-query(medium) {
+            @include font-size(xxs);
+            margin-bottom: ($gutter / 4);
+        }
     }
 
     &__person-title {
-        @include font-size(xxs);
-    }
+        @include font-size(xxxs);
 
-    &__person-dept {
-        @include font-size(xxs);
-        color: $color--meta;
+        @include media-query(medium) {
+            @include font-size(xxs);
+        }
     }
 
     .news & {

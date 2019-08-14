@@ -7,6 +7,6 @@
 
     .section__row & {
         @include font-size(s);
-        margin-right: $gutter;
+        margin-right: ($gutter * 1.5);
     }
 }
