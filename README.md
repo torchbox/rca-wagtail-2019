@@ -117,12 +117,8 @@ fab pull-production-images
 
 ## Deployments
 
-To deploy the site to dev/staging/production:
-
-```bash
-fab deploy-staging
-fab deploy-production
-```
+Deployments to stage are automatically handled by CircleCI
+Production TODO
 
 ## Connect to the shell
 
