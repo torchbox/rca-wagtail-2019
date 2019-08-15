@@ -7,7 +7,9 @@ class HeaderDrawer {
         this.node = node;
         this.body = document.querySelector('body');
         this.closeIcon = document.querySelector('[data-close-menu]');
-        this.desktopSearch = document.querySelector('[data-search-desktop] [data-search-input]');
+        this.desktopSearch = document.querySelector(
+            '[data-search-desktop] [data-search-input]',
+        );
         this.drawerOpenClass = 'nav-open';
         this.menuOpenClass = 'menu-active';
         this.searchOpenClass = 'search-active';
@@ -29,7 +31,10 @@ class HeaderDrawer {
 
         // close menu on overlay click but check if search is focussed
         document.addEventListener('click', (e) => {
-            if (this.body.classList.contains('nav-open') && e.target.classList.contains('header__menus')) {
+            if (
+                this.body.classList.contains('nav-open') &&
+                e.target.classList.contains('header__menus')
+            ) {
                 if (this.desktopSearch === document.activeElement) {
                     return;
                 } else {
