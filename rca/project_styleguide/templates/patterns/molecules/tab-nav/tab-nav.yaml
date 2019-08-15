@@ -1,12 +1,12 @@
 context:
   tabs:
     - tab:
-      title: Programme Overview
+      title: Overview
     - tab:
       title: Curriculum
     - tab:
       title: Requirements
     - tab:
-      title: Fees and funding
+      title: Fees & funding
     - tab:
       title: Apply
