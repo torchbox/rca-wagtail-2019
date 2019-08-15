@@ -3,37 +3,45 @@ context:
     title: Fees and Funding
   overview:
     title: 'For this programme'
-    - item:
-      title: Fees for new students
-        - section:
-          title: 'Home and EU'
-          subsidised: true
-          - fee:
+  overview_item:
+  - item:
+    title: 'Fees for new students'
+    row:
+      - item:
+        title: 'Home and EU'
+        subsidised: true
+        fees:
+          - item:
             title: '£9,500 per year'
-          - fee:
+          - item:
             title: '£19,000 total fee'
-        - section:
-          title: Channel Islands  and Isle of Man
-          subsidised: true
-          - fee:
+      - item:
+        title: 'Channel Islands and Isle of Man'
+        subsidised: true
+        fees:
+          - item:
             title: '£14,200 per year'
-          - fee:
+          - item:
             title: '£28,400 total fee'
-        - section:
-          title: Overseas
-          subsidised: true
-          - fee:
+      - item:
+        title: Overseas
+        subsidised: true
+        fees:
+          - item:
             title: '£28,400 per year'
-          - fee:
+          - item:
             title: '£56,800 total fee'
-    - item:
-      title: Deposit
-      introduction: 'New entrants to the College for MA, MRes, MPhil and PhD degrees will be required to pay a non-refundable deposit in order to secure their place. This will be offset against the tuition fees for the first year of study.'
-        - section:
-          title: 'Home and EU'
-            - fee:
-              title: '£500'
-        - section:
-          title: 'Overseas students'
-            - fee:
-              title: '£2,000'
+  - item:
+    title: 'Deposit'
+    introduction: 'New entrants to the College for MA, MRes, MPhil and PhD degrees will be required to pay a non-refundable deposit in order to secure their place. This will be offset against the tuition fees for the first year of study.'
+    row:
+      - item:
+        title: 'Home and EU'
+        fees:
+          - item:
+            title: '£500'
+      - section:
+        title: 'Overseas students'
+        fees:
+          - item:
+            title: '£2,000'

@@ -83,4 +83,9 @@ document.addEventListener('DOMContentLoaded', function() {
     for (const sticky of document.querySelectorAll(Sticky.selector())) {
         new Sticky(sticky);
     }
+
+    document.querySelector('[data-search-input]').addEventListener('focus', (e) => {
+        console.log(e.target.value);
+    });
+
 });

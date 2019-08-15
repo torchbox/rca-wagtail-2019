@@ -1,28 +1,28 @@
 <section class="section bg bg--dark">
     <header class="section__header grid">
-        <h2 class="section__heading section__heading--secondary heading heading--four">{{ tab_section.title }}</h2>
+        <h2 class="section__heading section__heading--primary heading heading--two">{{ tab_section.title }}</h2>
     </header>
     <div class="section__content">
         <div class="overview grid">
             <h3 class="overview__heading heading heading--four">{{ overview.title }}</h3>
-            {% for item in overview %}
+            {% for item in overview_item %}
                 <div class="overview__item">
-                    <h4 class="heading heading--five">{{ item.title }}</h4>
+                    <h4 class="overview__sub-heading heading heading--five">{{ item.title }}</h4>
                     {% if item.introduction %}
-                        <p class="introduction">{{ item.introduction }}</p>
+                        <p class="overview__introduction introduction">{{ item.introduction }}</p>
                     {% endif %}
-                    <div class="fees">
-                        {% for section in overview.item %}
+                    <div class="overview__item-content fees">
+                        {% for item in item.row %}
                             <section class="fees__section">
                                 <div class="fees__item fees__item--title">
-                                    {{ section.title }}
-                                    {% if section.subsidised %}
+                                    <h5 class="fees__heading body body--one">{{ item.title }}</h5>
+                                    {% if item.subsidised %}
                                         <span class="fees__meta">(subsidised)</span>
                                     {% endif %}
                                 </div>
-                                {% for fee in overview.item.section %}
+                                {% for item in item.fees %}
                                     <div class="fees__item">
-                                        {% fee.title %}
+                                        {{ item.title }}
                                     </div>
                                 {% endfor %}
                             </section>
@@ -30,6 +30,30 @@
                     </div>
                 </div>
             {% endfor %}
+        </div>
+        <div class="overview grid">
+            <h3 class="overview__heading heading heading--four">Scholarships</h3>
+            <div class="overview__item">
+                <h4 class="overview__sub-heading heading heading--five">Scholarships for Architecture MA</h4>
+                <p class="overview__introduction introduction">This list will be updated as new scholarships are confirmed, so please check back from time to time.
+Please note the application dates listed, as they can vary.</p>
+                <div class="overview__item-content">
+                    Accordion here
+                </div>
+            </div>
+            <div class="overview__item">
+                <h4 class="overview__sub-heading heading heading--five">How scholarships work</h4>
+                <p class="overview__introduction introduction">As scholarships are extremely competitive and limited in number, applications are solicited by invitation only. Nominated students will be contacted by the scholarships team via email and invited to apply.</p>
+                <div class="overview__item-content">
+                    Accordion here
+                </div>
+                <div class="overview__item-action">
+                    <a class="link link--secondary link--link" href="#">
+                        <span class="link__label">See the scholarships section for the full scholarship process</span>
+                        <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </section>

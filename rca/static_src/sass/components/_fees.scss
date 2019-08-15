@@ -1,0 +1,49 @@
+.fees {
+    $root: &;
+
+    &__section {
+
+        @include media-query(large) {
+            display: grid;
+            grid-template-columns: 1fr 1fr 27.5%; // match grid lines
+        }
+    }
+
+    &__item {
+        padding: $gutter 0 ($gutter * 1.5);
+    }
+
+    &__heading {
+        font-family: $font--secondary;
+        max-width: 190px;
+    }
+
+    &__meta {
+        color: $color--meta;
+    }
+
+    .bg--dark & {
+
+        #{$root}__section {
+
+            @include media-query(large) {
+                border-top: 1px solid $color--grid-line-light;
+            }
+
+        }
+
+    }
+
+    .bg--light & {
+
+        #{$root}__section {
+
+            @include media-query(large) {
+                border-top: 1px solid $color--grid-line-dark;
+        }
+
+        }
+
+    }
+
+}

@@ -1,0 +1,29 @@
+.overview {
+
+    &__heading {
+
+        @include media-query(large) {
+            grid-column: 2 / span 1;
+            padding-right: ($gutter * 2);
+        }
+
+    }
+
+    &__item {
+
+        @include media-query(large) {
+            grid-column: 3 / span 3;
+            margin-bottom: ($gutter * 4);
+        }
+
+    }
+
+    &__item-action {
+        @include font-size(xxs);
+    }
+
+    &__sub-heading {
+        margin-bottom: $gutter;
+    }
+
+}
