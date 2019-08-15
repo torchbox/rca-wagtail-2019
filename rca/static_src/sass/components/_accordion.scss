@@ -1,18 +1,15 @@
 .accordion {
     $root: &;
-    @include z-index(above-gridlines);
     transition: background-color $transition;
     position: relative;
 
     .bg--dark & {
         border-bottom: 1px solid $color--grid-line-light;
-        border-right: 1px solid $color--grid-line-light;
         background-color: $color--link-lightbg;
     }
 
     .bg--light & {
         border-bottom: 1px solid $color--grid-line-dark;
-        border-right: 1px solid $color--grid-line-dark;
         background-color: $color--link-darkbg;
     }
 
@@ -45,7 +42,7 @@
         content: '';
         position: absolute;
         top: 0;
-        left: 0;
+        left: 1px;
         right: 0;
         bottom: -1px; // to account for border
         transform: translate3d(-100%, 0, 0);
@@ -97,7 +94,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
+            right: 1px;
             bottom: 0;
             transform: translate3d(100%, 0, 0);
             opacity: 0;
@@ -124,6 +121,16 @@
 
         .bg--light & {
             color: $color--link-lightbg;
+        }
+
+        .is-open & {
+            .bg--dark & {
+                border-bottom: 1px solid $color--grid-line-dark;
+            }
+
+            .bg--light & {
+                border-bottom: 1px solid $color--grid-line-light;
+            }
         }
 
         @include media-query(large) {
