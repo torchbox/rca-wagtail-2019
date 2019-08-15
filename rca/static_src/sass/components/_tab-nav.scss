@@ -44,7 +44,6 @@
         padding: $gutter;
         overflow-x: auto;
 
-
         @include media-query(medium) {
             padding: $gutter ($gutter * 3);
         }

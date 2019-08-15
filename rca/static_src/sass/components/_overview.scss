@@ -1,5 +1,4 @@
 .overview {
-
     &__heading {
         grid-column: 1 / span 2;
         margin-bottom: $gutter;
@@ -9,7 +8,6 @@
             padding-right: ($gutter * 2);
             margin-bottom: 0;
         }
-
     }
 
     &__item {
@@ -24,7 +22,6 @@
             grid-column: 3 / span 3;
             margin-bottom: ($gutter * 4);
         }
-
     }
 
     &__item-action {
@@ -35,5 +32,4 @@
     &__sub-heading {
         margin-bottom: $gutter;
     }
-
 }

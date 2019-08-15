@@ -4,44 +4,44 @@ context:
   overview:
     title: 'For this programme'
   overview_item:
-  - item:
-    title: 'Fees for new students'
-    row:
-      - item:
-        title: 'Home and EU'
-        subsidised: true
-        fees:
-          - item:
-            title: '£9,500 per year'
-          - item:
-            title: '£19,000 total fee'
-      - item:
-        title: 'Channel Islands and Isle of Man'
-        subsidised: true
-        fees:
-          - item:
-            title: '£14,200 per year'
-          - item:
-            title: '£28,400 total fee'
-      - item:
-        title: Overseas
-        subsidised: true
-        fees:
-          - item:
-            title: '£28,400 per year'
-          - item:
-            title: '£56,800 total fee'
-  - item:
-    title: 'Deposit'
-    introduction: 'New entrants to the College for MA, MRes, MPhil and PhD degrees will be required to pay a non-refundable deposit in order to secure their place. This will be offset against the tuition fees for the first year of study.'
-    row:
-      - item:
-        title: 'Home and EU'
-        fees:
-          - item:
-            title: '£500'
-      - section:
-        title: 'Overseas students'
-        fees:
-          - item:
-            title: '£2,000'
+    - item:
+      title: 'Fees for new students'
+      row:
+        - item:
+          title: 'Home and EU'
+          subsidised: true
+          fees:
+            - item:
+              title: '£9,500 per year'
+            - item:
+              title: '£19,000 total fee'
+        - item:
+          title: 'Channel Islands and Isle of Man'
+          subsidised: true
+          fees:
+            - item:
+              title: '£14,200 per year'
+            - item:
+              title: '£28,400 total fee'
+        - item:
+          title: Overseas
+          subsidised: true
+          fees:
+            - item:
+              title: '£28,400 per year'
+            - item:
+              title: '£56,800 total fee'
+    - item:
+      title: 'Deposit'
+      introduction: 'New entrants to the College for MA, MRes, MPhil and PhD degrees will be required to pay a non-refundable deposit in order to secure their place. This will be offset against the tuition fees for the first year of study.'
+      row:
+        - item:
+          title: 'Home and EU'
+          fees:
+            - item:
+              title: '£500'
+        - section:
+          title: 'Overseas students'
+          fees:
+            - item:
+              title: '£2,000'

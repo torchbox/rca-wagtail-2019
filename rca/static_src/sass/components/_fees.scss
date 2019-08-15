@@ -10,7 +10,6 @@
         }
 
         &--single {
-
             #{$root}__item {
                 padding: $gutter 0;
 
@@ -28,7 +27,6 @@
                     padding: $gutter 0 ($gutter * 1.5);
                 }
             }
-
         }
     }
 
@@ -48,7 +46,6 @@
                 grid-column: 1 / span 1;
             }
         }
-
     }
 
     &__heading {
@@ -66,19 +63,14 @@
     }
 
     .bg--dark & {
-
         #{$root}__section {
             border-top: 1px solid $color--grid-line-light;
         }
-
     }
 
     .bg--light & {
-
         #{$root}__section {
             border-top: 1px solid $color--grid-line-dark;
         }
-
     }
-
 }
