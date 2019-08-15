@@ -1,3 +1,16 @@
 context:
   title: Notable Alumni
   introduction: Alumni from the RCA form an international network of creative individuals who have shaped and continue to shape the culture surrounding all of us.
+  alumni_links:
+    - link:
+      value:
+        name: 'James Dyson'
+        link: '#'
+    - link:
+      value:
+        name: 'Anton Furst'
+        link: '#'
+    - link:
+      value:
+        name: 'Golifer Langston Architects'
+        link: '#'

@@ -1,5 +1,6 @@
 from collections import defaultdict
 
+from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -10,13 +11,19 @@ from wagtail.admin.edit_handlers import (
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
+    PageChooserPanel,
+    StreamFieldPanel,
     TabbedInterface,
 )
+from wagtail.core.blocks import CharBlock, StructBlock, URLBlock
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable
 from wagtail.documents.edit_handlers import DocumentChooserPanel
+from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
+from rca.utils.blocks import GalleryBlock
 from rca.utils.models import BasePage, RelatedPage
 
 
@@ -47,6 +54,7 @@ class ProgrammePageProgrammeType(models.Model):
 
 class ProgrammePageRelatedProgramme(RelatedPage):
     source_page = ParentalKey("ProgrammePage", related_name="related_programmes")
+    panels = [PageChooserPanel("page", "programmes.ProgrammePage")]
 
 
 class ProgrammePageCareerOpportunities(Orderable):
@@ -60,7 +68,8 @@ class ProgrammePage(BasePage):
     subpage_types = []
     template = "patterns/pages/programmes/programme_detail.html"
 
-    # Programme Overview
+    # Comments resemble tabbed panels in the editor
+    # Content
     degree_level = models.ForeignKey(
         DegreeLevel, on_delete=models.SET_NULL, blank=False, null=True, related_name="+"
     )
@@ -71,7 +80,7 @@ class ProgrammePage(BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    hero_video = models.URLField(blank=True, null=True)
+    hero_video = models.URLField(blank=True)
     hero_video_preview_image = models.ForeignKey(
         "images.CustomImage",
         null=True,
@@ -85,18 +94,21 @@ class ProgrammePage(BasePage):
             ("1", "Light text on a dark image"),
             ("2", "Dark text on a light image"),
         ),
-        blank=True,
-        null=True,
     )
-    # Programme details
-    programme_details_credits = models.CharField(max_length=25, blank=True, null=True)
+    related_content_title = models.CharField(
+        blank=True,
+        max_length=120,
+        help_text="Large title displayed above the related content items, EG 'More opportunities to study at the RCA'",
+    )
+
+    # Key Details
+    programme_details_credits = models.CharField(max_length=25, blank=True)
     programme_details_credits_suffix = models.CharField(
         max_length=1,
         choices=(("1", "credits"), ("2", "credits at FHEQ Level 6")),
         blank=True,
-        null=True,
     )
-    programme_details_time = models.CharField(max_length=25, blank=True, null=True)
+    programme_details_time = models.CharField(max_length=25, blank=True)
     programme_details_time_suffix = models.CharField(
         max_length=1,
         choices=(
@@ -105,7 +117,6 @@ class ProgrammePage(BasePage):
             ("3", "week programme"),
         ),
         blank=True,
-        null=True,
     )
     programme_details_duration = models.CharField(
         max_length=1,
@@ -115,11 +126,10 @@ class ProgrammePage(BasePage):
             ("3", "Part-time study"),
         ),
         blank=True,
-        null=True,
     )
 
     next_open_day_date = models.DateField(blank=True, null=True)
-    link_to_open_days = models.URLField(blank=True, null=True)
+    link_to_open_days = models.URLField(blank=True)
     application_deadline = models.DateField(blank=True, null=True)
     application_deadline_options = models.CharField(
         max_length=1,
@@ -128,7 +138,6 @@ class ProgrammePage(BasePage):
             ("2", "Still accepting applications"),
         ),
         blank=True,
-        null=True,
     )
 
     programme_specification = models.ForeignKey(
@@ -139,13 +148,64 @@ class ProgrammePage(BasePage):
         related_name="+",
     )
 
+    # Programme Overview
+    programme_description_title = models.CharField(max_length=50, blank=True)
+    programme_description_subtitle = models.CharField(max_length=100, blank=True)
+    programme_description_copy = RichTextField(blank=True)
+    # Gallery
+    programme_gallery_title = models.CharField(max_length=125, blank=True)
+    programme_gallery = StreamField(
+        [("slide", GalleryBlock())], blank=True, verbose_name="Programme gallery"
+    )
+
+    facilities_intro = models.CharField(blank=True, max_length=150)
+    facilities_copy = models.TextField(blank=True, max_length=400)
+    facilities_link = models.URLField(blank=True)
+    facilities_link_text = models.CharField(blank=True, max_length=150)
+    facilities_gallery = StreamField(
+        [
+            (
+                "slide",
+                StructBlock([("title", CharBlock()), ("image", ImageChooserBlock())]),
+            )
+        ],
+        blank=True,
+    )
+
+    notable_alumni_text = models.TextField(blank=True)
+    notable_alumni_links = StreamField(
+        [
+            (
+                "Link_to_person",
+                StructBlock([("name", CharBlock()), ("link", URLBlock())], icon="link"),
+            )
+        ],
+        blank=True,
+    )
+
+    contact_title = models.CharField(max_length=125, default="Contact us")
+    contact_text = models.TextField(blank=True)
+    contact_link_url = models.URLField(blank=True)
+    contact_link_text = models.CharField(blank=True, max_length=125)
+    contact_image = models.ForeignKey(
+        "images.CustomImage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+
+    # Staff (api fetch)
+    # Alumni Stories Carousel (api fetch)
+    # Related Content (news and events)
+
     content_panels = BasePage.content_panels + [
         # Taxonomy, relationships etc
         FieldPanel("degree_level"),
         InlinePanel(
             "programme_types",
             label="Programme Type",
-            help_text="Used to show programmes related to this programme page",
+            help_text="Used to show content related to this programme page",
         ),
         MultiFieldPanel(
             [
@@ -156,9 +216,15 @@ class ProgrammePage(BasePage):
             ],
             heading="Hero",
         ),
-        InlinePanel("related_programmes", label="Related pages"),
+        MultiFieldPanel(
+            [
+                FieldPanel("related_content_title"),
+                InlinePanel("related_programmes", label="Related programmes"),
+            ],
+            heading="Related content",
+        ),
     ]
-    programme_overview_pannels = [
+    key_details_panel = [
         MultiFieldPanel(
             [
                 FieldPanel("programme_details_credits"),
@@ -179,10 +245,57 @@ class ProgrammePage(BasePage):
         InlinePanel("career_opportunities", label="Career Opportunities"),
         DocumentChooserPanel("programme_specification"),
     ]
+    programme_overview_pannels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("programme_description_title"),
+                FieldPanel("programme_description_subtitle"),
+                FieldPanel("programme_description_copy"),
+            ],
+            heading="Programme Description",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("programme_gallery_title"),
+                StreamFieldPanel("programme_gallery"),
+            ],
+            heading="Programme gallery",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("facilities_intro"),
+                FieldPanel("facilities_copy"),
+                FieldPanel("facilities_link"),
+                FieldPanel("facilities_link_text"),
+                StreamFieldPanel("facilities_gallery"),
+            ],
+            heading="Facilities",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel(
+                    "notable_alumni_text", widget=forms.Textarea(attrs={"rows": "4"})
+                ),
+                StreamFieldPanel("notable_alumni_links"),
+            ],
+            heading="Alumni",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("contact_title"),
+                FieldPanel("contact_text", widget=forms.Textarea(attrs={"rows": "4"})),
+                FieldPanel("contact_link_url"),
+                FieldPanel("contact_link_text"),
+                ImageChooserPanel("contact_image"),
+            ],
+            heading="Contact information",
+        ),
+    ]
 
     edit_handler = TabbedInterface(
         [
             ObjectList(content_panels, heading="Content"),
+            ObjectList(key_details_panel, heading="Key details"),
             ObjectList(programme_overview_pannels, heading="Programme Overview"),
             ObjectList(BasePage.promote_panels, heading="Promote"),
             ObjectList(BasePage.settings_panels, heading="Settings"),
@@ -216,6 +329,24 @@ class ProgrammePage(BasePage):
         context["hero_colour"] = "dark"
         if self.hero_colour_option == "1":
             context["hero_colour"] = "light"
+
+        context["related_sections"] = [
+            {
+                "title": "Related programmes",
+                "related_items": [
+                    rel.page.specific
+                    for rel in self.related_programmes.select_related("page")
+                ],
+            }
+        ]
+        # Set the page tab titles
+        context["tabs"] = [
+            {"title": "Programme Overview"},
+            {"title": "Curriculum"},
+            {"title": "Requirements"},
+            {"title": "Fees and funding"},
+            {"title": "Apply"},
+        ]
 
         return context
 

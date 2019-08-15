@@ -1,12 +1,11 @@
 context:
-  value:
-    heading: Contact us
-    text: If you want to register your interest about joining the RCA and recieve updates from the RCA and it's community
-    link_text: Register your interest with us here
-    link_href: https://www.rca.ac.uk/contact-us/enquire-study/
+  heading: Contact us
+  text: If you want to register your interest about joining the RCA and recieve updates from the RCA and it's community
+  link_text: Register your interest with us here
+  link_href: https://www.rca.ac.uk/contact-us/enquire-study/
 
 tags:
   image:
-    contact.image fill-580x607 class="card__person-image":
+    image fill-580x607 class="card__person-image":
       raw: |
         <img src="//placekitten.com/580/607" alt="" class="contact__image">

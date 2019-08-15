@@ -2,15 +2,15 @@
 <div class="contact">
     <div class="grid">
         <div class="contact__intro">
-            <h4 class="contact__heading heading heading--four">{{ value.heading }}</h4>
-            <p class="contact__text body body--one">{{ value.text }}</p>
+            <h4 class="contact__heading heading heading--four">{{ heading }}</h4>
+            <p class="contact__text body body--one">{{ text }}</p>
         </div>
-        <a href="{{value.link_href}}" class="contact__link link link--primary link--link body body--two" target="_blank" rel="noopener">
-            {{value.link_text}}
+        <a href="{{link_href}}" class="contact__link link link--primary link--link body body--two" target="_blank" rel="noopener">
+            {{link_text}}
             <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
         </a>
         <div class="contact__image-container">
-            {% image contact.image fill-580x607 class="card__person-image" %}
+            {% image image fill-580x607 class="card__person-image" %}
         </div>
     </div>
 </div>

@@ -2,6 +2,80 @@ context:
   page:
     title: Architecture
     degree_level: 'MA'
+    programme_description_title: 'We inspire design innovation'
+    programme_description_subtitle: 'Extend your knowledge, skills and creativity through research and experimentation.'
+    programme_description_copy: '<p>The programme conceives of architecture as a diverse and complex set of practices that move beyond traditional distinctions and limits in the field. The programme expands the possibilities of architecture and its agency in the world by encouraging an independent and critical ethos among its students.</p>'
+    programme_gallery_title: 'Architecture gallery'
+    programme_gallery:
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel '
+          author: 'Chris Lawton'
+          link: 'http://www.torchbox.com'
+          course: 'Architecture'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel '
+          author: 'Nick Lee'
+          link: 'http://www.torchbox.com'
+          course: 'Design'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel '
+          author: 'Chris Lawton'
+          link: 'http://www.torchbox.com'
+          course: 'Architecture'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel '
+          author: 'Kevin Howbrook'
+          link: 'http://www.torchbox.com'
+          course: 'Design'
+    facilities_intro: "The School of Architecture is located across both the RCA's historic Kensington site and London's newest cultural and research culture in White City."
+    facilities_copy: 'The School of Architecture studios are the heart of day-to-day activity for the programmes and are purpose-designed for inspiration and interaction between students of different design disciplines. As well as an individual studio space, students have access to traditional 3D-making facilities, contemporary digital fabrication equipment and a suite of bookable project and making spaces.'
+    facilities_link: '#'
+    facilities_link_text: 'See all college facilities'
+    facilities_gallery:
+      - slide:
+        value:
+          title: 'School of Architecture workshop rooms'
+    notable_alumni_text: 'Alumni from the RCA form an international network of creative individuals who have shaped and continue to shape the culture surrounding all of us.'
+    notable_alumni_links:
+      - link:
+        value:
+          name: 'James Dyson'
+          link: '#'
+      - link:
+        value:
+          name: 'Anton Furst'
+          link: '#'
+      - link:
+        value:
+          name: 'Golifer Langston Architects'
+          link: '#'
+    contact_text: 'If you want to register your interest about joining the RCA and recieve updates from the RCA and it’s community.'
+    contact_link_url: '#'
+    contact_link_text: 'Register your interest with us here'
+    contact_title: 'Contact us'
+  related_programmes:
+    - item:
+      title: Related programmes
+      related_items:
+        - item:
+          title: Architecture
+          degree_level: MA
+          programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+          img: http://placehold.it/300x270/fff/000
+        - item:
+          title: City design
+          degree_level: MA
+          programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+          img: http://placehold.it/300x270/ff5d1c/fff
+        - item:
+          title: Environmental acrhitecture
+          degree_level: MA
+          programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+          img: http://placehold.it/300x270
   eventModule: false
   news:
     - item:
@@ -25,3 +99,9 @@ context:
       link: '#'
       image: true
       person: false
+
+tags:
+  image:
+    page.contact_image fill-250x250:
+      raw: |
+        <img src="//placekitten.com/829/585">
