@@ -1,6 +1,6 @@
 context:
   caption: Watch inside our architecture studios
-
+  video: True
 tags:
   image:
     curriculum_intro.image fill-900x415 class="image-caption-link__image":

@@ -13,7 +13,6 @@
 
     &.is-open {
         opacity: 1;
-        pointer-events: all;
     }
 
     &__container {
@@ -22,6 +21,10 @@
         transform: translateY(-50%);
         width: 90%;
         margin: 0 auto;
+
+        .is-open & {
+            pointer-events: all;
+        }
 
         @include media-query(large) {
             width: 56%;
@@ -35,6 +38,10 @@
         display: inline-block;
         top: 20px;
         right: 20px;
+
+        .is-open & {
+            pointer-events: all;
+        }
     }
 
     &__close-icon {
