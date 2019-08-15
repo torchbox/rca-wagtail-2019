@@ -1,15 +1,24 @@
 .overview {
 
     &__heading {
+        grid-column: 1 / span 2;
+        margin-bottom: $gutter;
 
         @include media-query(large) {
             grid-column: 2 / span 1;
             padding-right: ($gutter * 2);
+            margin-bottom: 0;
         }
 
     }
 
     &__item {
+        grid-column: 1 / span 2;
+        margin-bottom: ($gutter * 2);
+
+        @include media-query(medium) {
+            margin-bottom: ($gutter * 3);
+        }
 
         @include media-query(large) {
             grid-column: 3 / span 3;
@@ -20,6 +29,7 @@
 
     &__item-action {
         @include font-size(xxs);
+        padding-top: $gutter;
     }
 
     &__sub-heading {

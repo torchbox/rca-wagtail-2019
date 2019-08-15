@@ -13,7 +13,7 @@
                     {% endif %}
                     <div class="overview__item-content fees">
                         {% for item in item.row %}
-                            <section class="fees__section">
+                            <section class="fees__section {% for item in item.fees %}{% if forloop.first and forloop.last %}fees__section--single{% endif %}{% endfor %}">
                                 <div class="fees__item fees__item--title">
                                     <h5 class="fees__heading body body--one">{{ item.title }}</h5>
                                     {% if item.subsidised %}
@@ -29,8 +29,19 @@
                         {% endfor %}
                     </div>
                 </div>
-            {% endfor %}
+                {% endfor %}
+                <div class="overview__item">
+                    <h4 class="overview__sub-heading heading heading--five">Payments</h4>
+                    <p class="overview__introduction introduction">Tuition fees are due on the first day of the academic year and students are sent an invoice in August. Payments can be made in advance, on registration or in installments.</p>
+                    <div class="overview__item-action">
+                        <a class="link link--secondary link--link" href="#">
+                            <span class="link__label">See our payments page for full information</span>
+                            <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+                        </a>
+                    </div>
+                </div>
         </div>
+
         <div class="overview grid">
             <h3 class="overview__heading heading heading--four">Scholarships</h3>
             <div class="overview__item">
@@ -42,11 +53,16 @@ Please note the application dates listed, as they can vary.</p>
                 </div>
             </div>
             <div class="overview__item">
-                <h4 class="overview__sub-heading heading heading--five">How scholarships work</h4>
-                <p class="overview__introduction introduction">As scholarships are extremely competitive and limited in number, applications are solicited by invitation only. Nominated students will be contacted by the scholarships team via email and invited to apply.</p>
+                <h4 class="overview__sub-heading heading heading--five">Available scholarships for Architecture MA</h4>
+                <p class="overview__introduction introduction">This list will be updated as new scholarships are confirmed, so please check back from time to time.
+Please note the application dates listed, as they can vary.</p>
                 <div class="overview__item-content">
                     Accordion here
                 </div>
+            </div>
+            <div class="overview__item">
+                <h4 class="overview__sub-heading heading heading--five">How scholarships work</h4>
+                <p class="overview__introduction introduction">As scholarships are extremely competitive and limited in number, applications are solicited by invitation only. Nominated students will be contacted by the scholarships team via email and invited to apply.</p>
                 <div class="overview__item-action">
                     <a class="link link--secondary link--link" href="#">
                         <span class="link__label">See the scholarships section for the full scholarship process</span>
@@ -54,6 +70,46 @@ Please note the application dates listed, as they can vary.</p>
                     </a>
                 </div>
             </div>
+            <div class="overview__item">
+                <h4 class="overview__sub-heading heading heading--five">External funding</h4>
+                <p class="overview__introduction introduction">Students coming to the RCA find funding from many different sources. Some are lucky enough to win scholarships and sponsorship, whilst some have managed to save money from working. It is impossible to list all the potential funding sources; however the following information could be useful. </p>
+                <div class="overview__item-action">
+                    <a class="link link--secondary link--link" href="#">
+                        <span class="link__label">See our list of possible funding options</span>
+                        <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+                    </a>
+                </div>
+            </div>
         </div>
+
+        <div class="disclaimer grid">
+            <div class="disclaimer__container body body--support">
+                <b>All MA programmes</b>
+                <p>Home, EU and International students who have completed a Graduate Diploma at the College and progress immediately onto an RCA Master's programme will be eligible for a £1,000 discount on tuition fees for a 45 week MA/MRes, £1,000 per year for a 2-year MA and £1,500 for a 15-month MA.</p>
+
+                <b>All MA/MSc programmes</b>
+                <p>Home, EU and International students who have completed a Graduate Diploma at the College and progress immediately onto an RCA Master's programme will be eligible for a £1,000 per year for a 2-year MA.</p>
+
+                <b>All MRes programmes</b>
+                <p>Home, EU and International students who have completed a Graduate Diploma at the College and progress immediately onto an RCA Master's programme will be eligible for a £1,000 discount on tuition fees for a 45 week MA/MRes.</p>
+
+                <b>All MPhil and PhD programmes</b>
+                <p>Full-time Home, EU and International students who have completed a Master’s degree at the College will be eligible for a £1,000 discount on tuition fees for up to three years of study, when starting a Research degree within five years of graduation.</p>
+
+                <b>Plus for individual programmes</b>
+
+                <b>Innovation Design Engineering programme</b>
+
+                <p>Imperial fees are subject to an inflationary uplift, calculated from the RPI for April 2020 and may vary slightly from the value published here; exact fees are to be confirmed in June 2020. </p>
+
+                <b>Global Innovation Design programme</b>
+
+                <p>Imperial fees are subject to an inflationary uplift, calculated from the RPI for April 2020 and may vary slightly from the value published here; exact fees are to be confirmed in June 2020. </p>
+
+                <p>GID students are subject to a £2,000 supplementary fee (included in the above details) due to the higher costs of delivering the programme</p>
+            </div>
+        </div>
+
     </div>
+
 </section>

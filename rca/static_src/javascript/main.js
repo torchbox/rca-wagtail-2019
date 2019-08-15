@@ -84,8 +84,4 @@ document.addEventListener('DOMContentLoaded', function() {
         new Sticky(sticky);
     }
 
-    document.querySelector('[data-search-input]').addEventListener('focus', (e) => {
-        console.log(e.target.value);
-    });
-
 });

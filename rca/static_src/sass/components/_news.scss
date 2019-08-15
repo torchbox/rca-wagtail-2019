@@ -1,6 +1,5 @@
 .news {
     grid-column: 1 / span 2;
-    margin-bottom: ($gutter * 5);
 
     @include media-query(medium) {
         display: grid;

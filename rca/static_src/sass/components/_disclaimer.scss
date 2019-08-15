@@ -1,0 +1,11 @@
+.disclaimer {
+
+    &__container {
+        grid-column: 1 / span 2;
+
+        @include media-query(large) {
+            grid-column: 3 / span 3;
+        }
+    }
+
+}
