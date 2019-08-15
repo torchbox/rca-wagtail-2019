@@ -11,16 +11,19 @@
         tabindex="0"
         id="question-{{ forloop.counter }}"
     >
-        <h5 class="heading heading--five">{{ accordion.heading }}</h5>
-        {% if accordion.preview_text %}
-            <p class="accordion__preview-text body body--one">{{accordion.preview_text}}</p>
-        {% endif %}
-        <svg width="18px" height="18px" class="accordion__icon accordion__icon--plus" aria-hidden="true">
-            <use xlink:href="#plus"></use>
-        </svg>
-        <svg width="18px" height="18px" class="accordion__icon accordion__icon--minus" aria-hidden="true">
-            <use xlink:href="#minus"></use>
-        </svg>
+        <h5 class="accordion__heading heading heading--five">{{ accordion.heading }}</h5>
+        <div class="accordion__meta">
+            {% if accordion.preview_text %}
+                <p class="accordion__preview-text body body--one">{{accordion.preview_text}}</p>
+            {% endif %}
+            <svg width="18px" height="18px" class="accordion__icon accordion__icon--plus" aria-hidden="true">
+                <use xlink:href="#plus"></use>
+            </svg>
+            <svg width="18px" height="18px" class="accordion__icon accordion__icon--minus" aria-hidden="true">
+                <use xlink:href="#minus"></use>
+            </svg>
+        </div>
+
     </a>
     <div
         aria-live="polite"

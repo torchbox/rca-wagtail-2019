@@ -1,10 +1,36 @@
 .accordion {
     $root: &;
     @include z-index(above-gridlines);
-    background-color: $color--white;
+    transition: background-color $transition;
+    position: relative;
 
+    .bg--dark & {
+        border-bottom: 1px solid $color--grid-line-light;
+        border-right: 1px solid $color--grid-line-light;
+        background-color: $color--link-lightbg;
+    }
+
+    .bg--light & {
+        border-bottom: 1px solid $color--grid-line-dark;
+        border-right: 1px solid $color--grid-line-dark;
+        background-color: $color--link-darkbg;
+    }
+
+    @include media-query(large) {
+        grid-column: 2 / span 3;
+    }
 
     &:first-child {
+        #{$root}__link {
+            &::after {
+                top: -1px; // to account for border
+            }
+        }
+
+        &::before {
+            top: -1px; // to account for border
+        }
+
         .bg--dark & {
             border-top: 1px solid $color--grid-line-light;
         }
@@ -14,34 +40,31 @@
         }
     }
 
-    .bg--dark & {
-        border-bottom: 1px solid $color--grid-line-light;
-        border-right: 1px solid $color--grid-line-light;
-    }
+    // left hand colour block
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: -1px; // to account for border
+        transform: translate3d(-100%, 0, 0);
+        opacity: 0;
+        transition: opacity $transition;
 
-    .bg--light & {
-        border-bottom: 1px solid $color--grid-line-dark;
-        border-right: 1px solid $color--grid-line-dark;
-    }
-
-    @include media-query(large) {
-        grid-column: 2 / span 3;
-    }
-
-    &:active,
-    &:hover {
-        cursor: pointer;
-
-        #{$root}__icon {
-            fill: $color--black;
+        .bg--light & {
+            background-color: $color--black;
         }
 
-        #{$root}__title {
-            color: $color--black;
+        .bg--dark & {
+            background-color: $color--white;
         }
     }
 
     &.is-open {
+        &::before {
+            opacity: 1;
+        }
 
         .bg--light & {
             background-color: $color--black;
@@ -58,10 +81,44 @@
         }
     }
 
+    &:focus,
+    &:active,
+    &:hover {
+        cursor: pointer;
+    }
+
     &__link {
         display: grid;
         align-items: flex-start;
         font-family: $font--primary;
+        padding-top: $gutter;
+        padding-bottom: ($gutter * 1.75);
+        position: relative;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transform: translate3d(100%, 0, 0);
+            opacity: 0;
+            transition: opacity $transition;
+
+            .is-open & {
+                opacity: 1;
+            }
+
+            .bg--light & {
+                background-color: $color--black;
+            }
+
+            .bg--dark & {
+                background-color: $color--white;
+            }
+        }
+
 
         .bg--dark & {
             color: $color--link-darkbg;
@@ -76,13 +133,75 @@
         }
     }
 
+    &__heading {
+        transition: color $transition;
+
+        .bg--dark & {
+            color: $color--link-darkbg;
+        }
+
+        .bg--light & {
+            color: $color--link-lightbg;
+        }
+
+        .is-open & {
+            .bg--dark & {
+                color: $color--link-lightbg;
+            }
+
+            .bg--light & {
+                color: $color--link-darkbg;
+            }
+        }
+    }
+
     &__preview-text {
         color: $color--meta;
         margin: 0;
+        transition: color $transition;
+
+        .is-open & {
+            .bg--dark & {
+                color: $color--link-lightbg;
+            }
+
+            .bg--light & {
+                color: $color--link-darkbg;
+            }
+        }
+
+        @include media-query(large) {
+            max-width: 65%;
+        }
+    }
+
+    &__meta {
+        grid-column: 2 / span 2;
+        display: flex;
     }
 
     &__icon {
-        fill: $color--primary;
+        justify-self: flex-end;
+        margin-right: $gutter;
+        margin-left: auto;
+
+        .bg--dark & {
+            fill: $color--link-darkbg;
+        }
+
+        .bg--light & {
+            fill: $color--link-lightbg;
+        }
+
+        .is-open & {
+            .bg--dark & {
+                fill: $color--link-lightbg;
+            }
+
+            .bg--light & {
+                fill: $color--link-darkbg;
+            }
+        }
 
         &--plus {
             .is-open & {
