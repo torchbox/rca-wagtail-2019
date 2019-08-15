@@ -1,6 +1,6 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<div class="image-caption-link" {% if modal %}data-video-modal{% endif %}>
+<div class="image-caption-link" {% if modal and video %}data-video-modal{% endif %}>
     <span {% if modal %}data-modal-open{% endif %} href="#" class="image-caption-link__link">
         {% image curriculum_intro.image fill-900x415 class="image-caption-link__image" %}
         {% if modal %}
