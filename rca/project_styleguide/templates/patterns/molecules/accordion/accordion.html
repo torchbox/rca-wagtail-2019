@@ -3,7 +3,7 @@
     <a
         href="#"
         role="tab"
-        class="accordion__link"
+        class="accordion__link {% if accordion.preview_text %}accordion__link--with-preview{% endif %}"
         data-accordion-question
         aria-controls="answer-{{ forloop.counter }}"
         aria-expanded="false"
