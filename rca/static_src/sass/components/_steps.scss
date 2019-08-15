@@ -80,7 +80,6 @@
             #{$root}__action-icon {
                 fill: $color--tertiary;
             }
-
         }
     }
 
@@ -89,7 +88,9 @@
         position: absolute;
         fill: $color--white;
         right: 12px;
-        top: calc(20px - 8px); // height of square minus half height of icon and half of border height
+        top: calc(
+            20px - 8px
+        ); // height of square minus half height of icon and half of border height
         width: 18px;
         height: 12px;
         transform: rotate(-45deg);
@@ -106,23 +107,17 @@
             top: calc(40px - 11px);
             right: 27px;
         }
-
     }
 
     .bg--dark & {
-
         #{$root}__action {
             color: $color--white;
         }
-
     }
 
     .bg--light & {
-
         #{$root}__action {
             color: $color--black;
         }
-
     }
-
 }
