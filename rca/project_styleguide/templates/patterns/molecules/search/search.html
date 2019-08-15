@@ -1,5 +1,5 @@
 <form action="{% url 'search' %}" method="get" role="search" class="search">
-    <input class="search__input input" type="text" placeholder="Search…" name="query"{% if search_query %} value="{{ search_query }}{% endif %}">
+    <input class="search__input input" type="text" placeholder="Search…" name="query"{% if search_query %} value="{{ search_query }}{% endif %}" data-search-input>
     <button class="search__button button" type="submit">
         <svg width="12px" height="8px" class="search__icon"><use xlink:href="#arrow"></use></svg>
     </button>
