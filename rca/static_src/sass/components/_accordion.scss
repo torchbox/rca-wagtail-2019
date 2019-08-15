@@ -1,14 +1,17 @@
 .accordion {
     $root: &;
+    @include z-index(above-gridlines);
     transition: background-color $transition;
     position: relative;
 
     .bg--dark & {
         border-bottom: 1px solid $color--grid-line-light;
+        border-right: 1px solid $color--grid-line-light;
         background-color: $color--link-lightbg;
     }
 
     .bg--light & {
+        border-right: 1px solid $color--grid-line-dark;
         border-bottom: 1px solid $color--grid-line-dark;
         background-color: $color--link-darkbg;
     }
@@ -59,6 +62,8 @@
     }
 
     &.is-open {
+        @include z-index(under-gridlines);
+
         &::before {
             opacity: 1;
         }
