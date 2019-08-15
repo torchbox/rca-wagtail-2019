@@ -33,6 +33,11 @@
         role="tabpanel"
         aria-labelledby="question-{{ forloop.counter }}"
         aria-hidden="false">
-        {{ accordion.body|richtext }}
+        <div class="accordion__content-container">
+            {{ accordion.body|richtext }}
+            {% if accordion.link %}
+                {% include "patterns/atoms/link-primary/link-primary--link.html" %}
+            {% endif %}
+        </div>
     </div>
 </div>
