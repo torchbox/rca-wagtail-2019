@@ -79,12 +79,6 @@
         }
     }
 
-    &:focus,
-    &:active,
-    &:hover {
-        cursor: pointer;
-    }
-
     &__link {
         display: grid;
         align-items: flex-start;
@@ -93,6 +87,12 @@
         padding-bottom: ($gutter * 1.75);
         position: relative;
         outline: 0;
+
+        &:focus,
+        &:active,
+        &:hover {
+            cursor: pointer;
+        }
 
         &::after {
             content: '';
