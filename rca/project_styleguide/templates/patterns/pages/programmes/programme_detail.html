@@ -29,7 +29,7 @@
 
                 {% include "patterns/molecules/tab-nav/tab-nav.html" with modifier="bg bg--dark" sticky="true" %}
 
-                <div class="tabs__panel js-tab-panel" id="tab-panel-programme-overview" role="tabpanel" aria-labelledby="programme-overview">
+                <div class="tabs__panel js-tab-panel" id="tab-panel-overview" role="tabpanel" aria-labelledby="overview">
                     {% include "patterns/organisms/programme_tabs/programme_overview.html" %}
                 </div>
                 <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="tab-panel-curriculum" role="tabpanel" aria-labelledby="curriculum">
@@ -38,7 +38,7 @@
                 <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="tab-panel-requirements" role="tabpanel" aria-labelledby="requirements">
                     {% include "patterns/organisms/programme_tabs/requirements.html" %}
                 </div>
-                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="tab-panel-fees-and-funding" role="tabpanel" aria-labelledby="fees-and-funding">
+                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="tab-panel-fees-funding" role="tabpanel" aria-labelledby="fees-funding">
                     {% include "patterns/organisms/programme_tabs/fees-and-funding.html" %}
                 </div>
                 <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="tab-panel-apply" role="tabpanel" aria-labelledby="apply">
@@ -46,12 +46,13 @@
                 </div>
 
                 <section class="section bg bg--light">
+                    <span class="contact-anchor" id="contact"></span>
                     <div class="section__notch section__notch--top">
                         <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
                 </section>
 
-                <section class="section bg bg--light" id="contact">
+                <section class="section bg bg--light">
                     <div class="section__container">
                     {% include "patterns/organisms/contact/contact.html" with heading=page.contact_title text=page.contact_text image=page.contact_image link_href=page.contact_link_url link_text=page.contact_link_text %}
                     </div>
