@@ -1,5 +1,32 @@
 .accordion {
     $root: &;
+    @include z-index(above-gridlines);
+    background-color: $color--white;
+
+
+    &:first-child {
+        .bg--dark & {
+            border-top: 1px solid $color--grid-line-light;
+        }
+
+        .bg--light & {
+            border-top: 1px solid $color--grid-line-dark;
+        }
+    }
+
+    .bg--dark & {
+        border-bottom: 1px solid $color--grid-line-light;
+        border-right: 1px solid $color--grid-line-light;
+    }
+
+    .bg--light & {
+        border-bottom: 1px solid $color--grid-line-dark;
+        border-right: 1px solid $color--grid-line-dark;
+    }
+
+    @include media-query(large) {
+        grid-column: 2 / span 3;
+    }
 
     &:active,
     &:hover {
@@ -15,8 +42,15 @@
     }
 
     &.is-open {
-        #{$root}__icon {
-            transform: rotate(90deg);
+
+        .bg--light & {
+            background-color: $color--black;
+            color: $color--white;
+        }
+
+        .bg--dark & {
+            background-color: $color--white;
+            color: $color--black;
         }
 
         #{$root}__content {
@@ -24,20 +58,45 @@
         }
     }
 
-    &__title {
-        display: flex;
-        align-items: center;
-        font-weight: $weight--bold;
-        color: $color--primary;
-        transition: color 0.2s ease;
+    &__link {
+        display: grid;
+        align-items: flex-start;
+        font-family: $font--primary;
+
+        .bg--dark & {
+            color: $color--link-darkbg;
+        }
+
+        .bg--light & {
+            color: $color--link-lightbg;
+        }
+
+        @include media-query(large) {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+
+    &__preview-text {
+        color: $color--meta;
+        margin: 0;
     }
 
     &__icon {
-        width: 30px;
-        height: 30px;
-        margin-right: 20px;
-        transition: transform, fill, 0.2s ease;
         fill: $color--primary;
+
+        &--plus {
+            .is-open & {
+                display: none;
+            }
+        }
+
+        &--minus {
+            display: none;
+
+            .is-open & {
+                display: block;
+            }
+        }
     }
 
     &__content {
