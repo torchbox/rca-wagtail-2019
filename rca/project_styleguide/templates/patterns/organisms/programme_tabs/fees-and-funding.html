@@ -1,3 +1,35 @@
 <section class="section bg bg--dark">
-    Fees and funding content here
+    <header class="section__header grid">
+        <h2 class="section__heading section__heading--secondary heading heading--four">{{ tab_section.title }}</h2>
+    </header>
+    <div class="section__content">
+        <div class="overview grid">
+            <h3 class="overview__heading heading heading--four">{{ overview.title }}</h3>
+            {% for item in overview %}
+                <div class="overview__item">
+                    <h4 class="heading heading--five">{{ item.title }}</h4>
+                    {% if item.introduction %}
+                        <p class="introduction">{{ item.introduction }}</p>
+                    {% endif %}
+                    <div class="fees">
+                        {% for section in overview.item %}
+                            <section class="fees__section">
+                                <div class="fees__item fees__item--title">
+                                    {{ section.title }}
+                                    {% if section.subsidised %}
+                                        <span class="fees__meta">(subsidised)</span>
+                                    {% endif %}
+                                </div>
+                                {% for fee in overview.item.section %}
+                                    <div class="fees__item">
+                                        {% fee.title %}
+                                    </div>
+                                {% endfor %}
+                            </section>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 </section>
