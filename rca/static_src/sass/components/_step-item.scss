@@ -1,0 +1,20 @@
+.step-item {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: ($gutter * 2);
+
+    &__number {
+        flex-basis: ($gutter * 2);
+        min-width: ($gutter * 2);
+        max-width: ($gutter * 2);
+        color: $color--meta;
+    }
+
+    &__heading {
+        margin-bottom: ($gutter * 0.75);
+    }
+
+    &__link {
+        @include font-size(xxs);
+    }
+}

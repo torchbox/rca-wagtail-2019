@@ -1,3 +1,20 @@
 <section class="section bg bg--dark">
-    Apply content here
+    <header class="section__header grid">
+        <h2 class="section__heading section__heading--primary heading heading--two">{{ tab_section.title }}</h2>
+    </header>
+    <div class="section__content">
+
+        <div class="section__row grid">
+            {% include "patterns/atoms/image/image--right.html" %}
+        </div>
+
+        <div class="section__row">
+            {% include "patterns/molecules/apply-intro/apply-intro.html" %}
+        </div>
+
+        <div class="section__row">
+            {% include "patterns/molecules/steps/steps.html" %}
+        </div>
+    </div>
+
 </section>

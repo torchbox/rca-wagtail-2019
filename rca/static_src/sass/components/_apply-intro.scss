@@ -1,0 +1,41 @@
+.apply-intro {
+    @include grid-layout();
+    margin-bottom: ($gutter * 4);
+
+    @include media-query(medium) {
+        margin-bottom: ($gutter * 5);
+    }
+
+    @include media-query(large) {
+        margin-bottom: ($gutter * 6);
+    }
+
+    &__heading {
+        grid-column: 1 / span 2;
+        padding-right: $gutter;
+        margin-bottom: $gutter;
+
+        @include media-query(medium) {
+            grid-column: 1 / span 1;
+        }
+
+        @include media-query(large) {
+            grid-column: 3 / span 1;
+        }
+    }
+
+    &__introduction {
+        @include font-size(xs);
+        grid-column: 1 / span 2;
+        padding-right: $gutter;
+        line-height: $line-height-large;
+
+        @include media-query(medium) {
+            grid-column: 2 / span 1;
+        }
+
+        @include media-query(large) {
+            grid-column: 4 / span 1;
+        }
+    }
+}
