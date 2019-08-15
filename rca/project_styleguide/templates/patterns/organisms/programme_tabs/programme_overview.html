@@ -2,16 +2,19 @@
 
     <div class="section__row programme-overview">
         <header class="section__header grid">
-            <h3 class="section__heading section__heading--primary heading heading--two">We inspire design innovation</h3>
+            <h3 class="section__heading section__heading--primary heading heading--two">
+                {{ page.programme_description_title}}
+            </h3>
         </header>
         <div class="section__content grid">
             <div class="programme-overview__key-details">
                 {% include "patterns/molecules/key-details/key-details.html" %}
             </div>
             <div class="programme-overview__body">
-                <p class="introduction">Extend your knowledge, skills and creativity through research and experimentation.<p>
-                <p>The programme conceives of architecture as a diverse and complex set of practices that move beyond traditional distinctions and limits in the field. The programme expands the possibilities of architecture and its agency in the world by encouraging an independent and critical ethos among its students.</p>
-                <p>Fostering a culture of independent postgraduate research and experimentation in design underpinned by a strong connection to practice and the material reality of the discipline is central to the pedagogy. Teaching aims to harness and extend student knowledge, skills and creativity, preparing them to engage critically with the world.</p>
+                <p class="introduction">
+                    {{ page.programme_description_subtitle }}
+                <p>
+                {{ page.programme_description_copy|safe }}
                 <div class="programme-overview__pathways">
                     {% include "patterns/molecules/pathways/pathways.html" %}
                 </div>
@@ -30,10 +33,16 @@
 
     <div class="section__row">
         <header class="section__header grid">
-            <h3 class="section__heading section__heading--secondary heading heading--four">Architecture gallery</h3>
+            <h3 class="section__heading section__heading--secondary heading heading--four">
+            {% if page.programme_gallery_title %}
+                {{ page.programme_gallery_title }}
+            {% else %}
+                {{ page.title }} gallery
+            {% endif %}
+            </h3>
         </header>
         <div class="section__content">
-            {% include "patterns/organisms/slideshow/slideshow.html" %}
+            {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.programme_gallery %}
         </div>
     </div>
 
@@ -49,9 +58,9 @@
 
     {% include "patterns/organisms/staff-overview/staff-overview--single.html" %}
 
-    {% include "patterns/organisms/facilities/facilities.html" %}
+    {% include "patterns/organisms/facilities/facilities.html" with link=page.facilities_link title='Facilities' introduction=page.facilities_intro link_text="See all college facilities"  body=page.facilities_copy slideshow=page.facilities_gallery  %}
 
-    {% include "patterns/organisms/featured-alumni/featured-alumni.html" %}
+    {% include "patterns/organisms/featured-alumni/featured-alumni.html" with title="Notable Alumni" introduction=page.notable_alumni_text alumni_links=page.notable_alumni_links %}
 
 </section>
 

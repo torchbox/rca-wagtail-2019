@@ -53,7 +53,7 @@
 
                 <section class="section bg bg--light" id="contact">
                     <div class="section__container">
-                        {% include "patterns/organisms/contact/contact.html" %}
+                    {% include "patterns/organisms/contact/contact.html" with heading=page.contact_title text=page.contact_text image=page.contact_image link_href=page.contact_link_url link_text=page.contact_link_text %}
                     </div>
                 </section>
 
@@ -62,7 +62,7 @@
                         <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
                     <div class="section__container">
-                        {% include "patterns/molecules/relatedcontent/relatedcontent.html" %}
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=page.related_content_title %}
                     </div>
                 </section>
 

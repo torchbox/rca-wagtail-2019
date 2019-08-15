@@ -32,6 +32,26 @@ class QuoteBlock(blocks.StructBlock):
         template = "patterns/molecules/streamfield/blocks/quote_block.html"
 
 
+class LinkBlock(blocks.StructBlock):
+    title = blocks.CharBlock()
+    url = blocks.URLBlock()
+
+    class Meta:
+        icon = "link"
+        template = "patterns/molecules/streamfield/blocks/quote_block.html"
+
+
+class GalleryBlock(blocks.StructBlock):
+    title = blocks.CharBlock(required=False)
+    image = ImageChooserBlock()
+    author = blocks.CharBlock(required=False)
+    link = blocks.URLBlock(required=False)
+    course = blocks.CharBlock(required=False)
+
+    class Meta:
+        icon = "image"
+
+
 # Main streamfield block to be inherited by Pages
 class StoryBlock(blocks.StreamBlock):
     heading = blocks.CharBlock(

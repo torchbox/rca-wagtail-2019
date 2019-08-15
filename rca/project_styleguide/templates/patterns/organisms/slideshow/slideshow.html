@@ -3,7 +3,7 @@
         <ul class="slideshow__slides glide__slides" aria-live="polite">
             {% for slide in slideshow %}
             <li class="slideshow__item glide__slide">
-                {% include 'patterns/molecules/slide/slide.html' with slide=slide %}
+                {% include 'patterns/molecules/slide/slide.html' with slide=slide.value %}
             </li>
             {% endfor %}
         </ul>
