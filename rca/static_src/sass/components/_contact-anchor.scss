@@ -1,4 +1,8 @@
 .contact-anchor {
     position: relative;
-    top: -40px; // height of tabs
+    top: -39px; // height of tabs
+
+    @include media-query(medium) {
+        top: -59px; // height of tabs
+    }
 }
