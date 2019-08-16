@@ -80,8 +80,8 @@ context:
   news:
     - item:
       meta: 'Event'
-      title: 'Designs for Real Life'
-      description: '6 July 2019 - 4 August 2019'
+      title: 'Writing student wins £25,000 economics prize'
+      description: '6 — 12 August 2019'
       link: '#'
       image: true
       person: false

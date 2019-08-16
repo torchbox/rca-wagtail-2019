@@ -199,7 +199,110 @@
             padding-right: 0;
         }
 
-        &:nth-child(even) {
+    }
+
+    .news__feature & {
+        @include media-query(medium) {
+            grid-column: 1 / span 2;
+            grid-row: 1;
+            padding-right: 0;
+        }
+
+        @include media-query(large) {
+            grid-column: 1 / span 2;
+            grid-row: 1 / span 2;
+            padding-right: ($gutter * 1.5);
+        }
+
+        #{$root}__container {
+            @include media-query(large) {
+                height: 100%;
+            }
+        }
+
+        #{$root}__content {
+
+            @include media-query(medium) {
+                flex-basis: 100%;
+                min-width: 100%;
+                max-width: 100%;
+                top: -35px;
+                padding-top: ($gutter * 1.25);
+                margin-bottom: -35px;
+                background-color: transparent !important; // sass-lint:disable-line no-important
+            }
+
+            &::after {
+
+                @include media-query(medium) {
+                    @include z-index(base);
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    content: '';
+                    display: block;
+                    height: 35px;
+                    width: 50%;
+                }
+
+                @include media-query(large) {
+                    width: calc(50% + 15px);
+                }
+
+            }
+        }
+
+        #{$root}__image-container {
+            @include media-query(large) {
+                height: 100%;
+                min-height: 100%;
+            }
+        }
+
+        #{$root}__image {
+            @include media-query(large) {
+                object-fit: cover;
+                height: 100%;
+            }
+        }
+
+        #{$root}__meta {
+            @include font-size(xxxs);
+
+            @include media-query(medium) {
+                @include font-size(xxs);
+            }
+        }
+
+        #{$root}__description {
+            @include font-size(xxs);
+
+            @include media-query(medium) {
+                @include font-size(xs);
+            }
+        }
+
+        #{$root}__heading {
+            font-size: map-get($medium-font-sizes, xs);
+
+            @include media-query(medium) {
+                @include font-size(s);
+            }
+        }
+
+        #{$root}__image {
+
+            @include media-query(large) {
+                min-height: 400px;
+            }
+
+        }
+
+    }
+
+    .news__sub-features & {
+
+        &:first-child {
             padding-top: $gutter;
 
             @include media-query(large) {
@@ -208,107 +311,49 @@
             }
         }
 
-        &:first-child {
+        #{$root}__heading {
+            font-size: map-get($medium-font-sizes, xs);
+
             @include media-query(medium) {
-                grid-column: 1 / span 2;
-                grid-row: 1;
-                padding-right: 0;
-            }
-
-            @include media-query(large) {
-                grid-column: 1 / span 2;
-                grid-row: 1 / span 2;
-                padding-right: ($gutter * 1.5);
-            }
-
-            #{$root}__container {
-                @include media-query(large) {
-                    height: 100%;
-                }
-            }
-
-            #{$root}__image-container {
-                @include media-query(large) {
-                    height: 100%;
-                    min-height: 100%;
-                }
-            }
-
-            #{$root}__image {
-                @include media-query(large) {
-                    object-fit: cover;
-                    height: 100%;
-                }
-            }
-
-            #{$root}__meta {
-                @include font-size(xxxs);
-
-                @include media-query(medium) {
-                    @include font-size(xxs);
-                }
-            }
-
-            #{$root}__description {
-                @include font-size(xxs);
-
-                @include media-query(medium) {
-                    @include font-size(xs);
-                }
-            }
-
-            #{$root}__heading {
-                font-size: map-get($medium-font-sizes, xs);
-
-                @include media-query(medium) {
-                    @include font-size(s);
-                }
+                @include font-size(xs);
             }
         }
 
-        &:nth-child(1n + 2) {
-            #{$root}__heading {
-                font-size: map-get($medium-font-sizes, xs);
+        #{$root}__content {
+            flex-basis: 100%;
+            max-width: 100%;
+            min-width: 100%;
+            top: 0;
+            padding: 0;
+            background-color: transparent !important; // sass-lint:disable-line no-important
+        }
 
-                @include media-query(medium) {
-                    @include font-size(xs);
-                }
-            }
+        #{$root}__meta {
+            @include font-size(xxxs);
+        }
 
+        #{$root}__description {
+            @include font-size(xxs);
+        }
+
+        &#{$root}--image {
             #{$root}__content {
-                flex-basis: 100%;
-                max-width: 100%;
-                min-width: 100%;
-                top: 0;
-                padding: 0;
-                background-color: transparent !important; // sass-lint:disable-line no-important
-            }
+                top: -10px;
+                margin-bottom: -10px; // compensate for top -10
 
-            #{$root}__meta {
-                @include font-size(xxxs);
-            }
-
-            #{$root}__description {
-                @include font-size(xxs);
-            }
-
-            &#{$root}--image {
-                #{$root}__content {
-                    top: -10px;
-
-                    &::after {
-                        @include z-index(base);
-                        position: absolute;
-                        top: -14px; // 24px minus content negative top
-                        left: 0;
-                        content: '';
-                        display: block;
-                        height: 24px;
-                        width: 80px;
-                    }
+                &::after {
+                    @include z-index(base);
+                    position: absolute;
+                    top: -14px; // 24px minus content negative top
+                    left: 0;
+                    content: '';
+                    display: block;
+                    height: 24px;
+                    width: 80px;
                 }
             }
         }
+
     }
 
     .bg--dark & {

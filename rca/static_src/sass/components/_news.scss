@@ -1,4 +1,5 @@
 .news {
+    $root: &;
     grid-column: 1 / span 2;
 
     @include media-query(medium) {
@@ -11,42 +12,72 @@
         grid-template-columns: 1fr 1fr 1fr;
     }
 
+    &__feature {
+
+        @include media-query(medium) {
+            grid-column: 1 / span 2;
+        }
+
+    }
+
+    &__sub-features {
+
+        @include media-query(medium) {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-column: 1 / span 2;
+            grid-row: 2;
+        }
+
+        @include media-query(large) {
+            display: block;
+            grid-column: 3 / span 1;
+            grid-row: auto;
+        }
+    }
+
     &__view-all {
         margin-top: ($gutter * 2);
 
         @include media-query(medium) {
-            grid-row: 4;
+            grid-row: 3;
             grid-column: 2;
+            margin-top: 0;
         }
 
         @include media-query(large) {
-            grid-column: 3;
-            margin-top: ($gutter * 4);
+            grid-column: auto;
+            grid-row: auto;
+            margin-top: 0;
         }
     }
 
     // Theme management
     .bg--dark & {
-        .card {
-            &:nth-child(even) {
-                border-top: 1px solid $color--grid-line-light;
+        #{$root}__sub-features {
+            .card {
+                &:first-child {
+                    border-top: 1px solid $color--grid-line-light;
 
-                @include media-query(large) {
-                    border-top: 0;
-                    border-bottom: 1px solid $color--grid-line-light;
+                    @include media-query(large) {
+                        border-top: 0;
+                        border-bottom: 1px solid $color--grid-line-light;
+                    }
                 }
             }
         }
     }
 
     .bg--light & {
-        .card {
-            &:nth-child(even) {
-                border-top: 1px solid $color--grid-line-dark;
+        #{$root}__sub-features {
+            .card {
+                &:first-child {
+                    border-top: 1px solid $color--grid-line-dark;
 
-                @include media-query(large) {
-                    border-top: 0;
-                    border-bottom: 1px solid $color--grid-line-dark;
+                    @include media-query(large) {
+                        border-top: 0;
+                        border-bottom: 1px solid $color--grid-line-dark;
+                    }
                 }
             }
         }
