@@ -191,6 +191,10 @@
             margin: 0 0 0 $gutter;
         }
 
+        @include media-query(large) {
+            margin: 0;
+        }
+
         .is-open & {
             .bg--dark & {
                 color: $color--link-lightbg;
