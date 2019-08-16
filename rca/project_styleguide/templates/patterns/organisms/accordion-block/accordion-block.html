@@ -1,5 +1,7 @@
-<div class="accordion-block grid" role="tablist" aria-multiselectable="true">
-    {% for accordion in accordions %}
-        {% include "patterns/molecules/accordion/accordion.html" %}
-    {% endfor %}
+<div class="accordion-block" role="tablist" aria-multiselectable="true">
+    <div class="grid">
+        {% for accordion in accordions %}
+            {% include "patterns/molecules/accordion/accordion.html" %}
+        {% endfor %}
+    </div>
 </div>
