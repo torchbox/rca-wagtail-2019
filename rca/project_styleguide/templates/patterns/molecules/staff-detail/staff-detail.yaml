@@ -6,13 +6,6 @@ context:
 
 tags:
   image:
-    person.image fill-277x277 class="staff-detail__image":
-      raw: |
-        <img src="//placekitten.com/277/277" width="277" height="277" class="staff-detail__image" alt="">
-
-
-tags:
-  image:
     person.image fill-50x50 as imageSmall:
       target_var: imageSmall
       raw:
