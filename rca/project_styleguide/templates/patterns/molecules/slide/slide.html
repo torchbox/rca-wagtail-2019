@@ -1,6 +1,12 @@
 {% load wagtailimages_tags %}
+
 <div class="slide" data-slide>
-    {% image slide.image fill-829x585 class="slide__image" %}
+
+    {% image slide.image fill-100x71 as imageSmall %}
+    {% image slide.image fill-829x585 as imageLarge %}
+
+    {% include "patterns/atoms/image/image--lazyload.html" with imageSmall=imageSmall imageLarge=imageLarge classList='slide__image' %}
+
     <div class="slide__meta">
         <h2 class="slide__heading">{{ slide.title }}</h2>
         {% if slide.author %}

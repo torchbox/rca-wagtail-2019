@@ -13,6 +13,7 @@ import RelatedContent from './components/related-content';
 import Tabs from './components/tabs';
 import Sticky from './components/position-sticky-event';
 import './components/sticky-header';
+import './components/lazyload-images';
 
 import '../sass/main.scss';
 
@@ -63,12 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
         subnavBack.addEventListener('click', () => {
             subnavBack.parentNode.classList.remove('is-visible');
         });
-    }
-
-    for (const progressbar of document.querySelectorAll(
-        ProgressBar.selector(),
-    )) {
-        new ProgressBar(progressbar);
     }
 
     for (const videomodal of document.querySelectorAll(VideoModal.selector())) {
