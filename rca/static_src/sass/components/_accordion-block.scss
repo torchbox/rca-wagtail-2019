@@ -3,7 +3,11 @@
     padding: ($gutter * 4) 0;
 
     &__heading {
-        grid-column: 2 / span 1;
+        grid-column: 1 / span 1;
         margin-bottom: $gutter;
+
+        @include media-query(large) {
+            grid-column: 2 / span 1;
+        }
     }
 }
