@@ -1,0 +1,23 @@
+.outdated-banner {
+    @include z-index(modal);
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: $color--tertiary;
+    padding: $gutter;
+
+    @supports (display: grid) {
+        display: none;
+    }
+
+    &__heading {
+        margin-bottom: ($gutter / 3);
+        font-family: $font--secondary;
+    }
+
+    &__copy {
+        margin: 0;
+    }
+}
