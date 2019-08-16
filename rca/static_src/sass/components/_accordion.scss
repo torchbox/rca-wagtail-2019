@@ -1,47 +1,282 @@
 .accordion {
     $root: &;
+    @include z-index(above-gridlines);
+    transition: background-color $transition;
+    position: relative;
+    grid-column: 1 / span 2;
 
-    &:active,
-    &:hover {
-        cursor: pointer;
+    @include media-query(large) {
+        grid-column: 2 / span 3;
+    }
 
-        #{$root}__icon {
-            fill: $color--black;
+    .bg--dark & {
+        border-bottom: 1px solid $color--grid-line-light;
+        border-right: 1px solid $color--grid-line-light;
+        background-color: $color--link-lightbg;
+        border-left: 1px solid $color--grid-line-light;
+
+        @include media-query(large) {
+            border-left: 0;
+        }
+    }
+
+    .bg--light & {
+        border-right: 1px solid $color--grid-line-dark;
+        border-bottom: 1px solid $color--grid-line-dark;
+        background-color: $color--link-darkbg;
+        border-left: 1px solid $color--grid-line-dark;
+
+        @include media-query(large) {
+            border-left: 0;
+        }
+    }
+
+    &:first-child {
+        #{$root}__link {
+            &::after {
+                top: -1px; // to account for border
+            }
         }
 
-        #{$root}__title {
-            color: $color--black;
+        &::before {
+            top: -1px; // to account for border
+        }
+
+        .bg--dark & {
+            border-top: 1px solid $color--grid-line-light;
+        }
+
+        .bg--light & {
+            border-top: 1px solid $color--grid-line-dark;
+        }
+    }
+
+    // left hand colour block
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 1px;
+        right: 0;
+        bottom: -1px; // to account for border
+        transform: translate3d(-100%, 0, 0);
+        opacity: 0;
+        transition: opacity $transition;
+
+        .bg--light & {
+            background-color: $color--black;
+        }
+
+        .bg--dark & {
+            background-color: $color--white;
         }
     }
 
     &.is-open {
-        #{$root}__icon {
-            transform: rotate(90deg);
+        @include z-index(under-gridlines);
+
+        &::before {
+            opacity: 1;
         }
 
-        #{$root}__content {
-            display: block;
+        .bg--light & {
+            background-color: $color--black;
+            color: $color--white;
+        }
+
+        .bg--dark & {
+            background-color: $color--white;
+            color: $color--black;
         }
     }
 
-    &__title {
-        display: flex;
+    &__link {
+        display: grid;
         align-items: center;
-        font-weight: $weight--bold;
-        color: $color--primary;
-        transition: color 0.2s ease;
+        font-family: $font--primary;
+        padding-top: $gutter;
+        padding-bottom: $gutter;
+        position: relative;
+        outline: 0;
+
+        &:focus,
+        &:active,
+        &:hover {
+            cursor: pointer;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 1px;
+            bottom: 0;
+            transform: translate3d(100%, 0, 0);
+            opacity: 0;
+            transition: opacity $transition;
+            pointer-events: none;
+
+            .is-open & {
+                opacity: 1;
+            }
+
+            .bg--light & {
+                background-color: $color--black;
+            }
+
+            .bg--dark & {
+                background-color: $color--white;
+            }
+        }
+
+        .bg--dark & {
+            color: $color--link-darkbg;
+        }
+
+        .bg--light & {
+            color: $color--link-lightbg;
+        }
+
+        .is-open & {
+            .bg--dark & {
+                border-bottom: 1px solid $color--grid-line-dark;
+            }
+
+            .bg--light & {
+                border-bottom: 1px solid $color--grid-line-light;
+            }
+        }
+
+        @include media-query(large) {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        &--with-preview {
+            align-items: flex-start;
+
+            @include media-query(medium) {
+                padding-bottom: ($gutter * 1.75);
+            }
+        }
+    }
+
+    &__heading {
+        .bg--dark & {
+            color: $color--link-darkbg;
+        }
+
+        .bg--light & {
+            color: $color--link-lightbg;
+        }
+
+        .is-open & {
+            .bg--dark & {
+                color: $color--link-lightbg;
+            }
+
+            .bg--light & {
+                color: $color--link-darkbg;
+            }
+        }
+    }
+
+    &__preview-text {
+        color: $color--meta;
+        margin: ($gutter / 2) 0 0;
+        transition: color $transition;
+        max-width: 65%;
+
+        @include media-query(medium) {
+            margin: 0 0 0 $gutter;
+        }
+
+        @include media-query(large) {
+            margin: 0;
+        }
+
+        .is-open & {
+            .bg--dark & {
+                color: $color--link-lightbg;
+            }
+
+            .bg--light & {
+                color: $color--link-darkbg;
+            }
+        }
+    }
+
+    &__meta {
+        grid-column: 1 / span 1;
+        display: flex;
+
+        @include media-query(medium) {
+            grid-column: 2 / span 2;
+        }
     }
 
     &__icon {
-        width: 30px;
-        height: 30px;
-        margin-right: 20px;
-        transition: transform, fill, 0.2s ease;
-        fill: $color--primary;
+        justify-self: flex-end;
+        margin-right: $gutter;
+        margin-left: auto;
+        margin-top: -$gutter;
+
+        @include media-query(medium) {
+            margin-top: 0;
+        }
+
+        .bg--dark & {
+            fill: $color--link-darkbg;
+        }
+
+        .bg--light & {
+            fill: $color--link-lightbg;
+        }
+
+        .is-open & {
+            .bg--dark & {
+                fill: $color--link-lightbg;
+            }
+
+            .bg--light & {
+                fill: $color--link-darkbg;
+            }
+        }
+
+        &--plus {
+            .is-open & {
+                display: none;
+            }
+        }
+
+        &--minus {
+            display: none;
+
+            .is-open & {
+                display: block;
+            }
+        }
     }
 
     &__content {
         display: none;
-        margin-left: 40px;
+
+        .is-open & {
+            display: grid;
+
+            @include media-query(large) {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+    }
+
+    &__content-container {
+        padding-top: ($gutter * 2);
+        padding-right: ($gutter * 5.75);
+        padding-bottom: ($gutter * 3);
+
+        @include media-query(large) {
+            grid-column: 2 / span 2;
+        }
     }
 }

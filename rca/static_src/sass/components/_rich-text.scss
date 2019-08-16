@@ -47,4 +47,8 @@
             color: $color--white;
         }
     }
+
+    .accordion & {
+        @include font-size(xxs);
+    }
 }

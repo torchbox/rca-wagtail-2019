@@ -1,0 +1,12 @@
+<div class="accordion-block" role="tablist" aria-multiselectable="true">
+    {% if title %}
+        <div class="grid">
+            <h4 class="accordion-block__heading heading heading--four">{{title}}</h4>
+        </div>
+    {% endif %}
+    <div class="grid">
+        {% for accordion in accordions %}
+            {% include "patterns/molecules/accordion/accordion.html" %}
+        {% endfor %}
+    </div>
+</div>
