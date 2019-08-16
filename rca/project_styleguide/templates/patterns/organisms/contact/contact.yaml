@@ -6,6 +6,13 @@ context:
 
 tags:
   image:
-    image fill-580x607 class="card__person-image":
-      raw: |
-        <img src="//placekitten.com/580/607" alt="" class="contact__image">
+    image fill-80x84 as imageSmall:
+      target_var: imageSmall
+      raw:
+        url: '//placekitten.com/80/84'
+    image fill-580x607 as imageLarge:
+      target_var: imageLarge
+      raw:
+        url: '//placekitten.com/580/607'
+        width: '580'
+        height: '607'
