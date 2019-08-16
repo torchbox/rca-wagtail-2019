@@ -1,4 +1,9 @@
 .accordion-block {
     overflow: hidden;
     padding: ($gutter * 4) 0;
+
+    &__heading {
+        grid-column: 2 / span 1;
+        margin-bottom: $gutter;
+    }
 }
