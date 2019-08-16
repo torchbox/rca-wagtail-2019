@@ -1,15 +1,28 @@
 .outdated-banner {
     @include z-index(modal);
-    display: block;
     position: fixed;
-    bottom: 0;
     left: 0;
-    right: 0;
-    background-color: $color--tertiary;
-    padding: $gutter;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background-color: $color--black-80;
 
     @supports (display: grid) {
         display: none;
+    }
+
+    &__modal {
+        @include z-index(modal-controls);
+        background-color: $color--white;
+        color: $color--black;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+        padding: ($gutter * 1.5);
     }
 
     &__heading {
@@ -19,5 +32,15 @@
 
     &__copy {
         margin: 0;
+    }
+
+    &__close {
+        position: absolute;
+        top: $gutter;
+        right: $gutter;
+    }
+
+    &__close-icon {
+        fill: $color--white;
     }
 }

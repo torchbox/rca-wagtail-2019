@@ -14,6 +14,7 @@ import RelatedContent from './components/related-content';
 import Tabs from './components/tabs';
 import Sticky from './components/position-sticky-event';
 import './components/sticky-header';
+import './components/outdated-banner';
 
 import '../sass/main.scss';
 
