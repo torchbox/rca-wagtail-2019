@@ -44,22 +44,6 @@ The old taxonomy values will need copying over from the current live site.
 - [Field spec](https://docs.google.com/spreadsheets/d/1DOIRsxvQd67Frr_zNqG0zWGLfljJMvd_oru9h4L-qE8/edit#gid=190429136)
 - [Functional spec](https://docs.google.com/document/d/1ZZfvg_2NqfU1mHFYpb73uaCOrlI23aSVz0oZoFX_Tuc/edit?ts=5d3afefd#heading=h.sxufov4gsz5k)
 
-### Content relationships.
+### Content relationships
 
-The new programme page will feature some areas for related content. These are to be related by the taxonomy programme type, the models will be:
-
-- StaffIems
-- AlumniStories (which are StandardPage tagged with 'story-page')
-- EventItems
-- NewsItem
-
-The plan for implementing these is:
-
-- Update the current API to enable filtering the page listing to give us the required content for each model, eg
-  `/api/v2/pages/?type=rca.NewsItem&related_programme=[programme_taxonomy_id]`
-- Override the `get_context()` method on the model to request content from the api using `self.programme_taxonomy` and deliver it to the template
-
-This was confirmed possible during a spike. Exsiting work can be seen on the following branches:
-
-- This repo, `kevin/spike-api-pull`
-- verdant-rca repo `spike/api-relate-programme-filter`
+See the `content-relationships` page in this documentation for information about how we will show related content in phase 1.
