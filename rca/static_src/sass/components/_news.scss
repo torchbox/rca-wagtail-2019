@@ -13,15 +13,12 @@
     }
 
     &__feature {
-
         @include media-query(medium) {
             grid-column: 1 / span 2;
         }
-
     }
 
     &__sub-features {
-
         @include media-query(medium) {
             display: grid;
             grid-template-columns: 1fr 1fr;
