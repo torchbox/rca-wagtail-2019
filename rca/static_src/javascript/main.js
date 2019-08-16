@@ -8,7 +8,6 @@ import CookieWarning from './components/cookie-message';
 import Accordion from './components/accordion';
 import Carousel from './components/carousel';
 import Slideshow from './components/slideshow';
-import ProgressBar from './components/progress-bar';
 import VideoModal from './components/video-modal';
 import RelatedContent from './components/related-content';
 import Tabs from './components/tabs';
