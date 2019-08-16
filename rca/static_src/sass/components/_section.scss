@@ -4,6 +4,30 @@
     $notch-height-medium: 80px;
     $notch-height-large: 100px;
 
+    &--start {
+        padding-top: ($gutter * 2.5);
+
+        @include media-query(medium) {
+            padding-top: ($gutter * 3);
+        }
+
+        @include media-query(large) {
+            padding-top: ($gutter * 7);
+        }
+    }
+
+    &--end {
+        padding-bottom: ($gutter * 2.5);
+
+        @include media-query(medium) {
+            padding-bottom: ($gutter * 3);
+        }
+
+        @include media-query(large) {
+            padding-bottom: ($gutter * 7);
+        }
+    }
+
     &__heading {
         grid-column: 1 / span 2;
 
@@ -124,32 +148,6 @@
 
             &::before {
                 background-color: $color--black;
-            }
-        }
-    }
-
-    .tabs__panel & {
-        &:first-child {
-            padding-top: ($gutter * 2.5);
-
-            @include media-query(medium) {
-                padding-top: ($gutter * 3);
-            }
-
-            @include media-query(large) {
-                padding-top: ($gutter * 7);
-            }
-        }
-
-        &:last-child {
-            padding-bottom: ($gutter * 2.5);
-
-            @include media-query(medium) {
-                padding-bottom: ($gutter * 3);
-            }
-
-            @include media-query(large) {
-                padding-bottom: ($gutter * 7);
             }
         }
     }
