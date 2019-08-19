@@ -3,54 +3,61 @@
 
 {% block content %}
 
-    {% include "patterns/molecules/hero/hero.html" with modifier="home" %}
 
-    <section class="section bg bg--dark">
-        <div class="section__container">
-            Propostion CTA here
+
+    <div class="page" id="content">
+
+        <h1>{{ page.title }}</h1>
+
+        <div class="page__content">
+
+            <section class="section section--start bg bg--dark">
+
+                Propersition statements
+
+            </section>
+
+            <section class="section bg bg--light">
+
+                Transformational stories
+
+            </section>
+
+            <section class="section bg bg--dark">
+
+                Alumni stories
+
+            </section>
+
+            {% include "patterns/organisms/stat-block/stat-block.html" %}
+
+            <section class="section bg bg--light">
+
+                Partnership module
+
+            </section>
+
+            <section class="section section--end bg bg--dark">
+
+                <div class="section__notch section__notch--top">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+
+                <div class="section__container">
+
+                    <header class="section__header grid">
+                        <h3 class="section__heading section__heading--primary heading heading--two">News & events</h3>
+                    </header>
+
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/news/news.html" %}
+                    </div>
+
+                </div>
+            </section>
+
         </div>
-    </section>
 
-    <section class="section bg bg--light">
-        <div class="section__container">
-            Transformational stories here
-        </div>
-    </section>
+    </div>
 
-    <section class="section bg bg--dark">
-        <div class="section__container">
-            Alumni stories here
-        </div>
-    </section>
-
-    <section class="section bg bg--dark">
-        <div class="section__container">
-            Statistics module here
-        </div>
-    </section>
-
-    <section class="section bg bg--light">
-        <div class="section__container">
-            Partnership module here
-        </div>
-    </section>
-
-    <section class="section section--end bg bg--dark">
-
-        <div class="section__notch section__notch--top">
-            <div class="section__notch-fill section__notch-fill--third-col"></div>
-        </div>
-
-        <div class="section__container">
-
-            <header class="section__header grid">
-                <h3 class="section__heading section__heading--primary heading heading--two">News & events</h3>
-            </header>
-
-            <div class="section__content grid">
-                {% include "patterns/organisms/news/news.html" %}
-            </div>
-
-        </div>
-    </section>
 {% endblock %}
