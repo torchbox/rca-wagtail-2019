@@ -12,7 +12,7 @@
     .bg--dark & {
         border-bottom: 1px solid $color--grid-line-light;
         border-right: 1px solid $color--grid-line-light;
-        background-color: $color--link-lightbg;
+        background-color: $color--black;
         border-left: 1px solid $color--grid-line-light;
 
         @include media-query(large) {
@@ -23,7 +23,7 @@
     .bg--light & {
         border-right: 1px solid $color--grid-line-dark;
         border-bottom: 1px solid $color--grid-line-dark;
-        background-color: $color--link-darkbg;
+        background-color: $color--white;
         border-left: 1px solid $color--grid-line-dark;
 
         @include media-query(large) {
@@ -131,11 +131,11 @@
         }
 
         .bg--dark & {
-            color: $color--link-darkbg;
+            color: $color--white;
         }
 
         .bg--light & {
-            color: $color--link-lightbg;
+            color: $color--black;
         }
 
         .is-open & {
@@ -163,20 +163,20 @@
 
     &__heading {
         .bg--dark & {
-            color: $color--link-darkbg;
+            color: $color--white;
         }
 
         .bg--light & {
-            color: $color--link-lightbg;
+            color: $color--black;
         }
 
         .is-open & {
             .bg--dark & {
-                color: $color--link-lightbg;
+                color: $color--black;
             }
 
             .bg--light & {
-                color: $color--link-darkbg;
+                color: $color--white;
             }
         }
     }
@@ -197,11 +197,11 @@
 
         .is-open & {
             .bg--dark & {
-                color: $color--link-lightbg;
+                color: $color--black;
             }
 
             .bg--light & {
-                color: $color--link-darkbg;
+                color: $color--white;
             }
         }
     }
@@ -226,20 +226,20 @@
         }
 
         .bg--dark & {
-            fill: $color--link-darkbg;
+            fill: $color--white;
         }
 
         .bg--light & {
-            fill: $color--link-lightbg;
+            fill: $color--black;
         }
 
         .is-open & {
             .bg--dark & {
-                fill: $color--link-lightbg;
+                fill: $color--black;
             }
 
             .bg--light & {
-                fill: $color--link-darkbg;
+                fill: $color--white;
             }
         }
 

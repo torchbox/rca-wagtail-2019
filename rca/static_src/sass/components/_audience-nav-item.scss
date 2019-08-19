@@ -16,10 +16,35 @@
         transform: rotate(-45deg) translate(0, 0);
     }
 
+    &__description {
+        @include font-size(xxxs);
+        flex-basis: 100%;
+        max-width: 100%;
+        min-width: 100%;
+        color: $color--meta;
+        margin-top: 4px;
+    }
+
+    &--desc {
+
+        #{$root}__label {
+            @include font-size(xxs); // match header
+        }
+
+    }
+
+    .hero-action-pane & {
+
+        #{$root}__link {
+            color: $color--black;
+        }
+
+    }
+
     .bg--light &,
     .theme-dark .header & {
         #{$root}__link {
-            color: $color--link-lightbg;
+            color: $color--black;
         }
 
         #{$root}__icon {
@@ -31,7 +56,7 @@
     .theme-light .header &,
     .headroom--pinned.headroom--not-top .header & {
         #{$root}__link {
-            color: $color--link-darkbg;
+            color: $color--white;
         }
 
         #{$root}__icon {
@@ -50,6 +75,14 @@
         #{$root}__label {
             @include font-size(xxs);
         }
+    }
+
+    .app--homepage .header & {
+        opacity: 0;
+    }
+
+    .app--homepage.headroom--not-top .header & {
+        opacity: 1;
     }
 
     .footer & {

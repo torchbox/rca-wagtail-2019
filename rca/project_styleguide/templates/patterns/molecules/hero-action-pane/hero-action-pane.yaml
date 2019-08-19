@@ -1,0 +1,16 @@
+tags:
+  audience_links:
+    as links:
+      raw:
+        - value:
+          text: 'Study at RCA'
+          description: Discover our programmes
+          url: '#'
+        - value:
+          text: 'Research and Innovation'
+          description: Cutting-edge innovation
+          url: '#'
+        - value:
+          text: 'Life at the RCA'
+          description: Our people, students & alumni
+          url: '#'

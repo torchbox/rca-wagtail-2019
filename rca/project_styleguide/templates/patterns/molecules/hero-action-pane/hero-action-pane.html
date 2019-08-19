@@ -1,0 +1,23 @@
+{% load wagtailcore_tags navigation_tags %}
+
+<div class="hero-action-pane grid" data-parallax>
+    <div class="hero-action-pane__cta">
+        <a href="#" class="hero-action-pane__cta-link">
+            <div class="hero-action-pane__cta-heading">
+                Apply for programmes starting 2020
+            </div>
+            <div class="hero-action-pane__cta-sub-heading">
+                Shape your future
+            </div>
+            <svg width="12" height="8" class="hero-action-pane__cta-icon"><use xlink:href="#arrow"></use></svg>
+        </a>
+    </div>
+
+    <div class="hero-action-pane__links">
+        {% audience_links as links %}
+        {% for value in links %}
+            {% include 'patterns/atoms/audience-nav-item/audience-nav-item--desc.html' %}
+        {% endfor %}
+    </div>
+
+</div>

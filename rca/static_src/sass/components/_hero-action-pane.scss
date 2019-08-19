@@ -1,21 +1,53 @@
 .hero-action-pane {
     $root: &;
+    $hero-action-pane-height-small: 110px;
+    $hero-action-pane-height-medium: 160px;
     position: relative;
-    top: -110px;
-    max-width: 65%;
+    pointer-events: none;
+    top: -$hero-action-pane-height-small;
+    margin-bottom: -$hero-action-pane-height-small;
 
     @include media-query(medium) {
-        top: -160px;
-        margin: 0 auto;
-        max-width: $site-width;
+        height: $hero-action-pane-height-medium;
+        top: -$hero-action-pane-height-medium;
+        margin-bottom: -$hero-action-pane-height-medium;
+        pointer-events: auto;
+    }
+
+    &__links {
+        position: relative;
+        grid-column: 3 / span 4;
+        display: none;
+        background-color: $color--white;
+        padding: ($gutter * 3) 0;
+
+        @include media-query(large) {
+            display: grid;
+            max-height: $hero-action-pane-height-medium;
+            grid-template-columns: 1fr 1fr 27.5%;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            display: block;
+            width: ($gutter * 4);
+            height: $hero-action-pane-height-medium;
+            transform: translate3d(-80px, 0, 0);
+            background-color: $color--white;
+        }
+
     }
 
     &__cta {
-        padding-left: ($gutter);
+        grid-column: 1;
+        padding-bottom: ($gutter * 1.75);
 
-        @include media-query(medium) {
-            padding-left: ($gutter * 3);
+        @include media-query(large) {
+            padding-bottom: 0;
+            padding-top: ($gutter);
         }
+
     }
 
     &__cta-link {
@@ -23,6 +55,7 @@
         width: 170px;
         display: block;
         padding-top: ($gutter / 2);
+        pointer-events: auto;
 
         @include media-query(medium) {
             width: 245px;

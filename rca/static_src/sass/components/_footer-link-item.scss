@@ -11,10 +11,10 @@
         @include font-size(xxs);
         @include underline-hover();
         position: relative;
-        color: $color--link-darkbg;
+        color: $color--white;
 
         &:hover {
-            color: $color--link-darkbg;
+            color: $color--white;
         }
     }
 }
