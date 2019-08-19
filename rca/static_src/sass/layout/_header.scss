@@ -281,14 +281,14 @@
         }
     }
 
-    .header-content-light & {
+    .theme-light & {
         #{$root}__search-toggle,
         #{$root}__menu-toggle {
             color: $color--white;
         }
     }
 
-    .header-content-dark & {
+    .theme-dark & {
         #{$root}__search-toggle,
         #{$root}__menu-toggle {
             color: $color--black;

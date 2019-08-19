@@ -13,13 +13,13 @@
         stroke: $color--white;
     }
 
-    .header-content-dark .header & {
+    .theme-dark .header & {
         #{$root}__toggle-icon {
             stroke: $color--black;
         }
     }
 
-    .header-content-light .header & {
+    .theme-light .header & {
         #{$root}__toggle-icon {
             stroke: $color--white;
         }
