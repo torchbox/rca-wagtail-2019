@@ -417,7 +417,7 @@ class ProgrammePage(BasePage):
         ]
         # Set the page tab titles
         context["tabs"] = [
-            {"title": "Programme Overview"},
+            {"title": "Overview"},
             {"title": "Curriculum"},
             {"title": "Requirements"},
             {"title": "Fees and funding"},
