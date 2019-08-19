@@ -1,0 +1,84 @@
+.stat-block {
+    $root: &;
+
+    &__heading {
+        @include media-query(large) {
+            grid-column: 2 / span 1;
+        }
+    }
+
+    &__item {
+        grid-column: 1 / span 2;
+
+        @include media-query(medium) {
+            &:nth-child(even) {
+                grid-column: 2 / span 2;
+            }
+
+            &:nth-child(odd) {
+                grid-column: 1 / span 2;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+
+                // keep the next stat underneath
+                #{$root}__meta {
+                    grid-column: 1 / span 2;
+                }
+            }
+        }
+
+        @include media-query(large) {
+            &:nth-child(even) {
+                grid-column: 4 / span 1;
+            }
+
+            &:nth-child(odd) {
+                grid-column: 3 / span 2;
+            }
+        }
+    }
+
+    &__number-container {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    &__number {
+        font-size: 80px;
+        line-height: 112px;
+
+        @include media-query(medium) {
+            font-size: 100px;
+            line-height: 140px;
+        }
+
+        @include media-query(large) {
+            font-size: 130px;
+            // line-height: 182px;
+        }
+    }
+
+    &__before,
+    &__after {
+        font-size: 36px;
+        line-height: 50px;
+
+        @include media-query(medium) {
+            font-size: 40px;
+            line-height: 56px;
+        }
+
+        @include media-query(large) {
+            font-size: 60px;
+            line-height: 84px;
+        }
+    }
+
+    &__meta {
+        margin-bottom: 0;
+    }
+
+    &__body {
+        margin: $gutter 0 0;
+    }
+}
