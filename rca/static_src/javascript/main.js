@@ -8,12 +8,12 @@ import CookieWarning from './components/cookie-message';
 import Accordion from './components/accordion';
 import Carousel from './components/carousel';
 import Slideshow from './components/slideshow';
-import ProgressBar from './components/progress-bar';
 import VideoModal from './components/video-modal';
 import RelatedContent from './components/related-content';
 import Tabs from './components/tabs';
 import Sticky from './components/position-sticky-event';
 import './components/sticky-header';
+import './components/lazyload-images';
 import './components/outdated-banner';
 
 import '../sass/main.scss';
@@ -65,12 +65,6 @@ document.addEventListener('DOMContentLoaded', function() {
         subnavBack.addEventListener('click', () => {
             subnavBack.parentNode.classList.remove('is-visible');
         });
-    }
-
-    for (const progressbar of document.querySelectorAll(
-        ProgressBar.selector(),
-    )) {
-        new ProgressBar(progressbar);
     }
 
     for (const videomodal of document.querySelectorAll(VideoModal.selector())) {

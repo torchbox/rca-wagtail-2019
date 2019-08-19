@@ -1,8 +1,12 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 <div class="card {% if item.image %}card--image{% endif %} {% if item.person %}card--person{% endif %}">
+    {% if item.image %}
+        {% image card.image fill-80x46 as imageSmall %}
+        {% image card.image fill-828x472 as imageLarge %}
+    {% endif %}
     <div class="card__container">
         {% if item.link %}<a href="{{ item.link }}" class="card__image-container">{% endif %}
-            {% if item.image %}{% image card.image fill-828x472 class="card__image" %}{% endif %}
+            {% if item.image %}{% include "patterns/atoms/image/image--lazyload.html" with imageSmall=imageSmall width=828 height=472 imageLarge=imageLarge classList='card__image' %}{% endif %}
         {% if item.link %}</a>{% endif %}
         <div class="card__content-container">
             <div class="card__content">

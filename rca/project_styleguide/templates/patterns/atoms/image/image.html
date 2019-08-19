@@ -1,3 +1,8 @@
+{% load wagtailimages_tags %}
+
+{% image item.image fill-100x37 as imageSmall %}
+{% image item.image fill-1134x595 as imageLarge %}
+
 <div class="image {{ modifier }}">
-    <img src="//placekitten.com/1134/595" alt="" class="image__item">
+    {% include "patterns/atoms/image/image--lazyload.html" with imageSmall=imageSmall width=1134 height=595 imageLarge=imageLarge classList='image__item' %}
 </div>

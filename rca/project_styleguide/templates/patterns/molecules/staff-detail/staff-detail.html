@@ -1,7 +1,12 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 <div class="staff-detail">
-    {% image person.image fill-277x277 class="staff-detail__image" %}
+
+    {% image person.image fill-50x50 as imageSmall %}
+    {% image person.image fill-277x277 as imageLarge %}
+
+    {% include "patterns/atoms/image/image--lazyload.html" with imageSmall=imageSmall width=277 height=277 imageLarge=imageLarge classList='staff-detail__image' %}
+
     <div class="staff-detail__content">
         <div class="staff-detail__overview">
             <h3 class="staff-detail__heading heading heading--five">{{ title }}</h3>

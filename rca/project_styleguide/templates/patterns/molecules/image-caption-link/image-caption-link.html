@@ -2,7 +2,11 @@
 
 <div class="image-caption-link" {% if modal and video %}data-video-modal{% endif %}>
     <div {% if modal %}data-modal-open{% endif %} href="#" class="image-caption-link__link">
-        {% image curriculum_intro.image fill-900x415 class="image-caption-link__image" %}
+        {% image curriculum_intro.image fill-80x37 as imageSmall %}
+        {% image curriculum_intro.image fill-900x415 as imageLarge %}
+
+        {% include "patterns/atoms/image/image--lazyload.html" with imageSmall=imageSmall width=900 height=415 imageLarge=imageLarge classList='image-caption-link__image' %}
+
         {% if modal %}
             <svg width="24" height="24" class="image-caption-link__image-icon"><use xlink:href="#play-icon"></use></svg>
             {% include "patterns/molecules/video-modal/video-modal.html" with open_link=False %}

@@ -7,6 +7,13 @@ context:
 
 tags:
   image:
-    slide.image fill-829x585 class="slide__image":
-      raw: |
-        <img src="//placekitten.com/829/585" alt="kitten" class="slide__image">
+    slide.image fill-100x71 as imageSmall:
+      target_var: imageSmall
+      raw:
+        url: '//placekitten.com/100/71'
+    slide.image fill-829x585 as imageLarge:
+      target_var: imageLarge
+      raw:
+        url: '//placekitten.com/829/585'
+        width: '829'
+        height: '585'

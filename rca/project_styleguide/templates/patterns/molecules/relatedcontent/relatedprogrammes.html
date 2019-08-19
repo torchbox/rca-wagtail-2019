@@ -33,7 +33,7 @@
                         </p>
                         {% image related_item.hero_image fill-500x500 as programme_image %}
                         <div class="related-content__image-container">
-                            <img class="related-content__image {% if forloop.first %}is-visible{% endif %}  slide__image" src="{{programme_image.url}}" data-image="{{forloop.counter}}">
+                            <img class="related-content__image {% if forloop.first %}is-visible{% endif %} slide__image" src="{{programme_image.url}}" data-image="{{forloop.counter}}">
                         </div>
                     {% endfor %}
 
