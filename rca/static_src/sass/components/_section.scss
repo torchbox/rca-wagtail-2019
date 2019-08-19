@@ -102,6 +102,32 @@
                 margin-bottom: ($gutter * 5);
             }
         }
+
+        &--transparent {
+            background-color: transparent;
+        }
+
+        .bg--stat-block & {
+            &:first-child {
+                #{$root}__notch-fill {
+                    background-color: $color--black;
+
+                    &::before {
+                        background-color: $color--black;
+                    }
+                }
+            }
+
+            &:last-child {
+                #{$root}__notch-fill {
+                    background-color: $color--white;
+
+                    &::before {
+                        background-color: $color--white;
+                    }
+                }
+            }
+        }
     }
 
     &__notch-fill {

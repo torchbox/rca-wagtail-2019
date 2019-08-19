@@ -1,4 +1,7 @@
-<section class="section section--stat-block" style="--stat-block-bg-image: url('{{bg_image_url}}')">
+<section class="section section--stat-block bg bg--stat-block" style="--stat-block-bg-image: url('{{bg_image_url}}')">
+    <div class="section__notch section__notch--transparent section__notch--opposite">
+        <div class="section__notch-fill section__notch-fill--second-col"></div>
+    </div>
     <div class="section__container stat-block">
         <div class="stat-block__header grid">
             <h3 class="stat-block__heading heading heading--three">{{heading}}</h3>
@@ -29,5 +32,8 @@
                 </div>
             </div>
         {% endfor %}
+    </div>
+    <div class="section__notch">
+        <div class="section__notch-fill section__notch-fill--second-col"></div>
     </div>
 </section>

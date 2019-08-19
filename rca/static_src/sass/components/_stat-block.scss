@@ -1,5 +1,10 @@
 .stat-block {
     $root: &;
+    padding: ($gutter * 3) 0;
+
+    @include media-query(medium) {
+        padding: ($gutter * 6) 0;
+    }
 
     &__header {
         @include media-query(large) {
