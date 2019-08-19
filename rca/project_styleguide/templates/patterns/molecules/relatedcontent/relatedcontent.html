@@ -35,7 +35,8 @@
 
                     {% for related_item in related_items %}
                         <div class="related-content__image-container">
-                            <img class="related-content__image {% if forloop.first %}is-visible{% endif %}" src="{{related_item.img}}" data-image="{{forloop.counter}}">
+                            {% image related_item.img fill-250x250 as relatedImage %}
+                            <img class="related-content__image {% if forloop.first %}is-visible{% endif %}" src="{{relatedImage.img}}" height="{{relatedImage.height}}" width="{{relatedImage.width}}" alt="{{relatedImage.alt}}" data-image="{{forloop.counter}}">
                         </div>
                     {% endfor %}
 
