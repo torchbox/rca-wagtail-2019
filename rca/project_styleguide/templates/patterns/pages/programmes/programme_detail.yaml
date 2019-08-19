@@ -57,6 +57,17 @@ context:
     contact_link_url: '#'
     contact_link_text: 'Register your interest with us here'
     contact_title: 'Contact us'
+    pathways_summary: 'MA Animation comprises of three specialist pathways one of which students select as part of their application.'
+    pathway_blocks:
+      - path:
+        value:
+          preview_text: 'Extending and disrupting the tools, intent and role of graphic design.'
+          body: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
+          heading: 'Graphic Design'
+          link:
+            title: 'Find out more'
+            url: '#'
+    curriculum_video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
   related_programmes:
     - item:
       title: Related programmes

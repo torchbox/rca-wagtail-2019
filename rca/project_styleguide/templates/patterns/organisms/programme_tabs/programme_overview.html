@@ -16,7 +16,7 @@
                 <p>
                 {{ page.programme_description_copy|safe }}
                 <div class="programme-overview__pathways">
-                    {% include "patterns/molecules/pathways/pathways.html" %}
+                    {% include "patterns/molecules/pathways/pathways.html" with summary=page.pathways_summary pathways=page.pathway_blocks %}
                 </div>
             </div>
         </div>

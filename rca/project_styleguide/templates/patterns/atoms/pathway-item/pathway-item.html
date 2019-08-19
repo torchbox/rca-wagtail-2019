@@ -1,6 +1,10 @@
 <div class="pathway-item">
+    {% if path.heading %}
     <h4 class="pathway-item__heading body body--one">
-        <div class="pathway-item__heading-container">{{ path.title }}</div>
+        <div class="pathway-item__heading-container">{{ path.heading }}</div>
     </h4>
-    <p class="pathway-item__description body body--two">{{ path.body }}</p>
+    {% endif %}
+    {% if path.preview_text %}
+        <p class="pathway-item__description body body--two">{{ path.preview_text }}</p>
+    {% endif %}
 </div>
