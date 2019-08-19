@@ -5,12 +5,52 @@
 
     {% include "patterns/molecules/hero/hero.html" with modifier="home" %}
 
-    <h1>{{ page.title }}</h1>
+    <section class="section bg bg--dark">
+        <div class="section__container">
+            Propostion CTA here
+        </div>
+    </section>
 
-    {{ page.strapline }}
+    <section class="section bg bg--light">
+        <div class="section__container">
+            Transformational stories here
+        </div>
+    </section>
 
-    {% include "patterns/molecules/cta/call_to_action.html" with call_to_action=page.call_to_action %}
+    <section class="section bg bg--dark">
+        <div class="section__container">
+            Alumni stories here
+        </div>
+    </section>
 
-    {% include "patterns/molecules/share/share.html" %}
+    <section class="section bg bg--dark">
+        <div class="section__container">
+            Statistics module here
+        </div>
+    </section>
 
+    <section class="section bg bg--light">
+        <div class="section__container">
+            Partnership module here
+        </div>
+    </section>
+
+    <section class="section section--end bg bg--dark">
+
+        <div class="section__notch section__notch--top">
+            <div class="section__notch-fill section__notch-fill--third-col"></div>
+        </div>
+
+        <div class="section__container">
+
+            <header class="section__header grid">
+                <h3 class="section__heading section__heading--primary heading heading--two">News & events</h3>
+            </header>
+
+            <div class="section__content grid">
+                {% include "patterns/organisms/news/news.html" %}
+            </div>
+
+        </div>
+    </section>
 {% endblock %}
