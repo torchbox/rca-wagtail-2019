@@ -6,7 +6,7 @@
     {% endif %}
     <div class="grid">
         {% for accordion in accordions %}
-            {% include "patterns/molecules/accordion/accordion.html" with preview=preview %}
+            {% include "patterns/molecules/accordion/accordion.html" with accordion=accordion.value %}
         {% endfor %}
     </div>
 </div>

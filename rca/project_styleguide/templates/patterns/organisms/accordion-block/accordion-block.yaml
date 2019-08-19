@@ -1,6 +1,11 @@
 context:
   title: What you'll cover
   accordions:
-    - item
-    - item
-    - item
+    - accordion:
+      value:
+        preview_text: 'Extending and disrupting the tools, intent and role of graphic design.'
+        body: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
+        heading: 'Graphic Design'
+        link:
+          title: 'Find out more'
+          url: '#'
