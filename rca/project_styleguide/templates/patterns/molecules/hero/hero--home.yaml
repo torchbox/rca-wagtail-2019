@@ -1,0 +1,19 @@
+context:
+  modifier: home
+  cta: true
+  scrolldown: true
+
+tags:
+  image:
+    page.hero_image fill-320x568 as imageSmall:
+      target_var: imageSmall
+      raw:
+        url: '//placekitten.com/320/568'
+    page.hero_image fill-768x1024 as imageMedium:
+      target_var: imageMedium
+      raw:
+        url: '//placekitten.com/768/1024'
+    page.hero_image fill-1440x900 as imageLarge:
+      target_var: imageLarge
+      raw:
+        url: '//placekitten.com/1440/900'

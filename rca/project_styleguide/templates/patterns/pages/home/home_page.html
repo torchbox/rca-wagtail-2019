@@ -3,14 +3,76 @@
 
 {% block content %}
 
-    {% include "patterns/molecules/hero/hero.html" with modifier="home" %}
+    {% include "patterns/molecules/hero/hero--home.html" %}
 
-    <h1>{{ page.title }}</h1>
+    <div class="page page--overlay" id="content">
 
-    {{ page.strapline }}
+        <div class="hero-action-pane">
+            <div class="hero-action-pane__cta">
+                <a href="#" class="hero-action-pane__cta-link">
+                    <div class="hero-action-pane__cta-heading">
+                        Apply for programmes starting 2020
+                    </div>
+                    <div class="hero-action-pane__cta-sub-heading">
+                        Shape your future
+                    </div>
+                    <svg width="12" height="8" class="hero-action-pane__cta-icon"><use xlink:href="#arrow"></use></svg>
+                </a>
+            </div>
+        </div>
 
-    {% include "patterns/molecules/cta/call_to_action.html" with call_to_action=page.call_to_action %}
+        <h1>{{ page.title }}</h1>
 
-    {% include "patterns/molecules/share/share.html" %}
+        <div class="page__content">
+
+            <section class="section section--start bg bg--dark">
+
+                Propersition statements
+
+            </section>
+
+            <section class="section bg bg--light">
+
+                Transformational stories
+
+            </section>
+
+            <section class="section bg bg--dark">
+
+                Alumni stories
+
+            </section>
+
+            Statistics
+
+
+            <section class="section bg bg--light">
+
+                Partnership module
+
+            </section>
+
+            <section class="section section--end bg bg--dark">
+
+                <div class="section__notch section__notch--top">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+
+                <div class="section__container">
+
+                    <header class="section__header grid">
+                        <h3 class="section__heading section__heading--primary heading heading--two">News & events</h3>
+                    </header>
+
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/news/news.html" %}
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+    </div>
 
 {% endblock %}

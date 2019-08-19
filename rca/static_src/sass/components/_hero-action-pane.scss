@@ -1,0 +1,140 @@
+.hero-action-pane {
+    $root: &;
+    position: relative;
+    top: -110px;
+    max-width: 65%;
+
+    @include media-query(medium) {
+        top: -160px;
+        margin: 0 auto;
+        max-width: $site-width;
+    }
+
+    &__cta {
+        padding-left: ($gutter);
+
+        @include media-query(medium) {
+            padding-left: ($gutter * 3);
+        }
+
+    }
+
+    &__cta-link {
+        position: relative;
+        width: 170px;
+        display: block;
+        padding-top: ($gutter / 2);
+
+        @include media-query(medium) {
+            width: 245px;
+        }
+
+        @include media-query(large) {
+            width: 220px;
+        }
+
+        &::after {
+            content: '';
+            display: block;
+            opacity: 0;
+            position: absolute;
+            top: -1px;
+            right: 0;
+            height: 1px;
+            width: 5px;
+            transition: transform $transition;
+
+            @include media-query(medium) {
+                height: 2px;
+                top: -2px;
+            }
+
+        }
+
+        &:hover {
+
+            &::after {
+                transform: translate3d(5px, 0, 0);
+                opacity: 1;
+            }
+
+            #{$root}__cta-icon {
+                transform: rotate(-45deg) translate3d(5px, 0, 0);
+            }
+
+        }
+
+    }
+
+    &__cta-heading {
+        @include font-size(xs);
+        color: currentColor;
+        margin-bottom: ($gutter / 2);
+        padding-right: ($gutter / 2);
+    }
+
+    &__cta-sub-heading {
+        @include font-size(xxxs);
+        color: currentColor;
+        padding-right: ($gutter / 2);
+    }
+
+    &__cta-icon {
+        position: absolute;
+        left: 161px;
+        top: ($gutter / 2);
+        transition: transform $transition;
+        transform: rotate(-45deg) translate3d(0, 0, 0);
+
+        @include media-query(medium) {
+            left: 234px;
+        }
+
+        @include media-query(large) {
+            left: 209px;
+        }
+    }
+
+    .theme-dark & {
+
+        #{$root}__cta-link {
+            color: $color--black;
+            border-top: 1px solid $color--black;
+
+            @include media-query(medium) {
+                border-top: 2px solid $color--black;
+            }
+
+            &::after {
+                background-color: $color--black;
+            }
+        }
+
+        #{$root}__cta-icon {
+            fill: $color--black;
+        }
+
+    }
+
+    .theme-light & {
+
+        #{$root}__cta-link {
+            color: $color--white;
+            border-top: 1px solid $color--white;
+
+            @include media-query(medium) {
+                border-top: 2px solid $color--white;
+            }
+
+            &::after {
+                background-color: $color--white;
+            }
+        }
+
+        #{$root}__cta-icon {
+            fill: $color--white;
+        }
+
+    }
+
+}

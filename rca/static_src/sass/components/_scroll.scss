@@ -1,8 +1,7 @@
 .scroll {
     $root: &;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: inline-block;
+    text-align: center;
 
     &__label {
         @include font-size(xxxs);
