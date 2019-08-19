@@ -11,14 +11,6 @@ context:
 
 tags:
   image:
-    card.image fill-828x472 class="card__image":
-      raw: |
-        <img src="//placekitten.com/828/472" height="472" width="828" alt="" class="card__image">
-
-
-
-tags:
-  image:
     card.image fill-80x46 as imageSmall:
       target_var: imageSmall
       raw:
