@@ -27,6 +27,7 @@
     <body class="app {% block body_class %}app--{{ page.get_verbose_name|slugify }}{% endblock %} {% block header_class %}header-content-light{% endblock %}">
         {% block body_top %}{% endblock %}
 
+        {% include "patterns/molecules/outdated-banner/outdated-banner.html" %}
         {% include "patterns/atoms/sprites/sprites.html" %}
 
         {% wagtailuserbar %}
