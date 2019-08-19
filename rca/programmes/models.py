@@ -177,7 +177,10 @@ class ProgrammePage(BasePage):
         [
             (
                 "Link_to_person",
-                StructBlock([("name", CharBlock()), ("link", URLBlock())], icon="link"),
+                StructBlock(
+                    [("name", CharBlock()), ("link", URLBlock(required=False))],
+                    icon="link",
+                ),
             )
         ],
         blank=True,
