@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("images", "0002_customimage_file_hash"),
-        ("programmes", "0004_add_curriculum_fields"),
+        ("programmes", "0003_remaining_overview_section_fields"),
     ]
 
     operations = [

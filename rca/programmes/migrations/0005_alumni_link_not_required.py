@@ -7,7 +7,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [("programmes", "0003_remaining_overview_section_fields")]
+    dependencies = [("programmes", "0004_add_curriculum_fields")]
 
     operations = [
         migrations.AlterField(
