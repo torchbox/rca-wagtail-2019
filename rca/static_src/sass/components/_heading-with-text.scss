@@ -1,0 +1,32 @@
+.heading-with-text {
+    &__heading {
+        grid-column: 1 / span 2;
+        margin-bottom: ($gutter * 1.5);
+
+        @include media-query(medium) {
+            grid-column: 1 / span 1;
+        }
+
+        @include media-query(large) {
+            grid-column: 2 / span 1;
+        }
+    }
+
+    &__body,
+    &__subheading {
+        grid-column: 1 / span 2;
+        margin-bottom: $gutter;
+
+        @include media-query(medium) {
+            grid-column: 2 / span 1;
+        }
+
+        @include media-query(large) {
+            grid-column: 3 / span 2;
+        }
+    }
+
+    &__subheading {
+        margin-bottom: $gutter;
+    }
+}

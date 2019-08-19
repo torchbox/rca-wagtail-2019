@@ -1,0 +1,17 @@
+.accordion-block {
+    overflow: hidden;
+    padding: ($gutter * 4) 0;
+
+    @include media-query(large) {
+        padding: ($gutter * 4) 0 ($gutter * 8);
+    }
+
+    &__heading {
+        grid-column: 1 / span 1;
+        margin-bottom: $gutter;
+
+        @include media-query(large) {
+            grid-column: 2 / span 1;
+        }
+    }
+}
