@@ -1,4 +1,5 @@
 context:
+  bg_image_url: '//placekitten.com/1440/1100'
   heading: Learnings that last a lifetime
   stats:
     - stat:

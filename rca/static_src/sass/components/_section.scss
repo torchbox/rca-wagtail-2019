@@ -28,6 +28,29 @@
         }
     }
 
+    &--stat-block {
+        min-height: 100%;
+        position: relative;
+        overflow: hidden;
+        color: $color--white;
+        background-color: $color--black-36;
+
+        &::before {
+            @include z-index(under);
+            content: '';
+            background-image: var(--stat-block-bg-image); // set inline in stat-block.html
+            background-repeat: no-repeat;
+            background-position: center top;
+            background-size: cover;
+            height: 100%;
+            left: 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            will-change: transform;
+        }
+    }
+
     &__heading {
         grid-column: 1 / span 2;
 
