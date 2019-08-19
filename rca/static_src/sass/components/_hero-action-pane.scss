@@ -16,7 +16,6 @@
         @include media-query(medium) {
             padding-left: ($gutter * 3);
         }
-
     }
 
     &__cta-link {
@@ -48,11 +47,9 @@
                 height: 2px;
                 top: -2px;
             }
-
         }
 
         &:hover {
-
             &::after {
                 transform: translate3d(5px, 0, 0);
                 opacity: 1;
@@ -61,9 +58,7 @@
             #{$root}__cta-icon {
                 transform: rotate(-45deg) translate3d(5px, 0, 0);
             }
-
         }
-
     }
 
     &__cta-heading {
@@ -96,7 +91,6 @@
     }
 
     .theme-dark & {
-
         #{$root}__cta-link {
             color: $color--black;
             border-top: 1px solid $color--black;
@@ -113,11 +107,9 @@
         #{$root}__cta-icon {
             fill: $color--black;
         }
-
     }
 
     .theme-light & {
-
         #{$root}__cta-link {
             color: $color--white;
             border-top: 1px solid $color--white;
@@ -134,7 +126,5 @@
         #{$root}__cta-icon {
             fill: $color--white;
         }
-
     }
-
 }
