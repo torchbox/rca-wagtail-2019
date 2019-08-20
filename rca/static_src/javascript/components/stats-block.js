@@ -1,5 +1,5 @@
-function handler(entries, observer) {
-    for (entry of entries) {
+function handler(entries) {
+    for (let entry of entries) {
         if (entry.isIntersecting) {
             entry.target.classList.add('section--before-fixed');
         } else {
