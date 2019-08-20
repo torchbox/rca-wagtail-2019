@@ -7,6 +7,7 @@ import MobileSubMenu from './components/mobile-sub-menu';
 import CookieWarning from './components/cookie-message';
 import Accordion from './components/accordion';
 import Carousel from './components/carousel';
+import SquareCarousel from './components/carousel-square';
 import Slideshow from './components/slideshow';
 import VideoModal from './components/video-modal';
 import RelatedContent from './components/related-content';
@@ -30,6 +31,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     for (const carousel of document.querySelectorAll(Carousel.selector())) {
         new Carousel(carousel);
+    }
+
+    for (const squareCarousel of document.querySelectorAll(SquareCarousel.selector())) {
+        new SquareCarousel(squareCarousel);
     }
 
     for (const slideshow of document.querySelectorAll(Slideshow.selector())) {

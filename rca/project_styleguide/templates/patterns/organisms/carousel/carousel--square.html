@@ -3,18 +3,11 @@
         <ul class="carousel__slides glide__slides" aria-live="polite">
             {% for slide in carousel %}
             <li class="carousel__item glide__slide">
-                {% include 'patterns/molecules/card/card.html' with item=slide %}
+                {% include 'patterns/molecules/card/card--square.html' with item=slide %}
             </li>
             {% endfor %}
         </ul>
-    </div>
-    <div class="carousel__controls">
-        <div class="carousel__bullet-container" data-glide-el="controls[nav]">
-            {% for slide in carousel %}
-                <button class="carousel__bullet" data-glide-dir="={{ forloop.counter }}"></button>
-            {% endfor %}
-        </div>
-        <div class="carousel__controls-group" data-glide-el="controls">
+        <div class="carousel__controls-group grid" data-glide-el="controls">
             <button class="carousel__button carousel__button--prev button" aria-label="Previous" data-glide-dir="<">
                 <svg class="carousel__button-icon" width="46" height="46">
                     <use xlink:href="#arrow-left" />
@@ -25,6 +18,13 @@
                     <use xlink:href="#arrow-right" />
                 </svg>
             </button>
+        </div>
+    </div>
+    <div class="carousel__controls">
+        <div class="carousel__bullet-container" data-glide-el="controls[nav]">
+            {% for slide in carousel %}
+                <button class="carousel__bullet" data-glide-dir="={{ forloop.counter }}"></button>
+            {% endfor %}
         </div>
     </div>
 </div>

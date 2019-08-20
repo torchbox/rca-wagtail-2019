@@ -1,8 +1,8 @@
 import Glide from '@glidejs/glide';
 
-class Slideshow {
+class SquareCarousel {
     static selector() {
-        return '[data-slideshow]';
+        return '[data-square-carousel]';
     }
 
     constructor(node) {
@@ -35,29 +35,34 @@ class Slideshow {
     }
 
     getMargins() {
+        // Get outer grid size for peek value
         var leftEdge = document.querySelector('[data-left-edge]');
         this.leftEdgeCoords = leftEdge.getBoundingClientRect();
+
+        // Set custom css property to give padding on slide
+        var gridSelector = document.querySelector('[data-grid-center]');
+        this.gridWidth = gridSelector.getBoundingClientRect();
+        document.documentElement.style.setProperty('--grid-width', this.gridWidth.width + 'px');
     }
 
     createSlideshow() {
         this.slideshow = new Glide(this.node, {
             type: 'slider',
             startAt: 0,
-            gap: 0,
-            keyboard: true,
-            perTouch: 1,
-            touchRatio: 0.5,
             perView: 1,
             rewind: false,
             autoplay: false,
             breakpoints: {
                 598: {
                     peek: { before: 20, after: 20 },
+                    gap: 20
                 },
                 1022: {
                     peek: { before: 60, after: 60 },
+                    gap: 0
                 },
                 4000: {
+                    gap: 0,
                     peek: {
                         before: this.leftEdgeCoords.right,
                         after: this.leftEdgeCoords.right,
@@ -104,4 +109,4 @@ class Slideshow {
     }
 }
 
-export default Slideshow;
+export default SquareCarousel;
