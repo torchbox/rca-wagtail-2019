@@ -9,7 +9,7 @@ function scrollamaInit() {
     scroller
         .setup({
             step: '.js-menu-on',
-            offset: '0',
+            offset: '0.1',
         })
         .onStepEnter(() => {
             document.body.classList.remove('show-nav');
