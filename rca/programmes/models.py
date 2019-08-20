@@ -228,13 +228,22 @@ class ProgrammePage(BasePage):
     # The summary can't be part of the block because it needs to be rendered in multiple places
     # in the template so it's best to keep it separate
     pathways_information = models.TextField(blank=True)
-    # pathway_blocks = StreamField(AccordionBlockWithTitle())
     pathway_blocks = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name="Accordion blocks",
     )
     what_you_will_cover_blocks = StreamField(
+        [("accordion_block", AccordionBlockWithTitle())],
+        blank=True,
+        verbose_name="Accordion blocks",
+    )
+
+    # Requirements
+    requirements_subtitle = models.CharField(blank=True, max_length=100)
+    requirements_text = models.CharField(blank=True, max_length=250)
+
+    requirements_blocks = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name="Accordion blocks",
@@ -359,7 +368,11 @@ class ProgrammePage(BasePage):
         ),
     ]
 
-    programme_requirements_pannels = []
+    programme_requirements_pannels = [
+        FieldPanel("requirements_subtitle"),
+        FieldPanel("requirements_text", widget=forms.Textarea(attrs={"rows": "4"})),
+        StreamFieldPanel("requirements_blocks"),
+    ]
     programme_fees_and_funding_panels = []
     programme_apply_pannels = []
 
