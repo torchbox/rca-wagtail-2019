@@ -81,7 +81,8 @@
         opacity: 0;
     }
 
-    .app--homepage.headroom--not-top .header & {
+    .app--homepage.headroom--not-top .header &,
+    .app--homepage.show-nav .header & {
         opacity: 1;
     }
 

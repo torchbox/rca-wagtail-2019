@@ -40,6 +40,11 @@
         pointer-events: none;
     }
 
+    &__menu-toggler {
+        display: block;
+        height: 90vh;
+    }
+
     .theme-dark & {
         color: $color--black;
         background-color: $color--white;
