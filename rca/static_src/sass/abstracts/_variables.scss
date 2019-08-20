@@ -27,17 +27,14 @@ $color--meta: $color--light-grey;
 
 // --------------------------------- Fonts --------------------------------------
 
-$font--primary: 'Benton Sans', 'BentonSans', 'Helvetica Neue', Arial, Helvetica,
+$font--primary: 'benton-sans', 'Benton Sans', 'BentonSans', 'Helvetica Neue', Arial, Helvetica,
     Sans-Serif;
-$font--secondary: 'Benton Sans Medium', 'BentonSans-Medium', 'Helvetica Neue',
+$font--secondary: 'benton-sans', 'Benton Sans Medium', 'BentonSans-Medium', 'Helvetica Neue',
     Arial, Helvetica, Sans-Serif;
 
 // Font weights
-$weight--bold: 700;
-$weight--semibold: 600;
-$weight--medium: 500;
-$weight--normal: 400;
-$weight--light: 200;
+$weight--medium: 600;
+$weight--normal: 500;
 
 // Line heights
 $line-height-large: 122%;
