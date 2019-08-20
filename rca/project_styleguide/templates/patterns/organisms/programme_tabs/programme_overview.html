@@ -16,7 +16,7 @@
                 <p>
                 {{ page.programme_description_copy|safe }}
                 <div class="programme-overview__pathways">
-                    {% include "patterns/molecules/pathways/pathways.html" %}
+                    {% include "patterns/molecules/pathways/pathways.html" with summary=page.pathways_summary pathways=page.pathway_blocks %}
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@
 
     {% include "patterns/organisms/facilities/facilities.html" with link=page.facilities_link title='Facilities' introduction=page.facilities_intro link_text="See all college facilities"  body=page.facilities_copy slideshow=page.facilities_gallery  slideshow=page.facilities_gallery %}
 
-    {% include "patterns/organisms/featured-alumni/featured-alumni.html" with title="Notable Alumni" introduction=page.notable_alumni_text alumni_links=page.notable_alumni_links %}
+    {% include "patterns/organisms/featured-alumni/featured-alumni.html" with title="Our Alumni" introduction=page.notable_alumni_text alumni_links=page.notable_alumni_links %}
 
 </section>
 

@@ -6,8 +6,14 @@
     <div class="section__notch section__notch--top">
         <div class="section__notch-fill section__notch-fill--second-col"></div>
     </div>
-    {% include "patterns/molecules/heading-with-text/heading-with-text.html" %}
-    {% include "patterns/organisms/accordion-block/accordion-block.html" with preview=True title=False %}
+    {% if page.pathway_blocks %}
+        {% include "patterns/molecules/heading-with-text/heading-with-text.html" with heading='Pathways' subheading=page.pathways_summary body=page.pathways_information %}
+        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordions=page.pathway_blocks %}
+    {% endif %}
+
+    {% if page.what_you_will_cover_blocks %}
+        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordions=page.what_you_will_cover_blocks title='What you\'ll cover'%}
+    {% endif %}
 </section>
 
 <section class="section section--end bg bg--light">

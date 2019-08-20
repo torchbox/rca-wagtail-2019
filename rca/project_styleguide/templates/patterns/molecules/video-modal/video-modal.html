@@ -1,4 +1,4 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailembeds_tags %}
 <div {% if open_link %}data-video-modal{% endif %}>
     {% if open_link %}
         <a data-modal-open>Open video</a>
@@ -8,7 +8,7 @@
             <svg class="video-modal__close-icon" width="20" height="20"><use xlink:href="#close"></use></svg>
         </a>
         <div class="video-modal__container">
-            {% include_block value.embed %}
+            {% embed video %}
         </div>
     </div>
 </div>

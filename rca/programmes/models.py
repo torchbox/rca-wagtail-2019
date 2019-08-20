@@ -19,11 +19,12 @@ from wagtail.core.blocks import CharBlock, StructBlock, URLBlock
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable
 from wagtail.documents.edit_handlers import DocumentChooserPanel
+from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
-from rca.utils.blocks import GalleryBlock
+from rca.utils.blocks import AccordionBlockWithTitle, GalleryBlock
 from rca.utils.models import BasePage, RelatedPage
 
 
@@ -98,7 +99,8 @@ class ProgrammePage(BasePage):
     related_content_title = models.CharField(
         blank=True,
         max_length=120,
-        help_text="Large title displayed above the related content items, EG 'More opportunities to study at the RCA'",
+        help_text="Large title displayed above the related content items, "
+        "e.g. 'More opportunities to study at the RCA'",
     )
 
     # Key Details
@@ -177,7 +179,10 @@ class ProgrammePage(BasePage):
         [
             (
                 "Link_to_person",
-                StructBlock([("name", CharBlock()), ("link", URLBlock())], icon="link"),
+                StructBlock(
+                    [("name", CharBlock()), ("link", URLBlock(required=False))],
+                    icon="link",
+                ),
             )
         ],
         blank=True,
@@ -195,9 +200,54 @@ class ProgrammePage(BasePage):
         related_name="+",
     )
 
+    # TODO
     # Staff (api fetch)
     # Alumni Stories Carousel (api fetch)
-    # Related Content (news and events)
+    # Related Content (news and events api fetch)
+
+    # Programme Curriculumm
+    # Curriculum
+    curriculum_image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    curriculum_subtitle = models.CharField(blank=True, max_length=100)
+    curriculum_video_caption = models.CharField(
+        blank=True,
+        max_length=80,
+        help_text="The text dipsplayed next to the video play button",
+    )
+    curriculum_video = models.URLField(blank=True)
+    curriculum_text = models.TextField(blank=True, max_length=250)
+
+    # Pathways
+    pathways_summary = models.CharField(blank=True, max_length=150)
+    # The summary can't be part of the block because it needs to be rendered in multiple places
+    # in the template so it's best to keep it separate
+    pathways_information = models.TextField(blank=True)
+    pathway_blocks = StreamField(
+        [("accordion_block", AccordionBlockWithTitle())],
+        blank=True,
+        verbose_name="Accordion blocks",
+    )
+    what_you_will_cover_blocks = StreamField(
+        [("accordion_block", AccordionBlockWithTitle())],
+        blank=True,
+        verbose_name="Accordion blocks",
+    )
+
+    # Requirements
+    requirements_subtitle = models.CharField(blank=True, max_length=100)
+    requirements_text = models.CharField(blank=True, max_length=250)
+
+    requirements_blocks = StreamField(
+        [("accordion_block", AccordionBlockWithTitle())],
+        blank=True,
+        verbose_name="Accordion blocks",
+    )
 
     content_panels = BasePage.content_panels + [
         # Taxonomy, relationships etc
@@ -224,7 +274,7 @@ class ProgrammePage(BasePage):
             heading="Related content",
         ),
     ]
-    key_details_panel = [
+    key_details_panels = [
         MultiFieldPanel(
             [
                 FieldPanel("programme_details_credits"),
@@ -291,12 +341,50 @@ class ProgrammePage(BasePage):
             heading="Contact information",
         ),
     ]
+    programme_curriculum_pannels = [
+        MultiFieldPanel(
+            [
+                ImageChooserPanel("curriculum_image"),
+                FieldPanel("curriculum_subtitle"),
+                FieldPanel("curriculum_video"),
+                FieldPanel("curriculum_video_caption"),
+                FieldPanel("curriculum_text"),
+            ],
+            heading="Curriculum introduction",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("pathways_summary"),
+                FieldPanel(
+                    "pathways_information", widget=forms.Textarea(attrs={"rows": "4"})
+                ),
+                StreamFieldPanel("pathway_blocks"),
+            ],
+            heading="Pathways",
+        ),
+        MultiFieldPanel(
+            [StreamFieldPanel("what_you_will_cover_blocks")],
+            heading="What you'll cover",
+        ),
+    ]
+
+    programme_requirements_pannels = [
+        FieldPanel("requirements_subtitle"),
+        FieldPanel("requirements_text", widget=forms.Textarea(attrs={"rows": "4"})),
+        StreamFieldPanel("requirements_blocks"),
+    ]
+    programme_fees_and_funding_panels = []
+    programme_apply_pannels = []
 
     edit_handler = TabbedInterface(
         [
             ObjectList(content_panels, heading="Content"),
-            ObjectList(key_details_panel, heading="Key details"),
-            ObjectList(programme_overview_pannels, heading="Programme Overview"),
+            ObjectList(key_details_panels, heading="Key details"),
+            ObjectList(programme_overview_pannels, heading="Overview"),
+            ObjectList(programme_curriculum_pannels, heading="Curriculum"),
+            ObjectList(programme_requirements_pannels, heading="Requirements"),
+            ObjectList(programme_fees_and_funding_panels, heading="Fees"),
+            ObjectList(programme_apply_pannels, heading="Apply"),
             ObjectList(BasePage.promote_panels, heading="Promote"),
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
@@ -306,8 +394,6 @@ class ProgrammePage(BasePage):
 
     def clean(self):
         errors = defaultdict(list)
-        # if self.hero_video and self.hero_image:
-        #     errors["hero_image"].append("Please select a video OR an image, both are not needed.")
         if self.hero_video and not self.hero_video_preview_image:
             errors["hero_video_preview_image"].append(
                 "Please add a preview image for the video."
@@ -320,7 +406,10 @@ class ProgrammePage(BasePage):
             errors["programme_details_time_suffix"].append("Please add a suffix")
         if self.programme_details_time_suffix and not self.programme_details_time:
             errors["programme_details_time"].append("Please add a time value")
-
+        if self.curriculum_video and "youtube" not in self.curriculum_video:
+            errors["curriculum_video"].append(
+                "Only YouTube videos are supported for this field "
+            )
         if errors:
             raise ValidationError(errors)
 
@@ -341,7 +430,7 @@ class ProgrammePage(BasePage):
         ]
         # Set the page tab titles
         context["tabs"] = [
-            {"title": "Programme Overview"},
+            {"title": "Overview"},
             {"title": "Curriculum"},
             {"title": "Requirements"},
             {"title": "Fees and funding"},

@@ -2,8 +2,8 @@
 
 <div class="image-caption-link" {% if modal and video %}data-video-modal{% endif %}>
     <div {% if modal %}data-modal-open{% endif %} href="#" class="image-caption-link__link">
-        {% image curriculum_intro.image fill-80x37 as imageSmall %}
-        {% image curriculum_intro.image fill-900x415 as imageLarge %}
+        {% image curriculum_image fill-80x37 as imageSmall %}
+        {% image curriculum_image fill-900x415 as imageLarge %}
 
         {% include "patterns/atoms/image/image--lazyload.html" with imageSmall=imageSmall width=900 height=415 imageLarge=imageLarge classList='image-caption-link__image' %}
 

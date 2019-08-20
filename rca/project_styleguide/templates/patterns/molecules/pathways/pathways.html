@@ -1,9 +1,9 @@
 <div class="pathways">
     <h3 class="pathways__heading heading heading--five">Pathways</h3>
-    <p>MA Animation comprises of three specialist pathways one of which students select as part of their application. </p>
+    <p>{{ summary }}</p>
     <div class="pathways__items">
         {% for path in pathways %}
-            {% include "patterns/atoms/pathway-item/pathway-item.html" with path=path %}
+            {% include "patterns/atoms/pathway-item/pathway-item.html" with path=path.value %}
         {% endfor %}
     </div>
     <a class="pathways__view-all link link--secondary link--link body body--two" href="#">

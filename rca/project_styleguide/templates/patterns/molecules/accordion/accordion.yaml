@@ -3,5 +3,6 @@ context:
     heading: Graphic Design
     preview_text: Extending and disrupting the tools, intent and role of graphic design
     body: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
-    link: '#'
-    link_title: Link title
+    link:
+      url: '#'
+      title: 'Find out more'
