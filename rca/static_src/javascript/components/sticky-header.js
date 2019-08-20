@@ -5,12 +5,11 @@ function StickyHeader() {
     var offSetAdjuster = 60;
     var customOffet = intViewportHeight + offSetAdjuster;
 
-    if(document.body.contains(document.querySelector('.app--homepage'))){
+    if (document.body.contains(document.querySelector('.app--homepage'))) {
         StartStickyHeader(customOffet);
     } else {
         StartStickyHeader(200);
     }
-
 }
 
 function StartStickyHeader(offset) {

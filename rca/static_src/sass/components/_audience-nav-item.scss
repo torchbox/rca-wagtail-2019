@@ -26,19 +26,15 @@
     }
 
     &--desc {
-
         #{$root}__label {
             @include font-size(xxs); // match header
         }
-
     }
 
     .hero-action-pane & {
-
         #{$root}__link {
             color: $color--black;
         }
-
     }
 
     .bg--light &,
@@ -78,12 +74,16 @@
     }
 
     .app--homepage .header & {
-        opacity: 0;
+        @include media-query(large) {
+            opacity: 0;
+        }
     }
 
     .app--homepage.headroom--not-top .header &,
     .app--homepage.show-nav .header & {
-        opacity: 1;
+        @include media-query(large) {
+            opacity: 1;
+        }
     }
 
     .footer & {
