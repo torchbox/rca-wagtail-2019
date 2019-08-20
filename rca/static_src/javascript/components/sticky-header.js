@@ -1,12 +1,25 @@
 import headRoom from 'headroom.js';
 
 function StickyHeader() {
+    var intViewportHeight = window.innerHeight;
+    var offSetAdjuster = 60;
+    var customOffet = intViewportHeight + offSetAdjuster;
+
+    if (document.body.contains(document.querySelector('.app--homepage'))) {
+        StartStickyHeader(customOffet);
+    } else {
+        StartStickyHeader(200);
+    }
+}
+
+function StartStickyHeader(offset) {
     let elem = document.body;
+
     let options = {
-        offset: 200,
+        offset: offset,
         tolerance: {
             up: 10,
-            down: 5,
+            down: 20,
         },
         classes: {
             // when element is initialised

@@ -1,17 +1,30 @@
 {% extends "patterns/base_page.html" %}
 {% load wagtailcore_tags wagtailimages_tags static %}
+{% block body_class %}app--homepage{% endblock %}
 
 {% block content %}
 
+    {% include "patterns/molecules/hero/hero--home.html" %}
 
+    <div class="page page--overlay" id="content">
 
-    <div class="page" id="content">
+        {% include "patterns/molecules/hero-action-pane/hero-action-pane.html" %}
 
         <div class="page__content">
 
             <section class="section section--start bg bg--dark">
-                <h1>{{ page.title }}</h1>
-                Propersition statements
+
+                <div class="proposition-statement grid">
+                    <div class="proposition-statement__introduction">The world’s number 1 art & design university</div>
+                    <a href="#" class="proposition-statement__link link link--primary link--link body body--two">
+                        <span class="link__label">Book an open day</span>
+                        <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+                    </a>
+                </div>
+
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--second-col"></div>
+                </div>
 
             </section>
 

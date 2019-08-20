@@ -1,9 +1,57 @@
 .hero {
-    max-height: 780px;
+    $root: &;
     overflow: hidden;
+
+    &--programme {
+        max-height: 780px;
+    }
+
+    &--home {
+        @include z-index(base);
+        position: fixed;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+    }
 
     &__image {
         width: 100%;
-        height: auto;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &__scroll {
+        position: fixed;
+        max-width: $site-width;
+        left: 0;
+        right: ($gutter * 2);
+        margin: 0 auto;
+        bottom: ($gutter * 2);
+        text-align: right;
+
+        @include media-query(medium) {
+            bottom: 50%;
+            right: ($gutter * 3);
+        }
+    }
+
+    &__placeholder {
+        height: 100vh;
+        pointer-events: none;
+    }
+
+    &__menu-toggler {
+        display: block;
+        height: 90vh;
+    }
+
+    .theme-dark & {
+        color: $color--black;
+        background-color: $color--white;
+    }
+
+    .theme-light & {
+        color: $color--white;
+        background-color: $color--black;
     }
 }

@@ -1,0 +1,38 @@
+.scroll {
+    $root: &;
+    display: inline-block;
+    text-align: center;
+
+    &__label {
+        @include font-size(xxxs);
+        display: none;
+        padding-bottom: ($gutter / 4);
+
+        @include media-query(medium) {
+            display: block;
+        }
+    }
+
+    &__icon {
+        stroke: currentColor;
+        fill: none;
+        width: 19px;
+        height: 18px;
+        will-change: transform;
+        transition: transform $transition;
+    }
+
+    &:hover {
+        #{$root}__icon {
+            transform: translate3d(0, 4px, 0);
+        }
+    }
+
+    .theme-dark & {
+        color: $color--black;
+    }
+
+    .theme-light & {
+        color: $color--white;
+    }
+}

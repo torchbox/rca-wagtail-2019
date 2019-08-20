@@ -16,6 +16,19 @@
         }
     }
 
+    &--overlay {
+        @include z-index(overlap);
+        position: relative;
+
+        .theme-dark & {
+            background-color: $color--black;
+        }
+
+        .theme-light & {
+            background-color: $color--white;
+        }
+    }
+
     &__notch-block {
         @include media-query(medium) {
             position: relative;

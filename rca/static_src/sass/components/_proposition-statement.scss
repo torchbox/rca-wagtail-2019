@@ -1,0 +1,26 @@
+.proposition-statement {
+    $root: &;
+
+    &__introduction {
+        @include font-size(xxxxl);
+        grid-column: 3 / span 3;
+        padding-right: ($gutter * 2);
+        color: currentColor;
+        line-height: $line-height-large;
+        margin-bottom: ($gutter * 3);
+    }
+
+    &__link {
+        grid-row: 2;
+        grid-column: 5 / span 1;
+        margin-bottom: ($gutter * 2);
+    }
+
+    .bg--dark & {
+        color: $color--white;
+    }
+
+    .bg--light & {
+        color: $color--black;
+    }
+}

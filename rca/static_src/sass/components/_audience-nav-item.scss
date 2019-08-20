@@ -16,10 +16,31 @@
         transform: rotate(-45deg) translate(0, 0);
     }
 
-    .bg--light &,
-    .header-content-dark .header & {
+    &__description {
+        @include font-size(xxxs);
+        flex-basis: 100%;
+        max-width: 100%;
+        min-width: 100%;
+        color: $color--meta;
+        margin-top: 4px;
+    }
+
+    &--desc {
+        #{$root}__label {
+            @include font-size(xxs); // match header
+        }
+    }
+
+    .hero-action-pane & {
         #{$root}__link {
-            color: $color--link-lightbg;
+            color: $color--black;
+        }
+    }
+
+    .bg--light &,
+    .theme-dark .header & {
+        #{$root}__link {
+            color: $color--black;
         }
 
         #{$root}__icon {
@@ -28,10 +49,10 @@
     }
 
     .bg--dark &,
-    .header-content-light .header &,
+    .theme-light .header &,
     .headroom--pinned.headroom--not-top .header & {
         #{$root}__link {
-            color: $color--link-darkbg;
+            color: $color--white;
         }
 
         #{$root}__icon {
@@ -49,6 +70,19 @@
 
         #{$root}__label {
             @include font-size(xxs);
+        }
+    }
+
+    .app--homepage .header & {
+        @include media-query(large) {
+            opacity: 0;
+        }
+    }
+
+    .app--homepage.headroom--not-top .header &,
+    .app--homepage.show-nav .header & {
+        @include media-query(large) {
+            opacity: 1;
         }
     }
 
