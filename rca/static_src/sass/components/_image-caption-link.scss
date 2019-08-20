@@ -7,27 +7,29 @@
         grid-column: 2 / span 3;
     }
 
-    &:active,
-    &:focus,
-    &:hover {
-        cursor: pointer;
-    }
-
     &__image {
-        opacity: 0.8;
+        #{$root}__link & {
+            opacity: 0.8;
 
-        @include media-query(medium) {
-            opacity: 1;
-            transition: opacity $transition;
+            @include media-query(medium) {
+                opacity: 1;
+                transition: opacity $transition;
 
-            #{$root}:hover & {
-                opacity: 0.8;
+                #{$root}:hover & {
+                    opacity: 0.8;
+                }
             }
         }
     }
 
     &__link {
         position: relative;
+
+        &:active,
+        &:focus,
+        &:hover {
+            cursor: pointer;
+        }
     }
 
     &__caption-container {
