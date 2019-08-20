@@ -7,6 +7,9 @@ context:
       summary: Check out our awesome stub content
       get_link_text: Click here
       get_link_url: '#'
+  image_video_block:
+    heading: Ideas that can change the world
+    subheading: RCA projects that have the potential to transform our world for the better
   news:
     - item:
       meta: 'Event'
