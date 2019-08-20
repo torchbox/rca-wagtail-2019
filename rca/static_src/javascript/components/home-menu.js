@@ -1,4 +1,3 @@
-import 'intersection-observer';
 import scrollama from 'scrollama';
 
 function scrollamaInit() {
