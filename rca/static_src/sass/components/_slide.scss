@@ -54,8 +54,8 @@
 
     &__author {
         @include font-size(xs);
-        font-weight: $weight--medium;
         margin-bottom: ($gutter / 4);
+        font-weight: $weight--normal;
     }
 
     &__author-course {

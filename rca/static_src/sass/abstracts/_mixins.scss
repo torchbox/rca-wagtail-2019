@@ -101,7 +101,7 @@
 @mixin heading-text() {
     font-family: $font--primary;
     font-style: inherit;
-    font-weight: inherit;
+    font-weight: $weight--medium;
 }
 
 /* ============================================
