@@ -24,7 +24,7 @@ class Carousel {
 
     createSlideshow() {
         this.slideshow = new Glide(this.node, {
-            type: 'carousel',
+            type: 'slider',
             startAt: 0,
             gap: 0,
             keyboard: true,
