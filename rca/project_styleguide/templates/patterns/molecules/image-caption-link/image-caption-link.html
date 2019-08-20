@@ -10,12 +10,13 @@
         {% if modal %}
             <svg width="24" height="24" class="image-caption-link__image-icon"><use xlink:href="#play-icon"></use></svg>
             {% include "patterns/molecules/video-modal/video-modal.html" with open_link=False %}
+
+            <div class="image-caption-link__caption-container">
+                <p class="image-caption-link__caption body body--two">
+                    <svg width="24" height="24" class="image-caption-link__caption-icon"><use xlink:href="#play-icon"></use></svg>
+                    <span class="image-caption-link__caption-text">{{caption}}</span>
+                </p>
+            </div>
         {% endif %}
-        <div class="image-caption-link__caption-container">
-            <p class="image-caption-link__caption body body--two">
-                <svg width="24" height="24" class="image-caption-link__caption-icon"><use xlink:href="#play-icon"></use></svg>
-                <span class="image-caption-link__caption-text">{{caption}}</span>
-            </p>
-        </div>
     </div>
 </div>
