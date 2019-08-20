@@ -168,6 +168,10 @@
         }
     }
 
+    &--book {
+        max-width: 170px;
+    }
+
     &__icon {
         position: relative;
         flex-basis: 12px;
