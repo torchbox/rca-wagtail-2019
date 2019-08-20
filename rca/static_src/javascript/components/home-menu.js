@@ -22,4 +22,6 @@ function scrollamaInit() {
     window.addEventListener('resize', scroller.resize);
 }
 
-scrollamaInit();
+if (document.body.contains(document.querySelector('.js-menu-on'))) {
+    scrollamaInit();
+}
