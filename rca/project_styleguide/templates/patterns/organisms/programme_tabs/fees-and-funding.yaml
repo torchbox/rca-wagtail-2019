@@ -3,45 +3,52 @@ context:
     title: Fees and Funding
   overview:
     title: 'For this programme'
-  overview_item:
-    - item:
-      title: 'Fees for new students'
-      row:
-        - item:
-          title: 'Home and EU'
-          subsidised: true
-          fees:
-            - item:
-              title: '£9,500 per year'
-            - item:
-              title: '£19,000 total fee'
-        - item:
-          title: 'Channel Islands and Isle of Man'
-          subsidised: true
-          fees:
-            - item:
-              title: '£14,200 per year'
-            - item:
-              title: '£28,400 total fee'
-        - item:
-          title: Overseas
-          subsidised: true
-          fees:
-            - item:
-              title: '£28,400 per year'
-            - item:
-              title: '£56,800 total fee'
-    - item:
-      title: 'Deposit'
-      introduction: 'New entrants to the College for MA, MRes, MPhil and PhD degrees will be required to pay a non-refundable deposit in order to secure their place. This will be offset against the tuition fees for the first year of study.'
-      row:
-        - item:
-          title: 'Home and EU'
-          fees:
-            - item:
-              title: '£500'
-        - section:
-          title: 'Overseas students'
-          fees:
-            - item:
-              title: '£2,000'
+  page:
+    fee_items:
+      all:
+        - title: 'Fees for new students'
+          introduction: ''
+          row:
+            - value:
+                location: 'Home and EU'
+                per_year_cost: '£9,500 per year'
+                total_cost: '£19,000 total fee'
+                subsidised: True
+        - title: 'Deposit'
+          introduction: 'New entrants to the College for MA, MRes, MPhil and PhD degrees will be required to pay a non-refundable deposit in order to secure their place. This will be offset against the tuition fees for the first year of study.'
+          row:
+            - value:
+                location: 'Home and EU'
+                per_year_cost: '£500'
+            - value:
+                location: 'Oversees students'
+                per_year_cost: '£2000'
+
+    scholarships_title: 'Scholarships for Architecture MA'
+    scholarships_information: 'This list will be updated as new scholarships are confirmed, so please check back from time to time. Please note the application dates listed, as they can vary.'
+    scholarship_accordion_blocks:
+      accordion:
+        - value:
+    scholarship_information_blocks:
+      - block:
+        value:
+          title: 'How scholarships work'
+          text: 'As scholarships are extremely competitive and limited in number, applications are solicited by invitation only. Nominated students will be contacted by the scholarships team via email and invited to apply.'
+          link:
+            title: 'See the scholarships section for the full scholarship process'
+            url: '#'
+    more_information_blocks:
+      - block:
+        value:
+          title: 'External funding'
+          text: 'Students coming to the RCA find funding from many different sources. Some are lucky enough to win scholarships and sponsorship, whilst some have managed to save money from working. It is impossible to list all the potential funding sources; however the following information could be useful.'
+          link:
+            title: 'See the scholarships section for the full scholarship process'
+            url: '#'
+      - block:
+        value:
+          title: 'Payments'
+          text: 'Tuition fees are due on the first day of the academic year and students are sent an invoice in August. Payments can be made in advance, on registration or in installments.'
+          link:
+            title: 'See our payments page for full information'
+            url: '#'

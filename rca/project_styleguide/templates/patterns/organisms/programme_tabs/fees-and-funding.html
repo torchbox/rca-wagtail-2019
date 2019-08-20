@@ -1,113 +1,135 @@
 <section class="section section--start section--end bg bg--dark">
     <header class="section__header grid">
-        <h2 class="section__heading section__heading--primary heading heading--two">{{ tab_section.title }}</h2>
+        <h2 class="section__heading section__heading--primary heading heading--two">Fees & funding</h2>
     </header>
     <div class="section__content">
         <div class="overview grid">
-            <h3 class="overview__heading heading heading--four">{{ overview.title }}</h3>
-            {% for item in overview_item %}
-                <div class="overview__item {% if forloop.first %}overview__item--first{% endif %}">
-                    <h4 class="overview__sub-heading heading heading--five">{{ item.title }}</h4>
-                    {% if item.introduction %}
-                        <p class="overview__introduction introduction">{{ item.introduction }}</p>
-                    {% endif %}
-                    <div class="overview__item-content fees">
-                        {% for item in item.row %}
-                            <section class="fees__section {% for item in item.fees %}{% if forloop.first and forloop.last %}fees__section--single{% endif %}{% endfor %}">
-                                <div class="fees__item fees__item--title">
-                                    <h5 class="fees__heading body body--one">{{ item.title }}</h5>
-                                    {% if item.subsidised %}
-                                        <span class="fees__meta">(subsidised)</span>
-                                    {% endif %}
-                                </div>
-                                {% for item in item.fees %}
-                                    <div class="fees__item">
-                                        {{ item.title }}
-                                    </div>
+            {% with page.fee_items.all as fee_items %}
+                {% if fee_items %}
+                        <h3 class="overview__heading heading heading--four">For this programme</h3>
+                    {% for item in fee_items %}
+                        <div class="overview__item">
+                            <h4 class="overview__sub-heading heading heading--five">{{ item.title }}</h4>
+                            {% if item.introduction %}
+                                <p class="overview__introduction introduction">{{ item.introduction }}</p>
+                            {% endif %}
+                            <div class="overview__item-content fees">
+                                {% for row in item.row %}
+                                    {% with row.value as row %}
+                                        <section class="fees__section {% for item in item.fees %}{% if forloop.first and forloop.last %}fees__section--single{% endif %}{% endfor %}">
+                                            <div class="fees__item fees__item--title">
+                                                <h5 class="fees__heading body body--one">{{ row.location }}</h5>
+                                                {% if row.subsidised %}
+                                                    <span class="fees__meta">(subsidised)</span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="fees__item">
+                                                {{ row.per_year_cost }}
+                                            </div>
+                                            <div class="fees__item">
+                                                {{ row.total_cost }}
+                                            </div>
+                                        </section>
+                                    {% endwith %}
                                 {% endfor %}
-                            </section>
-                        {% endfor %}
-                    </div>
-                </div>
-                {% if forloop.first %}
-                    <div class="disclaimer">
-                        <div class="disclaimer__container body body--support">
-                            <b>All MA programmes</b>
-                            <p>Home, EU and International students who have completed a Graduate Diploma at the College and progress immediately onto an RCA Master's programme will be eligible for a £1,000 discount on tuition fees for a 45 week MA/MRes, £1,000 per year for a 2-year MA and £1,500 for a 15-month MA.</p>
-
-                            <b>All MA/MSc programmes</b>
-                            <p>Home, EU and International students who have completed a Graduate Diploma at the College and progress immediately onto an RCA Master's programme will be eligible for a £1,000 per year for a 2-year MA.</p>
-
-                            <b>All MRes programmes</b>
-                            <p>Home, EU and International students who have completed a Graduate Diploma at the College and progress immediately onto an RCA Master's programme will be eligible for a £1,000 discount on tuition fees for a 45 week MA/MRes.</p>
-
-                            <b>All MPhil and PhD programmes</b>
-                            <p>Full-time Home, EU and International students who have completed a Master’s degree at the College will be eligible for a £1,000 discount on tuition fees for up to three years of study, when starting a Research degree within five years of graduation.</p>
-
-                            <b>Plus for individual programmes</b>
-
-                            <b>Innovation Design Engineering programme</b>
-
-                            <p>Imperial fees are subject to an inflationary uplift, calculated from the RPI for April 2020 and may vary slightly from the value published here; exact fees are to be confirmed in June 2020. </p>
-
-                            <b>Global Innovation Design programme</b>
-
-                            <p>Imperial fees are subject to an inflationary uplift, calculated from the RPI for April 2020 and may vary slightly from the value published here; exact fees are to be confirmed in June 2020. </p>
-
-                            <p>GID students are subject to a £2,000 supplementary fee (included in the above details) due to the higher costs of delivering the programme</p>
+                            </div>
                         </div>
-                    </div>
+
+                    {% endfor %}
                 {% endif %}
-            {% endfor %}
-            <div class="overview__item">
-                <h4 class="overview__sub-heading heading heading--five">Payments</h4>
-                <p class="overview__introduction introduction">Tuition fees are due on the first day of the academic year and students are sent an invoice in August. Payments can be made in advance, on registration or in installments.</p>
-                <div class="overview__item-action">
-                    <a class="link link--secondary link--link" href="#">
-                        <span class="link__label">See our payments page for full information</span>
-                        <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
-                    </a>
-                </div>
-            </div>
+            {% endwith %}
         </div>
 
         <div class="overview grid">
             <h3 class="overview__heading heading heading--four">Scholarships</h3>
             <div class="overview__item">
-                <h4 class="overview__sub-heading heading heading--five">Scholarships for Architecture MA</h4>
-                <p class="overview__introduction introduction">This list will be updated as new scholarships are confirmed, so please check back from time to time.
-Please note the application dates listed, as they can vary.</p>
+                <h4 class="overview__sub-heading heading heading--five">{{ page.scholarships_title }}</h4>
+                <p class="overview__introduction introduction">{{ page.scholarships_information }}</p>
                 <div class="overview__item-content">
-                    Accordion here
+                    {% if page.scholarship_accordion_items %}
+                        {% for accordion in page.scholarship_accordion_items %}
+                            {% include "patterns/molecules/accordion/accordion.html" with accordion=accordion.value %}
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
-            <div class="overview__item">
-                <h4 class="overview__sub-heading heading heading--five">Available scholarships for Architecture MA</h4>
-                <p class="overview__introduction introduction">This list will be updated as new scholarships are confirmed, so please check back from time to time.
-Please note the application dates listed, as they can vary.</p>
-                <div class="overview__item-content">
-                    Accordion here
+            {% if page.scholarship_information_blocks %}
+                <div class="overview__item">
+                    {% for block in page.scholarship_information_blocks %}
+                        {% if block.value.title %}
+                            <h4 class="overview__sub-heading heading heading--five">
+                                {{ block.value.title }}
+                            </h4>
+                        {% endif %}
+                        {% if block.value.text %}
+                            <p class="overview__introduction introduction">
+                                {{ block.value.text|safe }}
+                            </p>
+                        {% endif %}
+                        {% if block.value.link %}
+                            <div class="overview__item-action">
+                                <a class="link link--secondary link--link" href="{{ block.value.link.url }}">
+                                    <span class="link__label">{{ block.value.link.title }}</span>
+                                    <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        {% if page.more_information_blocks %}
+            <div class="overview grid">
+                <h3 class="overview__heading heading heading--four">More information</h3>
+                <div class="overview__item">
+                        {% for block in page.more_information_blocks %}
+                            {% if block.value.title %}
+                                <h4 class="overview__sub-heading heading heading--five">
+                                    {{ block.value.title }}
+                                </h4>
+                            {% endif %}
+                            {% if block.value.text %}
+                                <p class="overview__introduction introduction">
+                                    {{ block.value.text|safe }}
+                                </p>
+                            {% endif %}
+                            {% if block.value.link %}
+                                <div class="overview__item-action">
+                                    <a class="link link--secondary link--link" href="{{ block.value.link.url }}">
+                                        <span class="link__label">{{ block.value.link.title }}</span>
+                                        <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                 </div>
             </div>
-            <div class="overview__item">
-                <h4 class="overview__sub-heading heading heading--five">How scholarships work</h4>
-                <p class="overview__introduction introduction">As scholarships are extremely competitive and limited in number, applications are solicited by invitation only. Nominated students will be contacted by the scholarships team via email and invited to apply.</p>
-                <div class="overview__item-action">
-                    <a class="link link--secondary link--link" href="#">
-                        <span class="link__label">See the scholarships section for the full scholarship process</span>
-                        <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
-                    </a>
-                </div>
-            </div>
-            <div class="overview__item">
-                <h4 class="overview__sub-heading heading heading--five">External funding</h4>
-                <p class="overview__introduction introduction">Students coming to the RCA find funding from many different sources. Some are lucky enough to win scholarships and sponsorship, whilst some have managed to save money from working. It is impossible to list all the potential funding sources; however the following information could be useful. </p>
-                <div class="overview__item-action">
-                    <a class="link link--secondary link--link" href="#">
-                        <span class="link__label">See our list of possible funding options</span>
-                        <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
-                    </a>
-                </div>
+        {% endif %}
+        <div class="disclaimer grid">
+            <div class="disclaimer__container body body--support">
+                <b>All MA programmes</b>
+                <p>Home, EU and International students who have completed a Graduate Diploma at the College and progress immediately onto an RCA Master's programme will be eligible for a £1,000 discount on tuition fees for a 45 week MA/MRes, £1,000 per year for a 2-year MA and £1,500 for a 15-month MA.</p>
+
+                <b>All MA/MSc programmes</b>
+                <p>Home, EU and International students who have completed a Graduate Diploma at the College and progress immediately onto an RCA Master's programme will be eligible for a £1,000 per year for a 2-year MA.</p>
+
+                <b>All MRes programmes</b>
+                <p>Home, EU and International students who have completed a Graduate Diploma at the College and progress immediately onto an RCA Master's programme will be eligible for a £1,000 discount on tuition fees for a 45 week MA/MRes.</p>
+
+                <b>All MPhil and PhD programmes</b>
+                <p>Full-time Home, EU and International students who have completed a Master’s degree at the College will be eligible for a £1,000 discount on tuition fees for up to three years of study, when starting a Research degree within five years of graduation.</p>
+
+                <b>Plus for individual programmes</b>
+
+                <b>Innovation Design Engineering programme</b>
+
+                <p>Imperial fees are subject to an inflationary uplift, calculated from the RPI for April 2020 and may vary slightly from the value published here; exact fees are to be confirmed in June 2020. </p>
+
+                <b>Global Innovation Design programme</b>
+
+                <p>Imperial fees are subject to an inflationary uplift, calculated from the RPI for April 2020 and may vary slightly from the value published here; exact fees are to be confirmed in June 2020. </p>
+
+                <p>GID students are subject to a £2,000 supplementary fee (included in the above details) due to the higher costs of delivering the programme</p>
             </div>
         </div>
 
