@@ -4,6 +4,7 @@
     $notch-height-medium: 80px;
     $notch-height-large: 100px;
 
+    &--top-space,
     &--start {
         padding-top: ($gutter * 2.5);
 
