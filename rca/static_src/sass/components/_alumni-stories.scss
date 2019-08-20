@@ -1,0 +1,11 @@
+.alumni-stories {
+    &__heading {
+        grid-column: 1 / span 2;
+        margin-bottom: ($gutter * 1.5);
+
+        @include media-query(large) {
+            grid-column: 2 / span 2;
+            margin-bottom: ($gutter * 3.5);
+        }
+    }
+}
