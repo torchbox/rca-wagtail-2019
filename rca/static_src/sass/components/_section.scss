@@ -28,6 +28,31 @@
         }
     }
 
+    &--stat-block {
+        min-height: 100%;
+        position: relative;
+        overflow: hidden;
+        color: $color--white;
+        background-color: $color--black-36;
+
+        &::before {
+            @include z-index(under);
+            content: '';
+            background-image: var(
+                --stat-block-bg-image
+            ); // set inline in stat-block.html
+            background-repeat: no-repeat;
+            background-position: center top;
+            background-size: cover;
+            height: 100%;
+            left: 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            will-change: transform;
+        }
+    }
+
     &__heading {
         grid-column: 1 / span 2;
 
@@ -79,6 +104,32 @@
                 margin-bottom: ($gutter * 5);
             }
         }
+
+        &--transparent {
+            background-color: transparent;
+        }
+
+        .bg--stat-block & {
+            &:first-child {
+                #{$root}__notch-fill {
+                    background-color: $color--black;
+
+                    &::before {
+                        background-color: $color--black;
+                    }
+                }
+            }
+
+            &:last-child {
+                #{$root}__notch-fill {
+                    background-color: $color--white;
+
+                    &::before {
+                        background-color: $color--white;
+                    }
+                }
+            }
+        }
     }
 
     &__notch-fill {
@@ -103,35 +154,61 @@
             content: '';
             width: 200%;
             transform: translate3d(-100%, 0, 0);
+
+            #{$root}__notch--opposite & {
+                left: auto;
+                right: 1px;
+                transform: translate3d(100%, 0, 0);
+            }
         }
 
         &--first-col {
             @include media-query(large) {
                 grid-column: 1 / span 1;
+
+                #{$root}__notch--opposite & {
+                    grid-column: 5 / span 1;
+                }
             }
         }
 
         &--second-col {
             @include media-query(large) {
                 grid-column: 1 / span 2;
+
+                #{$root}__notch--opposite & {
+                    grid-column: 4 / span 1;
+                }
             }
         }
 
         &--third-col {
             @include media-query(large) {
                 grid-column: 1 / span 3;
+
+                #{$root}__notch--opposite & {
+                    grid-column: 3 / span 2;
+                }
             }
         }
 
         &--fourth-col {
             @include media-query(large) {
                 grid-column: 1 / span 4;
+
+                #{$root}__notch--opposite & {
+                    grid-column: 2 / span 3;
+                }
             }
         }
 
         &--fifth-col {
             @include media-query(large) {
                 grid-column: 1 / span 5;
+
+                #{$root}__notch--opposite & {
+                    grid-column: 1 / span 3;
+                }
             }
         }
 

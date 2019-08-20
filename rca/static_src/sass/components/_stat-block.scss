@@ -1,0 +1,133 @@
+.stat-block {
+    $root: &;
+    padding: ($gutter * 3) 0;
+
+    @include media-query(medium) {
+        padding: ($gutter * 6) 0;
+    }
+
+    &__header {
+        @include media-query(large) {
+            margin-bottom: -($gutter * 3.5);
+        }
+    }
+
+    &__heading {
+        grid-column: 1 / span 2;
+        margin-bottom: $gutter;
+
+        @include media-query(medium) {
+            grid-column: 1 / span 1;
+            padding-right: $gutter;
+        }
+
+        @include media-query(large) {
+            grid-column: 2 / span 1;
+            padding-right: 0;
+            margin-bottom: 0;
+        }
+    }
+
+    &__item {
+        grid-column: 1 / span 2;
+
+        @include media-query(medium) {
+            grid-column: auto;
+        }
+    }
+
+    &__item-container {
+        grid-column: 1 / span 2;
+        margin-bottom: ($gutter * 2.5);
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        @include media-query(medium) {
+            &:nth-of-type(even) {
+                #{$root}__item {
+                    grid-column: 2 / span 2;
+                }
+            }
+
+            &:nth-of-type(odd) {
+                #{$root}__item {
+                    grid-column: 1 / span 1;
+                }
+            }
+        }
+
+        @include media-query(large) {
+            &:nth-child(even) {
+                #{$root}__item {
+                    grid-column: 4 / span 1;
+                }
+            }
+
+            &:nth-child(odd) {
+                #{$root}__item {
+                    grid-column: 3 / span 1;
+                }
+            }
+        }
+    }
+
+    &__number-container {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    &__number {
+        font-size: 80px;
+        line-height: 81px;
+
+        @include media-query(medium) {
+            font-size: 100px;
+            line-height: 101px;
+        }
+
+        @include media-query(large) {
+            font-size: 130px;
+            line-height: 136px;
+        }
+
+        &--thin {
+            margin-right: -($gutter / 2);
+
+            @include media-query(large) {
+                margin-right: -$gutter;
+            }
+        }
+    }
+
+    &__before,
+    &__after {
+        font-size: 36px;
+        line-height: 50px;
+
+        @include media-query(medium) {
+            font-size: 40px;
+            line-height: 56px;
+        }
+
+        @include media-query(large) {
+            font-size: 60px;
+            line-height: 84px;
+        }
+    }
+
+    &__meta {
+        margin-bottom: 0;
+    }
+
+    &__body {
+        margin: ($gutter / 2) 0 0;
+        max-width: 270px;
+
+        @include media-query(medium) {
+            padding-right: $gutter;
+            max-width: 100%;
+        }
+    }
+}
