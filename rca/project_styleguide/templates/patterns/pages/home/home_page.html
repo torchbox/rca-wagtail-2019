@@ -28,15 +28,25 @@
 
             </section>
 
-            <section class="section bg bg--light">
+            <section class="section section--top-space bg bg--light">
+                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=False heading=image_video_block.heading subheading=image_video_block.subheading has_meta=True %}
 
-                Transformational stories
-
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
             </section>
 
-            <section class="section bg bg--dark">
+            <section class="section section--top-space bg bg--dark">
 
-                Alumni stories
+                <div class="alumni-stories">
+                    <div class="alumni-stories__header grid">
+                        <h2 class="alumni-stories__heading heading heading--one">Where will the RCA take you?</h2>
+                    </div>
+
+                    <div class="alumni-stories__carousel grid">
+                        {% include "patterns/organisms/carousel/carousel.html" %}
+                    </div>
+                </div>
 
             </section>
 

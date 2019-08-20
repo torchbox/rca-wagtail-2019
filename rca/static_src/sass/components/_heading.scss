@@ -1,5 +1,6 @@
 .heading {
     line-height: $line-height-large;
+    font-weight: $weight--medium;
 
     &--display-one {
         @include font-size(xxxxl);
