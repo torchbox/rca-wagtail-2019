@@ -15,7 +15,7 @@
         }
 
         @include media-query(large) {
-            grid-column: 2 / span 3;
+            grid-column: 2 / span 2;
             margin-bottom: ($gutter * 2);
         }
     }
@@ -40,6 +40,14 @@
     }
 
     &__copy {
+        &--meta-heading {
+            margin-bottom: ($gutter / 2);
+        }
+
+        &--meta-copy {
+            color: $color--dark-grey;
+        }
+
         @include media-query(medium) {
             grid-column: 2 / span 1;
         }
