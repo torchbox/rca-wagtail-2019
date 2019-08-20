@@ -154,6 +154,21 @@
         }
     }
 
+    &--close {
+
+        #{$root}__icon {
+            transform: translate3d(0, 0, 0);
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+            #{$root}__icon {
+                transform: translate3d(3px, 0, 0);
+            }
+        }
+    }
+
     &__icon {
         position: relative;
         flex-basis: 12px;
@@ -168,6 +183,14 @@
 
         #{$root}--download & {
             stroke: currentColor;
+        }
+
+        #{$root}--close & {
+            flex-basis: 10px;
+            min-width: 10px;
+            max-width: 10px;
+            width: 10px;
+            height: 10px;
         }
     }
 

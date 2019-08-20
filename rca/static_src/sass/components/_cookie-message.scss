@@ -33,6 +33,17 @@
         @include media-query(large) {
             width: ($gutter * 35);
         }
+
+        &.bg--dark {
+            border: 1px solid $color--grid-line-light;
+            border-bottom: 0;
+        }
+
+        &.bg--light {
+            border: 1px solid $color--grid-line-dark;
+            border-bottom: 0;
+        }
+
     }
 
     &__message {
@@ -43,7 +54,8 @@
         }
 
         a {
-            margin-right: ($gutter / 4);
+            @include underline-hover();
+            position: relative;
         }
     }
 
