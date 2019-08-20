@@ -84,20 +84,12 @@
 
         @include media-query(medium) {
             font-size: 100px;
-            line-height: 101px;
+            line-height: 94px;
         }
 
         @include media-query(large) {
             font-size: 130px;
-            line-height: 136px;
-        }
-
-        &--thin {
-            margin-right: -($gutter / 2);
-
-            @include media-query(large) {
-                margin-right: -$gutter;
-            }
+            line-height: 131px;
         }
     }
 
