@@ -1,5 +1,26 @@
 <section class="section section--start bg bg--dark">
-    Requirements content here
+    <div class="section__row programme-overview">
+        <header class="section__header grid">
+            <h3 class="section__heading section__heading--primary heading heading--two">
+                Programme requirements
+            </h3>
+        </header>
+        <div class="section__content grid">
+            <div class="programme-overview__body">
+                {% if page.requirements_subtitle %}
+                    <p class="introduction">
+                        {{ page.requirements_subtitle }}
+                    <p>
+                 {% endif %}
+                    {{ page.requirements_text }}
+            </div>
+        </div>
+        {% if page.requirements_blocks %}
+            <div class="programme-overview__pathways">
+                {% include "patterns/organisms/accordion-block/accordion-block.html" with accordions=page.requirements_blocks title='What\'s needed from you'%}
+            </div>
+        {% endif %}
+    </div>
 </section>
 
 <section class="section bg bg--light">
