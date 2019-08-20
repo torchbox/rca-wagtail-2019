@@ -13,7 +13,6 @@
     }
 
     &--square {
-
         @include media-query(large) {
             grid-column: 2 / span 2;
         }
@@ -23,9 +22,7 @@
         }
 
         #{$root}__item {
-
             .card {
-
                 @include media-query(medium) {
                     padding-right: ($gutter * 5);
                 }
@@ -34,7 +31,6 @@
                     padding-right: var(--grid-width);
                 }
             }
-
         }
 
         #{$root}__controls {
@@ -58,7 +54,6 @@
                 left: 0;
                 right: 0;
             }
-
         }
 
         #{$root}__button {
@@ -74,7 +69,6 @@
                 left: 30px;
             }
         }
-
     }
 
     &__item {

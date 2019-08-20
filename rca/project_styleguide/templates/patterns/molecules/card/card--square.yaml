@@ -6,7 +6,6 @@ context:
     image: true
     link: '#'
 
-
 tags:
   image:
     card.image fill-80x80 as imageSmall:

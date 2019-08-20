@@ -42,7 +42,10 @@ class SquareCarousel {
         // Set custom css property to give padding on slide
         var gridSelector = document.querySelector('[data-grid-center]');
         this.gridWidth = gridSelector.getBoundingClientRect();
-        document.documentElement.style.setProperty('--grid-width', this.gridWidth.width + 'px');
+        document.documentElement.style.setProperty(
+            '--grid-width',
+            this.gridWidth.width + 'px',
+        );
     }
 
     createSlideshow() {
@@ -55,11 +58,11 @@ class SquareCarousel {
             breakpoints: {
                 598: {
                     peek: { before: 20, after: 20 },
-                    gap: 20
+                    gap: 20,
                 },
                 1022: {
                     peek: { before: 60, after: 60 },
-                    gap: 0
+                    gap: 0,
                 },
                 4000: {
                     gap: 0,

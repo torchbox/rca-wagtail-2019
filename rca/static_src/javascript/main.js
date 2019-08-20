@@ -33,7 +33,9 @@ document.addEventListener('DOMContentLoaded', function() {
         new Carousel(carousel);
     }
 
-    for (const squareCarousel of document.querySelectorAll(SquareCarousel.selector())) {
+    for (const squareCarousel of document.querySelectorAll(
+        SquareCarousel.selector(),
+    )) {
         new SquareCarousel(squareCarousel);
     }
 
