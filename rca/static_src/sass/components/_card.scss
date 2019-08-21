@@ -283,7 +283,6 @@
                 @include font-size(s);
             }
         }
-
     }
 
     .news__sub-features & {
@@ -359,7 +358,6 @@
         #{$root}__person-meta {
             color: $color--meta-darkbg;
         }
-
     }
 
     .bg--light & {

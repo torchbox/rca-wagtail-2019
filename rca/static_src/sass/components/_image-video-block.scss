@@ -85,18 +85,14 @@
     }
 
     .bg--dark & {
-
         #{$root}__copy--meta-copy {
             color: $color--meta-darkbg;
         }
-
     }
 
     .bg--light & {
-
         #{$root}__copy--meta-copy {
             color: $color--meta-lightbg;
         }
-
     }
 }

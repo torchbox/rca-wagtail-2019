@@ -77,19 +77,14 @@
     }
 
     .bg--dark & {
-
         #{$root}__text {
             color: $color--meta-darkbg;
         }
-
     }
 
     .bg--light & {
-
         #{$root}__text {
             color: $color--meta-lightbg;
         }
-
     }
-
 }

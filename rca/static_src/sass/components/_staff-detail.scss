@@ -89,18 +89,14 @@
     }
 
     .bg--dark & {
-
         #{$root}__job-title {
             color: $color--meta-darkbg;
         }
-
     }
 
     .bg--light & {
-
         #{$root}__job-title {
             color: $color--meta-lightbg;
         }
-
     }
 }
