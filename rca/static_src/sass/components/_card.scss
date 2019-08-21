@@ -257,6 +257,7 @@
             @include media-query(large) {
                 object-fit: cover;
                 height: 100%;
+                min-height: 400px;
             }
         }
 
@@ -284,11 +285,6 @@
             }
         }
 
-        #{$root}__image {
-            @include media-query(large) {
-                min-height: 400px;
-            }
-        }
     }
 
     .news__sub-features & {
