@@ -1,4 +1,16 @@
 .disclaimer {
+    grid-column: 1 / span 2;
+    margin-bottom: ($gutter * 2);
+
+    @include media-query(medium) {
+        margin-bottom: ($gutter * 3);
+    }
+
+    @include media-query(large) {
+        grid-column: 3 / span 3;
+        margin-bottom: ($gutter * 4);
+    }
+
     &__container {
         grid-column: 1 / span 2;
 
