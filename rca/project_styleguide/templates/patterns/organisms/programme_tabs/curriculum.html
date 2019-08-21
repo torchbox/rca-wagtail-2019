@@ -2,7 +2,7 @@
     {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=True curriculum=True %}
 </section>
 
-<section class="section bg bg--light">
+<section class="section section--end bg bg--light">
     <div class="section__notch section__notch--top">
         <div class="section__notch-fill section__notch-fill--second-col"></div>
     </div>
@@ -12,10 +12,6 @@
     {% endif %}
 
     {% if page.what_you_will_cover_blocks %}
-        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordions=page.what_you_will_cover_blocks title='What you\'ll cover' %}
+        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordions=page.what_you_will_cover_blocks title='What you\'ll cover' modifier="accordion-block--last" %}
     {% endif %}
-</section>
-
-<section class="section section--end bg bg--light">
-    {% include "patterns/organisms/accordion-block/accordion-block.html" with modifier="accordion-block--last" %}
 </section>
