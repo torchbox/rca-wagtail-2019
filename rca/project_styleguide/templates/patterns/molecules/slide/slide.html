@@ -1,6 +1,6 @@
 {% load wagtailimages_tags %}
 
-<div class="slide" data-slide>
+<div class="slide {% if slide.author %}slide--author{% endif %}" data-slide>
 
     {% image slide.image fill-100x71 as imageSmall %}
     {% image slide.image fill-829x585 as imageLarge %}
