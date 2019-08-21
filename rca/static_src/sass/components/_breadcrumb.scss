@@ -7,9 +7,31 @@
 
     &__item {
         @include font-size(xxs);
+        display: none;
+
+        @include media-query(medium) {
+            display: block;
+        }
 
         &:first-child {
             opacity: 0.8;
+        }
+
+        &:last-child {
+            opacity: 0.8;
+            display: block;
+
+            @include media-query(medium) {
+                opacity: 1;
+            }
+
+            &::after {
+                content: '';
+
+                @include media-query(medium) {
+                    content: '/';
+                }
+            }
         }
 
         &::after {
