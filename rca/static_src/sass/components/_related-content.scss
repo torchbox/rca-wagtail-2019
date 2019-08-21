@@ -55,6 +55,13 @@
     }
 
     &__meta {
+        display: flex;
+        flex-direction: row;
+
+        @include media-query(medium) {
+            flex-direction: column;
+        }
+
         @include media-query(large) {
             grid-column: 2 / span 1;
         }
@@ -100,6 +107,12 @@
 
     &__title {
         margin-bottom: ($gutter / 4);
+        margin-right: ($gutter / 4);
+
+        @include media-query(medium) {
+            margin-right: 0;
+        }
+
     }
 
     &__degree {
