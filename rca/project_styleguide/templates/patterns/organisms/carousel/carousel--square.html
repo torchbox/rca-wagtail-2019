@@ -23,7 +23,7 @@
     <div class="carousel__controls">
         <div class="carousel__bullet-container" data-glide-el="controls[nav]">
             {% for slide in carousel %}
-                <button class="carousel__bullet" data-glide-dir="={{ forloop.counter }}"></button>
+                <button class="carousel__bullet" data-glide-dir="={{ forloop.counter }}" aria-label="Slide {{ forloop.counter }}"></button>
             {% endfor %}
         </div>
     </div>
