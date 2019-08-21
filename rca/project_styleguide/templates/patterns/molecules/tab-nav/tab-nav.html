@@ -1,4 +1,4 @@
-<nav class="tab-nav {{ modifier }} {% if sticky %}sticky{% endif %}">
+<div class="tab-nav {{ modifier }} {% if sticky %}sticky{% endif %}" role="tablist" aria-label="Programme Tabs">
     <div class="tab-nav__layout grid">
         <ul class="tab-nav__container" role="tablist">
             {% for tab in tabs %}
@@ -14,5 +14,5 @@
             </li>
         </ul>
     </div>
-</nav>
+</div>
 <div class="tab-nav__placeholder {{ modifier }}"></div>

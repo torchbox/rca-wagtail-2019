@@ -5,7 +5,7 @@
     {% include 'patterns/atoms/back-link/back-link.html' %}
     {% include 'patterns/molecules/navigation/standoutnav.html' with modifier="nav--standout-desktop" %}
     <div class="app__search app__search--tablet">
-        {% include 'patterns/molecules/search/search.html' %}
+        {% include 'patterns/molecules/search/search.html' with search_id="searchMobile" %}
     </div>
 </div>
 <span class="header__inner header__inner--container">
@@ -47,7 +47,7 @@
             </nav>
 
             <div class="app__search app__search--desktop" data-search-desktop>
-                {% include 'patterns/molecules/search/search.html' %}
+                {% include 'patterns/molecules/search/search.html' with search_id="searchDesktop" %}
             </div>
         </div>
 
