@@ -1,5 +1,6 @@
 .audience-nav-item {
     $root: &;
+    transition: opacity $transition;
 
     &__link {
         @include underline-hover();

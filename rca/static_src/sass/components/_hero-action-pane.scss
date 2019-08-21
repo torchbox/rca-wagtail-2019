@@ -1,4 +1,5 @@
 .hero-action-pane {
+    @include z-index(under);
     $root: &;
     $hero-action-pane-height-small: 110px;
     $hero-action-pane-height-medium: 160px;
