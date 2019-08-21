@@ -1,4 +1,5 @@
 .key-details {
+    $root: &;
     position: relative;
     margin-bottom: ($gutter * 3);
 
@@ -23,14 +24,11 @@
     }
 
     &__heading {
-        color: $color--light-grey;
         margin-bottom: ($gutter * 2);
     }
 
     // Only used for medium breakpoint rejigged layout
     &__section {
-        // increase antialiasing weight for legibility
-        -webkit-font-smoothing: subpixel-antialiased; // sass-lint:disable-line no-vendor-prefixes
 
         @include media-query(medium) {
             flex-basis: 50%;
@@ -85,7 +83,6 @@
     }
 
     &__sub-heading {
-        color: $color--dark-grey;
         margin-bottom: ($gutter / 2);
     }
 
@@ -108,11 +105,22 @@
         @include media-query(large) {
             border-top: 1px solid $color--grid-line-light;
         }
+
+        #{$root}__sub-heading,
+        #{$root}__heading {
+            color: $color--meta-darkbg;
+        }
     }
 
     .bg--light & {
         @include media-query(large) {
             border-top: 1px solid $color--grid-line-dark;
         }
+
+        #{$root}__sub-heading,
+        #{$root}__heading {
+            color: $color--meta-lightbg;
+        }
+
     }
 }
