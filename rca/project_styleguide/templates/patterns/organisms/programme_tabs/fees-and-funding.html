@@ -1,6 +1,7 @@
+{% load wagtailcore_tags %}
 <section class="section section--start section--end bg bg--dark">
     <header class="section__header grid">
-        <h2 class="section__heading section__heading--primary heading heading--two">Fees & funding</h2>
+        <h2 class="section__heading section__heading--primary heading heading--two">Fees &amp; funding</h2>
     </header>
     <div class="section__content">
         <div class="overview grid">
@@ -63,7 +64,7 @@
                         {% endif %}
                         {% if block.value.text %}
                             <p class="overview__introduction introduction">
-                                {{ block.value.text|safe }}
+                                {{ block.value.text|richtext }}
                             </p>
                         {% endif %}
                         {% if block.value.link %}
@@ -90,7 +91,7 @@
                             {% endif %}
                             {% if block.value.text %}
                                 <p class="overview__introduction introduction">
-                                    {{ block.value.text|safe }}
+                                    {{ block.value.text|richtext }}
                                 </p>
                             {% endif %}
                             {% if block.value.link %}
