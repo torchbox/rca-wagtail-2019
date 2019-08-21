@@ -2,13 +2,10 @@
     $root: &;
 
     &--author {
-
         #{$root}__meta {
-
             @include media-query(medium) {
                 display: flex;
             }
-
         }
     }
 
