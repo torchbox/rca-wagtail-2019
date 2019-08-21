@@ -24,7 +24,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
-from rca.utils.blocks import AccordionBlockWithTitle, GalleryBlock
+from rca.utils.blocks import AccordionBlockWithTitle, FeeBlock, GalleryBlock, InfoBlock
 from rca.utils.models import BasePage, RelatedPage
 
 
@@ -51,6 +51,22 @@ class ProgrammePageProgrammeType(models.Model):
 
     def __str__(self):
         return self.programme_type.display_name
+
+
+class ProgrammePageFeeItem(models.Model):
+    page = ParentalKey("ProgrammePage", related_name="fee_items")
+    title = models.CharField(
+        max_length=120,
+        help_text="The title for the information, e.g 'Fees for new students ",
+    )
+    introduction = models.CharField(
+        max_length=250, help_text="Extra information about the fee items"
+    )
+    row = StreamField([("row", FeeBlock())])
+    panels = [FieldPanel("title"), FieldPanel("introduction"), StreamFieldPanel("row")]
+
+    def __str__(self):
+        return self.title
 
 
 class ProgrammePageRelatedProgramme(RelatedPage):
@@ -249,6 +265,21 @@ class ProgrammePage(BasePage):
         verbose_name="Accordion blocks",
     )
 
+    # fees
+    # Scholarships
+    scholarships_title = models.CharField(max_length=120)
+    scholarships_information = models.CharField(max_length=250)
+    scholarship_accordion_items = StreamField(
+        [("accodrion", AccordionBlockWithTitle())], blank=True
+    )
+    scholarship_information_blocks = StreamField(
+        [("information_block", InfoBlock())], blank=True
+    )
+    # More information
+    more_information_blocks = StreamField(
+        [("information_block", InfoBlock())], blank=True
+    )
+
     content_panels = BasePage.content_panels + [
         # Taxonomy, relationships etc
         FieldPanel("degree_level"),
@@ -373,7 +404,24 @@ class ProgrammePage(BasePage):
         FieldPanel("requirements_text", widget=forms.Textarea(attrs={"rows": "4"})),
         StreamFieldPanel("requirements_blocks"),
     ]
-    programme_fees_and_funding_panels = []
+    programme_fees_and_funding_panels = [
+        MultiFieldPanel(
+            [InlinePanel("fee_items", label="Fee items")], heading="For this program"
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("scholarships_title"),
+                FieldPanel("scholarships_information"),
+                StreamFieldPanel("scholarship_accordion_items"),
+                StreamFieldPanel("scholarship_information_blocks"),
+            ],
+            heading="Scholarships",
+        ),
+        MultiFieldPanel(
+            [StreamFieldPanel("more_information_blocks")], heading="More information"
+        ),
+    ]
+
     programme_apply_pannels = []
 
     edit_handler = TabbedInterface(
@@ -433,7 +481,7 @@ class ProgrammePage(BasePage):
             {"title": "Overview"},
             {"title": "Curriculum"},
             {"title": "Requirements"},
-            {"title": "Fees and funding"},
+            {"title": "Fees & funding"},
             {"title": "Apply"},
         ]
 

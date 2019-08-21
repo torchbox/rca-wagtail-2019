@@ -7,6 +7,17 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.snippets.blocks import SnippetChooserBlock
 
 
+class FeeBlock(blocks.StructBlock):
+    location = blocks.CharBlock(max_length=120, help_text="e.g. Home and EU")
+    subsidised = blocks.BooleanBlock(required=False)
+    per_year_cost = blocks.CharBlock(
+        max_length=120, help_text="e.g. £14,200 per year", required=False
+    )
+    total_cost = blocks.CharBlock(
+        max_length=120, help_text="e.g. £28,400 total fee", required=False
+    )
+
+
 class ImageBlock(blocks.StructBlock):
     image = ImageChooserBlock()
     caption = blocks.CharBlock(required=False)
@@ -52,6 +63,15 @@ class GalleryBlock(blocks.StructBlock):
 
     class Meta:
         icon = "image"
+
+
+class InfoBlock(blocks.StructBlock):
+    title = blocks.CharBlock()
+    text = blocks.RichTextBlock()
+    link = LinkBlock()
+
+    class Meta:
+        icon = "help"
 
 
 class AccordionBlockWithTitle(blocks.StructBlock):
