@@ -67,7 +67,7 @@
                                 {{ block.value.text|richtext }}
                             </p>
                         {% endif %}
-                        {% if block.value.link %}
+                        {% if block.value.link.url and block.value.link.title %}
                             <div class="overview__item-action">
                                 <a class="link link--secondary link--link" href="{{ block.value.link.url }}">
                                     <span class="link__label">{{ block.value.link.title }}</span>
@@ -94,7 +94,7 @@
                                     {{ block.value.text|richtext }}
                                 </p>
                             {% endif %}
-                            {% if block.value.link %}
+                            {% if block.value.link.url and block.value.link.title %}
                                 <div class="overview__item-action">
                                     <a class="link link--secondary link--link" href="{{ block.value.link.url }}">
                                         <span class="link__label">{{ block.value.link.title }}</span>
