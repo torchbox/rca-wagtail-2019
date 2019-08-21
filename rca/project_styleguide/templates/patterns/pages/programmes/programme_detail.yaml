@@ -9,7 +9,7 @@ context:
     programme_gallery:
       - slide:
         value:
-          title: 'Albertopolis 550-metre pedestrian tunnel '
+          title: 'Albertopolissss 550-metre pedestrian tunnel '
           author: 'Chris Lawton'
           link: 'http://www.torchbox.com'
           course: 'Architecture'
@@ -36,6 +36,12 @@ context:
     facilities_link: '#'
     facilities_link_text: 'See all college facilities'
     facilities_gallery:
+      - slide:
+        value:
+          title: 'School of Architecture workshop rooms'
+      - slide:
+        value:
+          title: 'School of Architecture workshop rooms'
       - slide:
         value:
           title: 'School of Architecture workshop rooms'
