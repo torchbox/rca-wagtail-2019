@@ -1,6 +1,14 @@
 .slide {
     $root: &;
 
+    &--author {
+        #{$root}__meta {
+            @include media-query(medium) {
+                display: flex;
+            }
+        }
+    }
+
     &__image {
         width: 100%;
         height: auto;
@@ -13,8 +21,11 @@
 
         @include media-query(medium) {
             @include z-index(base);
-            display: flex;
             position: relative;
+        }
+
+        @include media-query(large) {
+            display: flex;
         }
     }
 
