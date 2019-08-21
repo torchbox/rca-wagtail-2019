@@ -58,19 +58,22 @@
         }
     }
 
-    &__meta {
-        color: $color--meta;
-    }
-
     .bg--dark & {
         #{$root}__section {
             border-top: 1px solid $color--grid-line-light;
+        }
+
+        #{$root}__meta {
+            color: $color--meta-darkbg;
         }
     }
 
     .bg--light & {
         #{$root}__section {
             border-top: 1px solid $color--grid-line-dark;
+        }
+        #{$root}__meta {
+            color: $color--meta-lightbg;
         }
     }
 }

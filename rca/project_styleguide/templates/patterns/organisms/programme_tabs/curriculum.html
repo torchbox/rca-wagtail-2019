@@ -8,10 +8,10 @@
     </div>
     {% if page.pathway_blocks %}
         {% include "patterns/molecules/heading-with-text/heading-with-text.html" with heading='Pathways' subheading=page.pathways_summary body=page.pathways_information %}
-        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordions=page.pathway_blocks title=false %}
+        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.pathway_blocks title=false %}
     {% endif %}
 
     {% if page.what_you_will_cover_blocks %}
-        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordions=page.what_you_will_cover_blocks title='What you\'ll cover' modifier="accordion-block--last" %}
+        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='2' accordions=page.what_you_will_cover_blocks title='What you\'ll cover' modifier="accordion-block--last" %}
     {% endif %}
 </section>

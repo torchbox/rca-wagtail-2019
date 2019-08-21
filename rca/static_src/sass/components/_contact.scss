@@ -42,7 +42,6 @@
     }
 
     &__text {
-        color: $color--dark-grey;
         padding-right: $gutter;
         margin-bottom: 0;
     }
@@ -74,6 +73,18 @@
 
         @include media-query(large) {
             display: block;
+        }
+    }
+
+    .bg--dark & {
+        #{$root}__text {
+            color: $color--meta-darkbg;
+        }
+    }
+
+    .bg--light & {
+        #{$root}__text {
+            color: $color--meta-lightbg;
         }
     }
 }

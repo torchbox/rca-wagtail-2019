@@ -1,4 +1,5 @@
 .step-item {
+    $root: &;
     display: flex;
     flex-direction: row;
     margin-bottom: ($gutter * 2);
@@ -7,7 +8,6 @@
         flex-basis: ($gutter * 2);
         min-width: ($gutter * 2);
         max-width: ($gutter * 2);
-        color: $color--meta;
     }
 
     &__heading {
@@ -16,5 +16,17 @@
 
     &__link {
         @include font-size(xxs);
+    }
+
+    .bg--dark & {
+        #{$root}__number {
+            color: $color--meta-darkbg;
+        }
+    }
+
+    .bg--light & {
+        #{$root}__number {
+            color: $color--meta-lightbg;
+        }
     }
 }

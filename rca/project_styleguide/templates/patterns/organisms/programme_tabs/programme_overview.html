@@ -2,9 +2,9 @@
 
     <div class="section__row programme-overview">
         <header class="section__header grid">
-            <h3 class="section__heading section__heading--primary heading heading--two">
+            <h2 class="section__heading section__heading--primary heading heading--two">
                 {{ page.programme_description_title}}
-            </h3>
+            </h2>
         </header>
         <div class="section__content grid">
             <div class="programme-overview__key-details">
@@ -14,7 +14,9 @@
                 <p class="introduction">
                     {{ page.programme_description_subtitle }}
                 <p>
-                {{ page.programme_description_copy|safe }}
+                <div class="programme-overview__description">
+                    {{ page.programme_description_copy|safe }}
+                </div>
                 <div class="programme-overview__pathways">
                     {% include "patterns/molecules/pathways/pathways.html" with summary=page.pathways_summary pathways=page.pathway_blocks %}
                 </div>

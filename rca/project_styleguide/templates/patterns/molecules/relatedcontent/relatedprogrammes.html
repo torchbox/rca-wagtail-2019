@@ -1,10 +1,11 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 <div class="related-content">
+    {% if title %}
     <div class="section__row grid">
         <h2 class="related-content__heading heading heading--two">{{title}}</h2>
     </div>
-
+    {% endif %}
 
         {% for related_section in related_sections %}
             <div class="related-content__group" data-group="{{forloop.counter}}">
@@ -33,7 +34,7 @@
                         </p>
                         {% image related_item.hero_image fill-500x500 as programme_image %}
                         <div class="related-content__image-container">
-                            <img class="related-content__image {% if forloop.first %}is-visible{% endif %} slide__image" src="{{programme_image.url}}" data-image="{{forloop.counter}}">
+                            <img class="related-content__image {% if forloop.first %}is-visible{% endif %} slide__image" src="{{programme_image.url}}" alt="{{programme_image.alt}}" data-image="{{forloop.counter}}">
                         </div>
                     {% endfor %}
 

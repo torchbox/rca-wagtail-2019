@@ -135,8 +135,6 @@
     }
 
     &__description {
-        color: $color--meta;
-
         @include media-query(medium) {
             margin-bottom: $gutter;
         }
@@ -169,7 +167,6 @@
 
     &__person-meta {
         @include font-size(xxxs);
-        color: $color--meta;
 
         @include media-query(medium) {
             @include font-size(xxs);
@@ -259,6 +256,7 @@
             @include media-query(large) {
                 object-fit: cover;
                 height: 100%;
+                min-height: 400px;
             }
         }
 
@@ -283,12 +281,6 @@
 
             @include media-query(medium) {
                 @include font-size(s);
-            }
-        }
-
-        #{$root}__image {
-            @include media-query(large) {
-                min-height: 400px;
             }
         }
     }
@@ -361,6 +353,11 @@
                 }
             }
         }
+
+        #{$root}__description,
+        #{$root}__person-meta {
+            color: $color--meta-darkbg;
+        }
     }
 
     .bg--light & {
@@ -376,6 +373,11 @@
                     background-color: $color--white;
                 }
             }
+        }
+
+        #{$root}__description,
+        #{$root}__person-meta {
+            color: $color--meta-lightbg;
         }
     }
 }

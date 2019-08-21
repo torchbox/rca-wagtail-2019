@@ -5,11 +5,11 @@
         role="tab"
         class="accordion__link {% if preview %}accordion__link--with-preview{% endif %}"
         data-accordion-question
-        aria-controls="answer-{{ forloop.counter }}"
+        aria-controls="answer-{{ accordion_id }}-{{ forloop.counter }}"
         aria-expanded="false"
         aria-selected="false"
         tabindex="0"
-        id="question-{{ forloop.counter }}"
+        id="question-{{ accordion_id }}-{{ forloop.counter }}"
     >
         <h5 class="accordion__heading heading heading--five">{{ accordion.heading }}</h5>
 
@@ -30,9 +30,9 @@
         aria-live="polite"
         class="accordion__content"
         data-accordion-answer
-        id="answer-{{ forloop.counter }}"
+        id="answer-{{ accordion_id }}-{{ forloop.counter }}"
         role="tabpanel"
-        aria-labelledby="question-{{ forloop.counter }}"
+        aria-labelledby="question-{{ accordion_id }}-{{ forloop.counter }}"
         aria-hidden="false">
         <div class="accordion__content-container">
             {{ accordion.body|richtext }}

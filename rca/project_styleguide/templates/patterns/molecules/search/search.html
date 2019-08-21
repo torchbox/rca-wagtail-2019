@@ -1,6 +1,6 @@
 <form action="https://www.rca.ac.uk/search" method="get" role="search" class="search">
-    <label class="search__label" for="query">Search</label>
-    <input class="search__input input" id="query" type="text" placeholder="Search…" name="query"{% if search_query %} value="{{ search_query }}{% endif %}" data-search-input>
+    <label class="search__label" for="{{ search_id }}">Search</label>
+    <input class="search__input input" id="{{ search_id }}" type="text" placeholder="Search…" name="query"{% if search_query %} value="{{ search_query }}{% endif %}" data-search-input>
     <button class="search__button button" type="submit" aria-label="Search">
         <svg width="12px" height="8px" class="search__icon"><use xlink:href="#arrow"></use></svg>
     </button>

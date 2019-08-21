@@ -5,7 +5,7 @@
         {% image card.image fill-554x554 as imageLarge %}
     {% endif %}
     <div class="card__container">
-        {% if item.link %}<a href="{{ item.link }}" class="card__image-container">{% endif %}
+        {% if item.link %}<a href="{{ item.link }}" class="card__image-container" aria-label="{{ item.title }}">{% endif %}
             {% if item.image %}{% include "patterns/atoms/image/image--lazyload.html" with imageSmall=imageSmall width=554 height=554 imageLarge=imageLarge classList='card__image' %}{% endif %}
         {% if item.link %}</a>{% endif %}
         <div class="card__content-container">

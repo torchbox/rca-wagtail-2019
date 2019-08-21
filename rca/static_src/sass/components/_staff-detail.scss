@@ -17,7 +17,6 @@
 
     &__job-title {
         margin-bottom: $gutter;
-        color: $color--meta;
     }
 
     &__body {
@@ -86,6 +85,18 @@
                 max-width: 50%;
                 min-width: 50%;
             }
+        }
+    }
+
+    .bg--dark & {
+        #{$root}__job-title {
+            color: $color--meta-darkbg;
+        }
+    }
+
+    .bg--light & {
+        #{$root}__job-title {
+            color: $color--meta-lightbg;
         }
     }
 }
