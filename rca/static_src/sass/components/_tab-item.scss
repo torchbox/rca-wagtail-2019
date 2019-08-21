@@ -18,17 +18,62 @@
     &__link {
         @include underline-hover();
         position: relative;
-        color: $color--meta;
         white-space: nowrap;
-
-        &:hover {
-            color: $color--white;
-        }
     }
 
-    &.active {
+    .bg--dark & {
+
         #{$root}__link {
-            color: $color--white;
+            color: $color--meta-darkbg;
+
+            &:hover {
+                color: $color--white;
+            }
+
+            &.link--tertiary {
+                color: $color--meta-darkbg;
+
+                &:hover {
+                    color: $color--white;
+                }
+
+            }
+
         }
+
+        &.active {
+            #{$root}__link {
+                color: $color--white;
+            }
+        }
+
+    }
+
+    .bg--light & {
+
+        #{$root}__link {
+            color: $color--meta-lightbg;
+
+            &:hover {
+                color: $color--black;
+            }
+
+            &.link--tertiary {
+                color: $color--meta-lightbg;
+
+                &:hover {
+                    color: $color--black;
+                }
+
+            }
+
+        }
+
+        &.active {
+            #{$root}__link {
+                color: $color--black;
+            }
+        }
+
     }
 }
