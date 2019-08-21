@@ -74,6 +74,14 @@ class InfoBlock(blocks.StructBlock):
         icon = "help"
 
 
+class StepBlock(blocks.StructBlock):
+    heading = blocks.CharBlock()
+    link = LinkBlock()
+
+    class Meta:
+        icon: "list"
+
+
 class AccordionBlockWithTitle(blocks.StructBlock):
     heading = blocks.CharBlock(
         help_text="A large heading diplayed next to the block", required=False

@@ -1,10 +1,10 @@
 tags:
   image:
-    item.image fill-100x37 as imageSmall:
+    image fill-100x37 as imageSmall:
       target_var: imageSmall
       raw:
         url: '//placekitten.com/100/37'
-    item.image fill-1134x595 as imageLarge:
+    image fill-1134x595 as imageLarge:
       target_var: imageLarge
       raw:
         url: '//placekitten.com/1134/595'

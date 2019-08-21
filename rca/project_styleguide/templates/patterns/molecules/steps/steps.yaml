@@ -1,0 +1,20 @@
+context:
+  page:
+    apply_cta_link: '#'
+    apply_cta_text: Apply now via our application portal
+  steps:
+    - step:
+      value:
+        heading: Make sure you have read the programme requirements
+        link:
+          url: '#'
+          title: See programme requirements
+    - step:
+      value:
+        heading: Check you have all the information we'll need you to supply
+        link:
+          url: '#'
+          title: See programme requirements
+    - step:
+      value:
+        heading: Start your application
