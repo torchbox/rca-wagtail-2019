@@ -10,7 +10,6 @@
     }
 
     &--with-preview {
-
         #{$root}__heading {
             grid-column: 1 / span 1;
         }
@@ -21,7 +20,6 @@
             @include media-query(medium) {
                 grid-column: 2 / span 2;
             }
-
         }
     }
 
