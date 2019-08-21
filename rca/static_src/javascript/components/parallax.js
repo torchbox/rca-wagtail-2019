@@ -1,8 +1,7 @@
 import Rellax from 'rellax';
 
 function parallax() {
-    // instantiate the scrollama
-    var rellax = new Rellax('[data-parallax]', {
+    new Rellax('[data-parallax]', {
         speed: -2,
         center: false,
         wrapper: null,
