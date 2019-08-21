@@ -135,8 +135,6 @@
     }
 
     &__description {
-        color: $color--meta;
-
         @include media-query(medium) {
             margin-bottom: $gutter;
         }
@@ -361,6 +359,11 @@
                 }
             }
         }
+
+        #{$root}__description {
+            color: $color--meta-darkbg;
+        }
+
     }
 
     .bg--light & {
@@ -376,6 +379,10 @@
                     background-color: $color--white;
                 }
             }
+        }
+
+        #{$root}__description {
+            color: $color--meta-lightbg;
         }
     }
 }

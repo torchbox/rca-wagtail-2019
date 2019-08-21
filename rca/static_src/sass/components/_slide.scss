@@ -71,7 +71,6 @@
 
     &__author-course {
         @include font-size(xxs);
-        color: $color--light-grey;
     }
 
     .glide__slide--active & {
@@ -90,11 +89,19 @@
         #{$root}__author {
             color: $color--white;
         }
+
+        #{$root}__author-course {
+            color: $color--meta-darkbg;
+        }
     }
 
     .bg--light & {
         #{$root}__author {
             color: $color--black;
+        }
+
+        #{$root}__author-course {
+            color: $color--meta-lightbg;
         }
     }
 }
