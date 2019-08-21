@@ -1,4 +1,5 @@
 .image-video-block {
+    $root: &;
     padding-bottom: ($gutter * 4);
 
     @include media-query(medium) {

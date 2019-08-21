@@ -167,7 +167,6 @@
 
     &__person-meta {
         @include font-size(xxxs);
-        color: $color--meta;
 
         @include media-query(medium) {
             @include font-size(xxs);
@@ -356,7 +355,8 @@
             }
         }
 
-        #{$root}__description {
+        #{$root}__description,
+        #{$root}__person-meta {
             color: $color--meta-darkbg;
         }
 
@@ -377,7 +377,8 @@
             }
         }
 
-        #{$root}__description {
+        #{$root}__description,
+        #{$root}__person-meta {
             color: $color--meta-lightbg;
         }
     }
