@@ -8,6 +8,16 @@
         <meta name="description" content="{% if page.search_description %}{{ page.search_description }}{% else %}{{ page.listing_summary }}{% endif %}" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static "images/apple-touch-icon.png" %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static "images/favicon-32x32.png" %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static "images/favicon-16x16.png" %}">
+        <link rel="manifest" href="{% static "images/site.webmanifest" %}">
+        <link rel="mask-icon" href="{% static "images/safari-pinned-tab.svg" %}" color="#000000">
+        <link rel="shortcut icon" href="{% static "images/favicon.ico" %}">
+        <meta name="msapplication-TileColor" content="#000000">
+        <meta name="msapplication-config" content="{% static "images/browserconfig.xml" %}">
+        <meta name="theme-color" content="#000000">
+
         {% comment %}
             Set "noindex" if the site is not being requested on a configured
             domain to prevent search engines crawling admin domains.
@@ -22,6 +32,8 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 
         {% block extra_css %}{% endblock %}
+
+
     </head>
 
     <body class="app {% block body_class %}app--{{ page.get_verbose_name|slugify }}{% endblock %} {% block header_class %}theme-light{% endblock %}">
