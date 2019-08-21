@@ -18,6 +18,7 @@ import './components/lazyload-images';
 import './components/outdated-banner';
 import './components/home-menu';
 import './components/stats-block';
+import './components/parallax';
 
 import '../sass/main.scss';
 

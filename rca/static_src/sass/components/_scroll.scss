@@ -19,7 +19,11 @@
         width: 19px;
         height: 18px;
         will-change: transform;
-        transition: transform $transition;
+        transition: transform $transition opacity $transition;
+        animation-name: bounce;
+        animation-timing-function: cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        animation-iteration-count: infinite;
+        animation-duration: 1.5s;
     }
 
     &:hover {
@@ -34,5 +38,17 @@
 
     .theme-light & {
         color: $color--white;
+    }
+
+    @keyframes bounce {
+        from {
+            opacity: 0;
+            transform: translate3d(0, -10px, 0);
+        }
+
+        to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
     }
 }
