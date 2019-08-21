@@ -109,6 +109,10 @@
         color: currentColor;
         margin-bottom: ($gutter / 2);
         padding-right: ($gutter / 2);
+
+        @include media-query(medium) {
+            padding-right: $gutter;
+        }
     }
 
     &__cta-sub-heading {

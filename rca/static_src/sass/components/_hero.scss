@@ -18,6 +18,16 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+        min-height: 340px;
+
+        @include media-query(medium) {
+            min-height: 450px;
+        }
+
+        @include media-query(large) {
+            min-height: 575px;
+        }
+
     }
 
     &__scroll {
