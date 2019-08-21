@@ -79,7 +79,7 @@ class StepBlock(blocks.StructBlock):
     link = LinkBlock()
 
     class Meta:
-        icon: "list"
+        icon = "list-ol"
 
 
 class AccordionBlockWithTitle(blocks.StructBlock):
