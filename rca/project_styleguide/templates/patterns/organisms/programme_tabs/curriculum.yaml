@@ -1,0 +1,45 @@
+context:
+  page:
+    pathways_summary: MA Animation comprises of three specialist pathways one of which students select as part of their application.
+    pathways_information: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
+    what_you_will_cover_blocks:
+      - accordion:
+        value:
+          heading: First Year
+          preview_text:
+          body: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
+          link:
+            title: 'Find out more'
+            url: '#'
+      - accordion:
+        value:
+          heading: Second Year
+          preview_text:
+          body: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
+          link:
+            title: 'Find out more'
+            url: '#'
+      - accordion:
+        value:
+          heading: Critical and Historical studies
+          preview_text:
+          body: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
+          link:
+            title: 'Find out more'
+            url: '#'
+      - accordion:
+        value:
+          heading: Media studies
+          preview_text:
+          body: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
+          link:
+            title: 'Find out more'
+            url: '#'
+      - accordion:
+        value:
+          heading: Live project
+          preview_text:
+          body: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
+          link:
+            title: 'Find out more'
+            url: '#'
