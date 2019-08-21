@@ -29,7 +29,6 @@
 
     // Only used for medium breakpoint rejigged layout
     &__section {
-
         @include media-query(medium) {
             flex-basis: 50%;
         }
@@ -121,6 +120,5 @@
         #{$root}__heading {
             color: $color--meta-lightbg;
         }
-
     }
 }
