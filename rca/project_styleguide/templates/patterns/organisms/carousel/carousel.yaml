@@ -1,5 +1,6 @@
 context:
   modifier: 'slideshow--author-info'
+  datatag: 'data-carousel'
   carousel:
     - slide:
       meta: 'Alumni Story'

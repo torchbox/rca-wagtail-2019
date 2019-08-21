@@ -1,3 +1,7 @@
+:root {
+    --grid-width: 0; // populated with carousel js
+}
+
 .carousel {
     $root: &;
     position: relative;
@@ -6,6 +10,65 @@
 
     @include media-query(large) {
         grid-column: 2 / span 3;
+    }
+
+    &--square {
+        @include media-query(large) {
+            grid-column: 2 / span 2;
+        }
+
+        #{$root}__slides {
+            position: relative;
+        }
+
+        #{$root}__item {
+            .card {
+                @include media-query(medium) {
+                    padding-right: ($gutter * 5);
+                }
+
+                @include media-query(large) {
+                    padding-right: var(--grid-width);
+                }
+            }
+        }
+
+        #{$root}__controls {
+            padding-right: $gutter;
+            padding-left: $gutter;
+            margin-top: $gutter;
+
+            @include media-query(medium) {
+                padding-right: ($gutter * 3);
+                padding-left: ($gutter * 3);
+            }
+        }
+
+        #{$root}__controls-group {
+            display: none;
+
+            @include media-query(large) {
+                display: grid;
+                position: absolute;
+                top: 50%;
+                left: 0;
+                right: 0;
+            }
+        }
+
+        #{$root}__button {
+            position: relative;
+
+            &--prev {
+                grid-column: 2 / span 1;
+                left: -77px;
+            }
+
+            &--next {
+                grid-column: 4 / span 1;
+                left: 30px;
+            }
+        }
     }
 
     &__item {

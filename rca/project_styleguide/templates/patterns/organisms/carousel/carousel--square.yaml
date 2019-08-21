@@ -1,0 +1,25 @@
+context:
+  modifier: 'carousel--square'
+  datatag: 'data-square-carousel'
+  carousel:
+    - slide:
+      meta: 'Student project'
+      title: 'RCA x CERN'
+      description: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
+      image: true
+      link: '#'
+      person: false
+    - slide:
+      meta: 'Research'
+      title: 'Burberry'
+      description: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
+      image: true
+      link: '#'
+      person: false
+    - slide:
+      meta: 'Student project'
+      title: 'Designing the imposible for NASA'
+      description: 'Creating world class experiences that started at the RCA'
+      image: true
+      link: '#'
+      person: false

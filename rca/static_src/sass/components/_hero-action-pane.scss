@@ -6,6 +6,7 @@
     pointer-events: none;
     top: -$hero-action-pane-height-small;
     margin-bottom: -$hero-action-pane-height-small;
+    overflow: hidden;
 
     @include media-query(medium) {
         height: $hero-action-pane-height-medium;
@@ -34,6 +35,16 @@
             width: ($gutter * 4);
             height: $hero-action-pane-height-medium;
             transform: translate3d(-80px, 0, 0);
+            background-color: $color--white;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: $hero-action-pane-height-medium;
+            transform: translate3d(100%, 0, 0);
             background-color: $color--white;
         }
     }

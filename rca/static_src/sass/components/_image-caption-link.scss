@@ -50,6 +50,7 @@
         #{$root}__caption {
             display: none;
             font-family: $font--secondary;
+            font-weight: $weight--medium;
             background: $color--primary;
             margin: 0;
             padding: $gutter;
