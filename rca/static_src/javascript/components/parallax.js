@@ -8,9 +8,8 @@ function parallax() {
         wrapper: null,
         round: true,
         vertical: true,
-        horizontal: false
+        horizontal: false,
     });
-
 }
 
 if (document.body.contains(document.querySelector('[data-parallax]'))) {
