@@ -11,7 +11,7 @@
     <div class="slideshow__controls grid">
         <div class="slideshow__bullet-container" data-glide-el="controls[nav]">
             {% for slide in slideshow %}
-                <button class="slideshow__bullet" data-glide-dir="={{ forloop.counter }}"></button>
+                <button class="slideshow__bullet" data-glide-dir="={{ forloop.counter }}" aria-label="Slide {{ forloop.counter }}"></button>
             {% endfor %}
         </div>
         <div class="slideshow__controls-group" data-glide-el="controls">

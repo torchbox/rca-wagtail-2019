@@ -5,6 +5,10 @@
         margin-right: ($gutter * 1.75);
     }
 
+    &__label {
+        @include hidden();
+    }
+
     &__input {
         background: $color--primary;
         color: $color--white;
