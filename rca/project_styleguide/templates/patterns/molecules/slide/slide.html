@@ -2,10 +2,10 @@
 
 <div class="slide {% if slide.author %}slide--author{% endif %}" data-slide>
 
-    {% image slide.image fill-100x71 as imageSmall %}
-    {% image slide.image fill-829x585 as imageLarge %}
+    {% image slide.image fill-100x71 as image_small %}
+    {% image slide.image fill-829x585 as image_large %}
 
-    {% include "patterns/atoms/image/image--lazyload.html" with imageSmall=imageSmall width=829 height=585 imageLarge=imageLarge classList='slide__image' %}
+    {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=829 height=585 image_large=image_large classList='slide__image' %}
 
     <div class="slide__meta">
         <h2 class="slide__heading">{{ slide.title }}</h2>

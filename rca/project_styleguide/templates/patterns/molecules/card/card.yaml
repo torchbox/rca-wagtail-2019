@@ -11,12 +11,12 @@ context:
 
 tags:
   image:
-    card.image fill-80x46 as imageSmall:
-      target_var: imageSmall
+    card.image fill-80x46 as image_small:
+      target_var: image_small
       raw:
         url: '//placekitten.com/80/46'
-    card.image fill-828x472 as imageLarge:
-      target_var: imageLarge
+    card.image fill-828x472 as image_large:
+      target_var: image_large
       raw:
         url: '//placekitten.com/828/472'
         width: '828'

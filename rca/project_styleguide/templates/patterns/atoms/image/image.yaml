@@ -1,11 +1,11 @@
 tags:
   image:
-    image fill-100x37 as imageSmall:
-      target_var: imageSmall
+    image fill-100x37 as image_small:
+      target_var: image_small
       raw:
         url: '//placekitten.com/100/37'
-    image fill-1134x595 as imageLarge:
-      target_var: imageLarge
+    image fill-1134x595 as image_large:
+      target_var: image_large
       raw:
         url: '//placekitten.com/1134/595'
         width: '1134'

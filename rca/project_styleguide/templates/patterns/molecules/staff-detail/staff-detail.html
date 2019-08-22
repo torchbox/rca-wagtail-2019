@@ -2,10 +2,10 @@
 
 <div class="staff-detail">
 
-    {% image person.image fill-50x50 as imageSmall %}
-    {% image person.image fill-277x277 as imageLarge %}
+    {% image person.image fill-50x50 as image_small %}
+    {% image person.image fill-277x277 as image_large %}
 
-    {% include "patterns/atoms/image/image--lazyload.html" with imageSmall=imageSmall width=277 height=277 imageLarge=imageLarge classList='staff-detail__image' %}
+    {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=277 height=277 image_large=image_large classList='staff-detail__image' %}
 
     <div class="staff-detail__content">
         <div class="staff-detail__overview">

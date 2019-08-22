@@ -1,7 +1,7 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
-{% image image fill-80x84 as imageSmall %}
-{% image image fill-580x607 as imageLarge %}
+{% image image fill-80x84 as image_small %}
+{% image image fill-580x607 as image_large %}
 
 <div class="contact">
     <div class="grid">
@@ -14,7 +14,7 @@
             <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
         </a>
         <div class="contact__image-container">
-            {% include "patterns/atoms/image/image--lazyload.html" with imageSmall=imageSmall width=580 height=607 imageLarge=imageLarge classList='contact__image' %}
+            {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=580 height=607 image_large=image_large classList='contact__image' %}
         </div>
     </div>
 </div>
