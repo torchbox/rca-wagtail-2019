@@ -1,7 +1,7 @@
 context:
   width: '829'
   height: '585'
-  imageSmall:
+  image_small:
     url: '//placekitten.com/100/71'
-  imageLarge:
+  image_large:
     url: '//placekitten.com/829/585'

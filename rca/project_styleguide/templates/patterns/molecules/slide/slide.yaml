@@ -7,12 +7,12 @@ context:
 
 tags:
   image:
-    slide.image fill-100x71 as imageSmall:
-      target_var: imageSmall
+    slide.image fill-100x71 as image_small:
+      target_var: image_small
       raw:
         url: '//placekitten.com/100/71'
-    slide.image fill-829x585 as imageLarge:
-      target_var: imageLarge
+    slide.image fill-829x585 as image_large:
+      target_var: image_large
       raw:
         url: '//placekitten.com/829/585'
         width: '829'

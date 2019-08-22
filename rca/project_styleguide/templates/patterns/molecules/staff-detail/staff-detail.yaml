@@ -6,12 +6,12 @@ context:
 
 tags:
   image:
-    person.image fill-50x50 as imageSmall:
-      target_var: imageSmall
+    person.image fill-50x50 as image_small:
+      target_var: image_small
       raw:
         url: '//placekitten.com/50/50'
-    person.image fill-277x277 as imageLarge:
-      target_var: imageLarge
+    person.image fill-277x277 as image_large:
+      target_var: image_large
       raw:
         url: '//placekitten.com/277/277'
         width: '277'
