@@ -58,22 +58,21 @@
             </section>
 
             {% include "patterns/organisms/stat-block/stat-block.html" %}
+            {% if partnerships_block %}
+                <section class="section section--top-space bg bg--light">
+                    <div class="partnerships">
+                        <div class="partnerships__header grid">
+                            <h2 class="partnerships__heading heading heading--one">{{partnerships_block.title}}</h2>
+                            <p class="partnerships__introduction">{{partnerships_block.summary}}</p>
+                        </div>
+                        <div class="partnerships__carousel">
+                            {% include "patterns/organisms/carousel/carousel--square.html" with carousel=partnerships_block.slides %}
+                        </div>
 
-            <section class="section section--top-space bg bg--light">
-
-                <div class="partnerships">
-
-                    <div class="partnerships__header grid">
-                        <h2 class="partnerships__heading heading heading--one">Working with the best</h2>
-                        <p class="partnerships__introduction">We work with a selection of the world's most innovative organisations.</p>
                     </div>
-                    <div class="partnerships__carousel">
-                        {% include "patterns/organisms/carousel/carousel--square.html" %}
-                    </div>
 
-                </div>
-
-            </section>
+                </section>
+            {% endif %}
 
             <section class="section section--end bg bg--dark">
 

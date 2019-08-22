@@ -3,10 +3,17 @@ from collections import defaultdict
 from django.core.exceptions import ValidationError
 from django.db import models
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.admin.edit_handlers import (
+    FieldPanel,
+    InlinePanel,
+    MultiFieldPanel,
+    StreamFieldPanel,
+)
+from wagtail.core.fields import StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
+from rca.utils.blocks import SlideBlock
 from rca.utils.models import BasePage
 
 
@@ -62,6 +69,18 @@ class HomePageTransofmrationBlock(models.Model):
             raise ValidationError(errors)
 
 
+class HomePagePartnershipBlock(models.Model):
+    # Partnership module
+    source_page = ParentalKey("HomePage", related_name="partnerships_block")
+    title = models.CharField(max_length=125)
+    summary = models.CharField(max_length=250)
+    slides = StreamField([("slide", SlideBlock())])
+    panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("slides")]
+
+    def __str__(self):
+        return self.title
+
+
 class HomePage(BasePage):
     template = "patterns/pages/home/home_page.html"
 
@@ -110,6 +129,7 @@ class HomePage(BasePage):
             heading="Strapline",
         ),
         InlinePanel("transformation_blocks", label="Transormation block", max_num=1),
+        InlinePanel("partnerships_block", label="Partnerships", max_num=1),
     ]
 
     def clean(self):
@@ -139,5 +159,8 @@ class HomePage(BasePage):
         context["transformation_blocks"] = self.transformation_blocks.select_related(
             "image"
         )
+        context["partnerships_block"] = HomePagePartnershipBlock.objects.filter(
+            source_page=self
+        ).first
 
         return context

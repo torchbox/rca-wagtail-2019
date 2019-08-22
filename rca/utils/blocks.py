@@ -18,6 +18,16 @@ class FeeBlock(blocks.StructBlock):
     )
 
 
+class SlideBlock(blocks.StructBlock):
+    image = ImageChooserBlock()
+    title = blocks.CharBlock(required=False)
+    type = blocks.CharBlock(required=False)
+    summary = blocks.TextBlock(required=False)
+
+    class Meta:
+        icon = "image"
+
+
 class ImageBlock(blocks.StructBlock):
     image = ImageChooserBlock()
     caption = blocks.CharBlock(required=False)
