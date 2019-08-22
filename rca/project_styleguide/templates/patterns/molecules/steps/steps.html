@@ -7,7 +7,7 @@
                     <div class="step-item__number">{{ forloop.counter }}.</div>
                     <div class="step-item__content">
                         <h5 class="step-item__heading body body--one">{{ step.heading }}</h5>
-                        {% if step.link %}
+                        {% if step.link.url and step.link.title %}
                             <a class="step-item__link link link--secondary link--link" href="{{ step.link.url }}">
                                 <span class="link__label">{{ step.link.title }}</span>
                                 <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
