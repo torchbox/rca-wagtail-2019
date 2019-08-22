@@ -27,7 +27,7 @@ An example for adding data requested from the API in the new page models would b
 def get_context(self, request, *args, **kwargs):
     context = super().get_context(request, *args, **kwargs)
     # TODO query by taxonomy
-    # related_programmes programme id 1
+    # related_programmes programme id 1 # change to slug
     url = "https://www.rca.ac.uk/api/v2/pages/?type=rca.NewsItem[filter-value]"
     resp = requests.get(url=url)
     data = resp.json()
