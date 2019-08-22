@@ -34,6 +34,11 @@ class Tabs {
         }
     }
 
+    removeHeadroomPinned() {
+        // ensure tab anchors are in correct place when tabs are clicked
+        document.querySelector('body').classList.remove('headroom--pinned');
+    }
+
     setActiveHashTab() {
         this.getURLHash();
 
@@ -59,6 +64,7 @@ class Tabs {
             this.tab.setAttribute('aria-selected', 'true');
             this.tabPanel.classList.remove('tabs__panel--hidden');
             this.addURLHash(this.tab.id);
+            this.removeHeadroomPinned();
         });
     }
 }
