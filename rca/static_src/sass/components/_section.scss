@@ -1,4 +1,3 @@
-
 .section {
     $root: &;
     $notch-height-small: 36px;
@@ -100,7 +99,8 @@
         }
 
         // Tab with different heading layout
-        #tab-panel-apply & { // sass-lint:disable-line no-ids
+        #tab-panel-apply & {
+            // sass-lint:disable-line no-ids
 
             @include media-query(large) {
                 grid-column: 2 / span 1;

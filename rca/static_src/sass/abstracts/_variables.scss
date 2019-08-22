@@ -29,8 +29,10 @@ $color--meta-lightbg: $color--dark-grey;
 
 // --------------------------------- Fonts --------------------------------------
 
-$font--primary: 'benton-sans', 'Benton Sans', 'BentonSans', 'Helvetica Neue', Arial, Helvetica, Sans-Serif;
-$font--secondary: 'benton-sans', 'Benton Sans Medium', 'BentonSans-Medium', 'Helvetica Neue', Arial, Helvetica, Sans-Serif;
+$font--primary: 'benton-sans', 'Benton Sans', 'BentonSans', 'Helvetica Neue',
+    Arial, Helvetica, Sans-Serif;
+$font--secondary: 'benton-sans', 'Benton Sans Medium', 'BentonSans-Medium',
+    'Helvetica Neue', Arial, Helvetica, Sans-Serif;
 
 // Font weights
 $weight--medium: 600;
@@ -80,7 +82,7 @@ $small-font-sizes: (
     xs: 14px,
     xxs: 14px,
     // no value in styleguide
-    xxxs: 12px,
+        xxxs: 12px,
 );
 
 // --------------------------------- Breakpoints --------------------------------------
