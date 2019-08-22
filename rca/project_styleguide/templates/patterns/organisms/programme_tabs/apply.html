@@ -1,20 +1,22 @@
 <section class="section section--start section--end bg bg--dark">
     <header class="section__header grid">
-        <h2 class="section__heading section__heading--primary heading heading--two">{{ tab_section.title }}</h2>
+        <h2 class="section__heading section__heading--primary heading heading--two">{{ page.apply_title }}</h2>
     </header>
     <div class="section__content">
 
         <div class="section__row grid">
-            {% include "patterns/atoms/image/image--right.html" %}
+            {% include "patterns/atoms/image/image--right.html" with image=page.apply_image %}
         </div>
 
         <div class="section__row">
             {% include "patterns/molecules/apply-intro/apply-intro.html" %}
         </div>
 
-        <div class="section__row">
-            {% include "patterns/molecules/steps/steps.html" %}
-        </div>
+        {% if page.steps %}
+            <div class="section__row">
+                {% include "patterns/molecules/steps/steps.html" with title="Before you begin" steps=page.steps %}
+            </div>
+        {% endif %}
     </div>
 
 </section>

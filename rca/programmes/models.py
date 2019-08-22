@@ -24,7 +24,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
-from rca.utils.blocks import AccordionBlockWithTitle, FeeBlock, GalleryBlock, InfoBlock
+from rca.utils.blocks import AccordionBlockWithTitle, FeeBlock, GalleryBlock, InfoBlock, StepBlock
 from rca.utils.models import BasePage, RelatedPage
 
 
@@ -170,7 +170,7 @@ class ProgrammePage(BasePage):
     programme_description_title = models.CharField(max_length=50, blank=True)
     programme_description_subtitle = models.CharField(max_length=100, blank=True)
     programme_description_copy = RichTextField(blank=True)
-    # Gallery
+
     programme_gallery_title = models.CharField(max_length=125, blank=True)
     programme_gallery = StreamField(
         [("slide", GalleryBlock())], blank=True, verbose_name="Programme gallery"
@@ -222,7 +222,6 @@ class ProgrammePage(BasePage):
     # Related Content (news and events api fetch)
 
     # Programme Curriculumm
-    # Curriculum
     curriculum_image = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -279,6 +278,21 @@ class ProgrammePage(BasePage):
     more_information_blocks = StreamField(
         [("information_block", InfoBlock())], blank=True
     )
+
+    # Apply
+    apply_title = models.CharField(max_length=125, default="Start your application")
+    apply_image = models.ForeignKey(
+        get_image_model_string(),
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    apply_image_title = models.CharField(max_length=125, blank=True)
+    apply_image_sub_title = models.CharField(max_length=250, blank=True)
+    steps = StreamField([("step", StepBlock())], blank=True)
+    apply_cta_link = models.URLField()
+    apply_cta_text = models.CharField(max_length=125)
 
     content_panels = BasePage.content_panels + [
         # Taxonomy, relationships etc
@@ -421,8 +435,25 @@ class ProgrammePage(BasePage):
             [StreamFieldPanel("more_information_blocks")], heading="More information"
         ),
     ]
-
-    programme_apply_pannels = []
+    programme_apply_pannels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("apply_title"),
+                ImageChooserPanel("apply_image"),
+                FieldPanel("apply_image_title"),
+                FieldPanel("apply_image_sub_title"),
+            ],
+            heading="Introduction image",
+        ),
+        MultiFieldPanel(
+            [
+                StreamFieldPanel("steps"),
+                FieldPanel("apply_cta_link"),
+                FieldPanel("apply_cta_text"),
+            ],
+            heading="Before you begin",
+        ),
+    ]
 
     edit_handler = TabbedInterface(
         [
@@ -458,6 +489,10 @@ class ProgrammePage(BasePage):
             errors["curriculum_video"].append(
                 "Only YouTube videos are supported for this field "
             )
+        if self.apply_cta_link and not self.apply_cta_text:
+            errors["apply_cta_text"].append("Please add a text value for the CTA link")
+        if self.apply_cta_text and not self.apply_cta_link:
+            errors["apply_cta_link"].append("Please add a URL value for the CTa")
         if errors:
             raise ValidationError(errors)
 

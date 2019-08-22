@@ -1,3 +1,11 @@
 context:
-  tab_section:
-    title: Start your application
+  page:
+    apply_title: Start your application
+    apply_image_title: Change your life and be here in 2020
+    apply_image_sub_title: The Royal College of Art welcomes applications from all over the world
+    steps:
+      - value
+      - value
+      - value
+    apply_cta_link: '#'
+    apply_cta_text: Apply now via our application portal
