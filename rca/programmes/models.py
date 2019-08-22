@@ -570,9 +570,7 @@ class ProgrammePage(BasePage):
             }
         ]
 
-        context["related_staff"] = ProgramPageRelatedStaff.objects.filter(
-            source_page=self
-        ).select_related("image")
+        context["related_staff"] = self.related_staff.select_related("image")
 
         # Set the page tab titles
         context["tabs"] = [
