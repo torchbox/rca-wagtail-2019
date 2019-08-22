@@ -40,7 +40,12 @@
 
     &__item-accordion {
         display: grid;
-        grid-template-columns: 1fr 1fr 27.5%;
+        grid-template-columns: 1fr 1fr;
+
+        @include media-query(large) {
+            grid-template-columns: 1fr 1fr 27.5%;
+        }
+
     }
 
     &__sub-heading {

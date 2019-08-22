@@ -35,6 +35,11 @@
         aria-labelledby="question-{{ accordion_id }}-{{ forloop.counter }}"
         aria-hidden="false">
         <div class="accordion__content-container">
+            {% if accordion.introduction %}
+                <div class="accordion__introduction">
+                    {{ accordion.introduction }}
+                </div>
+            {% endif %}
             {{ accordion.body|richtext }}
             {% if accordion.link.url and accordion.link.title %}
                 {% include "patterns/atoms/link-primary/link-primary--link.html" with href=accordion.link.url  text=accordion.link.title %}

@@ -84,28 +84,28 @@
         {% if page.more_information_blocks %}
             <div class="overview grid">
                 <h3 class="overview__heading heading heading--four">More information</h3>
-                <div class="overview__item">
-                        {% for block in page.more_information_blocks %}
-                            {% if block.value.title %}
-                                <h4 class="overview__sub-heading heading heading--five">
-                                    {{ block.value.title }}
-                                </h4>
-                            {% endif %}
-                            {% if block.value.text %}
-                                <p class="overview__introduction introduction">
-                                    {{ block.value.text|richtext }}
-                                </p>
-                            {% endif %}
-                            {% if block.value.link.url and block.value.link.title %}
-                                <div class="overview__item-action">
-                                    <a class="link link--secondary link--link" href="{{ block.value.link.url }}">
-                                        <span class="link__label">{{ block.value.link.title }}</span>
-                                        <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
-                                    </a>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                </div>
+                {% for block in page.more_information_blocks %}
+                    <div class="overview__item">
+                        {% if block.value.title %}
+                            <h4 class="overview__sub-heading heading heading--five">
+                                {{ block.value.title }}
+                            </h4>
+                        {% endif %}
+                        {% if block.value.text %}
+                            <p class="overview__introduction introduction">
+                                {{ block.value.text|richtext }}
+                            </p>
+                        {% endif %}
+                        {% if block.value.link.url and block.value.link.title %}
+                            <div class="overview__item-action">
+                                <a class="link link--secondary link--link" href="{{ block.value.link.url }}">
+                                    <span class="link__label">{{ block.value.link.title }}</span>
+                                    <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
             </div>
         {% endif %}
         <div class="disclaimer grid">
