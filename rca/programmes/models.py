@@ -24,7 +24,13 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
-from rca.utils.blocks import AccordionBlockWithTitle, FeeBlock, GalleryBlock, InfoBlock, StepBlock
+from rca.utils.blocks import (
+    AccordionBlockWithTitle,
+    FeeBlock,
+    GalleryBlock,
+    InfoBlock,
+    StepBlock,
+)
 from rca.utils.models import BasePage, RelatedPage
 
 
