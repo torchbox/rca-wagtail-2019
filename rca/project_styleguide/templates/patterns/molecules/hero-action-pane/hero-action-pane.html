@@ -1,7 +1,7 @@
 {% load wagtailcore_tags navigation_tags %}
 
-<div class="hero-action-pane grid" data-parallax >
-    <div class="hero-action-pane__cta">
+<div class="hero-action-pane grid">
+    <div class="hero-action-pane__cta" data-parallax data-rellax-speed="-3">
         <a href="#" class="hero-action-pane__cta-link">
             <div class="hero-action-pane__cta-heading">
                 Apply for programmes starting 2020
@@ -13,7 +13,7 @@
         </a>
     </div>
 
-    <div class="hero-action-pane__links">
+    <div class="hero-action-pane__links" data-parallax data-rellax-speed="-1">
         {% audience_links as links %}
         {% for value in links %}
             {% include 'patterns/atoms/audience-nav-item/audience-nav-item--desc.html' %}
