@@ -33,10 +33,19 @@
 
         {% block extra_css %}{% endblock %}
 
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-KPVDFQC');</script>
 
     </head>
 
     <body class="app {% block body_class %}app--{{ page.get_verbose_name|slugify }}{% endblock %} {% block header_class %}theme-light{% endblock %}">
+
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KPVDFQC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
         {% block body_top %}{% endblock %}
 
         {% include "patterns/molecules/outdated-banner/outdated-banner.html" %}
