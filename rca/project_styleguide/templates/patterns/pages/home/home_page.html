@@ -32,14 +32,16 @@
 
                 </section>
             {% endif %}
-
-            <section class="section section--top-space bg bg--light">
-                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=False heading=image_video_block.heading subheading=image_video_block.subheading has_meta=True %}
-
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
-                </div>
-            </section>
+            {% if transformation_blocks.first %}
+                {% with transformation_block=transformation_blocks.first %}
+                    <section class="section section--top-space bg bg--light">
+                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=transformation_block.video heading=transformation_block.heading subheading=transformation_block.sub_heading image=transformation_block.image has_meta=True meta_heading=transformation_block.page_title meta_copy=transformation_block.page_summary href=transformation_block.page_link_url caption=transformation_block.video_caption video=transformation_block.video %}
+                        <div class="section__notch">
+                            <div class="section__notch-fill section__notch-fill--third-col"></div>
+                        </div>
+                    </section>
+                {% endwith %}
+            {% endif %}
 
             <section class="section section--top-space bg bg--dark">
 

@@ -2,11 +2,64 @@ from collections import defaultdict
 
 from django.core.exceptions import ValidationError
 from django.db import models
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
+from modelcluster.fields import ParentalKey
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.utils.models import BasePage
+
+
+class HomePageTransofmrationBlock(models.Model):
+    source_page = ParentalKey("HomePage", related_name="transformation_blocks")
+    heading = models.CharField(
+        max_length=125, help_text="Large heading displayed above the image"
+    )
+    image = models.ForeignKey(
+        get_image_model_string(),
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    video = models.URLField(blank=True)
+    video_caption = models.CharField(
+        blank=True,
+        max_length=80,
+        help_text="The text dipsplayed next to the video play button",
+    )
+    sub_heading = models.CharField(
+        max_length=125, blank=True, help_text="The title below the image"
+    )
+    page_title = models.CharField(
+        max_length=125, blank=True, help_text="A title for the linked related page"
+    )
+    page_summary = models.CharField(
+        max_length=250, blank=True, help_text="A summary for the linked related page"
+    )
+    page_link_url = models.URLField(blank=True, help_text="A url to a related page")
+
+    panels = [
+        FieldPanel("heading"),
+        ImageChooserPanel("image"),
+        FieldPanel("video"),
+        FieldPanel("video_caption"),
+        FieldPanel("sub_heading"),
+        FieldPanel("page_title"),
+        FieldPanel("page_summary"),
+        FieldPanel("page_link_url"),
+    ]
+
+    def __str__(self):
+        return self.heading
+
+    def clean(self):
+        errors = defaultdict(list)
+        if self.video and not self.video_caption:
+            errors["video_caption"].append("Please add a caption for the video")
+
+        if errors:
+            raise ValidationError(errors)
 
 
 class HomePage(BasePage):
@@ -56,6 +109,7 @@ class HomePage(BasePage):
             ],
             heading="Strapline",
         ),
+        InlinePanel("transformation_blocks", label="Transormation block", max_num=1),
     ]
 
     def clean(self):
@@ -81,5 +135,9 @@ class HomePage(BasePage):
         context["hero_colour"] = "dark"
         if self.hero_colour_option == "1":
             context["hero_colour"] = "light"
+
+        context["transformation_blocks"] = self.transformation_blocks.select_related(
+            "image"
+        )
 
         return context

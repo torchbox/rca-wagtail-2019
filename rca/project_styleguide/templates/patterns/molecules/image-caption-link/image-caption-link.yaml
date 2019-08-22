@@ -4,11 +4,11 @@ context:
 
 tags:
   image:
-    curriculum_image fill-80x37 as image_small:
+    image fill-80x37 as image_small:
       target_var: image_small
       raw:
         url: '//placekitten.com/80/37'
-    curriculum_image fill-900x415 as image_large:
+    image fill-900x415 as image_large:
       target_var: image_large
       raw:
         url: '//placekitten.com/900/415'
