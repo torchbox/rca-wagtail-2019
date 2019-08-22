@@ -48,9 +48,11 @@
                 <p class="overview__introduction introduction">{{ page.scholarships_information }}</p>
                 <div class="overview__item-content">
                     {% if page.scholarship_accordion_items %}
-                        {% for accordion in page.scholarship_accordion_items %}
-                            {% include "patterns/molecules/accordion/accordion.html" with accordion=accordion.value %}
-                        {% endfor %}
+                        <div class="overview__item-accordion">
+                            {% for accordion in page.scholarship_accordion_items %}
+                                {% include "patterns/molecules/accordion/accordion.html" with modifier='short' accordion=accordion.value accordion_id='3' %}
+                            {% endfor %}
+                        </div>
                     {% endif %}
                 </div>
             </div>

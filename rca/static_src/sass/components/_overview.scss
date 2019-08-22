@@ -30,11 +30,17 @@
                 margin-bottom: ($gutter * 1.5);
             }
         }
+
     }
 
     &__item-action {
         @include font-size(xxs);
         padding-top: $gutter;
+    }
+
+    &__item-accordion {
+        display: grid;
+        grid-template-columns: 1fr 1fr 27.5%;
     }
 
     &__sub-heading {

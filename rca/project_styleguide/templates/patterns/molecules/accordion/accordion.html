@@ -1,5 +1,5 @@
 {% load wagtailcore_tags %}
-<div class="accordion {% if accordion.preview_text %}accordion--with-preview{% endif %}" data-accordion>
+<div class="accordion {% if modifier %}accordion--{{ modifier }}{% endif %} {% if accordion.preview_text %}accordion--with-preview{% endif %}" data-accordion>
     <a
         href="#"
         role="tab"
