@@ -99,18 +99,14 @@
     }
 
     .bg--dark & {
-
         #{$root}__caption {
             border-right: 1px solid $color--grid-line-light;
         }
-
     }
 
     .bg--light & {
-
         #{$root}__caption {
             border-right: 1px solid $color--grid-line-dark;
         }
-
     }
 }
