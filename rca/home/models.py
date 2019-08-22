@@ -13,7 +13,7 @@ from wagtail.core.fields import StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from rca.utils.blocks import SlideBlock
+from rca.utils.blocks import SlideBlock, StatisticBlock
 from rca.utils.models import BasePage
 
 
@@ -81,6 +81,27 @@ class HomePagePartnershipBlock(models.Model):
         return self.title
 
 
+class HomePageStatsBlock(models.Model):
+    source_page = ParentalKey("HomePage", related_name="stats_block")
+    title = models.CharField(max_length=125)
+    statistics = StreamField([("statistic", StatisticBlock())])
+    background_image = models.ForeignKey(
+        get_image_model_string(),
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    panels = [
+        FieldPanel("title"),
+        ImageChooserPanel("background_image"),
+        StreamFieldPanel("statistics"),
+    ]
+
+    def __str__(self):
+        return self.title
+
+
 class HomePage(BasePage):
     template = "patterns/pages/home/home_page.html"
 
@@ -130,6 +151,7 @@ class HomePage(BasePage):
         ),
         InlinePanel("transformation_blocks", label="Transormation block", max_num=1),
         InlinePanel("partnerships_block", label="Partnerships", max_num=1),
+        InlinePanel("stats_block", label="Statistics", max_num=1),
     ]
 
     def clean(self):
@@ -162,5 +184,6 @@ class HomePage(BasePage):
         context["partnerships_block"] = HomePagePartnershipBlock.objects.filter(
             source_page=self
         ).first
+        context["stats_block"] = self.stats_block.select_related("background_image")
 
         return context

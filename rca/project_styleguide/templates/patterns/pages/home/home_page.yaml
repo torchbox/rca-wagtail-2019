@@ -93,3 +93,8 @@ context:
       page_link: '#'
       video: 'https://www.youtube.com/watch?v=1PWTqCBVjjU'
       video_caption: Watch video
+  stats_block:
+    statistics:
+      - stat:
+      - stat:
+      - stat:

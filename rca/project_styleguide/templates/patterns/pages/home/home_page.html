@@ -56,8 +56,12 @@
                 </div>
 
             </section>
-
+            {% if stats_block %}
+            {% with stats_block=stats_block.first %}
             {% include "patterns/organisms/stat-block/stat-block.html" %}
+            {% endwith%}
+            {% endif %}
+
             {% if partnerships_block %}
                 <section class="section section--top-space bg bg--light">
                     <div class="partnerships">

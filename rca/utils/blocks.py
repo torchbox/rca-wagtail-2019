@@ -25,6 +25,23 @@ class SlideBlock(blocks.StructBlock):
     summary = blocks.TextBlock(required=False)
 
     class Meta:
+        icon = "plus"
+
+
+class StatisticBlock(blocks.StructBlock):
+
+    summary = blocks.CharBlock(
+        required=False,
+        help_text="E.g,  1 in 3 of our graduates are business owners or independent professionals",
+    )
+    before = blocks.CharBlock(required=False)
+    after = blocks.CharBlock(required=False, help_text="E.g, '%'", max_length=2)
+    number = blocks.CharBlock(required=False, help_text="E.g, '33'", max_length=5)
+    meta = blocks.CharBlock(
+        required=False, help_text="Small title below the number E.g, 'Nationalities'"
+    )
+
+    class Meta:
         icon = "image"
 
 
