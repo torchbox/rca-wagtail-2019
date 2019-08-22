@@ -1,6 +1,4 @@
 .footer {
-    @include z-index(base);
-    position: relative;
     padding-top: ($gutter * 2);
     padding-bottom: $gutter;
     background-color: $color--black;

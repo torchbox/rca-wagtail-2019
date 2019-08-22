@@ -17,7 +17,7 @@
     }
 
     &--overlay {
-        @include z-index(overlap);
+        @include z-index(gridlines);
         position: relative;
 
         .theme-dark & {
