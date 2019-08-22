@@ -8,6 +8,9 @@
     }
 
     &__image {
+        @include z-index(above-gridlines);
+        position: relative;
+
         #{$root}__link & {
             opacity: 0.8;
 
@@ -24,6 +27,7 @@
 
     &__link {
         position: relative;
+        pointer-events: cursor;
 
         &:active,
         &:focus,
@@ -33,6 +37,7 @@
     }
 
     &__caption-container {
+        @include z-index(above-gridlines);
         display: grid;
         position: absolute;
         bottom: 0;
@@ -90,6 +95,18 @@
 
         @include media-query(medium) {
             display: none;
+        }
+    }
+
+    .bg--dark & {
+        #{$root}__caption {
+            border-right: 1px solid $color--grid-line-light;
+        }
+    }
+
+    .bg--light & {
+        #{$root}__caption {
+            border-right: 1px solid $color--grid-line-dark;
         }
     }
 }

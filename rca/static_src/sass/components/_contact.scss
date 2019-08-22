@@ -66,6 +66,7 @@
         display: none;
 
         #{$root}__image {
+            @include z-index(above-gridlines);
             position: absolute;
             height: ($gutter * 30);
             object-fit: cover;
