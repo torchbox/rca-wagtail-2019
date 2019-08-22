@@ -55,10 +55,15 @@
 </section>
 
 <section class="section bg bg--light">
-
-    {% include "patterns/organisms/staff-overview/staff-overview.html" %}
-
-    {% include "patterns/organisms/staff-overview/staff-overview--single.html" %}
+    {% with staff=related_staff %}
+        {% if staff %}
+            {% if staff|length > 1 %}
+                    {% include "patterns/organisms/staff-overview/staff-overview.html" %}
+            {% else %}
+                {% include "patterns/organisms/staff-overview/staff-overview--single.html" %}
+            {% endif %}
+        {% endif %}
+    {% endwith %}
 
     {% include "patterns/organisms/facilities/facilities.html" with link=page.facilities_link title='Facilities' introduction=page.facilities_intro link_text="See all college facilities"  body=page.facilities_copy slideshow=page.facilities_gallery  slideshow=page.facilities_gallery %}
 

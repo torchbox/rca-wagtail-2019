@@ -19,6 +19,8 @@ from wagtail.core.blocks import CharBlock, StructBlock, URLBlock
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable
 from wagtail.documents.edit_handlers import DocumentChooserPanel
+from wagtail.embeds import embeds
+from wagtail.embeds.exceptions import EmbedException
 from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -84,6 +86,34 @@ class ProgrammePageCareerOpportunities(Orderable):
     page = ParentalKey("ProgrammePage", related_name="career_opportunities")
     text = models.TextField(blank=True, null=True)
     panels = [FieldPanel("text")]
+
+
+class ProgramPageRelatedStaff(Orderable):
+    # In a future phase, this will become a related page
+    source_page = ParentalKey("ProgrammePage", related_name="related_staff")
+    image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    name = models.CharField(max_length=125)
+    role = models.CharField(max_length=125, blank=True)
+    description = models.TextField(blank=True)
+    link = models.URLField(blank=True)
+    link_text = models.CharField(max_length=125, blank=True)
+    panels = [
+        ImageChooserPanel("image"),
+        FieldPanel("name"),
+        FieldPanel("role"),
+        FieldPanel("description"),
+        FieldPanel("link"),
+        FieldPanel("link_text"),
+    ]
+
+    def __str__(self):
+        return self.name
 
 
 class ProgrammePage(BasePage):
@@ -182,6 +212,12 @@ class ProgrammePage(BasePage):
         [("slide", GalleryBlock())], blank=True, verbose_name="Programme gallery"
     )
 
+    # Staff
+    staff_link = models.URLField(blank=True)
+    staff_link_text = models.CharField(
+        max_length=125, blank=True, help_text="E.g. 'See all programme staff'"
+    )
+
     facilities_intro = models.CharField(blank=True, max_length=150)
     facilities_copy = models.TextField(blank=True, max_length=400)
     facilities_link = models.URLField(blank=True)
@@ -223,7 +259,6 @@ class ProgrammePage(BasePage):
     )
 
     # TODO
-    # Staff (api fetch)
     # Alumni Stories Carousel (api fetch)
     # Related Content (news and events api fetch)
 
@@ -364,6 +399,14 @@ class ProgrammePage(BasePage):
         ),
         MultiFieldPanel(
             [
+                InlinePanel("related_staff", max_num=2),
+                FieldPanel("staff_link"),
+                FieldPanel("staff_link_text"),
+            ],
+            heading="Staff",
+        ),
+        MultiFieldPanel(
+            [
                 FieldPanel("facilities_intro"),
                 FieldPanel("facilities_copy"),
                 FieldPanel("facilities_link"),
@@ -491,10 +534,19 @@ class ProgrammePage(BasePage):
             errors["programme_details_time_suffix"].append("Please add a suffix")
         if self.programme_details_time_suffix and not self.programme_details_time:
             errors["programme_details_time"].append("Please add a time value")
-        if self.curriculum_video and "youtube" not in self.curriculum_video:
-            errors["curriculum_video"].append(
-                "Only YouTube videos are supported for this field "
-            )
+        try:
+            embed = embeds.get_embed(self.curriculum_video)
+        except EmbedException:
+            errors["curriculum_video"].append("invalid embed URL")
+        else:
+            if embed.provider_name.lower() != "youtube":
+                errors["curriculum_video"].append(
+                    "Only YouTube videos are supported for this field "
+                )
+        if self.staff_link and not self.staff_link_text:
+            errors["staff_link_text"].append("Please the text to be used for the link")
+        if self.staff_link_text and not self.staff_link:
+            errors["staff_link_text"].append("Please add a URL value for the link")
         if self.apply_cta_link and not self.apply_cta_text:
             errors["apply_cta_text"].append("Please add a text value for the CTA link")
         if self.apply_cta_text and not self.apply_cta_link:
@@ -517,6 +569,9 @@ class ProgrammePage(BasePage):
                 ],
             }
         ]
+
+        context["related_staff"] = self.related_staff.select_related("image")
+
         # Set the page tab titles
         context["tabs"] = [
             {"title": "Overview"},
