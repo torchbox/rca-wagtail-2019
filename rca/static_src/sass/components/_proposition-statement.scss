@@ -1,5 +1,6 @@
 .proposition-statement {
     $root: &;
+    padding-bottom: ($grid * 4);
 
     &__introduction {
         @include font-size(xxxxl);
