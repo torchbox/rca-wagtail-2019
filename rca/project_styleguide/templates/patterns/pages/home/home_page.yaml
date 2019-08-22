@@ -1,7 +1,13 @@
 context:
   page:
     title: Homepage
-    strapline: This is a home page
+    strapline: The world’s number 1 art & design university
+    hero_cta_text: Apply for programmes starting 2020
+    hero_cta_url: '#'
+    hero_cta_sub_text: Shape your future
+    strapline_cta_text: Book an open day
+    strapline_cta_url: '#'
+
     call_to_action:
       title: Stub content
       summary: Check out our awesome stub content
