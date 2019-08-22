@@ -2,20 +2,20 @@
 
 <div class="staff-detail">
 
-    {% image person.image fill-50x50 as image_small %}
-    {% image person.image fill-277x277 as image_large %}
+    {% image item.image fill-50x50 as image_small %}
+    {% image item.image fill-277x277 as image_large %}
 
     {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=277 height=277 image_large=image_large classList='staff-detail__image' %}
 
     <div class="staff-detail__content">
         <div class="staff-detail__overview">
-            <h3 class="staff-detail__heading heading heading--five">{{ title }}</h3>
-            <h4 class="staff-detail__job-title body body--one">{{ job_title }}</h4>
+            <h3 class="staff-detail__heading heading heading--five">{{ item.name }}</h3>
+            <h4 class="staff-detail__job-title body body--one">{{ item.role }}</h4>
         </div>
         <div class="staff-detail__more">
-            <p class="staff-detail__body body body--two">{{ body }}</p>
-            <a href="{{ link }}" class="staff-detail__link body body--two link link--tertiary link--link">
-                <span class="link__label">Read more</span>
+            <p class="staff-detail__body body body--two">{{ item.description }}</p>
+            <a href="{{ item.link }}" class="staff-detail__link body body--two link link--tertiary link--link">
+                <span class="link__label">{{item.link_text}}</span>
                 <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
             </a>
         </div>
