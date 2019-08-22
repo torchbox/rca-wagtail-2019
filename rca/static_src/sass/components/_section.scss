@@ -18,7 +18,7 @@
     }
 
     &--top-space-large {
-        padding-top: ($gutter * 5.75);
+        padding-top: ($gutter * 7.75);
 
         @include media-query(medium) {
             padding-top: ($gutter * 18.25);

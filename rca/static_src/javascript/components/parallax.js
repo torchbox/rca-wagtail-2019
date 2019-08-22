@@ -2,7 +2,7 @@ import Rellax from 'rellax';
 
 function parallax() {
     new Rellax('[data-parallax]', {
-        speed: -2,
+        speed: -3,
         center: false,
         wrapper: null,
         round: true,
