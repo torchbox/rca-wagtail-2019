@@ -3,23 +3,26 @@ context:
   datatag: 'data-square-carousel'
   carousel:
     - slide:
-      meta: 'Student project'
-      title: 'RCA x CERN'
-      description: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
-      image: true
-      link: '#'
-      person: false
+      value:
+        meta: 'Student project'
+        title: 'RCA x CERN'
+        summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
+        link: '#'
+        person: false
+        image: True
     - slide:
-      meta: 'Research'
-      title: 'Burberry'
-      description: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
-      image: true
-      link: '#'
-      person: false
+      value:
+        meta: 'Research'
+        title: 'Burberry'
+        summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
+        link: '#'
+        person: false
+        image: True
     - slide:
-      meta: 'Student project'
-      title: 'Designing the imposible for NASA'
-      description: 'Creating world class experiences that started at the RCA'
-      image: true
-      link: '#'
-      person: false
+      value:
+        meta: 'Student project'
+        title: 'Designing the imposible for NASA'
+        summary: 'Creating world class experiences that started at the RCA'
+        link: '#'
+        person: false
+        image: True
