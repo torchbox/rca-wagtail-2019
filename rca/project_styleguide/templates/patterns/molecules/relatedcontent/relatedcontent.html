@@ -2,15 +2,15 @@
 
 <div class="related-content">
     <div class="section__row grid">
-        <h2 class="related-content__heading heading heading--two">{{title}}</h2>
+        <h2 class="related-content__heading heading heading--two">{{ title }}</h2>
     </div>
 
     {% if related_sections %}
 
         {% for related_section in related_sections %}
-            <div class="related-content__group" data-group="{{forloop.counter}}">
+            <div class="related-content__group" data-group="{{ forloop.counter }}">
                 <div class="section__row grid">
-                    <h3 class="related-content__subheading heading heading--five">{{related_section.title}}</h3>
+                    <h3 class="related-content__subheading heading heading--five">{{ related_section.title }}</h3>
                 </div>
 
                 <div class="grid">
@@ -22,21 +22,21 @@
                                     href="#"
                                     class="link link--tertiary"
                                     data-related-title
-                                    data-target-image="{{forloop.counter}}"
-                                    data-parent-group={{forloop.parentloop.counter}}
+                                    data-target-image="{{ forloop.counter }}"
+                                    data-parent-group={{ forloop.parentloop.counter }}
                                 >
-                                    {{related_item.title}}
+                                    {{ related_item.title }}
                                 </a>
                             </p>
-                            <p class="related-content__degree body body--two">{{related_item.degree}}</p>
+                            <p class="related-content__degree body body--two">{{ related_item.degree }}</p>
                         </div>
-                        <p class="related-content__copy body body--two">{{related_item.copy}}</p>
+                        <p class="related-content__copy body body--two">{{ related_item.copy }}</p>
                     {% endfor %}
 
                     {% for related_item in related_items %}
                         <div class="related-content__image-container">
                             {% image related_item.img fill-250x250 as relatedImage %}
-                            <img class="related-content__image {% if forloop.first %}is-visible{% endif %}" src="{{relatedImage.img}}" height="{{relatedImage.height}}" width="{{relatedImage.width}}" alt="{{relatedImage.alt}}" data-image="{{forloop.counter}}">
+                            <img class="related-content__image {% if forloop.first %}is-visible{% endif %}" src="{{ relatedImage.img }}" height="{{ relatedImage.height }}" width="{{ relatedImage.width }}" alt="{{ relatedImage.alt }}" data-image="{{ forloop.counter }}">
                         </div>
                     {% endfor %}
 

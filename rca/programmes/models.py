@@ -26,6 +26,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
+from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_TEXT_ON_DARK_IMAGE
 from rca.utils.blocks import (
     AccordionBlockWithTitle,
     FeeBlock,
@@ -61,7 +62,7 @@ class ProgrammePageProgrammeType(models.Model):
         return self.programme_type.display_name
 
 
-class ProgrammePageFeeItem(models.Model):
+class ProgrammePageFeeItem(Orderable):
     page = ParentalKey("ProgrammePage", related_name="fee_items")
     title = models.CharField(
         max_length=120,
@@ -70,7 +71,7 @@ class ProgrammePageFeeItem(models.Model):
     introduction = models.CharField(
         max_length=250, help_text="Extra information about the fee items"
     )
-    row = StreamField([("row", FeeBlock())])
+    row = StreamField([("row", FeeBlock())], blank=True)
     panels = [FieldPanel("title"), FieldPanel("introduction"), StreamFieldPanel("row")]
 
     def __str__(self):
@@ -141,13 +142,7 @@ class ProgrammePage(BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    hero_colour_option = models.CharField(
-        max_length=1,
-        choices=(
-            ("1", "Light text on a dark image"),
-            ("2", "Dark text on a light image"),
-        ),
-    )
+    hero_colour_option = models.PositiveSmallIntegerField(choices=(HERO_COLOUR_CHOICES))
     related_content_title = models.CharField(
         blank=True,
         max_length=120,
@@ -557,7 +552,8 @@ class ProgrammePage(BasePage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["hero_colour"] = "dark"
-        if self.hero_colour_option == "1":
+
+        if int(self.hero_colour_option) == LIGHT_TEXT_ON_DARK_IMAGE:
             context["hero_colour"] = "light"
 
         context["related_sections"] = [
@@ -569,6 +565,7 @@ class ProgrammePage(BasePage):
                 ],
             }
         ]
+        print(self.fee_items.all)
 
         context["related_staff"] = self.related_staff.select_related("image")
 
