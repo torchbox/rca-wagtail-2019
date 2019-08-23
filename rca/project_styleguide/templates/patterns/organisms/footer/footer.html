@@ -22,10 +22,10 @@
                 {% for link in social_links %}
                     {# Only render if we have a link #}
                     {% if link.url %}
-                        <li class="social-item social-item--{{link.type}}">
-                            <a class="social-item__link" href="{{link.url}}" aria-label="{{link.label}}">
+                        <li class="social-item social-item--{{ link.type }}">
+                            <a class="social-item__link" href="{{ link.url }}" aria-label="{{ link.label }}">
                                 <svg class="social-item__icon" width="24" height="24">
-                                    <use xlink:href="#{{link.type}}">
+                                    <use xlink:href="#{{ link.type }}">
                                     </use>
                                 </svg>
                             </a>

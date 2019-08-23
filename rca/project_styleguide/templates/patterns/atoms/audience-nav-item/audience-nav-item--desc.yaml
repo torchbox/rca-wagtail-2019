@@ -1,5 +1,5 @@
 context:
   value:
     text: 'Study at the RCA'
-    description: Discover our programmes
+    sub_text: Discover our programmes
     href: '#'

@@ -32,8 +32,8 @@
                                 href="{{ link.url }}"
                                 class="nav__link"
                                 data-nav-level="1"
-                                data-menu="{{forloop.counter}}"
-                                data-menu-id={{forloop.counter}}
+                                data-menu="{{ forloop.counter }}"
+                                data-menu-id={{ forloop.counter }}
                                 {% if link.secondary_links %}data-menu-parent{% endif %}
                             >
                                 <span>{{ link.text }}</span>
@@ -55,9 +55,9 @@
         <div class="header__inner header__inner--drawer header__inner--level-two" data-nav-level-2>
             {% for link in primarynav %}
                 {% if link.secondary_links %}
-                    <ul data-ul="2" data-menu-{{forloop.counter}} class="nav nav--subnav" role="menu">
+                    <ul data-ul="2" data-menu-{{ forloop.counter }} class="nav nav--subnav" role="menu">
                         <li class="nav__item nav__item--group-heading">
-                            <a href="{{link.url}}" class="nav__link nav__link--group-heading">{{ link.text }}</a>
+                            <a href="{{ link.url }}" class="nav__link nav__link--group-heading">{{ link.text }}</a>
                         </li>
                         {% for item in link.secondary_links %}
                             <li class="nav__item">
@@ -68,9 +68,9 @@
                                     class="nav__link"
                                     data-menu-child
                                     data-nav-level="2"
-                                    data-parent-id="{{forloop.parentloop.counter}}"
-                                    data-menu-id="{{forloop.parentloop.counter}}-{{forloop.counter}}"
-                                    data-menu="{{forloop.parentloop.counter}}-{{forloop.counter}}"
+                                    data-parent-id="{{ forloop.parentloop.counter }}"
+                                    data-menu-id="{{ forloop.parentloop.counter}}-{{ forloop.counter }}"
+                                    data-menu="{{ forloop.parentloop.counter }}-{{ forloop.counter }}"
                                     {% if item.tertiary_links %}data-menu-parent{% endif %}
                                 >
                                     <span>{{ item.text }}</span>
@@ -90,7 +90,7 @@
             {% for link in primarynav %}
                     {% for item in link.secondary_links %}
                         {% if item.tertiary_links %}
-                        <ul data-ul="3" data-menu-{{forloop.parentloop.counter}}-{{forloop.counter}} class="nav nav--subnav">
+                        <ul data-ul="3" data-menu-{{ forloop.parentloop.counter }}-{{ forloop.counter }} class="nav nav--subnav">
                             <li class="nav__item nav__item--group-heading">
                                 <a href="{{ item.url }}" class="nav__link nav__link--group-heading">{{ item.text }}</a>
                             </li>
@@ -103,9 +103,9 @@
                                             class="nav__link"
                                             data-menu-child
                                             data-nav-level="3"
-                                            data-menu="{{forloop.parentloop.parentloop.counter}}"
-                                            data-menu-id="{{forloop.parentloop.parentloop.counter}}-{{forloop.parentloop.counter}}-{{forloop.counter}}"
-                                            data-parent-id="{{forloop.parentloop.parentloop.counter}}-{{forloop.parentloop.counter}}"
+                                            data-menu="{{ forloop.parentloop.parentloop.counter }}"
+                                            data-menu-id="{{ forloop.parentloop.parentloop.counter }}-{{ forloop.parentloop.counter }}-{{ forloop.counter }}"
+                                            data-parent-id="{{ forloop.parentloop.parentloop.counter }}-{{ forloop.parentloop.counter }}"
                                         >
                                             <span>{{ tertiary_item.text }}</span>
                                         </a>

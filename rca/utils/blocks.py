@@ -8,14 +8,41 @@ from wagtail.snippets.blocks import SnippetChooserBlock
 
 
 class FeeBlock(blocks.StructBlock):
-    location = blocks.CharBlock(max_length=120, help_text="e.g. Home and EU")
+    location = blocks.CharBlock(max_length=120, help_text="E.g. Home and EU")
     subsidised = blocks.BooleanBlock(required=False)
     per_year_cost = blocks.CharBlock(
-        max_length=120, help_text="e.g. £14,200 per year", required=False
+        max_length=120, help_text="E.g. £14,200 per year", required=False
     )
     total_cost = blocks.CharBlock(
-        max_length=120, help_text="e.g. £28,400 total fee", required=False
+        max_length=120, help_text="E.g. £28,400 total fee", required=False
     )
+
+
+class SlideBlock(blocks.StructBlock):
+    image = ImageChooserBlock()
+    title = blocks.CharBlock(required=False)
+    type = blocks.CharBlock(required=False)
+    summary = blocks.TextBlock(required=False)
+
+    class Meta:
+        icon = "plus"
+
+
+class StatisticBlock(blocks.StructBlock):
+
+    summary = blocks.CharBlock(
+        required=False,
+        help_text="E.g.  1 in 3 of our graduates are business owners or independent professionals",
+    )
+    before = blocks.CharBlock(required=False)
+    after = blocks.CharBlock(required=False, help_text="E.g. '%'", max_length=2)
+    number = blocks.IntegerBlock(required=False, help_text="E.g. '33'")
+    meta = blocks.CharBlock(
+        required=False, help_text="Small title below the number, e.g 'Nationalities'"
+    )
+
+    class Meta:
+        icon = "image"
 
 
 class ImageBlock(blocks.StructBlock):
