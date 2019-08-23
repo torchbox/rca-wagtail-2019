@@ -84,17 +84,58 @@ context:
       person:
         image: true
         title: 'Nelly Ben Hayoun'
-  transformation_blocks:
-    first:
-      heading: Ideas that can change the world
-      sub_heading: RCA projects that have the potential to transform our world for the better.
-      page_title: Transforming toxic waste into pottery
-      page_summary: Find out how a group of our MA students turned red mud into a range of striking pottery.
-      page_link: '#'
-      video: 'https://www.youtube.com/watch?v=1PWTqCBVjjU'
-      video_caption: Watch video
+  transformation_block:
+    heading: Ideas that can change the world
+    sub_heading: RCA projects that have the potential to transform our world for the better.
+    page_title: Transforming toxic waste into pottery
+    page_summary: Find out how a group of our MA students turned red mud into a range of striking pottery.
+    page_link: '#'
+    video: 'https://www.youtube.com/watch?v=1PWTqCBVjjU'
+    video_caption: Watch video
+  partnerships_block:
+    title: Working with the best
+    summary: We work with a selection of the world's most innovative organisations.
+    slides:
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'RCA x CERN'
+          summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Research'
+          title: 'Burberry'
+          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'Designing the imposible for NASA'
+          summary: 'Creating world class experiences that started at the RCA'
+          link: '#'
+          person: false
+          image: True
+
   stats_block:
     statistics:
       - stat:
+        value:
+          after: '%'
+          number: 33
+          meta:
+          body: 1 in 3 of our graduates are business owners or independent professionals.
       - stat:
+        value:
+          number: 73
+          meta: Nationalities
+          body: Our students come from all sections of the globe
       - stat:
+        value:
+          after: st
+          number: 1
+          body: We're the top rated art & design university in the world
