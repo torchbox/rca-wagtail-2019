@@ -40,7 +40,9 @@ class Tabs {
             // Check if path hash matchs any of the tab ids
             if (this.path == tabPane.id) {
                 var targetPanel = document.getElementById(this.path);
-                var targetTab = document.querySelector(`[data-tab='${this.path}']`);
+                var targetTab = document.querySelector(
+                    `[data-tab='${this.path}']`,
+                );
                 this.removeActive();
                 targetTab.classList.add('active');
                 targetPanel.classList.remove('tabs__panel--hidden');
