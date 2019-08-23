@@ -2,11 +2,10 @@
 
 <div class="hero {% if modifier %}hero--{{ modifier }}{% endif %}">
 
-    {% if scrolldown %}
-        <div class="hero__scroll">
-            {% include "patterns/atoms/scroll/scroll.html" %}
-        </div>
-    {% endif %}
+    <div class="hero__scroll">
+        {% include "patterns/atoms/scroll/scroll.html" with link='#content' label='scroll down' %}
+    </div>
+
 
     {% image page.hero_image fill-320x568 as image_small %}
     {% image page.hero_image fill-768x1024 as imageMedium %}
