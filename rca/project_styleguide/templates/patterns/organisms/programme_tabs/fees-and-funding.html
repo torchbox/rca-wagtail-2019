@@ -35,7 +35,6 @@
                                 {% endfor %}
                             </div>
                         </div>
-
                     {% endfor %}
                 {% endif %}
             {% endwith %}
@@ -108,6 +107,8 @@
                 {% endfor %}
             </div>
         {% endif %}
+
+        {% if disclaimer %}
         <div class="disclaimer grid">
             <div class="disclaimer__container body body--support">
                 <b>All MA programmes</b>
@@ -135,6 +136,7 @@
                 <p>GID students are subject to a £2,000 supplementary fee (included in the above details) due to the higher costs of delivering the programme</p>
             </div>
         </div>
+        {% endif %}
 
     </div>
 
