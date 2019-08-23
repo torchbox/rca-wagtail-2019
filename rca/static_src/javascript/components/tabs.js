@@ -55,6 +55,7 @@ class Tabs {
             e.preventDefault();
             var panelID = e.target.dataset.tab;
             var targetPanel = document.getElementById(panelID);
+            window.location.hash = panelID;
             this.removeActive();
             this.tab.classList.add('active');
             targetPanel.classList.remove('tabs__panel--hidden');
