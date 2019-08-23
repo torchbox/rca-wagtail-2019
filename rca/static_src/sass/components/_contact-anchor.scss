@@ -1,5 +1,6 @@
 .contact-anchor {
     position: relative;
+    display: block;
     top: -159px; // height of tabs + inverted notch
 
     @include media-query(medium) {
