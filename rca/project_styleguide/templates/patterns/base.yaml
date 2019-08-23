@@ -1,4 +1,7 @@
-tags:
+context:
+  hero_colour: light
+
+  tags:
   primarynav:
     '':
       template_name: 'patterns/molecules/navigation/primarynav.html'
