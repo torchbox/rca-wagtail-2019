@@ -567,7 +567,7 @@ class ProgrammePage(BasePage):
         ]
         context["related_staff"] = self.related_staff.select_related("image")
 
-        # If one of the slide in the the programme_galler contains author information
+        # If one of the slides in the the programme_gallery contains author information
         # we need to set a modifier
         for block in self.programme_gallery:
             if block.value["author"]:
