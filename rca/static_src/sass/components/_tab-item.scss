@@ -1,7 +1,10 @@
 .tab-item {
     @include font-size(xxs);
+    @include underline-hover();
     $root: &;
     margin-right: ($gutter * 1.5);
+    position: relative;
+    white-space: nowrap;
 
     &:last-child {
         padding-right: ($gutter);
@@ -15,57 +18,43 @@
         }
     }
 
-    &__link {
-        @include underline-hover();
-        position: relative;
-        white-space: nowrap;
-    }
-
     .bg--dark & {
-        #{$root}__link {
+        color: $color--meta-darkbg;
+
+        &:hover {
+            color: $color--white;
+        }
+
+        &.link--tertiary {
             color: $color--meta-darkbg;
 
             &:hover {
                 color: $color--white;
             }
-
-            &.link--tertiary {
-                color: $color--meta-darkbg;
-
-                &:hover {
-                    color: $color--white;
-                }
-            }
         }
 
         &.active {
-            #{$root}__link {
-                color: $color--white;
-            }
+            color: $color--white;
         }
     }
 
     .bg--light & {
-        #{$root}__link {
+        color: $color--meta-lightbg;
+
+        &:hover {
+            color: $color--black;
+        }
+
+        &.link--tertiary {
             color: $color--meta-lightbg;
 
             &:hover {
                 color: $color--black;
             }
-
-            &.link--tertiary {
-                color: $color--meta-lightbg;
-
-                &:hover {
-                    color: $color--black;
-                }
             }
-        }
 
         &.active {
-            #{$root}__link {
-                color: $color--black;
-            }
+            color: $color--black;
         }
     }
 }

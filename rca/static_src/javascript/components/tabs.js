@@ -7,16 +7,10 @@ class Tabs {
         this.tab = node;
         this.tabset = this.tab.closest(['.js-tabs']);
         this.allTabs = this.tabset.querySelectorAll('.js-tab-item');
-        let tabPanelId = this.tab.getAttribute('aria-controls');
-        this.tabPanel = document.getElementById(tabPanelId);
         this.allTabPanels = this.tabset.querySelectorAll('.js-tab-panel');
         this.path = '';
         this.setActiveHashTab();
         this.bindEvents();
-    }
-
-    addURLHash(e) {
-        window.location.hash = e;
     }
 
     getURLHash() {
@@ -42,16 +36,14 @@ class Tabs {
     setActiveHashTab() {
         this.getURLHash();
 
-        for (let tab of this.allTabs) {
+        for (let tabPane of this.allTabPanels) {
             // Check if path hash matchs any of the tab ids
-            if (this.path == tab.id) {
+            if (this.path == tabPane.id) {
+                var targetPanel = document.getElementById(this.path);
+                var targetTab = document.querySelector(`[data-tab='${this.path}']`);
                 this.removeActive();
-                tab.classList.add('active');
-                tab.setAttribute('aria-selected', 'true');
-                var activePane = document.querySelector(
-                    `[aria-labelledby='${tab.id}']`,
-                );
-                activePane.classList.remove('tabs__panel--hidden');
+                targetTab.classList.add('active');
+                targetPanel.classList.remove('tabs__panel--hidden');
             }
         }
     }
@@ -59,12 +51,14 @@ class Tabs {
     bindEvents() {
         this.tab.addEventListener('click', (e) => {
             e.preventDefault();
+            var panelID = e.target.dataset.tab;
+            var targetPanel = document.getElementById(panelID);
             this.removeActive();
             this.tab.classList.add('active');
-            this.tab.setAttribute('aria-selected', 'true');
-            this.tabPanel.classList.remove('tabs__panel--hidden');
-            this.addURLHash(this.tab.id);
+            targetPanel.classList.remove('tabs__panel--hidden');
+            targetPanel.setAttribute('aria-selected', 'true');
             this.removeHeadroomPinned();
+            targetPanel.scrollIntoView();
         });
     }
 }

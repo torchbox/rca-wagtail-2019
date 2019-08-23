@@ -10,6 +10,7 @@ function StickyHeader() {
     } else {
         StartStickyHeader(200);
     }
+
 }
 
 function StartStickyHeader(offset) {
@@ -41,6 +42,9 @@ function StartStickyHeader(offset) {
 
     let headroom = new headRoom(elem, options);
     headroom.init();
+
 }
+
+
 
 StickyHeader();
