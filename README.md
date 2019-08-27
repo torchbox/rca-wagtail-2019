@@ -117,8 +117,9 @@ fab pull-production-images
 
 ## Deployments
 
-Deployments to stage are automatically handled by CircleCI
-Production TODO
+Deployments to stage are automatically handled by CircleCI.
+
+For production, CircleCI requires manual approval, this is done over at the [CircleCI project](https://circleci.com/gh/torchbox/rca-wagtail-2019)
 
 ## Connect to the shell
 
