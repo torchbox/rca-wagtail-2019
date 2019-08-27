@@ -92,10 +92,17 @@ workflows:
           filters:
             branches:
               only: staging
-      - deploy_production:
+      - confirm_deploy_production:
           type: approval
           requires:
             - test
+          filters:
+            branches:
+              only: master
+      - deploy_production:
+          requires:
+            - test
+            - confirm_deploy_production
           filters:
             branches:
               only: master
