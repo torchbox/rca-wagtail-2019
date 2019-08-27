@@ -1,6 +1,5 @@
 from collections import defaultdict
 
-from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -143,12 +142,6 @@ class ProgrammePage(BasePage):
         related_name="+",
     )
     hero_colour_option = models.PositiveSmallIntegerField(choices=(HERO_COLOUR_CHOICES))
-    related_content_title = models.CharField(
-        blank=True,
-        max_length=120,
-        help_text="Large title displayed above the related content items, "
-        "e.g. 'More opportunities to study at the RCA'",
-    )
 
     # Key Details
     programme_details_credits = models.CharField(max_length=25, blank=True)
@@ -227,7 +220,6 @@ class ProgrammePage(BasePage):
         blank=True,
     )
 
-    notable_alumni_text = models.TextField(blank=True)
     notable_alumni_links = StreamField(
         [
             (
@@ -241,10 +233,6 @@ class ProgrammePage(BasePage):
         blank=True,
     )
 
-    contact_title = models.CharField(max_length=125, default="Contact us")
-    contact_text = models.TextField(blank=True)
-    contact_link_url = models.URLField(blank=True)
-    contact_link_text = models.CharField(blank=True, max_length=125)
     contact_image = models.ForeignKey(
         "images.CustomImage",
         null=True,
@@ -278,7 +266,6 @@ class ProgrammePage(BasePage):
     pathways_summary = models.CharField(blank=True, max_length=150)
     # The summary can't be part of the block because it needs to be rendered in multiple places
     # in the template so it's best to keep it separate
-    pathways_information = models.TextField(blank=True)
     pathway_blocks = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
@@ -291,9 +278,6 @@ class ProgrammePage(BasePage):
     )
 
     # Requirements
-    requirements_subtitle = models.CharField(blank=True, max_length=100)
-    requirements_text = models.CharField(blank=True, max_length=250)
-
     requirements_blocks = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
@@ -348,10 +332,7 @@ class ProgrammePage(BasePage):
             heading="Hero",
         ),
         MultiFieldPanel(
-            [
-                FieldPanel("related_content_title"),
-                InlinePanel("related_programmes", label="Related programmes"),
-            ],
+            [InlinePanel("related_programmes", label="Related programmes")],
             heading="Related content",
         ),
     ]
@@ -410,24 +391,9 @@ class ProgrammePage(BasePage):
             ],
             heading="Facilities",
         ),
+        MultiFieldPanel([StreamFieldPanel("notable_alumni_links")], heading="Alumni"),
         MultiFieldPanel(
-            [
-                FieldPanel(
-                    "notable_alumni_text", widget=forms.Textarea(attrs={"rows": "4"})
-                ),
-                StreamFieldPanel("notable_alumni_links"),
-            ],
-            heading="Alumni",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("contact_title"),
-                FieldPanel("contact_text", widget=forms.Textarea(attrs={"rows": "4"})),
-                FieldPanel("contact_link_url"),
-                FieldPanel("contact_link_text"),
-                ImageChooserPanel("contact_image"),
-            ],
-            heading="Contact information",
+            [ImageChooserPanel("contact_image")], heading="Contact information"
         ),
     ]
     programme_curriculum_pannels = [
@@ -442,13 +408,7 @@ class ProgrammePage(BasePage):
             heading="Curriculum introduction",
         ),
         MultiFieldPanel(
-            [
-                FieldPanel("pathways_summary"),
-                FieldPanel(
-                    "pathways_information", widget=forms.Textarea(attrs={"rows": "4"})
-                ),
-                StreamFieldPanel("pathway_blocks"),
-            ],
+            [FieldPanel("pathways_summary"), StreamFieldPanel("pathway_blocks")],
             heading="Pathways",
         ),
         MultiFieldPanel(
@@ -457,11 +417,7 @@ class ProgrammePage(BasePage):
         ),
     ]
 
-    programme_requirements_pannels = [
-        FieldPanel("requirements_subtitle"),
-        FieldPanel("requirements_text", widget=forms.Textarea(attrs={"rows": "4"})),
-        StreamFieldPanel("requirements_blocks"),
-    ]
+    programme_requirements_pannels = [StreamFieldPanel("requirements_blocks")]
     programme_fees_and_funding_panels = [
         MultiFieldPanel(
             [InlinePanel("fee_items", label="Fee items")], heading="For this program"
