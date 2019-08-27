@@ -119,7 +119,7 @@ fab pull-production-images
 
 Deployments to stage are automatically handled by CircleCI.
 
-For production, CircleCI requires manual approval, this is done over at the [CircleCI project](https://circleci.com/gh/torchbox/rca-wagtail-2019)
+For production, CircleCI requires manual approval, this is done over at the [CircleCI Workflows for master](https://circleci.com/gh/torchbox/workflows/rca-wagtail-2019/tree/master). A job awaiting approval will show as 'pending'. Manual approval consists of clicking on the pending tasks and clicking 'approve'.
 
 ## Connect to the shell
 
@@ -148,11 +148,3 @@ Or if you want to push your local media files.
 fab push-staging-media
 fab push-production-media
 ```
-
-## Scheduled tasks
-
-When you set up a server you should make sure the following scheduled tasks are set.
-
-- `django-admin publish_scheduled_pages` - every 10 minutes or more often. This is necessary to make publishing scheduled pages work.
-- `django-admin clearsessions` - once a day (not necessary, but useful).
-- `django-admin update_index` - once a day (not necessary, but useful to make sure search index stays intact).
