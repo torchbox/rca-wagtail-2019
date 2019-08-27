@@ -119,7 +119,7 @@ fab pull-production-images
 
 Deployments to stage are automatically handled by CircleCI.
 
-For production, CircleCI requires manual approval, this is done over at the [CircleCI project](https://circleci.com/gh/torchbox/rca-wagtail-2019)
+For production, CircleCI requires manual approval, this is done over at the [CircleCI Workflows for master](https://circleci.com/gh/torchbox/workflows/rca-wagtail-2019/tree/master). A job awaiting approval will show as 'pending'. Manual approval consists of clicking on the pending tasks and clicking 'approve'.
 
 ## Connect to the shell
 
