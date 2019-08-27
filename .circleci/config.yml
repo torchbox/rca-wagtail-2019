@@ -93,7 +93,7 @@ workflows:
             branches:
               only: staging
       - deploy_production:
-          Type: approval
+          type: approval
           requires:
             - test
           filters:
