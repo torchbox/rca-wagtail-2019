@@ -56,7 +56,6 @@
             display: none;
             font-family: $font--secondary;
             font-weight: $weight--medium;
-            background: $color--primary;
             margin: 0;
             padding: $gutter;
             align-items: center;
@@ -64,6 +63,7 @@
 
             @include media-query(medium) {
                 display: flex;
+                align-items: flex-start;
             }
 
             @include media-query(large) {
@@ -101,12 +101,22 @@
     .bg--dark & {
         #{$root}__caption {
             border-right: 1px solid $color--grid-line-light;
+            background-color: $color--black;
+        }
+
+        #{$root}__caption-icon {
+            fill: $color--white;
         }
     }
 
     .bg--light & {
         #{$root}__caption {
+            background-color: $color--white;
             border-right: 1px solid $color--grid-line-dark;
+        }
+
+        #{$root}__caption-icon {
+            fill: $color--black;
         }
     }
 }

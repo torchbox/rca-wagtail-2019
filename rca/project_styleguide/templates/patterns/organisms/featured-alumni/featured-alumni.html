@@ -7,9 +7,9 @@
         <ul class="featured-alumni__list">
             {% for link in alumni_links %}
             {% if link.value.link %}
-                <li><a href="{{link.value.link}}">{{link.value.name}}</a></li>
+                <li><a href="{{ link.value.link }}">{{ link.value.name }}</a></li>
             {% else %}
-                <li>{{link.value.name}}</li>
+                <li>{{ link.value.name }}</li>
             {% endif %}
             {% endfor %}
         </ul>

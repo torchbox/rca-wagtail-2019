@@ -1,6 +1,8 @@
 {% extends "patterns/base_page.html" %}
 {% load wagtailcore_tags wagtailimages_tags static %}
-
+{% block header_class %}
+    theme-{{ hero_colour }}
+{% endblock %}
 {% block content %}
 
     {% include "patterns/molecules/hero/hero.html" with modifier="programme" %}
@@ -18,7 +20,7 @@
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
                     <h1 class="title-area__header heading heading--display-two">{{ page.title }}</h1>
-                    <p class="title-area__introduction introduction">{{page.degree_level}}</p>
+                    <p class="title-area__introduction introduction">{{ page.degree_level }}</p>
                 </div>
             </div>
         </header>
@@ -29,25 +31,25 @@
 
                 {% include "patterns/molecules/tab-nav/tab-nav.html" with modifier="bg bg--dark" sticky="true" %}
 
-                <div class="tabs__panel js-tab-panel" id="tab-panel-overview" role="tabpanel" aria-labelledby="overview">
+                <div class="tabs__panel js-tab-panel" id="overview" role="tabpanel" aria-labelledby="overview">
                     {% include "patterns/organisms/programme_tabs/programme_overview.html" %}
                 </div>
-                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="tab-panel-curriculum" role="tabpanel" aria-labelledby="curriculum">
+                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="curriculum" role="tabpanel" aria-labelledby="curriculum">
                     {% include "patterns/organisms/programme_tabs/curriculum.html" with curriculum_image=page.curriculum_image subheading=page.curriculum_subtitle copy=page.curriculum_text caption=page.curriculum_video_caption video=page.curriculum_video %}
                 </div>
 
-                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="tab-panel-requirements" role="tabpanel" aria-labelledby="requirements">
+                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="requirements" role="tabpanel" aria-labelledby="requirements">
                     {% include "patterns/organisms/programme_tabs/requirements.html" %}
                 </div>
-                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="tab-panel-fees-funding" role="tabpanel" aria-labelledby="fees-funding">
+                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="fees-funding" role="tabpanel" aria-labelledby="fees-funding">
                     {% include "patterns/organisms/programme_tabs/fees-and-funding.html" %}
                 </div>
-                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="tab-panel-apply" role="tabpanel" aria-labelledby="apply">
+                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="apply" role="tabpanel" aria-labelledby="apply">
                     {% include "patterns/organisms/programme_tabs/apply.html" %}
                 </div>
 
                 <section class="section bg bg--light">
-                    <span class="contact-anchor" id="contact"></span>
+                    <div class="contact-anchor" id="contact"></div>
                     <div class="section__container">
                         {% include "patterns/organisms/contact/contact.html" with heading=page.contact_title text=page.contact_text image=page.contact_image link_href=page.contact_link_url link_text=page.contact_link_text %}
                     </div>

@@ -35,7 +35,6 @@
                                 {% endfor %}
                             </div>
                         </div>
-
                     {% endfor %}
                 {% endif %}
             {% endwith %}
@@ -108,33 +107,36 @@
                 {% endfor %}
             </div>
         {% endif %}
-        <div class="disclaimer grid">
-            <div class="disclaimer__container body body--support">
-                <b>All MA programmes</b>
-                <p>Home, EU and International students who have completed a Graduate Diploma at the College and progress immediately onto an RCA Master's programme will be eligible for a £1,000 discount on tuition fees for a 45 week MA/MRes, £1,000 per year for a 2-year MA and £1,500 for a 15-month MA.</p>
 
-                <b>All MA/MSc programmes</b>
-                <p>Home, EU and International students who have completed a Graduate Diploma at the College and progress immediately onto an RCA Master's programme will be eligible for a £1,000 per year for a 2-year MA.</p>
+        {% if disclaimer %}
+            <div class="disclaimer grid">
+                <div class="disclaimer__container body body--support">
+                    <b>All MA programmes</b>
+                    <p>Home, EU and International students who have completed a Graduate Diploma at the College and progress immediately onto an RCA Master's programme will be eligible for a £1,000 discount on tuition fees for a 45 week MA/MRes, £1,000 per year for a 2-year MA and £1,500 for a 15-month MA.</p>
 
-                <b>All MRes programmes</b>
-                <p>Home, EU and International students who have completed a Graduate Diploma at the College and progress immediately onto an RCA Master's programme will be eligible for a £1,000 discount on tuition fees for a 45 week MA/MRes.</p>
+                    <b>All MA/MSc programmes</b>
+                    <p>Home, EU and International students who have completed a Graduate Diploma at the College and progress immediately onto an RCA Master's programme will be eligible for a £1,000 per year for a 2-year MA.</p>
 
-                <b>All MPhil and PhD programmes</b>
-                <p>Full-time Home, EU and International students who have completed a Master’s degree at the College will be eligible for a £1,000 discount on tuition fees for up to three years of study, when starting a Research degree within five years of graduation.</p>
+                    <b>All MRes programmes</b>
+                    <p>Home, EU and International students who have completed a Graduate Diploma at the College and progress immediately onto an RCA Master's programme will be eligible for a £1,000 discount on tuition fees for a 45 week MA/MRes.</p>
 
-                <b>Plus for individual programmes</b>
+                    <b>All MPhil and PhD programmes</b>
+                    <p>Full-time Home, EU and International students who have completed a Master’s degree at the College will be eligible for a £1,000 discount on tuition fees for up to three years of study, when starting a Research degree within five years of graduation.</p>
 
-                <b>Innovation Design Engineering programme</b>
+                    <b>Plus for individual programmes</b>
 
-                <p>Imperial fees are subject to an inflationary uplift, calculated from the RPI for April 2020 and may vary slightly from the value published here; exact fees are to be confirmed in June 2020. </p>
+                    <b>Innovation Design Engineering programme</b>
 
-                <b>Global Innovation Design programme</b>
+                    <p>Imperial fees are subject to an inflationary uplift, calculated from the RPI for April 2020 and may vary slightly from the value published here; exact fees are to be confirmed in June 2020. </p>
 
-                <p>Imperial fees are subject to an inflationary uplift, calculated from the RPI for April 2020 and may vary slightly from the value published here; exact fees are to be confirmed in June 2020. </p>
+                    <b>Global Innovation Design programme</b>
 
-                <p>GID students are subject to a £2,000 supplementary fee (included in the above details) due to the higher costs of delivering the programme</p>
+                    <p>Imperial fees are subject to an inflationary uplift, calculated from the RPI for April 2020 and may vary slightly from the value published here; exact fees are to be confirmed in June 2020. </p>
+
+                    <p>GID students are subject to a £2,000 supplementary fee (included in the above details) due to the higher costs of delivering the programme</p>
+                </div>
             </div>
-        </div>
+        {% endif %}
 
     </div>
 

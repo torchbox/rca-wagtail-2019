@@ -1,36 +1,41 @@
-<section class="section section--stat-block bg bg--stat-block" data-stat-block style="--stat-block-bg-image: url('{{bg_image_url}}')">
+{% load wagtailimages_tags %}
+{% image stats_block.background_image max-1000x500 as bg_image %}
+<section class="section section--stat-block bg bg--stat-block" data-stat-block style="--stat-block-bg-image: url('{{ bg_image.url }}')">
     <div class="section__notch section__notch--transparent section__notch--opposite">
         <div class="section__notch-fill section__notch-fill--second-col"></div>
     </div>
     <div class="section__container stat-block">
         <div class="stat-block__header grid">
-            <h3 class="stat-block__heading heading heading--three">{{heading}}</h3>
+            <h3 class="stat-block__heading heading heading--three">{{ stats_block.title}}</h3>
         </div>
-        {% for stat in stats %}
-            <div class="stat-block__item-container grid">
-                <div class="stat-block__item">
 
-                    <div class="stat-block__number-container">
-                        {% if stat.before %}
-                            <span class="stat-block__before">{{stat.before}}</span>
+        {% for stat in stats_block.statistics %}
+            {% with stat=stat.value %}
+                <div class="stat-block__item-container grid">
+                    <div class="stat-block__item">
+
+                        <div class="stat-block__number-container">
+                            {% if stat.before %}
+                                <span class="stat-block__before">{{ stat.before }}</span>
+                            {% endif %}
+                            <h4 class="stat-block__number">
+                                {{ stat.number }}
+                            </h4>
+                            {% if stat.after %}
+                                <span class="stat-block__after">{{ stat.after }}</span>
+                            {% endif %}
+                        </div>
+
+                        {% if stat.meta %}
+                            <p class="stat-block__meta heading heading--five">{{ stat.meta }}</p>
                         {% endif %}
-                        <h4 class="stat-block__number">
-                            {{stat.number}}
-                        </h4>
-                        {% if stat.after %}
-                            <span class="stat-block__after">{{stat.after}}</span>
+
+                        {% if stat.summary %}
+                            <p class="stat-block__body body body--one">{{ stat.summary }}</p>
                         {% endif %}
                     </div>
-
-                    {% if stat.meta %}
-                        <p class="stat-block__meta heading heading--five">{{stat.meta}}</p>
-                    {% endif %}
-
-                    {% if stat.body %}
-                        <p class="stat-block__body body body--one">{{stat.body}}</p>
-                    {% endif %}
                 </div>
-            </div>
+            {% endwith %}
         {% endfor %}
     </div>
     <div class="section__notch">

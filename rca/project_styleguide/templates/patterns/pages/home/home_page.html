@@ -1,10 +1,12 @@
 {% extends "patterns/base_page.html" %}
 {% load wagtailcore_tags wagtailimages_tags static %}
 {% block body_class %}app--homepage{% endblock %}
-
+{% block header_class %}
+    theme-{{ hero_colour }}
+{% endblock %}
 {% block content %}
 
-    {% include "patterns/molecules/hero/hero--home.html" %}
+    {% include "patterns/molecules/hero/hero--home.html" with modifier="home" scrolldown=true %}
 
     <div class="page page--overlay" id="content">
 
@@ -13,29 +15,34 @@
 
         <div class="page__content">
 
-            <section class="section section--top-space-large bg bg--dark">
+            {% if page.strapline %}
+                <section class="section section--top-space-large bg bg--dark">
 
-                <div class="proposition-statement grid">
-                    <div class="proposition-statement__introduction">The world’s number 1 art & design university</div>
-                    <a href="#" class="proposition-statement__link link link--primary link--link link--book">
-                        <span class="link__label">Book an open day</span>
-                        <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
-                    </a>
-                </div>
+                    <div class="proposition-statement grid">
+                        <div class="proposition-statement__introduction">{{ page.strapline }}</div>
+                        {% if page.strapline_cta_url and page.strapline_cta_text %}
+                            <a href="{{ page.strapline_cta_url }}" class="proposition-statement__link link link--primary link--link link--book">
+                                <span class="link__label">{{ page.strapline_cta_text }}</span>
+                                <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+                            </a>
+                        {% endif %}
+                    </div>
 
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--second-col"></div>
-                </div>
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    </div>
 
-            </section>
+                </section>
+            {% endif %}
+            {% if transformation_block %}
+                    <section class="section section--top-space bg bg--light">
+                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=transformation_block.video heading=transformation_block.heading subheading=transformation_block.sub_heading image=transformation_block.image has_meta=True meta_heading=transformation_block.page_title meta_copy=transformation_block.page_summary href=transformation_block.page_link_url caption=transformation_block.video_caption video=transformation_block.video %}
+                        <div class="section__notch">
+                            <div class="section__notch-fill section__notch-fill--third-col"></div>
+                        </div>
+                    </section>
 
-            <section class="section section--top-space bg bg--light">
-                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=False heading=image_video_block.heading subheading=image_video_block.subheading has_meta=True %}
-
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
-                </div>
-            </section>
+            {% endif %}
 
             <section class="section section--top-space bg bg--dark">
 
@@ -50,24 +57,25 @@
                 </div>
 
             </section>
+            {% if stats_block %}
+                    {% include "patterns/organisms/stat-block/stat-block.html" %}
+            {% endif %}
 
-            {% include "patterns/organisms/stat-block/stat-block.html" %}
+            {% if partnerships_block %}
+                <section class="section section--top-space bg bg--light">
+                    <div class="partnerships">
+                        <div class="partnerships__header grid">
+                            <h2 class="partnerships__heading heading heading--one">{{ partnerships_block.title }}</h2>
+                            <p class="partnerships__introduction">{{ partnerships_block.summary }}</p>
+                        </div>
+                        <div class="partnerships__carousel">
+                            {% include "patterns/organisms/carousel/carousel--square.html" with carousel=partnerships_block.slides modifier='carousel--square' datatag='data-square-carousel' %}
+                        </div>
 
-            <section class="section section--top-space bg bg--light">
-
-                <div class="partnerships">
-
-                    <div class="partnerships__header grid">
-                        <h2 class="partnerships__heading heading heading--one">Working with the best</h2>
-                        <p class="partnerships__introduction">We work with a selection of the world's most innovative organisations.</p>
                     </div>
-                    <div class="partnerships__carousel">
-                        {% include "patterns/organisms/carousel/carousel--square.html" %}
-                    </div>
 
-                </div>
-
-            </section>
+                </section>
+            {% endif %}
 
             <section class="section section--end bg bg--dark">
 

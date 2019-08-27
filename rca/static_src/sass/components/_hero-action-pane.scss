@@ -5,6 +5,7 @@
     $hero-action-pane-height-medium: 160px;
     position: relative;
     pointer-events: none;
+    height: $hero-action-pane-height-small;
     top: -$hero-action-pane-height-small;
     margin-bottom: -$hero-action-pane-height-small;
     overflow: hidden;
