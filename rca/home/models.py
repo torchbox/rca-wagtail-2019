@@ -1,5 +1,8 @@
 from collections import defaultdict
 
+import requests
+from django.conf import settings
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
 from modelcluster.fields import ParentalKey
@@ -174,6 +177,38 @@ class HomePage(BasePage):
         if errors:
             raise ValidationError(errors)
 
+    def pull_news(self):
+        print("====================")
+        print("pulling news data")
+        url = "https://www.rca.ac.uk/api/v2/pages/?limit=3&type=rca.NewsItem"
+        resp = requests.get(url=url)
+        data = resp.json()
+        _data = []
+        for item in data["items"]:
+            _item = {}
+            # an extra qurey for more information is needed
+            detail = item["meta"]["detail_url"] + "?fields=_,date,feed_image"
+            resp = requests.get(url=detail)
+            data = resp.json()
+            feed_image = data["feed_image"]["meta"]["detail_url"]
+            feed_image = requests.get(url=feed_image)
+            feed_image = feed_image.json()
+            feed_image = feed_image["original"]["url"]
+            date = data["date"]
+            _item["title"] = item["title"]
+            _item["date"] = date
+            _item["image"] = feed_image
+            _data.append(_item)
+        return _data
+
+    def get_news(self):
+        if not cache.get("latest_news"):
+            cache.set("latest_news", self.pull_news(), settings.API_CONTENT_CACHE)
+        return cache.get("latest_news")
+
+    def get_events(self):
+        pass
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["hero_colour"] = "dark"
@@ -188,5 +223,6 @@ class HomePage(BasePage):
         context["stats_block"] = self.stats_block.select_related(
             "background_image"
         ).first()
+        context["news"] = self.get_news()
 
         return context
