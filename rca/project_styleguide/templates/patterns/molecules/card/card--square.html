@@ -10,7 +10,7 @@
         {% if item.link %}</a>{% endif %}
         <div class="card__content-container">
             <div class="card__content">
-                <div class="card__meta">{{ item.meta }}</div>
+                <div class="card__meta">{% firstof item.meta item.type %}</div>
                 <h3 class="card__heading">
                     {% if item.link %}<a href="{{ item.link }}" class="card__heading-link">{% endif %}
                         {{ item.title }}
