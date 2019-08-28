@@ -181,7 +181,7 @@ class HomePage(BasePage):
     def pull_event(self):
         # TODO extend the api to allow querying the latest event dates_times__date_from
         # This is waiting to be merged to RCA, for now use ID
-        # eg /api/v2/pages/?event_date_from=True&type=rca.EventItem
+        # eg /api/v2/pages/?limit=1&event_date_from=True&type=rca.EventItem
 
         url = "https://www.rca.ac.uk/api/v2/pages/?limit=1&order=-id&type=rca.EventItem"
         resp = requests.get(url=url)
@@ -202,7 +202,7 @@ class HomePage(BasePage):
             date = date.strftime("%-d %B %Y")
             _item["title"] = item["title"]
             _item["type"] = "Event"
-            _item["date"] = date
+            _item["description"] = date
             _item["image"] = feed_image
             _item["link"] = item["meta"]["html_url"]
             _data.append(_item)
@@ -230,8 +230,36 @@ class HomePage(BasePage):
             date = date.strftime("%-d %B %Y")
             _item["title"] = item["title"]
             _item["type"] = "News"
-            _item["date"] = date
+            _item["description"] = date
             _item["image"] = feed_image
+            _item["link"] = item["meta"]["html_url"]
+            _data.append(_item)
+        return _data
+
+    def pull_alumni_stories(self):
+        url = (
+            "https://www.rca.ac.uk/api/v2/pages/?type=rca.StandardPage&tags=alumni-story&"
+            "order=-first_published_at&limit=3"
+        )
+        resp = requests.get(url=url)
+        data = resp.json()
+        _data = []
+        for item in data["items"]:
+            _item = {}
+            # an extra qurey for more information is needed
+            detail = item["meta"]["detail_url"] + "?fields=_,feed_image,intro"
+            resp = requests.get(url=detail)
+            data = resp.json()
+            if "feed_image" in data:
+                feed_image = data["feed_image"]["meta"]["detail_url"]
+                feed_image = requests.get(url=feed_image)
+                feed_image = feed_image.json()
+                feed_image = feed_image["original"]["url"]
+                _item["image"] = feed_image
+            _item["title"] = item["title"]
+            _item["type"] = "Alumni Story"
+            _item["description"] = data["intro"]
+
             _item["link"] = item["meta"]["html_url"]
             _data.append(_item)
         return _data
@@ -246,8 +274,17 @@ class HomePage(BasePage):
             cache.set("latest_event", self.pull_event(), settings.API_CONTENT_CACHE)
         return cache.get("latest_event")
 
+    def get_alumni_stories(self):
+        if not cache.get("latest_alumni_stories"):
+            cache.set(
+                "latest_alumni_stories",
+                self.pull_alumni_stories(),
+                settings.API_CONTENT_CACHE,
+            )
+        return cache.get("latest_alumni_stories")
+
     def get_context(self, request, *args, **kwargs):
-        cache.clear()  # TODO Remove when ready
+        # cache.clear()
         context = super().get_context(request, *args, **kwargs)
         context["hero_colour"] = "dark"
 
@@ -262,5 +299,6 @@ class HomePage(BasePage):
             "background_image"
         ).first()
         context["news_and_events"] = self.get_news() + self.get_event()
+        context["alumni_stories"] = self.get_alumni_stories()
 
         return context

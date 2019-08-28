@@ -15,7 +15,7 @@
                         {{ item.title }}
                     {% if item.link %}</a>{% endif %}
                 </h3>
-                <div class="card__description">{{ item.date }}</div>
+                <div class="card__description">{{ item.description|richtext }}</div>
             </div>
         </div>
     </div>
