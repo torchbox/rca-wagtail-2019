@@ -7,7 +7,7 @@
         <div class="section__notch-fill section__notch-fill--second-col"></div>
     </div>
     {% if page.pathway_blocks %}
-        {% include "patterns/molecules/heading-with-text/heading-with-text.html" with heading='Pathways' subheading=page.pathways_summary body=page.pathways_information %}
+        {% include "patterns/molecules/heading-with-text/heading-with-text.html" with heading='Pathways' subheading=page.pathways_summary body="These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School." %}
         {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.pathway_blocks title=false %}
     {% endif %}
 
