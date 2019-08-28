@@ -1,0 +1,27 @@
+<div class="news">
+    {% for item in news %}
+
+        {% if forloop.first %}
+            <div class="news__feature">
+        {% endif %}
+
+        {% if forloop.counter == 2 %}
+            <div class="news__sub-features">
+        {% endif %}
+
+        {% include "patterns/molecules/card/card_api_content.html" with counter=forloop.counter %}
+
+        {% if forloop.first %}
+            </div>
+        {% endif %}
+
+        {% if forloop.last and not forloop.first %}
+                <a class="news__view-all link link--secondary link--link body body--two" href="https://www.rca.ac.uk/studying-at-the-rca/the-rca-experience/">
+                    <span class="link__label">See all news & events</span>
+                    <svg class="link__icon" width="12" height="8"><use xlink:href="#arrow"></use></svg>
+                </a>
+            </div>
+        {% endif %}
+
+    {% endfor %}
+</div>

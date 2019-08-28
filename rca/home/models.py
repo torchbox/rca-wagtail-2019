@@ -1,4 +1,5 @@
 from collections import defaultdict
+from datetime import datetime
 
 import requests
 from django.conf import settings
@@ -177,10 +178,37 @@ class HomePage(BasePage):
         if errors:
             raise ValidationError(errors)
 
+    def pull_event(self):
+        # TODO extend the api to allow querying the latest event dates_times__date_from
+        url = "https://www.rca.ac.uk/api/v2/pages/?limit=1&order=-id&type=rca.EventItem"
+        resp = requests.get(url=url)
+        data = resp.json()
+        _data = []
+        for item in data["items"]:
+            _item = {}
+            # an extra qurey for more information is needed
+            detail = item["meta"]["detail_url"] + "?fields=_,dates_times,feed_image"
+            resp = requests.get(url=detail)
+            data = resp.json()
+            feed_image = data["feed_image"]["meta"]["detail_url"]
+            feed_image = requests.get(url=feed_image)
+            feed_image = feed_image.json()
+            feed_image = feed_image["original"]["url"]
+            date = data["dates_times"][0]["date_from"]
+            date = datetime.strptime(date, "%Y-%m-%d")
+            date = date.strftime("%-d %B %Y")
+            _item["title"] = item["title"]
+            _item["type"] = "Event"
+            _item["date"] = date
+            _item["image"] = feed_image
+            _item["link"] = item["meta"]["html_url"]
+            _data.append(_item)
+        return _data
+
     def pull_news(self):
-        print("====================")
-        print("pulling news data")
-        url = "https://www.rca.ac.uk/api/v2/pages/?limit=3&type=rca.NewsItem"
+        url = (
+            "https://www.rca.ac.uk/api/v2/pages/?limit=2&order=-date&type=rca.NewsItem"
+        )
         resp = requests.get(url=url)
         data = resp.json()
         _data = []
@@ -195,9 +223,13 @@ class HomePage(BasePage):
             feed_image = feed_image.json()
             feed_image = feed_image["original"]["url"]
             date = data["date"]
+            date = datetime.strptime(date, "%Y-%m-%d")
+            date = date.strftime("%-d %B %Y")
             _item["title"] = item["title"]
+            _item["type"] = "News"
             _item["date"] = date
             _item["image"] = feed_image
+            _item["link"] = item["meta"]["html_url"]
             _data.append(_item)
         return _data
 
@@ -206,10 +238,13 @@ class HomePage(BasePage):
             cache.set("latest_news", self.pull_news(), settings.API_CONTENT_CACHE)
         return cache.get("latest_news")
 
-    def get_events(self):
-        pass
+    def get_event(self):
+        if not cache.get("latest_event"):
+            cache.set("latest_event", self.pull_event(), settings.API_CONTENT_CACHE)
+        return cache.get("latest_event")
 
     def get_context(self, request, *args, **kwargs):
+        cache.clear()  # TODO Remove when ready
         context = super().get_context(request, *args, **kwargs)
         context["hero_colour"] = "dark"
 
@@ -223,6 +258,6 @@ class HomePage(BasePage):
         context["stats_block"] = self.stats_block.select_related(
             "background_image"
         ).first()
-        context["news"] = self.get_news()
+        context["news_and_events"] = self.get_news() + self.get_event()
 
         return context

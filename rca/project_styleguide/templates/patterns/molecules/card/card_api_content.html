@@ -1,0 +1,22 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+{# This template is for content pulled from the rca api #}
+<div class="card {% if item.image %}card--image{% endif %} {% if item.person %}card--person{% endif %}">
+    <div class="card__container">
+        {% if item.link %}<a href="{{ item.link }}" class="card__image-container" aria-label="{{ item.title }}">{% endif %}
+            {% if item.image and counter != 2 %}
+                <img src="{{ item.image }}">
+            {% endif %}
+        {% if item.link %}</a>{% endif %}
+        <div class="card__content-container">
+            <div class="card__content">
+                <div class="card__meta">{{ item.type }}</div>
+                <h3 class="card__heading">
+                    {% if item.link %}<a href="{{ item.link }}" class="card__heading-link">{% endif %}
+                        {{ item.title }}
+                    {% if item.link %}</a>{% endif %}
+                </h3>
+                <div class="card__description">{{ item.date }}</div>
+            </div>
+        </div>
+    </div>
+</div>
