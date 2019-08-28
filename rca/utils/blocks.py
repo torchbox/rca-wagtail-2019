@@ -23,6 +23,7 @@ class SlideBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=False)
     type = blocks.CharBlock(required=False)
     summary = blocks.TextBlock(required=False)
+    link = blocks.URLBlock(required=False)
 
     class Meta:
         icon = "plus"
