@@ -180,6 +180,9 @@ class HomePage(BasePage):
 
     def pull_event(self):
         # TODO extend the api to allow querying the latest event dates_times__date_from
+        # This is waiting to be merged to RCA, for now use ID
+        # eg /api/v2/pages/?event_date_from=True&type=rca.EventItem
+
         url = "https://www.rca.ac.uk/api/v2/pages/?limit=1&order=-id&type=rca.EventItem"
         resp = requests.get(url=url)
         data = resp.json()
