@@ -207,7 +207,9 @@ class ProgrammePage(BasePage):
     )
 
     facilities_intro = models.CharField(blank=True, max_length=150)
-    facilities_copy = models.TextField(blank=True, max_length=400)
+    facilities_copy = models.TextField(
+        blank=True, max_length=400, help_text="Max length 400 characters"
+    )
     facilities_link = models.URLField(blank=True)
     facilities_link_text = models.CharField(blank=True, max_length=150)
     facilities_gallery = StreamField(
