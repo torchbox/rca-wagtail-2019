@@ -68,7 +68,7 @@ class ProgrammePageFeeItem(Orderable):
         help_text="The title for the information, e.g 'Fees for new students ",
     )
     introduction = models.CharField(
-        max_length=250, help_text="Extra information about the fee items"
+        max_length=250, help_text="Extra information about the fee items", blank=True
     )
     row = StreamField([("row", FeeBlock())], blank=True)
     panels = [FieldPanel("title"), FieldPanel("introduction"), StreamFieldPanel("row")]
@@ -487,15 +487,16 @@ class ProgrammePage(BasePage):
             errors["programme_details_time_suffix"].append("Please add a suffix")
         if self.programme_details_time_suffix and not self.programme_details_time:
             errors["programme_details_time"].append("Please add a time value")
-        try:
-            embed = embeds.get_embed(self.curriculum_video)
-        except EmbedException:
-            errors["curriculum_video"].append("invalid embed URL")
-        else:
-            if embed.provider_name.lower() != "youtube":
-                errors["curriculum_video"].append(
-                    "Only YouTube videos are supported for this field "
-                )
+        if self.curriculum_video:
+            try:
+                embed = embeds.get_embed(self.curriculum_video)
+            except EmbedException:
+                errors["curriculum_video"].append("invalid embed URL")
+            else:
+                if embed.provider_name.lower() != "youtube":
+                    errors["curriculum_video"].append(
+                        "Only YouTube videos are supported for this field "
+                    )
         if self.staff_link and not self.staff_link_text:
             errors["staff_link_text"].append("Please the text to be used for the link")
         if self.staff_link_text and not self.staff_link:
