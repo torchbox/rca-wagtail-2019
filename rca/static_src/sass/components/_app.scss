@@ -44,6 +44,7 @@
         bottom: 0;
         overflow-y: scroll;
         overflow-x: hidden;
+        visibility: hidden;
 
         @include media-query(large) {
             overflow: hidden;
@@ -51,6 +52,7 @@
 
         .nav-open & {
             pointer-events: all;
+            visibility: visible;
             transform: translate3d(0%, 0%, 0);
             background: $color--black;
 

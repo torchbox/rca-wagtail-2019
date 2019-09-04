@@ -22,7 +22,7 @@
         flex-basis: 100%;
         max-width: 100%;
         min-width: 100%;
-        color: $color--meta;
+        color: $color--meta-lightbg;
         margin-top: 4px;
     }
 
@@ -77,6 +77,7 @@
     .app--homepage .header & {
         @include media-query(large) {
             opacity: 0;
+            visibility: hidden;
         }
     }
 
@@ -84,6 +85,7 @@
     .app--homepage.show-nav .header & {
         @include media-query(large) {
             opacity: 1;
+            visibility: visible;
         }
     }
 
