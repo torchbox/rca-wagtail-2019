@@ -1,6 +1,20 @@
 .app {
     $root: &;
 
+    &--404 {
+        background-color: $color--black;
+
+        #{$root}__content {
+            padding-top: 200px;
+
+            @include media-query(medium) {
+                padding-top: 300px;
+            }
+
+        }
+
+    }
+
     &__header {
         @include z-index(header);
         position: fixed;
