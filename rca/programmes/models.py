@@ -234,7 +234,8 @@ class ProgrammePage(BasePage):
         ],
         blank=True,
     )
-
+    contact_email = models.EmailField(blank=True)
+    contact_url = models.URLField(blank=True)
     contact_image = models.ForeignKey(
         "images.CustomImage",
         null=True,
@@ -395,7 +396,12 @@ class ProgrammePage(BasePage):
         ),
         MultiFieldPanel([StreamFieldPanel("notable_alumni_links")], heading="Alumni"),
         MultiFieldPanel(
-            [ImageChooserPanel("contact_image")], heading="Contact information"
+            [
+                ImageChooserPanel("contact_image"),
+                FieldPanel("contact_email"),
+                FieldPanel("contact_url"),
+            ],
+            heading="Contact information",
         ),
     ]
     programme_curriculum_pannels = [
@@ -504,7 +510,15 @@ class ProgrammePage(BasePage):
         if self.apply_cta_link and not self.apply_cta_text:
             errors["apply_cta_text"].append("Please add a text value for the CTA link")
         if self.apply_cta_text and not self.apply_cta_link:
-            errors["apply_cta_link"].append("Please add a URL value for the CTa")
+            errors["apply_cta_link"].append("Please add a URL value for the CTA")
+        if not self.contact_email and not self.contact_url:
+            errors["contact_url"].append(
+                "Please add a target value for the contact us link"
+            )
+        if self.contact_email and self.contact_url:
+            errors["contact_url"].append(
+                "Only one of URL or an Email value is supported here"
+            )
         if errors:
             raise ValidationError(errors)
 
