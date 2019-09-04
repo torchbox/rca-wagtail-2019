@@ -45,8 +45,8 @@
                 {% if page.application_deadline_options == '1' %}
                     <li class="key-details__list-item">{{ page.get_application_deadline_options_display }}</li>
                 {% else %}
-                    <li class="key-details__list-item">{{ page.get_application_deadline_options_display }}</li>
                     <li class="key-details__list-item">{{ page.application_deadline }}</li>
+                    <li class="key-details__list-item">{{ page.get_application_deadline_options_display }}</li>
                 {% endif %}
             </ul>
         </div>
