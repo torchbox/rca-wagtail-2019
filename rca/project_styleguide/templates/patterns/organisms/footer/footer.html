@@ -39,7 +39,16 @@
                 {% footerlinks %}
             </nav>
             <div class="footer__credit">
-                <p class="footer__credit-item">Royal College of Art, Kensington Gore, London SW7 2EU</p>
+                <p class="footer__credit-item" itemscope itemtype="http://schema.org/EducationalOrganization">
+                    Registered Office:
+                    <span itemprop="name">Royal College of Art</span>,
+                    <span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                        <span itemprop="streetAddress">Kensington Gore</span>,
+                        <span class="hidden" itemprop="addressLocality">South Kensington</span>
+                        <span itemprop="addressRegion">London</span>
+                        <span itemprop="postalCode">SW7 2EU</span>
+                    </span>
+                </p>
                 <p class="footer__credit-item">RCA&trade; Royal College of Art&trade; are trademarks of the Royal College of Art </p>
             </div>
 

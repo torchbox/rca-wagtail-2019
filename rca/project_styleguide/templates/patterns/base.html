@@ -78,6 +78,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             {% block footer %}{% endblock %}
         </footer>
 
+        <div class="app__messgaes">
+            {% include "patterns/molecules/cookie-message/cookie-message.html" %}
+        </div>
+
         <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
         {% block extra_js %}{% endblock %}
     </body>
