@@ -39,11 +39,11 @@ if settings.DEBUG:
         # Add views for testing 404 and 500 templates
         path(
             "test404/",
-            TemplateView.as_view(template_name="patterns/pages/wagtail/404.html"),
+            TemplateView.as_view(template_name="patterns/pages/errors/404.html"),
         ),
         path(
             "test500/",
-            TemplateView.as_view(template_name="patterns/pages/wagtail/500.html"),
+            TemplateView.as_view(template_name="patterns/pages/errors/500.html"),
         ),
     ]
 
