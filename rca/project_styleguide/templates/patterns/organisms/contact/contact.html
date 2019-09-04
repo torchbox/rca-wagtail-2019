@@ -10,9 +10,9 @@
             <p class="contact__text body body--one">{{ text }}</p>
         </div>
         {% if page.contact_email %}
-            <a href="mailto:{{ page.contact_email }}" class="contact__link link link--primary link--link body body--two" target="_blank" rel="noopener">
+            <a href="mailto:{{ page.contact_email }}" class="contact__link link link--secondary link--link body body--two" target="_blank" rel="noopener">
         {% else %}
-            <a href="{{ page.contact_url }}" class="contact__link link link--primary link--link body body--two" target="_blank" rel="noopener">
+            <a href="{{ page.contact_url }}" class="contact__link link link--secondary link--link body body--two" target="_blank" rel="noopener">
         {% endif %}
             {{ link_text }}
             <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>

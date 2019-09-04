@@ -113,7 +113,6 @@
 
     &__meta {
         font-size: map-get($small-font-sizes, xxxs);
-        color: $color--tertiary;
         text-transform: uppercase;
         margin-bottom: ($gutter / 4);
 
@@ -358,6 +357,10 @@
         #{$root}__person-meta {
             color: $color--meta-darkbg;
         }
+
+        #{$root}__meta {
+            color: $color--tertiary;
+        }
     }
 
     .bg--light & {
@@ -378,6 +381,10 @@
         #{$root}__description,
         #{$root}__person-meta {
             color: $color--meta-lightbg;
+        }
+
+        #{$root}__meta {
+            color: $color--black;
         }
     }
 }
