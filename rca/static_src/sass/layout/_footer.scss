@@ -97,5 +97,9 @@
             padding-bottom: $gutter;
             border-bottom: 1px solid $color--grid-line-light;
         }
+
+        .hidden {
+            @include hidden();
+        }
     }
 }
