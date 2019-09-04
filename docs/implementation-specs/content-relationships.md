@@ -92,6 +92,8 @@ Example for implementing new query support is https://github.com/torchbox/verdan
 
 http://0.0.0.0:8000/api/v2/pages/?type=rca.EventItem&rp=animation
 
+or with order by date_from `?type=rca.EventItem&rp=animation&event_date_from=True`
+
 ##### NewsItem
 
 http://0.0.0.0:8000/api/v2/pages/?type=rca.NewsItem&rp=animation

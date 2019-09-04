@@ -43,20 +43,21 @@
                     </section>
 
             {% endif %}
+            {% if alumni_stories %}
+                <section class="section section--top-space bg bg--dark">
 
-            <section class="section section--top-space bg bg--dark">
+                    <div class="alumni-stories">
+                        <div class="alumni-stories__header grid">
+                            <h2 class="alumni-stories__heading heading heading--one">Where will the RCA take you?</h2>
+                        </div>
 
-                <div class="alumni-stories">
-                    <div class="alumni-stories__header grid">
-                        <h2 class="alumni-stories__heading heading heading--one">Where will the RCA take you?</h2>
+                        <div class="alumni-stories__carousel grid">
+                            {% include "patterns/organisms/carousel/carousel_api_content.html" with carousel=alumni_stories modifier='carousel' datatag='data-carousel' %}
+                        </div>
                     </div>
 
-                    <div class="alumni-stories__carousel grid">
-                        {% include "patterns/organisms/carousel/carousel.html" with carousel=alumni %}
-                    </div>
-                </div>
-
-            </section>
+                </section>
+            {% endif %}
             {% if stats_block %}
                     {% include "patterns/organisms/stat-block/stat-block.html" %}
             {% endif %}
@@ -88,10 +89,11 @@
                     <header class="section__header grid">
                         <h3 class="section__heading section__heading--primary heading heading--two">News & events</h3>
                     </header>
-
-                    <div class="section__content grid">
-                        {% include "patterns/organisms/news/news.html" %}
-                    </div>
+                    {% if news_and_events %}
+                        <div class="section__content grid">
+                            {% include "patterns/organisms/news/news_api_content.html" with news=news_and_events %}
+                        </div>
+                    {% endif %}
 
                 </div>
             </section>

@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "rca.standardpages",
     "rca.users",
     "rca.utils",
+    "rca.api_content",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.postgres_search",
     "wagtail.contrib.settings",
@@ -660,3 +661,6 @@ if "RECAPTCHA_PRIVATE_KEY" in env:
 if "RECAPTCHA_PUBLIC_KEY" in env:
     RECAPTCHA_PUBLIC_KEY = env["RECAPTCHA_PUBLIC_KEY"]
     NOCAPTCHA = True
+
+# Variable for how long to cache content from the current api for
+API_CONTENT_CACHE_TIMEOUT = 60 * 60 * 24

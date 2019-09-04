@@ -15,8 +15,8 @@
         </ul>
     </div>
 </div>
-{% if alumni_gallery %}
+{% if alumni_stories %}
 <div class="section__row grid">
-    {% include "patterns/organisms/carousel/carousel.html" %}
+    {% include "patterns/organisms/carousel/carousel_api_content.html" with carousel=alumni_stories  modifier='carousel' datatag='data-carousel' %}
 </div>
 {% endif %}
