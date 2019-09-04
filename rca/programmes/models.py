@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 from django.conf import settings
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
@@ -25,6 +26,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
+from rca.api_content import content
 from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_TEXT_ON_DARK_IMAGE
 from rca.utils.blocks import (
     AccordionBlockWithTitle,
@@ -46,6 +48,15 @@ class DegreeLevel(models.Model):
 class ProgrammeType(models.Model):
     display_name = models.CharField(max_length=128)
     slug = models.CharField(max_length=128)
+    legacy_slug = models.CharField(
+        max_length=128,
+        blank=True,
+        help_text=(
+            "This field should match the value added as a slug in the current "
+            "live RCA sites 'Programme' taxonomy, it's used for "
+            "relating content like news and events."
+        ),
+    )
 
     def __str__(self):
         return self.display_name
@@ -53,7 +64,7 @@ class ProgrammeType(models.Model):
 
 class ProgrammePageProgrammeType(models.Model):
     programme_type = models.ForeignKey("ProgrammeType", on_delete=models.CASCADE)
-    page = ParentalKey("ProgrammePage", related_name="programme_types")
+    page = ParentalKey("ProgrammePage", related_name="programme_type")
 
     panels = [FieldPanel("programme_type")]
 
@@ -321,9 +332,10 @@ class ProgrammePage(BasePage):
         # Taxonomy, relationships etc
         FieldPanel("degree_level"),
         InlinePanel(
-            "programme_types",
+            "programme_type",
             label="Programme Type",
             help_text="Used to show content related to this programme page",
+            max_num=1,
         ),
         MultiFieldPanel(
             [
@@ -479,6 +491,36 @@ class ProgrammePage(BasePage):
 
     search_fields = BasePage.search_fields + []
 
+    def get_alumni_stories(self, programme_type_legacy_slug):
+        # Use the slug as prefix to the cache key
+        cache_key = f"{programme_type_legacy_slug}_programme_latest_alumni_stories"
+        stories_data = cache.get(cache_key)
+        if stories_data is None:
+            try:
+                stories_data = content.pull_alumni_stories(programme_type_legacy_slug)
+            except content.CantPullFromRcaApi:
+                return []
+            else:
+                cache.set(cache_key, stories_data, settings.API_CONTENT_CACHE_TIMEOUT)
+        return stories_data
+
+    def get_news_and_events(self, programme_type_legacy_slug):
+        # Use the slug as prefix to the cache key
+        cache_key = f"{programme_type_legacy_slug}_programme_latest_news_and_events"
+        news_and_events_data = cache.get(cache_key)
+        if news_and_events_data is None:
+            try:
+                news_and_events_data = content.pull_news_and_events(
+                    programme_type_legacy_slug
+                )
+            except content.CantPullFromRcaApi:
+                return []
+            else:
+                cache.set(
+                    cache_key, news_and_events_data, settings.API_CONTENT_CACHE_TIMEOUT
+                )
+        return news_and_events_data
+
     def clean(self):
         errors = defaultdict(list)
         if self.hero_video and not self.hero_video_preview_image:
@@ -554,6 +596,15 @@ class ProgrammePage(BasePage):
             {"title": "Fees & funding"},
             {"title": "Apply"},
         ]
+        programme_type = ProgrammePageProgrammeType.objects.get(page=self)
+        programme_type_legacy_slug = ProgrammeType.objects.get(
+            id=programme_type.programme_type_id
+        ).legacy_slug
+
+        context["alumni_stories"] = self.get_alumni_stories(programme_type_legacy_slug)
+        context["news_and_events"] = self.get_news_and_events(
+            programme_type_legacy_slug
+        )
 
         return context
 
