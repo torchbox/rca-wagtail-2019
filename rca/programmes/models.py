@@ -68,7 +68,7 @@ class ProgrammePageFeeItem(Orderable):
         help_text="The title for the information, e.g 'Fees for new students ",
     )
     introduction = models.CharField(
-        max_length=250, help_text="Extra information about the fee items", blank=True
+        max_length=1000, help_text="Extra information about the fee items", blank=True
     )
     row = StreamField([("row", FeeBlock())], blank=True)
     panels = [FieldPanel("title"), FieldPanel("introduction"), StreamFieldPanel("row")]
@@ -208,7 +208,7 @@ class ProgrammePage(BasePage):
 
     facilities_intro = models.CharField(blank=True, max_length=150)
     facilities_copy = models.TextField(
-        blank=True, max_length=400, help_text="Max length 400 characters"
+        blank=True, max_length=1000, help_text="Max length 1000 characters"
     )
     facilities_link = models.URLField(blank=True)
     facilities_link_text = models.CharField(blank=True, max_length=150)
