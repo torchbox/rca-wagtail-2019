@@ -49,6 +49,10 @@
     }
 
     .accordion & {
-        @include font-size(xxs);
+        @include font-size(xs);
+
+        @include media-query(large) {
+            font-size: map-get($medium-font-sizes, xs);
+        }
     }
 }
