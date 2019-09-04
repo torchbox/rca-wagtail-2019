@@ -7,7 +7,7 @@
 
     {% include "patterns/molecules/hero/hero.html" with modifier="programme" %}
 
-    <div class="page page--overlap">
+    <div class="page page--overlap" vocab="http://schema.org/" typeof="Course">
 
         <div class="page__notch grid">
             <div class="page__notch-block bg bg--dark"></div>
@@ -19,7 +19,7 @@
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
-                    <h1 class="title-area__header heading heading--display-two">{{ page.title }}</h1>
+                    <h1 itemprop="name" class="title-area__header heading heading--display-two">{{ page.title }}</h1>
                     <p class="title-area__introduction introduction">{{ page.degree_level }}</p>
                 </div>
             </div>
