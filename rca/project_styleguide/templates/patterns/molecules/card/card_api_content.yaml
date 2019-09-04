@@ -1,0 +1,7 @@
+context:
+  item:
+    type: 'Event'
+    title: 'Show 2019: School of Architecture'
+    description: '28-29 April'
+    image: //placekitten.com/500/500
+    link: '#'

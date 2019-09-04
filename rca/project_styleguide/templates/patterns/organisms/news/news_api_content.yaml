@@ -1,0 +1,23 @@
+context:
+  news:
+    - item:
+      type: 'Event'
+      title: 'Designs for Real Life'
+      date: '6 July 2019 — 4 August 2019'
+      link: '#'
+      image: //placekitten.com/500/500
+      person: false
+    - item:
+      type: 'Event'
+      title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
+      date: '23 November 2019'
+      link: '#'
+      image: false
+      person: false
+    - item:
+      type: 'News'
+      title: 'Show 2018: School of Architecture: Making Space for the Future'
+      date: '23 November 2019'
+      link: '#'
+      image: //placekitten.com/500/500
+      person: false
