@@ -140,7 +140,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "rca.wsgi.application"
-ASGI_APPLICATION = "rca.routing.application"
+ASGI_APPLICATION = "rca.asgi.application"
 
 
 # Database
