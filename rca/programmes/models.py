@@ -292,6 +292,7 @@ class ProgrammePage(BasePage):
     )
 
     # Requirements
+    requirements_text = RichTextField(blank=True)
     requirements_blocks = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
@@ -437,7 +438,10 @@ class ProgrammePage(BasePage):
         ),
     ]
 
-    programme_requirements_pannels = [StreamFieldPanel("requirements_blocks")]
+    programme_requirements_pannels = [
+        FieldPanel("requirements_text"),
+        StreamFieldPanel("requirements_blocks"),
+    ]
     programme_fees_and_funding_panels = [
         MultiFieldPanel(
             [InlinePanel("fee_items", label="Fee items")], heading="For this program"
