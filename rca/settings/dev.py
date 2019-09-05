@@ -43,6 +43,16 @@ INSTALLED_APPS += ["django_extensions"]  # noqa
 SECURE_SSL_REDIRECT = False
 
 
+# Channels
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {"hosts": [("127.0.0.1", 6379)]},
+    }
+}
+
+
 # Adds Django Debug Toolbar, if preset
 try:
     import debug_toolbar  # noqa
