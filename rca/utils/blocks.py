@@ -119,7 +119,7 @@ class AccordionBlockWithTitle(blocks.StructBlock):
     )
     body = blocks.RichTextBlock(
         help_text="The content shown when the accordion expanded",
-        features=["h2", "h3", "bold", "italic", "image"],
+        features=["h2", "h3", "bold", "italic", "image", "ul", "ol"],
     )
     link = LinkBlock(
         help_text="An optional link to display below the expanded content",
