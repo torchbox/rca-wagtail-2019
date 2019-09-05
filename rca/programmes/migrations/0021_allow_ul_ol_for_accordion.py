@@ -7,7 +7,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [("programmes", "0019_increase_character_limits")]
+    dependencies = [("programmes", "0020_add_legacy_slug_limit_type_max_num")]
 
     operations = [
         migrations.AlterField(
