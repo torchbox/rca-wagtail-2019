@@ -1,8 +1,12 @@
-from channels.auth import AuthMiddlewareStack
-from channels.routing import ProtocolTypeRouter, URLRouter
-from content_locking import routing
-from django.urls import path
+"""
+ASGI entrypoint. Configures Django and then runs the application
+defined in the ASGI_APPLICATION setting.
+"""
 
-application = ProtocolTypeRouter(
-    {"websocket": AuthMiddlewareStack(URLRouter(routing.websocket_urlpatterns))}
-)
+import os
+import django
+from channels.routing import get_default_application
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "rca.settings.production")
+django.setup()
+application = get_default_application()
