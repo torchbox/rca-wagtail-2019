@@ -77,4 +77,4 @@ USER rca
 
 # Run the WSGI server. It reads GUNICORN_CMD_ARGS, PORT and WEB_CONCURRENCY
 # environment variable hence we don't specify a lot options below.
-CMD gunicorn rca.wsgi:application
+CMD daphne rca.asgi:application --port $PORT --bind 0.0.0.0 -v2
