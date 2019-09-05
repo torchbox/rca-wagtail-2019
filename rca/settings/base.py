@@ -63,6 +63,9 @@ INSTALLED_APPS = [
     "rca.users",
     "rca.utils",
     "rca.api_content",
+    # Must be before wagtail
+    "channels",
+    "content_locking",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.postgres_search",
     "wagtail.contrib.settings",
@@ -137,6 +140,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "rca.wsgi.application"
+ASGI_APPLICATION = "rca.routing.application"
 
 
 # Database
@@ -165,6 +169,14 @@ if "REDIS_URL" in env:
             "LOCATION": env["REDIS_URL"],
         }
     }
+
+    # Django channels
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {"hosts": [env["REDIS_URL"]]},
+        }
+    }
 else:
     CACHES = {
         "default": {
@@ -172,6 +184,7 @@ else:
             "LOCATION": "database_cache",
         }
     }
+
 
 # Search
 # https://docs.wagtail.io/en/latest/topics/search/backends.html
