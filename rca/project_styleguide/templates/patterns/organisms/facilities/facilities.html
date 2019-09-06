@@ -19,7 +19,7 @@
         </div>
         {% if facilities_snippet.copy %}
         <div class="facilities__body">
-            <p>{{ facilities_snippet.copy }}</p>
+            {{ facilities_snippet.copy|linebreaks }}
         </div>
      {% endif %}
     {% endwith %}

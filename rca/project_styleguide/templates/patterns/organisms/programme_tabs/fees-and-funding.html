@@ -40,7 +40,7 @@
             {% endwith %}
             <div class="overview__item">
                 {% if page.fees_disclaimer %}
-                    <p>{{ page.fees_disclaimer.text }}</p>
+                    {{ page.fees_disclaimer.text|linebreaks }}
                 {% endif %}
             </div>
         </div>
