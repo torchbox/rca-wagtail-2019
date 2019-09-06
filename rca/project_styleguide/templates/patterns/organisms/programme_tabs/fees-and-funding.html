@@ -5,6 +5,11 @@
     </header>
     <div class="section__content">
         <div class="overview grid">
+            <div class="overview__item">
+                {% if page.fees_disclaimer %}
+                    <p>{{ page.fees_disclaimer.text }}</p>
+                {% endif %}
+            </div>
             {% with page.fee_items.all as fee_items %}
                 {% if fee_items %}
                         <h3 class="overview__heading heading heading--four">For this programme</h3>

@@ -44,6 +44,10 @@
             {% if accordion.link.url and accordion.link.title %}
                 {% include "patterns/atoms/link-primary/link-primary--link.html" with href=accordion.link.url  text=accordion.link.title %}
             {% endif %}
+            {# Accordion can also use a snippet which has different link fields #}
+            {% if accordion.link_url and accordion.link_title %}
+                {% include "patterns/atoms/link-primary/link-primary--link.html" with href=accordion.link_url  text=accordion.link_title %}
+            {% endif %}
         </div>
     </div>
 </div>
