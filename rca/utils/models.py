@@ -305,3 +305,103 @@ class BasePage(SocialFields, ListingFields, Page):
     promote_panels = (
         Page.promote_panels + SocialFields.promote_panels + ListingFields.promote_panels
     )
+
+
+class OptionalLink(models.Model):
+    link_url = models.URLField(blank=True)
+    link_title = models.CharField(blank=True, max_length=125)
+
+    class Meta:
+        abstract = True
+
+    panels = [
+        MultiFieldPanel(
+            [FieldPanel("link_url"), FieldPanel("link_title")], heading="Optional link"
+        )
+    ]
+
+    def clean(self):
+        if self.link_url and not self.link_title:
+            raise ValidationError(
+                {"link_title": ValidationError("You must specify text for the link.")}
+            )
+        if self.link_title and not self.link_url:
+            raise ValidationError(
+                {"link_url": ValidationError("You must specify a URL for the link.")}
+            )
+
+
+@register_snippet
+class FacilitiesSnippet(models.Model):
+    admin_title = models.CharField(
+        max_length=255,
+        help_text="The title value is only used to identify the snippet in the admin interface ",
+    )
+    introduction = models.CharField(max_length=255)
+    copy = models.TextField(blank=True)
+
+    panels = [FieldPanel("admin_title"), FieldPanel("introduction"), FieldPanel("copy")]
+
+    def __str__(self):
+        return self.admin_title
+
+
+@register_snippet
+class StepSnippet(OptionalLink):
+    admin_title = models.CharField(
+        max_length=255,
+        help_text="The title value is only used to identify the snippet in the admin interface ",
+    )
+
+    heading = models.CharField(max_length=500)
+
+    panels = [FieldPanel("admin_title"), FieldPanel("heading")] + OptionalLink.panels
+
+    def __str__(self):
+        return self.admin_title
+
+
+@register_snippet
+class AccordionSnippet(OptionalLink):
+    heading = models.CharField(
+        help_text="A large heading diplayed next to the block",
+        blank=True,
+        max_length=125,
+    )
+    admin_title = models.CharField(
+        max_length=255,
+        help_text="The title value is only used to identify the snippet in the admin interface ",
+    )
+    preview_text = models.CharField(
+        help_text="The text to display when the accordion is collapsed",
+        blank=True,
+        max_length=250,
+    )
+    body = RichTextField(
+        help_text="The content shown when the accordion expanded",
+        features=["h2", "h3", "bold", "italic", "image", "ul", "ol"],
+    )
+
+    def __str__(self):
+        return self.admin_title
+
+    panels = [
+        FieldPanel("admin_title"),
+        FieldPanel("heading"),
+        FieldPanel("preview_text"),
+        FieldPanel("body"),
+    ] + OptionalLink.panels
+
+
+@register_snippet
+class FeeDisclaimerSnippet(models.Model):
+    text = models.TextField(blank=True)
+    admin_title = models.CharField(
+        max_length=255,
+        help_text="The title value is only used to identify the snippet in the admin interface ",
+    )
+
+    def __str__(self):
+        return self.admin_title
+
+    panels = [FieldPanel("admin_title"), FieldPanel("text")]

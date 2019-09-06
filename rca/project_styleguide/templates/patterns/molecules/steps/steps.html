@@ -13,6 +13,14 @@
                                 <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
                             </a>
                         {% endif %}
+                        {# Some steps are snippets and have a different link declaration #}
+                        {% if step.link_url and step.link_title %}
+                            <a class="step-item__link link link--secondary link--link" href="{{ step.link_url }}">
+                                <span class="link__label">{{ step.link_title }}</span>
+                                <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+                            </a>
+                        {% endif %}
+
                     </div>
                 </div>
             {% endwith %}

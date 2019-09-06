@@ -38,6 +38,11 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
+            <div class="overview__item">
+                {% if page.fees_disclaimer %}
+                    {{ page.fees_disclaimer.text|linebreaks }}
+                {% endif %}
+            </div>
         </div>
 
         <div class="overview grid">

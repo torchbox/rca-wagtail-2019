@@ -25,6 +25,7 @@ from wagtail.images import get_image_model_string
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from rca.api_content import content
 from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_TEXT_ON_DARK_IMAGE
@@ -33,6 +34,7 @@ from rca.utils.blocks import (
     FeeBlock,
     GalleryBlock,
     InfoBlock,
+    SnippetChooserBlock,
     StepBlock,
 )
 from rca.utils.models import BasePage, RelatedPage
@@ -217,10 +219,14 @@ class ProgrammePage(BasePage):
         max_length=125, blank=True, help_text="E.g. 'See all programme staff'"
     )
 
-    facilities_intro = models.CharField(blank=True, max_length=150)
-    facilities_copy = models.TextField(
-        blank=True, max_length=1000, help_text="Max length 1000 characters"
+    facilities_snippet = models.ForeignKey(
+        "utils.FacilitiesSnippet",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
     )
+
     facilities_link = models.URLField(blank=True)
     facilities_link_text = models.CharField(blank=True, max_length=150)
     facilities_gallery = StreamField(
@@ -286,7 +292,10 @@ class ProgrammePage(BasePage):
         verbose_name="Accordion blocks",
     )
     what_you_will_cover_blocks = StreamField(
-        [("accordion_block", AccordionBlockWithTitle())],
+        [
+            ("accordion_block", AccordionBlockWithTitle()),
+            ("accordion_snippet", SnippetChooserBlock("utils.AccordionSnippet")),
+        ],
         blank=True,
         verbose_name="Accordion blocks",
     )
@@ -300,6 +309,13 @@ class ProgrammePage(BasePage):
     )
 
     # fees
+    fees_disclaimer = models.ForeignKey(
+        "utils.FeeDisclaimerSnippet",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
     # Scholarships
     scholarships_title = models.CharField(max_length=120)
     scholarships_information = models.CharField(max_length=250)
@@ -325,7 +341,13 @@ class ProgrammePage(BasePage):
     )
     apply_image_title = models.CharField(max_length=125, blank=True)
     apply_image_sub_title = models.CharField(max_length=250, blank=True)
-    steps = StreamField([("step", StepBlock())], blank=True)
+    steps = StreamField(
+        [
+            ("step", StepBlock()),
+            ("step_snippet", SnippetChooserBlock("utils.StepSnippet")),
+        ],
+        blank=True,
+    )
     apply_cta_link = models.URLField()
     apply_cta_text = models.CharField(max_length=125)
 
@@ -399,8 +421,7 @@ class ProgrammePage(BasePage):
         ),
         MultiFieldPanel(
             [
-                FieldPanel("facilities_intro"),
-                FieldPanel("facilities_copy"),
+                SnippetChooserPanel("facilities_snippet"),
                 FieldPanel("facilities_link"),
                 FieldPanel("facilities_link_text"),
                 StreamFieldPanel("facilities_gallery"),
@@ -443,6 +464,7 @@ class ProgrammePage(BasePage):
         StreamFieldPanel("requirements_blocks"),
     ]
     programme_fees_and_funding_panels = [
+        SnippetChooserPanel("fees_disclaimer"),
         MultiFieldPanel(
             [InlinePanel("fee_items", label="Fee items")], heading="For this program"
         ),
