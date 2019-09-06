@@ -87,6 +87,7 @@
     &__number {
         font-size: 80px;
         line-height: 81px;
+        font-family: $font--secondary;
         font-weight: $weight--medium;
 
         @include media-query(medium) {
