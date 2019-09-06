@@ -307,6 +307,30 @@ class BasePage(SocialFields, ListingFields, Page):
     )
 
 
+class OptionalLink(models.Model):
+    link_url = models.URLField(blank=True)
+    link_title = models.CharField(blank=True, max_length=125)
+
+    class Meta:
+        abstract = True
+
+    panels = [
+        MultiFieldPanel(
+            [FieldPanel("link_url"), FieldPanel("link_title")], heading="Optional link"
+        )
+    ]
+
+    def clean(self):
+        if self.link_url and not self.link_title:
+            raise ValidationError(
+                {"link_title": ValidationError("You must specify text for the link.")}
+            )
+        if self.link_title and not self.link_url:
+            raise ValidationError(
+                {"link_url": ValidationError("You must specify a URL for the link.")}
+            )
+
+
 @register_snippet
 class FacilitiesSnippet(models.Model):
     admin_title = models.CharField(
@@ -323,39 +347,22 @@ class FacilitiesSnippet(models.Model):
 
 
 @register_snippet
-class StepSnippet(models.Model):
+class StepSnippet(OptionalLink):
     admin_title = models.CharField(
         max_length=255,
         help_text="The title value is only used to identify the snippet in the admin interface ",
     )
 
     heading = models.CharField(max_length=500)
-    link_url = models.URLField(blank=True)
-    link_title = models.CharField(blank=True, max_length=125)
 
-    panels = [
-        FieldPanel("admin_title"),
-        FieldPanel("heading"),
-        FieldPanel("link_url"),
-        FieldPanel("link_title"),
-    ]
+    panels = [FieldPanel("admin_title"), FieldPanel("heading")] + OptionalLink.panels
 
     def __str__(self):
         return self.admin_title
 
-    def clean(self):
-        if self.link_url and not self.link_title:
-            raise ValidationError(
-                {"link_text": ValidationError("You must specify text for the link.")}
-            )
-        if self.link_title and not self.link_url:
-            raise ValidationError(
-                {"link_url": ValidationError("You must specify a URL for the link.")}
-            )
-
 
 @register_snippet
-class AccordionSnippet(models.Model):
+class AccordionSnippet(OptionalLink):
     heading = models.CharField(
         help_text="A large heading diplayed next to the block",
         blank=True,
@@ -375,9 +382,6 @@ class AccordionSnippet(models.Model):
         features=["h2", "h3", "bold", "italic", "image", "ul", "ol"],
     )
 
-    link_url = models.URLField(blank=True)
-    link_title = models.CharField(blank=True, max_length=125)
-
     def __str__(self):
         return self.admin_title
 
@@ -386,20 +390,7 @@ class AccordionSnippet(models.Model):
         FieldPanel("heading"),
         FieldPanel("preview_text"),
         FieldPanel("body"),
-        MultiFieldPanel(
-            [FieldPanel("link_url"), FieldPanel("link_title")], heading="Optional link"
-        ),
-    ]
-
-    def clean(self):
-        if self.link_url and not self.link_title:
-            raise ValidationError(
-                {"link_text": ValidationError("You must specify text for the link.")}
-            )
-        if self.link_title and not self.link_url:
-            raise ValidationError(
-                {"link_url": ValidationError("You must specify a URL for the link.")}
-            )
+    ] + OptionalLink.panels
 
 
 @register_snippet
