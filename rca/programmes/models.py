@@ -303,7 +303,10 @@ class ProgrammePage(BasePage):
     # Requirements
     requirements_text = RichTextField(blank=True)
     requirements_blocks = StreamField(
-        [("accordion_block", AccordionBlockWithTitle())],
+        [
+            ("accordion_block", AccordionBlockWithTitle()),
+            ("accordion_snippet", SnippetChooserBlock("utils.AccordionSnippet")),
+        ],
         blank=True,
         verbose_name="Accordion blocks",
     )
