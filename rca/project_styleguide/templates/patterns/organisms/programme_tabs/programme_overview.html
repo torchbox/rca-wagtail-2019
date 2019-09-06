@@ -17,9 +17,11 @@
                 <div class="programme-overview__description" itemprop="description">
                     {{ page.programme_description_copy|safe }}
                 </div>
-                <div class="programme-overview__pathways">
-                    {% include "patterns/molecules/pathways/pathways.html" with summary=page.pathways_summary pathways=page.pathway_blocks %}
-                </div>
+                {% if page.pathway_blocks %}
+                    <div class="programme-overview__pathways">
+                        {% include "patterns/molecules/pathways/pathways.html" with summary=page.pathways_summary pathways=page.pathway_blocks %}
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
