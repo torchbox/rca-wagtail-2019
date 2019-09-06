@@ -29,8 +29,10 @@ $color--meta-lightbg: $color--dark-grey;
 
 // --------------------------------- Fonts --------------------------------------
 
-$font--primary: 'Benton Sans Old', 'Helvetica Neue', Arial, Helvetica, Sans-Serif; // Benton Sans Regular
-$font--secondary: 'Benton Sans Medium', 'Helvetica Neue', Arial, Helvetica, Sans-Serif;
+$font--primary: 'Benton Sans Old', 'Helvetica Neue', Arial, Helvetica,
+    Sans-Serif; // Benton Sans Regular
+$font--secondary: 'Benton Sans Medium', 'Helvetica Neue', Arial, Helvetica,
+    Sans-Serif;
 
 // Font weights
 // Now handled by font family so both 500
