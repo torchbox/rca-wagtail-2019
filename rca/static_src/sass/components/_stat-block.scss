@@ -74,13 +74,20 @@
     }
 
     &__number-container {
+        position: relative;
+        left: -2px;
         display: flex;
         align-items: flex-end;
+
+        @include media-query(medium) {
+            left: -3px;
+        }
     }
 
     &__number {
         font-size: 80px;
         line-height: 81px;
+        font-family: $font--secondary;
         font-weight: $weight--medium;
 
         @include media-query(medium) {
@@ -112,6 +119,8 @@
 
     &__meta {
         margin-bottom: 0;
+        font-family: $font--secondary;
+        font-weight: $weight--medium;
     }
 
     &__body {

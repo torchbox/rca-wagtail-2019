@@ -1,14 +1,17 @@
 .accordion-block {
     overflow: hidden;
-    padding: ($gutter * 4) 0 0;
+    margin-top: ($gutter * 4);
+    padding: 0;
 
     @include media-query(large) {
-        padding: ($gutter * 4) 0;
+        padding: 0 0 ($gutter * 4);
+        margin-top: ($gutter * 4);
     }
 
     &--last {
         @include media-query(large) {
-            padding: ($gutter * 4) 0 ($gutter * 8);
+            padding: 0 0 ($gutter * 8);
+            margin-top: ($gutter * 4);
         }
     }
 

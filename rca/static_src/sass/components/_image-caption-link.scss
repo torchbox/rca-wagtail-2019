@@ -87,6 +87,7 @@
     }
 
     &__image-icon {
+        @include z-index(above-gridlines);
         position: absolute;
         left: 50%;
         top: 50%;

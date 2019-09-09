@@ -46,7 +46,7 @@
         position: relative;
         overflow: hidden;
         color: $color--white;
-        background-color: $color--black-36;
+        background-color: $color--black-65;
 
         &::before {
             @include z-index(under);
