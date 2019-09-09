@@ -93,6 +93,7 @@
         top: 50%;
         transform: translate3d(-50%, -50%, 0);
         pointer-events: none;
+        fill: $color--white;
 
         @include media-query(medium) {
             display: none;
