@@ -383,7 +383,7 @@ class AccordionSnippet(OptionalLink):
     )
     body = RichTextField(
         help_text="The content shown when the accordion expanded",
-        features=["h2", "h3", "bold", "italic", "image", "ul", "ol"],
+        features=["h2", "h3", "bold", "italic", "image", "ul", "ol", "link"],
     )
 
     def __str__(self):
