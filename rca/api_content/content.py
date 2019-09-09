@@ -40,8 +40,10 @@ def parse_items_to_list(data, type):
             feed_image = data["feed_image"]["meta"]["detail_url"]
             feed_image = requests.get(url=feed_image)
             feed_image = feed_image.json()
-            feed_image_url = feed_image["original"]["url"]
+            feed_image_url = feed_image["rca2019_feed_image"]["url"]
+            feed_image_small_url = feed_image["rca2019_feed_image_small"]["url"]
             _item["image"] = feed_image_url
+            _item["image_small"] = feed_image_small_url
             _item["image_alt"] = feed_image["alt"]
         date = False
         if type == "News":
