@@ -10,6 +10,16 @@ PYTHON=$VIRTUALENV_DIR/bin/python
 PIP=$VIRTUALENV_DIR/bin/pip
 
 
+# Update package index before installing dependencies
+apt-get update -y
+
+# Upgrade to postgres 11
+service postgresql stop
+apt-get remove -y --purge postgresql-*
+apt-get install -y postgresql-11 postgresql-client-11 postgresql-contrib-11
+su - postgres -c "createuser -s vagrant"
+
+
 # Create database (let it fail because database may exist)
 set +e
 su - vagrant -c "createdb $PROJECT_NAME"
