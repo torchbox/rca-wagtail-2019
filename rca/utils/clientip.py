@@ -6,4 +6,4 @@ def get_client_real_ip(request):
     The builtin get_client_ip function will use X-Forwarded-For if provided, but we want to check
     against the real IP address instead.
     """
-    return request.META.get('REMOTE_ADDR')
+    return request.META.get("REMOTE_ADDR")
