@@ -332,7 +332,7 @@ class OptionalLink(models.Model):
 
 
 @register_snippet
-class FacilitiesSnippet(models.Model):
+class FacilitiesSnippet(OptionalLink):
     admin_title = models.CharField(
         max_length=255,
         help_text="The title value is only used to identify the snippet in the admin interface ",
@@ -340,7 +340,11 @@ class FacilitiesSnippet(models.Model):
     introduction = models.CharField(max_length=255)
     copy = models.TextField(blank=True)
 
-    panels = [FieldPanel("admin_title"), FieldPanel("introduction"), FieldPanel("copy")]
+    panels = [
+        FieldPanel("admin_title"),
+        FieldPanel("introduction"),
+        FieldPanel("copy"),
+    ] + OptionalLink.panels
 
     def __str__(self):
         return self.admin_title

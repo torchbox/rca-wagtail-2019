@@ -115,14 +115,12 @@ class ProgramPageRelatedStaff(Orderable):
     role = models.CharField(max_length=125, blank=True)
     description = models.TextField(blank=True)
     link = models.URLField(blank=True)
-    link_text = models.CharField(max_length=125, blank=True)
     panels = [
         ImageChooserPanel("image"),
         FieldPanel("name"),
         FieldPanel("role"),
         FieldPanel("description"),
         FieldPanel("link"),
-        FieldPanel("link_text"),
     ]
 
     def __str__(self):
@@ -208,7 +206,6 @@ class ProgrammePage(BasePage):
     programme_description_subtitle = models.CharField(max_length=100, blank=True)
     programme_description_copy = RichTextField(blank=True)
 
-    programme_gallery_title = models.CharField(max_length=125, blank=True)
     programme_gallery = StreamField(
         [("slide", GalleryBlock())], blank=True, verbose_name="Programme gallery"
     )
@@ -226,9 +223,6 @@ class ProgrammePage(BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-
-    facilities_link = models.URLField(blank=True)
-    facilities_link_text = models.CharField(blank=True, max_length=150)
     facilities_gallery = StreamField(
         [
             (
@@ -283,9 +277,6 @@ class ProgrammePage(BasePage):
     curriculum_text = models.TextField(blank=True, max_length=250)
 
     # Pathways
-    pathways_summary = models.CharField(blank=True, max_length=150)
-    # The summary can't be part of the block because it needs to be rendered in multiple places
-    # in the template so it's best to keep it separate
     pathway_blocks = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
@@ -334,7 +325,6 @@ class ProgrammePage(BasePage):
     )
 
     # Apply
-    apply_title = models.CharField(max_length=125, default="Start your application")
     apply_image = models.ForeignKey(
         get_image_model_string(),
         blank=True,
@@ -342,8 +332,6 @@ class ProgrammePage(BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    apply_image_title = models.CharField(max_length=125, blank=True)
-    apply_image_sub_title = models.CharField(max_length=250, blank=True)
     steps = StreamField(
         [
             ("step", StepBlock()),
@@ -351,8 +339,6 @@ class ProgrammePage(BasePage):
         ],
         blank=True,
     )
-    apply_cta_link = models.URLField()
-    apply_cta_text = models.CharField(max_length=125)
 
     content_panels = BasePage.content_panels + [
         # Taxonomy, relationships etc
@@ -408,11 +394,7 @@ class ProgrammePage(BasePage):
             heading="Programme Description",
         ),
         MultiFieldPanel(
-            [
-                FieldPanel("programme_gallery_title"),
-                StreamFieldPanel("programme_gallery"),
-            ],
-            heading="Programme gallery",
+            [StreamFieldPanel("programme_gallery")], heading="Programme gallery"
         ),
         MultiFieldPanel(
             [
@@ -425,8 +407,6 @@ class ProgrammePage(BasePage):
         MultiFieldPanel(
             [
                 SnippetChooserPanel("facilities_snippet"),
-                FieldPanel("facilities_link"),
-                FieldPanel("facilities_link_text"),
                 StreamFieldPanel("facilities_gallery"),
             ],
             heading="Facilities",
@@ -452,10 +432,7 @@ class ProgrammePage(BasePage):
             ],
             heading="Curriculum introduction",
         ),
-        MultiFieldPanel(
-            [FieldPanel("pathways_summary"), StreamFieldPanel("pathway_blocks")],
-            heading="Pathways",
-        ),
+        MultiFieldPanel([StreamFieldPanel("pathway_blocks")], heading="Pathways"),
         MultiFieldPanel(
             [StreamFieldPanel("what_you_will_cover_blocks")],
             heading="What you'll cover",
@@ -486,22 +463,9 @@ class ProgrammePage(BasePage):
     ]
     programme_apply_pannels = [
         MultiFieldPanel(
-            [
-                FieldPanel("apply_title"),
-                ImageChooserPanel("apply_image"),
-                FieldPanel("apply_image_title"),
-                FieldPanel("apply_image_sub_title"),
-            ],
-            heading="Introduction image",
+            [ImageChooserPanel("apply_image")], heading="Introduction image"
         ),
-        MultiFieldPanel(
-            [
-                StreamFieldPanel("steps"),
-                FieldPanel("apply_cta_link"),
-                FieldPanel("apply_cta_text"),
-            ],
-            heading="Before you begin",
-        ),
+        MultiFieldPanel([StreamFieldPanel("steps")], heading="Before you begin"),
     ]
 
     edit_handler = TabbedInterface(
@@ -578,10 +542,6 @@ class ProgrammePage(BasePage):
             errors["staff_link_text"].append("Please the text to be used for the link")
         if self.staff_link_text and not self.staff_link:
             errors["staff_link_text"].append("Please add a URL value for the link")
-        if self.apply_cta_link and not self.apply_cta_text:
-            errors["apply_cta_text"].append("Please add a text value for the CTA link")
-        if self.apply_cta_text and not self.apply_cta_link:
-            errors["apply_cta_link"].append("Please add a URL value for the CTA")
         if not self.contact_email and not self.contact_url:
             errors["contact_url"].append(
                 "Please add a target value for the contact us link"
