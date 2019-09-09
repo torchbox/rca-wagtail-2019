@@ -5,18 +5,21 @@
             {% if facilities_snippet.introduction %}
                 <p class="introduction">{{ facilities_snippet.introduction }}</p>
             {% endif %}
-
-            <a href="{{ link }}" class="facilities__view-all facilities__view-all--medium body body--one link link--primary link--link">
-                <span class="link__label">{{ link_text }}</span>
-                <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
-            </a>
+            {% if facilities_snippet.link_url %}
+                <a href="{{ facilities_snippet.link_url }}" class="facilities__view-all facilities__view-all--medium body body--one link link--primary link--link">
+                    <span class="link__label">{{ facilities_snippet.link_title }}</span>
+                    <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+                </a>
+            {% endif %}
         </div>
-        <div class="facilities__action">
-            <a href="{{ link }}" class="facilities__view-all body body--one link link--primary link--link">
-                <span class="link__label">{{ link_text }}</span>
-                <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
-            </a>
-        </div>
+        {% if facilities_snippet.link_url %}
+            <div class="facilities__action">
+                <a href="{{ facilities_snippet.link_url }}" class="facilities__view-all body body--one link link--primary link--link">
+                    <span class="link__label">{{ facilities_snippet.link_title }}</span>
+                    <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+                </a>
+            </div>
+        {% endif %}
         {% if facilities_snippet.copy %}
         <div class="facilities__body">
             {{ facilities_snippet.copy|linebreaks }}

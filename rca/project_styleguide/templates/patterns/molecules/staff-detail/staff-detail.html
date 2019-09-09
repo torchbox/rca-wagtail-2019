@@ -14,10 +14,12 @@
         </div>
         <div class="staff-detail__more">
             <p class="staff-detail__body body body--two">{{ item.description }}</p>
-            <a href="{{ item.link }}" class="staff-detail__link body body--two link link--tertiary link--link">
-                <span class="link__label">{{ item.link_text }}</span>
-                <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
-            </a>
+            {% if item.link %}
+                <a href="{{ item.link }}" class="staff-detail__link body body--two link link--tertiary link--link">
+                    <span class="link__label">View full profile</span>
+                    <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+                </a>
+            {% endif %}
         </div>
     </div>
 </div>
