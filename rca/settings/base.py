@@ -601,6 +601,10 @@ if env.get("BASIC_AUTH_ENABLED", "false").lower().strip() == "true":
             "BASIC_AUTH_WHITELISTED_HTTP_HOSTS"
         ].split(",")
 
+    # Change the get_client_ip function so we always get the real IP address and ignore
+    # the one passed in X-Forwarded-For. This is because all requests are proxied through
+    # the old site and we want to prevent direct access
+    BASIC_AUTH_GET_CLIENT_IP_FUNCTION = "rca.utils.clientip.get_client_real_ip"
 
 AUTH_USER_MODEL = "users.User"
 
