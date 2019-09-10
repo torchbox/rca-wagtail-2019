@@ -2,6 +2,6 @@
     <div class="grid">
         <h4 class="heading-with-text__heading heading heading--four">{{ heading }}</h4>
         <h5 class="heading-with-text__subheading heading heading--five">{{ subheading }}</h5>
-        <p class="heading-with-text__body body body--one">{{ body }}</p>
+        {% if body %}<p class="heading-with-text__body body body--one">{{ body }}</p>{% endif %}
     </div>
 </div>
