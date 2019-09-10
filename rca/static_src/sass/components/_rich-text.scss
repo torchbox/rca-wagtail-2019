@@ -44,6 +44,15 @@
         }
 
         .bg--light & {
+            color: $color--black;
+        }
+
+        // Accordion needs to be inverted (bg changes when they open)
+        .bg--dark .accordion__content & {
+            color: $color--black;
+        }
+
+        .bg--light .accordion__content & {
             color: $color--white;
         }
     }
