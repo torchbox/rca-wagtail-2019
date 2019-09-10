@@ -1,22 +1,25 @@
-<div class="section__row grid featured-alumni">
-    <h2 class="featured-alumni__heading heading heading--four">{{ title }}</h2>
-    <div class="featured-alumni__introduction">
-        <p class="introduction">{{ introduction }}</p>
+{% if alumni_links %}
+    <div class="section__row grid featured-alumni">
+        <h2 class="featured-alumni__heading heading heading--four">{{ title }}</h2>
+        <div class="featured-alumni__introduction">
+            <p class="introduction">{{ introduction }}</p>
+        </div>
+        <div class="featured-alumni__body">
+            <ul class="featured-alumni__list">
+                {% for link in alumni_links %}
+                {% if link.value.link %}
+                    <li><a target="_blank" href="{{ link.value.link }}">{{ link.value.name }}</a></li>
+                {% else %}
+                    <li>{{ link.value.name }}</li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-    <div class="featured-alumni__body">
-        <ul class="featured-alumni__list">
-            {% for link in alumni_links %}
-            {% if link.value.link %}
-                <li><a target="_blank" href="{{ link.value.link }}">{{ link.value.name }}</a></li>
-            {% else %}
-                <li>{{ link.value.name }}</li>
-            {% endif %}
-            {% endfor %}
-        </ul>
-    </div>
-</div>
-{% if alumni_stories %}
-<div class="section__row grid">
-    {% include "patterns/organisms/carousel/carousel_api_content.html" with carousel=alumni_stories  modifier='carousel' datatag='data-carousel' %}
-</div>
+
+    {% if alumni_stories %}
+        <div class="section__row grid">
+            {% include "patterns/organisms/carousel/carousel_api_content.html" with carousel=alumni_stories  modifier='carousel' datatag='data-carousel' %}
+        </div>
+    {% endif %}
 {% endif %}
