@@ -11,10 +11,11 @@
         </div>
         {% if page.contact_email %}
             <a href="mailto:{{ page.contact_email }}" class="contact__link link link--secondary link--link body body--two" target="_blank" rel="noopener">
+            Email us
         {% else %}
             <a href="{{ page.contact_url }}" class="contact__link link link--secondary link--link body body--two" target="_blank" rel="noopener">
+            Register your interest with us here
         {% endif %}
-            {{ link_text }}
             <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
         </a>
         <div class="contact__image-container">
