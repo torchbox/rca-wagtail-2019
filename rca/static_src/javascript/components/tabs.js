@@ -25,6 +25,7 @@ class Tabs {
 
         for (let tabPanel of this.allTabPanels) {
             tabPanel.classList.add('tabs__panel--hidden');
+            tabPanel.setAttribute('aria-selected', 'false');
         }
     }
 
@@ -44,8 +45,10 @@ class Tabs {
                     `[data-tab='${this.path}']`,
                 );
                 this.removeActive();
+                targetTab.setAttribute('aria-selected', 'true');
                 targetTab.classList.add('active');
                 targetPanel.classList.remove('tabs__panel--hidden');
+                targetPanel.setAttribute('aria-selected', 'true');
             }
         }
     }
@@ -57,6 +60,7 @@ class Tabs {
             var targetPanel = document.getElementById(panelID);
             window.location.hash = panelID;
             this.removeActive();
+            e.target.setAttribute('aria-selected', 'true');
             this.tab.classList.add('active');
             targetPanel.classList.remove('tabs__panel--hidden');
             targetPanel.setAttribute('aria-selected', 'true');

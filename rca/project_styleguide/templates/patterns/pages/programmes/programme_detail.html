@@ -31,20 +31,20 @@
 
                 {% include "patterns/molecules/tab-nav/tab-nav.html" with modifier="bg bg--dark" sticky="true" %}
 
-                <div class="tabs__panel js-tab-panel" id="overview" role="tabpanel" aria-labelledby="overview">
+                <div class="tabs__panel js-tab-panel" id="overview" role="tabpanel" aria-labelledby="tab-overview">
                     {% include "patterns/organisms/programme_tabs/programme_overview.html" %}
                 </div>
-                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="curriculum" role="tabpanel" aria-labelledby="curriculum">
+                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="curriculum" role="tabpanel" aria-labelledby="tab-curriculum">
                     {% include "patterns/organisms/programme_tabs/curriculum.html" with curriculum_image=page.curriculum_image subheading=page.curriculum_subtitle copy=page.curriculum_text caption=page.curriculum_video_caption video=page.curriculum_video %}
                 </div>
 
-                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="requirements" role="tabpanel" aria-labelledby="requirements">
+                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="requirements" role="tabpanel" aria-labelledby="tab-requirements">
                     {% include "patterns/organisms/programme_tabs/requirements.html" %}
                 </div>
-                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="fees-funding" role="tabpanel" aria-labelledby="fees-funding">
+                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="fees-funding" role="tabpanel" aria-labelledby="tab-fees-funding">
                     {% include "patterns/organisms/programme_tabs/fees-and-funding.html" %}
                 </div>
-                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="apply" role="tabpanel" aria-labelledby="apply">
+                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="apply" role="tabpanel" aria-labelledby="tab-apply">
                     {% include "patterns/organisms/programme_tabs/apply.html" %}
                 </div>
 
