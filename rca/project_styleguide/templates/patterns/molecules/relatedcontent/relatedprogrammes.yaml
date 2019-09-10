@@ -22,7 +22,7 @@ context:
 
 tags:
   pageurl:
-    specific_related_page:
+    related_item:
       raw: '#'
   image:
     related_item.hero_image fill-500x500 as programme_image:
