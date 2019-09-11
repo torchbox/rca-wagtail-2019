@@ -9,10 +9,10 @@
     "url": ""
   },
   "browserslist": [
-    "> 3%",
-    "ie 11",
-    "Firefox ESR",
-    "last 2 versions"
+    "> 0.5% and last 2 versions",
+    "not ie 11",
+    "not ie_mob 11",
+    "Firefox ESR"
   ],
   "sasslintConfig": ".sass-lint.yml",
   "jest": {
