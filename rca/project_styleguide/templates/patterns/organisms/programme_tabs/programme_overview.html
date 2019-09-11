@@ -26,14 +26,16 @@
         </div>
     </div>
 
-    {% if eventModule %}
-        {# BE NOTE: THIS ISNT CURRENTLY USED #}
-        <div class="section__row grid">
-            <div class="feature-image">
-                {% include "patterns/molecules/card/card.html" with item=eventModule %}
+    {% comment %}
+        {% if eventModule %}
+            {# BE NOTE: THIS ISNT CURRENTLY USED #}
+            <div class="section__row grid">
+                <div class="feature-image">
+                    {% include "patterns/molecules/card/card.html" with item=eventModule %}
+                </div>
             </div>
-        </div>
-    {% endif %}
+        {% endif %}
+    {% endcomment %}
 
     <div class="section__row">
         {% if page.programme_gallery %}
@@ -54,7 +56,7 @@
 
 </section>
 
-<section class="section bg bg--light">
+<section class="section section--end bg bg--light">
     {% with staff=related_staff %}
         {% if staff %}
             {% if staff|length > 1 %}
@@ -71,24 +73,26 @@
 
 </section>
 
-<section class="section section--end bg bg--dark">
-    {% if news_and_events %}
+{% comment %}
+    <section class="section section--end bg bg--dark">
+        {% if news_and_events %}
+            <div class="section__notch section__notch--top">
+                <div class="section__notch-fill section__notch-fill--third-col"></div>
+            </div>
+            <div class="section__container">
+                <header class="section__header grid">
+                    <h3 class="section__heading section__heading--primary heading heading--two">News & events</h3>
+                </header>
+                <div class="section__content grid">
+                    {% include "patterns/organisms/news/news_api_content.html" with news=news_and_events %}
+                </div>
+            </div>
+        {% endif %}
+    </section>
+
+    <section class="section bg bg--light">
         <div class="section__notch section__notch--top">
             <div class="section__notch-fill section__notch-fill--third-col"></div>
         </div>
-        <div class="section__container">
-            <header class="section__header grid">
-                <h3 class="section__heading section__heading--primary heading heading--two">News & events</h3>
-            </header>
-            <div class="section__content grid">
-                {% include "patterns/organisms/news/news_api_content.html" with news=news_and_events %}
-            </div>
-        </div>
-    {% endif %}
-</section>
-
-<section class="section bg bg--light">
-    <div class="section__notch section__notch--top">
-        <div class="section__notch-fill section__notch-fill--third-col"></div>
-    </div>
-</section>
+    </section>
+{% endcomment %}
