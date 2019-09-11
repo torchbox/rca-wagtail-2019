@@ -592,6 +592,7 @@ if env.get("BASIC_AUTH_ENABLED", "false").lower().strip() == "true":
         "193.227.244.0/23",
         "2001:41c8:103::/48",
         "5.153.227.112/28",
+        "193.227.244.54",
     ]
 
     # This is the list of hosts that website can be accessed without basic auth
