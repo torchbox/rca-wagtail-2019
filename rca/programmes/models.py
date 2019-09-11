@@ -202,8 +202,8 @@ class ProgrammePage(BasePage):
     )
 
     # Programme Overview
-    programme_description_title = models.CharField(max_length=50, blank=True)
-    programme_description_subtitle = models.CharField(max_length=100, blank=True)
+    programme_description_title = models.CharField(max_length=125, blank=True)
+    programme_description_subtitle = models.CharField(max_length=500, blank=True)
     programme_description_copy = RichTextField(blank=True)
 
     programme_gallery = StreamField(
