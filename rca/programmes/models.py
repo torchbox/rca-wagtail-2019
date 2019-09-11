@@ -585,15 +585,6 @@ class ProgrammePage(BasePage):
             {"title": "Fees & funding"},
             {"title": "Apply"},
         ]
-        programme_type = ProgrammePageProgrammeType.objects.get(page=self)
-        programme_type_legacy_slug = ProgrammeType.objects.get(
-            id=programme_type.programme_type_id
-        ).legacy_slug
-
-        context["alumni_stories"] = self.get_alumni_stories(programme_type_legacy_slug)
-        context["news_and_events"] = self.get_news_and_events(
-            programme_type_legacy_slug
-        )
 
         return context
 
