@@ -202,8 +202,8 @@ class ProgrammePage(BasePage):
     )
 
     # Programme Overview
-    programme_description_title = models.CharField(max_length=50, blank=True)
-    programme_description_subtitle = models.CharField(max_length=100, blank=True)
+    programme_description_title = models.CharField(max_length=125, blank=True)
+    programme_description_subtitle = models.CharField(max_length=500, blank=True)
     programme_description_copy = RichTextField(blank=True)
 
     programme_gallery = StreamField(
@@ -314,7 +314,7 @@ class ProgrammePage(BasePage):
     scholarships_title = models.CharField(max_length=120)
     scholarships_information = models.CharField(max_length=250)
     scholarship_accordion_items = StreamField(
-        [("accodrion", AccordionBlockWithTitle())], blank=True
+        [("accordion", AccordionBlockWithTitle())], blank=True
     )
     scholarship_information_blocks = StreamField(
         [("information_block", InfoBlock())], blank=True

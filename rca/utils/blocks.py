@@ -94,8 +94,8 @@ class GalleryBlock(blocks.StructBlock):
 
 
 class InfoBlock(blocks.StructBlock):
-    title = blocks.CharBlock()
-    text = blocks.RichTextBlock()
+    title = blocks.CharBlock(required=False)
+    text = blocks.RichTextBlock(required=False)
     link = LinkBlock()
 
     class Meta:
