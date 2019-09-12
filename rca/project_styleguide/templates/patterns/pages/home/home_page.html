@@ -37,33 +37,38 @@
             {% if transformation_block %}
                     <section class="section section--top-space bg bg--light">
                         {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=transformation_block.video heading=transformation_block.heading subheading=transformation_block.sub_heading image=transformation_block.image has_meta=True meta_heading=transformation_block.page_title meta_copy=transformation_block.page_summary href=transformation_block.page_link_url caption=transformation_block.video_caption video=transformation_block.video %}
-                        <div class="section__notch">
-                            <div class="section__notch-fill section__notch-fill--third-col"></div>
-                        </div>
+                        {% comment %}
+                            <div class="section__notch">
+                                <div class="section__notch-fill section__notch-fill--third-col"></div>
+                            </div>
+                        {% endcomment %}
                     </section>
 
             {% endif %}
-            {% if alumni_stories %}
-                <section class="section section--top-space bg bg--dark">
+            {% comment %}
+                {% if alumni_stories %}
+                    <section class="section section--top-space bg bg--dark">
 
-                    <div class="alumni-stories">
-                        <div class="alumni-stories__header grid">
-                            <h2 class="alumni-stories__heading heading heading--one">Where will the RCA take you?</h2>
+                        <div class="alumni-stories">
+                            <div class="alumni-stories__header grid">
+                                <h2 class="alumni-stories__heading heading heading--one">Where will the RCA take you?</h2>
+                            </div>
+
+                            <div class="alumni-stories__carousel grid">
+                                {% include "patterns/organisms/carousel/carousel_api_content.html" with carousel=alumni_stories modifier='carousel' datatag='data-carousel' %}
+                            </div>
                         </div>
 
-                        <div class="alumni-stories__carousel grid">
-                            {% include "patterns/organisms/carousel/carousel_api_content.html" with carousel=alumni_stories modifier='carousel' datatag='data-carousel' %}
-                        </div>
-                    </div>
+                    </section>
+                {% endif %}
+            {% endcomment %}
 
-                </section>
-            {% endif %}
             {% if stats_block %}
-                    {% include "patterns/organisms/stat-block/stat-block.html" %}
+                {% include "patterns/organisms/stat-block/stat-block.html" %}
             {% endif %}
 
             {% if partnerships_block %}
-                <section class="section section--top-space bg bg--light">
+                <section class="section section--end section--top-space bg bg--dark">
                     <div class="partnerships">
                         <div class="partnerships__header grid">
                             <h2 class="partnerships__heading heading heading--one">{{ partnerships_block.title }}</h2>
@@ -74,29 +79,32 @@
                         </div>
 
                     </div>
-
                 </section>
             {% endif %}
 
-            <section class="section section--end bg bg--dark">
+            {% comment %}
+                <section class="section section--end bg bg--dark">
 
-                <div class="section__notch section__notch--top">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
-                </div>
+                    <div class="section__notch section__notch--top">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    </div>
 
-                <div class="section__container">
 
-                    <header class="section__header grid">
-                        <h3 class="section__heading section__heading--primary heading heading--two">News & events</h3>
-                    </header>
-                    {% if news_and_events %}
-                        <div class="section__content grid">
-                            {% include "patterns/organisms/news/news_api_content.html" with news=news_and_events %}
-                        </div>
-                    {% endif %}
+                    <div class="section__container">
 
-                </div>
-            </section>
+                        <header class="section__header grid">
+                            <h3 class="section__heading section__heading--primary heading heading--two">News & events</h3>
+                        </header>
+                        {% if news_and_events %}
+                            <div class="section__content grid">
+                                {% include "patterns/organisms/news/news_api_content.html" with news=news_and_events %}
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                </section>
+            {% endcomment %}
 
         </div>
 

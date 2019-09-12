@@ -23,6 +23,7 @@
 
     &__pathways {
         padding-top: ($gutter * 3.5);
+        padding-bottom: ($gutter * 3.5); // Added for API module removal
 
         @include media-query(large) {
             padding-top: ($gutter * 4);
