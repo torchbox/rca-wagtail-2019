@@ -42,6 +42,10 @@
                 padding-right: ($gutter * 3);
                 padding-left: ($gutter * 3);
             }
+
+            @include media-query(large) {
+                display: none; // Reducing bottom space due to API module removal
+            }
         }
 
         #{$root}__controls-group {
@@ -148,6 +152,10 @@
         &--next {
             right: -80px;
         }
+    }
+
+    .partnerships & {
+        margin-bottom: 0; // Reducing bottom space due to API module removal
     }
 
     .bg--dark & {
