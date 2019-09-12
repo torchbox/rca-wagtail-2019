@@ -217,7 +217,5 @@ class HomePage(BasePage):
         context["stats_block"] = self.stats_block.select_related(
             "background_image"
         ).first()
-        context["news_and_events"] = self.get_news_and_events()
-        context["alumni_stories"] = self.get_alumni_stories()
 
         return context

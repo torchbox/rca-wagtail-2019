@@ -130,20 +130,20 @@
         .bg--stat-block & {
             &:first-child {
                 #{$root}__notch-fill {
-                    background-color: $color--black;
+                    background-color: $color--white; // Changed from black to white for API module removal
 
                     &::before {
-                        background-color: $color--black;
+                        background-color: $color--white; // Changed from black to white for API module removal
                     }
                 }
             }
 
             &:last-child {
                 #{$root}__notch-fill {
-                    background-color: $color--white;
+                    background-color: $color--black; // Changed from white to black for API module removal
 
                     &::before {
-                        background-color: $color--white;
+                        background-color: $color--black; // Changed from white to black for API module removal
                     }
                 }
             }
