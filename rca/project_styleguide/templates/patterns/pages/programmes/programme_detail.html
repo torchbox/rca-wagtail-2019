@@ -1,8 +1,21 @@
 {% extends "patterns/base_page.html" %}
 {% load wagtailcore_tags wagtailimages_tags static %}
+
+{% block title %}
+    {% if page.seo_title %}
+        {{ page.seo_title }}
+    {% else %}
+        {{ page.title }}
+    {% endif %}
+    {% if page.degree_level %}
+        {{ page.degree_level }}
+    {% endif %}
+{% endblock %}
+
 {% block header_class %}
     theme-{{ hero_colour }}
 {% endblock %}
+
 {% block content %}
 
     {% include "patterns/molecules/hero/hero.html" with modifier="programme" %}
