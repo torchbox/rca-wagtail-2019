@@ -3,6 +3,8 @@ context:
   text: If you want to register your interest about joining the RCA and recieve updates from the RCA and it's community
   link_text: Register your interest with us here
   link_href: https://www.rca.ac.uk/contact-us/enquire-study/
+  page:
+    contact_email: testcourse@rca.ac.uk
 
 tags:
   image:
