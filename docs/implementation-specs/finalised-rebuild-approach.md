@@ -1,5 +1,7 @@
 # RCA Rebuild Implementation Spec
 
+More information about the overall structure is in progress [here](https://docs.google.com/document/d/1C81sH3YsxsC98dC_mqMw6e3KOCgWkYPGOkl72k6qkx0/edit?ts=5d6e8bd6#)
+
 ## This page describes how we will manage the phased release requirement of the RCA rebuild.
 
 The New RCA website will be completed in phases, the first of which will be to replace the current live home page and the individual programme pages. The end goal will be a full rebuild of the current site which will be hosted on Heroku by Torchbox and the code will be open-source on GitHub.

@@ -7,8 +7,8 @@ context:
       target_var: image_small
       raw:
         url: '//placekitten.com/320/285'
-    page.hero_image fill-768x530 as imageMedium:
-      target_var: imageMedium
+    page.hero_image fill-768x530 as image_medium:
+      target_var: image_medium
       raw:
         url: '//placekitten.com/768/530'
     page.hero_image fill-1440x530 as image_large:
