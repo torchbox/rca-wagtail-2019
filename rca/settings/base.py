@@ -590,6 +590,14 @@ if env.get("BASIC_AUTH_ENABLED", "false").lower().strip() == "true":
         "193.227.244.0/23",
         "2001:41c8:103::/48",
         "5.153.227.112/28",
+        # RCA networks
+        # Kensington
+        "194.80.196.128/25",
+        "194.80.197.0/24",
+        "194.80.198.0/24",
+        # Battersea
+        "194.80.196.120/29",
+        "194.80.199.0/24",
     ]
 
     # This is the list of hosts that website can be accessed without basic auth
