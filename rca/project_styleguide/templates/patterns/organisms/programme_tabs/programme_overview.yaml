@@ -1,4 +1,19 @@
 context:
+  alumni_links:
+    - link:
+      value:
+        name: 'James Dyson'
+        link: '#'
+    - link:
+      value:
+        name: 'Anton Furst'
+        link: '#'
+    - link:
+      value:
+        name: 'Golifer Langston Architects'
+        link: '#'
+  alumni_gallery: 'true'
+  programme_slideshow_modifier: slideshow--author-info
   related_staff:
     - item
     - item
