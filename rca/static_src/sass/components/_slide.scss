@@ -5,6 +5,7 @@
         #{$root}__meta {
             @include media-query(medium) {
                 display: flex;
+                min-height: 70px;
             }
         }
     }
