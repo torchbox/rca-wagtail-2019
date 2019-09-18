@@ -37,6 +37,7 @@
 
     a {
         @include underline-hover();
+        display: inline-block; // Fix for hover underline not showing when link is last thing on line
         position: relative;
 
         .bg--dark & {
