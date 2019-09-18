@@ -9,25 +9,25 @@ context:
     programme_gallery:
       - slide:
         value:
-          title: 'Albertopolissss 550-metre pedestrian tunnel '
+          title: 'Albertopolissss 550-metre pedestrian tunnel'
           author: 'Chris Lawton'
           link: 'http://www.torchbox.com'
           course: 'Architecture'
       - slide:
         value:
-          title: 'Albertopolis 550-metre pedestrian tunnel '
+          title: 'Albertopolis 550-metre pedestrian tunnel'
           author: 'Nick Lee'
           link: 'http://www.torchbox.com'
           course: 'Design'
       - slide:
         value:
-          title: 'Albertopolis 550-metre pedestrian tunnel '
+          title: 'Albertopolis 550-metre pedestrian tunnel'
           author: 'Chris Lawton'
           link: 'http://www.torchbox.com'
           course: 'Architecture'
       - slide:
         value:
-          title: 'Albertopolis 550-metre pedestrian tunnel '
+          title: 'Albertopolis 550-metre pedestrian tunnel'
           author: 'Kevin Howbrook'
           link: 'http://www.torchbox.com'
           course: 'Design'
