@@ -22,34 +22,6 @@
 }
 
 /* ============================================
-    Placeholder text
-*/
-
-@mixin placeholder-text() {
-    // sass-lint:disable no-vendor-prefixes
-    &.placeholder {
-        @content;
-    }
-
-    &:-moz-placeholder {
-        @content;
-    }
-
-    &::-moz-placeholder {
-        @content;
-    }
-
-    &:-ms-input-placeholder {
-        @content;
-    }
-
-    &::-webkit-input-placeholder {
-        @content;
-    }
-    // sass-lint:enddisable
-}
-
-/* ============================================
     Hide text
 */
 
@@ -59,16 +31,6 @@
     height: 1px;
     overflow: hidden;
     clip: rect(1px, 1px, 1px, 1px);
-}
-
-/* ============================================
-    iOS Native vertical scroll
-*/
-
-@mixin native-vertical-scroll() {
-    overflow-x: hidden;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
 }
 
 /* ============================================
