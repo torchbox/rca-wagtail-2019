@@ -466,9 +466,9 @@ class ProgrammePage(BasePage):
         ),
     ]
     programme_apply_pannels = [
+        FieldPanel("disable_apply_tab"),
         MultiFieldPanel(
-            [FieldPanel("disable_apply_tab"), ImageChooserPanel("apply_image")],
-            heading="Introduction image",
+            [ImageChooserPanel("apply_image")], heading="Introduction image"
         ),
         MultiFieldPanel([StreamFieldPanel("steps")], heading="Before you begin"),
     ]
