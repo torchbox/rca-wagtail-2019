@@ -418,7 +418,10 @@ class ProgrammeSettings(BaseSetting):
 
     disable_apply_tab = models.BooleanField(
         default=0,
-        help_text="This setting will remove the apply tab from all programme pages",
+        help_text=(
+            "This setting will remove the apply tab from all programme pages. "
+            "This setting overrides the same setting applied at the individual programme page level."
+        ),
     )
 
     panels = [

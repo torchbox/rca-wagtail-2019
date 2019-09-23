@@ -327,7 +327,11 @@ class ProgrammePage(BasePage):
     # Apply
     disable_apply_tab = models.BooleanField(
         default=0,
-        help_text="This setting will remove the apply tab from the programme page",
+        help_text=(
+            "This setting will remove the apply tab from this programme. "
+            "This setting is ignored if the feature has already been disabled"
+            " at the global level in Settings > Programme settings."
+        ),
     )
     apply_image = models.ForeignKey(
         get_image_model_string(),
@@ -466,7 +470,9 @@ class ProgrammePage(BasePage):
         ),
     ]
     programme_apply_pannels = [
-        FieldPanel("disable_apply_tab"),
+        MultiFieldPanel(
+            [FieldPanel("disable_apply_tab")], heading="Apply tab settings"
+        ),
         MultiFieldPanel(
             [ImageChooserPanel("apply_image")], heading="Introduction image"
         ),
