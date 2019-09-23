@@ -1,9 +1,12 @@
 {% extends "patterns/base_page.html" %}
-{% load wagtailcore_tags wagtailimages_tags static %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% get_settings %}
+
 {% block header_class %}
     theme-{{ hero_colour }}
 {% endblock %}
 {% block content %}
+
 
     {% include "patterns/molecules/hero/hero.html" with modifier="programme" %}
 
@@ -44,9 +47,11 @@
                 <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="fees-funding" role="tabpanel" aria-labelledby="tab-fees-funding">
                     {% include "patterns/organisms/programme_tabs/fees-and-funding.html" %}
                 </div>
+                {% if not settings.utils.ProgrammeSettings.disable_apply_tab and not page.disable_apply_tab %}
                 <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="apply" role="tabpanel" aria-labelledby="tab-apply">
                     {% include "patterns/organisms/programme_tabs/apply.html" %}
                 </div>
+                {% endif %}
 
                 <section class="section bg bg--light">
                     <div class="contact-anchor" id="contact"></div>
