@@ -37,7 +37,7 @@ from rca.utils.blocks import (
     SnippetChooserBlock,
     StepBlock,
 )
-from rca.utils.models import BasePage, RelatedPage
+from rca.utils.models import BasePage, ProgrammeSettings, RelatedPage
 
 
 class DegreeLevel(models.Model):
@@ -325,6 +325,10 @@ class ProgrammePage(BasePage):
     )
 
     # Apply
+    disable_apply_tab = models.BooleanField(
+        default=0,
+        help_text="This setting will remove the apply tab from the programme page",
+    )
     apply_image = models.ForeignKey(
         get_image_model_string(),
         blank=True,
@@ -463,7 +467,8 @@ class ProgrammePage(BasePage):
     ]
     programme_apply_pannels = [
         MultiFieldPanel(
-            [ImageChooserPanel("apply_image")], heading="Introduction image"
+            [FieldPanel("disable_apply_tab"), ImageChooserPanel("apply_image")],
+            heading="Introduction image",
         ),
         MultiFieldPanel([StreamFieldPanel("steps")], heading="Before you begin"),
     ]
@@ -583,8 +588,11 @@ class ProgrammePage(BasePage):
             {"title": "Curriculum"},
             {"title": "Requirements"},
             {"title": "Fees & funding"},
-            {"title": "Apply"},
         ]
+        # Only add the 'apply tab' depending global settings or specific programme page settings
+        programme_settings = ProgrammeSettings.for_site(request.site)
+        if not programme_settings.disable_apply_tab and not self.disable_apply_tab:
+            context["tabs"].append({"title": "Apply"})
 
         return context
 
