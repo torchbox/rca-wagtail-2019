@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("images", "0002_customimage_file_hash"),
-        ("programmes", "0035_increase_character_counts"),
+        ("programmes", "0037_update_help_texts"),
     ]
 
     operations = [
