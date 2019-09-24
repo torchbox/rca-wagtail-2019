@@ -409,3 +409,23 @@ class FeeDisclaimerSnippet(models.Model):
         return self.admin_title
 
     panels = [FieldPanel("admin_title"), FieldPanel("text")]
+
+
+@register_setting
+class ProgrammeSettings(BaseSetting):
+    class Meta:
+        verbose_name = "Programme settings"
+
+    disable_apply_tab = models.BooleanField(
+        default=0,
+        help_text=(
+            "This setting will remove the apply tab from all programme pages. "
+            "This setting overrides the same setting applied at the individual programme page level."
+        ),
+    )
+
+    panels = [
+        MultiFieldPanel(
+            [FieldPanel("disable_apply_tab")], "Global settings for programme pages"
+        )
+    ]
