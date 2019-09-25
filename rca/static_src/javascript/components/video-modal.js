@@ -34,12 +34,13 @@ class VideoModal {
             this.modalWindow.classList.add(this.activeClass);
 
             // add the autoplay url to the iframe
-            if (this.iframe.getAttribute('src') == this.modal.dataset.embedUrl) {
+            if (
+                this.iframe.getAttribute('src') == this.modal.dataset.embedUrl
+            ) {
                 return false;
             } else {
                 this.iframe.setAttribute('src', this.modal.dataset.embedUrl);
             }
-
         });
 
         this.modalClose.addEventListener('click', (e) => {
