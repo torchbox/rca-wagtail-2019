@@ -27,6 +27,14 @@
     .theme-dark .header & {
         #{$root}__image {
             fill: $color--black;
+
+            &--light {
+                display: none;
+            }
+
+            &--dark {
+                display: block;
+            }
         }
     }
 
@@ -42,6 +50,14 @@
         #{$root}__image {
             width: 92px;
             fill: $color--white;
+
+            &--light {
+                display: block;
+            }
+
+            &--dark {
+                display: none;
+            }
         }
     }
 
