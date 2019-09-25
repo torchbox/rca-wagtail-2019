@@ -21,8 +21,14 @@
             @include media-query(medium) {
                 width: 230px;
             }
+
+            &--dark {
+                display: none;
+            }
+
         }
     }
+
 
     .theme-dark .header & {
         #{$root}__image {
