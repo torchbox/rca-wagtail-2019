@@ -80,7 +80,6 @@
 
     .app--404 & {
         #{$root}__image {
-
             &--light {
                 display: block;
             }
@@ -90,5 +89,4 @@
             }
         }
     }
-
 }
