@@ -77,4 +77,18 @@
         @include z-index(headerLogo);
         position: relative;
     }
+
+    .app--404 & {
+        #{$root}__image {
+
+            &--light {
+                display: block;
+            }
+
+            &--dark {
+                display: none;
+            }
+        }
+    }
+
 }
