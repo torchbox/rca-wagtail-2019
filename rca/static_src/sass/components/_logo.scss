@@ -21,6 +21,10 @@
             @include media-query(medium) {
                 width: 230px;
             }
+
+            &--dark {
+                display: none;
+            }
         }
     }
 
@@ -42,6 +46,14 @@
     .theme-light & {
         #{$root}__image {
             fill: $color--white;
+        }
+    }
+
+    .app__navigation & {
+        #{$root}__image {
+            &--dark {
+                display: none;
+            }
         }
     }
 
