@@ -204,6 +204,19 @@ class ProgrammePage(BasePage):
     # Programme Overview
     programme_description_title = models.CharField(max_length=125, blank=True)
     programme_description_subtitle = models.CharField(max_length=500, blank=True)
+    programme_image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    programme_video_caption = models.CharField(
+        blank=True,
+        max_length=80,
+        help_text="The text dipsplayed next to the video play button",
+    )
+    programme_video = models.URLField(blank=True)
     programme_description_copy = RichTextField(blank=True)
 
     programme_gallery = StreamField(
@@ -397,6 +410,9 @@ class ProgrammePage(BasePage):
             [
                 FieldPanel("programme_description_title"),
                 FieldPanel("programme_description_subtitle"),
+                ImageChooserPanel("programme_image"),
+                FieldPanel("programme_video_caption"),
+                FieldPanel("programme_video"),
                 FieldPanel("programme_description_copy"),
             ],
             heading="Programme Description",
