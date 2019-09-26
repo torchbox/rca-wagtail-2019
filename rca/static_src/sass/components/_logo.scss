@@ -49,6 +49,14 @@
         }
     }
 
+    .app__navigation & {
+        #{$root}__image {
+            &--dark {
+                display: none;
+            }
+        }
+    }
+
     .headroom--pinned.headroom--not-top .header &,
     .headroom--pinned.headroom--not-top .app__navigation & {
         #{$root}__image {
