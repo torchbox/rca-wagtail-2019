@@ -49,6 +49,11 @@ def staging_shell(c):
     open_heroku_shell(c, STAGING_APP_INSTANCE)
 
 
+@task
+def push_staging_media(c):
+    push_media_to_s3_heroku(c, STAGING_APP_INSTANCE)
+
+
 #######
 # Local
 #######
@@ -150,3 +155,52 @@ def pull_media_from_s3(
         bucket_name=aws_storage_bucket_name, local_media=local_media_folder
     )
     aws(c, aws_cmd, aws_access_key_id, aws_secret_access_key)
+
+
+def push_media_to_s3(
+    c,
+    aws_access_key_id,
+    aws_secret_access_key,
+    aws_storage_bucket_name,
+    local_media_folder=LOCAL_MEDIA_FOLDER,
+):
+    aws_cmd = "s3 sync --delete {local_media} s3://{bucket_name}/".format(
+        bucket_name=aws_storage_bucket_name, local_media=local_media_folder
+    )
+    aws(c, aws_cmd, aws_access_key_id, aws_secret_access_key)
+
+
+def push_media_to_s3_heroku(c, app_instance):
+    check_if_logged_in_to_heroku(c)
+    prompt_msg = (
+        "You are about to push your media folder contents to the "
+        "S3 bucket. It's a destructive operation. \n"
+        'Please type the application name "{app_instance}" to '
+        "proceed:\n>>> ".format(app_instance=make_bold(app_instance))
+    )
+    if input(prompt_msg) != app_instance:
+        raise Exit("Aborted")
+    aws_access_key_id = get_heroku_variable(c, app_instance, "AWS_ACCESS_KEY_ID")
+    aws_secret_access_key = get_heroku_variable(
+        c, app_instance, "AWS_SECRET_ACCESS_KEY"
+    )
+    aws_storage_bucket_name = get_heroku_variable(
+        c, app_instance, "AWS_STORAGE_BUCKET_NAME"
+    )
+    push_media_to_s3(
+        c, aws_access_key_id, aws_secret_access_key, aws_storage_bucket_name
+    )
+    aws_access_key_id = get_heroku_variable(c, app_instance, "AWS_ACCESS_KEY_ID")
+    aws_secret_access_key = get_heroku_variable(
+        c, app_instance, "AWS_SECRET_ACCESS_KEY"
+    )
+    aws_storage_bucket_name = get_heroku_variable(
+        c, app_instance, "AWS_STORAGE_BUCKET_NAME"
+    )
+    pull_media_from_s3(
+        c, aws_access_key_id, aws_secret_access_key, aws_storage_bucket_name
+    )
+
+
+def make_bold(msg):
+    return "\033[1m{}\033[0m".format(msg)
