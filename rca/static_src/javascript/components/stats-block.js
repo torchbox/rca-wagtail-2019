@@ -9,6 +9,8 @@ function handler(entries) {
 }
 
 if (document.body.contains(document.querySelector('[data-stat-block]'))) {
-    let observer = new IntersectionObserver(handler);
-    observer.observe(document.querySelector('[data-stat-block]'));
+    if ('IntersectionObserver' in window) {
+        let observer = new IntersectionObserver(handler);
+        observer.observe(document.querySelector('[data-stat-block]'));
+    };
 }
