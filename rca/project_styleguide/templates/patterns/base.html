@@ -8,15 +8,6 @@
         <meta name="description" content="{% if page.search_description %}{{ page.search_description }}{% else %}{{ page.listing_summary }}{% endif %}" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        {% comment %}
-            Set "noindex" if the site is not being requested on a configured
-            domain to prevent search engines crawling admin domains.
-            This ignores ports for simplicity.
-        {% endcomment %}
-        {% if request.get_host != request.site.hostname %}
-            <meta name="robots" content="noindex" />
-        {% endif %}
-
         <link rel="stylesheet" type="text/css" href="//cloud.webtype.com/css/2dc77ba2-6663-49b6-9e6c-aa009c06648b.css" />
         <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 

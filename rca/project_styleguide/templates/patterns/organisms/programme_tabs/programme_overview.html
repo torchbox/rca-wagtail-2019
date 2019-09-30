@@ -14,7 +14,9 @@
                 <p class="introduction">
                     {{ page.programme_description_subtitle }}
                 <p>
-                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.programme_video image=page.programme_image caption=page.programme_video_caption video=page.programme_video out_of_grid="true" %}
+                {% if page.programme_image %}
+                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.programme_video image=page.programme_image caption=page.programme_video_caption video=page.programme_video out_of_grid="true" %}
+                {% endif %}
                 <div class="programme-overview__description rich-text" itemprop="description">
                     {{ page.programme_description_copy|safe }}
                 </div>
