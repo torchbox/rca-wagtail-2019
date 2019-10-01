@@ -126,15 +126,6 @@
                 transform: translate3d(-90%, 0%, 0);
             }
         }
-
-        &::after {
-            display: block;
-            content: '';
-            background: red;
-            width: 20px;
-            height: 20px;
-        }
-
     }
 
     &__inner {
