@@ -156,12 +156,10 @@
     &:focus,
     &:hover {
         &::after {
-
             @include media-query(medium) {
                 width: 100%;
                 left: 0;
             }
-
         }
     }
 }
