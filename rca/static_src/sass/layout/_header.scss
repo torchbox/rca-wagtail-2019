@@ -115,17 +115,26 @@
     &__menus {
         @include grid-layout();
 
-        @include media-query(large) {
-            &::before {
+        &::before {
+            @include media-query(large) {
                 content: '';
                 background: $color--primary;
                 height: 100%;
                 width: 100%;
                 position: absolute;
                 display: block;
-                transform: translate3d(-100%, 0%, 0);
+                transform: translate3d(-90%, 0%, 0);
             }
         }
+
+        &::after {
+            display: block;
+            content: '';
+            background: red;
+            width: 20px;
+            height: 20px;
+        }
+
     }
 
     &__inner {
