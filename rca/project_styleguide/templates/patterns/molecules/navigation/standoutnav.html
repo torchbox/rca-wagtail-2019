@@ -1,3 +1,6 @@
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% get_settings use_default_site=True %}
+
 <ul class="nav nav--standout {{ modifier }}">
     <li>
         <a class="nav__link nav__link--base link link--link" href="//rca.ac.uk/contact-us/enquire-study/">
@@ -11,10 +14,12 @@
             <svg width="12px" height="8px" class="link__icon"><use xlink:href="#arrow"></use></svg>
         </a>
     </li>
-    <li>
-        <a class="nav__link nav__link--base nav__link--standout link link--link" href="https://applications.rca.ac.uk/">
-            <span class="link__label">Visit our application portal</span>
-            <svg width="12px" height="8px" class="link__icon"><use xlink:href="#arrow"></use></svg>
-        </a>
-    </li>
+    {% if not settings.utils.ProgrammeSettings.disable_apply_tab %}
+        <li>
+            <a class="nav__link nav__link--base nav__link--standout link link--link" href="https://applications.rca.ac.uk/">
+                <span class="link__label">Visit our application portal</span>
+                <svg width="12px" height="8px" class="link__icon"><use xlink:href="#arrow"></use></svg>
+            </a>
+        </li>
+    {% endif %}
 </ul>
