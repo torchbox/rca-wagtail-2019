@@ -17,7 +17,7 @@ from rca.utils.cache import get_default_cache_control_decorator
 private_urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
-    path("documents/", include(wagtaildocs_urls)),
+    path("documents2/", include(wagtaildocs_urls)),
     # Search cache-control headers are set on the view itself.
     path("search/", search_views.search, name="search"),
 ]
