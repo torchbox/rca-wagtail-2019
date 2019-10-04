@@ -577,6 +577,10 @@ class ProgrammePage(BasePage):
             errors["contact_url"].append(
                 "Only one of URL or an Email value is supported here"
             )
+        if not self.search_description:
+            errors["search_description"].append(
+                "Please add a search description for the page."
+            )
         if errors:
             raise ValidationError(errors)
 
