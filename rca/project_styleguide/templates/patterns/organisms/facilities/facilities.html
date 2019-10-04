@@ -28,6 +28,8 @@
     {% endwith %}
 </div>
 
+{% if page.facilities_gallery %}
 <div class="section__row facilities__slideshow {% if alumni_links %}{% else %}facilities__slideshow--bottom-padding{% endif %}">
     {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.facilities_gallery modifier=slideshowModifier %}
 </div>
+{% endif %}
