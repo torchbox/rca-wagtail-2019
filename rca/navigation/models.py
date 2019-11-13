@@ -13,6 +13,7 @@ from wagtail.core.fields import StreamField
 
 def url_or_relative_url_validator(value):
     if not urlparse(value).netloc:
+        # The rca domain here is just for validation sake
         value = urljoin("https://rca.ac.uk/", value)
     return validators.URLValidator()(value)
 
