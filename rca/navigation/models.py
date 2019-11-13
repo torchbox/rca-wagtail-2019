@@ -1,4 +1,4 @@
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin, urlparse, urlsplit, urlunsplit
 
 from django import forms
 from django.core import validators
@@ -23,8 +23,11 @@ class URLOrRelativeURLFormField(forms.URLField):
     def to_python(self, value):
         value = super().to_python(value)
         if value:
-            if value.startswith("http:///"):
-                value = value[7:]
+            url_fields = list(urlsplit(value))
+            # If netloc (domain) is empty, delete the scheme
+            if not url_fields[1]:
+                url_fields[0] = ""
+            value = urlunsplit(url_fields)
         return value
 
 
