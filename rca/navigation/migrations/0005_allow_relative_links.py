@@ -9,9 +9,7 @@ import rca.navigation.models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("navigation", "0004_setup_footer_links_and_nav"),
-    ]
+    dependencies = [("navigation", "0004_setup_footer_links_and_nav")]
 
     operations = [
         migrations.AlterField(
