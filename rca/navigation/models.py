@@ -1,3 +1,7 @@
+from urllib.parse import urljoin, urlparse, urlsplit, urlunsplit
+
+from django import forms
+from django.core import validators
 from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
 from modelcluster.models import ClusterableModel
@@ -7,8 +11,54 @@ from wagtail.core import blocks
 from wagtail.core.fields import StreamField
 
 
+def url_or_relative_url_validator(value):
+    if not urlparse(value).netloc:
+        # The rca domain here is just for validation sake
+        value = urljoin("https://rca.ac.uk/", value)
+    return validators.URLValidator()(value)
+
+
+class URLOrRelativeURLFormField(forms.URLField):
+    default_validators = [url_or_relative_url_validator]
+
+    def to_python(self, value):
+        value = super().to_python(value)
+        if value:
+            url_fields = list(urlsplit(value))
+            # If netloc (domain) is empty, delete the scheme
+            if not url_fields[1]:
+                url_fields[0] = ""
+            value = urlunsplit(url_fields)
+        return value
+
+
+class URLOrRelativeURLBLock(blocks.FieldBlock):
+    def __init__(
+        self,
+        required=True,
+        help_text=None,
+        max_length=None,
+        min_length=None,
+        validators=(),
+        **kwargs
+    ):
+        self.field = URLOrRelativeURLFormField(
+            required=required,
+            help_text=help_text,
+            max_length=max_length,
+            min_length=min_length,
+            validators=validators,
+        )
+        super().__init__(**kwargs)
+
+    class Meta:
+        icon = "site"
+
+
 class LinkBlock(blocks.StructBlock):
-    url = blocks.URLBlock(required=False)
+    # URL block uses the URLOrRelativeURLBLock so it can accpet relative URLs
+    # E.G, /schools/
+    url = URLOrRelativeURLBLock(required=False)
     page = blocks.PageChooserBlock(required=False)
     title = blocks.CharBlock(
         help_text="Leave blank to use the page's own title, required if using a URL",
