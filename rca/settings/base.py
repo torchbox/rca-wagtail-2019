@@ -598,6 +598,9 @@ if env.get("BASIC_AUTH_ENABLED", "false").lower().strip() == "true":
         # Battersea
         "194.80.196.120/29",
         "194.80.199.0/24",
+        # New heroku verdant site
+        "99.80.183.117",
+        "99.81.135.32",
     ]
 
     # This is the list of hosts that website can be accessed without basic auth
