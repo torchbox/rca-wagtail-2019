@@ -634,11 +634,46 @@ class ProgrammeIndexPage(BasePage):
     subpage_types = ["ProgrammePage"]
     template = "patterns/pages/programmes/programme_index.html"
 
-    introduction = models.TextField(blank=True)
+    introduction = RichTextField(blank=False, features=["link"])
+    search_placeholder_text = models.TextField(blank=True, max_length=120)
 
-    content_panels = BasePage.content_panels + [FieldPanel("introduction")]
+    contact_email = models.EmailField(blank=True)
+    contact_url = models.URLField(blank=True, verbose_name="Contact URL")
+    contact_image = models.ForeignKey(
+        "images.CustomImage",
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+
+    content_panels = BasePage.content_panels + [
+        FieldPanel("introduction"),
+        FieldPanel("search_placeholder_text"),
+        MultiFieldPanel(
+            [
+                ImageChooserPanel("contact_image"),
+                FieldPanel("contact_email"),
+                FieldPanel("contact_url"),
+            ],
+            heading="Contact information",
+        ),
+    ]
 
     search_fields = BasePage.search_fields + [index.SearchField("introduction")]
+
+    def clean(self):
+        errors = defaultdict(list)
+        if not self.contact_email and not self.contact_url:
+            errors["contact_url"].append(
+                "Please add an email or URL for the contact link"
+            )
+        if self.contact_email and self.contact_url:
+            errors["contact_url"].append(
+                "Please only provide an email or a URL, not both"
+            )
+        if errors:
+            raise ValidationError(errors)
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
