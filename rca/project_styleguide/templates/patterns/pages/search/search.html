@@ -9,7 +9,7 @@
 
     <h1>{% if search_query %}Search results for &ldquo;{{ search_query }}&rdquo;{% else %}Search{% endif %}</h1>
 
-    <form action="https://www.rca.ac.uk/search" method="get" role="search">
+    <form action="{% url 'search' %}" method="get" role="search">
         <input type="text" placeholder="Search…" name="q"{% if search_query %} value="{{ search_query }}"{% endif %}>
         <input type="submit" value="Search">
     </form>

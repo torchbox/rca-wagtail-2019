@@ -1,3 +1,5 @@
+from urllib.parse import urljoin, urlparse, urlsplit, urlunsplit
+
 from django import forms
 from django.core import validators
 from django.core.exceptions import ValidationError
@@ -10,8 +12,9 @@ from wagtail.core.fields import StreamField
 
 
 def url_or_relative_url_validator(value):
-    if value.startswith("/"):
-        value = "http://rca.ac.uk" + value
+    if not urlparse(value).netloc:
+        # The rca domain here is just for validation sake
+        value = urljoin("https://rca.ac.uk/", value)
     return validators.URLValidator()(value)
 
 
@@ -21,8 +24,11 @@ class URLOrRelativeURLFormField(forms.URLField):
     def to_python(self, value):
         value = super().to_python(value)
         if value:
-            if value.startswith("http:///"):
-                value = value[7:]
+            url_fields = list(urlsplit(value))
+            # If netloc (domain) is empty, delete the scheme
+            if not url_fields[1]:
+                url_fields[0] = ""
+            value = urlunsplit(url_fields)
         return value
 
 
