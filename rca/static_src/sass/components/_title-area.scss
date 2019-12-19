@@ -1,4 +1,5 @@
 .title-area {
+    $root: &;
     padding-bottom: ($gutter * 3);
 
     @include media-query(medium) {
@@ -26,6 +27,27 @@
         @include media-query(large) {
             grid-column: 2 / span 3;
             top: 0;
+
+            #{$root}--index & {
+                grid-column: 2 / span 2;
+            }
         }
+    }
+
+    &__aside {
+        grid-column: 2;
+
+        @include media-query(large) {
+            $align-with-heading-second-line-lowercase: map-get(
+                    $large-font-sizes,
+                    xxxl
+                ) * ($line-height-large / 100%) + 23px;
+            grid-column: 4;
+            margin-top: $align-with-heading-second-line-lowercase;
+        }
+    }
+
+    &--index {
+        padding-top: $gutter * 9;
     }
 }

@@ -1,22 +1,27 @@
 {% extends "patterns/base_page.html" %}
 {% load wagtailcore_tags wagtailimages_tags navigation_tags static %}
 
+{% block header_class %}
+    theme-light
+{% endblock %}
+
 {% block content %}
     <div class="page">
 
         <header class="page__header bg bg--dark">
-            <div class="title-area grid">
+            <div class="title-area title-area--index grid">
                 <div class="title-area__content">
-                    <h1 class="title-area__header heading heading--display-two">{{ page.title }}</h1>
-                    <p class="title-area__introduction introduction">{{ page.introduction|richtext }}</p>
+                    <h1 class="title-area__header heading heading--display-two">{{ title_multiline|linebreaksbr }}</h1>
+                </div>
+                <div class="title-area__aside">
+                    {{ page.introduction|richtext }}
                 </div>
             </div>
         </header>
 
-        <input type="search" placeholder="{{ page.search_placeholder_text }}"/>
-
         <div class="page__content">
 
+            {% comment %}
             {% if subpages %}
                 <div class="grid">
                     {% if subpages.object_list.exists %}
@@ -47,11 +52,28 @@
             {% else %}
                 {# no items on any page #}
             {% endif %}
+            {% endcomment %}
+
+            <div data-mount-programmes></div>
+
+            <section class="section section--end bg bg--light">
+                <div class="section__content">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+            </section>
 
             <section class="section bg bg--light">
-                <div class="contact-anchor" id="contact"></div>
                 <div class="section__container">
-                    {% include "patterns/organisms/contact/contact.html" with heading='Contact us' text="Get in touch if you’d like to find out more or have any questions." image=page.contact_image %}
+                    {% include "patterns/organisms/contact/contact.html" with heading='Contact us' text="If you want to register your interest about joining the RCA and receive updates from the RCA and its community." image=page.contact_image %}
                 </div>
             </section>
 
