@@ -29,6 +29,7 @@ class ClassWatcher {
     }
 
     mutationCallback = (mutationsList) => {
+        // eslint-disable-next-line no-restricted-syntax
         for (const mutation of mutationsList) {
             if (
                 mutation.type === 'attributes' &&
