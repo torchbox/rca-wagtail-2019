@@ -38,9 +38,8 @@ class VideoModal {
                 this.iframe.getAttribute('src') == this.modal.dataset.embedUrl
             ) {
                 return false;
-            } else {
-                this.iframe.setAttribute('src', this.modal.dataset.embedUrl);
             }
+            this.iframe.setAttribute('src', this.modal.dataset.embedUrl);
         });
 
         this.modalClose.addEventListener('click', (e) => {

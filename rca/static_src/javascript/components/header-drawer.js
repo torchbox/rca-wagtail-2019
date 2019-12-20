@@ -36,7 +36,6 @@ class HeaderDrawer {
                 e.target.classList.contains('header__menus')
             ) {
                 if (this.desktopSearch === document.activeElement) {
-                    return;
                 } else {
                     this.close();
                 }

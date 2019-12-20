@@ -54,9 +54,7 @@ class BackLink {
         this.node.classList.add(this.activeClass);
     }
 
-    onClassRemove() {
-        return;
-    }
+    onClassRemove() {}
 }
 
 export default BackLink;

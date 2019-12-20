@@ -1,5 +1,5 @@
 function handler(entries) {
-    for (let entry of entries) {
+    for (const entry of entries) {
         if (entry.isIntersecting) {
             entry.target.classList.add('section--before-fixed');
         } else {
@@ -10,7 +10,7 @@ function handler(entries) {
 
 if (document.body.contains(document.querySelector('[data-stat-block]'))) {
     if ('IntersectionObserver' in window) {
-        let observer = new IntersectionObserver(handler);
+        const observer = new IntersectionObserver(handler);
         observer.observe(document.querySelector('[data-stat-block]'));
     }
 }

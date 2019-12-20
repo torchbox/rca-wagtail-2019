@@ -36,15 +36,15 @@ class SquareCarousel {
 
     getMargins() {
         // Get outer grid size for peek value
-        var leftEdge = document.querySelector('[data-left-edge]');
+        const leftEdge = document.querySelector('[data-left-edge]');
         this.leftEdgeCoords = leftEdge.getBoundingClientRect();
 
         // Set custom css property to give padding on slide
-        var gridSelector = document.querySelector('[data-grid-center]');
+        const gridSelector = document.querySelector('[data-grid-center]');
         this.gridWidth = gridSelector.getBoundingClientRect();
         document.documentElement.style.setProperty(
             '--grid-width',
-            this.gridWidth.width + 'px',
+            `${this.gridWidth.width}px`,
         );
     }
 
@@ -107,8 +107,9 @@ class SquareCarousel {
 
     // Update the live region that announces the next slide.
     updateLiveRegion() {
-        this.node.querySelector('[data-liveregion]').textContent =
-            'Item ' + this.slideshow.index + ' of ' + this.slideTotal;
+        this.node.querySelector(
+            '[data-liveregion]',
+        ).textContent = `Item ${this.slideshow.index} of ${this.slideTotal}`;
     }
 }
 

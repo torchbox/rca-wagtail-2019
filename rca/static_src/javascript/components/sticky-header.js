@@ -1,9 +1,9 @@
 import headRoom from 'headroom.js';
 
 function StickyHeader() {
-    var intViewportHeight = window.innerHeight;
-    var offSetAdjuster = 60;
-    var customOffet = intViewportHeight + offSetAdjuster;
+    const intViewportHeight = window.innerHeight;
+    const offSetAdjuster = 60;
+    const customOffet = intViewportHeight + offSetAdjuster;
 
     if (document.body.contains(document.querySelector('.app--homepage'))) {
         StartStickyHeader(customOffet);
@@ -13,10 +13,10 @@ function StickyHeader() {
 }
 
 function StartStickyHeader(offset) {
-    let elem = document.body;
+    const elem = document.body;
 
-    let options = {
-        offset: offset,
+    const options = {
+        offset,
         tolerance: {
             up: 10,
             down: 20,
@@ -39,7 +39,7 @@ function StartStickyHeader(offset) {
         },
     };
 
-    let headroom = new headRoom(elem, options);
+    const headroom = new headRoom(elem, options);
     headroom.init();
 }
 
