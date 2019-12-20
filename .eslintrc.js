@@ -1,6 +1,5 @@
 const legacyCode = {
     'class-methods-use-this': 0,
-    'no-unused-vars': 0,
 };
 
 module.exports = {
