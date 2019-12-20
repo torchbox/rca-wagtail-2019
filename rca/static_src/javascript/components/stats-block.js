@@ -1,4 +1,5 @@
 function handler(entries) {
+    // eslint-disable-next-line no-restricted-syntax
     for (const entry of entries) {
         if (entry.isIntersecting) {
             entry.target.classList.add('section--before-fixed');

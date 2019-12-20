@@ -38,6 +38,7 @@ class Carousel {
 
     // sets aria-hidden on inactive slides
     updateAriaRoles() {
+        // eslint-disable-next-line no-restricted-syntax
         for (const slide of this.node.querySelectorAll(
             '.glide__slide:not(.glide__slide--active)',
         )) {

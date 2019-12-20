@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+
 class Tabs {
     static selector() {
         return '.js-tab-item';
