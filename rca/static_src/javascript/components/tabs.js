@@ -18,12 +18,12 @@ class Tabs {
     }
 
     removeActive() {
-        for (let tab of this.allTabs) {
+        for (const tab of this.allTabs) {
             tab.classList.remove('active');
             tab.setAttribute('aria-selected', 'false');
         }
 
-        for (let tabPanel of this.allTabPanels) {
+        for (const tabPanel of this.allTabPanels) {
             tabPanel.classList.add('tabs__panel--hidden');
             tabPanel.setAttribute('aria-selected', 'false');
         }
@@ -37,11 +37,11 @@ class Tabs {
     setActiveHashTab() {
         this.getURLHash();
 
-        for (let tabPane of this.allTabPanels) {
+        for (const tabPane of this.allTabPanels) {
             // Check if path hash matchs any of the tab ids
             if (this.path == tabPane.id) {
-                var targetPanel = document.getElementById(this.path);
-                var targetTab = document.querySelector(
+                const targetPanel = document.getElementById(this.path);
+                const targetTab = document.querySelector(
                     `[data-tab='${this.path}']`,
                 );
                 this.removeActive();
@@ -56,8 +56,8 @@ class Tabs {
     bindEvents() {
         this.tab.addEventListener('click', (e) => {
             e.preventDefault();
-            var panelID = e.target.dataset.tab;
-            var targetPanel = document.getElementById(panelID);
+            const panelID = e.target.dataset.tab;
+            const targetPanel = document.getElementById(panelID);
             window.location.hash = panelID;
             this.removeActive();
             e.target.setAttribute('aria-selected', 'true');

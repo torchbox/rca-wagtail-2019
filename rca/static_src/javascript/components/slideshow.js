@@ -35,7 +35,7 @@ class Slideshow {
     }
 
     getMargins() {
-        var leftEdge = document.querySelector('[data-left-edge]');
+        const leftEdge = document.querySelector('[data-left-edge]');
         this.leftEdgeCoords = leftEdge.getBoundingClientRect();
     }
 
@@ -99,8 +99,9 @@ class Slideshow {
 
     // Update the live region that announces the next slide.
     updateLiveRegion() {
-        this.node.querySelector('[data-liveregion]').textContent =
-            'Item ' + this.slideshow.index + ' of ' + this.slideTotal;
+        this.node.querySelector(
+            '[data-liveregion]',
+        ).textContent = `Item ${this.slideshow.index} of ${this.slideTotal}`;
     }
 }
 

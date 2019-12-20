@@ -35,7 +35,6 @@ class SubMenu {
                 },
                 () => {
                     // hover out
-                    return;
                 },
             ).options(this.hoverintentOptions);
         });
@@ -49,7 +48,6 @@ class SubMenu {
             },
             () => {
                 // mouseout
-                return;
             },
         ).options(this.hoverintentOptions);
     }
