@@ -16,6 +16,7 @@ class Tabs {
     }
 
     getURLHash() {
+        // eslint-disable-next-line prefer-destructuring
         this.path = window.location.href.split('#')[1];
     }
 
@@ -41,6 +42,7 @@ class Tabs {
 
         for (const tabPane of this.allTabPanels) {
             // Check if path hash matchs any of the tab ids
+            // eslint-disable-next-line eqeqeq
             if (this.path == tabPane.id) {
                 const targetPanel = document.getElementById(this.path);
                 const targetTab = document.querySelector(
