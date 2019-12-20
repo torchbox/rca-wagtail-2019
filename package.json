@@ -53,7 +53,7 @@
     "compile:watch": "npm run compile:dev -- --watch",
     "//[ Linting & formatting ]//": "",
     "lint:css": "sass-lint $npm_package_config_src_css'/**/**' -v -q",
-    "lint:js": "eslint $npm_package_config_src_js",
+    "lint:js": "eslint .",
     "lint:format": "prettier --check '**/?(.)*.{md,css,scss,js,json,yaml,yml}'",
     "lint": "npm-run-all -p lint:format lint:js lint:css",
     "format": "prettier --write '**/?(.)*.{md,css,scss,js,json,yaml,yml}'",
