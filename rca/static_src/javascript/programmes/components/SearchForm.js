@@ -16,23 +16,45 @@ const SearchForm = ({
                 e.preventDefault();
                 searchProgrammes(searchQuery);
             }}
+            className="bg bg--dark"
+            method="get"
+            role="search"
         >
-            <label>
-                <span>{label}</span>
-                <input
-                    type="search"
-                    value={searchQuery}
-                    onChange={(e) => {
-                        const query = e.target.value;
+            <div className="grid">
+                <div className="search search--programmes">
+                    <label
+                        className="search__label"
+                        htmlFor="programmes-search-input"
+                    >
+                        {label}
+                    </label>
+                    <input
+                        className="search__input input"
+                        id="programmes-search-input"
+                        type="search"
+                        placeholder={label}
+                        value={searchQuery}
+                        onChange={(e) => {
+                            const query = e.target.value;
 
-                        setSearchQuery(query);
+                            setSearchQuery(query);
 
-                        if (query.length >= 3) {
-                            searchProgrammes(query);
-                        }
-                    }}
-                />
-            </label>
+                            if (query.length >= 3) {
+                                searchProgrammes(query);
+                            }
+                        }}
+                    />
+                    <button
+                        className="search__button button"
+                        type="submit"
+                        aria-label="Search"
+                    >
+                        <svg width="12px" height="8px" className="search__icon">
+                            <use xlinkHref="#arrow" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </form>
     );
 };
