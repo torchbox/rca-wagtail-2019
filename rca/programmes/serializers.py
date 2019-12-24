@@ -7,4 +7,3 @@ class DegreeLevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = DegreeLevel
         fields = ("id", "title")
-
