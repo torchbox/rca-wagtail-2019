@@ -20,6 +20,11 @@ const { reducer, actions } = createSlice({
             state.searchQuery = payload;
         },
 
+        clearSearchQuery: (state) => {
+            state.searchQuery = initialState.searchQuery;
+            state.results = initialState.results;
+        },
+
         loadResultsStart: (state) => {
             state.ui = { ...initialState.ui };
             state.ui.isLoading = true;
@@ -38,7 +43,7 @@ const { reducer, actions } = createSlice({
     },
 });
 
-export const { setSearchQuery } = actions;
+export const { setSearchQuery, clearSearchQuery } = actions;
 
 export const searchProgrammes = (searchQuery) => {
     return (dispatch) => {

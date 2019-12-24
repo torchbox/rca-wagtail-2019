@@ -2,14 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { setSearchQuery, searchProgrammes } from '../programmes.slice';
+import {
+    setSearchQuery,
+    clearSearchQuery,
+    searchProgrammes,
+} from '../programmes.slice';
 
 const SearchForm = ({
     searchQuery,
     label,
     setSearchQuery,
+    clearSearchQuery,
     searchProgrammes,
+    hasResults,
+    isLoaded,
 }) => {
+    const showClear = hasResults && isLoaded;
+
     return (
         <form
             onSubmit={(e) => {
@@ -44,15 +53,41 @@ const SearchForm = ({
                             }
                         }}
                     />
-                    <button
-                        className="search__button button"
-                        type="submit"
-                        aria-label="Search"
-                    >
-                        <svg width="12px" height="8px" className="search__icon">
-                            <use xlinkHref="#arrow" />
-                        </svg>
-                    </button>
+                    {showClear ? (
+                        <button
+                            className="search__button button"
+                            type="button"
+                            aria-label="Clear"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                clearSearchQuery();
+                            }}
+                        >
+                            <svg
+                                width="12px"
+                                height="8px"
+                                className="search__icon"
+                                aria-hidden="true"
+                            >
+                                <use xlinkHref="#close" />
+                            </svg>
+                        </button>
+                    ) : (
+                        <button
+                            className="search__button button"
+                            type="submit"
+                            aria-label="Search"
+                        >
+                            <svg
+                                width="12px"
+                                height="8px"
+                                className="search__icon"
+                                aria-hidden="true"
+                            >
+                                <use xlinkHref="#arrow" />
+                            </svg>
+                        </button>
+                    )}
                 </div>
             </div>
         </form>
@@ -60,8 +95,10 @@ const SearchForm = ({
 };
 
 SearchForm.propTypes = {
-    searchQuery: PropTypes.string.isRequired,
     label: PropTypes.string,
+    searchQuery: PropTypes.string.isRequired,
+    hasResults: PropTypes.bool.isRequired,
+    isLoaded: PropTypes.bool.isRequired,
 };
 
 SearchForm.defaultProps = {
@@ -71,11 +108,14 @@ SearchForm.defaultProps = {
 const mapStateToProps = ({ programmes }) => {
     return {
         searchQuery: programmes.searchQuery,
+        hasResults: programmes.results.length > 0,
+        isLoaded: programmes.ui.isLoaded,
     };
 };
 
 const mapDispatchToProps = {
     setSearchQuery,
+    clearSearchQuery,
     searchProgrammes,
 };
 

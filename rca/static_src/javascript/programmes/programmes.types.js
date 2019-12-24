@@ -14,7 +14,7 @@ export const programmePage = {
         id: PropTypes.number.isRequired,
         title: PropTypes.string.isRequired,
     }).isRequired,
-    programme_description_title: PropTypes.string.isRequired,
+    programme_description_subtitle: PropTypes.string.isRequired,
     pathway_blocks: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.string.isRequired,
