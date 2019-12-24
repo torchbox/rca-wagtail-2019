@@ -5,7 +5,7 @@ import { programmePage } from './programmes.types';
 const PROGRAMME_TYPE = 'programmes.ProgrammePage';
 const PROGRAMME_FIELDS = [
     'degree_level',
-    'programme_description_title',
+    'programme_description_subtitle',
     'pathway_blocks',
     'hero_image_square',
 ].join(',');
