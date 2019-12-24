@@ -691,7 +691,7 @@ class ProgrammeIndexPage(BasePage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
-        context["title_multiline"] = self.title.replace(' ', '\n')
+        context["title_multiline"] = self.title.replace(" ", "\n")
 
         context["hero_colour"] = "light"
 
