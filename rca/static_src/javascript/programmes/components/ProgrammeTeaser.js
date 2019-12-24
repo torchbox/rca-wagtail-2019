@@ -2,28 +2,33 @@ import React from 'react';
 
 import { programmePageShape } from '../programmes.types';
 
+/**
+ * A programme’s teaser info, to be displayed as part of search results.
+ */
 const ProgrammeTeaser = ({ programme }) => {
     const {
         meta,
         title,
         degree_level,
-        programme_description_title,
+        programme_description_subtitle,
         pathway_blocks,
         hero_image_square,
     } = programme;
 
     return (
         <a href={meta.html_url} className="programme-teaser">
-            <div className="programme-teaser__heading">
-                <h2 className="heading heading--five">
+            <div className="programme-teaser__title">
+                <h2 className="programme-teaser__heading heading heading--five">
                     <span className="programme-teaser__heading-inner">
                         {title}
                     </span>
                 </h2>
-                <p>{degree_level.title}</p>
+                <small className="programme-teaser__degree">
+                    {degree_level.title}
+                </small>
             </div>
             <div className="programme-teaser__description">
-                <p>{programme_description_title}</p>
+                <p>{programme_description_subtitle}</p>
                 {pathway_blocks.length > 0 ? (
                     <div>
                         <p>Pathways:</p>

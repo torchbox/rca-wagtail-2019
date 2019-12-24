@@ -1,5 +1,7 @@
 @mixin teaser-separator() {
     position: relative;
+    padding-top: 17px;
+    padding-bottom: 32px;
 
     &::after {
         content: '';
@@ -17,7 +19,7 @@
     @include grid-layout();
     color: inherit;
 
-    &__heading {
+    &__title {
         @include teaser-separator();
 
         @include media-query(medium) {
@@ -29,6 +31,10 @@
         }
     }
 
+    &__heading {
+        margin-bottom: 8px;
+    }
+
     &__heading-inner {
         @include underline-hover-target();
         position: relative;
@@ -36,6 +42,18 @@
         #{$root}:focus &,
         #{$root}:hover & {
             @include underline-hover-target-reset();
+        }
+    }
+
+    &__degree {
+        display: block;
+
+        .bg--dark & {
+            color: $color--meta-darkbg;
+        }
+
+        .bg--light & {
+            color: $color--meta-lightbg;
         }
     }
 

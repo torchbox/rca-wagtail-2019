@@ -2,9 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { programmePageShape } from '../programmes.types';
+
 import ProgrammeTeaser from './ProgrammeTeaser';
 
-const ProgrammesResults = ({ programmes }) => {
+const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
+    if (!hasActiveSearch) {
+        return null;
+    }
+
     const nbResults = `${programmes.length} results match your search`;
     return (
         <div className="bg bg--dark section section--end">
@@ -37,7 +43,8 @@ const ProgrammesResults = ({ programmes }) => {
 };
 
 ProgrammesResults.propTypes = {
-    programmes: PropTypes.arrayOf().isRequired,
+    programmes: PropTypes.arrayOf(programmePageShape).isRequired,
+    hasActiveSearch: PropTypes.bool.isRequired,
 };
 
 ProgrammesResults.defaultProps = {};
@@ -45,6 +52,7 @@ ProgrammesResults.defaultProps = {};
 const mapStateToProps = ({ programmes }) => {
     return {
         programmes: programmes.results,
+        hasActiveSearch: programmes.searchQuery.length >= 3,
     };
 };
 
