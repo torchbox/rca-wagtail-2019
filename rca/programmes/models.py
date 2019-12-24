@@ -52,6 +52,7 @@ class DegreeLevel(models.Model):
 def degree_level_serializer(*args, **kwargs):
     """Import the serializer, without a circular import error."""
     from rca.programmes.serializers import DegreeLevelSerializer
+
     return DegreeLevelSerializer(*args, **kwargs)
 
 
