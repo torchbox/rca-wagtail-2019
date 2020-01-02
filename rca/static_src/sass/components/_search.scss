@@ -28,6 +28,8 @@
         position: absolute;
         right: 0;
         padding-top: 15px;
+        padding-bottom: 15px;
+        color: $color--white;
         cursor: pointer;
 
         &:focus {
@@ -36,11 +38,12 @@
 
         @include media-query(medium) {
             padding-top: 18px;
+            padding-bottom: 18px;
         }
     }
 
     &__icon {
-        fill: $color--white;
+        fill: currentColor;
     }
 
     &--programmes {

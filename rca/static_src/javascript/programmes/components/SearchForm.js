@@ -55,22 +55,14 @@ const SearchForm = ({
                     />
                     {showClear ? (
                         <button
-                            className="search__button button"
+                            className="search__button button body body--two"
                             type="button"
-                            aria-label="Clear"
                             onClick={(e) => {
                                 e.preventDefault();
                                 clearSearchQuery();
                             }}
                         >
-                            <svg
-                                width="12px"
-                                height="8px"
-                                className="search__icon"
-                                aria-hidden="true"
-                            >
-                                <use xlinkHref="#close" />
-                            </svg>
+                            Clear
                         </button>
                     ) : (
                         <button
