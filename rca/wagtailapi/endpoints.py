@@ -3,7 +3,6 @@ from wagtail.api.v2.filters import (
     FieldsFilter,
     RestrictedChildOfFilter,
     RestrictedDescendantOfFilter,
-    SearchFilter,
 )
 from wagtail.api.v2.serializers import PageSerializer
 
@@ -18,5 +17,5 @@ class PagesAPIEndpoint(endpoints.PagesAPIEndpoint):
         FieldsFilter,
         RestrictedChildOfFilter,
         RestrictedDescendantOfFilter,
-        SearchFilter,
+        filters.SearchFilter,
     ]
