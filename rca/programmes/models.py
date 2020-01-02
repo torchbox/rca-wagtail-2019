@@ -15,6 +15,7 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
     TabbedInterface,
 )
+from wagtail.api import APIField
 from wagtail.core.blocks import CharBlock, StructBlock, URLBlock
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable
@@ -22,6 +23,7 @@ from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.embeds import embeds
 from wagtail.embeds.exceptions import EmbedException
 from wagtail.images import get_image_model_string
+from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
@@ -45,6 +47,13 @@ class DegreeLevel(models.Model):
 
     def __str__(self):
         return self.title
+
+
+def degree_level_serializer(*args, **kwargs):
+    """Import the serializer, without a circular import error."""
+    from rca.programmes.serializers import DegreeLevelSerializer
+
+    return DegreeLevelSerializer(*args, **kwargs)
 
 
 class ProgrammeType(models.Model):
@@ -510,6 +519,17 @@ class ProgrammePage(BasePage):
     )
 
     search_fields = BasePage.search_fields + []
+
+    api_fields = [
+        APIField("name"),
+        APIField("degree_level", serializer=degree_level_serializer()),
+        APIField("programme_description_title"),
+        APIField("pathway_blocks"),
+        APIField(
+            name="hero_image_square",
+            serializer=ImageRenditionField("fill-500x500", source="hero_image"),
+        ),
+    ]
 
     def get_alumni_stories(self, programme_type_legacy_slug):
         # Use the slug as prefix to the cache key
