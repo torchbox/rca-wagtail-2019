@@ -695,13 +695,6 @@ class ProgrammeIndexPage(BasePage):
 
         context["hero_colour"] = "light"
 
-        context["schools"] = [
-            "School of Architecture",
-            "School of Arts & Humanities",
-            "School of Communication",
-            "School of Design",
-        ]
-
         subpages = self.get_children().live()
         per_page = settings.DEFAULT_PER_PAGE
         page_number = request.GET.get("page")
