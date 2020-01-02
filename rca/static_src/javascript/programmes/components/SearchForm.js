@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import debounce from 'lodash.debounce';
 
 import {
     setSearchQuery,
@@ -17,6 +18,10 @@ const SearchForm = ({
     hasResults,
     isLoaded,
 }) => {
+    const searchProgrammesDebounced = useCallback(
+        debounce(searchProgrammes, 300),
+        [searchProgrammes],
+    );
     const showClear = hasResults && isLoaded;
 
     return (
@@ -49,7 +54,7 @@ const SearchForm = ({
                             setSearchQuery(query);
 
                             if (query.length >= 3) {
-                                searchProgrammes(query);
+                                searchProgrammesDebounced(query);
                             }
                         }}
                     />
