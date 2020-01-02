@@ -22,8 +22,9 @@ class DegreeLevelFilter(filters.BaseFilterBackend):
 class SearchFilter(filters.SearchFilter):
     def filter_queryset(self, request, queryset, view):
         """
-        This performs a full-text search on the result set
-        Eg: ?search=James Joyce
+        This ovverides the wagtail core api filters.SearchFilter
+        so we can provide autocomplet/fuzzy text matching with
+        sb.autocomplete
         """
         search_enabled = getattr(settings, "WAGTAILAPI_SEARCH_ENABLED", True)
 
