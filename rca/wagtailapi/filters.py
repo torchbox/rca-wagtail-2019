@@ -1,6 +1,5 @@
 from django.conf import settings
 from rest_framework import filters
-from rest_framework.filters import BaseFilterBackend
 from wagtail.api.v2.utils import BadRequestError
 from wagtail.search.backends import get_search_backend
 from wagtail.search.backends.base import FilterFieldError, OrderByFieldError
@@ -20,7 +19,7 @@ class DegreeLevelFilter(filters.BaseFilterBackend):
         return queryset
 
 
-class SearchFilter(BaseFilterBackend):
+class SearchFilter(filters.SearchFilter):
     def filter_queryset(self, request, queryset, view):
         """
         This performs a full-text search on the result set
