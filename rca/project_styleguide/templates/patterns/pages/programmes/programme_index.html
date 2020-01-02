@@ -2,42 +2,59 @@
 {% load wagtailcore_tags wagtailimages_tags navigation_tags static %}
 
 {% block content %}
-<div class="wrapper">
-    <section class="section section--main">
-        <h1>{{ page.title }}</h1>
-        <p>{{ page.introduction }}</p>
+    <div class="page">
 
-        {% if subpages %}
-            <div class="grid">
-                {% if subpages.object_list.exists %}
-                    {% for subpage in subpages.object_list.specific %}
-                        <a class="card-with-image" href="{% pageurl subpage %}">
-                            {% if subpage.listing_image %}
-                                {% image subpage.listing_image fill-450x300 %}
-                            {% else %}
-                                {# Add a default image here #}
-                            {% endif %}
-                            <div class="card">
-                                <h3 role="listitem">
-                                    {% firstof subpage.listing_title subpage.title %}
-                                </h3>
-                                {% if subpage.listing_summary or subpage.introduction %}
-                                    <p>{% firstof subpage.listing_summary subpage.introduction %}</p>
-                                {% endif %}
-                            </div>
-                        </a>
-                    {% endfor %}
-                {% else %}
-                    {# no items on this page #}
-                {% endif %}
+        <header class="page__header bg bg--dark">
+            <div class="title-area grid">
+                <div class="title-area__content">
+                    <h1 class="title-area__header heading heading--display-two">{{ page.title }}</h1>
+                    <p class="title-area__introduction introduction">{{ page.introduction|richtext }}</p>
+                </div>
             </div>
+        </header>
 
-            {% include "patterns/molecules/pagination/pagination.html" with paginator_page=subpages %}
+        <input type="search" placeholder="{{ page.search_placeholder_text }}"/>
 
-        {% else %}
-            {# no items on any page #}
-        {% endif %}
+        <div class="page__content">
 
-    </section>
-</div>
+            {% if subpages %}
+                <div class="grid">
+                    {% if subpages.object_list.exists %}
+                        {% for subpage in subpages.object_list.specific %}
+                            <a class="card-with-image" href="{% pageurl subpage %}">
+                                {% if subpage.hero_image %}
+                                    {% image subpage.hero_image fill-500x500 %}
+                                {% else %}
+                                    {# Add a default image here #}
+                                {% endif %}
+                                <div class="card">
+                                    <h3>
+                                        {% firstof subpage.listing_title subpage.title %}
+                                    </h3>
+                                    {% if subpage.listing_summary or subpage.introduction %}
+                                        <p>{% firstof subpage.listing_summary subpage.introduction %}</p>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                        {# no items on this page #}
+                    {% endif %}
+                </div>
+
+                {% include "patterns/molecules/pagination/pagination.html" with paginator_page=subpages %}
+
+            {% else %}
+                {# no items on any page #}
+            {% endif %}
+
+            <section class="section bg bg--light">
+                <div class="contact-anchor" id="contact"></div>
+                <div class="section__container">
+                    {% include "patterns/organisms/contact/contact.html" with heading='Contact us' text="Get in touch if you’d like to find out more or have any questions." image=page.contact_image %}
+                </div>
+            </section>
+
+        </div>
+    </div>
 {% endblock %}
