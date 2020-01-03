@@ -11,7 +11,8 @@
         position: fixed;
         left: 0;
         width: 100%;
-        height: 100vh;
+        height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+        height: calc(var(--vh, 1vh) * 100);
     }
 
     &__image {
@@ -45,7 +46,8 @@
     }
 
     &__placeholder {
-        height: 100vh;
+        height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+        height: calc(var(--vh, 1vh) * 100);
         pointer-events: none;
     }
 
