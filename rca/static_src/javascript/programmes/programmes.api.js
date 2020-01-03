@@ -38,6 +38,7 @@ export const getProgrammes = ({ query, filters = {} }) => {
     return fetch(url, { signal: abortGetProgrammes.signal })
         .then((res) => res.json())
         .then((result) => {
+            // Use prop-types definitions to check that the API response matches what we expect.
             if (process.env.NODE_ENV === 'development') {
                 result.items.forEach((item) => {
                     PropTypes.checkPropTypes(
