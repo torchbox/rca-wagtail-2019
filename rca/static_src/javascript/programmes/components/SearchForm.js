@@ -9,26 +9,29 @@ import {
     searchProgrammes,
 } from '../programmes.slice';
 
+/**
+ * A search form for programmes, visually only appearing as a single field.
+ */
 const SearchForm = ({
     searchQuery,
     label,
-    setSearchQuery,
-    clearSearchQuery,
-    searchProgrammes,
+    setQuery,
+    clearQuery,
+    startSearch,
     hasResults,
     isLoaded,
 }) => {
-    const searchProgrammesDebounced = useCallback(
-        debounce(searchProgrammes, 300),
-        [searchProgrammes],
-    );
-    const showClear = hasResults && isLoaded;
+    const startSearchDebounced = useCallback(debounce(startSearch, 300), [
+        startSearch,
+    ]);
+    const showClearButton = hasResults && isLoaded;
 
     return (
         <form
             onSubmit={(e) => {
                 e.preventDefault();
-                searchProgrammes(searchQuery);
+                // Users can submit the search at any time even with no characters entered.
+                startSearch(searchQuery);
             }}
             className="bg bg--dark"
             method="get"
@@ -51,20 +54,20 @@ const SearchForm = ({
                         onChange={(e) => {
                             const query = e.target.value;
 
-                            setSearchQuery(query);
+                            setQuery(query);
 
                             if (query.length >= 3) {
-                                searchProgrammesDebounced(query);
+                                startSearchDebounced(query);
                             }
                         }}
                     />
-                    {showClear ? (
+                    {showClearButton ? (
                         <button
                             className="search__button button body body--two"
                             type="button"
                             onClick={(e) => {
                                 e.preventDefault();
-                                clearSearchQuery();
+                                clearQuery();
                             }}
                         >
                             Clear
@@ -96,6 +99,9 @@ SearchForm.propTypes = {
     searchQuery: PropTypes.string.isRequired,
     hasResults: PropTypes.bool.isRequired,
     isLoaded: PropTypes.bool.isRequired,
+    setQuery: PropTypes.func.isRequired,
+    clearQuery: PropTypes.func.isRequired,
+    startSearch: PropTypes.func.isRequired,
 };
 
 SearchForm.defaultProps = {
@@ -111,9 +117,9 @@ const mapStateToProps = ({ programmes }) => {
 };
 
 const mapDispatchToProps = {
-    setSearchQuery,
-    clearSearchQuery,
-    searchProgrammes,
+    setQuery: setSearchQuery,
+    clearQuery: clearSearchQuery,
+    startSearch: searchProgrammes,
 };
 
 export default connect(

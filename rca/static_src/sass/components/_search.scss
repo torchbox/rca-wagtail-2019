@@ -46,18 +46,19 @@
         fill: currentColor;
     }
 
+    // The programmes’ search form has a slightly different layout.
     &--programmes {
         grid-column: 1 / span 2;
-        padding-bottom: 52px;
+        padding-bottom: $gutter * 2.5;
 
         @include media-query(medium) {
-            padding-bottom: 110px;
+            padding-bottom: $gutter * 5.5;
         }
 
         @include media-query(large) {
             grid-column: 2 / span 2;
             max-width: 460px;
-            padding-bottom: 40px;
+            padding-bottom: $gutter * 2;
         }
     }
 }
