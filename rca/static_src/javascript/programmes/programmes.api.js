@@ -8,9 +8,36 @@ const PROGRAMME_FIELDS = [
     'programme_description_subtitle',
     'pathway_blocks',
     'hero_image_square',
-].join(',');
+];
 
-const PROGRAMMES_ENDPOINT = `/api/v2/pages?type=${PROGRAMME_TYPE}&fields=${PROGRAMME_FIELDS}&limit=50`;
+const WAGTAIL_API_ENDPOINT = '/api/v2/pages';
+
+/**
+ * Generates a Wagtail API query string based on the given attributes.
+ */
+export const getWagtailAPIQueryString = ({
+    search,
+    filters,
+    type,
+    fields,
+    limit,
+}) => {
+    const parameters = {
+        type: type || null,
+        limit: limit || null,
+        fields: fields.join(',') || null,
+        search: search || null,
+        ...filters,
+    };
+    Object.keys(parameters).forEach((param) => {
+        if (parameters[param] === null) {
+            delete parameters[param];
+        }
+    });
+
+    const str = new URLSearchParams(parameters).toString();
+    return `${str ? '?' : ''}${str}`;
+};
 
 let abortGetProgrammes = new AbortController();
 
@@ -21,15 +48,14 @@ let abortGetProgrammes = new AbortController();
  * Or both!
  */
 export const getProgrammes = ({ query, filters = {} }) => {
-    const search = query ? `&search=${window.encodeURIComponent(query)}` : '';
-
-    const additionalFilters = Object.entries(filters)
-        .map(([filter, value]) => {
-            return `&${filter}=${window.encodeURIComponent(value)}`;
-        })
-        .join('');
-
-    const url = `${PROGRAMMES_ENDPOINT}${search}${additionalFilters}`;
+    const queryString = getWagtailAPIQueryString({
+        search: query,
+        filters,
+        type: PROGRAMME_TYPE,
+        fields: PROGRAMME_FIELDS,
+        limit: 50,
+    });
+    const url = `${WAGTAIL_API_ENDPOINT}${queryString}`;
 
     // Abort the previous controller if any, and create a new one.
     abortGetProgrammes.abort();
