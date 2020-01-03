@@ -47,8 +47,8 @@ export const searchProgrammes = (searchQuery) => {
         getProgrammes({
             query: searchQuery,
         }).then(
-            (result) => {
-                dispatch(actions.loadResultsSuccess(result.items));
+            (programmes) => {
+                dispatch(actions.loadResultsSuccess(programmes));
             },
             (error) => {
                 // If the API call was cancelled, we can safely dismiss that error.
