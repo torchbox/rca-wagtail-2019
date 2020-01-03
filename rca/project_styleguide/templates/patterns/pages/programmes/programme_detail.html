@@ -10,7 +10,9 @@
 
     {% include "patterns/molecules/hero/hero.html" with modifier="programme" %}
 
-    <div class="page page--overlap" vocab="http://schema.org/" typeof="Course">
+    <div class="page page--overlap" typeof="schema:Course">
+        
+        <meta property="schema:provider" content="Royal College of Art" />
 
         <div class="page__notch grid">
             <div class="page__notch-block bg bg--dark"></div>
@@ -22,8 +24,12 @@
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
-                    <h1 itemprop="name" class="title-area__header heading heading--display-two">{{ page.title }}</h1>
-                    <p class="title-area__introduction introduction">{{ page.degree_level }}</p>
+                    {% if page.title %}
+                        <h1 property="schema:name" class="title-area__header heading heading--display-two">{{ page.title }}</h1>
+                    {% endif %} 
+                    {% if page.degree_level %}
+                        <p class="title-area__introduction introduction">{{ page.degree_level }}</p>
+                    {% endif %}
                 </div>
             </div>
         </header>
