@@ -690,6 +690,11 @@ class ProgrammeIndexPage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+
+        context["title_multiline"] = self.title.replace(" ", "\n")
+
+        context["hero_colour"] = "light"
+
         subpages = self.get_children().live()
         per_page = settings.DEFAULT_PER_PAGE
         page_number = request.GET.get("page")
