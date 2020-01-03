@@ -2,6 +2,7 @@ context:
   title_multiline: >-
     Our
     Programmes
+  hero_colour: light
   page:
     title: Our Programmes
     introduction: <p>Experience the world&apos;s <a href="https://www.example.com/">number one</a> university for art and design.</p>
