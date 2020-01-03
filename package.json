@@ -23,6 +23,18 @@
     ],
     "collectCoverageFrom": [
       "**/rca/static_src/javascript/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/rca/static_src/javascript/tests"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "setupFiles": [
+      "<rootDir>/rca/static_src/javascript/tests/environment.js"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/rca/static_src/javascript/tests/setupTests.js"
     ]
   },
   "config": {
@@ -89,6 +101,9 @@
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.23.6",
     "css-loader": "^3.2.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.4.3",
     "eslint": "^6.7.2",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.7.0",
