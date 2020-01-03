@@ -45,6 +45,10 @@ const { reducer, actions } = createSlice({
 
 export const { setSearchQuery, clearSearchQuery } = actions;
 
+/**
+ * Get the matching programmes from the search API.
+ * @param {string} searchQuery
+ */
 export const searchProgrammes = (searchQuery) => {
     return (dispatch) => {
         dispatch(actions.loadResultsStart());
@@ -56,7 +60,7 @@ export const searchProgrammes = (searchQuery) => {
                 dispatch(actions.loadResultsSuccess(programmes));
             },
             (error) => {
-                // If the API call was cancelled, we can safely dismiss that error.
+                // If the error is an API call cancellation, we can safely dismiss that error.
                 if (error.name !== 'AbortError') {
                     dispatch(actions.loadResultsError(error));
                 }

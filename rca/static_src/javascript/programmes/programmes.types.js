@@ -1,5 +1,9 @@
 import PropTypes from 'prop-types';
 
+/**
+ * A Programme page’s serialised attributes, coming from the Wagtail API.
+ * Please make sure this stays up-to-date with APIField and serializers.
+ */
 export const programmePage = {
     id: PropTypes.number.isRequired,
     meta: PropTypes.shape({
