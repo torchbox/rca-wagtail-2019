@@ -11,13 +11,13 @@
                 {% include "patterns/molecules/key-details/key-details.html" %}
             </div>
             <div class="programme-overview__body">
-                <p class="introduction">
+                <p class="introduction" property="schema:description">
                     {{ page.programme_description_subtitle }}
                 <p>
                 {% if page.programme_image %}
                     {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.programme_video image=page.programme_image caption=page.programme_video_caption video=page.programme_video out_of_grid="true" %}
                 {% endif %}
-                <div class="programme-overview__description rich-text" itemprop="description">
+                <div class="programme-overview__description rich-text">
                     {{ page.programme_description_copy|safe }}
                 </div>
                 {% if page.pathway_blocks %}
