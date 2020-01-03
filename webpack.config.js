@@ -9,7 +9,8 @@ const projectRoot = 'rca';
 const options = {
     entry: {
         // nultiple entries can be added here
-        main: `./${projectRoot}/static_src/javascript/main.js`,
+        main: `./${projectRoot}/static_src/javascript/main.entry.js`,
+        programmes: `./${projectRoot}/static_src/javascript/programmes/programmes.entry.js`,
     },
     output: {
         path: path.resolve(`./${projectRoot}/static_compiled/`),
