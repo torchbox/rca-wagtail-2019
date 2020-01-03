@@ -538,6 +538,17 @@ class ProgrammePage(BasePage):
                 index.AutocompleteField("title", partial_match=True),
             ],
         ),
+        index.SearchField("programme_description_subtitle", partial_match=True),
+        index.AutocompleteField("programme_description_subtitle", partial_match=True),
+        index.SearchField("pathway_blocks", partial_match=True),
+        index.AutocompleteField("pathway_blocks", partial_match=True),
+        index.RelatedFields(
+            "degree_level",
+            [
+                index.SearchField("title", partial_match=True),
+                index.AutocompleteField("title", partial_match=True),
+            ],
+        ),
     ]
 
     api_fields = [
