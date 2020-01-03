@@ -21,39 +21,6 @@
 
         <div class="page__content">
 
-            {% comment %}
-            {% if subpages %}
-                <div class="grid">
-                    {% if subpages.object_list.exists %}
-                        {% for subpage in subpages.object_list.specific %}
-                            <a class="card-with-image" href="{% pageurl subpage %}">
-                                {% if subpage.hero_image %}
-                                    {% image subpage.hero_image fill-500x500 %}
-                                {% else %}
-                                    {# Add a default image here #}
-                                {% endif %}
-                                <div class="card">
-                                    <h3>
-                                        {% firstof subpage.listing_title subpage.title %}
-                                    </h3>
-                                    {% if subpage.listing_summary or subpage.introduction %}
-                                        <p>{% firstof subpage.listing_summary subpage.introduction %}</p>
-                                    {% endif %}
-                                </div>
-                            </a>
-                        {% endfor %}
-                    {% else %}
-                        {# no items on this page #}
-                    {% endif %}
-                </div>
-
-                {% include "patterns/molecules/pagination/pagination.html" with paginator_page=subpages %}
-
-            {% else %}
-                {# no items on any page #}
-            {% endif %}
-            {% endcomment %}
-
             <div data-mount-programmes></div>
 
             <section class="section section--end bg bg--light">
