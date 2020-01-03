@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssCustomProperties = require('postcss-custom-properties');
@@ -67,7 +66,7 @@ const options = {
     },
     // externals are loaded via base.html and not included in the webpack bundle.
     externals: {
-        //gettext: 'gettext',
+        // gettext: 'gettext',
     },
 };
 
@@ -79,7 +78,7 @@ const options = {
 if (process.env.NODE_ENV === 'development') {
     // Create JS source maps in the dev mode
     // See https://webpack.js.org/configuration/devtool/ for more options
-    options['devtool'] = 'inline-source-map';
+    options.devtool = 'inline-source-map';
 }
 
 module.exports = options;

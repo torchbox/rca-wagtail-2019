@@ -1,3 +1,4 @@
+/* eslint-disable no-new */
 import Cookies from 'js-cookie';
 import CookieWarning from './cookie-message';
 
