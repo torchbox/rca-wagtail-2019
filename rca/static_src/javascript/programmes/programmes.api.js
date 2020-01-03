@@ -1,3 +1,7 @@
+import PropTypes from 'prop-types';
+
+import { programmePage } from './programmes.types';
+
 const PROGRAMME_TYPE = 'programmes.ProgrammePage';
 const PROGRAMME_FIELDS = [
     'degree_level',
@@ -6,7 +10,7 @@ const PROGRAMME_FIELDS = [
     'hero_image_square',
 ].join(',');
 
-const PROGRAMMES_ENDPOINT = `/api/v2/pages?type=${PROGRAMME_TYPE}&fields=${PROGRAMME_FIELDS}`;
+const PROGRAMMES_ENDPOINT = `/api/v2/pages?type=${PROGRAMME_TYPE}&fields=${PROGRAMME_FIELDS}&limit=50`;
 
 let abortGetProgrammes = new AbortController();
 
@@ -31,7 +35,20 @@ export const getProgrammes = ({ query, filters = {} }) => {
     abortGetProgrammes.abort();
     abortGetProgrammes = new AbortController();
 
-    return fetch(url, { signal: abortGetProgrammes.signal }).then((res) =>
-        res.json(),
-    );
+    return fetch(url, { signal: abortGetProgrammes.signal })
+        .then((res) => res.json())
+        .then((result) => {
+            if (process.env.NODE_ENV === 'development') {
+                result.items.forEach((item) => {
+                    PropTypes.checkPropTypes(
+                        programmePage,
+                        item,
+                        '',
+                        'API client',
+                    );
+                });
+            }
+
+            return result.items;
+        });
 };
