@@ -22,7 +22,7 @@ class DegreeLevelFilter(filters.BaseFilterBackend):
 class SearchFilter(filters.SearchFilter):
     def filter_queryset(self, request, queryset, view):
         """
-        This ovverides the wagtail core api filters.SearchFilter
+        This overrides the wagtail core api filters.SearchFilter
         so we can provide autocomplet/fuzzy text matching with
         sb.autocomplete
         """
