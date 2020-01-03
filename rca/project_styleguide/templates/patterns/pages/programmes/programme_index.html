@@ -26,7 +26,10 @@
                     <ul class="filters filters__list">
                         {{ f.title }}
                         {% for i in f.items %}
-                            <li class="filters filters__list item">{{ i }}</li>
+                            <li class="filters filters__list item">
+                                {{ i.title }}
+                                {{ i.id }}
+                            </li>
                         {% endfor %}
                     </ul>
                 {% endfor %}
