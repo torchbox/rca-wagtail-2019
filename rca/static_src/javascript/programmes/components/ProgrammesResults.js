@@ -21,13 +21,6 @@ const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
                         <br />
                         <br />
                         <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
                     </>
                 ) : null}
                 <>
@@ -46,8 +39,6 @@ ProgrammesResults.propTypes = {
     programmes: PropTypes.arrayOf(programmePageShape).isRequired,
     hasActiveSearch: PropTypes.bool.isRequired,
 };
-
-ProgrammesResults.defaultProps = {};
 
 const mapStateToProps = ({ programmes }) => {
     return {
