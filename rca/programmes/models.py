@@ -745,6 +745,20 @@ class ProgrammeIndexPage(BasePage):
         except EmptyPage:
             subpages = paginator.page(paginator.num_pages)
 
+        # Listing filters
+        degree_levels = [i.title for i in DegreeLevel.objects.all()]
+        degree_levels_title = DegreeLevel._meta.verbose_name.capitalize()
+        programme_types = [i.display_name for i in ProgrammeType.objects.all()]
+        programme_types_title = ProgrammeType._meta.verbose_name.capitalize()
+        # TODO schools and subject
+
+        filters = [
+            {"title": degree_levels_title, "items": degree_levels},
+            {"title": programme_types_title, "items": programme_types},
+            {"title": "Subject", "items": ["T", "B", "D"]},
+        ]
+
+        context.update(filters=filters)
         context["subpages"] = subpages
 
         return context

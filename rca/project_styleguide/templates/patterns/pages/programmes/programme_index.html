@@ -20,6 +20,17 @@
         </header>
 
         <div class="page__content">
+            {{ filters|json_script:"programme-listing-filters" }}
+            <div class="filters">
+                {% for f in filters %}
+                    <ul class="filters filters__list">
+                        {{ f.title }}
+                        {% for i in f.items %}
+                            <li class="filters filters__list item">{{ i }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </div>
 
             <div data-mount-programmes-explorer data-search-label="{{ page.search_placeholder_text }}"></div>
 
