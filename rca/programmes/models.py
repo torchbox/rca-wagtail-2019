@@ -523,7 +523,7 @@ class ProgrammePage(BasePage):
     api_fields = [
         APIField("name"),
         APIField("degree_level", serializer=degree_level_serializer()),
-        APIField("programme_description_title"),
+        APIField("programme_description_subtitle"),
         APIField("pathway_blocks"),
         APIField(
             name="hero_image_square",

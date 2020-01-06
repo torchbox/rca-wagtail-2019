@@ -23,20 +23,42 @@
     }
 
     &__button {
+        $field-height: 46px;
+        height: $field-height;
         position: absolute;
         right: 0;
-        top: 15px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        color: $color--white;
+        cursor: pointer;
 
         &:focus {
             outline: 0;
         }
 
         @include media-query(medium) {
-            top: 18px;
+            padding-top: 18px;
+            padding-bottom: 18px;
         }
     }
 
     &__icon {
-        fill: $color--white;
+        fill: currentColor;
+    }
+
+    // The programmes’ search form has a slightly different layout.
+    &--programmes {
+        grid-column: 1 / span 2;
+        padding-bottom: $gutter * 2.5;
+
+        @include media-query(medium) {
+            padding-bottom: $gutter * 5.5;
+        }
+
+        @include media-query(large) {
+            grid-column: 2 / span 2;
+            max-width: 460px;
+            padding-bottom: $gutter * 2;
+        }
     }
 }

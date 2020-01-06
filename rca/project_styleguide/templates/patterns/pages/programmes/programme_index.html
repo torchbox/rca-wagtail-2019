@@ -35,7 +35,7 @@
                 {% endfor %}
             </div>
 
-            <div data-mount-programmes></div>
+            <div data-mount-programmes-explorer data-search-label="{{ page.search_placeholder_text }}"></div>
 
             <section class="section section--end bg bg--light">
                 <div class="section__content">
@@ -60,4 +60,8 @@
 
         </div>
     </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/programmes.js' %}"></script>
 {% endblock %}
