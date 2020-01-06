@@ -1,34 +1,22 @@
-@mixin teaser-separator() {
-    position: relative;
-    padding-top: $gutter;
-    padding-bottom: $gutter * 1.5;
-
-    .programme-teaser:not(:last-child) &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: 1px;
-        background-color: $color--grid-line-light;
-        mix-blend-mode: screen;
-    }
-}
-
 .programme-teaser {
     $root: &;
-    @include grid-layout();
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: $gutter;
+    padding-bottom: $gutter * 1.5;
     color: inherit;
+
+    &:not(:last-child) {
+        border-bottom: 1px solid $color--grid-line-light;
+    }
 
     &__title {
         grid-column: 1 / span 2;
+        margin-bottom: $gutter;
 
         @include media-query(medium) {
-            @include teaser-separator();
             grid-column: 1 / span 1;
-        }
-
-        @include media-query(large) {
-            grid-column: 2 / span 1;
+            margin-bottom: 0;
         }
     }
 
@@ -60,25 +48,21 @@
     }
 
     &__info {
-        @include teaser-separator();
         grid-column: 1 / span 2;
         padding-right: $gutter * 1.5;
 
         @include media-query(medium) {
             grid-column: 2 / span 1;
         }
-
-        @include media-query(large) {
-            grid-column: 3 / span 1;
-        }
     }
 
     &__description {
-        margin-bottom: $gutter;
+        margin-bottom: 0;
     }
 
     &__pathways-heading {
         @include font-size(xxxs);
+        margin-top: $gutter;
         margin-bottom: 0;
 
         .bg--dark & {
@@ -92,27 +76,5 @@
 
     &__pathways-text {
         @include font-size(xxxs);
-    }
-
-    &__image-wrapper {
-        grid-column: 4 / span 2;
-    }
-
-    &__image {
-        @include z-index(above-gridlines);
-        position: absolute;
-        top: 0;
-        opacity: 0;
-        transition: opacity $transition;
-        pointer-events: none;
-
-        @include media-query(large) {
-            #{$root}:focus &,
-            #{$root}:hover &,
-            #{$root}:first-of-type & {
-                opacity: 1;
-                pointer-events: all;
-            }
-        }
     }
 }

@@ -1,22 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { programmePageShape } from '../../programmes.types';
 
 /**
  * A programme’s teaser info, to be displayed as part of search results.
  */
-const ProgrammeTeaser = ({ programme }) => {
+const ProgrammeTeaser = ({ programme, onMouseOver, onFocus }) => {
     const {
         meta,
         title,
         degree_level,
         programme_description_subtitle,
         pathway_blocks,
-        hero_image_square,
     } = programme;
 
     return (
-        <a href={meta.html_url} className="programme-teaser">
+        <a
+            href={meta.html_url}
+            className="programme-teaser"
+            onMouseOver={onMouseOver}
+            onFocus={onFocus}
+        >
             <div className="programme-teaser__title">
                 <h2 className="programme-teaser__heading heading heading--five">
                     <span className="programme-teaser__heading-inner">
@@ -44,21 +49,14 @@ const ProgrammeTeaser = ({ programme }) => {
                     </div>
                 ) : null}
             </div>
-            <div className="programme-teaser__image-wrapper">
-                <img
-                    className="programme-teaser__image"
-                    src={hero_image_square.url}
-                    width={hero_image_square.width}
-                    height={hero_image_square.height}
-                    alt=""
-                />
-            </div>
         </a>
     );
 };
 
 ProgrammeTeaser.propTypes = {
     programme: programmePageShape.isRequired,
+    onMouseOver: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
 };
 
 export default ProgrammeTeaser;
