@@ -32,43 +32,38 @@ const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
 
     const count = getResultsCount(programmes.length);
     return (
-        <div className="bg bg--dark section">
-            <div className="programmes-results">
-                <div className="grid">
-                    <div className="programmes-results__actions">
-                        <button
-                            type="button"
-                            className="button programmes-results__back body body--one"
-                        >
-                            <Icon
-                                name="arrow"
-                                className="programmes-results__back__icon"
-                            />
-                            <span className="programmes-results__back__text">
-                                Back
-                            </span>
-                        </button>
-                    </div>
-                    <p
-                        className="heading heading--five programmes-results__count"
-                        role="alert"
+        <div className="programmes-results bg bg--dark section section--opposite-notch">
+            <div className="grid">
+                <div className="programmes-results__actions">
+                    <button
+                        type="button"
+                        className="button programmes-results__back body body--one"
                     >
-                        {count}
-                    </p>
+                        <Icon
+                            name="arrow"
+                            className="programmes-results__back__icon"
+                        />
+                        <span className="programmes-results__back__text">
+                            Back
+                        </span>
+                    </button>
                 </div>
-                {programmes.length === 0 ? null : (
-                    <div className="programmes-results__list">
-                        {programmes.map((prog) => {
-                            return (
-                                <ProgrammeTeaser
-                                    key={prog.id}
-                                    programme={prog}
-                                />
-                            );
-                        })}
-                    </div>
-                )}
+                <p
+                    className="heading heading--five programmes-results__count"
+                    role="alert"
+                >
+                    {count}
+                </p>
             </div>
+            {programmes.length === 0 ? null : (
+                <div className="programmes-results__list">
+                    {programmes.map((prog) => {
+                        return (
+                            <ProgrammeTeaser key={prog.id} programme={prog} />
+                        );
+                    })}
+                </div>
+            )}
             <div className="section__notch section__notch--opposite">
                 <div className="section__notch-fill section__notch-fill--second-col" />
             </div>

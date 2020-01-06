@@ -64,6 +64,10 @@
         }
     }
 
+    &--opposite-notch {
+        overflow: hidden;
+    }
+
     &--before-fixed {
         &::before {
             position: fixed;
@@ -124,10 +128,6 @@
             @include media-query(large) {
                 margin-bottom: ($gutter * 5);
             }
-        }
-
-        &--opposite {
-            overflow: hidden;
         }
 
         &--transparent {
@@ -206,7 +206,7 @@
                 grid-column: 1 / span 2;
 
                 #{$root}__notch--opposite & {
-                    grid-column: 4 / span 1;
+                    grid-column: 4 / span 2;
                 }
             }
         }
