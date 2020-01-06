@@ -20,35 +20,23 @@
         </header>
 
         <div class="page__content">
-            {{ filters|json_script:"programme-listing-filters" }}
-            <div class="filters">
-                {% for f in filters %}
-                    <ul class="filters filters__list">
-                        {{ f.title }}
-                        {% for i in f.items %}
-                            <li class="filters filters__list item">
-                                {{ i.title }}
-                                {{ i.id }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% endfor %}
-            </div>
-
             <div data-mount-programmes-explorer data-search-label="{{ page.search_placeholder_text }}"></div>
 
             <section class="section section--end bg bg--light">
                 <div class="section__content">
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
+                    <div class="filters">
+                        {% for f in filters %}
+                            <ul class="filters filters__list">
+                                {{ f.title }}
+                                {% for i in f.items %}
+                                    <li class="filters filters__list item">
+                                        {{ i.title }}
+                                        {{ i.id }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </div>
                 </div>
             </section>
 
@@ -63,5 +51,6 @@
 {% endblock %}
 
 {% block extra_js %}
+    {{ filters|json_script:"programme-listing-filters" }}
     <script src="{% static 'js/programmes.js' %}"></script>
 {% endblock %}
