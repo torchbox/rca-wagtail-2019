@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -26,48 +26,88 @@ const getResultsCount = (count) => {
  * The list auto-magically appears when matches are found.
  */
 const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
+    const [activeProgramme, setActiveProgramme] = useState(null);
     if (!hasActiveSearch) {
         return null;
     }
 
     const count = getResultsCount(programmes.length);
     return (
-        <div className="programmes-results bg bg--dark section section--opposite-notch">
-            <div className="grid">
-                <div className="programmes-results__actions">
-                    <button
-                        type="button"
-                        className="button programmes-results__back body body--one"
+        <>
+            <div className="programmes-results bg bg--dark section">
+                <div className="grid">
+                    <div className="programmes-results__actions">
+                        <button
+                            type="button"
+                            className="button programmes-results__back body body--one"
+                        >
+                            <Icon
+                                name="arrow"
+                                className="programmes-results__back__icon"
+                            />
+                            <span className="programmes-results__back__text">
+                                Back
+                            </span>
+                        </button>
+                    </div>
+                    <p
+                        className="heading heading--five programmes-results__count"
+                        role="alert"
                     >
-                        <Icon
-                            name="arrow"
-                            className="programmes-results__back__icon"
-                        />
-                        <span className="programmes-results__back__text">
-                            Back
-                        </span>
-                    </button>
+                        {count}
+                    </p>
                 </div>
-                <p
-                    className="heading heading--five programmes-results__count"
-                    role="alert"
-                >
-                    {count}
-                </p>
+                {programmes.length === 0 ? null : (
+                    <div className="grid">
+                        <div className="programmes-results__list">
+                            {programmes.map((prog) => {
+                                return (
+                                    <ProgrammeTeaser
+                                        key={prog.id}
+                                        programme={prog}
+                                        onFocus={() =>
+                                            setActiveProgramme(prog.id)
+                                        }
+                                        onMouseOver={() =>
+                                            setActiveProgramme(prog.id)
+                                        }
+                                    />
+                                );
+                            })}
+                        </div>
+                        <div className="programmes-results__images">
+                            <div className="programmes-results__images-sticky">
+                                {programmes.map((prog, i) => {
+                                    const isActive =
+                                        activeProgramme === prog.id || i === 0;
+                                    return (
+                                        <img
+                                            key={prog.id}
+                                            className={`programmes-results__image ${
+                                                isActive
+                                                    ? 'programmes-results__image--active'
+                                                    : ''
+                                            }`}
+                                            src={prog.hero_image_square.url}
+                                            width={prog.hero_image_square.width}
+                                            height={
+                                                prog.hero_image_square.height
+                                            }
+                                            alt=""
+                                        />
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
-            {programmes.length === 0 ? null : (
-                <div className="programmes-results__list">
-                    {programmes.map((prog) => {
-                        return (
-                            <ProgrammeTeaser key={prog.id} programme={prog} />
-                        );
-                    })}
+            <div className="section section--opposite-notch bg bg--dark">
+                <div className="section__notch section__notch--opposite">
+                    <div className="section__notch-fill section__notch-fill--second-col" />
                 </div>
-            )}
-            <div className="section__notch section__notch--opposite">
-                <div className="section__notch-fill section__notch-fill--second-col" />
             </div>
-        </div>
+        </>
     );
 };
 
