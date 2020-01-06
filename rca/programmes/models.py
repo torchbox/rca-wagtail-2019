@@ -527,7 +527,7 @@ class ProgrammePage(BasePage):
         APIField("pathway_blocks"),
         APIField(
             name="hero_image_square",
-            serializer=ImageRenditionField("fill-500x500", source="hero_image"),
+            serializer=ImageRenditionField("fill-580x580", source="hero_image"),
         ),
     ]
 
