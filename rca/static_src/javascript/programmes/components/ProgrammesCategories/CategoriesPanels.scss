@@ -8,14 +8,4 @@
             @include grid-layout();
         }
     }
-
-    &__panel-btn {
-        border: 0;
-        background: transparent;
-        border-bottom: 1px solid $color--grid-line-light;
-
-        &[type='button'] {
-            appearance: none;
-        }
-    }
 }
