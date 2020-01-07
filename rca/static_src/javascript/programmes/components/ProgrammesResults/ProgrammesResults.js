@@ -32,7 +32,7 @@ const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
 
     const count = getResultsCount(programmes.length);
     return (
-        <div className="bg bg--dark section section--end">
+        <div className="bg bg--dark section">
             <div className="programmes-results">
                 <div className="grid">
                     <div className="programmes-results__actions">
@@ -43,28 +43,34 @@ const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
                             <Icon
                                 name="arrow"
                                 className="programmes-results__back__icon"
-                            />{' '}
-                            Back
+                            />
+                            <span className="programmes-results__back__text">
+                                Back
+                            </span>
                         </button>
                     </div>
-                    <p className="heading heading--five programmes-results__count">
+                    <p
+                        className="heading heading--five programmes-results__count"
+                        role="alert"
+                    >
                         {count}
                     </p>
                 </div>
-                {programmes.length === 0 ? (
-                    <>
-                        <br />
-                        <br />
-                        <br />
-                    </>
-                ) : null}
-                <>
-                    {programmes.map((prog) => {
-                        return (
-                            <ProgrammeTeaser key={prog.id} programme={prog} />
-                        );
-                    })}
-                </>
+                {programmes.length === 0 ? null : (
+                    <div className="programmes-results__list">
+                        {programmes.map((prog) => {
+                            return (
+                                <ProgrammeTeaser
+                                    key={prog.id}
+                                    programme={prog}
+                                />
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
+            <div className="section__notch section__notch--opposite">
+                <div className="section__notch-fill section__notch-fill--second-col" />
             </div>
         </div>
     );

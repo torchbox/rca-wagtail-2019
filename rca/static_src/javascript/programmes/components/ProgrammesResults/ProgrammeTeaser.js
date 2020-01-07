@@ -27,12 +27,16 @@ const ProgrammeTeaser = ({ programme }) => {
                     {degree_level.title}
                 </small>
             </div>
-            <div className="programme-teaser__description">
-                <p>{programme_description_subtitle}</p>
+            <div className="programme-teaser__info">
+                <p className="programme-teaser__description body body--one">
+                    {programme_description_subtitle}
+                </p>
                 {pathway_blocks.length > 0 ? (
                     <div>
-                        <p>Pathways:</p>
-                        <p>
+                        <p className="programme-teaser__pathways-heading">
+                            Pathways:
+                        </p>
+                        <p className="programme-teaser__pathways-text">
                             {pathway_blocks
                                 .map((b) => b.value.heading)
                                 .join(', ')}

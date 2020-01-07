@@ -1,6 +1,14 @@
 .programmes-results {
+    $root: &;
+    padding-top: 0;
+
+    @include media-query(large) {
+        padding-top: $gutter * 2;
+    }
+
     &__count {
         grid-column: 1 / span 2;
+        margin-bottom: $gutter * 1.5;
 
         @include media-query(large) {
             grid-column: 2 / span 2;
@@ -17,9 +25,23 @@
 
     &__actions {
         grid-column: 1 / span 1;
+        margin-bottom: $gutter * 0.5;
+
+        @include media-query(medium) {
+            margin-bottom: $gutter * 0.5;
+        }
+
+        @include media-query(large) {
+            margin-bottom: 0;
+            padding-right: $gutter * 1.5;
+            text-align: right;
+        }
     }
 
     &__back {
+        display: inline-flex;
+        align-items: center;
+        padding: 0;
         color: inherit;
 
         &[type='button'] {
@@ -29,8 +51,24 @@
         &__icon {
             width: 12px;
             height: 8px;
+            margin-right: 5px;
             transform: rotateY(180deg);
+            transition: transform $transition;
             fill: currentColor;
         }
+
+        &:hover,
+        &:active,
+        &:focus {
+            #{$root}__back__icon {
+                transform: rotateY(180deg) translate3d(3px, 0, 0);
+            }
+        }
+    }
+
+    &__list {
+        $teaser-image-height: 500px;
+        position: relative;
+        min-height: $teaser-image-height;
     }
 }
