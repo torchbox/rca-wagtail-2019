@@ -144,7 +144,9 @@ WSGI_APPLICATION = "rca.wsgi.application"
 # https://docs.djangoproject.com/en/stable/ref/settings/#databases
 # https://github.com/kennethreitz/dj-database-url
 
-DATABASES = {"default": dj_database_url.config(default="postgres:///rca")}
+DATABASES = {
+    "default": dj_database_url.config(default="postgres:///rca", conn_max_age=600)
+}
 
 
 # Server-side cache settings. Do not confuse with front-end cache.
