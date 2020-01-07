@@ -27,10 +27,6 @@
         grid-column: 1 / span 1;
         margin-bottom: $gutter * 0.5;
 
-        @include media-query(medium) {
-            margin-bottom: $gutter * 0.5;
-        }
-
         @include media-query(large) {
             margin-bottom: 0;
             padding-right: $gutter * 1.5;

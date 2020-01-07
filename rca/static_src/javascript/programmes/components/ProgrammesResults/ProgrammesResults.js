@@ -61,15 +61,15 @@ const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
                     <div className="grid">
                         <div className="programmes-results__list">
                             {programmes.map((prog) => {
-                                const onHocus = () =>
+                                const setActive = () =>
                                     setActiveProgramme(prog.id);
 
                                 return (
                                     <ProgrammeTeaser
                                         key={prog.id}
                                         programme={prog}
-                                        onFocus={onHocus}
-                                        onMouseOver={onHocus}
+                                        onFocus={setActive}
+                                        onMouseOver={setActive}
                                     />
                                 );
                             })}
@@ -101,7 +101,10 @@ const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
                     </div>
                 )}
             </div>
-            <div className="section section--opposite-notch bg bg--dark">
+            <div
+                className="section section--opposite-notch bg bg--dark"
+                aria-hidden="true"
+            >
                 <div className="section__notch section__notch--opposite">
                     <div className="section__notch-fill section__notch-fill--second-col" />
                 </div>
