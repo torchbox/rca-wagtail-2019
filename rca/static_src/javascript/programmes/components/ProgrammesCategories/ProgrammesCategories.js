@@ -20,7 +20,7 @@ const ProgrammesCategories = ({ categories, applyFilter }) => {
         <div>
             <div className="section section--opposite-notch bg bg--dark">
                 <div className="section__notch section__notch--opposite">
-                    <div className="section__notch-fill section__notch-fill--second-col">
+                    <div className="section__notch-fill section__notch-fill--content-height section__notch-fill--first-col section__notch-fill--second-col@medium">
                         <CategoriesTablist
                             categories={categories}
                             activeCategory={activeCategory}
