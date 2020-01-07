@@ -61,16 +61,15 @@ const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
                     <div className="grid">
                         <div className="programmes-results__list">
                             {programmes.map((prog) => {
+                                const onHocus = () =>
+                                    setActiveProgramme(prog.id);
+
                                 return (
                                     <ProgrammeTeaser
                                         key={prog.id}
                                         programme={prog}
-                                        onFocus={() =>
-                                            setActiveProgramme(prog.id)
-                                        }
-                                        onMouseOver={() =>
-                                            setActiveProgramme(prog.id)
-                                        }
+                                        onFocus={onHocus}
+                                        onMouseOver={onHocus}
                                     />
                                 );
                             })}
