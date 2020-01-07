@@ -9,6 +9,8 @@ import {
     searchProgrammes,
 } from '../programmes.slice';
 
+import Icon from './Icon/Icon';
+
 /**
  * A search form for programmes, visually only appearing as a single field.
  */
@@ -78,14 +80,7 @@ const SearchForm = ({
                             type="submit"
                             aria-label="Search"
                         >
-                            <svg
-                                width="12px"
-                                height="8px"
-                                className="search__icon"
-                                aria-hidden="true"
-                            >
-                                <use xlinkHref="#arrow" />
-                            </svg>
+                            <Icon name="arrow" className="search__icon" />
                         </button>
                     )}
                 </div>

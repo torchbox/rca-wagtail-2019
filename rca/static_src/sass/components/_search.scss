@@ -44,11 +44,14 @@
 
     &__icon {
         fill: currentColor;
+        width: 12px;
+        height: 8px;
     }
 
     // The programmes’ search form has a slightly different layout.
     &--programmes {
         grid-column: 1 / span 2;
+        max-width: 460px;
         padding-bottom: $gutter * 2.5;
 
         @include media-query(medium) {
@@ -57,7 +60,6 @@
 
         @include media-query(large) {
             grid-column: 2 / span 2;
-            max-width: 460px;
             padding-bottom: $gutter * 2;
         }
     }
