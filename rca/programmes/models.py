@@ -708,20 +708,35 @@ class ProgrammeIndexPage(BasePage):
             subpages = paginator.page(paginator.num_pages)
 
         # Listing filters
+        placeholder = "The RCA offers 29 distinctive postgraduate programmes across the art and design disciplines."
         degree_levels = [
-            {"title": i.title, "id": i.id} for i in DegreeLevel.objects.all()
+            {"title": i.title, "id": i.id, "description": placeholder}
+            for i in DegreeLevel.objects.all()
         ]
         degree_levels_title = DegreeLevel._meta.verbose_name.capitalize()
         programme_types = [
-            {"title": i.display_name, "id": i.id} for i in ProgrammeType.objects.all()
+            {"title": i.display_name, "id": i.id, "description": placeholder}
+            for i in ProgrammeType.objects.all()
         ]
         programme_types_title = ProgrammeType._meta.verbose_name.capitalize()
         # TODO schools and subject
 
         filters = [
-            {"title": degree_levels_title, "items": degree_levels},
-            {"title": programme_types_title, "items": programme_types},
-            {"title": "Subject", "items": [{"title": "TBD", "id": "100"}]},
+            {
+                "id": "degree_level",
+                "title": degree_levels_title,
+                "items": degree_levels,
+            },
+            {
+                "id": "programme_type",
+                "title": programme_types_title,
+                "items": programme_types,
+            },
+            {
+                "id": "subject",
+                "title": "Subject",
+                "items": [{"title": "TBD", "id": "100", "description": placeholder}],
+            },
         ]
 
         context.update(filters=filters)
