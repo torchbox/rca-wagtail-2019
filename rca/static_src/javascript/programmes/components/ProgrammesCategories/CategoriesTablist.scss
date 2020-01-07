@@ -1,0 +1,23 @@
+.categories-tablist {
+    @include z-index(above-gridlines);
+    position: relative;
+    padding: $gutter;
+
+    &__heading {
+        color: $color--dark-grey;
+        margin-bottom: $gutter * 0.75;
+    }
+
+    &__tab {
+        color: $color--dark-grey;
+
+        &:not(:last-child) {
+            margin-right: $gutter * 1.5;
+        }
+
+        &[aria-selected='true'] {
+            color: $color--black;
+            text-decoration: underline;
+        }
+    }
+}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { useLocation } from 'react-use';
 
 import { programmePageShape } from '../../programmes.types';
 
@@ -27,7 +28,11 @@ const getResultsCount = (count) => {
  */
 const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
     const [activeProgramme, setActiveProgramme] = useState(null);
-    if (!hasActiveSearch) {
+    const loc = useLocation();
+    const hasActiveFilter = loc.search.length > 0;
+    console.log(hasActiveFilter, hasActiveSearch);
+
+    if (!hasActiveFilter) {
         return null;
     }
 
