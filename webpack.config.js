@@ -1,5 +1,6 @@
 const path = require('path');
 const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssCustomProperties = require('postcss-custom-properties');
 const sass = require('sass');
@@ -50,6 +51,9 @@ const options = {
                             plugins: () => [
                                 autoprefixer(),
                                 postcssCustomProperties(),
+                                cssnano({
+                                    preset: 'default',
+                                }),
                             ],
                         },
                     },
