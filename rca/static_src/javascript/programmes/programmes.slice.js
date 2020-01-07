@@ -49,12 +49,13 @@ export const { setSearchQuery, clearSearchQuery } = actions;
  * Get the matching programmes from the search API.
  * @param {string} searchQuery
  */
-export const searchProgrammes = (searchQuery) => {
+export const searchProgrammes = (searchQuery, filters = {}) => {
     return (dispatch) => {
         dispatch(actions.loadResultsStart());
 
         getProgrammes({
             query: searchQuery,
+            filters,
         }).then(
             (programmes) => {
                 dispatch(actions.loadResultsSuccess(programmes));
