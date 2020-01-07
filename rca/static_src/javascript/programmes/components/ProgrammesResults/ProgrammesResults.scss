@@ -1,0 +1,108 @@
+.programmes-results {
+    $root: &;
+    padding-top: 0;
+
+    @include media-query(large) {
+        padding-top: $gutter * 2;
+    }
+
+    &__count {
+        grid-column: 1 / span 2;
+        margin-bottom: $gutter * 1.5;
+
+        @include media-query(large) {
+            grid-column: 2 / span 2;
+        }
+
+        .bg--dark & {
+            color: $color--meta-darkbg;
+        }
+
+        .bg--light & {
+            color: $color--meta-lightbg;
+        }
+    }
+
+    &__actions {
+        grid-column: 1 / span 1;
+        margin-bottom: $gutter * 0.5;
+
+        @include media-query(large) {
+            margin-bottom: 0;
+            padding-right: $gutter * 1.5;
+            text-align: right;
+        }
+    }
+
+    &__back {
+        display: inline-flex;
+        align-items: center;
+        padding: 0;
+        font-family: $font--secondary;
+        color: inherit;
+
+        &[type='button'] {
+            appearance: none;
+        }
+
+        &__icon {
+            width: 12px;
+            height: 8px;
+            margin-right: 5px;
+            transform: rotateY(180deg);
+            transition: transform $transition;
+            fill: currentColor;
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+            #{$root}__back__icon {
+                transform: rotateY(180deg) translate3d(3px, 0, 0);
+            }
+        }
+    }
+
+    &__list {
+        grid-column: 1 / span 4;
+
+        @include media-query(large) {
+            grid-column: 2 / span 2;
+        }
+    }
+
+    &__images {
+        display: none;
+        grid-column: 4 / span 2;
+        // Matching the contact block’s so the images are aligned with its image.
+        margin-right: -60px;
+
+        @include media-query(large) {
+            display: block;
+        }
+    }
+
+    &__images-sticky {
+        position: sticky;
+        top: 0;
+        // Black magic: we want all images to be displayed on the same spot,
+        // but we also need them to have a height so they stop sticking when scrolling past.
+        // So we use a grid with a single cell and place all the images in it.
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+    }
+
+    &__image {
+        @include z-index(above-gridlines);
+        grid-area: 1 / 1;
+        opacity: 0;
+        transition: opacity $transition;
+
+        @include media-query(large) {
+            &--active {
+                opacity: 1;
+            }
+        }
+    }
+}
