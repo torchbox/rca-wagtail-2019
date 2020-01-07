@@ -1,0 +1,36 @@
+.programmes-results {
+    &__count {
+        grid-column: 1 / span 2;
+
+        @include media-query(large) {
+            grid-column: 2 / span 2;
+        }
+
+        .bg--dark & {
+            color: $color--meta-darkbg;
+        }
+
+        .bg--light & {
+            color: $color--meta-lightbg;
+        }
+    }
+
+    &__actions {
+        grid-column: 1 / span 1;
+    }
+
+    &__back {
+        color: inherit;
+
+        &[type='button'] {
+            appearance: none;
+        }
+
+        &__icon {
+            width: 12px;
+            height: 8px;
+            transform: rotateY(180deg);
+            fill: currentColor;
+        }
+    }
+}

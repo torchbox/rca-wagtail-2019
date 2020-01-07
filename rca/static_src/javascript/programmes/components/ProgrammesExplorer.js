@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import SearchForm from './SearchForm';
-import ProgrammesResults from './ProgrammesResults';
+import ProgrammesResults from './ProgrammesResults/ProgrammesResults';
 
 const ProgrammesExplorer = ({ searchLabel }) => {
     return (

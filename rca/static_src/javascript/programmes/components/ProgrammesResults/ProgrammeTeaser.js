@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { programmePageShape } from '../programmes.types';
+import { programmePageShape } from '../../programmes.types';
 
 /**
  * A programme’s teaser info, to be displayed as part of search results.
