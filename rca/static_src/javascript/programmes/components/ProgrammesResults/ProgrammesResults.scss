@@ -67,10 +67,7 @@
     }
 
     &__list {
-        $teaser-image-height: 580px;
         grid-column: 1 / span 4;
-        position: relative;
-        min-height: $teaser-image-height;
 
         @include media-query(large) {
             grid-column: 2 / span 2;
@@ -80,9 +77,8 @@
     &__images {
         display: none;
         grid-column: 4 / span 2;
-        // Matching the contact block.
+        // Matching the contact block’s so the images are aligned with its image.
         margin-right: -60px;
-        position: relative;
 
         @include media-query(large) {
             display: block;
@@ -92,6 +88,9 @@
     &__images-sticky {
         position: sticky;
         top: 0;
+        // Black magic: we want all images to be displayed on the same spot,
+        // but we also need them to have a height so they stop sticking when scrolling past.
+        // So we use a grid with a single cell and place all the images in it.
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: 1fr;
@@ -102,7 +101,6 @@
         grid-area: 1 / 1;
         opacity: 0;
         transition: opacity $transition;
-        pointer-events: none;
 
         @include media-query(large) {
             &--active {
