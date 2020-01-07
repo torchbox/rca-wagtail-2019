@@ -44,7 +44,6 @@
     &--stat-block {
         min-height: 100%;
         position: relative;
-        overflow: hidden;
         color: $color--white;
         background-color: $color--black-65;
 
@@ -127,6 +126,10 @@
             }
         }
 
+        &--opposite {
+            overflow: hidden;
+        }
+
         &--transparent {
             background-color: transparent;
         }
@@ -195,6 +198,10 @@
         }
 
         &--second-col {
+            #{$root}__notch--opposite & {
+                grid-column: 2 / span 1;
+            }
+
             @include media-query(large) {
                 grid-column: 1 / span 2;
 
