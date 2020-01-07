@@ -170,6 +170,14 @@
             height: $notch-height-large;
         }
 
+        &--content-height {
+            height: initial;
+        }
+
+        #{$root}__notch--opposite & {
+            grid-column: 1 / span 2;
+        }
+
         &::before {
             display: block;
             position: absolute;
@@ -200,6 +208,22 @@
         &--second-col {
             #{$root}__notch--opposite & {
                 grid-column: 2 / span 1;
+            }
+
+            @include media-query(large) {
+                grid-column: 1 / span 2;
+
+                #{$root}__notch--opposite & {
+                    grid-column: 4 / span 2;
+                }
+            }
+        }
+
+        &--second-col\@medium {
+            @include media-query(medium) {
+                #{$root}__notch--opposite & {
+                    grid-column: 2 / span 1;
+                }
             }
 
             @include media-query(large) {
