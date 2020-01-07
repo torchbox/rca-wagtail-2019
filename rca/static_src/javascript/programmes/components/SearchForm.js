@@ -117,7 +117,4 @@ const mapDispatchToProps = {
     startSearch: searchProgrammes,
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(SearchForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchForm);
