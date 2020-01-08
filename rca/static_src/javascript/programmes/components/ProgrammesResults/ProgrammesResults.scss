@@ -38,6 +38,8 @@
         display: inline-flex;
         align-items: center;
         padding: 0;
+        // Add padding so the outline looks good on focus/active.
+        padding-left: 5px;
         font-family: $font--secondary;
         color: inherit;
 
