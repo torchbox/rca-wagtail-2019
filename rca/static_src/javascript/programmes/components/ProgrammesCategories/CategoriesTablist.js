@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 
 import { programmeCategories } from '../../programmes.types';
 
+/**
+ * A list of tabs, one per category. The active tab is underlined.
+ * Tabs can be moved through with the arrow keys.
+ */
 const CategoriesTablist = ({ categories, activeCategory }) => {
     return (
         <nav
