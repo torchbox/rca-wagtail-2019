@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { getProgrammes } from './programmes.api';
+import { pushState, getSearchURL } from './programmes.routes';
 
 const initialState = {
     searchQuery: '',
@@ -54,6 +55,10 @@ export const { setSearchQuery, clearSearchQuery } = actions;
 export const searchProgrammes = (searchQuery, filters = {}) => {
     return (dispatch) => {
         dispatch(actions.loadResultsStart());
+
+        if (searchQuery) {
+            pushState(getSearchURL(searchQuery));
+        }
 
         getProgrammes({
             query: searchQuery,
