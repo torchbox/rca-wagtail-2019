@@ -3,13 +3,34 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useLocation } from 'react-use';
 
-import { programmePageShape } from '../../programmes.types';
+import {
+    programmePageShape,
+    programmeCategories,
+} from '../../programmes.types';
 import { searchProgrammes } from '../../programmes.slice';
 
 import Icon from '../Icon/Icon';
 import ProgrammeTeaser from './ProgrammeTeaser';
 
-const getResultsCount = (count) => {
+const getResultsStatus = (
+    isLoading,
+    categories,
+    category,
+    categoryValue,
+    count,
+) => {
+    if (isLoading) {
+        return 'Loading…';
+    }
+
+    const activeCategory = categories.find((c) => c.id === category);
+    if (activeCategory) {
+        const activeItem = activeCategory.items.find(
+            (i) => `${i.id}` === categoryValue,
+        );
+        return `${activeCategory.title}: ${activeItem.title}`;
+    }
+
     switch (count) {
         case 0: {
             return 'No results match your search';
@@ -28,6 +49,7 @@ const getResultsCount = (count) => {
  * The list auto-magically appears when matches are found.
  */
 const ProgrammesResults = ({
+    categories,
     programmes,
     hasActiveSearch,
     isLoading,
@@ -56,7 +78,6 @@ const ProgrammesResults = ({
         return null;
     }
 
-    const count = getResultsCount(programmes.length);
     const theme = hasActiveFilter ? 'light' : 'dark';
     return (
         <>
@@ -80,7 +101,13 @@ const ProgrammesResults = ({
                         className="heading heading--five programmes-results__status"
                         role="alert"
                     >
-                        {isLoading ? 'Loading…' : count}
+                        {getResultsStatus(
+                            isLoading,
+                            categories,
+                            category,
+                            value,
+                            programmes.length,
+                        )}
                     </p>
                 </div>
                 {programmes.length === 0 ? null : (
@@ -142,6 +169,7 @@ const ProgrammesResults = ({
 };
 
 ProgrammesResults.propTypes = {
+    categories: programmeCategories.isRequired,
     programmes: PropTypes.arrayOf(programmePageShape).isRequired,
     hasActiveSearch: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
