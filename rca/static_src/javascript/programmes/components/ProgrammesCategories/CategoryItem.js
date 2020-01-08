@@ -13,7 +13,7 @@ const CategoryItem = ({ category, parentId }) => {
 
     return (
         <div className="category-item__wrapper grid">
-            <a href={`#test-${id}`} className="category-item">
+            <a href={`#test-${parentId}-${id}`} className="category-item">
                 <h3 className="heading heading--three category-item__heading">
                     <span className="category-item__heading-inner">
                         {title}
