@@ -518,7 +518,31 @@ class ProgrammePage(BasePage):
         ]
     )
 
-    search_fields = BasePage.search_fields + []
+    search_fields = BasePage.search_fields + [
+        index.RelatedFields(
+            "programme_type",
+            [
+                index.RelatedFields(
+                    "programme_type",
+                    [
+                        index.SearchField("display_name", partial_match=True),
+                        index.AutocompleteField("display_name", partial_match=True),
+                    ],
+                )
+            ],
+        ),
+        index.SearchField("programme_description_subtitle", partial_match=True),
+        index.AutocompleteField("programme_description_subtitle", partial_match=True),
+        index.SearchField("pathway_blocks", partial_match=True),
+        index.AutocompleteField("pathway_blocks", partial_match=True),
+        index.RelatedFields(
+            "degree_level",
+            [
+                index.SearchField("title", partial_match=True),
+                index.AutocompleteField("title", partial_match=True),
+            ],
+        ),
+    ]
 
     api_fields = [
         APIField("name"),
