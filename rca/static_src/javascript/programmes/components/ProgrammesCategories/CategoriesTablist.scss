@@ -27,7 +27,7 @@
         &:not(:last-child) {
             margin-right: $gutter;
 
-            @include media-query(medium) {
+            @include media-query(large) {
                 margin-right: $gutter * 1.5;
             }
         }

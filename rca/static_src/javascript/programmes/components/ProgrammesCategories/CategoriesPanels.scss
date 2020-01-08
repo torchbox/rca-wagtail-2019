@@ -6,6 +6,10 @@
     &__panel {
         [aria-expanded='true'] {
             @include grid-layout();
+
+            @include media-query(medium) {
+                padding-top: $gutter * 2;
+            }
         }
     }
 }
