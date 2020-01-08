@@ -35,10 +35,8 @@ class VideoModal {
 
             // add the autoplay url to the iframe
             if (
-                this.iframe.getAttribute('src') == this.modal.dataset.embedUrl
+                this.iframe.getAttribute('src') !== this.modal.dataset.embedUrl
             ) {
-                return false;
-            } else {
                 this.iframe.setAttribute('src', this.modal.dataset.embedUrl);
             }
         });

@@ -15,6 +15,7 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
     TabbedInterface,
 )
+from wagtail.api import APIField
 from wagtail.core.blocks import CharBlock, StructBlock, URLBlock
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable
@@ -22,6 +23,7 @@ from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.embeds import embeds
 from wagtail.embeds.exceptions import EmbedException
 from wagtail.images import get_image_model_string
+from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
@@ -45,6 +47,13 @@ class DegreeLevel(models.Model):
 
     def __str__(self):
         return self.title
+
+
+def degree_level_serializer(*args, **kwargs):
+    """Import the serializer, without a circular import error."""
+    from rca.programmes.serializers import DegreeLevelSerializer
+
+    return DegreeLevelSerializer(*args, **kwargs)
 
 
 class ProgrammeType(models.Model):
@@ -509,7 +518,42 @@ class ProgrammePage(BasePage):
         ]
     )
 
-    search_fields = BasePage.search_fields + []
+    search_fields = BasePage.search_fields + [
+        index.RelatedFields(
+            "programme_type",
+            [
+                index.RelatedFields(
+                    "programme_type",
+                    [
+                        index.SearchField("display_name", partial_match=True),
+                        index.AutocompleteField("display_name", partial_match=True),
+                    ],
+                )
+            ],
+        ),
+        index.SearchField("programme_description_subtitle", partial_match=True),
+        index.AutocompleteField("programme_description_subtitle", partial_match=True),
+        index.SearchField("pathway_blocks", partial_match=True),
+        index.AutocompleteField("pathway_blocks", partial_match=True),
+        index.RelatedFields(
+            "degree_level",
+            [
+                index.SearchField("title", partial_match=True),
+                index.AutocompleteField("title", partial_match=True),
+            ],
+        ),
+    ]
+
+    api_fields = [
+        APIField("name"),
+        APIField("degree_level", serializer=degree_level_serializer()),
+        APIField("programme_description_subtitle"),
+        APIField("pathway_blocks"),
+        APIField(
+            name="hero_image_square",
+            serializer=ImageRenditionField("fill-580x580", source="hero_image"),
+        ),
+    ]
 
     def get_alumni_stories(self, programme_type_legacy_slug):
         # Use the slug as prefix to the cache key
@@ -627,14 +671,54 @@ class ProgrammeIndexPage(BasePage):
     subpage_types = ["ProgrammePage"]
     template = "patterns/pages/programmes/programme_index.html"
 
-    introduction = models.TextField(blank=True)
+    introduction = RichTextField(blank=False, features=["link"])
+    search_placeholder_text = models.TextField(blank=True, max_length=120)
 
-    content_panels = BasePage.content_panels + [FieldPanel("introduction")]
+    contact_email = models.EmailField(blank=True)
+    contact_url = models.URLField(blank=True, verbose_name="Contact URL")
+    contact_image = models.ForeignKey(
+        "images.CustomImage",
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+
+    content_panels = BasePage.content_panels + [
+        FieldPanel("introduction"),
+        FieldPanel("search_placeholder_text"),
+        MultiFieldPanel(
+            [
+                ImageChooserPanel("contact_image"),
+                FieldPanel("contact_email"),
+                FieldPanel("contact_url"),
+            ],
+            heading="Contact information",
+        ),
+    ]
 
     search_fields = BasePage.search_fields + [index.SearchField("introduction")]
 
+    def clean(self):
+        errors = defaultdict(list)
+        if not self.contact_email and not self.contact_url:
+            errors["contact_url"].append(
+                "Please add an email or URL for the contact link"
+            )
+        if self.contact_email and self.contact_url:
+            errors["contact_url"].append(
+                "Please only provide an email or a URL, not both"
+            )
+        if errors:
+            raise ValidationError(errors)
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+
+        context["title_multiline"] = self.title.replace(" ", "\n")
+
+        context["hero_colour"] = "light"
+
         subpages = self.get_children().live()
         per_page = settings.DEFAULT_PER_PAGE
         page_number = request.GET.get("page")
@@ -647,6 +731,39 @@ class ProgrammeIndexPage(BasePage):
         except EmptyPage:
             subpages = paginator.page(paginator.num_pages)
 
+        # Listing filters
+        placeholder = "The RCA offers 29 distinctive postgraduate programmes across the art and design disciplines."
+        degree_levels = [
+            {"title": i.title, "id": i.id, "description": placeholder}
+            for i in DegreeLevel.objects.all()
+        ]
+        degree_levels_title = DegreeLevel._meta.verbose_name.capitalize()
+        programme_types = [
+            {"title": i.display_name, "id": i.id, "description": placeholder}
+            for i in ProgrammeType.objects.all()
+        ]
+        programme_types_title = ProgrammeType._meta.verbose_name.capitalize()
+        # TODO schools and subject
+
+        filters = [
+            {
+                "id": "degree_level",
+                "title": degree_levels_title,
+                "items": degree_levels,
+            },
+            {
+                "id": "programme_type",
+                "title": programme_types_title,
+                "items": programme_types,
+            },
+            {
+                "id": "subject",
+                "title": "Subject",
+                "items": [{"title": "TBD", "id": "100", "description": placeholder}],
+            },
+        ]
+
+        context.update(filters=filters)
         context["subpages"] = subpages
 
         return context

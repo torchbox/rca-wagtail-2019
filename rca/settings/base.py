@@ -91,6 +91,7 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     "pattern_library",
     "rca.project_styleguide.apps.ProjectStyleguideConfig",
+    "rest_framework",
 ]
 
 
@@ -660,6 +661,8 @@ PASSWORD_REQUIRED_TEMPLATE = "patterns/pages/wagtail/password_required.html"
 # Default size of the pagination used on the front-end.
 DEFAULT_PER_PAGE = 20
 
+# https://docs.wagtail.io/en/stable/advanced_topics/api/v2/configuration.html#wagtailapi-limit-max
+WAGTAILAPI_LIMIT_MAX = 50
 
 # Styleguide
 PATTERN_LIBRARY_ENABLED = env.get("PATTERN_LIBRARY_ENABLED", "false").lower() == "true"

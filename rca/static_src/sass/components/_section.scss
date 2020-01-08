@@ -44,7 +44,6 @@
     &--stat-block {
         min-height: 100%;
         position: relative;
-        overflow: hidden;
         color: $color--white;
         background-color: $color--black-65;
 
@@ -63,6 +62,10 @@
             width: 100%;
             will-change: transform;
         }
+    }
+
+    &--opposite-notch {
+        overflow: hidden;
     }
 
     &--before-fixed {
@@ -195,11 +198,15 @@
         }
 
         &--second-col {
+            #{$root}__notch--opposite & {
+                grid-column: 2 / span 1;
+            }
+
             @include media-query(large) {
                 grid-column: 1 / span 2;
 
                 #{$root}__notch--opposite & {
-                    grid-column: 4 / span 1;
+                    grid-column: 4 / span 2;
                 }
             }
         }

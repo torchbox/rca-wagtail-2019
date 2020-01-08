@@ -1,4 +1,5 @@
 .title-area {
+    $root: &;
     padding-bottom: ($gutter * 3);
 
     @include media-query(medium) {
@@ -26,6 +27,35 @@
         @include media-query(large) {
             grid-column: 2 / span 3;
             top: 0;
+
+            #{$root}--index & {
+                grid-column: 2 / span 2;
+            }
         }
+    }
+
+    &__aside {
+        // We want to align this aside text with the top of the second line of text of the heading.
+        // However there are viewports right after the "large" width where this would cause the text to overlap.
+        // In those cases, we align the text with the bottom of the line instead, so there is no overlap.
+        $xxxl-font: map-get($large-font-sizes, xxxl);
+        $heading-line-height: $xxxl-font * ($line-height-large / 100%);
+        $heading-line-2-bottom: $heading-line-height * 2;
+        // We want the text to be aligned with the top of lowercase letters on the line, so need extra space.
+        $heading-line-2-top: $heading-line-height * 1 + 23px;
+        grid-column: 2;
+
+        @include media-query(large) {
+            grid-column: 4;
+            margin-top: $heading-line-2-bottom;
+        }
+
+        @media only screen and (min-width: 1180px) {
+            margin-top: $heading-line-2-top;
+        }
+    }
+
+    &--index {
+        padding-top: $gutter * 9;
     }
 }
