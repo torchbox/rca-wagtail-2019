@@ -9,6 +9,10 @@
 
     &:not(:last-child) {
         border-bottom: 1px solid $color--grid-line-light;
+
+        .bg--light & {
+            border-bottom-color: $color--grid-line-dark;
+        }
     }
 
     &__title {
