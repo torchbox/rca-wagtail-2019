@@ -5,6 +5,11 @@ import { programmeCategories } from '../../programmes.types';
 
 import CategoryItem from './CategoryItem';
 
+/**
+ * Tabs for all categories programmes can be filtered by.
+ * All tabs are rendered to the DOM so screen readers’ ARIA markup
+ * is correct.
+ */
 const CategoriesPanels = ({ categories, activeCategory }) => {
     return (
         <div className="categories-panels bg bg--light">
