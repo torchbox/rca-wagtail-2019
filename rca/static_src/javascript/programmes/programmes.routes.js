@@ -1,7 +1,8 @@
 const getParams = () => new URLSearchParams(window.location.search);
 const getURL = (params) => {
-    const hasParams = params.keys().length > 0;
-    return `${window.location.pathname}${hasParams ? '?' : ''}${params}`;
+    const queryString = params.toString();
+    const hasQuery = queryString !== '';
+    return `${window.location.pathname}${hasQuery ? '?' : ''}${queryString}`;
 };
 
 export const getIndexURL = () => {
