@@ -28,6 +28,7 @@ const { reducer, actions } = createSlice({
         loadResultsStart: (state) => {
             state.ui = { ...initialState.ui };
             state.ui.isLoading = true;
+            state.results = initialState.results;
         },
 
         loadResultsSuccess: (state, { payload }) => {
@@ -39,6 +40,7 @@ const { reducer, actions } = createSlice({
         loadResultsError: (state, { payload }) => {
             state.ui = { ...initialState.ui };
             state.ui.error = payload;
+            state.results = initialState.results;
         },
     },
 });
