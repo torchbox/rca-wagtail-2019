@@ -1,9 +1,9 @@
 .programmes-results {
     $root: &;
-    padding-top: 0;
+    padding-top: $gutter;
 
     @include media-query(large) {
-        padding-top: $gutter * 2;
+        padding-top: $gutter * 3;
     }
 
     &__count {
