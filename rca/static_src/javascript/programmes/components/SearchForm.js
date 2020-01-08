@@ -10,6 +10,7 @@ import {
 } from '../programmes.slice';
 
 import Icon from './Icon/Icon';
+import { pushState, getIndexURL } from '../programmes.routes';
 
 /**
  * A search form for programmes, visually only appearing as a single field.
@@ -67,7 +68,7 @@ const SearchForm = ({
                             className="search__button button body body--two"
                             type="button"
                             onClick={(e) => {
-                                e.preventDefault();
+                                pushState(getIndexURL(), e);
                                 clearQuery();
                             }}
                         >
