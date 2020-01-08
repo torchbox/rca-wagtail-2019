@@ -90,6 +90,9 @@ const ProgrammesResults = ({
                         <button
                             type="button"
                             className="button programmes-results__back body body--one"
+                            onClick={() => {
+                                window.history.back();
+                            }}
                         >
                             <Icon
                                 name="arrow"
