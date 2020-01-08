@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useLocation } from 'react-use';
 
 import { programmePageShape } from '../../programmes.types';
+import { searchProgrammes } from '../../programmes.slice';
 
 import Icon from '../Icon/Icon';
 import ProgrammeTeaser from './ProgrammeTeaser';
@@ -26,19 +27,38 @@ const getResultsCount = (count) => {
  * A list of programmes matching a search or filter.
  * The list auto-magically appears when matches are found.
  */
-const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
+const ProgrammesResults = ({
+    programmes,
+    hasActiveSearch,
+    isLoading,
+    filterProgrammes,
+}) => {
     const [activeProgramme, setActiveProgramme] = useState(null);
     const loc = useLocation();
-    const hasActiveFilter = loc.search.length > 0;
+    const params = new URLSearchParams(loc.search);
+    const category = params.get('category');
+    const value = params.get('value');
+    const hasActiveFilter = category && value;
+
+    useEffect(() => {
+        filterProgrammes({ [category]: value });
+        const mount = document.querySelector(
+            '[data-mount-programmes-explorer]',
+        );
+        if (mount) {
+            mount.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [filterProgrammes, category, value]);
 
     if (!hasActiveFilter && !hasActiveSearch) {
         return null;
     }
 
     const count = getResultsCount(programmes.length);
+    const theme = hasActiveFilter ? 'light' : 'dark';
     return (
         <>
-            <div className="programmes-results bg bg--dark section">
+            <div className={`programmes-results bg bg--${theme} section`}>
                 <div className="grid">
                     <div className="programmes-results__actions">
                         <button
@@ -55,10 +75,10 @@ const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
                         </button>
                     </div>
                     <p
-                        className="heading heading--five programmes-results__count"
+                        className="heading heading--five programmes-results__status"
                         role="alert"
                     >
-                        {count}
+                        {isLoading ? 'Loading…' : count}
                     </p>
                 </div>
                 {programmes.length === 0 ? null : (
@@ -105,14 +125,16 @@ const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
                     </div>
                 )}
             </div>
-            <div
-                className="section section--opposite-notch bg bg--dark"
-                aria-hidden="true"
-            >
-                <div className="section__notch section__notch--opposite">
-                    <div className="section__notch-fill section__notch-fill--second-col" />
+            {hasActiveFilter ? null : (
+                <div
+                    className="section section--opposite-notch bg bg--dark"
+                    aria-hidden="true"
+                >
+                    <div className="section__notch section__notch--opposite">
+                        <div className="section__notch-fill section__notch-fill--second-col" />
+                    </div>
                 </div>
-            </div>
+            )}
         </>
     );
 };
@@ -120,13 +142,20 @@ const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
 ProgrammesResults.propTypes = {
     programmes: PropTypes.arrayOf(programmePageShape).isRequired,
     hasActiveSearch: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    filterProgrammes: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ programmes }) => {
     return {
         programmes: programmes.results,
         hasActiveSearch: programmes.searchQuery.length >= 3,
+        isLoading: programmes.ui.isLoading || !programmes.ui.isLoaded,
     };
 };
 
-export default connect(mapStateToProps)(ProgrammesResults);
+const mapDispatchToProps = {
+    filterProgrammes: searchProgrammes.bind(null, null),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProgrammesResults);
