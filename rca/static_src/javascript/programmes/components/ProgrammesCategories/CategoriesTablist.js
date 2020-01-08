@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { programmeCategories } from '../../programmes.types';
+import { getCategoryURL, pushState } from '../../programmes.routes';
 
 /**
  * A list of tabs, one per category. The active tab is underlined.
@@ -17,37 +18,46 @@ const CategoriesTablist = ({ categories, activeCategory }) => {
                 Explore by
             </h2>
             <div role="tablist">
-                {categories.map((c) => (
-                    <a
-                        key={c.id}
-                        id={`${c.id}-tab`}
-                        href={`#${c.id}`}
-                        className="categories-tablist__tab body body--one"
-                        role="tab"
-                        aria-selected={c.id === activeCategory}
-                        aria-controls={c.id}
-                        onKeyDown={(e) => {
-                            const isArrowLeft = e.keyCode === 37;
-                            const isArrowRight = e.keyCode === 39;
+                {categories.map((c) => {
+                    const href = getCategoryURL(c.id);
 
-                            if (isArrowLeft && e.target.previousSibling) {
-                                window.location.hash = e.target.previousSibling.getAttribute(
-                                    'href',
-                                );
-                                e.target.previousSibling.focus();
-                            }
+                    return (
+                        <a
+                            key={c.id}
+                            id={`${c.id}-tab`}
+                            href={href}
+                            className="categories-tablist__tab body body--one"
+                            role="tab"
+                            aria-selected={c.id === activeCategory}
+                            aria-controls={c.id}
+                            onClick={pushState.bind(null, href)}
+                            onKeyDown={(e) => {
+                                const isArrowLeft = e.keyCode === 37;
+                                const isArrowRight = e.keyCode === 39;
 
-                            if (isArrowRight && e.target.nextSibling) {
-                                window.location.hash = e.target.nextSibling.getAttribute(
-                                    'href',
-                                );
-                                e.target.nextSibling.focus();
-                            }
-                        }}
-                    >
-                        {c.title}
-                    </a>
-                ))}
+                                if (isArrowLeft && e.target.previousSibling) {
+                                    pushState(
+                                        e.target.previousSibling.getAttribute(
+                                            'href',
+                                        ),
+                                    );
+                                    e.target.previousSibling.focus();
+                                }
+
+                                if (isArrowRight && e.target.nextSibling) {
+                                    pushState(
+                                        e.target.nextSibling.getAttribute(
+                                            'href',
+                                        ),
+                                    );
+                                    e.target.nextSibling.focus();
+                                }
+                            }}
+                        >
+                            {c.title}
+                        </a>
+                    );
+                })}
             </div>
         </nav>
     );

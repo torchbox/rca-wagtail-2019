@@ -4,16 +4,22 @@ import PropTypes from 'prop-types';
 import { programmeCategoryItemShape } from '../../programmes.types';
 
 import Icon from '../Icon/Icon';
+import { getCategoryItemURL, pushState } from '../../programmes.routes';
 
 /**
  * A single instance from a category, leading to a filtered view of matching programmes.
  */
 const CategoryItem = ({ category, parentId }) => {
     const { id, title, description } = category;
+    const href = getCategoryItemURL(parentId, id);
 
     return (
         <div className="category-item__wrapper grid">
-            <a href={`#test-${parentId}-${id}`} className="category-item">
+            <a
+                href={href}
+                className="category-item"
+                onClick={pushState.bind(null, href)}
+            >
                 <h3 className="heading heading--three category-item__heading">
                     <span className="category-item__heading-inner">
                         {title}
