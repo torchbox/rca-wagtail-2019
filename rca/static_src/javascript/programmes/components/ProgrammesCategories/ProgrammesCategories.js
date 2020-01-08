@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useLocation } from 'react-use';
 
@@ -13,9 +12,17 @@ import CategoriesPanels from './CategoriesPanels';
  * A list of programmes matching a search or filter.
  * The list auto-magically appears when matches are found.
  */
-const ProgrammesCategories = ({ categories, applyFilter }) => {
+const ProgrammesCategories = ({ categories }) => {
     const loc = useLocation();
-    const activeCategory = loc.hash.replace('#', '') || categories[0].id;
+    const params = new URLSearchParams(loc.search);
+    const activeCategory = params.get('category') || categories[0].id;
+    const activeItem = params.get('value');
+    const activeSearch = params.get('search');
+
+    if (activeItem || activeSearch) {
+        return null;
+    }
+
     return (
         <div>
             <div className="section section--opposite-notch bg bg--dark">
@@ -31,7 +38,6 @@ const ProgrammesCategories = ({ categories, applyFilter }) => {
             <CategoriesPanels
                 categories={categories}
                 activeCategory={activeCategory}
-                applyFilter={applyFilter}
             />
         </div>
     );
@@ -39,7 +45,6 @@ const ProgrammesCategories = ({ categories, applyFilter }) => {
 
 ProgrammesCategories.propTypes = {
     categories: programmeCategories.isRequired,
-    applyFilter: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
