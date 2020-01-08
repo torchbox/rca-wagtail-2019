@@ -19,7 +19,11 @@ const CategoriesPanels = ({ categories, activeCategory }) => {
                     hidden={c.id !== activeCategory}
                 >
                     {c.items.map((item) => (
-                        <CategoryItem key={item.id} category={item} />
+                        <CategoryItem
+                            key={item.id}
+                            category={item}
+                            parentId={c.id}
+                        />
                     ))}
                 </div>
             ))}
