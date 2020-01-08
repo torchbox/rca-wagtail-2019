@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import { programmeCategoryShape } from '../../programmes.types';
+import { programmeCategoryItemShape } from '../../programmes.types';
 
 import Icon from '../Icon/Icon';
 
 /**
  * A single instance from a category, leading to a filtered view of matching programmes.
  */
-const CategoryItem = ({ category }) => {
+const CategoryItem = ({ category, parentId }) => {
     const { id, title, description } = category;
 
     return (
@@ -31,7 +32,8 @@ const CategoryItem = ({ category }) => {
 };
 
 CategoryItem.propTypes = {
-    category: programmeCategoryShape.isRequired,
+    category: programmeCategoryItemShape.isRequired,
+    parentId: PropTypes.string.isRequired,
 };
 
 export default CategoryItem;
