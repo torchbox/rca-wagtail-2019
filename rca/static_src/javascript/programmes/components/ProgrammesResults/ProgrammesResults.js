@@ -28,7 +28,10 @@ const getResultsStatus = (
         const activeItem = activeCategory.items.find(
             (i) => `${i.id}` === categoryValue,
         );
-        return `${activeCategory.title}: ${activeItem.title}`;
+
+        if (activeItem) {
+            return `${activeCategory.title}: ${activeItem.title}`;
+        }
     }
 
     switch (count) {
