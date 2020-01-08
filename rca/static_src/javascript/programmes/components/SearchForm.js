@@ -20,13 +20,12 @@ const SearchForm = ({
     setQuery,
     clearQuery,
     startSearch,
-    hasResults,
     isLoaded,
 }) => {
     const startSearchDebounced = useCallback(debounce(startSearch, 300), [
         startSearch,
     ]);
-    const showClearButton = hasResults && isLoaded;
+    const showClearButton = searchQuery !== '' && isLoaded;
 
     return (
         <form
@@ -92,7 +91,6 @@ const SearchForm = ({
 SearchForm.propTypes = {
     label: PropTypes.string,
     searchQuery: PropTypes.string.isRequired,
-    hasResults: PropTypes.bool.isRequired,
     isLoaded: PropTypes.bool.isRequired,
     setQuery: PropTypes.func.isRequired,
     clearQuery: PropTypes.func.isRequired,
@@ -106,7 +104,6 @@ SearchForm.defaultProps = {
 const mapStateToProps = ({ programmes }) => {
     return {
         searchQuery: programmes.searchQuery,
-        hasResults: programmes.results.length > 0,
         isLoaded: programmes.ui.isLoaded,
     };
 };
