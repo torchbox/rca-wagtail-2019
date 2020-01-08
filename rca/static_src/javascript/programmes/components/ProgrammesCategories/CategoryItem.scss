@@ -1,0 +1,106 @@
+.category-item {
+    $padding-top-small: $gutter;
+    $padding-top-medium: $gutter * 2.5;
+    $padding-top-large: $gutter * 1.5;
+    $root: &;
+    display: grid;
+    grid-column: 1 / span 2;
+    grid-template-columns: 1fr;
+    padding-top: $gutter;
+    color: inherit;
+    font-family: $font--primary;
+    border-left: 1px solid $color--grid-line-dark;
+
+    // Bottom border, done with a pseudo element rather than a border,
+    // so it can overflow to the right and leave some space for people to scroll
+    // without accidentally clicking a link.
+    &::after {
+        content: '';
+        grid-column: 1 / span 2;
+        height: 1px;
+        width: calc(100% + #{$gutter});
+        background-color: $color--grid-line-dark;
+
+        @include media-query(medium) {
+            width: calc(100% + #{$gutter * 3});
+        }
+
+        @include media-query(large) {
+            grid-column: 1 / span 4;
+        }
+    }
+
+    @include media-query(medium) {
+        grid-template-columns: 2fr 3fr;
+        padding-top: $gutter * 2.5;
+    }
+
+    @include media-query(large) {
+        grid-template-columns: 1fr 1fr;
+        grid-column: 2 / span 4;
+        padding-top: $gutter * 1.5;
+        // Keep the left border aligned with the grid lines.
+        margin-left: -1px;
+    }
+
+    &__wrapper {
+        @include grid-layout();
+        position: relative;
+    }
+
+    &__heading {
+        grid-column: 1;
+        padding-bottom: $gutter * 0.75;
+        padding-right: $gutter;
+    }
+
+    &__heading-inner {
+        #{$root}:hover &,
+        #{$root}:focus & {
+            text-decoration: underline;
+        }
+    }
+
+    &__description {
+        grid-column: 1;
+        padding-top: 0;
+        padding-bottom: $gutter * 2;
+
+        @include media-query(medium) {
+            grid-column: 2;
+            padding-right: $gutter * 6;
+            padding-bottom: $gutter * 1.5;
+        }
+    }
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        top: $padding-top-small;
+        right: $gutter;
+
+        @include media-query(medium) {
+            width: 36px;
+            height: 36px;
+            top: $padding-top-medium;
+            right: $gutter * 3;
+        }
+
+        @include media-query(large) {
+            width: 46px;
+            height: 46px;
+            top: $padding-top-large;
+        }
+
+        // Arrows only have the show-hide effect for hover-friendly browsers.
+        @media (hover: hover) {
+            opacity: 0;
+
+            #{$root}:hover &,
+            #{$root}:focus & {
+                opacity: 1;
+            }
+        }
+    }
+}

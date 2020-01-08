@@ -1,13 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { useLocation } from 'react-use';
 
-import { programmePageShape } from '../../programmes.types';
+import {
+    programmePageShape,
+    programmeCategories,
+} from '../../programmes.types';
+import { searchProgrammes } from '../../programmes.slice';
 
 import Icon from '../Icon/Icon';
 import ProgrammeTeaser from './ProgrammeTeaser';
 
-const getResultsCount = (count) => {
+const getResultsStatus = (
+    isLoading,
+    categories,
+    category,
+    categoryValue,
+    count,
+) => {
+    if (isLoading) {
+        return 'Loading…';
+    }
+
+    const activeCategory = categories.find((c) => c.id === category);
+    if (activeCategory) {
+        const activeItem = activeCategory.items.find(
+            (i) => `${i.id}` === categoryValue,
+        );
+
+        if (activeItem) {
+            return `${activeCategory.title}: ${activeItem.title}`;
+        }
+    }
+
     switch (count) {
         case 0: {
             return 'No results match your search';
@@ -25,21 +51,48 @@ const getResultsCount = (count) => {
  * A list of programmes matching a search or filter.
  * The list auto-magically appears when matches are found.
  */
-const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
+const ProgrammesResults = ({
+    categories,
+    programmes,
+    hasActiveSearch,
+    isLoading,
+    filterProgrammes,
+}) => {
     const [activeProgramme, setActiveProgramme] = useState(null);
-    if (!hasActiveSearch) {
+    const loc = useLocation();
+    const params = new URLSearchParams(loc.search);
+    const category = params.get('category');
+    const value = params.get('value');
+    const hasActiveFilter = category && value;
+
+    useEffect(() => {
+        if (hasActiveFilter) {
+            filterProgrammes({ [category]: value });
+            const mount = document.querySelector(
+                '[data-mount-programmes-explorer]',
+            );
+            if (mount) {
+                mount.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }, [filterProgrammes, hasActiveFilter, category, value]);
+
+    if (!hasActiveFilter && !hasActiveSearch) {
         return null;
     }
 
-    const count = getResultsCount(programmes.length);
+    const theme = hasActiveFilter ? 'light' : 'dark';
     return (
         <>
-            <div className="programmes-results bg bg--dark section">
+            <div className={`programmes-results bg bg--${theme} section`}>
                 <div className="grid">
                     <div className="programmes-results__actions">
                         <button
                             type="button"
                             className="button programmes-results__back body body--one"
+                            onClick={() => {
+                                window.history.back();
+                            }}
                         >
                             <Icon
                                 name="arrow"
@@ -51,10 +104,16 @@ const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
                         </button>
                     </div>
                     <p
-                        className="heading heading--five programmes-results__count"
+                        className="heading heading--five programmes-results__status"
                         role="alert"
                     >
-                        {count}
+                        {getResultsStatus(
+                            isLoading,
+                            categories,
+                            category,
+                            value,
+                            programmes.length,
+                        )}
                     </p>
                 </div>
                 {programmes.length === 0 ? null : (
@@ -101,28 +160,38 @@ const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
                     </div>
                 )}
             </div>
-            <div
-                className="section section--opposite-notch bg bg--dark"
-                aria-hidden="true"
-            >
-                <div className="section__notch section__notch--opposite">
-                    <div className="section__notch-fill section__notch-fill--second-col" />
+            {hasActiveFilter ? null : (
+                <div
+                    className="section section--opposite-notch bg bg--dark"
+                    aria-hidden="true"
+                >
+                    <div className="section__notch section__notch--opposite">
+                        <div className="section__notch-fill section__notch-fill--second-col" />
+                    </div>
                 </div>
-            </div>
+            )}
         </>
     );
 };
 
 ProgrammesResults.propTypes = {
+    categories: programmeCategories.isRequired,
     programmes: PropTypes.arrayOf(programmePageShape).isRequired,
     hasActiveSearch: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    filterProgrammes: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ programmes }) => {
     return {
         programmes: programmes.results,
         hasActiveSearch: programmes.searchQuery.length >= 3,
+        isLoading: programmes.ui.isLoading || !programmes.ui.isLoaded,
     };
 };
 
-export default connect(mapStateToProps)(ProgrammesResults);
+const mapDispatchToProps = {
+    filterProgrammes: searchProgrammes.bind(null, null),
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProgrammesResults);
