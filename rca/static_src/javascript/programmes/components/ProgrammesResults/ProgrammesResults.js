@@ -41,14 +41,16 @@ const ProgrammesResults = ({
     const hasActiveFilter = category && value;
 
     useEffect(() => {
-        filterProgrammes({ [category]: value });
-        const mount = document.querySelector(
-            '[data-mount-programmes-explorer]',
-        );
-        if (mount) {
-            mount.scrollIntoView({ behavior: 'smooth' });
+        if (hasActiveFilter) {
+            filterProgrammes({ [category]: value });
+            const mount = document.querySelector(
+                '[data-mount-programmes-explorer]',
+            );
+            if (mount) {
+                mount.scrollIntoView({ behavior: 'smooth' });
+            }
         }
-    }, [filterProgrammes, category, value]);
+    }, [filterProgrammes, hasActiveFilter, category, value]);
 
     if (!hasActiveFilter && !hasActiveSearch) {
         return null;
