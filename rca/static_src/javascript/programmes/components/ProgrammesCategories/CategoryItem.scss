@@ -11,6 +11,9 @@
     font-family: $font--primary;
     border-left: 1px solid $color--grid-line-dark;
 
+    // Bottom border, done with a pseudo element rather than a border,
+    // so it can overflow to the right and leave some space for people to scroll
+    // without accidentally clicking a link.
     &::after {
         content: '';
         grid-column: 1 / span 2;
@@ -36,6 +39,8 @@
         grid-template-columns: 1fr 1fr;
         grid-column: 2 / span 4;
         padding-top: $gutter * 1.5;
+        // Keep the left border aligned with the grid lines.
+        margin-left: -1px;
     }
 
     &__wrapper {
