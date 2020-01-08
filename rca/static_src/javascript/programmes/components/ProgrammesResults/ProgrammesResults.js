@@ -30,9 +30,8 @@ const ProgrammesResults = ({ programmes, hasActiveSearch }) => {
     const [activeProgramme, setActiveProgramme] = useState(null);
     const loc = useLocation();
     const hasActiveFilter = loc.search.length > 0;
-    console.log(hasActiveFilter, hasActiveSearch);
 
-    if (!hasActiveFilter) {
+    if (!hasActiveFilter && !hasActiveSearch) {
         return null;
     }
 
