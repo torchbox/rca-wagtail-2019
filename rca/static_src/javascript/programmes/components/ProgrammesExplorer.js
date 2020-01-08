@@ -12,7 +12,7 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
         <>
             <SearchForm label={searchLabel} />
             <ProgrammesCategories categories={categories} />
-            <ProgrammesResults />
+            <ProgrammesResults categories={categories} />
         </>
     );
 };
