@@ -1,5 +1,4 @@
 .categories-panels {
-    $root: &;
     @include z-index(above-gridlines);
     position: relative;
 
