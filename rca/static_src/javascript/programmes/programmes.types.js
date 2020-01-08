@@ -42,3 +42,23 @@ export const programmePage = {
 };
 
 export const programmePageShape = PropTypes.shape(programmePage);
+
+export const programmeCategoryItem = {
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+};
+
+export const programmeCategoryItemShape = PropTypes.shape(
+    programmeCategoryItem,
+);
+
+export const programmeCategory = {
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    items: PropTypes.arrayOf(programmeCategoryItemShape).isRequired,
+};
+
+export const programmeCategoryShape = PropTypes.shape(programmeCategory);
+
+export const programmeCategories = PropTypes.arrayOf(programmeCategoryShape);
