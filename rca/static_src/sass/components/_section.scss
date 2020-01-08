@@ -101,6 +101,10 @@
             }
         }
 
+        &--hidden {
+            @include hidden();
+        }
+
         // Tab with different heading layout
         #tab-panel-apply & {
             // sass-lint:disable-line no-ids
