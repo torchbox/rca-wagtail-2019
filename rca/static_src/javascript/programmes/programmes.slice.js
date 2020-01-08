@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { getProgrammes } from './programmes.api';
+import { pushState, getSearchURL } from './programmes.routes';
 
 const initialState = {
     searchQuery: '',
@@ -28,6 +29,7 @@ const { reducer, actions } = createSlice({
         loadResultsStart: (state) => {
             state.ui = { ...initialState.ui };
             state.ui.isLoading = true;
+            state.results = initialState.results;
         },
 
         loadResultsSuccess: (state, { payload }) => {
@@ -39,6 +41,7 @@ const { reducer, actions } = createSlice({
         loadResultsError: (state, { payload }) => {
             state.ui = { ...initialState.ui };
             state.ui.error = payload;
+            state.results = initialState.results;
         },
     },
 });
@@ -52,6 +55,10 @@ export const { setSearchQuery, clearSearchQuery } = actions;
 export const searchProgrammes = (searchQuery, filters = {}) => {
     return (dispatch) => {
         dispatch(actions.loadResultsStart());
+
+        if (searchQuery) {
+            pushState(getSearchURL(searchQuery));
+        }
 
         getProgrammes({
             query: searchQuery,
