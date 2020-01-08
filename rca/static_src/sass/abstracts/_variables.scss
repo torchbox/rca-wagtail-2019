@@ -117,6 +117,9 @@ $gutter: $grid;
 // Wrappers
 $site-width: 1440px;
 
+// Offsets
+$image-offset-right: -($gutter * 3);
+
 // --------------------------------- Transitions --------------------------------------
 
 $transition: 0.25s ease-out;

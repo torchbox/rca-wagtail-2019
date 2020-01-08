@@ -4,6 +4,7 @@
     position: relative;
 
     &__panel {
+        // When not expanded, the panel is hidden via the HTML hidden attribute.
         [aria-expanded='true'] {
             @include grid-layout();
 
