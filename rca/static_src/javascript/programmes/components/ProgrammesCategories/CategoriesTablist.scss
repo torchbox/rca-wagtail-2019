@@ -4,7 +4,7 @@
     padding: $gutter;
     padding-bottom: $gutter * 0.5;
     // Allow the tablist to overflow into the next column, as much as the contact block below.
-    margin-right: -60px;
+    margin-right: $image-offset-right;
 
     @include media-query(medium) {
         padding-bottom: $gutter;

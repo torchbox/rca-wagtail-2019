@@ -77,7 +77,7 @@
         display: none;
         grid-column: 4 / span 2;
         // Matching the contact block’s so the images are aligned with its image.
-        margin-right: -60px;
+        margin-right: $image-offset-right;
 
         @include media-query(large) {
             display: block;
