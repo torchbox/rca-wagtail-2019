@@ -95,6 +95,15 @@ INSTALLED_APPS = [
 ]
 
 
+# Django REST framework settings
+# Disable basic auth to API: we have a middleware for basic auth
+# that handles all requests.
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+    ),
+}
+
 # Middleware classes
 # https://docs.djangoproject.com/en/stable/ref/settings/#middleware
 # https://docs.djangoproject.com/en/stable/topics/http/middleware/
@@ -501,7 +510,7 @@ CSRF_COOKIE_HTTPONLY = True
 
 # Force HTTPS redirect
 # https://docs.djangoproject.com/en/stable/ref/settings/#secure-ssl-redirect
-if env.get("SECURE_SSL_REDIRECT", "true").strip().lower() == "true":
+if env.get("SECURE_SSL_REDIRECT", "false").strip().lower() == "true":
     SECURE_SSL_REDIRECT = True
 
 
@@ -574,7 +583,7 @@ if "RECAPTCHA_PUBLIC_KEY" in env and "RECAPTCHA_PRIVATE_KEY" in env:
 # Basic authentication settings
 # These are settings to configure the third-party library:
 # https://gitlab.com/tmkn/django-basic-auth-ip-whitelist
-if env.get("BASIC_AUTH_ENABLED", "false").lower().strip() == "true":
+if env.get("BASIC_AUTH_ENABLED", "true").lower().strip() == "true":
     # Insert basic auth as a first middleware to be checked first, before
     # anything else.
     MIDDLEWARE.insert(0, "baipw.middleware.BasicAuthIPWhitelistMiddleware")
