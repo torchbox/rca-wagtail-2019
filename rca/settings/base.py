@@ -95,6 +95,15 @@ INSTALLED_APPS = [
 ]
 
 
+# Django REST framework settings
+# Disable basic auth to API: we have a middleware for basic auth
+# that handles all requests.
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+    )
+}
+
 # Middleware classes
 # https://docs.djangoproject.com/en/stable/ref/settings/#middleware
 # https://docs.djangoproject.com/en/stable/topics/http/middleware/
