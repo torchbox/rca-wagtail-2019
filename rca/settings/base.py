@@ -510,7 +510,7 @@ CSRF_COOKIE_HTTPONLY = True
 
 # Force HTTPS redirect
 # https://docs.djangoproject.com/en/stable/ref/settings/#secure-ssl-redirect
-if env.get("SECURE_SSL_REDIRECT", "false").strip().lower() == "true":
+if env.get("SECURE_SSL_REDIRECT", "true").strip().lower() == "true":
     SECURE_SSL_REDIRECT = True
 
 
@@ -583,7 +583,7 @@ if "RECAPTCHA_PUBLIC_KEY" in env and "RECAPTCHA_PRIVATE_KEY" in env:
 # Basic authentication settings
 # These are settings to configure the third-party library:
 # https://gitlab.com/tmkn/django-basic-auth-ip-whitelist
-if env.get("BASIC_AUTH_ENABLED", "true").lower().strip() == "true":
+if env.get("BASIC_AUTH_ENABLED", "false").lower().strip() == "true":
     # Insert basic auth as a first middleware to be checked first, before
     # anything else.
     MIDDLEWARE.insert(0, "baipw.middleware.BasicAuthIPWhitelistMiddleware")
@@ -602,6 +602,7 @@ if env.get("BASIC_AUTH_ENABLED", "true").lower().strip() == "true":
         "193.227.244.0/23",
         "2001:41c8:103::/48",
         "5.153.227.112/28",
+        "193.227.244.54",
         # RCA networks
         # Kensington
         "194.80.196.128/25",
