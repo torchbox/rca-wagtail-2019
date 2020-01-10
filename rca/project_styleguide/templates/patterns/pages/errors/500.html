@@ -1,28 +1,31 @@
-{% extends "patterns/base_page.html" %}
-{% load wagtailcore_tags wagtailsettings_tags %}
-
-{% block body_class %}app--404{% endblock %}
-
-{% block title %}Internal Server Error | Royal College of Art{% endblock %}
-
-{% block content %}
-
-<div class="page">
-
-    <header class="page__header bg bg--dark">
-        <div class="title-area grid">
-            <div class="title-area__content">
-                <div class="title-area__introduction introduction">
-                    <h3>Sorry, there seems to be an error. Please try again soon.</h3>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <div class="page__content">
-
-    </div>
-
-</div>
-
-{% endblock %}
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Server error</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      html {
+        background-color: #000;
+        font-family: sans-serif;
+        color: #fff;
+      }
+      body {
+        max-width: 40rem;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      .errorcode {
+        color: #fff;
+        margin-top: 2rem;
+        font-size: 0.8rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Something went wrong</h1>
+    <p>We&rsquo;re sorry! Our server is acting up right now. Please try again soon.</p>
+    <p class="errorcode">Internal Server Error (500)</p>
+  </body>
+</html>
