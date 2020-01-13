@@ -621,6 +621,12 @@ class ProgrammePage(BasePage):
         if not programme_settings.disable_apply_tab and not self.disable_apply_tab:
             context["tabs"].append({"title": "Apply"})
 
+        # Global fields from ProgrammePageGlobalFieldsSettings
+        programme_page_global_fields = ProgrammePageGlobalFieldsSettings.for_site(
+            request.site
+        )
+        context["programme_page_global_fields"] = programme_page_global_fields
+
         return context
 
 
@@ -666,6 +672,11 @@ class ProgrammePageGlobalFieldsSettings(BaseSetting):
         max_length=255, default="Related programmes"
     )
     # Key details
+    key_details_programme_details_title = models.CharField(
+        max_length=255,
+        verbose_name="Programme details title",
+        default="Programme details",
+    )
     key_details_next_open_day_title = models.CharField(
         max_length=255, verbose_name="Next open days title", default="Next open day"
     )
@@ -741,6 +752,7 @@ class ProgrammePageGlobalFieldsSettings(BaseSetting):
         ),
         MultiFieldPanel(
             [
+                FieldPanel("key_details_programme_details_title"),
                 FieldPanel("key_details_next_open_day_title"),
                 FieldPanel("key_details_book_or_view_all_open_days_link_title"),
                 FieldPanel("key_details_application_deadline_title"),
