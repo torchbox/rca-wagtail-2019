@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-use';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { programmeCategories } from '../programmes.types';
 
@@ -22,20 +23,40 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
     return (
         <>
             <SearchForm searchQuery={searchQuery} label={searchLabel} />
-            {showCategories ? (
-                <ProgrammesCategories
-                    categories={categories}
-                    activeCategory={activeCategory}
-                />
-            ) : null}
-            {showResults ? (
-                <ProgrammesResults
-                    categories={categories}
-                    activeCategory={activeCategory}
-                    activeValue={activeValue}
-                    searchQuery={searchQuery}
-                />
-            ) : null}
+            <TransitionGroup className="explorer-transitions">
+                {showCategories ? (
+                    <CSSTransition
+                        key={`categories${showCategories}`}
+                        classNames="categories-transition"
+                        timeout={500}
+                        in={showCategories}
+                        mountOnEnter
+                        unmountOnExit
+                    >
+                        <ProgrammesCategories
+                            categories={categories}
+                            activeCategory={activeCategory}
+                        />
+                    </CSSTransition>
+                ) : null}
+                {showResults ? (
+                    <CSSTransition
+                        key={`results${showResults}`}
+                        classNames="results-transition"
+                        timeout={500}
+                        in={showResults}
+                        mountOnEnter
+                        unmountOnExit
+                    >
+                        <ProgrammesResults
+                            categories={categories}
+                            activeCategory={activeCategory}
+                            activeValue={activeValue}
+                            searchQuery={searchQuery}
+                        />
+                    </CSSTransition>
+                ) : null}
+            </TransitionGroup>
         </>
     );
 };
