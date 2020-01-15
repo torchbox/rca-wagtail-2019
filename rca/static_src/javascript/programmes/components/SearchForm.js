@@ -3,26 +3,20 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import debounce from 'lodash.debounce';
 
-import {
-    setSearchQuery,
-    clearSearchQuery,
-    searchProgrammes,
-} from '../programmes.slice';
+import { clearResults, searchProgrammes } from '../programmes.slice';
 
 import Icon from './Icon/Icon';
-import { pushState, getIndexURL } from '../programmes.routes';
+import {
+    pushState,
+    replaceState,
+    getIndexURL,
+    getSearchURL,
+} from '../programmes.routes';
 
 /**
  * A search form for programmes, visually only appearing as a single field.
  */
-const SearchForm = ({
-    searchQuery,
-    label,
-    setQuery,
-    clearQuery,
-    startSearch,
-    isLoaded,
-}) => {
+const SearchForm = ({ searchQuery, label, startSearch, clear, isLoaded }) => {
     const startSearchDebounced = useCallback(debounce(startSearch, 300), [
         startSearch,
     ]);
@@ -56,7 +50,11 @@ const SearchForm = ({
                         onChange={(e) => {
                             const query = e.target.value;
 
-                            setQuery(query);
+                            if (query) {
+                                replaceState(getSearchURL(query));
+                            } else {
+                                replaceState(getIndexURL());
+                            }
 
                             if (query.length >= 3) {
                                 startSearchDebounced(query);
@@ -69,7 +67,7 @@ const SearchForm = ({
                             type="button"
                             onClick={(e) => {
                                 pushState(getIndexURL(), e);
-                                clearQuery();
+                                clear();
                             }}
                         >
                             Clear
@@ -90,28 +88,26 @@ const SearchForm = ({
 };
 
 SearchForm.propTypes = {
+    searchQuery: PropTypes.string,
     label: PropTypes.string,
-    searchQuery: PropTypes.string.isRequired,
     isLoaded: PropTypes.bool.isRequired,
-    setQuery: PropTypes.func.isRequired,
-    clearQuery: PropTypes.func.isRequired,
+    clear: PropTypes.func.isRequired,
     startSearch: PropTypes.func.isRequired,
 };
 
 SearchForm.defaultProps = {
+    searchQuery: '',
     label: null,
 };
 
 const mapStateToProps = ({ programmes }) => {
     return {
-        searchQuery: programmes.searchQuery,
         isLoaded: programmes.ui.isLoaded,
     };
 };
 
 const mapDispatchToProps = {
-    setQuery: setSearchQuery,
-    clearQuery: clearSearchQuery,
+    clear: clearResults,
     startSearch: searchProgrammes,
 };
 
