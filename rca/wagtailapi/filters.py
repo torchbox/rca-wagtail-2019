@@ -4,6 +4,9 @@ from wagtail.api.v2.utils import BadRequestError
 from wagtail.search.backends import get_search_backend
 from wagtail.search.backends.base import FilterFieldError, OrderByFieldError
 
+from rca.programmes.models import ProgrammePageRelatedSchoolsAndResearchPage
+from rca.schools.models import SchoolsAndResearchPage
+
 
 class DegreeLevelFilter(filters.BaseFilterBackend):
     """
@@ -16,6 +19,43 @@ class DegreeLevelFilter(filters.BaseFilterBackend):
         if pks:
             queryset = queryset.filter(degree_level__in=pks)
 
+        return queryset
+
+
+class SubjectsFilter(filters.BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        if hasattr(queryset.model, "subjects"):
+            subject_ids = request.GET.getlist("subjects", [])
+            if subject_ids:
+                queryset = queryset.model.objects.filter(
+                    subjects__subject__in=subject_ids
+                )
+
+        return queryset
+
+
+class RelatedSchoolsFilter(filters.BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        if hasattr(queryset.model, "related_schools_and_research_pages"):
+            school_ids = request.GET.getlist("related_schools_and_research_pages", [])
+            if school_ids:
+                school_pages = (
+                    SchoolsAndResearchPage.objects.all()
+                    .live()
+                    .filter(id__in=school_ids)
+                )
+                programme_pages_with_school_pages_relationship = (
+                    ProgrammePageRelatedSchoolsAndResearchPage.objects.all()
+                )
+                relationship_objects = programme_pages_with_school_pages_relationship.filter(
+                    page__in=school_pages
+                ).values_list(
+                    "id", flat=True
+                )
+
+                queryset = queryset.model.objects.filter(
+                    related_schools_and_research_pages__id__in=relationship_objects
+                )
         return queryset
 
 
