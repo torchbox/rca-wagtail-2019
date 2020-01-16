@@ -1,6 +1,17 @@
 {% load wagtailcore_tags navigation_tags %}
 
+
 <div class="hero-action-pane grid">
+
+    <div class="hero-action-pane__credit">
+    {% if page.hero_image_credit %}
+        {{ page.hero_image_credit }}
+    {% else %}
+        <i>{{ page.hero_image.title }}</i>{% if page.hero_image.creator %}, {{ page.hero_image.creator }}{% endif %}
+        {% if page.hero_image.photographer %}, Photo: {{ page.hero_image.photographer }}{% endif %}
+    {% endif %}
+    </div>
+
     {% if page.hero_cta_url %}
         <div class="hero-action-pane__cta" data-parallax data-rellax-speed="-3">
             <a href="{{ page.hero_cta_url }}" class="hero-action-pane__cta-link">
@@ -17,6 +28,7 @@
         </div>
     {% endif %}
     <div class="hero-action-pane__links" data-parallax data-rellax-speed="-1">
+
         {% audience_links as links %}
         {% for value in links %}
             {% include 'patterns/atoms/audience-nav-item/audience-nav-item--desc.html' %}

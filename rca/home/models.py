@@ -128,6 +128,12 @@ class HomePage(BasePage):
     )
     hero_colour_option = models.PositiveSmallIntegerField(choices=(HERO_COLOUR_CHOICES))
     hero_cta_url = models.URLField(blank=True)
+    hero_image_credit = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Adding specific credit text here will \
+        override the images meta data fields.",
+    )
     hero_cta_text = models.CharField(max_length=125, blank=True)
     hero_cta_sub_text = models.CharField(max_length=125, blank=True)
 
@@ -139,6 +145,7 @@ class HomePage(BasePage):
         MultiFieldPanel(
             [
                 ImageChooserPanel("hero_image"),
+                FieldPanel("hero_image_credit"),
                 FieldPanel("hero_colour_option"),
                 FieldPanel("hero_cta_url"),
                 FieldPanel("hero_cta_text"),
