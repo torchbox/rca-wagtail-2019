@@ -6,6 +6,8 @@
     padding-bottom: $gutter * 1.5;
     color: inherit;
     font-family: $font--primary;
+    // Otherwise the outline gets cropped by the neighbouring image which has a z-index.
+    outline-offset: -3px;
 
     &:not(:last-child) {
         border-bottom: 1px solid $color--grid-line-light;
