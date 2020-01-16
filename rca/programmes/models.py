@@ -65,20 +65,6 @@ def degree_level_serializer(*args, **kwargs):
     return DegreeLevelSerializer(*args, **kwargs)
 
 
-def subject_serializer(*args, **kwargs):
-    """Import the serializer, without a circular import error."""
-    from rca.programmes.serializers import RelatedSubjectSerializer
-
-    return RelatedSubjectSerializer(*args, **kwargs)
-
-
-def related_school_serializer(*args, **kwargs):
-    """Import the serializer, without a circular import error."""
-    from rca.programmes.serializers import RelatedSchoolSerializer
-
-    return RelatedSchoolSerializer(*args, **kwargs)
-
-
 class ProgrammePageSubjectPlacement(models.Model):
     page = ParentalKey("ProgrammePage", related_name="subjects")
     subject = models.ForeignKey(
@@ -594,7 +580,7 @@ class ProgrammePage(BasePage):
 
     api_fields = [
         APIField("degree_level", serializer=degree_level_serializer()),
-        APIField("subjects", serializer=subject_serializer()),
+        APIField("subjects"),
         APIField("programme_type"),
         APIField("programme_description_subtitle"),
         APIField("pathway_blocks"),
@@ -602,9 +588,7 @@ class ProgrammePage(BasePage):
             name="hero_image_square",
             serializer=ImageRenditionField("fill-580x580", source="hero_image"),
         ),
-        APIField(
-            "related_schools_and_research_pages", serializer=related_school_serializer()
-        ),
+        APIField("related_schools_and_research_pages",),
     ]
 
     def get_alumni_stories(self, programme_type_legacy_slug):
