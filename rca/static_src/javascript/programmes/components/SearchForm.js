@@ -26,13 +26,14 @@ const SearchForm = ({ searchQuery, label, startSearch, clear, isLoaded }) => {
     ]);
     const showClearButton = value !== '' && isLoaded;
 
+    // Keep search field in sync with search query, but debounce it so users can type.
     useDebounce(
         () => {
             if (value !== searchQuery) {
                 setValue(searchQuery);
             }
         },
-        1000,
+        500,
         [value, searchQuery, setValue],
     );
 
