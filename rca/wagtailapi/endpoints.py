@@ -14,8 +14,10 @@ class PagesAPIEndpoint(endpoints.PagesAPIEndpoint):
     filter_backends = [
         # NOTE that the following filters should be listed before the SearchFilter.
         filters.DegreeLevelFilter,
+        filters.SubjectsFilter,
         FieldsFilter,
         RestrictedChildOfFilter,
         RestrictedDescendantOfFilter,
+        filters.RelatedSchoolsFilter,
         filters.SearchFilter,
     ]

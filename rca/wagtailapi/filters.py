@@ -1,8 +1,11 @@
 from django.conf import settings
+from django.core.exceptions import FieldDoesNotExist
 from rest_framework import filters
 from wagtail.api.v2.utils import BadRequestError
 from wagtail.search.backends import get_search_backend
 from wagtail.search.backends.base import FilterFieldError, OrderByFieldError
+
+from rca.schools.models import SchoolsAndResearchPage
 
 
 class DegreeLevelFilter(filters.BaseFilterBackend):
@@ -17,6 +20,43 @@ class DegreeLevelFilter(filters.BaseFilterBackend):
             queryset = queryset.filter(degree_level__in=pks)
 
         return queryset
+
+
+class SubjectsFilter(filters.BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        try:
+            queryset.model._meta.get_field("subjects")
+            subject_ids = [int(id) for id in request.GET.getlist("subjects", [])]
+            if subject_ids:
+                queryset = queryset.model.objects.filter(
+                    subjects__subject_id__in=subject_ids
+                )
+            return queryset
+        except FieldDoesNotExist:
+            return queryset
+
+
+class RelatedSchoolsFilter(filters.BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        try:
+            queryset.model._meta.get_field("related_schools_and_research_pages")
+            school_ids = [
+                int(id)
+                for id in request.GET.getlist("related_schools_and_research_pages", [])
+            ]
+            if school_ids:
+                school_pages = SchoolsAndResearchPage.objects.live().filter(
+                    id__in=school_ids
+                )
+
+                queryset = queryset.model.objects.filter(
+                    related_schools_and_research_pages__page_id__in=school_pages.values_list(
+                        "pk", flat=True
+                    )
+                )
+            return queryset
+        except FieldDoesNotExist:
+            return queryset
 
 
 class SearchFilter(filters.SearchFilter):
