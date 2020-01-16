@@ -1,7 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import debounce from 'lodash.debounce';
+import { useDebounce } from 'react-use';
 
 import { clearResults, searchProgrammes } from '../programmes.slice';
 
@@ -24,6 +25,16 @@ const SearchForm = ({ searchQuery, label, startSearch, clear, isLoaded }) => {
         startSearch,
     ]);
     const showClearButton = value !== '' && isLoaded;
+
+    useDebounce(
+        () => {
+            if (value !== searchQuery) {
+                setValue(searchQuery);
+            }
+        },
+        1000,
+        [value, searchQuery, setValue],
+    );
 
     return (
         <form
