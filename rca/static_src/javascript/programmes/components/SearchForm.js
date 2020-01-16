@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import debounce from 'lodash.debounce';
@@ -13,21 +13,25 @@ import {
     getSearchURL,
 } from '../programmes.routes';
 
+const pushStateDebounced = debounce(pushState, 300);
+
 /**
  * A search form for programmes, visually only appearing as a single field.
  */
 const SearchForm = ({ searchQuery, label, startSearch, clear, isLoaded }) => {
+    const [value, setValue] = useState(searchQuery);
     const startSearchDebounced = useCallback(debounce(startSearch, 300), [
         startSearch,
     ]);
-    const showClearButton = searchQuery !== '' && isLoaded;
+    const showClearButton = value !== '' && isLoaded;
 
     return (
         <form
             onSubmit={(e) => {
                 e.preventDefault();
                 // Users can submit the search at any time even with no characters entered.
-                startSearch(searchQuery);
+                startSearch(value);
+                pushState(getSearchURL(value));
             }}
             className="bg bg--dark"
             method="get"
@@ -46,18 +50,19 @@ const SearchForm = ({ searchQuery, label, startSearch, clear, isLoaded }) => {
                         id="programmes-search-input"
                         type="search"
                         placeholder={label}
-                        value={searchQuery}
+                        value={value}
                         onChange={(e) => {
                             const query = e.target.value;
 
+                            setValue(query);
+
                             if (query) {
-                                replaceState(getSearchURL(query));
+                                if (query.length >= 3) {
+                                    startSearchDebounced(query);
+                                    pushStateDebounced(getSearchURL(query));
+                                }
                             } else {
                                 replaceState(getIndexURL());
-                            }
-
-                            if (query.length >= 3) {
-                                startSearchDebounced(query);
                             }
                         }}
                     />
@@ -67,6 +72,7 @@ const SearchForm = ({ searchQuery, label, startSearch, clear, isLoaded }) => {
                             type="button"
                             onClick={(e) => {
                                 pushState(getIndexURL(), e);
+                                setValue('');
                                 clear();
                             }}
                         >
