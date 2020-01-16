@@ -1,10 +1,10 @@
 from django.conf import settings
+from django.core.exceptions import FieldDoesNotExist
 from rest_framework import filters
 from wagtail.api.v2.utils import BadRequestError
 from wagtail.search.backends import get_search_backend
 from wagtail.search.backends.base import FilterFieldError, OrderByFieldError
 
-from rca.programmes.models import ProgrammePageRelatedSchoolsAndResearchPage
 from rca.schools.models import SchoolsAndResearchPage
 
 
@@ -24,39 +24,39 @@ class DegreeLevelFilter(filters.BaseFilterBackend):
 
 class SubjectsFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
-        if hasattr(queryset.model, "subjects"):
-            subject_ids = request.GET.getlist("subjects", [])
+        try:
+            queryset.model._meta.get_field("subjects")
+            subject_ids = [int(id) for id in request.GET.getlist("subjects", [])]
             if subject_ids:
                 queryset = queryset.model.objects.filter(
-                    subjects__subject__in=subject_ids
+                    subjects__subject_id__in=subject_ids
                 )
-
-        return queryset
+            return queryset
+        except FieldDoesNotExist:
+            return queryset
 
 
 class RelatedSchoolsFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
-        if hasattr(queryset.model, "related_schools_and_research_pages"):
-            school_ids = request.GET.getlist("related_schools_and_research_pages", [])
+        try:
+            queryset.model._meta.get_field("related_schools_and_research_pages")
+            school_ids = [
+                int(id)
+                for id in request.GET.getlist("related_schools_and_research_pages", [])
+            ]
             if school_ids:
-                school_pages = (
-                    SchoolsAndResearchPage.objects.all()
-                    .live()
-                    .filter(id__in=school_ids)
-                )
-                programme_pages_with_school_pages_relationship = (
-                    ProgrammePageRelatedSchoolsAndResearchPage.objects.all()
-                )
-                relationship_objects = programme_pages_with_school_pages_relationship.filter(
-                    page__in=school_pages
-                ).values_list(
-                    "id", flat=True
+                school_pages = SchoolsAndResearchPage.objects.live().filter(
+                    id__in=school_ids
                 )
 
                 queryset = queryset.model.objects.filter(
-                    related_schools_and_research_pages__id__in=relationship_objects
+                    related_schools_and_research_pages__page_id__in=school_pages.values_list(
+                        "pk", flat=True
+                    )
                 )
-        return queryset
+            return queryset
+        except FieldDoesNotExist:
+            return queryset
 
 
 class SearchFilter(filters.SearchFilter):

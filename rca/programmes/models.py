@@ -87,7 +87,7 @@ class ProgrammePageSubjectPlacement(models.Model):
         on_delete=models.SET_NULL,
         blank=False,
         null=True,
-        related_name="subjects",
+        related_name="programmes",
     )
     panels = [FieldPanel("subject")]
 
