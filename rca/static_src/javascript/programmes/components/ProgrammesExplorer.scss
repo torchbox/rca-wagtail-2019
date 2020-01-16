@@ -43,4 +43,12 @@
             transition: opacity 500ms ease-out;
         }
     }
+
+    &-exit {
+        display: block;
+    }
+
+    &-exit-active {
+        display: none;
+    }
 }
