@@ -6,9 +6,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("programmes", "0046_update_subject_to_support_multiple_values"),
-    ]
+    dependencies = [("programmes", "0046_update_subject_to_support_multiple_values")]
 
     operations = [
         migrations.AlterField(
@@ -20,5 +18,5 @@ class Migration(migrations.Migration):
                 related_name="programmes",
                 to="programmes.Subject",
             ),
-        ),
+        )
     ]
