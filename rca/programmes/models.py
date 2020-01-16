@@ -589,7 +589,7 @@ class ProgrammePage(BasePage):
             name="hero_image_square",
             serializer=ImageRenditionField("fill-580x580", source="hero_image"),
         ),
-        APIField("related_schools_and_research_pages",),
+        APIField("related_schools_and_research_pages"),
     ]
 
     def get_alumni_stories(self, programme_type_legacy_slug):
