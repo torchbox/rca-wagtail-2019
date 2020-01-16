@@ -10,7 +10,7 @@ const PROGRAMME_FIELDS = [
     'hero_image_square',
 ];
 
-const WAGTAIL_API_ENDPOINT = '/api/v2/pages';
+const WAGTAIL_API_ENDPOINT = '/api/v3/pages';
 
 /**
  * Generates a Wagtail API query string based on the given attributes.

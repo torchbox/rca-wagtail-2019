@@ -22,7 +22,7 @@ private_urlpatterns = [
     # Search cache-control headers are set on the view itself.
     path("search/", search_views.search, name="search"),
     # Don’t use generic cache control for API endpoints.
-    path("api/v2/", api_router.urls),
+    path("api/v3/", api_router.urls),
 ]
 
 

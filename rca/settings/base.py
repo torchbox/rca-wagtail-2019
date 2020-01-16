@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "rca.images",
     "rca.navigation",
     "rca.programmes",
+    "rca.schools",
     "rca.search",
     "rca.standardpages",
     "rca.users",
@@ -93,16 +94,6 @@ INSTALLED_APPS = [
     "rca.project_styleguide.apps.ProjectStyleguideConfig",
     "rest_framework",
 ]
-
-
-# Django REST framework settings
-# Disable basic auth to API: we have a middleware for basic auth
-# that handles all requests.
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.SessionAuthentication",
-    )
-}
 
 # Middleware classes
 # https://docs.djangoproject.com/en/stable/ref/settings/#middleware

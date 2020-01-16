@@ -32,6 +32,7 @@ from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from rca.api_content import content
 from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_TEXT_ON_DARK_IMAGE
+from rca.schools.models import SchoolsAndResearchPage
 from rca.utils.blocks import (
     AccordionBlockWithTitle,
     FeeBlock,
@@ -50,6 +51,14 @@ class DegreeLevel(models.Model):
         return self.title
 
 
+class Subject(models.Model):
+    title = models.CharField(max_length=128)
+    description = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.title
+
+
 def degree_level_serializer(*args, **kwargs):
     """Import the serializer, without a circular import error."""
     from rca.programmes.serializers import DegreeLevelSerializer
@@ -57,31 +66,33 @@ def degree_level_serializer(*args, **kwargs):
     return DegreeLevelSerializer(*args, **kwargs)
 
 
+class ProgrammePageSubjectPlacement(models.Model):
+    page = ParentalKey("ProgrammePage", related_name="subjects")
+    subject = models.ForeignKey(
+        Subject,
+        on_delete=models.SET_NULL,
+        blank=False,
+        null=True,
+        related_name="programmes",
+    )
+    panels = [FieldPanel("subject")]
+
+
 class ProgrammeType(models.Model):
     display_name = models.CharField(max_length=128)
-    slug = models.CharField(max_length=128)
-    legacy_slug = models.CharField(
-        max_length=128,
-        blank=True,
-        help_text=(
-            "This field should match the value added as a slug in the current "
-            "live RCA sites 'Programme' taxonomy, it's used for "
-            "relating content like news and events."
-        ),
-    )
+    description = models.CharField(max_length=500, blank=True)
 
     def __str__(self):
         return self.display_name
 
 
-class ProgrammePageProgrammeType(models.Model):
-    programme_type = models.ForeignKey("ProgrammeType", on_delete=models.CASCADE)
-    page = ParentalKey("ProgrammePage", related_name="programme_type")
+class ProgrammePageRelatedSchoolsAndResearchPage(RelatedPage):
+    source_page = ParentalKey(
+        "ProgrammePage", related_name="related_schools_and_research_pages"
+    )
+    panels = [PageChooserPanel("page", "schools.SchoolsAndResearchPage")]
 
-    panels = [FieldPanel("programme_type")]
-
-    def __str__(self):
-        return self.programme_type.display_name
+    api_fields = [APIField("page")]
 
 
 class ProgrammePageFeeItem(Orderable):
@@ -146,6 +157,13 @@ class ProgrammePage(BasePage):
     # Content
     degree_level = models.ForeignKey(
         DegreeLevel, on_delete=models.SET_NULL, blank=False, null=True, related_name="+"
+    )
+    programme_type = models.ForeignKey(
+        ProgrammeType,
+        on_delete=models.SET_NULL,
+        blank=False,
+        null=True,
+        related_name="+",
     )
     hero_image = models.ForeignKey(
         "images.CustomImage",
@@ -374,11 +392,10 @@ class ProgrammePage(BasePage):
     content_panels = BasePage.content_panels + [
         # Taxonomy, relationships etc
         FieldPanel("degree_level"),
-        InlinePanel(
+        InlinePanel("subjects", label="Subjects"),
+        FieldPanel(
             "programme_type",
-            label="Programme Type",
             help_text="Used to show content related to this programme page",
-            max_num=1,
         ),
         MultiFieldPanel(
             [
@@ -391,7 +408,17 @@ class ProgrammePage(BasePage):
         ),
         MultiFieldPanel(
             [InlinePanel("related_programmes", label="Related programmes")],
-            heading="Related content",
+            heading="Related Programmes",
+        ),
+        MultiFieldPanel(
+            [
+                InlinePanel(
+                    "related_schools_and_research_pages",
+                    label="Related Schools and Research Pages",
+                    max_num=1,
+                )
+            ],
+            heading="Related Schools and Research pages",
         ),
     ]
     key_details_panels = [
@@ -520,22 +547,17 @@ class ProgrammePage(BasePage):
     )
 
     search_fields = BasePage.search_fields + [
-        index.RelatedFields(
-            "programme_type",
-            [
-                index.RelatedFields(
-                    "programme_type",
-                    [
-                        index.SearchField("display_name", partial_match=True),
-                        index.AutocompleteField("display_name", partial_match=True),
-                    ],
-                )
-            ],
-        ),
         index.SearchField("programme_description_subtitle", partial_match=True),
         index.AutocompleteField("programme_description_subtitle", partial_match=True),
         index.SearchField("pathway_blocks", partial_match=True),
         index.AutocompleteField("pathway_blocks", partial_match=True),
+        index.RelatedFields(
+            "programme_type",
+            [
+                index.SearchField("display_name", partial_match=True),
+                index.AutocompleteField("display_name", partial_match=True),
+            ],
+        ),
         index.RelatedFields(
             "degree_level",
             [
@@ -543,17 +565,31 @@ class ProgrammePage(BasePage):
                 index.AutocompleteField("title", partial_match=True),
             ],
         ),
+        index.RelatedFields(
+            "subjects",
+            [
+                index.RelatedFields(
+                    "subject",
+                    [
+                        index.SearchField("title", partial_match=True),
+                        index.AutocompleteField("title", partial_match=True),
+                    ],
+                )
+            ],
+        ),
     ]
 
     api_fields = [
-        APIField("name"),
         APIField("degree_level", serializer=degree_level_serializer()),
+        APIField("subjects"),
+        APIField("programme_type"),
         APIField("programme_description_subtitle"),
         APIField("pathway_blocks"),
         APIField(
             name="hero_image_square",
             serializer=ImageRenditionField("fill-580x580", source="hero_image"),
         ),
+        APIField("related_schools_and_research_pages"),
     ]
 
     def get_alumni_stories(self, programme_type_legacy_slug):
@@ -739,34 +775,31 @@ class ProgrammeIndexPage(BasePage):
             subpages = paginator.page(paginator.num_pages)
 
         # Listing filters
-        placeholder = "The RCA offers 29 distinctive postgraduate programmes across the art and design disciplines."
-        degree_levels = [
-            {"title": i.title, "id": i.id, "description": placeholder}
-            for i in DegreeLevel.objects.all()
-        ]
-        degree_levels_title = DegreeLevel._meta.verbose_name.capitalize()
         programme_types = [
-            {"title": i.display_name, "id": i.id, "description": placeholder}
+            {"title": i.display_name, "id": i.id, "description": i.description}
             for i in ProgrammeType.objects.all()
         ]
         programme_types_title = ProgrammeType._meta.verbose_name.capitalize()
-        # TODO schools and subject
-
+        subjects = [
+            {"title": i.title, "id": i.id, "description": i.description}
+            for i in Subject.objects.all()
+        ]
+        subjects_title = Subject._meta.verbose_name.capitalize()
+        schools = [
+            {"title": i.title, "id": i.id, "description": i.description}
+            for i in SchoolsAndResearchPage.objects.live()
+        ]
         filters = [
-            {
-                "id": "degree_level",
-                "title": degree_levels_title,
-                "items": degree_levels,
-            },
             {
                 "id": "programme_type",
                 "title": programme_types_title,
                 "items": programme_types,
             },
+            {"id": "subjects", "title": subjects_title, "items": subjects},
             {
-                "id": "subject",
-                "title": "Subject",
-                "items": [{"title": "TBD", "id": "100", "description": placeholder}],
+                "id": "related_schools_and_research_pages",
+                "title": "School",
+                "items": schools,
             },
         ]
 
