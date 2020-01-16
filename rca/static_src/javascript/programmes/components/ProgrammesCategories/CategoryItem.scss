@@ -20,6 +20,7 @@
         height: 1px;
         width: calc(100% + #{$gutter});
         background-color: $color--grid-line-dark;
+        pointer-events: none;
 
         @include media-query(medium) {
             width: calc(100% + #{$gutter * 3});
@@ -28,6 +29,11 @@
         @include media-query(large) {
             grid-column: 1 / span 4;
         }
+    }
+
+    &:focus {
+        // The outline looks strange for such a big active area. especially with the bottom border hack.
+        outline: none;
     }
 
     @include media-query(medium) {
