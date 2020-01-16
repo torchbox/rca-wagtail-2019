@@ -138,6 +138,11 @@ const ProgrammesResults = ({
                                 {programmes.map((prog, i) => {
                                     const isActive =
                                         activeProgramme === prog.id || i === 0;
+
+                                    if (!prog.hero_image_square) {
+                                        return null;
+                                    }
+
                                     return (
                                         <img
                                             key={prog.id}
