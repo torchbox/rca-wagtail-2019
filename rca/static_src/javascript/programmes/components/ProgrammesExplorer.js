@@ -26,7 +26,7 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
             <TransitionGroup className="explorer-transitions">
                 {showCategories ? (
                     <CSSTransition
-                        key={`categories${showCategories}`}
+                        key="categories"
                         classNames="categories-transition"
                         timeout={500}
                         in={showCategories}
@@ -41,7 +41,7 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
                 ) : null}
                 {showResults ? (
                     <CSSTransition
-                        key={`results${showResults}`}
+                        key="results"
                         classNames="results-transition"
                         timeout={500}
                         in={showResults}
