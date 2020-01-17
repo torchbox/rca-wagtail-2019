@@ -5,9 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("home", "0006_add_link_to_slide"),
-    ]
+    dependencies = [("home", "0006_add_link_to_slide")]
 
     operations = [
         migrations.AddField(
@@ -18,5 +16,5 @@ class Migration(migrations.Migration):
                 help_text="Adding specific credit text here will         override the images meta data fields.",
                 max_length=255,
             ),
-        ),
+        )
     ]
