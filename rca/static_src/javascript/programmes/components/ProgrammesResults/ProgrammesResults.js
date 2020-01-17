@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { useLocation } from 'react-use';
 
 import {
     programmePageShape,
@@ -11,6 +10,7 @@ import { searchProgrammes } from '../../programmes.slice';
 
 import Icon from '../Icon/Icon';
 import ProgrammeTeaser from './ProgrammeTeaser';
+import { pushState, getCategoryURL } from '../../programmes.routes';
 
 const getResultsStatus = (
     isLoading,
@@ -54,20 +54,19 @@ const getResultsStatus = (
 const ProgrammesResults = ({
     categories,
     programmes,
-    hasActiveSearch,
     isLoading,
-    filterProgrammes,
+    startSearch,
+    activeCategory,
+    activeValue,
+    searchQuery,
 }) => {
     const [activeProgramme, setActiveProgramme] = useState(null);
-    const loc = useLocation();
-    const params = new URLSearchParams(loc.search);
-    const category = params.get('category');
-    const value = params.get('value');
-    const hasActiveFilter = category && value;
+    const hasActiveFilter = activeCategory && activeValue;
+    const theme = hasActiveFilter ? 'light' : 'dark';
 
     useEffect(() => {
         if (hasActiveFilter) {
-            filterProgrammes({ [category]: value });
+            startSearch(null, { [activeCategory]: activeValue });
             const mount = document.querySelector(
                 '[data-mount-programmes-explorer]',
             );
@@ -75,14 +74,17 @@ const ProgrammesResults = ({
             if (mount && mount.getBoundingClientRect().top < 0) {
                 mount.scrollIntoView({ behavior: 'smooth' });
             }
+        } else if (searchQuery) {
+            startSearch(searchQuery);
         }
-    }, [filterProgrammes, hasActiveFilter, category, value]);
+    }, [
+        startSearch,
+        hasActiveFilter,
+        activeCategory,
+        activeValue,
+        searchQuery,
+    ]);
 
-    if (!hasActiveFilter && !hasActiveSearch) {
-        return null;
-    }
-
-    const theme = hasActiveFilter ? 'light' : 'dark';
     return (
         <>
             <div className={`programmes-results bg bg--${theme} section`}>
@@ -92,7 +94,11 @@ const ProgrammesResults = ({
                             type="button"
                             className="button programmes-results__back body body--one"
                             onClick={() => {
-                                window.history.back();
+                                if (hasActiveFilter) {
+                                    pushState(getCategoryURL(activeCategory));
+                                } else {
+                                    window.history.back();
+                                }
                             }}
                         >
                             <Icon
@@ -111,8 +117,8 @@ const ProgrammesResults = ({
                         {getResultsStatus(
                             isLoading,
                             categories,
-                            category,
-                            value,
+                            activeCategory,
+                            activeValue,
                             programmes.length,
                         )}
                     </p>
@@ -183,21 +189,27 @@ const ProgrammesResults = ({
 ProgrammesResults.propTypes = {
     categories: programmeCategories.isRequired,
     programmes: PropTypes.arrayOf(programmePageShape).isRequired,
-    hasActiveSearch: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    filterProgrammes: PropTypes.func.isRequired,
+    startSearch: PropTypes.func.isRequired,
+    activeCategory: PropTypes.string.isRequired,
+    activeValue: PropTypes.string,
+    searchQuery: PropTypes.string,
+};
+
+ProgrammesResults.defaultProps = {
+    searchQuery: null,
+    activeValue: null,
 };
 
 const mapStateToProps = ({ programmes }) => {
     return {
         programmes: programmes.results,
-        hasActiveSearch: programmes.searchQuery.length >= 3,
         isLoading: programmes.ui.isLoading || !programmes.ui.isLoaded,
     };
 };
 
 const mapDispatchToProps = {
-    filterProgrammes: searchProgrammes.bind(null, null),
+    startSearch: searchProgrammes,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProgrammesResults);
