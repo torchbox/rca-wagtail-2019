@@ -71,7 +71,8 @@ const ProgrammesResults = ({
             const mount = document.querySelector(
                 '[data-mount-programmes-explorer]',
             );
-            if (mount) {
+            // If we scrolled past the top of the programmes explorer, scroll back to it.
+            if (mount && mount.getBoundingClientRect().top < 0) {
                 mount.scrollIntoView({ behavior: 'smooth' });
             }
         }
@@ -138,6 +139,11 @@ const ProgrammesResults = ({
                                 {programmes.map((prog, i) => {
                                     const isActive =
                                         activeProgramme === prog.id || i === 0;
+
+                                    if (!prog.hero_image_square) {
+                                        return null;
+                                    }
+
                                     return (
                                         <img
                                             key={prog.id}
