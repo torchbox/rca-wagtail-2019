@@ -1,10 +1,10 @@
 import logging
-import re
 from datetime import datetime
 
 import requests
 from django.conf import settings
 from django.http.request import QueryDict
+from django.utils.html import strip_tags
 from django.utils.text import Truncator
 
 """
@@ -12,12 +12,6 @@ Static methods for adding content from the live RCA api
 """
 
 logger = logging.getLogger(__name__)
-
-
-def remove_html_tags(text):
-    """Remove html tags from a string"""
-    clean = re.compile("<.*?>")
-    return re.sub(clean, "", text)
 
 
 def ranged_date_format(date, date_to):
@@ -94,11 +88,11 @@ def parse_items_to_list(data, type):
             _item["description"] = date
         # Instead of date... alumni stories will just the body/intro text
         if type == "alumni_stories_standard_page":
-            _item["description"] = data["intro"]
+            _item["description"] = Truncator(strip_tags(data["intro"])).words(25)
             _item["type"] = "Alumni story"
             date = data["meta"]["first_published_at"]
         if type == "alumni_stories_blog_page":
-            _item["description"] = Truncator(remove_html_tags(data["body"])).words(25)
+            _item["description"] = Truncator(strip_tags(data["body"])).words(25)
             _item["type"] = "Alumni story"
             date = data["meta"]["first_published_at"]
 
