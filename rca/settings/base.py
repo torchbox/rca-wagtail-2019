@@ -680,4 +680,5 @@ if "RECAPTCHA_PUBLIC_KEY" in env:
 
 # Variable for how long to cache content from the current api for
 API_CONTENT_CACHE_TIMEOUT = 60 * 60 * 24
+API_CONTENT_BASE_URL = "https://rca-verdant-staging.herokuapp.com"
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
