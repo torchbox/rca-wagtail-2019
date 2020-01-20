@@ -41,9 +41,11 @@ const SearchForm = ({ searchQuery, label, startSearch, clear, isLoaded }) => {
         <form
             onSubmit={(e) => {
                 e.preventDefault();
-                // Users can submit the search at any time even with no characters entered.
-                startSearch(value);
-                pushState(getSearchURL(value));
+                if (value) {
+                    // Users can submit the search at any time.
+                    startSearch(value);
+                    pushState(getSearchURL(value));
+                }
             }}
             className="bg bg--dark"
             method="get"
