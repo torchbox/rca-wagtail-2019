@@ -1,0 +1,32 @@
+{% extends "wagtailadmin/base.html" %}
+{% load wagtailadmin_tags static i18n %}
+{% block titletag %}{% trans "Dashboard" %}{% endblock %}
+{% block bodyclass %}homepage{% endblock %}
+
+
+{% block content %}
+    <script>
+    function clear_cache() {
+        $.get('/admin/api-cache/clear/', function (data) {
+            $("#cache_clear_button").removeClass("button-longrunning-active")
+            $("#cache_clear_button").prop("disabled", false);
+            $('.content').prepend('<div class="messages"><ul><li class="success">Success! API feed cache has been cleared</li></ul></div>')
+        });
+    }
+    </script>
+    <header class="merged nice-padding">
+        <div class="row row-flush">
+            <div class="col12">
+                <h1>Content feed settings</h1>
+            </div>
+        </div>
+    </header>
+    <div class="nice-padding">
+        <div class="help-block help-info">
+        <p>Some pages on the webstie use a content feed from the legacy API, for example, the News and Events section on the bottom of the homepage . This data is stored in the cache and automatically expires after one day.</p>
+        <p>You can manually clear the cache of the content feed here, this will cause new content to be pulled from the legacy API</p>
+        </div>
+        <button id="cache_clear_button" class="button button-longrunning" onclick="clear_cache()" id="button-arbitrarily-bigger"><span class="icon icon-spinner"></span>Clear API content feed cache</button>
+    </div>
+
+{% endblock %}
