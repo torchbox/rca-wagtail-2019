@@ -154,7 +154,7 @@ def pull_news_and_events(programme_type_slug=None):
             "order": "-date",
             "type": "rca.RcaBlogPage",
             "show_on_homepage": "true",
-            "tags_not": "alumni-story",
+            "tags_not": "Alumni_Story",
         }
     )
     if programme_type_slug:
@@ -223,7 +223,7 @@ def pull_alumni_stories(programme_type_slug=None):
             "limit": 3,
             "order": "-first_published_at",
             "type": "rca.StandardPage",
-            "tags": "alumni-story",
+            "tags": "Alumni_Story",
             "show_on_homepage": "true",
         }
     )
@@ -253,7 +253,7 @@ def pull_alumni_stories(programme_type_slug=None):
             "limit": 3,
             "order": "-first_published_at",
             "type": "rca.RcaBlogPage",
-            "tags": "alumni-story",
+            "tags": "Alumni_Story",
             "show_on_homepage": "true",
         }
     )
