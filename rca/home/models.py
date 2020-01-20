@@ -218,4 +218,7 @@ class HomePage(BasePage):
             "background_image"
         ).first()
 
+        context["news_and_events"] = self.get_news_and_events()
+        context["alumni_stories"] = self.get_alumni_stories()
+
         return context

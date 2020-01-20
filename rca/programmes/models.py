@@ -1,7 +1,6 @@
 from collections import defaultdict
 
 from django.conf import settings
-from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
@@ -30,7 +29,6 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
-from rca.api_content import content
 from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_TEXT_ON_DARK_IMAGE
 from rca.schools.models import SchoolsAndResearchPage
 from rca.utils.blocks import (
@@ -591,36 +589,6 @@ class ProgrammePage(BasePage):
         ),
         APIField("related_schools_and_research_pages"),
     ]
-
-    def get_alumni_stories(self, programme_type_legacy_slug):
-        # Use the slug as prefix to the cache key
-        cache_key = f"{programme_type_legacy_slug}_programme_latest_alumni_stories"
-        stories_data = cache.get(cache_key)
-        if stories_data is None:
-            try:
-                stories_data = content.pull_alumni_stories(programme_type_legacy_slug)
-            except content.CantPullFromRcaApi:
-                return []
-            else:
-                cache.set(cache_key, stories_data, settings.API_CONTENT_CACHE_TIMEOUT)
-        return stories_data
-
-    def get_news_and_events(self, programme_type_legacy_slug):
-        # Use the slug as prefix to the cache key
-        cache_key = f"{programme_type_legacy_slug}_programme_latest_news_and_events"
-        news_and_events_data = cache.get(cache_key)
-        if news_and_events_data is None:
-            try:
-                news_and_events_data = content.pull_news_and_events(
-                    programme_type_legacy_slug
-                )
-            except content.CantPullFromRcaApi:
-                return []
-            else:
-                cache.set(
-                    cache_key, news_and_events_data, settings.API_CONTENT_CACHE_TIMEOUT
-                )
-        return news_and_events_data
 
     def clean(self):
         errors = defaultdict(list)
