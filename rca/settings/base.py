@@ -571,6 +571,15 @@ if "RECAPTCHA_PUBLIC_KEY" in env and "RECAPTCHA_PRIVATE_KEY" in env:
     RECAPTCHA_PRIVATE_KEY = env["RECAPTCHA_PRIVATE_KEY"]
 
 
+# Django REST framework settings
+# Disable basic auth to API: we have a middleware for basic auth
+# that handles all requests.
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+    )
+}
+
 # Basic authentication settings
 # These are settings to configure the third-party library:
 # https://gitlab.com/tmkn/django-basic-auth-ip-whitelist
