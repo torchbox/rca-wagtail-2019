@@ -1,11 +1,12 @@
 import logging
-from datetime import datetime
-
 import requests
+
+from datetime import datetime
+from bs4 import BeautifulSoup
+
 from django.conf import settings
 from django.http.request import QueryDict
 from django.utils.html import strip_tags
-from django.utils.text import Truncator
 
 """
 Static methods for adding content from the live RCA api
@@ -13,6 +14,10 @@ Static methods for adding content from the live RCA api
 
 logger = logging.getLogger(__name__)
 
+
+def format_first_paragraph(input_text, tag):
+    soup = BeautifulSoup(input_text, 'html.parser')
+    return soup.find_all('h5')[0].text
 
 def ranged_date_format(date, date_to):
     """ Method to format dates that have 'to' and 'from' values """
@@ -88,11 +93,11 @@ def parse_items_to_list(data, type):
             _item["description"] = date
         # Instead of date... alumni stories will just the body/intro text
         if type == "alumni_stories_standard_page":
-            _item["description"] = Truncator(strip_tags(data["intro"])).words(25)
+            _item["description"] = data["intro"]
             _item["type"] = "Alumni story"
             date = data["meta"]["first_published_at"]
         if type == "alumni_stories_blog_page":
-            _item["description"] = Truncator(strip_tags(data["body"])).words(25)
+            _item["description"] = format_first_paragraph(data["body"], 'h5')
             _item["type"] = "Alumni story"
             date = data["meta"]["first_published_at"]
 
