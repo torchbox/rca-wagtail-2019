@@ -5,13 +5,11 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('programmes', '0048_merge_20200116_1548'),
-    ]
+    dependencies = [("programmes", "0048_merge_20200116_1548")]
 
     operations = [
         migrations.RemoveField(
-            model_name='programmepageglobalfieldssettings',
-            name='key_details_programme_details_title',
-        ),
+            model_name="programmepageglobalfieldssettings",
+            name="key_details_programme_details_title",
+        )
     ]
