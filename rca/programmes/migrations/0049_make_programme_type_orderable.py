@@ -5,13 +5,11 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("programmes", "0048_adds_contact_fields"),
-    ]
+    dependencies = [("programmes", "0048_adds_contact_fields")]
 
     operations = [
         migrations.AlterModelOptions(
-            name="programmetype", options={"ordering": ["sort_order"]},
+            name="programmetype", options={"ordering": ["sort_order"]}
         ),
         migrations.AddField(
             model_name="programmetype",
