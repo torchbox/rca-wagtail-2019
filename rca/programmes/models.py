@@ -89,6 +89,9 @@ class ProgrammeType(WagtailOrdable):
     def __str__(self):
         return self.display_name
 
+    def get_fake_slug(self):
+        return slugify(self.display_name)
+
 
 class ProgrammePageRelatedSchoolsAndResearchPage(RelatedPage):
     source_page = ParentalKey(
@@ -778,7 +781,12 @@ class ProgrammeIndexPage(BasePage):
 
         # Listing filters
         programme_types = [
-            {"title": i.display_name, "id": i.id, "description": i.description}
+            {
+                "title": i.display_name,
+                "id": i.id,
+                "description": i.description,
+                "slug": i.get_fake_slug(),
+            }
             for i in ProgrammeType.objects.all()
         ]
         programme_types_title = ProgrammeType._meta.verbose_name.capitalize()
@@ -793,7 +801,7 @@ class ProgrammeIndexPage(BasePage):
         ]
         subjects_title = Subject._meta.verbose_name.capitalize()
         schools = [
-            {"title": i.title, "id": i.id, "description": i.description}
+            {"title": i.title, "id": i.id, "description": i.description, "slug": i.slug}
             for i in SchoolsAndResearchPage.objects.live()
         ]
         filters = [
