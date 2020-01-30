@@ -108,7 +108,8 @@
         }
 
         // Arrows only have the show-hide effect for hover-friendly browsers.
-        @media (hover: hover) {
+        // Does not respect mobile browsers’ fake hover support.
+        @media (hover: hover) and #{nth(nth($breakpoints, 1), 2)} {
             opacity: 0;
 
             #{$root}:hover &,
