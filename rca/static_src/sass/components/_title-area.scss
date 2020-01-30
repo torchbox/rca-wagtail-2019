@@ -61,6 +61,14 @@
     }
 
     &--index {
-        padding-top: $gutter * 9;
+        padding-top: $gutter * 5.5;
+
+        @include media-query(medium) {
+            padding-top: $gutter * 12;
+        }
+
+        @include media-query(large) {
+            padding-top: $gutter * 9;
+        }
     }
 }
