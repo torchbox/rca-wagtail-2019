@@ -61,9 +61,12 @@
     }
 
     &__heading-inner {
-        #{$root}:hover &,
-        #{$root}:focus & {
-            text-decoration: underline;
+        @include underline-hover-target();
+        position: relative;
+
+        #{$root}:focus &,
+        #{$root}:hover & {
+            @include underline-hover-target-reset();
         }
     }
 
