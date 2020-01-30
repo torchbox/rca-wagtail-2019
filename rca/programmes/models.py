@@ -5,6 +5,7 @@ from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
+from django.utils.text import slugify
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
     FieldPanel,
@@ -28,6 +29,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
+from wagtailorderable.models import Orderable as WagtailOrdable
 
 from rca.api_content import content
 from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_TEXT_ON_DARK_IMAGE
@@ -57,6 +59,9 @@ class Subject(models.Model):
     def __str__(self):
         return self.title
 
+    def get_fake_slug(self):
+        return slugify(self.title)
+
 
 def degree_level_serializer(*args, **kwargs):
     """Import the serializer, without a circular import error."""
@@ -77,7 +82,7 @@ class ProgrammePageSubjectPlacement(models.Model):
     panels = [FieldPanel("subject")]
 
 
-class ProgrammeType(models.Model):
+class ProgrammeType(WagtailOrdable):
     display_name = models.CharField(max_length=128)
     description = models.CharField(max_length=500, blank=True)
 
@@ -710,6 +715,8 @@ class ProgrammeIndexPage(BasePage):
     introduction = RichTextField(blank=False, features=["link"])
     search_placeholder_text = models.TextField(blank=True, max_length=120)
 
+    contact_title = models.CharField(max_length=120)
+    contact_text = models.CharField(max_length=250)
     contact_email = models.EmailField(blank=True)
     contact_url = models.URLField(blank=True, verbose_name="Contact URL")
     contact_image = models.ForeignKey(
@@ -726,6 +733,8 @@ class ProgrammeIndexPage(BasePage):
         MultiFieldPanel(
             [
                 ImageChooserPanel("contact_image"),
+                FieldPanel("contact_title"),
+                FieldPanel("contact_text"),
                 FieldPanel("contact_email"),
                 FieldPanel("contact_url"),
             ],
@@ -774,8 +783,13 @@ class ProgrammeIndexPage(BasePage):
         ]
         programme_types_title = ProgrammeType._meta.verbose_name.capitalize()
         subjects = [
-            {"title": i.title, "id": i.id, "description": i.description}
-            for i in Subject.objects.all()
+            {
+                "title": i.title,
+                "id": i.id,
+                "description": i.description,
+                "slug": i.get_fake_slug(),
+            }
+            for i in Subject.objects.all().order_by("title")
         ]
         subjects_title = Subject._meta.verbose_name.capitalize()
         schools = [

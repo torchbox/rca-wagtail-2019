@@ -3,6 +3,7 @@ from wagtail.contrib.modeladmin.options import (
     ModelAdminGroup,
     modeladmin_register,
 )
+from wagtailorderable.modeladmin.mixins import OrderableMixin
 
 from rca.programmes.models import DegreeLevel, ProgrammeType, Subject
 
@@ -17,9 +18,10 @@ class SubjectModelAdmin(ModelAdmin):
     menu_icon = "tag"
 
 
-class ProgrammeTypeModelAdmin(ModelAdmin):
+class ProgrammeTypeModelAdmin(OrderableMixin, ModelAdmin):
     model = ProgrammeType
     menu_icon = "tag"
+    ordering = ["sort_order"]
 
 
 class TaxonomiesModelAdminGroup(ModelAdminGroup):
