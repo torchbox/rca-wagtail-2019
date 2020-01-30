@@ -17,7 +17,7 @@ class DegreeLevelFilter(filters.BaseFilterBackend):
         pks = request.GET.getlist("project", [])
 
         if pks:
-            queryset = queryset.filter(degree_level__in=pks)
+            queryset = queryset.filter(degree_level__in=pks).order_by("title")
 
         return queryset
 
@@ -30,7 +30,7 @@ class SubjectsFilter(filters.BaseFilterBackend):
             if subject_ids:
                 queryset = queryset.model.objects.filter(
                     subjects__subject_id__in=subject_ids
-                )
+                ).order_by("title")
             return queryset
         except FieldDoesNotExist:
             return queryset
@@ -53,7 +53,7 @@ class RelatedSchoolsFilter(filters.BaseFilterBackend):
                     related_schools_and_research_pages__page_id__in=school_pages.values_list(
                         "pk", flat=True
                     )
-                )
+                ).order_by("title")
             return queryset
         except FieldDoesNotExist:
             return queryset
