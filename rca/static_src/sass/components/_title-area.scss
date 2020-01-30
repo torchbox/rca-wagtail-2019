@@ -53,6 +53,11 @@
         @media only screen and (min-width: 1180px) {
             margin-top: $heading-line-2-top;
         }
+
+        .rich-text a {
+            // Prevent multiline CTAs from having bigger underlines than they should.
+            display: inline;
+        }
     }
 
     &--index {
