@@ -14,4 +14,4 @@ django-referrer-policy==1.0
 django-csp==3.5
 scout-apm==2.0.2
 django-basic-auth-ip-whitelist==0.2.1
-wagtailorderable==1.0.2
+wagtail-orderable==1.0.2
