@@ -794,7 +794,6 @@ class ProgrammeIndexPage(BasePage):
             }
             for i in ProgrammeType.objects.all()
         ]
-        programme_types_title = ProgrammeType._meta.verbose_name.capitalize()
         subjects = [
             {
                 "title": i.title,
@@ -804,21 +803,16 @@ class ProgrammeIndexPage(BasePage):
             }
             for i in Subject.objects.all().order_by("title")
         ]
-        subjects_title = Subject._meta.verbose_name.capitalize()
         schools = [
             {"title": i.title, "id": i.id, "description": i.description, "slug": i.slug}
             for i in SchoolsAndResearchPage.objects.live()
         ]
         filters = [
-            {
-                "id": "programme_type",
-                "title": programme_types_title,
-                "items": programme_types,
-            },
-            {"id": "subjects", "title": subjects_title, "items": subjects},
+            {"id": "subjects", "title": "Subject", "items": subjects},
+            {"id": "programme_type", "title": "Type", "items": programme_types},
             {
                 "id": "related_schools_and_research_pages",
-                "title": "School",
+                "title": "Schools & centres",
                 "items": schools,
             },
         ]
