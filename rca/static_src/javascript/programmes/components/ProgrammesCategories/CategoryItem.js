@@ -10,8 +10,8 @@ import { getCategoryItemURL, pushState } from '../../programmes.routes';
  * A single instance from a category, leading to a filtered view of matching programmes.
  */
 const CategoryItem = ({ category, parentId }) => {
-    const { id, title, description } = category;
-    const href = getCategoryItemURL(parentId, id);
+    const { id, title, description, slug } = category;
+    const href = getCategoryItemURL(parentId, id, slug);
 
     return (
         <div className="category-item__wrapper grid">
