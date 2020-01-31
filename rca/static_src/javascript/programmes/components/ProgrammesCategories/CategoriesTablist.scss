@@ -20,9 +20,11 @@
     }
 
     &__tab {
+        @include underline-hover-target();
         color: $color--dark-grey;
         font-family: $font--primary;
         outline-width: initial;
+        transition: color $transition;
 
         &:not(:last-child) {
             margin-right: $gutter;
@@ -32,9 +34,12 @@
             }
         }
 
-        &[aria-selected='true'] {
+        &[aria-selected='true'],
+        &:focus,
+        &:hover {
+            @include underline-hover-target-reset();
+            position: relative;
             color: $color--black;
-            text-decoration: underline;
         }
     }
 }
