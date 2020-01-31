@@ -17,7 +17,8 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
     const loc = useLocation();
     const params = new URLSearchParams(loc.search);
     const activeCategory = params.get('category') || categories[0].id;
-    const activeValue = params.get('value');
+    const filterValue = params.get('value') || '';
+    const activeValue = filterValue.split('-')[0];
     const hasActiveCategoryFilter = !!activeValue;
     const searchQuery = params.get('search') || '';
     const hasActiveSearch = !!searchQuery;
