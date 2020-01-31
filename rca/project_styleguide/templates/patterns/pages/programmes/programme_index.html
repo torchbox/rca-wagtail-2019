@@ -5,6 +5,11 @@
     theme-light
 {% endblock %}
 
+{% block meta_tags %}
+    <link rel="canonical" href="{{ page.get_site.root_url }}{% pageurl self %}" />
+    {{ block.super }}
+{% endblock %}
+
 {% block content %}
     <div class="page">
 
