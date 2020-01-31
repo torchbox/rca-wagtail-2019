@@ -9,6 +9,10 @@ import SearchForm from './SearchForm';
 import ProgrammesResults from './ProgrammesResults/ProgrammesResults';
 import ProgrammesCategories from './ProgrammesCategories/ProgrammesCategories';
 
+/**
+ * Programmes listing, with a search form, filters, and a results view.
+ * Programmes come from the Wagtail API (via Redux), UI state is synced in the URL.
+ */
 const ProgrammesExplorer = ({ searchLabel, categories }) => {
     const loc = useLocation();
     const params = new URLSearchParams(loc.search);
