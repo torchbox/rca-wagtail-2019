@@ -1,30 +1,18 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { useLocation } from 'react-use';
+import PropTypes from 'prop-types';
 
 import { programmeCategories } from '../../programmes.types';
-import { searchProgrammes } from '../../programmes.slice';
 
 import CategoriesTablist from './CategoriesTablist';
 import CategoriesPanels from './CategoriesPanels';
 
 /**
- * A list of programmes matching a search or filter.
- * The list auto-magically appears when matches are found.
+ * Filter-based navigation to programmes, displayed as tabs.
+ * If one of the categories is active, the corresponding tab is displayed.
  */
-const ProgrammesCategories = ({ categories }) => {
-    const loc = useLocation();
-    const params = new URLSearchParams(loc.search);
-    const activeCategory = params.get('category') || categories[0].id;
-    const activeItem = params.get('value');
-    const activeSearch = params.get('search');
-
-    if (activeItem || activeSearch) {
-        return null;
-    }
-
+const ProgrammesCategories = ({ categories, activeCategory }) => {
     return (
-        <div>
+        <div className="programmes-categories">
             <div className="section section--opposite-notch bg bg--dark">
                 <div className="section__notch section__notch--opposite">
                     <div className="section__notch-fill section__notch-fill--content-height section__notch-fill--first-col section__notch-fill--second-col@medium">
@@ -45,10 +33,7 @@ const ProgrammesCategories = ({ categories }) => {
 
 ProgrammesCategories.propTypes = {
     categories: programmeCategories.isRequired,
+    activeCategory: PropTypes.string.isRequired,
 };
 
-const mapDispatchToProps = {
-    applyFilter: searchProgrammes.bind(null, ''),
-};
-
-export default connect(null, mapDispatchToProps)(ProgrammesCategories);
+export default ProgrammesCategories;

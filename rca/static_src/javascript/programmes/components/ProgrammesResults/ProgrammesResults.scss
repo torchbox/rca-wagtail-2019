@@ -1,6 +1,7 @@
 .programmes-results {
     $root: &;
     padding-top: $gutter;
+    min-height: 60vh;
 
     @include media-query(large) {
         padding-top: $gutter * 3;

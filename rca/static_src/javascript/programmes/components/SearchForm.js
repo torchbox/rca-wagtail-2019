@@ -1,39 +1,39 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import debounce from 'lodash.debounce';
 
-import {
-    setSearchQuery,
-    clearSearchQuery,
-    searchProgrammes,
-} from '../programmes.slice';
+import { clearResults, searchProgrammes } from '../programmes.slice';
 
 import Icon from './Icon/Icon';
-import { pushState, getIndexURL } from '../programmes.routes';
+import {
+    pushState,
+    replaceState,
+    getIndexURL,
+    getSearchURL,
+} from '../programmes.routes';
+
+const replaceStateDebounced = debounce(replaceState, 300);
 
 /**
  * A search form for programmes, visually only appearing as a single field.
  */
-const SearchForm = ({
-    searchQuery,
-    label,
-    setQuery,
-    clearQuery,
-    startSearch,
-    isLoaded,
-}) => {
+const SearchForm = ({ searchQuery, label, startSearch, clear, isLoaded }) => {
+    const [value, setValue] = useState(searchQuery);
     const startSearchDebounced = useCallback(debounce(startSearch, 300), [
         startSearch,
     ]);
-    const showClearButton = searchQuery !== '' && isLoaded;
+    const showClearButton = value !== '' && isLoaded;
 
     return (
         <form
             onSubmit={(e) => {
                 e.preventDefault();
-                // Users can submit the search at any time even with no characters entered.
-                startSearch(searchQuery);
+                if (value) {
+                    // Users can submit the search at any time.
+                    startSearch(value);
+                    replaceState(getSearchURL(value));
+                }
             }}
             className="bg bg--dark"
             method="get"
@@ -52,14 +52,19 @@ const SearchForm = ({
                         id="programmes-search-input"
                         type="search"
                         placeholder={label}
-                        value={searchQuery}
+                        value={value}
                         onChange={(e) => {
                             const query = e.target.value;
 
-                            setQuery(query);
+                            setValue(query);
 
-                            if (query.length >= 3) {
-                                startSearchDebounced(query);
+                            if (query) {
+                                if (query.length >= 3) {
+                                    startSearchDebounced(query);
+                                    replaceStateDebounced(getSearchURL(query));
+                                }
+                            } else {
+                                replaceState(getIndexURL());
                             }
                         }}
                     />
@@ -69,7 +74,8 @@ const SearchForm = ({
                             type="button"
                             onClick={(e) => {
                                 pushState(getIndexURL(), e);
-                                clearQuery();
+                                setValue('');
+                                clear();
                             }}
                         >
                             Clear
@@ -90,28 +96,26 @@ const SearchForm = ({
 };
 
 SearchForm.propTypes = {
+    searchQuery: PropTypes.string,
     label: PropTypes.string,
-    searchQuery: PropTypes.string.isRequired,
     isLoaded: PropTypes.bool.isRequired,
-    setQuery: PropTypes.func.isRequired,
-    clearQuery: PropTypes.func.isRequired,
+    clear: PropTypes.func.isRequired,
     startSearch: PropTypes.func.isRequired,
 };
 
 SearchForm.defaultProps = {
+    searchQuery: '',
     label: null,
 };
 
 const mapStateToProps = ({ programmes }) => {
     return {
-        searchQuery: programmes.searchQuery,
         isLoaded: programmes.ui.isLoaded,
     };
 };
 
 const mapDispatchToProps = {
-    setQuery: setSearchQuery,
-    clearQuery: clearSearchQuery,
+    clear: clearResults,
     startSearch: searchProgrammes,
 };
 

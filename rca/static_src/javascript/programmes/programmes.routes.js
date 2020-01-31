@@ -43,3 +43,10 @@ export const pushState = (href, e = null) => {
     }
     window.history.pushState(null, null, href);
 };
+
+export const replaceState = (href, e = null) => {
+    if (e) {
+        e.preventDefault();
+    }
+    window.history.replaceState(null, null, href);
+};
