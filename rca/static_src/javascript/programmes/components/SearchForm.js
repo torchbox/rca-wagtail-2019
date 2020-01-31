@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import debounce from 'lodash.debounce';
-import { useDebounce } from 'react-use';
 
 import { clearResults, searchProgrammes } from '../programmes.slice';
 
@@ -14,7 +13,7 @@ import {
     getSearchURL,
 } from '../programmes.routes';
 
-const pushStateDebounced = debounce(pushState, 300);
+const replaceStateDebounced = debounce(replaceState, 300);
 
 /**
  * A search form for programmes, visually only appearing as a single field.
@@ -26,17 +25,6 @@ const SearchForm = ({ searchQuery, label, startSearch, clear, isLoaded }) => {
     ]);
     const showClearButton = value !== '' && isLoaded;
 
-    // Keep search field in sync with search query, but debounce it so users can type.
-    useDebounce(
-        () => {
-            if (value !== searchQuery) {
-                setValue(searchQuery);
-            }
-        },
-        500,
-        [value, searchQuery, setValue],
-    );
-
     return (
         <form
             onSubmit={(e) => {
@@ -44,7 +32,7 @@ const SearchForm = ({ searchQuery, label, startSearch, clear, isLoaded }) => {
                 if (value) {
                     // Users can submit the search at any time.
                     startSearch(value);
-                    pushState(getSearchURL(value));
+                    replaceState(getSearchURL(value));
                 }
             }}
             className="bg bg--dark"
@@ -73,7 +61,7 @@ const SearchForm = ({ searchQuery, label, startSearch, clear, isLoaded }) => {
                             if (query) {
                                 if (query.length >= 3) {
                                     startSearchDebounced(query);
-                                    pushStateDebounced(getSearchURL(query));
+                                    replaceStateDebounced(getSearchURL(query));
                                 }
                             } else {
                                 replaceState(getIndexURL());

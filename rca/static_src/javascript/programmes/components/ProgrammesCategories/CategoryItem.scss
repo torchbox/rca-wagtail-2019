@@ -61,9 +61,12 @@
     }
 
     &__heading-inner {
-        #{$root}:hover &,
-        #{$root}:focus & {
-            text-decoration: underline;
+        @include underline-hover-target();
+        position: relative;
+
+        #{$root}:focus &,
+        #{$root}:hover & {
+            @include underline-hover-target-reset();
         }
     }
 
@@ -76,6 +79,11 @@
             grid-column: 2;
             padding-right: $gutter * 6;
             padding-bottom: $gutter * 1.5;
+        }
+
+        @include media-query(large) {
+            // Align with the notch above.
+            padding-left: 7%;
         }
     }
 
@@ -100,7 +108,8 @@
         }
 
         // Arrows only have the show-hide effect for hover-friendly browsers.
-        @media (hover: hover) {
+        // Does not respect mobile browsers’ fake hover support.
+        @media (hover: hover) and #{nth(nth($breakpoints, 1), 2)} {
             opacity: 0;
 
             #{$root}:hover &,
