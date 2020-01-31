@@ -47,6 +47,7 @@ export const programmeCategoryItem = {
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
 };
 
 export const programmeCategoryItemShape = PropTypes.shape(

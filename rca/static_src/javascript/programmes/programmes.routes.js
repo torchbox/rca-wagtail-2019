@@ -21,11 +21,11 @@ export const getCategoryURL = (category) => {
     return getURL(params);
 };
 
-export const getCategoryItemURL = (category, item) => {
+export const getCategoryItemURL = (category, item, slug) => {
     const params = getParams();
     params.delete('search');
     params.set('category', category);
-    params.set('value', item);
+    params.set('value', `${item}-${slug}`);
     return getURL(params);
 };
 
