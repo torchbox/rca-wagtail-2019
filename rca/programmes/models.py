@@ -804,6 +804,11 @@ class ProgrammePageGlobalFieldsSettings(BaseSetting):
         max_length=255, default="Related programmes"
     )
     # Key details
+    key_details_programme_details_title = models.CharField(
+        max_length=255,
+        verbose_name="Programme details title",
+        default="Programme details",
+    )
     key_details_next_open_day_title = models.CharField(
         max_length=255, verbose_name="Next open days title", default="Next open day"
     )
@@ -879,6 +884,7 @@ class ProgrammePageGlobalFieldsSettings(BaseSetting):
         ),
         MultiFieldPanel(
             [
+                FieldPanel("key_details_programme_details_title"),
                 FieldPanel("key_details_next_open_day_title"),
                 FieldPanel("key_details_book_or_view_all_open_days_link_title"),
                 FieldPanel("key_details_application_deadline_title"),
