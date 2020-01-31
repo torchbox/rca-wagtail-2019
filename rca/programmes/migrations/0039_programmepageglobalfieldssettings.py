@@ -148,6 +148,6 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "Programme Page Global Fields",},
-        ),
+            options={"verbose_name": "Programme Page Global Fields"},
+        )
     ]
