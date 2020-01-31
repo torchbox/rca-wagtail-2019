@@ -16,8 +16,8 @@ class RelatedContent {
     }
 
     updateImage(e) {
-        const parentGroup = e.target.dataset.parentGroup;
-        const targetImage = e.target.dataset.targetImage;
+        const { parentGroup } = e.target.dataset;
+        const { targetImage } = e.target.dataset;
 
         // get all the images that belong to the group
         const images = document.querySelectorAll(

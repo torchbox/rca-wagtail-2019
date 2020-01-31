@@ -1,0 +1,54 @@
+.explorer-transitions {
+    position: relative;
+}
+
+.results-transition {
+    &-enter {
+        .programmes-results__actions {
+            opacity: 0;
+        }
+    }
+
+    &-enter-active {
+        .programmes-results__actions {
+            opacity: 1;
+            transition: opacity 500ms ease-out;
+        }
+    }
+
+    &-exit {
+        .programmes-results__actions {
+            opacity: 1;
+        }
+    }
+
+    &-exit-active {
+        .programmes-results__actions {
+            opacity: 0;
+            transition: opacity 500ms ease-out;
+        }
+    }
+}
+
+.categories-transition {
+    &-enter {
+        .categories-panels {
+            opacity: 0;
+        }
+    }
+
+    &-enter-active {
+        .categories-panels {
+            opacity: 1;
+            transition: opacity 500ms ease-out;
+        }
+    }
+
+    &-exit {
+        display: block;
+    }
+
+    &-exit-active {
+        display: none;
+    }
+}

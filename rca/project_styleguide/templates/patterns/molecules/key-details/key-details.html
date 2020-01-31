@@ -4,7 +4,7 @@
     </div>
     {% if page.programme_details_credits or page.programme_details_time or page.programme_details_duration %}
         <div class="key-details__section key-details__section--details">
-            <h4 class="body body--two key-details__sub-heading">Programme details</h4>
+            <h4 class="body body--two key-details__sub-heading">{{ programme_page_global_field.key_details_programme_details_title }}</h4>
             <ul class="key-details__list">
                 {% if page.programme_details_credits and page.programme_details_credits_suffix %}
                 <li class="key-details__list-item">
@@ -26,12 +26,12 @@
     {% endif %}
     {% if page.next_open_day_date %}
         <div class="key-details__section key-details__section--open-days">
-            <h4 class="body body--two key-details__sub-heading">Next open day</h4>
+            <h4 class="body body--two key-details__sub-heading">{{ programme_page_global_fields.key_details_next_open_day_title }}</h4>
             <ul class="key-details__list">
                 <li class="key-details__list-item">{{ page.next_open_day_date }}</li>
                 <li class="key-details__list-item">
                     <a class="key-details__link link link--secondary link--link" href="{{ page.link_to_open_days }}">
-                        <span class="link__label">Book or view all open days</span>
+                        <span class="link__label">{{ programme_page_global_fields.key_details_book_or_view_all_open_days_link_title }}</span>
                         <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
                     </a>
                 </li>
@@ -40,7 +40,7 @@
     {% endif %}
     {% if page.application_deadline %}
         <div class="key-details__section key-details__section--deadline">
-            <h4 class="body body--two key-details__sub-heading">Application deadline</h4>
+            <h4 class="body body--two key-details__sub-heading">{{ programme_page_global_fields.key_details_application_deadline_title }}</h4>
             <ul class="key-details__list">
                 {% if page.application_deadline_options == '1' %}
                     <li class="key-details__list-item">{{ page.get_application_deadline_options_display }}</li>
@@ -53,7 +53,7 @@
     {% endif %}
     {% if page.career_opportunities.all %}
         <div class="key-details__section key-details__section--career">
-            <h4 class="body body--two key-details__sub-heading">Career opportunities</h4>
+            <h4 class="body body--two key-details__sub-heading">{{ programme_page_global_fields.key_details_career_opportunities_title }}</h4>
             <ul class="key-details__list">
             {% for detail in page.career_opportunities.all %}
                 <li class="key-details__list-item">{{ detail.text }}</li>
