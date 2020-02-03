@@ -23,5 +23,6 @@ class PagesAPIEndpoint(endpoints.PagesAPIEndpoint):
         filters.SearchFilter,
     ]
 
+
 class NavigationEndpoint(endpoints.BaseAPIEndpoint):
     model = NavigationSettings
