@@ -11,7 +11,7 @@
     {% include "patterns/molecules/hero/hero.html" with modifier="programme" %}
 
     <div class="page page--overlap" typeof="schema:Course">
-        
+
         <meta property="schema:provider" content="Royal College of Art" />
 
         <div class="page__notch grid">
@@ -26,7 +26,7 @@
                     </nav>
                     {% if page.title %}
                         <h1 property="schema:name" class="title-area__header heading heading--display-two">{{ page.title }}</h1>
-                    {% endif %} 
+                    {% endif %}
                     {% if page.degree_level %}
                         <p class="title-area__introduction introduction">{{ page.degree_level }}</p>
                     {% endif %}
@@ -62,7 +62,7 @@
                 <section class="section bg bg--light">
                     <div class="contact-anchor" id="contact"></div>
                     <div class="section__container">
-                        {% include "patterns/organisms/contact/contact.html" with heading='Ask a question' text="Get in touch if you’d like to find out more or have any questions." image=page.contact_image %}
+                        {% include "patterns/organisms/contact/contact.html" with heading=programme_page_global_fields.contact_title text=programme_page_global_fields.contact_text image=page.contact_image %}
                     </div>
                 </section>
 
@@ -71,12 +71,11 @@
                         <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
                     <div class="section__container">
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title="More opportunities to study at the RCA" %}
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=programme_page_global_fields.related_content_title %}
                     </div>
                 </section>
 
             </div>
         </div>
     </div>
-
 {% endblock %}

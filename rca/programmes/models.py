@@ -15,6 +15,7 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
     TabbedInterface,
 )
+from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.core.blocks import CharBlock, StructBlock, URLBlock
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable
@@ -620,6 +621,12 @@ class ProgrammePage(BasePage):
         if not programme_settings.disable_apply_tab and not self.disable_apply_tab:
             context["tabs"].append({"title": "Apply"})
 
+        # Global fields from ProgrammePageGlobalFieldsSettings
+        programme_page_global_fields = ProgrammePageGlobalFieldsSettings.for_site(
+            request.site
+        )
+        context["programme_page_global_fields"] = programme_page_global_fields
+
         return context
 
 
@@ -650,3 +657,123 @@ class ProgrammeIndexPage(BasePage):
         context["subpages"] = subpages
 
         return context
+
+
+@register_setting
+class ProgrammePageGlobalFieldsSettings(BaseSetting):
+    class Meta:
+        verbose_name = "Programme Page Global Fields"
+
+    # Content
+    related_content_title = models.CharField(
+        max_length=255, default="More opportunities to study at the RCA"
+    )
+    related_content_subtitle = models.CharField(
+        max_length=255, default="Related programmes"
+    )
+    # Key details
+    key_details_next_open_day_title = models.CharField(
+        max_length=255, verbose_name="Next open days title", default="Next open day"
+    )
+    key_details_book_or_view_all_open_days_link_title = models.CharField(
+        max_length=255,
+        verbose_name="Book open days title",
+        default="Book or view all open days",
+    )
+    key_details_application_deadline_title = models.CharField(
+        max_length=255,
+        verbose_name="Application deadline title",
+        default="Application deadline",
+    )
+    key_details_career_opportunities_title = models.CharField(
+        max_length=255,
+        verbose_name="Opportunities title",
+        default="Career opportunities",
+    )
+    key_details_pathways_information_link_title = models.CharField(
+        max_length=255,
+        verbose_name="Pathways information link title",
+        default="Visit the Curriculum tab for more information.",
+    )
+    # Overview
+    alumni_summary_text = models.CharField(
+        max_length=255,
+        default=(
+            "Our alumni form an international network of creative "
+            "individuals who have shaped and continue to shape the world."
+        ),
+    )
+    contact_title = models.CharField(max_length=255, default="Ask a question")
+    contact_text = models.CharField(
+        max_length=255,
+        default="Get in touch if you’d like to find out more or have any questions.",
+    )
+    # Curriculum
+    pathways_summary = models.CharField(
+        max_length=255,
+        default="When applying for this programme, you select one of these specialist pathways.",
+    )
+    # Requirements
+    requirements_introduction = models.CharField(
+        max_length=255, default="What you need to know before you apply"
+    )
+    # Fees
+    scholarships_section_title = models.CharField(
+        max_length=255, default="Scholarships"
+    )
+    # Apply
+    apply_title = models.CharField(max_length=255, default="Start your application")
+    apply_image_title = models.CharField(
+        max_length=255, default="Change your life and be here in 2020"
+    )
+    apply_image_sub_title = models.CharField(
+        max_length=255,
+        default="The royal college of art welcomes applicants from all over the world",
+    )
+    apply_cta_link = models.CharField(
+        max_length=255, default="https://applications.rca.ac.uk/"
+    )
+    apply_cta_text = models.CharField(
+        max_length=255, default="Visit our applications portal to get started"
+    )
+
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("related_content_title"),
+                FieldPanel("related_content_subtitle"),
+            ],
+            "Related Content",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("key_details_next_open_day_title"),
+                FieldPanel("key_details_book_or_view_all_open_days_link_title"),
+                FieldPanel("key_details_application_deadline_title"),
+                FieldPanel("key_details_career_opportunities_title"),
+                FieldPanel("key_details_pathways_information_link_title"),
+            ],
+            "Key Details",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("alumni_summary_text"),
+                FieldPanel("contact_title"),
+                FieldPanel("contact_text"),
+            ],
+            "Overview",
+        ),
+        MultiFieldPanel([FieldPanel("pathways_summary")], "Curriculum"),
+        MultiFieldPanel([FieldPanel("requirements_introduction")], "Requirements"),
+        MultiFieldPanel([FieldPanel("scholarships_section_title")], "Fees"),
+        MultiFieldPanel(
+            [
+                FieldPanel("apply_title"),
+                FieldPanel("apply_image_title"),
+                FieldPanel("apply_image_sub_title"),
+                FieldPanel("apply_cta_link"),
+                FieldPanel("apply_cta_text"),
+            ],
+            "Apply",
+        ),
+    ]
