@@ -674,6 +674,10 @@ DEFAULT_PER_PAGE = 20
 # https://docs.wagtail.io/en/stable/advanced_topics/api/v2/configuration.html#wagtailapi-limit-max
 WAGTAILAPI_LIMIT_MAX = 50
 
+# https://docs.wagtail.io/en/stable/advanced_topics/api/v2/configuration.html#wagtailapi-limit-max
+WAGTAILAPI_LIMIT_MAX = 50
+
+
 # Styleguide
 PATTERN_LIBRARY_ENABLED = env.get("PATTERN_LIBRARY_ENABLED", "false").lower() == "true"
 PATTERN_LIBRARY_TEMPLATE_DIR = os.path.join(
