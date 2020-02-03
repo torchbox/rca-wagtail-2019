@@ -6,6 +6,7 @@ from wagtail.api.v2.filters import (
 )
 from wagtail.api.v2.serializers import PageSerializer
 
+from rca.navigation.models import NavigationSettings
 from rca.wagtailapi import filters
 
 
@@ -21,3 +22,6 @@ class PagesAPIEndpoint(endpoints.PagesAPIEndpoint):
         filters.SubjectsFilter,
         filters.SearchFilter,
     ]
+
+class NavigationEndpoint(endpoints.BaseAPIEndpoint):
+    model = NavigationSettings
