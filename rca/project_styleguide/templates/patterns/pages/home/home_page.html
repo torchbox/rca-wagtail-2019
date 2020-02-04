@@ -45,7 +45,6 @@
                     </section>
 
             {% endif %}
-            {% comment %}
                 {% if alumni_stories %}
                     <section class="section section--top-space bg bg--dark">
 
@@ -61,14 +60,13 @@
 
                     </section>
                 {% endif %}
-            {% endcomment %}
 
             {% if stats_block %}
                 {% include "patterns/organisms/stat-block/stat-block.html" %}
             {% endif %}
 
             {% if partnerships_block %}
-                <section class="section section--end section--top-space bg bg--dark">
+                <section class="section section--end section--top-space bg bg--light">
                     <div class="partnerships">
                         <div class="partnerships__header grid">
                             <h2 class="partnerships__heading heading heading--one">{{ partnerships_block.title }}</h2>
@@ -82,7 +80,6 @@
                 </section>
             {% endif %}
 
-            {% comment %}
                 <section class="section section--end bg bg--dark">
 
                     <div class="section__notch section__notch--top">
@@ -104,7 +101,6 @@
                     </div>
 
                 </section>
-            {% endcomment %}
 
         </div>
 
