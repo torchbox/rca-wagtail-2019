@@ -1,6 +1,7 @@
 import Rellax from 'rellax';
 
 function parallax() {
+    // eslint-disable-next-line no-new
     new Rellax('[data-parallax]', {
         speed: -3,
         center: false,

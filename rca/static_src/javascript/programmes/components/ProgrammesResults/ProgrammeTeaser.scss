@@ -1,0 +1,87 @@
+.programme-teaser {
+    $root: &;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: $gutter;
+    padding-bottom: $gutter * 1.5;
+    color: inherit;
+    font-family: $font--primary;
+    // Otherwise the outline gets cropped by the neighbouring image which has a z-index.
+    outline-offset: -3px;
+
+    &:not(:last-child) {
+        border-bottom: 1px solid $color--grid-line-light;
+
+        .bg--light & {
+            border-bottom-color: $color--grid-line-dark;
+        }
+    }
+
+    &__title {
+        grid-column: 1 / span 2;
+        margin-bottom: $gutter;
+
+        @include media-query(medium) {
+            grid-column: 1 / span 1;
+            margin-bottom: 0;
+        }
+    }
+
+    &__heading {
+        margin-bottom: $gutter * 0.5;
+        padding-right: $gutter * 1.5;
+    }
+
+    &__heading-inner {
+        @include underline-hover-target();
+        position: relative;
+
+        #{$root}:focus &,
+        #{$root}:hover & {
+            @include underline-hover-target-reset();
+        }
+    }
+
+    &__degree {
+        display: block;
+
+        .bg--dark & {
+            color: $color--meta-darkbg;
+        }
+
+        .bg--light & {
+            color: $color--meta-lightbg;
+        }
+    }
+
+    &__info {
+        grid-column: 1 / span 2;
+        padding-right: $gutter * 1.5;
+
+        @include media-query(medium) {
+            grid-column: 2 / span 1;
+        }
+    }
+
+    &__description {
+        margin-bottom: 0;
+    }
+
+    &__pathways-heading {
+        @include font-size(xxxs);
+        margin-top: $gutter;
+        margin-bottom: 0;
+
+        .bg--dark & {
+            color: $color--meta-darkbg;
+        }
+
+        .bg--light & {
+            color: $color--meta-lightbg;
+        }
+    }
+
+    &__pathways-text {
+        @include font-size(xxxs);
+    }
+}

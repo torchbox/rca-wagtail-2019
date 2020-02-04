@@ -83,6 +83,13 @@
 @import 'components/title-area';
 @import 'components/video-modal';
 
+@import '../javascript/programmes/components/ProgrammesResults/ProgrammesResults';
+@import '../javascript/programmes/components/ProgrammesResults/ProgrammeTeaser';
+@import '../javascript/programmes/components/ProgrammesCategories/CategoriesTablist';
+@import '../javascript/programmes/components/ProgrammesCategories/CategoriesPanels';
+@import '../javascript/programmes/components/ProgrammesCategories/CategoryItem';
+@import '../javascript/programmes/components/ProgrammesExplorer';
+
 // Layout
 @import 'layout/footer';
 @import 'layout/header';

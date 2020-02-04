@@ -1,7 +1,7 @@
 import LazyLoad from 'vanilla-lazyload';
 
 function LazyLoadImages() {
-    var lazyLoadInstance = new LazyLoad({
+    const lazyLoadInstance = new LazyLoad({
         elements_selector: '.lazyload',
     });
 

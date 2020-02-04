@@ -35,9 +35,7 @@ class HeaderDrawer {
                 this.body.classList.contains('nav-open') &&
                 e.target.classList.contains('header__menus')
             ) {
-                if (this.desktopSearch === document.activeElement) {
-                    return;
-                } else {
+                if (this.desktopSearch !== document.activeElement) {
                     this.close();
                 }
             }

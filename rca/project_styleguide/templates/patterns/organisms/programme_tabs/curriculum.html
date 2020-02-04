@@ -7,7 +7,7 @@
         <div class="section__notch-fill section__notch-fill--second-col"></div>
     </div>
     {% if page.pathway_blocks %}
-        {% include "patterns/molecules/heading-with-text/heading-with-text.html" with heading='Pathways' subheading=" When applying for this programme, you select one of these specialist pathways." body=false %}
+        {% include "patterns/molecules/heading-with-text/heading-with-text.html" with heading='Pathways' subheading=programme_page_global_fields.pathways_summary  body=false %}
         {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.pathway_blocks title=false %}
     {% endif %}
 
