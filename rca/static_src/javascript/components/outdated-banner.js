@@ -1,7 +1,7 @@
 function outdatedBanner() {
     document
         .querySelector('[data-outdated-banner-close]')
-        .addEventListener('click', function() {
+        .addEventListener('click', () => {
             document.querySelector('[data-outdated-banner]').style.display =
                 'none';
         });

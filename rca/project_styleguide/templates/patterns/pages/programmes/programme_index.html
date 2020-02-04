@@ -1,43 +1,49 @@
 {% extends "patterns/base_page.html" %}
 {% load wagtailcore_tags wagtailimages_tags navigation_tags static %}
 
+{% block header_class %}
+    theme-light
+{% endblock %}
+
+{% block meta_tags %}
+    <link rel="canonical" href="{{ page.get_site.root_url }}{% pageurl self %}" />
+    {{ block.super }}
+{% endblock %}
+
 {% block content %}
-<div class="wrapper">
-    <section class="section section--main">
-        <h1>{{ page.title }}</h1>
-        <p>{{ page.introduction }}</p>
+    <div class="page">
 
-        {% if subpages %}
-            <div class="grid">
-                {% if subpages.object_list.exists %}
-                    {% for subpage in subpages.object_list.specific %}
-                        <a class="card-with-image" href="{% pageurl subpage %}">
-                            {% if subpage.listing_image %}
-                                {% image subpage.listing_image fill-450x300 %}
-                            {% else %}
-                                {# Add a default image here #}
-                            {% endif %}
-                            <div class="card">
-                                <h3 role="listitem">
-                                    {% firstof subpage.listing_title subpage.title %}
-                                </h3>
-                                {% if subpage.listing_summary or subpage.introduction %}
-                                    <p>{% firstof subpage.listing_summary subpage.introduction %}</p>
-                                {% endif %}
-                            </div>
-                        </a>
-                    {% endfor %}
-                {% else %}
-                    {# no items on this page #}
-                {% endif %}
+        <header class="page__header bg bg--dark">
+            <div class="title-area title-area--index grid">
+                <div class="title-area__content">
+                    <h1 class="title-area__header heading heading--display-two">{{ page.title }}</h1>
+                </div>
+                <div class="title-area__aside body--one">
+                    {{ page.introduction|richtext }}
+                </div>
             </div>
+        </header>
+        <div class="page__content">
+            <div data-mount-programmes-explorer data-search-label="{{ page.search_placeholder_text }}"></div>
 
-            {% include "patterns/molecules/pagination/pagination.html" with paginator_page=subpages %}
+            <section class="section section--top-space-large bg bg--light">
+                <div class="section__container">
+                    {% include "patterns/organisms/contact/contact.html" with heading=page.contact_title text=page.contact_text image=page.contact_image %}
+                </div>
+            </section>
 
-        {% else %}
-            {# no items on any page #}
-        {% endif %}
+            {% comment %}Bottom notch below the contact block, matching programme_detail.html{% endcomment %}
+            <section class="section bg bg--dark" aria-hidden="true">
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+            </section>
 
-    </section>
-</div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    {{ filters|json_script:"programme-listing-filters" }}
+    <script src="{% static 'js/programmes.js' %}"></script>
 {% endblock %}

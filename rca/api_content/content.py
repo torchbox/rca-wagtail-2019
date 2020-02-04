@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.http.request import QueryDict
+from django.utils.html import strip_tags
 
 """
 Static methods for adding content from the live RCA api

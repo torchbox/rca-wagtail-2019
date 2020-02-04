@@ -10,9 +10,14 @@
   },
   "browserslist": [
     "> 0.5% and last 2 versions",
-    "ie 11",
+    "Firefox ESR",
+    "ios_saf 11",
+    "ios_saf 12",
+    "safari 11",
+    "not ie 11",
     "not ie_mob 11",
-    "Firefox ESR"
+    "not android 4.4.3-4.4.4",
+    "not OperaMini all"
   ],
   "sasslintConfig": ".sass-lint.yml",
   "jest": {
@@ -23,6 +28,18 @@
     ],
     "collectCoverageFrom": [
       "**/rca/static_src/javascript/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/rca/static_src/javascript/tests"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "setupFiles": [
+      "<rootDir>/rca/static_src/javascript/tests/environment.js"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/rca/static_src/javascript/tests/setupTests.js"
     ]
   },
   "config": {
@@ -53,7 +70,7 @@
     "compile:watch": "npm run compile:dev -- --watch",
     "//[ Linting & formatting ]//": "",
     "lint:css": "sass-lint $npm_package_config_src_css'/**/**' -v -q",
-    "lint:js": "eslint $npm_package_config_src_js",
+    "lint:js": "eslint .",
     "lint:format": "prettier --check '**/?(.)*.{md,css,scss,js,json,yaml,yml}'",
     "lint": "npm-run-all -p lint:format lint:js lint:css",
     "format": "prettier --write '**/?(.)*.{md,css,scss,js,json,yaml,yml}'",
@@ -79,43 +96,58 @@
     "start": "npm-run-all clean create_dirs sync compile:dev -p compile:watch watch serve --silent"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/preset-react": "^7.0.0",
-    "autoprefixer": "^9.6.1",
-    "babel-eslint": "^10.0.2",
-    "babel-jest": "^24.8.0",
+    "@babel/core": "^7.7.7",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
+    "autoprefixer": "^9.7.3",
+    "babel-eslint": "^10.0.3",
+    "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.23.6",
-    "css-loader": "^3.2.0",
-    "eslint": "^6.1.0",
-    "eslint-config-prettier": "^5.1.0",
-    "eslint-plugin-react": "^7.14.3",
-    "jest": "^24.8.0",
+    "css-loader": "^3.4.1",
+    "cssnano": "^4.1.10",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.4.3",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-config-torchbox": "^0.3.2",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "jest": "^24.9.0",
     "mini-css-extract-plugin": "^0.7.0",
     "npm-run-all": "^4.1.5",
-    "onchange": "^6.0.0",
+    "onchange": "^6.1.0",
     "postcss-custom-properties": "^9.0.2",
     "postcss-loader": "^3.0.0",
-    "prettier": "^1.18.2",
-    "sass": "^1.22.9",
+    "prettier": "^1.19.1",
+    "sass": "^1.24.2",
     "sass-lint": "^1.12.1",
-    "sass-loader": "^7.1.0",
-    "webpack": "^4.39.1",
-    "webpack-cli": "^3.3.6"
+    "sass-loader": "^7.3.1",
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.10"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.4.4",
-    "@glidejs/glide": "^3.2.3",
+    "@babel/polyfill": "^7.7.0",
+    "@glidejs/glide": "^3.4.1",
+    "@reduxjs/toolkit": "^1.1.0",
     "headroom.js": "^0.9.4",
-    "hoverintent": "^2.2.0",
+    "hoverintent": "^2.2.1",
     "intersection-observer": "^0.7.0",
     "js-cookie": "^2.2.1",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "lodash.debounce": "^4.0.8",
+    "prop-types": "^15.7.2",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-redux": "^7.1.3",
+    "react-transition-group": "^4.3.0",
+    "react-use": "^13.14.0",
     "rellax": "^1.10.0",
-    "scrollama": "^2.0.1",
-    "vanilla-lazyload": "^12.0.0"
+    "scrollama": "^2.1.4",
+    "vanilla-lazyload": "^12.4.0"
   }
 }
