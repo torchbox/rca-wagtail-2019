@@ -23,8 +23,7 @@ import './components/parallax';
 
 import '../sass/main.scss';
 
-document.addEventListener('DOMContentLoaded', () => {
-    /* eslint-disable no-new, no-restricted-syntax */
+document.addEventListener('DOMContentLoaded', function() {
     const cookie = document.querySelector(CookieWarning.selector());
     new CookieWarning(cookie);
 

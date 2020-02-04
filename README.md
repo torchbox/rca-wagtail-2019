@@ -135,8 +135,16 @@ fab production-shell
 Please be aware executing those commands is a possibly destructive action. Make
 sure to take backups.
 
-If you want to push your local media files.
+If you want to push your local database to the servers.
+
+```bash
+fab push-staging-data
+fab push-production-data
+```
+
+Or if you want to push your local media files.
 
 ```bash
 fab push-staging-media
+fab push-production-media
 ```

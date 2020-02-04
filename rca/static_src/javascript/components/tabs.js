@@ -1,5 +1,3 @@
-/* eslint-disable no-restricted-syntax */
-
 class Tabs {
     static selector() {
         return '.js-tab-item';
@@ -16,17 +14,16 @@ class Tabs {
     }
 
     getURLHash() {
-        // eslint-disable-next-line prefer-destructuring
         this.path = window.location.href.split('#')[1];
     }
 
     removeActive() {
-        for (const tab of this.allTabs) {
+        for (let tab of this.allTabs) {
             tab.classList.remove('active');
             tab.setAttribute('aria-selected', 'false');
         }
 
-        for (const tabPanel of this.allTabPanels) {
+        for (let tabPanel of this.allTabPanels) {
             tabPanel.classList.add('tabs__panel--hidden');
             tabPanel.setAttribute('aria-selected', 'false');
         }
@@ -40,12 +37,11 @@ class Tabs {
     setActiveHashTab() {
         this.getURLHash();
 
-        for (const tabPane of this.allTabPanels) {
+        for (let tabPane of this.allTabPanels) {
             // Check if path hash matchs any of the tab ids
-            // eslint-disable-next-line eqeqeq
             if (this.path == tabPane.id) {
-                const targetPanel = document.getElementById(this.path);
-                const targetTab = document.querySelector(
+                var targetPanel = document.getElementById(this.path);
+                var targetTab = document.querySelector(
                     `[data-tab='${this.path}']`,
                 );
                 this.removeActive();
@@ -60,8 +56,8 @@ class Tabs {
     bindEvents() {
         this.tab.addEventListener('click', (e) => {
             e.preventDefault();
-            const panelID = e.target.dataset.tab;
-            const targetPanel = document.getElementById(panelID);
+            var panelID = e.target.dataset.tab;
+            var targetPanel = document.getElementById(panelID);
             window.location.hash = panelID;
             this.removeActive();
             e.target.setAttribute('aria-selected', 'true');

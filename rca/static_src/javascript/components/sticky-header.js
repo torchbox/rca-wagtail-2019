@@ -1,10 +1,22 @@
-import Headroom from 'headroom.js';
+import headRoom from 'headroom.js';
+
+function StickyHeader() {
+    var intViewportHeight = window.innerHeight;
+    var offSetAdjuster = 60;
+    var customOffet = intViewportHeight + offSetAdjuster;
+
+    if (document.body.contains(document.querySelector('.app--homepage'))) {
+        StartStickyHeader(customOffet);
+    } else {
+        StartStickyHeader(200);
+    }
+}
 
 function StartStickyHeader(offset) {
-    const elem = document.body;
+    let elem = document.body;
 
-    const options = {
-        offset,
+    let options = {
+        offset: offset,
         tolerance: {
             up: 10,
             down: 20,
@@ -27,20 +39,8 @@ function StartStickyHeader(offset) {
         },
     };
 
-    const headroom = new Headroom(elem, options);
+    let headroom = new headRoom(elem, options);
     headroom.init();
-}
-
-function StickyHeader() {
-    const intViewportHeight = window.innerHeight;
-    const offSetAdjuster = 60;
-    const customOffet = intViewportHeight + offSetAdjuster;
-
-    if (document.body.contains(document.querySelector('.app--homepage'))) {
-        StartStickyHeader(customOffet);
-    } else {
-        StartStickyHeader(200);
-    }
 }
 
 StickyHeader();

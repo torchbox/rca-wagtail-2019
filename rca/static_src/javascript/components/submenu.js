@@ -35,6 +35,7 @@ class SubMenu {
                 },
                 () => {
                     // hover out
+                    return;
                 },
             ).options(this.hoverintentOptions);
         });
@@ -48,6 +49,7 @@ class SubMenu {
             },
             () => {
                 // mouseout
+                return;
             },
         ).options(this.hoverintentOptions);
     }
@@ -78,7 +80,6 @@ class SubMenu {
 
     // add active link styles
     activateMenu(navItem) {
-        // eslint-disable-next-line radix
         const itemLevel = parseInt(navItem.dataset.navLevel);
         const childDrawer = `[data-nav-level-${itemLevel + 1}]`;
         const grandChildDrawer = `[data-nav-level-${itemLevel + 2}]`;

@@ -13,8 +13,6 @@
         background: $color--primary;
         color: $color--white;
         border: 0;
-        appearance: none;
-        border-radius: 0;
         width: 100%;
         border-bottom: 1px solid $color--white;
         padding: ($gutter / 2) ($gutter * 1.5) ($gutter / 2) ($gutter / 2);
@@ -25,45 +23,20 @@
     }
 
     &__button {
-        $field-height: 46px;
-        height: $field-height;
         position: absolute;
         right: 0;
-        padding-top: 15px;
-        padding-bottom: 15px;
-        color: $color--white;
-        font-family: $font--secondary;
-        cursor: pointer;
+        top: 15px;
 
         &:focus {
             outline: 0;
         }
 
         @include media-query(medium) {
-            padding-top: 18px;
-            padding-bottom: 18px;
+            top: 18px;
         }
     }
 
     &__icon {
-        fill: currentColor;
-        width: 12px;
-        height: 8px;
-    }
-
-    // The programmes’ search form has a slightly different layout.
-    &--programmes {
-        grid-column: 1 / span 2;
-        max-width: 460px;
-        padding-bottom: $gutter * 1.5;
-
-        @include media-query(medium) {
-            padding-bottom: $gutter * 4.5;
-        }
-
-        @include media-query(large) {
-            grid-column: 2 / span 2;
-            padding-bottom: $gutter;
-        }
+        fill: $color--white;
     }
 }

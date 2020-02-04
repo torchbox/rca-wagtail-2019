@@ -29,13 +29,12 @@ class ClassWatcher {
     }
 
     mutationCallback = (mutationsList) => {
-        // eslint-disable-next-line no-restricted-syntax
-        for (const mutation of mutationsList) {
+        for (let mutation of mutationsList) {
             if (
                 mutation.type === 'attributes' &&
                 mutation.attributeName === 'class'
             ) {
-                const currentClassState = mutation.target.classList.contains(
+                let currentClassState = mutation.target.classList.contains(
                     this.classToWatch,
                 );
                 if (this.lastClassState !== currentClassState) {

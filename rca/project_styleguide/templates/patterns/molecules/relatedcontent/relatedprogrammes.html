@@ -10,7 +10,7 @@
         {% for related_section in related_sections %}
             <div class="related-content__group" data-group="{{ forloop.counter }}">
                 <div class="section__row grid">
-                    <h3 class="related-content__subheading heading heading--five">{{ programme_page_global_fields.related_content_subtitle }}</h3>
+                    <h3 class="related-content__subheading heading heading--five">{{ related_section.title }}</h3>
                 </div>
 
                 <div class="grid">

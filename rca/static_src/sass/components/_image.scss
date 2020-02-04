@@ -12,7 +12,7 @@
         margin-right: -$gutter;
 
         @include media-query(medium) {
-            margin-right: $image-offset-right;
+            margin-right: -($gutter * 3);
         }
 
         @include media-query(large) {

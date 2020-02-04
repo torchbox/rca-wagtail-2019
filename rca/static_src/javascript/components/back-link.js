@@ -14,14 +14,12 @@ class BackLink {
         this.levelThreeMenus = document.querySelectorAll(
             '[data-nav-level-3] ul',
         );
-        // eslint-disable-next-line no-new
         new ClassWatcher(
             this.levelTwo,
             this.activeClass,
             this.onClassAdd.bind(this),
             this.onClassRemove.bind(this),
         );
-        // eslint-disable-next-line no-new
         new ClassWatcher(
             this.levelThree,
             this.activeClass,
@@ -56,7 +54,9 @@ class BackLink {
         this.node.classList.add(this.activeClass);
     }
 
-    onClassRemove() {}
+    onClassRemove() {
+        return;
+    }
 }
 
 export default BackLink;

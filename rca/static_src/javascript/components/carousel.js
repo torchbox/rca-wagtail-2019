@@ -38,7 +38,6 @@ class Carousel {
 
     // sets aria-hidden on inactive slides
     updateAriaRoles() {
-        // eslint-disable-next-line no-restricted-syntax
         for (const slide of this.node.querySelectorAll(
             '.glide__slide:not(.glide__slide--active)',
         )) {
@@ -62,9 +61,8 @@ class Carousel {
 
     // Update the live region that announces the next slide.
     updateLiveRegion() {
-        this.node.querySelector(
-            '[data-liveregion]',
-        ).textContent = `Item ${this.slideshow.index} of ${this.slideTotal}`;
+        this.node.querySelector('[data-liveregion]').textContent =
+            'Item ' + this.slideshow.index + ' of ' + this.slideTotal;
     }
 }
 

@@ -1,13 +1,13 @@
 <div class="pathways">
     <h3 class="pathways__heading heading heading--five">Pathways</h3>
-    <p>{{ programme_page_global_fields.pathways_summary }}</p>
+    <p>When applying for this programme, you select one of these specialist pathways.</p>
     <div class="pathways__items">
         {% for path in pathways %}
             {% include "patterns/atoms/pathway-item/pathway-item.html" with path=path.value %}
         {% endfor %}
     </div>
     <a class="pathways__view-all link link--secondary link--link body body--two" href="?tab=yes#curriculum">
-        <span class="link__label">{{ programme_page_global_fields.key_details_pathways_information_link_title }}</span>
+        <span class="link__label">Visit the Curriculum tab for more information.</span>
         <svg class="link__icon" width="12" height="8"><use xlink:href="#arrow"></use></svg>
     </a>
 </div>

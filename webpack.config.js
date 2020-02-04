@@ -1,6 +1,6 @@
 const path = require('path');
+const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
-const cssnano = require('cssnano');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssCustomProperties = require('postcss-custom-properties');
 const sass = require('sass');
@@ -10,8 +10,7 @@ const projectRoot = 'rca';
 const options = {
     entry: {
         // nultiple entries can be added here
-        main: `./${projectRoot}/static_src/javascript/main.entry.js`,
-        programmes: `./${projectRoot}/static_src/javascript/programmes/programmes.entry.js`,
+        main: `./${projectRoot}/static_src/javascript/main.js`,
     },
     output: {
         path: path.resolve(`./${projectRoot}/static_compiled/`),
@@ -51,9 +50,6 @@ const options = {
                             plugins: () => [
                                 autoprefixer(),
                                 postcssCustomProperties(),
-                                cssnano({
-                                    preset: 'default',
-                                }),
                             ],
                         },
                     },
@@ -71,7 +67,7 @@ const options = {
     },
     // externals are loaded via base.html and not included in the webpack bundle.
     externals: {
-        // gettext: 'gettext',
+        //gettext: 'gettext',
     },
 };
 
@@ -83,7 +79,7 @@ const options = {
 if (process.env.NODE_ENV === 'development') {
     // Create JS source maps in the dev mode
     // See https://webpack.js.org/configuration/devtool/ for more options
-    options.devtool = 'inline-source-map';
+    options['devtool'] = 'inline-source-map';
 }
 
 module.exports = options;

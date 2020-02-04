@@ -11,12 +11,11 @@ class Sticky {
     }
 
     apply_sticky_class(sticky) {
-        const currentOffset = sticky.getBoundingClientRect().top;
-        // eslint-disable-next-line radix
-        const stickyOffset = parseInt(
+        var currentOffset = sticky.getBoundingClientRect().top;
+        var stickyOffset = parseInt(
             getComputedStyle(sticky).top.replace('px', this.offset),
         );
-        const isStuck = currentOffset <= stickyOffset;
+        var isStuck = currentOffset <= stickyOffset;
 
         if (
             (CSS.supports && CSS.supports('position', 'sticky')) ||

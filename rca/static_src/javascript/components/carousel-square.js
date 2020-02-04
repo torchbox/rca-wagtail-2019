@@ -25,7 +25,6 @@ class SquareCarousel {
 
         window.addEventListener('resize', () => {
             // Check window width has actually changed and it's not just iOS triggering a resize event on scroll
-            // eslint-disable-next-line eqeqeq
             if (window.innerWidth != this.windowWidth) {
                 // Update the window width for next time
                 this.windowWidth = window.innerWidth;
@@ -37,15 +36,15 @@ class SquareCarousel {
 
     getMargins() {
         // Get outer grid size for peek value
-        const leftEdge = document.querySelector('[data-left-edge]');
+        var leftEdge = document.querySelector('[data-left-edge]');
         this.leftEdgeCoords = leftEdge.getBoundingClientRect();
 
         // Set custom css property to give padding on slide
-        const gridSelector = document.querySelector('[data-grid-center]');
+        var gridSelector = document.querySelector('[data-grid-center]');
         this.gridWidth = gridSelector.getBoundingClientRect();
         document.documentElement.style.setProperty(
             '--grid-width',
-            `${this.gridWidth.width}px`,
+            this.gridWidth.width + 'px',
         );
     }
 
@@ -85,7 +84,6 @@ class SquareCarousel {
 
     // sets aria-hidden on inactive slides
     updateAriaRoles() {
-        // eslint-disable-next-line no-restricted-syntax
         for (const slide of this.node.querySelectorAll(
             '.glide__slide:not(.glide__slide--active)',
         )) {
@@ -109,9 +107,8 @@ class SquareCarousel {
 
     // Update the live region that announces the next slide.
     updateLiveRegion() {
-        this.node.querySelector(
-            '[data-liveregion]',
-        ).textContent = `Item ${this.slideshow.index} of ${this.slideTotal}`;
+        this.node.querySelector('[data-liveregion]').textContent =
+            'Item ' + this.slideshow.index + ' of ' + this.slideTotal;
     }
 }
 

@@ -66,7 +66,7 @@
         position: relative;
         grid-column: 4 / span 2;
         margin-top: -($gutter * 14);
-        margin-right: $image-offset-right;
+        margin-right: -($gutter * 3);
         display: none;
 
         #{$root}__image {
