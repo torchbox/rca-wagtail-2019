@@ -5,7 +5,6 @@ import requests
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.http.request import QueryDict
-from django.utils.html import strip_tags
 
 """
 Static methods for adding content from the live RCA api
@@ -16,7 +15,12 @@ logger = logging.getLogger(__name__)
 
 def format_first_paragraph(input_text, tag):
     soup = BeautifulSoup(input_text, "html.parser")
-    return soup.find_all("h5")[0].text
+    text = soup.find_all("5")
+    if text:
+        return text[0].text
+    else:
+        text = ""
+    return text
 
 
 def ranged_date_format(date, date_to):
@@ -86,7 +90,7 @@ def parse_items_to_list(data, type):
                 _item["formatted_date"] = ranged_date_format(date, date_to)
             _item["type"] = type
         if date:
-            date = date[:10]  # just the year,month and day.... TODO cleaner
+            date = date[:10]  # just the year,month and day
             _item["original_date"] = date
             date = datetime.strptime(date, "%Y-%m-%d")
             date = date.strftime("%-d %B %Y")
