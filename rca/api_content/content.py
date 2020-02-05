@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 def format_first_paragraph(input_text, tag):
     soup = BeautifulSoup(input_text, "html.parser")
-    text = soup.find_all("5")
+    text = soup.find_all("h5")
     if text:
         return text[0].text
     else:
