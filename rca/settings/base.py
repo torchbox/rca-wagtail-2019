@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "rca.images",
     "rca.navigation",
     "rca.programmes",
+    "rca.schools",
     "rca.search",
     "rca.standardpages",
     "rca.users",
@@ -78,6 +79,7 @@ INSTALLED_APPS = [
     "wagtail.search",
     "wagtail.admin",
     "wagtail.core",
+    "wagtailorderable",
     "modelcluster",
     "taggit",
     "captcha",
@@ -91,8 +93,8 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     "pattern_library",
     "rca.project_styleguide.apps.ProjectStyleguideConfig",
+    "rest_framework",
 ]
-
 
 # Middleware classes
 # https://docs.djangoproject.com/en/stable/ref/settings/#middleware
@@ -570,6 +572,15 @@ if "RECAPTCHA_PUBLIC_KEY" in env and "RECAPTCHA_PRIVATE_KEY" in env:
     RECAPTCHA_PRIVATE_KEY = env["RECAPTCHA_PRIVATE_KEY"]
 
 
+# Django REST framework settings
+# Disable basic auth to API: we have a middleware for basic auth
+# that handles all requests.
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+    )
+}
+
 # Basic authentication settings
 # These are settings to configure the third-party library:
 # https://gitlab.com/tmkn/django-basic-auth-ip-whitelist
@@ -592,6 +603,7 @@ if env.get("BASIC_AUTH_ENABLED", "false").lower().strip() == "true":
         "193.227.244.0/23",
         "2001:41c8:103::/48",
         "5.153.227.112/28",
+        "193.227.244.54",
         # RCA networks
         # Kensington
         "194.80.196.128/25",
@@ -659,6 +671,12 @@ PASSWORD_REQUIRED_TEMPLATE = "patterns/pages/wagtail/password_required.html"
 # Default size of the pagination used on the front-end.
 DEFAULT_PER_PAGE = 20
 
+# https://docs.wagtail.io/en/stable/advanced_topics/api/v2/configuration.html#wagtailapi-limit-max
+WAGTAILAPI_LIMIT_MAX = 50
+
+# https://docs.wagtail.io/en/stable/advanced_topics/api/v2/configuration.html#wagtailapi-limit-max
+WAGTAILAPI_LIMIT_MAX = 50
+
 
 # Styleguide
 PATTERN_LIBRARY_ENABLED = env.get("PATTERN_LIBRARY_ENABLED", "false").lower() == "true"
@@ -678,6 +696,8 @@ if "RECAPTCHA_PUBLIC_KEY" in env:
     RECAPTCHA_PUBLIC_KEY = env["RECAPTCHA_PUBLIC_KEY"]
     NOCAPTCHA = True
 
+
 # Variable for how long to cache content from the current api for
-API_CONTENT_CACHE_TIMEOUT = 60 * 60 * 24
+API_CONTENT_CACHE_TIMEOUT = int(env.get("API_CONTENT_CACHE_TIMEOUT", 60 * 60 * 24))
+API_CONTENT_BASE_URL = "https://rca-verdant-staging.herokuapp.com"
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
