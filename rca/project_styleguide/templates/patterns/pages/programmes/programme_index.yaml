@@ -1,26 +1,28 @@
 context:
+  hero_colour: light
   page:
-    title: Test listing page
-    introduction: Test intro for this listing page
+    title: Our Programmes
+    introduction: <p>Experience the world&apos;s <a href="https://www.example.com/">number one</a> university for art and design.</p>
+    search_placeholder_text: What are you interested in?
   subpages:
     object_list:
       exists: true
       specific:
         - title: Test sub page
-          listing_image: fake
+          hero_image: fake
           listing_summary: Listing summary for the sub page
         - title: Another test sub page
-          listing_image: fake
+          hero_image: fake
           listing_summary: Listing summary for the sub page
         - title: Another test sub page
-          listing_image: fake
+          hero_image: fake
           listing_summary: Listing summary for the sub page
 
 tags:
   pageurl:
     subpage:
-      raw: '#'
+      raw: '/subpage'
   image:
-    subpage.listing_image fill-450x300:
+    subpage.hero_image fill-500x500:
       raw: |
-        <img src="http://via.placeholder.com/450x300" width="450" height="300" alt="Some alt">
+        <img src="http://via.placeholder.com/500x500" width="500" height="500" alt="">

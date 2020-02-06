@@ -13,7 +13,11 @@
             <a href="mailto:{{ page.contact_email }}" class="contact__link link link--secondary link--link body body--two" target="_blank" rel="noopener">
             <span class="link__label">Email us at<br>{{ page.contact_email }}</span>
             <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
-        </a>
+            </a>
+        {% else %}
+            <a href="{{ page.contact_url }}" class="contact__link link link--secondary link--link body body--two" rel="noopener">
+            <span class="link__label">Register your interest with us here</span>
+            </a>
         {% endif %}
         <div class="contact__image-container">
             {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=580 height=607 image_large=image_large classList='contact__image' %}

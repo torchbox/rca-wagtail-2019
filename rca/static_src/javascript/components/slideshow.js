@@ -25,6 +25,7 @@ class Slideshow {
 
         window.addEventListener('resize', () => {
             // Check window width has actually changed and it's not just iOS triggering a resize event on scroll
+            // eslint-disable-next-line eqeqeq
             if (window.innerWidth != this.windowWidth) {
                 // Update the window width for next time
                 this.windowWidth = window.innerWidth;
@@ -35,7 +36,7 @@ class Slideshow {
     }
 
     getMargins() {
-        var leftEdge = document.querySelector('[data-left-edge]');
+        const leftEdge = document.querySelector('[data-left-edge]');
         this.leftEdgeCoords = leftEdge.getBoundingClientRect();
     }
 
@@ -76,6 +77,7 @@ class Slideshow {
 
     // sets aria-hidden on inactive slides
     updateAriaRoles() {
+        // eslint-disable-next-line no-restricted-syntax
         for (const slide of this.node.querySelectorAll(
             '.glide__slide:not(.glide__slide--active)',
         )) {
@@ -99,8 +101,9 @@ class Slideshow {
 
     // Update the live region that announces the next slide.
     updateLiveRegion() {
-        this.node.querySelector('[data-liveregion]').textContent =
-            'Item ' + this.slideshow.index + ' of ' + this.slideTotal;
+        this.node.querySelector(
+            '[data-liveregion]',
+        ).textContent = `Item ${this.slideshow.index} of ${this.slideTotal}`;
     }
 }
 
