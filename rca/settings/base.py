@@ -699,5 +699,6 @@ if "RECAPTCHA_PUBLIC_KEY" in env:
 
 # Variable for how long to cache content from the current api for
 API_CONTENT_CACHE_TIMEOUT = int(env.get("API_CONTENT_CACHE_TIMEOUT", 60 * 60 * 24))
-API_CONTENT_BASE_URL = "https://rca-verdant-staging.herokuapp.com"
+# The API url to pull content from for the homepage, see rca.api_contne.contne
+API_CONTENT_BASE_URL = env.get("API_CONTENT_BASE_URL", "https://rca.ac.uk")
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
