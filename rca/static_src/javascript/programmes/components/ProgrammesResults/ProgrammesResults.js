@@ -90,25 +90,29 @@ const ProgrammesResults = ({
             <div className={`programmes-results bg bg--${theme} section`}>
                 <div className="grid">
                     <div className="programmes-results__actions">
-                        <button
-                            type="button"
-                            className="button programmes-results__back body body--one"
-                            onClick={() => {
-                                if (hasActiveFilter) {
-                                    pushState(getCategoryURL(activeCategory));
-                                } else {
-                                    window.history.back();
-                                }
-                            }}
-                        >
-                            <Icon
-                                name="arrow"
-                                className="programmes-results__back__icon"
-                            />
-                            <span className="programmes-results__back__text">
-                                Back
-                            </span>
-                        </button>
+                        {hasActiveFilter ? (
+                            <button
+                                type="button"
+                                className="button programmes-results__back body body--one"
+                                onClick={() => {
+                                    if (hasActiveFilter) {
+                                        pushState(
+                                            getCategoryURL(activeCategory),
+                                        );
+                                    } else {
+                                        window.history.back();
+                                    }
+                                }}
+                            >
+                                <Icon
+                                    name="arrow"
+                                    className="programmes-results__back__icon"
+                                />
+                                <span className="programmes-results__back__text">
+                                    Back
+                                </span>
+                            </button>
+                        ) : null}
                     </div>
                     <p
                         className="heading heading--five programmes-results__status"
