@@ -1,6 +1,5 @@
 context:
   page:
-    short_course: true
     breadcrumb:
       - { label: 'Short courses', link: /short-courses/ }
       - {
