@@ -1,0 +1,41 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% get_settings %}
+
+{% block header_class %}
+    theme-{{ hero_colour }}
+{% endblock %}
+{% block content %}
+
+
+    {% include "patterns/molecules/hero/hero.html" with modifier="programme" %}
+
+    <div class="page page--overlap" typeof="schema:Course">
+
+        <meta property="schema:provider" content="Royal College of Art" />
+
+        <div class="page__notch grid">
+            <div class="page__notch-block bg bg--dark"></div>
+        </div>
+
+        <header class="page__header bg bg--dark">
+            <div class="title-area grid">
+                <div class="title-area__content">
+                    <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
+                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" with breadcrumb=page.breadcrumb %}
+                    </nav>
+                    {% if page.title %}
+                        <h1 property="schema:name" class="title-area__header heading heading--display-two">{{ page.title }}</h1>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <div class="page__content">
+            
+            
+            
+        </div>
+
+    </div>
+{% endblock %}

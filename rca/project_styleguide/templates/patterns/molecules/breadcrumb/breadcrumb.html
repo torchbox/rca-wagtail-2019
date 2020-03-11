@@ -1,7 +1,9 @@
 <ul class="breadcrumb">
-    <li class="breadcrumb__item">
-        <a class="breadcrumb__item-link" href="/schools/">
-            Degree Programmes
-        </a>
-    </li>
+    {% for item in breadcrumb %}
+        <li class="breadcrumb__item">
+            <a class="breadcrumb__item-link" href="{{ item.link }}">
+                {{ item.label }}
+            </a>
+        </li>
+    {% endfor %}
 </ul>
