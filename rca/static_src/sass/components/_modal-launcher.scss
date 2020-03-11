@@ -1,0 +1,58 @@
+.modal-launcher {
+    $root: &;
+    display: inline-block;
+
+    &__container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        border-top: 4px solid $color--tertiary;
+    }
+
+    &__label {
+        @include font-size(xs);
+        position: relative;
+        font-family: $font--secondary;
+        color: $color--white;
+        padding: ($gutter / 2) $gutter ($gutter / 2) 0;
+    }
+
+    &__icon-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: ($gutter * 2.25);
+        background-color: $color--tertiary;
+    }
+
+    &__icon {
+        fill: $color--white;
+        width: 18px;
+        height: 18px;
+        transition: fill $cubic-transition;
+    }
+
+    &:hover {
+        #{$root}__icon {
+            fill: $color--black;
+        }
+    }
+
+    .booking-bar & {
+        @include media-query(large) {
+            width: 100%;
+        }
+    }
+
+    .bg--dark & {
+        #{$root}__label {
+            color: $color--white;
+        }
+    }
+
+    .bg--light & {
+        #{$root}__label {
+            color: $color--black;
+        }
+    }
+}
