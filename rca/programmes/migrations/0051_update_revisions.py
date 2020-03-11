@@ -17,9 +17,5 @@ def update_revisions_with_current_programme_type(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ("programmes", "0050_merge_20200206_1206"),
-    ]
-    operations = [
-        migrations.RunPython(update_revisions_with_current_programme_type),
-    ]
+    dependencies = [("programmes", "0050_merge_20200206_1206")]
+    operations = [migrations.RunPython(update_revisions_with_current_programme_type)]
