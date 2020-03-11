@@ -1,5 +1,6 @@
 context:
   page:
+    short_course: true
     breadcrumb:
       - { label: 'Short courses', link: /short-courses/ }
       - {
@@ -7,144 +8,49 @@ context:
           link: /short-courses/executive-education,
         }
     title: Design Thinking & Innovation
-    bookingBar:
+    booking_bar:
       message: 'Next course starts Thursday 19 March 2020'
       link: '#'
       action: 'Book now for £900'
-    programme_description_title: 'We inspire design innovation'
-    programme_description_subtitle: 'Extend your knowledge, skills and creativity through research and experimentation.'
-    programme_description_copy: '<p>The programme conceives of architecture as a diverse and complex set of practices that move beyond traditional distinctions and limits in the field. The programme expands the possibilities of architecture and its agency in the world by encouraging an independent and critical ethos among its students.</p>'
-    programme_gallery_title: 'Architecture gallery'
-    programme_gallery:
-      - slide:
-        value:
-          title: 'Albertopolissss 550-metre pedestrian tunnel'
-          author: 'Chris Lawton'
-          link: 'http://www.torchbox.com'
-          course: 'Architecture'
-      - slide:
-        value:
-          title: 'Albertopolis 550-metre pedestrian tunnel'
-          author: 'Nick Lee'
-          link: 'http://www.torchbox.com'
-          course: 'Design'
-      - slide:
-        value:
-          title: 'Albertopolis 550-metre pedestrian tunnel'
-          author: 'Chris Lawton'
-          link: 'http://www.torchbox.com'
-          course: 'Architecture'
-      - slide:
-        value:
-          title: 'Albertopolis 550-metre pedestrian tunnel'
-          author: 'Kevin Howbrook'
-          link: 'http://www.torchbox.com'
-          course: 'Design'
-    facilities_intro: "The School of Architecture is located across both the RCA's historic Kensington site and London's newest cultural and research culture in White City."
-    facilities_copy: 'The School of Architecture studios are the heart of day-to-day activity for the programmes and are purpose-designed for inspiration and interaction between students of different design disciplines. As well as an individual studio space, students have access to traditional 3D-making facilities, contemporary digital fabrication equipment and a suite of bookable project and making spaces.'
-    facilities_link: '#'
-    facilities_link_text: 'See all college facilities'
-    facilities_gallery:
-      - slide:
-        value:
-          title: 'School of Architecture workshop rooms'
-      - slide:
-        value:
-          title: 'School of Architecture workshop rooms'
-      - slide:
-        value:
-          title: 'School of Architecture workshop rooms'
-    notable_alumni_text: 'Alumni from the RCA form an international network of creative individuals who have shaped and continue to shape the culture surrounding all of us.'
-    notable_alumni_links:
-      - link:
-        value:
-          name: 'James Dyson'
-          link: '#'
-      - link:
-        value:
-          name: 'Anton Furst'
-          link: '#'
-      - link:
-        value:
-          name: 'Golifer Langston Architects'
-          link: '#'
-    contact_text: 'If you want to register your interest about joining the RCA and recieve updates from the RCA and it’s community.'
-    contact_link_url: '#'
-    contact_link_text: 'Register your interest with us here'
-    contact_title: 'Contact us'
-    pathways_summary: 'MA Animation comprises of three specialist pathways one of which students select as part of their application.'
-    pathway_blocks:
+    programme_image: true
+    programme_description_title: 'Understand the purpose of design thinking in promoting innovation and learn real-world applications and strategies for design thinking.'
+    programme_description_copy: '<p>At the RCA, we teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs. In contrast to standard, linear approaches that build on tested models, design thinking is creatively structured, analytic and responsive. It draws in diverse disciplines and multiple areas of expertise and exploration, starting with the core premise that everything is a design problem.</p>
+    <p>Through the application of this informed analysis within business-driven, public-facing and community-centred contexts, design thinking can produce innovation, which in turn enables brands to remain competitive in changing markets.</p>'
+    about_course_accordion:
       - path:
         value:
-          preview_text: 'Extending and disrupting the tools, intent and role of graphic design.'
-          body: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
-          heading: 'Graphic Design'
-          link:
-            title: 'Find out more'
-            url: '#'
+          body: 'TBC'
+          heading: 'Before you apply: Application'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Before you apply: Portfolio'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Personal and organisational benefits'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'How you’ll learn'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'What you’ll learn'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Who should attend'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Locations & facilities'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'The RCA approach to Design Thinking & Innovation'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'About the Design Museum'
     curriculum_video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
-    steps:
-      - step:
-        value:
-          heading: Make sure you have read the programme requirements
-          link:
-            url: '#'
-            title: See programme requirements
-      - step:
-        value:
-          heading: Check you have all the information we'll need you to supply
-          link:
-            url: '#'
-            title: See programme requirements
-      - step:
-        value:
-          heading: Start your application
-
-  related_programmes:
-    - item:
-      title: Related programmes
-      related_items:
-        - item:
-          title: Architecture
-          degree_level: MA
-          programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
-          img: http://placehold.it/300x270/fff/000
-        - item:
-          title: City design
-          degree_level: MA
-          programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
-          img: http://placehold.it/300x270/ff5d1c/fff
-        - item:
-          title: Environmental acrhitecture
-          degree_level: MA
-          programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
-          img: http://placehold.it/300x270
-  eventModule: false
-  news:
-    - item:
-      meta: 'Event'
-      title: 'Writing student wins £25,000 economics prize'
-      description: '6 — 12 August 2019'
-      link: '#'
-      image: true
-      person: false
-    - item:
-      meta: 'Event'
-      title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
-      description: '23 November 2019'
-      link: '#'
-      image: false
-      person: false
-    - item:
-      meta: 'News'
-      title: 'Show 2018: School of Architecture: Making Space for the Future'
-      description: '23 November 2019'
-      link: '#'
-      image: true
-      person: false
-
-tags:
-  image:
-    page.contact_image fill-250x250:
-      raw: |
-        <img src="//placekitten.com/829/585">
