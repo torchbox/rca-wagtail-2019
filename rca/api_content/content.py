@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.http.request import QueryDict
-from requests.exceptions import ReadTimeout, Timeout
+from requests.exceptions import Timeout
 
 """
 Static methods for adding content from the live RCA api
@@ -62,7 +62,7 @@ def parse_items_to_list(data, type):
         try:
             response = requests.get(url=detail, timeout=29)
             response.raise_for_status()
-        except (Timeout, ReadTimeout):
+        except Timeout:
             error_text = "Timeout error occurred when fetching data"
             logger.exception(error_text)
             raise CantPullFromRcaApi(error_text)
@@ -148,7 +148,7 @@ def pull_news_and_events(programme_type_slug=None):
         response = requests.get(url=events_url, timeout=29)
         response.raise_for_status()
         logger.info("pulling Events from API")
-    except (Timeout, ReadTimeout):
+    except Timeout:
         error_text = "Timeout error occurred when fetching data"
         logger.exception(error_text)
         raise CantPullFromRcaApi(error_text)
@@ -184,7 +184,7 @@ def pull_news_and_events(programme_type_slug=None):
         response = requests.get(url=blog_url, timeout=29)
         response.raise_for_status()
         logger.info("Pulling Blogs from API")
-    except (Timeout, ReadTimeout):
+    except Timeout:
         error_text = "Timeout error occurred when fetching data"
         logger.exception(error_text)
         raise CantPullFromRcaApi(error_text)
@@ -216,7 +216,7 @@ def pull_news_and_events(programme_type_slug=None):
         response = requests.get(url=news_url, timeout=29)
         response.raise_for_status()
         logger.info("Pulling News from API")
-    except (Timeout, ReadTimeout):
+    except Timeout:
         error_text = "Timeout error occurred when fetching data"
         logger.exception(error_text)
         raise CantPullFromRcaApi(error_text)
@@ -262,7 +262,7 @@ def pull_alumni_stories(programme_type_slug=None):
         response = requests.get(url=url, timeout=29)
         response.raise_for_status()
         logger.info("pulling Alumni Stories from API")
-    except (Timeout, ReadTimeout):
+    except Timeout:
         error_text = "Timeout error occurred when fetching data"
         logger.exception(error_text)
         raise CantPullFromRcaApi(error_text)
@@ -295,7 +295,7 @@ def pull_alumni_stories(programme_type_slug=None):
         response = requests.get(url=url, timeout=29)
         response.raise_for_status()
         logger.info("pulling Alumni Stories from API")
-    except (Timeout, ReadTimeout):
+    except Timeout:
         error_text = "Timeout error occurred when fetching data"
         logger.exception(error_text)
         raise CantPullFromRcaApi(error_text)
