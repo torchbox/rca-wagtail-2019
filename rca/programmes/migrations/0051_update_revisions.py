@@ -3,10 +3,9 @@ import json
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import migrations
 
-from rca.programmes.models import ProgrammePage
-
 
 def update_revisions_with_current_programme_type(apps, schema_editor):
+    ProgrammePage = apps.get_model("programmes", "ProgrammePage")
     for page in ProgrammePage.objects.all():
         programme_type = page.programme_type_id
         for revision in page.revisions.all():
