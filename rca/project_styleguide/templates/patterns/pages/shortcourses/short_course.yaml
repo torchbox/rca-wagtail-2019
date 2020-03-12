@@ -83,6 +83,7 @@ context:
           author: 'Kevin Howbrook'
           link: 'http://www.torchbox.com'
           course: 'Design'
+    staff_link: false
   related_staff:
     - item
     - item
@@ -102,3 +103,7 @@ context:
           quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
           author: 'Benjamin Glatz'
           job_title: 'Digital Transformation Lead, Shell'
+  programme_page_global_fields:
+    contact_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
+    contact_title: Contact Us
+    related_content_title: More opportunities to study at the RCA

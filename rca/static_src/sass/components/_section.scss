@@ -115,7 +115,7 @@
         }
 
         // Template specific alterations
-        .app--short-course & {
+        .app--short-course .programme-overview & {
             @include media-query(large) {
                 grid-column: 3 / span 2;
             }
@@ -295,6 +295,14 @@
 
             @include media-query(large) {
                 padding-top: ($gutter * 6);
+            }
+        }
+
+        &--last {
+            padding-bottom: ($gutter * 3);
+
+            @include media-query(large) {
+                padding-bottom: ($gutter * 6);
             }
         }
     }
