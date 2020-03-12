@@ -28,8 +28,15 @@ h6 {
 }
 
 blockquote {
-    font-family: $font--secondary;
-    font-style: italic;
+    font-family: $font--primary;
+    font-style: normal;
+    font-weight: inherit;
+    text-transform: inherit;
+}
+
+cite {
+    font-family: $font--primary;
+    font-style: normal;
     font-weight: inherit;
     text-transform: inherit;
 }

@@ -1,0 +1,21 @@
+.quote {
+    &__text {
+        color: $color--black;
+        margin-bottom: ($gutter * 2);
+    }
+
+    &__cite {
+        @include font-size(xs);
+        display: flex;
+        flex-direction: row;
+    }
+
+    &__author {
+        color: $color--black;
+    }
+
+    &__job-title {
+        color: $color--dark-grey;
+        margin-left: ($gutter / 4);
+    }
+}
