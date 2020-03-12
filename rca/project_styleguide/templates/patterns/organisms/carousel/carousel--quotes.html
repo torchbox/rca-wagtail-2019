@@ -1,0 +1,34 @@
+<div class="carousel glide {{ modifier }}" {{ datatag }} data-slidetotal="{{ carousel|length }}">
+    <div data-glide-el="track" class="carousel__container glide__track">
+        <ul class="carousel__slides glide__slides" aria-live="polite">
+            {% for slide in carousel %}
+                {% with slide=slide.value %}
+                    <li class="carousel__item glide__slide">
+                        {% include 'patterns/molecules/streamfield/blocks/quote_block.html' with value=slide %}
+                    </li>
+                {% endwith %}
+            {% endfor %}
+        </ul>
+        <div class="carousel__controls-group grid" data-glide-el="controls">
+            <button class="carousel__button carousel__button--prev button" aria-label="Previous" data-glide-dir="<">
+                <svg class="carousel__button-icon" width="46" height="46">
+                    <use xlink:href="#arrow-left" />
+                </svg>
+            </button>
+            <button class="carousel__button carousel__button--next button" aria-label="Next" data-glide-dir=">">
+                <svg class="carousel__button-icon" width="46" height="46">
+                    <use xlink:href="#arrow-right" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div class="carousel__controls">
+        <div class="carousel__bullet-container" data-glide-el="controls[nav]">
+            {% for slide in carousel %}
+                {% with slide=slide.value %}
+                    <button class="carousel__bullet" data-glide-dir="={{ forloop.counter }}" aria-label="Slide {{ forloop.counter }}"></button>
+                {% endwith %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
