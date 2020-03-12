@@ -1,4 +1,3 @@
-// Modify these according to your controls
 function ArrowDisabler(Glide, Components) {
     return {
         mount() {
