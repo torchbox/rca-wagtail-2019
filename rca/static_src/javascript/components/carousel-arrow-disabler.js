@@ -1,8 +1,4 @@
 // Modify these according to your controls
-const classes = {
-    controls: 'controls',
-};
-
 function ArrowDisabler(Glide, Components) {
     return {
         mount() {
@@ -13,7 +9,7 @@ function ArrowDisabler(Glide, Components) {
 
             Glide.on(['mount.after', 'run'], () => {
                 // Filter out arrows_control
-                for (const controlItem of Components.Controls.items) {
+                Components.Controls.items.forEach((controlItem) => {
                     const left = controlItem.querySelector(
                         '.carousel__button--prev',
                     );
@@ -21,13 +17,6 @@ function ArrowDisabler(Glide, Components) {
                     const right = controlItem.querySelector(
                         '.carousel__button--next',
                     );
-
-                    if (
-                        controlItem.getAttribute('data-glide-el') !==
-                        classes.controls
-                    ) {
-                        continue;
-                    }
 
                     // Set left arrow state
                     if (left) {
@@ -53,7 +42,7 @@ function ArrowDisabler(Glide, Components) {
                             right.removeAttribute('disabled'); // Disable on other slides
                         }
                     }
-                }
+                });
             });
         },
     };
