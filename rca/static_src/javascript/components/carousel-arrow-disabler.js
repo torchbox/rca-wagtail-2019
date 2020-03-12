@@ -1,8 +1,6 @@
 // Modify these according to your controls
 const classes = {
     controls: 'controls',
-    backArrow: 'carousel__button--prev',
-    nextArrow: 'carousel__button--next',
 };
 
 function ArrowDisabler(Glide, Components) {
@@ -15,7 +13,15 @@ function ArrowDisabler(Glide, Components) {
 
             Glide.on(['mount.after', 'run'], () => {
                 // Filter out arrows_control
-                for (let controlItem of Components.Controls.items) {
+                for (const controlItem of Components.Controls.items) {
+                    const left = controlItem.querySelector(
+                        '.carousel__button--prev',
+                    );
+
+                    const right = controlItem.querySelector(
+                        '.carousel__button--next',
+                    );
+
                     if (
                         controlItem.getAttribute('data-glide-el') !==
                         classes.controls
@@ -24,9 +30,6 @@ function ArrowDisabler(Glide, Components) {
                     }
 
                     // Set left arrow state
-                    var left = controlItem.querySelector(
-                        '.' + classes.backArrow,
-                    );
                     if (left) {
                         if (Glide.index === 0) {
                             left.setAttribute('disabled', ''); // Disable on first slide
@@ -36,9 +39,6 @@ function ArrowDisabler(Glide, Components) {
                     }
 
                     // Set right arrow state
-                    var right = controlItem.querySelector(
-                        '.' + classes.nextArrow,
-                    );
                     if (right) {
                         // Glide.index is based on the active slide
                         // For bound: true, there will be no empty space & the last slide will never become active
