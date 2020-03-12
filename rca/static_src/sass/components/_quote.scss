@@ -18,4 +18,10 @@
         color: $color--dark-grey;
         margin-left: ($gutter / 4);
     }
+
+    .carousel--square & {
+        @include media-query(large) {
+            padding-right: 33.33%;
+        }
+    }
 }
