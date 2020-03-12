@@ -58,3 +58,19 @@ context:
           body: 'TBC'
           heading: 'About the Design Museum'
     curriculum_video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
+  partnerships_block:
+    slides:
+      - slide:
+        value:
+          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
+          author: 'Benjamin Glatz'
+          job_title: 'Digital Transformation Lead, Shell'
+      - slide:
+        value:
+          quote: 'We want people to come away from our executive education courses with achievable insights and a critical path to making change in their organisations and to their own individual working lives.'
+          author: 'Professor Jeremy Myerson'
+      - slide:
+        value:
+          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
+          author: 'Benjamin Glatz'
+          job_title: 'Digital Transformation Lead, Shell'

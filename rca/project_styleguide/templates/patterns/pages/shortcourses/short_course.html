@@ -63,10 +63,21 @@
                     </div>
                 </div>
 
-                <h2 class="heading heading--two"></h2>
+                <div class="section__row short-course-accordion">
+                    <h2 class="heading heading--two"></h2>
+                    {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.about_course_accordion title="About the course" course_type="short" %}
+                </div>
 
-                {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.about_course_accordion title="About the course" course_type="short" %}
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
 
+            </section>
+
+            <section class="section bg bg--light">
+                <div class="section__row section__row--first">
+                    {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=partnerships_block.slides modifier='carousel--square carousel--quotes' datatag='data-square-carousel' %}
+                </div>
             </section>
 
             

@@ -1,4 +1,15 @@
-<blockquote>
-    <p>{{ value.quote }}</p>
-    {% if value.attribution %}{{ value.attribution }}{% endif %}
+<blockquote class="quote">
+    <div class="quote__container">
+        <p class="quote__text heading heading--three">"{{ value.quote }}"</p>
+        {% if value.author or value.job_title %}
+        <cite class="quote__cite {% if value.author and value.job_title %}quote__cite--both{% endif %}">
+            {% if value.author %}
+                <span class="quote__author">{{ value.author }}</span>
+            {% endif %}
+            {% if value.job_title %}
+                <span class="quote__job-title">{{ value.job_title }}</span>
+            {% endif %}
+        </cite>
+        {% endif %}
+    </div>
 </blockquote>
