@@ -288,4 +288,14 @@
             }
         }
     }
+
+    &__row {
+        &--first {
+            padding-top: ($gutter * 3);
+
+            @include media-query(large) {
+                padding-top: ($gutter * 6);
+            }
+        }
+    }
 }
