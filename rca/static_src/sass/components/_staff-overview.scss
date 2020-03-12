@@ -26,7 +26,6 @@
     &__view-all {
         grid-row: 4;
         grid-column: 1;
-        max-width: 130px;
 
         @include media-query(medium) {
             grid-row: 3;
