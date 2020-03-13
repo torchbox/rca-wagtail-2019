@@ -1,10 +1,12 @@
 <div class="section__row grid staff-overview staff-overview--single">
-    <h2 class="heading heading--four staff-overview__heading">Staff</h2>
+    <h2 class="heading heading--four staff-overview__heading">{{ title|default:"Staff"}}</h2>
     {% for item in staff %}
         {% include "patterns/molecules/staff-detail/staff-detail.html" %}
     {% endfor %}
-    <a class="staff-overview__view-all link link--primary link--link body body--one" href="{{ page.staff_link }}">
+    {% if page.staff_link %}
+    <a class="staff-overview__view-all link link--primary link--link body body--two" href="{{ page.staff_link }}">
         <span class="link__label">{{ page.staff_link_text }}</span>
         <svg class="link__icon" width="12" height="8"><use xlink:href="#arrow"></use></svg>
     </a>
+    {% endif %}
 </div>

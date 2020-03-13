@@ -63,7 +63,7 @@
                     </div>
                 </div>
 
-                <div class="section__row short-course-accordion">
+                <div class="section__row short-course-accordion section__row--last">
                     <h2 class="heading heading--two"></h2>
                     {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.about_course_accordion title="About the course" course_type="short" %}
                 </div>
@@ -75,8 +75,59 @@
             </section>
 
             <section class="section bg bg--light">
+
                 <div class="section__row section__row--first">
                     {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=partnerships_block.slides modifier='carousel--square carousel--quotes' datatag='data-square-carousel' %}
+                </div>
+
+                <div class="section__row">
+                    {% with staff=related_staff %}
+                        {% if staff %}
+                            {% if staff|length > 1 %}
+                                    {% include "patterns/organisms/staff-overview/staff-overview.html" with title="Programme team" %}
+                            {% else %}
+                                {% include "patterns/organisms/staff-overview/staff-overview--single.html" with title="Programme team" %}
+                            {% endif %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+
+            </section>
+
+            <section class="section bg bg--dark">
+
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+
+                <div class="section__row section__row--first section__row--last">
+                    {% if page.programme_gallery %}
+                        <header class="section__header grid">
+                            <h3 class="section__heading section__heading--secondary heading heading--four">
+                                Gallery
+                            </h3>
+                        </header>
+                        <div class="section__content">
+                            {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.programme_gallery modifier='slideshow--author-info' %}
+                        </div>
+                    {% endif %}
+                </div>
+
+            </section>
+
+            <section class="section section--top-space bg bg--light">
+                <div class="contact-anchor" id="contact"></div>
+                <div class="section__container">
+                    {% include "patterns/organisms/contact/contact.html" with heading=programme_page_global_fields.contact_title text=programme_page_global_fields.contact_text image=page.contact_image %}
+                </div>
+            </section>
+
+            <section class="section bg bg--dark">
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+                <div class="section__container">
+                    {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=programme_page_global_fields.related_content_title %}
                 </div>
             </section>
 
