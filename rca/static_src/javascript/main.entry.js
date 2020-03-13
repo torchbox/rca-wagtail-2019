@@ -20,6 +20,7 @@ import './components/outdated-banner';
 import './components/home-menu';
 import './components/stats-block';
 import './components/parallax';
+import './components/modal';
 
 import '../sass/main.scss';
 
