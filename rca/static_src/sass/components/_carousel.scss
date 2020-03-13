@@ -72,6 +72,33 @@
                 grid-column: 4 / span 1;
                 left: 30px;
             }
+
+            &:disabled {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+    }
+
+    &--quotes {
+        #{$root}__item {
+            margin-right: ($gutter * 2);
+        }
+
+        #{$root}__button {
+            position: relative;
+
+            &--prev {
+                grid-column: 1 / span 1;
+                left: 50%;
+                margin-left: -23px; // half the width
+            }
+
+            &--next {
+                grid-column: 4 / span 1;
+                left: 50%;
+                margin-left: -23px; // half the width
+            }
         }
     }
 
@@ -137,7 +164,7 @@
         height: 46px;
         margin: 0;
         padding: 0;
-        transition: background-color $transition;
+        transition: background-color $transition, opacity $cubic-transition;
 
         &:hover,
         &:active,
