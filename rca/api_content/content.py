@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.http.request import QueryDict
-from requests.exceptions import Timeout
+from requests.exceptions import ConnectionError, HTTPError, Timeout
 
 """
 Static methods for adding content from the live RCA api
@@ -40,6 +40,21 @@ class CantPullFromRcaApi(Exception):
     pass
 
 
+def try_and_fetch(url):
+    try:
+        response = requests.get(url, timeout=29)
+        response.raise_for_status()
+        return response
+    except Timeout:
+        error_text = "Timeout error occurred when fetching data"
+        logger.exception(error_text)
+        raise CantPullFromRcaApi(error_text)
+    except (HTTPError, ConnectionError):
+        error_text = "Error occured when fetching further detail data"
+        logger.exception(error_text)
+        raise CantPullFromRcaApi(error_text)
+
+
 def parse_items_to_list(data, type):
     items = []
 
@@ -59,19 +74,10 @@ def parse_items_to_list(data, type):
                 item["meta"]["detail_url"]
                 + "?fields=_,first_published_at,social_image,body"
             )
-        try:
-            response = requests.get(url=detail, timeout=29)
-            response.raise_for_status()
-        except Timeout:
-            error_text = "Timeout error occurred when fetching data"
-            logger.exception(error_text)
-            raise CantPullFromRcaApi(error_text)
-        except requests.exceptions.HTTPError:
-            error_text = "Error occured when fetching further detail data"
-            logger.exception(error_text)
-            raise CantPullFromRcaApi(error_text)
 
+        response = try_and_fetch(detail)
         data = response.json()
+
         if "social_image" in data and data["social_image"]:
             social_image = data["social_image"]["meta"]["detail_url"]
             social_image = requests.get(url=social_image, timeout=29)
@@ -144,24 +150,11 @@ def pull_news_and_events(programme_type_slug=None):
     news_items_to_get = 3
 
     events_data = []
-    try:
-        response = requests.get(url=events_url, timeout=29)
-        response.raise_for_status()
-        logger.info("pulling Events from API")
-    except Timeout:
-        error_text = "Timeout error occurred when fetching data"
-        logger.exception(error_text)
-        raise CantPullFromRcaApi(error_text)
-    except requests.exceptions.HTTPError:
-        error_text = "Error occured when fetching event data"
-        logger.exception(error_text)
-        raise CantPullFromRcaApi(error_text)
-    else:
-        data = response.json()
-
-        if data["meta"]["total_count"] > 0:
-            news_items_to_get = 2
-            events_data = parse_items_to_list(data, "Event")
+    response = try_and_fetch(events_url)
+    data = response.json()
+    if data["meta"]["total_count"] > 0:
+        news_items_to_get = 2
+        events_data = parse_items_to_list(data, "Event")
 
     # News and Blogs
     # Pull 3 Blog items
@@ -180,21 +173,9 @@ def pull_news_and_events(programme_type_slug=None):
 
     query = query.urlencode()
     blog_url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
-    try:
-        response = requests.get(url=blog_url, timeout=29)
-        response.raise_for_status()
-        logger.info("Pulling Blogs from API")
-    except Timeout:
-        error_text = "Timeout error occurred when fetching data"
-        logger.exception(error_text)
-        raise CantPullFromRcaApi(error_text)
-    except requests.exceptions.HTTPError:
-        error_text = "Error occured when fetching Blog data"
-        logger.exception(error_text)
-        raise CantPullFromRcaApi(error_text)
-    else:
-        data = response.json()
-        blog_data = parse_items_to_list(data, "News")
+    response = try_and_fetch(blog_url)
+    data = response.json()
+    blog_data = parse_items_to_list(data, "News")
 
     # Pull 3 News items
     query = QueryDict(mutable=True)
@@ -212,21 +193,9 @@ def pull_news_and_events(programme_type_slug=None):
     news_url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
     news_data = []
 
-    try:
-        response = requests.get(url=news_url, timeout=29)
-        response.raise_for_status()
-        logger.info("Pulling News from API")
-    except Timeout:
-        error_text = "Timeout error occurred when fetching data"
-        logger.exception(error_text)
-        raise CantPullFromRcaApi(error_text)
-    except requests.exceptions.HTTPError:
-        error_text = "Error occured when fetching News data"
-        logger.exception(error_text)
-        raise CantPullFromRcaApi(error_text)
-    else:
-        data = response.json()
-        news_data = parse_items_to_list(data, "News")
+    response = try_and_fetch(news_url)
+    data = response.json()
+    news_data = parse_items_to_list(data, "News")
 
     news_and_blog_data = news_data + blog_data
     # Sort by the date
@@ -258,23 +227,12 @@ def pull_alumni_stories(programme_type_slug=None):
         query.update({"rp": programme_type_slug})
     query = query.urlencode()
     url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
-    try:
-        response = requests.get(url=url, timeout=29)
-        response.raise_for_status()
-        logger.info("pulling Alumni Stories from API")
-    except Timeout:
-        error_text = "Timeout error occurred when fetching data"
-        logger.exception(error_text)
-        raise CantPullFromRcaApi(error_text)
-    except requests.exceptions.HTTPError:
-        error_text = "Error occured when fetching alumni stories data"
-        logger.exception(error_text)
-        raise CantPullFromRcaApi(error_text)
-    else:
-        data = response.json()
-        alumni_stories_standrad_page_data = parse_items_to_list(
-            data, "alumni_stories_standard_page"
-        )
+
+    response = try_and_fetch(url)
+    data = response.json()
+    alumni_stories_standrad_page_data = parse_items_to_list(
+        data, "alumni_stories_standard_page"
+    )
 
     # Pull 3 BlogPage items
     query = QueryDict(mutable=True)
@@ -291,23 +249,12 @@ def pull_alumni_stories(programme_type_slug=None):
         query.update({"rp": programme_type_slug})
     query = query.urlencode()
     url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
-    try:
-        response = requests.get(url=url, timeout=29)
-        response.raise_for_status()
-        logger.info("pulling Alumni Stories from API")
-    except Timeout:
-        error_text = "Timeout error occurred when fetching data"
-        logger.exception(error_text)
-        raise CantPullFromRcaApi(error_text)
-    except requests.exceptions.HTTPError:
-        error_text = "Error occured when fetching alumni stories data"
-        logger.exception(error_text)
-        raise CantPullFromRcaApi(error_text)
-    else:
-        data = response.json()
-        alumni_stories_blog_page_data = parse_items_to_list(
-            data, "alumni_stories_blog_page"
-        )
+
+    response = try_and_fetch(url)
+    data = response.json()
+    alumni_stories_blog_page_data = parse_items_to_list(
+        data, "alumni_stories_blog_page"
+    )
 
     alumni_stories_data = (
         alumni_stories_blog_page_data + alumni_stories_standrad_page_data
