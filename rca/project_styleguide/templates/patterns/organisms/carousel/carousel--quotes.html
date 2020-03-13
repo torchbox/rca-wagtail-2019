@@ -4,7 +4,7 @@
             {% for slide in carousel %}
                 {% with slide=slide.value %}
                     <li class="carousel__item glide__slide">
-                        {% include 'patterns/molecules/card/card--square.html' with item=slide %}
+                        {% include 'patterns/molecules/streamfield/blocks/quote_block.html' with value=slide %}
                     </li>
                 {% endwith %}
             {% endfor %}

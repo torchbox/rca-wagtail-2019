@@ -1,4 +1,6 @@
 .programme-overview {
+    $root: &;
+
     &__key-details {
         grid-row: 3;
         grid-column: 1 / span 2;
@@ -27,6 +29,29 @@
 
         @include media-query(large) {
             padding-top: ($gutter * 4);
+        }
+    }
+
+    .app--short-course & {
+        // Video spans three columns on short courses
+        #{$root}__body {
+            @include media-query(large) {
+                grid-column: 2 / span 3;
+            }
+        }
+
+        #{$root}__description {
+            @include media-query(large) {
+                padding-left: 33.333%;
+                margin-bottom: ($gutter * 4);
+            }
+        }
+
+        // Align details with bottom of section__heading--primary
+        #{$root}__key-details {
+            @include media-query(large) {
+                margin-top: -($gutter * 3.5);
+            }
         }
     }
 }

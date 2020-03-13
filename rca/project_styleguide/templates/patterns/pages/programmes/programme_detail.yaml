@@ -133,6 +133,10 @@ context:
       link: '#'
       image: true
       person: false
+  programme_page_global_fields:
+    contact_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
+    contact_title: Contact Us
+    related_content_title: More opportunities to study at the RCA
 
 tags:
   image:

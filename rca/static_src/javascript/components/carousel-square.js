@@ -1,4 +1,5 @@
 import Glide from '@glidejs/glide';
+import ArrowDisabler from './carousel-arrow-disabler';
 
 class SquareCarousel {
     static selector() {
@@ -13,7 +14,7 @@ class SquareCarousel {
         this.createSlideshow();
         this.slideTotal = this.node.dataset.slidetotal;
         this.bindEvents();
-        this.slideshow.mount();
+        this.slideshow.mount({ ArrowDisabler });
         this.setLiveRegion();
     }
 
@@ -80,7 +81,7 @@ class SquareCarousel {
         this.slideshow.destroy();
         this.createSlideshow();
         this.slideTotal = this.node.dataset.slidetotal;
-        this.slideshow.mount();
+        this.slideshow.mount({ ArrowDisabler });
     }
 
     // sets aria-hidden on inactive slides

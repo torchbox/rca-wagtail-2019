@@ -113,6 +113,13 @@
                 grid-column: 2 / span 1;
             }
         }
+
+        // Template specific alterations
+        .app--short-course .programme-overview & {
+            @include media-query(large) {
+                grid-column: 3 / span 2;
+            }
+        }
     }
 
     &__notch {
@@ -278,6 +285,24 @@
 
             &::before {
                 background-color: $color--black;
+            }
+        }
+    }
+
+    &__row {
+        &--first {
+            padding-top: ($gutter * 3);
+
+            @include media-query(large) {
+                padding-top: ($gutter * 6);
+            }
+        }
+
+        &--last {
+            padding-bottom: ($gutter * 3);
+
+            @include media-query(large) {
+                padding-bottom: ($gutter * 6);
             }
         }
     }

@@ -21,6 +21,7 @@
 
         {% block body_top %}{% endblock %}
 
+        {% include "patterns/atoms/skip-link/skip-link.html" %}
         {% include "patterns/molecules/outdated-banner/outdated-banner.html" %}
         {% include "patterns/atoms/sprites/sprites.html" %}
 
@@ -37,7 +38,7 @@
             </section>
         </nav>
 
-        <main class="app__content">
+        <main class="app__content" id="main-content">
 
             {% include "patterns/atoms/grid-lines/grid-lines.html" with data_tag_left="data-left-edge" data_tag_center="data-grid-center" %}
 

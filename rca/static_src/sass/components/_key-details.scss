@@ -16,9 +16,22 @@
         margin-bottom: ($gutter * 2);
     }
 
+    &--short {
+        @include media-query(large) {
+            padding-right: $gutter;
+        }
+
+        #{$root}__section--action {
+            @include media-query(medium) {
+                position: static;
+                max-width: 100%;
+                width: auto;
+            }
+        }
+    }
+
     &__header {
         @include media-query(medium) {
-            // grid-column: 1 / span 2;
             flex-basis: 100%;
         }
     }
