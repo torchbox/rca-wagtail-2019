@@ -31,6 +31,7 @@
         fill: $color--white;
         width: 18px;
         height: 18px;
+        transform: rotate(-45deg);
         transition: fill $cubic-transition;
     }
 
