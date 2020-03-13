@@ -6,9 +6,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("standardpages", "0002_set_related_pages_to_cascade"),
-    ]
+    dependencies = [("standardpages", "0002_set_related_pages_to_cascade")]
 
     operations = [
         migrations.CreateModel(
@@ -24,9 +22,9 @@ class Migration(migrations.Migration):
                         serialize=False,
                         to="standardpages.IndexPage",
                     ),
-                ),
+                )
             ],
-            options={"abstract": False,},
+            options={"abstract": False},
             bases=("standardpages.indexpage",),
-        ),
+        )
     ]
