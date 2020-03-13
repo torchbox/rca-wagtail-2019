@@ -113,6 +113,13 @@
                 grid-column: 2 / span 1;
             }
         }
+
+        // Template specific alterations
+        .app--short-course & {
+            @include media-query(large) {
+                grid-column: 3 / span 2;
+            }
+        }
     }
 
     &__notch {
