@@ -1,5 +1,6 @@
 .booking-bar {
     border-bottom: 1px solid $color--grid-line-light;
+    overflow: hidden;
 
     @include media-query(medium) {
         border-top: 1px solid $color--grid-line-light;
@@ -41,5 +42,14 @@
             justify-content: flex-start;
             grid-column: 4 / span 1;
         }
+    }
+
+    .sticky-bar & {
+        @include z-index(sticky-nav-bar);
+        position: sticky;
+        top: 100vh;
+        left: 0;
+        width: 100%;
+        transform: translate3d(0, -100%, 0);
     }
 }

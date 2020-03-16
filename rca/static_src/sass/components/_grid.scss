@@ -116,5 +116,13 @@
         .nav-open .app__navigation & {
             display: grid; // only show when menu is active
         }
+
+        .booking-bar & {
+            display: none;
+        }
+
+        .sticky-bar .booking-bar & {
+            display: grid;
+        }
     }
 }
