@@ -72,6 +72,11 @@
         #{$root}__icon {
             top: 0.35em; // em to adapt to font size
         }
+
+        // Colour exceptions
+        .upcoming-dates__action & {
+            color: $color--tertiary;
+        }
     }
 
     &--down {

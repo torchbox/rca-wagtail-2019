@@ -1,6 +1,10 @@
 .modal-launcher {
     $root: &;
     display: inline-block;
+    background-color: transparent;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
 
     &__container {
         display: flex;

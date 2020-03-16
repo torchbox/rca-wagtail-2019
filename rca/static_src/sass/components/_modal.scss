@@ -1,0 +1,125 @@
+.modal {
+    display: none;
+
+    &.is-open {
+        display: block;
+    }
+
+    &__overlay {
+        @include z-index(modal);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: auto;
+        max-height: 100%;
+        will-change: transform;
+    }
+
+    &__container {
+        will-change: transform;
+    }
+
+    &__header {
+        margin-top: ($gutter / 2);
+        margin-bottom: ($gutter * 2);
+
+        @include media-query(medium) {
+            margin-bottom: ($gutter * 4);
+        }
+    }
+
+    &__close {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        background: transparent;
+        border: 0;
+        width: auto;
+        grid-column: 2 / span 1;
+
+        @include media-query(large) {
+            grid-column: 4 / span 1;
+        }
+    }
+
+    &__close-label {
+        display: none;
+        font-family: $font--secondary;
+        margin-right: ($gutter / 4);
+        pointer-events: none;
+
+        @include media-query(large) {
+            display: block;
+        }
+    }
+
+    &__close-icon {
+        pointer-events: none;
+    }
+
+    &__content {
+        grid-column: 1 / span 2;
+
+        @include media-query(large) {
+            grid-column: 2 / span 3;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+        }
+
+        to {
+            opacity: 0;
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateY(15%);
+        }
+
+        to {
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideOut {
+        from {
+            transform: translateY(0);
+        }
+
+        to {
+            transform: translateY(-10%);
+        }
+    }
+
+    &[aria-hidden='false'] .modal__overlay {
+        animation: fadeIn 0.3s cubic-bezier(0, 0, 0.2, 1);
+    }
+
+    &[aria-hidden='false'] .modal__container {
+        animation: slideIn 0.3s cubic-bezier(0, 0, 0.2, 1);
+    }
+
+    &[aria-hidden='true'] .modal__overlay {
+        animation: fadeOut 0.3s cubic-bezier(0, 0, 0.2, 1);
+    }
+
+    &[aria-hidden='true'] .modal__container {
+        animation: slideOut 0.3s cubic-bezier(0, 0, 0.2, 1);
+    }
+}
