@@ -12,15 +12,16 @@ context:
       link: '#'
       action: 'Book now for £900'
     programme_image: true
-    programme_description_title: 'Understand the purpose of design thinking in promoting innovation and learn real-world applications and strategies for design thinking.'
-    programme_description_copy: '<p>At the RCA, we teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs. In contrast to standard, linear approaches that build on tested models, design thinking is creatively structured, analytic and responsive. It draws in diverse disciplines and multiple areas of expertise and exploration, starting with the core premise that everything is a design problem.</p><p>Through the application of this informed analysis within business-driven, public-facing and community-centred contexts, design thinking can produce innovation, which in turn enables brands to remain competitive in changing markets.</p>'
+    introduction_image: true
+    introduction: 'Understand the purpose of design thinking in promoting innovation and learn real-world applications and strategies for design thinking.'
+    body: '<p>At the RCA, we teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs. In contrast to standard, linear approaches that build on tested models, design thinking is creatively structured, analytic and responsive. It draws in diverse disciplines and multiple areas of expertise and exploration, starting with the core premise that everything is a design problem.</p><p>Through the application of this informed analysis within business-driven, public-facing and community-centred contexts, design thinking can produce innovation, which in turn enables brands to remain competitive in changing markets.</p>'
     shortcourse_details_fees:
       - { fee: '&pound;600 before 28 February 2020' }
       - { fee: '&pound;900 after 29 February 2020' }
     shortcourse_details_location:
       - { location: 'Royal College of Art Kensington Gore' }
     shortcourse_details_register_link: '#'
-    about_course_accordion:
+    about:
       - path:
         value:
           body: 'TBC'
@@ -57,7 +58,7 @@ context:
         value:
           body: 'TBC'
           heading: 'About the Design Museum'
-    curriculum_video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
+    video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     programme_gallery:
       - slide:
         value:
