@@ -1,0 +1,21 @@
+.short-course-details {
+    &__header {
+        margin-bottom: ($gutter * 2);
+
+        @include media-query(large) {
+            margin-bottom: ($gutter * 4);
+        }
+    }
+
+    &__heading {
+        max-width: 66.666%;
+    }
+
+    &__content {
+        margin-bottom: ($gutter * 2);
+
+        @include media-query(large) {
+            margin-bottom: ($gutter * 4);
+        }
+    }
+}
