@@ -7,9 +7,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("shortcourses", "0002_add_introduction_fields"),
-    ]
+    dependencies = [("shortcourses", "0002_add_introduction_fields")]
 
     operations = [
         migrations.AddField(
@@ -79,5 +77,5 @@ class Migration(migrations.Migration):
                 blank=True,
                 verbose_name="About the course",
             ),
-        ),
+        )
     ]
