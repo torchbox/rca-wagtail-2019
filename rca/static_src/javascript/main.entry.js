@@ -21,6 +21,7 @@ import './components/home-menu';
 import './components/stats-block';
 import './components/parallax';
 import './components/modal';
+import './components/sticky-point';
 
 import '../sass/main.scss';
 

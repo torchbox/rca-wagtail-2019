@@ -36,8 +36,10 @@
             </div>
         </header>
 
-        <div class="page__content">
-            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=page.booking_bar modal='booking-details' %}
+        {% include "patterns/molecules/booking-bar/booking-bar.html" with item=page.booking_bar modal='booking-details' %}
+
+        <div class="page__content js-sticky-point">
+
             <section class="section section--start bg bg--dark">
                 <div class="section__row programme-overview">
                     <header class="section__header grid">
