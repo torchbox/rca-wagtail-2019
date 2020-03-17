@@ -124,6 +124,31 @@
                 transform: rotate(-45deg) translate3d(5px, 0, 0);
             }
         }
+
+        // Add underline to external links
+        // If not rca.ac.uk or heroku staging, or anchor links or itnernal link...
+        &:not([href*='rca.ac.uk']):not([href*='herokuapp.com']):not([href^='#']):not([href^='/']),
+        &#{$root}--external {
+            &::before {
+                position: absolute;
+                right: 5px;
+                bottom: 7px;
+                display: block;
+                content: '';
+                border-bottom: 1px solid currentColor;
+                width: 7px;
+                height: 1px;
+                transition: transform $transition;
+            }
+
+            &:hover,
+            &:active,
+            &:focus {
+                &::before {
+                    transform: translate3d(4px, -3px, 0);
+                }
+            }
+        }
     }
 
     &--up {
