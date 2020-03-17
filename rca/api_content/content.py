@@ -42,7 +42,7 @@ class CantPullFromRcaApi(Exception):
 
 def try_and_fetch(url):
     try:
-        response = requests.get(url, timeout=29)
+        response = requests.get(url, timeout=5)
         response.raise_for_status()
         return response
     except Timeout:
@@ -80,7 +80,7 @@ def parse_items_to_list(data, type):
 
         if "social_image" in data and data["social_image"]:
             social_image = data["social_image"]["meta"]["detail_url"]
-            social_image = requests.get(url=social_image, timeout=29)
+            social_image = requests.get(url=social_image, timeout=5)
             social_image = social_image.json()
             if "url" in social_image["rca2019_feed_image"]:
                 social_image_url = social_image["rca2019_feed_image"]["url"]
