@@ -1,0 +1,12 @@
+context:
+  item:
+    name: 'Nelly Abbott'
+    meta: 'Completed'
+    link: '#'
+
+tags:
+  image:
+    item.image fill-60x60 as profile_image:
+      target_var: profile_image
+      raw:
+        url: '//placekitten.com/60/60'
