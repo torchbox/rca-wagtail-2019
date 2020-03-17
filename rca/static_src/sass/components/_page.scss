@@ -29,6 +29,21 @@
         }
     }
 
+    &__header {
+        // Adding space to allow for header overlaying content
+        #{$root}--no-hero & {
+            padding-top: ($gutter * 5);
+
+            @include media-query(medium) {
+                padding-top: ($gutter * 10);
+            }
+
+            @include media-query(medilargeum) {
+                padding-top: ($gutter * 16);
+            }
+        }
+    }
+
     &__notch-block {
         @include media-query(medium) {
             position: relative;
