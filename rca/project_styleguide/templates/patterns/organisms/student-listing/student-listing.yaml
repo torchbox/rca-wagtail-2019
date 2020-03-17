@@ -1,0 +1,12 @@
+context:
+  student_listing:
+    - { name: 'Nelly Abbott', meta: Current, link: '#' }
+    - { name: 'Nelly Abbott', meta: Current, link: '#' }
+    - { name: 'Nelly Cholmondeley-Cale', meta: Current, link: '#' }
+    - { name: 'Nelly Abbott', meta: Current, link: '#' }
+    - { name: 'Nelly Abbott', meta: Current, link: '#' }
+    - {
+        name: 'Yancy Wolfeschlegelsteinhausenbergerdorffd',
+        meta: Current,
+        link: '#',
+      }
