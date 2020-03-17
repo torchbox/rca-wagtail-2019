@@ -38,7 +38,7 @@ context:
       link: '#'
       image: true
       person: false
-  alumni:
+  alumni_stories:
     - slide:
       meta: 'Alumni Story'
       title: 'A place with a real focus on making'
