@@ -1,0 +1,33 @@
+.related-links {
+    margin-bottom: ($gutter * 6);
+
+    @include media-query(medium) {
+        margin-bottom: ($gutter * 10);
+    }
+
+    &__header {
+        margin-bottom: ($gutter * 2);
+
+        @include media-query(large) {
+            padding-right: $gutter;
+        }
+    }
+
+    &__heading {
+        @include media-query(large) {
+            max-width: 160px; // force line wrap
+        }
+    }
+
+    &__content {
+        grid-column: 1 / span 2;
+
+        @include media-query(large) {
+            grid-column: 2 / span 2;
+        }
+    }
+
+    &__item {
+        margin-bottom: $gutter;
+    }
+}

@@ -1,12 +1,14 @@
-<div class="section__row grid student-listing">
-    <div class="section__header student-listing__header">
-        <h2 class="section__heading student-listing__heading heading heading--four">
+<div class="section__row grid related-links">
+    <div class="section__header related-links__header">
+        <h2 class="section__heading related-links__heading heading heading--four">
             {{ title|default:"More at the RCA"}}
         </h2>
     </div>
-    <div class="section__content student-listing__content">
+    <div class="section__content related-links__content">
         {% for item in related_links %}
-            {% include "patterns/atoms/link-tertiary/link-tertiary--link.html" with value=item %}
+            <div class="related-links__item">
+                {% include "patterns/atoms/link-tertiary/link-tertiary--link.html" with value=item %}
+            </div>
         {% endfor %}
     </div>
 </div>

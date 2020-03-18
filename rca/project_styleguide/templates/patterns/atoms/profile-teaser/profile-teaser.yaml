@@ -1,6 +1,7 @@
 context:
   item:
-    name: 'Nelly Abbott'
+    first_name: 'Nelly'
+    surname: 'Abbot'
     meta: 'Completed'
     link: '#'
 

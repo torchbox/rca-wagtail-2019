@@ -1,12 +1,18 @@
 context:
   student_listing:
-    - { name: 'Nelly Abbott', meta: Current, link: '#' }
-    - { name: 'Nelly Abbott', meta: Current, link: '#' }
-    - { name: 'Nelly Cholmondeley-Cale', meta: Current, link: '#' }
-    - { name: 'Nelly Abbott', meta: Current, link: '#' }
-    - { name: 'Nelly Abbott', meta: Current, link: '#' }
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
     - {
-        name: 'Yancy Wolfeschlegelsteinhausenbergerdorffd',
+        first_name: 'Nelly',
+        surname: 'Cholmondeley-Cale',
+        meta: Current,
+        link: '#',
+      }
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    - {
+        first_name: 'Yancy',
+        surname: 'Wolfeschlegelsteinhausenbergerdorffd',
         meta: Current,
         link: '#',
       }
