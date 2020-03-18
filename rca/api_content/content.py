@@ -41,22 +41,22 @@ class CantPullFromRcaApi(Exception):
 
 
 def fetch_data(url):
+    logger.info(f"pulling data from API {url}")
     try:
-        logger.info(f"pulling data from API {url}")
         response = requests.get(url, timeout=5)
         response.raise_for_status()
-        data = response.json()
-        return data
     except Timeout:
-        error_text = "Timeout error occurred when fetching data"
-        logger.exception(error_text)
-        raise CantPullFromRcaApi(error_text)
+        logger.exception(f"Timeout error occurred when fetching data from {url}")
+        raise CantPullFromRcaApi(
+            "Error occured when fetching further detail data from {url}"
+        )
     except (HTTPError, ConnectionError):
-        error_text = "Error occured when fetching further detail data"
-        logger.exception(error_text)
-        raise CantPullFromRcaApi(error_text)
+        logger.exception("Error occured when fetching further detail data from {url}")
+        raise CantPullFromRcaApi(
+            "Error occured when fetching further detail data from {url}"
+        )
     else:
-        return None
+        return response.json()
 
 
 def parse_items_to_list(data, type):
@@ -157,7 +157,7 @@ def pull_news_and_events(programme_type_slug=None):
 
     events_data = []
     data = fetch_data(events_url)
-    if data and data["meta"]["total_count"] > 0:
+    if data and "total_count" in data["meta"] and data["meta"]["total_count"] > 0:
         news_items_to_get = 2
         events_data = parse_items_to_list(data, "Event")
 
@@ -225,15 +225,15 @@ def pull_alumni_stories(programme_type_slug=None):
             "show_on_homepage": "true",
         }
     )
-    alumni_stories_standrad_page_data = []
+    alumni_stories_standard_page_data = []
     if programme_type_slug:
         query.update({"rp": programme_type_slug})
     query = query.urlencode()
     url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
 
     data = fetch_data(url)
-    alumni_stories_standrad_page_data = parse_items_to_list(
-        data, "alumni_stories_standard_page"
+    alumni_stories_standard_page_data = parse_items_to_list(
+        data, "alumni_stories_standard_page_data"
     )
 
     # Pull 3 BlogPage items
@@ -258,6 +258,6 @@ def pull_alumni_stories(programme_type_slug=None):
     )
 
     alumni_stories_data = (
-        alumni_stories_blog_page_data + alumni_stories_standrad_page_data
+        alumni_stories_blog_page_data + alumni_stories_standard_page_data
     )
     return alumni_stories_data
