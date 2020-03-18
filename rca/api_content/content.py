@@ -42,6 +42,7 @@ class CantPullFromRcaApi(Exception):
 
 def fetch_data(url):
     try:
+        logger.info(f"pulling data from API {url}")
         response = requests.get(url, timeout=5)
         response.raise_for_status()
         data = response.json()
@@ -60,7 +61,8 @@ def fetch_data(url):
 
 def parse_items_to_list(data, type):
     items = []
-
+    if not data:
+        return []
     for item in data["items"]:
         _item = {}
         if type == "News":
@@ -155,7 +157,7 @@ def pull_news_and_events(programme_type_slug=None):
 
     events_data = []
     data = fetch_data(events_url)
-    if data["meta"]["total_count"] > 0:
+    if data and data["meta"]["total_count"] > 0:
         news_items_to_get = 2
         events_data = parse_items_to_list(data, "Event")
 
