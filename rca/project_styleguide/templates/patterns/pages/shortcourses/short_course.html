@@ -137,12 +137,17 @@
                     <div class="section__container">
                         {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=programme_page_global_fields.related_content_title %}
                     </div>
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    </div>
                 </section>
             {% endif %}
 
             {% if related_links %}
-                    {% include "patterns/organisms/related-links/related-links.html" with related_links=related_links title="External links" %}
-                {% endif %}
+                <section class="section section--top-space bg bg--light">
+                    {% include "patterns/organisms/related-links/related-links.html" with related_links=related_links title="More at the RCA" %}
+                </section>
+            {% endif %}
             
         </div>
 
@@ -166,6 +171,8 @@
                 </div>
             </div>
         {% endif %}
+
+        
 
     </div>
 {% endblock %}
