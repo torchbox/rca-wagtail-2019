@@ -10,7 +10,7 @@
         padding-bottom: ($gutter * 3);
     }
 
-    &__header {
+    &__heading {
         margin-bottom: ($gutter / 2);
     }
 
@@ -60,6 +60,10 @@
         }
     }
 
+    &__profile-title {
+        display: block;
+    }
+
     &--index {
         padding-top: $gutter * 5.5;
 
@@ -69,6 +73,21 @@
 
         @include media-query(large) {
             padding-top: $gutter * 9;
+        }
+    }
+
+    // Staff detail specific styles
+    &--staff-detail {
+        #{$root}__breadcrumb {
+            @include media-query(large) {
+                margin-bottom: ($gutter * 2);
+            }
+        }
+
+        #{$root}__heading {
+            @include media-query(large) {
+                margin-bottom: ($gutter * 3);
+            }
         }
     }
 }
