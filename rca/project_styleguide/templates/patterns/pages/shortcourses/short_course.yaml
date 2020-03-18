@@ -83,7 +83,6 @@ context:
           author: 'Kevin Howbrook'
           link: 'http://www.torchbox.com'
           course: 'Design'
-    staff_link: false
     contact_image: true
     relatedcontent: true
   related_staff:
