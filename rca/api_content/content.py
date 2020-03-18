@@ -40,11 +40,12 @@ class CantPullFromRcaApi(Exception):
     pass
 
 
-def try_and_fetch(url):
+def fetch_data(url):
     try:
         response = requests.get(url, timeout=5)
         response.raise_for_status()
-        return response
+        data = response.json()
+        return data
     except Timeout:
         error_text = "Timeout error occurred when fetching data"
         logger.exception(error_text)
@@ -53,6 +54,8 @@ def try_and_fetch(url):
         error_text = "Error occured when fetching further detail data"
         logger.exception(error_text)
         raise CantPullFromRcaApi(error_text)
+    else:
+        return None
 
 
 def parse_items_to_list(data, type):
@@ -75,8 +78,9 @@ def parse_items_to_list(data, type):
                 + "?fields=_,first_published_at,social_image,body"
             )
 
-        response = try_and_fetch(detail)
-        data = response.json()
+        data = fetch_data(detail)
+        if not data:
+            return []
 
         if "social_image" in data and data["social_image"]:
             social_image = data["social_image"]["meta"]["detail_url"]
@@ -150,8 +154,7 @@ def pull_news_and_events(programme_type_slug=None):
     news_items_to_get = 3
 
     events_data = []
-    response = try_and_fetch(events_url)
-    data = response.json()
+    data = fetch_data(events_url)
     if data["meta"]["total_count"] > 0:
         news_items_to_get = 2
         events_data = parse_items_to_list(data, "Event")
@@ -173,8 +176,7 @@ def pull_news_and_events(programme_type_slug=None):
 
     query = query.urlencode()
     blog_url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
-    response = try_and_fetch(blog_url)
-    data = response.json()
+    data = fetch_data(blog_url)
     blog_data = parse_items_to_list(data, "News")
 
     # Pull 3 News items
@@ -193,8 +195,7 @@ def pull_news_and_events(programme_type_slug=None):
     news_url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
     news_data = []
 
-    response = try_and_fetch(news_url)
-    data = response.json()
+    data = fetch_data(news_url)
     news_data = parse_items_to_list(data, "News")
 
     news_and_blog_data = news_data + blog_data
@@ -228,8 +229,7 @@ def pull_alumni_stories(programme_type_slug=None):
     query = query.urlencode()
     url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
 
-    response = try_and_fetch(url)
-    data = response.json()
+    data = fetch_data(url)
     alumni_stories_standrad_page_data = parse_items_to_list(
         data, "alumni_stories_standard_page"
     )
@@ -250,8 +250,7 @@ def pull_alumni_stories(programme_type_slug=None):
     query = query.urlencode()
     url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
 
-    response = try_and_fetch(url)
-    data = response.json()
+    data = fetch_data(url)
     alumni_stories_blog_page_data = parse_items_to_list(
         data, "alumni_stories_blog_page"
     )
