@@ -86,37 +86,43 @@ context:
           author: 'Kevin Howbrook'
           link: 'http://www.torchbox.com'
           course: 'Design'
-  research_highlights:
-    - slide:
-      meta: 'School of Design'
-      title: 'Advanced Taxi for London'
-      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges.'
-      image: true
-      link: '#'
-    - slide:
-      meta: 'Alumni Story'
-      title: 'A place with a real focus on making'
-      description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
-      image: true
-      link: '#'
-    - slide:
-      meta: 'Alumni Story'
-      title: 'Designing the imposible for NASA'
-      description: 'Creating world class experiences that started at the RCA'
-      image: true
-      link: '#'
-  related_students:
-    - { name: 'Nelly Abbott', meta: Current, link: '#' }
-    - { name: 'Nelly Abbott', meta: Current, link: '#' }
-    - { name: 'Nelly Cholmondeley-Cale', meta: Current, link: '#' }
-    - { name: 'Nelly Abbott', meta: Current, link: '#' }
-    - { name: 'Nelly Abbott', meta: Current, link: '#' }
-    - {
-        name: 'Yancy Wolfeschlegelsteinhausenbergerdorffd',
-        meta: Current,
-        link: '#',
-      }
-  related_links:
-    - { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
-    - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
-    - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
+    research_highlights:
+      - slide:
+        meta: 'School of Design'
+        title: 'Advanced Taxi for London'
+        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges.'
+        image: true
+        link: '#'
+      - slide:
+        meta: 'Alumni Story'
+        title: 'A place with a real focus on making'
+        description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
+        image: true
+        link: '#'
+      - slide:
+        meta: 'Alumni Story'
+        title: 'Designing the imposible for NASA'
+        description: 'Creating world class experiences that started at the RCA'
+        image: true
+        link: '#'
+    related_students:
+      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+      - {
+          first_name: 'Nelly',
+          surname: 'Cholmondeley-Cale',
+          meta: Current,
+          link: '#',
+        }
+      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+      - {
+          first_name: 'Yancy',
+          surname: 'Wolfeschlegelsteinhausenbergerdorffd',
+          meta: Current,
+          link: '#',
+        }
+    related_links:
+      - { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
+      - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
+      - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }

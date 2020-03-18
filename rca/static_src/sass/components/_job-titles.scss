@@ -1,4 +1,6 @@
 .job-titles {
+    margin-bottom: ($gutter * 2);
+
     &__item {
         margin-bottom: $gutter;
     }

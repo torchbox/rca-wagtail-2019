@@ -14,11 +14,16 @@
         margin-bottom: ($gutter / 2);
     }
 
+    &__sub-heading {
+        margin-bottom: ($gutter * 1.5);
+    }
+
     &__content {
         padding-top: ($gutter * 1.5);
         grid-column: 1 / span 2;
 
         @include media-query(medium) {
+            grid-column: 1 / span 1;
             position: relative;
             padding-top: 0;
             top: -14px; // specific value to align baseline of font with notch bottom
@@ -31,6 +36,27 @@
             #{$root}--index & {
                 grid-column: 2 / span 2;
             }
+        }
+    }
+
+    &__image {
+        position: relative;
+        left: -20px; // spill out of margins
+        grid-column: 1 / span 2;
+        width: calc(100% + 40px);
+
+        @include media-query(medium) {
+            grid-column: auto;
+            position: absolute;
+            top: 128px;
+            left: initial;
+            right: 0;
+            width: 50%;
+            height: auto;
+        }
+
+        @include media-query(large) {
+            width: 33.333%;
         }
     }
 
@@ -78,6 +104,12 @@
 
     // Staff detail specific styles
     &--staff-detail {
+        padding-bottom: $gutter;
+
+        @include media-query(medium) {
+            padding-bottom: ($gutter * 3);
+        }
+
         #{$root}__breadcrumb {
             @include media-query(large) {
                 margin-bottom: ($gutter * 2);
@@ -88,6 +120,18 @@
             @include media-query(large) {
                 margin-bottom: ($gutter * 3);
             }
+        }
+    }
+
+    .bg--dark & {
+        #{$root}__sub-heading {
+            color: $color--meta-darkbg;
+        }
+    }
+
+    .bg--light & {
+        #{$root}__sub-heading {
+            color: $color--meta-lightbg;
         }
     }
 }

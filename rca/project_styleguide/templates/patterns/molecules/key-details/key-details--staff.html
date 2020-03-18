@@ -7,8 +7,8 @@
             <h4 class="body body--two key-details__sub-heading">School, Centre or Area</h4>
             <ul class="key-details__list">
                 {% for item in page.profile_school %}
-                <li class="key-details__list-item">
-                    <a class="link link--tertiary" href="{{ item.link }}">{{ item.title }}</a>
+                <li class="key-details__list-item rich-text">
+                    <a href="{{ item.link }}">{{ item.title }}</a>
                 </li>
                 {% endfor %}
             </ul>
@@ -19,8 +19,8 @@
             <h4 class="body body--two key-details__sub-heading">Areas of expertise</h4>
             <ul class="key-details__list">
                 {% for item in page.profile_expertise %}
-                <li class="key-details__list-item">
-                    <a class="link link--tertiary" href="{{ item.link }}">{{ item.title }}</a>
+                <li class="key-details__list-item rich-text">
+                    <a href="{{ item.link }}">{{ item.title }}</a>
                 </li>
                 {% endfor %}
             </ul>

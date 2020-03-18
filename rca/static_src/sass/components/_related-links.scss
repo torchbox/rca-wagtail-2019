@@ -1,8 +1,10 @@
 .related-links {
-    margin-bottom: ($gutter * 6);
+    $root: &;
+    // padding instead of margin to ensure js-sticky-point runs to the bottom
+    padding-bottom: ($gutter * 6);
 
     @include media-query(medium) {
-        margin-bottom: ($gutter * 10);
+        padding-bottom: ($gutter * 10);
     }
 
     &__header {
@@ -10,6 +12,7 @@
 
         @include media-query(large) {
             padding-right: $gutter;
+            grid-column: 2 / span 1;
         }
     }
 
@@ -23,11 +26,19 @@
         grid-column: 1 / span 2;
 
         @include media-query(large) {
-            grid-column: 2 / span 2;
+            grid-column: 3 / span 2;
         }
     }
 
     &__item {
         margin-bottom: $gutter;
+    }
+
+    .app--short-course & {
+        #{$root}__heading {
+            @include media-query(large) {
+                max-width: 150px; // force line wrap after at for "More at the RCA"
+            }
+        }
     }
 }

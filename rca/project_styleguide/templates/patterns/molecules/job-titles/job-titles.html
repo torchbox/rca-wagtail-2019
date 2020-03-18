@@ -4,8 +4,8 @@
             {% for item in item.titles %}
                 <li class="job-titles__title">{{ item.label }}</li>
             {% endfor %}
-                <li class="job-titles__department">
-                    <a class="job-titles__link body body--two link link--tertiary link--link" href="{{ item.link }}"> {{ item.department }} </a>
+                <li class="job-titles__department body body--two rich-text">
+                    <a href="{{ item.link }}">{{ item.department }}</a>
                 </li>
         </ul>
     {% endfor %}

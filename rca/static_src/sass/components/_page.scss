@@ -32,14 +32,14 @@
     &__header {
         // Adding space to allow for header overlaying content
         #{$root}--no-hero & {
-            padding-top: ($gutter * 5);
+            padding-top: ($gutter * 7);
 
             @include media-query(medium) {
                 padding-top: ($gutter * 10);
             }
 
-            @include media-query(medilargeum) {
-                padding-top: ($gutter * 16);
+            @include media-query(large) {
+                padding-top: ($gutter * 12);
             }
         }
     }

@@ -15,73 +15,68 @@
     <div class="page page--no-hero" typeof="schema:Person">
 
         <header class="page__header bg bg--dark">
-            <div class="title-area grid">
+            <div class="title-area title-area--staff-detail grid">
+                {% if page.profile_image %}
+                    <div class="title-area__image">
+                        {% include "patterns/atoms/profile-image/profile-image.html" %}
+                    </div>
+                {% endif %}
                 <div class="title-area__content">
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" with breadcrumb=page.breadcrumb %}
                     </nav>
                     {% if page.profile_title or profile_firstname or profile_surname %}
-                        <h1 property="schema:name" class="title-area__header heading heading--one">
+                        <h1 property="schema:name" class="title-area__heading heading heading--one">
                             {% if page.profile_title %}
-                                <span class="heading heading--three">{{ page.profile_title }}</span>
+                                <span class="title-area__profile-title heading heading--three">{{ page.profile_title }}</span>
                             {% endif %}
                             {{ page.profile_firstname }}
                             {{ page.profile_surname }}
                         </h1>
+                        {% if page.profile_type %}
+                            <h2 class="title-area__sub-heading body body--one">{{ page.profile_type }}</h2>
+                        {% endif %}
                     {% endif %}
 
                     {% if page.job_title %}
-                        <div class="job-titles">
-                            {% for item in page.job_title %}
-                                <ul class="job-titles__item">
-                                    {% for item in item.titles %}
-                                        <li class="job-titles__title">{{ item.label }}</li>
-                                    {% endfor %}
-                                    <a class="job-titles__department link link--tertiary link--link" href="{{ item.link }}">
-                                        {{ item.department }}
-                                    </a>
-                                </ul>
-                            {% endfor %}
+                        <div class="title-area__job-titles">
+                            {% include "patterns/molecules/job-titles/job-titles.html" with job_title=page.job_title %}
                         </div>
                     {% endif %}
 
-                    {% if page.contact_email %}
-                        <a class="link link--secondary link--link" href="mailto:{{ page.contact_email }}">
-                            <span class="link__label">Email {{ page.contact_email }}</span>
-                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                        </a>
+                    {% if page.profile_contact_email %}
+                        <div class="title-area__contact">
+                            <a class="link link--secondary link--link body body--two" href="mailto:{{ page.profile_contact_email }}">
+                                <span class="link__label">Email {{ page.profile_contact_email }}</span>
+                                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                            </a>
+                        </div>
                     {% endif %}
                 </div>
             </div>
         </header>
 
-        {% if page.profile_image %}
-            {% include "patterns/atoms/profile-image/profile-image.html" %}
-        {% endif %}
-
         <div class="page__content">
 
             <section class="section section--start bg bg--dark">
 
-                <div class="section__row programme-overview">
-                    <header class="section__header grid">
-                        <h2 class="section__heading section__heading--primary heading heading--five" property="schema:description">
-                            {{ page.profile_introduction}}
-                        </h2>
-                    </header>
-                    <div class="section__content grid">
-                        <div class="programme-overview__key-details">
-                            {% include "patterns/molecules/key-details/key-details--staff.html" %}
-                        </div>
-                        <div class="programme-overview__body">
-                            <div class="programme-overview__description rich-text">
+                <div class="section__row staff-body">
+                    <div class="staff-body__container grid">
+                        <div class="staff-body__content">
+                            <p class="staff-body__introduction heading heading--five" property="schema:description">
+                                {{ page.profile_introduction}}
+                            </p>
+                            <div class="staff-body__description rich-text">
                                 {{ page.profile_body|safe }}
                             </div>
+                        </div>
+                        <div class="staff-body__key-details">
+                            {% include "patterns/molecules/key-details/key-details--staff.html" %}
                         </div>
                     </div>
                 </div>
 
-                {% if research_highlights %}
+                {% if page.research_highlights %}
                     <div class="section__row research-highlights">
                         <div class="section__header grid">
                             <h2 class="section__heading section__heading--primary heading heading--four">
@@ -89,7 +84,7 @@
                             </h2>
                         </div>
                         <div class="section__content grid">
-                            {% include "patterns/organisms/carousel/carousel.html" with carousel=research_highlights modifier='carousel' datatag='data-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=page.research_highlights modifier='carousel' datatag='data-carousel' %}
                         </div>
                     </div>
                 {% endif %}
@@ -122,9 +117,11 @@
                 </div>
             {% endif %}
 
-                <div class="section__row short-course-accordion section__row--last">
-                    {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.accordion title="More about "|add:page.profile_firstname %}
-                </div>
+                {% if page.accordion %}
+                    <div class="section__row short-course-accordion section__row--last">
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.accordion title="More about "|add:page.profile_firstname %}
+                    </div>
+                {% endif %}
 
                 <div class="section__notch">
                     <div class="section__notch-fill section__notch-fill--third-col"></div>
@@ -133,12 +130,12 @@
             </section>
             
             <section class="section section--top-space bg bg--light">
-                {% if related_students %}
-                    {% include "patterns/organisms/student-listing/student-listing.html" with student_listing=related_students %}
+                {% if page.related_students %}
+                    {% include "patterns/organisms/student-listing/student-listing.html" with student_listing=page.related_students %}
                 {% endif %}
 
-                {% if related_links %}
-                    {% include "patterns/organisms/related-links/related-links.html" with related_links=related_links title="External links" %}
+                {% if page.related_links %}
+                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.related_links title="External links" %}
                 {% endif %}
             </section>
             
