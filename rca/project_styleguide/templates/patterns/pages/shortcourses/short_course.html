@@ -56,7 +56,7 @@
                         </div>
                         <div class="programme-overview__body">
                             {% if page.shortcourse_image %}
-                                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.curriculum_video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.curriculum_image %}
+                                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.curriculum_video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.shortcourse_image caption=page.shortcourse_image_caption %}
                             {% endif %}
                             <div class="programme-overview__description rich-text">
                                 {{ page.shortcourse_description_copy|safe }}

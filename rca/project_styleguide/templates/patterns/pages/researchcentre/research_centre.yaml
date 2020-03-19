@@ -5,42 +5,90 @@ context:
       - { label: 'Research Centres', link: /research/centres }
     title: The Helen Hamlyn Centre for Design
     centre_image: true
-    programme_description_title: 'Understand the purpose of design thinking in promoting innovation and learn real-world applications and strategies for design thinking.'
-    programme_description_copy: '<p>At the RCA, we teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs. In contrast to standard, linear approaches that build on tested models, design thinking is creatively structured, analytic and responsive. It draws in diverse disciplines and multiple areas of expertise and exploration, starting with the core premise that everything is a design problem.</p><p>Through the application of this informed analysis within business-driven, public-facing and community-centred contexts, design thinking can produce innovation, which in turn enables brands to remain competitive in changing markets.</p>'
-    shortcourse_details_fees:
-      - { fee: '&pound;600 before 28 February 2020' }
-      - { fee: '&pound;900 after 29 February 2020' }
-    shortcourse_details_location:
-      - { location: 'Royal College of Art Kensington Gore' }
-    shortcourse_details_register_link: '#'
+    centre_image_caption: Watch the course introduction
+    centre_description: 'The Helen Hamlyn Centre for Design at the Royal College of Art undertakes design research. Our team of dedicated researchers work on projects that save lives.'
+    centre_more_text: 'About the Helen Hamlyn centre'
+    centre_more_link: '#'
     course_intro_video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
+    research_highlights:
+      - slide:
+        meta: 'School of Design'
+        title: 'Extending the potential for the Digitally Printed Ceramic Surface'
+        description: 'Find out how a group of our MA students turned red mud into a range of striking pottery'
+        image: true
+        link: '#'
+      - slide:
+        meta: 'Alumni Story'
+        title: 'A place with a real focus on making'
+        description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
+        image: true
+        link: '#'
+      - slide:
+        meta: 'Alumni Story'
+        title: 'Designing the imposible for NASA'
+        description: 'Creating world class experiences that started at the RCA'
+        image: true
+        link: '#'
+    centre_news:
+      title: More at the Helen Hamlyn Design Centre
+      slides:
+        - slide:
+          value:
+            meta: 'Awards'
+            title: 'Helen Hamlyn Awards'
+            summary: 'The Helen Hamlyn Design Awards is a competition that rewards creativity in people-centred design across all disciplines.'
+            link: '#'
+            person: false
+            image: True
+        - slide:
+          value:
+            meta: 'Awards'
+            title: 'Helen Hamlyn Awards'
+            summary: 'The Helen Hamlyn Design Awards is a competition that rewards creativity in people-centred design across all disciplines.'
+            link: '#'
+            person: false
+            image: True
+        - slide:
+          value:
+            meta: 'Awards'
+            title: 'Helen Hamlyn Awards'
+            summary: 'The Helen Hamlyn Design Awards is a competition that rewards creativity in people-centred design across all disciplines.'
+            link: '#'
+            person: false
+            image: True
+    news_and_events:
+      - item:
+        meta: 'Event'
+        title: 'Designs for Real Life'
+        description: '6 July 2019 — 4 August 2019'
+        link: '#'
+        image: true
+        person: false
+      - item:
+        meta: 'Event'
+        title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
+        description: '23 November 2019'
+        link: '#'
+        image: false
+        person: false
+      - item:
+        meta: 'News'
+        title: 'Show 2018: School of Architecture: Making Space for the Future'
+        description: '23 November 2019'
+        link: '#'
+        image: true
+        person: false
+    related_links:
+      - { text: 'Knowledge Exchange', href: '#' }
+      - { text: 'Custom Executive Education', href: '#' }
+      - { text: 'Innovation RCA', href: '#' }
     staff_link: false
     contact_image: true
     relatedcontent: true
   related_staff:
     - item
     - item
-  partnerships_block:
-    slides:
-      - slide:
-        value:
-          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
-          author: 'Benjamin Glatz'
-          job_title: 'Digital Transformation Lead, Shell'
-      - slide:
-        value:
-          quote: 'We want people to come away from our executive education courses with achievable insights and a critical path to making change in their organisations and to their own individual working lives.'
-          author: 'Professor Jeremy Myerson'
-      - slide:
-        value:
-          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
-          author: 'Benjamin Glatz'
-          job_title: 'Digital Transformation Lead, Shell'
   programme_page_global_fields:
     contact_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
     contact_title: Contact Us
     related_content_title: More opportunities to study at the RCA
-  related_links:
-    - { text: 'Knowledge Exchange', href: '#' }
-    - { text: 'Custom Executive Education', href: '#' }
-    - { text: 'Innovation RCA', href: '#' }
