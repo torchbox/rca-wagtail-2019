@@ -29,6 +29,11 @@
         height: 60px;
         flex-basis: 60px;
         transition: opacity $cubic-transition;
+
+        &--placeholder {
+            border-style: solid;
+            border-width: 1px 1px 1px 0;
+        }
     }
 
     &__content {
@@ -71,6 +76,10 @@
         #{$root}__meta {
             color: $color--meta-darkbg;
         }
+
+        #{$root}__image--placeholder {
+            border-color: $color--grid-line-light;
+        }
     }
 
     .bg--light & {
@@ -80,6 +89,10 @@
 
         #{$root}__meta {
             color: $color--meta-lightbg;
+        }
+
+        #{$root}__image--placeholder {
+            border-color: $color--grid-line-dark;
         }
     }
 }
