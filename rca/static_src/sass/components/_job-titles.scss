@@ -1,0 +1,11 @@
+.job-titles {
+    margin-bottom: ($gutter * 2);
+
+    &__item {
+        margin-bottom: $gutter;
+    }
+
+    &__department {
+        margin-top: ($gutter / 2);
+    }
+}

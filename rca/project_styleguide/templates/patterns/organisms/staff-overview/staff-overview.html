@@ -1,7 +1,7 @@
 <div class="section__row grid staff-overview">
     <h2 class="heading heading--four staff-overview__heading">{{ title|default:"Staff"}}</h2>
     {% for item in staff %}
-        {% include "patterns/molecules/staff-detail/staff-detail.html" %}
+        {% include "patterns/molecules/profile-detail/profile-detail.html" %}
     {% endfor %}
     {% if page.staff_link %}
     <a class="staff-overview__view-all link link--secondary link--link body body--two" href="{{ page.staff_link }}">

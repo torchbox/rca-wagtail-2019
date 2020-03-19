@@ -132,13 +132,21 @@
             &::before {
                 position: absolute;
                 right: 5px;
-                bottom: 7px;
+                bottom: 3px;
                 display: block;
                 content: '';
                 border-bottom: 1px solid currentColor;
                 width: 7px;
                 height: 1px;
                 transition: transform $transition;
+
+                @include media-query(medium) {
+                    bottom: 5px;
+                }
+
+                @include media-query(large) {
+                    bottom: 7px;
+                }
             }
 
             &:hover,

@@ -118,4 +118,10 @@
         opacity: 0.4;
         margin-bottom: ($gutter / 4);
     }
+
+    .app--short-course & {
+        @include media-query(large) {
+            padding-top: ($gutter * 8);
+        }
+    }
 }

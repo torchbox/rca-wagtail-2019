@@ -1,0 +1,128 @@
+context:
+  page:
+    breadcrumb:
+      - { label: 'More about the RCA', link: /more/ }
+      - { label: 'Staff', link: /more/staff }
+    profile_image: true
+    profile_title: Professor
+    profile_firstname: Dale
+    profile_surname: Harrow
+    profile_type: Tutor
+    job_title:
+      - department: Intelligent Mobility
+        link: '#'
+        titles:
+          - { label: 'Chair and Director' }
+          - { label: 'Dean of School Mobility' }
+          - { label: 'Head of Programmes' }
+    profile_contact_email: imdc@rca.ac.uk
+    profile_school:
+      - { title: 'Intelligent Mobility Design Centre', link: '#' }
+    profile_expertise:
+      - { title: 'AI', link: '#' }
+      - { title: 'Robotics', link: '#' }
+      - { title: 'Vehicle Design', link: '#' }
+    profile_introduction: 'Director of his own practice, Dale has worked on projects of all scales, public and private, around the world.'
+    profile_body: '<p>Dale is an international opinion former and commentator and media persona on design the automotive and transport industry.</p><p>He is a multi award-winning designer, academic leader and a researcher and is regularly cited as one of the most influential and important figures in the automotive industry.</p><p>He is committed to design education and is always keen to raise the intellectual debate about vehicle and automotive design and is currently engaged with a major show at London’s Victoria and Albert museum celebrating the origins processes and history of car design.</p>'
+    accordion:
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Before you apply: Application'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Before you apply: Portfolio'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Personal and organisational benefits'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'How you’ll learn'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'What you’ll learn'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Who should attend'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Locations & facilities'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'The RCA approach to Design Thinking & Innovation'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'About the Design Museum'
+    gallery:
+      - slide:
+        value:
+          title: 'Albertopolissss 550-metre pedestrian tunnel'
+          author: 'Chris Lawton'
+          link: 'http://www.torchbox.com'
+          course: 'Architecture'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel'
+          author: 'Nick Lee'
+          link: 'http://www.torchbox.com'
+          course: 'Design'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel'
+          author: 'Chris Lawton'
+          link: 'http://www.torchbox.com'
+          course: 'Architecture'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel'
+          author: 'Kevin Howbrook'
+          link: 'http://www.torchbox.com'
+          course: 'Design'
+    research_highlights:
+      - slide:
+        meta: 'School of Design'
+        title: 'Advanced Taxi for London'
+        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges.'
+        image: true
+        link: '#'
+      - slide:
+        meta: 'Alumni Story'
+        title: 'A place with a real focus on making'
+        description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
+        image: true
+        link: '#'
+      - slide:
+        meta: 'Alumni Story'
+        title: 'Designing the imposible for NASA'
+        description: 'Creating world class experiences that started at the RCA'
+        image: true
+        link: '#'
+    related_students:
+      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+      - {
+          first_name: 'Nelly',
+          surname: 'Cholmondeley-Cale',
+          meta: Current,
+          link: '#',
+        }
+      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+      - {
+          first_name: 'Yancy',
+          surname: 'Wolfeschlegelsteinhausenbergerdorffd',
+          meta: Current,
+          link: '#',
+        }
+    related_links:
+      - { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
+      - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
+      - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }

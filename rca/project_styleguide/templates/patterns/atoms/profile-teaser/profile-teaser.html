@@ -1,0 +1,16 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div class="profile-teaser">
+    {% if item.link %}
+        <a href="{{ item.link }}" class="profile-teaser__container">
+    {% endif %}
+        {% image item.image fill-60x60 as profile_image %}
+        <img src="{{ profile_image.url }}" width="{{ width }}" height="{{ height }}" alt="{{ profile_image.alt }}" class="profile-teaser__image">
+        <div class="profile-teaser__content">
+            <h3 class="profile-teaser__heading body body--one"><span class="profile-teaser__first-name">{{ item.first_name }}</span> <span class="profile-teaser__surname">{{ item.surname }}</span></h3>
+            <p class="profile-teaser__meta body body--two">{{ item.meta }}</p>
+        </div>
+    {% if item.link %}
+        </a>
+    {% endif %}
+</div>

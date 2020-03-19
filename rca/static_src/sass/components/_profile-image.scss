@@ -1,0 +1,11 @@
+.profile-image {
+    $root: &;
+
+    .title-area__image & {
+        #{$root}__item {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+}
