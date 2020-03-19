@@ -10,6 +10,31 @@ context:
     centre_more_text: 'About the Helen Hamlyn centre'
     centre_more_link: '#'
     course_intro_video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
+    research_spaces:
+      - {
+          title: 'Healthcare',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          image: true,
+        }
+      - {
+          title: 'Age & Diversity',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          image: true,
+        }
+      - {
+          title: 'Healthcare',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          image: true,
+        }
     research_highlights:
       - slide:
         meta: 'School of Design'
@@ -29,6 +54,32 @@ context:
         description: 'Creating world class experiences that started at the RCA'
         image: true
         link: '#'
+    opportunities:
+      - {
+          title: 'Custom executive education',
+          link: '#',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        }
+      - {
+          title: 'Knowledge exchange',
+          link: '#',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        }
+      - {
+          title: 'Collaborative research',
+          link: '#',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        }
+      - {
+          title: 'The Helen Hamlyn Research Associates',
+          link: '#',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        }
+      - {
+          title: 'Visiting lecturers',
+          link: '#',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        }
     centre_news:
       title: More at the Helen Hamlyn Design Centre
       slides:

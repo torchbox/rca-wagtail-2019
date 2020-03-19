@@ -66,16 +66,18 @@
                     </div>
                 </div>
 
-                <div class="section__row research-spaces">
-                    <div class="section__header grid">
-                        <h2 class="section__heading section__heading--primary heading heading--four">
-                            Research spaces
-                        </h2>
-                        <div class="section__content grid">
-
+                {% if page.research_spaces %}
+                    <div class="section__row research-spaces">
+                        <div class="section__header grid">
+                            <h2 class="section__heading section__heading--primary heading heading--four">
+                                Research spaces
+                            </h2>
+                            <div class="section__content grid">
+                                {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=page.research_spaces %}
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endif %}
 
                 {% if page.research_highlights %}
                     <div class="section__row research-highlights">
@@ -97,7 +99,7 @@
                 {% endif %}
 
                 <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                <div class="section__notch-fill section__notch-fill--third-col"></div>
                 </div>
 
             </section>
@@ -108,6 +110,10 @@
                     <h2 class="section__heading section__heading--primary heading heading--four">
                         Opportunities to work with us
                     </h2>
+                </div>
+
+                <div class="section__content grid">
+                    {% include "patterns/organisms/categories-panels/categories-panels.html" with categories_panels=page.opportunities %}
                 </div>
 
                 <div class="section__notch">
