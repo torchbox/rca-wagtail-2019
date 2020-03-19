@@ -1,0 +1,147 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% get_settings %}
+
+{% block header_class %}
+    theme-{{ hero_colour }}
+{% endblock %}
+
+{% block body_class %}
+    app--research-centre
+{% endblock %}
+
+{% block content %}
+
+
+    {% include "patterns/molecules/hero/hero.html" with modifier="programme" %}
+
+    <div class="page page--overlap" typeof="schema:Course">
+
+        <meta property="schema:provider" content="Royal College of Art" />
+
+        <div class="page__notch grid">
+            <div class="page__notch-block bg bg--dark"></div>
+        </div>
+
+        <header class="page__header bg bg--dark">
+            <div class="title-area grid">
+                <div class="title-area__content">
+                    <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
+                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" with breadcrumb=page.breadcrumb %}
+                    </nav>
+                    {% if page.title %}
+                        <h1 property="schema:name" class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <div class="page__content js-sticky-point">
+
+            <section class="section section--start bg bg--dark">
+
+                <div class="section__row programme-overview">
+                    <header class="section__header grid">
+                        <h2 class="section__heading section__heading--primary heading heading--five" property="schema:description">
+                            {{ page.programme_description_title}}
+                        </h2>
+                    </header>
+                    <div class="section__content grid">
+                        <div class="programme-overview__key-details">
+                            {% include "patterns/molecules/key-details/key-details.html" with course_type="short" %}
+                        </div>
+                        <div class="programme-overview__body">
+                            {% if page.centre_image and page.course_intro_video %}
+                                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.course_intro_video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.curriculum_image %}
+                            {% endif %}
+                            <div class="programme-overview__description rich-text">
+                                {{ page.programme_description_copy|safe }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+
+            </section>
+
+            <section class="section bg bg--light">
+
+                {% if partnerships_block.slides %}
+                    <div class="section__row section__row--first">
+                        {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=partnerships_block.slides modifier='carousel--square carousel--quotes' datatag='data-square-carousel' %}
+                    </div>
+                {% endif %}
+                
+                {% with staff=related_staff %}
+                    {% if staff %}
+                        <div class="section__row">
+                            {% if staff|length > 1 %}
+                                {% include "patterns/organisms/staff-overview/staff-overview.html" with title="Programme team" %}
+                            {% else %}
+                                {% include "patterns/organisms/staff-overview/staff-overview--single.html" with title="Programme team" %}
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+            </section>
+
+            {% if page.contact_image %}
+                <section class="section section--top-space bg bg--light">
+                    <div class="contact-anchor" id="contact"></div>
+                    <div class="section__container">
+                        {% include "patterns/organisms/contact/contact.html" with heading=programme_page_global_fields.contact_title text=programme_page_global_fields.contact_text image=page.contact_image %}
+                    </div>
+                </section>
+            {% endif %}
+
+            {% if page.relatedcontent %}
+                <section class="section bg bg--dark">
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    </div>
+                    <div class="section__container">
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=programme_page_global_fields.related_content_title %}
+                    </div>
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    </div>
+                </section>
+            {% endif %}
+
+            {% if related_links %}
+                <section class="section section--top-space bg bg--light">
+                    {% include "patterns/organisms/related-links/related-links.html" with related_links=related_links title="More at the RCA" %}
+                </section>
+            {% endif %}
+            
+        </div>
+
+        {% if page.booking_bar %}
+            <div class="page__modals">
+                <div class="modal" id="booking-details" aria-hidden="true">
+                    <div class="modal__overlay bg bg--light" tabindex="-1">
+                        {% include "patterns/atoms/grid-lines/grid-lines.html" %}
+                        <div class="modal__header grid">
+                            <button class="modal__close" aria-label="Close modal" data-micromodal-close>
+                                <span class="modal__close-label">Close</span>
+                                <svg width="14" height="14" class="modal__close-icon" aria-hidden="true"><use xlink:href="#close"></use></svg>
+                            </button>
+                        </div>
+                        <div class="modal__container grid" role="dialog" aria-modal="true" aria-labelledby="booking-details-title">
+                            <div class="modal__content">
+                                {% include "patterns/molecules/short-course-details/short-course-details.html" %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        
+
+    </div>
+{% endblock %}
