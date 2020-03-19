@@ -107,7 +107,13 @@ context:
         link: '#'
     related_students:
       - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
-      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+      - {
+          first_name: 'Nelly',
+          surname: 'Abbott',
+          meta: Current,
+          link: '#',
+          image: false,
+        }
       - {
           first_name: 'Nelly',
           surname: 'Cholmondeley-Cale',
