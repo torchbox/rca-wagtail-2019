@@ -41,9 +41,8 @@ class CantPullFromRcaApi(Exception):
 
 
 def fetch_data(url):
-    logger.info(f"pulling data from API {url}")
     try:
-        response = requests.get(url, timeout=5)
+        response = requests.get(url, timeout=10)
         response.raise_for_status()
     except Timeout:
         logger.exception(f"Timeout error occurred when fetching data from {url}")
@@ -51,9 +50,15 @@ def fetch_data(url):
             "Error occured when fetching further detail data from {url}"
         )
     except (HTTPError, ConnectionError):
-        logger.exception("Error occured when fetching further detail data from {url}")
+        logger.exception(
+            "HTTP/ConnectionError occured when fetching further detail data from {url}"
+        )
         raise CantPullFromRcaApi(
             "Error occured when fetching further detail data from {url}"
+        )
+    except Exception:
+        logger.exception(
+            f"Exception occured when fetching further detail data from {url}"
         )
     else:
         return response.json()
@@ -86,7 +91,7 @@ def parse_items_to_list(data, type):
 
         if "social_image" in data and data["social_image"]:
             social_image = data["social_image"]["meta"]["detail_url"]
-            social_image = requests.get(url=social_image, timeout=5)
+            social_image = requests.get(url=social_image, timeout=10)
             social_image = social_image.json()
             if "url" in social_image["rca2019_feed_image"]:
                 social_image_url = social_image["rca2019_feed_image"]["url"]
