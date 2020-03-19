@@ -10,13 +10,17 @@
         {% if item.link %}</a>{% endif %}
         <div class="card__content-container">
             <div class="card__content">
-                <div class="card__meta">{{ item.meta }}</div>
+                {% if item.meta %}
+                    <div class="card__meta">{{ item.meta }}</div>
+                {% endif %}
                 <h3 class="card__heading">
                     {% if item.link %}<a href="{{ item.link }}" class="card__heading-link">{% endif %}
                         {{ item.title }}
                     {% if item.link %}</a>{% endif %}
                 </h3>
-                <div class="card__description">{{ item.description }}</div>
+                {% if item.description %}
+                    <div class="card__description">{{ item.description }}</div>
+                {% endif %}
             </div>
             {% if item.person %}
                 <div class="card__person">
