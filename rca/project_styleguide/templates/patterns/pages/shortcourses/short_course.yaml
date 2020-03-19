@@ -21,7 +21,7 @@ context:
     shortcourse_details_location:
       - { location: 'Royal College of Art Kensington Gore' }
     shortcourse_details_register_link: '#'
-    about:
+    about_course_accordion:
       - path:
         value:
           body: 'TBC'
