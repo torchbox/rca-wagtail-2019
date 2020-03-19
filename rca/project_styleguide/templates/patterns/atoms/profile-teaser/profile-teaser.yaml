@@ -4,6 +4,7 @@ context:
     surname: 'Abbot'
     meta: 'Completed'
     link: '#'
+    image: true
 
 tags:
   image:
