@@ -80,26 +80,26 @@
                 {% endif %}
 
                 {% if page.research_highlights %}
-                    <div class="section__row research-highlights">
+                    <div class="section__row section__row--last research-highlights">
                         <div class="section__header grid">
                             <h2 class="section__heading section__heading--primary heading heading--four">
                                 Latest research projects
                             </h2>
                         </div>
                         <div class="section__content grid">
-                            {% include "patterns/organisms/carousel/carousel.html" with carousel=page.research_highlights modifier='carousel' datatag='data-carousel' %}     
-                        </div>
-                        <div class="section__content grid">
-                            <a class="link link--primary link--link" href="/research">
-                                <span class="link__label">See all research</span>
-                                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                            </a>      
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=page.research_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}     
+                            <div class="section__action">
+                                <a class="link link--primary link--link body body--two" href="/research">
+                                    <span class="link__label">See all research</span>
+                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                </a>    
+                            </div>
                         </div>
                     </div>
                 {% endif %}
 
                 <div class="section__notch">
-                <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
                 </div>
 
             </section>

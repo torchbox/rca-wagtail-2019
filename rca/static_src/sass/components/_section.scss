@@ -306,4 +306,14 @@
             }
         }
     }
+
+    &__action {
+        .research-highlights & {
+            grid-column: 1 / span 2;
+
+            @include media-query(large) {
+                grid-column: 2 / span 1;
+            }
+        }
+    }
 }
