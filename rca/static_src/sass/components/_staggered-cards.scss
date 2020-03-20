@@ -1,0 +1,18 @@
+.staggered-cards {
+    margin-bottom: ($gutter * 2);
+
+    @include media-query(large) {
+        grid-column: 2 / span 3;
+        margin-bottom: ($gutter * 8);
+    }
+
+    &__container {
+        display: flex;
+        flex-direction: column;
+
+        @include media-query(medium) {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+    }
+}
