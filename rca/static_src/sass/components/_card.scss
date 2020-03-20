@@ -358,18 +358,33 @@
     }
 
     .staggered-cards & {
+        margin-bottom: ($gutter * 3);
+        padding-right: ($gutter * 1.5);
+
+        @include media-query(medium) {
+            flex-basis: 50%;
+            max-width: 50%;
+            min-width: 50%;
+        }
+
         @include media-query(large) {
             flex-basis: 33.333%;
             max-width: 333.333%;
             min-width: 33.333%;
+            margin-bottom: 0;
+            padding-right: 0;
         }
 
         &:nth-child(even) {
-            @include media-query(large) {
+            @include media-query(medium) {
                 position: relative;
-                margin-left: 66.666%;
+                margin-left: 50%;
                 top: -($gutter * 8);
                 margin-bottom: -($gutter * 12);
+            }
+
+            @include media-query(large) {
+                margin-left: 66.666%;
             }
         }
     }

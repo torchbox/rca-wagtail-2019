@@ -1,6 +1,6 @@
 .research-centre-overview {
     @include media-query(large) {
-        margin-bottom: ($gutter * 4);
+        margin-bottom: ($gutter * 6);
     }
 
     &__content {
