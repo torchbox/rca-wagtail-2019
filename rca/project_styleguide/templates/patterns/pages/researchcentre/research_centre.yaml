@@ -133,7 +133,7 @@ context:
       - { text: 'Knowledge Exchange', href: '#' }
       - { text: 'Custom Executive Education', href: '#' }
       - { text: 'Innovation RCA', href: '#' }
-    staff_link: false
+    staff_link: '/staff'
     contact_image: true
     relatedcontent: true
   related_staff:

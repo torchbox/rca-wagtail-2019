@@ -104,15 +104,15 @@
 
             </section>
 
-            <section class="section bg bg--light">
+            <section class="section section--start bg bg--light">
 
-                <div class="section__header grid">
-                    <h2 class="section__heading section__heading--primary heading heading--four">
+                <div class="section__header grid opportunities-to-work">
+                    <h2 class="section__heading section__heading--primary heading heading--two">
                         Opportunities to work with us
                     </h2>
                 </div>
 
-                <div class="section__content grid">
+                <div class="section__content">
                     {% include "patterns/organisms/categories-panels/categories-panels.html" with categories_panels=page.opportunities %}
                 </div>
 
@@ -140,17 +140,11 @@
 
                 {% with staff=related_staff %}
                     {% if staff %}
-                        <div class="section__row">
-                            {% if staff|length > 1 %}
-                                {% include "patterns/organisms/staff-overview/staff-overview.html" with title="Staff" %}
-                            {% else %}
-                                {% include "patterns/organisms/staff-overview/staff-overview--single.html" with title="Staff" %}
-                            {% endif %}
-                            <a class="link link--primary link--link" href="/staff">
-                                <span class="link__label">See all staff</span>
-                                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                            </a>      
-                        </div>
+                        {% if staff|length > 1 %}
+                            {% include "patterns/organisms/staff-overview/staff-overview.html" with title="Staff" %}
+                        {% else %}
+                            {% include "patterns/organisms/staff-overview/staff-overview--single.html" with title="Staff" %}
+                        {% endif %}
                     {% endif %}
                 {% endwith %}
 
