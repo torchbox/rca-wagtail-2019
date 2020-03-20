@@ -47,7 +47,7 @@
                 <div class="section__row programme-overview">
                     <header class="section__header grid">
                         <h2 class="section__heading section__heading--primary heading heading--five" property="schema:description">
-                            {{ page.programme_description_title}}
+                            {{ page.shortcourse_description_title}}
                         </h2>
                     </header>
                     <div class="section__content grid">
@@ -55,11 +55,11 @@
                             {% include "patterns/molecules/key-details/key-details.html" with course_type="short" %}
                         </div>
                         <div class="programme-overview__body">
-                            {% if page.programme_image %}
-                                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.curriculum_video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.curriculum_image %}
+                            {% if page.shortcourse_image %}
+                                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.curriculum_video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.shortcourse_image caption=page.shortcourse_image_caption %}
                             {% endif %}
                             <div class="programme-overview__description rich-text">
-                                {{ page.programme_description_copy|safe }}
+                                {{ page.shortcourse_description_copy|safe }}
                             </div>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
 
             </section>
 
-            {% if page.programme_gallery %}
+            {% if page.shortcourse_gallery %}
                 <section class="section bg bg--dark">
 
                     <div class="section__notch">
@@ -113,7 +113,7 @@
                             </h3>
                         </header>
                         <div class="section__content">
-                            {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.programme_gallery modifier='slideshow--author-info' %}
+                            {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.shortcourse_gallery modifier='slideshow--author-info' %}
                         </div>
                     </div>
 
