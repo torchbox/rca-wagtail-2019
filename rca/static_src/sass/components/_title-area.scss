@@ -123,6 +123,18 @@
         }
     }
 
+    &--research-centre {
+        #{$root}__content {
+            @include media-query(medium) {
+                // Titles are generally longer on research centre pages, so give them more space on tablets
+                grid-column: 1 / span 2;
+            }
+            @include media-query(large) {
+                grid-column: 2 / span 3;
+            }
+        }
+    }
+
     .bg--dark & {
         #{$root}__sub-heading {
             color: $color--meta-darkbg;

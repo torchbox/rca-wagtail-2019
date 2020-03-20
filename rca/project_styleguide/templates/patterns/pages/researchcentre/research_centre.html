@@ -22,7 +22,7 @@
         </div>
 
         <header class="page__header bg bg--dark">
-            <div class="title-area grid">
+            <div class="title-area title-area--research-centre grid">
                 <div class="title-area__content">
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" with breadcrumb=page.breadcrumb %}
@@ -36,32 +36,32 @@
 
         <div class="page__content">
 
-            <section class="section section--start bg bg--dark">
+            <section class="section bg bg--dark">
 
-                <div class="section__row programme-overview">
-                    {% if page.centre_description or page.centre_more_text %}
-                        <header class="section__header grid">
-                            {% if page.centre_description %}
-                                <h2 class="section__heading section__heading--primary heading heading--five" property="schema:description">
-                                    {{ page.centre_description }}
-                                </h2>
-                            {% endif %}
-                            {% if page.centre_more_text %}
-                                <a href="{{ page.centre_more_link }}" class="link link--tertiary link--link">
-                                    <span class="link__label">{{ page.centre_more_text }}</span>
-                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                                </a>
-                            {% endif %}
-                        </header>
-                    {% endif %}
+                <div class="section__row research-centre-overview">
                     <div class="section__content grid">
-                        <div class="programme-overview__key-details">
-                            {% include "patterns/molecules/key-details/key-details--centre.html" %}
+                        <div class="research-centre-overview__content">
+                            <div class="research-centre-overview__body">
+                                {% if page.centre_description %}
+                                    <h2 class="research-centre-overview__heading section__heading heading heading--five">
+                                        {{ page.centre_description }}
+                                    </h2>
+                                {% endif %}
+                                {% if page.centre_more_text %}
+                                    <a href="{{ page.centre_more_link }}" class="link link--tertiary link--link">
+                                        <span class="link__label">{{ page.centre_more_text }}</span>
+                                        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                    </a>
+                                {% endif %}
+                            </div>
+                            <div class="research-centre-overview__media">
+                                {% if page.centre_image and page.course_intro_video %}
+                                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.course_intro_video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.centre_image caption=page.centre_image_caption %}
+                                {% endif %}
+                            </div>
                         </div>
-                        <div class="programme-overview__body">
-                            {% if page.centre_image and page.course_intro_video %}
-                                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.course_intro_video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.centre_image caption=page.centre_image_caption %}
-                            {% endif %}
+                        <div class="research-centre-overview__key-details">
+                            {% include "patterns/molecules/key-details/key-details--centre.html" %}
                         </div>
                     </div>
                 </div>
