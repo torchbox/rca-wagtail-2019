@@ -1,0 +1,6 @@
+context:
+  categories_panels:
+    - { title: 'Research', link: '#', description: 'description' }
+    - { title: 'Research', link: '#', description: 'description' }
+    - { title: 'Research', link: '#', description: 'description' }
+    - { title: 'Research', link: '#', description: 'description' }

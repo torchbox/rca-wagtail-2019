@@ -102,6 +102,10 @@
         }
     }
 
+    &--no-margin {
+        margin-bottom: $gutter;
+    }
+
     &__item {
         opacity: 0.36;
         transition: opacity $transition;
