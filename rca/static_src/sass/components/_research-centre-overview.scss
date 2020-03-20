@@ -1,4 +1,8 @@
 .research-centre-overview {
+    @include media-query(large) {
+        margin-bottom: ($gutter * 4);
+    }
+
     &__content {
         grid-column: 1 / span 2;
 
