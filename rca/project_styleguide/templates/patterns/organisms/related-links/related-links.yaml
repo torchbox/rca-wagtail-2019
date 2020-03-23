@@ -1,0 +1,5 @@
+context:
+  related_links:
+    - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
+    - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
+    - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }

@@ -30,44 +30,44 @@
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" with breadcrumb=page.breadcrumb %}
                     </nav>
                     {% if page.title %}
-                        <h1 property="schema:name" class="title-area__header heading heading--display-two">{{ page.title }}</h1>
+                        <h1 property="schema:name" class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
                     {% endif %}
                 </div>
             </div>
         </header>
 
-        <div class="page__content">
+        {% if page.booking_bar %}
+            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=page.booking_bar modal='booking-details' %}
+        {% endif %}
 
-            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=page.booking_bar %}
+        <div class="page__content js-sticky-point">
 
             <section class="section section--start bg bg--dark">
 
                 <div class="section__row programme-overview">
                     <header class="section__header grid">
-                        {% if page.introduction %}
-                            <h2 class="section__heading section__heading--primary heading heading--five" property="schema:description">
-                                {{ page.introduction }}
-                            </h2>
-                        {% endif %}
+                        <h2 class="section__heading section__heading--primary heading heading--five" property="schema:description">
+                            {{ page.shortcourse_description_title}}
+                        </h2>
                     </header>
                     <div class="section__content grid">
                         <div class="programme-overview__key-details">
                             {% include "patterns/molecules/key-details/key-details.html" with course_type="short" %}
                         </div>
                         <div class="programme-overview__body">
-                            {% if page.introduction_image %}
-                                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False caption=page.video_caption video=page.video image=page.introduction_image %}
+                            {% if page.shortcourse_image %}
+                                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.curriculum_video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.shortcourse_image caption=page.shortcourse_image_caption %}
                             {% endif %}
                             <div class="programme-overview__description rich-text">
-                                {{ page.body|safe }}
+                                {{ page.shortcourse_description_copy|safe }}
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {% if page.about %}
+                {% if page.about_course_accordion %}
                     <div class="section__row short-course-accordion section__row--last">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.about title="About the course" course_type="short" %}
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.about_course_accordion title="About the course" course_type="short" %}
                     </div>
                 {% endif %}
 
@@ -79,63 +79,101 @@
 
             <section class="section bg bg--light">
 
-                <div class="section__row section__row--first">
-                    {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=partnerships_block.slides modifier='carousel--square carousel--quotes' datatag='data-square-carousel' %}
-                </div>
+                {% if partnerships_block.slides %}
+                    <div class="section__row section__row--first">
+                        {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=partnerships_block.slides modifier='carousel--square carousel--quotes' datatag='data-square-carousel' %}
+                    </div>
+                {% endif %}
 
-                <div class="section__row">
-                    {% with staff=related_staff %}
-                        {% if staff %}
+                {% with staff=related_staff %}
+                    {% if staff %}
+                        <div class="section__row">
                             {% if staff|length > 1 %}
-                                    {% include "patterns/organisms/staff-overview/staff-overview.html" with title="Programme team" %}
+                                {% include "patterns/organisms/staff-overview/staff-overview.html" with title="Programme team" %}
                             {% else %}
                                 {% include "patterns/organisms/staff-overview/staff-overview--single.html" with title="Programme team" %}
                             {% endif %}
-                        {% endif %}
-                    {% endwith %}
-                </div>
+                        </div>
+                    {% endif %}
+                {% endwith %}
 
             </section>
 
-            <section class="section bg bg--dark">
+            {% if page.shortcourse_gallery %}
+                <section class="section bg bg--dark">
 
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
-                </div>
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    </div>
 
-                <div class="section__row section__row--first section__row--last">
-                    {% if page.programme_gallery %}
+                    <div class="section__row section__row--first section__row--last">
                         <header class="section__header grid">
                             <h3 class="section__heading section__heading--secondary heading heading--four">
                                 Gallery
                             </h3>
                         </header>
                         <div class="section__content">
-                            {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.programme_gallery modifier='slideshow--author-info' %}
+                            {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.shortcourse_gallery modifier='slideshow--author-info' %}
                         </div>
-                    {% endif %}
-                </div>
+                    </div>
 
-            </section>
+                </section>
+            {% endif %}
 
-            <section class="section section--top-space bg bg--light">
-                <div class="contact-anchor" id="contact"></div>
-                <div class="section__container">
-                    {% include "patterns/organisms/contact/contact.html" with heading=programme_page_global_fields.contact_title text=programme_page_global_fields.contact_text image=page.contact_image %}
-                </div>
-            </section>
+            {% if page.contact_image %}
+                <section class="section section--top-space bg bg--light">
+                    <div class="contact-anchor" id="contact"></div>
+                    <div class="section__container">
+                        {% include "patterns/organisms/contact/contact.html" with heading=programme_page_global_fields.contact_title text=programme_page_global_fields.contact_text image=page.contact_image %}
+                    </div>
+                </section>
+            {% endif %}
 
-            <section class="section bg bg--dark">
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
-                </div>
-                <div class="section__container">
-                    {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=programme_page_global_fields.related_content_title %}
-                </div>
-            </section>
 
+            {% if page.relatedcontent %}
+                <section class="section bg bg--dark">
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    </div>
+                    <div class="section__container">
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=programme_page_global_fields.related_content_title %}
+                    </div>
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    </div>
+                </section>
+            {% endif %}
+
+            {% if related_links %}
+                <section class="section section--top-space bg bg--light">
+                    {% include "patterns/organisms/related-links/related-links.html" with related_links=related_links title="More at the RCA" %}
+                </section>
+            {% endif %}
 
         </div>
+
+        {% if page.booking_bar %}
+            <div class="page__modals">
+                <div class="modal" id="booking-details" aria-hidden="true">
+                    <div class="modal__overlay bg bg--light" tabindex="-1">
+                        {% include "patterns/atoms/grid-lines/grid-lines.html" %}
+                        <div class="modal__header grid">
+                            <button class="modal__close" aria-label="Close modal" data-micromodal-close>
+                                <span class="modal__close-label">Close</span>
+                                <svg width="14" height="14" class="modal__close-icon" aria-hidden="true"><use xlink:href="#close"></use></svg>
+                            </button>
+                        </div>
+                        <div class="modal__container grid" role="dialog" aria-modal="true" aria-labelledby="booking-details-title">
+                            <div class="modal__content">
+                                {% include "patterns/molecules/short-course-details/short-course-details.html" %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+
 
     </div>
 {% endblock %}

@@ -118,4 +118,30 @@
             }
         }
     }
+
+    .section__content & {
+        &::after {
+            margin-top: ($gutter);
+
+            @include media-query(large) {
+                margin-top: ($gutter * 2);
+            }
+        }
+
+        #{$root}__heading,
+        #{$root}__description {
+            max-width: 440px;
+        }
+
+        #{$root}__description {
+            @include media-query(medium) {
+                // Align with the grid line
+                padding-left: 17%;
+            }
+            @include media-query(large) {
+                // Reset
+                padding-left: 7%;
+            }
+        }
+    }
 }

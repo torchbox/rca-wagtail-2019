@@ -45,21 +45,22 @@
                     </section>
 
             {% endif %}
-                {% if alumni_stories %}
-                    <section class="section section--top-space bg bg--dark">
+            
+            {% if alumni_stories %}
+                <section class="section section--top-space bg bg--dark">
 
-                        <div class="alumni-stories">
-                            <div class="alumni-stories__header grid">
-                                <h2 class="alumni-stories__heading heading heading--one">Where will the RCA take you?</h2>
-                            </div>
-
-                            <div class="alumni-stories__carousel grid">
-                                {% include "patterns/organisms/carousel/carousel_api_content.html" with carousel=alumni_stories modifier='carousel' datatag='data-carousel' %}
-                            </div>
+                    <div class="alumni-stories">
+                        <div class="alumni-stories__header grid">
+                            <h2 class="alumni-stories__heading heading heading--one">Where will the RCA take you?</h2>
                         </div>
 
-                    </section>
-                {% endif %}
+                        <div class="alumni-stories__carousel grid">
+                            {% include "patterns/organisms/carousel/carousel_api_content.html" with carousel=alumni_stories modifier='carousel' datatag='data-carousel' %}
+                        </div>
+                    </div>
+
+                </section>
+            {% endif %}
 
             {% if stats_block %}
                 {% include "patterns/organisms/stat-block/stat-block.html" %}
