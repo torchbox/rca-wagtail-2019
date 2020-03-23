@@ -9,7 +9,7 @@ from requests.exceptions import Timeout
 
 
 """
-Privides functionality for fetching data from access planit xml feed
+Provides functionality for fetching data from access planit xml feed
 """
 
 
@@ -31,7 +31,7 @@ class AccessPlanitException(Exception):
 
 class AccessPlanitXMLParser:
     """ XML parses
-    xml: a blob of xml as a string (from response.text)
+    xml: a blob of xml to a list (from response.text)
     """
 
     def __init__(self, xml):
@@ -62,11 +62,24 @@ class AccessPlanitXMLParser:
         return items
 
     def get_parsed_data(self):
+        """
+        Returns:
+            list -- A list containing parsed data
+        """
         parsed_data = self.parse()
         return parsed_data
 
 
 class AccessPlanitXML:
+    """Used for retrieving short course data from the AccessPlanit xml feeds.
+    The data is periodically fetched with a management command and set
+    in the low-level cache.
+
+    Raises:
+        AccessPlanitException: Should the fetch encouter Timeouts or any other
+        exceptions, this raised and caught when setting the data in the cache.
+    """
+
     def __init__(self, course_id):
         # This might be better as a default on the model
         # but if there is no course ID passed we seem to get some default xml
