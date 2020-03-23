@@ -47,7 +47,7 @@
                 <div class="section__row programme-overview">
                     <header class="section__header grid">
                         <h2 class="section__heading section__heading--primary heading heading--five" property="schema:description">
-                            {{ page.shortcourse_description_title}}
+                            {{ page.introduction}}
                         </h2>
                     </header>
                     <div class="section__content grid">
@@ -55,19 +55,19 @@
                             {% include "patterns/molecules/key-details/key-details.html" with course_type="short" %}
                         </div>
                         <div class="programme-overview__body">
-                            {% if page.shortcourse_image %}
-                                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.curriculum_video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.shortcourse_image caption=page.shortcourse_image_caption %}
+                            {% if page.introduction_image %}
+                                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.introduction_image caption=page.video_caption %}
                             {% endif %}
                             <div class="programme-overview__description rich-text">
-                                {{ page.shortcourse_description_copy|safe }}
+                                {{ page.body|safe }}
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {% if page.about_course_accordion %}
+                {% if page.about %}
                     <div class="section__row short-course-accordion section__row--last">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.about_course_accordion title="About the course" course_type="short" %}
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.about title="About the course" course_type="short" %}
                     </div>
                 {% endif %}
 
