@@ -704,3 +704,13 @@ API_CONTENT_CACHE_TIMEOUT = int(env.get("API_CONTENT_CACHE_TIMEOUT", 60 * 60 * 2
 # The API url to pull content from for the homepage, see rca.api_content.content
 API_CONTENT_BASE_URL = env.get("API_CONTENT_BASE_URL", "https://rca.ac.uk")
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
+
+# Access planit cache timeout
+ACCESS_PLANIT_XML_FEED_TIMEOUT = int(
+    env.get("ACCESS_PLANIT_XML_FEED_TIMEOUT", 60 * 60 * 24)
+)
+# AccessPlanit url
+ACCESS_PLANIT_XML_BASE_URL = env.get(
+    "ACCESS_PLANIT_XML_BASE_URL",
+    "https://rca.accessplanit.com/accessplansandbox/services/WebIntegration.asmx/GetCoursesPackage?",
+)
