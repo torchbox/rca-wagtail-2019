@@ -42,7 +42,7 @@ class ShortCoursePage(BasePage):
         verbose_name=_("About the course"),
     )
 
-    access_planit_course_id = models.CharField(max_length=10, blank=True)
+    access_planit_course_id = models.CharField(max_length=10)
 
     content_panels = BasePage.content_panels + [
         MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero")),
@@ -66,6 +66,33 @@ class ShortCoursePage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["ap_data"] = self.get_access_planit_data()
+        access_planit_data = self.get_access_planit_data()
 
+        """ Booking bar messaging with the next course data available
+        Find the next course date marked as status='available' and advertise
+        this date in the booking bar. If there are no courses available, add
+        a default message."""
+
+        context["booking_bar"] = {
+            "message": "Applications are now closed",
+            "action": "Register your interest for upcoming dates",
+        }
+        # If there are no dates the booking link should go to a form, not open
+        # a modal
+        if self.access_planit_course_id:
+            context["booking_bar"]["link"] = (
+                f"https://rca-verdant-staging.herokuapp.com/short-courses/"
+                "register-your-interest/?course_id={self.access_planit_course_id}"
+            )
+        if access_planit_data:
+            for key, date in enumerate(access_planit_data):
+                if date["status"] == "Available":
+                    context["booking_bar"]["message"] = "Next course starts"
+                    context["booking_bar"]["date"] = access_planit_data[key][
+                        "start_date"
+                    ]
+                    context["booking_bar"][
+                        "action"
+                    ] = f"Book now from \xA3{access_planit_data[key]['cost']}"
+                    break
         return context
