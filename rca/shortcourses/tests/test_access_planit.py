@@ -1,3 +1,4 @@
+import datetime
 import logging
 import warnings
 from unittest import mock
@@ -22,6 +23,9 @@ def mocked_fetch_data_from_xml(**kargs):
     with open("./rca/shortcourses/tests/test_data.xml", "r") as file:
         data = AccessPlanitXMLParser(xml=file.read())
         data = data.get_parsed_data()
+        print("\n\n")
+        print(data)
+        print("\n\n")
     return data
 
 
@@ -32,8 +36,8 @@ class AccessPlanitXMLTest(TestCase):
                 "course_date_id": "12086",
                 "course_id": "731014",
                 "cost": "1250",
-                "start_date": "2020-03-27T09:00:00",
-                "end_date": "2020-04-02T17:00:00",
+                "start_date": datetime.datetime(2020, 3, 27, 9, 0),
+                "end_date": datetime.datetime(2020, 4, 2, 17, 0),
                 "spaces_available": "22",
                 "status": "Available",
                 "book_now_url": (
@@ -42,16 +46,16 @@ class AccessPlanitXMLTest(TestCase):
                 ),
                 "enquire_url": (
                     "https://rca.accessplanit.com/accessplansand"
-                    "box/clientinput/company/contactcompany.aspx?contacttype=8&"
-                    "coursecalid=12086"
+                    "box/clientinput/company/contactcompany.aspx?contacttype=8"
+                    "&coursecalid=12086"
                 ),
             },
             {
                 "course_date_id": "12085",
                 "course_id": "731014",
                 "cost": "9000",
-                "start_date": "2020-05-13T09:00:00",
-                "end_date": "2020-05-19T17:00:00",
+                "start_date": datetime.datetime(2020, 5, 13, 9, 0),
+                "end_date": datetime.datetime(2020, 5, 19, 17, 0),
                 "spaces_available": "22",
                 "status": "Available",
                 "book_now_url": (
@@ -60,16 +64,16 @@ class AccessPlanitXMLTest(TestCase):
                 ),
                 "enquire_url": (
                     "https://rca.accessplanit.com/accessplansand"
-                    "box/clientinput/company/contactcompany.aspx?contacttype=8&"
-                    "coursecalid=12085"
+                    "box/clientinput/company/contactcompany.aspx?contacttype=8"
+                    "&coursecalid=12085"
                 ),
             },
             {
                 "course_date_id": "12071",
                 "course_id": "731014",
                 "cost": "1250",
-                "start_date": "2020-07-20T09:00:00",
-                "end_date": "2020-07-24T17:00:00",
+                "start_date": datetime.datetime(2020, 7, 20, 9, 0),
+                "end_date": datetime.datetime(2020, 7, 24, 17, 0),
                 "spaces_available": "20",
                 "status": "Available",
                 "book_now_url": (
@@ -78,8 +82,8 @@ class AccessPlanitXMLTest(TestCase):
                 ),
                 "enquire_url": (
                     "https://rca.accessplanit.com/accessplansand"
-                    "box/clientinput/company/contactcompany.aspx?contacttype=8&"
-                    "coursecalid=12071"
+                    "box/clientinput/company/contactcompany.aspx?contacttype=8"
+                    "&coursecalid=12071"
                 ),
             },
         ]

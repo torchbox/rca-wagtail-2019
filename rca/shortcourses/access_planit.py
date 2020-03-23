@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup as bs
 from django.conf import settings
 from django.core.cache import cache
 from django.http.request import QueryDict
+from django.utils.dateparse import parse_datetime
 from requests.exceptions import Timeout
 
 
@@ -50,8 +51,8 @@ class AccessPlanitXMLParser:
                     "course_date_id": i.coursedateid.text,
                     "course_id": i.courseid.text,
                     "cost": i.cost.text,
-                    "start_date": i.startdate.text,
-                    "end_date": i.enddate.text,
+                    "start_date": parse_datetime(i.startdate.text),
+                    "end_date": parse_datetime(i.enddate.text),
                     "spaces_available": i.spacesavailable.text,
                     "status": i.status.text,
                     "book_now_url": i.booknowurl.text,
