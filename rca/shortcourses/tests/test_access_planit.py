@@ -27,6 +27,62 @@ def mocked_fetch_data_from_xml(**kargs):
 
 class AccessPlanitXMLTest(TestCase):
     def setUp(self):
+        self.expected_data = [
+            {
+                "course_date_id": "12086",
+                "course_id": "731014",
+                "cost": "1250",
+                "start_date": "2020-03-27T09:00:00",
+                "end_date": "2020-04-02T17:00:00",
+                "spaces_available": "22",
+                "status": "Available",
+                "book_now_url": (
+                    "https://rca.accessplanit.com/accessplansand"
+                    "box/clientinput/course/coursebooker.aspx?coursedateid=12086"
+                ),
+                "enquire_url": (
+                    "https://rca.accessplanit.com/accessplansand"
+                    "box/clientinput/company/contactcompany.aspx?contacttype=8&"
+                    "coursecalid=12086"
+                ),
+            },
+            {
+                "course_date_id": "12085",
+                "course_id": "731014",
+                "cost": "9000",
+                "start_date": "2020-05-13T09:00:00",
+                "end_date": "2020-05-19T17:00:00",
+                "spaces_available": "22",
+                "status": "Available",
+                "book_now_url": (
+                    "https://rca.accessplanit.com/accessplansand"
+                    "box/clientinput/course/coursebooker.aspx?coursedateid=12085"
+                ),
+                "enquire_url": (
+                    "https://rca.accessplanit.com/accessplansand"
+                    "box/clientinput/company/contactcompany.aspx?contacttype=8&"
+                    "coursecalid=12085"
+                ),
+            },
+            {
+                "course_date_id": "12071",
+                "course_id": "731014",
+                "cost": "1250",
+                "start_date": "2020-07-20T09:00:00",
+                "end_date": "2020-07-24T17:00:00",
+                "spaces_available": "20",
+                "status": "Available",
+                "book_now_url": (
+                    "https://rca.accessplanit.com/accessplansand"
+                    "box/clientinput/course/coursebooker.aspx?coursedateid=12071"
+                ),
+                "enquire_url": (
+                    "https://rca.accessplanit.com/accessplansand"
+                    "box/clientinput/company/contactcompany.aspx?contacttype=8&"
+                    "coursecalid=12071"
+                ),
+            },
+        ]
         self.query = QueryDict(mutable=True)
         self.query.update(
             {
@@ -116,63 +172,6 @@ class AccessPlanitXMLTest(TestCase):
     def test_page_renders_good_xml(self, mocked_fetch_data_from_xml):
         """ Test that the example xml file is passed through the parser and is set
         in cache, and when retrieved is what we expect """
-        expected_data = [
-            {
-                "course_date_id": "12086",
-                "course_id": "731014",
-                "cost": "1250",
-                "start_date": "2020-03-27T09:00:00",
-                "end_date": "2020-04-02T17:00:00",
-                "spaces_available": "22",
-                "status": "Available",
-                "book_now_url": (
-                    "https://rca.accessplanit.com/accessplansand"
-                    "box/clientinput/course/coursebooker.aspx?coursedateid=12086"
-                ),
-                "enquire_url": (
-                    "https://rca.accessplanit.com/accessplansand"
-                    "box/clientinput/company/contactcompany.aspx?contacttype=8&"
-                    "coursecalid=12086"
-                ),
-            },
-            {
-                "course_date_id": "12085",
-                "course_id": "731014",
-                "cost": "9000",
-                "start_date": "2020-05-13T09:00:00",
-                "end_date": "2020-05-19T17:00:00",
-                "spaces_available": "22",
-                "status": "Available",
-                "book_now_url": (
-                    "https://rca.accessplanit.com/accessplansand"
-                    "box/clientinput/course/coursebooker.aspx?coursedateid=12085"
-                ),
-                "enquire_url": (
-                    "https://rca.accessplanit.com/accessplansand"
-                    "box/clientinput/company/contactcompany.aspx?contacttype=8&"
-                    "coursecalid=12085"
-                ),
-            },
-            {
-                "course_date_id": "12071",
-                "course_id": "731014",
-                "cost": "1250",
-                "start_date": "2020-07-20T09:00:00",
-                "end_date": "2020-07-24T17:00:00",
-                "spaces_available": "20",
-                "status": "Available",
-                "book_now_url": (
-                    "https://rca.accessplanit.com/accessplansand"
-                    "box/clientinput/course/coursebooker.aspx?coursedateid=12071"
-                ),
-                "enquire_url": (
-                    "https://rca.accessplanit.com/accessplansand"
-                    "box/clientinput/company/contactcompany.aspx?contacttype=8&"
-                    "coursecalid=12071"
-                ),
-            },
-        ]
-
         home_page = HomePage.objects.first()
         short_course_page = ShortCoursePage(
             title="Short course title",
@@ -189,67 +188,7 @@ class AccessPlanitXMLTest(TestCase):
         self.assertEqual(
             response.render().status_code, 200
         )  # will render 404 if there is an failure
-        self.assertEqual(cache.get("short_course_1"), expected_data)
-
-
-class AccessPlanitXMLParserTest(TestCase):
-    def setUp(self):
-        self.expected_data = [
-            {
-                "course_date_id": "12086",
-                "course_id": "731014",
-                "cost": "1250",
-                "start_date": "2020-03-27T09:00:00",
-                "end_date": "2020-04-02T17:00:00",
-                "spaces_available": "22",
-                "status": "Available",
-                "book_now_url": (
-                    "https://rca.accessplanit.com/accessplansand"
-                    "box/clientinput/course/coursebooker.aspx?coursedateid=12086"
-                ),
-                "enquire_url": (
-                    "https://rca.accessplanit.com/accessplansand"
-                    "box/clientinput/company/contactcompany.aspx?contacttype=8&"
-                    "coursecalid=12086"
-                ),
-            },
-            {
-                "course_date_id": "12085",
-                "course_id": "731014",
-                "cost": "9000",
-                "start_date": "2020-05-13T09:00:00",
-                "end_date": "2020-05-19T17:00:00",
-                "spaces_available": "22",
-                "status": "Available",
-                "book_now_url": (
-                    "https://rca.accessplanit.com/accessplansand"
-                    "box/clientinput/course/coursebooker.aspx?coursedateid=12085"
-                ),
-                "enquire_url": (
-                    "https://rca.accessplanit.com/accessplansand"
-                    "box/clientinput/company/contactcompany.aspx?contacttype=8&"
-                    "coursecalid=12085"
-                ),
-            },
-            {
-                "course_date_id": "12071",
-                "course_id": "731014",
-                "cost": "1250",
-                "start_date": "2020-07-20T09:00:00",
-                "end_date": "2020-07-24T17:00:00",
-                "spaces_available": "20",
-                "status": "Available",
-                "book_now_url": (
-                    "https://rca.accessplanit.com/accessplansand"
-                    "box/clientinput/course/coursebooker.aspx?coursedateid=12071"
-                ),
-                "enquire_url": (
-                    "https://rca.accessplanit.com/accessplansand"
-                    "box/clientinput/company/contactcompany.aspx?contacttype=8&"
-                    "coursecalid=12071"
-                ),
-            },
-        ]
+        self.assertEqual(cache.get("short_course_1"), self.expected_data)
 
     def test_parsing(self):
         with open("./rca/shortcourses/tests/test_data.xml", "r") as file:
