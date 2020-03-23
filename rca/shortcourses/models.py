@@ -73,6 +73,8 @@ class ShortCoursePage(BasePage):
         this date in the booking bar. If there are no courses available, add
         a default message."""
 
+        # TODO - this is probably too much logic for the context method.
+        # Perhaps split it out to an internal class method?
         context["booking_bar"] = {
             "message": "Applications are now closed",
             "action": "Register your interest for upcoming dates",
@@ -81,9 +83,10 @@ class ShortCoursePage(BasePage):
         # a modal
         if self.access_planit_course_id:
             context["booking_bar"]["link"] = (
-                f"https://rca-verdant-staging.herokuapp.com/short-courses/"
-                "register-your-interest/?course_id={self.access_planit_course_id}"
+                "https://rca-verdant-staging.herokuapp.com/short-courses/regi"
+                f"ster-your-interest/?course_id={self.access_planit_course_id}"
             )
+
         if access_planit_data:
             for key, date in enumerate(access_planit_data):
                 if date["status"] == "Available":
@@ -94,5 +97,7 @@ class ShortCoursePage(BasePage):
                     context["booking_bar"][
                         "action"
                     ] = f"Book now from \xA3{access_planit_data[key]['cost']}"
+                    context["booking_bar"]["link"] = None
+                    context["booking_bar"]["modal"] = "booking-details"
                     break
         return context
