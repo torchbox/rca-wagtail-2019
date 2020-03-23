@@ -5,6 +5,7 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
+from rca.shortcourses.access_planit import AccessPlanitXML
 from rca.utils.blocks import AccordionBlockWithTitle
 from rca.utils.models import BasePage
 
@@ -41,6 +42,8 @@ class ShortCoursePage(BasePage):
         verbose_name=_("About the course"),
     )
 
+    access_planit_course_id = models.CharField(max_length=10, blank=True)
+
     content_panels = BasePage.content_panels + [
         MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero")),
         MultiFieldPanel(
@@ -54,4 +57,15 @@ class ShortCoursePage(BasePage):
             heading=_("Course Introduction"),
         ),
         StreamFieldPanel("about"),
+        FieldPanel("access_planit_course_id"),
     ]
+
+    def get_access_planit_data(self):
+        data = AccessPlanitXML(course_id=self.access_planit_course_id)
+        return data.get_data()
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["ap_data"] = self.get_access_planit_data()
+
+        return context
