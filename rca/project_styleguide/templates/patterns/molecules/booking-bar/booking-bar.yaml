@@ -1,5 +1,5 @@
 context:
   item:
     message: 'Message'
-    link: '#'
     action: 'Action'
+    modal: 'booking-details'

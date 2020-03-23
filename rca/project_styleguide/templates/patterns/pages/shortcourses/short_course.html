@@ -155,6 +155,27 @@
                 </section>
             {% endif %}
 
+            {% if booking_bar %}
+            <div class="page__modals">
+                <div class="modal" id="booking-details" aria-hidden="true">
+                    <div class="modal__overlay bg bg--light" tabindex="-1">
+                        {% include "patterns/atoms/grid-lines/grid-lines.html" %}
+                        <div class="modal__header grid">
+                            <button class="modal__close" aria-label="Close modal" data-micromodal-close>
+                                <span class="modal__close-label">Close</span>
+                                <svg width="14" height="14" class="modal__close-icon" aria-hidden="true"><use xlink:href="#close"></use></svg>
+                            </button>
+                        </div>
+                        <div class="modal__container grid" role="dialog" aria-modal="true" aria-labelledby="booking-details-title">
+                            <div class="modal__content">
+                                {% include "patterns/molecules/short-course-details/short-course-details.html" %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
         </div>
     </div>
 {% endblock %}

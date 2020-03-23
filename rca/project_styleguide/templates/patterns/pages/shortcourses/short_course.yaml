@@ -113,5 +113,5 @@ context:
     - { text: 'Innovation RCA', href: '#' }
   booking_bar:
     message: 'Next course starts Thursday 19 March 2020'
-    link: '#'
     action: 'Book now for £900'
+    modal: 'booking-details'
