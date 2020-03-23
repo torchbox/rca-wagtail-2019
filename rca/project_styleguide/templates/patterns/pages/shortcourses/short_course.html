@@ -33,7 +33,10 @@
                         <h1 property="schema:name" class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
                     {% endif %}
                     <h2>Access planit data</h2>
-                    {{ ap_data }}
+                    {% for date in ap_data %}
+                        {{ date.start_date }}
+                        <br>
+                    {% endfor %}
                 </div>
             </div>
         </header>
@@ -43,6 +46,7 @@
         {% endif %}
 
         <div class="page__content js-sticky-point">
+            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=booking_bar %}
 
             <section class="section section--start bg bg--dark">
 

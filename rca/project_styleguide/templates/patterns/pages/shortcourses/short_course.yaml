@@ -7,10 +7,6 @@ context:
           link: /short-courses/executive-education,
         }
     title: Design Thinking & Innovation
-    booking_bar:
-      message: 'Next course starts Thursday 19 March 2020'
-      link: '#'
-      action: 'Book now for £900'
     video_caption: Watch the course introduction
     introduction_image: True
     introduction: 'Understand the purpose of design thinking in promoting innovation and learn real-world applications and strategies for design thinking.'
@@ -127,3 +123,7 @@ context:
     - { text: 'Knowledge Exchange', href: '#' }
     - { text: 'Custom Executive Education', href: '#' }
     - { text: 'Innovation RCA', href: '#' }
+  booking_bar:
+    message: 'Next course starts Thursday 19 March 2020'
+    link: '#'
+    action: 'Book now for £900'
