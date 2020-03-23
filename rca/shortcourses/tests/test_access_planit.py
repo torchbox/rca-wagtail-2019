@@ -151,9 +151,7 @@ class AccessPlanitXMLTest(TestCase):
         home_page = HomePage.objects.first()
         mock_get.side_effect = Timeout
         short_course_page = ShortCoursePage(
-            title="Short course title",
-            slug="short-course",
-            access_planit_course_id="1",
+            title="Short course title", slug="short-course", access_planit_course_id="1"
         )
         home_page.add_child(instance=short_course_page)
         response = self.client.get("/short-course/")
@@ -174,9 +172,7 @@ class AccessPlanitXMLTest(TestCase):
         in cache, and when retrieved is what we expect """
         home_page = HomePage.objects.first()
         short_course_page = ShortCoursePage(
-            title="Short course title",
-            slug="short-course",
-            access_planit_course_id="1",
+            title="Short course title", slug="short-course", access_planit_course_id="1"
         )
         home_page.add_child(instance=short_course_page)
         response = self.client.get("/short-course/")
