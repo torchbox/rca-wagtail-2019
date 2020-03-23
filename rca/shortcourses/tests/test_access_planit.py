@@ -141,6 +141,28 @@ class AccessPlanitXMLTest(TestCase):
             cache_key = f"short_course_{i}"
             self.assertEqual(cache.get(cache_key), [])
 
+    @mock.patch(
+        "rca.shortcourses.access_planit.AccessPlanitXML.fetch_data_from_xml",
+        side_effect=mocked_fetch_data_from_xml,
+    )
+    def test_management_command_fetch_with_example_data(
+        self, mocked_fetch_data_from_xml
+    ):
+        """ Test that the example xml goes in the cache as expected """
+        for i in range(5):
+            ShortCoursePage.objects.create(
+                title=f"Short course {i}",
+                path=str(i),
+                depth="001",
+                access_planit_course_id=i,
+            )
+        args = []
+        opts = {}
+        call_command("fetch_access_planit_data", *args, **opts)
+        for i in range(5):
+            cache_key = f"short_course_{i}"
+            self.assertEqual(cache.get(cache_key), self.expected_data)
+
     @mock.patch("rca.shortcourses.access_planit.requests.get")
     def test_page_renders_with_timeout(self, mock_get):
         logging.disable(
