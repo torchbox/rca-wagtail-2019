@@ -23,9 +23,6 @@ def mocked_fetch_data_from_xml(**kargs):
     with open("./rca/shortcourses/tests/test_data.xml", "r") as file:
         data = AccessPlanitXMLParser(xml=file.read())
         data = data.get_parsed_data()
-        print("\n\n")
-        print(data)
-        print("\n\n")
     return data
 
 
