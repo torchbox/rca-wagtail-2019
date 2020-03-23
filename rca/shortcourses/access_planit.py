@@ -95,7 +95,6 @@ class AccessPlanitXML:
 
     def fetch_data_from_xml(self):
         url = self.prepare_query()
-        print_message("trying fetch")
         try:
             response = requests.get(url=url)
             xml = self.parse_data(response.text)
