@@ -64,25 +64,20 @@ class ShortCoursePage(BasePage):
         data = AccessPlanitXML(course_id=self.access_planit_course_id)
         return data.get_data()
 
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
-        access_planit_data = self.get_access_planit_data()
-
+    def _format_booking_bar(self, access_planit_data):
         """ Booking bar messaging with the next course data available
         Find the next course date marked as status='available' and advertise
         this date in the booking bar. If there are no courses available, add
         a default message."""
 
-        # TODO - this is probably too much logic for the context method.
-        # Perhaps split it out to an internal class method?
-        context["booking_bar"] = {
+        booking_bar = {
             "message": "Applications are now closed",
             "action": "Register your interest for upcoming dates",
         }
         # If there are no dates the booking link should go to a form, not open
         # a modal
         if self.access_planit_course_id:
-            context["booking_bar"]["link"] = (
+            booking_bar["link"] = (
                 "https://rca-verdant-staging.herokuapp.com/short-courses/regi"
                 f"ster-your-interest/?course_id={self.access_planit_course_id}"
             )
@@ -90,14 +85,18 @@ class ShortCoursePage(BasePage):
         if access_planit_data:
             for key, date in enumerate(access_planit_data):
                 if date["status"] == "Available":
-                    context["booking_bar"]["message"] = "Next course starts"
-                    context["booking_bar"]["date"] = access_planit_data[key][
-                        "start_date"
-                    ]
-                    context["booking_bar"][
+                    booking_bar["message"] = "Next course starts"
+                    booking_bar["date"] = access_planit_data[key]["start_date"]
+                    booking_bar[
                         "action"
                     ] = f"Book now from \xA3{access_planit_data[key]['cost']}"
-                    context["booking_bar"]["link"] = None
-                    context["booking_bar"]["modal"] = "booking-details"
+                    booking_bar["link"] = None
+                    booking_bar["modal"] = "booking-details"
                     break
+        return booking_bar
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        access_planit_data = self.get_access_planit_data()
+        context["booking_bar"] = self._format_booking_bar(access_planit_data)
         return context
