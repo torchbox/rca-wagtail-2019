@@ -4,6 +4,7 @@ from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamField
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from rca.shortcourses.access_planit import AccessPlanitXML
 from rca.utils.blocks import AccordionBlockWithTitle
@@ -43,7 +44,21 @@ class ShortCoursePage(BasePage):
     )
 
     access_planit_course_id = models.CharField(max_length=10)
-
+    frequently_asked_questions = models.ForeignKey(
+        "utils.ShortCourseDetailSnippet",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    terms_and_conditions = models.ForeignKey(
+        "utils.ShortCourseDetailSnippet",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    course_details_text = RichTextField(blank=True)
     content_panels = BasePage.content_panels + [
         MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero")),
         MultiFieldPanel(
@@ -58,13 +73,21 @@ class ShortCoursePage(BasePage):
         ),
         StreamFieldPanel("about"),
         FieldPanel("access_planit_course_id"),
+        MultiFieldPanel(
+            [
+                FieldPanel("course_details_text"),
+                SnippetChooserPanel("frequently_asked_questions"),
+                SnippetChooserPanel("terms_and_conditions"),
+            ],
+            heading="course details",
+        ),
     ]
 
     def get_access_planit_data(self):
         data = AccessPlanitXML(course_id=self.access_planit_course_id)
         return data.get_data()
 
-    def _format_booking_bar(self, access_planit_data):
+    def _format_booking_bar(self, access_planit_data, register_interest_link):
         """ Booking bar messaging with the next course data available
         Find the next course date marked as status='available' and advertise
         this date in the booking bar. If there are no courses available, add
@@ -75,12 +98,9 @@ class ShortCoursePage(BasePage):
             "action": "Register your interest for upcoming dates",
         }
         # If there are no dates the booking link should go to a form, not open
-        # a modal
+        # a modal, this link is also used as a generic interest link too though.
         if self.access_planit_course_id:
-            booking_bar["link"] = (
-                "https://rca-verdant-staging.herokuapp.com/short-courses/regi"
-                f"ster-your-interest/?course_id={self.access_planit_course_id}"
-            )
+            booking_bar["link"] = register_interest_link
 
         if access_planit_data:
             for key, date in enumerate(access_planit_data):
@@ -98,6 +118,12 @@ class ShortCoursePage(BasePage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         access_planit_data = self.get_access_planit_data()
-        context["booking_bar"] = self._format_booking_bar(access_planit_data)
+        context["register_interest_link"] = register_interest_link = (
+            "https://rca-verdant-staging.herokuapp.com/short-courses/regi"
+            f"ster-your-interest/?course_id={self.access_planit_course_id}"
+        )
+        context["booking_bar"] = self._format_booking_bar(
+            access_planit_data, register_interest_link
+        )
         context["access_planit_data"] = access_planit_data
         return context
