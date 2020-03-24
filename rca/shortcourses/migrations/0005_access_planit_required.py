@@ -5,14 +5,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("shortcourses", "0004_add_course_id_for_access_planit"),
-    ]
+    dependencies = [("shortcourses", "0004_add_course_id_for_access_planit")]
 
     operations = [
         migrations.AlterField(
             model_name="shortcoursepage",
             name="access_planit_course_id",
             field=models.CharField(max_length=10),
-        ),
+        )
     ]
