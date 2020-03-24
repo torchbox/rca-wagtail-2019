@@ -99,4 +99,5 @@ class ShortCoursePage(BasePage):
         context = super().get_context(request, *args, **kwargs)
         access_planit_data = self.get_access_planit_data()
         context["booking_bar"] = self._format_booking_bar(access_planit_data)
+        context["access_planit_data"] = access_planit_data
         return context

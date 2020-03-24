@@ -4,39 +4,19 @@
         <div class="upcoming-dates__heading body body--two">End date</div>
     </div>
     <div class="upcoming-dates__content">
-        <div class="upcoming-dates__row">
-            <div class="upcoming-dates__row-item upcoming-dates__row-item--mobile" aria-hidden="true">10 March 2020 to 15 March 2020</div>
-            <div class="upcoming-dates__row-item upcoming-dates__start-date">10 March 2020</div>
-            <div class="upcoming-dates__row-item upcoming-dates__end-date">15 March 2020</div>
-            <div class="upcoming-dates__row-item upcoming-dates__action">
-                <a href="#" class="link link--tertiary link--link">
-                    <span class="link__label">Book</span>
-                    <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow" aria-hidden="true"></use></svg>
-                </a>
+        {% for item in access_planit_data %}
+            <div class="upcoming-dates__row">
+                <div class="upcoming-dates__row-item upcoming-dates__row-item--mobile" aria-hidden="true">1{{ item.start_date|date:'d F Y' }} {% if item.end_date %}to {{ item.end_date|date:'d F Y' }}{% endif %}</div>
+                <div class="upcoming-dates__row-item upcoming-dates__start-date">{{ item.start_date|date:'d F Y' }}</div>
+                <div class="upcoming-dates__row-item upcoming-dates__end-date">{{ item.end_date|date:'d F Y' }}</div>
+                <div class="upcoming-dates__row-item upcoming-dates__action">
+                    <a href="{{ item.book_now_url }}" class="link link--tertiary link--link">
+                        <span class="link__label">Book</span>
+                        <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow" aria-hidden="true"></use></svg>
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="upcoming-dates__row">
-            <div class="upcoming-dates__row-item upcoming-dates__row-item--mobile" aria-hidden="true">10 March 2020 to 15 March 2020</div>
-            <div class="upcoming-dates__row-item upcoming-dates__start-date">10 March 2020</div>
-            <div class="upcoming-dates__row-item upcoming-dates__end-date">15 March 2020</div>
-            <div class="upcoming-dates__row-item upcoming-dates__action">
-                <a href="#" class="link link--tertiary link--link">
-                    <span class="link__label">Book</span>
-                    <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow" aria-hidden="true"></use></svg>
-                </a>
-            </div>
-        </div>
-        <div class="upcoming-dates__row">
-            <div class="upcoming-dates__row-item upcoming-dates__row-item--mobile" aria-hidden="true">10 March 2020 to 15 March 2020</div>
-            <div class="upcoming-dates__row-item upcoming-dates__start-date">10 March 2020</div>
-            <div class="upcoming-dates__row-item upcoming-dates__end-date">15 March 2020</div>
-            <div class="upcoming-dates__row-item upcoming-dates__action">
-                <a href="#" class="link link--tertiary link--link">
-                    <span class="link__label">Book</span>
-                    <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow" aria-hidden="true"></use></svg>
-                </a>
-            </div>
-        </div>
+        {% endfor %}
     </div>
     <div class="upcoming-dates__footer">
         <div class="upcoming-dates__footer-action">
