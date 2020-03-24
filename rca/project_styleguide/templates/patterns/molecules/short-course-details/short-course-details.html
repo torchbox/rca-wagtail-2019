@@ -17,9 +17,9 @@
                     <h2 class="short-course-details-item__heading heading heading--five">Course details</h2>
                 </div>
                 <div class="short-course-details-item__content rich-text">
-                    <p>Early bird offer until 10 March 2020. Booking closes 18 March 2020 or when fully booked.</p>
-                    <p>Please be sure to read our <a href="#">Terms & Conditions</a> before applying.</p>
-                    <p>For more information, please visit our <a href="#">FAQs</a>.</p>
+                    {{ page.course_details_text|safe }}
+                    {{ page.terms_and_conditions.body }}
+                    {{ page.frequently_asked_questions.body }}
                 </div>
             </div>
         </div>
