@@ -56,6 +56,14 @@
         }
     }
 
+    &__contact {
+        margin-bottom: $gutter;
+
+        @include media-query(large) {
+            margin-bottom: 0;
+        }
+    }
+
     &__aside {
         // We want to align this aside text with the top of the second line of text of the heading.
         // However there are viewports right after the "large" width where this would cause the text to overlap.
