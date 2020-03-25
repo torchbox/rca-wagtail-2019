@@ -305,6 +305,14 @@
                 padding-bottom: ($gutter * 6);
             }
         }
+
+        &--last-large {
+            padding-bottom: ($gutter * 3.5);
+
+            @include media-query(large) {
+                padding-bottom: ($gutter * 11);
+            }
+        }
     }
 
     &__action {
@@ -312,6 +320,22 @@
 
         @include media-query(large) {
             grid-column: 2 / span 1;
+        }
+    }
+
+    &.opportunities-to-work {
+        #{$root}__heading {
+            max-width: 500px;
+        }
+    }
+
+    &.research-top .research-spaces {
+        #{$root}__header {
+            margin-bottom: ($gutter * 1.5);
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 4);
+            }
         }
     }
 }

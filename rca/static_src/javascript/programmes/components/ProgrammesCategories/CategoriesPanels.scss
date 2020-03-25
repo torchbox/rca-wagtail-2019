@@ -12,12 +12,4 @@
             }
         }
     }
-
-    .section__content & {
-        margin-bottom: ($gutter * 2);
-
-        @include media-query(large) {
-            margin-bottom: ($gutter * 4);
-        }
-    }
 }

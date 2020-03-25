@@ -36,7 +36,7 @@
 
         <div class="page__content">
 
-            <section class="section bg bg--dark">
+            <section class="research-top section bg bg--dark">
 
                 <div class="section__row research-centre-overview">
                     <div class="section__content grid">
@@ -69,7 +69,7 @@
                 {% if page.research_spaces %}
                     <div class="section__row research-spaces">
                         <div class="section__header grid">
-                            <h2 class="section__heading section__heading--primary heading heading--four">
+                            <h2 class="section__heading heading heading--four">
                                 Research spaces
                             </h2>
                         </div>
@@ -80,7 +80,7 @@
                 {% endif %}
 
                 {% if page.research_highlights %}
-                    <div class="section__row section__row--last research-highlights">
+                    <div class="section__row section__row--last-large research-highlights">
                         <div class="section__header grid">
                             <h2 class="section__heading section__heading--primary heading heading--four">
                                 Latest research projects
@@ -104,16 +104,20 @@
 
             </section>
 
-            <section class="section section--start bg bg--light">
+            <section class="opportunities-to-work section section--start bg bg--light">
 
-                <div class="section__header grid opportunities-to-work">
+                <div class="section__header grid">
                     <h2 class="section__heading section__heading--primary heading heading--two">
                         Opportunities to work with us
                     </h2>
                 </div>
 
                 <div class="section__content">
-                    {% include "patterns/organisms/categories-panels/categories-panels.html" with categories_panels=page.opportunities %}
+
+                    <div class="section__row section__row--last">
+                        {% include "patterns/organisms/categories-panels/categories-panels.html" with categories_panels=page.opportunities %}
+                    </div>
+
                 </div>
 
                 <div class="section__notch">
@@ -147,6 +151,10 @@
                         {% endif %}
                     {% endif %}
                 {% endwith %}
+
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--second-col"></div>
+                </div>
 
             </section>
 

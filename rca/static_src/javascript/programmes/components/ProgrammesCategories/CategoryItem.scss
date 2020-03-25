@@ -120,6 +120,10 @@
     }
 
     .section__content & {
+        @include media-query(large) {
+            min-height: 176px;
+        }
+
         &::after {
             margin-top: ($gutter);
 
