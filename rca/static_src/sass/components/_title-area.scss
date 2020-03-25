@@ -14,10 +14,6 @@
         margin-bottom: ($gutter / 2);
     }
 
-    &__sub-heading {
-        margin-bottom: ($gutter * 1.5);
-    }
-
     &__content {
         padding-top: ($gutter * 1.5);
         grid-column: 1 / span 2;
@@ -57,6 +53,14 @@
 
         @include media-query(large) {
             width: 33.333%;
+        }
+    }
+
+    &__contact {
+        margin-bottom: $gutter;
+
+        @include media-query(large) {
+            margin-bottom: 0;
         }
     }
 
@@ -117,8 +121,18 @@
         }
 
         #{$root}__heading {
+            margin-bottom: ($gutter * 0.75);
+
             @include media-query(large) {
                 margin-bottom: ($gutter * 3);
+            }
+        }
+
+        #{$root}__sub-heading {
+            margin-bottom: ($gutter * 0.75);
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 1.5);
             }
         }
     }
