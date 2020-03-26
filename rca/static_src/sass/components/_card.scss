@@ -28,7 +28,7 @@
                 content: '';
                 display: block;
                 height: $notch-height-small;
-                width: calc(50% + 94px);
+                width: calc(50% + 48px);
 
                 @include media-query(medium) {
                     content: none;

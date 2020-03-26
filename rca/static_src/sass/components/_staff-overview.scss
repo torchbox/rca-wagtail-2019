@@ -37,4 +37,9 @@
             grid-column: 4 / span 1;
         }
     }
+
+    .app--research-centre & {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
 }
