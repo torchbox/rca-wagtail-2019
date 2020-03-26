@@ -12,7 +12,9 @@
         left: 0;
         width: 100%;
         height: 100vh; /* Fallback for browsers that do not support Custom Properties */
-        height: calc(var(--vh, 1vh) * 100);
+        height: calc(
+            var(--vh, 1vh) * 100
+        ); // sass-lint:disable-line no-duplicate-properties
     }
 
     &__image {
@@ -47,7 +49,9 @@
 
     &__placeholder {
         height: 100vh; /* Fallback for browsers that do not support Custom Properties */
-        height: calc(var(--vh, 1vh) * 100);
+        height: calc(
+            var(--vh, 1vh) * 100
+        ); // sass-lint:disable-line no-duplicate-properties
         pointer-events: none;
     }
 
