@@ -115,6 +115,7 @@
     }
 
     &__heading {
+        // sass-lint:disable-block no-ids
         grid-column: 1 / span 2;
 
         @include media-query(medium) {
@@ -147,8 +148,6 @@
 
         // Tab with different heading layout
         #tab-panel-apply & {
-            // sass-lint:disable-line no-ids
-
             @include media-query(large) {
                 grid-column: 2 / span 1;
             }
