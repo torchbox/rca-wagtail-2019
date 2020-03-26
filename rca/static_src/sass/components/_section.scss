@@ -41,6 +41,11 @@
         }
     }
 
+    &--above-grid {
+        @include z-index(above-gridlines);
+        position: relative;
+    }
+
     &--stat-block {
         min-height: 100%;
         position: relative;
@@ -71,6 +76,41 @@
     &--before-fixed {
         &::before {
             position: fixed;
+        }
+    }
+
+    // Mask off this blocks grid lines on small and medium breakpoints
+    &--notch-mask {
+        position: relative;
+
+        &::after {
+            @include z-index(above-gridlines);
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: $notch-height-small;
+            width: 55%;
+
+            @include media-query(medium) {
+                height: $notch-height-medium;
+            }
+
+            @include media-query(large) {
+                display: none;
+            }
+        }
+
+        &.bg--light {
+            &::after {
+                background-color: $color--black;
+            }
+        }
+
+        &.bg--dark {
+            &::after {
+                background-color: $color--white;
+            }
         }
     }
 
@@ -181,6 +221,7 @@
             height: initial;
         }
 
+        // needs to be accompanied by section--opposite-notch to stop overflow
         #{$root}__notch--opposite & {
             grid-column: 1 / span 2;
         }
@@ -323,12 +364,92 @@
         }
     }
 
+    // Custom grid lines for categories-panels
     &.opportunities-to-work {
         #{$root}__heading {
+            position: relative;
+            left: -1px; // align with gridline
             max-width: 500px;
+
+            // Convert margin to padding to allow for connecting border
+            &--primary {
+                margin-bottom: 0;
+                padding-bottom: ($gutter * 2);
+
+                @include media-query(large) {
+                    margin-bottom: 0;
+                    padding-bottom: ($gutter * 3.5);
+                }
+            }
+
+            &::before {
+                content: '';
+                position: absolute;
+                left: -1px;
+                top: -300px;
+                height: 300px;
+                width: 1px;
+            }
+        }
+
+        #{$root}__notch-fill {
+            position: relative;
+
+            &::after {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 0;
+                height: $notch-height-small;
+                width: 1px;
+
+                @include media-query(medium) {
+                    height: $notch-height-medium;
+                }
+
+                @include media-query(large) {
+                    height: $notch-height-large;
+                    left: calc(var(--grid-width) - 1px);
+                }
+            }
+        }
+
+        &.bg--light {
+            #{$root}__heading {
+                border-left: 1px solid $color--grid-line-dark;
+
+                &::before {
+                    background-color: $color--grid-line-dark;
+                }
+            }
+
+            #{$root}__notch-fill {
+                &::after {
+                    // opposite as sitting on notch
+                    background-color: $color--grid-line-light;
+                }
+            }
+        }
+
+        &.bg--dark {
+            #{$root}__heading {
+                border-left: 1px solid $color--grid-line-light;
+
+                &::before {
+                    background-color: $color--grid-line-light;
+                }
+            }
+
+            #{$root}__notch-fill {
+                &::after {
+                    // opposite as sitting on notch
+                    background-color: $color--grid-line-dark;
+                }
+            }
         }
     }
 
+    // Research spaces custom spacing
     &.research-top .research-spaces {
         #{$root}__header {
             margin-bottom: ($gutter * 1.5);

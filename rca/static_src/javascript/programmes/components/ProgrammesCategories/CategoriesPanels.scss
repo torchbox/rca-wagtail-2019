@@ -12,4 +12,12 @@
             }
         }
     }
+
+    .bg--light .section__content & {
+        background-color: $color--white; // mask grid lines
+    }
+
+    .bg--dark .section__content & {
+        background-color: $color--black; // mask grid lines
+    }
 }

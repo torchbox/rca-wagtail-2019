@@ -12,7 +12,6 @@
 
 {% block content %}
 
-
     {% include "patterns/molecules/hero/hero.html" with modifier="programme" %}
 
     <div class="page page--overlap" >
@@ -98,42 +97,40 @@
                     </div>
                 {% endif %}
 
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
-                </div>
-
             </section>
 
-            <section class="opportunities-to-work section section--start bg bg--light">
+            <section class="opportunities-to-work section section--opposite-notch section--above-grid bg bg--light">
 
-                <div class="section__header grid">
-                    <h2 class="section__heading section__heading--primary heading heading--two">
-                        Opportunities to work with us
-                    </h2>
+                <div class="section__notch section__notch--opposite">
+                    <div class="section__notch-fill section__notch-fill--second-col"></div>
                 </div>
 
-                <div class="section__content">
+                <div class="section__row section__row--first">
 
-                    <div class="section__row section__row--last">
-                        {% include "patterns/organisms/categories-panels/categories-panels.html" with categories_panels=page.opportunities %}
+                    <div class="section__header grid">
+                        <h2 class="section__heading section__heading--primary heading heading--two">
+                            Opportunities to work with us
+                        </h2>
+                    </div>
+    
+                    <div class="section__content">
+                         {% include "patterns/organisms/categories-panels/categories-panels.html" with categories_panels=page.opportunities %}
                     </div>
 
                 </div>
 
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--fourth-col"></div>
-                </div>
-
             </section>
 
-            <section class="section bg bg--dark">
+            <section class="section section--notch-mask section--opposite-notch bg bg--dark">
 
-                <div class="section__content">
-                    {% if page.relatedcontent %}
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title="Helen Hamlyn Design Centre programmes" %}
-                    {% endif %}
+                <div class="section__notch section__notch--opposite">
+                    <div class="section__notch-fill section__notch-fill--first-col"></div>
                 </div>
                 
+                {% if page.relatedcontent %}
+                    {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title="Helen Hamlyn Design Centre programmes" %}
+                {% endif %}
+
                 <div class="section__notch">
                     <div class="section__notch-fill section__notch-fill--first-col"></div>
                 </div>
@@ -164,7 +161,6 @@
                 <section class="section bg bg--dark">
 
                     <div class="section__row section__row--first section__row--last">
-
                         <div class="partnerships">
                             <div class="partnerships__header grid">
                                 <h2 class="partnerships__heading heading heading--two">{{ page.centre_news.title }}</h2>
@@ -183,27 +179,25 @@
             {% endif %}
 
             <section class="section section--start section--end bg bg--light">
-                <div class="section__container">
-                    {% if page.news_and_events %}
+                {% if page.news_and_events %}
+                    <div class="section__row">
                         <header class="section__header grid">
                             <h3 class="section__heading section__heading--primary heading heading--two">News</h3>
                         </header>
-                    {% endif %}
-                    <div class="section__content">
-                        {% if page.news_and_events %}
+                        <div class="section__content">
                             <div class="section__row grid">
                                 {% include "patterns/organisms/news/news.html" with news=page.news_and_events cta="See all news" %}
                             </div>
-                        {% endif %}
-                        {% if page.related_links %}
-                            <div class="section__row">
-                                <section class="section section--top-space">
-                                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.related_links title="External links" %}
-                                </section>
-                            </div>
-                        {% endif %}
+                        </div>
                     </div>
-                </div>
+                {% endif %}
+                {% if page.related_links %}
+                    <div class="section__row section__row--first">
+                        <div class="section__content">
+                            {% include "patterns/organisms/related-links/related-links.html" with related_links=page.related_links title="External links" %}
+                        </div>
+                    </div>
+                {% endif %}
             </section>
 
         </div>

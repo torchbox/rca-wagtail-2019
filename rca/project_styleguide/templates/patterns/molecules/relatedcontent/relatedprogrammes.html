@@ -9,9 +9,11 @@
 
         {% for related_section in related_sections %}
             <div class="related-content__group" data-group="{{ forloop.counter }}">
+                {% if programme_page_global_fields.related_content_subtitle %}
                 <div class="section__row grid">
                     <h3 class="related-content__subheading heading heading--five">{{ programme_page_global_fields.related_content_subtitle }}</h3>
                 </div>
+                {% endif %}
 
                 <div class="grid">
                     {% for related_item in related_section.related_items %}
