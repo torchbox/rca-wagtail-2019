@@ -146,6 +146,9 @@
         max-height: 270px;
         object-fit: cover;
         opacity: 0;
+        width: 100%;
+        height: auto;
+        margin-bottom: ($gutter);
         transition: opacity $transition;
 
         &.is-visible {
