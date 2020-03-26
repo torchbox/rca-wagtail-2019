@@ -1,0 +1,37 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div class="related-content related-content--large">
+    {% if title %}
+        <div class="section__row grid">
+            <h2 class="related-content__heading heading heading--two">{{ title }}</h2>
+        </div>
+    {% endif %}
+
+    {% for related_section in related_sections %}
+        <div class="related-content__group grid" data-group="{{ forloop.counter }}">
+            {% for related_item in related_section.related_items %}
+                <div class="related-content__meta">
+                    <p class="related-content__title heading heading--five">
+                        <a
+                            href="{% pageurl related_item %}"
+                            class="related-content__link link link--tertiary"
+                            data-related-title
+                            data-target-image="{{ forloop.counter }}"
+                            data-parent-group={{ forloop.parentloop.counter }}
+                        >
+                            {{ related_item.title }}
+                        </a>
+                    </p>
+                    <p class="related-content__degree body body--one">{{ related_item.degree_level }}</p>
+                </div>
+                <p class="related-content__copy body body--one">
+                    {{ related_item.programme_description_subtitle }}
+                </p>
+                {% image related_item.hero_image fill-500x500 as programme_image %}
+                <div class="related-content__image-container">
+                    <img class="related-content__image {% if forloop.first %}is-visible{% endif %} slide__image" src="{{ programme_image.url }}" alt="{{ programme_image.alt }}" data-image="{{ forloop.counter }}">
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor  %}
+</div>
