@@ -1,0 +1,25 @@
+
+{% if people %}
+    <div class="people-module {% if people|length == 1 %}people-module--single{% elif people|length > 4 %}people-module--five-plus{% else %}people-module--two-four{% endif %}">
+        <div class="people-module__container grid">
+            {% if page.staff_title %}
+                <div class="people-module__header">
+                    <h2 class="heading heading--four people-module__heading">{{ page.staff_title }}</h2>
+                </div>
+            {% endif %}
+            <div class="people-module__content">
+                {% for profile in people %}
+                    {% include "patterns/molecules/profile-detail/profile-detail.html" %}
+                {% endfor %}
+            </div>
+            {% if page.staff_link %}
+                <div class="people-module__action">
+                    <a class="staff-overview__view-all link link--secondary link--link body body--two" href="{{ page.staff_link }}">
+                        <span class="link__label">{{ page.staff_link_text }}</span>
+                        <svg class="link__icon" width="12" height="8" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
