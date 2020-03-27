@@ -85,17 +85,11 @@
                     </div>
                 {% endif %}
 
-                {% with staff=related_staff %}
-                    {% if staff %}
-                        <div class="section__row">
-                            {% if staff|length > 1 %}
-                                {% include "patterns/organisms/staff-overview/staff-overview.html" with title="Programme team" %}
-                            {% else %}
-                                {% include "patterns/organisms/staff-overview/staff-overview--single.html" with title="Programme team" %}
-                            {% endif %}
-                        </div>
-                    {% endif %}
-                {% endwith %}
+                {% if related_staff %}
+                    <div class="section__row section__row--last">
+                        {% include "patterns/organisms/people-module/people-module.html" with people=related_staff %}
+                    </div>
+                {% endif %}
 
             </section>
 
