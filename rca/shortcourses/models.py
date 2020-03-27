@@ -1,3 +1,6 @@
+from collections import defaultdict
+
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
@@ -114,6 +117,17 @@ class ShortCoursePage(BasePage):
                     booking_bar["modal"] = "booking-details"
                     break
         return booking_bar
+
+    def clean(self):
+        errors = defaultdict(list)
+        try:
+            int(self.access_planit_course_id)
+        except ValueError:
+            errors["access_planit_course_id"].append(
+                "Please enter a valid course id in the form of a number, E.G 731014"
+            )
+        if errors:
+            raise ValidationError(errors)
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)

@@ -38,7 +38,7 @@ class AccessPlanitXMLParser:
     def __init__(self, xml):
         self.xml = xml
 
-    def parse(self):
+    def get_parsed_data(self):
         """ Parses the given xml to a list
             return: list of dicts, or an empty list
         """
@@ -62,14 +62,6 @@ class AccessPlanitXMLParser:
 
         return items
 
-    def get_parsed_data(self):
-        """
-        Returns:
-            list -- A list containing parsed data
-        """
-        parsed_data = self.parse()
-        return parsed_data
-
 
 class AccessPlanitXML:
     """Used for retrieving short course data from the AccessPlanit xml feeds.
@@ -86,7 +78,7 @@ class AccessPlanitXML:
         # but if there is no course ID passed we seem to get some default xml
         # data back, so set it as 0
         self.course_id = course_id if course_id else "0"
-        self.company_id = "ROYALC9RCH"  # TODO - settings field perhaps?
+        self.company_id = settings.ACCESS_PLANIT_SCHOOL_ID
         self.timeout = 10
 
     def prepare_query(self):
