@@ -25,66 +25,6 @@
         margin-bottom: ($gutter / 4);
     }
 
-    // Refactored to people-module--two-to-four below - remove eventually
-    .staff-overview & {
-        grid-row: 2;
-        grid-column: 1 / span 2;
-
-        @include media-query(medium) {
-            grid-column: 1 / span 1;
-            padding-right: ($gutter * 2.5);
-        }
-
-        @include media-query(large) {
-            grid-column: 2 / span 1;
-            padding-right: 0;
-        }
-
-        &:nth-of-type(2n) {
-            grid-row: 3;
-
-            @include media-query(medium) {
-                grid-column: 2 / span 1;
-                grid-row: 2;
-                margin-top: $margin-top-medium-breakpoint;
-            }
-
-            @include media-query(large) {
-                grid-column: 4 / span 1;
-                margin-top: $margin-top-large-breakpoint;
-            }
-        }
-    }
-
-    // Refactored to people-module--single below - remove eventually
-    .staff-overview--single & {
-        @include media-query(large) {
-            grid-column: 2 / span 2;
-        }
-
-        #{$root}__image {
-            @include media-query(large) {
-                margin-bottom: ($gutter * 1.5);
-                max-width: 75%;
-            }
-        }
-
-        #{$root}__content {
-            @include media-query(large) {
-                display: flex;
-            }
-        }
-
-        #{$root}__overview,
-        #{$root}__more {
-            @include media-query(large) {
-                flex-basis: 50%;
-                max-width: 50%;
-                min-width: 50%;
-            }
-        }
-    }
-
     .people-module--single & {
         grid-column: 1 / span 2;
 
