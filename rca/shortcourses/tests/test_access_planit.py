@@ -156,6 +156,12 @@ class AccessPlanitXMLTest(TestCase):
             cache_key = f"short_course_{i}"
             self.assertEqual(cache.get(cache_key), [])
 
+    def test_cache_data_for_non_valid_course_id(self):
+        """ Technically, you can add any integer as a course ID and some will
+        not fetch data"""
+        data = AccessPlanitXML(course_id=1).get_data()
+        self.assertEqual(data, [])
+
     @mock.patch(
         "rca.shortcourses.access_planit.AccessPlanitXML.fetch_data_from_xml",
         side_effect=mocked_fetch_data_from_xml,
