@@ -1,3 +1,5 @@
+
+{% load wagtailcore_tags %}
 <div class="short-course-details">
     <div class="short-course-details__container">
         <div class="short-course-details__header">
@@ -17,7 +19,7 @@
                     <h2 class="short-course-details-item__heading heading heading--five">Course details</h2>
                 </div>
                 <div class="short-course-details-item__content rich-text">
-                    {{ page.course_details_text|safe }}
+                    {{ page.course_details_text|richtext }}
                     {{ page.terms_and_conditions.body|safe }}
                     {{ page.frequently_asked_questions.body|safe }}
                 </div>
