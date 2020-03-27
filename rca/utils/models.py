@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.decorators import method_decorator
+from django.utils.html import format_html
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     MultiFieldPanel,
@@ -429,3 +430,33 @@ class ProgrammeSettings(BaseSetting):
             [FieldPanel("disable_apply_tab")], "Global settings for programme pages"
         )
     ]
+
+
+FAQ = 1
+TC = 2
+SHORT_COURSE_DETAIL_TYPES = [(FAQ, "FAQs"), (TC, "T&Cs")]
+
+
+@register_snippet
+class ShortCourseDetailSnippet(models.Model):
+    snippet_type = models.PositiveSmallIntegerField(choices=(SHORT_COURSE_DETAIL_TYPES))
+    title = models.CharField(
+        max_length=255,
+        help_text="Used only in the CMS to identify this particular snippet.",
+    )
+    url = models.URLField()
+
+    panels = [FieldPanel("snippet_type"), FieldPanel("title"), FieldPanel("url")]
+
+    def __str__(self):
+        return self.title
+
+    def body(self):
+        if self.snippet_type == FAQ:
+            return format_html(
+                f'<p>For more information, please visit our <a href="{self.url}">FAQs</a> before applying.</p>'
+            )
+        if self.snippet_type == TC:
+            return format_html(
+                f'<p>Please be sure to read our <a href="{self.url}">Terms & Conditions</a> before applying.</p>'
+            )

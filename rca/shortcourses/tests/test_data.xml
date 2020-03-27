@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WICoursesPackage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="AccessPlanIT.Accessplan.Web.Services">
+  <Courses>
+    <WICourse>
+      <CourseID>731014</CourseID>
+      <Label>Architecture Summer School</Label>
+      <Cost>1250</Cost>
+      <CostType>Candidate</CostType>
+      <Type>Class</Type>
+      <Duration>5.00</Duration>
+      <DurationType>0</DurationType>
+      <Currency>GBP</Currency>
+      <CurrencySymbol>£</CurrencySymbol>
+      <CategoryIDs>166,177</CategoryIDs>
+      <PublishDate />
+      <TrainingPoints />
+      <ExternalID />
+      <DeliveryMethodID>2</DeliveryMethodID>
+    </WICourse>
+  </Courses>
+  <Dates>
+    <WICourseDate>
+      <CourseDateID>12086</CourseDateID>
+      <CourseID>731014</CourseID>
+      <StartDate>2020-03-27T09:00:00</StartDate>
+      <EndDate>2020-04-02T17:00:00</EndDate>
+      <StartDateString>27/03/2020</StartDateString>
+      <EndDateString>02/04/2020</EndDateString>
+      <StartTimeString>09:00:00 AM</StartTimeString>
+      <EndTimeString>05:00:00 PM</EndTimeString>
+      <SpacesAvailable>22</SpacesAvailable>
+      <Status>Available</Status>
+      <OriginalStatus>Available</OriginalStatus>
+      <BookNowURL>https://rca.accessplanit.com/accessplansandbox/clientinput/course/coursebooker.aspx?coursedateid=12086</BookNowURL>
+      <EnquireURL>https://rca.accessplanit.com/accessplansandbox/clientinput/company/contactcompany.aspx?contacttype=8&amp;coursecalid=12086</EnquireURL>
+      <Cost>1250</Cost>
+      <CostType>Candidate</CostType>
+      <Private>false</Private>
+      <Currency>GBP</Currency>
+      <CurrencySymbol>£</CurrencySymbol>
+      <Alias />
+      <MaxPlaces>22</MaxPlaces>
+      <Sessional>false</Sessional>
+      <ExternalID />
+      <DeliveryMethodID>2</DeliveryMethodID>
+    </WICourseDate>
+    <WICourseDate>
+      <CourseDateID>12085</CourseDateID>
+      <CourseID>731014</CourseID>
+      <StartDate>2020-05-13T09:00:00</StartDate>
+      <EndDate>2020-05-19T17:00:00</EndDate>
+      <StartDateString>13/05/2020</StartDateString>
+      <EndDateString>19/05/2020</EndDateString>
+      <StartTimeString>09:00:00 AM</StartTimeString>
+      <EndTimeString>05:00:00 PM</EndTimeString>
+      <SpacesAvailable>22</SpacesAvailable>
+      <Status>Available</Status>
+      <OriginalStatus>Available</OriginalStatus>
+      <BookNowURL>https://rca.accessplanit.com/accessplansandbox/clientinput/course/coursebooker.aspx?coursedateid=12085</BookNowURL>
+      <EnquireURL>https://rca.accessplanit.com/accessplansandbox/clientinput/company/contactcompany.aspx?contacttype=8&amp;coursecalid=12085</EnquireURL>
+      <Cost>9000</Cost>
+      <CostType>Candidate</CostType>
+      <Private>false</Private>
+      <Currency>GBP</Currency>
+      <CurrencySymbol>£</CurrencySymbol>
+      <Alias />
+      <MaxPlaces>22</MaxPlaces>
+      <Sessional>false</Sessional>
+      <ExternalID />
+      <DeliveryMethodID>2</DeliveryMethodID>
+    </WICourseDate>
+    <WICourseDate>
+      <CourseDateID>12071</CourseDateID>
+      <CourseID>731014</CourseID>
+      <StartDate>2020-07-20T09:00:00</StartDate>
+      <EndDate>2020-07-24T17:00:00</EndDate>
+      <StartDateString>20/07/2020</StartDateString>
+      <EndDateString>24/07/2020</EndDateString>
+      <StartTimeString>09:00:00 AM</StartTimeString>
+      <EndTimeString>05:00:00 PM</EndTimeString>
+      <SpacesAvailable>20</SpacesAvailable>
+      <Status>Available</Status>
+      <OriginalStatus>Available</OriginalStatus>
+      <BookNowURL>https://rca.accessplanit.com/accessplansandbox/clientinput/course/coursebooker.aspx?coursedateid=12071</BookNowURL>
+      <EnquireURL>https://rca.accessplanit.com/accessplansandbox/clientinput/company/contactcompany.aspx?contacttype=8&amp;coursecalid=12071</EnquireURL>
+      <Cost>1250</Cost>
+      <CostType>Candidate</CostType>
+      <Private>false</Private>
+      <Currency>GBP</Currency>
+      <CurrencySymbol>£</CurrencySymbol>
+      <Alias />
+      <MaxPlaces>22</MaxPlaces>
+      <Sessional>false</Sessional>
+      <ExternalID />
+      <DeliveryMethodID>2</DeliveryMethodID>
+    </WICourseDate>
+  </Dates>
+  <Venues />
+  <Trainers />
+  <Categories>
+    <WICategory>
+      <CategoryID>166</CategoryID>
+    </WICategory>
+    <WICategory>
+      <CategoryID>177</CategoryID>
+    </WICategory>
+  </Categories>
+  <DeliveryMethods>
+    <WIDeliveryMethod>
+      <DeliveryMethodID>1</DeliveryMethodID>
+      <Label>In House</Label>
+    </WIDeliveryMethod>
+    <WIDeliveryMethod>
+      <DeliveryMethodID>2</DeliveryMethodID>
+      <Label>Public</Label>
+    </WIDeliveryMethod>
+  </DeliveryMethods>
+</WICoursesPackage>

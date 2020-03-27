@@ -1,4 +1,6 @@
-<button data-micromodal-trigger="{{ modal }}" class="modal-launcher">
+
+<button data-micromodal-trigger="{{ item.modal }}" class="modal-launcher"
+    {% if not item.modal %}onClick="parent.location='{{ item.link }}'" {% endif%}>
     <div class="modal-launcher__container">
         <div class="modal-launcher__label">
             {{ item.action }}

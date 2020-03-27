@@ -1,5 +1,10 @@
 context:
   page:
+    course_details_text: '<p>Early bird offer until 10 March 2020. Booking closes 18 March 2020 or when fully booked.</p>'
+    terms_and_conditions:
+      body: '<p>Please be sure to read our <a href="http://facebook.com">Terms &amp; Conditions</a> before applying.</p>'
+    frequently_asked_questions:
+      body: '<p>For more information, please visit our <a href="https://google.com">FAQs</a> before applying.</p>'
     breadcrumb:
       - { label: 'Short courses', link: /short-courses/ }
       - {
@@ -20,7 +25,7 @@ context:
     shortcourse_details_location:
       - { location: 'Royal College of Art Kensington Gore' }
     shortcourse_details_register_link: '#'
-    about_course_accordion:
+    about:
       - path:
         value:
           body: 'TBC'
@@ -114,3 +119,20 @@ context:
     - { text: 'Knowledge Exchange', href: '#' }
     - { text: 'Custom Executive Education', href: '#' }
     - { text: 'Innovation RCA', href: '#' }
+  booking_bar:
+    message: 'Next course starts Thursday 19 March 2020'
+    action: 'Book now for £900'
+    modal: 'booking-details'
+  access_planit_data:
+    - {
+        'start_date': !!timestamp '2020-05-13 2:00:00',
+        'end_date': !!timestamp '2020-05-15 3:00:00',
+      }
+    - {
+        'start_date': !!timestamp '2020-06-20 2:00:00',
+        'end_date': !!timestamp '2020-06-22 2:00:00',
+      }
+    - {
+        'start_date': !!timestamp '2020-11-01 2:00:00',
+        'end_date': !!timestamp '2020-11-05 2:00:00',
+      }
