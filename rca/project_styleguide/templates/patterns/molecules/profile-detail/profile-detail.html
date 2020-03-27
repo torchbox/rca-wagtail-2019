@@ -1,6 +1,9 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 <div class="profile-detail">
+    {% if item.link %}
+    <a href="{{ item.link }}" class="profile-detail__container">
+    {% endif %}
 
     {% image item.image fill-50x50 as image_small %}
     {% image item.image fill-277x277 as image_large %}
@@ -9,17 +12,23 @@
 
     <div class="profile-detail__content">
         <div class="profile-detail__overview">
-            <h3 class="profile-detail__heading heading heading--five">{{ item.name }}</h3>
+            <div class="profile-detail__header">
+                <h3 class="profile-detail__heading heading heading--five">{{ item.name }}</h3>
+            </div>
             <h4 class="profile-detail__job-title body body--one">{{ item.role }}</h4>
         </div>
         <div class="profile-detail__more">
             <p class="profile-detail__body body body--two">{{ item.description }}</p>
             {% if item.link %}
-                <a href="{{ item.link }}" class="profile-detail__link body body--two link link--tertiary link--link">
+                <span class="profile-detail__link body body--two link link--tertiary link--link">
                     <span class="link__label">View full profile</span>
-                    <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
-                </a>
+                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                </span>
             {% endif %}
         </div>
     </div>
+
+    {% if item.link %}
+    </a>
+    {% endif %}
 </div>

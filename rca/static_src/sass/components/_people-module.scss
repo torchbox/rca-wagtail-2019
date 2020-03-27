@@ -1,0 +1,49 @@
+.people-module {
+    $root: &;
+
+    &--single {
+        #{$root}__action {
+            grid-column: 1 / span 1;
+
+            @include media-query(large) {
+                grid-column: 3 / span 1;
+            }
+        }
+    }
+
+    &__header {
+        grid-row: auto;
+        grid-column: 1 / span 2;
+        margin-bottom: ($gutter * 2);
+
+        @include media-query(large) {
+            grid-column: 2 / span 4;
+        }
+    }
+
+    &__content {
+        display: grid;
+        grid-row: auto;
+        grid-column: 1 / span 2;
+        grid-template-columns: 1fr 1fr;
+
+        @include media-query(large) {
+            grid-column: 1 / span 5;
+            margin-left: 16.74%; // match parent grid but remove first and last col
+            margin-right: 16.74%; // match parent grid
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+
+    &__action {
+        grid-row: auto;
+
+        @include media-query(medium) {
+            grid-column: 2 / span 1;
+        }
+
+        @include media-query(large) {
+            grid-column: 4 / span 1;
+        }
+    }
+}

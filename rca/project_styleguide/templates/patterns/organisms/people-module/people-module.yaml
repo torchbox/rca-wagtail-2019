@@ -1,0 +1,7 @@
+context:
+  page:
+    staff_title: Staff
+    staff_link: '#'
+    staff_link_text: See all staff
+  people:
+    - item

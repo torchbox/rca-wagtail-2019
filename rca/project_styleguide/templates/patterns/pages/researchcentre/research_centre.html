@@ -137,25 +137,20 @@
 
             </section>
 
-            {% with staff=related_staff %}
-                {% if staff %}
-                     <section class="section bg bg--light">
-                        
-                        <div class="section__row section__row--first section__row--last">
-                            {% if staff|length > 1 %}
-                                {% include "patterns/organisms/staff-overview/staff-overview.html" with title="Staff" %}
-                            {% else %}
-                                {% include "patterns/organisms/staff-overview/staff-overview--single.html" with title="Staff" %}
-                            {% endif %}
-                        </div>
+            {% if related_staff %}
+                <section class="section bg bg--light">
+                    
+                    <div class="section__row section__row--first section__row--last">
+                        {% include "patterns/organisms/people-module/people-module.html" with people=related_staff %}
+                    </div>
 
-                        <div class="section__notch">
-                            <div class="section__notch-fill section__notch-fill--second-col"></div>
-                        </div>
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    </div>
 
-                    </section>
-                {% endif %}
-            {% endwith %}
+                </section>
+            {% endif %}
+                
 
             {% if page.centre_news %}
                 <section class="section bg bg--dark">
