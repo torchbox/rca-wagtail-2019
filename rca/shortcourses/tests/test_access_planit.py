@@ -132,7 +132,7 @@ class AccessPlanitXMLTest(TestCase):
         course value to an integer"""
         with self.assertRaises(TypeError):
             ShortCoursePage.objects.create(
-                title=f"Short course should not save", path=100, depth="001",
+                title=f"Short course should not save", path=100, depth="001"
             )
         with self.assertRaises(TypeError):
             ShortCoursePage.objects.create(
