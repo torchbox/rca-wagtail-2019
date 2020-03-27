@@ -60,7 +60,7 @@ def parse_items_to_list(data, type):
                 + "?fields=_,first_published_at,social_image,body"
             )
         try:
-            response = requests.get(url=detail, timeout=29)
+            response = requests.get(url=detail, timeout=10)
             response.raise_for_status()
         except Timeout:
             error_text = "Timeout error occurred when fetching data"
@@ -74,7 +74,9 @@ def parse_items_to_list(data, type):
         data = response.json()
         if "social_image" in data and data["social_image"]:
             social_image = data["social_image"]["meta"]["detail_url"]
-            social_image = requests.get(url=social_image, timeout=29)
+
+            social_image = requests.get(url=social_image, timeout=10)
+
             social_image = social_image.json()
             if "url" in social_image["rca2019_feed_image"]:
                 social_image_url = social_image["rca2019_feed_image"]["url"]
@@ -145,7 +147,7 @@ def pull_news_and_events(programme_type_slug=None):
 
     events_data = []
     try:
-        response = requests.get(url=events_url, timeout=29)
+        response = requests.get(url=events_url, timeout=10)
         response.raise_for_status()
         logger.info("pulling Events from API")
     except Timeout:
@@ -181,7 +183,7 @@ def pull_news_and_events(programme_type_slug=None):
     query = query.urlencode()
     blog_url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
     try:
-        response = requests.get(url=blog_url, timeout=29)
+        response = requests.get(url=blog_url, timeout=10)
         response.raise_for_status()
         logger.info("Pulling Blogs from API")
     except Timeout:
@@ -213,7 +215,7 @@ def pull_news_and_events(programme_type_slug=None):
     news_data = []
 
     try:
-        response = requests.get(url=news_url, timeout=29)
+        response = requests.get(url=news_url, timeout=10)
         response.raise_for_status()
         logger.info("Pulling News from API")
     except Timeout:
@@ -259,7 +261,7 @@ def pull_alumni_stories(programme_type_slug=None):
     query = query.urlencode()
     url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
     try:
-        response = requests.get(url=url, timeout=29)
+        response = requests.get(url=url, timeout=10)
         response.raise_for_status()
         logger.info("pulling Alumni Stories from API")
     except Timeout:
@@ -292,7 +294,8 @@ def pull_alumni_stories(programme_type_slug=None):
     query = query.urlencode()
     url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
     try:
-        response = requests.get(url=url, timeout=29)
+        response = requests.get(url=url, timeout=10)
+        response = requests.get(url=url, timeout=5)
         response.raise_for_status()
         logger.info("pulling Alumni Stories from API")
     except Timeout:
