@@ -18,8 +18,8 @@
                 </div>
                 <div class="short-course-details-item__content rich-text">
                     {{ page.course_details_text|safe }}
-                    {{ page.terms_and_conditions.body }}
-                    {{ page.frequently_asked_questions.body }}
+                    {{ page.terms_and_conditions.body|safe }}
+                    {{ page.frequently_asked_questions.body|safe }}
                 </div>
             </div>
         </div>

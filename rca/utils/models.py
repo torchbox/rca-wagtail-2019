@@ -432,9 +432,13 @@ class ProgrammeSettings(BaseSetting):
     ]
 
 
+FAQ = 1
+TC = 2
+SHORT_COURSE_DETAIL_TYPES = [(FAQ, "FAQs"), (TC, "T&Cs")]
+
+
 @register_snippet
 class ShortCourseDetailSnippet(models.Model):
-    SHORT_COURSE_DETAIL_TYPES = [(1, "FAQs"), (2, "T&Cs")]
     snippet_type = models.PositiveSmallIntegerField(choices=(SHORT_COURSE_DETAIL_TYPES))
     title = models.CharField(
         max_length=255,
@@ -448,11 +452,11 @@ class ShortCourseDetailSnippet(models.Model):
         return self.title
 
     def body(self):
-        if self.snippet_type == 1:
+        if self.snippet_type == FAQ:
             return format_html(
                 f'<p>For more information, please visit our <a href="{self.url}">FAQs</a> before applying.</p>'
             )
-        if self.snippet_type == 2:
+        if self.snippet_type == TC:
             return format_html(
                 f'<p>Please be sure to read our <a href="{self.url}">Terms & Conditions</a> before applying.</p>'
             )

@@ -126,6 +126,22 @@ class AccessPlanitXMLTest(TestCase):
         xml_data = data.get_data()
         self.assertEqual(xml_data, [])
 
+    def test_required_course_id(self):
+        """ The course id is a required field, however if this is changed we want some tests to fail,
+        as it will have unwanted effects, the validation on the model should be able to cast the
+        course value to an integer"""
+        with self.assertRaises(TypeError):
+            ShortCoursePage.objects.create(
+                title=f"Short course should not save", path=100, depth="001",
+            )
+        with self.assertRaises(TypeError):
+            ShortCoursePage.objects.create(
+                title=f"Short course should not save",
+                path=100,
+                depth="001",
+                access_planit_course_id="course id cannot be a string",
+            )
+
     def test_management_command_fetch_data(self):
         """ Test that xml with no dates goes in the cache as [] """
         for i in range(5):
@@ -135,9 +151,7 @@ class AccessPlanitXMLTest(TestCase):
                 depth="001",
                 access_planit_course_id=i,
             )
-        args = []
-        opts = {}
-        call_command("fetch_access_planit_data", *args, **opts)
+        call_command("fetch_access_planit_data")
         for i in range(5):
             cache_key = f"short_course_{i}"
             self.assertEqual(cache.get(cache_key), [])
