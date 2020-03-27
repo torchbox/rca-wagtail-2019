@@ -4,6 +4,21 @@
     $margin-top-large-breakpoint: ($gutter * 3.25); // 65px
     margin-bottom: ($gutter * 2.25);
 
+    &__container {
+        display: block;
+        color: currentColor;
+
+        &:hover {
+            #{$root}__image {
+                opacity: 0.8;
+            }
+
+            #{$root}__heading {
+                @include underline-hover();
+            }
+        }
+    }
+
     &__image {
         @include z-index(above-gridlines);
         position: relative;
@@ -11,10 +26,16 @@
         width: 100%;
         height: auto;
         margin-bottom: $gutter;
+        transition: opacity $cubic-transition;
+    }
+
+    &__header {
+        margin-bottom: ($gutter / 4);
     }
 
     &__heading {
-        margin-bottom: ($gutter / 4);
+        display: inline;
+        position: relative;
     }
 
     &__job-title {
@@ -113,9 +134,12 @@
         }
 
         &:nth-of-type(n + 3) {
-            display: flex;
-            flex-direction: row;
             margin-bottom: ($gutter * 1.5);
+
+            #{$root}__container {
+                display: flex;
+                flex-direction: row;
+            }
 
             #{$root}__image {
                 flex-basis: 60px;
@@ -130,6 +154,10 @@
 
             #{$root}__more {
                 display: none;
+            }
+
+            #{$root}__header {
+                line-height: 1.2;
             }
 
             #{$root}__heading {
@@ -178,12 +206,20 @@
     }
 
     .bg--dark & {
+        #{$root}__container {
+            color: $color--white;
+        }
+
         #{$root}__job-title {
             color: $color--meta-darkbg;
         }
     }
 
     .bg--light & {
+        #{$root}__container {
+            color: $color--black;
+        }
+
         #{$root}__job-title {
             color: $color--meta-lightbg;
         }
