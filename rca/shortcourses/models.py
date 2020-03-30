@@ -132,10 +132,11 @@ class ShortCoursePage(BasePage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         access_planit_data = self.get_access_planit_data()
-        context["register_interest_link"] = register_interest_link = (
-            "https://rca-verdant-staging.herokuapp.com/short-courses/regi"
-            f"ster-your-interest/?course_id={self.access_planit_course_id}"
-        )
+        context[
+            "register_interest_link"
+        ] = (
+            register_interest_link
+        ) = "{settings.ACCESS_PLANIT_REGISTER_INTEREST_BASE}/?course_id={self.access_planit_course_id}"
         context["booking_bar"] = self._format_booking_bar(
             access_planit_data, register_interest_link
         )
