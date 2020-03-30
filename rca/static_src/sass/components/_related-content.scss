@@ -1,5 +1,6 @@
 .related-content {
     $root: &;
+    position: relative;
     padding-top: ($gutter * 4);
     padding-bottom: ($gutter * 6);
 

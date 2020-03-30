@@ -48,6 +48,8 @@
 
     &--stat-block {
         min-height: 100%;
+        max-width: 100%;
+        overflow: hidden;
         position: relative;
         color: $color--white;
         background-color: $color--black-65;
@@ -197,6 +199,18 @@
 
                     &::before {
                         background-color: $color--white; // Changed from white to black for API module removal
+                    }
+                }
+            }
+        }
+
+        .section--stat-block-notch-override & {
+            &:first-child {
+                #{$root}__notch-fill {
+                    background-color: $color--white;
+
+                    &::before {
+                        background-color: $color--white;
                     }
                 }
             }

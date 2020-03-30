@@ -1,8 +1,7 @@
 context:
-  bg_image_url: '//placekitten.com/1440/1100'
-  heading: Learnings that last a lifetime
   stats_block:
     title: Lorem ipsum dolor sit
+    default_notch_override: true
     bg_image_url: '//place-puppy.com/1000x500'
     link: '#'
     action: See all Outcomes

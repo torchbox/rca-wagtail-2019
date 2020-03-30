@@ -55,7 +55,7 @@ context:
           description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
           image: true,
         }
-    related_research_centres:
+    related_research_centres_schools:
       - item:
         title: Research centres
         related_items:
@@ -79,7 +79,6 @@ context:
             title: Materials Science Research Centre
             programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
             img: http://placehold.it/300x270
-    related_schools:
       - item:
         title: Schools
         related_items:
@@ -106,6 +105,7 @@ context:
     middle_feature_meta_link: '#'
     stats_block:
       title: Lorem ipsum dolor sit
+      default_notch_override: true
       link: '#'
       action: See all Outcomes
       statistics:

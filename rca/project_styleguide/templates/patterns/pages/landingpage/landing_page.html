@@ -35,85 +35,88 @@
 
         <div class="page__content landing-page">
 
-            <section class="landing-page__top section bg bg--dark">
+            {% if page.introduction or page.feature_image or page.enterprise_highlights %}
+                <section class="landing-page__top section bg bg--dark">
 
-                {% if page.introduction %}
-                    <div class="section__row section__row--last grid">
-                        <h2 class="research-centre-overview__heading section__heading heading heading--five">
-                            {{ page.introduction }}
-                        </h2>
-                        {% if page.introduction_link %}
-                            <a href="{{ page.introduction_link }}" class="link link--tertiary link--link">
-                                <span class="link__label">{{ page.introduction_link_text }}</span>
-                                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                            </a>
-                        {% endif %}
-                    </div>
-                {% endif %}
+                    {% if page.introduction %}
+                        <div class="section__row section__row--last grid">
+                            <h2 class="research-centre-overview__heading section__heading heading heading--five">
+                                {{ page.introduction }}
+                            </h2>
+                            {% if page.introduction_link %}
+                                <a href="{{ page.introduction_link }}" class="link link--tertiary link--link">
+                                    <span class="link__label">{{ page.introduction_link_text }}</span>
+                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                </a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
 
-                {% if page.feature_image %}
-                    <div class="section__row">
-                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=page.feature_heading meta_heading=page.feature_meta_heading meta_copy=page.feature_meta_text href=page.feature_meta_link image=page.feature_image %}
-                    </div>
-                {% endif %}
+                    {% if page.feature_image %}
+                        <div class="section__row">
+                            {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=page.feature_heading meta_heading=page.feature_meta_heading meta_copy=page.feature_meta_text href=page.feature_meta_link image=page.feature_image %}
+                        </div>
+                    {% endif %}
 
-                {% if page.enterprise_highlights %}
-                    <div class="section__row">
-                        <div class="section__row section__row--last-large research-highlights">
-                            <div class="section__header grid">
-                                <h2 class="section__heading section__heading--primary heading heading--four">
-                                    Enterprise highlights
-                                </h2>
-                            </div>
-                            <div class="section__content grid">
-                                {% include "patterns/organisms/carousel/carousel.html" with carousel=page.enterprise_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}     
-                                <div class="section__action">
-                                    <a class="link link--primary link--link body body--two" href="/research">
-                                        <span class="link__label">See all enterprise projects</span>
-                                        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                                    </a>    
+                    {% if page.enterprise_highlights %}
+                        <div class="section__row">
+                            <div class="section__row section__row--last-large research-highlights">
+                                <div class="section__header grid">
+                                    <h2 class="section__heading section__heading--primary heading heading--four">
+                                        Enterprise highlights
+                                    </h2>
+                                </div>
+                                <div class="section__content grid">
+                                    {% include "patterns/organisms/carousel/carousel.html" with carousel=page.enterprise_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}     
+                                    <div class="section__action">
+                                        <a class="link link--primary link--link body body--two" href="/research">
+                                            <span class="link__label">See all enterprise projects</span>
+                                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                        </a>    
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    {% endif %}
+
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
-                {% endif %}
 
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
-                </div>
+                </section>
+            {% endif %}
 
-            </section>
+            {% if page.enterprise_rca or page.related_research_centres_schools %}
+                <section class="landing-page__middle section section--start section--opposite-notch bg bg--light">
 
-            <section class="landing-page__middle section section--start bg bg--light">
-
-                {% if page.enterprise_rca %}
-                    <div class="section__row research-spaces">
-                        <div class="section__header grid">
-                            <h2 class="section__heading heading heading--four">
-                                Enterprise at the RCA
-                            </h2>
-                            <div class="section__introduction">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor. 
+                    {% if page.enterprise_rca %}
+                        <div class="section__row research-spaces">
+                            <div class="section__header grid">
+                                <h2 class="section__heading heading heading--four">
+                                    Enterprise at the RCA
+                                </h2>
+                                <div class="section__introduction">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor. 
+                                </div>
+                            </div>
+                            <div class="section__content grid">
+                                {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=page.enterprise_rca %}
                             </div>
                         </div>
-                        <div class="section__content grid">
-                            {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=page.enterprise_rca %}
+                    {% endif %}
+
+                    {% if page.related_research_centres_schools %}
+                        <div class="section__row">
+                            {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page.related_research_centres_schools title="Research centres & Schools" %}
                         </div>
+                    {% endif %}
+
+                    <div class="section__notch section__notch--opposite">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
-                {% endif %}
 
-                {% if page.related_research_centres or page.related_schools %}
-                    <div class="section__row">
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page.related_research_centres title="Research centres & Schools" %}
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page.related_schools title=False %}
-                    </div>
-                {% endif %}
-
-                <div class="section__notch section__notch--opposite">
-                    <div class="section__notch-fill section__notch-fill--second-col"></div>
-                </div>
-
-            </section>
+                </section>
+            {% endif %}
 
             {% if page.middle_feature_image %}
                 <section class="section bg bg--dark">
