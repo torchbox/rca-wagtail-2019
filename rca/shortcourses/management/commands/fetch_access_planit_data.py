@@ -21,5 +21,5 @@ class Command(BaseCommand):
                 )
                 ap_data = AccessPlanitXML(course_id=course.access_planit_course_id)
                 ap_data.set_data_in_cache()
-            except ValidationError:
-                logger.exception("Somthing went wrong pulling XML")
+            except ValidationError as e:
+                logger.exception(f"Failed to fetch XML from AccessPlanit {e}")
