@@ -120,7 +120,7 @@ class AccessPlanitXMLTest(TestCase):
     @mock.patch("rca.shortcourses.access_planit.requests.get")
     def test_data_if_timeout(self, mock_get):
         """ If a timeout is caught the xml_data should be an empty list"""
-        # logging.disable(logging.CRITICAL)  # Don't log exceptions for tests... is this bad?
+        logging.disable(logging.CRITICAL)
         mock_get.side_effect = Timeout
         data = AccessPlanitXML(course_id=1)
         xml_data = data.get_data()
@@ -186,9 +186,7 @@ class AccessPlanitXMLTest(TestCase):
 
     @mock.patch("rca.shortcourses.access_planit.requests.get")
     def test_page_renders_with_timeout(self, mock_get):
-        logging.disable(
-            logging.CRITICAL
-        )  # Silences the timeout raised from mock when running the test
+        logging.disable(logging.CRITICAL)
         """ If there is a timeout for the xml request when the page loads,
         ensure the page still renders with the empty data"""
         home_page = HomePage.objects.first()
