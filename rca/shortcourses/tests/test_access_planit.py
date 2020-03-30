@@ -84,8 +84,8 @@ class AccessPlanitXMLTest(TestCase):
                 ),
             },
         ]
-        self.query = QueryDict(mutable=True)
-        self.query.update(
+        query = QueryDict(mutable=True)
+        query.update(
             {
                 "CompanyID": "ROYALC9RCH",
                 "courseIDs": 1,
@@ -93,7 +93,7 @@ class AccessPlanitXMLTest(TestCase):
                 "categoryIDs": "",
             }
         )
-        self.query = self.query.urlencode()
+        self.query = query.urlencode()
 
     def test_xml_fetch(self):
         """ Test the XML fetch responds. """
