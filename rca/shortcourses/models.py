@@ -89,7 +89,7 @@ class ShortCoursePage(BasePage):
         data = AccessPlanitXML(course_id=self.access_planit_course_id)
         return data.get_data()
 
-    def _format_booking_bar(self, access_planit_data, register_interest_link):
+    def _format_booking_bar(self, register_interest_link, access_planit_data):
         """ Booking bar messaging with the next course data available
         Find the next course date marked as status='available' and advertise
         this date in the booking bar. If there are no courses available, add
@@ -135,7 +135,7 @@ class ShortCoursePage(BasePage):
             register_interest_link
         ) = "{settings.ACCESS_PLANIT_REGISTER_INTEREST_BASE}/?course_id={self.access_planit_course_id}"
         context["booking_bar"] = self._format_booking_bar(
-            access_planit_data, register_interest_link
+            register_interest_link, access_planit_data
         )
         context["access_planit_data"] = access_planit_data
         return context
