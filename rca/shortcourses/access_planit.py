@@ -130,7 +130,7 @@ class AccessPlanitXML:
 
         return cache.get(cache_key)
 
-    def get_cached_data(self):
+    def get_data(self):
         """ Fetch the data from the cache, if there is None, re-populate it.
         Cache is periodically populated by the management command via cron"""
         cache_key = f"short_course_{self.course_id}"
@@ -138,7 +138,3 @@ class AccessPlanitXML:
         if short_course_data is None:
             short_course_data = self.set_data_in_cache()
         return short_course_data
-
-    def get_data(self):
-        data = self.get_cached_data()
-        return data
