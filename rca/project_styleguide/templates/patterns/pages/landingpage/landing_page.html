@@ -136,9 +136,13 @@
                     <div class="section__row section__row--first section__row--last">
                         {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page.related_courses title=page.related_courses_title %}
                     </div>
-                    <div class="section__notch section__notch--opposite">
-                        <div class="section__notch-fill section__notch-fill--third-col"></div>
-                    </div>
+                    {% if page.stats_block %}
+                    {% else %}
+                        <div class="section__notch section__notch--opposite">
+                            <div class="section__notch-fill section__notch-fill--third-col"></div>
+                        </div>
+                    {% endif %}
+                    
                 </section>
             {% endif %}
 
