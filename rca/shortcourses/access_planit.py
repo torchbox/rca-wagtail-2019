@@ -44,8 +44,9 @@ class AccessPlanitXMLParser:
         """
         bs_content = bs(self.xml, "lxml")
         course_dates = bs_content.find("dates").find_all("wicoursedate")
-        items = []
+        items = None
         if course_dates:
+            items = []
             for i in course_dates:
                 item = {
                     "course_date_id": i.coursedateid.text,
