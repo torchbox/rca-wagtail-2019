@@ -139,7 +139,7 @@ class AccessPlanitXMLTest(TestCase):
         """ Test getting stale cache data with a Timeout failure to get data"""
         # logging.disable(logging.CRITICAL)
         ShortCoursePage.objects.create(
-            title=f"Short course 1", path="1", depth="001", access_planit_course_id=1,
+            title=f"Short course 1", path="1", depth="001", access_planit_course_id=1
         )
         # Generate the mocked xml data
         AccessPlanitXML(course_id=1).get_data()
