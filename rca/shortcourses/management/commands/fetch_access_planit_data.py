@@ -13,9 +13,7 @@ class Command(BaseCommand):
 
     def handle(self, **options):
         short_courses = ShortCoursePage.objects.exclude(access_planit_course_id="")
+        logger.info(f"Fetching AccessPlanit data for Short Coures pages")
         for course in short_courses:
-            logger.info(
-                f"Fetching XML for course_id:{course.id} with AccessPlanit ID:{course.access_planit_course_id}"
-            )
             ap_data = AccessPlanitXML(course_id=course.access_planit_course_id)
             ap_data.set_data_in_cache()
