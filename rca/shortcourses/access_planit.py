@@ -103,7 +103,6 @@ class AccessPlanitXML:
         url = self.prepare_query()
         try:
             response = requests.get(url=url)
-            xml = self.parse_data(response.text)
         except Timeout:
             logger.exception(
                 f"Timeout occurred fetching XML data for course_id: {self.course_id}"
@@ -114,6 +113,8 @@ class AccessPlanitXML:
                 f"Error occurred fetching XML data for course_id: {self.course_id}"
             )
             raise AccessPlanitException
+        else:
+            xml = self.parse_data(response.text)
         return xml
 
     def set_data_in_cache(self):
