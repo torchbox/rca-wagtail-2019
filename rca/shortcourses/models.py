@@ -105,13 +105,11 @@ class ShortCoursePage(BasePage):
             booking_bar["link"] = register_interest_link
 
         if access_planit_data:
-            for key, date in enumerate(access_planit_data):
+            for date in access_planit_data:
                 if date["status"] == "Available":
                     booking_bar["message"] = "Next course starts"
-                    booking_bar["date"] = access_planit_data[key]["start_date"]
-                    booking_bar[
-                        "action"
-                    ] = f"Book now from \xA3{access_planit_data[key]['cost']}"
+                    booking_bar["date"] = date["start_date"]
+                    booking_bar["action"] = f"Book now from \xA3{date['cost']}"
                     booking_bar["link"] = None
                     booking_bar["modal"] = "booking-details"
                     break
