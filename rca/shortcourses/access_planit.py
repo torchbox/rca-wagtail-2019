@@ -44,8 +44,9 @@ class AccessPlanitXMLParser:
         """
         bs_content = bs(self.xml, "lxml")
         course_dates = bs_content.find("dates").find_all("wicoursedate")
-        items = []
+        items = None
         if course_dates:
+            items = []
             for i in course_dates:
                 item = {
                     "course_date_id": i.coursedateid.text,
@@ -79,6 +80,7 @@ class AccessPlanitXML:
         # data back, so set it as 0
         self.course_id = course_id if course_id else "0"
         self.company_id = settings.ACCESS_PLANIT_SCHOOL_ID
+        self.cache_key = f"short_course_{self.course_id}"
         self.timeout = 10
 
     def prepare_query(self):
@@ -103,7 +105,6 @@ class AccessPlanitXML:
         url = self.prepare_query()
         try:
             response = requests.get(url=url)
-            xml = self.parse_data(response.text)
         except Timeout:
             logger.exception(
                 f"Timeout occurred fetching XML data for course_id: {self.course_id}"
@@ -114,30 +115,24 @@ class AccessPlanitXML:
                 f"Error occurred fetching XML data for course_id: {self.course_id}"
             )
             raise AccessPlanitException
+        else:
+            xml = self.parse_data(response.text)
         return xml
 
     def set_data_in_cache(self):
-        cache_key = f"short_course_{self.course_id}"
         try:
             data = self.fetch_data_from_xml()
-            cache.set(cache_key, data, settings.ACCESS_PLANIT_XML_FEED_TIMEOUT)
         except AccessPlanitException:
-            # If the custom exception is raised, just add an empty [] as the cache data
-            # TODO  Or return an empty [] and move the return to the try ?
-            cache.set(cache_key, [], settings.ACCESS_PLANIT_XML_FEED_TIMEOUT)
             pass
+        else:
+            cache.set(self.cache_key, data, settings.ACCESS_PLANIT_XML_FEED_TIMEOUT)
 
-        return cache.get(cache_key)
+        return cache.get(self.cache_key)
 
-    def get_cached_data(self):
+    def get_data(self):
         """ Fetch the data from the cache, if there is None, re-populate it.
         Cache is periodically populated by the management command via cron"""
-        cache_key = f"short_course_{self.course_id}"
-        short_course_data = cache.get(cache_key)
+        short_course_data = cache.get(self.cache_key)
         if short_course_data is None:
             short_course_data = self.set_data_in_cache()
         return short_course_data
-
-    def get_data(self):
-        data = self.get_cached_data()
-        return data

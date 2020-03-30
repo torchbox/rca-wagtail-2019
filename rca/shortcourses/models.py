@@ -15,7 +15,6 @@ from rca.utils.models import BasePage
 
 
 class ShortCoursePage(BasePage):
-    parent_page_types = ["guides.GuidePage"]
     template = "patterns/pages/shortcourses/short_course.html"
 
     hero_image = models.ForeignKey(
@@ -87,10 +86,12 @@ class ShortCoursePage(BasePage):
     ]
 
     def get_access_planit_data(self):
-        data = AccessPlanitXML(course_id=self.access_planit_course_id)
-        return data.get_data()
+        access_planit_course_data = AccessPlanitXML(
+            course_id=self.access_planit_course_id
+        )
+        return access_planit_course_data.get_data()
 
-    def _format_booking_bar(self, access_planit_data, register_interest_link):
+    def _format_booking_bar(self, register_interest_link, access_planit_data):
         """ Booking bar messaging with the next course data available
         Find the next course date marked as status='available' and advertise
         this date in the booking bar. If there are no courses available, add
@@ -102,17 +103,14 @@ class ShortCoursePage(BasePage):
         }
         # If there are no dates the booking link should go to a form, not open
         # a modal, this link is also used as a generic interest link too though.
-        if self.access_planit_course_id:
-            booking_bar["link"] = register_interest_link
+        booking_bar["link"] = register_interest_link
 
         if access_planit_data:
-            for key, date in enumerate(access_planit_data):
+            for date in access_planit_data:
                 if date["status"] == "Available":
                     booking_bar["message"] = "Next course starts"
-                    booking_bar["date"] = access_planit_data[key]["start_date"]
-                    booking_bar[
-                        "action"
-                    ] = f"Book now from \xA3{access_planit_data[key]['cost']}"
+                    booking_bar["date"] = date["start_date"]
+                    booking_bar["action"] = f"Book now from \xA3{date['cost']}"
                     booking_bar["link"] = None
                     booking_bar["modal"] = "booking-details"
                     break
@@ -132,12 +130,13 @@ class ShortCoursePage(BasePage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         access_planit_data = self.get_access_planit_data()
-        context["register_interest_link"] = register_interest_link = (
-            "https://rca-verdant-staging.herokuapp.com/short-courses/regi"
-            f"ster-your-interest/?course_id={self.access_planit_course_id}"
-        )
+        context[
+            "register_interest_link"
+        ] = (
+            register_interest_link
+        ) = "{settings.ACCESS_PLANIT_REGISTER_INTEREST_BASE}/?course_id={self.access_planit_course_id}"
         context["booking_bar"] = self._format_booking_bar(
-            access_planit_data, register_interest_link
+            register_interest_link, access_planit_data
         )
         context["access_planit_data"] = access_planit_data
         return context
