@@ -1,12 +1,25 @@
 .introduction {
+    $root: &;
     line-height: $line-height-large;
 
-    .page__header & {
-        @include font-size(l);
+    &__text {
+        margin-bottom: ($gutter * 2);
     }
 
     .section__row & {
         @include font-size(s);
         margin-right: ($gutter * 1.5);
+    }
+
+    .app--landing-page & {
+        #{$root}__container {
+            margin-bottom: $gutter;
+
+            @include media-query(large) {
+                grid-column: 3 / span 2;
+                margin-bottom: ($gutter * 2);
+                margin-right: $gutter;
+            }
+        }
     }
 }

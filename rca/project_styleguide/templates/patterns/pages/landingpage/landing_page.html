@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body_class %}
-    app--research-centre
+    app--landing-page
 {% endblock %}
 
 {% block content %}
@@ -21,7 +21,7 @@
         </div>
 
         <header class="page__header bg bg--dark">
-            <div class="title-area title-area--research-centre grid">
+            <div class="title-area title-area--landing-page grid">
                 <div class="title-area__content">
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" with breadcrumb=page.breadcrumb %}
@@ -31,26 +31,27 @@
                     {% endif %}
                 </div>
             </div>
-        </header>
-
-        <div class="page__content landing-page">
-
-            {% if page.introduction or page.feature_image or page.enterprise_highlights %}
-                <section class="landing-page__top section bg bg--dark">
-
-                    {% if page.introduction %}
-                        <div class="section__row section__row--last grid">
-                            <h2 class="research-centre-overview__heading section__heading heading heading--five">
+            {% if page.introduction %}
+                    <div class="introduction grid">
+                        <div class="introduction__container">
+                            <h2 class="introduction__text section__heading heading heading--five">
                                 {{ page.introduction }}
                             </h2>
                             {% if page.introduction_link %}
-                                <a href="{{ page.introduction_link }}" class="link link--tertiary link--link">
+                                <a href="{{ page.introduction_link }}" class="introduction__link link link--tertiary link--link">
                                     <span class="link__label">{{ page.introduction_link_text }}</span>
                                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                 </a>
                             {% endif %}
-                        </div>
-                    {% endif %}
+                            </div>
+                    </div>
+                {% endif %}
+        </header>
+
+        <div class="page__content landing-page">
+
+            {% if page.feature_image or page.enterprise_highlights %}
+                <section class="landing-page__top section section--start bg bg--dark">
 
                     {% if page.feature_image %}
                         <div class="section__row">
@@ -219,8 +220,14 @@
             {% if page.contact %}
                 <section class="section bg bg--light">
                     <div class="contact-anchor" id="contact"></div>
-                    <div class="section__row">
+                    <div class="section__row section__row--first">
                         {% include "patterns/organisms/contact/contact.html" with heading="Contact us" text="Get in touch if you’d like to find out more or have any questions about working with the RCA." image=page.contact_image %}
+                    </div>
+                </section>
+
+                <section class="section bg bg--dark">
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
                 </section>
             {% endif %}
