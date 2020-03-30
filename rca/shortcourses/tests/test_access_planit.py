@@ -26,6 +26,10 @@ def mocked_fetch_data_from_xml(**kargs):
     return data
 
 
+def mocked_fetch_data_from_xml_as_none(**kargs):
+    return None
+
+
 class AccessPlanitXMLTest(TestCase):
     def setUp(self):
         self.expected_data = [
@@ -114,17 +118,39 @@ class AccessPlanitXMLTest(TestCase):
     """ Patch the request module totally to force the timeout so we can test the
         result of the try/expect.
 
-        Test here that data returned from a timeout is a empty dict
+        Test here that data returned from a timeout is None
     """
 
     @mock.patch("rca.shortcourses.access_planit.requests.get")
     def test_data_if_timeout(self, mock_get):
-        """ If a timeout is caught the xml_data should be an empty list"""
+        """ If a timeout is caught the xml_data should be None"""
         logging.disable(logging.CRITICAL)
         mock_get.side_effect = Timeout
         data = AccessPlanitXML(course_id=1)
         xml_data = data.get_data()
-        self.assertEqual(xml_data, [])
+        self.assertEqual(xml_data, None)
+
+    @mock.patch(
+        "rca.shortcourses.access_planit.AccessPlanitXML.fetch_data_from_xml",
+        side_effect=mocked_fetch_data_from_xml,
+    )
+    @mock.patch("rca.shortcourses.access_planit.requests.get")
+    def test_cached_data_if_timeout(self, mock_get, mocked_fetch_data_from_xml):
+        """ Test getting stale cache data with a Timeout failure to get data"""
+        # logging.disable(logging.CRITICAL)
+        ShortCoursePage.objects.create(
+            title=f"Short course 1", path="1", depth="001", access_planit_course_id=1,
+        )
+        # Generate the mocked xml data
+        AccessPlanitXML(course_id=1).get_data()
+        cache_key = f"short_course_1"
+        self.assertEqual(cache.get(cache_key), self.expected_data)
+        # Add a timeout for the new data request
+        mock_get.side_effect = Timeout
+        AccessPlanitXML(course_id=1).get_data()
+
+        # Now check the stale cache data is there
+        self.assertEqual(cache.get(cache_key), self.expected_data)
 
     def test_required_course_id(self):
         """ The course id is a required field, however if this is changed we want some tests to fail,
@@ -143,7 +169,7 @@ class AccessPlanitXMLTest(TestCase):
             )
 
     def test_management_command_fetch_data(self):
-        """ Test that xml with no dates goes in the cache as [] """
+        """ Test that xml with no dates doesn't go in the cache """
         for i in range(5):
             ShortCoursePage.objects.create(
                 title=f"Short course {i}",
@@ -154,13 +180,13 @@ class AccessPlanitXMLTest(TestCase):
         call_command("fetch_access_planit_data")
         for i in range(5):
             cache_key = f"short_course_{i}"
-            self.assertEqual(cache.get(cache_key), [])
+            self.assertEqual(cache.get(cache_key), None)
 
     def test_cache_data_for_non_valid_course_id(self):
         """ Technically, you can add any integer as a course ID and some will
         not fetch data"""
         data = AccessPlanitXML(course_id=1).get_data()
-        self.assertEqual(data, [])
+        self.assertEqual(data, None)
 
     @mock.patch(
         "rca.shortcourses.access_planit.AccessPlanitXML.fetch_data_from_xml",
