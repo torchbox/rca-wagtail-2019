@@ -1,14 +1,17 @@
 {% load wagtailimages_tags %}
 {% image stats_block.background_image max-1000x500 as bg_image %}
-<section class="section section--stat-block section--opposite-notch bg bg--stat-block" data-stat-block style="--stat-block-bg-image: url('{{ bg_image.url }}')">
+<section class="section section--stat-block section--opposite-notch bg bg--stat-block bg--dark" data-stat-block style="--stat-block-bg-image: url('{{ bg_image.url }}')">
     <div class="section__notch section__notch--transparent section__notch--opposite">
         <div class="section__notch-fill section__notch-fill--second-col"></div>
     </div>
-    <div class="section__row stat-block">
-        <div class="stat-block__header grid">
-            <h3 class="stat-block__heading heading heading--three">{{ stats_block.title}}</h3>
-        </div>
-
+    <div class="section__row stat-block {% if stats_block.statistics|length > 3 %}stat-block--large{% endif %}">
+        {% if stats_block.title %}
+            <div class="stat-block__header grid">
+                <h3 class="stat-block__heading heading heading--three">{{ stats_block.title }}</h3>
+            </div>
+        {% endif %}
+        
+        
         {% for stat in stats_block.statistics %}
             {% with stat=stat.value %}
                 <div class="stat-block__item-container grid">
@@ -38,6 +41,16 @@
             {% endwith %}
         {% endfor %}
     </div>
+
+    {% if stats_block.link %}
+        <div class="stat-block__footer grid">
+            <a href="{{ stats_block.link }}" class="stat-block__footer-link link link--tertiary link--link">
+                {% if stats_block.action %}<span class="link__label">{{ stats_block.action }}</span>{% endif %}
+                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+            </a>
+        </div>
+    {% endif %}
+
     <div class="section__notch">
         <div class="section__notch-fill section__notch-fill--second-col"></div>
     </div>

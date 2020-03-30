@@ -38,7 +38,7 @@
             <section class="landing-page__top section bg bg--dark">
 
                 {% if page.introduction %}
-                    <div class="section__row">
+                    <div class="section__row section__row--last grid">
                         <h2 class="research-centre-overview__heading section__heading heading heading--five">
                             {{ page.introduction }}
                         </h2>
@@ -124,7 +124,7 @@
             {% endif %}
 
             {% if page.stats_block %}
-                {% include "patterns/organisms/stat-block/stat-block.html" %}
+                {% include "patterns/organisms/stat-block/stat-block.html" with stats_block=page.stats_block %}
             {% endif %}
 
             {% if page.research or page.text_teaser %}
