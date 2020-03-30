@@ -121,12 +121,13 @@ class AccessPlanitXML:
         cache_key = f"short_course_{self.course_id}"
         try:
             data = self.fetch_data_from_xml()
-            cache.set(cache_key, data, settings.ACCESS_PLANIT_XML_FEED_TIMEOUT)
         except AccessPlanitException:
             # If the custom exception is raised, just add an empty [] as the cache data
             # TODO  Or return an empty [] and move the return to the try ?
             cache.set(cache_key, [], settings.ACCESS_PLANIT_XML_FEED_TIMEOUT)
             pass
+        else:
+            cache.set(cache_key, data, settings.ACCESS_PLANIT_XML_FEED_TIMEOUT)
 
         return cache.get(cache_key)
 
