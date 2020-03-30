@@ -119,17 +119,24 @@
             {% endif %}
 
             {% if page.middle_feature_image %}
-                <section class="section bg bg--dark">
+                <section class="section section--opposite-notch bg bg--dark">
                     <div class="section__row section__row--first section__row--last">
                         {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=page.middle_feature_heading meta_heading=page.middle_feature_meta_heading meta_copy=page.middle_feature_meta_text href=page.middle_feature_meta_link image=page.middle_feature_image %}
+                    </div>
+
+                    <div class="section__notch section__notch--opposite">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
                 </section>
             {% endif %}
 
             {% if page.related_courses %}
-                <section class="section bg bg--light">
+                <section class="section section--opposite-notch bg bg--light">
                     <div class="section__row section__row--first section__row--last">
                         {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page.related_courses title=page.related_courses_title %}
+                    </div>
+                    <div class="section__notch section__notch--opposite">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
                 </section>
             {% endif %}
@@ -197,7 +204,7 @@
             {% endif %}
 
             {% if page.news %}
-                <section class="section{% if page.bottom_feature_image == false %} section--start{% endif %} section--end bg bg--dark">
+                <section class="section{% if page.bottom_feature_image %}{% else %} section--start{% endif %} section--end bg bg--dark">
                     <header class="section__header grid">
                         <h3 class="section__heading section__heading--primary heading heading--two">News</h3>
                     </header>
