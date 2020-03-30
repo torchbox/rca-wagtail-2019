@@ -86,8 +86,10 @@ class ShortCoursePage(BasePage):
     ]
 
     def get_access_planit_data(self):
-        data = AccessPlanitXML(course_id=self.access_planit_course_id)
-        return data.get_data()
+        access_planit_course_data = AccessPlanitXML(
+            course_id=self.access_planit_course_id
+        )
+        return access_planit_course_data.get_data()
 
     def _format_booking_bar(self, register_interest_link, access_planit_data):
         """ Booking bar messaging with the next course data available
