@@ -166,6 +166,10 @@
         }
     }
 
+    &__link {
+        display: inline; // So hover works on multi line items
+    }
+
     &__degree {
         opacity: 0.4;
         margin-bottom: ($gutter / 4);

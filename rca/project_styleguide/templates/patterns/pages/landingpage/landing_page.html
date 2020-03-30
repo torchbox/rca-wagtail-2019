@@ -126,12 +126,41 @@
                 </section>
             {% endif %}
 
+            {% if page.related_courses %}
+                <section class="section bg bg--white">
+                    <div class="section__row section__row--first section__row--last">
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page.related_courses title=page.related_courses_title %}
+                    </div>
+                </section>
+            {% endif %}
+
             {% if page.stats_block %}
                 {% include "patterns/organisms/stat-block/stat-block.html" with stats_block=page.stats_block %}
             {% endif %}
 
-            {% if page.research or page.text_teaser %}
+            {% if page.research or page.text_teaser or page.startups %}
                 <section class="section bg bg--light">
+
+                    {% if page.startups %}
+                        <div class="section__row section__row--first section__row--last">
+                            <div class="section__row section__row--last-large research-highlights">
+                                <div class="section__header grid">
+                                    <h2 class="section__heading section__heading--primary heading heading--four">
+                                        Start-ups
+                                    </h2>
+                                </div>
+                                <div class="section__content grid">
+                                    {% include "patterns/organisms/carousel/carousel.html" with carousel=page.startups modifier='carousel carousel--no-margin' datatag='data-carousel' %}     
+                                    <div class="section__action">
+                                        <a class="link link--primary link--link body body--two" href="/start-ups">
+                                            <span class="link__label">See all start-ups</span>
+                                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                        </a>    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
 
                     {% if page.research %}
                         <div class="section__row section__row--first section__row--last">
