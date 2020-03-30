@@ -101,8 +101,7 @@ class ShortCoursePage(BasePage):
         }
         # If there are no dates the booking link should go to a form, not open
         # a modal, this link is also used as a generic interest link too though.
-        if self.access_planit_course_id:
-            booking_bar["link"] = register_interest_link
+        booking_bar["link"] = register_interest_link
 
         if access_planit_data:
             for date in access_planit_data:
