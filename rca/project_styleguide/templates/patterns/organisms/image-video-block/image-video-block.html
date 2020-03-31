@@ -1,5 +1,5 @@
 
-<div class="image-video-block">
+<div class="image-video-block {% if modifier %}image-video-block--{{ modifier }}{% endif %}">
     {% if heading or has_meta or curriculum %}
         <div class="section__row grid">
             <h2 class="image-video-block__heading heading {% if curriculum %}heading--two{% else %}heading--one{% endif %}">{% if curriculum %}Curriculum{% else %}{{ heading }}{% endif %}</h2>

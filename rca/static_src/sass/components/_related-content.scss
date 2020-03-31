@@ -1,5 +1,6 @@
 .related-content {
     $root: &;
+    position: relative;
     padding-top: ($gutter * 4);
     padding-bottom: ($gutter * 6);
 
@@ -43,6 +44,10 @@
             bottom: 0;
             right: 0;
         }
+    }
+
+    &--after-action {
+        padding-bottom: 0;
     }
 
     &__group {
@@ -163,6 +168,10 @@
         @include media-query(medium) {
             margin-right: 0;
         }
+    }
+
+    &__link {
+        display: inline; // So hover works on multi line items
     }
 
     &__degree {
