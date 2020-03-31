@@ -36,4 +36,8 @@
             grid-column: 2 / span 2;
         }
     }
+
+    .staff-detail-accordion--wo-gallery & {
+        margin-top: 0;
+    }
 }

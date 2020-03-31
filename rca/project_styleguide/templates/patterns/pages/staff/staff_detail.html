@@ -58,7 +58,7 @@
 
         <div class="page__content">
 
-            <section class="section bg bg--dark">
+            <section class="section bg bg--dark {% if page.gallery %}section--opposite-notch{% endif %}">
 
                 <div class="section__row staff-body">
                     <div class="staff-body__container grid">
@@ -90,8 +90,8 @@
                 {% endif %}
 
             {% if page.gallery %} 
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                <div class="section__notch section__notch--opposite">
+                    <div class="section__notch-fill section__notch-fill--first-col"></div>
                 </div>
 
             </section>
@@ -118,13 +118,13 @@
             {% endif %}
 
                 {% if page.accordion %}
-                    <div class="section__row short-course-accordion section__row--last">
+                    <div class="section__row {% if not page.gallery %}staff-detail-accordion staff-detail-accordion--wo-gallery{% endif %} section__row--last">
                         {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.accordion title="More about "|add:page.profile_firstname %}
                     </div>
                 {% endif %}
 
                 <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    <div class="section__notch-fill section__notch-fill--second-col"></div>
                 </div>
             
             </section>
