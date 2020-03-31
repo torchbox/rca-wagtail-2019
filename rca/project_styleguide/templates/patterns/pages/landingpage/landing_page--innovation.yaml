@@ -22,14 +22,17 @@ context:
         related_items:
           - item:
             title: Design Thinking & Innovation
+            degree_level: Executive Education
             programme_description_subtitle: Transform your Customer Experience.
             img: http://placehold.it/300x270/fff/000
           - item:
             title: Service Design Masterclass
+            degree_level: Executive Education
             programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
             img: http://placehold.it/300x270/ff5d1c/fff
           - item:
             title: Creative Leadership
+            degree_level: Executive Education
             programme_description_subtitle: Turning innovation into successful real-world businesses.
             img: http://placehold.it/300x270
       - item:
@@ -37,14 +40,17 @@ context:
         related_items:
           - item:
             title: Design Thinking & Innovation
+            degree_level: Executive Education
             programme_description_subtitle: Transform your Customer Experience.
             img: http://placehold.it/300x270/fff/000
           - item:
             title: Service Design Masterclass
+            degree_level: Executive Education
             programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
             img: http://placehold.it/300x270/ff5d1c/fff
           - item:
             title: Creative Leadership
+            degree_level: Executive Education
             programme_description_subtitle: Turning innovation into successful real-world businesses.
             img: http://placehold.it/300x270
     stats_block:

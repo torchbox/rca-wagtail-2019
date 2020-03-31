@@ -14,6 +14,7 @@
     .app--landing-page & {
         #{$root}__container {
             margin-bottom: $gutter;
+            grid-column: 1 / span 2;
 
             @include media-query(large) {
                 grid-column: 3 / span 2;

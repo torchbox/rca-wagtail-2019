@@ -46,6 +46,10 @@
         }
     }
 
+    &--after-action {
+        padding-bottom: 0;
+    }
+
     &__group {
         margin-bottom: ($gutter * 3);
     }

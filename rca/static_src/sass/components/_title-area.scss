@@ -160,6 +160,8 @@
     }
 
     &--landing-page {
+        padding-bottom: ($gutter);
+
         @include media-query(large) {
             padding-bottom: ($gutter * 2);
         }

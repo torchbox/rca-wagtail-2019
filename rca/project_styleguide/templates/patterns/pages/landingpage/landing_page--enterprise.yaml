@@ -26,6 +26,7 @@ context:
         description: 'Creating world class experiences that started at the RCA'
         image: true
         link: '#'
+    enterprise_highlights_title: Enterprise highlights
     enterprise_rca:
       - {
           title: 'Innovation RCA',
@@ -58,20 +59,25 @@ context:
     middle_feature_meta_text: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
     middle_feature_meta_link: '#'
     related_courses_title: Executive education programmes
+    related_courses_link: '#'
+    related_courses_link_text: View all executive education courses
     related_courses:
       - item:
         title: Lorem Ipsum
         related_items:
           - item:
             title: Design Thinking & Innovation
+            degree_level: Executive Education
             programme_description_subtitle: Transform your Customer Experience.
             img: http://placehold.it/300x270/fff/000
           - item:
             title: Service Design Masterclass
+            degree_level: Executive Education
             programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
             img: http://placehold.it/300x270/ff5d1c/fff
           - item:
             title: Creative Leadership
+            degree_level: Executive Education
             programme_description_subtitle: Turning innovation into successful real-world businesses.
             img: http://placehold.it/300x270
     stats_block: false

@@ -54,19 +54,21 @@
                 <section class="landing-page__top section section--start bg bg--dark">
 
                     {% if page.feature_image %}
-                        <div class="section__row">
-                            {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=page.feature_heading meta_heading=page.feature_meta_heading meta_copy=page.feature_meta_text href=page.feature_meta_link image=page.feature_image %}
+                        <div class="section__row section__row--last">
+                            {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=page.feature_heading meta_heading=page.feature_meta_heading meta_copy=page.feature_meta_text href=page.feature_meta_link image=page.feature_image modifier="tight-heading" %}
                         </div>
                     {% endif %}
 
                     {% if page.enterprise_highlights %}
                         <div class="section__row">
                             <div class="section__row section__row--last-large research-highlights">
-                                <div class="section__header grid">
-                                    <h2 class="section__heading section__heading--primary heading heading--four">
-                                        Enterprise highlights
-                                    </h2>
-                                </div>
+                                {% if page.enterprise_highlights_title %}
+                                    <div class="section__header grid">
+                                        <h2 class="section__heading section__heading--primary heading heading--four">
+                                            {{ page.enterprise_highlights_title }}
+                                        </h2>
+                                    </div>
+                                {% endif %}
                                 <div class="section__content grid">
                                     {% include "patterns/organisms/carousel/carousel.html" with carousel=page.enterprise_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}     
                                     <div class="section__action">
@@ -92,8 +94,8 @@
 
                     {% if page.enterprise_rca %}
                         <div class="section__row research-spaces">
-                            <div class="section__header grid">
-                                <h2 class="section__heading heading heading--four">
+                            <div class="section__header section__header--bottom-space grid">
+                                <h2 class="section__heading section__heading--tight heading heading--two">
                                     Enterprise at the RCA
                                 </h2>
                                 <div class="section__introduction">
@@ -120,12 +122,12 @@
             {% endif %}
 
             {% if page.middle_feature_image %}
-                <section class="section section--opposite-notch bg bg--dark">
+                <section class="section bg bg--dark">
                     <div class="section__row section__row--first section__row--last">
-                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=page.middle_feature_heading meta_heading=page.middle_feature_meta_heading meta_copy=page.middle_feature_meta_text href=page.middle_feature_meta_link image=page.middle_feature_image %}
+                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=page.middle_feature_heading meta_heading=page.middle_feature_meta_heading meta_copy=page.middle_feature_meta_text href=page.middle_feature_meta_link image=page.middle_feature_image modifier="tight-heading" %}
                     </div>
 
-                    <div class="section__notch section__notch--opposite">
+                    <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
                 </section>
@@ -133,8 +135,18 @@
 
             {% if page.related_courses %}
                 <section class="section section--opposite-notch bg bg--light">
-                    <div class="section__row section__row--first section__row--last">
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page.related_courses title=page.related_courses_title %}
+                    <div class="section__row section__row--first section__row--last-large">
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page.related_courses title=page.related_courses_title modifier="after-action" %}
+                        {% if page.related_courses_link %}
+                            <div class="grid">
+                                <div class="section__action">
+                                    <a class="link link--secondary link--link body body--one" href="{{ page.related_courses_link }}">
+                                        <span class="link__label">{{ page.related_courses_link_text }}</span>
+                                        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                    </a>    
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                     {% if page.stats_block %}
                     {% else %}
@@ -176,7 +188,7 @@
 
                     {% if page.research %}
                         <div class="section__row section__row--first section__row--last">
-                            <div class="partnerships">
+                            <div class="partnerships partnerships--tight-heading">
                                 {% if page.research.title %}
                                     <div class="partnerships__header grid">
                                         <h2 class="partnerships__heading heading heading--two">{{ page.research.title }}</h2>
@@ -204,7 +216,7 @@
 
             {% if page.bottom_feature_image %}
                 <div class="section section--start{% if page.news == false %} section--end{% endif %} bg bg--dark">
-                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=False curriculum=False subheading=false has_meta=True heading=page.bottom_feature_heading meta_heading=page.bottom_feature_meta_heading meta_copy=page.bottom_feature_meta_text href=page.bottom_feature_meta_link image=page.bottom_feature_image %}
+                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=False curriculum=False subheading=false has_meta=True heading=page.bottom_feature_heading meta_heading=page.bottom_feature_meta_heading meta_copy=page.bottom_feature_meta_text href=page.bottom_feature_meta_link image=page.bottom_feature_image modifier="overlap-heading" %}
                 </div>
             {% endif %}
 

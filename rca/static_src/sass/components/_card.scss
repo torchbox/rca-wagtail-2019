@@ -85,6 +85,14 @@
         }
     }
 
+    &--long-description {
+        @include media-query(large) {
+            #{$root}__description {
+                width: 140%;
+            }
+        }
+    }
+
     &__container {
         display: flex;
         flex-direction: column;

@@ -116,6 +116,16 @@
         }
     }
 
+    &__header {
+        &--bottom-space {
+            margin-bottom: ($gutter * 2);
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 6);
+            }
+        }
+    }
+
     &__heading {
         // sass-lint:disable-block no-ids
         grid-column: 1 / span 2;
@@ -141,6 +151,12 @@
 
             @include media-query(large) {
                 margin-bottom: ($gutter * 1.5);
+            }
+        }
+
+        &--tight {
+            @include media-query(large) {
+                max-width: 50%;
             }
         }
 

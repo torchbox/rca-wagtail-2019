@@ -1,6 +1,6 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<div class="related-content">
+<div class="related-content {% if modifier %}related-content--{{ modifier }}{% endif %}">
     {% if title %}
         <div class="section__row grid">
             <h2 class="related-content__heading heading heading--two">{{ title }}</h2>
@@ -8,8 +8,6 @@
     {% endif %}
 
     {% for related_section in related_sections %}
-
-        
 
         <div class="related-content__group" data-group="{{ forloop.counter }}">
             

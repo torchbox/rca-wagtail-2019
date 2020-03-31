@@ -30,6 +30,7 @@ context:
         description: 'Creating world class experiences that started at the RCA'
         image: true
         link: '#'
+    enterprise_highlights_title: Enterprise highlights
     enterprise_rca:
       - {
           title: 'Innovation RCA',
