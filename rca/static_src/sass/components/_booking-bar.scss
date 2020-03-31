@@ -13,6 +13,7 @@
                 grid-column: 2 / span 1;
             }
         }
+
         #{$root}__action {
             @include media-query(large) {
                 grid-column: 3 / span 2;
