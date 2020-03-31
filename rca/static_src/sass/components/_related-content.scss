@@ -6,7 +6,12 @@
 
     &--large {
         #{$root}__degree {
+            display: none;
             margin-bottom: ($gutter * 2);
+
+            @include media-query(large) {
+                display: block;
+            }
         }
 
         #{$root}__meta,
@@ -14,6 +19,24 @@
             // target first and second items
             &:nth-child(-n + 2) {
                 border-top: 0;
+            }
+        }
+
+        #{$root}__meta {
+            grid-column: 1 / span 2;
+
+            @include media-query(large) {
+                grid-column: 2 / span 1;
+            }
+        }
+
+        #{$root}__copy {
+            grid-column: 1 / span 2;
+            padding-top: ($gutter / 4);
+
+            @include media-query(large) {
+                grid-column: 3 / span 1;
+                padding-top: $gutter;
             }
         }
 
@@ -80,22 +103,6 @@
         grid-column: 1 / span 2;
         padding-bottom: ($gutter / 0.75);
 
-        .bg--dark & {
-            border-bottom: 1px solid $color--grid-line-light;
-
-            @include media-query(medium) {
-                border-bottom: 0;
-            }
-        }
-
-        .bg--light & {
-            border-bottom: 1px solid $color--grid-line-dark;
-
-            @include media-query(medium) {
-                border-bottom: 0;
-            }
-        }
-
         &:last-of-type {
             border-bottom: 0;
         }
@@ -125,14 +132,6 @@
         @include media-query(medium) {
             padding-top: $gutter;
             padding-right: $gutter;
-
-            .bg--dark & {
-                border-top: 1px solid $color--grid-line-light;
-            }
-
-            .bg--light & {
-                border-top: 1px solid $color--grid-line-dark;
-            }
         }
     }
 
@@ -182,6 +181,60 @@
     .app--short-course & {
         @include media-query(large) {
             padding-top: ($gutter * 8);
+        }
+    }
+
+    .bg--dark & {
+        #{$root}__copy {
+            border-bottom: 1px solid $color--grid-line-dark;
+
+            @include media-query(medium) {
+                border-bottom: 0;
+            }
+        }
+
+        #{$root}__copy,
+        #{$root}__meta {
+            @include media-query(medium) {
+                border-top: 1px solid $color--grid-line-dark;
+            }
+        }
+
+        &--large {
+            #{$root}__copy {
+                border-top: 0;
+
+                @include media-query(large) {
+                    border-top: 1px solid $color--grid-line-dark;
+                }
+            }
+        }
+    }
+
+    .bg--dark & {
+        #{$root}__copy {
+            border-bottom: 1px solid $color--grid-line-light;
+
+            @include media-query(medium) {
+                border-bottom: 0;
+            }
+        }
+
+        #{$root}__copy,
+        #{$root}__meta {
+            @include media-query(medium) {
+                border-top: 1px solid $color--grid-line-light;
+            }
+        }
+
+        &--large {
+            #{$root}__copy {
+                border-top: 0;
+
+                @include media-query(large) {
+                    border-top: 1px solid $color--grid-line-light;
+                }
+            }
         }
     }
 }

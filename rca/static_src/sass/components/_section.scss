@@ -92,7 +92,7 @@
             top: 0;
             right: 0;
             height: $notch-height-small;
-            width: 55%;
+            width: 50%;
 
             @include media-query(medium) {
                 height: $notch-height-medium;
@@ -100,6 +100,7 @@
 
             @include media-query(large) {
                 display: none;
+                width: 55%;
             }
         }
 
@@ -273,6 +274,10 @@
         }
 
         &--first-col {
+            #{$root}__notch--opposite & {
+                grid-column: 2 / span 1;
+            }
+
             @include media-query(large) {
                 grid-column: 1 / span 1;
 
