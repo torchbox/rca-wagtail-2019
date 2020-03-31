@@ -74,6 +74,10 @@
             flex-basis: 100%;
             max-width: 100%;
             min-width: 100%;
+
+            &::after {
+                display: none;
+            }
         }
 
         #{$root}__heading {
@@ -358,7 +362,7 @@
     }
 
     .staggered-cards & {
-        margin-bottom: ($gutter * 3);
+        margin-bottom: ($gutter * 5);
         padding-right: ($gutter * 1.5);
 
         @include media-query(medium) {

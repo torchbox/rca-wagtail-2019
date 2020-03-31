@@ -9,7 +9,7 @@
                     {% for item in page.centre_staff %}
                     <li class="key-details__list-item">
                         <a href="{{ item.link }}" class="link link--tertiary">{{ item.name }}</a>
-                        {% if item.job_title %}<p class="key-detail__meta">{{ item.job_title }}</p>{% endif %}
+                        {% if item.job_title %}<p class="key-details__meta">{{ item.job_title }}</p>{% endif %}
                     </li>
                     {% endfor %}
                 {% endif %}
