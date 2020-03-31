@@ -1,6 +1,9 @@
 
-<button data-micromodal-trigger="{{ item.modal }}" class="modal-launcher"
-    {% if not item.modal %}onClick="parent.location='{{ item.link }}'" {% endif%}>
+{% if item.modal %}
+    <button data-micromodal-trigger="{{ item.modal }}" class="modal-launcher">
+{% else %}
+    <a href="{{ item.link }}" class="modal-launcher">
+{% endif %}
     <div class="modal-launcher__container">
         <div class="modal-launcher__label">
             {{ item.action }}
@@ -9,4 +12,8 @@
             <svg width="18" height="18" class="modal-launcher__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
         </div>
     </div>
-</button>
+{% if item.modal %}
+    </button>
+{% else %}
+    </a>
+{% endif %}
