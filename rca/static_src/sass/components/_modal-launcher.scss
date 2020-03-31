@@ -59,6 +59,12 @@
         }
     }
 
+    .booking-bar--no-modal & {
+        @include media-query(large) {
+            width: auto;
+        }
+    }
+
     .bg--dark & {
         #{$root}__label {
             color: $color--white;
