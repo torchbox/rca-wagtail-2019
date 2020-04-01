@@ -178,6 +178,7 @@
 }
 
 // Because wrapper is outside of it's parent, this has to be seperate
+// Need to refactor this as some point to make it valid BEM
 .section__content {
     .category-item__wrapper {
         &:last-child {
@@ -188,6 +189,22 @@
                 @include media-query(large) {
                     padding-bottom: ($gutter * 6);
                 }
+            }
+        }
+
+        .category-item__description {
+            display: none;
+
+            @include media-query(large) {
+                display: block;
+            }
+        }
+
+        .category-item__heading {
+            padding-right: ($gutter * 4);
+
+            @include media-query(large) {
+                padding-right: $gutter;
             }
         }
     }
