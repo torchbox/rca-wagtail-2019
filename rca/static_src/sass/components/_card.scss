@@ -401,6 +401,49 @@
         }
     }
 
+    // .carousel--square .carousel__item .card
+    .carousel__item & {
+        .carousel--square & {
+            @include media-query(medium) {
+                padding-right: ($gutter * 5);
+            }
+
+            @include media-query(large) {
+                padding-right: var(--grid-width);
+            }
+
+            #{$root}__description {
+                @include media-query(large) {
+                    margin-bottom: ($gutter / 2);
+                }
+            }
+
+            #{$root}__content {
+                @include media-query(medium) {
+                    flex-basis: calc(50% + 50px);
+                    min-width: calc(50% + 50px);
+                    max-width: calc(50% + 50px);
+                    padding-top: ($gutter * 1.5);
+                    top: -35px;
+                    margin-bottom: -35px;
+                }
+
+                @include media-query(large) {
+                    flex-basis: 50%;
+                    min-width: 50%;
+                    max-width: 50%;
+                }
+            }
+
+            #{$root}__description,
+            #{$root}__heading {
+                @include media-query(large) {
+                    width: 200%;
+                }
+            }
+        }
+    }
+
     .bg--dark & {
         &#{$root}--image {
             #{$root}__content {
