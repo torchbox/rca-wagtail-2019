@@ -159,6 +159,21 @@
         }
     }
 
+    &--landing-page {
+        padding-bottom: ($gutter);
+
+        @include media-query(large) {
+            padding-bottom: ($gutter * 2);
+        }
+
+        #{$root}__heading {
+            @include media-query(large) {
+                max-width: 66.666%;
+                padding-right: ($gutter * 2);
+            }
+        }
+    }
+
     .bg--dark & {
         #{$root}__sub-heading {
             color: $color--meta-darkbg;

@@ -105,4 +105,12 @@
             }
         }
     }
+
+    .app--landing-page & {
+        #{$root}__notch-block {
+            @include media-query(large) {
+                grid-column: 1 / span 3;
+            }
+        }
+    }
 }

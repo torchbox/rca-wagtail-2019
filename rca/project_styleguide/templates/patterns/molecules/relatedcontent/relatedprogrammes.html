@@ -1,6 +1,6 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<div class="related-content">
+<div class="related-content {% if modifier %}related-content--{{ modifier }}{% endif %}">
     {% if title %}
         <div class="section__row grid">
             <h2 class="related-content__heading heading heading--two">{{ title }}</h2>
@@ -8,11 +8,16 @@
     {% endif %}
 
     {% for related_section in related_sections %}
+
         <div class="related-content__group" data-group="{{ forloop.counter }}">
             
-            {% if programme_page_global_fields.related_content_subtitle %}
+            {% if programme_page_global_fields.related_content_subtitle or related_section.title %}
                 <div class="section__row grid">
-                    <h3 class="related-content__subheading heading heading--five">{{ programme_page_global_fields.related_content_subtitle }}</h3>
+                    {% if programme_page_global_fields.related_content_subtitle %}
+                        <h3 class="related-content__subheading heading heading--five">{{ programme_page_global_fields.related_content_subtitle }}</h3>
+                    {% elif related_section.title %}
+                        <h3 class="related-content__subheading heading heading--five">{{ related_section.title }}</h3>
+                    {% endif %}
                 </div>
             {% endif %}
 
@@ -22,7 +27,7 @@
                         <p class="related-content__title body body--one">
                             <a
                                 href="{% pageurl related_item %}"
-                                class="link link--tertiary"
+                                class="related-content__link link link--tertiary"
                                 data-related-title
                                 data-target-image="{{ forloop.counter }}"
                                 data-parent-group={{ forloop.parentloop.counter }}

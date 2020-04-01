@@ -48,6 +48,8 @@
 
     &--stat-block {
         min-height: 100%;
+        max-width: 100%;
+        overflow: hidden;
         position: relative;
         color: $color--white;
         background-color: $color--black-65;
@@ -115,6 +117,16 @@
         }
     }
 
+    &__header {
+        &--bottom-space {
+            margin-bottom: ($gutter * 2);
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 6);
+            }
+        }
+    }
+
     &__heading {
         // sass-lint:disable-block no-ids
         grid-column: 1 / span 2;
@@ -140,6 +152,12 @@
 
             @include media-query(large) {
                 margin-bottom: ($gutter * 1.5);
+            }
+        }
+
+        &--tight {
+            @include media-query(large) {
+                max-width: 50%;
             }
         }
 
@@ -198,6 +216,18 @@
 
                     &::before {
                         background-color: $color--white; // Changed from white to black for API module removal
+                    }
+                }
+            }
+        }
+
+        .section--stat-block-notch-override & {
+            &:first-child {
+                #{$root}__notch-fill {
+                    background-color: $color--white;
+
+                    &::before {
+                        background-color: $color--white;
                     }
                 }
             }
