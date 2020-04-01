@@ -138,9 +138,14 @@ def parse_items_to_list(data, type):
 
 
 def pull_news_and_events(programme_type_slug=None):
-    # 'News' is actually a mixture of NewItem and RcaBlogPage models.
+    # 'News' is actually a mixture of NewsItem and RcaBlogPage models.
     # So pull 3 of both from the API and order them by the date field.
     # Then select how many we need depending on the events content.
+    NEWS_ITEMS = 3
+    NEWS_ITEMS_WITH_EVENTS = 2
+    # By default, work with 3 news items but if we pull events, get 2
+    # so we end up with 2 x News/Blog and 1 x Event.
+    news_items_to_get = NEWS_ITEMS
 
     # First get the Events
     query = QueryDict(mutable=True)
@@ -159,10 +164,6 @@ def pull_news_and_events(programme_type_slug=None):
     query = query.urlencode()
     events_url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
 
-    # By default, work with 3 news items but if we pull events, get 2
-    # so we end up with 2 x News/Blog and 1 x Event.
-    news_items_to_get = 3
-
     events_data = []
     fetched_event_data = fetch_data(events_url)
     if (
@@ -170,7 +171,7 @@ def pull_news_and_events(programme_type_slug=None):
         and "total_count" in fetched_event_data["meta"]
         and fetched_event_data["meta"]["total_count"] > 0
     ):
-        news_items_to_get = 2
+        news_items_to_get = NEWS_ITEMS_WITH_EVENTS
         events_data = parse_items_to_list(fetched_event_data, "Event")
 
     # News and Blogs
