@@ -60,6 +60,9 @@ def fetch_data(url):
         logger.exception(
             f"Exception occured when fetching further detail data from {url}"
         )
+        raise CantPullFromRcaApi(
+            "Error occured when fetching further detail data from {url}"
+        )
     else:
         return response.json()
 
