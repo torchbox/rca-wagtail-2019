@@ -191,6 +191,8 @@ def pull_news_and_events(programme_type_slug=None):
     query = query.urlencode()
     blog_url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
     fetched_blog_data = fetch_data(blog_url)
+    # Blog and News are both being used for News content, so they can
+    # both go to the parser as 'News'.
     blog_data = parse_items_to_list(fetched_blog_data, "News")
 
     # Pull 3 News items
