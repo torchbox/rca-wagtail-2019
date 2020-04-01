@@ -119,7 +119,8 @@
         }
 
         #{$root}__sub-heading,
-        #{$root}__heading {
+        #{$root}__heading,
+        #{$root}__meta {
             color: $color--meta-darkbg;
         }
     }
@@ -130,7 +131,8 @@
         }
 
         #{$root}__sub-heading,
-        #{$root}__heading {
+        #{$root}__heading,
+        #{$root}__meta {
             color: $color--meta-lightbg;
         }
     }

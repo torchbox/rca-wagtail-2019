@@ -48,6 +48,8 @@
 
     &--stat-block {
         min-height: 100%;
+        max-width: 100%;
+        overflow: hidden;
         position: relative;
         color: $color--white;
         background-color: $color--black-65;
@@ -90,7 +92,7 @@
             top: 0;
             right: 0;
             height: $notch-height-small;
-            width: 55%;
+            width: 50%;
 
             @include media-query(medium) {
                 height: $notch-height-medium;
@@ -98,6 +100,7 @@
 
             @include media-query(large) {
                 display: none;
+                width: 55%;
             }
         }
 
@@ -110,6 +113,16 @@
         &.bg--dark {
             &::after {
                 background-color: $color--white;
+            }
+        }
+    }
+
+    &__header {
+        &--bottom-space {
+            margin-bottom: ($gutter * 2);
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 6);
             }
         }
     }
@@ -139,6 +152,12 @@
 
             @include media-query(large) {
                 margin-bottom: ($gutter * 1.5);
+            }
+        }
+
+        &--tight {
+            @include media-query(large) {
+                max-width: 50%;
             }
         }
 
@@ -201,6 +220,18 @@
                 }
             }
         }
+
+        .section--stat-block-notch-override & {
+            &:first-child {
+                #{$root}__notch-fill {
+                    background-color: $color--white;
+
+                    &::before {
+                        background-color: $color--white;
+                    }
+                }
+            }
+        }
     }
 
     &__notch-fill {
@@ -243,6 +274,10 @@
         }
 
         &--first-col {
+            #{$root}__notch--opposite & {
+                grid-column: 2 / span 1;
+            }
+
             @include media-query(large) {
                 grid-column: 1 / span 1;
 
