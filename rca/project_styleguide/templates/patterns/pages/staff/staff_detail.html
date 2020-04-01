@@ -77,14 +77,20 @@
                 </div>
 
                 {% if page.research_highlights %}
-                    <div class="section__row research-highlights">
+                    <div class="section__row {% if page.gallery %}section__row--last{% else %}section__row--last-large{% endif %} research-highlights">
                         <div class="section__header grid">
                             <h2 class="section__heading section__heading--primary heading heading--four">
                                 Research highlights
                             </h2>
                         </div>
                         <div class="section__content grid">
-                            {% include "patterns/organisms/carousel/carousel.html" with carousel=page.research_highlights modifier='carousel' datatag='data-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=page.research_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                            <div class="section__action">
+                                <a class="link link--primary link--link body body--two" href="/research">
+                                    <span class="link__label">See all research</span>
+                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                </a>    
+                            </div>
                         </div>
                     </div>
                 {% endif %}
