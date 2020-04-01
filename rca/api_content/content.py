@@ -102,7 +102,7 @@ def parse_items_to_list(data, type):
                 _item["image"] = social_image_url
                 _item["image_small"] = social_image_small_url
                 _item["image_alt"] = social_image["alt"]
-        date = False
+        date = None
         if type == "News":
             date = data["date"]
             _item["type"] = type
