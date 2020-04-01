@@ -164,10 +164,14 @@ def pull_news_and_events(programme_type_slug=None):
     news_items_to_get = 3
 
     events_data = []
-    data = fetch_data(events_url)
-    if data and "total_count" in data["meta"] and data["meta"]["total_count"] > 0:
+    fetched_event_data = fetch_data(events_url)
+    if (
+        fetched_event_data
+        and "total_count" in fetched_event_data["meta"]
+        and fetched_event_data["meta"]["total_count"] > 0
+    ):
         news_items_to_get = 2
-        events_data = parse_items_to_list(data, "Event")
+        events_data = parse_items_to_list(fetched_event_data, "Event")
 
     # News and Blogs
     # Pull 3 Blog items
@@ -186,8 +190,8 @@ def pull_news_and_events(programme_type_slug=None):
 
     query = query.urlencode()
     blog_url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
-    data = fetch_data(blog_url)
-    blog_data = parse_items_to_list(data, "News")
+    fetched_blog_data = fetch_data(blog_url)
+    blog_data = parse_items_to_list(fetched_blog_data, "News")
 
     # Pull 3 News items
     query = QueryDict(mutable=True)
@@ -205,8 +209,8 @@ def pull_news_and_events(programme_type_slug=None):
     news_url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
     news_data = []
 
-    data = fetch_data(news_url)
-    news_data = parse_items_to_list(data, "News")
+    fetched_news_data = fetch_data(news_url)
+    news_data = parse_items_to_list(fetched_news_data, "News")
 
     news_and_blog_data = news_data + blog_data
     # Sort by the date
@@ -239,9 +243,9 @@ def pull_alumni_stories(programme_type_slug=None):
     query = query.urlencode()
     url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
 
-    data = fetch_data(url)
+    fetched_alumni_stories_data = fetch_data(url)
     alumni_stories_standard_page_data = parse_items_to_list(
-        data, "alumni_stories_standard_page_data"
+        fetched_alumni_stories_data, "alumni_stories_standard_page_data"
     )
 
     # Pull 3 BlogPage items
@@ -260,9 +264,9 @@ def pull_alumni_stories(programme_type_slug=None):
     query = query.urlencode()
     url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/?{query}"
 
-    data = fetch_data(url)
+    fetched_blog_data = fetch_data(url)
     alumni_stories_blog_page_data = parse_items_to_list(
-        data, "alumni_stories_blog_page"
+        fetched_blog_data, "alumni_stories_blog_page"
     )
 
     alumni_stories_data = (
