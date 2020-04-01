@@ -1,7 +1,3 @@
-:root {
-    --grid-width: 0; // populated with carousel js
-}
-
 .carousel {
     $root: &;
     position: relative;
