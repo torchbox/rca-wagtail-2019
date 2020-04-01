@@ -1,0 +1,7 @@
+.in-page-anchor-nav {
+    @include z-index(sticky-nav-bar);
+    position: sticky;
+    top: 0;
+    mix-blend-mode: difference;
+    color: $color--white;
+}
