@@ -17,18 +17,6 @@
             position: relative;
         }
 
-        #{$root}__item {
-            .card {
-                @include media-query(medium) {
-                    padding-right: ($gutter * 5);
-                }
-
-                @include media-query(large) {
-                    padding-right: var(--grid-width);
-                }
-            }
-        }
-
         #{$root}__controls {
             padding-right: $gutter;
             padding-left: $gutter;
