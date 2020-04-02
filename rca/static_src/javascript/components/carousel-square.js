@@ -40,14 +40,6 @@ class SquareCarousel {
         // Get outer grid size for peek value
         const leftEdge = document.querySelector('[data-left-edge]');
         this.leftEdgeCoords = leftEdge.getBoundingClientRect();
-
-        // Set custom css property to give padding on slide
-        const gridSelector = document.querySelector('[data-grid-center]');
-        this.gridWidth = gridSelector.getBoundingClientRect();
-        document.documentElement.style.setProperty(
-            '--grid-width',
-            `${this.gridWidth.width}px`,
-        );
     }
 
     createSlideshow() {
