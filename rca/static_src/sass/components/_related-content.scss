@@ -169,10 +169,6 @@
         }
     }
 
-    &__link {
-        display: inline; // So hover works on multi line items
-    }
-
     &__degree {
         opacity: 0.4;
         margin-bottom: ($gutter / 4);
@@ -184,7 +180,7 @@
         }
     }
 
-    .bg--dark & {
+    .bg--light & {
         #{$root}__copy {
             border-bottom: 1px solid $color--grid-line-dark;
 
