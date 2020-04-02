@@ -444,6 +444,112 @@
         }
     }
 
+    .index-module & {
+        #{$root}__container {
+            position: relative;
+            margin-bottom: ($gutter * 2);
+
+            @include media-query(large) {
+                flex-direction: row;
+                margin-bottom: ($gutter * 3.5);
+            }
+        }
+
+        #{$root}__content {
+            position: relative;
+            top: -$notch-height-small;
+            margin-bottom: -$notch-height-small;
+
+            @include media-query(medium) {
+                top: 0;
+                margin-bottom: 0;
+            }
+
+            @include media-query(large) {
+                position: static;
+            }
+
+            &::after {
+                @include z-index(base);
+                position: absolute;
+                top: 0;
+                left: 0;
+                content: '';
+                display: block;
+                height: $notch-height-small;
+                width: 50%;
+
+                @include media-query(medium) {
+                    height: $notch-height-medium;
+                }
+
+                @include media-query(large) {
+                    content: none;
+                }
+            }
+        }
+
+        #{$root}__image-container {
+            @include media-query(large) {
+                flex-basis: 50%;
+                max-width: 50%;
+                min-width: 50%;
+            }
+        }
+
+        #{$root}__image {
+            @include media-query(large) {
+                padding-right: ($gutter * 1.5);
+            }
+        }
+
+        #{$root}__description {
+            margin-bottom: 0;
+
+            @include media-query(large) {
+                margin-right: ($gutter);
+            }
+        }
+
+        #{$root}__meta {
+            @include media-query(large) {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                margin: 0;
+                min-width: ($gutter * 4);
+                padding: ($gutter / 4) ($gutter / 2) ($gutter / 4) 0;
+            }
+        }
+
+        .bg--dark &,
+        .bg--light & {
+            &#{$root}--image {
+                #{$root}__content {
+                    @include media-query(medium) {
+                        background-color: transparent;
+                    }
+                }
+            }
+        }
+
+        .bg--dark & {
+            #{$root}__meta {
+                @include media-query(large) {
+                    background-color: $color--black;
+                }
+            }
+        }
+
+        .bg--light & {
+            #{$root}__meta {
+                @include media-query(large) {
+                    background-color: $color--white;
+                }
+            }
+        }
+    }
+
     .bg--dark & {
         &#{$root}--image {
             #{$root}__content {
