@@ -461,12 +461,14 @@
             margin-bottom: -$notch-height-small;
 
             @include media-query(medium) {
-                top: 0;
-                margin-bottom: 0;
+                top: -$notch-height-small;
+                margin-bottom: -$notch-height-small;
             }
 
             @include media-query(large) {
                 position: static;
+                top: 0;
+                margin-bottom: 0;
             }
 
             &::after {
