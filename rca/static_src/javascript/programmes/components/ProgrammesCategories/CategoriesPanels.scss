@@ -13,11 +13,11 @@
         }
     }
 
-    .section__content & {
-        margin-bottom: ($gutter * 2);
+    .bg--light .section__content & {
+        background-color: $color--white; // mask grid lines
+    }
 
-        @include media-query(large) {
-            margin-bottom: ($gutter * 4);
-        }
+    .bg--dark .section__content & {
+        background-color: $color--black; // mask grid lines
     }
 }

@@ -14,10 +14,6 @@
         margin-bottom: ($gutter / 2);
     }
 
-    &__sub-heading {
-        margin-bottom: ($gutter * 1.5);
-    }
-
     &__content {
         padding-top: ($gutter * 1.5);
         grid-column: 1 / span 2;
@@ -57,6 +53,14 @@
 
         @include media-query(large) {
             width: 33.333%;
+        }
+    }
+
+    &__contact {
+        margin-bottom: $gutter;
+
+        @include media-query(large) {
+            margin-bottom: 0;
         }
     }
 
@@ -117,13 +121,33 @@
         }
 
         #{$root}__heading {
+            margin-bottom: ($gutter * 0.75);
+
             @include media-query(large) {
                 margin-bottom: ($gutter * 3);
+            }
+        }
+
+        #{$root}__sub-heading {
+            margin-bottom: ($gutter * 0.75);
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 1.5);
             }
         }
     }
 
     &--research-centre {
+        padding-bottom: ($gutter * 2);
+
+        @include media-query(medium) {
+            padding-bottom: ($gutter * 2);
+        }
+
+        @include media-query(large) {
+            padding-bottom: ($gutter * 2.25);
+        }
+
         #{$root}__content {
             @include media-query(medium) {
                 // Titles are generally longer on research centre pages, so give them more space on tablets
@@ -131,6 +155,21 @@
             }
             @include media-query(large) {
                 grid-column: 2 / span 3;
+            }
+        }
+    }
+
+    &--landing-page {
+        padding-bottom: ($gutter);
+
+        @include media-query(large) {
+            padding-bottom: ($gutter * 2);
+        }
+
+        #{$root}__heading {
+            @include media-query(large) {
+                max-width: 66.666%;
+                padding-right: ($gutter * 2);
             }
         }
     }

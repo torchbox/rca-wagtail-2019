@@ -58,7 +58,7 @@
 
         <div class="page__content">
 
-            <section class="section section--start bg bg--dark">
+            <section class="section bg bg--dark {% if page.gallery %}section--opposite-notch{% endif %}">
 
                 <div class="section__row staff-body">
                     <div class="staff-body__container grid">
@@ -77,21 +77,27 @@
                 </div>
 
                 {% if page.research_highlights %}
-                    <div class="section__row research-highlights">
+                    <div class="section__row {% if page.gallery %}section__row--last{% else %}section__row--last-large{% endif %} research-highlights">
                         <div class="section__header grid">
                             <h2 class="section__heading section__heading--primary heading heading--four">
                                 Research highlights
                             </h2>
                         </div>
                         <div class="section__content grid">
-                            {% include "patterns/organisms/carousel/carousel.html" with carousel=page.research_highlights modifier='carousel' datatag='data-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=page.research_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                            <div class="section__action">
+                                <a class="link link--primary link--link body body--two" href="/research">
+                                    <span class="link__label">See all research</span>
+                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                </a>    
+                            </div>
                         </div>
                     </div>
                 {% endif %}
 
             {% if page.gallery %} 
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                <div class="section__notch section__notch--opposite">
+                    <div class="section__notch-fill section__notch-fill--first-col"></div>
                 </div>
 
             </section>
@@ -118,13 +124,13 @@
             {% endif %}
 
                 {% if page.accordion %}
-                    <div class="section__row short-course-accordion section__row--last">
+                    <div class="section__row {% if not page.gallery %}staff-detail-accordion staff-detail-accordion--wo-gallery{% endif %} section__row--last">
                         {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.accordion title="More about "|add:page.profile_firstname %}
                     </div>
                 {% endif %}
 
                 <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    <div class="section__notch-fill section__notch-fill--second-col"></div>
                 </div>
             
             </section>

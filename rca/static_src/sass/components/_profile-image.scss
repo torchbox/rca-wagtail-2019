@@ -6,8 +6,9 @@
             display: block;
             width: 100%;
             height: auto;
-            max-height: 680px;
-            max-width: 680px;
+            // prevent it bleeding into key details area
+            max-height: 560px;
+            max-width: 560px;
             margin-left: auto;
         }
     }

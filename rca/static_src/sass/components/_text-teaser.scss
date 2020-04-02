@@ -1,0 +1,19 @@
+.text-teaser {
+    &__heading {
+        grid-column: 1 / span 2;
+        margin-bottom: ($gutter * 1.5);
+
+        @include media-query(large) {
+            grid-column: 2 / span 2;
+            margin-bottom: ($gutter * 2);
+        }
+    }
+
+    &__content {
+        grid-column: 1 / span 2;
+
+        @include media-query(large) {
+            grid-column: 3 / span 2;
+        }
+    }
+}

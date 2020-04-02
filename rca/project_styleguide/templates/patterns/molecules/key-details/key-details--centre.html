@@ -1,4 +1,4 @@
-<div class="key-details key-details--staff">
+<div class="key-details key-details--centre">
     <div class="key-details__header">
         <h3 class="heading heading--five key-details__heading">Key details</h3>
     </div>
@@ -9,7 +9,7 @@
                     {% for item in page.centre_staff %}
                     <li class="key-details__list-item">
                         <a href="{{ item.link }}" class="link link--tertiary">{{ item.name }}</a>
-                        {% if item.job_title %}<p class="key-detail__meta">{{ item.job_title }}</p>{% endif %}
+                        {% if item.job_title %}<p class="key-details__meta">{{ item.job_title }}</p>{% endif %}
                     </li>
                     {% endfor %}
                 {% endif %}
@@ -30,7 +30,7 @@
         <div class="key-details__section key-details__section--twitter">
             <ul class="key-details__list">
                 <li class="key-details__list-item">
-                    <a href="http://www.twitter.com/{{ centre_twitter }}" class="link link--tertiary link--link">
+                    <a href="http://www.twitter.com/{{ centre_twitter }}" class="link link--tertiary link--link" target="_blank" rel="noopener">
                         <span class="link__label">Twitter</span>
                         <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                     </a>

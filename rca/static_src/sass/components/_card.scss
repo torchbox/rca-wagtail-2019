@@ -28,7 +28,7 @@
                 content: '';
                 display: block;
                 height: $notch-height-small;
-                width: calc(50% + 94px);
+                width: calc(50% + 48px);
 
                 @include media-query(medium) {
                     content: none;
@@ -74,6 +74,10 @@
             flex-basis: 100%;
             max-width: 100%;
             min-width: 100%;
+
+            &::after {
+                display: none;
+            }
         }
 
         #{$root}__heading {
@@ -82,6 +86,14 @@
 
         #{$root}__description {
             @include font-size(xxs);
+        }
+    }
+
+    &--long-description {
+        @include media-query(large) {
+            #{$root}__description {
+                width: 140%;
+            }
         }
     }
 
@@ -358,7 +370,7 @@
     }
 
     .staggered-cards & {
-        margin-bottom: ($gutter * 3);
+        margin-bottom: ($gutter * 5);
         padding-right: ($gutter * 1.5);
 
         @include media-query(medium) {
@@ -385,6 +397,49 @@
 
             @include media-query(large) {
                 margin-left: 66.666%;
+            }
+        }
+    }
+
+    // .carousel--square .carousel__item .card
+    .carousel__item & {
+        .carousel--square & {
+            @include media-query(medium) {
+                padding-right: ($gutter * 5);
+            }
+
+            @include media-query(large) {
+                padding-right: var(--grid-width);
+            }
+
+            #{$root}__description {
+                @include media-query(large) {
+                    margin-bottom: ($gutter / 2);
+                }
+            }
+
+            #{$root}__content {
+                @include media-query(medium) {
+                    flex-basis: calc(50% + 50px);
+                    min-width: calc(50% + 50px);
+                    max-width: calc(50% + 50px);
+                    padding-top: ($gutter * 1.5);
+                    top: -35px;
+                    margin-bottom: -35px;
+                }
+
+                @include media-query(large) {
+                    flex-basis: 50%;
+                    min-width: 50%;
+                    max-width: 50%;
+                }
+            }
+
+            #{$root}__description,
+            #{$root}__heading {
+                @include media-query(large) {
+                    width: 200%;
+                }
             }
         }
     }

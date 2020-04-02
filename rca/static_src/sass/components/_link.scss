@@ -126,26 +126,25 @@
         }
 
         // Add underline to external links
-        // If not rca.ac.uk or heroku staging, or anchor links or itnernal link...
+        // If not rca.ac.uk or heroku staging, or anchor links or internal link...
         &:not([href*='rca.ac.uk']):not([href*='herokuapp.com']):not([href^='#']):not([href^='/']),
         &#{$root}--external {
             &::before {
                 position: absolute;
                 right: 5px;
-                bottom: 3px;
+                top: 18px;
                 display: block;
                 content: '';
                 border-bottom: 1px solid currentColor;
                 width: 7px;
                 height: 1px;
                 transition: transform $transition;
+            }
 
-                @include media-query(medium) {
-                    bottom: 5px;
-                }
-
-                @include media-query(large) {
-                    bottom: 7px;
+            &#{$root}--primary,
+            &#{$root}--secondary {
+                &::before {
+                    top: 26px;
                 }
             }
 
@@ -255,5 +254,12 @@
     .accordion & {
         @include font-size(xxs);
         margin-top: ($gutter * 1.5);
+    }
+
+    .key-details--staff .key-details__list-item & {
+        &#{$root}--tertiary {
+            // Make sure multi line lines hover only shown on last line of link
+            display: inline;
+        }
     }
 }
