@@ -724,3 +724,5 @@ ACCESS_PLANIT_REGISTER_INTEREST_BASE = env.get(
     "ACCESS_PLANIT_REGISTER_INTEREST_BASE",
     "https://rca-verdant-staging.herokuapp.com/short-courses/register-your-interest/",
 )
+
+CACHE_CONTROL_STALE_IF_ERROR = env.get("CACHE_CONTROL_STALE_IF_ERROR", None)
