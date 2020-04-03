@@ -484,12 +484,28 @@
     }
 
     // Research spaces custom spacing
-    &.research-top .research-spaces {
+    &.research-top .research-spaces,
+    &.landing-page__middle .research-spaces {
         #{$root}__header {
             margin-bottom: ($gutter * 1.5);
 
             @include media-query(large) {
                 margin-bottom: ($gutter * 4);
+            }
+        }
+    }
+
+    &.landing-page__middle .research-spaces {
+        #{$root}__heading {
+            margin-bottom: ($gutter * 2);
+        }
+
+        #{$root}__introduction {
+            margin-bottom: ($gutter * 2);
+            grid-column: 1 / span 2;
+
+            @include media-query(large) {
+                grid-column: auto;
             }
         }
     }
