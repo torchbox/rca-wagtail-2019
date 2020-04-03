@@ -133,7 +133,7 @@
             {% if page.related_courses %}
                 <section class="section section--opposite-notch bg bg--light">
                     <div class="section__row section__row--first section__row--last-large">
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page.related_courses title=page.related_courses_title modifier="after-action" %}
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page.related_courses title=page.related_courses_title modifier="after-action related-content--meta-new-line" %}
                         {% if page.related_courses_link %}
                             <div class="grid">
                                 <div class="section__action">
