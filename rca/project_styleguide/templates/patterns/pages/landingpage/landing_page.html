@@ -145,8 +145,7 @@
                             </div>
                         {% endif %}
                     </div>
-                    {% if page.stats_block %}
-                    {% else %}
+                    {% if not page.stats_block %}
                         <div class="section__notch section__notch--opposite">
                             <div class="section__notch-fill section__notch-fill--third-col"></div>
                         </div>
