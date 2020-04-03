@@ -59,7 +59,6 @@
 
             &:disabled {
                 opacity: 0;
-                pointer-events: none;
             }
         }
     }
@@ -166,6 +165,11 @@
 
         &--next {
             right: -80px;
+        }
+
+        &:disabled {
+            opacity: 0.3;
+            pointer-events: none;
         }
     }
 

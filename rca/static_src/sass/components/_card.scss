@@ -371,7 +371,7 @@
 
     .staggered-cards & {
         margin-bottom: ($gutter * 5);
-        padding-right: ($gutter * 1.5);
+        padding-right: ($gutter * 1.25);
 
         @include media-query(medium) {
             flex-basis: 50%;
@@ -384,7 +384,6 @@
             max-width: 333.333%;
             min-width: 33.333%;
             margin-bottom: 0;
-            padding-right: 0;
         }
 
         &:nth-child(even) {

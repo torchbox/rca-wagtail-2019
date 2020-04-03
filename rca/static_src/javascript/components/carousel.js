@@ -1,4 +1,5 @@
 import Glide from '@glidejs/glide';
+import ArrowDisabler from './carousel-arrow-disabler';
 
 class Carousel {
     static selector() {
@@ -10,13 +11,16 @@ class Carousel {
 
         this.createSlideshow();
         this.slideTotal = this.node.dataset.slidetotal;
+        this.slideshow.mount({ ArrowDisabler });
         this.bindEvents();
-        this.slideshow.mount();
         this.setLiveRegion();
     }
 
     bindEvents() {
-        this.slideshow.on('move.after', () => {
+        this.updateAriaRoles();
+
+        // Rerun after each slide move
+        this.slideshow.on('run.after', () => {
             this.updateAriaRoles();
             this.updateLiveRegion();
         });
@@ -42,11 +46,18 @@ class Carousel {
         for (const slide of this.node.querySelectorAll(
             '.glide__slide:not(.glide__slide--active)',
         )) {
+            const inactiveSlideAnchors = slide.querySelectorAll('a');
             slide.setAttribute('aria-hidden', 'true');
-            slide.setAttribute('tab-index', 0);
+            inactiveSlideAnchors.forEach(function inactiveAnchor(el) {
+                el.setAttribute('tabindex', -1);
+            });
         }
         const activeSlide = this.node.querySelector('.glide__slide--active');
+        const activeSlideAnchors = activeSlide.querySelectorAll('a');
         activeSlide.removeAttribute('aria-hidden');
+        activeSlideAnchors.forEach(function activeAnchor(el) {
+            el.removeAttribute('tabindex');
+        });
     }
 
     // Sets a live region. This will announce which slide is showing to screen readers when previous / next buttons clicked
