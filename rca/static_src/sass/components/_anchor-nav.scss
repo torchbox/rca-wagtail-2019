@@ -1,7 +1,24 @@
-.in-page-anchor-nav {
+.anchor-nav {
     @include z-index(sticky-nav-bar);
-    position: sticky;
-    top: 0;
-    mix-blend-mode: difference;
-    color: $color--white;
+
+    @include media-query(large) {
+        position: fixed;
+        grid-column: 1 / span 1;
+        top: 400px;
+        width: var(--outer-grid-width);
+        padding-top: ($gutter * 1.5);
+        margin-bottom: ($gutter * 2);
+        color: $color--white;
+        border-top: 1px solid $color--grid-line-light;
+        mix-blend-mode: difference;
+    }
+
+    &__heading {
+        display: none;
+        @include media-query(large) {
+            display: block;
+            opacity: 0.7;
+            margin-bottom: ($gutter * 1.5);
+        }
+    }
 }

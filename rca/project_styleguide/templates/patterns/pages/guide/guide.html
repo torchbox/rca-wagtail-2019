@@ -3,7 +3,7 @@
 {% get_settings %}
 
 {% block body_class %}
-    app--staff-detail
+    app--guide
 {% endblock %}
 
 {% block content %}
@@ -11,13 +11,13 @@
     <div class="page page--no-hero">
 
         <header class="page__header bg bg--dark">
-            <div class="title-area title-area--staff-detail grid">
+            <div class="title-area title-area--guide grid">
                 <div class="title-area__content">
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" with breadcrumb=page.breadcrumb %}
                     </nav>
                     {% if page.title %}
-                        <h1 class="title-area__heading heading heading--one">
+                        <h1 class="title-area__heading heading heading--display-two">
                             {{ page.title }}
                         </h1>
                     {% endif %}
@@ -30,10 +30,9 @@
                 </div>
             </div>
 
-            {% include "patterns/molecules/anchor-nav/anchor-nav.html" %}
-
             {% if page.introduction %}
                 <div class="introduction grid">
+                    {% include "patterns/molecules/anchor-nav/anchor-nav.html" %}
                     <div class="introduction__container">
                         <h2 class="introduction__text section__heading heading heading--five">
                             {{ page.introduction }}
@@ -47,7 +46,11 @@
 
             <section class="section section--opposite-notch bg bg--light">
 
-                <div class="section__row grid">
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--second-col"></div>
+                </div>
+
+                <div class="section__row section__row--first grid">
                     <div class="streamfield">
                         {% include "patterns/molecules/streamfield/stream_block.html" %}
                     </div>
@@ -66,7 +69,7 @@
             </section>
 
             {% if page.index_module %}
-                <section class="section bg bg--dark">
+                <section class="section bg bg--dark" id="index">
                     <div class="section__row section__row--first section__row--last-large">
                         {% include "patterns/organisms/index-module/index-module.html" with item=page.index_module %}
                     </div>
@@ -74,8 +77,7 @@
             {% endif %}
 
             {% if page.contact %}
-                <section class="section bg bg--light">
-                    <div class="contact-anchor" id="contact"></div>
+                <section class="section bg bg--light" id="contact">
                     <div class="section__row section__row--first">
                         {% include "patterns/organisms/contact/contact.html" with heading="Ask a question" text="Get in touch if you’d like to find out more or have any questions about working with the RCA." image=page.contact_image %}
                     </div>
