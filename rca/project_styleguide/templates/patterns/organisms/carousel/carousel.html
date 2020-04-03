@@ -3,7 +3,7 @@
         <ul class="carousel__slides glide__slides" aria-live="polite">
             {% for slide in carousel %}
             <li class="carousel__item glide__slide">
-                {% include 'patterns/molecules/card/card.html' with item=slide %}
+                {% include 'patterns/molecules/card/card.html' with item=slide modifier="carousel" %}
             </li>
             {% endfor %}
         </ul>
