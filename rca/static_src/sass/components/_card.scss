@@ -313,6 +313,18 @@
                 @include font-size(s);
             }
         }
+
+        &#{$root}--image {
+            #{$root}__content {
+                &::after {
+                    width: 50%;
+
+                    @include media-query(large) {
+                        width: calc(50% + 15px);
+                    }
+                }
+            }
+        }
     }
 
     .news__sub-features & {
@@ -363,7 +375,11 @@
                     content: '';
                     display: block;
                     height: 24px;
-                    width: 80px;
+                    width: 50%;
+
+                    @include media-query(medium) {
+                        width: 80px;
+                    }
                 }
             }
         }

@@ -318,6 +318,10 @@
         }
 
         &--third-col {
+            #{$root}__notch--opposite & {
+                grid-column: 2 / span 1;
+            }
+
             @include media-query(large) {
                 grid-column: 1 / span 3;
 
