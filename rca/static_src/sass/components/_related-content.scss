@@ -73,6 +73,69 @@
         padding-bottom: 0;
     }
 
+    &--meta-new-line {
+        #{$root}__subheading {
+            padding-bottom: $gutter;
+
+            @include media-query(medium) {
+                padding-bottom: 0;
+            }
+        }
+
+        #{$root}__meta {
+            grid-column: 1 / span 2;
+            flex-direction: column;
+
+            @include media-query(medium) {
+                grid-column: 1 / span 1;
+            }
+
+            @include media-query(large) {
+                grid-column: 2 / span 1;
+            }
+        }
+
+        #{$root}__title {
+            margin-bottom: ($gutter / 2);
+
+            @include media-query(medium) {
+                margin-bottom: ($gutter / 4);
+            }
+        }
+
+        #{$root}__degree {
+            margin-bottom: ($gutter / 2);
+
+            @include media-query(medium) {
+                margin-bottom: $gutter;
+            }
+        }
+    }
+
+    &--small-margin-mobile {
+        padding-bottom: ($gutter * 2);
+
+        @include media-query(large) {
+            padding-bottom: ($gutter * 6);
+        }
+
+        #{$root}__group {
+            margin-bottom: ($gutter * 2);
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 3);
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+
+                @include media-query(large) {
+                    margin-bottom: ($gutter * 3);
+                }
+            }
+        }
+    }
+
     &__group {
         margin-bottom: ($gutter * 3);
     }
@@ -184,7 +247,7 @@
         }
     }
 
-    .bg--dark & {
+    .bg--light & {
         #{$root}__copy {
             border-bottom: 1px solid $color--grid-line-dark;
 
@@ -206,6 +269,16 @@
 
                 @include media-query(large) {
                     border-top: 1px solid $color--grid-line-dark;
+                }
+            }
+        }
+
+        &--meta-new-line {
+            #{$root}__subheading {
+                border-bottom: 1px solid $color--grid-line-dark;
+
+                @include media-query(medium) {
+                    border-bottom: 0;
                 }
             }
         }
@@ -233,6 +306,16 @@
 
                 @include media-query(large) {
                     border-top: 1px solid $color--grid-line-light;
+                }
+            }
+        }
+
+        &--meta-new-line {
+            #{$root}__subheading {
+                border-bottom: 1px solid $color--grid-line-light;
+
+                @include media-query(medium) {
+                    border-bottom: 0;
                 }
             }
         }
