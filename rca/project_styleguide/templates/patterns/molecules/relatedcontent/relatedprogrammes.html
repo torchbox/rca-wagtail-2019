@@ -35,7 +35,9 @@
                                 {{ related_item.title }}
                             </a>
                         </p>
-                        <p class="related-content__degree body body--two">{{ related_item.degree_level }}</p>
+                        {% if related_item.degree_level %}
+                            <p class="related-content__degree body body--two">{{ related_item.degree_level }}</p>
+                        {% endif %}
                     </div>
                     <p class="related-content__copy body body--two">
                         {{ related_item.programme_description_subtitle }}
