@@ -95,13 +95,19 @@
             }
         }
 
+        #{$root}__title {
+            margin-bottom: ($gutter / 2);
+
+            @include media-query(medium) {
+                margin-bottom: ($gutter / 4);
+            }
+        }
+
         #{$root}__degree {
-            margin-top: ($gutter / 2);
             margin-bottom: ($gutter / 2);
 
             @include media-query(medium) {
                 margin-bottom: $gutter;
-                margin-top: 0;
             }
         }
     }
