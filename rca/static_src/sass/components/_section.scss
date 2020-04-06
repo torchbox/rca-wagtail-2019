@@ -199,6 +199,12 @@
             background-color: transparent;
         }
 
+        &--small-med-only {
+            @include media-query(large) {
+                display: none;
+            }
+        }
+
         .bg--stat-block & {
             &:first-child {
                 #{$root}__notch-fill {

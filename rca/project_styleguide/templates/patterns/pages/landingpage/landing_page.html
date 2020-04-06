@@ -107,7 +107,7 @@
 
                     {% if page.related_research_centres_schools %}
                         <div class="section__row">
-                            {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page.related_research_centres_schools title="Research centres & Schools" modifier="meta-new-line" %}
+                            {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page.related_research_centres_schools title="Research centres & Schools" modifier="meta-new-line related-content--small-margin-mobile" %}
                         </div>
                     {% endif %}
 
@@ -231,6 +231,9 @@
 
             {% if page.contact %}
                 <section class="section bg bg--light">
+                    <div class="section__notch section__notch--small-med-only">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    </div>
                     <div class="contact-anchor" id="contact"></div>
                     <div class="section__row section__row--first">
                         {% include "patterns/organisms/contact/contact.html" with heading="Contact us" text="Get in touch if you’d like to find out more or have any questions about working with the RCA." image=page.contact_image %}

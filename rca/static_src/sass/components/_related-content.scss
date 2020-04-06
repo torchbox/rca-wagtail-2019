@@ -112,6 +112,30 @@
         }
     }
 
+    &--small-margin-mobile {
+        padding-bottom: ($gutter * 2);
+
+        @include media-query(large) {
+            padding-bottom: ($gutter * 6);
+        }
+
+        #{$root}__group {
+            margin-bottom: ($gutter * 2);
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 3);
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+
+                @include media-query(large) {
+                    margin-bottom: ($gutter * 3);
+                }
+            }
+        }
+    }
+
     &__group {
         margin-bottom: ($gutter * 3);
     }
