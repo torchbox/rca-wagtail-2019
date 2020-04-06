@@ -1,5 +1,6 @@
 from collections import defaultdict
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -135,7 +136,7 @@ class ShortCoursePage(BasePage):
             "register_interest_link"
         ] = (
             register_interest_link
-        ) = "{settings.ACCESS_PLANIT_REGISTER_INTEREST_BASE}/?course_id={self.access_planit_course_id}"
+        ) = f"{settings.ACCESS_PLANIT_REGISTER_INTEREST_BASE}?course_id={self.access_planit_course_id}"
         context["booking_bar"] = self._format_booking_bar(
             register_interest_link, access_planit_data
         )
