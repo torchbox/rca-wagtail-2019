@@ -161,8 +161,20 @@ context:
     contact_image: true
     relatedcontent: true
   related_staff:
-    - item
-    - item
+    - {
+        name: 'Beth Hughes',
+        role: 'Head of Programmes',
+        description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
+        link: '#',
+        link_text: 'Read more',
+      }
+    - {
+        name: 'Beth Hughes',
+        role: 'Head of Programmes',
+        description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
+        link: '#',
+        link_text: 'Read more',
+      }
   programme_page_global_fields:
     contact_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
     contact_title: Contact Us

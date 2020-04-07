@@ -1,14 +1,14 @@
-{% if people %}
+
     <div class="people-module {% if people|length == 1 %}people-module--single{% elif people|length > 4 %}people-module--five-plus{% else %}people-module--two-four{% endif %}">
         <div class="people-module__container grid">
-            {% if page.staff_title %}
+            {% if title %}
                 <div class="people-module__header">
-                    <h2 class="heading heading--four people-module__heading">{{ page.staff_title }}</h2>
+                    <h2 class="heading heading--four people-module__heading">{{ title }}</h2>
                 </div>
             {% endif %}
             <div class="people-module__content">
                 {% for profile in people %}
-                    {% include "patterns/molecules/profile-detail/profile-detail.html" %}
+                    {% include "patterns/molecules/profile-detail/profile-detail.html" with item=profile %}
                 {% endfor %}
             </div>
             {% if page.staff_link %}
@@ -21,4 +21,3 @@
             {% endif %}
         </div>
     </div>
-{% endif %}
