@@ -1,0 +1,11 @@
+.anchor-heading {
+    padding-top: ($gutter * 3.5);
+
+    @include media-query(large) {
+        padding-top: ($gutter * 6);
+    }
+
+    &:first-child {
+        padding-top: 0;
+    }
+}
