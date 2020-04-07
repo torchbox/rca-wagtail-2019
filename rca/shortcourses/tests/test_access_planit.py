@@ -26,10 +26,6 @@ def mocked_fetch_data_from_xml(**kargs):
     return data
 
 
-def mocked_fetch_data_from_xml_as_none(**kargs):
-    return None
-
-
 class AccessPlanitXMLTest(TestCase):
     def setUp(self):
         self.expected_data = [
@@ -168,20 +164,6 @@ class AccessPlanitXMLTest(TestCase):
                 depth="001",
                 access_planit_course_id="course id cannot be a string",
             )
-
-    def test_management_command_fetch_data(self):
-        """ Test that xml with no dates doesn't go in the cache """
-        for i in range(5):
-            ShortCoursePage.objects.create(
-                title=f"Short course {i}",
-                path=str(i),
-                depth="001",
-                access_planit_course_id=i,
-            )
-        call_command("fetch_access_planit_data")
-        for i in range(5):
-            cache_key = f"short_course_{i}"
-            self.assertEqual(cache.get(cache_key), None)
 
     def test_cache_data_for_non_valid_course_id(self):
         """ Technically, you can add any integer as a course ID and some will
