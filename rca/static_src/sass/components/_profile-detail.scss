@@ -44,7 +44,11 @@
 
     &__body {
         font-family: $font--primary;
-        margin-bottom: ($gutter / 4);
+        margin-bottom: ($gutter / 2);
+
+        @include media-query(medium) {
+            margin-bottom: ($gutter / 4);
+        }
     }
 
     .people-module--single & {
@@ -135,7 +139,11 @@
         }
 
         &:nth-of-type(n + 3) {
-            margin-bottom: ($gutter * 1.5);
+            margin-bottom: $gutter;
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 1.5);
+            }
 
             #{$root}__container {
                 display: flex;
@@ -171,37 +179,21 @@
             }
         }
 
-        &:nth-of-type(3) {
+        &:nth-of-type(4) {
+            @include media-query(medium) {
+                grid-column: 1 / span 1;
+            }
+
             @include media-query(large) {
-                grid-column: 1 / span 3;
+                grid-column: 2 / span 2;
             }
         }
 
-        &:nth-of-type(n + 4) {
-            grid-column: auto / span 1;
-        }
+        &:nth-of-type(n + 5) {
+            grid-column: 1 / span 2;
 
-        &:nth-last-of-type(4) {
-            @include media-query(large) {
-                grid-column: 2;
-            }
-        }
-
-        &:nth-last-of-type(3) {
-            @include media-query(large) {
-                grid-column: 3;
-            }
-        }
-
-        &:nth-last-of-type(2) {
-            @include media-query(large) {
-                grid-column: 2;
-            }
-        }
-
-        &:nth-last-of-type(1) {
-            @include media-query(large) {
-                grid-column: 3;
+            @include media-query(medium) {
+                grid-column: auto / span 1;
             }
         }
     }

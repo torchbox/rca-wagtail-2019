@@ -10,11 +10,11 @@ function ArrowDisabler(Glide, Components) {
                 // Filter out arrows_control
                 Components.Controls.items.forEach((controlItem) => {
                     const left = controlItem.querySelector(
-                        '.carousel__button--prev',
+                        '[data-glide-dir="<"]',
                     );
 
                     const right = controlItem.querySelector(
-                        '.carousel__button--next',
+                        '[data-glide-dir=">"]',
                     );
 
                     // Set left arrow state
