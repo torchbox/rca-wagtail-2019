@@ -1,5 +1,20 @@
 context:
   page:
+    quote_carousel:
+      - slide:
+        value:
+          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
+          author: 'Benjamin Glatz'
+          job_title: 'Digital Transformation Lead, Shell'
+      - slide:
+        value:
+          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
+          author: 'Benjamin Glatz'
+          job_title: 'Digital Transformation Lead, Shell'
+      - slide:
+        value:
+          quote: 'We want people to come away from our executive education courses with achievable insights and a critical path to making change in their organisations and to their own individual working lives.'
+          author: 'Professor Jeremy Myerson'
     course_details_text: '<p>Early bird offer until 10 March 2020. Booking closes 18 March 2020 or when fully booked.</p>'
     terms_and_conditions:
       body: '<p>Please be sure to read our <a href="http://facebook.com">Terms &amp; Conditions</a> before applying.</p>'
@@ -61,7 +76,7 @@ context:
           heading: 'About the Design Museum'
     programme_gallery:
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
-    shortcourse_gallery:
+    gallery:
       - slide:
         value:
           title: 'Albertopolissss 550-metre pedestrian tunnel'

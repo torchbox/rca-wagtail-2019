@@ -1,35 +1,34 @@
+{% load wagtailcore_tags %}
 <div class="key-details {% if course_type == 'short' %}key-details--short{% endif %}">
     <div class="key-details__header">
         <h3 class="heading heading--five key-details__heading">Key details</h3>
     </div>
     {% if course_type == 'short' %}
-        {% if page.shortcourse_details_fees %}
+        {% if shortcourse_details_fees %}
             <div class="key-details__section key-details__section--fees">
                 <h4 class="body body--two key-details__sub-heading">Fees</h4>
                 <ul class="key-details__list">
-                    {% for item in page.shortcourse_details_fees %}
+                    {% for item in shortcourse_details_fees %}
                     <li class="key-details__list-item">
-                        {{ item.fee }}
+                        {{ item }}
                     </li>
                     {% endfor %}
                 </ul>
             </div>
         {% endif %}
-        {% if page.shortcourse_details_location %}
+        {% if page.location %}
             <div class="key-details__section key-details__section--location">
                 <h4 class="body body--two key-details__sub-heading">Location</h4>
                 <ul class="key-details__list">
-                    {% for item in page.shortcourse_details_location %}
                     <li class="key-details__list-item">
-                        <a class="link link--tertiary" href="#">{{ item.location }}</a>
+                        {{ page.location|richtext }}
                     </li>
-                    {% endfor %}
                 </ul>
             </div>
         {% endif %}
-        {% if page.shortcourse_details_register_link %}
+        {% if page.show_register_link and register_interest_link %}
             <div class="key-details__section key-details__section--action">
-                <a class="key-details__link link link--secondary link--download" href="{{ page.shortcourse_details_register_link }}">
+                <a class="key-details__link link link--primary link--download" href="{{ register_interest_link }}">
                     <span class="link__label">Register your interest to download the course brochure</span>
                     <svg width="8" height="12" class="link__icon" aria-hidden="true"><use xlink:href="#download"></use></svg>
                 </a>

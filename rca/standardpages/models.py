@@ -61,4 +61,5 @@ class IndexPage(BasePage):
 
 
 class LandingPage(IndexPage):
+    template = "patterns/pages/landingpage/landing_page.html"
     pass

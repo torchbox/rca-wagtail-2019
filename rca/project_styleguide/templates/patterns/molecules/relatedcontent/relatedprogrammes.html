@@ -10,7 +10,7 @@
     {% for related_section in related_sections %}
 
         <div class="related-content__group" data-group="{{ forloop.counter }}">
-            
+
             {% if programme_page_global_fields.related_content_subtitle or related_section.title %}
                 <div class="section__row grid">
                     {% if programme_page_global_fields.related_content_subtitle %}
