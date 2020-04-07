@@ -203,9 +203,7 @@ class AccessPlanitXMLTest(TestCase):
                 depth="001",
                 access_planit_course_id=i,
             )
-        args = []
-        opts = {}
-        call_command("fetch_access_planit_data", *args, **opts)
+        call_command("fetch_access_planit_data")
         for i in range(5):
             cache_key = f"short_course_{i}"
             self.assertEqual(cache.get(cache_key), self.expected_data)
@@ -226,9 +224,7 @@ class AccessPlanitXMLTest(TestCase):
             response, "patterns/pages/shortcourses/short_course.html"
         )
         self.assertContains(response, "Short course title")
-        self.assertEqual(
-            response.render().status_code, 200
-        )  # will render 404 if there is an failure
+        self.assertEqual(response.render().status_code, 200)
 
     @mock.patch(
         "rca.shortcourses.access_planit.AccessPlanitXML.fetch_data_from_xml",
@@ -248,9 +244,7 @@ class AccessPlanitXMLTest(TestCase):
             response, "patterns/pages/shortcourses/short_course.html"
         )
         self.assertContains(response, "Short course title")
-        self.assertEqual(
-            response.render().status_code, 200
-        )  # will render 404 if there is an failure
+        self.assertEqual(response.render().status_code, 200)
         self.assertEqual(cache.get("short_course_1"), self.expected_data)
 
     def test_parsing(self):
