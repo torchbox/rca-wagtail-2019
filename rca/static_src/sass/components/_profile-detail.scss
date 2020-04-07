@@ -139,7 +139,11 @@
         }
 
         &:nth-of-type(n + 3) {
-            margin-bottom: ($gutter * 1.5);
+            margin-bottom: $gutter;
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 1.5);
+            }
 
             #{$root}__container {
                 display: flex;
