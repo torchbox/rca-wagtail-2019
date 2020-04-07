@@ -207,7 +207,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={"ordering": ["sort_order"], "abstract": False},
         ),
         migrations.CreateModel(
             name="ShortCoursePageRelatedProgramme",
@@ -244,7 +244,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={"ordering": ["sort_order"], "abstract": False},
         ),
         migrations.CreateModel(
             name="FeeItem",
