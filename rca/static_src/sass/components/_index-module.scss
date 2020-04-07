@@ -1,5 +1,6 @@
 .index-module {
     &__header {
+        margin-right: $gutter;
         grid-column: 1 / span 2;
         margin-bottom: ($gutter * 2);
 
@@ -10,10 +11,6 @@
         @include media-query(large) {
             grid-column: 2 / span 1;
         }
-    }
-
-    &__header {
-        margin-right: $gutter;
     }
 
     &__content {
