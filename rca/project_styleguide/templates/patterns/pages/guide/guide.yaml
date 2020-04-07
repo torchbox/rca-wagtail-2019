@@ -6,9 +6,27 @@ context:
     title: MRes RCA
     edit_date: 7 March 2020
     introduction: Join a thriving community of more than 250 MPhil and PhD students pursuing cutting-edge research at the world's leading postgraduate university for art & design
+    anchor_nav:
+      - { title: Introduction, link: '#introduction' }
+      - { title: Article 1, link: '#article-one' }
+      - { title: Article 2, link: '#article-two' }
+      - { title: Index Module, link: '#index' }
+      - { title: Ask a question, link: '#contact' }
     related_staff:
-      - item
-      - item
+      - {
+          name: 'Beth Hughes',
+          role: 'Head of Programmes',
+          description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
+          link: '#',
+          link_text: 'Read more',
+        }
+      - {
+          name: 'Beth Hughes',
+          role: 'Head of Programmes',
+          description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
+          link: '#',
+          link_text: 'Read more',
+        }
     staff_link: false
     index_module:
       title: Index module

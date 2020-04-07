@@ -1,7 +1,9 @@
 .anchor-nav {
     @include z-index(sticky-nav-bar);
+    display: none;
 
     @include media-query(large) {
+        display: block;
         position: fixed;
         grid-column: 1 / span 1;
         top: 400px;

@@ -32,7 +32,7 @@
 
             {% if page.introduction %}
                 <div class="introduction grid">
-                    {% include "patterns/molecules/anchor-nav/anchor-nav.html" %}
+                    {% include "patterns/molecules/anchor-nav/anchor-nav.html" with anchor_nav=page.anchor_nav %}
                     <div class="introduction__container">
                         <h2 class="introduction__text section__heading heading heading--five">
                             {{ page.introduction }}
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="section__row section__row--first grid">
-                    <div class="streamfield">
+                    <div class="streamfield rich-text">
                         {% include "patterns/molecules/streamfield/stream_block.html" %}
                     </div>
                 </div>

@@ -1,4 +1,6 @@
 .quote {
+    $root: &;
+
     &__text {
         color: $color--black;
         margin-bottom: ($gutter * 2);
@@ -31,6 +33,11 @@
         border-width: 1px 0;
         border-style: solid;
         margin-bottom: ($gutter * 2);
+        margin-top: ($gutter * 2.5);
+
+        &:first-child {
+            margin-top: 0;
+        }
 
         .bg--light & {
             border-color: $color--grid-line-dark;
