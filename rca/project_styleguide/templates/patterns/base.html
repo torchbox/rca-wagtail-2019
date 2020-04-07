@@ -43,7 +43,11 @@
             {% include "patterns/atoms/grid-lines/grid-lines.html" with data_tag_left="data-left-edge" data_tag_center="data-grid-center" %}
 
             {% block content %}
-                {{ pattern_library_rendered_pattern }}
+                {% if pattern_library_rendered_pattern %}
+                    <div class="pattern-library bg bg--light">
+                        {{ pattern_library_rendered_pattern }}
+                    </div>
+                {% endif %}
             {% endblock %}
         </main>
 
