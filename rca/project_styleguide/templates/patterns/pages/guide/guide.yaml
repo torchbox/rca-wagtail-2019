@@ -1,0 +1,41 @@
+context:
+  page:
+    breadcrumb:
+      - { label: 'Research & Innovation', link: /research/ }
+      - { label: 'Research at RCA', link: /research/rca }
+    title: MRes RCA
+    edit_date: 7 March 2020
+    introduction: Join a thriving community of more than 250 MPhil and PhD students pursuing cutting-edge research at the world's leading postgraduate university for art & design
+    related_staff:
+      - item
+      - item
+    staff_link: false
+    index_module:
+      title: Index module
+      cards:
+        - {
+            title: 'Innovation RCA',
+            link: '#',
+            meta: Link,
+            person: false,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+            image: true,
+          }
+        - {
+            title: 'Consultancy & knowledge exchange',
+            link: '#',
+            meta: Link,
+            person: false,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+            image: true,
+          }
+        - {
+            title: 'Custom executive education',
+            link: '#',
+            meta: Link,
+            person: false,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+            image: true,
+          }
+    contact: true
+    contact_image: true

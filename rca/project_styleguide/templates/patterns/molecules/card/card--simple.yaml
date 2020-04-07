@@ -1,0 +1,27 @@
+context:
+  modifier: simple
+  item:
+    meta: 'Event'
+    title: 'Show 2019: School of Architecture'
+    description: '28-29 April'
+    image: true
+    link: '#'
+    person:
+      image: true
+      title: 'Holly Hendry'
+
+tags:
+  image:
+    card.image fill-80x46 as image_small:
+      target_var: image_small
+      raw:
+        url: '//placekitten.com/80/46'
+    card.image fill-828x472 as image_large:
+      target_var: image_large
+      raw:
+        url: '//placekitten.com/828/472'
+        width: '828'
+        height: '472'
+    person.image fill-60x60 class="card__person-image":
+      raw: |
+        <img src="//placekitten.com/60/60" height="60" width="60" alt="" class="card__person-image">

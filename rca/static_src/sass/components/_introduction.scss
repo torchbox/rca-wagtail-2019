@@ -11,7 +11,8 @@
         margin-right: ($gutter * 1.5);
     }
 
-    .app--landing-page & {
+    .app--landing-page &,
+    .app--guide & {
         #{$root}__container {
             margin-bottom: $gutter;
             grid-column: 1 / span 2;
