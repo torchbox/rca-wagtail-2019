@@ -486,6 +486,11 @@
                 margin-bottom: 0;
             }
 
+            // One off custom breakpoint between medium and large
+            @media only screen and (max-width: 1180px) and (min-width: 1023px) {
+                padding-top: 0;
+            }
+
             &::after {
                 @include z-index(base);
                 position: absolute;
