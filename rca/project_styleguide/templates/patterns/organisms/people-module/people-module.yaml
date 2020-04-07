@@ -1,7 +1,13 @@
 context:
+  title: Staff
   page:
-    staff_title: Staff
     staff_link: '#'
     staff_link_text: See all staff
   people:
-    - item
+    - {
+        name: 'Beth Hughes',
+        role: 'Head of Programmes',
+        description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
+        link: '#',
+        link_text: 'Read more',
+      }
