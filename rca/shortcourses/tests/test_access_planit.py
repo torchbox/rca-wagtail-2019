@@ -153,9 +153,10 @@ class AccessPlanitXMLTest(TestCase):
         self.assertEqual(cache.get(cache_key), self.expected_data)
 
     def test_required_course_id(self):
-        """ The course id is a required field, however if this is changed we want some tests to fail,
-        as it will have unwanted effects, the validation on the model should be able to cast the
-        course value to an integer"""
+        """ The access_planit_course_id is a required field, however if access_planit_course_id
+        is made non-required we want some tests to fail, as it will have unwanted effects,
+        the validation on the model should be able to cast the course value to an integer"""
+
         with self.assertRaises(TypeError):
             ShortCoursePage.objects.create(
                 title=f"Short course should not save", path=100, depth="001"
