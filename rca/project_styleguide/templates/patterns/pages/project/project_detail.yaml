@@ -54,6 +54,45 @@ context:
         value:
           body: 'TBC'
           heading: 'Outcomes'
+    project_lead:
+      - {
+          name: 'Beth Hughes',
+          role: 'Head of Programmes',
+          description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
+          link: '#',
+          link_text: 'Read more',
+        }
+    project_team:
+      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+      - {
+          first_name: 'Nelly',
+          surname: 'Abbott',
+          meta: Current,
+          link: '#',
+          image: false,
+        }
+      - {
+          first_name: 'Nelly',
+          surname: 'Cholmondeley-Cale',
+          meta: Current,
+          link: '#',
+        }
+      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+      - {
+          first_name: 'Yancy',
+          surname: 'Wolfeschlegelsteinhausenbergerdorffd',
+          meta: Current,
+          link: '#',
+        }
+    partners:
+      - { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
+      - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
+      - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
+    funders:
+      - { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
+      - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
+      - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
     testimonial:
       slides:
         - slide:

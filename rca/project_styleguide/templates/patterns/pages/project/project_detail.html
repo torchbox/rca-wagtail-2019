@@ -86,19 +86,39 @@
                 </section>
             {% endif %}
 
-            {% if related_staff %}
-                <section class="section bg bg--light">
-                    
+           
+            <section class="section bg bg--light">
+                
+                {% if page.project_lead %}
                     <div class="section__row section__row--first section__row--last">
-                        {% include "patterns/organisms/people-module/people-module.html" with title="Staff" people=related_staff %}
+                        {% include "patterns/organisms/people-module/people-module.html" with title="Project lead" people=page.project_lead %}
                     </div>
+                {% endif %}
 
-                    <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                {% if page.project_team %}
+                    <div class="section__row section__row--last">
+                        {% include "patterns/organisms/student-listing/student-listing.html" with title="Project team" student_listing=page.project_team %}
                     </div>
+                {% endif %}
 
-                </section>
-            {% endif %}
+                {% if page.partners %}
+                    <section class="section section--top-space bg bg--light">
+                        {% include "patterns/organisms/related-links/related-links.html" with related_links=page.partners title="Partners" %}
+                    </section>
+                {% endif %}
+
+                {% if page.funders %}
+                    <section class="section section--top-space bg bg--light">
+                        {% include "patterns/organisms/related-links/related-links.html" with related_links=page.funders title="Funders" %}
+                    </section>
+                {% endif %}
+
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--second-col"></div>
+                </div>
+
+            </section>
+            
                 
 
             {% if page.centre_news %}
