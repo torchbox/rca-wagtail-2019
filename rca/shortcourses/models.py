@@ -132,11 +132,11 @@ class ShortCoursePage(BasePage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         access_planit_data = self.get_access_planit_data()
-        context[
-            "register_interest_link"
-        ] = (
-            register_interest_link
-        ) = f"{settings.ACCESS_PLANIT_REGISTER_INTEREST_BASE}?course_id={self.access_planit_course_id}"
+        register_interest_link = (
+            f"{settings.ACCESS_PLANIT_REGISTER_INTEREST_BASE}"
+            f"?course_id={self.access_planit_course_id}"
+        )
+        context["register_interest_link"] = register_interest_link
         context["booking_bar"] = self._format_booking_bar(
             register_interest_link, access_planit_data
         )
