@@ -90,7 +90,6 @@ context:
       - step:
         value:
           heading: Start your application
-
   related_programmes:
     - item:
       title: Related programmes
