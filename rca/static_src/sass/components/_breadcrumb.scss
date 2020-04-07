@@ -47,6 +47,12 @@
         position: relative;
     }
 
+    .title-area--guide & {
+        @include media-query(large) {
+            margin-bottom: ($gutter * 0.75);
+        }
+    }
+
     .bg--dark & {
         #{$root}__item-link {
             color: $color--white;
