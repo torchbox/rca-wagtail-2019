@@ -715,12 +715,8 @@ try:
 except TypeError:
     ACCESS_PLANIT_XML_FEED_TIMEOUT = 60 * 60
 
-ACCESS_PLANIT_XML_BASE_URL = env.get(
-    "ACCESS_PLANIT_XML_BASE_URL",
-    "https://rca.accessplanit.com/accessplansandbox/services/WebIntegration.asmx/GetCoursesPackage?",
-)
+ACCESS_PLANIT_XML_BASE_URL = env.get("ACCESS_PLANIT_XML_BASE_URL", None)
 ACCESS_PLANIT_SCHOOL_ID = env.get("ACCESS_PLANIT_SCHOOL_ID")
 ACCESS_PLANIT_REGISTER_INTEREST_BASE = env.get(
-    "ACCESS_PLANIT_REGISTER_INTEREST_BASE",
-    "https://rca-verdant-staging.herokuapp.com/short-courses/register-your-interest/",
+    "ACCESS_PLANIT_REGISTER_INTEREST_BASE", None
 )

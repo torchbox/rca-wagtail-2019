@@ -95,7 +95,8 @@ class AccessPlanitXML:
             }
         )
         self.query = self.query.urlencode()
-        return settings.ACCESS_PLANIT_XML_BASE_URL + self.query
+        if settings.ACCESS_PLANIT_XML_BASE_URL:
+            return settings.ACCESS_PLANIT_XML_BASE_URL + self.query
 
     def parse_data(self, xml_data):
         parser = AccessPlanitXMLParser(xml=xml_data)
