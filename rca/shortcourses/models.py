@@ -40,13 +40,6 @@ class FeeItem(models.Model):
 
 
 class ShortCourseRelatedStaff(RelatedStaffPageWithManualOptions):
-    page = models.ForeignKey(
-        "people.StaffPage",
-        null=True,
-        blank=True,
-        on_delete=models.CASCADE,
-        related_name="+",
-    )
     source_page = ParentalKey(
         "shortcourses.ShortCoursePage", related_name="related_staff"
     )
