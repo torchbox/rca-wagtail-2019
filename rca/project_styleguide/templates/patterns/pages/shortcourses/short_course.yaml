@@ -1,5 +1,20 @@
 context:
   page:
+    quote_carousel:
+      - slide:
+        value:
+          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
+          author: 'Benjamin Glatz'
+          job_title: 'Digital Transformation Lead, Shell'
+      - slide:
+        value:
+          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
+          author: 'Benjamin Glatz'
+          job_title: 'Digital Transformation Lead, Shell'
+      - slide:
+        value:
+          quote: 'We want people to come away from our executive education courses with achievable insights and a critical path to making change in their organisations and to their own individual working lives.'
+          author: 'Professor Jeremy Myerson'
     course_details_text: '<p>Early bird offer until 10 March 2020. Booking closes 18 March 2020 or when fully booked.</p>'
     terms_and_conditions:
       body: '<p>Please be sure to read our <a href="http://facebook.com">Terms &amp; Conditions</a> before applying.</p>'
@@ -12,10 +27,6 @@ context:
           link: /short-courses/executive-education,
         }
     title: Design Thinking & Innovation
-    booking_bar:
-      message: 'Next course starts Thursday 19 March 2020'
-      link: '#'
-      action: 'Book now for £900'
     introduction_image: True
     introduction: 'Understand the purpose of design thinking in promoting innovation and learn real-world applications and strategies for design thinking.'
     body: '<p>At the RCA, we teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs. In contrast to standard, linear approaches that build on tested models, design thinking is creatively structured, analytic and responsive. It draws in diverse disciplines and multiple areas of expertise and exploration, starting with the core premise that everything is a design problem.</p><p>Through the application of this informed analysis within business-driven, public-facing and community-centred contexts, design thinking can produce innovation, which in turn enables brands to remain competitive in changing markets.</p>'
@@ -65,6 +76,7 @@ context:
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     video_caption: Watch the course introduction
     shortcourse_gallery:
+    gallery:
       - slide:
         value:
           title: 'Albertopolissss 550-metre pedestrian tunnel'

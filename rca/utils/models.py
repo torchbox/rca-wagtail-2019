@@ -112,6 +112,46 @@ class RelatedPage(Orderable, models.Model):
     panels = [PageChooserPanel("page")]
 
 
+class RelatedStaffPageWithManualOptions(Orderable):
+    """ This is in preparation for swapping to an internal page selection in the future
+    so the page selction is not offered at the moment """
+
+    page = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
+
+    image = models.ForeignKey(
+        "images.CustomImage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    name = models.CharField(max_length=125)
+    role = models.CharField(max_length=125, blank=True)
+    description = models.TextField(blank=True)
+    link = models.URLField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        abstract = True
+        ordering = ["sort_order"]
+
+    panels = [
+        ImageChooserPanel("image"),
+        FieldPanel("name"),
+        FieldPanel("role"),
+        FieldPanel("description"),
+        FieldPanel("link"),
+    ]
+
+
 # Generic social fields abstract class to add social image/text to any new content type easily.
 class SocialFields(models.Model):
     social_image = models.ForeignKey(

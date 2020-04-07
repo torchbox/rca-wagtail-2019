@@ -80,9 +80,9 @@
 
             <section class="section bg bg--light">
 
-                {% if partnerships_block.slides %}
+                {% if page.quote_carousel %}
                     <div class="section__row section__row--first">
-                        {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=partnerships_block.slides modifier='carousel--square carousel--quotes' datatag='data-square-carousel' %}
+                        {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.quote_carousel modifier='carousel--square carousel--quotes' datatag='data-square-carousel' %}
                     </div>
                 {% endif %}
 
@@ -94,7 +94,7 @@
 
             </section>
 
-            {% if page.shortcourse_gallery %}
+            {% if page.gallery %}
                 <section class="section bg bg--dark">
 
                     <div class="section__notch">
@@ -108,7 +108,7 @@
                             </h3>
                         </header>
                         <div class="section__content">
-                            {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.shortcourse_gallery modifier='slideshow--author-info' %}
+                            {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.gallery modifier='slideshow--author-info' %}
                         </div>
                     </div>
 
@@ -119,12 +119,13 @@
                 <section class="section section--top-space bg bg--light">
                     <div class="contact-anchor" id="contact"></div>
                     <div class="section__container">
-                        {% include "patterns/organisms/contact/contact.html" with heading=programme_page_global_fields.contact_title text=programme_page_global_fields.contact_text image=page.contact_image %}
+                        {% include "patterns/organisms/contact/contact.html" with heading="Contact us" text=page.contact_text image=page.contact_image %}
                     </div>
                 </section>
             {% endif %}
 
-            {% if page.relatedcontent %}
+
+            {% if page.related_programmes %}
                 <section class="section bg bg--dark">
                     <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--third-col"></div>
@@ -138,9 +139,9 @@
                 </section>
             {% endif %}
 
-            {% if related_links %}
+            {% if page.external_links %}
                 <section class="section section--top-space bg bg--light">
-                    {% include "patterns/organisms/related-links/related-links.html" with related_links=related_links title="More at the RCA" %}
+                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.external_links title="More at the RCA" %}
                 </section>
             {% endif %}
 
@@ -163,8 +164,6 @@
                         </div>
                     </div>
                 </div>
-            {% endif %}
-
-        </div>
+        {% endif %}
     </div>
 {% endblock %}
