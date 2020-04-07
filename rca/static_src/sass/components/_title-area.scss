@@ -175,6 +175,12 @@
         }
     }
 
+    &--guide {
+        #{$root}__heading {
+            margin-bottom: ($gutter * 2);
+        }
+    }
+
     .bg--dark & {
         #{$root}__sub-heading {
             color: $color--meta-darkbg;
