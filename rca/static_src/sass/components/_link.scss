@@ -130,21 +130,27 @@
         &:not([href*='rca.ac.uk']):not([href*='herokuapp.com']):not([href^='#']):not([href^='/']),
         &#{$root}--external {
             &::before {
-                position: absolute;
-                right: 5px;
-                top: 18px;
-                display: block;
-                content: '';
-                border-bottom: 1px solid currentColor;
-                width: 7px;
-                height: 1px;
-                transition: transform $transition;
+                // ensure the parent is an a (has to have a href)
+                @at-root a#{&} {
+                    position: absolute;
+                    right: 5px;
+                    top: 18px;
+                    display: block;
+                    content: '';
+                    border-bottom: 1px solid currentColor;
+                    width: 7px;
+                    height: 1px;
+                    transition: transform $transition;
+                }
             }
 
             &#{$root}--primary,
             &#{$root}--secondary {
                 &::before {
-                    top: 26px;
+                    // ensure the parent is an a (has to have a href)
+                    @at-root a#{&} {
+                        top: 26px;
+                    }
                 }
             }
 
@@ -152,7 +158,10 @@
             &:active,
             &:focus {
                 &::before {
-                    transform: translate3d(4px, -3px, 0);
+                    // ensure the parent is an a (has to have a href)
+                    @at-root a#{&} {
+                        transform: translate3d(4px, -3px, 0);
+                    }
                 }
             }
         }

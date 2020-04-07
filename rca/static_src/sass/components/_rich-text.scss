@@ -40,34 +40,12 @@
         display: inline-block; // Fix for hover underline not showing when link is last thing on line
         position: relative;
 
-        &:not([class]) {
-            font-family: $font--primary;
-            text-decoration: underline;
-            transition: color $cubic-transition;
-
-            &::after {
-                display: none;
-            }
-        }
-
         .bg--dark & {
             color: $color--white;
-
-            &:not([class]) {
-                &:hover {
-                    color: $color--meta-darkbg;
-                }
-            }
         }
 
         .bg--light & {
             color: $color--black;
-
-            &:not([class]) {
-                &:hover {
-                    color: $color--meta-lightbg;
-                }
-            }
         }
 
         // Accordion needs to be inverted (bg changes when they open)
