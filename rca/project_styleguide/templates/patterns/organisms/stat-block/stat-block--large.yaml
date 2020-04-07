@@ -2,7 +2,7 @@ context:
   stats_block:
     title: Lorem ipsum dolor sit
     default_notch_override: true
-    bg_image_url: '//place-puppy.com/1000x500'
+    bg_image_url: '//placekitten.com/1000/500'
     link: '#'
     action: See all Outcomes
     statistics:
@@ -38,6 +38,6 @@ tags:
     stats_block.background_image max-1000x500 as bg_image:
       target_var: bg_image
       raw:
-        url: '//place-puppy.com/1000x500'
+        url: '//placekitten.com/1000/500'
         width: '1000'
         height: '500'
