@@ -58,8 +58,3 @@ class IndexPage(BasePage):
         context["subpages"] = subpages
 
         return context
-
-
-class LandingPage(IndexPage):
-    template = "patterns/pages/landingpage/landing_page.html"
-    pass
