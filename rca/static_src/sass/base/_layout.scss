@@ -18,7 +18,7 @@ Grid layout setup
 */
 
 .layout {
-    /* Start */
+    /* Column start */
 
     &__start-one {
         grid-column-start: 1;
@@ -60,11 +60,11 @@ Grid layout setup
         }
     }
 
+    /* Column span */
+
     &__span-one {
         grid-column-end: span 1;
     }
-
-    /* Span */
 
     &__span-two {
         grid-column-end: span 2;
