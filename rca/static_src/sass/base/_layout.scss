@@ -5,9 +5,12 @@ Grid layout setup
 -----------------
 
 - format is:
-     layout__start-number-breakpoint
-     layout__span-number-breakpoint
-- Replicates the "grid-column: number / span number" format
+     layout__start-{{ number }}-{{ breakpoint }}
+     layout__span-{{ number }}-{{ breakpoint }}
+- Numbers range from 1-5, as we use a 5 col grid
+- Breakpoints are s, m, l
+- For example: layout__start-1-s, layout__span-2-s
+- Replicates the "grid-column: number / span number" format that we've used previously
 
 */
 
