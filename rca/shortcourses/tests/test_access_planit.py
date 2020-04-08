@@ -97,19 +97,29 @@ class AccessPlanitXMLTest(TestCase):
 
     def test_xml_fetch(self):
         """ Test the XML fetch responds. """
-        response = requests.get(
-            settings.ACCESS_PLANIT_XML_BASE_URL + self.query, timeout=5
-        )
-        self.assertEqual(response.status_code, 200)
+        with self.settings(
+            ACCESS_PLANIT_XML_BASE_URL="https://rca.accessplanit.com/accessplansandbox/services/WebIntegration.asmx/"
+            "GetCoursesPackage?"
+        ):
+            response = requests.get(
+                settings.ACCESS_PLANIT_XML_BASE_URL + self.query, timeout=5
+            )
+            self.assertEqual(response.status_code, 200)
 
     def test_xml_fetch_no_venue(self):
         """ Prove that you must pass blank values as parameters"""
-        query = QueryDict(mutable=True)
-        query.update({"CompanyID": "ROYALC9RCH", "courseIDs": 1})
-        query = query.urlencode()
-        response = requests.get(settings.ACCESS_PLANIT_XML_BASE_URL + query, timeout=5)
-        self.assertEqual(response.text, """Missing parameter: venueIDs.\r\n""")
-        self.assertEqual(response.status_code, 500)
+        with self.settings(
+            ACCESS_PLANIT_XML_BASE_URL="https://rca.accessplanit.com/accessplansandbox/services/WebIntegration.asmx/"
+            "GetCoursesPackage?"
+        ):
+            query = QueryDict(mutable=True)
+            query.update({"CompanyID": "ROYALC9RCH", "courseIDs": 1})
+            query = query.urlencode()
+            response = requests.get(
+                settings.ACCESS_PLANIT_XML_BASE_URL + query, timeout=5
+            )
+            self.assertEqual(response.text, """Missing parameter: venueIDs.\r\n""")
+            self.assertEqual(response.status_code, 500)
 
     """ Patch the request module totally to force the timeout so we can test the
         result of the try/expect.
