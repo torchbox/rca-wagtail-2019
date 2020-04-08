@@ -2,7 +2,6 @@
     $root: &;
 
     &__text {
-        color: $color--black;
         margin-bottom: ($gutter * 2);
     }
 
@@ -12,18 +11,35 @@
         flex-direction: row;
     }
 
-    &__author {
-        color: $color--black;
-    }
-
     &__job-title {
-        color: $color--dark-grey;
         margin-left: ($gutter / 4);
     }
 
     .carousel--square & {
         @include media-query(large) {
             padding-right: 33.33%;
+        }
+    }
+
+    .bg--dark & {
+        #{$root}__text,
+        #{$root}__author {
+            color: $color--white;
+        }
+
+        #{$root}__job-title {
+            color: $color--meta-darkbg;
+        }
+    }
+
+    .bg--light & {
+        #{$root}__text,
+        #{$root}__author {
+            color: $color--black;
+        }
+
+        #{$root}__job-title {
+            color: $color--meta-lightbg;
         }
     }
 

@@ -10,6 +10,7 @@
 // Base
 @import 'base/base';
 @import 'base/typography';
+@import 'base/layout';
 
 // Components
 @import 'components/accordion';
@@ -71,6 +72,7 @@
 @import 'components/profile-image';
 @import 'components/profile-teaser';
 @import 'components/programme-overview';
+@import 'components/project-overview';
 @import 'components/proposition-statement';
 @import 'components/related-content';
 @import 'components/related-links';
@@ -92,7 +94,6 @@
 @import 'components/step-item';
 @import 'components/stat-block';
 @import 'components/steps';
-@import 'components/streamfield';
 @import 'components/student-listing';
 @import 'components/tabs';
 @import 'components/tab-item';
