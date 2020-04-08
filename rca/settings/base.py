@@ -66,6 +66,8 @@ INSTALLED_APPS = [
     "rca.api_content",
     "rca.shortcourses",
     "rca.guides",
+    "rca.research",
+    "rca.projects",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.postgres_search",
     "wagtail.contrib.settings",
