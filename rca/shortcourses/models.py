@@ -57,7 +57,6 @@ class ShortCoursePageRelatedProgramme(RelatedPage):
 
 
 class ShortCoursePage(BasePage):
-    parent_page_types = ["programmes.ProgrammeIndexPage"]
     template = "patterns/pages/shortcourses/short_course.html"
 
     hero_image = models.ForeignKey(
