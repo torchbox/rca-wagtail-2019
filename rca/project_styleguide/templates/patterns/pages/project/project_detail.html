@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body_class %}
-    app--research-centre
+    app--project-detail
 {% endblock %}
 
 {% block content %}
@@ -37,35 +37,36 @@
 
             <section class="section bg bg--dark">
 
-                <div class="section__row research-centre-overview">
+                <div class="section__row project-overview">
                     <div class="section__content grid">
-                        <div class="research-centre-overview__content">
-                            <div class="research-centre-overview__body">
+                        <div class="project-overview__content layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                            <div class="project-overview__body">
                                 {% if page.project_description %}
                                     <h2 class="research-centre-overview__heading section__heading heading heading--five">
                                         {{ page.project_description }}
                                     </h2>
                                 {% endif %}
                             </div>
-                            <div class="research-centre-overview__media">
+                            <div class="project-overview__media">
                                 {% if page.project_image and page.project_video %}
                                     {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.project_video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.centre_image caption=page.project_image_caption %}
                                 {% endif %}
                             </div>
+                            <div class="project-overview__streamfield">
+                                <div class="streamfield rich-text ">
+                                    {% for block in page.streamfield %}
+                                        {% include_block block %}
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
-                        <div class="research-centre-overview__key-details">
+                        <div class="project-overview__key-details layout__start-one layout__span-two layout__@large-span-one">
                             {% include "patterns/molecules/key-details/key-details--project.html" %}
                         </div>
                     </div>
                 </div>
 
-                <div class="section__row section__row--last grid">
-                    <div class="streamfield rich-text layout__start-one-s layout__span-two-s layout__start-three-l">
-                        {% for block in page.streamfield %}
-                            {% include_block block %}
-                        {% endfor %}
-                    </div>
-                </div>
+                
 
                 <div class="section__notch">
                     <div class="section__notch-fill section__notch-fill--first-col"></div>
@@ -173,7 +174,7 @@
                     <div class="section__row section__row--last-large research-highlights">
                         <div class="section__header grid">
                             <h2 class="section__heading section__heading--primary heading heading--four">
-                                Latest research projects
+                                Related projects
                             </h2>
                         </div>
                         <div class="section__content grid">
