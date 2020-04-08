@@ -25,7 +25,7 @@
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
                     {% if page.title %}
-                        <h1 property="schema:name" class="title-area__header heading heading--display-two">{{ page.title }}</h1>
+                        <h1 property="schema:name" class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
                     {% endif %}
                     {% if page.degree_level %}
                         <p class="title-area__introduction introduction">{{ page.degree_level }}</p>
@@ -61,7 +61,7 @@
 
                 <section class="section bg bg--light">
                     <div class="contact-anchor" id="contact"></div>
-                    <div class="section__container">
+                    <div class="section__row">
                         {% include "patterns/organisms/contact/contact.html" with heading=programme_page_global_fields.contact_title text=programme_page_global_fields.contact_text image=page.contact_image %}
                     </div>
                 </section>
@@ -70,7 +70,7 @@
                     <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
-                    <div class="section__container">
+                    <div class="section__row">
                         {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=programme_page_global_fields.related_content_title %}
                     </div>
                 </section>

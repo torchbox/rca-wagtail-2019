@@ -1,0 +1,27 @@
+.quote {
+    &__text {
+        color: $color--black;
+        margin-bottom: ($gutter * 2);
+    }
+
+    &__cite {
+        @include font-size(xs);
+        display: flex;
+        flex-direction: row;
+    }
+
+    &__author {
+        color: $color--black;
+    }
+
+    &__job-title {
+        color: $color--dark-grey;
+        margin-left: ($gutter / 4);
+    }
+
+    .carousel--square & {
+        @include media-query(large) {
+            padding-right: 33.33%;
+        }
+    }
+}

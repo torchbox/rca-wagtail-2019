@@ -74,7 +74,7 @@
         height: 46px;
         margin: 0;
         padding: 0;
-        transition: background-color $transition;
+        transition: background-color $transition, opacity $cubic-transition;
 
         &:first-child {
             margin-right: $gutter;
@@ -84,6 +84,11 @@
         &:active,
         &:focus {
             outline: none;
+        }
+
+        &:disabled {
+            opacity: 0.3;
+            pointer-events: none;
         }
     }
 

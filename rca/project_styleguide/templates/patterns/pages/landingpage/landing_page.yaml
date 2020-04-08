@@ -1,0 +1,213 @@
+context:
+  page:
+    title: Research at the RCA
+    introduction: 'Enterprise at the RCA spans incubation, innovation and business acceleration programmes; consultancy and knowledge exchange, and custom executive short courses.'
+    introduction_link: '#'
+    introduction_link_text: 'Read more'
+    feature_image: true
+    feature_heading: Our Programmes
+    feature_meta_heading: Join a thriving community of more than 250 MPhil and PhD students
+    feature_meta_text: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
+    feature_meta_link: '#'
+    enterprise_highlights:
+      - slide:
+        meta: 'School of Design'
+        title: 'Advanced Taxi for London'
+        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+        image: true
+        link: '#'
+      - slide:
+        meta: 'Alumni Story'
+        title: 'A place with a real focus on making'
+        description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
+        image: true
+        link: '#'
+      - slide:
+        meta: 'Alumni Story'
+        title: 'Designing the imposible for NASA'
+        description: 'Creating world class experiences that started at the RCA'
+        image: true
+        link: '#'
+    enterprise_highlights_title: Enterprise highlights
+    enterprise_rca:
+      - {
+          title: 'Innovation RCA',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Consultancy & knowledge exchange',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Custom executive education',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+    related_research_centres_schools:
+      - item:
+        title: Research centres
+        related_items:
+          - item:
+            title: The Helen Hamlyn Centre for Design
+            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+            img: http://placehold.it/300x270/fff/000
+          - item:
+            title: HELIX Centre
+            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+            img: http://placehold.it/300x270/ff5d1c/fff
+          - item:
+            title: Intelligent Mobility Design Centre
+            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+            img: http://placehold.it/300x270
+          - item:
+            title: RCA Robotics Laboratory
+            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+            img: http://placehold.it/300x270/ff5d1c/fff
+          - item:
+            title: Materials Science Research Centre
+            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+            img: http://placehold.it/300x270
+      - item:
+        title: Schools
+        related_items:
+          - item:
+            title: School of Architecture
+            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+            img: http://placehold.it/300x270/fff/000
+          - item:
+            title: School of Communication
+            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+            img: http://placehold.it/300x270/ff5d1c/fff
+          - item:
+            title: School of Arts & Humanities
+            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+            img: http://placehold.it/300x270
+          - item:
+            title: School of Design
+            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+            img: http://placehold.it/300x270
+    middle_feature_image: true
+    middle_feature_heading: Research degrees
+    middle_feature_meta_heading: Join a thriving community of more than 250 MPhil and PhD students
+    middle_feature_meta_text: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
+    middle_feature_meta_link: '#'
+    stats_block:
+      title: Lorem ipsum dolor sit
+      default_notch_override: true
+      link: '#'
+      action: See all Outcomes
+      statistics:
+        - stat:
+          value:
+            after: '%'
+            number: 70
+            summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut semper accumsan urna.
+        - stat:
+          value:
+            after: '%'
+            number: 33
+            meta: Nationalities
+            summary: 1 in 3 of our graduates are business owners or independent professionals
+        - stat:
+          value:
+            number: 76
+            meta: Nationalities
+            summary: Our students come from all corners of the globe.
+        - stat:
+          value:
+            after: st
+            number: 1
+            summary: We're the top rated art & design university in the world.
+        - stat:
+          value:
+            number: 100
+            meta: Lorem Ipsum
+            summary: Our students come from all corners of the globe.
+    startups:
+      - slide:
+        meta: 'Startups'
+        title: 'Lorem ipsum dolor sit'
+        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+        image: true
+        link: '#'
+      - slide:
+        meta: 'Startups'
+        title: 'Lorem ipsum dolor sit'
+        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+        image: true
+        link: '#'
+      - slide:
+        meta: 'Startups'
+        title: 'Lorem ipsum dolor sit'
+        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+        image: true
+        link: '#'
+    research:
+      title: Research at the RCA
+      slides:
+        - slide:
+          value:
+            meta: 'News'
+            title: 'Writing student wins £25,000 economics prize'
+            link: '#'
+            person: false
+            image: True
+        - slide:
+          value:
+            meta: 'News'
+            title: 'InnovationRCA awarded Accelerator of the Year'
+            link: '#'
+            person: false
+            image: True
+        - slide:
+          value:
+            meta: 'News'
+            title: 'MA Fashion Womenswear Student Launches Fashion Boycott'
+            link: '#'
+            person: false
+            image: True
+    text_teaser:
+      title: Our research staff
+      description: Our research staff span a broad range of subjects and areas of expertise.
+      action: Visit all research staff
+      link: '#'
+    bottom_feature_image: true
+    bottom_feature_heading: Angel Club at the RCA
+    bottom_feature_meta_heading: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus id fermentum mi.
+    bottom_feature_meta_text: Aenean nec cursus ipsum. Pellentesque sodales, lectus a placerat eleifend, purus quam malesuada augue
+    bottom_feature_meta_link: '#'
+    news:
+      - item:
+        meta: 'News'
+        title: 'Writing student wins £25,000 economics prize'
+        description: '6 July 2019 — 4 August 2019'
+        link: '#'
+        image: true
+        person: false
+      - item:
+        meta: 'News'
+        title: 'InnovationRCA awarded Accelerator of the Year'
+        description: '23 November 2019'
+        link: '#'
+        image: false
+        person: false
+      - item:
+        meta: 'News'
+        title: 'MA Fashion Womenswear Student Launches Fashion Boycott'
+        description: '23 November 2019'
+        link: '#'
+        image: true
+        person: false
+    contact: true
+    contact_image: true

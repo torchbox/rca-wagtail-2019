@@ -1,5 +1,5 @@
 {% load wagtailcore_tags wagtailimages_tags %}
-<div class="card card--square {% if item.image %}card--image{% endif %} {% if item.person %}card--person{% endif %}">
+<div class="card card--square {% if item.image %}card--image{% endif %} {% if item.person %}card--person{% endif %} {% if item.modifier %}card--{{ item.modifier }}{% endif %}">
     {% if item.image %}
         {% image item.image fill-80x80 as image_small %}
         {% image item.image fill-554x554 as image_large %}

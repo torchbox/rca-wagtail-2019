@@ -1,0 +1,14 @@
+context:
+  item:
+    first_name: 'Nelly'
+    surname: 'Abbot'
+    meta: 'Completed'
+    link: '#'
+    image: true
+
+tags:
+  image:
+    item.image fill-60x60 as profile_image:
+      target_var: profile_image
+      raw:
+        url: '//placekitten.com/60/60'

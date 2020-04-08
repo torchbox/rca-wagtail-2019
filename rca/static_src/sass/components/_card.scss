@@ -28,7 +28,7 @@
                 content: '';
                 display: block;
                 height: $notch-height-small;
-                width: calc(50% + 94px);
+                width: calc(50% + 48px);
 
                 @include media-query(medium) {
                     content: none;
@@ -62,6 +62,37 @@
                 flex-basis: 33.33%;
                 min-width: 33.33%;
                 max-width: 33.33%;
+            }
+        }
+    }
+
+    &--simple {
+        #{$root}__content {
+            position: static;
+            margin: 0;
+            padding-right: 0;
+            flex-basis: 100%;
+            max-width: 100%;
+            min-width: 100%;
+
+            &::after {
+                display: none;
+            }
+        }
+
+        #{$root}__heading {
+            @include font-size(xs);
+        }
+
+        #{$root}__description {
+            @include font-size(xxs);
+        }
+    }
+
+    &--long-description {
+        @include media-query(large) {
+            #{$root}__description {
+                width: 140%;
             }
         }
     }
@@ -282,6 +313,18 @@
                 @include font-size(s);
             }
         }
+
+        &#{$root}--image {
+            #{$root}__content {
+                &::after {
+                    width: 50%;
+
+                    @include media-query(large) {
+                        width: calc(50% + 15px);
+                    }
+                }
+            }
+        }
     }
 
     .news__sub-features & {
@@ -332,7 +375,85 @@
                     content: '';
                     display: block;
                     height: 24px;
-                    width: 80px;
+                    width: 50%;
+
+                    @include media-query(medium) {
+                        width: 80px;
+                    }
+                }
+            }
+        }
+    }
+
+    .staggered-cards & {
+        margin-bottom: ($gutter * 5);
+        padding-right: ($gutter * 1.25);
+
+        @include media-query(medium) {
+            flex-basis: 50%;
+            max-width: 50%;
+            min-width: 50%;
+        }
+
+        @include media-query(large) {
+            flex-basis: 33.333%;
+            max-width: 333.333%;
+            min-width: 33.333%;
+            margin-bottom: 0;
+        }
+
+        &:nth-child(even) {
+            @include media-query(medium) {
+                position: relative;
+                margin-left: 50%;
+                top: -($gutter * 8);
+                margin-bottom: -($gutter * 12);
+            }
+
+            @include media-query(large) {
+                margin-left: 66.666%;
+            }
+        }
+    }
+
+    // .carousel--square .carousel__item .card
+    .carousel__item & {
+        .carousel--square & {
+            @include media-query(medium) {
+                padding-right: ($gutter * 5);
+            }
+
+            @include media-query(large) {
+                padding-right: var(--grid-width);
+            }
+
+            #{$root}__description {
+                @include media-query(large) {
+                    margin-bottom: ($gutter / 2);
+                }
+            }
+
+            #{$root}__content {
+                @include media-query(medium) {
+                    flex-basis: calc(50% + 50px);
+                    min-width: calc(50% + 50px);
+                    max-width: calc(50% + 50px);
+                    padding-top: ($gutter * 1.5);
+                    top: -35px;
+                    margin-bottom: -35px;
+                }
+
+                @include media-query(large) {
+                    flex-basis: 50%;
+                    min-width: 50%;
+                    max-width: 50%;
+                }
+            }
+
+            #{$root}__description,
+            #{$root}__heading {
+                @include media-query(large) {
+                    width: 200%;
                 }
             }
         }
@@ -361,6 +482,12 @@
         #{$root}__meta {
             color: $color--tertiary;
         }
+
+        &--simple {
+            #{$root}__description {
+                color: $color--white;
+            }
+        }
     }
 
     .bg--light & {
@@ -385,6 +512,12 @@
 
         #{$root}__meta {
             color: $color--black;
+        }
+
+        &--simple {
+            #{$root}__description {
+                color: $color--black;
+            }
         }
     }
 }

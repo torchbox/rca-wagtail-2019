@@ -1,0 +1,11 @@
+<div class="booking-bar bg bg--dark">
+    {% include "patterns/atoms/grid-lines/grid-lines.html" %}
+    <div class="booking-bar__container grid">
+        <div class="booking-bar__message">
+            {{ item.message }}
+        </div>
+        <div class="booking-bar__action">
+            {% include "patterns/atoms/modal-launcher/modal-launcher.html" %}
+        </div>
+    </div>
+</div>

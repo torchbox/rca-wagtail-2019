@@ -719,7 +719,7 @@ class ProgrammePage(BasePage):
 
 
 class ProgrammeIndexPage(BasePage):
-    subpage_types = ["ProgrammePage"]
+    subpage_types = ["ProgrammePage", "shortcourses.ShortCoursePage"]
     template = "patterns/pages/programmes/programme_index.html"
 
     introduction = RichTextField(blank=False, features=["link"])

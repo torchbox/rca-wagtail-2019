@@ -1,9 +1,10 @@
+// sass-lint:disable-block indentation
 // --------------------------------- Colors -------------------------------------
 
 $color--black: #000;
 $color--white: #fff;
 $color--orange: #ff5d1c;
-$color--light-grey: #797979;
+$color--light-grey: #959595;
 $color--dark-grey: #676767;
 
 $color--white-12: rgba($color--white, 0.12);
@@ -23,8 +24,7 @@ $color--scrollbar-lightbg-bg: $color--black-24;
 $color--grid-line-light: $color--white-12;
 $color--grid-line-dark: $color--black-12;
 
-$color--meta: $color--light-grey;
-$color--meta-darkbg: $color--meta;
+$color--meta-darkbg: $color--light-grey;
 $color--meta-lightbg: $color--dark-grey;
 
 // --------------------------------- Fonts --------------------------------------
@@ -100,6 +100,7 @@ $z-index: (
     under-gridlines: 45,
     gridlines: 50,
     above-gridlines: 60,
+    sticky-nav-bar: 65,
     header: 70,
     nav-overlay: 75,
     nav: 80,
@@ -124,3 +125,9 @@ $image-offset-right: -($gutter * 3);
 
 $transition: 0.25s ease-out;
 $cubic-transition: 250ms cubic-bezier(0.24, 0.26, 0.2, 1);
+
+// --------------------------------- Custom properties --------------------------------------
+
+:root {
+    --grid-width: 0; // populated with carousel js
+}
