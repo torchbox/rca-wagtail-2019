@@ -4,134 +4,101 @@
 Grid layout setup 
 -----------------
 
-- format is:
-     layout__start-{{ number }}-{{ breakpoint }}
-     layout__span-{{ number }}-{{ breakpoint }}
+- Mobile format is:
+    layout__start-{{ number }}
+    layout__span-{{ number }}
+- If a breakpoint is required the format is:
+    layout__@{{ breakpoint }}-start-{{ number }}
+    layout__@{{ breakpoint }}-span-{{ number }}
 - Numbers range from 1-5, as we use a 5 col grid
-- Breakpoints are s, m, l
-- For example: layout__start-1-s, layout__span-2-s
+- Breakpoints are m, l
+- For example: "layout__@medium-start-1 layout__@medium-span-2" would start in column one, and span two columns
 - Replicates the "grid-column: number / span number" format that we've used previously
 
 */
 
 .layout {
+    /* Start */
+
     &__start-one {
-        &-s {
-            grid-column-start: 1;
-        }
-
-        &-m {
-            @include media-query(medium) {
-                grid-column-start: 1;
-            }
-        }
-
-        &-l {
-            @include media-query(large) {
-                grid-column-start: 1;
-            }
-        }
+        grid-column-start: 1;
     }
 
     &__start-two {
-        &-s {
+        grid-column-start: 2;
+    }
+
+    @include media-query(medium) {
+        &__\@medium-start-one {
+            grid-column-start: 1;
+        }
+
+        &__\@medium-start-two {
+            grid-column-start: 2;
+        }
+    }
+
+    @include media-query(large) {
+        &__\@large-start-one {
+            grid-column-start: 1;
+        }
+
+        &__\@large-start-two {
             grid-column-start: 2;
         }
 
-        &-m {
-            @include media-query(medium) {
-                grid-column-start: 2;
-            }
+        &__\@large-start-three {
+            grid-column-start: 3;
         }
 
-        &-l {
-            @include media-query(large) {
-                grid-column-start: 2;
-            }
+        &__\@large-start-four {
+            grid-column-start: 4;
         }
-    }
 
-    &__start-three {
-        &-l {
-            @include media-query(large) {
-                grid-column-start: 3;
-            }
-        }
-    }
-
-    &__start-four {
-        &-l {
-            @include media-query(large) {
-                grid-column-start: 4;
-            }
-        }
-    }
-
-    &__start-five {
-        &-l {
-            @include media-query(large) {
-                grid-column-start: 5;
-            }
+        &__\@large-start-five {
+            grid-column-start: 5;
         }
     }
 
     &__span-one {
-        &-s {
+        grid-column-end: span 1;
+    }
+
+    /* Span */
+
+    &__span-two {
+        grid-column-end: span 2;
+    }
+
+    @include media-query(medium) {
+        &__\@medium-span-one {
             grid-column-end: span 1;
         }
 
-        &-m {
-            @include media-query(medium) {
-                grid-column-end: span 1;
-            }
-        }
-
-        &-l {
-            @include media-query(large) {
-                grid-column-end: span 1;
-            }
+        &__\@medium-span-two {
+            grid-column-end: span 2;
         }
     }
 
-    &__span-two {
-        &-s {
+    @include media-query(large) {
+        &__\@large-span-one {
+            grid-column-end: span 1;
+        }
+
+        &__\@large-span-two {
             grid-column-end: span 2;
         }
 
-        &-m {
-            @include media-query(medium) {
-                grid-column-end: span 2;
-            }
+        &__\@large-span-three {
+            grid-column-end: span 3;
         }
 
-        &-l {
-            @include media-query(large) {
-                grid-column-end: span 2;
-            }
+        &__\@large-span-four {
+            grid-column-end: span 4;
         }
-    }
 
-    &__span-three {
-        &--l {
-            @include media-query(large) {
-                grid-column-end: span 3;
-            }
-        }
-    }
-
-    &__span-four {
-        &--l {
-            @include media-query(large) {
-                grid-column-end: span 4;
-            }
-        }
-    }
-
-    &__span-five {
-        &--l {
-            @include media-query(large) {
-                grid-column-end: span 5;
-            }
+        &__\@large-span-five {
+            grid-column-end: span 5;
         }
     }
 }
