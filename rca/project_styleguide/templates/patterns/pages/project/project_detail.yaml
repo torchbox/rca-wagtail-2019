@@ -4,6 +4,20 @@ context:
       - { label: 'Research', link: /research/ }
       - { label: 'Research highlights', link: /research/highlights }
     title: RCA x CERN The Grand Challenge
+    key_details_tags:
+      - { tag: School of Design }
+      - { tag: Studio project }
+      - { tag: 2018 }
+    key_details_funding: £5m, Research Council
+    key_details_expertise:
+      - { title: Product design, link: '#' }
+      - { title: Fashion, link: '#' }
+      - { title: Innovation, link: '#' }
+      - { title: Textiles, link: '#' }
+    key_details_download: '#'
+    key_details_download_course: Archictecture MA
+    streamfield:
+      - dummy
     project_image: true
     project_image_caption: Watch the course introduction
     project_description: A collaboration between two world-leading institutions, bringing together science and design to find solutions to global challenges
@@ -86,13 +100,26 @@ context:
           link: '#',
         }
     partners:
-      - { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
-      - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
-      - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
+      - { text: 'CERN', href: 'http://www.google.com' }
+      - { text: 'Architects Council of Europe', href: 'http://www.google.com' }
+      - {
+          text: 'European Association of Architectural Education',
+          href: 'http://www.google.com',
+        }
+      - {
+          text: 'The Standing Conference of Heads of Schools of Architecture',
+          href: 'http://www.google.com',
+        }
+      - {
+          text: 'Royal Institute of British Architects',
+          href: 'http://www.google.com',
+        }
     funders:
-      - { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
-      - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
-      - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
+      - { text: 'CERN', href: 'http://www.google.com' }
+      - {
+          text: 'The Standing Conference of Heads of Schools of Architecture',
+          href: 'http://www.google.com',
+        }
     testimonial:
       slides:
         - slide:
@@ -130,3 +157,8 @@ context:
         description: 'Creating world class experiences that started at the RCA'
         image: true
         link: '#'
+
+tags:
+  include_block:
+    block:
+      template_name: 'patterns/_pattern_library_only/streamfield/project_streamfield.html'

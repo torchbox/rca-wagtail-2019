@@ -35,7 +35,7 @@
 
         <div class="page__content">
 
-            <section class="research-top section bg bg--dark">
+            <section class="section bg bg--dark">
 
                 <div class="section__row research-centre-overview">
                     <div class="section__content grid">
@@ -54,9 +54,21 @@
                             </div>
                         </div>
                         <div class="research-centre-overview__key-details">
-                            {% include "patterns/molecules/key-details/key-details--centre.html" %}
+                            {% include "patterns/molecules/key-details/key-details--project.html" %}
                         </div>
                     </div>
+                </div>
+
+                <div class="section__row section__row--last grid">
+                    <div class="streamfield rich-text layout__start-one-s layout__span-two-s layout__start-three-l">
+                        {% for block in page.streamfield %}
+                            {% include_block block %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--first-col"></div>
                 </div>
 
             </section>
@@ -64,15 +76,22 @@
             {% if page.gallery %}
                 <section class="section bg bg--light">
 
-                    <div class="section__row section__row--first section__row--last">
+                    <div class="section__row section__row--first">
+
                         <header class="section__header grid">
                             <h3 class="section__heading section__heading--secondary heading heading--four">
                                 Gallery
                             </h3>
                         </header>
+
                         <div class="section__content">
                             {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.gallery modifier='slideshow--author-info' %}
                         </div>
+
+                    </div>
+
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--first-col"></div>
                     </div>
 
                 </section>
@@ -80,14 +99,20 @@
 
             {% if page.more_info %}
                 <section class="bg bg--dark">
-                    <div class="section__row short-course-accordion section__row--last">
+
+                    <div class="section__row section__row--first section__row--last">
                         {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_info title="More info" course_type="short" %}
                     </div>
+
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    </div>
+
                 </section>
             {% endif %}
 
            
-            <section class="section bg bg--light">
+            <section class="section section--opposite-notch bg bg--light">
                 
                 {% if page.project_lead %}
                     <div class="section__row section__row--first section__row--last">
@@ -96,91 +121,54 @@
                 {% endif %}
 
                 {% if page.project_team %}
-                    <div class="section__row section__row--last">
+                    <div class="section__row">
                         {% include "patterns/organisms/student-listing/student-listing.html" with title="Project team" student_listing=page.project_team %}
                     </div>
                 {% endif %}
 
                 {% if page.partners %}
-                    <section class="section section--top-space bg bg--light">
+                    <div class="section__row">
                         {% include "patterns/organisms/related-links/related-links.html" with related_links=page.partners title="Partners" %}
-                    </section>
+                    </div>
                 {% endif %}
 
                 {% if page.funders %}
-                    <section class="section section--top-space bg bg--light">
+                    <div class="section__row">
                         {% include "patterns/organisms/related-links/related-links.html" with related_links=page.funders title="Funders" %}
-                    </section>
+                    </div>
                 {% endif %}
 
-                <div class="section__notch">
+                <div class="section__notch section__notch--opposite">
                     <div class="section__notch-fill section__notch-fill--second-col"></div>
                 </div>
 
             </section>
-            
-                
 
-            {% if page.centre_news %}
-                <section class="section bg bg--dark">
+            {% if page.testimonial.slides or page.contact %}
+                <section class="section section--top-space section--opposite-notch bg bg--dark">
 
-                    <div class="section__row section__row--first section__row--last-large">
-                        <div class="partnerships">
-                            <div class="partnerships__header grid">
-                                <h2 class="partnerships__heading heading heading--two">{{ page.centre_news.title }}</h2>
-                            </div>
-                            <div class="partnerships__carousel">
-                                {% include "patterns/organisms/carousel/carousel--square.html" with carousel=page.centre_news.slides modifier='carousel--square' datatag='data-square-carousel' %}
-                            </div>
+                    {% if page.testimonial.slides %}
+                        <div class="section__row section__row--first {% if page.contact %}section__row--last{% endif %}">
+                            {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.testimonial.slides modifier='carousel--square carousel--quotes' datatag='data-square-carousel' %}
                         </div>
-                    </div>
+                    {% endif %}
 
-                    <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--third-col"></div>
-                    </div>
-
-                </section>
-            {% endif %}
-
-            <section class="section section--start section--end bg bg--light">
-                {% if page.related_links %}
-                    <div class="section__row section__row--first">
-                        <div class="section__content">
-                            {% include "patterns/organisms/related-links/related-links.html" with related_links=page.related_links title="External links" %}
+                    {% if page.contact %}
+                        <div class="section__row section__row--first">
+                            {% include "patterns/organisms/contact/contact.html" with heading="Contact us" text="Get in touch if you’d like to find out more or have any questions about working with the RCA." image=page.contact_image %}
                         </div>
-                    </div>
-                {% endif %}
-            </section>
+                    {% endif %}
 
-            {% if page.testimonial.slides %}
-                <section class="section bg bg--dark">
-                    <div class="section__row section__row--first">
-                        {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.testimonial.slides modifier='carousel--square carousel--quotes' datatag='data-square-carousel' %}
-                    </div>
-                </section>
-            {% endif %}
-
-            {% if page.contact %}
-                <section class="section bg bg--dark">
-                    <div class="section__notch section__notch--small-med-only">
+                    <div class="section__notch section__notch--opposite">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
-                    <div class="contact-anchor" id="contact"></div>
-                    <div class="section__row section__row--first">
-                        {% include "patterns/organisms/contact/contact.html" with heading="Contact us" text="Get in touch if you’d like to find out more or have any questions about working with the RCA." image=page.contact_image %}
-                    </div>
-                </section>
 
-                <section class="section bg bg--dark">
-                    <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--third-col"></div>
-                    </div>
                 </section>
             {% endif %}
 
 
             {% if page.related_projects %}
-                <section class="section bg bg--light">
+                <section class="section section--top-space-large bg bg--light">
 
                     <div class="section__row section__row--last-large research-highlights">
                         <div class="section__header grid">
@@ -191,7 +179,7 @@
                         <div class="section__content grid">
                             {% include "patterns/organisms/carousel/carousel.html" with carousel=page.related_projects modifier='carousel carousel--no-margin' datatag='data-carousel' %}     
                             <div class="section__action">
-                                <a class="link link--primary link--link body body--two" href="/research">
+                                <a class="link link--secondary link--link body body--two" href="/research">
                                     <span class="link__label">See all research</span>
                                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                 </a>    
