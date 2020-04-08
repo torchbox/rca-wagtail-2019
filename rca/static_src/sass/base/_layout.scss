@@ -1,0 +1,134 @@
+/* 
+
+-----------------
+Grid layout setup 
+-----------------
+
+- format is:
+     layout__start-number-breakpoint
+     layout__span-number-breakpoint
+- Replicates the "grid-column: number / span number" format
+
+*/
+
+.layout {
+    &__start-one {
+        &-s {
+            grid-column-start: 1;
+        }
+
+        &-m {
+            @include media-query(medium) {
+                grid-column-start: 1;
+            }
+        }
+
+        &-l {
+            @include media-query(large) {
+                grid-column-start: 1;
+            }
+        }
+    }
+
+    &__start-two {
+        &-s {
+            grid-column-start: 2;
+        }
+
+        &-m {
+            @include media-query(medium) {
+                grid-column-start: 2;
+            }
+        }
+
+        &-l {
+            @include media-query(large) {
+                grid-column-start: 2;
+            }
+        }
+    }
+
+    &__start-three {
+        &-l {
+            @include media-query(large) {
+                grid-column-start: 3;
+            }
+        }
+    }
+
+    &__start-four {
+        &-l {
+            @include media-query(large) {
+                grid-column-start: 4;
+            }
+        }
+    }
+
+    &__start-five {
+        &-l {
+            @include media-query(large) {
+                grid-column-start: 5;
+            }
+        }
+    }
+
+    &__span-one {
+        &-s {
+            grid-column-end: span 1;
+        }
+
+        &-m {
+            @include media-query(medium) {
+                grid-column-end: span 1;
+            }
+        }
+
+        &-l {
+            @include media-query(large) {
+                grid-column-end: span 1;
+            }
+        }
+    }
+
+    &__span-two {
+        &-s {
+            grid-column-end: span 2;
+        }
+
+        &-m {
+            @include media-query(medium) {
+                grid-column-end: span 2;
+            }
+        }
+
+        &-l {
+            @include media-query(large) {
+                grid-column-end: span 2;
+            }
+        }
+    }
+
+    &__span-three {
+        &--l {
+            @include media-query(large) {
+                grid-column-end: span 3;
+            }
+        }
+    }
+
+    &__span-four {
+        &--l {
+            @include media-query(large) {
+                grid-column-end: span 4;
+            }
+        }
+    }
+
+    &__span-five {
+        &--l {
+            @include media-query(large) {
+                grid-column-end: span 5;
+            }
+        }
+    }
+}
