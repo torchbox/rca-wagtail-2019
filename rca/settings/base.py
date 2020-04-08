@@ -66,6 +66,8 @@ INSTALLED_APPS = [
     "rca.api_content",
     "rca.shortcourses",
     "rca.guides",
+    "rca.research",
+    "rca.projects",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.postgres_search",
     "wagtail.contrib.settings",
@@ -708,7 +710,6 @@ except TypeError:
 # The API url to pull content from for the homepage, see rca.api_content.content
 API_CONTENT_BASE_URL = env.get("API_CONTENT_BASE_URL", "https://rca.ac.uk")
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
-
 # Access planit details, for fetching xml data on the shourt course pages.
 try:
     ACCESS_PLANIT_XML_FEED_TIMEOUT = int(env.get("ACCESS_PLANIT_XML_FEED_TIMEOUT"))

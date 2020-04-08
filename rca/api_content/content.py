@@ -142,10 +142,6 @@ def pull_news_and_events(programme_type_slug=None):
     # So pull 3 of both from the API and order them by the date field.
     # Then select how many we need depending on the events content.
     NEWS_ITEMS = 3
-    NEWS_ITEMS_WITH_EVENTS = 2
-    # By default, work with 3 news items but if we pull events, get 2
-    # so we end up with 2 x News/Blog and 1 x Event.
-    news_items_to_get = NEWS_ITEMS
 
     # First get the Events
     query = QueryDict(mutable=True)
@@ -171,7 +167,7 @@ def pull_news_and_events(programme_type_slug=None):
         and "total_count" in fetched_event_data["meta"]
         and fetched_event_data["meta"]["total_count"] > 0
     ):
-        news_items_to_get = NEWS_ITEMS_WITH_EVENTS
+        NEWS_ITEMS = 2
         events_data = parse_items_to_list(fetched_event_data, "Event")
 
     # News and Blogs
@@ -220,7 +216,7 @@ def pull_news_and_events(programme_type_slug=None):
     news_and_blog_data.sort(key=lambda x: x["original_date"])
     news_and_blog_data.reverse()
     # Slice for how many items we want to get depending on the Events pulled.
-    news_and_blog_data = news_and_blog_data[:news_items_to_get]
+    news_and_blog_data = news_and_blog_data[:NEWS_ITEMS]
 
     return news_and_blog_data + events_data
 
