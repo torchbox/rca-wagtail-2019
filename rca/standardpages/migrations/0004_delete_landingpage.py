@@ -13,6 +13,4 @@ class Migration(migrations.Migration):
         ("standardpages", "0003_landingpage"),
     ]
 
-    operations = [
-        migrations.DeleteModel(name="LandingPage",),
-    ]
+    operations = [migrations.DeleteModel(name="LandingPage")]
