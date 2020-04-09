@@ -67,7 +67,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"abstract": False,},
+            options={"abstract": False},
             bases=("wagtailcore.page", models.Model),
         ),
         migrations.CreateModel(
@@ -83,9 +83,9 @@ class Migration(migrations.Migration):
                         serialize=False,
                         to="landingpages.LandingPage",
                     ),
-                ),
+                )
             ],
-            options={"abstract": False,},
+            options={"abstract": False},
             bases=("landingpages.landingpage",),
         ),
         migrations.CreateModel(
@@ -101,9 +101,9 @@ class Migration(migrations.Migration):
                         serialize=False,
                         to="landingpages.LandingPage",
                     ),
-                ),
+                )
             ],
-            options={"abstract": False,},
+            options={"abstract": False},
             bases=("landingpages.landingpage",),
         ),
         migrations.CreateModel(
@@ -119,9 +119,9 @@ class Migration(migrations.Migration):
                         serialize=False,
                         to="landingpages.LandingPage",
                     ),
-                ),
+                )
             ],
-            options={"abstract": False,},
+            options={"abstract": False},
             bases=("landingpages.landingpage",),
         ),
     ]
