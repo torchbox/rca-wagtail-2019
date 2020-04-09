@@ -12,6 +12,11 @@
 
     h2 {
         @include font-size(xl);
+        margin-bottom: ($gutter * 1.5);
+
+        @include media-query(large) {
+            margin-bottom: ($gutter * 2);
+        }
     }
 
     h3 {
@@ -55,6 +60,23 @@
 
         .bg--light .accordion__content & {
             color: $color--white;
+        }
+    }
+
+    .image {
+        margin-bottom: ($gutter * 1.5);
+        margin-top: ($gutter * 1.5);
+
+        @include media-query(large) {
+            margin-bottom: ($gutter * 2);
+            margin-top: ($gutter * 2);
+        }
+
+        &--full {
+            img {
+                width: 100%;
+                height: auto;
+            }
         }
     }
 
