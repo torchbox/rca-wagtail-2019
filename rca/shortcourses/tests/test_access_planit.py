@@ -151,6 +151,7 @@ class AccessPlanitXMLTest(TestCase):
             programme_type_id=1,
             contact_url="https://rca.ac.uk",
             contact_text="Read more",
+            hero_colour_option=1,
         )
         # Generate the mocked xml data
         AccessPlanitXML(course_id=1).get_data()
@@ -175,6 +176,7 @@ class AccessPlanitXMLTest(TestCase):
                 programme_type_id=1,
                 contact_url="https://rca.ac.uk",
                 contact_text="Read more",
+                hero_colour_option=1,
             )
         with self.assertRaises(TypeError):
             ShortCoursePage.objects.create(
@@ -182,6 +184,7 @@ class AccessPlanitXMLTest(TestCase):
                 path=100,
                 depth="001",
                 access_planit_course_id="course id cannot be a string",
+                hero_colour_option=1,
             )
 
     def test_management_command_fetch_data(self):
@@ -195,6 +198,7 @@ class AccessPlanitXMLTest(TestCase):
                 programme_type_id=1,
                 contact_url="https://rca.ac.uk",
                 contact_text="Read more",
+                hero_colour_option=1,
             )
         call_command("fetch_access_planit_data")
         for i in range(5):
@@ -224,6 +228,7 @@ class AccessPlanitXMLTest(TestCase):
                 programme_type_id=1,
                 contact_url="https://rca.ac.uk",
                 contact_text="Read more",
+                hero_colour_option=1,
             )
         args = []
         opts = {}
@@ -246,6 +251,7 @@ class AccessPlanitXMLTest(TestCase):
             programme_type_id=1,
             contact_url="https://rca.ac.uk",
             contact_text="Read more",
+            hero_colour_option=1,
         )
         home_page.add_child(instance=short_course_page)
         response = self.client.get("/short-course/")
@@ -272,6 +278,7 @@ class AccessPlanitXMLTest(TestCase):
             programme_type_id=1,
             contact_url="https://rca.ac.uk",
             contact_text="Read more",
+            hero_colour_option=1,
         )
         home_page.add_child(instance=short_course_page)
         response = self.client.get("/short-course/")

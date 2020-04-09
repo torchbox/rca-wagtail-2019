@@ -75,7 +75,6 @@ context:
           heading: 'About the Design Museum'
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     video_caption: Watch the course introduction
-    shortcourse_gallery:
     gallery:
       - slide:
         value:
