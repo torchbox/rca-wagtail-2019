@@ -6,7 +6,7 @@
     <div class="upcoming-dates__content">
         {% for item in access_planit_data %}
             <div class="upcoming-dates__row">
-                <div class="upcoming-dates__row-item upcoming-dates__row-item--mobile" aria-hidden="true">1{{ item.start_date|date:'d F Y' }} {% if item.end_date %}to {{ item.end_date|date:'d F Y' }}{% endif %}</div>
+                <div class="upcoming-dates__row-item upcoming-dates__row-item--mobile" aria-hidden="true">{{ item.start_date|date:'d F Y' }} {% if item.end_date %}to {{ item.end_date|date:'d F Y' }}{% endif %}</div>
                 <div class="upcoming-dates__row-item upcoming-dates__start-date">{{ item.start_date|date:'d F Y' }}</div>
                 <div class="upcoming-dates__row-item upcoming-dates__end-date">{{ item.end_date|date:'d F Y' }}</div>
                 <div class="upcoming-dates__row-item upcoming-dates__action">
