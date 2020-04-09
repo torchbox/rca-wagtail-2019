@@ -4,8 +4,10 @@
         <div class="booking-bar__message">
             {{ item.message }} {{ item.date|date:'d F Y' }}
         </div>
-        <div class="booking-bar__action">
-            {% include "patterns/atoms/modal-launcher/modal-launcher.html" %}
-        </div>
+        {% if page.show_register_link %}
+            <div class="booking-bar__action">
+                {% include "patterns/atoms/modal-launcher/modal-launcher.html" %}
+            </div>
+        {% endif %}
     </div>
 </div>
