@@ -23,6 +23,9 @@
         <header class="page__header bg bg--dark">
             <div class="title-area title-area--landing-page grid">
                 <div class="title-area__content">
+                    <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
+                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" with breadcrumb=page.breadcrumb %}
+                    </nav>
                     {% if page.title %}
                         <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
                     {% endif %}
@@ -67,12 +70,12 @@
                                     </div>
                                 {% endif %}
                                 <div class="section__content grid">
-                                    {% include "patterns/organisms/carousel/carousel.html" with carousel=page.enterprise_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}     
+                                    {% include "patterns/organisms/carousel/carousel.html" with carousel=page.enterprise_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}
                                     <div class="section__action">
                                         <a class="link link--primary link--link body body--two" href="/research">
                                             <span class="link__label">See all enterprise projects</span>
                                             <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                                        </a>    
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -96,7 +99,7 @@
                                     Enterprise at the RCA
                                 </h2>
                                 <div class="section__introduction">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor. 
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
                                 </div>
                             </div>
                             <div class="section__content grid">
@@ -140,17 +143,19 @@
                                     <a class="link link--secondary link--link body body--one" href="{{ page.related_courses_link }}">
                                         <span class="link__label">{{ page.related_courses_link_text }}</span>
                                         <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                                    </a>    
+                                    </a>
                                 </div>
                             </div>
                         {% endif %}
                     </div>
                     {% if not page.stats_block %}
+
+                    {% else %}
                         <div class="section__notch section__notch--opposite">
                             <div class="section__notch-fill section__notch-fill--third-col"></div>
                         </div>
                     {% endif %}
-                    
+
                 </section>
             {% endif %}
 
@@ -170,12 +175,12 @@
                                     </h2>
                                 </div>
                                 <div class="section__content grid">
-                                    {% include "patterns/organisms/carousel/carousel.html" with carousel=page.startups modifier='carousel carousel--no-margin' datatag='data-carousel' %}     
+                                    {% include "patterns/organisms/carousel/carousel.html" with carousel=page.startups modifier='carousel carousel--no-margin' datatag='data-carousel' %}
                                     <div class="section__action">
                                         <a class="link link--primary link--link body body--two" href="/start-ups">
                                             <span class="link__label">See all start-ups</span>
                                             <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                                        </a>    
+                                        </a>
                                     </div>
                                 </div>
                             </div>

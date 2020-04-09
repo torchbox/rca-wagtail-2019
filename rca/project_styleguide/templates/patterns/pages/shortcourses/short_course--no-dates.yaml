@@ -1,20 +1,5 @@
 context:
   page:
-    quote_carousel:
-      - slide:
-        value:
-          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
-          author: 'Benjamin Glatz'
-          job_title: 'Digital Transformation Lead, Shell'
-      - slide:
-        value:
-          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
-          author: 'Benjamin Glatz'
-          job_title: 'Digital Transformation Lead, Shell'
-      - slide:
-        value:
-          quote: 'We want people to come away from our executive education courses with achievable insights and a critical path to making change in their organisations and to their own individual working lives.'
-          author: 'Professor Jeremy Myerson'
     course_details_text: '<p>Early bird offer until 10 March 2020. Booking closes 18 March 2020 or when fully booked.</p>'
     terms_and_conditions:
       body: '<p>Please be sure to read our <a href="http://facebook.com">Terms &amp; Conditions</a> before applying.</p>'
@@ -76,7 +61,7 @@ context:
           heading: 'About the Design Museum'
     programme_gallery:
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
-    gallery:
+    shortcourse_gallery:
       - slide:
         value:
           title: 'Albertopolissss 550-metre pedestrian tunnel'
@@ -105,20 +90,8 @@ context:
     contact_image: true
     relatedcontent: true
   related_staff:
-    - {
-        name: 'Beth Hughes',
-        role: 'Head of Programmes',
-        description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
-        link: '#',
-        link_text: 'Read more',
-      }
-    - {
-        name: 'Beth Hughes',
-        role: 'Head of Programmes',
-        description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
-        link: '#',
-        link_text: 'Read more',
-      }
+    - item
+    - item
   partnerships_block:
     slides:
       - slide:
@@ -144,9 +117,9 @@ context:
     - { text: 'Custom Executive Education', href: '#' }
     - { text: 'Innovation RCA', href: '#' }
   booking_bar:
-    message: 'Next course starts Thursday 19 March 2020'
-    action: 'Book now for £900'
-    modal: 'booking-details'
+    message: 'Applications are now closed'
+    action: 'Register your interest for upcoming dates'
+    modal: false
   access_planit_data:
     - {
         'start_date': !!timestamp '2020-05-13 2:00:00',

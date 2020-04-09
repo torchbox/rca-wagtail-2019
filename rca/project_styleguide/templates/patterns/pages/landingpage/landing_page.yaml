@@ -1,5 +1,7 @@
 context:
   page:
+    breadcrumb:
+      - { label: 'Research', link: /research/ }
     title: Research at the RCA
     introduction: 'Enterprise at the RCA spans incubation, innovation and business acceleration programmes; consultancy and knowledge exchange, and custom executive short courses.'
     introduction_link: '#'

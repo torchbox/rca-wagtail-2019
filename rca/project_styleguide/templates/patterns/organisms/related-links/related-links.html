@@ -7,7 +7,7 @@
     <div class="section__content related-links__content">
         {% for item in related_links %}
             <div class="related-links__item">
-                {% include "patterns/atoms/link-tertiary/link-tertiary--link.html" with value=item %}
+                {% include "patterns/atoms/link-tertiary/link-tertiary--link.html" with value=item.value %}
             </div>
         {% endfor %}
     </div>
