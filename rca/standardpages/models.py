@@ -58,7 +58,3 @@ class IndexPage(BasePage):
         context["subpages"] = subpages
 
         return context
-
-
-class LandingPage(IndexPage):
-    pass
