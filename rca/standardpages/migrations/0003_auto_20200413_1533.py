@@ -11,9 +11,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("standardpages", "0002_set_related_pages_to_cascade"),
-    ]
+    dependencies = [("standardpages", "0002_set_related_pages_to_cascade")]
 
     operations = [
         migrations.AlterField(
@@ -86,5 +84,5 @@ class Migration(migrations.Migration):
                     ),
                 ]
             ),
-        ),
+        )
     ]
