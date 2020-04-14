@@ -9,7 +9,7 @@ class ResearchLandingPage(LandingPage):
     template = "patterns/pages/landingpage/landing_page.html"
 
 
-class InovationLandingPage(LandingPage):
+class InnovationLandingPage(LandingPage):
     template = "patterns/pages/landingpage/landing_page.html"
 
 
