@@ -66,7 +66,8 @@ class DocumentBlock(blocks.StructBlock):
 
 class QuoteBlock(blocks.StructBlock):
     quote = blocks.CharBlock(classname="title")
-    attribution = blocks.CharBlock(required=False)
+    author = blocks.CharBlock(required=False)
+    job_title = blocks.CharBlock(required=False)
 
     class Meta:
         icon = "openquote"
@@ -79,7 +80,7 @@ class LinkBlock(blocks.StructBlock):
 
     class Meta:
         icon = "link"
-        template = "patterns/molecules/streamfield/blocks/quote_block.html"
+        template = "patterns/molecules/streamfield/blocks/link_block.html"
 
 
 class GalleryBlock(blocks.StructBlock):

@@ -10,10 +10,11 @@
     {% else %}
         <img src="{% static "images/author_placeholder.png" %}" alt="" class="profile-teaser__image profile-teaser__image--placeholder">
     {% endif %}
-    {% if item.first_name or item.surname or item.meta %}
+    {% if item.first_name or item.surname or item.meta or item.role %}
         <div class="profile-teaser__content">
             <h3 class="profile-teaser__heading body body--one"><span class="profile-teaser__first-name">{{ item.first_name }}</span> <span class="profile-teaser__surname">{{ item.surname }}</span></h3>
             <p class="profile-teaser__meta body body--two">{{ item.meta }}</p>
+            <p class="profile-teaser__meta body body--two">{{ item.role }}</p>
         </div>
     {% endif %}
     {% if item.link %}
