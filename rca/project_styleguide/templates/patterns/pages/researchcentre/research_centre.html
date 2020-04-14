@@ -41,21 +41,21 @@
                     <div class="section__content grid">
                         <div class="research-centre-overview__content">
                             <div class="research-centre-overview__body">
-                                {% if page.centre_description %}
+                                {% if page.introduction %}
                                     <h2 class="research-centre-overview__heading section__heading heading heading--five">
-                                        {{ page.centre_description }}
+                                        {{ page.introduction|linebreaks }}
                                     </h2>
                                 {% endif %}
-                                {% if page.centre_more_text %}
-                                    <a href="{{ page.centre_more_link }}" class="link link--tertiary link--link">
-                                        <span class="link__label">{{ page.centre_more_text }}</span>
+                                {% if about_page  %}
+                                    <a href="{{ about_page  }}" class="link link--tertiary link--link">
+                                        <span class="link__label">{{ page.about_page_link_text }}</span>
                                         <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                     </a>
                                 {% endif %}
                             </div>
                             <div class="research-centre-overview__media">
-                                {% if page.centre_image and page.course_intro_video %}
-                                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.course_intro_video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.centre_image caption=page.centre_image_caption %}
+                                {% if page.introduction_image %}
+                                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.introduction_image caption=page.video_caption %}
                                 {% endif %}
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                     </div>
                 </div>
 
-                {% if page.research_spaces %}
+                {% if research_spaces %}
                     <div class="section__row research-spaces">
                         <div class="section__header grid">
                             <h2 class="section__heading heading heading--four">
@@ -73,12 +73,12 @@
                             </h2>
                         </div>
                         <div class="section__content grid">
-                            {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=page.research_spaces %}
+                            {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=research_spaces %}
                         </div>
                     </div>
                 {% endif %}
 
-                {% if page.research_highlights %}
+                {% if projects %}
                     <div class="section__row section__row--last-large research-highlights">
                         <div class="section__header grid">
                             <h2 class="section__heading section__heading--primary heading heading--four">
@@ -86,12 +86,12 @@
                             </h2>
                         </div>
                         <div class="section__content grid">
-                            {% include "patterns/organisms/carousel/carousel.html" with carousel=page.research_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}     
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=projects modifier='carousel carousel--no-margin' datatag='data-carousel' %}
                             <div class="section__action">
                                 <a class="link link--primary link--link body body--two" href="/research">
                                     <span class="link__label">See all research</span>
                                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                                </a>    
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -112,9 +112,9 @@
                             Opportunities to work with us
                         </h2>
                     </div>
-    
+
                     <div class="section__content">
-                         {% include "patterns/organisms/categories-panels/categories-panels.html" with categories_panels=page.opportunities %}
+                         {% include "patterns/organisms/categories-panels/categories-panels.html" with categories_panels=research_opportunities %}
                     </div>
 
                 </div>
@@ -126,7 +126,7 @@
                 <div class="section__notch section__notch--opposite">
                     <div class="section__notch-fill section__notch-fill--first-col"></div>
                 </div>
-                
+
                 {% if page.relatedcontent %}
                     {% include "patterns/molecules/relatedcontent/relatedprogrammes--large.html" with related_sections=page.programmes title="Helen Hamlyn Design Centre programmes" %}
                 {% endif %}
@@ -139,7 +139,7 @@
 
             {% if related_staff %}
                 <section class="section bg bg--light">
-                    
+
                     <div class="section__row section__row--first section__row--last">
                         {% include "patterns/organisms/people-module/people-module.html" with title=page.staff_title people=related_staff %}
                     </div>
@@ -150,18 +150,17 @@
 
                 </section>
             {% endif %}
-                
 
-            {% if page.centre_news %}
+
+            {% if research_news %}
                 <section class="section bg bg--dark">
-
                     <div class="section__row section__row--first section__row--last-large">
                         <div class="partnerships">
                             <div class="partnerships__header grid">
-                                <h2 class="partnerships__heading heading heading--two">{{ page.centre_news.title }}</h2>
+                                <h2 class="partnerships__heading heading heading--two">{{ research_news.title }}</h2>
                             </div>
                             <div class="partnerships__carousel">
-                                {% include "patterns/organisms/carousel/carousel--square.html" with carousel=page.centre_news.slides modifier='carousel--square' datatag='data-square-carousel' %}
+                                {% include "patterns/organisms/carousel/carousel--square.html" with carousel=research_news.slides modifier='carousel--square' datatag='data-square-carousel' %}
                             </div>
                         </div>
                     </div>
