@@ -19,6 +19,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RenameModel(
-            old_name="InovationLandingPage", new_name="InnovationLandingPage",
-        ),
+            old_name="InovationLandingPage", new_name="InnovationLandingPage"
+        )
     ]
