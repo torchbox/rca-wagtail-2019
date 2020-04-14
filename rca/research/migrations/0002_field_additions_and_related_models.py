@@ -229,7 +229,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={"ordering": ["sort_order"], "abstract": False},
         ),
         migrations.CreateModel(
             name="ResearchCentrePageRelatedResearchSpaces",
@@ -266,7 +266,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={"ordering": ["sort_order"], "abstract": False},
         ),
         migrations.CreateModel(
             name="ResearchCentrePageRelatedOpportunities",
@@ -303,7 +303,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={"ordering": ["sort_order"], "abstract": False},
         ),
         migrations.CreateModel(
             name="ResearchCentrePageRelatedNews",
@@ -340,6 +340,6 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={"ordering": ["sort_order"], "abstract": False},
         ),
     ]
