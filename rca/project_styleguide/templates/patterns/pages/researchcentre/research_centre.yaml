@@ -4,37 +4,11 @@ context:
       - { label: 'Research', link: /research/ }
       - { label: 'Research Centres', link: /research/centres }
     title: The Helen Hamlyn Centre for Design
-    centre_image: true
-    centre_image_caption: Watch the course introduction
-    centre_description: 'The Helen Hamlyn Centre for Design at the Royal College of Art undertakes design research. Our team of dedicated researchers work on projects that save lives.'
-    centre_more_text: 'About the Helen Hamlyn centre'
-    centre_more_link: '#'
-    course_intro_video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
-    research_spaces:
-      - {
-          title: 'Healthcare',
-          link: '#',
-          meta: false,
-          person: false,
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          image: true,
-        }
-      - {
-          title: 'Age & Diversity',
-          link: '#',
-          meta: false,
-          person: false,
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          image: true,
-        }
-      - {
-          title: 'Healthcare',
-          link: '#',
-          meta: false,
-          person: false,
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          image: true,
-        }
+    introduction_image: true
+    video_caption: Watch the course introduction
+    introduction: 'The Helen Hamlyn Centre for Design at the Royal College of Art undertakes design research. Our team of dedicated researchers work on projects that save lives.'
+    video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
+    about_page_link_text: 'About the Helen Hamlyn Centre'
     research_highlights:
       - slide:
         meta: 'School of Design'
@@ -54,32 +28,6 @@ context:
         description: 'Creating world class experiences that started at the RCA'
         image: true
         link: '#'
-    opportunities:
-      - {
-          title: 'Custom executive education',
-          link: '#',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        }
-      - {
-          title: 'Knowledge exchange',
-          link: '#',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        }
-      - {
-          title: 'Collaborative research',
-          link: '#',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        }
-      - {
-          title: 'The Helen Hamlyn Research Associates',
-          link: '#',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        }
-      - {
-          title: 'Visiting lecturers',
-          link: '#',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        }
     programmes:
       - item:
         title: false
@@ -104,33 +52,6 @@ context:
             degree_level: Student programme
             programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
             img: http://placehold.it/300x270
-    centre_news:
-      title: More at the Helen Hamlyn Design Centre
-      slides:
-        - slide:
-          value:
-            meta: 'Awards'
-            title: 'Helen Hamlyn Awards'
-            summary: 'The Helen Hamlyn Design Awards is a competition that rewards creativity in people-centred design across all disciplines.'
-            link: '#'
-            person: false
-            image: True
-        - slide:
-          value:
-            meta: 'Awards'
-            title: 'Helen Hamlyn Awards'
-            summary: 'The Helen Hamlyn Design Awards is a competition that rewards creativity in people-centred design across all disciplines.'
-            link: '#'
-            person: false
-            image: True
-        - slide:
-          value:
-            meta: 'Awards'
-            title: 'Helen Hamlyn Awards'
-            summary: 'The Helen Hamlyn Design Awards is a competition that rewards creativity in people-centred design across all disciplines.'
-            link: '#'
-            person: false
-            image: True
     news_and_events:
       - item:
         meta: 'Event'
@@ -154,12 +75,16 @@ context:
         image: true
         person: false
     related_links:
-      - { text: 'Knowledge Exchange', href: '#' }
-      - { text: 'Custom Executive Education', href: '#' }
-      - { text: 'Innovation RCA', href: '#' }
+      - item:
+        value: { text: 'Knowledge Exchange', href: '#' }
+      - item:
+        value: { text: 'Custom Executive Education', href: '#' }
+      - item:
+        value: { text: 'Innovation RCA', href: '#' }
     staff_link: '/staff'
     contact_image: true
     relatedcontent: true
+    staff_title:
   related_staff:
     - {
         name: 'Beth Hughes',
@@ -175,7 +100,86 @@ context:
         link: '#',
         link_text: 'Read more',
       }
+  about_page: '#'
   programme_page_global_fields:
     contact_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
     contact_title: Contact Us
     related_content_title: More opportunities to study at the RCA
+  projects:
+    - {
+        title: 'Healthcare',
+        link: '#',
+        meta: false,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        image: true,
+      }
+    - {
+        title: 'Age & Diversity',
+        link: '#',
+        meta: false,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        image: true,
+      }
+    - {
+        title: 'Healthcare',
+        link: '#',
+        meta: false,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        image: true,
+      }
+  research_opportunities:
+    - {
+        title: 'Custom executive education',
+        link: '#',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      }
+    - {
+        title: 'Knowledge exchange',
+        link: '#',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      }
+    - {
+        title: 'Collaborative research',
+        link: '#',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      }
+    - {
+        title: 'The Helen Hamlyn Research Associates',
+        link: '#',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      }
+    - {
+        title: 'Visiting lecturers',
+        link: '#',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      }
+  research_news:
+    title: More at the Helen Hamlyn Design Centre
+    slides:
+      - slide:
+        value:
+          meta: 'Awards'
+          title: 'Helen Hamlyn Awards'
+          summary: 'The Helen Hamlyn Design Awards is a competition that rewards creativity in people-centred design across all disciplines.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Awards'
+          title: 'Helen Hamlyn Awards'
+          summary: 'The Helen Hamlyn Design Awards is a competition that rewards creativity in people-centred design across all disciplines.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Awards'
+          title: 'Helen Hamlyn Awards'
+          summary: 'The Helen Hamlyn Design Awards is a competition that rewards creativity in people-centred design across all disciplines.'
+          link: '#'
+          person: false
+          image: True

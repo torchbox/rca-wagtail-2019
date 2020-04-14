@@ -133,6 +133,7 @@ class RelatedStaffPageWithManualOptions(Orderable):
     )
     first_name = models.CharField(max_length=125)
     surname = models.CharField(max_length=125)
+    name = models.CharField(max_length=125)
     role = models.CharField(max_length=125, blank=True)
     description = models.TextField(blank=True)
     link = models.URLField(blank=True)
