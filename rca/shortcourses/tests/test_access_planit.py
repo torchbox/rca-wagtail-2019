@@ -143,7 +143,7 @@ class AccessPlanitXMLTest(TestCase):
     @mock.patch("rca.shortcourses.access_planit.requests.get")
     def test_cached_data_if_timeout(self, mock_get, mocked_fetch_data_from_xml):
         """ Test getting stale cache data with a Timeout failure to get data"""
-        # logging.disable(logging.CRITICAL)
+        logging.disable(logging.CRITICAL)
         ShortCoursePage.objects.create(
             title=f"Short course 1", path="1", depth="001", access_planit_course_id=1
         )
