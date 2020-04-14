@@ -339,7 +339,7 @@ class Migration(migrations.Migration):
             field=models.DateField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name="projectpage", name="video", field=models.URLField(blank=True),
+            model_name="projectpage", name="video", field=models.URLField(blank=True)
         ),
         migrations.AddField(
             model_name="projectpage",
@@ -431,7 +431,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={"ordering": ["sort_order"], "abstract": False},
         ),
         migrations.CreateModel(
             name="ProjectPageProjectLeadStaff",
@@ -483,6 +483,6 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={"ordering": ["sort_order"], "abstract": False},
         ),
     ]
