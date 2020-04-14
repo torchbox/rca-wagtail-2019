@@ -78,7 +78,7 @@ class AccessPlanitXML:
         # This might be better as a default on the model
         # but if there is no course ID passed we seem to get some default xml
         # data back, so set it as 0
-        self.course_id = course_id if course_id else "0"
+        self.course_id = course_id
         self.company_id = settings.ACCESS_PLANIT_SCHOOL_ID
         self.cache_key = f"short_course_{self.course_id}"
         self.timeout = 10
