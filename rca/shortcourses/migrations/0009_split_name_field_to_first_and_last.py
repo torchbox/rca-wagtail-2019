@@ -5,15 +5,11 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("shortcourses", "0008_shortcoursepage_hero_colour_option"),
-    ]
+    dependencies = [("shortcourses", "0008_shortcoursepage_hero_colour_option")]
 
     operations = [
         migrations.RenameField(
-            model_name="shortcourserelatedstaff",
-            old_name="name",
-            new_name="first_name",
+            model_name="shortcourserelatedstaff", old_name="name", new_name="first_name"
         ),
         migrations.AddField(
             model_name="shortcourserelatedstaff",
