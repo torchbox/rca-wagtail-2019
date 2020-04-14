@@ -130,7 +130,8 @@ class RelatedStaffPageWithManualOptions(Orderable):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    name = models.CharField(max_length=125)
+    first_name = models.CharField(max_length=125)
+    surname = models.CharField(max_length=125)
     role = models.CharField(max_length=125, blank=True)
     description = models.TextField(blank=True)
     link = models.URLField(blank=True)
@@ -144,7 +145,8 @@ class RelatedStaffPageWithManualOptions(Orderable):
 
     panels = [
         ImageChooserPanel("image"),
-        FieldPanel("name"),
+        FieldPanel("first_name"),
+        FieldPanel("surname"),
         FieldPanel("role"),
         FieldPanel("description"),
         FieldPanel("link"),
