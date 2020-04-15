@@ -8,19 +8,9 @@ from django.http.request import QueryDict
 from django.utils.dateparse import parse_datetime
 from requests.exceptions import Timeout
 
-
 """
 Provides functionality for fetching data from access planit xml feed
 """
-
-
-# TODO remove this, it's just for debugging
-def print_message(msg):
-    print("\n")
-    print("=" * len(msg))
-    print(f"{msg}")
-    print("=" * len(msg))
-    print("\n")
 
 
 logger = logging.getLogger(__name__)
