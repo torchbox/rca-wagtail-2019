@@ -198,6 +198,7 @@ class AccessPlanitXMLTest(TestCase):
             )
         call_command("fetch_access_planit_data")
         for i in range(5):
+            i = str(i)
             cache_key = f"short_course_{i}"
             self.assertEqual(cache.get(cache_key), self.expected_data)
 

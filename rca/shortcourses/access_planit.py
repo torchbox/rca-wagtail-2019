@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 
 
 class AccessPlanitException(Exception):
-    logger.exception(f"Error occurred fetching AccessPlanit XML data")
+    pass
 
 
 class AccessPlanitXMLParser:
