@@ -13,9 +13,6 @@ function scrollamaInit() {
         })
         .onStepEnter(() => {
             document.body.classList.add('sticky-bar');
-        })
-        .onStepExit(() => {
-            document.body.classList.remove('sticky-bar');
         });
 
     // setup resize event

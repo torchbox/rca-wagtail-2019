@@ -100,6 +100,10 @@ context:
     contact_image: true
     relatedcontent: true
     show_register_link: True
+    external_links:
+      - { text: 'Knowledge Exchange', href: '#' }
+      - { text: 'Custom Executive Education', href: '#' }
+      - { text: 'Innovation RCA', href: '#' }
   related_staff:
     - {
         name: 'Beth Hughes',
@@ -135,10 +139,6 @@ context:
     contact_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
     contact_title: Contact Us
     related_content_title: More opportunities to study at the RCA
-  related_links:
-    - { text: 'Knowledge Exchange', href: '#' }
-    - { text: 'Custom Executive Education', href: '#' }
-    - { text: 'Innovation RCA', href: '#' }
   booking_bar:
     message: 'Next course starts Thursday 19 March 2020'
     action: 'Book now for £900'
