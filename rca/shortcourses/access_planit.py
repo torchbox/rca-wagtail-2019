@@ -120,6 +120,8 @@ class AccessPlanitXML:
         try:
             data = self.fetch_data_from_xml()
         except AccessPlanitException:
+            # If trying to fetch data raises AccessPlanitException, pass it
+            # return what's currently in the cache
             pass
         else:
             cache.set(self.cache_key, data, settings.ACCESS_PLANIT_XML_FEED_TIMEOUT)
