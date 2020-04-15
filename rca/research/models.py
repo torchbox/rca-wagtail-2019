@@ -204,7 +204,7 @@ class ResearchCentrePage(BasePage):
             child_projects.append(
                 {
                     "title": page.title,
-                    "link": "https://google.com",
+                    "link": page.url,
                     "image": page.listing_image,
                     "description": page.listing_summary,
                 }
