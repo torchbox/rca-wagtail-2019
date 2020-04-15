@@ -80,7 +80,7 @@ class LinkBlock(blocks.StructBlock):
 
     class Meta:
         icon = "link"
-        template = "patterns/molecules/streamfield/blocks/quote_block.html"
+        template = "patterns/molecules/streamfield/blocks/link_block.html"
 
 
 class GalleryBlock(blocks.StructBlock):

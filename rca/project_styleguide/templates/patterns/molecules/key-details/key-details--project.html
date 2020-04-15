@@ -7,17 +7,40 @@
             <ul class="key-details__list">
                 {% for item in page.key_details_tags %}
                     <li class="key-details__list-item">
-                        {{ item.tag }} 
+                        {{ item.tag }}
                     </li>
                 {% endfor %}
             </ul>
         </div>
     {% endif %}
-    {% if page.key_details_expertise %}
+    {% if page.start_date %}
+        <div class="key-details__section key-details__section--tags">
+            <ul class="key-details__list">
+                <li class="key-details__list-item">
+                {% if page.end_date %}
+                    {{ page.start_date|date:'Y' }} - {{ page.end_date|date:'Y' }}
+                {% else %}
+                    {{ page.start_date|date:'Y' }}
+                {% endif %}
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+    {% if page.funding %}
+        <div class="key-details__section key-details__section--tags">
+        <h4 class="body body--two key-details__sub-heading">Funding</h4>
+            <ul class="key-details__list">
+                <li class="key-details__list-item">
+                    {{ page.funding }}
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+    {% if subjects %}
         <div class="key-details__section key-details__section--tags">
             <h4 class="body body--two key-details__sub-heading">RCA expertise</h4>
             <ul class="key-details__list">
-                {% for item in page.key_details_expertise %}
+                {% for item in subjects %}
                     <li class="key-details__list-item">
                         <a class="link link--tertiary" href="{{ item.link }}">
                             {{ item.title }}
@@ -27,10 +50,10 @@
             </ul>
         </div>
     {% endif %}
-    {% if page.key_details_download %}
+    {% if page.specification_document %}
         <div class="key-details__section key-details__section--action">
-            <a class="key-details__link link link--secondary link--download" href="{{ page.page.key_details_download }}">
-                <span class="link__label">Download the full {% if page.key_details_download_course %}{{ page.key_details_download_course }} {% endif %}programme specification</span>
+            <a class="key-details__link link link--secondary link--download" href="{{ page.specification_document }}">
+                <span class="link__label">Download the full {% if page.specification_document %}{{ page.specification_document }} {% endif %}programme specification</span>
                 <svg width="8" height="12" class="link__icon" aria-hidden="true"><use xlink:href="#download"></use></svg>
             </a>
         </div>

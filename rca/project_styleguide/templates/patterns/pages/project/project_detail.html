@@ -16,7 +16,7 @@
 
     <div class="page page--overlap" >
 
-        <div class="page__notch grid"> 
+        <div class="page__notch grid">
             <div class="page__notch-block bg bg--dark"></div>
         </div>
 
@@ -41,20 +41,20 @@
                     <div class="section__content grid">
                         <div class="project-overview__content layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                             <div class="project-overview__body">
-                                {% if page.project_description %}
+                                {% if page.introduction %}
                                     <h2 class="research-centre-overview__heading section__heading heading heading--five">
-                                        {{ page.project_description }}
+                                        {{ page.introduction }}
                                     </h2>
                                 {% endif %}
                             </div>
                             <div class="project-overview__media">
-                                {% if page.project_image and page.project_video %}
-                                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.project_video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.centre_image caption=page.project_image_caption %}
+                                {% if page.introduction_image %}
+                                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.introduction_image caption=page.video_caption video=page.video %}
                                 {% endif %}
                             </div>
                             <div class="project-overview__streamfield">
                                 <div class="streamfield rich-text ">
-                                    {% for block in page.streamfield %}
+                                    {% for block in page.body %}
                                         {% include_block block %}
                                     {% endfor %}
                                 </div>
@@ -66,7 +66,7 @@
                     </div>
                 </div>
 
-                
+
 
                 <div class="section__notch">
                     <div class="section__notch-fill section__notch-fill--first-col"></div>
@@ -98,11 +98,11 @@
                 </section>
             {% endif %}
 
-            {% if page.more_info %}
+            {% if page.more_information %}
                 <section class="bg bg--dark">
 
                     <div class="section__row section__row--first section__row--last">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_info title="More info" course_type="short" %}
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title="More info" course_type="short" %}
                     </div>
 
                     <div class="section__notch">
@@ -112,18 +112,18 @@
                 </section>
             {% endif %}
 
-           
+
             <section class="section section--opposite-notch bg bg--light">
-                
-                {% if page.project_lead %}
+
+                {% if project_lead %}
                     <div class="section__row section__row--first section__row--last">
-                        {% include "patterns/organisms/people-module/people-module.html" with title="Project lead" people=page.project_lead %}
+                        {% include "patterns/organisms/people-module/people-module.html" with title="Project lead" people=project_lead %}
                     </div>
                 {% endif %}
 
-                {% if page.project_team %}
+                {% if related_staff %}
                     <div class="section__row">
-                        {% include "patterns/organisms/student-listing/student-listing.html" with title="Project team" student_listing=page.project_team %}
+                        {% include "patterns/organisms/student-listing/student-listing.html" with title="Project team" student_listing=related_staff %}
                     </div>
                 {% endif %}
 
@@ -145,18 +145,18 @@
 
             </section>
 
-            {% if page.testimonial.slides or page.contact %}
+            {% if page.quote_carousel or page.contact_text or page.contact_email or page.contact_url %}
                 <section class="section section--top-space section--opposite-notch bg bg--dark">
 
-                    {% if page.testimonial.slides %}
+                    {% if page.quote_carousel %}
                         <div class="section__row section__row--first {% if page.contact %}section__row--last{% endif %}">
-                            {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.testimonial.slides modifier='carousel--square carousel--quotes' datatag='data-square-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.quote_carousel modifier='carousel--square carousel--quotes' datatag='data-square-carousel' %}
                         </div>
                     {% endif %}
 
-                    {% if page.contact %}
+                    {% if page.contact_text or page.contact_email or page.contact_url %}
                         <div class="section__row section__row--first">
-                            {% include "patterns/organisms/contact/contact.html" with heading="Contact us" text="Get in touch if you’d like to find out more or have any questions about working with the RCA." image=page.contact_image %}
+                            {% include "patterns/organisms/contact/contact.html" with heading="Contact us" text=page.contact_text image=page.contact_image %}
                         </div>
                     {% endif %}
 
@@ -178,12 +178,12 @@
                             </h2>
                         </div>
                         <div class="section__content grid">
-                            {% include "patterns/organisms/carousel/carousel.html" with carousel=page.related_projects modifier='carousel carousel--no-margin' datatag='data-carousel' %}     
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=page.related_projects modifier='carousel carousel--no-margin' datatag='data-carousel' %}
                             <div class="section__action">
                                 <a class="link link--secondary link--link body body--two" href="/research">
                                     <span class="link__label">See all research</span>
                                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                                </a>    
+                                </a>
                             </div>
                         </div>
                     </div>
