@@ -1,0 +1,4 @@
+tags:
+  include_block:
+    block:
+      template_name: 'patterns/_pattern_library_only/streamfield/project_streamfield--quote.html'

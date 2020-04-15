@@ -113,4 +113,12 @@
             }
         }
     }
+
+    .app--guide & {
+        #{$root}__header {
+            @include media-query(large) {
+                padding-top: ($gutter * 10);
+            }
+        }
+    }
 }

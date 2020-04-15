@@ -180,6 +180,10 @@
         }
 
         &:nth-of-type(4) {
+            @include media-query(medium) {
+                grid-column: 1 / span 1;
+            }
+
             @include media-query(large) {
                 grid-column: 2 / span 2;
             }
@@ -188,7 +192,7 @@
         &:nth-of-type(n + 5) {
             grid-column: 1 / span 2;
 
-            @include media-query(large) {
+            @include media-query(medium) {
                 grid-column: auto / span 1;
             }
         }

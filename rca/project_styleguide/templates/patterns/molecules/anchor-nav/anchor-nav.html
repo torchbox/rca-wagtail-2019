@@ -1,0 +1,10 @@
+  <div class="anchor-nav">
+    <h2 class="anchor-nav__heading">On this page</h2>
+    <nav class="anchor-nav__nav-container">
+      <ul class="anchor-nav__items">
+        {% for item in anchor_nav %}
+          <li class="anchor-nav-item body body--two"><a class="anchor-nav-item__link" href="{{ item.link }}">{{ item.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
