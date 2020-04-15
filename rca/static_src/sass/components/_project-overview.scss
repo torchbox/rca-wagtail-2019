@@ -15,6 +15,14 @@
         }
     }
 
+    &__media {
+        margin-bottom: ($gutter * 2);
+
+        @include media-query(large) {
+            margin-bottom: ($gutter * 6);
+        }
+    }
+
     &__streamfield {
         @include media-query(large) {
             padding-left: 33.333%;
