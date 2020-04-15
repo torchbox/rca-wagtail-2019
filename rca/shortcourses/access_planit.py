@@ -40,7 +40,7 @@ class AccessPlanitXMLParser:
 
     def get_parsed_data(self):
         """ Parses the given xml to a list
-            return: list of dicts, or an empty list
+            return: list or None
         """
         bs_content = bs(self.xml, "lxml")
         course_dates = bs_content.find("dates").find_all("wicoursedate")
