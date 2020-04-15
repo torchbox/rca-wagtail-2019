@@ -114,8 +114,7 @@ class AccessPlanitXML:
             )
             raise AccessPlanitException
         else:
-            xml = self.parse_data(response.text)
-        return xml
+            return self.parse_data(response.text)
 
     def set_data_in_cache(self):
         try:
