@@ -15,6 +15,7 @@ class InformationPageRelatedPage(RelatedPage):
 
 
 class InformationPage(BasePage):
+    is_creatable = False
     template = "patterns/pages/standardpages/information_page.html"
 
     introduction = models.TextField(blank=True)
@@ -33,6 +34,7 @@ class InformationPage(BasePage):
 
 
 class IndexPage(BasePage):
+    is_creatable = False
     template = "patterns/pages/standardpages/index_page.html"
 
     introduction = models.TextField(blank=True)
