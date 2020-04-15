@@ -117,6 +117,9 @@ class AccessPlanitXML:
             return self.parse_data(response.text)
 
     def set_data_in_cache(self):
+        """ Method to try getting data from the XML feed
+        and setting it in the cache.
+        """
         try:
             data = self.fetch_data_from_xml()
         except AccessPlanitException:
