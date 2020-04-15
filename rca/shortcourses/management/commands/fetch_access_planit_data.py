@@ -16,4 +16,4 @@ class Command(BaseCommand):
         logger.info(f"Fetching AccessPlanit data for Short Coures pages")
         for course in short_courses:
             ap_data = AccessPlanitXML(course_id=course.access_planit_course_id)
-            ap_data.set_data_in_cache()
+            ap_data.get_and_set_data_in_cache()

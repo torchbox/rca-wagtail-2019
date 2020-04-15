@@ -116,7 +116,7 @@ class AccessPlanitXML:
         else:
             return self.parse_data(response.text)
 
-    def set_data_in_cache(self):
+    def get_and_set_data_in_cache(self):
         """ Method to try getting data from the XML feed
         and setting it in the cache.
         """
@@ -136,5 +136,5 @@ class AccessPlanitXML:
         Cache is periodically populated by the management command via cron"""
         short_course_data = cache.get(self.cache_key)
         if short_course_data is None:
-            short_course_data = self.set_data_in_cache()
+            short_course_data = self.get_and_set_data_in_cache()
         return short_course_data
