@@ -5,7 +5,92 @@ context:
       - { label: 'Research highlights', link: /research/highlights }
     title: Our Research
     introduction: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ultrices tincidunt quam ac convallis.
-    project_image: true
-    project_image_caption: Watch the course introduction
-    project_description: A collaboration between two world-leading institutions, bringing together science and design to find solutions to global challenges
-    project_video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
+    feature:
+      sub_heading: Electronic Skin Nanopatches for Continuous Blood Pressure Monitoring
+      page_summary: Generating new technologies, knowledge and understanding, critical for moving invention in wearable technology forward.
+      page_link_url: '#'
+    results:
+      - {
+          school: 'School of Arts & Humanities',
+          title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'The Helen Hamlyn Centre for Design',
+          title: 'Marked (Working Title)',
+          year: '2019 - 2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Design',
+          title: 'Design for Safety – Protecting Lives from the Start',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Arts & Humanities',
+          title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Arts & Humanities',
+          title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Arts & Humanities',
+          title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Arts & Humanities',
+          title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'The Helen Hamlyn Centre for Design',
+          title: 'Marked (Working Title)',
+          year: '2019 - 2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Design',
+          title: 'Design for Safety – Protecting Lives from the Start',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Arts & Humanities',
+          title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Arts & Humanities',
+          title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Arts & Humanities',
+          title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
