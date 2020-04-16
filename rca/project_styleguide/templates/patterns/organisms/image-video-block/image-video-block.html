@@ -2,8 +2,10 @@
 <div class="image-video-block {% if modifier %}image-video-block--{{ modifier }}{% endif %}">
     {% if heading or has_meta or curriculum %}
         <div class="section__row grid">
-            <h2 class="image-video-block__heading heading {% if curriculum %}heading--two{% else %}heading--one{% endif %}">{% if curriculum %}Curriculum{% else %}{{ heading }}{% endif %}</h2>
-            {% if has_meta %}<h3 class="image-video-block__subheading heading heading--four image-video-block__subheading--mobile">{{ subheading }}</h3>{% endif %}
+            {% if heading %}
+                <h2 class="image-video-block__heading heading {% if curriculum %}heading--two{% else %}heading--one{% endif %}">{% if curriculum %}Curriculum{% else %}{{ heading }}{% endif %}</h2>
+            {% endif %}
+            {% if has_meta and subheading %}<h3 class="image-video-block__subheading heading heading--four image-video-block__subheading--mobile">{{ subheading }}</h3>{% endif %}
         </div>
     {% endif %}
     {% if not out_of_grid %}
@@ -18,8 +20,12 @@
             <h3 class="image-video-block__subheading heading heading--four {% if has_meta %}image-video-block__subheading--tablet{% endif %}">{{ subheading }}</h3>
             {% if has_meta %}
                 <div class="image-video-block__meta">
-                    <p class="image-video-block__copy image-video-block__copy--meta-heading body body--one">{{ meta_heading }}</p>
-                    <p class="image-video-block__copy image-video-block__copy--meta-copy body body--one">{{ meta_copy }}</p>
+                    {% if meta_heading %}
+                        <p class="image-video-block__copy image-video-block__copy--meta-heading body body--one">{{ meta_heading }}</p>
+                    {% endif %}
+                    {% if meta_copy %}
+                        <p class="image-video-block__copy image-video-block__copy--meta-copy body body--one">{{ meta_copy }}</p>
+                    {% endif %}
                     {% if href %}
                         <a href="{{ href }}" class="body body--two link link--tertiary link--link">
                             <span class="link__label">Read more</span>
