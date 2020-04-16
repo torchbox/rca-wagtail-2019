@@ -1,0 +1,16 @@
+<nav class="categories-tablist bg bg--light" aria-label="Filter programmes">
+    <h2 class="body body--two categories-tablist__heading">{{ value.title }}</h2>
+    <div role="tablist">
+        {% for item in value.items %}
+            <a id="{{ forloop.counter }}-tab" href="{{ item.href }}" class="categories-tablist__tab body body--one" role="tab" aria-selected="false" aria-controls="{{ item.title }}">
+                {{ item.title }}
+            </a>
+        {% endfor %}
+        <a class="categories-tablist__tab categories-tablist__tab--reset" href="#">
+            <svg class="logo__image" width="14" height="14">
+                <use xlink:href="#reset" /> 
+            </svg>
+            Reset
+        </a>
+    </div>
+</nav>

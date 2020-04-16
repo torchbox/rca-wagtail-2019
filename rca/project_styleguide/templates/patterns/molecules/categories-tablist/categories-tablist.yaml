@@ -1,0 +1,8 @@
+context:
+  value:
+    title: Explore by
+    items:
+      - { title: School or Centre, href: '#' }
+      - { title: Research type, href: '#' }
+      - { title: Subject, href: '#' }
+      - { title: Theme, href: '#' }
