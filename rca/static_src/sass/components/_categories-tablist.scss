@@ -1,5 +1,4 @@
 .categories-tablist {
-    @include z-index(above-gridlines);
     position: relative;
     padding: $gutter;
     padding-bottom: $gutter * 0.5;
@@ -10,9 +9,15 @@
         padding-bottom: $gutter;
     }
 
+    &--large {
+        padding-left: ($gutter * 2);
+        padding-top: ($gutter * 1.5);
+    }
+
     &--above-grid {
         @include z-index(above-gridlines);
     }
+
     &__heading {
         color: $color--dark-grey;
         margin-bottom: $gutter * 0.5;
@@ -29,6 +34,30 @@
         outline-width: initial;
         transition: color $transition;
 
+        &--reset {
+            display: inline-flex;
+            align-items: center;
+            color: $color--black;
+        }
+
+        &--selected {
+            color: $color--black;
+            @include underline-hover-target();
+
+            &::before {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 0;
+                right: -($gutter / 4);
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                overflow: hidden;
+                background-color: $color--black;
+            }
+        }
+
         &:not(:last-child) {
             margin-right: $gutter;
 
@@ -44,5 +73,9 @@
             position: relative;
             color: $color--black;
         }
+    }
+
+    &__reset-icon {
+        margin-right: ($gutter / 4);
     }
 }
