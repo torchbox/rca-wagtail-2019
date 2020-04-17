@@ -10,6 +10,9 @@
         padding-bottom: $gutter;
     }
 
+    &--above-grid {
+        @include z-index(above-gridlines);
+    }
     &__heading {
         color: $color--dark-grey;
         margin-bottom: $gutter * 0.5;
