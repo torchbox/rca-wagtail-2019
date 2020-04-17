@@ -29,6 +29,7 @@
 
     &__tab {
         @include underline-hover-target();
+        position: relative;
         color: $color--dark-grey;
         font-family: $font--primary;
         outline-width: initial;
@@ -41,8 +42,9 @@
         }
 
         &--selected {
-            color: $color--black;
             @include underline-hover-target();
+            color: $color--black;
+            font-family: $font--secondary;
 
             &::before {
                 content: '';
