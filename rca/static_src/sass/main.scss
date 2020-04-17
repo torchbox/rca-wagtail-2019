@@ -32,6 +32,9 @@
 @import 'components/cookie-message';
 @import 'components/card';
 @import 'components/carousel';
+@import 'components/categories-panels';
+@import 'components/categories-tablist';
+@import 'components/category-item';
 @import 'components/contact';
 @import 'components/contact-anchor';
 @import 'components/image-video-block';
@@ -72,6 +75,9 @@
 @import 'components/profile-image';
 @import 'components/profile-teaser';
 @import 'components/programme-overview';
+@import 'components/programme-results';
+@import 'components/programme-teaser';
+@import 'components/programmes-explorer';
 @import 'components/project-overview';
 @import 'components/proposition-statement';
 @import 'components/related-content';
@@ -79,6 +85,7 @@
 @import 'components/research-centre-overview';
 @import 'components/responsive-object';
 @import 'components/results';
+@import 'components/results-total';
 @import 'components/rich-text';
 @import 'components/scroll';
 @import 'components/search';
@@ -104,13 +111,6 @@
 @import 'components/quote';
 @import 'components/upcoming-dates';
 @import 'components/video-modal';
-
-@import '../javascript/programmes/components/ProgrammesResults/ProgrammesResults';
-@import '../javascript/programmes/components/ProgrammesResults/ProgrammeTeaser';
-@import '../javascript/programmes/components/ProgrammesCategories/CategoriesTablist';
-@import '../javascript/programmes/components/ProgrammesCategories/CategoriesPanels';
-@import '../javascript/programmes/components/ProgrammesCategories/CategoryItem';
-@import '../javascript/programmes/components/ProgrammesExplorer';
 
 // Layout
 @import 'layout/footer';
