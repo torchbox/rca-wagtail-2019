@@ -47,6 +47,11 @@
             #{$root}__heading {
                 min-height: 0;
                 min-width: 0;
+                padding-right: 50%;
+
+                @include media-query(large) {
+                    padding-right: 0;
+                }
             }
 
             #{$root}__introduction {
