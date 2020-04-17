@@ -33,6 +33,30 @@
                 grid-column: 2 / span 2;
             }
         }
+
+        &--three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            @include media-query(large) {
+                grid-template-columns: 1fr 1fr 1fr;
+                margin-bottom: ($gutter * 3);
+            }
+
+            // Stop heading messing up grid if it overlaps column
+            #{$root}__heading {
+                min-height: 0;
+                min-width: 0;
+            }
+
+            #{$root}__introduction {
+                @include media-query(large) {
+                    display: flex;
+                    align-items: flex-end;
+                    margin-bottom: ($gutter * 1.25);
+                }
+            }
+        }
     }
 
     &__image {
