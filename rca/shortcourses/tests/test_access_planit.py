@@ -27,10 +27,6 @@ def mocked_fetch_data_from_xml(**kargs):
     return data
 
 
-def mocked_fetch_data_from_xml_as_none(**kargs):
-    return None
-
-
 class AccessPlanitXMLTest(TestCase):
     def setUp(self):
         ProgrammeType.objects.create(
@@ -106,19 +102,29 @@ class AccessPlanitXMLTest(TestCase):
 
     def test_xml_fetch(self):
         """ Test the XML fetch responds. """
-        response = requests.get(
-            settings.ACCESS_PLANIT_XML_BASE_URL + self.query, timeout=5
-        )
-        self.assertEqual(response.status_code, 200)
+        with self.settings(
+            ACCESS_PLANIT_XML_BASE_URL="https://rca.accessplanit.com/accessplansandbox/services/WebIntegration.asmx/"
+            "GetCoursesPackage?"
+        ):
+            response = requests.get(
+                settings.ACCESS_PLANIT_XML_BASE_URL + self.query, timeout=5
+            )
+            self.assertEqual(response.status_code, 200)
 
     def test_xml_fetch_no_venue(self):
         """ Prove that you must pass blank values as parameters"""
-        query = QueryDict(mutable=True)
-        query.update({"CompanyID": "ROYALC9RCH", "courseIDs": 1})
-        query = query.urlencode()
-        response = requests.get(settings.ACCESS_PLANIT_XML_BASE_URL + query, timeout=5)
-        self.assertEqual(response.text, """Missing parameter: venueIDs.\r\n""")
-        self.assertEqual(response.status_code, 500)
+        with self.settings(
+            ACCESS_PLANIT_XML_BASE_URL="https://rca.accessplanit.com/accessplansandbox/services/WebIntegration.asmx/"
+            "GetCoursesPackage?"
+        ):
+            query = QueryDict(mutable=True)
+            query.update({"CompanyID": "ROYALC9RCH", "courseIDs": 1})
+            query = query.urlencode()
+            response = requests.get(
+                settings.ACCESS_PLANIT_XML_BASE_URL + query, timeout=5
+            )
+            self.assertEqual(response.text, """Missing parameter: venueIDs.\r\n""")
+            self.assertEqual(response.status_code, 500)
 
     """ Patch the request module totally to force the timeout so we can test the
         result of the try/expect.
@@ -142,7 +148,7 @@ class AccessPlanitXMLTest(TestCase):
     @mock.patch("rca.shortcourses.access_planit.requests.get")
     def test_cached_data_if_timeout(self, mock_get, mocked_fetch_data_from_xml):
         """ Test getting stale cache data with a Timeout failure to get data"""
-        # logging.disable(logging.CRITICAL)
+        logging.disable(logging.CRITICAL)
         ShortCoursePage.objects.create(
             title=f"Short course 1",
             path="1",
@@ -165,9 +171,10 @@ class AccessPlanitXMLTest(TestCase):
         self.assertEqual(cache.get(cache_key), self.expected_data)
 
     def test_required_course_id(self):
-        """ The course id is a required field, however if this is changed we want some tests to fail,
-        as it will have unwanted effects, the validation on the model should be able to cast the
-        course value to an integer"""
+        """ The access_planit_course_id is a required field, however if access_planit_course_id
+        is made non-required we want some tests to fail, as it will have unwanted effects,
+        the validation on the model should be able to cast the course value to an integer"""
+
         with self.assertRaises(TypeError):
             ShortCoursePage.objects.create(
                 title=f"Short course should not save",
@@ -230,10 +237,9 @@ class AccessPlanitXMLTest(TestCase):
                 contact_text="Read more",
                 hero_colour_option=1,
             )
-        args = []
-        opts = {}
-        call_command("fetch_access_planit_data", *args, **opts)
+        call_command("fetch_access_planit_data")
         for i in range(5):
+            i = str(i)
             cache_key = f"short_course_{i}"
             self.assertEqual(cache.get(cache_key), self.expected_data)
 
@@ -259,9 +265,7 @@ class AccessPlanitXMLTest(TestCase):
             response, "patterns/pages/shortcourses/short_course.html"
         )
         self.assertContains(response, "Short course title")
-        self.assertEqual(
-            response.render().status_code, 200
-        )  # will render 404 if there is an failure
+        self.assertEqual(response.render().status_code, 200)
 
     @mock.patch(
         "rca.shortcourses.access_planit.AccessPlanitXML.fetch_data_from_xml",
@@ -287,9 +291,7 @@ class AccessPlanitXMLTest(TestCase):
             response, "patterns/pages/shortcourses/short_course.html"
         )
         self.assertContains(response, "Short course title")
-        self.assertEqual(
-            response.render().status_code, 200
-        )  # will render 404 if there is an failure
+        self.assertEqual(response.render().status_code, 200)
         self.assertEqual(cache.get("short_course_1"), self.expected_data)
 
     def test_parsing(self):

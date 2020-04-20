@@ -89,7 +89,7 @@ class ShortCoursePage(BasePage):
         verbose_name=_("About the course"),
     )
 
-    access_planit_course_id = models.CharField(max_length=10)
+    access_planit_course_id = models.IntegerField()
     frequently_asked_questions = models.ForeignKey(
         "utils.ShortCourseDetailSnippet",
         null=True,
