@@ -121,6 +121,10 @@ $site-width: 1440px;
 // Offsets
 $image-offset-right: -($gutter * 3);
 
+// Magic number
+// Header when headroom is active
+$mini-header-height: 80px;
+
 // --------------------------------- Transitions --------------------------------------
 
 $transition: 0.25s ease-out;
