@@ -1,4 +1,5 @@
 #!/bin/sh
+
 set -xe
 
 PROJECT_NAME=$1

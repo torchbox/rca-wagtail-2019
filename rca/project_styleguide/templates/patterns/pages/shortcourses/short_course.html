@@ -36,8 +36,8 @@
             </div>
         </header>
 
-        {% if page.booking_bar %}
-            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=page.booking_bar modal='booking-details' %}
+        {% if booking_bar %}
+            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=booking_bar modal=booking_bar.modal %}
         {% endif %}
 
         <div class="page__content js-sticky-point">
@@ -56,7 +56,7 @@
                         </div>
                         <div class="programme-overview__body">
                             {% if page.introduction_image %}
-                                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.introduction_image caption=page.video_caption %}
+                                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.introduction_image caption=page.video_caption video=page.video %}
                             {% endif %}
                             <div class="programme-overview__description rich-text">
                                 {{ page.body|safe }}
@@ -79,9 +79,9 @@
 
             <section class="section bg bg--light">
 
-                {% if partnerships_block.slides %}
+                {% if page.quote_carousel %}
                     <div class="section__row section__row--first">
-                        {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=partnerships_block.slides modifier='carousel--square carousel--quotes' datatag='data-square-carousel' %}
+                        {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.quote_carousel modifier='carousel--square carousel--quotes' datatag='data-square-carousel' %}
                     </div>
                 {% endif %}
 
@@ -93,7 +93,7 @@
 
             </section>
 
-            {% if page.shortcourse_gallery %}
+            {% if page.gallery %}
                 <section class="section bg bg--dark">
 
                     <div class="section__notch">
@@ -107,7 +107,7 @@
                             </h3>
                         </header>
                         <div class="section__content">
-                            {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.shortcourse_gallery modifier='slideshow--author-info' %}
+                            {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.gallery modifier='slideshow--author-info' %}
                         </div>
                     </div>
 
@@ -118,13 +118,13 @@
                 <section class="section section--top-space bg bg--light">
                     <div class="contact-anchor" id="contact"></div>
                     <div class="section__container">
-                        {% include "patterns/organisms/contact/contact.html" with heading=programme_page_global_fields.contact_title text=programme_page_global_fields.contact_text image=page.contact_image %}
+                        {% include "patterns/organisms/contact/contact.html" with heading="Contact us" text=page.contact_text image=page.contact_image %}
                     </div>
                 </section>
             {% endif %}
 
 
-            {% if page.relatedcontent %}
+            {% if page.related_programmes %}
                 <section class="section bg bg--dark">
                     <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--third-col"></div>
@@ -144,9 +144,7 @@
                 </section>
             {% endif %}
 
-        </div>
-
-        {% if page.booking_bar %}
+            {% if booking_bar %}
             <div class="page__modals">
                 <div class="modal" id="booking-details" aria-hidden="true">
                     <div class="modal__overlay bg bg--light" tabindex="-1">
@@ -167,7 +165,6 @@
             </div>
         {% endif %}
 
-
-
+        </div>
     </div>
 {% endblock %}

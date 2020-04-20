@@ -10,6 +10,21 @@
         border-top: 1px solid $color--grid-line-light;
     }
 
+    &--no-modal {
+        #{$root}__message {
+            @include media-query(large) {
+                grid-column: 2 / span 1;
+            }
+        }
+
+        #{$root}__action {
+            @include media-query(large) {
+                grid-column: 3 / span 2;
+                justify-content: flex-end;
+            }
+        }
+    }
+
     &__container {
         align-items: center;
     }
