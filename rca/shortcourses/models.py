@@ -1,4 +1,3 @@
-from django.conf import settings
 from collections import defaultdict
 
 from django.conf import settings
@@ -19,10 +18,6 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
-
-from rca.shortcourses.access_planit import AccessPlanitXML
-from rca.utils.blocks import AccordionBlockWithTitle
-from rca.utils.models import BasePage
 
 from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_TEXT_ON_DARK_IMAGE
 from rca.programmes.models import ProgrammeType
@@ -60,7 +55,6 @@ class ShortCoursePageRelatedProgramme(RelatedPage):
             "page", ["programmes.ProgrammePage", "shortcourses.ShortCoursePage"]
         )
     ]
->>>>>>> Bilds out the remaining fields and models for shortcourses
 
 
 class ShortCoursePage(BasePage):
@@ -252,20 +246,6 @@ class ShortCoursePage(BasePage):
                     booking_bar["modal"] = "booking-details"
                     break
         return booking_bar
-
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
-        access_planit_data = self.get_access_planit_data()
-        if settings.ACCESS_PLANIT_REGISTER_INTEREST_BASE:
-            register_interest_link = (
-                f"{settings.ACCESS_PLANIT_REGISTER_INTEREST_BASE}"
-                f"?course_id={self.access_planit_course_id}"
-            )
-            context["register_interest_link"] = register_interest_link
-            context["booking_bar"] = self._format_booking_bar(
-                register_interest_link, access_planit_data
-            )
-            context["access_planit_data"] = access_planit_data
 
     def clean(self):
         errors = defaultdict(list)
