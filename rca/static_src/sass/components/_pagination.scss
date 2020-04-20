@@ -1,0 +1,123 @@
+.pagination {
+    $root: &;
+    // Space either side of pagination items
+    $spacing: ($gutter / 2);
+
+    &__container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    &__item {
+        position: relative;
+
+        &--current {
+            @include underline-hover-target();
+            @include underline-hover-target-reset();
+            margin-right: $spacing;
+            margin-left: $spacing;
+        }
+    }
+
+    &__ellipsis {
+        margin-right: $spacing;
+        margin-left: $spacing;
+    }
+
+    &__link {
+        display: block;
+        font-family: $font--primary;
+        transition: color $cubic-transition;
+        padding-left: $spacing;
+        padding-right: $spacing;
+    }
+
+    &__button {
+        &--prev {
+            margin-right: calc(#{$spacing} * 2);
+        }
+
+        &--next {
+            margin-left: calc(#{$spacing} * 2);
+        }
+    }
+
+    &__button-label {
+        @include hidden();
+    }
+
+    /** Colours dependant on bg colour */
+
+    .bg--light & {
+        &__item {
+            &--current {
+                color: $color--black;
+            }
+        }
+
+        &__ellipsis {
+            color: $color--meta-lightbg;
+        }
+
+        &__button-icon {
+            stroke: $color--meta-lightbg;
+        }
+
+        &__button-link {
+            &:hover,
+            &:focus,
+            &:active {
+                #{$root}__button-icon {
+                    stroke: $color--black;
+                }
+            }
+        }
+
+        &__link {
+            color: $color--meta-lightbg;
+
+            &:hover,
+            &:focus,
+            &:active {
+                color: $color--black;
+            }
+        }
+    }
+
+    .bg--dark & {
+        &__item {
+            &--current {
+                color: $color--white;
+            }
+        }
+
+        &__ellipsis {
+            color: $color--meta-darkbg;
+        }
+
+        &__button-icon {
+            stroke: $color--meta-darkbg;
+        }
+
+        &__button-link {
+            &:hover,
+            &:focus,
+            &:active {
+                #{$root}__button-icon {
+                    stroke: $color--white;
+                }
+            }
+        }
+
+        &__link {
+            color: $color--meta-darkbg;
+
+            &:hover,
+            &:focus,
+            &:active {
+                color: $color--white;
+            }
+        }
+    }
+}

@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body_class %}
-    app--project-detail
+    app--project-listing
 {% endblock %}
 
 {% block content %}
@@ -32,9 +32,9 @@
             </div>
         </header>
 
-        <div class="page__content">
+        <div class="page__content js-sticky-point js-sticky-point--top">
 
-            <section class="section section--opposite-notch">
+            <section class="section section--opposite-notch sticky-filter-bar">
 
                 <div class="section__row bg bg--dark filter-bar filter-bar--large">
                     <div class="section__notch section__notch--opposite">
@@ -70,7 +70,7 @@
                     </div>
                 {% endif %}
 
-                <div class="section__row section__row--last grid">
+                <div class="section__row section__row--last-small grid">
                     <div class="results layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                         {% for item in page.results %}
                             <div class="results__item layout__span-two layout__@medium-span-one">
@@ -80,8 +80,10 @@
                     </div>
                 </div>
 
-                <div class="section__row">
-                    {% include "patterns/molecules/pagination/pagination.html" %}
+                <div class="section__row section__row--last grid">
+                    <div class="layout__span-two layout__@large-span-one layout__start-one layout__@large-start-three">
+                        {% include "patterns/molecules/pagination/pagination.html" %}
+                    </div>
                 </div>
 
             </section>

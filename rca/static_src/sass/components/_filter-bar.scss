@@ -2,7 +2,6 @@
     $root: &;
 
     &--small {
-        @include z-index(above-gridlines);
         position: relative;
         border-width: 0 0 1px;
         border-style: solid;
@@ -62,5 +61,26 @@
                 color: $color--black;
             }
         }
+    }
+
+    .sticky-bar & {
+        background-color: $color--black;
+
+        #{$root}__link {
+            color: $color--white;
+        }
+
+        .section__notch-fill {
+            background-color: $color--black;
+
+            &::before {
+                background-color: $color--black;
+            }
+        }
+    }
+
+    // When headroom mini header is also active
+    .sticky-bar.headroom--pinned & {
+        border-top: 1px solid $color--grid-line-light;
     }
 }
