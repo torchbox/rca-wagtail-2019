@@ -13,6 +13,12 @@ function scrollamaInit(position) {
         })
         .onStepEnter(() => {
             document.body.classList.add('sticky-bar');
+        })
+        .onStepExit(() => {
+            // only remove sticky-bar if top
+            if (position === 0) {
+                document.body.classList.remove('sticky-bar');
+            }
         });
 
     // setup resize event

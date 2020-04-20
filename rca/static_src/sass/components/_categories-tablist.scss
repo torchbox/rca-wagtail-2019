@@ -80,4 +80,37 @@
     &__reset-icon {
         margin-right: ($gutter / 4);
     }
+
+    .sticky-bar & {
+        background-color: $color--black;
+
+        @include media-query(large) {
+            // Compensate padding to align to grid lines
+            transform: translate3d(-($gutter * 2), 0, 0);
+        }
+
+        &__heading {
+            display: none;
+        }
+
+        &__tab {
+            color: $color--meta-darkbg;
+
+            &--reset {
+                color: $color--white;
+            }
+
+            &--selected {
+                color: $color--white;
+
+                &::before {
+                    background-color: $color--white;
+                }
+            }
+        }
+
+        &__reset-icon {
+            fill: $color--white;
+        }
+    }
 }
