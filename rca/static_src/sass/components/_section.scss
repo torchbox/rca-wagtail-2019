@@ -383,11 +383,35 @@
             }
         }
 
+        &--first-small {
+            padding-top: ($gutter * 2);
+
+            @include media-query(large) {
+                padding-top: ($gutter * 4);
+            }
+        }
+
+        &--first-large {
+            padding-top: ($gutter * 3.5);
+
+            @include media-query(large) {
+                padding-top: ($gutter * 11);
+            }
+        }
+
         &--last {
             padding-bottom: ($gutter * 3);
 
             @include media-query(large) {
                 padding-bottom: ($gutter * 6);
+            }
+        }
+
+        &--last-small {
+            padding-bottom: ($gutter * 2);
+
+            @include media-query(large) {
+                padding-bottom: ($gutter * 4);
             }
         }
 

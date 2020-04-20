@@ -14,8 +14,8 @@ Grid layout setup
 - Numbers range from 1-5, as we use a 5 col grid for large, two columns for small and medium
 - For example: "layout__@medium-start-1 layout__@medium-span-2" would start in column one, and span two columns for medium breakpoint
 - Replicates the "grid-column: number / span number" format that we've used previously
-- \@ outputs as \@ in css but classes shouldn't include the forward slash
-- Used in conjunction with a parent with the .grid class
+- \@ outputs as \@ in css but html classes shouldn't include the slash
+- Used in conjunction with a parent with the .grid class or any item with display: grid on
 
 */
 
