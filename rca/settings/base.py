@@ -700,7 +700,23 @@ if "RECAPTCHA_PUBLIC_KEY" in env:
 
 
 # Variable for how long to cache content from the current api for
-API_CONTENT_CACHE_TIMEOUT = int(env.get("API_CONTENT_CACHE_TIMEOUT", 60 * 60 * 24))
+try:
+    API_CONTENT_CACHE_TIMEOUT = int(env.get("API_CONTENT_CACHE_TIMEOUT"))
+except TypeError:
+    API_CONTENT_CACHE_TIMEOUT = 60 * 60 * 24
+
 # The API url to pull content from for the homepage, see rca.api_content.content
 API_CONTENT_BASE_URL = env.get("API_CONTENT_BASE_URL", "https://rca.ac.uk")
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
+
+# Access planit details, for fetching xml data on the shourt course pages.
+try:
+    ACCESS_PLANIT_XML_FEED_TIMEOUT = int(env.get("ACCESS_PLANIT_XML_FEED_TIMEOUT"))
+except TypeError:
+    ACCESS_PLANIT_XML_FEED_TIMEOUT = 60 * 60 * 15
+
+ACCESS_PLANIT_XML_BASE_URL = env.get("ACCESS_PLANIT_XML_BASE_URL", None)
+ACCESS_PLANIT_SCHOOL_ID = env.get("ACCESS_PLANIT_SCHOOL_ID")
+ACCESS_PLANIT_REGISTER_INTEREST_BASE = env.get(
+    "ACCESS_PLANIT_REGISTER_INTEREST_BASE", None
+)

@@ -90,20 +90,8 @@ context:
     contact_image: true
     relatedcontent: true
   related_staff:
-    - {
-        name: 'Beth Hughes',
-        role: 'Head of Programmes',
-        description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
-        link: '#',
-        link_text: 'Read more',
-      }
-    - {
-        name: 'Beth Hughes',
-        role: 'Head of Programmes',
-        description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
-        link: '#',
-        link_text: 'Read more',
-      }
+    - item
+    - item
   partnerships_block:
     slides:
       - slide:
@@ -129,9 +117,9 @@ context:
     - { text: 'Custom Executive Education', href: '#' }
     - { text: 'Innovation RCA', href: '#' }
   booking_bar:
-    message: 'Next course starts Thursday 19 March 2020'
-    action: 'Book now for £900'
-    modal: 'booking-details'
+    message: 'Applications are now closed'
+    action: 'Register your interest for upcoming dates'
+    modal: false
   access_planit_data:
     - {
         'start_date': !!timestamp '2020-05-13 2:00:00',

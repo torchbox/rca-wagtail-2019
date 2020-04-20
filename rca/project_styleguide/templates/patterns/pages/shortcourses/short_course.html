@@ -36,8 +36,8 @@
             </div>
         </header>
 
-        {% if page.booking_bar %}
-            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=page.booking_bar modal='booking-details' %}
+        {% if booking_bar %}
+            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=booking_bar modal=booking_bar.modal %}
         {% endif %}
 
         <div class="page__content js-sticky-point">
@@ -56,7 +56,7 @@
                         </div>
                         <div class="programme-overview__body">
                             {% if page.introduction_image %}
-                                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.introduction_image caption=page.video_caption %}
+                                {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.introduction_image caption=page.video_caption video=page.video %}
                             {% endif %}
                             <div class="programme-overview__description rich-text">
                                 {{ page.body|safe }}
@@ -144,9 +144,7 @@
                 </section>
             {% endif %}
 
-        </div>
-
-        {% if page.booking_bar %}
+            {% if booking_bar %}
             <div class="page__modals">
                 <div class="modal" id="booking-details" aria-hidden="true">
                     <div class="modal__overlay bg bg--light" tabindex="-1">
@@ -167,7 +165,6 @@
             </div>
         {% endif %}
 
-
-
+        </div>
     </div>
 {% endblock %}
