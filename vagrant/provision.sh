@@ -16,7 +16,8 @@ apt-get update -y
 # Upgrade to postgres 11
 service postgresql stop
 apt-get remove -y --purge postgresql-*
-apt-get install -y postgresql-11 postgresql-client-11 postgresql-contrib-11
+apt-get install -y postgresql-12 postgresql-client-12 postgresql-contrib-12
+pg_ctlcluster 12 main start
 su - postgres -c "createuser -s vagrant"
 
 
