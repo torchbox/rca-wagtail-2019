@@ -1,6 +1,140 @@
 .related-content {
+    $root: &;
+    position: relative;
     padding-top: ($gutter * 4);
     padding-bottom: ($gutter * 6);
+
+    &--large {
+        #{$root}__degree {
+            display: none;
+            margin-bottom: ($gutter * 2);
+
+            @include media-query(large) {
+                display: block;
+            }
+        }
+
+        #{$root}__meta,
+        #{$root}__copy {
+            // target first and second items
+            &:nth-child(-n + 2) {
+                border-top: 0;
+            }
+        }
+
+        #{$root}__meta {
+            grid-column: 1 / span 2;
+
+            @include media-query(large) {
+                grid-column: 2 / span 1;
+            }
+        }
+
+        #{$root}__copy {
+            grid-column: 1 / span 2;
+            padding-top: ($gutter / 4);
+
+            @include media-query(large) {
+                grid-column: 3 / span 1;
+                padding-top: $gutter;
+            }
+        }
+
+        #{$root}__group {
+            position: relative;
+        }
+
+        #{$root}__image-container {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: calc(var(--grid-width) + 16.74% + 40px);
+            grid-row: unset;
+            grid-column: unset;
+
+            &::before {
+                content: '';
+                display: block;
+                padding-top: 100%;
+            }
+        }
+
+        #{$root}__image {
+            max-height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+    }
+
+    &--after-action {
+        padding-bottom: 0;
+    }
+
+    &--meta-new-line {
+        #{$root}__subheading {
+            padding-bottom: $gutter;
+
+            @include media-query(medium) {
+                padding-bottom: 0;
+            }
+        }
+
+        #{$root}__meta {
+            grid-column: 1 / span 2;
+            flex-direction: column;
+
+            @include media-query(medium) {
+                grid-column: 1 / span 1;
+            }
+
+            @include media-query(large) {
+                grid-column: 2 / span 1;
+            }
+        }
+
+        #{$root}__title {
+            margin-bottom: ($gutter / 2);
+
+            @include media-query(medium) {
+                margin-bottom: ($gutter / 4);
+            }
+        }
+
+        #{$root}__degree {
+            margin-bottom: ($gutter / 2);
+
+            @include media-query(medium) {
+                margin-bottom: $gutter;
+            }
+        }
+    }
+
+    &--small-margin-mobile {
+        padding-bottom: ($gutter * 2);
+
+        @include media-query(large) {
+            padding-bottom: ($gutter * 6);
+        }
+
+        #{$root}__group {
+            margin-bottom: ($gutter * 2);
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 3);
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+
+                @include media-query(large) {
+                    margin-bottom: ($gutter * 3);
+                }
+            }
+        }
+    }
 
     &__group {
         margin-bottom: ($gutter * 3);
@@ -23,25 +157,14 @@
         margin-bottom: $gutter;
     }
 
+    &__link {
+        font-family: $font--primary;
+        display: inline;
+    }
+
     &__copy {
         grid-column: 1 / span 2;
         padding-bottom: ($gutter / 0.75);
-
-        .bg--dark & {
-            border-bottom: 1px solid $color--grid-line-light;
-
-            @include media-query(medium) {
-                border-bottom: 0;
-            }
-        }
-
-        .bg--light & {
-            border-bottom: 1px solid $color--grid-line-dark;
-
-            @include media-query(medium) {
-                border-bottom: 0;
-            }
-        }
 
         &:last-of-type {
             border-bottom: 0;
@@ -72,14 +195,6 @@
         @include media-query(medium) {
             padding-top: $gutter;
             padding-right: $gutter;
-
-            .bg--dark & {
-                border-top: 1px solid $color--grid-line-light;
-            }
-
-            .bg--light & {
-                border-top: 1px solid $color--grid-line-dark;
-            }
         }
     }
 
@@ -98,6 +213,9 @@
         max-height: 270px;
         object-fit: cover;
         opacity: 0;
+        width: 100%;
+        height: auto;
+        margin-bottom: ($gutter);
         transition: opacity $transition;
 
         &.is-visible {
@@ -117,5 +235,85 @@
     &__degree {
         opacity: 0.4;
         margin-bottom: ($gutter / 4);
+    }
+
+    .app--short-course & {
+        @include media-query(large) {
+            padding-top: ($gutter * 8);
+        }
+    }
+
+    .bg--light & {
+        #{$root}__copy {
+            border-bottom: 1px solid $color--grid-line-dark;
+
+            @include media-query(medium) {
+                border-bottom: 0;
+            }
+        }
+
+        #{$root}__copy,
+        #{$root}__meta {
+            @include media-query(medium) {
+                border-top: 1px solid $color--grid-line-dark;
+            }
+        }
+
+        &--large {
+            #{$root}__copy {
+                border-top: 0;
+
+                @include media-query(large) {
+                    border-top: 1px solid $color--grid-line-dark;
+                }
+            }
+        }
+
+        &--meta-new-line {
+            #{$root}__subheading {
+                border-bottom: 1px solid $color--grid-line-dark;
+
+                @include media-query(medium) {
+                    border-bottom: 0;
+                }
+            }
+        }
+    }
+
+    .bg--dark & {
+        #{$root}__copy {
+            border-bottom: 1px solid $color--grid-line-light;
+
+            @include media-query(medium) {
+                border-bottom: 0;
+            }
+        }
+
+        #{$root}__copy,
+        #{$root}__meta {
+            @include media-query(medium) {
+                border-top: 1px solid $color--grid-line-light;
+            }
+        }
+
+        &--large {
+            #{$root}__copy {
+                border-top: 0;
+
+                @include media-query(large) {
+                    border-top: 1px solid $color--grid-line-light;
+                }
+            }
+        }
+
+        &--meta-new-line {
+            #{$root}__subheading {
+                border-bottom: 1px solid $color--grid-line-light;
+
+                @include media-query(medium) {
+                    border-bottom: 0;
+                }
+            }
+        }
     }
 }

@@ -1,5 +1,5 @@
 {% load wagtailcore_tags wagtailimages_tags %}
-<div class="card {% if item.image %}card--image{% endif %} {% if item.person %}card--person{% endif %}">
+<div class="card{% if item.image %} card--image{% endif %}{% if item.person %} card--person{% endif %}{% if modifier %} card--{{ modifier }}{% endif %}">
     {% if item.image %}
         {% image card.image fill-80x46 as image_small %}
         {% image card.image fill-828x472 as image_large %}
@@ -10,13 +10,17 @@
         {% if item.link %}</a>{% endif %}
         <div class="card__content-container">
             <div class="card__content">
-                <div class="card__meta">{{ item.meta }}</div>
+                {% if item.meta %}
+                    <div class="card__meta">{{ item.meta }}</div>
+                {% endif %}
                 <h3 class="card__heading">
                     {% if item.link %}<a href="{{ item.link }}" class="card__heading-link">{% endif %}
                         {{ item.title }}
                     {% if item.link %}</a>{% endif %}
                 </h3>
-                <div class="card__description">{{ item.description }}</div>
+                {% if item.description %}
+                    <div class="card__description">{{ item.description }}</div>
+                {% endif %}
             </div>
             {% if item.person %}
                 <div class="card__person">

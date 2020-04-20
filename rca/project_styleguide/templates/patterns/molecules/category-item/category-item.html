@@ -1,0 +1,19 @@
+<div class="category-item__wrapper">
+    {% if item.link %}
+        <a href="{{ item.link }}" class="category-item">
+    {% endif %}
+        {% if item.title %}
+            <h3 class="heading heading--three category-item__heading">
+                <span class="category-item__heading-inner">{{ item.title }}</span>
+            </h3>
+        {% endif %}
+        {% if item.description %}
+            <div class="category-item__description">{{ item.description }}</div>
+        {% endif %}
+            <div class="category-item__icon-wrapper">
+                <svg class="category-item__icon" aria-hidden="true"><use xlink:href="#arrow-right-filled"></use></svg>
+            </div>
+    {% if item.link %}
+        </a>
+    {% endif %}
+</div>

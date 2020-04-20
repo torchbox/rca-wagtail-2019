@@ -6,9 +6,60 @@
         padding: ($gutter * 6) 0;
     }
 
+    &--large {
+        #{$root}__header {
+            @include media-query(large) {
+                margin-bottom: 0;
+            }
+        }
+
+        #{$root}__heading {
+            @include media-query(large) {
+                grid-column: 4 / span 1;
+                margin-right: $gutter;
+            }
+        }
+
+        #{$root}__item-container {
+            @include media-query(large) {
+                margin-bottom: $gutter;
+
+                &:nth-child(2),
+                &:nth-child(6) {
+                    #{$root}__item {
+                        grid-column: 2 / span 1;
+                    }
+                }
+
+                &:nth-child(3),
+                &:nth-child(5) {
+                    #{$root}__item {
+                        grid-column: 4 / span 1;
+                    }
+                }
+
+                &:nth-child(4) {
+                    #{$root}__item {
+                        grid-column: 3 / span 1;
+                    }
+                }
+            }
+        }
+    }
+
     &__header {
         @include media-query(large) {
             margin-bottom: -($gutter * 3.5);
+        }
+    }
+
+    &__footer-action {
+        grid-column: 1 / span 1;
+        margin-bottom: ($gutter * 2);
+
+        @include media-query(large) {
+            grid-column: 2 / span 1;
+            margin-bottom: ($gutter * 4);
         }
     }
 

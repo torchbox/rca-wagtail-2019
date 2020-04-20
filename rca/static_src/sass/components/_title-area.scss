@@ -10,7 +10,7 @@
         padding-bottom: ($gutter * 3);
     }
 
-    &__header {
+    &__heading {
         margin-bottom: ($gutter / 2);
     }
 
@@ -19,6 +19,7 @@
         grid-column: 1 / span 2;
 
         @include media-query(medium) {
+            grid-column: 1 / span 1;
             position: relative;
             padding-top: 0;
             top: -14px; // specific value to align baseline of font with notch bottom
@@ -31,6 +32,35 @@
             #{$root}--index & {
                 grid-column: 2 / span 2;
             }
+        }
+    }
+
+    &__image {
+        position: relative;
+        left: -20px; // spill out of margins
+        grid-column: 1 / span 2;
+        width: calc(100% + 40px);
+
+        @include media-query(medium) {
+            grid-column: auto;
+            position: absolute;
+            top: 128px;
+            left: initial;
+            right: 0;
+            width: 50%;
+            height: auto;
+        }
+
+        @include media-query(large) {
+            width: 33.333%;
+        }
+    }
+
+    &__contact {
+        margin-bottom: $gutter;
+
+        @include media-query(large) {
+            margin-bottom: 0;
         }
     }
 
@@ -60,6 +90,10 @@
         }
     }
 
+    &__profile-title {
+        display: block;
+    }
+
     &--index {
         padding-top: $gutter * 5.5;
 
@@ -69,6 +103,93 @@
 
         @include media-query(large) {
             padding-top: $gutter * 9;
+        }
+    }
+
+    // Staff detail specific styles
+    &--staff-detail {
+        padding-bottom: $gutter;
+
+        @include media-query(medium) {
+            padding-bottom: ($gutter * 3);
+        }
+
+        #{$root}__breadcrumb {
+            @include media-query(large) {
+                margin-bottom: ($gutter * 2);
+            }
+        }
+
+        #{$root}__heading {
+            margin-bottom: ($gutter * 0.75);
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 3);
+            }
+        }
+
+        #{$root}__sub-heading {
+            margin-bottom: ($gutter * 0.75);
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 1.5);
+            }
+        }
+    }
+
+    &--research-centre {
+        padding-bottom: ($gutter * 2);
+
+        @include media-query(medium) {
+            padding-bottom: ($gutter * 2);
+        }
+
+        @include media-query(large) {
+            padding-bottom: ($gutter * 2.25);
+        }
+
+        #{$root}__content {
+            @include media-query(medium) {
+                // Titles are generally longer on research centre pages, so give them more space on tablets
+                grid-column: 1 / span 2;
+            }
+            @include media-query(large) {
+                grid-column: 2 / span 3;
+            }
+        }
+    }
+
+    &--landing-page {
+        padding-bottom: ($gutter);
+
+        @include media-query(large) {
+            padding-top: ($gutter * 2);
+            padding-bottom: ($gutter * 2);
+        }
+
+        #{$root}__heading {
+            @include media-query(large) {
+                max-width: 66.666%;
+                padding-right: ($gutter * 2);
+            }
+        }
+    }
+
+    &--guide {
+        #{$root}__heading {
+            margin-bottom: ($gutter * 2);
+        }
+    }
+
+    .bg--dark & {
+        #{$root}__sub-heading {
+            color: $color--meta-darkbg;
+        }
+    }
+
+    .bg--light & {
+        #{$root}__sub-heading {
+            color: $color--meta-lightbg;
         }
     }
 }

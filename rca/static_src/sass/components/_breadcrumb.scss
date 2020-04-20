@@ -14,11 +14,11 @@
         }
 
         &:first-child {
-            opacity: 0.8;
+            opacity: 0.7;
         }
 
         &:last-child {
-            opacity: 0.8;
+            opacity: 0.7;
             display: block;
 
             @include media-query(medium) {
@@ -45,6 +45,12 @@
     &__item-link {
         @include underline-hover();
         position: relative;
+    }
+
+    .title-area--guide & {
+        @include media-query(large) {
+            margin-bottom: ($gutter * 0.75);
+        }
     }
 
     .bg--dark & {

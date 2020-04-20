@@ -29,6 +29,21 @@
         }
     }
 
+    &__header {
+        // Adding space to allow for header overlaying content
+        #{$root}--no-hero & {
+            padding-top: ($gutter * 7);
+
+            @include media-query(medium) {
+                padding-top: ($gutter * 10);
+            }
+
+            @include media-query(large) {
+                padding-top: ($gutter * 12);
+            }
+        }
+    }
+
     &__notch-block {
         @include media-query(medium) {
             position: relative;
@@ -70,6 +85,39 @@
         &.bg--light {
             &::before {
                 background-color: $color--white;
+            }
+        }
+    }
+
+    .sticky-bar.app--short-course & {
+        #{$root}__header {
+            position: relative;
+
+            &::after {
+                content: '';
+                display: block;
+                position: absolute;
+                bottom: -91px;
+                left: 0;
+                background-color: $color--black;
+                width: 100%;
+                height: 91px; // height of booking bar
+            }
+        }
+    }
+
+    .app--landing-page & {
+        #{$root}__notch-block {
+            @include media-query(large) {
+                grid-column: 1 / span 3;
+            }
+        }
+    }
+
+    .app--guide & {
+        #{$root}__header {
+            @include media-query(large) {
+                padding-top: ($gutter * 10);
             }
         }
     }

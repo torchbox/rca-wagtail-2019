@@ -1,0 +1,74 @@
+.booking-bar {
+    $booking-bar-height-small: 44px;
+    $booking-bar-height-medium: 163px;
+    $booking-bar-height-large: 191px;
+    $root: &;
+    border-bottom: 1px solid $color--grid-line-light;
+    overflow: hidden;
+
+    @include media-query(medium) {
+        border-top: 1px solid $color--grid-line-light;
+    }
+
+    &__container {
+        align-items: center;
+    }
+
+    &__message {
+        @include font-size(xs);
+        display: none;
+        grid-column: 1 / span 1;
+        padding-top: ($gutter);
+        padding-bottom: ($gutter);
+        padding-right: ($gutter / 2);
+
+        @include media-query(medium) {
+            display: block;
+        }
+
+        @include media-query(large) {
+            grid-column: 2 / span 2;
+        }
+    }
+
+    &__action {
+        display: flex;
+        justify-content: flex-end;
+        grid-column: 1 / span 2;
+
+        @include media-query(medium) {
+            grid-column: 2 / span 1;
+            padding-top: ($gutter);
+            padding-bottom: ($gutter);
+        }
+
+        @include media-query(large) {
+            justify-content: flex-start;
+            grid-column: 4 / span 1;
+        }
+    }
+
+    .sticky-bar & {
+        @include z-index(sticky-nav-bar);
+        position: sticky;
+        top: calc(var(--vh, 1vh) * 100);
+        left: 0;
+        width: 100%;
+        transform: translate3d(0, -100%, 0);
+    }
+
+    // Place on last item on the page, to compensate for transform on actual item
+    &__last-item {
+        margin-bottom: -$booking-bar-height-small;
+        padding-bottom: ($gutter * 2);
+
+        @include media-query(medium) {
+            margin-bottom: -$booking-bar-height-medium;
+            padding-bottom: ($gutter * 4);
+        }
+
+        @include media-query(large) {
+            margin-bottom: -$booking-bar-height-large;
+        }
+    }
+}

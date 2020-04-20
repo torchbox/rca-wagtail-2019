@@ -1,0 +1,43 @@
+context:
+  stats_block:
+    title: Lorem ipsum dolor sit
+    default_notch_override: true
+    bg_image_url: '//placekitten.com/1000/500'
+    link: '#'
+    action: See all Outcomes
+    statistics:
+      - stat:
+        value:
+          after: '%'
+          number: 70
+          summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut semper accumsan urna.
+      - stat:
+        value:
+          after: '%'
+          number: 33
+          meta: Nationalities
+          summary: 1 in 3 of our graduates are business owners or independent professionals
+      - stat:
+        value:
+          number: 76
+          meta: Nationalities
+          summary: Our students come from all corners of the globe.
+      - stat:
+        value:
+          after: st
+          number: 1
+          summary: We're the top rated art & design university in the world.
+      - stat:
+        value:
+          number: 100
+          meta: Lorem Ipsum
+          summary: Our students come from all corners of the globe.
+
+tags:
+  image:
+    stats_block.background_image max-1000x500 as bg_image:
+      target_var: bg_image
+      raw:
+        url: '//placekitten.com/1000/500'
+        width: '1000'
+        height: '500'

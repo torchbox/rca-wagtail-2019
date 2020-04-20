@@ -1,5 +1,6 @@
 import '@babel/polyfill';
 
+import GridSizeVariables from './components/grid-size-variables';
 import HeaderDrawer from './components/header-drawer';
 import SubMenu from './components/submenu';
 import BackLink from './components/back-link';
@@ -20,6 +21,8 @@ import './components/outdated-banner';
 import './components/home-menu';
 import './components/stats-block';
 import './components/parallax';
+import './components/modal';
+import './components/sticky-point';
 
 import '../sass/main.scss';
 
@@ -44,6 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (const slideshow of document.querySelectorAll(Slideshow.selector())) {
         new Slideshow(slideshow);
+    }
+
+    for (const gridVariables of document.querySelectorAll(
+        GridSizeVariables.selector(),
+    )) {
+        new GridSizeVariables(gridVariables);
     }
 
     for (const headerdrawer of document.querySelectorAll(

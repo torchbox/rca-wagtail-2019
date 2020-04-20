@@ -9,7 +9,6 @@
     padding-top: $gutter;
     color: inherit;
     font-family: $font--primary;
-    border-left: 1px solid $color--grid-line-dark;
 
     // Bottom border, done with a pseudo element rather than a border,
     // so it can overflow to the right and leave some space for people to scroll
@@ -19,7 +18,6 @@
         grid-column: 1 / span 2;
         height: 1px;
         width: calc(100% + #{$gutter});
-        background-color: $color--grid-line-dark;
         pointer-events: none;
 
         @include media-query(medium) {
@@ -115,6 +113,98 @@
             #{$root}:hover &,
             #{$root}:focus & {
                 opacity: 1;
+            }
+        }
+    }
+
+    .section__content & {
+        @include media-query(large) {
+            min-height: 176px;
+        }
+
+        &::after {
+            margin-top: ($gutter);
+
+            @include media-query(large) {
+                margin-top: ($gutter * 2);
+            }
+        }
+
+        .category-item__wrapper {
+            &:last-child {
+                #{$root} {
+                    // match section__row--last, but needs to mask grid lines
+                    padding-bottom: ($gutter * 3);
+
+                    @include media-query(large) {
+                        padding-bottom: ($gutter * 6);
+                    }
+                }
+            }
+        }
+
+        #{$root}__heading,
+        #{$root}__description {
+            max-width: 440px;
+        }
+
+        #{$root}__description {
+            @include media-query(medium) {
+                // Align with the grid line
+                padding-left: 17%;
+            }
+            @include media-query(large) {
+                // Reset
+                padding-left: 7%;
+            }
+        }
+    }
+
+    .bg--light & {
+        border-left: 1px solid $color--grid-line-dark;
+
+        &::after {
+            background-color: $color--grid-line-dark;
+        }
+    }
+
+    .bg--dark & {
+        border-left: 1px solid $color--grid-line-light;
+
+        &::after {
+            background-color: $color--grid-line-light;
+        }
+    }
+}
+
+// Because wrapper is outside of it's parent, this has to be seperate
+// Need to refactor this as some point to make it valid BEM
+.section__content {
+    .category-item__wrapper {
+        &:last-child {
+            .category-item {
+                // match section__row--last, but needs to mask grid lines
+                padding-bottom: ($gutter * 3);
+
+                @include media-query(large) {
+                    padding-bottom: ($gutter * 6);
+                }
+            }
+        }
+
+        .category-item__description {
+            display: none;
+
+            @include media-query(large) {
+                display: block;
+            }
+        }
+
+        .category-item__heading {
+            padding-right: ($gutter * 4);
+
+            @include media-query(large) {
+                padding-right: $gutter;
             }
         }
     }

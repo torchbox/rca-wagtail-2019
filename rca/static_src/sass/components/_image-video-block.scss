@@ -6,6 +6,22 @@
         padding-bottom: ($gutter * 6);
     }
 
+    &--tight-heading {
+        #{$root}__heading {
+            @include media-query(large) {
+                grid-column: 2 / span 1;
+            }
+        }
+    }
+
+    &--overlap-heading {
+        #{$root}__heading {
+            @include media-query(large) {
+                max-width: 70%;
+            }
+        }
+    }
+
     &__heading {
         grid-column: 1 / span 2;
         margin-bottom: ($gutter * 1.25);
@@ -84,7 +100,9 @@
         }
     }
 
-    .programme-overview & {
+    .programme-overview &,
+    .research-centre-overview &,
+    .app--project-detail & {
         padding-bottom: 0;
     }
 
