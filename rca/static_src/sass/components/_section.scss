@@ -209,7 +209,7 @@
             display: none;
 
             @include media-query(large) {
-                display: block;
+                display: grid;
             }
         }
 
