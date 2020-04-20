@@ -12,6 +12,7 @@ from django.test import TestCase
 from requests.exceptions import Timeout
 
 from rca.home.models import HomePage
+from rca.programmes.models import ProgrammeType
 from rca.shortcourses.access_planit import AccessPlanitXML, AccessPlanitXMLParser
 from rca.shortcourses.models import ShortCoursePage
 
@@ -28,6 +29,9 @@ def mocked_fetch_data_from_xml(**kargs):
 
 class AccessPlanitXMLTest(TestCase):
     def setUp(self):
+        ProgrammeType.objects.create(
+            display_name="Design", description="Some description text", id=1
+        )
         self.expected_data = [
             {
                 "course_date_id": "12086",
@@ -145,7 +149,14 @@ class AccessPlanitXMLTest(TestCase):
         """ Test getting stale cache data with a Timeout failure to get data"""
         logging.disable(logging.CRITICAL)
         ShortCoursePage.objects.create(
-            title=f"Short course 1", path="1", depth="001", access_planit_course_id=1
+            title=f"Short course 1",
+            path="1",
+            depth="001",
+            access_planit_course_id=1,
+            programme_type_id=1,
+            contact_url="https://rca.ac.uk",
+            contact_text="Read more",
+            hero_colour_option=1,
         )
         # Generate the mocked xml data
         AccessPlanitXML(course_id=1).get_data()
@@ -173,6 +184,10 @@ class AccessPlanitXMLTest(TestCase):
                 path=100,
                 depth="001",
                 access_planit_course_id="course id cannot be a string",
+                programme_type_id=1,
+                contact_url="https://rca.ac.uk",
+                contact_text="Read more",
+                hero_colour_option=1,
             )
 
     def test_cache_data_for_non_valid_course_id(self):
@@ -195,6 +210,10 @@ class AccessPlanitXMLTest(TestCase):
                 path=str(i),
                 depth="001",
                 access_planit_course_id=i,
+                programme_type_id=1,
+                contact_url="https://rca.ac.uk",
+                contact_text="Read more",
+                hero_colour_option=1,
             )
         call_command("fetch_access_planit_data")
         for i in range(5):
@@ -210,7 +229,13 @@ class AccessPlanitXMLTest(TestCase):
         home_page = HomePage.objects.first()
         mock_get.side_effect = Timeout
         short_course_page = ShortCoursePage(
-            title="Short course title", slug="short-course", access_planit_course_id="1"
+            title="Short course title",
+            slug="short-course",
+            access_planit_course_id="1",
+            programme_type_id=1,
+            contact_url="https://rca.ac.uk",
+            contact_text="Read more",
+            hero_colour_option=1,
         )
         home_page.add_child(instance=short_course_page)
         response = self.client.get("/short-course/")
@@ -229,7 +254,13 @@ class AccessPlanitXMLTest(TestCase):
         in cache, and when retrieved is what we expect """
         home_page = HomePage.objects.first()
         short_course_page = ShortCoursePage(
-            title="Short course title", slug="short-course", access_planit_course_id="1"
+            title="Short course title",
+            slug="short-course",
+            access_planit_course_id="1",
+            programme_type_id=1,
+            contact_url="https://rca.ac.uk",
+            contact_text="Read more",
+            hero_colour_option=1,
         )
         home_page.add_child(instance=short_course_page)
         response = self.client.get("/short-course/")
