@@ -182,4 +182,12 @@
             stroke: $color--meta-lightbg;
         }
     }
+
+    .app--project-detail & {
+        padding-bottom: ($gutter * 4.5);
+
+        @include media-query(large) {
+            padding-bottom: ($gutter * 2);
+        }
+    }
 }
