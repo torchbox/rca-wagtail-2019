@@ -167,3 +167,14 @@ class StoryBlock(blocks.StreamBlock):
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"
+
+
+class GuideBlock(StoryBlock):
+    anchor_heading = blocks.CharBlock(
+        classname="full title",
+        icon="title",
+        template="patterns/molecules/streamfield/blocks/anchor_heading_block.html",
+    )
+
+    class Meta:
+        template = "patterns/molecules/streamfield/stream_block.html"
