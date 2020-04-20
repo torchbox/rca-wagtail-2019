@@ -10,6 +10,7 @@ context:
       - { title: Introduction, link: '#introduction' }
       - { title: Article 1, link: '#article-one' }
       - { title: Article 2, link: '#article-two' }
+      - { title: Staff, link: '#staff' }
       - { title: Index Module, link: '#index' }
       - { title: Ask a question, link: '#contact' }
     related_staff:
