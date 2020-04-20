@@ -1,4 +1,7 @@
 .booking-bar {
+    $booking-bar-height-small: 44px;
+    $booking-bar-height-medium: 163px;
+    $booking-bar-height-large: 191px;
     $root: &;
     border-bottom: 1px solid $color--grid-line-light;
     overflow: hidden;
@@ -63,9 +66,24 @@
     .sticky-bar & {
         @include z-index(sticky-nav-bar);
         position: sticky;
-        top: 100vh;
+        top: calc(var(--vh, 1vh) * 100);
         left: 0;
         width: 100%;
         transform: translate3d(0, -100%, 0);
+    }
+
+    // Place on last item on the page, to compensate for transform on actual item
+    &__last-item {
+        margin-bottom: -$booking-bar-height-small;
+        padding-bottom: ($gutter * 2);
+
+        @include media-query(medium) {
+            margin-bottom: -$booking-bar-height-medium;
+            padding-bottom: ($gutter * 4);
+        }
+
+        @include media-query(large) {
+            margin-bottom: -$booking-bar-height-large;
+        }
     }
 }

@@ -1,0 +1,14 @@
+context:
+  page:
+    key_details_tags:
+      - { tag: School of Design }
+      - { tag: Studio project }
+      - { tag: 2018 }
+    key_details_funding: £5m, Research Council
+    key_details_expertise:
+      - { title: Product design, link: '#' }
+      - { title: Fashion, link: '#' }
+      - { title: Innovation, link: '#' }
+      - { title: Textiles, link: '#' }
+    key_details_download: '#'
+    key_details_download_course: Archictecture MA
