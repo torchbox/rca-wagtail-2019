@@ -69,13 +69,13 @@
             </section>
 
             {% if page.index_module %}
-                <section class="section section--opposite-notch bg bg--dark" id="index">
+                <section class="sectionbg bg--dark" id="index">
                     <div class="section__row section__row--first section__row--last-large">
                         {% include "patterns/organisms/index-module/index-module.html" with item=page.index_module %}
                     </div>
 
-                    <div class="section__notch section__notch--small-med-only section__notch--opposite">
-                        <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    <div class="section__notch section__notch--small-med-only">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
                 </section>
             {% endif %}
