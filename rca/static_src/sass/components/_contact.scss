@@ -92,4 +92,11 @@
             color: $color--meta-lightbg;
         }
     }
+
+    .app--guide & {
+        // Match other heading sizes on the guide page
+        &__heading {
+            @include font-size(xl);
+        }
+    }
 }
