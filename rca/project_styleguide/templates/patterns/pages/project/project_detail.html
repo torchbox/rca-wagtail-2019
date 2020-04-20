@@ -36,17 +36,17 @@
         <div class="page__content">
 
             <section class="section bg bg--dark">
-
+                
                 <div class="section__row project-overview">
                     <div class="section__content grid">
-                        <div class="project-overview__content layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                            <div class="project-overview__body">
-                                {% if page.project_description %}
-                                    <h2 class="research-centre-overview__heading section__heading heading heading--five">
-                                        {{ page.project_description }}
-                                    </h2>
-                                {% endif %}
+                        {% if page.project_description %}
+                            <div class="project-overview__introduction layout__start-one layout__span-two  layout__@large-start-three layout__@large-span-two">
+                                <h2 class="research-centre-overview__heading section__heading heading heading--five">
+                                    {{ page.project_description }}
+                                </h2>
                             </div>
+                        {% endif %}
+                        <div class="project-overview__content layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                             <div class="project-overview__media">
                                 {% if page.project_image and page.project_video %}
                                     {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.project_video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.centre_image caption=page.project_image_caption %}
