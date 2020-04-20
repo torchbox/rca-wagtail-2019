@@ -146,6 +146,10 @@
                 background-color: $color--white;
             }
         }
+
+        #{$root}__button-icon {
+            stroke: $color--meta-darkbg;
+        }
     }
 
     .bg--light & {
@@ -172,6 +176,10 @@
                 stroke: $color--white;
                 background-color: $color--black;
             }
+        }
+
+        #{$root}__button-icon {
+            stroke: $color--meta-lightbg;
         }
     }
 }

@@ -1,16 +1,42 @@
 {% if paginator_page.paginator.num_pages > 1 %}
-<nav role="navigation" aria-label="Pagination">
-    <ul class="pagination">
+<nav class="pagination" aria-label="Pagination">
+    <ul class="pagination__container body body--two">
         {% if paginator_page.has_previous %}
-            <li><a href="?page={{ paginator_page.previous_page_number }}{% if search_query %}&amp;query={{ search_query|urlencode }}{% endif %}{% if extra_url_params %}&amp;{{ extra_url_params }}{% endif %}" class="previous">previous</a></li>
+            <li class="pagination__button pagination__button--prev">
+                <a class="pagination__button-link" href="?page={{ paginator_page.previous_page_number }}{% if search_query %}&amp;query={{ search_query|urlencode }}{% endif %}{% if extra_url_params %}&amp;{{ extra_url_params }}{% endif %}" class="previous">
+                    <span class="pagination__button-label">previous</span>
+                    <svg width="16" height="16" class="pagination__button-icon" aria-hidden="true">
+                        <use xlink:href="#arrow-left"></use>
+                    </svg>
+                </a>
+            </li>
         {% endif %}
 
-        <li class="current">
-            {{ paginator_page.number }}/{{ paginator_page.paginator.num_pages }}
+        <li class="pagination__item pagination__item--current">
+            {{ paginator_page.number }}
+        </li>
+        <li class="pagination__item">
+            <a href="#" class="pagination__link">2</a>
+        </li>
+        <li class="pagination__item">
+            <a href="#" class="pagination__link">3</a>
+        </li>
+        <li class="pagination__ellipsis">
+            &hellip;
+        </li>
+        <li class="pagination__item">
+            <a href="#" class="pagination__link">6</a>
         </li>
 
         {% if paginator_page.has_next %}
-            <li><a href="?page={{ paginator_page.next_page_number }}{% if search_query %}&amp;query={{ search_query|urlencode }}{% endif %}{% if extra_url_params %}&amp;{{ extra_url_params }}{% endif %}" class="next">next</a></li>
+            <li class="pagination__button pagination__button--next">
+                <a class="pagination__button-link" href="?page={{ paginator_page.next_page_number }}{% if search_query %}&amp;query={{ search_query|urlencode }}{% endif %}{% if extra_url_params %}&amp;{{ extra_url_params }}{% endif %}" class="next">
+                    <span class="pagination__button-label">next</span>
+                    <svg width="16" height="16" class="pagination__button-icon" aria-hidden="true">
+                        <use xlink:href="#arrow-right"></use>
+                    </svg>
+                </a>
+            </li>
         {% endif %}
     </ul>
 </nav>{% endif %}
