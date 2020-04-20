@@ -58,3 +58,10 @@ context:
           }
     contact: true
     contact_image: true
+    body:
+      - dummy
+    last_published_at: !!timestamp '2020-05-13 2:00:00'
+  anchor_nav:
+    - { title: Introduction, link: '#introduction' }
+    - { title: Article 1, link: '#article-one' }
+    - { title: Article 2, link: '#article-two' }
