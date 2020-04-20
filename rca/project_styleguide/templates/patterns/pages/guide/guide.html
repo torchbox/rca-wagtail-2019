@@ -57,21 +57,25 @@
                 </div>
 
                 {% if page.related_staff %}
-                    <div class="section__row section__row--first section__row--last">
+                    <div class="section__row section__row--first section__row--last" id="staff">
                         {% include "patterns/organisms/people-module/people-module.html" with people=page.related_staff %}
                     </div>
                 {% endif %}
 
-                <div class="section__notch section__notch--opposite">
-                    <div class="section__notch-fill section__notch-fill--second-col"></div>
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--first-col"></div>
                 </div>
 
             </section>
 
             {% if page.index_module %}
-                <section class="section bg bg--dark" id="index">
+                <section class="section section--opposite-notch bg bg--dark" id="index">
                     <div class="section__row section__row--first section__row--last-large">
                         {% include "patterns/organisms/index-module/index-module.html" with item=page.index_module %}
+                    </div>
+
+                    <div class="section__notch section__notch--small-med-only section__notch--opposite">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
                 </section>
             {% endif %}
@@ -84,7 +88,7 @@
                 </section>
 
                 <section class="section bg bg--dark">
-                    <div class="section__notch">
+                    <div class="section__notch section__notch--large-only">
                         <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
                 </section>

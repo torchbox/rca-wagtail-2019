@@ -205,6 +205,14 @@
             }
         }
 
+        &--large-only {
+            display: none;
+
+            @include media-query(large) {
+                display: block;
+            }
+        }
+
         .bg--stat-block & {
             &:first-child {
                 #{$root}__notch-fill {
