@@ -20,7 +20,7 @@ context:
       - dummy
     project_image: true
     project_image_caption: Watch the course introduction
-    project_description: A collaboration between two world-leading institutions, bringing together science and design to find solutions to global challenges
+    introduction: A collaboration between two world-leading institutions, bringing together science and design to find solutions to global challenges
     project_video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     gallery:
       - slide:
