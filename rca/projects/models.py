@@ -19,7 +19,6 @@ from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_TEXT_ON_DARK_IMAGE
-from rca.programmes.models import Subject
 from rca.utils.blocks import (
     AccordionBlockWithTitle,
     GalleryBlock,
@@ -32,7 +31,7 @@ from rca.utils.models import BasePage, RelatedStaffPageWithManualOptions
 class ProjectPageSubjectPlacement(models.Model):
     page = ParentalKey("ProjectPage", related_name="subjects")
     subject = models.ForeignKey(
-        Subject,
+        "programmes.Subject",
         on_delete=models.SET_NULL,
         blank=False,
         null=True,
