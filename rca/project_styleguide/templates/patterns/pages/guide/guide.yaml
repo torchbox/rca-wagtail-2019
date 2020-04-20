@@ -6,12 +6,6 @@ context:
     title: MRes RCA
     edit_date: 7 March 2020
     introduction: Join a thriving community of more than 250 MPhil and PhD students pursuing cutting-edge research at the world's leading postgraduate university for art & design
-    anchor_nav:
-      - { title: Introduction, link: '#introduction' }
-      - { title: Article 1, link: '#article-one' }
-      - { title: Article 2, link: '#article-two' }
-      - { title: Index Module, link: '#index' }
-      - { title: Ask a question, link: '#contact' }
     related_staff:
       - {
           name: 'Beth Hughes',
@@ -57,3 +51,10 @@ context:
           }
     contact: true
     contact_image: true
+    body:
+      - dummy
+    last_published_at: !!timestamp '2020-05-13 2:00:00'
+  anchor_nav:
+    - { title: Introduction, link: '#introduction' }
+    - { title: Article 1, link: '#article-one' }
+    - { title: Article 2, link: '#article-two' }
