@@ -145,7 +145,7 @@
                 <section class="section section--top-space section--opposite-notch bg bg--dark">
 
                     {% if page.quote_carousel %}
-                        <div class="section__row section__row--first {% if page.contact %}section__row--last{% endif %}">
+                        <div class="section__row section__row--first {% if page.contact_email or page.contact_url %}section__row--last{% endif %}">
                             {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.quote_carousel modifier='carousel--square carousel--quotes' datatag='data-square-carousel' %}
                         </div>
                     {% endif %}
