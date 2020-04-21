@@ -99,6 +99,7 @@ context:
           meta: Current,
           link: '#',
         }
+    staff_link: false
     partners:
       - { text: 'CERN', href: 'http://www.google.com' }
       - { text: 'Architects Council of Europe', href: 'http://www.google.com' }

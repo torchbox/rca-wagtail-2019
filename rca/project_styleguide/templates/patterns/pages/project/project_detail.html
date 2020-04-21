@@ -122,21 +122,15 @@
                 {% endif %}
 
                 {% if page.project_team %}
-                    <div class="section__row">
-                        {% include "patterns/organisms/student-listing/student-listing.html" with title="Project team" student_listing=page.project_team %}
-                    </div>
+                    {% include "patterns/organisms/student-listing/student-listing.html" with title="Project team" student_listing=page.project_team %}
                 {% endif %}
 
                 {% if page.partners %}
-                    <div class="section__row">
-                        {% include "patterns/organisms/related-links/related-links.html" with related_links=page.partners title="Partners" %}
-                    </div>
+                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.partners title="Partners" modifier="padding-small" %}
                 {% endif %}
 
                 {% if page.funders %}
-                    <div class="section__row">
-                        {% include "patterns/organisms/related-links/related-links.html" with related_links=page.funders title="Funders" %}
-                    </div>
+                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.funders title="Funders" %}
                 {% endif %}
 
                 <div class="section__notch section__notch--opposite">
