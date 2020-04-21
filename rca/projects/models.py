@@ -31,11 +31,7 @@ from rca.utils.models import BasePage, RelatedStaffPageWithManualOptions
 class ProjectPageSubjectPlacement(models.Model):
     page = ParentalKey("ProjectPage", related_name="subjects")
     subject = models.ForeignKey(
-        "programmes.Subject",
-        on_delete=models.SET_NULL,
-        blank=False,
-        null=True,
-        related_name="projects",
+        "programmes.Subject", on_delete=models.CASCADE, related_name="projects"
     )
     panels = [FieldPanel("subject")]
 
@@ -70,7 +66,7 @@ class ProjectPage(BasePage):
     video_caption = models.CharField(
         blank=True,
         max_length=80,
-        help_text=_("The text dipsplayed next to the video play button"),
+        help_text=_("The text displayed next to the video play button"),
     )
     video = models.URLField(blank=True)
     body = StreamField(
@@ -205,7 +201,7 @@ class ProjectPage(BasePage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["hero_colour"] = "dark"
-        if int(self.hero_colour_option) == LIGHT_TEXT_ON_DARK_IMAGE:
+        if self.hero_colour_option == LIGHT_TEXT_ON_DARK_IMAGE:
             context["hero_colour"] = "light"
         subjects = []
         for i in self.subjects.all():
