@@ -142,7 +142,7 @@ class ResearchCentrePage(BasePage):
         ),
         MultiFieldPanel(
             [InlinePanel("research_opportunities", label="Research opportunities")],
-            heading="Research Ooportunities",
+            heading="Research opportunities",
         ),
         MultiFieldPanel(
             [
