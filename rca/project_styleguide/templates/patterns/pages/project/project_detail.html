@@ -129,15 +129,11 @@
                 {% endif %}
 
                 {% if page.partners %}
-                    <div class="section__row">
-                        {% include "patterns/organisms/related-links/related-links.html" with related_links=page.partners title="Partners" %}
-                    </div>
+                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.partners title="Partners" modifier="padding-small" %}
                 {% endif %}
 
                 {% if page.funders %}
-                    <div class="section__row">
-                        {% include "patterns/organisms/related-links/related-links.html" with related_links=page.funders title="Funders" %}
-                    </div>
+                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.funders title="Funders" %}
                 {% endif %}
 
                 <div class="section__notch section__notch--opposite">
@@ -150,7 +146,7 @@
                 <section class="section section--top-space section--opposite-notch bg bg--dark">
 
                     {% if page.quote_carousel %}
-                        <div class="section__row section__row--first {% if page.contact %}section__row--last{% endif %}">
+                        <div class="section__row section__row--first {% if page.contact_email or page.contact_url %}section__row--last{% endif %}">
                             {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.quote_carousel modifier='carousel--square carousel--quotes' datatag='data-square-carousel' %}
                         </div>
                     {% endif %}
