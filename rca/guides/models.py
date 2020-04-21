@@ -67,7 +67,6 @@ class GuidePage(BasePage):
         items = []
         for i, block in enumerate(self.body):
             if block.block_type == "anchor_heading":
-                print(block.__dict__)
                 items.append({"title": block.value, "link": f"#{slugify(block.value)}"})
         if self.related_staff:
             items.append({"title": "Staff", "link": "#staff"})
