@@ -49,7 +49,9 @@ class GuidePage(BasePage):
         StreamFieldPanel("body"),
         MultiFieldPanel([InlinePanel("related_staff")], heading=_("Related staff")),
         StreamFieldPanel("further_information"),
-        MultiFieldPanel([InlinePanel("related_pages")], heading=_("Related pages")),
+        MultiFieldPanel(
+            [InlinePanel("related_pages", max_num=6)], heading=_("Related pages")
+        ),
         MultiFieldPanel(
             [
                 ImageChooserPanel("contact_image"),
