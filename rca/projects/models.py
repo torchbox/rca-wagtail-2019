@@ -31,7 +31,7 @@ from rca.utils.models import BasePage, RelatedStaffPageWithManualOptions
 class ProjectPageSubjectPlacement(models.Model):
     page = ParentalKey("ProjectPage", related_name="subjects")
     subject = models.ForeignKey(
-        "programmes.Subject", on_delete=models.CASCADE, related_name="projects",
+        "programmes.Subject", on_delete=models.CASCADE, related_name="projects"
     )
     panels = [FieldPanel("subject")]
 
