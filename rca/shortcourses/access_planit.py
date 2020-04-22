@@ -8,19 +8,9 @@ from django.http.request import QueryDict
 from django.utils.dateparse import parse_datetime
 from requests.exceptions import Timeout
 
-
 """
 Provides functionality for fetching data from access planit xml feed
 """
-
-
-# TODO remove this, it's just for debugging
-def print_message(msg):
-    print("\n")
-    print("=" * len(msg))
-    print(f"{msg}")
-    print("=" * len(msg))
-    print("\n")
 
 
 logger = logging.getLogger(__name__)
@@ -40,7 +30,7 @@ class AccessPlanitXMLParser:
 
     def get_parsed_data(self):
         """ Parses the given xml to a list
-            return: list of dicts, or an empty list
+            return: list or None
         """
         bs_content = bs(self.xml, "lxml")
         course_dates = bs_content.find("dates").find_all("wicoursedate")
@@ -75,10 +65,7 @@ class AccessPlanitXML:
     """
 
     def __init__(self, course_id):
-        # This might be better as a default on the model
-        # but if there is no course ID passed we seem to get some default xml
-        # data back, so set it as 0
-        self.course_id = course_id if course_id else "0"
+        self.course_id = course_id
         self.company_id = settings.ACCESS_PLANIT_SCHOOL_ID
         self.cache_key = f"short_course_{self.course_id}"
         self.timeout = 10
@@ -95,7 +82,8 @@ class AccessPlanitXML:
             }
         )
         self.query = self.query.urlencode()
-        return settings.ACCESS_PLANIT_XML_BASE_URL + self.query
+        if settings.ACCESS_PLANIT_XML_BASE_URL:
+            return settings.ACCESS_PLANIT_XML_BASE_URL + self.query
 
     def parse_data(self, xml_data):
         parser = AccessPlanitXMLParser(xml=xml_data)
@@ -116,13 +104,17 @@ class AccessPlanitXML:
             )
             raise AccessPlanitException
         else:
-            xml = self.parse_data(response.text)
-        return xml
+            return self.parse_data(response.text)
 
-    def set_data_in_cache(self):
+    def get_and_set_data_in_cache(self):
+        """ Method to try getting data from the XML feed
+        and setting it in the cache.
+        """
         try:
             data = self.fetch_data_from_xml()
         except AccessPlanitException:
+            # If trying to fetch data raises AccessPlanitException, pass it
+            # return what's currently in the cache
             pass
         else:
             cache.set(self.cache_key, data, settings.ACCESS_PLANIT_XML_FEED_TIMEOUT)
@@ -134,5 +126,5 @@ class AccessPlanitXML:
         Cache is periodically populated by the management command via cron"""
         short_course_data = cache.get(self.cache_key)
         if short_course_data is None:
-            short_course_data = self.set_data_in_cache()
+            short_course_data = self.get_and_set_data_in_cache()
         return short_course_data

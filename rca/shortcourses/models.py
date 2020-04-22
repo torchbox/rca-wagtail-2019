@@ -89,7 +89,7 @@ class ShortCoursePage(BasePage):
         verbose_name=_("About the course"),
     )
 
-    access_planit_course_id = models.CharField(max_length=10)
+    access_planit_course_id = models.IntegerField()
     frequently_asked_questions = models.ForeignKey(
         "utils.ShortCourseDetailSnippet",
         null=True,
@@ -249,12 +249,6 @@ class ShortCoursePage(BasePage):
 
     def clean(self):
         errors = defaultdict(list)
-        try:
-            int(self.access_planit_course_id)
-        except ValueError:
-            errors["access_planit_course_id"].append(
-                "Please enter a valid course id in the form of a number, E.G 731014"
-            )
         if not self.contact_email and not self.contact_url:
             errors["contact_url"].append(
                 "Please add a target value for the contact us link"
