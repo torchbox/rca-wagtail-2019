@@ -1,21 +1,26 @@
+{% load wagtailcore_tags %}
 <div class="key-details key-details--centre">
     <div class="key-details__header">
         <h3 class="heading heading--five key-details__heading">Key details</h3>
     </div>
-    {% if page.centre_staff or page.centre_address or page.centre_tel %}
+    {% if page.primary_staff_name or page.centre_address or page.centre_tel %}
         <div class="key-details__section key-details__section--contact">
             <ul class="key-details__list">
-                {% if page.centre_staff %}
-                    {% for item in page.centre_staff %}
+                {% if page.primary_staff_name %}
                     <li class="key-details__list-item">
-                        <a href="{{ item.link }}" class="link link--tertiary">{{ item.name }}</a>
-                        {% if item.job_title %}<p class="key-details__meta">{{ item.job_title }}</p>{% endif %}
+                        {% if page.primary_staff_url %}
+                            <a href="{{ item.link }}" class="link link--tertiary">
+                        {% endif %}
+                        {{ page.primary_staff_name }}
+                        {% if page.primary_staff_url %}
+                            </a>
+                        {% endif %}
+                        {% if page.primary_staff_role %}<p class="key-details__meta">{{ page.primary_staff_role }}</p>{% endif %}
                     </li>
-                    {% endfor %}
                 {% endif %}
                 {% if page.centre_address %}
                     <li class="key-details__list-item">
-                        <p>{{ page.centre_address }}</p>
+                        <p>{{ page.centre_address|richtext }}</p>
                     </li>
                 {% endif %}
                 {% if page.centre_tel %}
@@ -26,11 +31,11 @@
                </ul>
         </div>
     {% endif %}
-    {% if page.centre_twitter %}
+    {% if page.twitter_username %}
         <div class="key-details__section key-details__section--twitter">
             <ul class="key-details__list">
                 <li class="key-details__list-item">
-                    <a href="http://www.twitter.com/{{ centre_twitter }}" class="link link--tertiary link--link" target="_blank" rel="noopener">
+                    <a href="http://www.twitter.com/{{ page.twitter_username }}" class="link link--tertiary link--link" target="_blank" rel="noopener">
                         <span class="link__label">Twitter</span>
                         <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                     </a>
