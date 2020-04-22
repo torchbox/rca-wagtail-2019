@@ -5,9 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("utils", "0011_add_short_course_details"),
-    ]
+    dependencies = [("utils", "0011_add_short_course_details")]
 
     operations = [
         migrations.CreateModel(
@@ -25,5 +23,5 @@ class Migration(migrations.Migration):
                 ("title", models.CharField(max_length=128)),
                 ("description", models.CharField(blank=True, max_length=500)),
             ],
-        ),
+        )
     ]

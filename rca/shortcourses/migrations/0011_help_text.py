@@ -7,9 +7,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("shortcourses", "0010_merge_20200420_1247"),
-    ]
+    dependencies = [("shortcourses", "0010_merge_20200420_1247")]
 
     operations = [
         migrations.AlterField(
@@ -43,5 +41,5 @@ class Migration(migrations.Migration):
                 blank=True,
                 verbose_name="Quote carousel",
             ),
-        ),
+        )
     ]
