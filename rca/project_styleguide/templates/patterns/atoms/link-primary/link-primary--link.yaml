@@ -1,3 +1,4 @@
 context:
-  text: 'Study at the RCA'
-  href: '#'
+  value:
+    text: 'Study at the RCA'
+    href: '#'
