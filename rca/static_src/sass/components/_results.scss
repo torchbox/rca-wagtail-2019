@@ -9,6 +9,11 @@
         grid-template-columns: 1fr 1fr 1fr;
     }
 
+    &--no-results {
+        border-top: 0;
+        padding-top: 0;
+    }
+
     .bg--dark & {
         border-color: $color--grid-line-light;
     }

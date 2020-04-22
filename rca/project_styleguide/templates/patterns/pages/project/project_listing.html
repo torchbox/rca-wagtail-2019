@@ -57,34 +57,44 @@
 
             <section class="section bg bg--light">
 
-                <div class="section__row section__row--first-small section__row--last-small grid">
-                    <div class="results-total heading heading--four layout__start-one layout__span-two layout__@large-start-two">
-                        <span class="results-total__type">Projects</span>
-                        <span class="results-total__number">236</span>
+                {% if page.results %}
+                    <div class="section__row section__row--first-small section__row--last-small grid">
+                        <div class="results-total heading heading--four layout__start-one layout__span-two layout__@large-start-two">
+                            <span class="results-total__type">Projects</span>
+                            <span class="results-total__number">236</span>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
 
-                {% if page.feature %}
+                {% if page.feature and page.results %}
                     <div class="section__row">
                         {% include "patterns/organisms/image-video-block/image-video-block.html" with heading=false subheading=page.feature.sub_heading meta_heading=page.feature.meta_heading image=page.feature.image has_meta=True meta_copy=page.feature.page_summary href=page.feature.href caption=false video=false %}
                     </div>
                 {% endif %}
 
-                <div class="section__row section__row--last-small grid">
-                    <div class="results layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                        {% for item in page.results %}
-                            <div class="results__item layout__span-two layout__@medium-span-one">
-                                {% include "patterns/molecules/card/card--project.html" %}
+                <div class="section__row {% if page.results %}section__row--last-small {% else %}section__row--first-small section__row--last-large{% endif %} grid">
+                    <div class="results {% if not page.results %}results--no-results{% endif %} layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                        {% if page.results %}
+                            {% for item in page.results %}
+                                <div class="results__item layout__span-two layout__@medium-span-one">
+                                    {% include "patterns/molecules/card/card--project.html" %}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="layout__start-one layout__span-two">
+                                {% include "patterns/molecules/no-results/no-results.html" %}
                             </div>
-                        {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
 
-                <div class="section__row section__row--last grid">
-                    <div class="layout__span-two layout__@large-span-one layout__start-one layout__@large-start-three">
-                        {% include "patterns/molecules/pagination/pagination.html" %}
+                {% if page.results %}
+                    <div class="section__row section__row--last grid">
+                        <div class="layout__span-two layout__@large-span-one layout__start-one layout__@large-start-three">
+                            {% include "patterns/molecules/pagination/pagination.html" %}
+                        </div>
                     </div>
-                </div>
+                {% endif %}
 
             </section>
 
