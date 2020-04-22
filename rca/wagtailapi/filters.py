@@ -5,7 +5,8 @@ from wagtail.api.v2.utils import BadRequestError
 from wagtail.search.backends import get_search_backend
 from wagtail.search.backends.base import FilterFieldError, OrderByFieldError
 
-from rca.schools.models import SchoolsAndResearchPage
+from rca.research.models import ResearchCentrePage
+from rca.schools.models import SchoolPage
 
 
 class DegreeLevelFilter(filters.BaseFilterBackend):
@@ -40,17 +41,24 @@ class RelatedSchoolsFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
         try:
             queryset.model._meta.get_field("related_schools_and_research_pages")
-            school_ids = [
+            related_schools_and_research_page_ids = [
                 int(id)
                 for id in request.GET.getlist("related_schools_and_research_pages", [])
             ]
-            if school_ids:
-                school_pages = SchoolsAndResearchPage.objects.live().filter(
-                    id__in=school_ids
-                )
 
+            if related_schools_and_research_page_ids:
+                school_pages = SchoolPage.objects.live().filter(
+                    id__in=related_schools_and_research_page_ids
+                )
+                research_pages = ResearchCentrePage.objects.live().filter(
+                    id__in=related_schools_and_research_page_ids
+                )
+                if research_pages:
+                    pages = research_pages
+                if school_pages:
+                    pages = school_pages
                 queryset = queryset.model.objects.filter(
-                    related_schools_and_research_pages__page_id__in=school_pages.values_list(
+                    related_schools_and_research_pages__page_id__in=pages.values_list(
                         "pk", flat=True
                     )
                 ).order_by("title")
