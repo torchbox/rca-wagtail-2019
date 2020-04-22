@@ -44,7 +44,7 @@ class ProjectPageSubjectPlacement(models.Model):
 
 class ProjectPageRelatedResearchPage(RelatedPage):
     source_page = ParentalKey("ProjectPage", related_name="related_research_pages")
-    panels = [PageChooserPanel("page", "research.ResearchPage")]
+    panels = [PageChooserPanel("page", "research.ResearchCentrePage")]
 
 
 class ProjectPageRelatedSchoolPage(RelatedPage):
@@ -246,9 +246,15 @@ class ProjectPage(BasePage):
         for i in self.subjects.all():
             subjects.append({"title": i.subject.title, "link": "TODO"})
         taxonomy_tags = []
+        if self.related_school_pages:
+            for i in self.related_school_pages.all():
+                taxonomy_tags.append({"title": i.page.title})
+        if self.related_research_pages:
+            for i in self.related_research_pages.all():
+                taxonomy_tags.append({"title": i.page.title})
         if self.research_types:
             for i in self.research_types.all():
-                taxonomy_tags.append({"title": i.research_type.title, "link": "TODO"})
+                taxonomy_tags.append({"title": i.research_type.title})
 
         context["subjects"] = subjects
         context["project_lead"] = self.project_lead.select_related("image")
