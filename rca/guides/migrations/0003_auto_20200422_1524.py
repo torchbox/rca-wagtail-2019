@@ -11,9 +11,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("guides", "0002_guide_base_fields"),
-    ]
+    dependencies = [("guides", "0002_guide_base_fields")]
 
     operations = [
         migrations.AlterField(
@@ -97,5 +95,5 @@ class Migration(migrations.Migration):
                     ),
                 ]
             ),
-        ),
+        )
     ]
