@@ -2,12 +2,12 @@
     <div class="key-details__header">
         <h3 class="heading heading--five key-details__heading">Key details</h3>
     </div>
-    {% if page.key_details_tags %}
+    {% if taxonomy_tags %}
         <div class="key-details__section key-details__section--tags">
             <ul class="key-details__list">
-                {% for item in page.key_details_tags %}
+                {% for item in taxonomy_tags %}
                     <li class="key-details__list-item">
-                        {{ item.tag }}
+                        {{ item.title }}
                     </li>
                 {% endfor %}
             </ul>

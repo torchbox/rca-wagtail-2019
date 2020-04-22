@@ -9,6 +9,7 @@ from wagtail.admin.edit_handlers import (
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
+    PageChooserPanel,
     StreamFieldPanel,
     TabbedInterface,
 )
@@ -25,7 +26,12 @@ from rca.utils.blocks import (
     LinkBlock,
     QuoteBlock,
 )
-from rca.utils.models import BasePage, RelatedStaffPageWithManualOptions
+from rca.utils.models import (
+    BasePage,
+    RelatedPage,
+    RelatedStaffPageWithManualOptions,
+    ResearchType,
+)
 
 
 class ProjectPageSubjectPlacement(models.Model):
@@ -34,6 +40,28 @@ class ProjectPageSubjectPlacement(models.Model):
         "programmes.Subject", on_delete=models.CASCADE, related_name="projects"
     )
     panels = [FieldPanel("subject")]
+
+
+class ProjectPageRelatedResearchPage(RelatedPage):
+    source_page = ParentalKey("ProjectPage", related_name="related_research_pages")
+    panels = [PageChooserPanel("page", "research.ResearchPage")]
+
+
+class ProjectPageRelatedSchoolPage(RelatedPage):
+    source_page = ParentalKey("ProjectPage", related_name="related_school_pages")
+    panels = [PageChooserPanel("page", "schools.SchoolPage")]
+
+
+class ProjectPageResearchTypePlacement(models.Model):
+    page = ParentalKey("ProjectPage", related_name="research_types")
+    research_type = models.ForeignKey(
+        ResearchType,
+        on_delete=models.SET_NULL,
+        blank=False,
+        null=True,
+        related_name="projects",
+    )
+    panels = [FieldPanel("research_type")]
 
 
 class ProjectPageRelatedStaff(RelatedStaffPageWithManualOptions):
@@ -169,8 +197,12 @@ class ProjectPage(BasePage):
             heading="Contact information",
         ),
     ]
+
     key_details_panels = [
-        InlinePanel("subjects", label="RCA Experties"),
+        InlinePanel("subjects", label=_("RCA Experties")),
+        InlinePanel("related_school_pages", label=_("Related schools")),
+        InlinePanel("related_research_pages", label=_("Related research cetnres")),
+        InlinePanel("research_types", label=_("Research types")),
         FieldPanel("start_date"),
         FieldPanel("end_date"),
         FieldPanel("funding"),
@@ -213,9 +245,15 @@ class ProjectPage(BasePage):
         subjects = []
         for i in self.subjects.all():
             subjects.append({"title": i.subject.title, "link": "TODO"})
+        taxonomy_tags = []
+        if self.research_types:
+            for i in self.research_types.all():
+                taxonomy_tags.append({"title": i.research_type.title, "link": "TODO"})
+
         context["subjects"] = subjects
         context["project_lead"] = self.project_lead.select_related("image")
         context["related_staff"] = self.related_staff.select_related("image")
+        context["taxonomy_tags"] = taxonomy_tags
 
         return context
 
