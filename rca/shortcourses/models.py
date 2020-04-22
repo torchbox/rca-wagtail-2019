@@ -249,12 +249,6 @@ class ShortCoursePage(BasePage):
 
     def clean(self):
         errors = defaultdict(list)
-        try:
-            int(self.access_planit_course_id)
-        except ValueError:
-            errors["access_planit_course_id"].append(
-                "Please enter a valid course id in the form of a number, E.G 731014"
-            )
         if not self.contact_email and not self.contact_url:
             errors["contact_url"].append(
                 "Please add a target value for the contact us link"
