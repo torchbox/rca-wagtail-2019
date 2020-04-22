@@ -100,6 +100,7 @@ class ProjectPage(BasePage):
     gallery = StreamField(
         [("slide", GalleryBlock())], blank=True, verbose_name=_("Gallery")
     )
+    more_information_title = models.CharField(max_length=80, default="More information")
     more_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
@@ -141,7 +142,13 @@ class ProjectPage(BasePage):
         ),
         StreamFieldPanel("body"),
         StreamFieldPanel("gallery"),
-        StreamFieldPanel("more_information"),
+        MultiFieldPanel(
+            [
+                FieldPanel("more_information_title"),
+                StreamFieldPanel("more_information"),
+            ],
+            heading=_("More information"),
+        ),
         MultiFieldPanel(
             [
                 InlinePanel("project_lead", label="Project team lead", max_num=1),
