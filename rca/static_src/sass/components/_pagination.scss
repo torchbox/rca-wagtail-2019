@@ -47,6 +47,11 @@
         @include hidden();
     }
 
+    &__button-icon {
+        height: $gutter;
+        width: $gutter;
+    }
+
     /** Colours dependant on bg colour */
 
     .bg--light & {
