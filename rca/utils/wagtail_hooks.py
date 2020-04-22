@@ -6,6 +6,7 @@ from wagtail.contrib.modeladmin.options import (
 from wagtailorderable.modeladmin.mixins import OrderableMixin
 
 from rca.programmes.models import DegreeLevel, ProgrammeType, Subject
+from rca.utils.models import ResearchType
 
 
 class DegreeLevelModelAdmin(ModelAdmin):
@@ -24,9 +25,19 @@ class ProgrammeTypeModelAdmin(OrderableMixin, ModelAdmin):
     ordering = ["sort_order"]
 
 
+class ResearchTypeModelAdmin(ModelAdmin):
+    model = ResearchType
+    menu_icon = "tag"
+
+
 class TaxonomiesModelAdminGroup(ModelAdminGroup):
     menu_label = "Taxonomies"
-    items = (DegreeLevelModelAdmin, ProgrammeTypeModelAdmin, SubjectModelAdmin)
+    items = (
+        DegreeLevelModelAdmin,
+        ProgrammeTypeModelAdmin,
+        SubjectModelAdmin,
+        ResearchTypeModelAdmin,
+    )
     menu_icon = "tag"
 
 
