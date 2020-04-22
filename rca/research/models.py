@@ -115,6 +115,12 @@ class ResearchCentrePage(BasePage):
         max_length=250,
         help_text=_("The title value displayed above the related staff grid"),
     )
+    staff_link = models.URLField(blank=True, help_text=_("Add a link to see all staff"))
+    staff_link_text = models.CharField(
+        blank=True,
+        help_text=_("The text to display on the link to all staff"),
+        max_length=80,
+    )
     related_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="Related Links"
     )
@@ -152,7 +158,12 @@ class ResearchCentrePage(BasePage):
             heading="Research news",
         ),
         MultiFieldPanel(
-            [FieldPanel("staff_title"), InlinePanel("related_staff", label="staff")],
+            [
+                FieldPanel("staff_title"),
+                InlinePanel("related_staff", label="staff"),
+                FieldPanel("staff_link"),
+                FieldPanel("staff_link_text"),
+            ],
             heading="Research Centre Staff",
         ),
         StreamFieldPanel("related_links"),
@@ -275,6 +286,10 @@ class ResearchCentrePage(BasePage):
             and not self.about_page_link_text
         ):
             errors["about_page"].append("Please add some link text for the about page")
+        if self.staff_link and not self.staff_link_text:
+            errors["staff_link_text"].append(
+                "Please add some text for the link to all staff"
+            )
 
         if errors:
             raise ValidationError(errors)
