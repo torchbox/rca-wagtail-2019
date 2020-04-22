@@ -11,9 +11,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("standardpages", "0003_update_body_field"),
-    ]
+    dependencies = [("standardpages", "0003_update_body_field")]
 
     operations = [
         migrations.AlterField(
@@ -89,5 +87,5 @@ class Migration(migrations.Migration):
                     ),
                 ]
             ),
-        ),
+        )
     ]

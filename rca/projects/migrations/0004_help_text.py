@@ -7,9 +7,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("projects", "0003_fix_typo_alter_subject"),
-    ]
+    dependencies = [("projects", "0003_fix_typo_alter_subject")]
 
     operations = [
         migrations.AlterField(

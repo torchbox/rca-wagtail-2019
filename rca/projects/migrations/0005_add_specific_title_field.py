@@ -5,14 +5,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("projects", "0004_help_text"),
-    ]
+    dependencies = [("projects", "0004_help_text")]
 
     operations = [
         migrations.AddField(
             model_name="projectpage",
             name="more_information_title",
             field=models.CharField(default="More information", max_length=80),
-        ),
+        )
     ]
