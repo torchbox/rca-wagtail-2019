@@ -127,8 +127,8 @@
                     <div class="section__notch-fill section__notch-fill--first-col"></div>
                 </div>
 
-                {% if page.relatedcontent %}
-                    {% include "patterns/molecules/relatedcontent/relatedprogrammes--large.html" with related_sections=page.programmes title="Helen Hamlyn Design Centre programmes" %}
+                {% if related_programmes %}
+                    {% include "patterns/molecules/relatedcontent/relatedprogrammes--large.html" with related_sections=related_programmes title=related_programmes.0.title %}
                 {% endif %}
 
                 <div class="section__notch">
