@@ -9,6 +9,7 @@ from wagtail.admin.edit_handlers import (
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
+    PageChooserPanel,
     StreamFieldPanel,
     TabbedInterface,
 )
@@ -25,7 +26,12 @@ from rca.utils.blocks import (
     LinkBlock,
     QuoteBlock,
 )
-from rca.utils.models import BasePage, RelatedStaffPageWithManualOptions
+from rca.utils.models import (
+    BasePage,
+    RelatedPage,
+    RelatedStaffPageWithManualOptions,
+    ResearchType,
+)
 
 
 class ProjectPageSubjectPlacement(models.Model):
@@ -34,6 +40,28 @@ class ProjectPageSubjectPlacement(models.Model):
         "programmes.Subject", on_delete=models.CASCADE, related_name="projects"
     )
     panels = [FieldPanel("subject")]
+
+
+class ProjectPageRelatedResearchPage(RelatedPage):
+    source_page = ParentalKey("ProjectPage", related_name="related_research_pages")
+    panels = [PageChooserPanel("page", "research.ResearchCentrePage")]
+
+
+class ProjectPageRelatedSchoolPage(RelatedPage):
+    source_page = ParentalKey("ProjectPage", related_name="related_school_pages")
+    panels = [PageChooserPanel("page", "schools.SchoolPage")]
+
+
+class ProjectPageResearchTypePlacement(models.Model):
+    page = ParentalKey("ProjectPage", related_name="research_types")
+    research_type = models.ForeignKey(
+        ResearchType,
+        on_delete=models.SET_NULL,
+        blank=False,
+        null=True,
+        related_name="projects",
+    )
+    panels = [FieldPanel("research_type")]
 
 
 class ProjectPageRelatedStaff(RelatedStaffPageWithManualOptions):
@@ -100,6 +128,7 @@ class ProjectPage(BasePage):
     gallery = StreamField(
         [("slide", GalleryBlock())], blank=True, verbose_name=_("Gallery")
     )
+    more_information_title = models.CharField(max_length=80, default="More information")
     more_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
@@ -141,7 +170,13 @@ class ProjectPage(BasePage):
         ),
         StreamFieldPanel("body"),
         StreamFieldPanel("gallery"),
-        StreamFieldPanel("more_information"),
+        MultiFieldPanel(
+            [
+                FieldPanel("more_information_title"),
+                StreamFieldPanel("more_information"),
+            ],
+            heading=_("More information"),
+        ),
         MultiFieldPanel(
             [
                 InlinePanel("project_lead", label="Project team lead", max_num=1),
@@ -162,8 +197,12 @@ class ProjectPage(BasePage):
             heading="Contact information",
         ),
     ]
+
     key_details_panels = [
-        InlinePanel("subjects", label="RCA Experties"),
+        InlinePanel("subjects", label=_("RCA Experties")),
+        InlinePanel("related_school_pages", label=_("Related schools")),
+        InlinePanel("related_research_pages", label=_("Related research cetnres")),
+        InlinePanel("research_types", label=_("Research types")),
         FieldPanel("start_date"),
         FieldPanel("end_date"),
         FieldPanel("funding"),
@@ -206,9 +245,21 @@ class ProjectPage(BasePage):
         subjects = []
         for i in self.subjects.all():
             subjects.append({"title": i.subject.title, "link": "TODO"})
+        taxonomy_tags = []
+        if self.related_school_pages:
+            for i in self.related_school_pages.all():
+                taxonomy_tags.append({"title": i.page.title})
+        if self.related_research_pages:
+            for i in self.related_research_pages.all():
+                taxonomy_tags.append({"title": i.page.title})
+        if self.research_types:
+            for i in self.research_types.all():
+                taxonomy_tags.append({"title": i.research_type.title})
+
         context["subjects"] = subjects
         context["project_lead"] = self.project_lead.select_related("image")
         context["related_staff"] = self.related_staff.select_related("image")
+        context["taxonomy_tags"] = taxonomy_tags
 
         return context
 

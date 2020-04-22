@@ -47,6 +47,7 @@ context:
           author: 'Kevin Howbrook'
           link: 'http://www.torchbox.com'
           course: 'Design'
+    more_information_title: More information
     more_information:
       - path:
         value:
