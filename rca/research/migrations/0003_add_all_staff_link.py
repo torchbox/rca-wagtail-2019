@@ -5,9 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("research", "0002_field_additions_and_related_models"),
-    ]
+    dependencies = [("research", "0002_field_additions_and_related_models")]
 
     operations = [
         migrations.AddField(
