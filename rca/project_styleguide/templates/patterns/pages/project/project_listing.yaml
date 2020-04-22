@@ -28,7 +28,7 @@ context:
       - {
           school: 'The Helen Hamlyn Centre for Design',
           title: 'Marked (Working Title)',
-          year: '2019 - 2020',
+          year: '2019&#8211;2020',
           image: true,
           link: '#',
         }
@@ -70,7 +70,7 @@ context:
       - {
           school: 'The Helen Hamlyn Centre for Design',
           title: 'Marked (Working Title)',
-          year: '2019 - 2020',
+          year: '2019&#8211;2020',
           image: true,
           link: '#',
         }

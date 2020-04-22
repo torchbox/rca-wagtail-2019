@@ -3,6 +3,8 @@
     $notch-height-small: 24px;
     $notch-height-medium: 74px;
     $notch-height-large: 95px;
+    $custom-breakpoint-min: 1023px;
+    $custom-breakpoint-max: 1180px;
 
     &--image {
         #{$root}__content {
@@ -109,6 +111,11 @@
             margin-bottom: ($gutter * 2.5);
         }
 
+        // One off custom breakpoint between medium and large
+        @media only screen and (max-width: $custom-breakpoint-max) and (min-width: $custom-breakpoint-min) {
+            padding-right: $gutter;
+        }
+
         #{$root}__content {
             flex-basis: 100%;
             max-width: 100%;
@@ -116,6 +123,7 @@
             top: -$notch-height-small;
             margin-bottom: -$notch-height-small;
             padding-right: 0;
+            padding-top: ($gutter * 0.75);
 
             &::after {
                 @include media-query(medium) {
@@ -532,7 +540,7 @@
             }
 
             // One off custom breakpoint between medium and large
-            @media only screen and (max-width: 1180px) and (min-width: 1023px) {
+            @media only screen and (max-width: $custom-breakpoint-max) and (min-width: $custom-breakpoint-min) {
                 padding-top: 0;
             }
 
