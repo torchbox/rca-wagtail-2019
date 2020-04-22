@@ -1,0 +1,23 @@
+context:
+  page:
+    breadcrumb:
+      - { label: 'Research', link: /research/ }
+      - { label: 'Research highlights', link: /research/highlights }
+    title: Our Research
+    introduction: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ultrices tincidunt quam ac convallis.
+    filters:
+      title: Filter by
+      items:
+        - { title: School or Centre, href: '#' }
+        - { title: Research type, href: '#', selected: true }
+        - { title: Subject, href: '#' }
+        - { title: Theme, href: '#' }
+    feature:
+      sub_heading: School of Design
+      meta_heading: Electronic Skin Nanopatches for Continuous Blood Pressure Monitoring
+      page_summary: Generating new technologies, knowledge and understanding, critical for moving invention in wearable technology forward.
+      href: '#'
+    results: False
+    reset_link:
+      href: '#'
+      text: Reset filters
