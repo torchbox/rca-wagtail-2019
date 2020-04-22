@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.http.request import QueryDict
-from requests.exceptions import ConnectionError, HTTPError, Timeout
+from requests.exceptions import ConnectionError, HTTPError, ReadTimeout
 
 """
 Static methods for adding content from the live RCA api
@@ -44,7 +44,7 @@ def fetch_data(url):
     try:
         response = requests.get(url, timeout=10)
         response.raise_for_status()
-    except Timeout:
+    except ReadTimeout:
         logger.exception(f"Timeout error occurred when fetching data from {url}")
         raise CantPullFromRcaApi(
             "Error occured when fetching further detail data from {url}"
