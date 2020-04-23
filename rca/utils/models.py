@@ -134,7 +134,9 @@ class RelatedStaffPageWithManualOptions(Orderable):
     first_name = models.CharField(max_length=125)
     surname = models.CharField(max_length=125)
     role = models.CharField(max_length=125, blank=True)
-    description = models.TextField(blank=True)
+    description = models.TextField(
+        blank=True, help_text="Not displayed for small teaser profiles"
+    )
     link = models.URLField(blank=True)
 
     def __str__(self):
