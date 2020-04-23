@@ -336,4 +336,22 @@ class ProjectPage(BasePage):
 
 
 class ProjectPickerPage(BasePage):
-    pass
+    template = "patterns/pages/project/project_listing.html"
+
+    def get_filters(self):
+        filters = {}
+        from django.utils.text import slugify
+
+        research_types = []
+        for i in ResearchType.objects.all():
+            research_types.append(
+                {"id": i.id, "title": i.title, "slug": slugify(i.title)}
+            )
+        filters["research_types"] = research_types
+        return filters
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["filters"] = self.get_filters()
+
+        return context

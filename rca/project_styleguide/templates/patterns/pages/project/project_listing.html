@@ -38,7 +38,7 @@
                 <div class="section__notch section__notch--opposite">
 
                     <div class="section__notch-fill section__notch-fill--content-height section__notch-fill--fourth-col section__notch-fill--second-col@medium">
-                        {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=page.filters modifier="large" reset=True %}
+                        {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True %}
                     </div>
 
                     <div class="filter-tab-options filter-tab-options--mobile">
@@ -67,7 +67,7 @@
 
             <div class="filter-takeover bg bg--light">
                 <div class="filter-takeover__container">
-                    {% for item in page.filters.items %}
+                    {% for item in filters.items %}
                         <div class="filter-takeover__tab-content tabs__panel tabs__panel--hidden js-tab-panel" id="{{ item.tab_title|slugify }}" role="tabpanel" aria-labelledby="tab-{{ item.tab_title|slugify }}">
                             {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" with title="projects" filter_options=item.children %}
                         </div>
@@ -78,7 +78,7 @@
 
             <section class="section bg bg--light">
 
-                {% if page.results %}
+                {% if results %}
                     <div class="section__row section__row--first-small section__row--last-small grid">
                         <div class="results-total heading heading--four layout__start-one layout__span-two layout__@large-start-two">
                             <span class="results-total__type">Projects</span>
@@ -87,16 +87,16 @@
                     </div>
                 {% endif %}
 
-                {% if page.feature and page.results %}
+                {% if page.feature and results %}
                     <div class="section__row">
                         {% include "patterns/organisms/image-video-block/image-video-block.html" with heading=false subheading=page.feature.sub_heading meta_heading=page.feature.meta_heading image=page.feature.image has_meta=True meta_copy=page.feature.page_summary href=page.feature.href caption=false video=false %}
                     </div>
                 {% endif %}
 
-                <div class="section__row {% if page.results %}section__row--last-small {% else %}section__row--first-small section__row--last-large{% endif %} grid">
-                    <div class="results {% if not page.results %}results--no-results{% endif %} layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                        {% if page.results %}
-                            {% for item in page.results %}
+                <div class="section__row {% if results %}section__row--last-small {% else %}section__row--first-small section__row--last-large{% endif %} grid">
+                    <div class="results {% if not results %}results--no-results{% endif %} layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                        {% if results %}
+                            {% for item in results %}
                                 <div class="results__item layout__span-two layout__@medium-span-one">
                                     {% include "patterns/molecules/card/card--project.html" %}
                                 </div>
@@ -109,7 +109,7 @@
                     </div>
                 </div>
 
-                {% if page.results %}
+                {% if results %}
                     <div class="section__row section__row--last grid">
                         <div class="layout__span-two layout__@large-span-one layout__start-one layout__@large-start-three">
                             {% include "patterns/molecules/pagination/pagination.html" %}
