@@ -22,33 +22,6 @@ context:
           link_text: 'Read more',
         }
     staff_link: false
-    index_module:
-      title: Index module
-      cards:
-        - {
-            title: 'Innovation RCA',
-            link: '#',
-            meta: Link,
-            person: false,
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
-            image: true,
-          }
-        - {
-            title: 'Consultancy & knowledge exchange',
-            link: '#',
-            meta: Link,
-            person: false,
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
-            image: true,
-          }
-        - {
-            title: 'Custom executive education',
-            link: '#',
-            meta: Link,
-            person: false,
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
-            image: true,
-          }
     contact: true
     contact_image: true
     body:
@@ -58,3 +31,30 @@ context:
     - { title: Introduction, link: '#introduction' }
     - { title: Article 1, link: '#article-one' }
     - { title: Article 2, link: '#article-two' }
+  related_pages:
+    title: Index Module
+    items:
+      - {
+          title: 'Innovation RCA',
+          link: '#',
+          meta: Link,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Consultancy & knowledge exchange',
+          link: '#',
+          meta: Link,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Custom executive education',
+          link: '#',
+          meta: Link,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
