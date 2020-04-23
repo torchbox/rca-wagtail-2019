@@ -1,8 +1,5 @@
 context:
   page:
-    breadcrumb:
-      - { label: 'Research', link: /research/ }
-      - { label: 'Research highlights', link: /research/highlights }
     get_ancestors:
       - is_root: false
         title: Research
