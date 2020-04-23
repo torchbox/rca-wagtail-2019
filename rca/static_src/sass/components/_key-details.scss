@@ -116,6 +116,10 @@
 
     &__list-item {
         margin-bottom: ($gutter / 2.25);
+
+        &--tight {
+            line-height: $line-height-tight;
+        }
     }
 
     &__link {

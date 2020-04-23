@@ -2,7 +2,9 @@
 
 <div class="profile-detail">
     {% if item.link %}
-    <a href="{{ item.link }}" class="profile-detail__container">
+        <a href="{{ item.link }}" class="profile-detail__container profile-detail__container--link">
+    {% else %}
+        <div class="profile-detail__container">
     {% endif %}
 
     {% image item.image fill-50x50 as image_small %}
@@ -29,6 +31,8 @@
     </div>
 
     {% if item.link %}
-    </a>
+        </a>
+    {% else %}
+        </div>
     {% endif %}
 </div>
