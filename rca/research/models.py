@@ -103,7 +103,7 @@ class ResearchCentrePage(BasePage):
         blank=True, max_length=15, help_text=_("The Research Centres Twitter username")
     )
     centre_email = models.EmailField(blank=True)
-    centre_news_title = models.CharField(
+    more_research_centre_content_title = models.CharField(
         blank=True,
         max_length=250,
         help_text=_(
@@ -152,10 +152,10 @@ class ResearchCentrePage(BasePage):
         ),
         MultiFieldPanel(
             [
-                FieldPanel("centre_news_title"),
+                FieldPanel("more_research_centre_content_title"),
                 InlinePanel("research_news", label="Research news"),
             ],
-            heading="Research news",
+            heading="More research centre content",
         ),
         MultiFieldPanel(
             [
@@ -253,7 +253,7 @@ class ResearchCentrePage(BasePage):
         return research_opportunities
 
     def get_research_news(self):
-        research_news = {"title": self.centre_news_title, "slides": []}
+        research_news = {"title": self.more_research_centre_content_title, "slides": []}
         for value in self.research_news.select_related("page"):
             if value.page.live:
                 page = value.page.specific
