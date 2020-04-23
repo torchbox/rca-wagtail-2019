@@ -239,7 +239,7 @@ class ResearchCentrePage(BasePage):
                         "title": page.title,
                         "link": page.url,
                         "image": page.listing_image,
-                        "description": page.listing_summary,
+                        "description": page.introduction,
                     }
                 )
         return research_spaces
