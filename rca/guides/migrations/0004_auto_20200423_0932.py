@@ -5,9 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("guides", "0003_auto_20200422_1524"),
-    ]
+    dependencies = [("guides", "0003_auto_20200422_1524")]
 
     operations = [
         migrations.AlterField(
@@ -16,5 +14,5 @@ class Migration(migrations.Migration):
             field=models.TextField(
                 blank=True, help_text="Not displayed for small teaser profiles"
             ),
-        ),
+        )
     ]
