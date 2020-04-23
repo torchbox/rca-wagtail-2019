@@ -17,11 +17,13 @@
         padding-right: 4px;
     }
 
-    .theme-light & {
-        color: $color--white;
-    }
+    .hero-action-pane & {
+        .theme-light & {
+            color: $color--white;
+        }
 
-    .theme-dark & {
-        color: $color--black;
+        .theme-dark & {
+            color: $color--black;
+        }
     }
 }
