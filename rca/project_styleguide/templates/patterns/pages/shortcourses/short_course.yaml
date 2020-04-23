@@ -91,6 +91,7 @@ context:
   related_staff:
     - {
         name: 'Beth Hughes',
+        image: true,
         role: 'Head of Programmes',
         description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
         link: '#',
@@ -127,3 +128,16 @@ context:
     - { text: 'Knowledge Exchange', href: '#' }
     - { text: 'Custom Executive Education', href: '#' }
     - { text: 'Innovation RCA', href: '#' }
+
+tags:
+  image:
+    item.image fill-50x50 as image_small:
+      target_var: image_small
+      raw:
+        url: '//placekitten.com/50/50'
+    item.image fill-277x277 as image_large:
+      target_var: image_large
+      raw:
+        url: '//placekitten.com/277/277'
+        width: '277'
+        height: '277'

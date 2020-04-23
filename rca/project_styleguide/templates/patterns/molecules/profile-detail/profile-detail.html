@@ -1,14 +1,20 @@
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags static %}
 
 <div class="profile-detail">
     {% if item.link %}
     <a href="{{ item.link }}" class="profile-detail__container">
     {% endif %}
 
-    {% image item.image fill-50x50 as image_small %}
-    {% image item.image fill-277x277 as image_large %}
+    {% if item.image %}
+        {% image item.image fill-50x50 as image_small %}
+        {% image item.image fill-277x277 as image_large %}
+    {% endif %}
 
-    {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=277 height=277 image_large=image_large classList='profile-detail__image' %}
+    {% if item.image %}
+        {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=277 height=277 image_large=image_large classList='profile-detail__image' %}
+    {% else %}
+        <img src="{% static "images/author_placeholder.png" %}" alt="" class="profile-detail__image profile-detail__image--placeholder">
+    {% endif %}
 
     <div class="profile-detail__content">
         <div class="profile-detail__overview">
