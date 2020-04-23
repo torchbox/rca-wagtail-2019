@@ -1,0 +1,29 @@
+.image-info {
+    display: flex;
+    flex-direction: row;
+
+    &__title {
+        font-family: $font--secondary;
+    }
+
+    .hero-action-pane & {
+        @include media-query(large) {
+            grid-column: 3 / span 2;
+        }
+    }
+
+    &__title,
+    &__creator {
+        padding-right: 4px;
+    }
+
+    .hero-action-pane & {
+        .theme-light & {
+            color: $color--white;
+        }
+
+        .theme-dark & {
+            color: $color--black;
+        }
+    }
+}

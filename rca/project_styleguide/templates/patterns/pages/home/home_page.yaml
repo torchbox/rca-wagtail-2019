@@ -7,7 +7,10 @@ context:
     hero_cta_sub_text: Shape your future
     strapline_cta_text: Book an open day
     strapline_cta_url: '#'
-
+    hero_image:
+      title: Synaputral Decadence is the flavour of the distant future
+      creator: Jianjin Lee Chen
+      photographer: Sekiro Yamananka
     call_to_action:
       title: Stub content
       summary: Check out our awesome stub content

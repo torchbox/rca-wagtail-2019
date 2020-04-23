@@ -184,6 +184,12 @@ class ProgrammePage(BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
+    hero_image_credit = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Adding specific credit text here will \
+        override the images meta data fields.",
+    )
     hero_video = models.URLField(blank=True)
     hero_video_preview_image = models.ForeignKey(
         "images.CustomImage",
@@ -412,6 +418,7 @@ class ProgrammePage(BasePage):
         MultiFieldPanel(
             [
                 ImageChooserPanel("hero_image"),
+                FieldPanel("hero_image_credit"),
                 FieldPanel("hero_video"),
                 ImageChooserPanel("hero_video_preview_image"),
                 FieldPanel("hero_colour_option"),
