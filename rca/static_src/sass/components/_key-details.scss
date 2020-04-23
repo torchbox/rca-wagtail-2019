@@ -30,6 +30,17 @@
         }
     }
 
+    &--centre {
+        #{$root}__meta {
+            // Allow for mobile link underline above it
+            margin-top: ($gutter / 4);
+
+            @include media-query(large) {
+                margin-top: 0;
+            }
+        }
+    }
+
     &__header {
         @include media-query(medium) {
             flex-basis: 100%;
