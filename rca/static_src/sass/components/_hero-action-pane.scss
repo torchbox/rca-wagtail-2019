@@ -3,7 +3,7 @@
     $root: &;
     $hero-action-pane-height-small: 110px;
     $hero-action-pane-height-medium: 160px;
-    $hero-image-credit-height: 40px;
+    $hero-image-credit-height: 25px;
     $hero-action-pane-height-large: (
         $hero-action-pane-height-medium + $hero-image-credit-height
     );
@@ -157,7 +157,7 @@
             position: absolute;
             top: 0;
             display: block;
-            grid-column: 3 / span 2;
+            grid-column: 3 / span 3;
         }
     }
 

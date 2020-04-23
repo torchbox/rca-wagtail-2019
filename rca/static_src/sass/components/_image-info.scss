@@ -1,15 +1,6 @@
 .image-info {
-    display: flex;
-    flex-direction: row;
-
     &__title {
         font-family: $font--secondary;
-    }
-
-    .hero-action-pane & {
-        @include media-query(large) {
-            grid-column: 3 / span 2;
-        }
     }
 
     &__title,
