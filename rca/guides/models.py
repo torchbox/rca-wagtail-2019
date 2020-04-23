@@ -33,6 +33,7 @@ class GuidePage(BasePage):
         blank=True,
         verbose_name=_("Further information"),
     )
+    related_pages_title = models.CharField(blank=True, max_length=120)
     contact_email = models.EmailField(blank=True)
     contact_url = models.URLField(blank=True)
     contact_image = models.ForeignKey(
@@ -50,7 +51,11 @@ class GuidePage(BasePage):
         MultiFieldPanel([InlinePanel("related_staff")], heading=_("Related staff")),
         StreamFieldPanel("further_information"),
         MultiFieldPanel(
-            [InlinePanel("related_pages", max_num=6)], heading=_("Related pages")
+            [
+                FieldPanel("related_pages_title"),
+                InlinePanel("related_pages", max_num=6),
+            ],
+            heading=_("Related pages"),
         ),
         MultiFieldPanel(
             [
@@ -75,10 +80,25 @@ class GuidePage(BasePage):
 
         return items
 
+    def get_related_pages(self):
+        related_pages = {"title": self.related_pages_title, "items": []}
+        for related_page in self.related_pages.all():
+            page = related_page.page.specific
+            related_pages["items"].append(
+                {
+                    "page": page,
+                    "title": page.listing_title if page.listing_title else page.title,
+                    "image": page.listing_image,
+                    "link": page.url,
+                    "description": page.listing_summary,
+                }
+            )
+        return related_pages
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["anchor_nav"] = self.anchor_nav()
         context["related_staff"] = self.related_staff.all
-        context["related_pages"] = self.related_pages.all
+        context["related_pages"] = self.get_related_pages()
 
         return context

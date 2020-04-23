@@ -70,13 +70,13 @@
                 <div class="section__row short-course-accordion section__row--last">
                         {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.further_information course_type="short" %}
                 </div>
-                </section
+                </section>
             {% endif %}
 
             {% if related_pages %}
                 <section class="section bg bg--dark" id="index">
                     <div class="section__row section__row--first section__row--last-large">
-                        {% include "patterns/organisms/index-module/index-module.html" with items=related_pages %}
+                        {% include "patterns/organisms/index-module/index-module.html" with items=related_pages.items title=related_pages.title %}
                     </div>
 
                     <div class="section__notch section__notch--small-med-only">
