@@ -89,9 +89,9 @@ class LinkBlock(blocks.StructBlock):
 class GalleryBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=False)
     image = ImageChooserBlock()
-    author = blocks.CharBlock(required=False)
+    creator = blocks.CharBlock(required=False)
     link = blocks.URLBlock(required=False)
-    course = blocks.CharBlock(required=False)
+    more_information = blocks.CharBlock(required=False)
 
     class Meta:
         icon = "image"
