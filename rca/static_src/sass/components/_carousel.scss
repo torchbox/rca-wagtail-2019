@@ -187,6 +187,10 @@
             }
         }
 
+        #{$root}__button-icon {
+            stroke: $color--meta-darkbg;
+        }
+
         #{$root}__bullet {
             background-color: $color--scrollbar-darkbg-bg;
 
@@ -204,6 +208,10 @@
                 stroke: $color--white;
                 background-color: $color--black;
             }
+        }
+
+        #{$root}__button-icon {
+            stroke: $color--meta-lightbg;
         }
 
         #{$root}__bullet {

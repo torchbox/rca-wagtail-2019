@@ -1,0 +1,106 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% get_settings %}
+
+{% block header_class %}
+    theme-{{ hero_colour }}
+{% endblock %}
+
+{% block body_class %}
+    app--project-listing
+{% endblock %}
+
+{% block content %}
+
+    <div class="page page--no-hero">
+
+        <header class="page__header bg bg--dark">
+            <div class="title-area title-area--research-centre grid">
+                <div class="title-area__content title-area__content--three-col">
+                    <nav class="title-area__breadcrumb layout__span-two layout__@large-span-three" aria-label="Breadcrumb">
+                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" with breadcrumb=page.breadcrumb %}
+                    </nav>
+                    {% if page.title %}
+                        <div class="title-area__heading layout__span-two layout__start-one layout__@large-span-one">
+                            <h1 class="heading heading--display-two">{{ page.title }}</h1>
+                        </div>
+                    {% endif %}
+                    {% if page.introduction %}
+                        <div class="title-area__introduction layout__span-one layout__start-two layout__@large-start-three">{{ page.introduction }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <div class="page__content js-sticky-point js-sticky-point--top">
+
+            <section class="section section--opposite-notch sticky-filter-bar">
+
+                <div class="section__row bg bg--dark filter-bar filter-bar--large">
+                    <div class="section__notch section__notch--opposite">
+                        <div class="section__notch-fill section__notch-fill--content-height section__notch-fill--fourth-col section__notch-fill--second-col@medium">
+                            {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=page.filters modifier="large" reset=True %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-bar filter-bar--small bg bg--light">
+                    <a class="filter-bar__link body body--two" href="#">
+                        <span class="filter-bar__label">Filter projects</span>
+                        <svg width="12" height="8" class="filter-bar__icon" aria-hidden="true">
+                            <use xlink:href="#arrow"></use>
+                        </svg>
+                    </a>
+                </div>
+
+            </section>
+
+            <section class="section bg bg--light">
+
+                {% if page.results %}
+                    <div class="section__row section__row--first-small section__row--last-small grid">
+                        <div class="results-total heading heading--four layout__start-one layout__span-two layout__@large-start-two">
+                            <span class="results-total__type">Projects</span>
+                            <span class="results-total__number">236</span>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if page.feature and page.results %}
+                    <div class="section__row">
+                        {% include "patterns/organisms/image-video-block/image-video-block.html" with heading=false subheading=page.feature.sub_heading meta_heading=page.feature.meta_heading image=page.feature.image has_meta=True meta_copy=page.feature.page_summary href=page.feature.href caption=false video=false %}
+                    </div>
+                {% endif %}
+
+                <div class="section__row {% if page.results %}section__row--last-small {% else %}section__row--first-small section__row--last-large{% endif %} grid">
+                    <div class="results {% if not page.results %}results--no-results{% endif %} layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                        {% if page.results %}
+                            {% for item in page.results %}
+                                <div class="results__item layout__span-two layout__@medium-span-one">
+                                    {% include "patterns/molecules/card/card--project.html" %}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="layout__start-one layout__span-two">
+                                {% include "patterns/molecules/no-results/no-results.html" %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if page.results %}
+                    <div class="section__row section__row--last grid">
+                        <div class="layout__span-two layout__@large-span-one layout__start-one layout__@large-start-three">
+                            {% include "patterns/molecules/pagination/pagination.html" %}
+                        </div>
+                    </div>
+                {% endif %}
+
+            </section>
+
+            
+        
+        </div>
+
+    </div>
+{% endblock %}

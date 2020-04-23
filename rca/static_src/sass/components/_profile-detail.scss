@@ -8,13 +8,15 @@
         display: block;
         color: currentColor;
 
-        &:hover {
-            #{$root}__image {
-                opacity: 0.8;
-            }
+        &--link {
+            &:hover {
+                #{$root}__image {
+                    opacity: 0.8;
+                }
 
-            #{$root}__heading {
-                @include underline-hover();
+                #{$root}__heading {
+                    @include underline-hover();
+                }
             }
         }
     }
@@ -186,6 +188,7 @@
 
             @include media-query(large) {
                 grid-column: 2 / span 2;
+                padding-right: 50%;
             }
         }
 

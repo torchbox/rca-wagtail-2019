@@ -5,9 +5,9 @@
         {% image card.image fill-828x472 as image_large %}
     {% endif %}
     <div class="card__container">
-        {% if item.link %}<a href="{{ item.link }}" class="card__image-container" aria-label="{{ item.title }}">{% endif %}
+        {% if item.link and item.image %}<a href="{{ item.link }}" class="card__image-container" aria-label="{{ item.title }}">{% endif %}
             {% if item.image %}{% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=828 height=472 image_large=image_large classList='card__image' %}{% endif %}
-        {% if item.link %}</a>{% endif %}
+        {% if item.link and item.image %}</a>{% endif %}
         <div class="card__content-container">
             <div class="card__content">
                 {% if item.meta %}
@@ -18,7 +18,7 @@
                         {{ item.title }}
                     {% if item.link %}</a>{% endif %}
                 </h3>
-                {% if item.description %}
+                {% if item.description %} 
                     <div class="card__description">{{ item.description }}</div>
                 {% endif %}
             </div>

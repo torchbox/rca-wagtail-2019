@@ -7,6 +7,14 @@
         padding-bottom: ($gutter * 10);
     }
 
+    &--padding-small {
+        padding-bottom: ($gutter * 2);
+
+        @include media-query(medium) {
+            padding-bottom: ($gutter * 10);
+        }
+    }
+
     &__header {
         margin-bottom: ($gutter * 2);
 
@@ -27,6 +35,7 @@
 
         @include media-query(large) {
             grid-column: 3 / span 2;
+            padding-top: 7px; // ensure aligned with header on left
         }
     }
 

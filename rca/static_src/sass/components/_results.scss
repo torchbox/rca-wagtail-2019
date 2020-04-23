@@ -1,0 +1,24 @@
+.results {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-width: 1px 0 0;
+    border-style: solid;
+    padding-top: ($gutter * 1.5);
+
+    @include media-query(large) {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    &--no-results {
+        border-top: 0;
+        padding-top: 0;
+    }
+
+    .bg--dark & {
+        border-color: $color--grid-line-light;
+    }
+
+    .bg--light & {
+        border-color: $color--grid-line-dark;
+    }
+}
