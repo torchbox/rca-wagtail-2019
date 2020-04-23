@@ -3,6 +3,12 @@ context:
     breadcrumb:
       - { label: 'Research', link: /research/ }
       - { label: 'Research highlights', link: /research/highlights }
+    get_ancestors:
+      - is_root: false
+        title: Research
+      - is_root: false
+        title: Research highlights
+
     title: RCA x CERN The Grand Challenge
     key_details_tags:
       - { tag: School of Design }
@@ -162,3 +168,9 @@ tags:
   include_block:
     block:
       template_name: 'patterns/_pattern_library_only/streamfield/project_streamfield.html'
+  pageurl:
+    ancestor_page:
+      raw: '#'
+  slugurl:
+    "'home'":
+      raw: '#'
