@@ -1,11 +1,16 @@
 <div class="image-info body body--support">
-    {% if item.title %}
-        <span class="image-info__title">{{ item.title }}{% if item.creator or item.photographer %},{% endif %}</span>
+    {% if credit %}
+        <span class="image-info__title">{{ credit }}</span>
+    {% else %}
+        {% if item.title %}
+            <span class="image-info__title">{{ item.title }}{% if item.creator or item.photographer %},{% endif %}</span>
+        {% endif %}
+        {% if item.creator %}
+            <span class="image-info__creator">{{ item.creator }}{% if item.photographer %},{% endif %}</span>
+        {% endif %}
+        {% if item.photographer %}
+            <span class="image-info__photographer">Photo: {{ item.photographer }}</span>
+        {% endif %}
     {% endif %}
-    {% if item.creator %}
-        <span class="image-info__creator">{{ item.creator }}{% if item.photographer %},{% endif %}</span>
-    {% endif %}
-    {% if item.photographer %}
-        <span class="image-info__photographer">Photo: {{ item.photographer }}</span>
-    {% endif %}
+    
 </div>
