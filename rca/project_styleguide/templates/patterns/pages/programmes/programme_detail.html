@@ -31,14 +31,6 @@
                         <p class="title-area__introduction introduction">{{ page.degree_level }}</p>
                     {% endif %}
                 </div>
-                <div class="hero__image__credit">
-                    {% if page.hero_image_credit %}
-                        {{ page.hero_image_credit }}
-                    {% else %}
-                        <i>{{ page.hero_image.title }}</i>{% if page.hero_image.creator %}, {{ page.hero_image.creator }}{% endif %}
-                        {% if page.hero_image.photographer %}, Photo: {{ page.hero_image.photographer }}{% endif %}
-                    {% endif %}
-                </div>
             </div>
         </header>
 
