@@ -13,31 +13,6 @@ context:
     introduction: 'The Helen Hamlyn Centre for Design at the Royal College of Art undertakes design research. Our team of dedicated researchers work on projects that save lives.'
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     about_page_link_text: 'About the Helen Hamlyn Centre'
-    research_spaces:
-      - {
-          title: 'Healthcare',
-          link: '#',
-          meta: false,
-          person: false,
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          image: true,
-        }
-      - {
-          title: 'Age & Diversity',
-          link: '#',
-          meta: false,
-          person: false,
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          image: true,
-        }
-      - {
-          title: 'Healthcare',
-          link: '#',
-          meta: false,
-          person: false,
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-          image: true,
-        }
     research_highlights:
       - slide:
         meta: 'School of Design'
@@ -57,30 +32,6 @@ context:
         description: 'Creating world class experiences that started at the RCA'
         image: true
         link: '#'
-    programmes:
-      - item:
-        title: false
-        related_items:
-          - item:
-            title: Design thinking & innovation
-            degree_level: Executive education
-            programme_description_subtitle: Design thinking & innovation at the RCA sets out to inspire design innovation.
-            img: http://placehold.it/300x270/fff/000
-          - item:
-            title: Creative Leadership
-            degree_level: Executive education
-            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
-            img: http://placehold.it/300x270/ff5d1c/fff
-          - item:
-            title: The Helen Hamlyn Centre for Design PhD
-            degree_level: MPhil/PhD
-            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
-            img: http://placehold.it/300x270
-          - item:
-            title: Student workshops
-            degree_level: Student programme
-            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
-            img: http://placehold.it/300x270
     news_and_events:
       - item:
         meta: 'Event'
@@ -105,15 +56,35 @@ context:
         person: false
     related_links:
       - item:
-        value: { text: 'Knowledge Exchange', href: '#' }
+        value: { text: 'Knowledge Exchange', href: 'http://www.bbc.co.uk' }
       - item:
-        value: { text: 'Custom Executive Education', href: '#' }
+        value:
+          { text: 'Custom Executive Education', href: 'http://www.bbc.co.uk' }
       - item:
-        value: { text: 'Innovation RCA', href: '#' }
-    staff_link: '/staff'
+        value: { text: 'Innovation RCA', href: 'http://www.bbc.co.uk' }
+    staff_link: false
     contact_image: true
     relatedcontent: true
     staff_title:
+  projects:
+    - slide:
+      meta: 'School of Design'
+      title: 'Extending the potential for the Digitally Printed Ceramic Surface'
+      description: 'Find out how a group of our MA students turned red mud into a range of striking pottery'
+      image: true
+      link: '#'
+    - slide:
+      meta: 'Alumni Story'
+      title: 'A place with a real focus on making'
+      description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
+      image: true
+      link: '#'
+    - slide:
+      meta: 'Alumni Story'
+      title: 'Designing the imposible for NASA'
+      description: 'Creating world class experiences that started at the RCA'
+      image: true
+      link: '#'
   related_staff:
     - {
         name: 'Beth Hughes',
@@ -134,7 +105,7 @@ context:
     contact_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
     contact_title: Contact Us
     related_content_title: More opportunities to study at the RCA
-  projects:
+  research_spaces:
     - {
         title: 'Healthcare',
         link: '#',
@@ -185,6 +156,30 @@ context:
         link: '#',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       }
+  related_programmes:
+    - item:
+      title: Helen Hamlyn Design Centre programmes
+      related_items:
+        - item:
+          title: Design thinking & innovation
+          degree_level: Executive education
+          programme_description_subtitle: Design thinking & innovation at the RCA sets out to inspire design innovation.
+          img: http://placehold.it/300x270/fff/000
+        - item:
+          title: Creative Leadership
+          degree_level: Executive education
+          programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+          img: http://placehold.it/300x270/ff5d1c/fff
+        - item:
+          title: The Helen Hamlyn Centre for Design PhD
+          degree_level: MPhil/PhD
+          programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+          img: http://placehold.it/300x270
+        - item:
+          title: Student workshops
+          degree_level: Student programme
+          programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+          img: http://placehold.it/300x270
   research_news:
     title: More at the Helen Hamlyn Design Centre
     slides:
