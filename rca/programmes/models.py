@@ -34,7 +34,12 @@ from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtailorderable.models import Orderable as WagtailOrdable
 
 from rca.api_content import content
-from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_TEXT_ON_DARK_IMAGE
+from rca.home.models import (
+    DARK_HERO,
+    HERO_COLOUR_CHOICES,
+    LIGHT_HERO,
+    LIGHT_TEXT_ON_DARK_IMAGE,
+)
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
@@ -679,10 +684,10 @@ class ProgrammePage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["hero_colour"] = "dark"
+        context["hero_colour"] = DARK_HERO
 
         if int(self.hero_colour_option) == LIGHT_TEXT_ON_DARK_IMAGE:
-            context["hero_colour"] = "light"
+            context["hero_colour"] = LIGHT_HERO
 
         context["related_sections"] = [
             {

@@ -18,7 +18,12 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_TEXT_ON_DARK_IMAGE
+from rca.home.models import (
+    DARK_HERO,
+    HERO_COLOUR_CHOICES,
+    LIGHT_HERO,
+    LIGHT_TEXT_ON_DARK_IMAGE,
+)
 from rca.projects.models import ProjectPage
 from rca.utils.blocks import LinkBlock
 from rca.utils.models import BasePage, RelatedPage, RelatedStaffPageWithManualOptions
@@ -97,7 +102,7 @@ class ResearchCentrePage(BasePage):
         max_length=120,
         help_text=_("The role of the staff member, E.G 'Head of Programme'"),
     )
-    centre_address = RichTextField(blank=True)
+    centre_address = RichTextField(blank=True, features=["link"])
     centre_tel = PhoneNumberField(blank=True)
     twitter_username = models.CharField(
         blank=True, max_length=15, help_text=_("The Research Centres Twitter username")
@@ -206,9 +211,7 @@ class ResearchCentrePage(BasePage):
 
     def get_child_projects(self):
         """
-        Returns a queryset of all child ProjectPages of this page
-        TODO: This needs finishing once we have the project pages built
-        Also a bit unsure on the template changes I've had to do
+        Returns a list of all child ProjectPages of this page
         """
         projects = (
             ProjectPage.objects.live()
@@ -232,14 +235,16 @@ class ResearchCentrePage(BasePage):
     def get_research_spaces(self):
         research_spaces = []
         for value in self.research_spaces.select_related("page"):
-            if value.page.live:
+            if value.page and value.page.live:
                 page = value.page.specific
                 research_spaces.append(
                     {
                         "title": page.title,
                         "link": page.url,
                         "image": page.listing_image,
-                        "description": page.introduction,
+                        "description": page.introduction
+                        if hasattr(page, "introduction")
+                        else None,
                     }
                 )
         return research_spaces
@@ -317,13 +322,13 @@ class ResearchCentrePage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["hero_colour"] = "dark"
+        context["hero_colour"] = DARK_HERO
         if int(self.hero_colour_option) == LIGHT_TEXT_ON_DARK_IMAGE:
-            context["hero_colour"] = "light"
+            context["hero_colour"] = LIGHT_HERO
 
-        context["about_page"] = self.about_page_url
-        if self.about_page:
-            context["about_page"] = self.about_page.url
+        context["about_page"] = (
+            self.about_page.url if self.about_page else self.about_page_url
+        )
 
         context["projects"] = self.get_child_projects()
         context["research_spaces"] = self.get_research_spaces()
