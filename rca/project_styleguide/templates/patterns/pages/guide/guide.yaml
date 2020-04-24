@@ -1,8 +1,12 @@
 context:
   page:
-    breadcrumb:
-      - { label: 'Research & Innovation', link: /research/ }
-      - { label: 'Research at RCA', link: /research/rca }
+    get_ancestors:
+      - is_root: false
+        depth: 3
+        title: Research & Innovation
+      - is_root: false
+        depth: 4
+        title: Research at RCA
     title: MRes RCA
     edit_date: 7 March 2020
     introduction: Join a thriving community of more than 250 MPhil and PhD students pursuing cutting-edge research at the world's leading postgraduate university for art & design
