@@ -17,4 +17,23 @@
             color: $color--black;
         }
     }
+
+    .title-area & {
+        transition: color $cubic-transition;
+
+        .bg--dark & {
+            color: $color--meta-darkbg;
+
+            &:hover {
+                color: $color--white;
+            }
+        }
+        .bg--light & {
+            color: $color--meta-lightbg;
+
+            &:hover {
+                color: $color--black;
+            }
+        }
+    }
 }
