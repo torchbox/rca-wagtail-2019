@@ -50,23 +50,21 @@
             {% if page.enterprise_highlights %}
                 <section class="landing-page__top section section--start bg bg--dark">
 
-                    <div class="section__row">
-                        <div class="section__row section__row--last-large research-highlights">
-                            {% if page.enterprise_highlights_title %}
-                                <div class="section__header grid">
-                                    <h2 class="section__heading section__heading--primary heading heading--four">
-                                        {{ page.enterprise_highlights_title }}
-                                    </h2>
-                                </div>
-                            {% endif %}
-                            <div class="section__content grid">
-                                {% include "patterns/organisms/carousel/carousel.html" with carousel=page.enterprise_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}     
-                                <div class="section__action">
-                                    <a class="link link--primary link--link body body--two" href="/research">
-                                        <span class="link__label">See all research</span>
-                                        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                                    </a>    
-                                </div>
+                    <div class="section__row section__row--last-large research-highlights">
+                        {% if page.enterprise_highlights_title %}
+                            <div class="section__header grid">
+                                <h2 class="section__heading section__heading--primary heading heading--four">
+                                    {{ page.enterprise_highlights_title }}
+                                </h2>
+                            </div>
+                        {% endif %}
+                        <div class="section__content grid">
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=page.enterprise_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}     
+                            <div class="section__action">
+                                <a class="link link--primary link--link body body--two" href="/research">
+                                    <span class="link__label">See all research</span>
+                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                </a>    
                             </div>
                         </div>
                     </div>
