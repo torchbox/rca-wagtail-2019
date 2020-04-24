@@ -1,8 +1,10 @@
 context:
   page:
-    breadcrumb:
-      - { label: 'Research', link: /research/ }
     title: Innovation at the RCA
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: Research
     introduction: 'InnovationRCA is the Royal College of Art’s centre for enterprise and entrepreneurship, helping students and graduates transform compelling ideas into successful businesses.'
     introduction_link: '#'
     introduction_link_text: 'Read more'
