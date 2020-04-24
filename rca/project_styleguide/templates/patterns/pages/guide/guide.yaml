@@ -8,6 +8,7 @@ context:
     introduction: Join a thriving community of more than 250 MPhil and PhD students pursuing cutting-edge research at the world's leading postgraduate university for art & design
     staff_link: false
     contact: true
+    contact_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
     contact_image: true
     body:
       - dummy
