@@ -12,18 +12,18 @@
                 {% include "patterns/molecules/key-details/key-details.html" with course_type="programme" %}
             </div>
             <div class="programme-overview__body">
-                <p class="introduction heading heading--five" property="schema:description">
-                    {{ page.programme_description_subtitle }}
-                <p>
+                {% if page.programme_description_subtitle %}
+                    <p class="introduction heading heading--five" property="schema:description">{{ page.programme_description_subtitle }}</p>
+                {% endif %}
                 {% if page.programme_image %}
-                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.programme_video image=page.programme_image caption=page.programme_video_caption video=page.programme_video out_of_grid="true" %}
+                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.programme_video image=page.programme_image caption=page.programme_video_caption video=page.programme_video out_of_grid="true" heading=false has_meta=false subheading=false copy=false %}
                 {% endif %}
                 <div class="programme-overview__description rich-text">
                     {{ page.programme_description_copy|safe }}
                 </div>
                 {% if page.pathway_blocks %}
                     <div class="programme-overview__pathways">
-                        {% include "patterns/molecules/pathways/pathways.html" with summary=page.pathways_summary pathways=page.pathway_blocks %}
+                        {% include "patterns/molecules/pathways/pathways.html" with pathways=page.pathway_blocks %}
                     </div>
                 {% endif %}
             </div>

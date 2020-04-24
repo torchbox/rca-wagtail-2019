@@ -8,6 +8,9 @@ context:
       photographer: Sekiro Yamananka
     programme_description_title: 'We inspire design innovation'
     programme_description_subtitle: 'Extend your knowledge, skills and creativity through research and experimentation.'
+    programme_image: true
+    programme_video: true
+    programme_video_caption: Watch inside our architecture studios
     programme_description_copy: '<p>The programme conceives of architecture as a diverse and complex set of practices that move beyond traditional distinctions and limits in the field. The programme expands the possibilities of architecture and its agency in the world by encouraging an independent and critical ethos among its students.</p>'
     get_ancestors:
       - is_root: false
@@ -42,10 +45,11 @@ context:
           author: 'Kevin Howbrook'
           link: 'http://www.torchbox.com'
           course: 'Design'
-    facilities_intro: "The School of Architecture is located across both the RCA's historic Kensington site and London's newest cultural and research culture in White City."
-    facilities_copy: 'The School of Architecture studios are the heart of day-to-day activity for the programmes and are purpose-designed for inspiration and interaction between students of different design disciplines. As well as an individual studio space, students have access to traditional 3D-making facilities, contemporary digital fabrication equipment and a suite of bookable project and making spaces.'
-    facilities_link: '#'
-    facilities_link_text: 'See all college facilities'
+    facilities_snippet:
+      introduction: The School of Architecture is located across both the RCA's historic Kensington site and London's newest cultural and research culture in White City.
+      link_url: '#'
+      link_title: See all college facilities
+      copy: The School of Architecture studios are the heart of day-to-day activity for the programmes and are purpose-designed for inspiration and interaction between students of different design disciplines. As well as an individual studio space, students have access to traditional 3D-making facilities, contemporary digital fabrication equipment and a suite of bookable project and making spaces.
     facilities_gallery:
       - slide:
         value:
@@ -74,13 +78,25 @@ context:
     contact_link_url: '#'
     contact_link_text: 'Register your interest with us here'
     contact_title: 'Contact us'
-    pathways_summary: 'MA Animation comprises of three specialist pathways one of which students select as part of their application.'
     pathway_blocks:
       - path:
         value:
-          preview_text: 'Extending and disrupting the tools, intent and role of graphic design.'
-          body: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
           heading: 'Graphic Design'
+          preview_text: 'Extending and disrupting the tools, intent and role of graphic design.'
+          link:
+            title: 'Find out more'
+            url: '#'
+      - path:
+        value:
+          heading: 'Experimental Communication'
+          preview_text: 'Extending and disrupting the tools, intent and role of graphic design.'
+          link:
+            title: 'Find out more'
+            url: '#'
+      - path:
+        value:
+          heading: 'Illustration'
+          preview_text: 'Extending and disrupting the tools, intent and role of graphic design.'
           link:
             title: 'Find out more'
             url: '#'
@@ -147,7 +163,8 @@ context:
     contact_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
     contact_title: Contact Us
     related_content_title: More opportunities to study at the RCA
-
+    pathways_summary: MA Animation comprises of three specialist pathways one of which students select as part of their application.
+    key_details_pathways_information_link_title: Find out more
 tags:
   image:
     page.contact_image fill-250x250:
