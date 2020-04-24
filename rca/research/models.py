@@ -18,7 +18,12 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_TEXT_ON_DARK_IMAGE
+from rca.home.models import (
+    DARK_HERO,
+    HERO_COLOUR_CHOICES,
+    LIGHT_HERO,
+    LIGHT_TEXT_ON_DARK_IMAGE,
+)
 from rca.projects.models import ProjectPage
 from rca.utils.blocks import LinkBlock
 from rca.utils.models import BasePage, RelatedPage, RelatedStaffPageWithManualOptions
@@ -97,13 +102,13 @@ class ResearchCentrePage(BasePage):
         max_length=120,
         help_text=_("The role of the staff member, E.G 'Head of Programme'"),
     )
-    centre_address = RichTextField(blank=True)
+    centre_address = RichTextField(blank=True, features=["link"])
     centre_tel = PhoneNumberField(blank=True)
     twitter_username = models.CharField(
         blank=True, max_length=15, help_text=_("The Research Centres Twitter username")
     )
     centre_email = models.EmailField(blank=True)
-    centre_news_title = models.CharField(
+    more_research_centre_content_title = models.CharField(
         blank=True,
         max_length=250,
         help_text=_(
@@ -114,6 +119,12 @@ class ResearchCentrePage(BasePage):
         blank=True,
         max_length=250,
         help_text=_("The title value displayed above the related staff grid"),
+    )
+    staff_link = models.URLField(blank=True, help_text=_("Add a link to see all staff"))
+    staff_link_text = models.CharField(
+        blank=True,
+        help_text=_("The text to display on the link to all staff"),
+        max_length=80,
     )
     related_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="Related Links"
@@ -142,17 +153,22 @@ class ResearchCentrePage(BasePage):
         ),
         MultiFieldPanel(
             [InlinePanel("research_opportunities", label="Research opportunities")],
-            heading="Research Ooportunities",
+            heading="Research opportunities",
         ),
         MultiFieldPanel(
             [
-                FieldPanel("centre_news_title"),
+                FieldPanel("more_research_centre_content_title"),
                 InlinePanel("research_news", label="Research news"),
             ],
-            heading="Research news",
+            heading="More research centre content",
         ),
         MultiFieldPanel(
-            [FieldPanel("staff_title"), InlinePanel("related_staff", label="staff")],
+            [
+                FieldPanel("staff_title"),
+                InlinePanel("related_staff", label="staff"),
+                FieldPanel("staff_link"),
+                FieldPanel("staff_link_text"),
+            ],
             heading="Research Centre Staff",
         ),
         StreamFieldPanel("related_links"),
@@ -188,9 +204,7 @@ class ResearchCentrePage(BasePage):
 
     def get_child_projects(self):
         """
-        Returns a queryset of all child ProjectPages of this page
-        TODO: This needs finishing once we have the project pages built
-        Also a bit unsure on the template changes I've had to do
+        Returns a list of all child ProjectPages of this page
         """
         projects = (
             ProjectPage.objects.live()
@@ -214,14 +228,16 @@ class ResearchCentrePage(BasePage):
     def get_research_spaces(self):
         research_spaces = []
         for value in self.research_spaces.select_related("page"):
-            if value.page.live:
+            if value.page and value.page.live:
                 page = value.page.specific
                 research_spaces.append(
                     {
                         "title": page.title,
                         "link": page.url,
                         "image": page.listing_image,
-                        "description": page.listing_summary,
+                        "description": page.introduction
+                        if hasattr(page, "introduction")
+                        else None,
                     }
                 )
         return research_spaces
@@ -242,7 +258,7 @@ class ResearchCentrePage(BasePage):
         return research_opportunities
 
     def get_research_news(self):
-        research_news = {"title": self.centre_news_title, "slides": []}
+        research_news = {"title": self.more_research_centre_content_title, "slides": []}
         for value in self.research_news.select_related("page"):
             if value.page.live:
                 page = value.page.specific
@@ -275,19 +291,23 @@ class ResearchCentrePage(BasePage):
             and not self.about_page_link_text
         ):
             errors["about_page"].append("Please add some link text for the about page")
+        if self.staff_link and not self.staff_link_text:
+            errors["staff_link_text"].append(
+                "Please add some text for the link to all staff"
+            )
 
         if errors:
             raise ValidationError(errors)
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["hero_colour"] = "dark"
+        context["hero_colour"] = DARK_HERO
         if int(self.hero_colour_option) == LIGHT_TEXT_ON_DARK_IMAGE:
-            context["hero_colour"] = "light"
+            context["hero_colour"] = LIGHT_HERO
 
-        context["about_page"] = self.about_page_url
-        if self.about_page:
-            context["about_page"] = self.about_page.url
+        context["about_page"] = (
+            self.about_page.url if self.about_page else self.about_page_url
+        )
 
         context["projects"] = self.get_child_projects()
         context["research_spaces"] = self.get_research_spaces()
