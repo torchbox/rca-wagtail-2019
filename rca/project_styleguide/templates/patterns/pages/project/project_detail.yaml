@@ -16,12 +16,12 @@ context:
       - { title: Textiles, link: '#' }
     key_details_download: '#'
     key_details_download_course: Archictecture MA
-    streamfield:
+    body:
       - dummy
-    project_image: true
-    project_image_caption: Watch the course introduction
+    introduction_image: true
+    video_caption: Watch the course introduction
     introduction: A collaboration between two world-leading institutions, bringing together science and design to find solutions to global challenges
-    project_video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
+    video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     gallery:
       - slide:
         value:
@@ -47,7 +47,8 @@ context:
           author: 'Kevin Howbrook'
           link: 'http://www.torchbox.com'
           course: 'Design'
-    more_info:
+    more_information_title: More information
+    more_information:
       - path:
         value:
           body: 'TBC'
@@ -68,77 +69,60 @@ context:
         value:
           body: 'TBC'
           heading: 'Outcomes'
-    project_lead:
-      - {
-          name: 'Beth Hughes',
-          role: 'Head of Programmes',
-          description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
-          link: '#',
-          link_text: 'Read more',
-        }
-    project_team:
-      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
-      - {
-          first_name: 'Nelly',
-          surname: 'Abbott',
-          meta: Current,
-          link: '#',
-          image: false,
-        }
-      - {
-          first_name: 'Nelly',
-          surname: 'Cholmondeley-Cale',
-          meta: Current,
-          link: '#',
-        }
-      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
-      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
-      - {
-          first_name: 'Yancy',
-          surname: 'Wolfeschlegelsteinhausenbergerdorffd',
-          meta: Current,
-          link: '#',
-        }
-    staff_link: false
     partners:
-      - { text: 'CERN', href: 'http://www.google.com' }
-      - { text: 'Architects Council of Europe', href: 'http://www.google.com' }
-      - {
-          text: 'European Association of Architectural Education',
-          href: 'http://www.google.com',
-        }
-      - {
-          text: 'The Standing Conference of Heads of Schools of Architecture',
-          href: 'http://www.google.com',
-        }
-      - {
-          text: 'Royal Institute of British Architects',
-          href: 'http://www.google.com',
-        }
+      - item:
+        value: { text: 'CERN', href: 'http://www.google.com' }
+      - item:
+        value:
+          {
+            text: 'Architects Council of Europe',
+            href: 'http://www.google.com',
+          }
+      - item:
+        value:
+          {
+            text: 'European Association of Architectural Education',
+            href: 'http://www.google.com',
+          }
+      - item:
+        value:
+          {
+            text: 'The Standing Conference of Heads of Schools of Architecture',
+            href: 'http://www.google.com',
+          }
+      - item:
+        value:
+          {
+            text: 'Royal Institute of British Architects',
+            href: 'http://www.google.com',
+          }
     funders:
-      - { text: 'CERN', href: 'http://www.google.com' }
-      - {
-          text: 'The Standing Conference of Heads of Schools of Architecture',
-          href: 'http://www.google.com',
-        }
-    testimonial:
-      slides:
-        - slide:
-          value:
-            quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
-            author: 'Benjamin Glatz'
-            job_title: 'Digital Transformation Lead, Shell'
-        - slide:
-          value:
-            quote: 'We want people to come away from our executive education courses with achievable insights and a critical path to making change in their organisations and to their own individual working lives.'
-            author: 'Professor Jeremy Myerson'
-        - slide:
-          value:
-            quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
-            author: 'Benjamin Glatz'
-            job_title: 'Digital Transformation Lead, Shell'
-    contact: true
+      - item:
+        value: { text: 'CERN', href: 'http://www.google.com' }
+      - item:
+        value:
+          {
+            text: 'The Standing Conference of Heads of Schools of Architecture',
+            href: 'http://www.google.com',
+          }
+    quote_carousel:
+      - slide:
+        value:
+          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
+          author: 'Benjamin Glatz'
+          job_title: 'Digital Transformation Lead, Shell'
+      - slide:
+        value:
+          quote: 'We want people to come away from our executive education courses with achievable insights and a critical path to making change in their organisations and to their own individual working lives.'
+          author: 'Professor Jeremy Myerson'
+      - slide:
+        value:
+          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
+          author: 'Benjamin Glatz'
+          job_title: 'Digital Transformation Lead, Shell'
     contact_image: true
+    contact_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
+    contact_email: info@rca.ac.uk
     related_projects:
       - slide:
         meta: 'School of Design'
@@ -158,7 +142,37 @@ context:
         description: 'Creating world class experiences that started at the RCA'
         image: true
         link: '#'
-
+  project_lead:
+    - {
+        name: 'Beth Hughes',
+        role: 'Head of Programmes',
+        description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
+        link: '#',
+        link_text: 'Read more',
+      }
+  related_staff:
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    - {
+        first_name: 'Nelly',
+        surname: 'Abbott',
+        meta: Current,
+        link: '#',
+        image: false,
+      }
+    - {
+        first_name: 'Nelly',
+        surname: 'Cholmondeley-Cale',
+        meta: Current,
+        link: '#',
+      }
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    - {
+        first_name: 'Yancy',
+        surname: 'Wolfeschlegelsteinhausenbergerdorffd',
+        meta: Current,
+        link: '#',
+      }
 tags:
   include_block:
     block:

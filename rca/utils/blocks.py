@@ -65,7 +65,10 @@ class DocumentBlock(blocks.StructBlock):
 
 
 class QuoteBlock(blocks.StructBlock):
-    quote = blocks.CharBlock(classname="title")
+    quote = blocks.CharBlock(
+        classname="title",
+        help_text="Enter quote text only, there is no need to add quotation marks",
+    )
     author = blocks.CharBlock(required=False)
     job_title = blocks.CharBlock(required=False)
 
@@ -80,7 +83,7 @@ class LinkBlock(blocks.StructBlock):
 
     class Meta:
         icon = "link"
-        template = "patterns/molecules/streamfield/blocks/quote_block.html"
+        template = "patterns/molecules/streamfield/blocks/link_block.html"
 
 
 class GalleryBlock(blocks.StructBlock):

@@ -134,7 +134,9 @@ class RelatedStaffPageWithManualOptions(Orderable):
     first_name = models.CharField(max_length=125)
     surname = models.CharField(max_length=125)
     role = models.CharField(max_length=125, blank=True)
-    description = models.TextField(blank=True)
+    description = models.TextField(
+        blank=True, help_text="Not displayed for small teaser profiles"
+    )
     link = models.URLField(blank=True)
 
     def __str__(self):
@@ -502,3 +504,11 @@ class ShortCourseDetailSnippet(models.Model):
             return format_html(
                 f'<p>Please be sure to read our <a href="{self.url}">Terms & Conditions</a> before applying.</p>'
             )
+
+
+class ResearchType(models.Model):
+    title = models.CharField(max_length=128)
+    description = models.CharField(max_length=500, blank=True)
+
+    def __str__(self):
+        return self.title
