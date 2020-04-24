@@ -64,6 +64,15 @@
         }
     }
 
+    &__credit {
+        display: none;
+
+        @include media-query(large) {
+            display: block;
+            padding-top: $gutter;
+        }
+    }
+
     &__image {
         position: relative;
         left: -20px; // spill out of margins
