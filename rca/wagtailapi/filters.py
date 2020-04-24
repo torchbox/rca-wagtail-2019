@@ -40,7 +40,6 @@ class SubjectsFilter(filters.BaseFilterBackend):
 class RelatedSchoolsFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
         try:
-            queryset.model._meta.get_field("related_schools_and_research_pages")
             related_schools_and_research_page_ids = [
                 int(id)
                 for id in request.GET.getlist("related_schools_and_research_pages", [])
