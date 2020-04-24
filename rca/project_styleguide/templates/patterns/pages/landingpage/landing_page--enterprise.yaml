@@ -2,9 +2,6 @@ context:
   page:
     title: Enterprise at the RCA
     introduction: 'Enterprise at the RCA spans incubation, innovation and business acceleration programmes; consultancy and knowledge exchange, and custom executive short courses.'
-    introduction_link: '#'
-    introduction_link_text: 'Read more'
-    feature_image: false
     enterprise_highlights:
       - slide:
         meta: 'School of Design'
@@ -50,7 +47,6 @@ context:
           description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
           image: true,
         }
-    related_research_centres_schools: false
     middle_feature_image: true
     middle_feature_heading: Enterprise programmes
     middle_feature_meta_heading: Join a thriving community of more than 250 MPhil and PhD students
@@ -78,12 +74,6 @@ context:
             degree_level: Executive Education
             programme_description_subtitle: Turning innovation into successful real-world businesses.
             img: http://placehold.it/300x270
-    stats_block: false
-    startups: false
-    programmes: false
-    research: false
-    text_teaser: false
-    bottom_feature_image: false
     news:
       - item:
         meta: 'News'
@@ -106,4 +96,3 @@ context:
         link: '#'
         image: true
         person: false
-    contact: false
