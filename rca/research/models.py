@@ -199,9 +199,7 @@ class ResearchCentrePage(BasePage):
 
     def get_child_projects(self):
         """
-        Returns a queryset of all child ProjectPages of this page
-        TODO: This needs finishing once we have the project pages built
-        Also a bit unsure on the template changes I've had to do
+        Returns a list of all child ProjectPages of this page
         """
         projects = (
             ProjectPage.objects.live()
