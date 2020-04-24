@@ -97,7 +97,7 @@ class ResearchCentrePage(BasePage):
         max_length=120,
         help_text=_("The role of the staff member, E.G 'Head of Programme'"),
     )
-    centre_address = RichTextField(blank=True)
+    centre_address = RichTextField(blank=True, features=["link"])
     centre_tel = PhoneNumberField(blank=True)
     twitter_username = models.CharField(
         blank=True, max_length=15, help_text=_("The Research Centres Twitter username")
