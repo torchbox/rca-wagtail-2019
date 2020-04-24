@@ -228,7 +228,7 @@ class ResearchCentrePage(BasePage):
     def get_research_spaces(self):
         research_spaces = []
         for value in self.research_spaces.select_related("page"):
-            if value.page.live:
+            if value.page and value.page.live:
                 page = value.page.specific
                 research_spaces.append(
                     {
