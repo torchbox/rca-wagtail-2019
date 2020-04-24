@@ -19,7 +19,12 @@ from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
-from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_TEXT_ON_DARK_IMAGE
+from rca.home.models import (
+    DARK_HERO,
+    HERO_COLOUR_CHOICES,
+    LIGHT_HERO,
+    LIGHT_TEXT_ON_DARK_IMAGE,
+)
 from rca.programmes.models import ProgrammeType
 from rca.shortcourses.access_planit import AccessPlanitXML
 from rca.utils.blocks import (
@@ -294,8 +299,8 @@ class ShortCoursePage(BasePage):
             }
         ]
         context["related_staff"] = self.related_staff.select_related("image")
-        context["hero_colour"] = "dark"
+        context["hero_colour"] = DARK_HERO
         if int(self.hero_colour_option) == LIGHT_TEXT_ON_DARK_IMAGE:
-            context["hero_colour"] = "light"
+            context["hero_colour"] = LIGHT_HERO
 
         return context
