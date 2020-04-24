@@ -13,10 +13,6 @@ context:
     feature_meta_heading: Join a thriving community of more than 250 MPhil and PhD students
     feature_meta_text: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
     feature_meta_link: '#'
-    enterprise_highlights: false
-    enterprise_rca: false
-    related_research_centres_schools: false
-    middle_feature_image: false
     related_courses_title: Programmes
     related_courses:
       - item:
@@ -106,8 +102,6 @@ context:
         description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
         image: true
         link: '#'
-    research: false
-    text_teaser: false
     bottom_feature_image: true
     bottom_feature_heading: Angel Club at the RCA
     bottom_feature_meta_heading: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus id fermentum mi.
