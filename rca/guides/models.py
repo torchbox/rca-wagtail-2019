@@ -77,6 +77,13 @@ class GuidePage(BasePage):
                 items.append({"title": block.value, "link": f"#{slugify(block.value)}"})
         if self.related_staff:
             items.append({"title": "Staff", "link": "#staff"})
+        if self.related_pages_title:
+            items.append(
+                {
+                    "title": self.related_pages_title,
+                    "link": f"#{slugify(self.related_pages_title)}",
+                }
+            )
 
         return items
 
