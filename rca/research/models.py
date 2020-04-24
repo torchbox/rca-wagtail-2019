@@ -305,9 +305,9 @@ class ResearchCentrePage(BasePage):
         if int(self.hero_colour_option) == LIGHT_TEXT_ON_DARK_IMAGE:
             context["hero_colour"] = LIGHT_HERO
 
-        context["about_page"] = self.about_page_url
-        if self.about_page:
-            context["about_page"] = self.about_page.url
+        context["about_page"] = (
+            self.about_page.url if self.about_page else self.about_page_url
+        )
 
         context["projects"] = self.get_child_projects()
         context["research_spaces"] = self.get_research_spaces()
