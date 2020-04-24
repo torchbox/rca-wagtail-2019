@@ -1,140 +1,140 @@
 context:
-  filters:
-    title: Filter by
-    items:
-      - tab_title: School or Centre
-        children:
-          - { title: 3D modelling & visualisation }
-          - { title: Art & curating }
-          - { title: Creative industries }
-          - { title: Critical practice }
-          - { title: Culture & communication }
-          - { title: Digital futures }
-          - { title: Emerging technologies }
-          - { title: Engineering design }
-          - { title: Future cities }
-      - tab_title: Research type
-        children:
-          - { title: 3D modelling & visualisation }
-          - { title: Art & curating }
-          - { title: Creative industries }
-      - tab_title: Subject
-        children:
-          - { title: 3D modelling & visualisation }
-          - { title: Art & curating }
-          - { title: Creative industries }
-          - { title: Critical practice }
-          - { title: Culture & communication }
-          - { title: Digital futures }
-          - { title: Emerging technologies }
-          - { title: Engineering design }
-          - { title: Future cities }
-          - { title: Healthcare, ageing, wellbeing }
-          - { title: Inclusive design }
-          - { title: Intelligent mobility }
-          - { title: Manufacturing future }
-          - { title: New materials }
-          - { title: Risk, resilience, security and infrastructure }
-          - { title: Robotics & AI }
-          - { title: Service & UX design }
-          - { title: Sustainable society }
-      - tab_title: Theme
-        children:
-          - { title: Digital futures }
-          - { title: Emerging technologies }
   page:
     breadcrumb:
       - { label: 'Research', link: /research/ }
       - { label: 'Research highlights', link: /research/highlights }
     title: Our Research
     introduction: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ultrices tincidunt quam ac convallis.
-    feature:
-      sub_heading: School of Design
-      meta_heading: Electronic Skin Nanopatches for Continuous Blood Pressure Monitoring
-      page_summary: Generating new technologies, knowledge and understanding, critical for moving invention in wearable technology forward.
-      href: '#'
-  results:
-    - {
-        school: 'School of Arts & Humanities',
-        title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
-        year: '2020',
-        image: true,
-        link: '#',
-      }
-    - {
-        school: 'The Helen Hamlyn Centre for Design',
-        title: 'Marked (Working Title)',
-        year: '2019&#8211;2020',
-        image: true,
-        link: '#',
-      }
-    - {
-        school: 'School of Design',
-        title: 'Design for Safety – Protecting Lives from the Start',
-        year: '2020',
-        image: true,
-        link: '#',
-      }
-    - {
-        school: 'School of Arts & Humanities',
-        title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
-        year: '2020',
-        image: true,
-        link: '#',
-      }
-    - {
-        school: 'School of Arts & Humanities',
-        title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
-        year: '2020',
-        image: true,
-        link: '#',
-      }
-    - {
-        school: 'School of Arts & Humanities',
-        title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
-        year: '2020',
-        image: true,
-        link: '#',
-      }
-    - {
-        school: 'School of Arts & Humanities',
-        title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
-        year: '2020',
-        image: true,
-        link: '#',
-      }
-    - {
-        school: 'The Helen Hamlyn Centre for Design',
-        title: 'Marked (Working Title)',
-        year: '2019&#8211;2020',
-        image: true,
-        link: '#',
-      }
-    - {
-        school: 'School of Design',
-        title: 'Design for Safety – Protecting Lives from the Start',
-        year: '2020',
-        image: true,
-        link: '#',
-      }
-    - {
-        school: 'School of Arts & Humanities',
-        title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
-        year: '2020',
-        image: true,
-        link: '#',
-      }
-    - {
-        school: 'School of Arts & Humanities',
-        title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
-        year: '2020',
-        image: true,
-        link: '#',
-      }
-    - {
-        school: 'School of Arts & Humanities',
-        title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
-        year: '2020',
-        image: true,
-        link: '#',
-      }
+    filters:
+      title: Filter by
+      items:
+        - tab_title: School or Centre
+          children:
+            - { title: 3D modelling & visualisation }
+            - { title: Art & curating }
+            - { title: Creative industries }
+            - { title: Critical practice }
+            - { title: Culture & communication }
+            - { title: Digital futures }
+            - { title: Emerging technologies }
+            - { title: Engineering design }
+            - { title: Future cities }
+        - tab_title: Research type
+          children:
+            - { title: 3D modelling & visualisation }
+            - { title: Art & curating }
+            - { title: Creative industries }
+        - tab_title: Subject
+          children:
+            - { title: 3D modelling & visualisation }
+            - { title: Art & curating }
+            - { title: Creative industries }
+            - { title: Critical practice }
+            - { title: Culture & communication }
+            - { title: Digital futures }
+            - { title: Emerging technologies }
+            - { title: Engineering design }
+            - { title: Future cities }
+            - { title: Healthcare, ageing, wellbeing }
+            - { title: Inclusive design }
+            - { title: Intelligent mobility }
+            - { title: Manufacturing future }
+            - { title: New materials }
+            - { title: Risk, resilience, security and infrastructure }
+            - { title: Robotics & AI }
+            - { title: Service & UX design }
+            - { title: Sustainable society }
+        - tab_title: Theme
+          children:
+            - { title: Digital futures }
+            - { title: Emerging technologies }
+    results:
+      - {
+          school: 'School of Arts & Humanities',
+          title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'The Helen Hamlyn Centre for Design',
+          title: 'Marked (Working Title)',
+          year: '2019&#8211;2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Design',
+          title: 'Design for Safety – Protecting Lives from the Start',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Arts & Humanities',
+          title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Arts & Humanities',
+          title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Arts & Humanities',
+          title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Arts & Humanities',
+          title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'The Helen Hamlyn Centre for Design',
+          title: 'Marked (Working Title)',
+          year: '2019&#8211;2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Design',
+          title: 'Design for Safety – Protecting Lives from the Start',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Arts & Humanities',
+          title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Arts & Humanities',
+          title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+      - {
+          school: 'School of Arts & Humanities',
+          title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+          year: '2020',
+          image: true,
+          link: '#',
+        }
+  featured_project:
+    title: School of Design
+    introduction: Electronic Skin Nanopatches for Continuous Blood Pressure Monitoring
+    listing_summary: Generating new technologies, knowledge and understanding, critical for moving invention in wearable technology forward.
+    url: '#'

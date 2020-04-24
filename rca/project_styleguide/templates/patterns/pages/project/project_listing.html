@@ -87,9 +87,10 @@
                     </div>
                 {% endif %}
 
-                {% if page.feature and results %}
+                {% comment %} {% if featured_project and page.results %} {% endcomment %}
+                {% if featured_project %}
                     <div class="section__row">
-                        {% include "patterns/organisms/image-video-block/image-video-block.html" with heading=false subheading=page.feature.sub_heading meta_heading=page.feature.meta_heading image=page.feature.image has_meta=True meta_copy=page.feature.page_summary href=page.feature.href caption=false video=false %}
+                        {% include "patterns/organisms/image-video-block/image-video-block.html" with heading=false subheading=featured_project.title meta_heading=featured_project.introduction image=featured_project.hero_image has_meta=True meta_copy=featured_project.listing_summary href=featured_project.url caption=false video=false %}
                     </div>
                 {% endif %}
 

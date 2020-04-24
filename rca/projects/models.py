@@ -307,6 +307,10 @@ class ProjectPage(BasePage):
         if errors:
             raise ValidationError(errors)
 
+    def get_related_school(self):
+        """ returns the first realated schools page"""
+        return self.related_school_pages.first().page
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["hero_colour"] = "dark"
@@ -337,6 +341,19 @@ class ProjectPage(BasePage):
 
 class ProjectPickerPage(BasePage):
     template = "patterns/pages/project/project_listing.html"
+    introduction = models.CharField(max_length=200, blank=True)
+    featured_project = models.ForeignKey(
+        "ProjectPage",
+        on_delete=models.SET_NULL,
+        related_name="featured_project",
+        null=True,
+        blank=True,
+    )
+
+    content_panels = BasePage.content_panels + [
+        FieldPanel("introduction"),
+        PageChooserPanel("featured_project"),
+    ]
 
     def get_filters(self):
         filters = {}
@@ -353,5 +370,7 @@ class ProjectPickerPage(BasePage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["filters"] = self.get_filters()
+        print(self.featured_project)
+        context["featured_project"] = self.featured_project
 
         return context
