@@ -1,14 +1,43 @@
 context:
   page:
-    breadcrumb:
-      - { label: 'Research', link: /research/ }
-      - { label: 'Research Centres', link: /research/centres }
     title: The Helen Hamlyn Centre for Design
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: Research
+      - is_root: false
+        depth: 3
+        title: Research Centres
     introduction_image: true
     video_caption: Watch the course introduction
     introduction: 'The Helen Hamlyn Centre for Design at the Royal College of Art undertakes design research. Our team of dedicated researchers work on projects that save lives.'
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     about_page_link_text: 'About the Helen Hamlyn Centre'
+    research_spaces:
+      - {
+          title: 'Healthcare',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          image: true,
+        }
+      - {
+          title: 'Age & Diversity',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          image: true,
+        }
+      - {
+          title: 'Healthcare',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+          image: true,
+        }
     research_highlights:
       - slide:
         meta: 'School of Design'

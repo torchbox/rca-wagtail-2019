@@ -1,8 +1,10 @@
 context:
   page:
-    breadcrumb:
-      - { label: 'Research', link: /research/ }
     title: Research at the RCA
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: Research
     introduction: 'The Royal College of Art excels in world-leading design and art research and creative innovation.'
     introduction_link: '#'
     introduction_link_text: 'Read more'

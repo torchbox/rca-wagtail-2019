@@ -1,8 +1,12 @@
 context:
   page:
-    breadcrumb:
-      - { label: 'More about the RCA', link: /more/ }
-      - { label: 'Staff', link: /more/staff }
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: More about the RCA
+      - is_root: false
+        depth: 3
+        title: Staff
     profile_image: true
     profile_title: Professor
     profile_firstname: Dale

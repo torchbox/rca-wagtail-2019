@@ -1,8 +1,10 @@
 context:
   page:
-    breadcrumb:
-      - { label: 'Research', link: /research/ }
     title: Enterprise at the RCA
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: Research
     introduction: 'Enterprise at the RCA spans incubation, innovation and business acceleration programmes; consultancy and knowledge exchange, and custom executive short courses.'
     introduction_link: '#'
     introduction_link_text: 'Read more'
