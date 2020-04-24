@@ -7,7 +7,11 @@ context:
     programme_description_copy: '<p>The programme conceives of architecture as a diverse and complex set of practices that move beyond traditional distinctions and limits in the field. The programme expands the possibilities of architecture and its agency in the world by encouraging an independent and critical ethos among its students.</p>'
     get_ancestors:
       - is_root: false
-        title: Research
+        depth: 2
+        title: Degree Programmes
+      - is_root: false
+        depth: 3
+        title: School of Architecture
     programme_gallery_title: 'Architecture gallery'
     programme_gallery:
       - slide:
