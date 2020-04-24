@@ -4,7 +4,6 @@ context:
     introduction: 'The Royal College of Art excels in world-leading design and art research and creative innovation.'
     introduction_link: '#'
     introduction_link_text: 'Read more'
-    feature_image: false
     enterprise_highlights:
       - slide:
         meta: 'School of Design'
@@ -25,7 +24,6 @@ context:
         image: true
         link: '#'
     enterprise_highlights_title: Research highlights
-    enterprise_rca: false
     related_research_centres_schools:
       - item:
         title: Research centres
@@ -73,9 +71,6 @@ context:
     middle_feature_meta_heading: Join a thriving community of more than 250 MPhil and PhD students
     middle_feature_meta_text: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
     middle_feature_meta_link: '#'
-    related_courses: false
-    stats_block: false
-    startups: false
     programmes:
       - item:
         title: false
@@ -135,7 +130,6 @@ context:
       description: Our research staff span a broad range of subjects and areas of expertise.
       action: Visit all research staff
       link: '#'
-    bottom_feature_image: false
     news:
       - item:
         meta: 'News'
