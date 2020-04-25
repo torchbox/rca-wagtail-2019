@@ -356,15 +356,35 @@ class ProjectPickerPage(BasePage):
     ]
 
     def get_filters(self):
-        filters = {}
+        filters = []
         from django.utils.text import slugify
 
-        research_types = []
+        research_types = {"title": "Research type", "items": []}
         for i in ResearchType.objects.all():
-            research_types.append(
-                {"id": i.id, "title": i.title, "slug": slugify(i.title)}
+            research_types["items"].append(
+                {
+                    "id": i.id,
+                    "title": i.title,
+                    "link": slugify(i.title),
+                    "filter_type": "type",
+                }
             )
-        filters["research_types"] = research_types
+        filters.append(research_types)
+
+        subjects = {"title": "Subjects", "items": []}
+        from rca.programmes.models import Subject
+
+        for i in Subject.objects.all():
+            subjects["items"].append(
+                {
+                    "id": i.id,
+                    "title": i.title,
+                    "link": slugify(i.title),
+                    "filter_type": "subject",
+                }
+            )
+        filters.append(subjects)
+
         return filters
 
     def _format_results(self, projects):
@@ -376,7 +396,7 @@ class ProjectPickerPage(BasePage):
                     "title": page.title,
                     "image": page.hero_image,
                     "link": page.url,
-                    "school": "TODO school",
+                    "school": page.related_school_pages.all().first,
                     "year": "TODO year",
                 }
             )
@@ -393,7 +413,7 @@ class ProjectPickerPage(BasePage):
 
         # Request filters
         research_types = request.GET.getlist("type")
-        subjects = request.GET.getlist("subjects")
+        subjects = request.GET.getlist("subject")
 
         if research_types:
             projects = projects.filter(
