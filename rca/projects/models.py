@@ -367,10 +367,50 @@ class ProjectPickerPage(BasePage):
         filters["research_types"] = research_types
         return filters
 
+    def _format_results(self, projects):
+        """ Prepares the queryset into a digestable list for the template """
+        projects_formatted = []
+        for page in projects:
+            projects_formatted.append(
+                {
+                    "title": page.title,
+                    "image": page.hero_image,
+                    "link": page.url,
+                    "school": "TODO school",
+                    "year": "TODO year",
+                }
+            )
+
+        return projects_formatted
+
+    def get_results(self, request):
+        projects = (
+            ProjectPage.objects.live()
+            .public()
+            .descendant_of(self, inclusive=True)
+            .select_related("hero_image")
+        )
+
+        # Request filters
+        research_types = request.GET.getlist("type")
+        subjects = request.GET.getlist("subjects")
+
+        if research_types:
+            projects = projects.filter(
+                research_types__research_type_id__in=research_types
+            )
+
+        if subjects:
+            projects = projects.filter(subjects__subject_id__in=subjects)
+
+        return self._format_results(projects)
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["filters"] = self.get_filters()
-        print(self.featured_project)
         context["featured_project"] = self.featured_project
+        project_results = self.get_results(request)
+        context["results"] = project_results
+        context["results_count"] = len(project_results)
 
         return context
