@@ -310,7 +310,8 @@ class ProjectPage(BasePage):
 
     def get_related_school(self):
         """ returns the first realated schools page"""
-        return self.related_school_pages.first().page
+        if self.related_school_pages.first():
+            return self.related_school_pages.first().page
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -389,10 +390,17 @@ class ProjectPickerPage(BasePage):
         filters.append(subjects)
 
         school_or_centre = {"title": "School or centre", "items": []}
-        qs = SchoolPage.objects.all()
-        research = ResearchCentrePage.objects.all()
-        qs = qs.union(research)
-        for i in qs:
+        for i in SchoolPage.objects.all():
+            school_or_centre["items"].append(
+                {
+                    "id": i.id,
+                    "title": i.title,
+                    "link": slugify(i.title),
+                    "filter_type": "school_or_centre",
+                }
+            )
+        filters.append(school_or_centre)
+        for i in ResearchCentrePage.objects.all():
             school_or_centre["items"].append(
                 {
                     "id": i.id,
@@ -421,7 +429,7 @@ class ProjectPickerPage(BasePage):
                     "title": page.title,
                     "image": page.hero_image,
                     "link": page.url,
-                    "school": page.related_school_pages.all().first,
+                    "school": page.get_related_school(),
                     "year": year,
                 }
             )
@@ -438,6 +446,7 @@ class ProjectPickerPage(BasePage):
         # Request filters
         research_types = request.GET.getlist("type")
         subjects = request.GET.getlist("subject")
+        school_or_centre = request.GET.getlist("school_or_centre")
 
         if research_types:
             projects = projects.filter(
@@ -446,6 +455,14 @@ class ProjectPickerPage(BasePage):
 
         if subjects:
             projects = projects.filter(subjects__subject_id__in=subjects)
+
+        if school_or_centre:
+            from django.db.models import Q
+
+            projects = projects.filter(
+                Q(related_school_pages__page_id__in=school_or_centre)
+                | Q(related_research_pages__page_id__in=school_or_centre)
+            )
 
         return self._format_results(projects)
 
