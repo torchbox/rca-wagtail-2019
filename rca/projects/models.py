@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -356,8 +357,11 @@ class ProjectPickerPage(BasePage):
     ]
 
     def get_filters(self):
+        from rca.programmes.models import Subject
+        from rca.research.models import ResearchCentrePage
+        from rca.schools.models import SchoolPage
+
         filters = []
-        from django.utils.text import slugify
 
         research_types = {"title": "Research type", "items": []}
         for i in ResearchType.objects.all():
@@ -372,7 +376,6 @@ class ProjectPickerPage(BasePage):
         filters.append(research_types)
 
         subjects = {"title": "Subjects", "items": []}
-        from rca.programmes.models import Subject
 
         for i in Subject.objects.all():
             subjects["items"].append(
@@ -385,22 +388,43 @@ class ProjectPickerPage(BasePage):
             )
         filters.append(subjects)
 
+        school_or_centre = {"title": "School or centre", "items": []}
+        qs = SchoolPage.objects.all()
+        research = ResearchCentrePage.objects.all()
+        qs = qs.union(research)
+        for i in qs:
+            school_or_centre["items"].append(
+                {
+                    "id": i.id,
+                    "title": i.title,
+                    "link": slugify(i.title),
+                    "filter_type": "school_or_centre",
+                }
+            )
+        filters.append(school_or_centre)
+
         return filters
 
     def _format_results(self, projects):
         """ Prepares the queryset into a digestable list for the template """
         projects_formatted = []
         for page in projects:
+            year = None
+            if page.start_date:
+                year = page.start_date.strftime("%Y")
+                if page.end_date and page.end_date.strftime("%Y") != year:
+                    end_year = page.end_date.strftime("%Y")
+                    year = year + " - " + end_year
+
             projects_formatted.append(
                 {
                     "title": page.title,
                     "image": page.hero_image,
                     "link": page.url,
                     "school": page.related_school_pages.all().first,
-                    "year": "TODO year",
+                    "year": year,
                 }
             )
-
         return projects_formatted
 
     def get_results(self, request):
