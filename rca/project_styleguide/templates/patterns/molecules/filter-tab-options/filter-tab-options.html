@@ -1,7 +1,10 @@
-<div class="filter-tab-options">
-    {% for item in filter_options %}
-        <div class="filter-tab-options__item">
-            <a href="#" class="filter-tab-options__link">{{ item.title }}</a>
-        </div>
-    {% endfor %}
+<div class="filter-tab-options grid">
+    <div class="filter-tab-options__container layout__start-one layout__span-two layout__@large-start-two layout__@large-span-four">
+        {% for item in filter_options %}
+            <div class="filter-tab-options__item layout__span-one">
+                <a href="#" class="filter-tab-options__link">{{ item.title }}</a>
+            </div>
+        {% endfor %}
+    </div>
+    {% include "patterns/atoms/reset/reset.html" %}
 </div>

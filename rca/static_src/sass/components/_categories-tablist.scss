@@ -78,6 +78,7 @@
     }
 
     .sticky-bar & {
+        @include z-index(sticky-nav-bar);
         background-color: $color--black;
 
         @include media-query(large) {

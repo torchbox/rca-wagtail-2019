@@ -14,7 +14,7 @@
         // include base grid lines until actively sticky
 
         @include media-query(large) {
-            @include z-index(sticky-nav-bar);
+            @include z-index(sticky-nav-bar-header);
             // Make padding above / below bar even
             transform: translate3d(0, -10px, 0);
         }
