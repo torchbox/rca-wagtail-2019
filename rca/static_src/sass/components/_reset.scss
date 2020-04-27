@@ -1,0 +1,37 @@
+.reset {
+    @include underline-hover();
+    $root: &;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+
+    &__icon {
+        margin-right: ($gutter / 4);
+        fill: currentColor;
+    }
+
+    .bg--light & {
+        color: $color--black;
+
+        &--primary {
+            color: $color--tertiary;
+        }
+    }
+
+    .bg--dark & {
+        color: $color--white;
+
+        &--primary {
+            color: $color--tertiary;
+        }
+    }
+
+    .categories-tablist & {
+        font-family: $font--primary;
+        color: $color--black;
+    }
+
+    .sticky-bar & {
+        color: $color--white;
+    }
+}
