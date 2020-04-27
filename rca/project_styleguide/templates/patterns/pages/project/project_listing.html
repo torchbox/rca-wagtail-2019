@@ -38,8 +38,15 @@
 
                 <div class="section__row bg bg--dark filter-bar filter-bar--large">
                     <div class="section__notch section__notch--opposite">
-                        <div class="section__notch-fill section__notch-fill--content-height section__notch-fill--fourth-col section__notch-fill--second-col@medium">
+                        <div class="section__notch-fill section__notch-fill--content-height section__notch-fill--fourth-col section__notch-fill--second-col@medium tabs js-tabs">
                             {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=page.filters modifier="large" reset=True %}
+
+                            {% for item in page.filters.items %}
+                                <div class="tabs__panel js-tab-panel {% if forloop.counter != 1 %}tabs__panel--hidden{% endif %}" id="{{ item.tab_title|slugify }}" role="tabpanel" aria-labelledby="{{ item.tab_title|slugify }}">
+                                    {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" with filter_options=item.children %}
+                                </div>
+                            {% endfor %}
+                            
                         </div>
                     </div>
                 </div>

@@ -8,10 +8,35 @@ context:
     filters:
       title: Filter by
       items:
-        - { title: School or Centre, href: '#' }
-        - { title: Research type, href: '#', selected: true }
-        - { title: Subject, href: '#' }
-        - { title: Theme, href: '#' }
+        - tab_title: School or Centre
+          selected: true
+          children:
+            - { title: 3D modelling & visualisation }
+            - { title: Art & curating }
+            - { title: Creative industries }
+            - { title: Critical practice }
+            - { title: Culture & communication }
+            - { title: Digital futures }
+            - { title: Emerging technologies }
+            - { title: Engineering design }
+            - { title: Future cities }
+        - tab_title: Research type
+          children:
+            - { title: 3D modelling & visualisation }
+            - { title: Art & curating }
+            - { title: Creative industries }
+        - tab_title: Subject
+          children:
+            - { title: Critical practice }
+            - { title: Culture & communication }
+            - { title: Digital futures }
+            - { title: Emerging technologies }
+            - { title: Engineering design }
+            - { title: Future cities }
+        - tab_title: Theme
+          children:
+            - { title: Digital futures }
+            - { title: Emerging technologies }
     feature:
       sub_heading: School of Design
       meta_heading: Electronic Skin Nanopatches for Continuous Blood Pressure Monitoring
