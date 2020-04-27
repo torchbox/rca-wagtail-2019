@@ -2,6 +2,7 @@ context:
   page:
     title: The Helen Hamlyn Centre for Design
     introduction_image: true
+    video_caption: Watch the course introduction
     about_page_link_text: 'About the Helen Hamlyn Centre'
     get_ancestors:
       - is_root: false
