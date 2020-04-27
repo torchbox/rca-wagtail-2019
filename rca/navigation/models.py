@@ -6,9 +6,11 @@ from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
 from modelcluster.models import ClusterableModel
 from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtail.api import APIField
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.core import blocks
 from wagtail.core.fields import StreamField
+from wagtail.core.models import Page
 
 
 def url_or_relative_url_validator(value):
@@ -64,6 +66,25 @@ class LinkBlock(blocks.StructBlock):
         help_text="Leave blank to use the page's own title, required if using a URL",
         required=False,
     )
+
+    # Add a page url for the page object
+    def get_api_representation(self, value, context=None):
+        value = dict(
+            [
+                (
+                    name,
+                    self.child_blocks[name].get_api_representation(
+                        val, context=context
+                    ),
+                )
+                for name, val in value.items()
+            ]
+        )
+
+        if value["page"] and not value["url"]:
+            value["url"] = Page.objects.get(id=value["page"]).url
+
+        return value
 
     def clean(self, value):
         try:
@@ -121,4 +142,11 @@ class NavigationSettings(BaseSetting, ClusterableModel):
         StreamFieldPanel("primary_navigation"),
         StreamFieldPanel("footer_navigation"),
         StreamFieldPanel("footer_links"),
+    ]
+
+    api_fields = [
+        APIField("quick_links"),
+        APIField("primary_navigation"),
+        APIField("footer_navigation"),
+        APIField("footer_links"),
     ]

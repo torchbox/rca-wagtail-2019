@@ -61,7 +61,15 @@ jobs:
           command: |
             . venv/bin/activate
             black --check ./rca
-
+  deploy_dev:
+    docker:
+      - image: buildpack-deps:trusty
+    steps:
+      - checkout
+      - run:
+          name: deploy dev to heroku
+          command: |
+            git push https://heroku:$HEROKU_TOKEN@git.heroku.com/$HEROKU_APP_NAME_DEV.git master
   deploy_staging:
     docker:
       - image: buildpack-deps:trusty
@@ -86,6 +94,12 @@ workflows:
   build-deploy:
     jobs:
       - test
+      - deploy_dev:
+          requires:
+            - test
+          filters:
+            branches:
+              only: dev
       - deploy_staging:
           requires:
             - test
