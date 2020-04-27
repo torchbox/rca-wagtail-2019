@@ -23,7 +23,7 @@
                 {% endif %}
                 <div class="title-area__content">
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
-                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" with breadcrumb=page.breadcrumb %}
+                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
                     {% if page.profile_title or profile_firstname or profile_surname %}
                         <h1 property="schema:name" class="title-area__heading heading heading--one">
