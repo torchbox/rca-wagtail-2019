@@ -1,0 +1,12 @@
+<div class="section__row grid student-listing">
+    <div class="section__header student-listing__header">
+        <h2 class="section__heading student-listing__heading heading heading--four">
+            {{ title|default:"Research students"}}
+        </h2>
+    </div>
+    <div class="section__content student-listing__content">
+        {% for item in student_listing %}
+            {% include "patterns/atoms/profile-teaser/profile-teaser.html" %}
+        {% endfor %}
+    </div>
+</div>

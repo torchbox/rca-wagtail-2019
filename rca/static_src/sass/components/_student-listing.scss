@@ -1,0 +1,36 @@
+.student-listing {
+    margin-bottom: ($gutter * 3);
+
+    @include media-query(medium) {
+        margin-bottom: ($gutter * 4);
+    }
+
+    &__header {
+        margin-bottom: ($gutter * 2);
+
+        @include media-query(large) {
+            grid-column: 2 / span 1;
+        }
+    }
+
+    &__heading {
+        @include media-query(large) {
+            max-width: 160px; // force line wrap
+        }
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        grid-column: 1 / span 2;
+
+        @include media-query(medium) {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        @include media-query(large) {
+            grid-column: 3 / span 2;
+        }
+    }
+}

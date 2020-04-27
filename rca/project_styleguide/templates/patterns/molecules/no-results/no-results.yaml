@@ -1,0 +1,4 @@
+context:
+  reset_link:
+    href: '#'
+    text: Reset filters

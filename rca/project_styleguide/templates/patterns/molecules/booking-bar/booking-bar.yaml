@@ -1,0 +1,5 @@
+context:
+  item:
+    message: 'Message'
+    action: 'Action'
+    modal: 'booking-details'

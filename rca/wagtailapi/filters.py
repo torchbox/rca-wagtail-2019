@@ -2,10 +2,9 @@ from django.conf import settings
 from django.core.exceptions import FieldDoesNotExist
 from rest_framework import filters
 from wagtail.api.v2.utils import BadRequestError
+from wagtail.core.models import Page
 from wagtail.search.backends import get_search_backend
 from wagtail.search.backends.base import FilterFieldError, OrderByFieldError
-
-from rca.schools.models import SchoolsAndResearchPage
 
 
 class DegreeLevelFilter(filters.BaseFilterBackend):
@@ -39,18 +38,21 @@ class SubjectsFilter(filters.BaseFilterBackend):
 class RelatedSchoolsFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
         try:
+            # Check if the related pages field exists
             queryset.model._meta.get_field("related_schools_and_research_pages")
-            school_ids = [
-                int(id)
-                for id in request.GET.getlist("related_schools_and_research_pages", [])
-            ]
-            if school_ids:
-                school_pages = SchoolsAndResearchPage.objects.live().filter(
-                    id__in=school_ids
-                )
+            related_schools_and_research_page_ids = request.GET.get(
+                "related_schools_and_research_pages"
+            )
 
+            if related_schools_and_research_page_ids:
+                # Get the school/research page we are applying as a filter as a queryset
+                filter_page_qs = Page.objects.live().filter(
+                    id=related_schools_and_research_page_ids
+                )
+                # Create a queryset to return which contains pages that have filter_page_qs
+                # as a relationship
                 queryset = queryset.model.objects.filter(
-                    related_schools_and_research_pages__page_id__in=school_pages.values_list(
+                    related_schools_and_research_pages__page_id__in=filter_page_qs.values_list(
                         "pk", flat=True
                     )
                 ).order_by("title")

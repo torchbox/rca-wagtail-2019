@@ -1,0 +1,7 @@
+context:
+  anchor_nav:
+    - { title: Introduction, link: '#section-1' }
+    - { title: Article 1, link: '#section-2' }
+    - { title: Article 2, link: '#section-3' }
+    - { title: Index Module, link: '#index' }
+    - { title: Ask a question, link: '#contact' }

@@ -1,0 +1,15 @@
+.profile-image {
+    $root: &;
+
+    .title-area__image & {
+        #{$root}__item {
+            display: block;
+            width: 100%;
+            height: auto;
+            // prevent it bleeding into key details area
+            max-height: 560px;
+            max-width: 560px;
+            margin-left: auto;
+        }
+    }
+}

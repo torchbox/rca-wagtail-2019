@@ -1,0 +1,6 @@
+{% load wagtailimages_tags %}
+
+<div class="profile-image {% if modifier %}profile-image--{{ modifier }}{% endif %}">
+    {% image page.profile_image fill-456x456 as profile_image %}
+    <img src="{{ profile_image.url }}" alt="{{ profile_image.alt }}" class="profile-image__item" property="schema:image">
+</div>

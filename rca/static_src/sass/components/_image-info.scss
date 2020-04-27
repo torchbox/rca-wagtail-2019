@@ -1,0 +1,40 @@
+.image-info {
+    &__title {
+        font-family: $font--secondary;
+    }
+
+    &__title,
+    &__creator {
+        padding-right: 4px;
+    }
+
+    .hero-action-pane & {
+        .theme-light & {
+            color: $color--white;
+        }
+
+        .theme-dark & {
+            color: $color--black;
+        }
+    }
+
+    .title-area & {
+        transition: color $cubic-transition;
+
+        .bg--dark & {
+            color: $color--meta-darkbg;
+
+            &:hover {
+                color: $color--white;
+            }
+        }
+
+        .bg--light & {
+            color: $color--meta-lightbg;
+
+            &:hover {
+                color: $color--black;
+            }
+        }
+    }
+}

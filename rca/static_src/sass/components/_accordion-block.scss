@@ -1,4 +1,5 @@
 .accordion-block {
+    $root: &;
     overflow: hidden;
     margin-top: ($gutter * 4);
     padding: 0;
@@ -15,6 +16,14 @@
         }
     }
 
+    &--large-heading {
+        #{$root}__heading {
+            @include media-query(large) {
+                margin-bottom: ($gutter * 3);
+            }
+        }
+    }
+
     &__heading {
         grid-column: 1 / span 2;
         margin-bottom: $gutter;
@@ -26,5 +35,9 @@
         @include media-query(large) {
             grid-column: 2 / span 2;
         }
+    }
+
+    .staff-detail-accordion--wo-gallery & {
+        margin-top: 0;
     }
 }

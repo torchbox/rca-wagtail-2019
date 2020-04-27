@@ -1,0 +1,41 @@
+.research-centre-overview {
+    @include media-query(large) {
+        margin-bottom: ($gutter * 8);
+    }
+
+    &--no-margin {
+        margin: 0;
+    }
+
+    &__content {
+        grid-column: 1 / span 2;
+
+        @include media-query(large) {
+            order: 2;
+            grid-column: 2 / span 3;
+        }
+    }
+
+    &__body {
+        margin-bottom: ($gutter * 2);
+
+        @include media-query(large) {
+            padding-top: ($gutter * 4);
+            padding-left: 33.333%;
+            margin-bottom: ($gutter * 4);
+        }
+    }
+
+    &__heading {
+        margin-bottom: $gutter;
+    }
+
+    &__key-details {
+        grid-column: 1 / span 2;
+
+        @include media-query(large) {
+            order: 1;
+            grid-column: 1 / span 1;
+        }
+    }
+}

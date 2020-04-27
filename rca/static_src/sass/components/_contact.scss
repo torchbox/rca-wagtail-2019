@@ -83,13 +83,20 @@
 
     .bg--dark & {
         #{$root}__text {
-            color: $color--meta-darkbg;
+            color: $color--white;
         }
     }
 
     .bg--light & {
         #{$root}__text {
             color: $color--meta-lightbg;
+        }
+    }
+
+    .app--guide & {
+        // Match other heading sizes on the guide page
+        &__heading {
+            @include font-size(xl);
         }
     }
 }

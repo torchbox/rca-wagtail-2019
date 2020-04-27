@@ -1,0 +1,111 @@
+.upcoming-dates {
+    &__header {
+        display: none;
+        margin-bottom: $gutter;
+
+        @include media-query(large) {
+            display: flex;
+            flex-direction: row;
+        }
+    }
+
+    &__heading {
+        font-family: $font--secondary;
+
+        @include media-query(large) {
+            max-width: 40%;
+            min-width: 40%;
+            flex-basis: 40%;
+        }
+    }
+
+    &__content {
+        margin-bottom: $gutter;
+
+        @include media-query(large) {
+            margin-bottom: ($gutter * 2);
+        }
+    }
+
+    &__row {
+        display: flex;
+        flex-direction: row;
+        border-bottom: 1px solid $color--grid-line-dark;
+        padding-bottom: $gutter;
+        margin-bottom: $gutter;
+
+        @include media-query(large) {
+            padding-bottom: ($gutter * 1.5);
+            margin-bottom: ($gutter * 1.5);
+        }
+    }
+
+    &__row-item {
+        max-width: 50%;
+        min-width: 50%;
+        flex-basis: 50%;
+
+        @include media-query(large) {
+            max-width: 40%;
+            min-width: 40%;
+            flex-basis: 40%;
+        }
+
+        &:last-child {
+            max-width: 50%;
+            min-width: 50%;
+            flex-basis: 50%;
+            text-align: right;
+
+            @include media-query(large) {
+                max-width: 20%;
+                min-width: 20%;
+                flex-basis: 20%;
+                text-align: left;
+            }
+        }
+
+        &--mobile {
+            display: block;
+            max-width: 50%;
+            min-width: 50%;
+            flex-basis: 50%;
+
+            @include media-query(large) {
+                display: none;
+            }
+        }
+    }
+
+    &__start-date,
+    &__end-date {
+        display: none;
+
+        @include media-query(large) {
+            display: block;
+        }
+    }
+
+    &__action {
+        color: $color--tertiary;
+
+        &:hover {
+            color: $color--black;
+        }
+    }
+
+    &__footer {
+        display: flex;
+        flex-direction: row;
+    }
+
+    &__footer-action {
+        flex-basis: 50%;
+        max-width: 50%;
+        min-width: 50%;
+
+        &:first-child {
+            opacity: 0.6;
+        }
+    }
+}

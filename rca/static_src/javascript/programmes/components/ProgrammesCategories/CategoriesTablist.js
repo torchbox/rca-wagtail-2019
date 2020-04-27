@@ -11,7 +11,7 @@ import { getCategoryURL, pushState } from '../../programmes.routes';
 const CategoriesTablist = ({ categories, activeCategory }) => {
     return (
         <nav
-            className="categories-tablist bg bg--light"
+            className="categories-tablist categories-tablist--above-grid bg bg--light"
             aria-label="Filter programmes"
         >
             <h2 className="body body--two categories-tablist__heading">

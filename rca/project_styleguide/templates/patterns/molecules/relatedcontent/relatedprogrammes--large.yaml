@@ -1,0 +1,31 @@
+context:
+  title: 'More opportunities to study at the RCA'
+  related_sections:
+    - item:
+      title: Related programmes
+      related_items:
+        - item:
+          title: Architecture
+          degree_level: MA
+          programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+          img: http://placehold.it/300x270/fff/000
+        - item:
+          title: City design
+          degree_level: MA
+          programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+          img: http://placehold.it/300x270/ff5d1c/fff
+        - item:
+          title: Environmental acrhitecture
+          degree_level: MA
+          programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+          img: http://placehold.it/300x270
+
+tags:
+  pageurl:
+    related_item:
+      raw: '#'
+  image:
+    related_item.hero_image fill-500x500 as programme_image:
+      target_var: programme_image
+      raw:
+        url: https://placekitten.com/500/500

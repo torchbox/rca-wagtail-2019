@@ -1,6 +1,12 @@
 {% load wagtailcore_tags navigation_tags %}
 
+
 <div class="hero-action-pane grid">
+
+    <div class="hero-action-pane__credit" data-parallax data-rellax-speed="-1">
+        {% include 'patterns/atoms/image-info/image-info.html' with credit=page.hero_image_credit item=page.hero_image %}
+    </div>
+
     {% if page.hero_cta_url %}
         <div class="hero-action-pane__cta" data-parallax data-rellax-speed="-3">
             <a href="{{ page.hero_cta_url }}" class="hero-action-pane__cta-link">
@@ -17,6 +23,7 @@
         </div>
     {% endif %}
     <div class="hero-action-pane__links" data-parallax data-rellax-speed="-1">
+
         {% audience_links as links %}
         {% for value in links %}
             {% include 'patterns/atoms/audience-nav-item/audience-nav-item--desc.html' %}

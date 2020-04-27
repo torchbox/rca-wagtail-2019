@@ -132,7 +132,7 @@
     Underline Hover
 */
 
-@mixin underline-hover-target {
+@mixin underline-hover-target() {
     &::after {
         content: '';
         display: block;
@@ -150,7 +150,7 @@
     }
 }
 
-@mixin underline-hover-target-reset {
+@mixin underline-hover-target-reset() {
     &::after {
         width: 100%;
         left: 0;

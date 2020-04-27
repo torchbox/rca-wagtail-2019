@@ -1,0 +1,9 @@
+context:
+  page:
+    primary_staff_url: '#'
+    primary_staff_name: Beth Hughes
+    primary_staff_role: head of programme
+    centre_address: Royal College of Art,<br> 4 Hester Road,<br> London SW11 4AN
+    centre_tel: +44 (0)20 7223 7705
+    centre_email: hhcd@rca.ac.uk
+    twitter_username: '#'

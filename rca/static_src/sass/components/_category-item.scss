@@ -1,0 +1,211 @@
+.category-item {
+    $padding-top-small: $gutter;
+    $padding-top-medium: $gutter * 2.5;
+    $padding-top-large: $gutter * 1.5;
+    $root: &;
+    display: grid;
+    grid-column: 1 / span 2;
+    grid-template-columns: 1fr;
+    padding-top: $gutter;
+    color: inherit;
+    font-family: $font--primary;
+
+    // Bottom border, done with a pseudo element rather than a border,
+    // so it can overflow to the right and leave some space for people to scroll
+    // without accidentally clicking a link.
+    &::after {
+        content: '';
+        grid-column: 1 / span 2;
+        height: 1px;
+        width: calc(100% + #{$gutter});
+        pointer-events: none;
+
+        @include media-query(medium) {
+            width: calc(100% + #{$gutter * 3});
+        }
+
+        @include media-query(large) {
+            grid-column: 1 / span 4;
+        }
+    }
+
+    &:focus {
+        // The outline looks strange for such a big active area. especially with the bottom border hack.
+        outline: none;
+    }
+
+    @include media-query(medium) {
+        grid-template-columns: 2fr 3fr;
+        padding-top: $gutter * 2.5;
+    }
+
+    @include media-query(large) {
+        grid-template-columns: 1fr 1fr;
+        grid-column: 2 / span 4;
+        padding-top: $gutter * 1.5;
+        // Keep the left border aligned with the grid lines.
+        margin-left: -1px;
+    }
+
+    &__wrapper {
+        @include grid-layout();
+        position: relative;
+    }
+
+    &__heading {
+        grid-column: 1;
+        padding-bottom: $gutter * 0.75;
+        padding-right: $gutter;
+    }
+
+    &__heading-inner {
+        @include underline-hover-target();
+        position: relative;
+
+        #{$root}:focus &,
+        #{$root}:hover & {
+            @include underline-hover-target-reset();
+        }
+    }
+
+    &__description {
+        grid-column: 1;
+        padding-top: 0;
+        padding-bottom: $gutter * 2;
+
+        @include media-query(medium) {
+            grid-column: 2;
+            padding-right: $gutter * 6;
+            padding-bottom: $gutter * 1.5;
+        }
+
+        @include media-query(large) {
+            // Align with the notch above.
+            padding-left: 7%;
+        }
+    }
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        top: $padding-top-small;
+        right: $gutter;
+
+        @include media-query(medium) {
+            width: 36px;
+            height: 36px;
+            top: $padding-top-medium;
+            right: $gutter * 3;
+        }
+
+        @include media-query(large) {
+            width: 46px;
+            height: 46px;
+            top: $padding-top-large;
+        }
+
+        // Arrows only have the show-hide effect for hover-friendly browsers.
+        // Does not respect mobile browsers’ fake hover support.
+        @media (hover: hover) and #{nth(nth($breakpoints, 1), 2)} {
+            opacity: 0;
+
+            #{$root}:hover &,
+            #{$root}:focus & {
+                opacity: 1;
+            }
+        }
+    }
+
+    .section__content & {
+        @include media-query(large) {
+            min-height: 176px;
+        }
+
+        &::after {
+            margin-top: ($gutter);
+
+            @include media-query(large) {
+                margin-top: ($gutter * 2);
+            }
+        }
+
+        .category-item__wrapper {
+            &:last-child {
+                #{$root} {
+                    // match section__row--last, but needs to mask grid lines
+                    padding-bottom: ($gutter * 3);
+
+                    @include media-query(large) {
+                        padding-bottom: ($gutter * 6);
+                    }
+                }
+            }
+        }
+
+        #{$root}__heading,
+        #{$root}__description {
+            max-width: 440px;
+        }
+
+        #{$root}__description {
+            @include media-query(medium) {
+                // Align with the grid line
+                padding-left: 17%;
+            }
+            @include media-query(large) {
+                // Reset
+                padding-left: 7%;
+            }
+        }
+    }
+
+    .bg--light & {
+        border-left: 1px solid $color--grid-line-dark;
+
+        &::after {
+            background-color: $color--grid-line-dark;
+        }
+    }
+
+    .bg--dark & {
+        border-left: 1px solid $color--grid-line-light;
+
+        &::after {
+            background-color: $color--grid-line-light;
+        }
+    }
+}
+
+// Because wrapper is outside of it's parent, this has to be seperate
+// Need to refactor this as some point to make it valid BEM
+.section__content {
+    .category-item__wrapper {
+        &:last-child {
+            .category-item {
+                // match section__row--last, but needs to mask grid lines
+                padding-bottom: ($gutter * 3);
+
+                @include media-query(large) {
+                    padding-bottom: ($gutter * 6);
+                }
+            }
+        }
+
+        .category-item__description {
+            display: none;
+
+            @include media-query(large) {
+                display: block;
+            }
+        }
+
+        .category-item__heading {
+            padding-right: ($gutter * 4);
+
+            @include media-query(large) {
+                padding-right: $gutter;
+            }
+        }
+    }
+}

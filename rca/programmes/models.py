@@ -1,4 +1,5 @@
 from collections import defaultdict
+from itertools import chain
 
 from django.conf import settings
 from django.core.cache import cache
@@ -33,8 +34,14 @@ from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtailorderable.models import Orderable as WagtailOrdable
 
 from rca.api_content import content
-from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_TEXT_ON_DARK_IMAGE
-from rca.schools.models import SchoolsAndResearchPage
+from rca.home.models import (
+    DARK_HERO,
+    HERO_COLOUR_CHOICES,
+    LIGHT_HERO,
+    LIGHT_TEXT_ON_DARK_IMAGE,
+)
+from rca.research.models import ResearchCentrePage
+from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
     AccordionBlockWithTitle,
     FeeBlock,
@@ -94,11 +101,13 @@ class ProgrammeType(WagtailOrdable):
         return slugify(self.display_name)
 
 
-class ProgrammePageRelatedSchoolsAndResearchPage(RelatedPage):
+class ProgrammePageRelatedSchoolsAndResearchPages(RelatedPage):
     source_page = ParentalKey(
         "ProgrammePage", related_name="related_schools_and_research_pages"
     )
-    panels = [PageChooserPanel("page", "schools.SchoolsAndResearchPage")]
+    panels = [
+        PageChooserPanel("page", ["schools.SchoolPage", "research.ResearchCentrePage"])
+    ]
 
     api_fields = [APIField("page")]
 
@@ -179,6 +188,12 @@ class ProgrammePage(BasePage):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
+    )
+    hero_image_credit = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Adding specific credit text here will \
+        override the images meta data fields.",
     )
     hero_video = models.URLField(blank=True)
     hero_video_preview_image = models.ForeignKey(
@@ -408,6 +423,7 @@ class ProgrammePage(BasePage):
         MultiFieldPanel(
             [
                 ImageChooserPanel("hero_image"),
+                FieldPanel("hero_image_credit"),
                 FieldPanel("hero_video"),
                 ImageChooserPanel("hero_video_preview_image"),
                 FieldPanel("hero_colour_option"),
@@ -419,14 +435,8 @@ class ProgrammePage(BasePage):
             heading="Related Programmes",
         ),
         MultiFieldPanel(
-            [
-                InlinePanel(
-                    "related_schools_and_research_pages",
-                    label="Related Schools and Research Pages",
-                    max_num=1,
-                )
-            ],
-            heading="Related Schools and Research pages",
+            [InlinePanel("related_schools_and_research_pages")],
+            heading="Related Schools and Research Centres",
         ),
     ]
     key_details_panels = [
@@ -586,7 +596,6 @@ class ProgrammePage(BasePage):
             ],
         ),
     ]
-
     api_fields = [
         APIField("degree_level", serializer=degree_level_serializer()),
         APIField("subjects"),
@@ -675,10 +684,10 @@ class ProgrammePage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["hero_colour"] = "dark"
+        context["hero_colour"] = DARK_HERO
 
         if int(self.hero_colour_option) == LIGHT_TEXT_ON_DARK_IMAGE:
-            context["hero_colour"] = "light"
+            context["hero_colour"] = LIGHT_HERO
 
         context["related_sections"] = [
             {
@@ -719,7 +728,7 @@ class ProgrammePage(BasePage):
 
 
 class ProgrammeIndexPage(BasePage):
-    subpage_types = ["ProgrammePage"]
+    subpage_types = ["ProgrammePage", "shortcourses.ShortCoursePage"]
     template = "patterns/pages/programmes/programme_index.html"
 
     introduction = RichTextField(blank=False, features=["link"])
@@ -803,17 +812,32 @@ class ProgrammeIndexPage(BasePage):
             }
             for i in Subject.objects.all().order_by("title")
         ]
-        schools = [
-            {"title": i.title, "id": i.id, "description": i.description, "slug": i.slug}
-            for i in SchoolsAndResearchPage.objects.live()
-        ]
+
+        schools_and_research_pages = []
+
+        schools_and_research_pages_queryset = chain(
+            SchoolPage.objects.live(), ResearchCentrePage.objects.live()
+        )
+        for i in schools_and_research_pages_queryset:
+            description = i.listing_summary
+            if hasattr(i, "description"):
+                description = i.description
+            schools_and_research_pages.append(
+                {
+                    "title": i.title,
+                    "id": i.id,
+                    "description": description,
+                    "slug": i.slug,
+                }
+            )
+
         filters = [
             {"id": "subjects", "title": "Subject", "items": subjects},
             {"id": "programme_type", "title": "Type", "items": programme_types},
             {
                 "id": "related_schools_and_research_pages",
                 "title": "Schools & centres",
-                "items": schools,
+                "items": schools_and_research_pages,
             },
         ]
 

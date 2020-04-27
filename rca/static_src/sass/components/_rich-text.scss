@@ -12,6 +12,11 @@
 
     h2 {
         @include font-size(xl);
+        margin-bottom: ($gutter * 1.5);
+
+        @include media-query(large) {
+            margin-bottom: ($gutter * 2);
+        }
     }
 
     h3 {
@@ -58,11 +63,63 @@
         }
     }
 
+    .image {
+        margin-bottom: ($gutter * 1.5);
+        margin-top: ($gutter * 1.5);
+
+        @include media-query(large) {
+            margin-bottom: ($gutter * 2);
+            margin-top: ($gutter * 2);
+        }
+
+        &--full {
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
+
     .accordion & {
         @include font-size(xs);
 
         @include media-query(large) {
             font-size: map-get($medium-font-sizes, xs);
+        }
+    }
+
+    .app--project-detail & {
+        h2 {
+            @include font-size(s);
+            border-width: 0 0 1px;
+            border-style: solid;
+            padding-bottom: ($gutter / 2);
+            margin-bottom: $gutter;
+        }
+
+        ul {
+            list-style: outside disc;
+            margin-left: $gutter;
+        }
+
+        li {
+            margin-bottom: ($gutter * 2);
+        }
+    }
+
+    .bg--dark & {
+        .app--project-detail & {
+            h2 {
+                border-color: $color--grid-line-light;
+            }
+        }
+    }
+
+    .bg--light & {
+        .app--project-detail & {
+            h2 {
+                border-color: $color--grid-line-dark;
+            }
         }
     }
 }

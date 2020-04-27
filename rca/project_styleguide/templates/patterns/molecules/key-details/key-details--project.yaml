@@ -1,0 +1,16 @@
+context:
+  page:
+    funding: £5m, Research Council
+    specification_document: Archictecture MA
+  subjects:
+    - { title: Product design, link: '#' }
+    - { title: Fashion, link: '#' }
+    - { title: Innovation, link: '#' }
+    - { title: Textiles, link: '#' }
+  taxonomy_tags:
+    - item:
+      title: School of Design
+    - item:
+      title: Studio project
+    - item:
+      title: 2018

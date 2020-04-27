@@ -196,8 +196,10 @@
 
     &__heading {
         align-self: flex-start;
+        padding-right: ($gutter * 2.5);
 
         @include media-query(medium) {
+            padding-right: 0;
             grid-column: 1 / span 2;
         }
 

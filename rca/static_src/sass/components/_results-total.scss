@@ -1,0 +1,15 @@
+.results-total {
+    $root: &;
+
+    .bg--dark & {
+        #{$root}__number {
+            color: $color--meta-darkbg;
+        }
+    }
+
+    .bg--light & {
+        #{$root}__number {
+            color: $color--meta-lightbg;
+        }
+    }
+}

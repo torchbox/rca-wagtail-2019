@@ -1,0 +1,23 @@
+.categories-panels {
+    @include z-index(above-gridlines);
+    position: relative;
+
+    &__panel {
+        // When not expanded, the panel is hidden via the HTML hidden attribute.
+        [aria-expanded='true'] {
+            @include grid-layout();
+
+            @include media-query(medium) {
+                padding-top: $gutter * 2;
+            }
+        }
+    }
+
+    .bg--light .section__content & {
+        background-color: $color--white; // mask grid lines
+    }
+
+    .bg--dark .section__content & {
+        background-color: $color--black; // mask grid lines
+    }
+}

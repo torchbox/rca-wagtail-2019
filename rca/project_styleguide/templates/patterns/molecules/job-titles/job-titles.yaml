@@ -1,0 +1,8 @@
+context:
+  job_title:
+    - department: Intelligent Mobility
+      link: '#'
+      titles:
+        - { label: 'Chair and Director' }
+        - { label: 'Dean of School Mobility' }
+        - { label: 'Head of Programmes' }

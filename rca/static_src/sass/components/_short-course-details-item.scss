@@ -1,0 +1,28 @@
+.short-course-details-item {
+    margin-bottom: ($gutter * 2);
+
+    @include media-query(large) {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        margin-bottom: ($gutter * 4);
+    }
+
+    &__header {
+        margin-bottom: $gutter;
+
+        @include media-query(large) {
+            flex-basis: 33.333%;
+            max-width: 33.333%;
+            min-width: 33.333%;
+        }
+    }
+
+    &__content {
+        @include media-query(large) {
+            flex-basis: 66.666%;
+            max-width: 66.666%;
+            min-width: 66.666%;
+        }
+    }
+}

@@ -1,9 +1,5 @@
-context:
-  value:
-    caption: Some caption
-
 tags:
   image:
-    value.image width-1000:
+    value.image width-878:
       raw: |
-        <img src="http://via.placeholder.com/1000x300" width="1000" height="300" alt="Some alt">
+        <img src="//placekitten.com/878/498" width="878" height="498" alt="Some alt">

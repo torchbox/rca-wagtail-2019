@@ -1,4 +1,5 @@
 import Glide from '@glidejs/glide';
+import ArrowDisabler from './carousel-arrow-disabler';
 
 class SquareCarousel {
     static selector() {
@@ -12,8 +13,8 @@ class SquareCarousel {
         this.getMargins();
         this.createSlideshow();
         this.slideTotal = this.node.dataset.slidetotal;
+        this.slideshow.mount({ ArrowDisabler });
         this.bindEvents();
-        this.slideshow.mount();
         this.setLiveRegion();
     }
 
@@ -39,14 +40,6 @@ class SquareCarousel {
         // Get outer grid size for peek value
         const leftEdge = document.querySelector('[data-left-edge]');
         this.leftEdgeCoords = leftEdge.getBoundingClientRect();
-
-        // Set custom css property to give padding on slide
-        const gridSelector = document.querySelector('[data-grid-center]');
-        this.gridWidth = gridSelector.getBoundingClientRect();
-        document.documentElement.style.setProperty(
-            '--grid-width',
-            `${this.gridWidth.width}px`,
-        );
     }
 
     createSlideshow() {
@@ -80,7 +73,7 @@ class SquareCarousel {
         this.slideshow.destroy();
         this.createSlideshow();
         this.slideTotal = this.node.dataset.slidetotal;
-        this.slideshow.mount();
+        this.slideshow.mount({ ArrowDisabler });
     }
 
     // sets aria-hidden on inactive slides
@@ -89,11 +82,18 @@ class SquareCarousel {
         for (const slide of this.node.querySelectorAll(
             '.glide__slide:not(.glide__slide--active)',
         )) {
+            const inactiveSlideAnchors = slide.querySelectorAll('a');
             slide.setAttribute('aria-hidden', 'true');
-            slide.setAttribute('tab-index', 0);
+            inactiveSlideAnchors.forEach(function inactiveAnchor(el) {
+                el.setAttribute('tabindex', -1);
+            });
         }
         const activeSlide = this.node.querySelector('.glide__slide--active');
+        const activeSlideAnchors = activeSlide.querySelectorAll('a');
         activeSlide.removeAttribute('aria-hidden');
+        activeSlideAnchors.forEach(function activeAnchor(el) {
+            el.removeAttribute('tabindex');
+        });
     }
 
     // Sets a live region. This will announce which slide is showing to screen readers when previous / next buttons clicked

@@ -1,0 +1,18 @@
+context:
+  student_listing:
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    - {
+        first_name: 'Nelly',
+        surname: 'Cholmondeley-Cale',
+        meta: Current,
+        link: '#',
+      }
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    - {
+        first_name: 'Yancy',
+        surname: 'Wolfeschlegelsteinhausenbergerdorffd',
+        meta: Current,
+        link: '#',
+      }

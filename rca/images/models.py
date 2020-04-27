@@ -3,7 +3,23 @@ from wagtail.images.models import AbstractImage, AbstractRendition, Image
 
 
 class CustomImage(AbstractImage):
-    admin_form_fields = Image.admin_form_fields
+    alt = models.CharField(max_length=255, blank=True)
+    creator = models.CharField(max_length=255, blank=True)
+    year = models.CharField(max_length=4, blank=True)
+    medium = models.CharField(max_length=255, blank=True)
+    photographer = models.CharField(max_length=255, blank=True)
+    dimensions = models.CharField(max_length=20, blank=True)
+    permission = models.CharField(max_length=255, blank=True)
+
+    admin_form_fields = Image.admin_form_fields + (
+        "alt",
+        "creator",
+        "year",
+        "medium",
+        "photographer",
+        "dimensions",
+        "permission",
+    )
 
 
 class Rendition(AbstractRendition):

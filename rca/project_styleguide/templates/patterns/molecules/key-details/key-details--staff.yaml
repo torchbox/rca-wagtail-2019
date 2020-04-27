@@ -1,0 +1,8 @@
+context:
+  page:
+    profile_school:
+      - { title: 'Intelligent Mobility Design Centre', link: '#' }
+    profile_expertise:
+      - { title: 'AI', link: '#' }
+      - { title: 'Robotics', link: '#' }
+      - { title: 'Vehicle Design', link: '#' }

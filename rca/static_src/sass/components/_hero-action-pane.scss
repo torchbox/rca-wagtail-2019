@@ -3,6 +3,10 @@
     $root: &;
     $hero-action-pane-height-small: 110px;
     $hero-action-pane-height-medium: 160px;
+    $hero-image-credit-height: 25px;
+    $hero-action-pane-height-large: (
+        $hero-action-pane-height-medium + $hero-image-credit-height
+    );
     position: relative;
     pointer-events: none;
     height: $hero-action-pane-height-small;
@@ -15,6 +19,13 @@
         top: -$hero-action-pane-height-medium;
         margin-bottom: -$hero-action-pane-height-medium;
         pointer-events: auto;
+    }
+
+    @include media-query(large) {
+        padding-top: $hero-image-credit-height;
+        height: $hero-action-pane-height-large;
+        top: -$hero-action-pane-height-large;
+        margin-bottom: -$hero-action-pane-height-large;
     }
 
     &__links {
@@ -135,6 +146,18 @@
 
         @include media-query(large) {
             left: 209px;
+        }
+    }
+
+    &__credit {
+        display: none;
+
+        @include media-query(large) {
+            @include z-index(above-gridlines);
+            position: absolute;
+            top: 0;
+            display: block;
+            grid-column: 3 / span 3;
         }
     }
 

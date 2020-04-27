@@ -1,0 +1,30 @@
+context:
+  people:
+    - {
+        name: 'Beth Hughes',
+        role: 'Head of Programmes',
+        description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
+        link: '#',
+        link_text: 'Read more',
+      }
+    - {
+        name: 'Beth Hughes',
+        role: 'Head of Programmes',
+        description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
+        link: '#',
+        link_text: 'Read more',
+      }
+    - {
+        name: 'Beth Hughes',
+        role: 'Head of Programmes',
+        description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
+        link: '#',
+        link_text: 'Read more',
+      }
+    - {
+        name: 'Beth Hughes',
+        role: 'Head of Programmes',
+        description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
+        link: '#',
+        link_text: 'Read more',
+      }

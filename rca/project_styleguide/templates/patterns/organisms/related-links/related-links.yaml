@@ -1,0 +1,8 @@
+context:
+  related_links:
+    - item:
+      value: { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
+    - item:
+      value: { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
+    - item:
+      value: { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }

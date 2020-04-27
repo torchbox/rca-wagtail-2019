@@ -99,6 +99,13 @@
         }
     }
 
+    // Larger bottom margin on short course template
+    .app--short-course & {
+        @include media-query(large) {
+            margin-bottom: ($gutter * 5);
+        }
+    }
+
     .bg--dark & {
         #{$root}__caption {
             border-right: 1px solid $color--grid-line-light;

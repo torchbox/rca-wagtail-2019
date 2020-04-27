@@ -1,0 +1,91 @@
+.profile-teaser {
+    $root: &;
+
+    &__container {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: ($gutter * 1.25);
+
+        @include media-query(medium) {
+            margin-bottom: ($gutter * 2.75);
+        }
+
+        &:hover,
+        &:focus,
+        &:active {
+            #{$root}__image {
+                opacity: 0.8;
+            }
+
+            #{$root}__heading {
+                @include underline-hover();
+            }
+        }
+    }
+
+    &__image {
+        max-width: 60px;
+        min-width: 60px;
+        height: 60px;
+        flex-basis: 60px;
+        transition: opacity $cubic-transition;
+    }
+
+    &__content {
+        padding-left: $gutter;
+        flex-basis: auto;
+
+        @include media-query(medium) {
+            position: relative;
+            top: -4px; // Align top of text with image
+            padding-right: $gutter;
+        }
+    }
+
+    &__heading {
+        position: relative;
+        word-break: break-word; // ensure long names wrap
+        margin-bottom: ($gutter / 4);
+
+        @include media-query(large) {
+            line-height: 1.3;
+        }
+    }
+
+    &__meta {
+        font-family: $font--primary;
+        margin: 0;
+    }
+
+    &__surname {
+        display: block;
+    }
+
+    .student-listing & {
+        @include media-query(medium) {
+            flex-basis: 50%;
+            max-width: 50%;
+            min-width: 50%;
+        }
+    }
+
+    .bg--dark & {
+        #{$root}__heading {
+            color: $color--white;
+        }
+
+        #{$root}__meta {
+            color: $color--meta-darkbg;
+        }
+    }
+
+    .bg--light & {
+        #{$root}__heading {
+            color: $color--black;
+        }
+
+        #{$root}__meta {
+            color: $color--meta-lightbg;
+        }
+    }
+}

@@ -2,9 +2,20 @@ context:
   page:
     title: Architecture
     degree_level: 'MA'
+    hero_image:
+      title: Synaputral Decadence is the flavour of the distant future
+      creator: Jianjin Lee Chen
+      photographer: Sekiro Yamananka
     programme_description_title: 'We inspire design innovation'
     programme_description_subtitle: 'Extend your knowledge, skills and creativity through research and experimentation.'
     programme_description_copy: '<p>The programme conceives of architecture as a diverse and complex set of practices that move beyond traditional distinctions and limits in the field. The programme expands the possibilities of architecture and its agency in the world by encouraging an independent and critical ethos among its students.</p>'
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: Degree Programmes
+      - is_root: false
+        depth: 3
+        title: School of Architecture
     programme_gallery_title: 'Architecture gallery'
     programme_gallery:
       - slide:
@@ -90,7 +101,6 @@ context:
       - step:
         value:
           heading: Start your application
-
   related_programmes:
     - item:
       title: Related programmes
@@ -133,6 +143,10 @@ context:
       link: '#'
       image: true
       person: false
+  programme_page_global_fields:
+    contact_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
+    contact_title: Contact Us
+    related_content_title: More opportunities to study at the RCA
 
 tags:
   image:
