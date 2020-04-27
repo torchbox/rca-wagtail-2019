@@ -2,7 +2,11 @@ context:
   modifier: home
   cta: true
   scrolldown: true
-
+  page:
+    hero_image:
+      title: Synaputral Decadence is the flavour of the distant future
+      creator: Jianjin Lee Chen
+      photographer: Sekiro Yamananka
 tags:
   image:
     page.hero_image fill-320x568 as image_small:
