@@ -9,7 +9,6 @@ context:
       title: Filter by
       items:
         - tab_title: School or Centre
-          selected: true
           children:
             - { title: 3D modelling & visualisation }
             - { title: Art & curating }

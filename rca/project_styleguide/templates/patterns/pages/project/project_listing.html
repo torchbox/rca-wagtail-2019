@@ -42,7 +42,7 @@
                             {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=page.filters modifier="large" reset=True %}
 
                             {% for item in page.filters.items %}
-                                <div class="tabs__panel js-tab-panel {% if forloop.counter != 1 %}tabs__panel--hidden{% endif %}" id="{{ item.tab_title|slugify }}" role="tabpanel" aria-labelledby="{{ item.tab_title|slugify }}">
+                                <div class="tabs__panel js-tab-panel tabs__panel--hidden" id="{{ item.tab_title|slugify }}" role="tabpanel" aria-labelledby="{{ item.tab_title|slugify }}">
                                     {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" with filter_options=item.children %}
                                 </div>
                             {% endfor %}
