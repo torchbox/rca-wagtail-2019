@@ -1,6 +1,8 @@
 from collections import defaultdict
+from urllib.parse import urlencode
 
 from django.core.exceptions import ValidationError
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -435,7 +437,18 @@ class ProjectPickerPage(BasePage):
             )
         return projects_formatted
 
-    def get_results(self, request):
+    def get_extra_query_params(self, request):
+        # Request filters and queries
+        extra_query_params = []
+        for i in request.GET.getlist("type"):
+            extra_query_params.append(urlencode({"type": i}))
+        for i in request.GET.getlist("subject"):
+            extra_query_params.append(urlencode({"subject": i}))
+        for i in request.GET.getlist("school_or_centre"):
+            extra_query_params.append(urlencode({"school_or_centre": i}))
+        return extra_query_params
+
+    def get_results(self, request, context):
         projects = (
             ProjectPage.objects.live()
             .public()
@@ -457,21 +470,28 @@ class ProjectPickerPage(BasePage):
             projects = projects.filter(subjects__subject_id__in=subjects)
 
         if school_or_centre:
-            from django.db.models import Q
-
             projects = projects.filter(
-                Q(related_school_pages__page_id__in=school_or_centre)
-                | Q(related_research_pages__page_id__in=school_or_centre)
+                models.Q(related_school_pages__page_id__in=school_or_centre)
+                | models.Q(related_research_pages__page_id__in=school_or_centre)
             )
-
-        return self._format_results(projects)
+        return self._format_results(projects.distinct())
 
     def get_context(self, request, *args, **kwargs):
+        page = request.GET.get("page", 1)
         context = super().get_context(request, *args, **kwargs)
         context["filters"] = self.get_filters()
         context["featured_project"] = self.featured_project
-        project_results = self.get_results(request)
-        context["results"] = project_results
+        project_results = self.get_results(request, context)
         context["results_count"] = len(project_results)
+        context["extra_query_params"] = self.get_extra_query_params(request)
+        paginator = Paginator(project_results, 1)
+
+        try:
+            project_results = paginator.page(page)
+        except PageNotAnInteger:
+            project_results = paginator.page(1)
+        except EmptyPage:
+            project_results = paginator.page(paginator.num_pages)
+        context["results"] = project_results
 
         return context
