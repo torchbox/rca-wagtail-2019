@@ -438,7 +438,7 @@ class ProjectPickerPage(BasePage):
         return projects_formatted
 
     def get_extra_query_params(self, request):
-        # Request filters and queries
+        # Formats the request parameters in a list
         extra_query_params = []
         for i in request.GET.getlist("type"):
             extra_query_params.append(urlencode({"type": i}))
@@ -481,11 +481,21 @@ class ProjectPickerPage(BasePage):
         context = super().get_context(request, *args, **kwargs)
         context["filters"] = self.get_filters()
         context["featured_project"] = self.featured_project
+
         project_results = self.get_results(request, context)
         context["results_count"] = len(project_results)
-        context["extra_query_params"] = self.get_extra_query_params(request)
-        paginator = Paginator(project_results, 1)
 
+        # Send all the query params through to the context so they can be added
+        # to the pager links, E.G type=1&type=2&subject=1...
+        context["extra_query_params"] = self.get_extra_query_params(request)
+
+        # Don't show the featured project if queries are being mage
+        context["show_featured_project"] = True
+        if self.get_extra_query_params(request):
+            context["show_featured_project"] = False
+
+        # Pagination
+        paginator = Paginator(project_results, 1)
         try:
             project_results = paginator.page(page)
         except PageNotAnInteger:
