@@ -1,6 +1,8 @@
 context:
   page:
     title: The Helen Hamlyn Centre for Design
+    introduction_image: true
+    about_page_link_text: 'About the Helen Hamlyn Centre'
     get_ancestors:
       - is_root: false
         depth: 2
@@ -8,11 +10,8 @@ context:
       - is_root: false
         depth: 3
         title: Research Centres
-    introduction_image: true
-    video_caption: Watch the course introduction
     introduction: 'The Helen Hamlyn Centre for Design at the Royal College of Art undertakes design research. Our team of dedicated researchers work on projects that save lives.'
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
-    about_page_link_text: 'About the Helen Hamlyn Centre'
     research_highlights:
       - slide:
         meta: 'School of Design'
@@ -32,6 +31,56 @@ context:
         description: 'Creating world class experiences that started at the RCA'
         image: true
         link: '#'
+    opportunities:
+      - {
+          title: 'Custom executive education',
+          link: '#',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        }
+      - {
+          title: 'Knowledge exchange',
+          link: '#',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        }
+      - {
+          title: 'Collaborative research',
+          link: '#',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        }
+      - {
+          title: 'The Helen Hamlyn Research Associates',
+          link: '#',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        }
+      - {
+          title: 'Visiting lecturers',
+          link: '#',
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        }
+    programmes:
+      - item:
+        title: false
+        related_items:
+          - item:
+            title: Design thinking & innovation
+            degree_level: Executive education
+            programme_description_subtitle: Design thinking & innovation at the RCA sets out to inspire design innovation.
+            img: http://placehold.it/300x270/fff/000
+          - item:
+            title: Creative Leadership
+            degree_level: Executive education
+            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+            img: http://placehold.it/300x270/ff5d1c/fff
+          - item:
+            title: The Helen Hamlyn Centre for Design PhD
+            degree_level: MPhil/PhD
+            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+            img: http://placehold.it/300x270
+          - item:
+            title: Student workshops
+            degree_level: Student programme
+            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
+            img: http://placehold.it/300x270
     news_and_events:
       - item:
         meta: 'Event'
