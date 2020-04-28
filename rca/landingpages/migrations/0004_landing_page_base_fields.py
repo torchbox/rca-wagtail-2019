@@ -7,16 +7,14 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("landingpages", "0003_auto_20200428_1538"),
-    ]
+    dependencies = [("landingpages", "0003_auto_20200428_1538")]
 
     operations = [
         migrations.RemoveField(
-            model_name="landingpage", name="related_pages_list_subtitle",
+            model_name="landingpage", name="related_pages_list_subtitle"
         ),
         migrations.RemoveField(
-            model_name="landingpage", name="related_pages_list_title",
+            model_name="landingpage", name="related_pages_list_title"
         ),
         migrations.AddField(
             model_name="landingpage",
@@ -82,5 +80,5 @@ class Migration(migrations.Migration):
                 max_length=80,
             ),
         ),
-        migrations.DeleteModel(name="LandingPageRelatedPageList",),
+        migrations.DeleteModel(name="LandingPageRelatedPageList"),
     ]

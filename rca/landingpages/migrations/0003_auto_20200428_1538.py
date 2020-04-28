@@ -155,7 +155,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={"ordering": ["sort_order"], "abstract": False},
         ),
         migrations.CreateModel(
             name="LandingPageRelatedPageHighlights",
@@ -192,7 +192,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={"ordering": ["sort_order"], "abstract": False},
         ),
         migrations.CreateModel(
             name="LandingPageRelatedPagegrid",
@@ -229,7 +229,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={"ordering": ["sort_order"], "abstract": False},
         ),
         migrations.CreateModel(
             name="LandingPageFeaturedImage",
@@ -276,6 +276,6 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"abstract": False,},
+            options={"abstract": False},
         ),
     ]

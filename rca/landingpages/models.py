@@ -133,7 +133,7 @@ class LandingPage(BasePage):
             [
                 FieldPanel("related_pages_title"),
                 FieldPanel("related_pages_text"),
-                InlinePanel("related_pages_grid", max_num=8, label=_("Related Pages"),),
+                InlinePanel("related_pages_grid", max_num=8, label=_("Related Pages")),
             ],
             heading=_("Related pages grid"),
         ),
@@ -221,7 +221,7 @@ class LandingPage(BasePage):
 class ResearchLandingPage(LandingPage):
     template = "patterns/pages/landingpage/landing_page--research.html"
     content_panels = [
-        InlinePanel("featured_image", label=_("Featured image"), max_num=1),
+        InlinePanel("featured_image", label=_("Featured image"), max_num=1)
     ]
 
     class Meta:
