@@ -4,7 +4,7 @@
 
         {% if item.tab_title %}
             <div class="filter-tab-options__header layout__span-two">
-                <h2 class="filter-tab-options__heading heading heading--five">Filter {{ title }}</h2>
+                <h2 class="filter-tab-options__heading heading heading--five">Filter results</h2>
                 <button class="filter-tab-options__back" aria-label="Back to categories">
                     <svg width="12" height="8" class="filter-tab-options__back-icon" aria-hidden="true">
                         <use xlink:href="#arrow"></use>
@@ -29,7 +29,10 @@
         </div>
 
         <div class="filter-tab-options__footer layout__start-one layout__span-two layout__@large-start-two layout__@large-span-four">
-            {% include "patterns/atoms/link-primary/link-primary.html" with value=page.filter_action %}
+            <button class="filter-tab-options__button link link--primary" data-filter-submit>
+                <span class="link__label">Show results</span>
+                <svg width="12" height="8" class="link__icon link__icon--rotated" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+            </button>            
         </div>
 
     </div>

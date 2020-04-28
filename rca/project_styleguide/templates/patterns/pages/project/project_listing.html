@@ -32,27 +32,23 @@
             </div>
         </header>
 
-        <div class="page__content js-sticky-point js-sticky-point--top js-tabs">
-
-            <section class="section section--opposite-notch sticky-filter-bar" data-filter-bar>
-
-                <div class="section__row bg bg--dark filter-bar filter-bar--large">
-                    <div class="section__notch section__notch--opposite">
-                        <div class="section__notch-fill section__notch-fill--content-height section__notch-fill--fourth-col section__notch-fill--second-col@medium">
-                            {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=page.filters modifier="large" reset=True %}
-                        </div>
+        <div class="page__content js-detect-sticking js-tabs">
+   
+            <section class="section section--opposite-notch bg bg--dark filter-bar filter-bar--large" data-filter-bar>
+                <div class="section__notch section__notch--opposite">
+                    <div class="section__notch-fill section__notch-fill--content-height section__notch-fill--fourth-col section__notch-fill--second-col@medium">
+                        {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=page.filters modifier="large" reset=True %}
                     </div>
                 </div>
+            </section>
 
-                <div class="filter-bar filter-bar--small bg bg--light">
-                    <a class="filter-bar__link body body--two" href="#">
-                        <span class="filter-bar__label">Filter projects</span>
-                        <svg width="12" height="8" class="filter-bar__icon" aria-hidden="true">
-                            <use xlink:href="#arrow"></use>
-                        </svg>
-                    </a>
-                </div>
-
+            <section class="filter-bar filter-bar--small bg bg--light">
+                <a class="filter-bar__link body body--two" href="#">
+                    <span class="filter-bar__label">Filter projects</span>
+                    <svg width="12" height="8" class="filter-bar__icon" aria-hidden="true">
+                        <use xlink:href="#arrow"></use>
+                    </svg>
+                </a>
             </section>
 
             <div class="filter-takeover bg bg--light">

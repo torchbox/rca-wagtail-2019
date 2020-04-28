@@ -18,7 +18,7 @@
 
     // Class added via js to body
     .project-filters & {
-        @include z-index(sticky-nav-bar);
+        @include z-index(modal);
         display: block;
         position: fixed;
         top: 0;

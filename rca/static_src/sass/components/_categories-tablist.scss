@@ -77,9 +77,9 @@
         }
     }
 
-    .sticky-bar & {
+    .filter-bar--stuck &,
+    .project-filters & {
         @include z-index(sticky-nav-bar);
-        background-color: $color--black;
 
         @include media-query(large) {
             // Compensate padding to align to grid lines
@@ -93,11 +93,26 @@
         &__tab {
             color: $color--meta-darkbg;
 
-            &--selected {
+            &.active {
                 color: $color--white;
 
                 &::before {
                     background-color: $color--white;
+                }
+            }
+        }
+    }
+
+    // When project filters are open
+    .project-filters & {
+        &__tab {
+            color: $color--meta-lightbg;
+
+            &.active {
+                color: $color--black;
+
+                &::before {
+                    background-color: $color--black;
                 }
             }
         }

@@ -1,5 +1,8 @@
-/* eslint-disable no-restricted-syntax */
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import 'intersection-observer';
+import scrollama from 'scrollama';
 
+/* eslint-disable no-restricted-syntax */
 class ProjectFilters {
     static selector() {
         return '[data-filter-option]';
@@ -8,26 +11,20 @@ class ProjectFilters {
     constructor(node) {
         // Filters
         this.filter = node;
-        this.filterBar = document.querySelectorAll('[data-filter-bar]');
+        this.body = document.querySelector('body');
+        this.filterBar = document.querySelector('[data-filter-bar]');
         this.resetButton = document.querySelectorAll('[data-filters-reset]');
         this.clearButton = document.querySelectorAll(
             '[data-filters-clear-category]',
         );
         this.category = document.querySelectorAll('[data-project-category]');
+        this.formSubmit = document.querySelectorAll('[data-filter-submit]');
 
         // Tabs
         this.allTabs = document.querySelectorAll('[data-tab]');
 
         // Events
         this.bindEvents();
-    }
-
-    launchProjectFilters() {
-        document.querySelector('body').classList.add('project-filters');
-    }
-
-    closeProjectFilters() {
-        document.querySelector('body').classList.remove('project-filters');
     }
 
     clearCurrentCategoryFilters(tab) {
@@ -42,7 +39,53 @@ class ProjectFilters {
         }
     }
 
+    detectPositionSticky() {
+        // instantiate the scrollama
+        const scroller = scrollama();
+
+        // setup the instance, pass callback functions
+        scroller
+            .setup({
+                step: '.js-detect-sticking',
+                offset: 0, // 1 bottom, 0 top
+            })
+            .onStepEnter(() => {
+                this.filterBar.classList.add('filter-bar--stuck');
+            })
+            .onStepExit(() => {
+                this.filterBar.classList.remove('filter-bar--stuck');
+            });
+
+        // setup resize event
+        window.addEventListener('resize', scroller.resize);
+    }
+
+    applyThemeDark() {
+        this.filterBar.classList.remove('bg', 'bg--light');
+        this.filterBar.classList.add('bg', 'bg--dark');
+    }
+
+    applyThemeLight() {
+        this.filterBar.classList.remove('bg', 'bg--dark');
+        this.filterBar.classList.add('bg', 'bg--light');
+    }
+
+    launchProjectFilters() {
+        disableBodyScroll(this.body);
+        this.body.classList.add('project-filters');
+        this.applyThemeLight();
+    }
+
+    closeProjectFilters() {
+        enableBodyScroll(this.body);
+        this.body.classList.remove('project-filters');
+        this.applyThemeDark();
+    }
+
     bindEvents() {
+        // Detect when sticky
+        this.detectPositionSticky();
+
         // Filters
         this.filter.addEventListener('click', (e) => {
             e.preventDefault();
@@ -62,14 +105,8 @@ class ProjectFilters {
 
         // Categories
         this.category.forEach((item) => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
+            item.addEventListener('click', () => {
                 this.launchProjectFilters();
-
-                // Add theme colour
-                for (const bar of this.filterBar) {
-                    bar.classList.add('bg', 'bg--light');
-                }
             });
         });
 
@@ -97,16 +134,18 @@ class ProjectFilters {
                 e.preventDefault();
                 this.closeProjectFilters();
 
-                // Reset filter bar colour
-                for (const bar of this.filterBar) {
-                    bar.classList.remove('bg', 'bg--light');
-                }
-
                 // Reset tab states
                 for (const tab of this.allTabs) {
                     tab.classList.remove('active');
                     tab.setAttribute('aria-selected', 'false');
                 }
+            });
+        });
+
+        // Submit
+        this.formSubmit.forEach((item) => {
+            item.addEventListener('click', () => {
+                this.closeProjectFilters();
             });
         });
     }

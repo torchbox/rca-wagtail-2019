@@ -101,6 +101,14 @@
         padding: ($gutter * 2) 0;
     }
 
+    &__button {
+        background-color: transparent;
+        border: 0;
+        padding: ($gutter / 2) 0 0;
+        font-family: $font--secondary;
+        cursor: pointer;
+    }
+
     .filter-takeover & {
         height: 100%;
 

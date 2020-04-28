@@ -93,18 +93,18 @@ document.addEventListener('DOMContentLoaded', () => {
         new VideoModal(videomodal);
     }
 
+    for (const projectfilters of document.querySelectorAll(
+        ProjectFilters.selector(),
+    )) {
+        new ProjectFilters(projectfilters);
+    }
+
     for (const tabs of document.querySelectorAll(Tabs.selector())) {
         new Tabs(tabs);
     }
 
     for (const sticky of document.querySelectorAll(Sticky.selector())) {
         new Sticky(sticky);
-    }
-
-    for (const projectfilters of document.querySelectorAll(
-        ProjectFilters.selector(),
-    )) {
-        new ProjectFilters(projectfilters);
     }
 
     new ActualHeight();
