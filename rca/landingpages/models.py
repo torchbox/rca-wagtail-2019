@@ -52,6 +52,7 @@ class LandingPageAboutLinkField(LinkFields):
 class LandingPage(BasePage):
     """ Defines all the fields we will need for the other versions of landing pages"""
 
+    # TODO Make this createable and act as the default
     is_creatable = False
     hero_image = models.ForeignKey(
         "images.CustomImage",
@@ -113,6 +114,7 @@ class LandingPage(BasePage):
 
 
 class LandingPageDefaultFeaturedImage(FeaturedImage):
+    # TODO change to foreign key
     source_page = ParentalKey(
         "landingpages.LandingPageDefault", related_name="featured_image"
     )
@@ -126,6 +128,7 @@ class LandingPageDefaultHighlightPages(RelatedPage):
 
 
 class LandingPageDefaultRelatedPages(RelatedPage):
+    # TODO source page should be to LandingPage
     source_page = ParentalKey(
         "landingpages.LandingPageDefault", related_name="related_pages"
     )
@@ -138,9 +141,9 @@ class LandingPageDefaultRelatedProgrammesLinkField(LinkFields):
     )
 
 
-class LandingPageDefaultRelatedProgrammPages(RelatedPage):
+class LandingPageRelatedProgrammPages(RelatedPage):
     source_page = ParentalKey(
-        "landingpages.LandingPageDefault", related_name="related_programmes"
+        "landingpages.LandingPage", related_name="related_programmes"
     )
     panels = [
         PageChooserPanel(
