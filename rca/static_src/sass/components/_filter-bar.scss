@@ -35,14 +35,6 @@
         }
     }
 
-    &--stuck {
-        @include media-query(large) {
-            @include z-index(sticky-nav-bar-header);
-            // Make padding above / below bar even
-            transform: translate3d(0, -10px, 0);
-        }
-    }
-
     &__link {
         display: flex;
         align-items: center;
@@ -117,6 +109,25 @@
             // Make padding above / below bar even
             transform: translate3d(0, -10px, 0);
             border-bottom: 1px solid $color--grid-line-dark;
+        }
+    }
+
+    // Modifier unusually at bottom to override theme
+    &--stuck {
+        @include media-query(large) {
+            @include z-index(sticky-nav-bar-header);
+            // Make padding above / below bar even
+            transform: translate3d(0, -10px, 0);
+        }
+
+        &.bg--dark {
+            .section__notch-fill {
+                background-color: $color--black;
+
+                &::before {
+                    background-color: $color--black;
+                }
+            }
         }
     }
 }

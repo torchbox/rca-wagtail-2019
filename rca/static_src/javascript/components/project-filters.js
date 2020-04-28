@@ -74,12 +74,16 @@ class ProjectFilters {
         disableBodyScroll(this.body);
         this.body.classList.add('project-filters');
         this.applyThemeLight();
+        // Remove to allow css to handle theme
+        this.filterBar.classList.remove('filter-bar--stuck');
     }
 
     closeProjectFilters() {
         enableBodyScroll(this.body);
         this.body.classList.remove('project-filters');
         this.applyThemeDark();
+        // Check if class needs to be applied again
+        this.detectPositionSticky();
     }
 
     bindEvents() {

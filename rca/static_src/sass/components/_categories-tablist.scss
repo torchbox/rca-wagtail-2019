@@ -89,6 +89,10 @@
         &__heading {
             display: none;
         }
+    }
+
+    .filter-bar--stuck & {
+        background-color: $color--black;
 
         &__tab {
             color: $color--meta-darkbg;
