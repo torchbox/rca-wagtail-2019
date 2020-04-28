@@ -130,20 +130,11 @@
                 </section>
             {% endif %}
 
-            {% if related_pages_list %}
+            {% if page_list %}
+
                 <section class="section section--opposite-notch bg bg--light">
                     <div class="section__row section__row--first section__row--last-large">
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=related_pages_list title=page.related_pages_list_title modifier="after-action related-content--meta-new-line" %}
-                        {% if page.related_pages_list_link %}
-                            <div class="grid">
-                                <div class="section__action">
-                                    <a class="link link--secondary link--link body body--one" href="{{ page.related_pages_list_link.all.first.get_link_url }}">
-                                        <span class="link__label">{{ page.related_pages_list_link.all.first.get_link_text }}</span>
-                                        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                                    </a>
-                                </div>
-                            </div>
-                        {% endif %}
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page_list title=page.related_pages_list_title modifier="after-action related-content--meta-new-line" %}
                     </div>
                     {% if not page.stats_block %}
 

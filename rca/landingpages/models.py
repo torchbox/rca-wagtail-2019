@@ -6,7 +6,9 @@ from wagtail.admin.edit_handlers import (
     InlinePanel,
     MultiFieldPanel,
     PageChooserPanel,
+    StreamFieldPanel,
 )
+from wagtail.core.fields import StreamField
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.home.models import (
@@ -15,6 +17,7 @@ from rca.home.models import (
     LIGHT_HERO,
     LIGHT_TEXT_ON_DARK_IMAGE,
 )
+from rca.utils.blocks import RelatedPageListBlock
 from rca.utils.models import BasePage, LinkFields, RelatedPage
 
 
@@ -55,13 +58,6 @@ class LandingPageRelatedPagegrid(RelatedPage):
 class LandingPageRelatedPageHighlights(RelatedPage):
     source_page = ParentalKey(
         "landingpages.LandingPage", related_name="related_pages_highlights"
-    )
-    panels = [PageChooserPanel("page")]
-
-
-class LandingPageRelatedPageList(RelatedPage):
-    source_page = ParentalKey(
-        "landingpages.LandingPage", related_name="related_pages_list"
     )
     panels = [PageChooserPanel("page")]
 
@@ -108,16 +104,12 @@ class LandingPage(BasePage):
             "The brief paragraph of text to be displayed above the related pages grid"
         ),
     )
-    related_pages_list_title = models.TextField(
+    page_list_title = models.TextField(
         max_length=80,
         blank=True,
-        help_text=_("The title to be displayed above the related pages"),
+        help_text=_("The title to be displayed above the page list blocks"),
     )
-    related_pages_list_subtitle = models.TextField(
-        max_length=80,
-        blank=True,
-        help_text=_("The subtitle, displayed above the related pages"),
-    )
+    page_list = StreamField([("page_list", RelatedPageListBlock())], blank=True)
 
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
@@ -147,17 +139,8 @@ class LandingPage(BasePage):
         ),
         InlinePanel("featured_image", label=_("Featured image"), max_num=1),
         MultiFieldPanel(
-            [
-                FieldPanel("related_pages_list_title"),
-                FieldPanel("related_pages_list_subtitle"),
-                InlinePanel(
-                    "related_pages_list", label=_("Related programmes"), max_num=8,
-                ),
-                # InlinePanel(
-                #     "related_programmes_link", label=_("View more link"), max_num=1
-                # ),
-            ],
-            heading=_("Related programmes"),
+            [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
+            heading=_("Related page list"),
         ),
     ]
 
@@ -203,6 +186,22 @@ class LandingPage(BasePage):
                 )
         return related_pages
 
+    def get_page_list(self):
+        """ Formats the related items coming from streamfield blocks
+        into a digestable list for the template"""
+        items = []
+        for block in self.page_list:
+            item = {
+                "title": block.value["heading"],
+                "related_items": [],
+                "link": block.value["link"],
+            }
+            for page in block.value["page"]:
+                page = page.value.specific
+                item["related_items"].append(page)
+            items.append(item)
+        return items
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["hero_colour"] = DARK_HERO
@@ -214,16 +213,7 @@ class LandingPage(BasePage):
         )
         context["related_pages"] = self.get_related_pages(self.related_pages_grid)
         context["featured_image"] = self.get_featured_image()
-        context["related_pages_list"] = [
-            {
-                "title": self.related_pages_list_title,
-                "subtitle": self.related_pages_list_subtitle,
-                "related_items": [
-                    rel.page.specific
-                    for rel in self.related_pages_list.select_related("page")
-                ],
-            }
-        ]
+        context["page_list"] = self.get_page_list()
 
         return context
 

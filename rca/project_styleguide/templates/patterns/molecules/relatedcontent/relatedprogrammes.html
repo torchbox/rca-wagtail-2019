@@ -48,9 +48,17 @@
                         <img class="related-content__image {% if forloop.first %}is-visible{% endif %}" src="{{ programme_image.url }}" alt="{{ programme_image.alt }}" data-image="{{ forloop.counter }}">
                     </div>
                 {% endfor %}
-
             </div>
-
+            {% if related_section.link %}
+                <div class="grid">
+                    <div class="section__action">
+                        <a class="link link--secondary link--link body body--one" href="{{ related_section.link.url }}">
+                            <span class="link__label">{{ related_section.link.title }}</span>
+                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     {% endfor  %}
 </div>
