@@ -1,1 +1,160 @@
-{% extends "patterns/pages/landingpage/landing_page.html" %}
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% get_settings %}
+
+{% block header_class %}
+    theme-{{ hero_colour }}
+{% endblock %}
+
+{% block body_class %}
+    app--landing-page
+{% endblock %}
+
+{% block content %}
+
+    {% include "patterns/molecules/hero/hero.html" with modifier="programme" %}
+
+    <div class="page page--overlap" >
+
+        <div class="page__notch grid">
+            <div class="page__notch-block bg bg--dark"></div>
+        </div>
+
+        <header class="page__header bg bg--dark">
+            <div class="title-area title-area--landing-page grid">
+                <div class="title-area__content">
+                    {% if page.title %}
+                        <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
+                    {% endif %}
+                </div>
+            </div>
+            {% if page.introduction %}
+                    <div class="introduction grid">
+                        <div class="introduction__container">
+                            <h2 class="introduction__text section__heading heading heading--five">
+                                {{ page.introduction }}
+                            </h2>
+                            {% if page.introduction_link %}
+                                <a href="{{ page.introduction_link }}" class="introduction__link link link--tertiary link--link">
+                                    <span class="link__label">{{ page.introduction_link_text }}</span>
+                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+        </header>
+
+        <div class="page__content landing-page">
+
+            {% if page.feature_image %}
+                <section class="landing-page__top section section--start bg bg--dark">
+
+                    <div class="section__row section__row--last">
+                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=page.feature_heading meta_heading=page.feature_meta_heading meta_copy=page.feature_meta_text href=page.feature_meta_link image=page.feature_image modifier="tight-heading" %}
+                    </div>
+
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    </div>
+
+                </section>
+            {% endif %}
+
+            {% if page.related_courses %}
+                <section class="section section--opposite-notch bg bg--light">
+                    <div class="section__row section__row--first section__row--last-large">
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page.related_courses title=page.related_courses_title modifier="after-action related-content--meta-new-line" %}
+                        {% if page.related_courses_link %}
+                            <div class="grid">
+                                <div class="section__action">
+                                    <a class="link link--secondary link--link body body--one" href="{{ page.related_courses_link }}">
+                                        <span class="link__label">{{ page.related_courses_link_text }}</span>
+                                        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                    </a>    
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if not page.stats_block %}
+                        <div class="section__notch section__notch--opposite">
+                            <div class="section__notch-fill section__notch-fill--third-col"></div>
+                        </div>
+                    {% endif %}
+                    
+                </section>
+            {% endif %}
+
+            {% if page.stats_block %}
+                {% include "patterns/organisms/stat-block/stat-block.html" with stats_block=page.stats_block %}
+            {% endif %}
+
+            {% if page.startups %}
+                <section class="section section--opposite-notch bg bg--light">
+
+                    <div class="section__row section__row--first section__row--last-large research-highlights">
+                        <div class="section__header grid">
+                            <h2 class="section__heading section__heading--primary heading heading--four">
+                                Start-ups
+                            </h2>
+                        </div>
+                        <div class="section__content grid">
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=page.startups modifier='carousel carousel--no-margin' datatag='data-carousel' %}     
+                            <div class="section__action">
+                                <a class="link link--primary link--link body body--two" href="/start-ups">
+                                    <span class="link__label">See all start-ups</span>
+                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                </a>    
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section__notch section__notch--opposite">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    </div>
+
+                </section>
+            {% endif %}
+
+            {% if page.bottom_feature_image %}
+                <div class="section section--start{% if page.news == false %} section--end{% endif %} bg bg--dark">
+                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=False curriculum=False subheading=false has_meta=True heading=page.bottom_feature_heading meta_heading=page.bottom_feature_meta_heading meta_copy=page.bottom_feature_meta_text href=page.bottom_feature_meta_link image=page.bottom_feature_image modifier="overlap-heading" %}
+                </div>
+            {% endif %}
+
+            {% if page.news %}
+                <section class="section{% if page.bottom_feature_image %}{% else %} section--start{% endif %} section--end bg bg--dark">
+                    <header class="section__header grid">
+                        <h3 class="section__heading section__heading--primary heading heading--two">News</h3>
+                    </header>
+                    <div class="section__content">
+                        <div class="section__row section__row--last grid">
+                            {% include "patterns/organisms/news/news.html" with news=page.news cta="See all news" %}
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+
+            {% if page.contact %}
+                <section class="section bg bg--light">
+                    <div class="section__notch section__notch--small-med-only">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    </div>
+                    <div class="contact-anchor" id="contact"></div>
+                    <div class="section__row section__row--first">
+                        {% include "patterns/organisms/contact/contact.html" with heading="Contact us" text="Get in touch if you’d like to find out more or have any questions about working with the RCA." image=page.contact_image %}
+                    </div>
+                </section>
+
+                <section class="section bg bg--dark">
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    </div>
+                </section>
+            {% endif %}
+
+
+        </div>
+
+    </div>
+{% endblock %}

@@ -274,6 +274,7 @@
 
     .related-links__item & {
         font-family: $font--primary;
+        display: inline;
 
         @include media-query(large) {
             font-family: $font--secondary;

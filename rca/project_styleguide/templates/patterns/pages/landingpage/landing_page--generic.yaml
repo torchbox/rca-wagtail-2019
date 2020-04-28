@@ -1,10 +1,6 @@
 context:
   page:
-    title: Enterprise at the RCA
-    get_ancestors:
-      - is_root: false
-        depth: 2
-        title: Research
+    title: Generic landing page
     introduction: 'Enterprise at the RCA spans incubation, innovation and business acceleration programmes; consultancy and knowledge exchange, and custom executive short courses.'
     enterprise_highlights:
       - slide:
