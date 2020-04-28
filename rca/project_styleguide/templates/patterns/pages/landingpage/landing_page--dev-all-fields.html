@@ -37,9 +37,9 @@
                             <h2 class="introduction__text section__heading heading heading--five">
                                 {{ page.introduction }}
                             </h2>
-                            {% if about_page %}
-                                <a href="{{ about_page.get_link_url }}" class="introduction__link link link--tertiary link--link">
-                                    <span class="link__label">{{ about_page.get_link_text }}</span>
+                            {% if page.about_page %}
+                                <a href="{% pageurl page.about_page %}" class="introduction__link link link--tertiary link--link">
+                                    <span class="link__label">{{ page.about_page.title }}</span>
                                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                 </a>
                             {% endif %}
@@ -50,7 +50,7 @@
 
         <div class="page__content landing-page">
 
-            {% if page.feature_image or highlight_pages %}
+            {% if page.feature_image or related_pages_highlights %}
                 <section class="landing-page__top section section--start bg bg--dark">
 
                     {% if page.feature_image %}
@@ -75,7 +75,6 @@
                                         <span class="link__label">See all enterprise projects</span>
                                         <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                     </a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -95,10 +94,10 @@
                         <div class="section__row research-spaces">
                             <div class="section__header section__header--bottom-space grid">
                                 <h2 class="section__heading section__heading--tight heading heading--two">
-                                    Enterprise at the RCA
+                                    {{ page.related_pages_title }}
                                 </h2>
                                 <div class="section__introduction">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+                                    {{ page.related_pages_text }}
                                 </div>
                             </div>
                             <div class="section__content grid">
@@ -131,15 +130,15 @@
                 </section>
             {% endif %}
 
-            {% if related_programmes %}
+            {% if related_pages_list %}
                 <section class="section section--opposite-notch bg bg--light">
                     <div class="section__row section__row--first section__row--last-large">
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=related_programmes title=page.related_programmes_title modifier="after-action related-content--meta-new-line" %}
-                        {% if page.related_programmes_link %}
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=related_pages_list title=page.related_pages_list_title modifier="after-action related-content--meta-new-line" %}
+                        {% if page.related_pages_list_link %}
                             <div class="grid">
                                 <div class="section__action">
-                                    <a class="link link--secondary link--link body body--one" href="{{ page.related_programmes_link.all.first.get_link_url }}">
-                                        <span class="link__label">{{ page.related_programmes_link.all.first.get_link_text }}</span>
+                                    <a class="link link--secondary link--link body body--one" href="{{ page.related_pages_list_link.all.first.get_link_url }}">
+                                        <span class="link__label">{{ page.related_pages_list_link.all.first.get_link_text }}</span>
                                         <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                     </a>
                                 </div>
