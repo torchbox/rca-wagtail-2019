@@ -67,8 +67,9 @@
         position: relative;
         font-family: $font--primary;
 
-        &--selected {
+        &.selected {
             @include underline-hover-target();
+            @include underline-hover-target-reset();
             font-family: $font--secondary;
         }
     }
@@ -81,6 +82,13 @@
         @include underline-hover();
         position: relative;
         font-family: $font--secondary;
+        opacity: 1;
+        transition: opacity $cubic-transition;
+
+        &.hidden {
+            @include hidden();
+            opacity: 0;
+        }
     }
 
     &__footer {

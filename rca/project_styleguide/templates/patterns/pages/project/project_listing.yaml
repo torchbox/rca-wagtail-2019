@@ -48,6 +48,9 @@ context:
           children:
             - { title: Digital futures }
             - { title: Emerging technologies }
+    filter_action:
+      text: Show results
+      href: '#'
     feature:
       sub_heading: School of Design
       meta_heading: Electronic Skin Nanopatches for Continuous Blood Pressure Monitoring

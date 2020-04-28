@@ -1,4 +1,6 @@
 .filter-takeover {
+    display: none;
+
     &__container {
         @include media-query(large) {
             height: 100%;
@@ -14,8 +16,10 @@
         }
     }
 
-    .sticky-bar & {
+    // Class added via js to body
+    .project-filters & {
         @include z-index(sticky-nav-bar);
+        display: block;
         position: fixed;
         top: 0;
         left: 0;
