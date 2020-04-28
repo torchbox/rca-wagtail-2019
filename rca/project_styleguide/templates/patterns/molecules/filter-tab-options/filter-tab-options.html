@@ -1,10 +1,38 @@
 <div class="filter-tab-options grid">
-    <div class="filter-tab-options__container layout__start-one layout__span-two layout__@large-start-two layout__@large-span-four">
-        {% for item in filter_options %}
-            <div class="filter-tab-options__item layout__span-one">
-                <a href="#" class="filter-tab-options__link">{{ item.title }}</a>
+
+    <div class="filter-tab-options__container layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+
+        {% if item.tab_title %}
+            <div class="filter-tab-options__header layout__span-two">
+                <h2 class="filter-tab-options__heading heading heading--five">Filter {{ title }}</h2>
+                <button class="filter-tab-options__back" aria-label="Back to categories">
+                    <svg width="12" height="8" class="filter-tab-options__back-icon" aria-hidden="true">
+                        <use xlink:href="#arrow"></use>
+                    </svg>
+                </button>
+                <div class="filter-tab-options__heading-options">
+                    <h3 class="filter-tab-options__category-heading heading heading--five">{{ item.tab_title }}</h3>
+                    <a class="filter-tab-options__clear-link body body--two" href="#" data-filters-clear-category>Clear</a>
+                </div>
             </div>
-        {% endfor %}
+        {% endif %}
+
+        <div class="filter-tab-options__content">
+            {% for item in filter_options %}
+                <div class="filter-tab-options__item layout__span-two layout__@large-span-one">
+                    <a href="#" class="filter-tab-options__link body body--one">{{ item.title }}</a>
+                </div>
+            {% endfor %}
+            <div class="filter-tab-options__clear layout__start-one layout__span-two layout__@large-span-three">
+                <a class="filter-tab-options__clear-link body body--two" href="#" data-filters-clear-category>Clear</a>
+            </div>
+        </div>
+
+        <div class="filter-tab-options__footer layout__start-one layout__span-two layout__@large-start-two layout__@large-span-four">
+            {% include "patterns/atoms/reset/reset.html" %}
+        </div>
+
     </div>
-    {% include "patterns/atoms/reset/reset.html" %}
+
+    {% include "patterns/atoms/grid-lines/grid-lines.html" %}
 </div>

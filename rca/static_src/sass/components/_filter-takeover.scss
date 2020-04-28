@@ -1,14 +1,22 @@
 .filter-takeover {
     &__container {
-        padding-top: $gutter;
+        @include media-query(large) {
+            height: 100%;
+        }
+    }
+
+    &__tab-content {
+        height: 100%;
+        padding-top: ($gutter * 2);
 
         @include media-query(large) {
             padding-top: ($gutter * 5);
         }
     }
+
     .sticky-bar & {
-        position: fixed;
         @include z-index(sticky-nav-bar);
+        position: fixed;
         top: 0;
         left: 0;
         right: 0;

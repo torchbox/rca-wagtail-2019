@@ -1,6 +1,128 @@
 .filter-tab-options {
-    &__container {
+    &__header {
+        @include media-query(large) {
+            display: none;
+        }
+    }
+
+    &__heading {
+        font-family: $font--secondary;
+        margin-bottom: ($gutter * 2);
+    }
+
+    &__category-heading {
+        font-family: $font--secondary;
+    }
+
+    &__heading-options {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: ($gutter * 2);
+    }
+
+    &__back {
+        margin-bottom: $gutter;
+    }
+
+    &__back-icon {
+        position: relative;
+        left: -4px; // Align icon with grid line
+        transform: rotate(180deg);
+    }
+
+    &__content {
         display: grid;
         grid-template-columns: 1fr 1fr;
+
+        @include media-query(large) {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+
+    &__item {
+        margin-bottom: $gutter;
+
+        &:nth-child(1n) {
+            @include media-query(large) {
+                grid-column-start: 1;
+            }
+        }
+
+        &:nth-child(2n) {
+            @include media-query(large) {
+                grid-column-start: 3;
+            }
+        }
+
+        &:nth-last-child(2) {
+            // Space between last item and clear button
+            margin-bottom: ($gutter * 2);
+        }
+    }
+
+    &__link {
+        @include underline-hover();
+        position: relative;
+        font-family: $font--primary;
+
+        &--selected {
+            @include underline-hover-target();
+            font-family: $font--secondary;
+        }
+    }
+
+    &__clear {
+        margin-bottom: ($gutter * 2);
+    }
+
+    &__clear-link {
+        @include underline-hover();
+        position: relative;
+        font-family: $font--secondary;
+    }
+
+    &__footer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+        border-style: solid;
+        border-width: 1px 0 0;
+        padding: ($gutter * 2) 0;
+    }
+
+    .filter-takeover & {
+        height: 100%;
+
+        &__container {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            height: 100%;
+        }
+    }
+
+    .bg--light & {
+        &__link,
+        &__clear-link {
+            color: $color--black;
+        }
+
+        &__footer {
+            border-color: $color--grid-line-dark;
+        }
+    }
+
+    .bg--dark & {
+        &__link,
+        &__clear-link {
+            color: $color--white;
+        }
+
+        &__footer {
+            border-color: $color--grid-line-light;
+        }
     }
 }
