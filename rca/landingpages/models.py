@@ -67,7 +67,7 @@ class LandingPage(BasePage):
     visibility of some extra fields that aren't needed on certain models which inherit LandingPage
     are controlled at the content_panels level"""
 
-    template = "patterns/pages/landingpage/landing_page.html"
+    template = "patterns/pages/landingpage/landing_page--generic.html"
     hero_image = models.ForeignKey(
         "images.CustomImage",
         null=True,
@@ -181,7 +181,7 @@ class LandingPage(BasePage):
                         else page.listing_image,
                         "description": page.introduction
                         if hasattr(page, "introduction")
-                        else None,
+                        else page.listing_summary,
                     }
                 )
         return related_pages
