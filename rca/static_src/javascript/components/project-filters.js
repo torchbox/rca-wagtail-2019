@@ -13,11 +13,13 @@ class ProjectFilters {
         this.filter = node;
         this.body = document.querySelector('body');
         this.filterBar = document.querySelector('[data-filter-bar]');
-        this.resetButton = document.querySelectorAll('[data-filters-reset]');
-        this.clearButton = document.querySelectorAll(
+        this.resetButton = document.querySelector('[data-filters-reset]');
+        this.clearButtons = document.querySelectorAll(
             '[data-filters-clear-category]',
         );
-        this.category = document.querySelectorAll('[data-project-category]');
+        this.categoryButtons = document.querySelectorAll(
+            '[data-project-category]',
+        );
         this.formSubmit = document.querySelectorAll('[data-filter-submit]');
 
         // Tabs
@@ -66,6 +68,7 @@ class ProjectFilters {
             .getAttribute('aria-labelledby');
         const currentCategory = document.getElementById(categoryID);
 
+        this.resetButtonActive();
         currentCategory.classList.add('categories-tablist__tab--selected');
     }
 
@@ -81,7 +84,7 @@ class ProjectFilters {
         const categoryFilters = document.querySelectorAll(
             `#${categoryID} [data-filter-option]`,
         );
-        const categoryReset = document.querySelectorAll(
+        const categoryResetButton = document.querySelectorAll(
             `#${categoryID} [data-filters-clear-category]`,
         );
 
@@ -98,9 +101,25 @@ class ProjectFilters {
         if (selectedItems.length === 0) {
             this.CategoryRemoveSelected(categoryID);
 
-            categoryReset.forEach((item) => {
+            categoryResetButton.forEach((item) => {
                 item.classList.add('hidden');
             });
+        }
+    }
+
+    checkResetStatus() {
+        const selectedCategories = [];
+
+        Array.prototype.map.call(this.categoryButtons, (element) => {
+            if (
+                element.classList.contains('categories-tablist__tab--selected')
+            ) {
+                selectedCategories.push(element);
+            }
+        });
+
+        if (selectedCategories.length === 0) {
+            this.resetButtonHidden();
         }
     }
 
@@ -112,6 +131,14 @@ class ProjectFilters {
     applyThemeLight() {
         this.filterBar.classList.remove('bg', 'bg--dark');
         this.filterBar.classList.add('bg', 'bg--light');
+    }
+
+    resetButtonActive() {
+        this.resetButton.classList.remove('reset--hidden');
+    }
+
+    resetButtonHidden() {
+        this.resetButton.classList.add('reset--hidden');
     }
 
     launchProjectFilters() {
@@ -150,17 +177,19 @@ class ProjectFilters {
                 closestClearButton.classList.remove('hidden');
                 this.CategorySelected(filterItem);
             }
+            // Check if reset needs to show
+            this.checkResetStatus();
         });
 
         // Categories
-        this.category.forEach((item) => {
+        this.categoryButtons.forEach((item) => {
             item.addEventListener('click', () => {
                 this.launchProjectFilters();
             });
         });
 
         // Clear
-        this.clearButton.forEach((item) => {
+        this.clearButtons.forEach((item) => {
             item.addEventListener('click', (e) => {
                 e.preventDefault();
 
@@ -177,21 +206,16 @@ class ProjectFilters {
 
                 // Hide this clear button when clicked
                 e.target.classList.add('hidden');
+
+                // Check if reset needs to show
+                this.checkResetStatus();
             });
         });
 
         // Reset
-        this.resetButton.forEach((item) => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.closeProjectFilters();
-
-                // Reset tab states
-                for (const tab of this.allTabs) {
-                    tab.classList.remove('active');
-                    tab.setAttribute('aria-selected', 'false');
-                }
-            });
+        this.resetButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.closeProjectFilters();
         });
 
         // Submit

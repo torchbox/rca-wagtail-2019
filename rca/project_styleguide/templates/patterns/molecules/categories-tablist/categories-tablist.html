@@ -12,7 +12,7 @@
         {% endfor %}
         {% if reset %}
             <div class="categories-tablist__tab categories-tablist__tab--reset">
-                {% include "patterns/atoms/reset/reset.html" %}
+                {% include "patterns/atoms/reset/reset.html" with modifier="hidden" %}
             </div>
         {% endif %}
     </div>
