@@ -102,7 +102,7 @@ class LandingPageRelatedPageHighlights(RelatedPage):
 class HomePageSlideshowBlock(models.Model):
     source_page = ParentalKey("LandingPage", related_name="slideshow_block")
     title = models.CharField(max_length=125)
-    summary = models.CharField(max_length=250)
+    summary = models.CharField(max_length=250, blank=True)
     slides = StreamField([("slide", SlideBlock())])
     panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("slides")]
 
