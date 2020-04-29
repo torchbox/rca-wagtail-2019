@@ -229,7 +229,7 @@ class ProjectPage(BasePage):
             List: Maximum of 8 projects
         """
         items = []
-        for page in projects:
+        for page in projects[:8]:
             page = page.specific
             meta = None
             if page.related_school_pages.first():
@@ -243,7 +243,7 @@ class ProjectPage(BasePage):
                     "meta": meta,
                 }
             )
-        return items[:8]
+        return items
 
     def get_related_projects(self):
         """
