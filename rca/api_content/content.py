@@ -278,7 +278,6 @@ def pull_alumni_stories(programme_type_slug=None):
 
 
 class _BaseContentAPI:
-
     def __init__(self, func, cache_key):
         self.func = func
         self.cache_key = cache_key
@@ -298,15 +297,12 @@ class _BaseContentAPI:
         return []
 
 
-
 class AlumniStoriesAPI(_BaseContentAPI):
-
     def __init__(self):
         super().__init__(pull_alumni_stories, "latest_alumni_stories")
 
 
 class NewsEventsAPI(_BaseContentAPI):
-
     def __init__(self):
         super().__init__(pull_news_and_events, "news_and_events_data")
 
