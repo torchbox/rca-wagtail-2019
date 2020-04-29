@@ -1,3 +1,4 @@
+{% load wagtailcore_tags %}
 <div class="text-teaser">
     <div class="text-teaser__container grid">
         {% if teaser.title %}
@@ -7,9 +8,15 @@
             {% if teaser.description %}
                 <p class="text-teaser__text body body--one">{{ teaser.description }}</p>
             {% endif %}
-            {% if teaser.link %}
+            {% if teaser.link and not teaser.page %}
                 <a class="text-teaser__link link link--primary link--link body body--two" href="{{ teaser.link }}">
-                    <span class="link__label">{{ teaser.action }}</span>
+                    <span class="link__label">{% firstof teaser.action teaser.link.title %}</span>
+                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                </a>
+            {% endif %}
+            {% if teaser.page %}
+                <a class="text-teaser__link link link--primary link--link body body--two" href="{% pageurl teaser.page %}">
+                    <span class="link__label">{% firstof teaser.action teaser.link.title teaser.page.title %}</span>
                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                 </a>
             {% endif %}
