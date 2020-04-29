@@ -60,6 +60,50 @@ class ProjectFilters {
         window.addEventListener('resize', scroller.resize);
     }
 
+    CategorySelected(filter) {
+        const categoryID = filter
+            .closest('.js-tab-panel')
+            .getAttribute('aria-labelledby');
+        const currentCategory = document.getElementById(categoryID);
+
+        currentCategory.classList.add('categories-tablist__tab--selected');
+    }
+
+    CategoryRemoveSelected(categoryID) {
+        const tabID = `tab-${categoryID}`;
+        const currentCategory = document.getElementById(tabID);
+
+        currentCategory.classList.remove('categories-tablist__tab--selected');
+    }
+
+    checkCategoryActive(filter) {
+        const categoryID = filter.closest('.js-tab-panel').id;
+        const categoryFilters = document.querySelectorAll(
+            `#${categoryID} [data-filter-option]`,
+        );
+        const categoryReset = document.querySelectorAll(
+            `#${categoryID} [data-filters-clear-category]`,
+        );
+
+        // Run through all filters in active category and add selected items to array
+        let selectedItems = [];
+
+        Array.prototype.map.call(categoryFilters, (element) => {
+            if (element.classList.contains('selected')) {
+                selectedItems.push(element);
+            }
+        });
+
+        // If no selected items remove selected category and hide clear button
+        if (selectedItems.length === 0) {
+            this.CategoryRemoveSelected(categoryID);
+
+            categoryReset.forEach((item) => {
+                item.classList.add('hidden');
+            });
+        }
+    }
+
     applyThemeDark() {
         this.filterBar.classList.remove('bg', 'bg--light');
         this.filterBar.classList.add('bg', 'bg--dark');
@@ -97,13 +141,14 @@ class ProjectFilters {
             const closestClearButton = e.currentTarget
                 .closest('.filter-tab-options__content')
                 .querySelector('[data-filters-clear-category]');
-
             if (filterItem.classList.contains('selected')) {
                 filterItem.classList.remove('selected');
+                this.checkCategoryActive(filterItem);
             } else {
                 filterItem.classList.add('selected');
                 // Show reset button
                 closestClearButton.classList.remove('hidden');
+                this.CategorySelected(filterItem);
             }
         });
 
@@ -126,6 +171,9 @@ class ProjectFilters {
 
                 // Clear all filters selected state
                 this.clearCurrentCategoryFilters(targetTabID);
+
+                // Unselect current catergory
+                this.CategoryRemoveSelected(targetTabID);
 
                 // Hide this clear button when clicked
                 e.target.classList.add('hidden');
