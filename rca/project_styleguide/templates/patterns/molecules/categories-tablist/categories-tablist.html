@@ -7,12 +7,9 @@
             </a>
         {% endfor %}
         {% if reset %}
-            <a class="categories-tablist__tab categories-tablist__tab--reset" href="#">
-                <svg class="categories-tablist__reset-icon" width="14" height="14">
-                    <use xlink:href="#reset" /> 
-                </svg>
-                <span class="categories-tablist__reset-label">Reset</span>
-            </a>
+            <div class="categories-tablist__tab categories-tablist__tab--reset">
+                {% include "patterns/atoms/reset/reset.html" %}
+            </div>
         {% endif %}
     </div>
 </nav>

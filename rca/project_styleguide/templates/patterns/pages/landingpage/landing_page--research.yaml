@@ -8,7 +8,6 @@ context:
     introduction: 'The Royal College of Art excels in world-leading design and art research and creative innovation.'
     introduction_link: '#'
     introduction_link_text: 'Read more'
-    feature_image: false
     enterprise_highlights:
       - slide:
         meta: 'School of Design'
@@ -29,7 +28,6 @@ context:
         image: true
         link: '#'
     enterprise_highlights_title: Research highlights
-    enterprise_rca: false
     related_research_centres_schools:
       - item:
         title: Research centres
@@ -77,33 +75,6 @@ context:
     middle_feature_meta_heading: Join a thriving community of more than 250 MPhil and PhD students
     middle_feature_meta_text: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
     middle_feature_meta_link: '#'
-    related_courses: false
-    stats_block: false
-    startups: false
-    programmes:
-      - item:
-        title: false
-        related_items:
-          - item:
-            title: Design thinking & innovation
-            degree_level: Executive education
-            programme_description_subtitle: Design thinking & innovation at the RCA sets out to inspire design innovation.
-            img: http://placehold.it/300x270/fff/000
-          - item:
-            title: Creative Leadership
-            degree_level: Executive education
-            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
-            img: http://placehold.it/300x270/ff5d1c/fff
-          - item:
-            title: The Helen Hamlyn Centre for Design PhD
-            degree_level: MPhil/PhD
-            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
-            img: http://placehold.it/300x270
-          - item:
-            title: Student workshops
-            degree_level: Student programme
-            programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
-            img: http://placehold.it/300x270
     research:
       title: Research at the RCA
       slides:
@@ -139,7 +110,6 @@ context:
       description: Our research staff span a broad range of subjects and areas of expertise.
       action: Visit all research staff
       link: '#'
-    bottom_feature_image: false
     news:
       - item:
         meta: 'News'

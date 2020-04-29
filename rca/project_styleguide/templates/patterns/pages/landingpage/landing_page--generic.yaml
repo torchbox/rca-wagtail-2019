@@ -1,6 +1,6 @@
 context:
   page:
-    title: Enterprise landing page
+    title: Generic landing page
     introduction: 'Enterprise at the RCA spans incubation, innovation and business acceleration programmes; consultancy and knowledge exchange, and custom executive short courses.'
     news:
       - item:

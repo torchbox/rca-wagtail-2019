@@ -5,6 +5,7 @@
         <div class="section__row grid">
             <h2 class="related-content__heading heading heading--two">{{ title }}</h2>
         </div>
+
     {% endif %}
 
     {% for related_section in related_sections %}
@@ -15,8 +16,8 @@
                 <div class="section__row grid">
                     {% if programme_page_global_fields.related_content_subtitle %}
                         <h3 class="related-content__subheading heading heading--five">{{ programme_page_global_fields.related_content_subtitle }}</h3>
-                    {% elif related_section.title %}
-                        <h3 class="related-content__subheading heading heading--five">{{ related_section.title }}</h3>
+                    {% elif related_section.title or related_section.subtitle %}
+                        <h3 class="related-content__subheading heading heading--five">{% firstof related_section.subtitle related_section.title %}</h3>
                     {% endif %}
                 </div>
             {% endif %}
@@ -47,9 +48,17 @@
                         <img class="related-content__image {% if forloop.first %}is-visible{% endif %}" src="{{ programme_image.url }}" alt="{{ programme_image.alt }}" data-image="{{ forloop.counter }}">
                     </div>
                 {% endfor %}
-
             </div>
-
+            {% if related_section.link %}
+                <div class="grid">
+                    <div class="section__action">
+                        <a class="link link--secondary link--link body body--one" href="{{ related_section.link.url }}">
+                            <span class="link__label">{{ related_section.link.title }}</span>
+                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     {% endfor  %}
 </div>

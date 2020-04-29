@@ -151,6 +151,21 @@ class AccordionBlockWithTitle(blocks.StructBlock):
         return result
 
 
+class RelatedPageListBlockPage(blocks.StreamBlock):
+    page = blocks.PageChooserBlock()
+
+
+class RelatedPageListBlock(blocks.StructBlock):
+    heading = blocks.CharBlock(
+        help_text="A large heading diplayed at the top of block", required=False
+    )
+    page = RelatedPageListBlockPage()
+    link = LinkBlock(
+        help_text="An optional link to display below the expanded content",
+        required=False,
+    )
+
+
 # Main streamfield block to be inherited by Pages
 class StoryBlock(blocks.StreamBlock):
     heading = blocks.CharBlock(

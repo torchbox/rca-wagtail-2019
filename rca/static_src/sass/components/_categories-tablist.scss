@@ -77,10 +77,6 @@
         }
     }
 
-    &__reset-icon {
-        margin-right: ($gutter / 4);
-    }
-
     .sticky-bar & {
         background-color: $color--black;
 
@@ -96,10 +92,6 @@
         &__tab {
             color: $color--meta-darkbg;
 
-            &--reset {
-                color: $color--white;
-            }
-
             &--selected {
                 color: $color--white;
 
@@ -107,10 +99,6 @@
                     background-color: $color--white;
                 }
             }
-        }
-
-        &__reset-icon {
-            fill: $color--white;
         }
     }
 }
