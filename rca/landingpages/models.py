@@ -320,7 +320,7 @@ class InnovationLandingPage(LandingPage):
             [
                 InlinePanel(
                     "featured_image_secondary", label=_("Featured image"), max_num=1
-                ),
+                )
             ],
             heading=_("Lower image feature"),
         ),
