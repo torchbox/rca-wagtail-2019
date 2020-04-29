@@ -320,6 +320,16 @@ class ResearchLandingPage(LandingPage):
         InlinePanel("featured_image", label=_("Featured image"), max_num=1),
         InlinePanel("slideshow_block", label=_("Slideshow"), max_num=1),
         StreamFieldPanel("cta_block"),
+        MultiFieldPanel(
+            [
+                ImageChooserPanel("contact_image"),
+                FieldPanel("contact_title"),
+                FieldPanel("contact_text"),
+                FieldPanel("contact_email"),
+                FieldPanel("contact_url"),
+            ],
+            heading="Contact information",
+        ),
     ]
 
     class Meta:

@@ -78,7 +78,7 @@ class QuoteBlock(blocks.StructBlock):
 
 
 class LinkBlock(blocks.StructBlock):
-    title = blocks.CharBlock(required=False)
+    action = blocks.CharBlock(required=False)
     url = blocks.URLBlock(required=False)
 
     class Meta:
@@ -167,10 +167,10 @@ class RelatedPageListBlock(blocks.StructBlock):
 
 
 class CallToActionBlock(blocks.StructBlock):
-    heading = blocks.CharBlock(
+    title = blocks.CharBlock(
         help_text="A large heading diplayed at the top of block", required=False
     )
-    body = blocks.CharBlock(required=False)
+    description = blocks.CharBlock(required=False)
     page = blocks.PageChooserBlock(required=False)
     link = LinkBlock(
         help_text="An optional link to display below the expanded content",
