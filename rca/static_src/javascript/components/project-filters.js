@@ -86,7 +86,7 @@ class ProjectFilters {
         );
 
         // Run through all filters in active category and add selected items to array
-        let selectedItems = [];
+        const selectedItems = [];
 
         Array.prototype.map.call(categoryFilters, (element) => {
             if (element.classList.contains('selected')) {
