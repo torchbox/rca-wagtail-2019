@@ -148,7 +148,7 @@ class LandingPage(BasePage):
         """Internal method for formatting related projects to the correct
         structure for the gallery template"""
         items = []
-        for page in pages:
+        for page in pages[:8]:
             if page.page:
                 related_page = page.page.specific
                 meta = None
@@ -161,7 +161,7 @@ class LandingPage(BasePage):
                         "meta": meta,
                     }
                 )
-        return items[:8]
+        return items
 
     def get_featured_image(self):
         if hasattr(self, "featured_image"):
@@ -205,7 +205,7 @@ class LandingPage(BasePage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["hero_colour"] = DARK_HERO
-        if int(self.hero_colour_option) == LIGHT_TEXT_ON_DARK_IMAGE:
+        if self.hero_colour_option == LIGHT_TEXT_ON_DARK_IMAGE:
             context["hero_colour"] = LIGHT_HERO
         context["about_page"] = self.about_page
         context["related_pages_highlights"] = self.get_related_pages(
