@@ -166,7 +166,7 @@ class ProjectFilters {
             e.preventDefault();
             const filterItem = e.target;
             const closestClearButton = e.currentTarget
-                .closest('.filter-tab-options__content')
+                .closest('.filter-tab-options__container')
                 .querySelector('[data-filters-clear-category]');
             if (filterItem.classList.contains('selected')) {
                 filterItem.classList.remove('selected');

@@ -12,7 +12,6 @@
                 </button>
                 <div class="filter-tab-options__heading-options">
                     <h3 class="filter-tab-options__category-heading heading heading--five">{{ item.tab_title }}</h3>
-                    <a class="filter-tab-options__clear-link body body--two hidden" href="#" data-filters-clear-category>Clear</a>
                 </div>
             </div>
         {% endif %}
@@ -23,12 +22,12 @@
                     <a href="#" class="filter-tab-options__link body body--one" data-filter-option>{{ item.title }}</a>
                 </div>
             {% endfor %}
-            <div class="filter-tab-options__clear layout__start-one layout__span-two layout__@large-span-three">
-                <a class="filter-tab-options__clear-link body body--two hidden" href="#" data-filters-clear-category>Clear</a>
-            </div>
         </div>
 
         <div class="filter-tab-options__footer layout__start-one layout__span-two layout__@large-start-two layout__@large-span-four">
+            <div class="filter-tab-options__clear layout__start-one layout__span-two layout__@large-span-three">
+                <a class="filter-tab-options__clear-link hidden" href="#" data-filters-clear-category>Clear</a>
+            </div>
             <button class="filter-tab-options__button link link--primary" data-filter-submit>
                 <span class="link__label">Show results</span>
                 <svg width="12" height="8" class="link__icon link__icon--rotated" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
