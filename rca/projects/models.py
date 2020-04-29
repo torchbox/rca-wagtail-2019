@@ -231,9 +231,11 @@ class ProjectPage(BasePage):
         items = []
         for page in projects[:8]:
             page = page.specific
-            meta = None
-            if page.related_school_pages.first():
-                meta = page.related_school_pages.first().page.title
+            meta = ""
+            related_school = page.related_school_pages.first()
+            if related_school is not None:
+                meta = related_school.page.title
+
             items.append(
                 {
                     "title": page.title,
