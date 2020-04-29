@@ -166,6 +166,34 @@ class RelatedPageListBlock(blocks.StructBlock):
     )
 
 
+class CallToActionBlock(blocks.StructBlock):
+    heading = blocks.CharBlock(
+        help_text="A large heading diplayed at the top of block", required=False
+    )
+    body = blocks.CharBlock(required=False)
+    page = blocks.PageChooserBlock(required=False)
+    link = LinkBlock(
+        help_text="An optional link to display below the expanded content",
+        required=False,
+    )
+
+    def clean(self, value):
+        result = super().clean(value)
+        errors = {}
+
+        # Ensure a heading or some preview text has been added
+        if value["page"] and value["link"]["url"]:
+            errors["page"] = ErrorList(
+                ["Please choose between a custom link or a page"]
+            )
+
+        if errors:
+            raise ValidationError(
+                "Validation error in CallToActionBlock", params=errors
+            )
+        return result
+
+
 # Main streamfield block to be inherited by Pages
 class StoryBlock(blocks.StreamBlock):
     heading = blocks.CharBlock(
