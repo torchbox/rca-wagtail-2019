@@ -1,0 +1,34 @@
+.filter-takeover {
+    display: none;
+
+    &__container {
+        @include media-query(large) {
+            height: 100%;
+        }
+    }
+
+    &__tab-content {
+        height: 100%;
+        padding-top: ($gutter * 2);
+
+        @include media-query(large) {
+            padding-top: ($gutter * 5);
+        }
+    }
+
+    // Class added via js to body
+    .project-filters & {
+        @include z-index(modal);
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: calc(var(--vh, 1vh) * 100);
+        width: 100%;
+
+        @include media-query(large) {
+            padding-top: ($gutter * 2);
+        }
+    }
+}

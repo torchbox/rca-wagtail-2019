@@ -1,14 +1,18 @@
+{% comment %}
+    if this component has {{ item.tab_title }}, it'll use the tabs.js setup
+    normal {{ item.title }} and is reserved for react programme finder component }} 
+{% endcomment %}
 <nav class="categories-tablist {% if modifier %}categories-tablist--{{ modifier }}{% endif %} bg bg--light" aria-label="Filter programmes">
     <h2 class="body body--two categories-tablist__heading">{{ value.title }}</h2>
     <div role="tablist">
-        {% for item in value.items %}
-            <a id="{{ forloop.counter }}-tab" href="{{ item.href }}" class="categories-tablist__tab {% if item.selected %}categories-tablist__tab--selected{% endif %} body body--one" role="tab" aria-selected="{% if item.selected %}true{% else %}false{% endif %}" aria-controls="{{ item.title }}">
-                {{ item.title }}
+        {% for item in value.items %} 
+            <a id="{% if item.tab_title %}tab-{{ item.tab_title|slugify }}{% else %}{{ forloop.counter }}-tab{% endif %}" href="{% if item.tab_title %}#{{ item.tab_title|slugify }}{% else %}{{ item.href }}{% endif %}" class="categories-tablist__tab {% if item.selected %}categories-tablist__tab--selected{% endif %} {% if item.tab_title %}js-tab-item{% endif %} body body--one" role="tab" aria-selected="{% if item.selected %}true{% else %}false{% endif %}" aria-controls="{% if item.tab_title %}{{ item.tab_title }}{% else %}{{ item.title }}{% endif %}" {% if item.tab_title %}data-tab="{{ item.tab_title|slugify }}"{% endif %} data-project-category>
+                {% if item.tab_title %}{{ item.tab_title }}{% else %}{{ item.title }}{% endif %}
             </a>
         {% endfor %}
         {% if reset %}
             <div class="categories-tablist__tab categories-tablist__tab--reset">
-                {% include "patterns/atoms/reset/reset.html" %}
+                {% include "patterns/atoms/reset/reset.html" with modifier="hidden" %}
             </div>
         {% endif %}
     </div>

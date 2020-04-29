@@ -42,7 +42,8 @@
         }
 
         &--selected {
-            @include underline-hover-target();
+            @include underline-hover();
+            @include underline-hover-target-reset();
             color: $color--black;
             font-family: $font--secondary;
 
@@ -56,7 +57,7 @@
                 height: 6px;
                 border-radius: 50%;
                 overflow: hidden;
-                background-color: $color--black;
+                background-color: currentColor;
             }
         }
 
@@ -77,8 +78,9 @@
         }
     }
 
-    .sticky-bar & {
-        background-color: $color--black;
+    .filter-bar--stuck &,
+    .project-filters & {
+        @include z-index(sticky-nav-bar);
 
         @include media-query(large) {
             // Compensate padding to align to grid lines
@@ -88,15 +90,34 @@
         &__heading {
             display: none;
         }
+    }
+
+    .filter-bar--stuck & {
+        background-color: $color--black;
 
         &__tab {
             color: $color--meta-darkbg;
 
-            &--selected {
+            &.active {
                 color: $color--white;
 
                 &::before {
                     background-color: $color--white;
+                }
+            }
+        }
+    }
+
+    // When project filters are open
+    .project-filters & {
+        &__tab {
+            color: $color--meta-lightbg;
+
+            &.active {
+                color: $color--black;
+
+                &::before {
+                    background-color: $color--black;
                 }
             }
         }
