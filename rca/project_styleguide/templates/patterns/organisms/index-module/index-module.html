@@ -1,13 +1,12 @@
-<div class="index-module">
+<div class="index-module" id="{{ id }}">
     <div class="index-module__container grid">
         <div class="index-module__header">
-            <h2 class="index-module__heading heading heading--two">{{ item.title }}</h2>
+            <h2 class="index-module__heading heading heading--two">{{ title }}</h2>
         </div>
         <div class="index-module__content">
-            {% for item in item.cards %}
-                {% include "patterns/molecules/card/card.html" with modifier="simple" %}
+            {% for item in items %}
+                {% include "patterns/molecules/card/card.html" with modifier="simple" card=item %}
             {% endfor %}
         </div>
     </div>
 </div>
-                
