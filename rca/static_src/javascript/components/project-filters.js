@@ -25,6 +25,10 @@ class ProjectFilters {
         // Tabs
         this.allTabs = document.querySelectorAll('[data-tab]');
 
+        // Mobile specific
+        this.mobileLauncher = document.querySelector('[data-filter-launcher]');
+        this.backButtons = document.querySelectorAll('[data-filter-back]');
+
         // Events
         this.bindEvents();
     }
@@ -222,6 +226,34 @@ class ProjectFilters {
         this.formSubmit.forEach((item) => {
             item.addEventListener('click', () => {
                 this.closeProjectFilters();
+                this.body.classList.remove('project-filters-mobile');
+            });
+        });
+
+        // Mobile launcher
+        this.mobileLauncher.addEventListener('click', () => {
+            this.body.classList.add('project-filters-mobile');
+            disableBodyScroll(this.body);
+        });
+
+        // Back
+        this.backButtons.forEach((item) => {
+            item.addEventListener('click', (e) => {
+                // Get the tab ID that clear sits within
+                const targetTabID = e.target
+                    .closest(['.js-tab-panel'])
+                    .getAttribute('id');
+
+                // Hide current tab, and set aria selected to false
+                document
+                    .getElementById(targetTabID)
+                    .classList.add('tabs__panel--hidden');
+                document
+                    .getElementById(targetTabID)
+                    .setAttribute('aria-selected', 'false');
+
+                // Deactivate filter takeover
+                this.body.classList.remove('project-filters');
             });
         });
     }

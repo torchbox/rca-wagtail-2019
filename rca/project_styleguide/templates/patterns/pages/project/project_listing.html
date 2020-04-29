@@ -38,9 +38,23 @@
    
                 <section class="section section--opposite-notch bg bg--dark filter-bar filter-bar--large" data-filter-bar>
                     <div class="section__notch section__notch--opposite">
+
                         <div class="section__notch-fill section__notch-fill--content-height section__notch-fill--fourth-col section__notch-fill--second-col@medium">
                             {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=page.filters modifier="large" reset=True %}
                         </div>
+
+                        <div class="filter-tab-options filter-tab-options--mobile">
+                            <div class="filter-tab-options__footer layout__start-one layout__span-two layout__@large-start-two layout__@large-span-four">
+                                <div class="filter-tab-options__clear layout__start-one layout__span-two layout__@large-span-three">
+                                    <a class="filter-tab-options__clear-link hidden" href="#" data-filters-clear-category>Clear</a>
+                                </div>
+                                <button class="filter-tab-options__button link link--primary" data-filter-submit>
+                                    <span class="link__label">Show results</span>
+                                    <svg width="12" height="8" class="link__icon link__icon--rotated" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                </button>            
+                            </div>
+                        </div>
+                        
                     </div>
                 </section>
 

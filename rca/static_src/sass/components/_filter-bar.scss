@@ -112,6 +112,20 @@
         }
     }
 
+    // Small-medium styles
+    .project-filters-mobile & {
+        &--large {
+            @include z-index(modal);
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: $color--white;
+        }
+    }
+
     // Modifier unusually at bottom to override theme (play the cascade)
     &--stuck {
         @include media-query(large) {

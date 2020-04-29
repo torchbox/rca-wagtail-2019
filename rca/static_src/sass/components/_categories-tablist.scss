@@ -122,4 +122,32 @@
             }
         }
     }
+
+    // When small-medium breakpoints are open
+    .project-filters-mobile & {
+        padding-left: 0;
+        padding-top: ($gutter * 2);
+
+        &__heading {
+            @include font-size(s);
+            font-family: $font--secondary;
+            margin-bottom: ($gutter * 1.5);
+            color: $color--black;
+        }
+
+        &__options {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        &__tab {
+            margin-bottom: $gutter;
+            color: $color--black;
+
+            &::after {
+                content: none;
+            }
+        }
+    }
 }

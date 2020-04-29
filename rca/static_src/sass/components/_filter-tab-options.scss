@@ -1,4 +1,12 @@
 .filter-tab-options {
+    $root: &;
+
+    &--mobile {
+        @include media-query(large) {
+            display: none;
+        }
+    }
+
     &__header {
         @include media-query(large) {
             display: none;
@@ -54,11 +62,6 @@
             @include media-query(large) {
                 grid-column-start: 3;
             }
-        }
-
-        &:nth-last-child(2) {
-            // Space between last item and clear button
-            margin-bottom: ($gutter * 2);
         }
     }
 
@@ -178,6 +181,32 @@
 
         &__footer {
             border-color: $color--grid-line-light;
+        }
+    }
+
+    .project-filters-mobile & {
+        #{$root}__footer {
+            @include z-index(modal-controls);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: ($gutter / 2) $gutter;
+            background-color: $color--white;
+        }
+
+        #{$root}__button {
+            padding: 0;
+
+            &::after {
+                content: none;
+            }
+        }
+
+        #{$root}__clear-link {
+            &::after {
+                content: none;
+            }
         }
     }
 }
