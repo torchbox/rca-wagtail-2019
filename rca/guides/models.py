@@ -75,7 +75,7 @@ class GuidePage(BasePage):
         for i, block in enumerate(self.body):
             if block.block_type == "anchor_heading":
                 items.append({"title": block.value, "link": f"#{slugify(block.value)}"})
-        if self.related_staff:
+        if self.related_staff.first():
             items.append({"title": "Staff", "link": "#staff"})
         if self.related_pages_title:
             items.append(
