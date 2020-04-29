@@ -10,9 +10,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("landingpages", "0005_innovation_landing_page_fields"),
-    ]
+    dependencies = [("landingpages", "0005_innovation_landing_page_fields")]
 
     operations = [
         migrations.CreateModel(
@@ -80,5 +78,5 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-        ),
+        )
     ]

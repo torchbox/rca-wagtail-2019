@@ -78,7 +78,7 @@ class QuoteBlock(blocks.StructBlock):
 
 
 class LinkBlock(blocks.StructBlock):
-    action = blocks.CharBlock(required=False)
+    title = blocks.CharBlock(required=False)
     url = blocks.URLBlock(required=False)
 
     class Meta:
