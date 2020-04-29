@@ -42,7 +42,8 @@
         }
 
         &--selected {
-            @include underline-hover-target();
+            @include underline-hover();
+            @include underline-hover-target-reset();
             color: $color--black;
             font-family: $font--secondary;
 

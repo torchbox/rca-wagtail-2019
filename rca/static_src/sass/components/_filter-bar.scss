@@ -112,7 +112,7 @@
         }
     }
 
-    // Modifier unusually at bottom to override theme
+    // Modifier unusually at bottom to override theme (play the cascade)
     &--stuck {
         @include media-query(large) {
             @include z-index(sticky-nav-bar-header);

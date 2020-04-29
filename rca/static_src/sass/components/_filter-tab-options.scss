@@ -120,10 +120,35 @@
         }
     }
 
+    // Fix confusing  focus state on anchors
+    .bg--light &,
+    .bg--dark & {
+        &__link {
+            &:focus {
+                &::after {
+                    width: 0;
+                }
+            }
+            &.selected {
+                &::after {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
     .bg--light & {
         &__link,
         &__clear-link {
             color: $color--black;
+
+            &:focus {
+                color: $color--meta-lightbg;
+            }
+
+            &.selected {
+                color: $color--black;
+            }
         }
 
         &__footer {
@@ -135,6 +160,14 @@
         &__link,
         &__clear-link {
             color: $color--white;
+
+            &:focus {
+                color: $color--meta-darkbg;
+            }
+
+            &.selected {
+                color: $color--white;
+            }
         }
 
         &__footer {
