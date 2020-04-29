@@ -21,6 +21,9 @@ class ProjectFilters {
             '[data-project-category]',
         );
         this.formSubmit = document.querySelectorAll('[data-filter-submit]');
+        this.filterContainer = document.querySelector(
+            'filter-takeover__container',
+        );
 
         // Tabs
         this.allTabs = document.querySelectorAll('[data-tab]');
@@ -146,7 +149,7 @@ class ProjectFilters {
     }
 
     launchProjectFilters() {
-        disableBodyScroll(this.body);
+        disableBodyScroll(this.filterContainer);
         this.body.classList.add('project-filters');
         this.applyThemeLight();
         // Remove to allow css to handle theme
@@ -154,7 +157,7 @@ class ProjectFilters {
     }
 
     closeProjectFilters() {
-        enableBodyScroll(this.body);
+        enableBodyScroll(this.filterContainer);
         this.body.classList.remove('project-filters');
         this.applyThemeDark();
         // Check if class needs to be applied again
@@ -233,7 +236,7 @@ class ProjectFilters {
         // Mobile launcher
         this.mobileLauncher.addEventListener('click', () => {
             this.body.classList.add('project-filters-mobile');
-            disableBodyScroll(this.body);
+            disableBodyScroll(this.filterContainer);
         });
 
         // Back

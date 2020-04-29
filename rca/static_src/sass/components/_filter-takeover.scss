@@ -2,6 +2,8 @@
     display: none;
 
     &__container {
+        -webkit-overflow-scrolling: touch;
+
         @include media-query(large) {
             height: 100%;
         }
@@ -9,7 +11,6 @@
 
     &__tab-content {
         height: 100%;
-        padding-top: ($gutter * 2);
 
         @include media-query(large) {
             padding-top: ($gutter * 5);

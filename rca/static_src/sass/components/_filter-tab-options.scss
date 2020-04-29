@@ -119,6 +119,11 @@
 
     .filter-takeover & {
         height: 100%;
+        padding-top: ($gutter * 2);
+
+        @include media-query(large) {
+            padding-top: 0;
+        }
 
         &__container {
             display: flex;
