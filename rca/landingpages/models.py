@@ -9,6 +9,7 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
 )
 from wagtail.core.fields import StreamField
+from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.home.models import (
@@ -17,14 +18,14 @@ from rca.home.models import (
     LIGHT_HERO,
     LIGHT_TEXT_ON_DARK_IMAGE,
 )
-from rca.utils.blocks import RelatedPageListBlock
+from rca.utils.blocks import RelatedPageListBlock, StatisticBlock
 from rca.utils.models import BasePage, LinkFields, RelatedPage
 
 
 class FeaturedImage(LinkFields):
     title = models.TextField(max_length=80, blank=True)
     image = models.ForeignKey(
-        "images.CustomImage",
+        get_image_model_string(),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -44,8 +45,39 @@ class FeaturedImage(LinkFields):
         abstract = True
 
 
+class LandingPageStatsBlock(models.Model):
+    source_page = ParentalKey("LandingPage", related_name="stats_block")
+    title = models.CharField(max_length=125)
+    statistics = StreamField([("statistic", StatisticBlock())])
+    background_image = models.ForeignKey(
+        get_image_model_string(),
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    link_url = models.URLField(blank=True)
+    link_text = models.CharField(blank=True, max_length=255)
+    panels = [
+        FieldPanel("title"),
+        ImageChooserPanel("background_image"),
+        StreamFieldPanel("statistics"),
+        FieldPanel("link_url"),
+        FieldPanel("link_text"),
+    ]
+
+    def __str__(self):
+        return self.title
+
+
 class LandingPageFeaturedImage(FeaturedImage):
     source_page = ParentalKey("LandingPage", related_name="featured_image")
+
+
+class LandingPageFeaturedImageSecondary(FeaturedImage):
+    # There are 2 features images in places, this may then work better as a streamfield...
+    # TODO ?
+    source_page = ParentalKey("LandingPage", related_name="featured_image_secondary")
 
 
 class LandingPageRelatedPagegrid(RelatedPage):
@@ -60,6 +92,14 @@ class LandingPageRelatedPageHighlights(RelatedPage):
         "landingpages.LandingPage", related_name="related_pages_highlights"
     )
     panels = [PageChooserPanel("page")]
+
+
+"""
+TODO Explain this class, and the other classes better
+- why this isn't abstract
+- how we relabel fields
+- why did I do this?
+"""
 
 
 class LandingPage(BasePage):
@@ -110,6 +150,18 @@ class LandingPage(BasePage):
         help_text=_("The title to be displayed above the page list blocks"),
     )
     page_list = StreamField([("page_list", RelatedPageListBlock())], blank=True)
+
+    contact_title = models.CharField(max_length=120, blank=True)
+    contact_text = models.CharField(max_length=250, blank=True)
+    contact_email = models.EmailField(blank=True)
+    contact_url = models.URLField(blank=True, verbose_name="Contact URL")
+    contact_image = models.ForeignKey(
+        "images.CustomImage",
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
 
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
@@ -167,6 +219,10 @@ class LandingPage(BasePage):
         if hasattr(self, "featured_image"):
             return self.featured_image.first
 
+    def get_featured_image_secondary(self):
+        if hasattr(self, "featured_image_secondary"):
+            return self.featured_image_secondary.first
+
     def get_related_pages(self, pages):
         related_pages = []
         for value in pages.select_related("page"):
@@ -214,7 +270,9 @@ class LandingPage(BasePage):
         context["related_pages"] = self.get_related_pages(self.related_pages_grid)
         context["featured_image"] = self.get_featured_image()
         context["page_list"] = self.get_page_list()
-
+        context["stats_block"] = self.stats_block.select_related(
+            "background_image"
+        ).first()
         return context
 
 
@@ -231,8 +289,71 @@ class ResearchLandingPage(LandingPage):
 class InnovationLandingPage(LandingPage):
     template = "patterns/pages/landingpage/landing_page--innovation.html"
 
+    content_panels = BasePage.content_panels + [
+        MultiFieldPanel(
+            [ImageChooserPanel("hero_image"), FieldPanel("hero_colour_option")],
+            heading=_("Hero"),
+        ),
+        MultiFieldPanel(
+            [FieldPanel("introduction"), PageChooserPanel("about_page")],
+            heading=_("Course Introduction"),
+        ),
+        MultiFieldPanel(
+            [InlinePanel("featured_image", label=_("Featured image"), max_num=1)],
+            heading=_("Highlight Image"),
+        ),
+        MultiFieldPanel(
+            [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
+            heading=_("Related page list"),
+        ),
+        InlinePanel("stats_block", label="Statistics", max_num=1),
+        MultiFieldPanel(
+            [
+                FieldPanel("highlights_title"),
+                InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
+                FieldPanel("highlights_link_url"),
+                FieldPanel("highlights_link_text"),
+            ],
+            heading=_("Pages carousel"),
+        ),
+        MultiFieldPanel(
+            [
+                InlinePanel(
+                    "featured_image_secondary", label=_("Featured image"), max_num=1
+                )
+            ],
+            heading=_("Lower image feature"),
+        ),
+        MultiFieldPanel(
+            [
+                ImageChooserPanel("contact_image"),
+                FieldPanel("contact_title"),
+                FieldPanel("contact_text"),
+                FieldPanel("contact_email"),
+                FieldPanel("contact_url"),
+            ],
+            heading="Contact information",
+        ),
+    ]
+
     class Meta:
         verbose_name = "Landing Page - Innovation"
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["featured_image_secondary"] = self.get_featured_image_secondary()
+        context["page_list"] = self.get_page_list()
+
+        return context
+
+
+# Some field renaming, as we are re-using lot's of the fields, this will present the field in
+# the CMS with a name that makes more sense
+InnovationLandingPage._meta.get_field("highlights_title").verbose_name = _("Title")
+InnovationLandingPage._meta.get_field("highlights_link_url").verbose_name = _("Link")
+InnovationLandingPage._meta.get_field("highlights_link_text").verbose_name = _(
+    "Link text"
+)
 
 
 class EnterpriseLandingPage(LandingPage):
