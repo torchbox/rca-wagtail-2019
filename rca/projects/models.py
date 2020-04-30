@@ -311,9 +311,10 @@ class ProjectPage(BasePage):
             raise ValidationError(errors)
 
     def get_related_school(self):
-        """ returns the first realated schools page"""
-        if self.related_school_pages.first():
-            return self.related_school_pages.first().page
+        """ returns the first related schools page"""
+        realted_school = self.related_school_pages.first()
+        if realted_school:
+            return realted_school.page
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -392,7 +393,7 @@ class ProjectPickerPage(BasePage):
         filters.append(subjects)
 
         school_or_centre = {"title": "School or centre", "items": []}
-        for i in SchoolPage.objects.all():
+        for i in SchoolPage.objects.live().public():
             school_or_centre["items"].append(
                 {
                     "id": i.id,
@@ -402,7 +403,7 @@ class ProjectPickerPage(BasePage):
                 }
             )
         filters.append(school_or_centre)
-        for i in ResearchCentrePage.objects.all():
+        for i in ResearchCentrePage.objects.live().public():
             school_or_centre["items"].append(
                 {
                     "id": i.id,
@@ -482,18 +483,16 @@ class ProjectPickerPage(BasePage):
         context["filters"] = self.get_filters()
         context["featured_project"] = self.featured_project
 
-        project_results = self.get_results(request, context)
-        context["results_count"] = len(project_results)
-
         # Send all the query params through to the context so they can be added
         # to the pager links, E.G type=1&type=2&subject=1...
         context["extra_query_params"] = self.get_extra_query_params(request)
 
         # Don't show the featured project if queries are being mage
         context["show_featured_project"] = True
-        if self.get_extra_query_params(request):
+        if context["extra_query_params"]:
             context["show_featured_project"] = False
 
+        project_results = self.get_results(request, context)
         # Pagination
         paginator = Paginator(project_results, 1)
         try:
@@ -503,7 +502,8 @@ class ProjectPickerPage(BasePage):
         except EmptyPage:
             project_results = paginator.page(paginator.num_pages)
         context["results"] = project_results
-        
+        context["results_count"] = paginator.count
+
         # Set hero colour
         context["hero_colour"] = LIGHT_HERO
 
