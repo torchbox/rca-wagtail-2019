@@ -1,4 +1,5 @@
 .categories-tablist {
+    $root: &;
     position: relative;
     padding: $gutter;
     padding-bottom: $gutter * 0.5;
@@ -25,6 +26,11 @@
         @include media-query(medium) {
             margin-bottom: $gutter * 0.75;
         }
+    }
+
+    &__options {
+        display: flex;
+        flex-direction: row;
     }
 
     &__tab {
@@ -75,6 +81,17 @@
             @include underline-hover-target-reset();
             position: relative;
             color: $color--black;
+        }
+    }
+
+    &__tab-label,
+    &__tab-icon {
+        pointer-events: none;
+    }
+
+    &__tab-icon {
+        @include media-query(large) {
+            display: none;
         }
     }
 
@@ -138,17 +155,46 @@
         }
 
         &__options {
-            display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            padding-right: $gutter;
         }
 
         &__tab {
-            margin-bottom: $gutter;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: $gutter;
             color: $color--black;
 
             &::after {
                 content: none;
+            }
+
+            &--selected {
+                &::before {
+                    content: none;
+                }
+
+                .categories-tablist__tab-label {
+                    @include underline-hover();
+                    @include underline-hover-target-reset();
+                    position: relative;
+                    color: $color--black;
+                    font-family: $font--secondary;
+
+                    &::before {
+                        content: '';
+                        display: block;
+                        position: absolute;
+                        top: 0;
+                        right: -($gutter / 2);
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 50%;
+                        overflow: hidden;
+                        background-color: currentColor;
+                    }
+                }
             }
         }
     }

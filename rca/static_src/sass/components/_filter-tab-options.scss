@@ -209,6 +209,18 @@
             }
         }
 
+        #{$root}__link {
+            &::after {
+                content: none;
+            }
+
+            &.selected {
+                @include underline-hover-target();
+                @include underline-hover-target-reset();
+                font-family: $font--secondary;
+            }
+        }
+
         #{$root}__clear-link {
             &::after {
                 content: none;
