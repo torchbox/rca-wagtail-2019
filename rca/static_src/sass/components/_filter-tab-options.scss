@@ -118,10 +118,10 @@
     }
 
     .filter-takeover & {
-        height: 100%;
         padding-top: ($gutter * 2);
 
         @include media-query(large) {
+            height: 100%;
             padding-top: 0;
         }
 
@@ -129,7 +129,6 @@
             display: flex;
             justify-content: space-between;
             flex-direction: column;
-            height: 100%;
         }
     }
 
