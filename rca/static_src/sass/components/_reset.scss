@@ -4,6 +4,13 @@
     position: relative;
     display: inline-flex;
     align-items: center;
+    opacity: 1;
+    transition: opacity $cubic-transition;
+
+    &--hidden {
+        @include hidden();
+        opacity: 0;
+    }
 
     &__icon {
         margin-right: ($gutter / 4);
@@ -31,7 +38,11 @@
         color: $color--black;
     }
 
-    .sticky-bar & {
+    .filter-bar--stuck & {
         color: $color--white;
+    }
+
+    .filter-tab-options & {
+        color: $color--black;
     }
 }

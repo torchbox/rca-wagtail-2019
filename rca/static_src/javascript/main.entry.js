@@ -15,6 +15,7 @@ import RelatedContent from './components/related-content';
 import Tabs from './components/tabs';
 import Sticky from './components/position-sticky-event';
 import ActualHeight from './components/actual-height';
+import ProjectFilters from './components/project-filters';
 import './components/sticky-header';
 import './components/lazyload-images';
 import './components/outdated-banner';
@@ -90,6 +91,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (const videomodal of document.querySelectorAll(VideoModal.selector())) {
         new VideoModal(videomodal);
+    }
+
+    for (const projectfilters of document.querySelectorAll(
+        ProjectFilters.selector(),
+    )) {
+        new ProjectFilters(projectfilters);
     }
 
     for (const tabs of document.querySelectorAll(Tabs.selector())) {

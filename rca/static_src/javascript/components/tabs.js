@@ -11,7 +11,11 @@ class Tabs {
         this.allTabs = this.tabset.querySelectorAll('.js-tab-item');
         this.allTabPanels = this.tabset.querySelectorAll('.js-tab-panel');
         this.path = '';
-        this.setActiveHashTab();
+
+        if (this.tabset.hasAttribute('data-tab-hash')) {
+            this.setActiveHashTab();
+        }
+
         this.bindEvents();
     }
 

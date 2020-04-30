@@ -124,5 +124,11 @@
         .sticky-bar .booking-bar & {
             display: grid;
         }
+
+        .categories-tablist & {
+            @include media-query(large) {
+                display: none;
+            }
+        }
     }
 }

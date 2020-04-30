@@ -35,7 +35,7 @@ $font--secondary: 'Benton Sans Medium', 'Helvetica Neue', Arial, Helvetica,
     Sans-Serif;
 
 // Font weights
-// Now handled by font family so both 500
+// Now handled by font family due to limitations of third party font service
 $weight--medium: 500;
 $weight--normal: 500;
 
@@ -102,6 +102,7 @@ $z-index: (
     gridlines: 50,
     above-gridlines: 60,
     sticky-nav-bar: 65,
+    sticky-nav-bar-header: 66,
     header: 70,
     nav-overlay: 75,
     nav: 80,
