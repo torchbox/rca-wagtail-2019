@@ -1,0 +1,27 @@
+.filter-takeover {
+    display: none;
+
+    &__container {
+        @include media-query(large) {
+            height: calc(var(--vh, 1vh) * 100);
+        }
+    }
+
+    &__tab-content {
+        height: calc(var(--vh, 1vh) * 100);
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    // Class added via js to body
+    .project-filters & {
+        @include z-index(modal);
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: calc(var(--vh, 1vh) * 100);
+        width: 100%;
+    }
+}

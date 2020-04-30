@@ -1,8 +1,17 @@
 .filter-bar {
+    @include z-index(sticky-nav-bar);
     $root: &;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: transform $transition;
+
+    @include media-query(large) {
+        @include z-index(under-gridlines);
+    }
 
     &--small {
-        position: relative;
         border-width: 0 0 1px;
         border-style: solid;
         padding: ($gutter / 2) $gutter;
@@ -49,6 +58,14 @@
                 color: $color--white;
             }
         }
+
+        .section__notch-fill {
+            background-color: $color--white;
+
+            &::before {
+                background-color: $color--white;
+            }
+        }
     }
 
     &.bg--light {
@@ -61,26 +78,70 @@
                 color: $color--black;
             }
         }
-    }
-
-    .sticky-bar & {
-        background-color: $color--black;
-
-        #{$root}__link {
-            color: $color--white;
-        }
 
         .section__notch-fill {
-            background-color: $color--black;
+            background-color: $color--white;
 
             &::before {
-                background-color: $color--black;
+                background-color: $color--white;
             }
         }
     }
 
     // When headroom mini header is also active
-    .sticky-bar.headroom--pinned & {
-        border-top: 1px solid $color--grid-line-light;
+    .headroom--pinned & {
+        &--stuck {
+            border-top: 1px solid $color--grid-line-light;
+            transform: translate3d(0, $mini-header-height, 0);
+
+            @include media-query(large) {
+                transform: translate3d(0, $mini-header-height, 0);
+            }
+        }
+    }
+
+    .project-filters & {
+        @include media-query(large) {
+            @include z-index(modal-controls);
+            position: fixed;
+            top: 0;
+            // Make padding above / below bar even
+            transform: translate3d(0, -10px, 0);
+            border-bottom: 1px solid $color--grid-line-dark;
+        }
+    }
+
+    // Small-medium styles
+    .project-filters-mobile & {
+        &--large {
+            @include z-index(modal);
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: calc(var(--vh, 1vh) * 100);
+            background-color: $color--white;
+        }
+    }
+
+    // Modifier unusually at bottom to override theme (play the cascade)
+    &--stuck {
+        @include z-index(sticky-nav-bar-header);
+
+        @include media-query(large) {
+            // Make padding above / below bar even
+            transform: translate3d(0, -10px, 0);
+        }
+
+        &.bg--dark {
+            .section__notch-fill {
+                background-color: $color--black;
+
+                &::before {
+                    background-color: $color--black;
+                }
+            }
+        }
     }
 }
