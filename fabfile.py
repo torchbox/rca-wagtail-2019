@@ -4,6 +4,7 @@ from invoke.tasks import task
 
 PRODUCTION_APP_INSTANCE = "rca-production"
 STAGING_APP_INSTANCE = "rca-staging"
+DEV_APP_INSTANCE = "rca-development"
 
 LOCAL_MEDIA_FOLDER = "/vagrant/media"
 LOCAL_DATABASE_NAME = "rca"
@@ -52,6 +53,31 @@ def staging_shell(c):
 @task
 def push_staging_media(c):
     push_media_to_s3_heroku(c, STAGING_APP_INSTANCE)
+
+
+#########
+# Development
+#########
+
+
+@task
+def pull_dev_media(c):
+    pull_media_from_s3_heroku(c, DEV_APP_INSTANCE)
+
+
+@task
+def pull_dev_data(c):
+    pull_database_from_heroku(c, DEV_APP_INSTANCE)
+
+
+@task
+def dev_shell(c):
+    open_heroku_shell(c, DEV_APP_INSTANCE)
+
+
+@task
+def push_dev_media(c):
+    push_media_to_s3_heroku(c, DEV_APP_INSTANCE)
 
 
 #######
