@@ -1,4 +1,7 @@
-<a href="{% firstof value.href value.url %}" class="link link--tertiary link--link">
+{% load util_tags %}
+
+{% is_external value.href value.url as is_external %}
+<a href="{% firstof value.href value.url %}" {% if is_external %} target="_blank" {% endif %}  class="link link--tertiary link--link">
     <span class="link__label">{% firstof value.text value.title %}</span>
     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
 </a>
