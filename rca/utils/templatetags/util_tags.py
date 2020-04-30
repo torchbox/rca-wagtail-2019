@@ -1,4 +1,5 @@
 from django import template
+from django.conf import settings
 from wagtail.core.utils import camelcase_to_underscore
 
 from rca.utils.models import SocialMediaSettings
@@ -63,3 +64,14 @@ def social_media_links(context):
         "label": "Linkedin",
     }
     return [twitter, facebook, instagram, youtube, linkedin]
+
+
+# Get type of field
+@register.filter
+def get_link_target(value):
+    """ Finds a suitable target for a link, eg if the link is for the base url,
+    it sould open in _self"""
+    target = "_self"
+    if not str(value).startswith(settings.BASE_URL):
+        target = "_blank"
+    return target
