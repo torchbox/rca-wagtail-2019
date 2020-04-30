@@ -12,7 +12,6 @@
     }
 
     &--small {
-        position: relative;
         border-width: 0 0 1px;
         border-style: solid;
         padding: ($gutter / 2) $gutter;
@@ -128,8 +127,9 @@
 
     // Modifier unusually at bottom to override theme (play the cascade)
     &--stuck {
+        @include z-index(sticky-nav-bar-header);
+
         @include media-query(large) {
-            @include z-index(sticky-nav-bar-header);
             // Make padding above / below bar even
             transform: translate3d(0, -10px, 0);
         }

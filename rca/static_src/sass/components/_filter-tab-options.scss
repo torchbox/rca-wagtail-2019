@@ -198,6 +198,7 @@
             width: 100%;
             padding: ($gutter / 2) $gutter;
             background-color: $color--white;
+            border-color: $color--grid-line-dark;
         }
 
         #{$root}__button {

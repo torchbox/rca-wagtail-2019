@@ -13,6 +13,7 @@ class ProjectFilters {
         this.filter = node;
         this.body = document.querySelector('body');
         this.filterBar = document.querySelector('[data-filter-bar]');
+        this.filterBarSmall = document.querySelector('[data-filter-bar-small]');
         this.resetButton = document.querySelector('[data-filters-reset]');
         this.clearButtons = document.querySelectorAll(
             '[data-filters-clear-category]',
@@ -60,9 +61,11 @@ class ProjectFilters {
             })
             .onStepEnter(() => {
                 this.filterBar.classList.add('filter-bar--stuck');
+                this.filterBarSmall.classList.add('filter-bar--stuck');
             })
             .onStepExit(() => {
                 this.filterBar.classList.remove('filter-bar--stuck');
+                this.filterBarSmall.classList.remove('filter-bar--stuck');
             });
 
         // setup resize event

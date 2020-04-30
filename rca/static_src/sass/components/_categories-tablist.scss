@@ -126,7 +126,9 @@
     // When small-medium breakpoints are open
     .project-filters-mobile & {
         padding-left: 0;
-        padding-top: ($gutter * 2);
+        padding-top: (
+            ($gutter * 2) - 2
+        ); // align with heading on previous state
 
         &__heading {
             @include font-size(s);
