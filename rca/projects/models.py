@@ -201,7 +201,7 @@ class ProjectPage(BasePage):
     key_details_panels = [
         InlinePanel("subjects", label=_("RCA Experties")),
         InlinePanel("related_school_pages", label=_("Related schools")),
-        InlinePanel("related_research_pages", label=_("Related research cetnres")),
+        InlinePanel("related_research_pages", label=_("Related research centres")),
         InlinePanel("research_types", label=_("Research types")),
         FieldPanel("start_date"),
         FieldPanel("end_date"),
