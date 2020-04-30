@@ -164,7 +164,7 @@
             {% endif %}
 
 
-            {% if page.related_projects %}
+            {% if related_projects %}
                 <section class="section section--top-space-large bg bg--light">
 
                     <div class="section__row section__row--last-large research-highlights">
@@ -174,7 +174,7 @@
                             </h2>
                         </div>
                         <div class="section__content grid">
-                            {% include "patterns/organisms/carousel/carousel.html" with carousel=page.related_projects modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=related_projects modifier='carousel carousel--no-margin' datatag='data-carousel' %}
                             <div class="section__action">
                                 <a class="link link--secondary link--link body body--two" href="/research">
                                     <span class="link__label">See all research</span>

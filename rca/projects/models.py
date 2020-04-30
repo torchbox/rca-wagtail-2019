@@ -218,6 +218,76 @@ class ProjectPage(BasePage):
         ]
     )
 
+    def _format_projects_for_gallery(self, projects):
+        """Internal method for formatting related projects to the correct
+        structure for the gallery template
+
+        Arguments:
+            projects: Queryset of project pages to format
+
+        Returns:
+            List: Maximum of 8 projects
+        """
+        items = []
+        for page in projects[:8]:
+            page = page.specific
+            meta = ""
+            related_school = page.related_school_pages.first()
+            if related_school is not None:
+                meta = related_school.page.title
+
+            items.append(
+                {
+                    "title": page.title,
+                    "link": page.url,
+                    "image": page.hero_image,
+                    "description": page.introduction,
+                    "meta": meta,
+                }
+            )
+        return items
+
+    def get_related_projects(self):
+        """
+        Displays latest projects from the parent School/Centre  the project belongs to.
+        IF there are no projects with the same theme School/Centre latest projects with a
+        matching research_type will be displayed.
+        IF there are no projects with a matching research_type, the latest projects with
+        matching subject tags will be displayed.
+
+        Returns:
+            List -- of filtered and formatted ProjectPages
+        """
+
+        all_projects = ProjectPage.objects.live().public().not_page(self)
+
+        schools = self.related_school_pages.values_list("page_id")
+        projects = all_projects.filter(
+            related_school_pages__page_id__in=schools
+        ).distinct()
+        if projects:
+            return self._format_projects_for_gallery(projects)
+
+        research_centres = self.related_research_pages.values_list("page_id")
+        projects = all_projects.filter(
+            related_research_pages__page_id__in=research_centres
+        ).distinct()
+        if projects:
+            return self._format_projects_for_gallery(projects)
+
+        research_types = self.research_types.values_list("research_type_id")
+        projects = all_projects.filter(
+            research_types__research_type_id__in=research_types
+        ).distinct()
+        if projects:
+            return self._format_projects_for_gallery(projects)
+
+        subjects = self.subjects.values_list("subject_id")
+        projects = all_projects.filter(subjects__subject_id__in=subjects).distinct()
+
+        if projects:
+            return self._format_projects_for_gallery(projects)
+
     def clean(self):
         errors = defaultdict(list)
 
@@ -260,6 +330,7 @@ class ProjectPage(BasePage):
         context["project_lead"] = self.project_lead.select_related("image")
         context["related_staff"] = self.related_staff.select_related("image")
         context["taxonomy_tags"] = taxonomy_tags
+        context["related_projects"] = self.get_related_projects()
 
         return context
 
