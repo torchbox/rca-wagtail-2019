@@ -83,6 +83,8 @@ class LinkBlock(blocks.StructBlock):
 
         if value["page"] and not value["url"]:
             value["url"] = Page.objects.get(id=value["page"]).url
+            if not value["title"]:
+                value["title"] = Page.objects.get(id=value["page"]).title
 
         return value
 
