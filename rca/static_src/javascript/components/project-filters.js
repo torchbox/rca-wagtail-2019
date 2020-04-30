@@ -62,10 +62,12 @@ class ProjectFilters {
             .onStepEnter(() => {
                 this.filterBar.classList.add('filter-bar--stuck');
                 this.filterBarSmall.classList.add('filter-bar--stuck');
+                this.applyThemeDarkMobile();
             })
             .onStepExit(() => {
                 this.filterBar.classList.remove('filter-bar--stuck');
                 this.filterBarSmall.classList.remove('filter-bar--stuck');
+                this.applyThemeLightMobile();
             });
 
         // setup resize event
@@ -141,6 +143,16 @@ class ProjectFilters {
     applyThemeLight() {
         this.filterBar.classList.remove('bg', 'bg--dark');
         this.filterBar.classList.add('bg', 'bg--light');
+    }
+
+    applyThemeDarkMobile() {
+        this.filterBarSmall.classList.remove('bg', 'bg--light');
+        this.filterBarSmall.classList.add('bg', 'bg--dark');
+    }
+
+    applyThemeLightMobile() {
+        this.filterBarSmall.classList.remove('bg', 'bg--dark');
+        this.filterBarSmall.classList.add('bg', 'bg--light');
     }
 
     resetButtonActive() {
@@ -240,6 +252,7 @@ class ProjectFilters {
         this.mobileLauncher.addEventListener('click', () => {
             this.body.classList.add('project-filters-mobile');
             disableBodyScroll(this.filterContainer);
+            this.applyThemeLightMobile();
         });
 
         // Back
