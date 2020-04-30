@@ -55,7 +55,7 @@
                             </div>
                             <div class="research-centre-overview__media">
                                 {% if page.introduction_image %}
-                                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.introduction_image caption=page.video_caption %}
+                                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.introduction_image caption=page.video_caption video=page.video %}
                                 {% endif %}
                             </div>
                         </div>
@@ -127,8 +127,8 @@
                     <div class="section__notch-fill section__notch-fill--first-col"></div>
                 </div>
 
-                {% if page.relatedcontent %}
-                    {% include "patterns/molecules/relatedcontent/relatedprogrammes--large.html" with related_sections=page.programmes title="Helen Hamlyn Design Centre programmes" %}
+                {% if related_programmes %}
+                    {% include "patterns/molecules/relatedcontent/relatedprogrammes--large.html" with related_sections=related_programmes title=related_programmes.0.title %}
                 {% endif %}
 
                 <div class="section__notch">

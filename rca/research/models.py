@@ -115,6 +115,12 @@ class ResearchCentrePage(BasePage):
             "The title value displayed above the Research centre news carousel"
         ),
     )
+    related_programmes_title = models.CharField(
+        max_length=250,
+        help_text=_(
+            "The title value displayed above the Research centre related_programmes"
+        ),
+    )
     staff_title = models.CharField(
         blank=True,
         max_length=250,
@@ -171,6 +177,7 @@ class ResearchCentrePage(BasePage):
             ],
             heading="Research Centre Staff",
         ),
+        FieldPanel("related_programmes_title"),
         StreamFieldPanel("related_links"),
     ]
     key_details_panels = [
@@ -274,6 +281,20 @@ class ResearchCentrePage(BasePage):
                 )
         return research_news
 
+    def get_related_programme_pages(self):
+        from rca.programmes.models import ProgrammePage
+
+        programme_pages_qs = ProgrammePage.objects.filter(
+            related_schools_and_research_pages__page_id=self.id
+        )
+        programme_pages = [
+            {
+                "title": self.related_programmes_title,
+                "related_items": programme_pages_qs,
+            }
+        ]
+        return programme_pages
+
     def clean(self):
         errors = defaultdict(list)
 
@@ -314,5 +335,6 @@ class ResearchCentrePage(BasePage):
         context["research_opportunities"] = self.get_research_opportunities()
         context["research_news"] = self.get_research_news()
         context["related_staff"] = self.related_staff.all
+        context["related_programmes"] = self.get_related_programme_pages()
 
         return context
