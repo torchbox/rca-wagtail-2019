@@ -126,25 +126,6 @@ context:
     contact_image: true
     contact_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
     contact_email: info@rca.ac.uk
-    related_projects:
-      - slide:
-        meta: 'School of Design'
-        title: 'Extending the potential for the Digitally Printed Ceramic Surface'
-        description: 'Find out how a group of our MA students turned red mud into a range of striking pottery'
-        image: true
-        link: '#'
-      - slide:
-        meta: 'Alumni Story'
-        title: 'A place with a real focus on making'
-        description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
-        image: true
-        link: '#'
-      - slide:
-        meta: 'Alumni Story'
-        title: 'Designing the imposible for NASA'
-        description: 'Creating world class experiences that started at the RCA'
-        image: true
-        link: '#'
   project_lead:
     - {
         name: 'Beth Hughes',
@@ -176,6 +157,25 @@ context:
         meta: Current,
         link: '#',
       }
+  related_projects:
+    - slide:
+      meta: 'School of Design'
+      title: 'Extending the potential for the Digitally Printed Ceramic Surface'
+      description: 'Find out how a group of our MA students turned red mud into a range of striking pottery'
+      image: true
+      link: '#'
+    - slide:
+      meta: 'Alumni Story'
+      title: 'A place with a real focus on making'
+      description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
+      image: true
+      link: '#'
+    - slide:
+      meta: 'Alumni Story'
+      title: 'Designing the imposible for NASA'
+      description: 'Creating world class experiences that started at the RCA'
+      image: true
+      link: '#'
 tags:
   include_block:
     block:
