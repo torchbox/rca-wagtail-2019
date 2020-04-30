@@ -13,6 +13,7 @@ class ProjectFilters {
         this.filter = node;
         this.body = document.querySelector('body');
         this.filterBar = document.querySelector('[data-filter-bar]');
+        this.filterBarSmall = document.querySelector('[data-filter-bar-small]');
         this.resetButton = document.querySelector('[data-filters-reset]');
         this.clearButtons = document.querySelectorAll(
             '[data-filters-clear-category]',
@@ -21,9 +22,16 @@ class ProjectFilters {
             '[data-project-category]',
         );
         this.formSubmit = document.querySelectorAll('[data-filter-submit]');
+        this.filterContainer = document.querySelector(
+            'filter-takeover__container',
+        );
 
         // Tabs
         this.allTabs = document.querySelectorAll('[data-tab]');
+
+        // Mobile specific
+        this.mobileLauncher = document.querySelector('[data-filter-launcher]');
+        this.backButtons = document.querySelectorAll('[data-filter-back]');
 
         // Events
         this.bindEvents();
@@ -53,9 +61,11 @@ class ProjectFilters {
             })
             .onStepEnter(() => {
                 this.filterBar.classList.add('filter-bar--stuck');
+                this.filterBarSmall.classList.add('filter-bar--stuck');
             })
             .onStepExit(() => {
                 this.filterBar.classList.remove('filter-bar--stuck');
+                this.filterBarSmall.classList.remove('filter-bar--stuck');
             });
 
         // setup resize event
@@ -142,7 +152,7 @@ class ProjectFilters {
     }
 
     launchProjectFilters() {
-        disableBodyScroll(this.body);
+        disableBodyScroll(this.filterContainer);
         this.body.classList.add('project-filters');
         this.applyThemeLight();
         // Remove to allow css to handle theme
@@ -150,7 +160,7 @@ class ProjectFilters {
     }
 
     closeProjectFilters() {
-        enableBodyScroll(this.body);
+        enableBodyScroll(this.filterContainer);
         this.body.classList.remove('project-filters');
         this.applyThemeDark();
         // Check if class needs to be applied again
@@ -166,7 +176,7 @@ class ProjectFilters {
             e.preventDefault();
             const filterItem = e.target;
             const closestClearButton = e.currentTarget
-                .closest('.filter-tab-options__content')
+                .closest('.filter-tab-options__container')
                 .querySelector('[data-filters-clear-category]');
             if (filterItem.classList.contains('selected')) {
                 filterItem.classList.remove('selected');
@@ -222,6 +232,34 @@ class ProjectFilters {
         this.formSubmit.forEach((item) => {
             item.addEventListener('click', () => {
                 this.closeProjectFilters();
+                this.body.classList.remove('project-filters-mobile');
+            });
+        });
+
+        // Mobile launcher
+        this.mobileLauncher.addEventListener('click', () => {
+            this.body.classList.add('project-filters-mobile');
+            disableBodyScroll(this.filterContainer);
+        });
+
+        // Back
+        this.backButtons.forEach((item) => {
+            item.addEventListener('click', (e) => {
+                // Get the tab ID that clear sits within
+                const targetTabID = e.target
+                    .closest(['.js-tab-panel'])
+                    .getAttribute('id');
+
+                // Hide current tab, and set aria selected to false
+                document
+                    .getElementById(targetTabID)
+                    .classList.add('tabs__panel--hidden');
+                document
+                    .getElementById(targetTabID)
+                    .setAttribute('aria-selected', 'false');
+
+                // Deactivate filter takeover
+                this.body.classList.remove('project-filters');
             });
         });
     }

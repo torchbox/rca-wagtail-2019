@@ -1,4 +1,12 @@
 .filter-tab-options {
+    $root: &;
+
+    &--mobile {
+        @include media-query(large) {
+            display: none;
+        }
+    }
+
     &__header {
         @include media-query(large) {
             display: none;
@@ -55,11 +63,6 @@
                 grid-column-start: 3;
             }
         }
-
-        &:nth-last-child(2) {
-            // Space between last item and clear button
-            margin-bottom: ($gutter * 2);
-        }
     }
 
     &__link {
@@ -75,7 +78,12 @@
     }
 
     &__clear {
-        margin-bottom: ($gutter * 2);
+        margin-right: ($gutter * 2);
+
+        @include media-query(large) {
+            position: relative;
+            top: 5px;
+        }
     }
 
     &__clear-link {
@@ -95,7 +103,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: space-between;
         border-style: solid;
         border-width: 1px 0 0;
         padding: ($gutter * 2) 0;
@@ -111,6 +119,11 @@
 
     .filter-takeover & {
         height: 100%;
+        padding-top: ($gutter * 2);
+
+        @include media-query(large) {
+            padding-top: 0;
+        }
 
         &__container {
             display: flex;
@@ -173,6 +186,33 @@
 
         &__footer {
             border-color: $color--grid-line-light;
+        }
+    }
+
+    .project-filters-mobile & {
+        #{$root}__footer {
+            @include z-index(modal-controls);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: ($gutter / 2) $gutter;
+            background-color: $color--white;
+            border-color: $color--grid-line-dark;
+        }
+
+        #{$root}__button {
+            padding: 0;
+
+            &::after {
+                content: none;
+            }
+        }
+
+        #{$root}__clear-link {
+            &::after {
+                content: none;
+            }
         }
     }
 }
