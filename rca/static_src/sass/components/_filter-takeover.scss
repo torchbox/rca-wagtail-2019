@@ -2,19 +2,15 @@
     display: none;
 
     &__container {
-        -webkit-overflow-scrolling: touch;
-
         @include media-query(large) {
-            height: 100%;
+            height: calc(var(--vh, 1vh) * 100);
         }
     }
 
     &__tab-content {
-        height: 100%;
-
-        @include media-query(large) {
-            padding-top: ($gutter * 5);
-        }
+        height: calc(var(--vh, 1vh) * 100);
+        overflow-y: overlay;
+        overflow-x: hidden;
     }
 
     // Class added via js to body
@@ -27,9 +23,5 @@
         right: 0;
         height: calc(var(--vh, 1vh) * 100);
         width: 100%;
-
-        @include media-query(large) {
-            padding-top: ($gutter * 2);
-        }
     }
 }
