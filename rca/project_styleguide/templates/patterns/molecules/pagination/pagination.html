@@ -23,9 +23,11 @@
                 ...
             </li>
             {% for i in subpages.paginator.page_range|slice:"-3:" %}
-                <li class="pagination__item">
-                    <a href="?page={{i}}&{% for value in extra_query_params %}{{ value }}&amp;{% endfor %}" class="pagination__link">{{i}}</a>
-                </li>
+                {% if i > 3 %}
+                    <li class="pagination__item">
+                        <a href="?page={{i}}&{% for value in extra_query_params %}{{ value }}&amp;{% endfor %}" class="pagination__link">{{i}}</a>
+                    </li>
+                {% endif %}
             {% endfor %}
         {% endif %}
         {% if subpages.has_next %}
