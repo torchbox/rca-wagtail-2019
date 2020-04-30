@@ -18,7 +18,12 @@ from rca.home.models import (
     LIGHT_HERO,
     LIGHT_TEXT_ON_DARK_IMAGE,
 )
-from rca.utils.blocks import RelatedPageListBlock, StatisticBlock
+from rca.utils.blocks import (
+    CallToActionBlock,
+    RelatedPageListBlock,
+    SlideBlock,
+    StatisticBlock,
+)
 from rca.utils.models import BasePage, LinkFields, RelatedPage
 
 
@@ -94,6 +99,17 @@ class LandingPageRelatedPageHighlights(RelatedPage):
     panels = [PageChooserPanel("page")]
 
 
+class HomePageSlideshowBlock(models.Model):
+    source_page = ParentalKey("LandingPage", related_name="slideshow_block")
+    title = models.CharField(max_length=125)
+    summary = models.CharField(max_length=250, blank=True)
+    slides = StreamField([("slide", SlideBlock())])
+    panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("slides")]
+
+    def __str__(self):
+        return self.title
+
+
 """
 TODO Explain this class, and the other classes better
 - why this isn't abstract
@@ -150,7 +166,7 @@ class LandingPage(BasePage):
         help_text=_("The title to be displayed above the page list blocks"),
     )
     page_list = StreamField([("page_list", RelatedPageListBlock())], blank=True)
-
+    cta_block = StreamField([("call_to_action", CallToActionBlock())], blank=True)
     contact_title = models.CharField(max_length=120, blank=True)
     contact_text = models.CharField(max_length=250, blank=True)
     contact_email = models.EmailField(blank=True)
@@ -158,7 +174,7 @@ class LandingPage(BasePage):
     contact_image = models.ForeignKey(
         "images.CustomImage",
         null=True,
-        blank=False,
+        blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
     )
@@ -273,13 +289,47 @@ class LandingPage(BasePage):
         context["stats_block"] = self.stats_block.select_related(
             "background_image"
         ).first()
+        context["slideshow_block"] = self.slideshow_block.first()
         return context
 
 
 class ResearchLandingPage(LandingPage):
     template = "patterns/pages/landingpage/landing_page--research.html"
-    content_panels = [
-        InlinePanel("featured_image", label=_("Featured image"), max_num=1)
+    content_panels = BasePage.content_panels + [
+        MultiFieldPanel(
+            [ImageChooserPanel("hero_image"), FieldPanel("hero_colour_option")],
+            heading=_("Hero"),
+        ),
+        MultiFieldPanel(
+            [FieldPanel("introduction"), PageChooserPanel("about_page")],
+            heading=_("Course Introduction"),
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("highlights_title"),
+                InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
+                FieldPanel("highlights_link_url"),
+                FieldPanel("highlights_link_text"),
+            ],
+            heading=_("Highlight pages carousel"),
+        ),
+        MultiFieldPanel(
+            [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
+            heading=_("Related page list"),
+        ),
+        InlinePanel("featured_image", label=_("Featured image"), max_num=1),
+        InlinePanel("slideshow_block", label=_("Slideshow"), max_num=1),
+        StreamFieldPanel("cta_block"),
+        MultiFieldPanel(
+            [
+                ImageChooserPanel("contact_image"),
+                FieldPanel("contact_title"),
+                FieldPanel("contact_text"),
+                FieldPanel("contact_email"),
+                FieldPanel("contact_url"),
+            ],
+            heading="Contact information",
+        ),
     ]
 
     class Meta:
