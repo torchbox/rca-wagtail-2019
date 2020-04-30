@@ -22,7 +22,7 @@ from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_TEXT_ON_DARK_IMAGE
+from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_HERO, LIGHT_TEXT_ON_DARK_IMAGE
 from rca.utils.blocks import (
     AccordionBlockWithTitle,
     GalleryBlock,
@@ -503,5 +503,8 @@ class ProjectPickerPage(BasePage):
         except EmptyPage:
             project_results = paginator.page(paginator.num_pages)
         context["results"] = project_results
+        
+        # Set hero colour
+        context["hero_colour"] = LIGHT_HERO
 
         return context

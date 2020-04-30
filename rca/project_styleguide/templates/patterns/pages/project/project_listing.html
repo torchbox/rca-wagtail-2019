@@ -93,8 +93,8 @@
                     </div>
                 {% endif %}
 
-                <div class="section__row {% if page.results %}section__row--last-small {% else %}section__row--first-small section__row--last-large{% endif %} grid">
-                    <div class="results {% if not page.results %}results--no-results{% endif %} layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                <div class="section__row {% if results %}section__row--last-small {% else %}section__row--first-small section__row--last-large{% endif %} grid">
+                    <div class="results {% if not results %}results--no-results{% endif %} layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                         {% if results %}
                             {% for item in results %}
                                 <div class="results__item layout__span-two layout__@medium-span-one">
