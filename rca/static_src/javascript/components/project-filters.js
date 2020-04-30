@@ -1,4 +1,3 @@
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import 'intersection-observer';
 import scrollama from 'scrollama';
 
@@ -164,7 +163,7 @@ class ProjectFilters {
     }
 
     launchProjectFilters() {
-        disableBodyScroll(this.filterContainer);
+        this.body.classList.add('no-scroll');
         this.body.classList.add('project-filters');
         this.applyThemeLight();
         // Remove to allow css to handle theme
@@ -172,7 +171,7 @@ class ProjectFilters {
     }
 
     closeProjectFilters() {
-        enableBodyScroll(this.filterContainer);
+        this.body.classList.remove('no-scroll');
         this.body.classList.remove('project-filters');
         this.applyThemeDark();
         // Check if class needs to be applied again
@@ -251,7 +250,7 @@ class ProjectFilters {
         // Mobile launcher
         this.mobileLauncher.addEventListener('click', () => {
             this.body.classList.add('project-filters-mobile');
-            disableBodyScroll(this.filterContainer);
+            this.body.classList.add('no-scroll');
             this.applyThemeLightMobile();
         });
 
