@@ -4,7 +4,6 @@ from urllib.parse import urlencode
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
-from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -360,59 +359,62 @@ class ProjectPickerPage(BasePage):
         PageChooserPanel("featured_project"),
     ]
 
-    def get_filters(self):
+    def get_filters(self, active_filters):
         from rca.programmes.models import Subject
         from rca.research.models import ResearchCentrePage
         from rca.schools.models import SchoolPage
 
-        filters = []
+        filters = {"title": "Filter ME", "items": []}
 
-        research_types = {"title": "Research type", "items": []}
+        research_types = {
+            "tab_title": "Research type",
+            "filter_name": "type",
+            "children": [],
+        }
         for i in ResearchType.objects.all():
-            research_types["items"].append(
+            research_types["children"].append(
                 {
                     "id": i.id,
                     "title": i.title,
-                    "link": slugify(i.title),
-                    "filter_type": "type",
+                    "active": str(i.id) in active_filters["type"],
                 }
             )
-        filters.append(research_types)
+        filters["items"].append(research_types)
 
-        subjects = {"title": "Subjects", "items": []}
+        subjects = {"tab_title": "Subjects", "filter_name": "subject", "children": []}
 
         for i in Subject.objects.all():
-            subjects["items"].append(
+            subjects["children"].append(
                 {
                     "id": i.id,
                     "title": i.title,
-                    "link": slugify(i.title),
-                    "filter_type": "subject",
+                    "active": str(i.id) in active_filters["subject"],
                 }
             )
-        filters.append(subjects)
+        filters["items"].append(subjects)
 
-        school_or_centre = {"title": "School or centre", "items": []}
+        school_or_centre = {
+            "tab_title": "School or centre",
+            "filter_name": "school_or_centre",
+            "children": [],
+        }
         for i in SchoolPage.objects.live().public():
-            school_or_centre["items"].append(
+            school_or_centre["children"].append(
                 {
                     "id": i.id,
                     "title": i.title,
-                    "link": slugify(i.title),
-                    "filter_type": "school_or_centre",
+                    "active": str(i.id) in active_filters["school_or_centre"],
                 }
             )
-        filters.append(school_or_centre)
         for i in ResearchCentrePage.objects.live().public():
-            school_or_centre["items"].append(
+            school_or_centre["children"].append(
                 {
                     "id": i.id,
                     "title": i.title,
-                    "link": slugify(i.title),
-                    "filter_type": "school_or_centre",
+                    "active": str(i.id) in active_filters["school_or_centre"],
                 }
             )
-        filters.append(school_or_centre)
+        filters["items"].append(school_or_centre)
 
         return filters
 
@@ -438,15 +440,21 @@ class ProjectPickerPage(BasePage):
             )
         return projects_formatted
 
-    def get_extra_query_params(self, request):
-        # Formats the request parameters in a list
-        extra_query_params = []
+    def get_active_filters(self, request):
+        active_filters = {"type": [], "subject": [], "school_or_centre": []}
         for i in request.GET.getlist("type"):
-            extra_query_params.append(urlencode({"type": i}))
+            active_filters["type"].append(i)
         for i in request.GET.getlist("subject"):
-            extra_query_params.append(urlencode({"subject": i}))
+            active_filters["subject"].append(i)
         for i in request.GET.getlist("school_or_centre"):
-            extra_query_params.append(urlencode({"school_or_centre": i}))
+            active_filters["school_or_centre"].append(i)
+        return active_filters
+
+    def get_extra_query_params(self, request, active_filters):
+        extra_query_params = []
+        for filter_name in active_filters:
+            for filter_id in active_filters[filter_name]:
+                extra_query_params.append(urlencode({filter_name: filter_id}))
         return extra_query_params
 
     def get_results(self, request, context):
@@ -480,12 +488,16 @@ class ProjectPickerPage(BasePage):
     def get_context(self, request, *args, **kwargs):
         page = request.GET.get("page", 1)
         context = super().get_context(request, *args, **kwargs)
-        context["filters"] = self.get_filters()
-        context["featured_project"] = self.featured_project
+        active_filters = self.get_active_filters(request)
 
         # Send all the query params through to the context so they can be added
         # to the pager links, E.G type=1&type=2&subject=1...
-        context["extra_query_params"] = self.get_extra_query_params(request)
+        context["extra_query_params"] = self.get_extra_query_params(
+            request, active_filters
+        )
+
+        context["filters"] = self.get_filters(active_filters)
+        context["featured_project"] = self.featured_project
 
         # Don't show the featured project if queries are being made
         # or we aren't on the first page of the results
