@@ -9,7 +9,7 @@
 
     &__tab-content {
         height: calc(var(--vh, 1vh) * 100);
-        overflow-y: scroll;
+        overflow-y: overlay;
         overflow-x: hidden;
     }
 
