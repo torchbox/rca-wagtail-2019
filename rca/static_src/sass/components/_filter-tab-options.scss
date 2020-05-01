@@ -45,7 +45,9 @@
         grid-template-columns: 1fr 1fr;
 
         @include media-query(large) {
-            grid-template-columns: 1fr 1fr 1fr;
+            display: block;
+            column-count: 2;
+            column-gap: 33.33%;
         }
     }
 
