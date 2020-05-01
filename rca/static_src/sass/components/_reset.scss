@@ -45,4 +45,32 @@
     .filter-tab-options & {
         color: $color--black;
     }
+
+    .no-results & {
+        padding-top: 10px;
+
+        &::after {
+            content: '';
+            display: block;
+            height: 1px;
+            left: 0;
+            position: absolute;
+            background: currentColor;
+            transition: width $transition;
+            width: 100%;
+            top: 0;
+
+            @include media-query(large) {
+                height: 2px;
+            }
+        }
+
+        &:hover,
+        &:active,
+        &:focus {
+            &::after {
+                width: calc(100% + 6px);
+            }
+        }
+    }
 }
