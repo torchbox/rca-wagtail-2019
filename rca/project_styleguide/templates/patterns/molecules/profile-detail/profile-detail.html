@@ -2,7 +2,8 @@
 
 <div class="profile-detail">
     {% if item.link %}
-        <a href="{{ item.link }}" {% if is_external item.link %} target="_blank" {% endif %} class="profile-detail__container profile-detail__container--link">
+        {% is_external item.link as is_external %}
+        <a href="{{ item.link }}" {% if is_external %} target="_blank" {% endif %} class="profile-detail__container profile-detail__container--link">
     {% else %}
         <div class="profile-detail__container">
     {% endif %}
@@ -28,9 +29,9 @@
         <div class="profile-detail__more">
             <p class="profile-detail__body body body--two">{{ item.description }}</p>
             {% if item.link %}
-                <span class="profile-detail__link body body--two link link--tertiary link--link {% if is_external item.link %}link--external{% endif %}">
+                <span class="profile-detail__link body body--two link link--tertiary link--link {% if is_external %}link--external{% endif %}">
                     <span class="link__label">View full profile</span>
-                    <svg {% if is_external item.link %}width="11" height="13"{% else %}width="12" height="8"{% endif %} class="link__icon" aria-hidden="true"><use xlink:href="{% if is_external item.link %}#arrow-external{% else %}#arrow{% endif %}"></use></svg>
+                    <svg {% if is_external %}width="11" height="13"{% else %}width="12" height="8"{% endif %} class="link__icon" aria-hidden="true"><use xlink:href="{% if is_external %}#arrow-external{% else %}#arrow{% endif %}"></use></svg>
                 </span>
             {% endif %}
         </div>
