@@ -127,7 +127,6 @@
 
         // Add underline to external links
         // If not rca.ac.uk or heroku staging, or anchor links or internal link...
-        &:not([href*='rca.ac.uk']):not([href*='herokuapp.com']):not([href^='#']):not([href^='/']),
         &#{$root}--external {
             &::before {
                 // ensure the parent is an a (has to have a href)
