@@ -73,7 +73,7 @@
             {% endif %}
 
             {% if stats_block %}
-                {% include "patterns/organisms/stat-block/stat-block.html" with stats_block=stats_block %}
+                {% include "patterns/organisms/stat-block/stat-block.html" with stats_block=stats_block stats_block_default_notch_override=True %}
             {% endif %}
 
              {% if related_pages_highlights %}
