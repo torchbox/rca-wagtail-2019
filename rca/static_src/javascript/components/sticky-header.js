@@ -38,6 +38,9 @@ function StickyHeader() {
 
     if (document.body.contains(document.querySelector('.app--homepage'))) {
         StartStickyHeader(customOffet);
+    } else if (document.body.contains(document.querySelector('.no-hero'))) {
+        // If no hero, sticky header needs to disapear faster, otherwise overlaps content
+        StartStickyHeader(80);
     } else {
         StartStickyHeader(200);
     }

@@ -72,6 +72,31 @@
         }
     }
 
+    &__school {
+        display: none;
+        text-transform: uppercase;
+        grid-column: 1 / span 2;
+        margin-bottom: ($gutter / 2);
+        letter-spacing: 0.05em;
+
+        @include media-query(medium) {
+            display: block;
+            grid-column: 1 / span 1;
+        }
+
+        @include media-query(large) {
+            grid-column: 3 / span 1;
+        }
+
+        &--mobile {
+            display: block;
+
+            @include media-query(medium) {
+                display: none;
+            }
+        }
+    }
+
     &__copy {
         &--meta-heading {
             font-family: $font--secondary;
@@ -110,11 +135,19 @@
         #{$root}__copy--meta-copy {
             color: $color--meta-darkbg;
         }
+
+        #{$root}__school {
+            color: $color--white;
+        }
     }
 
     .bg--light & {
         #{$root}__copy--meta-copy {
             color: $color--meta-lightbg;
+        }
+
+        #{$root}__school {
+            color: $color--black;
         }
     }
 }

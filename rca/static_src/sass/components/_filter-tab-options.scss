@@ -71,6 +71,7 @@
         @include underline-hover();
         position: relative;
         font-family: $font--primary;
+        cursor: pointer;
 
         &.selected {
             @include underline-hover-target();
