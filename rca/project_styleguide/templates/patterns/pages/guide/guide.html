@@ -50,7 +50,7 @@
                     <div class="section__notch-fill section__notch-fill--second-col"></div>
                 </div>
 
-                <div class="section__row section__row--first grid">
+                <div class="section__row {% if not page.related_staff %}section__row--last{% endif %} section__row--first grid">
                     <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                         {% include "patterns/molecules/streamfield/stream_block.html" %}
                     </div>
