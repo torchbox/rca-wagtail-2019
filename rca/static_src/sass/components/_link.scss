@@ -131,6 +131,14 @@
                 height: 13px;
                 transform: rotate(0deg) translate3d(0, 0, 0);
             }
+
+            &:hover,
+            &:active,
+            &:focus {
+                #{$root}__icon {
+                    transform: rotate(0deg) translate3d(3px, -3px, 0);
+                }
+            }
         }
     }
 
