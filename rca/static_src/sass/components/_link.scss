@@ -124,46 +124,6 @@
                 transform: rotate(-45deg) translate3d(5px, 0, 0);
             }
         }
-
-        // Add underline to external links
-        // If not rca.ac.uk or heroku staging, or anchor links or internal link...
-        &#{$root}--external {
-            &::before {
-                // ensure the parent is an a (has to have a href)
-                @at-root a#{&} {
-                    position: absolute;
-                    right: 5px;
-                    top: 18px;
-                    display: block;
-                    content: '';
-                    border-bottom: 1px solid currentColor;
-                    width: 7px;
-                    height: 1px;
-                    transition: transform $transition;
-                }
-            }
-
-            &#{$root}--primary,
-            &#{$root}--secondary {
-                &::before {
-                    // ensure the parent is an a (has to have a href)
-                    @at-root a#{&} {
-                        top: 26px;
-                    }
-                }
-            }
-
-            &:hover,
-            &:active,
-            &:focus {
-                &::before {
-                    // ensure the parent is an a (has to have a href)
-                    @at-root a#{&} {
-                        transform: translate3d(4px, -3px, 0);
-                    }
-                }
-            }
-        }
     }
 
     &--up {
