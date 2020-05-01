@@ -77,6 +77,10 @@
         }
     }
 
+    &__checkbox {
+        @include hidden();
+    }
+
     &__clear {
         margin-right: ($gutter * 2);
 
