@@ -45,6 +45,10 @@ class ProjectFilters {
         // Deselect all active filters in current Category
         for (const filter of activeFilters) {
             filter.classList.remove('selected');
+            // Uncheck checkboxes
+            filter
+                .closest('.filter-tab-options__item')
+                .querySelector('.filter-tab-options__checkbox').checked = false;
         }
     }
 
