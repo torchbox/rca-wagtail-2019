@@ -125,13 +125,18 @@
                     {% endif %}
 
                     {% if page.cta_block %}
-                        <div class="section__row {% if page.research == false %}section__row--first{% endif %}section__row--last-large">
-                        {% for block in page.cta_block %}
-                            {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value %}
-                        {% endfor %}
+                        <div class="section__row {% if page.research == false %}section__row--first{% endif %} section__row--last-large">
+                            {% for block in page.cta_block %}
+                                {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value %}
+                            {% endfor %}
                         </div>
                     {% endif %}
 
+                    {% if page.news %}
+                        <div class="section__notch">
+                            <div class="section__notch-fill section__notch-fill--second-col"></div>
+                        </div>
+                    {% endif %}
 
                 </section>
             {% endif %}
