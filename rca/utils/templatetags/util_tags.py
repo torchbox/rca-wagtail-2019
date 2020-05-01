@@ -83,10 +83,10 @@ default_domains = [
 @register.simple_tag(name="is_external")
 def is_external(*args):
     """
-    Work out if a url value or values is in the list of default domains.
+    Work out if a url value or firstof values is in the list of default_domains.
     If it isn't, return True. Instead of populating an href and target together,
-    which would be preferable, this can also be used in classes on the front end for
-    icons.
+    which would be preferable, this is for use when adding suitable targets and
+    icons for external links
 
     example single {% is_external 'https://bbc.co.uk' %} would return True
     example empty {% is_external '' '' %} would return False
@@ -101,6 +101,11 @@ def is_external(*args):
         link = next(s for s in args if s)
     except StopIteration:
         # incase we get passed empty strings
+        return False
+
+    if link == "#":
+        # Pattern library links are all '#' which will be internal.
+        # This is important for setting the link class
         return False
 
     if link:
