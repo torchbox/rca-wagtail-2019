@@ -103,10 +103,6 @@
             // Compensate padding to align to grid lines
             transform: translate3d(-($gutter * 2), 0, 0);
         }
-
-        &__heading {
-            display: none;
-        }
     }
 
     .filter-bar--stuck & {
@@ -123,6 +119,10 @@
                 }
             }
         }
+
+        &__heading {
+            display: none;
+        }
     }
 
     // When project filters are open
@@ -136,6 +136,14 @@
                 &::before {
                     background-color: $color--black;
                 }
+            }
+        }
+
+        &__heading {
+            @include media-query(large) {
+                position: absolute;
+                top: 34px;
+                left: -($gutter * 2);
             }
         }
     }
