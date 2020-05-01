@@ -28,7 +28,11 @@ from rca.utils.models import BasePage, LinkFields, RelatedPage
 
 
 class FeaturedImage(LinkFields):
-    title = models.TextField(max_length=80, blank=True)
+    title = models.TextField(
+        max_length=80,
+        blank=True,
+        help_text=_("The title has a maximum length of 80 characters"),
+    )
     image = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -36,8 +40,12 @@ class FeaturedImage(LinkFields):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    subtitle = models.TextField(max_length=120, blank=True)
-    description = models.TextField(max_length=250, blank=True)
+    subtitle = models.TextField(
+        max_length=120, blank=True, help_text=_("Maximum length of 120 characters")
+    )
+    description = models.TextField(
+        max_length=250, blank=True, help_text=_("Maximum length of 250 characters")
+    )
 
     panels = [
         FieldPanel("title"),
@@ -52,7 +60,9 @@ class FeaturedImage(LinkFields):
 
 class LandingPageStatsBlock(models.Model):
     source_page = ParentalKey("LandingPage", related_name="stats_block")
-    title = models.CharField(max_length=125)
+    title = models.CharField(
+        max_length=125, help_text=_("Maximum length of 125 characters")
+    )
     statistics = StreamField([("statistic", StatisticBlock())])
     background_image = models.ForeignKey(
         get_image_model_string(),
@@ -62,7 +72,9 @@ class LandingPageStatsBlock(models.Model):
         related_name="+",
     )
     link_url = models.URLField(blank=True)
-    link_text = models.CharField(blank=True, max_length=255)
+    link_text = models.CharField(
+        blank=True, max_length=255, help_text=_("Maximum length of 255 characters")
+    )
     panels = [
         FieldPanel("title"),
         ImageChooserPanel("background_image"),
@@ -80,8 +92,6 @@ class LandingPageFeaturedImage(FeaturedImage):
 
 
 class LandingPageFeaturedImageSecondary(FeaturedImage):
-    # There are 2 features images in places, this may then work better as a streamfield...
-    # TODO ?
     source_page = ParentalKey("LandingPage", related_name="featured_image_secondary")
 
 
@@ -101,8 +111,12 @@ class LandingPageRelatedPageHighlights(RelatedPage):
 
 class HomePageSlideshowBlock(models.Model):
     source_page = ParentalKey("LandingPage", related_name="slideshow_block")
-    title = models.CharField(max_length=125)
-    summary = models.CharField(max_length=250, blank=True)
+    title = models.CharField(
+        max_length=125, help_text=_("Maximum length of 125 characters")
+    )
+    summary = models.CharField(
+        max_length=250, blank=True, help_text=_("Maximum length of 250 characters")
+    )
     slides = StreamField([("slide", SlideBlock())])
     panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("slides")]
 
@@ -132,7 +146,9 @@ class LandingPage(BasePage):
         related_name="+",
     )
     hero_colour_option = models.PositiveSmallIntegerField(choices=(HERO_COLOUR_CHOICES))
-    introduction = models.TextField(max_length=500, blank=True)
+    introduction = models.TextField(
+        max_length=500, blank=True, help_text=_("Maximum length of 500 characters")
+    )
     about_page = models.ForeignKey(
         "wagtailcore.Page",
         null=True,
@@ -140,35 +156,49 @@ class LandingPage(BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    highlights_title = models.TextField(max_length=80, blank=True)
+    highlights_title = models.TextField(
+        max_length=80, blank=True, help_text=_("Maximum length of 80 characters")
+    )
     highlights_link_url = models.URLField(
         blank=True, help_text=("Optional link to more information")
     )
     highlights_link_text = models.CharField(
-        max_length=80, blank=True, help_text=_("The text to display for the link")
+        max_length=80,
+        blank=True,
+        help_text=_(
+            "The text to display for the link, maximum length of 80 characters"
+        ),
     )
 
     related_pages_title = models.TextField(
         max_length=80,
         blank=True,
-        help_text=_("The title to be displayed above the related pages grid"),
+        help_text=_(
+            "The title to be displayed above the related pages grid, maximum length of 80 characters"
+        ),
     )
     related_pages_text = models.TextField(
         max_length=250,
         blank=True,
         help_text=_(
-            "The brief paragraph of text to be displayed above the related pages grid"
+            "The brief paragraph of text to be displayed above the related pages grid, maximum length of 80 characters"
         ),
     )
     page_list_title = models.TextField(
         max_length=80,
         blank=True,
-        help_text=_("The title to be displayed above the page list blocks"),
+        help_text=_(
+            "The title to be displayed above the page list blocks, maximum length of 80 characters"
+        ),
     )
     page_list = StreamField([("page_list", RelatedPageListBlock())], blank=True)
     cta_block = StreamField([("call_to_action", CallToActionBlock())], blank=True)
-    contact_title = models.CharField(max_length=120, blank=True)
-    contact_text = models.CharField(max_length=250, blank=True)
+    contact_title = models.CharField(
+        max_length=120, blank=True, help_text=_("Maximum length of 120 characters")
+    )
+    contact_text = models.CharField(
+        max_length=250, blank=True, help_text=_("Maximum length of 250 characters")
+    )
     contact_email = models.EmailField(blank=True)
     contact_url = models.URLField(blank=True, verbose_name="Contact URL")
     contact_image = models.ForeignKey(
@@ -186,7 +216,7 @@ class LandingPage(BasePage):
         ),
         MultiFieldPanel(
             [FieldPanel("introduction"), PageChooserPanel("about_page")],
-            heading=_("Course Introduction"),
+            heading=_("Introduction"),
         ),
         MultiFieldPanel(
             [
@@ -302,7 +332,7 @@ class ResearchLandingPage(LandingPage):
         ),
         MultiFieldPanel(
             [FieldPanel("introduction"), PageChooserPanel("about_page")],
-            heading=_("Course Introduction"),
+            heading=_("Introduction"),
         ),
         MultiFieldPanel(
             [
@@ -346,7 +376,7 @@ class InnovationLandingPage(LandingPage):
         ),
         MultiFieldPanel(
             [FieldPanel("introduction"), PageChooserPanel("about_page")],
-            heading=_("Course Introduction"),
+            heading=_("Introduction"),
         ),
         MultiFieldPanel(
             [InlinePanel("featured_image", label=_("Featured image"), max_num=1)],
@@ -395,15 +425,6 @@ class InnovationLandingPage(LandingPage):
         context["page_list"] = self.get_page_list()
 
         return context
-
-
-# Some field renaming, as we are re-using lot's of the fields, this will present the field in
-# the CMS with a name that makes more sense
-InnovationLandingPage._meta.get_field("highlights_title").verbose_name = _("Title")
-InnovationLandingPage._meta.get_field("highlights_link_url").verbose_name = _("Link")
-InnovationLandingPage._meta.get_field("highlights_link_text").verbose_name = _(
-    "Link text"
-)
 
 
 class EnterpriseLandingPage(LandingPage):
