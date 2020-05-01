@@ -121,7 +121,7 @@
             {% if page_list %}
                 <section class="section section--opposite-notch bg bg--light">
                     <div class="section__row section__row--first {% if page.news %}section__row--last-large{% else %}section__row--last{% endif %}">
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page_list title=page_list_title modifier="after-action related-content--meta-new-line" %}
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page_list title=page.page_list_title modifier="after-action related-content--meta-new-line" %}
                     </div>
 
                     <div class="section__notch section__notch--opposite">
