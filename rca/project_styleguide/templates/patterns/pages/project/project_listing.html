@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body_class %}
-    app--project-listing
+    app--project-listing no-hero
 {% endblock %}
 
 {% block content %}
@@ -89,7 +89,7 @@
 
                 {% if page.feature and page.results %}
                     <div class="section__row">
-                        {% include "patterns/organisms/image-video-block/image-video-block.html" with heading=false subheading=page.feature.sub_heading meta_heading=page.feature.meta_heading image=page.feature.image has_meta=True meta_copy=page.feature.page_summary href=page.feature.href caption=false video=false %}
+                        {% include "patterns/organisms/image-video-block/image-video-block.html" with heading=false subheading=page.feature.sub_heading meta_heading=page.feature.meta_heading image=page.feature.image has_meta=True meta_copy=page.feature.page_summary href=page.feature.href caption=false video=false school=page.feature.school %}
                     </div>
                 {% endif %}
 

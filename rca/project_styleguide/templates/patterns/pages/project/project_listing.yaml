@@ -64,8 +64,8 @@ context:
             - { title: Digital futures, id: '4-1', active: false }
             - { title: Emerging technologies, id: '4-2', active: false }
     feature:
-      sub_heading: School of Design
-      meta_heading: Electronic Skin Nanopatches for Continuous Blood Pressure Monitoring
+      school: School of Design
+      sub_heading: Electronic Skin Nanopatches for Continuous Blood Pressure Monitoring
       page_summary: Generating new technologies, knowledge and understanding, critical for moving invention in wearable technology forward.
       href: '#'
     results:
