@@ -126,17 +126,22 @@
         }
 
         &#{$root}--external {
+            #{$root}__label {
+                margin-right: 0;
+            }
+
             #{$root}__icon {
                 width: 11px;
+                top: 0.2em;
                 height: 13px;
-                transform: rotate(0deg) translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
             }
 
             &:hover,
             &:active,
             &:focus {
                 #{$root}__icon {
-                    transform: rotate(0deg) translate3d(3px, -3px, 0);
+                    transform: translate3d(2px, -2px, 0);
                 }
             }
         }
