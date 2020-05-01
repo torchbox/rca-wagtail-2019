@@ -13,6 +13,10 @@ class IsExternalTestCase(TestCase):
         result = is_external("https://rca.ac.uk", "https://flying.circus.com")
         self.assertEqual(result, False)
 
+    def test_internal_url_hash(self):
+        result = is_external("#")
+        self.assertEqual(result, False)
+
     def test_internal_first_multiple_url(self):
         result = is_external(
             "https://rca.ac.uk",
