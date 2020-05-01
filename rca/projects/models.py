@@ -359,19 +359,46 @@ class ProjectPickerPage(BasePage):
         PageChooserPanel("featured_project"),
     ]
 
-    def get_filters(self, active_filters):
+    def get_filters(self, active_filters, projects_query):
+        # Build a list of filter values that will return results.
+        project_filter_field_mapping = {
+            "type": "research_types__research_type_id",
+            "subject": "subjects__subject_id",
+            "school": "related_school_pages__page_id",
+            "centre": "related_research_pages__page_id",
+        }
+
+        # used_filter_values will equal a dictionary with the same keys as
+        # project_filter_field_mapping and the values of each item will be
+        # a list of IDs.
+        # Example: {
+        #     'type': [1,2],
+        #     'subject': [4,8],
+        #     'school': [],
+        #     'centre': [11,17],
+        # }
+        used_filter_values = {}
+        for project_filter, filter_field in project_filter_field_mapping.items():
+            used_filter_values[project_filter] = [
+                item[filter_field]
+                for item in projects_query.order_by(filter_field)
+                .values(filter_field)
+                .distinct(filter_field)
+                if item[filter_field] is not None
+            ]
+
         from rca.programmes.models import Subject
         from rca.research.models import ResearchCentrePage
         from rca.schools.models import SchoolPage
 
-        filters = {"title": "Filter ME", "items": []}
+        filters = {"title": "Filter by", "items": []}
 
         research_types = {
             "tab_title": "Research type",
             "filter_name": "type",
             "children": [],
         }
-        for i in ResearchType.objects.all():
+        for i in ResearchType.objects.filter(id__in=used_filter_values["type"]):
             research_types["children"].append(
                 {
                     "id": i.id,
@@ -379,11 +406,13 @@ class ProjectPickerPage(BasePage):
                     "active": str(i.id) in active_filters["type"],
                 }
             )
-        filters["items"].append(research_types)
+        # Only add if there are children.
+        if research_types["children"]:
+            filters["items"].append(research_types)
 
         subjects = {"tab_title": "Subjects", "filter_name": "subject", "children": []}
 
-        for i in Subject.objects.all():
+        for i in Subject.objects.filter(id__in=used_filter_values["subject"]):
             subjects["children"].append(
                 {
                     "id": i.id,
@@ -391,14 +420,20 @@ class ProjectPickerPage(BasePage):
                     "active": str(i.id) in active_filters["subject"],
                 }
             )
-        filters["items"].append(subjects)
+        # Only add if there are children.
+        if subjects["children"]:
+            filters["items"].append(subjects)
 
         school_or_centre = {
             "tab_title": "School or centre",
             "filter_name": "school_or_centre",
             "children": [],
         }
-        for i in SchoolPage.objects.live().public():
+        for i in (
+            SchoolPage.objects.live()
+            .public()
+            .filter(id__in=used_filter_values["school"])
+        ):
             school_or_centre["children"].append(
                 {
                     "id": i.id,
@@ -406,7 +441,11 @@ class ProjectPickerPage(BasePage):
                     "active": str(i.id) in active_filters["school_or_centre"],
                 }
             )
-        for i in ResearchCentrePage.objects.live().public():
+        for i in (
+            ResearchCentrePage.objects.live()
+            .public()
+            .filter(id__in=used_filter_values["centre"])
+        ):
             school_or_centre["children"].append(
                 {
                     "id": i.id,
@@ -414,7 +453,9 @@ class ProjectPickerPage(BasePage):
                     "active": str(i.id) in active_filters["school_or_centre"],
                 }
             )
-        filters["items"].append(school_or_centre)
+        # Only add if there are children.
+        if school_or_centre["children"]:
+            filters["items"].append(school_or_centre)
 
         return filters
 
@@ -441,14 +482,11 @@ class ProjectPickerPage(BasePage):
         return projects_formatted
 
     def get_active_filters(self, request):
-        active_filters = {"type": [], "subject": [], "school_or_centre": []}
-        for i in request.GET.getlist("type"):
-            active_filters["type"].append(i)
-        for i in request.GET.getlist("subject"):
-            active_filters["subject"].append(i)
-        for i in request.GET.getlist("school_or_centre"):
-            active_filters["school_or_centre"].append(i)
-        return active_filters
+        return {
+            "type": request.GET.getlist("type"),
+            "subject": request.GET.getlist("subject"),
+            "school_or_centre": request.GET.getlist("school_or_centre"),
+        }
 
     def get_extra_query_params(self, request, active_filters):
         extra_query_params = []
@@ -457,33 +495,34 @@ class ProjectPickerPage(BasePage):
                 extra_query_params.append(urlencode({filter_name: filter_id}))
         return extra_query_params
 
-    def get_results(self, request, context):
-        projects = (
+    def get_projects_query(self):
+        return (
             ProjectPage.objects.live()
             .public()
             .descendant_of(self, inclusive=True)
             .select_related("hero_image")
         )
 
+    def get_results(self, request, projects_query, active_filters):
         # Request filters
-        research_types = request.GET.getlist("type")
-        subjects = request.GET.getlist("subject")
-        school_or_centre = request.GET.getlist("school_or_centre")
+        research_types = active_filters["type"]
+        subjects = active_filters["subject"]
+        school_or_centre = active_filters["school_or_centre"]
 
         if research_types:
-            projects = projects.filter(
+            projects_query = projects_query.filter(
                 research_types__research_type_id__in=research_types
             )
 
         if subjects:
-            projects = projects.filter(subjects__subject_id__in=subjects)
+            projects_query = projects_query.filter(subjects__subject_id__in=subjects)
 
         if school_or_centre:
-            projects = projects.filter(
+            projects_query = projects_query.filter(
                 models.Q(related_school_pages__page_id__in=school_or_centre)
                 | models.Q(related_research_pages__page_id__in=school_or_centre)
             )
-        return self._format_results(projects.distinct())
+        return self._format_results(projects_query.distinct())
 
     def get_context(self, request, *args, **kwargs):
         page = request.GET.get("page", 1)
@@ -496,7 +535,10 @@ class ProjectPickerPage(BasePage):
             request, active_filters
         )
 
-        context["filters"] = self.get_filters(active_filters)
+        # Unfiltered Projects query.
+        projects_query = self.get_projects_query()
+
+        context["filters"] = self.get_filters(active_filters, projects_query)
         context["featured_project"] = self.featured_project
 
         # Don't show the featured project if queries are being made
@@ -505,7 +547,7 @@ class ProjectPickerPage(BasePage):
         if context["extra_query_params"] or page != 1:
             context["show_featured_project"] = False
 
-        project_results = self.get_results(request, context)
+        project_results = self.get_results(request, projects_query, active_filters)
         # Pagination
         paginator = Paginator(project_results, 1)
         try:
