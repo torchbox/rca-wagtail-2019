@@ -133,6 +133,9 @@ context:
           link: '#',
         }
     related_links:
-      - { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
-      - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
-      - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
+      - item:
+        value: { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
+      - item:
+        value: { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
+      - item:
+        value: { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
