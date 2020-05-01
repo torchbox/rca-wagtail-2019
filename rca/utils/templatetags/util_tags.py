@@ -63,3 +63,71 @@ def social_media_links(context):
         "label": "Linkedin",
     }
     return [twitter, facebook, instagram, youtube, linkedin]
+
+
+@register.filter
+def slice_pagination(page_range, current_page):
+    """Slices paginator.page_range to the sections of page numbers to display
+    Examples (total pages 10)
+
+    When current_page is 1
+        [[1, 2, 3], [10]]
+    When current_page is 2
+        [[1, 2, 3], [10]]
+    When current_page is 3
+        [[1, 2, 3, 4], [10]]
+    When current_page is 4-7
+        [[1], [3, 4, 5], [10]]
+    When current_page is 8
+        [[1], [7,8, 9, 10]]
+    When current_page is 9
+        [[1], [8, 9, 10]]
+    When current_page is 10
+        [[1], [8, 9, 10]]
+    """
+    # If there are 4 or less items, just return a list containing 1 section.
+    if len(page_range) <= 4:
+        return [page_range]
+
+    # Build a list of lists for the differnet pagination sections
+    pagination_pages = []
+    current_page_index = page_range.index(current_page)
+    current_item = page_range[current_page_index]
+    first_item = page_range[0]
+    items = []
+    last_item = page_range[-1]
+
+    offsets = [-2, -1, 0, 1, 2]
+    for offset in offsets:
+        try:
+            new_item = page_range[current_page_index + offset]
+        except IndexError:
+            continue
+        if offset == 0:
+            items.append(new_item)
+        elif offset < 0 and new_item < current_item:
+            items.append(new_item)
+        elif offset > 0 and new_item > current_item:
+            items.append(new_item)
+
+    if first_item in items and last_item in items:
+        pagination_pages.append(items)
+    else:
+        if first_item in items:
+            new_items = items[:3]
+            if new_items.index(current_item) == 2:
+                new_items = items[:4]
+            pagination_pages.append(new_items)
+            pagination_pages.append([last_item])
+        elif last_item in items:
+            new_items = items[-3:]
+            if new_items.index(current_item) == 0:
+                new_items = items[-4:]
+            pagination_pages.append([first_item])
+            pagination_pages.append(new_items)
+        else:
+            pagination_pages.append([first_item])
+            pagination_pages.append(items[1:4])
+            pagination_pages.append([last_item])
+
+    return pagination_pages

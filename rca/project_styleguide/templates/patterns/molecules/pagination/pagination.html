@@ -1,3 +1,5 @@
+{% load util_tags %}
+
 {% if subpages.paginator.num_pages > 1 %}
 <nav class="pagination" aria-label="Pagination">
     <ul class="pagination__container body body--two">
@@ -11,25 +13,20 @@
                 </a>
             </li>
         {% endif %}
-        {% for i in subpages.paginator.page_range|slice:"3" %}
-            <li class="pagination__item">
-                <a href="?page={{i}}&{% for value in extra_query_params %}{{ value }}&amp;{% endfor %}" class="pagination__link">{{i}}</a>
-            </li>
-        {% endfor %}
-        <br>
 
-        {% if subpages.paginator.page_range|last > 3 %}
-            <li class="pagination__item">
-                ...
-            </li>
-            {% for i in subpages.paginator.page_range|slice:"-3:" %}
-                {% if i > 3 %}
-                    <li class="pagination__item">
-                        <a href="?page={{i}}&{% for value in extra_query_params %}{{ value }}&amp;{% endfor %}" class="pagination__link">{{i}}</a>
-                    </li>
-                {% endif %}
+        {% for pagination_section in subpages.paginator.page_range|slice_pagination:subpages.number %}
+            {% if not forloop.first %}
+                <li class="pagination__item">
+                    ...
+                </li>
+            {% endif %}
+            {% for i in pagination_section %}
+                <li class="pagination__item {% if i == subpages.number %}pagination__item--current{% endif %}">
+                    <a href="?page={{i}}&{% for value in extra_query_params %}{{ value }}&amp;{% endfor %}" class="pagination__link">{{i}}</a>
+                </li>
             {% endfor %}
-        {% endif %}
+        {% endfor %}
+
         {% if subpages.has_next %}
             <li class="pagination__button pagination__button--next">
                 <a class="pagination__button-link" href="?page={{ subpages.next_page_number }}&{% for value in extra_query_params %}{{ value }}&amp;{% endfor %}" class="next">

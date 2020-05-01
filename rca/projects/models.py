@@ -548,14 +548,16 @@ class ProjectPickerPage(BasePage):
             context["show_featured_project"] = False
 
         project_results = self.get_results(request, projects_query, active_filters)
+
         # Pagination
-        paginator = Paginator(project_results, 1)
+        paginator = Paginator(project_results, 24)
         try:
             project_results = paginator.page(page)
         except PageNotAnInteger:
             project_results = paginator.page(1)
         except EmptyPage:
             project_results = paginator.page(paginator.num_pages)
+
         context["results"] = project_results
         context["results_count"] = paginator.count
 
