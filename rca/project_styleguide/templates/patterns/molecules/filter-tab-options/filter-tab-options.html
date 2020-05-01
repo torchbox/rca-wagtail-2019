@@ -17,9 +17,10 @@
         {% endif %}
 
         <div class="filter-tab-options__content">
-            {% for item in filter_options %}
+            {% for filter_item in filter_options %}
                 <div class="filter-tab-options__item layout__span-two layout__@large-span-one">
-                    <a href="#" class="filter-tab-options__link body body--one" data-filter-option>{{ item.title }}</a>
+                    <input class="filter-tab-options__checkbox" type="checkbox" id="filter-{{ filter_item.id }}" name="{{ item.tab_title|slugify }}" value="{{ filter_item.id }}" {% if filter_item.active %}checked{% endif %} />
+                    <label class="filter-tab-options__link body body--one" for="filter-{{ filter_item.id }}" data-filter-option>{{ filter_item.title }}</label>
                 </div>
             {% endfor %}
         </div>
