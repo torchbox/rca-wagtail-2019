@@ -1,4 +1,7 @@
+from urllib.parse import urlparse
+
 from django import template
+from django.conf import settings
 from wagtail.core.utils import camelcase_to_underscore
 
 from rca.utils.models import SocialMediaSettings
@@ -63,3 +66,45 @@ def social_media_links(context):
         "label": "Linkedin",
     }
     return [twitter, facebook, instagram, youtube, linkedin]
+
+
+default_domains = [
+    settings.BASE_URL,
+    "rca-production.herokuapp.com",
+    "rca-staging.herokuapp.com",
+    "rca-development.herokuapp.com",
+    "rca.ac.uk",
+    "www.rca.ac.uk",
+    "0.0.0.0",
+    "localhost",
+]
+
+
+@register.simple_tag(name="is_external")
+def is_external(*args):
+    """
+    Work out if a url value or values is in the list of default domains.
+    If it isn't, return True. Instead of populating an href and target together,
+    which would be preferable, this can also be used in classes on the front end for
+    icons.
+
+    example single {% is_external 'https://bbc.co.uk' %} would return True
+    example empty {% is_external '' '' %} would return False
+    example multiple {% is_external 'https://rca.ac.uk' 'https://bbc.co.uk' %} would return False
+
+    Returns:
+        Boolean -- True if the url value is not in the list of default domains
+    """
+    is_external = False
+    # find the first non empty value
+    try:
+        link = next(s for s in args if s)
+    except StopIteration:
+        # incase we get passed empty strings
+        return False
+
+    if link:
+        if urlparse(link).hostname not in default_domains:
+            return True
+
+    return is_external
