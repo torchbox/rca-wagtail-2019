@@ -5,6 +5,11 @@
             {% if heading %}
                 <h2 class="image-video-block__heading heading {% if curriculum %}heading--two{% else %}heading--one{% endif %}">{% if curriculum %}Curriculum{% else %}{{ heading }}{% endif %}</h2>
             {% endif %}
+            {% if school %}
+                <div class="image-video-block__school image-video-block__school--mobile body body--support">
+                    {{ school }}
+                </div>
+            {% endif %}
             {% if has_meta and subheading %}<h3 class="image-video-block__subheading heading heading--four image-video-block__subheading--mobile">{{ subheading }}</h3>{% endif %} 
         </div>
     {% endif %}
@@ -17,6 +22,11 @@
     {% endif %}
     {% if has_meta or subheading or copy %} 
         <div class="section__row grid">
+            {% if school %}
+                <div class="image-video-block__school body body--support">
+                    {{ school }}
+                </div>
+            {% endif %}
             <h3 class="image-video-block__subheading heading heading--four {% if has_meta %}image-video-block__subheading--tablet{% endif %}">{{ subheading }}</h3>
             {% if has_meta %}
                 <div class="image-video-block__meta">
