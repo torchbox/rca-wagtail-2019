@@ -150,8 +150,10 @@ class ShortCoursePage(BasePage):
     external_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="External Links"
     )
+    application_form_url = models.URLField(blank=True)
     access_planit_and_course_data_panels = [
         FieldPanel("access_planit_course_id"),
+        FieldPanel("application_form_url"),
         MultiFieldPanel(
             [
                 FieldPanel("course_details_text"),
@@ -240,12 +242,21 @@ class ShortCoursePage(BasePage):
         # a modal, this link is also used as a generic interest link too though.
         booking_bar["link"] = register_interest_link
 
+        # Swap to 'apply' if an aplication form has been set
+
         if access_planit_data:
+            booking_action = "Book"
+            if self.application_form_url:
+                booking_action = "Apply"
+
             for date in access_planit_data:
+
                 if date["status"] == "Available":
                     booking_bar["message"] = "Next course starts"
                     booking_bar["date"] = date["start_date"]
-                    booking_bar["action"] = f"Book now from \xA3{date['cost']}"
+                    booking_bar[
+                        "action"
+                    ] = f"{booking_action} now from \xA3{date['cost']}"
                     booking_bar["cost"] = date["cost"]
                     booking_bar["link"] = None
                     booking_bar["modal"] = "booking-details"
