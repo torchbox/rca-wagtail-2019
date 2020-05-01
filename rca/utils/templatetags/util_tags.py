@@ -103,6 +103,11 @@ def is_external(*args):
         # incase we get passed empty strings
         return False
 
+    if link == "#":
+        # Pattern library links are all '#' which will be internal.
+        # This is important for setting the link class
+        return False
+
     if link:
         if urlparse(link).hostname not in default_domains:
             return True
