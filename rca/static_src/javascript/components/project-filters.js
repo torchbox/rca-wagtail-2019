@@ -189,7 +189,6 @@ class ProjectFilters {
         this.detectPositionSticky();
 
         // Check for existing filters on page load
-        console.log(this.filter);
         this.checkCategoryActive(this.filter);
 
         // If items selected then show reset
