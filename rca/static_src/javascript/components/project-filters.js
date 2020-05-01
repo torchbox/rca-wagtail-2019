@@ -119,6 +119,8 @@ class ProjectFilters {
             categoryResetButton.forEach((item) => {
                 item.classList.add('hidden');
             });
+        } else {
+            this.CategorySelected(filter);
         }
     }
 
@@ -185,6 +187,12 @@ class ProjectFilters {
     bindEvents() {
         // Detect when sticky
         this.detectPositionSticky();
+
+        // Check for existing filters on page load
+        this.checkCategoryActive(this.filter);
+
+        // If items selected then show reset
+        this.checkResetStatus();
 
         // Filters
         this.filter.addEventListener('click', (e) => {
