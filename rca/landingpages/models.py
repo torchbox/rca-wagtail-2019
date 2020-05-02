@@ -381,7 +381,7 @@ class InnovationLandingPage(LandingPage):
                 InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
                 PageChooserPanel("highlights_page_link"),
             ],
-            heading=_("Highlight pages carousel"),
+            heading=_("Featured projects"),
         ),
         MultiFieldPanel(
             [
