@@ -12,8 +12,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="landingpage", name="highlights_link_text",),
-        migrations.RemoveField(model_name="landingpage", name="highlights_link_url",),
+        migrations.RemoveField(model_name="landingpage", name="highlights_link_text"),
+        migrations.RemoveField(model_name="landingpage", name="highlights_link_url"),
         migrations.AddField(
             model_name="landingpage",
             name="highlights_page_link",
