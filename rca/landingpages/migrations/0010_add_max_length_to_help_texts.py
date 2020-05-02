@@ -5,9 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("landingpages", "0009_update_to_allow_blank"),
-    ]
+    dependencies = [("landingpages", "0009_update_to_allow_blank")]
 
     operations = [
         migrations.AlterField(
