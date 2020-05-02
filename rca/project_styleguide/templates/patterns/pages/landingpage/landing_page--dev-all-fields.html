@@ -144,10 +144,10 @@
                         {% endif %}
                         <div class="section__content grid">
                             {% include "patterns/organisms/carousel/carousel.html" with carousel=related_pages_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}
-                            {% if page.highlights_link_text %}
+                            {% if page.highlights_page_link %}
                                 <div class="section__action">
-                                    <a class="link link--primary link--link body body--two" href="{{ page.highlights_link_url }}">
-                                        <span class="link__label">{{ page.highlights_link_text }}</span>
+                                    <a class="link link--primary link--link body body--two" href="{% pageurl page.highlights_page_link %}">
+                                        <span class="link__label">{{ page.highlights_page_link.title }}</span>
                                         <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                     </a>
                                 </div>

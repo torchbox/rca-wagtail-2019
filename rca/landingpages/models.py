@@ -71,16 +71,18 @@ class LandingPageStatsBlock(models.Model):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    link_url = models.URLField(blank=True)
-    link_text = models.CharField(
-        blank=True, max_length=255, help_text=_("Maximum length of 255 characters")
+    page_link = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
     )
     panels = [
         FieldPanel("title"),
         ImageChooserPanel("background_image"),
         StreamFieldPanel("statistics"),
-        FieldPanel("link_url"),
-        FieldPanel("link_text"),
+        PageChooserPanel("page_link"),
     ]
 
     def __str__(self):
@@ -124,14 +126,6 @@ class HomePageSlideshowBlock(models.Model):
         return self.title
 
 
-"""
-TODO Explain this class, and the other classes better
-- why this isn't abstract
-- how we relabel fields
-- why did I do this?
-"""
-
-
 class LandingPage(BasePage):
     """ Defines all the fields we will need for the other versions of landing pages
     visibility of some extra fields that aren't needed on certain models which inherit LandingPage
@@ -159,15 +153,12 @@ class LandingPage(BasePage):
     highlights_title = models.TextField(
         max_length=80, blank=True, help_text=_("Maximum length of 80 characters")
     )
-    highlights_link_url = models.URLField(
-        blank=True, help_text=("Optional link to more information")
-    )
-    highlights_link_text = models.CharField(
-        max_length=80,
+    highlights_page_link = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
         blank=True,
-        help_text=_(
-            "The text to display for the link, maximum length of 80 characters"
-        ),
+        on_delete=models.SET_NULL,
+        related_name="+",
     )
 
     related_pages_title = models.TextField(
@@ -222,8 +213,6 @@ class LandingPage(BasePage):
             [
                 FieldPanel("highlights_title"),
                 InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
-                FieldPanel("highlights_link_url"),
-                FieldPanel("highlights_link_text"),
             ],
             heading=_("Highlight pages carousel"),
         ),
@@ -338,8 +327,7 @@ class ResearchLandingPage(LandingPage):
             [
                 FieldPanel("highlights_title"),
                 InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
-                FieldPanel("highlights_link_url"),
-                FieldPanel("highlights_link_text"),
+                PageChooserPanel("highlights_page_link"),
             ],
             heading=_("Highlight pages carousel"),
         ),
@@ -391,10 +379,9 @@ class InnovationLandingPage(LandingPage):
             [
                 FieldPanel("highlights_title"),
                 InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
-                FieldPanel("highlights_link_url"),
-                FieldPanel("highlights_link_text"),
+                PageChooserPanel("highlights_page_link"),
             ],
-            heading=_("Pages carousel"),
+            heading=_("Highlight pages carousel"),
         ),
         MultiFieldPanel(
             [
