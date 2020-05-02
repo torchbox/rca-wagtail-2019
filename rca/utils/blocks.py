@@ -215,12 +215,22 @@ class StoryBlock(blocks.StreamBlock):
         template = "patterns/molecules/streamfield/stream_block.html"
 
 
-class GuideBlock(StoryBlock):
+# Specific streamfield for the guide pages
+class GuideBlock(blocks.StreamBlock):
     anchor_heading = blocks.CharBlock(
         classname="full title",
         icon="title",
         template="patterns/molecules/streamfield/blocks/anchor_heading_block.html",
     )
+    heading = blocks.CharBlock(
+        classname="full title",
+        icon="title",
+        template="patterns/molecules/streamfield/blocks/heading_block.html",
+    )
+    paragraph = blocks.RichTextBlock()
+    image = ImageBlock()
+    quote = QuoteBlock()
+    embed = EmbedBlock()
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"

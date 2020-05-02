@@ -215,7 +215,6 @@ class ListingFields(models.Model):
     ]
 
 
-@register_snippet
 class CallToActionSnippet(models.Model):
     title = models.CharField(max_length=255)
     summary = RichTextField(blank=True, max_length=255)
