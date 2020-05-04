@@ -90,7 +90,7 @@
 
                 {% if featured_project and show_featured_project %}
                     <div class="section__row">
-                        {% include "patterns/organisms/image-video-block/image-video-block.html" with heading=false subheading=featured_project.introduction meta_heading=featured_project.meta_heading image=featured_project.image has_meta=True meta_copy=featured_project.listing_summary href=featured_project.url caption=false video=false school=featured_project.title %}
+                        {% include "patterns/organisms/image-video-block/image-video-block.html" with heading=false subheading=featured_project.title meta_heading=featured_project.meta_heading image=featured_project.image has_meta=True meta_copy=featured_project.listing_summary href=featured_project.link caption=false video=false school=featured_project.school %}
                     </div>
                 {% endif %}
 

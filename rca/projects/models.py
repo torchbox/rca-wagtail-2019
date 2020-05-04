@@ -204,7 +204,7 @@ class ProjectPage(BasePage):
     key_details_panels = [
         InlinePanel("subjects", label=_("RCA Experties")),
         InlinePanel("related_school_pages", label=_("Related schools")),
-        InlinePanel("related_research_pages", label=_("Related research cetnres")),
+        InlinePanel("related_research_pages", label=_("Related research centres")),
         InlinePanel("research_types", label=_("Research types")),
         FieldPanel("start_date"),
         FieldPanel("end_date"),
@@ -478,6 +478,8 @@ class ProjectPickerPage(BasePage):
                     "link": page.url,
                     "school": page.get_related_school(),
                     "year": year,
+                    "listing_summary": page.listing_summary,
+                    "meta_heading": page.listing_title,
                 }
             )
         return projects_formatted
@@ -540,12 +542,12 @@ class ProjectPickerPage(BasePage):
         projects_query = self.get_projects_query()
 
         context["filters"] = self.get_filters(active_filters, projects_query)
-        context["featured_project"] = self.featured_project
+        context["featured_project"] = self._format_results([self.featured_project])[0]
 
         # Don't show the featured project if queries are being made
         # or we aren't on the first page of the results
         context["show_featured_project"] = True
-        if context["extra_query_params"] or page != 1:
+        if context["extra_query_params"] or page != "1":
             context["show_featured_project"] = False
 
         project_results = self.get_results(request, projects_query, active_filters)
