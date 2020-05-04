@@ -1,5 +1,7 @@
 context:
-  reset: true
+  reset:
+    text: 'Reset'
+    href: '#'
   value:
     title: Explore by
     items:
