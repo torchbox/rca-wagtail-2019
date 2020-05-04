@@ -214,7 +214,7 @@ class LandingPage(BasePage):
                 FieldPanel("highlights_title"),
                 InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
             ],
-            heading=_("Highlight pages carousel"),
+            heading=_("Featured projects"),
         ),
         MultiFieldPanel(
             [
@@ -330,7 +330,7 @@ class ResearchLandingPage(LandingPage):
                 InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
                 PageChooserPanel("highlights_page_link"),
             ],
-            heading=_("Highlight pages carousel"),
+            heading=_("Featured projects"),
         ),
         MultiFieldPanel(
             [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
