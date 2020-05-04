@@ -245,8 +245,7 @@ class ProjectFilters {
         });
 
         // Reset
-        this.resetButton.addEventListener('click', (e) => {
-            e.preventDefault();
+        this.resetButton.addEventListener('click', () => {
             this.closeProjectFilters();
         });
 
