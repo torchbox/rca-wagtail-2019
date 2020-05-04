@@ -1,6 +1,7 @@
 from collections import defaultdict
 from urllib.parse import urlencode
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
@@ -550,7 +551,7 @@ class ProjectPickerPage(BasePage):
         project_results = self.get_results(request, projects_query, active_filters)
 
         # Pagination
-        paginator = Paginator(project_results, 24)
+        paginator = Paginator(project_results, settings.DEFAULT_PER_PAGE)
         try:
             project_results = paginator.page(page)
         except PageNotAnInteger:
