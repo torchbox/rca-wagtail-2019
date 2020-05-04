@@ -62,15 +62,11 @@
                     </div>
                 {% endif %}
 
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--first-col"></div>
-                </div>
-
             </section>
             {% if page.further_information %}
                 <section class="section bg bg--dark">
-                <div class="section__row short-course-accordion section__row--last">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.further_information course_type="short" title="On this page" %}
+                <div class="section__row short-course-accordion section__row--last" id="{{ page.further_information_title|slugify }}">
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.further_information course_type="short" title=page.further_information_title %}
                 </div>
                 </section>
             {% endif %}
