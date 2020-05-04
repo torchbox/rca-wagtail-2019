@@ -8,11 +8,11 @@ context:
 
 tags:
   image:
-    card.image fill-80x58 as image_small:
+    item.image fill-80x58 as image_small:
       target_var: image_small
       raw:
         url: '//placekitten.com/80/58'
-    card.image fill-392x284 as image_large:
+    item.image fill-392x284 as image_large:
       target_var: image_large
       raw:
         url: '//placekitten.com/392/284'
