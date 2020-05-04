@@ -1,5 +1,11 @@
 .results-total {
     $root: &;
+    position: relative;
+
+    &__anchor {
+        position: absolute;
+        top: -20px;
+    }
 
     .bg--dark & {
         #{$root}__number {

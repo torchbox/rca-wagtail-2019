@@ -32,7 +32,7 @@
             </div>
         </header>
 
-        <form class="page__content js-detect-sticking js-tabs" id="results" method="get" action="#results">
+        <form class="page__content js-detect-sticking js-tabs" method="get" action="#results">
 
             <section class="section section--opposite-notch bg bg--dark filter-bar filter-bar--large" data-filter-bar>
                 <div class="section__notch section__notch--opposite">
@@ -75,12 +75,13 @@
                 </div>
             </div>
 
-
-            <section class="section bg bg--light">
+            
+            <section class="section bg bg--light" >
 
                 {% if results %}
                     <div class="section__row section__row--first-small section__row--last-small grid">
                         <div class="results-total heading heading--four layout__start-one layout__span-two layout__@large-start-two">
+                            <span class="results-total__anchor" id="results"></span>
                             <span class="results-total__type">Projects</span>
                             <span class="results-total__number">{{ results_count }}</span>
                         </div>
