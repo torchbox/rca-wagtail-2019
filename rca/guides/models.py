@@ -91,13 +91,18 @@ class GuidePage(BasePage):
         related_pages = {"title": self.related_pages_title, "items": []}
         for related_page in self.related_pages.all():
             page = related_page.page.specific
+            introduction = page.listing_summary
+            if hasattr(page, "programme_description_subtitle"):
+                introduction = page.programme_description_subtitle
+            if hasattr(page, "introduction"):
+                introduction = page.introduction
             related_pages["items"].append(
                 {
                     "page": page,
                     "title": page.listing_title if page.listing_title else page.title,
                     "image": page.listing_image,
                     "link": page.url,
-                    "description": page.listing_summary,
+                    "description": introduction,
                 }
             )
         return related_pages
