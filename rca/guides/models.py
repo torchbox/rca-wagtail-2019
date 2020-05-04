@@ -28,6 +28,7 @@ class GuidePage(BasePage):
 
     introduction = models.CharField(max_length=500, blank=True)
     body = StreamField(GuideBlock())
+    further_information_title = models.CharField(blank=True, max_length=120)
     further_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
@@ -49,7 +50,13 @@ class GuidePage(BasePage):
         FieldPanel("introduction"),
         StreamFieldPanel("body"),
         MultiFieldPanel([InlinePanel("related_staff")], heading=_("Related staff")),
-        StreamFieldPanel("further_information"),
+        MultiFieldPanel(
+            [
+                FieldPanel("further_information_title"),
+                StreamFieldPanel("further_information"),
+            ],
+            heading=_("Further information"),
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("related_pages_title"),
@@ -77,6 +84,13 @@ class GuidePage(BasePage):
                 items.append({"title": block.value, "link": f"#{slugify(block.value)}"})
         if self.related_staff.first():
             items.append({"title": "Staff", "link": "#staff"})
+        if self.further_information_title:
+            items.append(
+                {
+                    "title": self.further_information_title,
+                    "link": f"#{slugify(self.further_information_title)}",
+                }
+            )
         if self.related_pages_title:
             items.append(
                 {
