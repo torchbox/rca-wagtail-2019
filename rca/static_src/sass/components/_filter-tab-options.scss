@@ -53,6 +53,10 @@
 
     &__item {
         margin-bottom: $gutter;
+
+        @include media-query(large) {
+            overflow: hidden;
+        }
     }
 
     &__link {
