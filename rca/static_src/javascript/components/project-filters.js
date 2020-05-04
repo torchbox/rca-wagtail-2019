@@ -140,6 +140,27 @@ class ProjectFilters {
         }
     }
 
+    checkClearStatus() {
+        const activeCategories = [];
+
+        Array.prototype.map.call(this.categoryButtons, (element) => {
+            if (
+                element.classList.contains('categories-tablist__tab--selected')
+            ) {
+                activeCategories.push(element);
+            }
+        });
+
+        activeCategories.forEach((category) => {
+            const ActiveTabID = category.getAttribute('data-tab');
+            const ActiveTabClearButton = document
+                .getElementById(ActiveTabID)
+                .querySelector('[data-filters-clear-category]');
+            console.log(ActiveTabClearButton);
+            ActiveTabClearButton.classList.remove('hidden');
+        });
+    }
+
     applyThemeDark() {
         this.filterBar.classList.remove('bg', 'bg--light');
         this.filterBar.classList.add('bg', 'bg--dark');
@@ -193,6 +214,9 @@ class ProjectFilters {
 
         // If items selected then show reset
         this.checkResetStatus();
+
+        // Check if clear needed
+        this.checkClearStatus();
 
         // Filters
         this.filter.addEventListener('click', (e) => {
