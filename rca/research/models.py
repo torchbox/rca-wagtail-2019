@@ -116,6 +116,13 @@ class ResearchCentrePage(BasePage):
             "The title value displayed above the Research centre news carousel"
         ),
     )
+    highlights_title = models.CharField(
+        max_length=120,
+        blank=True,
+        help_text=_(
+            "The title value displayed above the Research highlights gallery showing project pages"
+        ),
+    )
     related_programmes_title = models.CharField(
         max_length=250,
         help_text=_(
@@ -158,6 +165,7 @@ class ResearchCentrePage(BasePage):
             [InlinePanel("research_spaces", label="Research spaces")],
             heading="Research spaces",
         ),
+        FieldPanel("highlights_title"),
         MultiFieldPanel(
             [InlinePanel("research_opportunities", label="Research opportunities")],
             heading="Research opportunities",
@@ -227,8 +235,8 @@ class ResearchCentrePage(BasePage):
                 {
                     "title": page.title,
                     "link": page.url,
-                    "image": page.listing_image,
-                    "description": page.listing_summary,
+                    "image": page.hero_image,
+                    "description": page.introduction,
                 }
             )
         return child_projects
