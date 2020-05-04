@@ -226,8 +226,8 @@ class ResearchCentrePage(BasePage):
                 {
                     "title": page.title,
                     "link": page.url,
-                    "image": page.listing_image,
-                    "description": page.listing_summary,
+                    "image": page.hero_image,
+                    "description": page.introduction,
                 }
             )
         return child_projects
