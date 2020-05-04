@@ -7,9 +7,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("landingpages", "0012_swap_for_page_chooser"),
-    ]
+    dependencies = [("landingpages", "0012_swap_for_page_chooser")]
 
     operations = [
         migrations.AlterField(
@@ -72,5 +70,5 @@ class Migration(migrations.Migration):
                 ],
                 blank=True,
             ),
-        ),
+        )
     ]
