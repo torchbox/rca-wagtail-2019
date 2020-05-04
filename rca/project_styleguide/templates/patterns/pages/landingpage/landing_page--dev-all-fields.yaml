@@ -98,38 +98,6 @@ context:
     middle_feature_meta_heading: Join a thriving community of more than 250 MPhil and PhD students
     middle_feature_meta_text: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
     middle_feature_meta_link: '#'
-    stats_block:
-      title: Lorem ipsum dolor sit
-      default_notch_override: true
-      link: '#'
-      action: See all Outcomes
-      statistics:
-        - stat:
-          value:
-            after: '%'
-            number: 70
-            summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut semper accumsan urna.
-        - stat:
-          value:
-            after: '%'
-            number: 33
-            meta: Nationalities
-            summary: 1 in 3 of our graduates are business owners or independent professionals
-        - stat:
-          value:
-            number: 76
-            meta: Nationalities
-            summary: Our students come from all corners of the globe.
-        - stat:
-          value:
-            after: st
-            number: 1
-            summary: We're the top rated art & design university in the world.
-        - stat:
-          value:
-            number: 100
-            meta: Lorem Ipsum
-            summary: Our students come from all corners of the globe.
     startups:
       - slide:
         meta: 'Startups'
@@ -290,9 +258,9 @@ context:
     description: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
     get_link_text: Read more
     get_link_url: '#'
+  stats_block_default_notch_override: True
   stats_block:
     title: Lorem ipsum dolor sit
-    default_notch_override: true
     link_url: '#'
     link_text: See all Outcomes
     statistics:

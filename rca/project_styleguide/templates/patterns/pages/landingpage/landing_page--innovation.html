@@ -73,11 +73,11 @@
             {% endif %}
 
             {% if stats_block %}
-                {% include "patterns/organisms/stat-block/stat-block.html" with stats_block=stats_block %}
+                {% include "patterns/organisms/stat-block/stat-block.html" with stats_block=stats_block stats_block_default_notch_override=True %}
             {% endif %}
 
              {% if related_pages_highlights %}
-                <section class="landing-page__top section section--start bg bg--light">
+                <section class="landing-page__top section section--opposite-notch section--start bg bg--light">
 
                     <div class="section__row section__row--last-large research-highlights">
                         {% if page.highlights_title %}

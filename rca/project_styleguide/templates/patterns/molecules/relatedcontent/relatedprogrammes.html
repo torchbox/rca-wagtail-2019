@@ -49,7 +49,7 @@
                     </div>
                 {% endfor %}
             </div>
-            {% if related_section.link.url %}
+            {% if related_section.link.url and related_section.link.title  %}
                 <div class="grid">
                     <div class="section__action">
                         <a class="link link--secondary link--link body body--one" href="{{ related_section.link.url }}">

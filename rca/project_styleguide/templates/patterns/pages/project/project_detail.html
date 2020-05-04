@@ -66,8 +66,6 @@
                     </div>
                 </div>
 
-
-
                 <div class="section__notch">
                     <div class="section__notch-fill section__notch-fill--first-col"></div>
                 </div>
@@ -91,9 +89,11 @@
 
                     </div>
 
-                    <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--first-col"></div>
-                    </div>
+                    {% if page.more_information %}
+                        <div class="section__notch">
+                            <div class="section__notch-fill section__notch-fill--first-col"></div>
+                        </div>
+                    {% endif %}
 
                 </section>
             {% endif %}

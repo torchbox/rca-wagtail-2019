@@ -1,7 +1,7 @@
 context:
+  stats_block_default_notch_override: True
   stats_block:
     title: Lorem ipsum dolor sit
-    default_notch_override: true
     bg_image_url: '//placekitten.com/1000/500'
     link: '#'
     action: See all Outcomes
