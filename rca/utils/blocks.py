@@ -85,6 +85,17 @@ class LinkBlock(blocks.StructBlock):
         icon = "link"
         template = "patterns/molecules/streamfield/blocks/link_block.html"
 
+    def clean(self, value):
+        result = super().clean(value)
+        errors = {}
+
+        if value["url"] and not value["title"]:
+            errors["title"] = ErrorList(["Please add title value to display."])
+
+        if errors:
+            raise ValidationError("Validation error in LinkBlock", params=errors)
+        return result
+
 
 class GalleryBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=False)
