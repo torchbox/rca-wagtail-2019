@@ -53,18 +53,6 @@
 
     &__item {
         margin-bottom: $gutter;
-
-        &:nth-child(1n) {
-            @include media-query(large) {
-                grid-column-start: 1;
-            }
-        }
-
-        &:nth-child(2n) {
-            @include media-query(large) {
-                grid-column-start: 3;
-            }
-        }
     }
 
     &__link {
