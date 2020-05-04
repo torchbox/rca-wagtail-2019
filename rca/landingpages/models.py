@@ -286,6 +286,7 @@ class LandingPage(BasePage):
                 "title": block.value["heading"],
                 "related_items": [],
                 "link": block.value["link"],
+                "page_link": block.value["page_link"],
             }
             for page in block.value["page"]:
                 page = page.value.specific
