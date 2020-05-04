@@ -547,7 +547,7 @@ class ProjectPickerPage(BasePage):
         # Don't show the featured project if queries are being made
         # or we aren't on the first page of the results
         context["show_featured_project"] = True
-        if context["extra_query_params"] or page != "1":
+        if context["extra_query_params"] or str(page) != "1":
             context["show_featured_project"] = False
 
         project_results = self.get_results(request, projects_query, active_filters)
