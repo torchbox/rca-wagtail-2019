@@ -89,7 +89,7 @@ def slice_pagination(page_range, current_page):
     if len(page_range) <= 4:
         return [page_range]
 
-    # Build a list of lists for the differnet pagination sections
+    # Build a list of lists for the different pagination sections
     pagination_pages = []
     current_page_index = page_range.index(current_page)
     current_item = page_range[current_page_index]

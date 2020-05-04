@@ -196,7 +196,6 @@ class ProjectFilters {
 
         // Filters
         this.filter.addEventListener('click', (e) => {
-            e.preventDefault();
             const filterItem = e.target;
             const closestClearButton = e.currentTarget
                 .closest('.filter-tab-options__container')
