@@ -1,4 +1,5 @@
 from collections import defaultdict
+from itertools import chain
 
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -283,15 +284,18 @@ class ResearchCentrePage(BasePage):
 
     def get_related_programme_pages(self):
         from rca.programmes.models import ProgrammePage
+        from rca.shortcourses.models import ShortCoursePage
 
         programme_pages_qs = ProgrammePage.objects.filter(
             related_schools_and_research_pages__page_id=self.id
         )
+        short_course_pages_qs = ShortCoursePage.objects.filter(
+            related_schools_and_research_pages__page_id=self.id
+        )
+        qs = list(chain(programme_pages_qs, short_course_pages_qs))
+
         programme_pages = [
-            {
-                "title": self.related_programmes_title,
-                "related_items": programme_pages_qs,
-            }
+            {"title": self.related_programmes_title, "related_items": qs}
         ]
         return programme_pages
 

@@ -22,7 +22,7 @@
                             {{ related_item.title }}
                         </a>
                     </p>
-                    <p class="related-content__degree body body--one">{{ related_item.degree_level }}</p>
+                    <p class="related-content__degree body body--one">{% firstof related_item.degree_level related_item.programme_type %}</p>
                 </div>
                 <p class="related-content__copy body body--one">
                     {{ related_item.programme_description_subtitle }}
