@@ -156,7 +156,6 @@ class ProjectFilters {
             const ActiveTabClearButton = document
                 .getElementById(ActiveTabID)
                 .querySelector('[data-filters-clear-category]');
-            console.log(ActiveTabClearButton);
             ActiveTabClearButton.classList.remove('hidden');
         });
     }
