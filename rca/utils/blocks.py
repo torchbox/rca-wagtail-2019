@@ -175,6 +175,22 @@ class RelatedPageListBlock(blocks.StructBlock):
         help_text="An optional link to display below the expanded content",
         required=False,
     )
+    page_link = blocks.PageChooserBlock(required=False)
+
+    def clean(self, value):
+        result = super().clean(value)
+        errors = {}
+
+        if value["link"]["url"] and value["page_link"]:
+            errors["page_link"] = ErrorList(
+                ["Please only add a link to a page or an absolute URL"]
+            )
+
+        if errors:
+            raise ValidationError(
+                "Validation error in RelatedPageListBlock", params=errors
+            )
+        return result
 
 
 class CallToActionBlock(blocks.StructBlock):
