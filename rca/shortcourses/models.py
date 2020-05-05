@@ -61,6 +61,15 @@ class ShortCoursePageRelatedProgramme(RelatedPage):
     ]
 
 
+class ShortCoursRelatedSchoolsAndResearchPages(RelatedPage):
+    source_page = ParentalKey(
+        "ShortCoursePage", related_name="related_schools_and_research_pages"
+    )
+    panels = [
+        PageChooserPanel("page", ["schools.SchoolPage", "research.ResearchCentrePage"])
+    ]
+
+
 class ShortCoursePage(BasePage):
     template = "patterns/pages/shortcourses/short_course.html"
 
@@ -200,6 +209,15 @@ class ShortCoursePage(BasePage):
         MultiFieldPanel(
             [InlinePanel("related_programmes", label="Related programmes")],
             heading="Related Programmes",
+        ),
+        MultiFieldPanel(
+            [
+                InlinePanel(
+                    "related_schools_and_research_pages",
+                    label=_("Related Schools and Research centres"),
+                )
+            ],
+            heading=_("Related Schools and Research Centre pages"),
         ),
         StreamFieldPanel("external_links"),
     ]
