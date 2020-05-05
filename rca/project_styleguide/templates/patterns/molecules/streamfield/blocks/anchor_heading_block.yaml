@@ -1,3 +1,4 @@
 context:
-  title: 'Heading text'
-  id: 'one'
+  value:
+    title: 'Heading text'
+    id: 'one'
