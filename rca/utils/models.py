@@ -363,8 +363,13 @@ class BasePage(SocialFields, ListingFields, Page):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["hero_colour"] = LIGHT_HERO
-        if int(self.hero_colour_option) == DARK_TEXT_ON_LIGHT_IMAGE:
+        if (
+            hasattr(self, "hero_colour_option")
+            and self.hero_colour_option == DARK_TEXT_ON_LIGHT_IMAGE
+        ):
             context["hero_colour"] = DARK_HERO
+        return context
+
         return context
 
 
