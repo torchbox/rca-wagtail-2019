@@ -33,7 +33,7 @@
 
             <section class="research-top section bg bg--dark">
 
-                <div class="section__row research-centre-overview">
+                <div class="section__row research-centre-overview {% if not research_spaces and not projects %}research-centre-overview--no-margin{% endif %}">
                     <div class="section__content grid">
                         <div class="research-centre-overview__content">
                             <div class="research-centre-overview__body">
@@ -166,9 +166,11 @@
                         </div>
                     </div>
 
-                    <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--third-col"></div>
-                    </div>
+                    {% if page.news_and_events or page.related_links %}
+                        <div class="section__notch">
+                            <div class="section__notch-fill section__notch-fill--third-col"></div>
+                        </div>
+                    {% endif %}
 
                 </section>
             {% endif %}
