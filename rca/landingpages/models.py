@@ -12,19 +12,13 @@ from wagtail.core.fields import StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from rca.home.models import (
-    DARK_HERO,
-    HERO_COLOUR_CHOICES,
-    LIGHT_HERO,
-    LIGHT_TEXT_ON_DARK_IMAGE,
-)
 from rca.utils.blocks import (
     CallToActionBlock,
     RelatedPageListBlock,
     SlideBlock,
     StatisticBlock,
 )
-from rca.utils.models import BasePage, LinkFields, RelatedPage
+from rca.utils.models import HERO_COLOUR_CHOICES, BasePage, LinkFields, RelatedPage
 
 
 class FeaturedImage(LinkFields):
@@ -276,9 +270,6 @@ class LandingPage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["hero_colour"] = DARK_HERO
-        if self.hero_colour_option == LIGHT_TEXT_ON_DARK_IMAGE:
-            context["hero_colour"] = LIGHT_HERO
         context["about_page"] = self.about_page
         context["related_pages_highlights"] = self.get_related_pages(
             self.related_pages_highlights
