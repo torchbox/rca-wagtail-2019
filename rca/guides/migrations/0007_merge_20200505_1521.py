@@ -5,8 +5,6 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("guides", "0006_extra_title_field"),
-    ]
+    dependencies = [("guides", "0006_extra_title_field")]
 
     operations = []
