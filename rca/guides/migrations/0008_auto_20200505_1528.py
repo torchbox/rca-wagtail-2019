@@ -9,9 +9,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("guides", "0007_merge_20200505_1521"),
-    ]
+    dependencies = [("guides", "0007_merge_20200505_1521")]
 
     operations = [
         migrations.AlterField(
@@ -73,5 +71,5 @@ class Migration(migrations.Migration):
                     ("embed", wagtail.embeds.blocks.EmbedBlock()),
                 ]
             ),
-        ),
+        )
     ]
