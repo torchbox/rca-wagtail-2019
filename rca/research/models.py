@@ -287,8 +287,8 @@ class ResearchCentrePage(BasePage):
                         "value": {
                             "title": page.title,
                             "link": page.url,
-                            "image": page.listing_image,
-                            "summary": page.listing_summary,
+                            "image": page.hero_image if hasattr(page, 'hero_image') else page.listing_image,
+                            "summary":  page.introduction if hasattr(page, "introduction") else page.listing_summary,
                         }
                     }
                 )
