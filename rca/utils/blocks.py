@@ -85,6 +85,17 @@ class LinkBlock(blocks.StructBlock):
         icon = "link"
         template = "patterns/molecules/streamfield/blocks/link_block.html"
 
+    def clean(self, value):
+        result = super().clean(value)
+        errors = {}
+
+        if value["url"] and not value["title"]:
+            errors["title"] = ErrorList(["Please add title value to display."])
+
+        if errors:
+            raise ValidationError("Validation error in LinkBlock", params=errors)
+        return result
+
 
 class GalleryBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=False)
@@ -164,6 +175,22 @@ class RelatedPageListBlock(blocks.StructBlock):
         help_text="An optional link to display below the expanded content",
         required=False,
     )
+    page_link = blocks.PageChooserBlock(required=False)
+
+    def clean(self, value):
+        result = super().clean(value)
+        errors = {}
+
+        if value["link"]["url"] and value["page_link"]:
+            errors["page_link"] = ErrorList(
+                ["Please only add a link to a page or an absolute URL"]
+            )
+
+        if errors:
+            raise ValidationError(
+                "Validation error in RelatedPageListBlock", params=errors
+            )
+        return result
 
 
 class CallToActionBlock(blocks.StructBlock):

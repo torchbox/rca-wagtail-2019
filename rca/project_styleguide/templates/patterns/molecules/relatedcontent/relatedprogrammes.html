@@ -38,22 +38,31 @@
                         </p>
                         {% if related_item.degree_level %}
                             <p class="related-content__degree body body--two">{{ related_item.degree_level }}</p>
+                        {% elif related_item.programme_type %}
+                            <p class="related-content__degree body body--two">{{ related_item.programme_type }}</p>
                         {% endif %}
                     </div>
                     <p class="related-content__copy body body--two">
-                        {{ related_item.programme_description_subtitle }}
+                        {% firstof related_item.programme_description_subtitle related_item.introduction related_item.listing_summary %}
                     </p>
-                    {% image related_item.hero_image fill-500x500 as programme_image %}
+
+                    {# we are re-using this component for some page types that don't have hero images :/ #}
+                    {% if related_item.hero_image %}
+                        {% image related_item.hero_image fill-500x500 as programme_image %}
+                    {% else %}
+                        {% image related_item.listing_image fill-500x500 as programme_image %}
+                    {% endif %}
                     <div class="related-content__image-container">
                         <img class="related-content__image {% if forloop.first %}is-visible{% endif %}" src="{{ programme_image.url }}" alt="{{ programme_image.alt }}" data-image="{{ forloop.counter }}">
                     </div>
+
                 {% endfor %}
             </div>
-            {% if related_section.link.url and related_section.link.title  %}
+            {% if related_section.link.url and related_section.link.title or related_section.page_link  %}
                 <div class="grid">
                     <div class="section__action">
-                        <a class="link link--secondary link--link body body--one" href="{{ related_section.link.url }}">
-                            <span class="link__label">{{ related_section.link.title }}</span>
+                        <a class="link link--secondary link--link body body--one" href="{% firstof related_section.link.url related_section.page_link.url %}">
+                            <span class="link__label">{% firstof related_section.link.title related_section.page_link.title 'Read more' %}</span>
                             <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                         </a>
                     </div>
