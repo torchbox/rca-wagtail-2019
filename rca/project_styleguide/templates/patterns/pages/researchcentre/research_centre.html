@@ -128,9 +128,11 @@
 
                         {% include "patterns/molecules/relatedcontent/relatedprogrammes--large.html" with related_sections=related_programmes title=related_programmes.0.title %}
 
-                    <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--first-col"></div>
-                    </div>
+                    {% if related_staff %}
+                        <div class="section__notch">
+                            <div class="section__notch-fill section__notch-fill--first-col"></div>
+                        </div>
+                    {% endif %}
 
                 </section>
             {% endif %}
