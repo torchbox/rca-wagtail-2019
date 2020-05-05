@@ -95,7 +95,6 @@ def is_external(*args):
     Returns:
         Boolean -- True if the url value is not in the list of default domains
     """
-    is_external = False
     # find the first non empty value
     try:
         link = next(s for s in args if s)
@@ -108,4 +107,4 @@ def is_external(*args):
         if urlparse(link).hostname not in default_domains:
             return True
 
-    return is_external
+    return False
