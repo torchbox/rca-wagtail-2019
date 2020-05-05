@@ -566,6 +566,6 @@ class ProjectPickerPage(BasePage):
 
         # Set hero colour
         context["hero_colour"] = LIGHT_HERO
-        context["reset"] = {"href": self.get_full_url(), "text": "reset"}
+        context["reset"] = {"href": self.get_full_url(), "text": "Reset"}
 
         return context
