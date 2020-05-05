@@ -17,17 +17,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.api_content import content
 from rca.utils.blocks import SlideBlock, StatisticBlock
-from rca.utils.models import BasePage
-
-LIGHT_TEXT_ON_DARK_IMAGE = 1
-DARK_TEXT_ON_LIGHT_IMAGE = 2
-DARK_HERO = "dark"
-LIGHT_HERO = "light"
-
-HERO_COLOUR_CHOICES = (
-    (LIGHT_TEXT_ON_DARK_IMAGE, "Light text on dark image"),
-    (DARK_TEXT_ON_LIGHT_IMAGE, "dark text on light image"),
-)
+from rca.utils.models import HERO_COLOUR_CHOICES, BasePage
 
 
 class HomePageTransofmrationBlock(models.Model):
@@ -214,11 +204,6 @@ class HomePage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["hero_colour"] = DARK_HERO
-
-        if self.hero_colour_option == LIGHT_TEXT_ON_DARK_IMAGE:
-            context["hero_colour"] = LIGHT_HERO
-
         context["transformation_block"] = self.transformation_blocks.select_related(
             "image"
         ).first()

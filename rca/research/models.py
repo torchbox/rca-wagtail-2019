@@ -19,14 +19,13 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from rca.home.models import (
-    DARK_HERO,
-    HERO_COLOUR_CHOICES,
-    LIGHT_HERO,
-    LIGHT_TEXT_ON_DARK_IMAGE,
-)
 from rca.utils.blocks import LinkBlock
-from rca.utils.models import BasePage, RelatedPage, RelatedStaffPageWithManualOptions
+from rca.utils.models import (
+    HERO_COLOUR_CHOICES,
+    BasePage,
+    RelatedPage,
+    RelatedStaffPageWithManualOptions,
+)
 
 
 class ResearchCentrePageRelatedResearchSpaces(RelatedPage):
@@ -339,10 +338,6 @@ class ResearchCentrePage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["hero_colour"] = DARK_HERO
-        if int(self.hero_colour_option) == LIGHT_TEXT_ON_DARK_IMAGE:
-            context["hero_colour"] = LIGHT_HERO
-
         context["about_page"] = (
             self.about_page.url if self.about_page else self.about_page_url
         )

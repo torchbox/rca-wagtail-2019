@@ -22,7 +22,6 @@ from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_HERO, LIGHT_TEXT_ON_DARK_IMAGE
 from rca.utils.blocks import (
     AccordionBlockWithTitle,
     GalleryBlock,
@@ -30,6 +29,7 @@ from rca.utils.blocks import (
     QuoteBlock,
 )
 from rca.utils.models import (
+    HERO_COLOUR_CHOICES,
     BasePage,
     RelatedPage,
     RelatedStaffPageWithManualOptions,
@@ -318,9 +318,6 @@ class ProjectPage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["hero_colour"] = "dark"
-        if self.hero_colour_option == LIGHT_TEXT_ON_DARK_IMAGE:
-            context["hero_colour"] = "light"
         subjects = []
         for i in self.subjects.all():
             subjects.append({"title": i.subject.title, "link": "TODO"})
@@ -564,8 +561,6 @@ class ProjectPickerPage(BasePage):
         context["results"] = project_results
         context["results_count"] = paginator.count
 
-        # Set hero colour
-        context["hero_colour"] = LIGHT_HERO
         context["reset"] = {"href": self.get_full_url(), "text": "Reset"}
 
         return context
