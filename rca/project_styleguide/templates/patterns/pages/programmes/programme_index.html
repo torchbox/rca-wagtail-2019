@@ -1,10 +1,6 @@
 {% extends "patterns/base_page.html" %}
 {% load wagtailcore_tags wagtailimages_tags navigation_tags static %}
 
-{% block header_class %}
-    theme-light
-{% endblock %}
-
 {% block meta_tags %}
     <link rel="canonical" href="{{ page.get_site.root_url }}{% pageurl self %}" />
     {{ block.super }}
