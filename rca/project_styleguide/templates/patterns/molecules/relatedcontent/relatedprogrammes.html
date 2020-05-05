@@ -41,7 +41,7 @@
                         {% endif %}
                     </div>
                     <p class="related-content__copy body body--two">
-                        {{ related_item.programme_description_subtitle }}
+                        {% firstof related_item.programme_description_subtitle related_item.introduction %}
                     </p>
                     {% image related_item.hero_image fill-500x500 as programme_image %}
                     <div class="related-content__image-container">
