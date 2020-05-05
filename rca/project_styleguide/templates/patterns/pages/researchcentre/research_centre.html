@@ -33,7 +33,7 @@
 
             <section class="research-top section bg bg--dark">
 
-                <div class="section__row research-centre-overview">
+                <div class="section__row research-centre-overview {% if not research_spaces and not projects %}research-centre-overview--no-margin{% endif %}">
                     <div class="section__content grid">
                         <div class="research-centre-overview__content">
                             <div class="research-centre-overview__body">
@@ -120,7 +120,7 @@
                 </section>
             {% endif %}
 
-            {% if related_programmes %}
+            {% if related_programmes.0.related_items %}
                 <section class="section section--notch-mask section--opposite-notch bg bg--dark">
 
                     <div class="section__notch section__notch--opposite">
@@ -129,9 +129,11 @@
 
                         {% include "patterns/molecules/relatedcontent/relatedprogrammes--large.html" with related_sections=related_programmes title=related_programmes.0.title %}
 
-                    <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--first-col"></div>
-                    </div>
+                    {% if related_staff %}
+                        <div class="section__notch">
+                            <div class="section__notch-fill section__notch-fill--first-col"></div>
+                        </div>
+                    {% endif %}
 
                 </section>
             {% endif %}
@@ -164,9 +166,11 @@
                         </div>
                     </div>
 
-                    <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--third-col"></div>
-                    </div>
+                    {% if page.news_and_events or page.related_links %}
+                        <div class="section__notch">
+                            <div class="section__notch-fill section__notch-fill--third-col"></div>
+                        </div>
+                    {% endif %}
 
                 </section>
             {% endif %}

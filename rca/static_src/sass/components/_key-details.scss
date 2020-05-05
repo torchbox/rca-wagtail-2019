@@ -112,6 +112,10 @@
     &__list {
         @include font-size(xxs);
         margin-bottom: ($gutter * 2);
+
+        @include media-query(large) {
+            padding-right: $gutter;
+        }
     }
 
     &__list-item {

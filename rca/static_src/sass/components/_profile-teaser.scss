@@ -10,15 +10,17 @@
             margin-bottom: ($gutter * 2.75);
         }
 
-        &:hover,
-        &:focus,
-        &:active {
-            #{$root}__image {
-                opacity: 0.8;
-            }
+        &--link {
+            &:hover,
+            &:focus,
+            &:active {
+                #{$root}__image {
+                    opacity: 0.8;
+                }
 
-            #{$root}__heading {
-                @include underline-hover();
+                #{$root}__heading {
+                    @include underline-hover();
+                }
             }
         }
     }

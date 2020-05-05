@@ -1,8 +1,11 @@
-{% load wagtailcore_tags wagtailimages_tags static %}
+{% load wagtailcore_tags wagtailimages_tags static util_tags %}
 
 <div class="profile-teaser">
     {% if item.link %}
-        <a href="{{ item.link }}" class="profile-teaser__container">
+        {% is_external item.link as is_external %}
+        <a href="{{ item.link }}" {% if is_external %} target="_blank" {% endif %} class="profile-teaser__container profile-teaser__container--link">
+    {% else %}
+        <div class="profile-teaser__container">
     {% endif %}
     {% if item.image %}
         {% image item.image fill-60x60 as profile_image %}
@@ -19,5 +22,7 @@
     {% endif %}
     {% if item.link %}
         </a>
+    {% else %}
+        </div>
     {% endif %}
 </div>
