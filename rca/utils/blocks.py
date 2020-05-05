@@ -85,6 +85,17 @@ class LinkBlock(blocks.StructBlock):
         icon = "link"
         template = "patterns/molecules/streamfield/blocks/link_block.html"
 
+    def clean(self, value):
+        result = super().clean(value)
+        errors = {}
+
+        if value["url"] and not value["title"]:
+            errors["title"] = ErrorList(["Please add title value to display."])
+
+        if errors:
+            raise ValidationError("Validation error in LinkBlock", params=errors)
+        return result
+
 
 class GalleryBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=False)
@@ -151,6 +162,65 @@ class AccordionBlockWithTitle(blocks.StructBlock):
         return result
 
 
+class RelatedPageListBlockPage(blocks.StreamBlock):
+    page = blocks.PageChooserBlock()
+
+
+class RelatedPageListBlock(blocks.StructBlock):
+    heading = blocks.CharBlock(
+        help_text="A large heading diplayed at the top of block", required=False
+    )
+    page = RelatedPageListBlockPage()
+    link = LinkBlock(
+        help_text="An optional link to display below the expanded content",
+        required=False,
+    )
+    page_link = blocks.PageChooserBlock(required=False)
+
+    def clean(self, value):
+        result = super().clean(value)
+        errors = {}
+
+        if value["link"]["url"] and value["page_link"]:
+            errors["page_link"] = ErrorList(
+                ["Please only add a link to a page or an absolute URL"]
+            )
+
+        if errors:
+            raise ValidationError(
+                "Validation error in RelatedPageListBlock", params=errors
+            )
+        return result
+
+
+class CallToActionBlock(blocks.StructBlock):
+    title = blocks.CharBlock(
+        help_text="A large heading diplayed at the top of block", required=False
+    )
+    description = blocks.CharBlock(required=False)
+    page = blocks.PageChooserBlock(required=False)
+    link = LinkBlock(
+        help_text="An optional link to display below the expanded content",
+        required=False,
+    )
+
+    def clean(self, value):
+        result = super().clean(value)
+        errors = {}
+
+        # Ensure a heading or some preview text has been added
+        if value["page"] and value["link"]["url"]:
+            errors["page"] = ErrorList(
+                ["Please choose between a custom link or a page"]
+            )
+
+        if errors:
+            raise ValidationError(
+                "Validation error in CallToActionBlock", params=errors
+            )
+        return result
+
+
 # Main streamfield block to be inherited by Pages
 class StoryBlock(blocks.StreamBlock):
     heading = blocks.CharBlock(
@@ -172,12 +242,21 @@ class StoryBlock(blocks.StreamBlock):
         template = "patterns/molecules/streamfield/stream_block.html"
 
 
-class GuideBlock(StoryBlock):
+class GuideBlock(blocks.StreamBlock):
     anchor_heading = blocks.CharBlock(
         classname="full title",
         icon="title",
         template="patterns/molecules/streamfield/blocks/anchor_heading_block.html",
     )
+    heading = blocks.CharBlock(
+        classname="full title",
+        icon="title",
+        template="patterns/molecules/streamfield/blocks/heading_block.html",
+    )
+    paragraph = blocks.RichTextBlock()
+    image = ImageBlock()
+    quote = QuoteBlock()
+    embed = EmbedBlock()
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"

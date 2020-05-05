@@ -6,28 +6,10 @@ context:
         depth: 2
         title: Research
     introduction: 'The Royal College of Art excels in world-leading design and art research and creative innovation.'
+    about_page: Read more
     introduction_link: '#'
     introduction_link_text: 'Read more'
-    enterprise_highlights:
-      - slide:
-        meta: 'School of Design'
-        title: 'Advanced Taxi for London'
-        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
-        image: true
-        link: '#'
-      - slide:
-        meta: 'Alumni Story'
-        title: 'A place with a real focus on making'
-        description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
-        image: true
-        link: '#'
-      - slide:
-        meta: 'Alumni Story'
-        title: 'Designing the imposible for NASA'
-        description: 'Creating world class experiences that started at the RCA'
-        image: true
-        link: '#'
-    enterprise_highlights_title: Research highlights
+    page_list_title: Research centres & schools
     related_research_centres_schools:
       - item:
         title: Research centres
@@ -70,46 +52,25 @@ context:
             title: School of Design
             programme_description_subtitle: Design courses and degrees in specialising in product design to AR and AV, and from the design of specific objects and products to interactions, systems and policies.
             img: http://placehold.it/300x270
-    middle_feature_image: true
-    middle_feature_heading: Research degrees
-    middle_feature_meta_heading: Join a thriving community of more than 250 MPhil and PhD students
-    middle_feature_meta_text: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
-    middle_feature_meta_link: '#'
-    research:
-      title: Research at the RCA
-      slides:
-        - slide:
-          value:
-            meta: 'Awards'
-            title: 'Writing student wins £25,000 economics prize'
-            summary: 'We offer our researchers the best environment and resources to develop and promote their research within the fields of art and design.'
-            link: '#'
-            person: false
-            image: True
-            modifier: long-description
-        - slide:
-          value:
-            meta: 'Awards'
-            title: 'InnovationRCA awarded Accelerator of the Year'
-            summary: 'We offer our researchers the best environment and resources to develop and promote their research within the fields of art and design.'
-            link: '#'
-            person: false
-            image: True
-            modifier: long-description
-        - slide:
-          value:
-            meta: 'Awards'
-            title: 'MA Fashion Womenswear Student Launches Fashion Boycott'
-            summary: 'We offer our researchers the best environment and resources to develop and promote their research within the fields of art and design.'
-            link: '#'
-            person: false
-            image: True
-            modifier: long-description
-    text_teaser:
-      title: Our research staff
-      description: Our research staff span a broad range of subjects and areas of expertise.
-      action: Visit all research staff
-      link: '#'
+    cta_block:
+      - block:
+        value:
+          title: Our research staff
+          description: Our research staff span a broad range of subjects and areas of expertise.
+          action: Visit all research staff
+          link: '#'
+      - block:
+        value:
+          title: Our research staff
+          description: Our research staff span a broad range of subjects and areas of expertise.
+          action: Visit all research staff
+          link: '#'
+      - block:
+        value:
+          title: Our research staff
+          description: Our research staff span a broad range of subjects and areas of expertise.
+          action: Visit all research staff
+          link: '#'
     news:
       - item:
         meta: 'News'
@@ -134,3 +95,105 @@ context:
         person: false
     contact: true
     contact_image: true
+  related_pages_highlights:
+    - slide:
+      meta: 'School of Design'
+      title: 'Advanced Taxi for London'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      image: true
+      link: '#'
+    - slide:
+      meta: 'Alumni Story'
+      title: 'A place with a real focus on making'
+      description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
+      image: true
+      link: '#'
+    - slide:
+      meta: 'Alumni Story'
+      title: 'Designing the imposible for NASA'
+      description: 'Creating world class experiences that started at the RCA'
+      image: true
+      link: '#'
+  highlights_title: Enterprise highlights
+  highlights_link_text: '#'
+  page_list:
+    - item:
+      title: Lorem Ipsum
+      link:
+        url: '#'
+        title: View all executive education courses
+      related_items:
+        - item:
+          title: Design Thinking & Innovation
+          degree_level: Executive Education
+          programme_description_subtitle: Transform your Customer Experience.
+          img: http://placehold.it/300x270/fff/000
+        - item:
+          title: Service Design Masterclass
+          degree_level: Executive Education
+          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
+          img: http://placehold.it/300x270/ff5d1c/fff
+        - item:
+          title: Creative Leadership
+          degree_level: Executive Education
+          programme_description_subtitle: Turning innovation into successful real-world businesses.
+          img: http://placehold.it/300x270
+    - item:
+      title: Lorem Ipsum
+      link:
+        url: '#'
+        title: View all executive education courses
+      related_items:
+        - item:
+          title: Design Thinking & Innovation
+          degree_level: Executive Education
+          programme_description_subtitle: Transform your Customer Experience.
+          img: http://placehold.it/300x270/fff/000
+        - item:
+          title: Service Design Masterclass
+          degree_level: Executive Education
+          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
+          img: http://placehold.it/300x270/ff5d1c/fff
+        - item:
+          title: Creative Leadership
+          degree_level: Executive Education
+          programme_description_subtitle: Turning innovation into successful real-world businesses.
+          img: http://placehold.it/300x270
+  featured_image:
+    title: Research degrees
+    subtitle: Join a thriving community of more than 250 MPhil and PhD students
+    description: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
+    get_link_text: Read more
+    get_link_url: '#'
+  slideshow_block:
+    title: Research at the RCA
+    summary: We work with a selection of the world's most innovative organisations.
+    slides:
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'RCA x CERN'
+          summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Research'
+          title: 'Burberry'
+          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'Designing the imposible for NASA'
+          summary: 'Creating world class experiences that started at the RCA'
+          link: '#'
+          person: false
+          image: True
+tags:
+  pageurl:
+    page.about_page:
+      raw: '#'

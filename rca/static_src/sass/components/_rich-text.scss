@@ -33,11 +33,13 @@
     }
 
     ul {
-        list-style: inside disc;
+        list-style: outside disc;
+        margin: 0 0 $gutter $gutter;
     }
 
     ol {
         list-style: inside decimal;
+        margin: 0 0 $gutter;
     }
 
     a {

@@ -125,43 +125,23 @@
             }
         }
 
-        // Add underline to external links
-        // If not rca.ac.uk or heroku staging, or anchor links or internal link...
-        &:not([href*='rca.ac.uk']):not([href*='herokuapp.com']):not([href^='#']):not([href^='/']),
         &#{$root}--external {
-            &::before {
-                // ensure the parent is an a (has to have a href)
-                @at-root a#{&} {
-                    position: absolute;
-                    right: 5px;
-                    top: 18px;
-                    display: block;
-                    content: '';
-                    border-bottom: 1px solid currentColor;
-                    width: 7px;
-                    height: 1px;
-                    transition: transform $transition;
-                }
+            #{$root}__label {
+                margin-right: 0;
             }
 
-            &#{$root}--primary,
-            &#{$root}--secondary {
-                &::before {
-                    // ensure the parent is an a (has to have a href)
-                    @at-root a#{&} {
-                        top: 26px;
-                    }
-                }
+            #{$root}__icon {
+                width: 11px;
+                top: 0.2em;
+                height: 13px;
+                transform: translate3d(0, 0, 0);
             }
 
             &:hover,
             &:active,
             &:focus {
-                &::before {
-                    // ensure the parent is an a (has to have a href)
-                    @at-root a#{&} {
-                        transform: translate3d(4px, -3px, 0);
-                    }
+                #{$root}__icon {
+                    transform: translate3d(2px, -2px, 0);
                 }
             }
         }

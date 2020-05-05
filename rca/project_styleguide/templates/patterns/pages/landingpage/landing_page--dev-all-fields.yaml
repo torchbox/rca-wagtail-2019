@@ -4,13 +4,7 @@ context:
       - { label: 'Research', link: /research/ }
     title: Research at the RCA
     introduction: 'Enterprise at the RCA spans incubation, innovation and business acceleration programmes; consultancy and knowledge exchange, and custom executive short courses.'
-    introduction_link: '#'
-    introduction_link_text: 'Read more'
-    feature_image: true
-    feature_heading: Our Programmes
-    feature_meta_heading: Join a thriving community of more than 250 MPhil and PhD students
-    feature_meta_text: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
-    feature_meta_link: '#'
+    about_page: 'Read more'
     enterprise_highlights:
       - slide:
         meta: 'School of Design'
@@ -104,38 +98,6 @@ context:
     middle_feature_meta_heading: Join a thriving community of more than 250 MPhil and PhD students
     middle_feature_meta_text: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
     middle_feature_meta_link: '#'
-    stats_block:
-      title: Lorem ipsum dolor sit
-      default_notch_override: true
-      link: '#'
-      action: See all Outcomes
-      statistics:
-        - stat:
-          value:
-            after: '%'
-            number: 70
-            summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut semper accumsan urna.
-        - stat:
-          value:
-            after: '%'
-            number: 33
-            meta: Nationalities
-            summary: 1 in 3 of our graduates are business owners or independent professionals
-        - stat:
-          value:
-            number: 76
-            meta: Nationalities
-            summary: Our students come from all corners of the globe.
-        - stat:
-          value:
-            after: st
-            number: 1
-            summary: We're the top rated art & design university in the world.
-        - stat:
-          value:
-            number: 100
-            meta: Lorem Ipsum
-            summary: Our students come from all corners of the globe.
     startups:
       - slide:
         meta: 'Startups'
@@ -213,3 +175,169 @@ context:
         person: false
     contact: true
     contact_image: true
+    related_pages_title: Enterprise at the RCA
+    related_pages_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    page_list_title: Schools and Research centres
+  related_pages:
+    - {
+        title: 'Innovation RCA',
+        link: '#',
+        meta: false,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        image: true,
+      }
+    - {
+        title: 'Consultancy & knowledge exchange',
+        link: '#',
+        meta: false,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        image: true,
+      }
+    - {
+        title: 'Custom executive education',
+        link: '#',
+        meta: false,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        image: true,
+      }
+  page_list:
+    - item:
+      title: Programmes for RCA students & alumni
+      link:
+        url: '#'
+        title: View all executive education courses
+      related_items:
+        - item:
+          title: Design Thinking & Innovation
+          degree_level: Executive Education
+          programme_description_subtitle: Transform your Customer Experience.
+          img: http://placehold.it/300x270/fff/000
+        - item:
+          title: Service Design Masterclass
+          degree_level: Executive Education
+          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
+          img: http://placehold.it/300x270/ff5d1c/fff
+        - item:
+          title: Creative Leadership
+          degree_level: Executive Education
+          programme_description_subtitle: Turning innovation into successful real-world businesses.
+          img: http://placehold.it/300x270
+    - item:
+      title: Programmes for individuals & companies
+      link:
+        url: '#'
+        title: View all executive education courses
+      related_items:
+        - item:
+          title: Design Thinking & Innovation
+          degree_level: Executive Education
+          programme_description_subtitle: Transform your Customer Experience.
+          img: http://placehold.it/300x270/fff/000
+        - item:
+          title: Service Design Masterclass
+          degree_level: Executive Education
+          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
+          img: http://placehold.it/300x270/ff5d1c/fff
+        - item:
+          title: Creative Leadership
+          degree_level: Executive Education
+          programme_description_subtitle: Turning innovation into successful real-world businesses.
+          img: http://placehold.it/300x270
+  featured_image:
+    title: Our programmes
+    subtitle: Join a thriving community of more than 250 MPhil and PhD students
+    description: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
+    get_link_text: Read more
+    get_link_url: '#'
+  featured_image_secondary:
+    title: Research degrees
+    subtitle: Join a thriving community of more than 250 MPhil and PhD students
+    description: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
+    get_link_text: Read more
+    get_link_url: '#'
+  stats_block_default_notch_override: True
+  stats_block:
+    title: Lorem ipsum dolor sit
+    link_url: '#'
+    link_text: See all Outcomes
+    statistics:
+      - stat:
+        value:
+          after: '%'
+          number: 70
+          summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut semper accumsan urna.
+      - stat:
+        value:
+          after: '%'
+          number: 33
+          meta: Nationalities
+          summary: 1 in 3 of our graduates are business owners or independent professionals
+      - stat:
+        value:
+          number: 76
+          meta: Nationalities
+          summary: Our students come from all corners of the globe.
+      - stat:
+        value:
+          after: st
+          number: 1
+          summary: We're the top rated art & design university in the world.
+      - stat:
+        value:
+          number: 100
+          meta: Lorem Ipsum
+          summary: Our students come from all corners of the globe.
+  related_pages_highlights:
+    - slide:
+      meta: 'Startups'
+      title: 'Lorem ipsum dolor sit'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      image: true
+      link: '#'
+    - slide:
+      meta: 'Startups'
+      title: 'Lorem ipsum dolor sit'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      image: true
+      link: '#'
+    - slide:
+      meta: 'Startups'
+      title: 'Lorem ipsum dolor sit'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      image: true
+      link: '#'
+  slideshow_block:
+    title: Research at the RCA
+    summary: We work with a selection of the world's most innovative organisations.
+    slides:
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'RCA x CERN'
+          summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Research'
+          title: 'Burberry'
+          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'Designing the imposible for NASA'
+          summary: 'Creating world class experiences that started at the RCA'
+          link: '#'
+          person: false
+          image: True
+tags:
+  pageurl:
+    page.about_page:
+      raw: '#'

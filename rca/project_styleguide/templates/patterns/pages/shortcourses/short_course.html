@@ -2,10 +2,6 @@
 {% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
 {% get_settings %}
 
-{% block header_class %}
-    theme-{{ hero_colour }}
-{% endblock %}
-
 {% block body_class %}
     app--short-course
 {% endblock %}
@@ -126,16 +122,18 @@
 
 
             {% if page.related_programmes %}
-                <section class="section bg bg--dark">
+                <section class="section bg bg--dark {% if not related_links %}section--end{% endif %}">
                     <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
                     <div class="section__container">
                         {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=programme_page_global_fields.related_content_title %}
                     </div>
-                    <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--second-col"></div>
-                    </div>
+                    {% if related_links %}
+                        <div class="section__notch">
+                            <div class="section__notch-fill section__notch-fill--second-col"></div>
+                        </div>
+                    {% endif %}
                 </section>
             {% endif %}
 

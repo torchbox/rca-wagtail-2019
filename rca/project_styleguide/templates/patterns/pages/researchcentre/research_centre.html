@@ -2,10 +2,6 @@
 {% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
 {% get_settings %}
 
-{% block header_class %}
-    theme-{{ hero_colour }}
-{% endblock %}
-
 {% block body_class %}
     app--research-centre
 {% endblock %}
@@ -82,7 +78,7 @@
                     <div class="section__row section__row--last-large research-highlights">
                         <div class="section__header grid">
                             <h2 class="section__heading section__heading--primary heading heading--four">
-                                Latest research projects
+                                {% firstof page.highlights_title 'Research highlights' %}
                             </h2>
                         </div>
                         <div class="section__content grid">
@@ -99,43 +95,45 @@
 
             </section>
 
-            <section class="opportunities-to-work section section--opposite-notch section--above-grid bg bg--light">
+            {% if research_opportunities %}
+                <section class="opportunities-to-work section section--opposite-notch section--above-grid bg bg--light">
 
-                <div class="section__notch section__notch--opposite">
-                    <div class="section__notch-fill section__notch-fill--second-col"></div>
-                </div>
-
-                <div class="section__row section__row--first">
-
-                    <div class="section__header grid">
-                        <h2 class="section__heading section__heading--primary heading heading--two">
-                            Opportunities to work with us
-                        </h2>
+                    <div class="section__notch section__notch--opposite">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
 
-                    <div class="section__content">
-                         {% include "patterns/organisms/categories-panels/categories-panels.html" with categories_panels=research_opportunities %}
+                    <div class="section__row section__row--first">
+
+                        <div class="section__header grid">
+                            <h2 class="section__heading section__heading--primary heading heading--two">
+                                Opportunities to work with us
+                            </h2>
+                        </div>
+
+                        <div class="section__content">
+                            {% include "patterns/organisms/categories-panels/categories-panels.html" with categories_panels=research_opportunities %}
+                        </div>
+
                     </div>
 
-                </div>
+                </section>
+            {% endif %}
 
-            </section>
+            {% if related_programmes %}
+                <section class="section section--notch-mask section--opposite-notch bg bg--dark">
 
-            <section class="section section--notch-mask section--opposite-notch bg bg--dark">
+                    <div class="section__notch section__notch--opposite">
+                        <div class="section__notch-fill section__notch-fill--first-col"></div>
+                    </div>
 
-                <div class="section__notch section__notch--opposite">
-                    <div class="section__notch-fill section__notch-fill--first-col"></div>
-                </div>
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes--large.html" with related_sections=related_programmes title=related_programmes.0.title %}
 
-                {% if related_programmes %}
-                    {% include "patterns/molecules/relatedcontent/relatedprogrammes--large.html" with related_sections=related_programmes title=related_programmes.0.title %}
-                {% endif %}
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--first-col"></div>
+                    </div>
 
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--first-col"></div>
-                </div>
-
-            </section>
+                </section>
+            {% endif %}
 
             {% if related_staff %}
                 <section class="section bg bg--light">
@@ -172,27 +170,29 @@
                 </section>
             {% endif %}
 
-            <section class="section section--start section--end bg bg--light">
-                {% if page.news_and_events %}
-                    <div class="section__row">
-                        <header class="section__header grid">
-                            <h3 class="section__heading section__heading--primary heading heading--two">News</h3>
-                        </header>
-                        <div class="section__content">
-                            <div class="section__row grid">
-                                {% include "patterns/organisms/news/news.html" with news=page.news_and_events cta="See all news" %}
+            {% if page.news_and_events or page.related_links %}
+                <section class="section {% if page.news_and_events %}section--start{% endif %} bg bg--light">
+                    {% if page.news_and_events %}
+                        <div class="section__row">
+                            <header class="section__header grid">
+                                <h3 class="section__heading section__heading--primary heading heading--two">News</h3>
+                            </header>
+                            <div class="section__content">
+                                <div class="section__row grid">
+                                    {% include "patterns/organisms/news/news.html" with news=page.news_and_events cta="See all news" %}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {% endif %}
-                {% if page.related_links %}
-                    <div class="section__row section__row--first">
-                        <div class="section__content">
-                            {% include "patterns/organisms/related-links/related-links.html" with related_links=page.related_links title="External links" %}
+                    {% endif %}
+                    {% if page.related_links %}
+                        <div class="section__row section__row--first">
+                            <div class="section__content">
+                                {% include "patterns/organisms/related-links/related-links.html" with related_links=page.related_links title="External links" %}
+                            </div>
                         </div>
-                    </div>
-                {% endif %}
-            </section>
+                    {% endif %}
+                </section>
+            {% endif %}
 
         </div>
 

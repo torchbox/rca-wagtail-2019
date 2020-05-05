@@ -2,10 +2,6 @@
 {% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
 {% get_settings %}
 
-{% block header_class %}
-    theme-{{ hero_colour }}
-{% endblock %}
-
 {% block body_class %}
     app--landing-page
 {% endblock %}
@@ -34,9 +30,9 @@
                             <h2 class="introduction__text section__heading heading heading--five">
                                 {{ page.introduction }}
                             </h2>
-                            {% if page.introduction_link %}
-                                <a href="{{ page.introduction_link }}" class="introduction__link link link--tertiary link--link">
-                                    <span class="link__label">{{ page.introduction_link_text }}</span>
+                            {% if page.about_page %}
+                                <a href="{% pageurl page.about_page %}" class="introduction__link link link--tertiary link--link">
+                                    <span class="link__label">{% firstof page.about_page.title 'Read more' %}</span>
                                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                 </a>
                             {% endif %}
@@ -47,25 +43,27 @@
 
         <div class="page__content landing-page">
 
-            {% if page.enterprise_highlights %}
+            {% if related_pages_highlights %}
                 <section class="landing-page__top section section--start bg bg--dark">
 
                     <div class="section__row section__row--last-large research-highlights">
-                        {% if page.enterprise_highlights_title %}
+                        {% if page.highlights_title %}
                             <div class="section__header grid">
                                 <h2 class="section__heading section__heading--primary heading heading--four">
-                                    {{ page.enterprise_highlights_title }}
+                                    {{ page.highlights_title }}
                                 </h2>
                             </div>
                         {% endif %}
                         <div class="section__content grid">
-                            {% include "patterns/organisms/carousel/carousel.html" with carousel=page.enterprise_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}     
-                            <div class="section__action">
-                                <a class="link link--primary link--link body body--two" href="/research">
-                                    <span class="link__label">See all enterprise projects</span>
-                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                                </a>    
-                            </div>
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=related_pages_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                            {% if page.highlights_page_link %}
+                                <div class="section__action">
+                                    <a class="link link--primary link--link body body--two" href="{% pageurl page.highlights_page_link %}">
+                                        <span class="link__label">{{ page.highlights_page_link.title }}</span>
+                                        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                    </a>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
 
@@ -76,20 +74,24 @@
                 </section>
             {% endif %}
 
-            {% if page.enterprise_rca %}
+            {% if related_pages %}
                 <section class="landing-page__middle section section--start section--opposite-notch bg bg--light">
 
                     <div class="section__row research-spaces">
                         <div class="section__header section__header--bottom-space grid">
+                        {% if page.related_pages_title %}
                             <h2 class="section__heading section__heading--tight heading heading--two">
-                                Enterprise at the RCA
+                                {{ page.related_pages_title }}
                             </h2>
+                        {% endif %}
+                        {% if page.related_pages_text %}
                             <div class="section__introduction">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor. 
+                                {{ page.related_pages_text }}
                             </div>
+                        {% endif %}
                         </div>
                         <div class="section__content grid">
-                            {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=page.enterprise_rca %}
+                            {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=related_pages %}
                         </div>
                     </div>
 
@@ -100,10 +102,10 @@
                 </section>
             {% endif %}
 
-            {% if page.middle_feature_image %}
+            {% if featured_image %}
                 <section class="section bg bg--dark">
                     <div class="section__row section__row--first section__row--last">
-                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=page.middle_feature_heading meta_heading=page.middle_feature_meta_heading meta_copy=page.middle_feature_meta_text href=page.middle_feature_meta_link image=page.middle_feature_image modifier="tight-heading" %}
+                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=featured_image.title meta_heading=featured_image.subtitle meta_copy=featured_image.description href=featured_image.get_link_url image=featured_image.image modifier="tight-heading" %}
                     </div>
 
                     <div class="section__notch">
@@ -112,26 +114,16 @@
                 </section>
             {% endif %}
 
-            {% if page.related_courses %}
+            {% if page_list %}
                 <section class="section section--opposite-notch bg bg--light">
                     <div class="section__row section__row--first section__row--last-large">
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page.related_courses title=page.related_courses_title modifier="after-action related-content--meta-new-line" %}
-                        {% if page.related_courses_link %}
-                            <div class="grid">
-                                <div class="section__action">
-                                    <a class="link link--secondary link--link body body--one" href="{{ page.related_courses_link }}">
-                                        <span class="link__label">{{ page.related_courses_link_text }}</span>
-                                        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                                    </a>    
-                                </div>
-                            </div>
-                        {% endif %}
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page_list title=page.page_list_title modifier="after-action related-content--meta-new-line" %}
                     </div>
 
                     <div class="section__notch section__notch--opposite">
                         <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
-                    
+
                 </section>
             {% endif %}
 

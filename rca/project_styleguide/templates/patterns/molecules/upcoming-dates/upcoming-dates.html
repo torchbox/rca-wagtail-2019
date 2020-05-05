@@ -10,10 +10,17 @@
                 <div class="upcoming-dates__row-item upcoming-dates__start-date">{{ item.start_date|date:'d F Y' }}</div>
                 <div class="upcoming-dates__row-item upcoming-dates__end-date">{{ item.end_date|date:'d F Y' }}</div>
                 <div class="upcoming-dates__row-item upcoming-dates__action">
-                    <a href="{{ item.book_now_url }}" class="link link--tertiary link--link">
-                        <span class="link__label">Book</span>
-                        <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow" aria-hidden="true"></use></svg>
-                    </a>
+                    {% if page.application_form_url %}
+                        <a href="{{ page.application_form_url }}" class="link link--tertiary link--link link--external" target="_blank">
+                            <span class="link__label">Apply</span>
+                            <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
+                        </a>
+                    {% else %}
+                        <a href="{{ item.book_now_url }}" class="link link--tertiary link--link link--external" target="_blank">
+                            <span class="link__label">Book</span>
+                            <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}

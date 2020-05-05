@@ -2,7 +2,6 @@ from collections import defaultdict
 from itertools import chain
 
 from django.conf import settings
-from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
@@ -33,13 +32,6 @@ from wagtail.search import index
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtailorderable.models import Orderable as WagtailOrdable
 
-from rca.api_content import content
-from rca.home.models import (
-    DARK_HERO,
-    HERO_COLOUR_CHOICES,
-    LIGHT_HERO,
-    LIGHT_TEXT_ON_DARK_IMAGE,
-)
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
@@ -50,7 +42,12 @@ from rca.utils.blocks import (
     SnippetChooserBlock,
     StepBlock,
 )
-from rca.utils.models import BasePage, ProgrammeSettings, RelatedPage
+from rca.utils.models import (
+    HERO_COLOUR_CHOICES,
+    BasePage,
+    ProgrammeSettings,
+    RelatedPage,
+)
 
 
 class DegreeLevel(models.Model):
@@ -654,11 +651,6 @@ class ProgrammePage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["hero_colour"] = DARK_HERO
-
-        if int(self.hero_colour_option) == LIGHT_TEXT_ON_DARK_IMAGE:
-            context["hero_colour"] = LIGHT_HERO
-
         context["related_sections"] = [
             {
                 "title": "Related programmes",

@@ -19,7 +19,6 @@ from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from rca.home.models import HERO_COLOUR_CHOICES, LIGHT_TEXT_ON_DARK_IMAGE
 from rca.utils.blocks import (
     AccordionBlockWithTitle,
     GalleryBlock,
@@ -27,6 +26,7 @@ from rca.utils.blocks import (
     QuoteBlock,
 )
 from rca.utils.models import (
+    HERO_COLOUR_CHOICES,
     BasePage,
     RelatedPage,
     RelatedStaffPageWithManualOptions,
@@ -229,11 +229,13 @@ class ProjectPage(BasePage):
             List: Maximum of 8 projects
         """
         items = []
-        for page in projects:
+        for page in projects[:8]:
             page = page.specific
-            meta = None
-            if page.related_school_pages.first():
-                meta = page.related_school_pages.first().page.title
+            meta = ""
+            related_school = page.related_school_pages.first()
+            if related_school is not None:
+                meta = related_school.page.title
+
             items.append(
                 {
                     "title": page.title,
@@ -243,7 +245,7 @@ class ProjectPage(BasePage):
                     "meta": meta,
                 }
             )
-        return items[:8]
+        return items
 
     def get_related_projects(self):
         """
@@ -257,7 +259,7 @@ class ProjectPage(BasePage):
             List -- of filtered and formatted ProjectPages
         """
 
-        all_projects = ProjectPage.objects.live().public().exclude(pk=self.pk)
+        all_projects = ProjectPage.objects.live().public().not_page(self)
 
         schools = self.related_school_pages.values_list("page_id")
         projects = all_projects.filter(
@@ -307,9 +309,6 @@ class ProjectPage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["hero_colour"] = "dark"
-        if self.hero_colour_option == LIGHT_TEXT_ON_DARK_IMAGE:
-            context["hero_colour"] = "light"
         subjects = []
         for i in self.subjects.all():
             subjects.append({"title": i.subject.title, "link": "TODO"})

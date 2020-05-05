@@ -314,10 +314,11 @@
 
     &__content-container {
         padding-top: ($gutter * 2);
-        padding-right: ($gutter * 5.75);
+        padding-right: $gutter;
         padding-bottom: ($gutter * 3);
 
         @include media-query(large) {
+            padding-right: ($gutter * 5.75);
             grid-column: 2 / span 2;
         }
     }

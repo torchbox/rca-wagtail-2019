@@ -17,6 +17,16 @@ from wagtail.snippets.models import register_snippet
 
 from rca.utils.cache import get_default_cache_control_decorator
 
+LIGHT_TEXT_ON_DARK_IMAGE = 1
+DARK_TEXT_ON_LIGHT_IMAGE = 2
+DARK_HERO = "dark"
+LIGHT_HERO = "light"
+
+HERO_COLOUR_CHOICES = (
+    (LIGHT_TEXT_ON_DARK_IMAGE, "Light text on dark image"),
+    (DARK_TEXT_ON_LIGHT_IMAGE, "dark text on light image"),
+)
+
 
 class LinkFields(models.Model):
     """
@@ -75,11 +85,11 @@ class LinkFields(models.Model):
         if self.link_page:
             return self.link_page.title
 
-        return ""
+        return
 
     def get_link_url(self):
         if self.link_page:
-            return self.link_page.get_url
+            return self.link_page.get_url()
 
         return self.link_url
 
@@ -215,7 +225,6 @@ class ListingFields(models.Model):
     ]
 
 
-@register_snippet
 class CallToActionSnippet(models.Model):
     title = models.CharField(max_length=255)
     summary = RichTextField(blank=True, max_length=255)
@@ -350,6 +359,18 @@ class BasePage(SocialFields, ListingFields, Page):
     promote_panels = (
         Page.promote_panels + SocialFields.promote_panels + ListingFields.promote_panels
     )
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["hero_colour"] = LIGHT_HERO
+        if (
+            hasattr(self, "hero_colour_option")
+            and self.hero_colour_option == DARK_TEXT_ON_LIGHT_IMAGE
+        ):
+            context["hero_colour"] = DARK_HERO
+        return context
+
+        return context
 
 
 class OptionalLink(models.Model):
