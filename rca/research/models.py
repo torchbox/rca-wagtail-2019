@@ -24,7 +24,6 @@ from rca.home.models import (
     LIGHT_HERO,
     LIGHT_TEXT_ON_DARK_IMAGE,
 )
-from rca.projects.models import ProjectPage
 from rca.utils.blocks import LinkBlock
 from rca.utils.models import BasePage, RelatedPage, RelatedStaffPageWithManualOptions
 
@@ -54,6 +53,13 @@ class ResearchCentrePageStaff(RelatedStaffPageWithManualOptions):
     source_page = ParentalKey(
         "research.ResearchCentrePage", related_name="related_staff"
     )
+
+
+class ResearchCentrePageRelatedProjects(RelatedPage):
+    source_page = ParentalKey(
+        "research.ResearchCentrePage", related_name="research_projects"
+    )
+    panels = [PageChooserPanel("page", "projects.ProjectPage")]
 
 
 class ResearchCentrePage(BasePage):
@@ -115,6 +121,7 @@ class ResearchCentrePage(BasePage):
             "The title value displayed above the Research centre news carousel"
         ),
     )
+
     highlights_title = models.CharField(
         max_length=120,
         blank=True,
@@ -164,7 +171,13 @@ class ResearchCentrePage(BasePage):
             [InlinePanel("research_spaces", label="Research spaces")],
             heading="Research spaces",
         ),
-        FieldPanel("highlights_title"),
+        MultiFieldPanel(
+            [
+                FieldPanel("highlights_title"),
+                InlinePanel("research_projects", label=_("Project pages"), max_num=8),
+            ],
+            heading=_("Research centre highlights"),
+        ),
         MultiFieldPanel(
             [InlinePanel("research_opportunities", label="Research opportunities")],
             heading="Research opportunities",
@@ -217,27 +230,19 @@ class ResearchCentrePage(BasePage):
         ]
     )
 
-    def get_child_projects(self):
-        """
-        Returns a list of all child ProjectPages of this page
-        """
-        projects = (
-            ProjectPage.objects.live()
-            .public()
-            .descendant_of(self, inclusive=True)
-            .select_related("listing_image")
-        )
+    def get_related_projects(self):
         child_projects = []
-        for page in projects:
-            page = page.specific
-            child_projects.append(
-                {
-                    "title": page.title,
-                    "link": page.url,
-                    "image": page.hero_image,
-                    "description": page.introduction,
-                }
-            )
+        for value in self.research_projects.select_related("page"):
+            if value.page and value.page.live:
+                page = value.page.specific
+                child_projects.append(
+                    {
+                        "title": page.title,
+                        "link": page.url,
+                        "image": page.hero_image,
+                        "description": page.introduction,
+                    }
+                )
         return child_projects
 
     def get_research_spaces(self):
@@ -338,7 +343,7 @@ class ResearchCentrePage(BasePage):
             self.about_page.url if self.about_page else self.about_page_url
         )
 
-        context["projects"] = self.get_child_projects()
+        context["projects"] = self.get_related_projects()
         context["research_spaces"] = self.get_research_spaces()
         context["research_opportunities"] = self.get_research_opportunities()
         context["research_news"] = self.get_research_news()
