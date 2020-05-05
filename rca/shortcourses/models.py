@@ -150,8 +150,10 @@ class ShortCoursePage(BasePage):
     external_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="External Links"
     )
+    application_form_url = models.URLField(blank=True)
     access_planit_and_course_data_panels = [
         FieldPanel("access_planit_course_id"),
+        FieldPanel("application_form_url"),
         MultiFieldPanel(
             [
                 FieldPanel("course_details_text"),
@@ -242,10 +244,15 @@ class ShortCoursePage(BasePage):
 
         if access_planit_data:
             for date in access_planit_data:
+
                 if date["status"] == "Available":
                     booking_bar["message"] = "Next course starts"
                     booking_bar["date"] = date["start_date"]
-                    booking_bar["action"] = f"Book now from \xA3{date['cost']}"
+                    booking_bar["action"] = (
+                        "Complete form to apply"
+                        if self.application_form_url
+                        else f"Book now from \xA3{date['cost']}"
+                    )
                     booking_bar["cost"] = date["cost"]
                     booking_bar["link"] = None
                     booking_bar["modal"] = "booking-details"
