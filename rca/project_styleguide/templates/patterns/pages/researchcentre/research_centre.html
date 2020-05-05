@@ -165,9 +165,11 @@
                         </div>
                     </div>
 
-                    <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--third-col"></div>
-                    </div>
+                    {% if page.news_and_events or page.related_links %}
+                        <div class="section__notch">
+                            <div class="section__notch-fill section__notch-fill--third-col"></div>
+                        </div>
+                    {% endif %}
 
                 </section>
             {% endif %}
