@@ -1,6 +1,9 @@
 from collections import defaultdict
+from urllib.parse import urlencode
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
@@ -201,7 +204,7 @@ class ProjectPage(BasePage):
     key_details_panels = [
         InlinePanel("subjects", label=_("RCA Experties")),
         InlinePanel("related_school_pages", label=_("Related schools")),
-        InlinePanel("related_research_pages", label=_("Related research cetnres")),
+        InlinePanel("related_research_pages", label=_("Related research centres")),
         InlinePanel("research_types", label=_("Research types")),
         FieldPanel("start_date"),
         FieldPanel("end_date"),
@@ -307,6 +310,12 @@ class ProjectPage(BasePage):
         if errors:
             raise ValidationError(errors)
 
+    def get_related_school(self):
+        """ returns the first related schools page"""
+        realted_school = self.related_school_pages.first()
+        if realted_school:
+            return realted_school.page
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         subjects = []
@@ -333,4 +342,225 @@ class ProjectPage(BasePage):
 
 
 class ProjectPickerPage(BasePage):
-    pass
+    template = "patterns/pages/project/project_listing.html"
+    introduction = models.CharField(max_length=200, blank=True)
+    featured_project = models.ForeignKey(
+        "ProjectPage",
+        on_delete=models.SET_NULL,
+        related_name="featured_project",
+        null=True,
+        blank=True,
+    )
+
+    content_panels = BasePage.content_panels + [
+        FieldPanel("introduction"),
+        PageChooserPanel("featured_project"),
+    ]
+
+    def get_filters(self, active_filters, projects_query):
+        # Build a list of filter values that will return results.
+        project_filter_field_mapping = {
+            "type": "research_types__research_type_id",
+            "subject": "subjects__subject_id",
+            "school": "related_school_pages__page_id",
+            "centre": "related_research_pages__page_id",
+        }
+
+        # used_filter_values will equal a dictionary with the same keys as
+        # project_filter_field_mapping and the values of each item will be
+        # a list of IDs.
+        # Example: {
+        #     'type': [1,2],
+        #     'subject': [4,8],
+        #     'school': [],
+        #     'centre': [11,17],
+        # }
+        used_filter_values = {}
+        for project_filter, filter_field in project_filter_field_mapping.items():
+            used_filter_values[project_filter] = [
+                item[filter_field]
+                for item in projects_query.order_by(filter_field)
+                .values(filter_field)
+                .distinct(filter_field)
+                if item[filter_field] is not None
+            ]
+
+        from rca.programmes.models import Subject
+        from rca.research.models import ResearchCentrePage
+        from rca.schools.models import SchoolPage
+
+        filters = {"title": "Filter by", "items": []}
+
+        research_types = {
+            "tab_title": "Research type",
+            "filter_name": "type",
+            "children": [],
+        }
+        for i in ResearchType.objects.filter(id__in=used_filter_values["type"]):
+            research_types["children"].append(
+                {
+                    "id": i.id,
+                    "title": i.title,
+                    "active": str(i.id) in active_filters["type"],
+                }
+            )
+        # Only add if there are children.
+        if research_types["children"]:
+            filters["items"].append(research_types)
+
+        subjects = {"tab_title": "Subjects", "filter_name": "subject", "children": []}
+
+        for i in Subject.objects.filter(id__in=used_filter_values["subject"]):
+            subjects["children"].append(
+                {
+                    "id": i.id,
+                    "title": i.title,
+                    "active": str(i.id) in active_filters["subject"],
+                }
+            )
+        # Only add if there are children.
+        if subjects["children"]:
+            filters["items"].append(subjects)
+
+        school_or_centre = {
+            "tab_title": "School or centre",
+            "filter_name": "school_or_centre",
+            "children": [],
+        }
+        for i in (
+            SchoolPage.objects.live()
+            .public()
+            .filter(id__in=used_filter_values["school"])
+        ):
+            school_or_centre["children"].append(
+                {
+                    "id": i.id,
+                    "title": i.title,
+                    "active": str(i.id) in active_filters["school_or_centre"],
+                }
+            )
+        for i in (
+            ResearchCentrePage.objects.live()
+            .public()
+            .filter(id__in=used_filter_values["centre"])
+        ):
+            school_or_centre["children"].append(
+                {
+                    "id": i.id,
+                    "title": i.title,
+                    "active": str(i.id) in active_filters["school_or_centre"],
+                }
+            )
+        # Only add if there are children.
+        if school_or_centre["children"]:
+            filters["items"].append(school_or_centre)
+
+        return filters
+
+    def _format_results(self, projects):
+        """ Prepares the queryset into a digestable list for the template """
+        projects_formatted = []
+        for page in projects:
+            year = None
+            if page.start_date:
+                year = page.start_date.strftime("%Y")
+                if page.end_date and page.end_date.strftime("%Y") != year:
+                    end_year = page.end_date.strftime("%Y")
+                    year = year + " - " + end_year
+
+            projects_formatted.append(
+                {
+                    "title": page.title,
+                    "image": page.hero_image,
+                    "link": page.url,
+                    "school": page.get_related_school(),
+                    "year": year,
+                    "listing_summary": page.listing_summary,
+                    "meta_heading": page.listing_title,
+                }
+            )
+        return projects_formatted
+
+    def get_active_filters(self, request):
+        return {
+            "type": request.GET.getlist("type"),
+            "subject": request.GET.getlist("subject"),
+            "school_or_centre": request.GET.getlist("school_or_centre"),
+        }
+
+    def get_extra_query_params(self, request, active_filters):
+        extra_query_params = []
+        for filter_name in active_filters:
+            for filter_id in active_filters[filter_name]:
+                extra_query_params.append(urlencode({filter_name: filter_id}))
+        return extra_query_params
+
+    def get_projects_query(self):
+        return (
+            ProjectPage.objects.live()
+            .public()
+            .descendant_of(self, inclusive=True)
+            .select_related("hero_image")
+        )
+
+    def get_results(self, request, projects_query, active_filters):
+        # Request filters
+        research_types = active_filters["type"]
+        subjects = active_filters["subject"]
+        school_or_centre = active_filters["school_or_centre"]
+
+        if research_types:
+            projects_query = projects_query.filter(
+                research_types__research_type_id__in=research_types
+            )
+
+        if subjects:
+            projects_query = projects_query.filter(subjects__subject_id__in=subjects)
+
+        if school_or_centre:
+            projects_query = projects_query.filter(
+                models.Q(related_school_pages__page_id__in=school_or_centre)
+                | models.Q(related_research_pages__page_id__in=school_or_centre)
+            )
+        return self._format_results(projects_query.distinct())
+
+    def get_context(self, request, *args, **kwargs):
+        page = request.GET.get("page", 1)
+        context = super().get_context(request, *args, **kwargs)
+        active_filters = self.get_active_filters(request)
+
+        # Send all the query params through to the context so they can be added
+        # to the pager links, E.G type=1&type=2&subject=1...
+        context["extra_query_params"] = self.get_extra_query_params(
+            request, active_filters
+        )
+
+        # Unfiltered Projects query.
+        projects_query = self.get_projects_query()
+
+        context["filters"] = self.get_filters(active_filters, projects_query)
+        context["featured_project"] = self._format_results([self.featured_project])[0]
+
+        # Don't show the featured project if queries are being made
+        # or we aren't on the first page of the results
+        context["show_featured_project"] = True
+        if context["extra_query_params"] or str(page) != "1":
+            context["show_featured_project"] = False
+
+        project_results = self.get_results(request, projects_query, active_filters)
+
+        # Pagination
+        paginator = Paginator(project_results, settings.DEFAULT_PER_PAGE)
+        try:
+            project_results = paginator.page(page)
+        except PageNotAnInteger:
+            project_results = paginator.page(1)
+        except EmptyPage:
+            project_results = paginator.page(paginator.num_pages)
+
+        context["results"] = project_results
+        context["results_count"] = paginator.count
+
+        context["reset"] = {"href": self.get_full_url(), "text": "Reset"}
+
+        return context
