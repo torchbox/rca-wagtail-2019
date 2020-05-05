@@ -1,8 +1,9 @@
-{% load wagtailcore_tags wagtailimages_tags static %}
+{% load wagtailcore_tags wagtailimages_tags static util_tags %}
 
 <div class="profile-detail">
     {% if item.link %}
-        <a href="{{ item.link }}" class="profile-detail__container profile-detail__container--link">
+        {% is_external item.link as is_external %}
+        <a href="{{ item.link }}" {% if is_external %} target="_blank" {% endif %} class="profile-detail__container profile-detail__container--link">
     {% else %}
         <div class="profile-detail__container">
     {% endif %}
@@ -21,16 +22,16 @@
     <div class="profile-detail__content">
         <div class="profile-detail__overview">
             <div class="profile-detail__header">
-                <h3 class="profile-detail__heading heading heading--five">{{ item.name }}</h3>
+                <h3 class="profile-detail__heading heading heading--five">{{ item.first_name }} {{ item.surname }}</h3>
             </div>
             <h4 class="profile-detail__job-title body body--one">{{ item.role }}</h4>
         </div>
         <div class="profile-detail__more">
             <p class="profile-detail__body body body--two">{{ item.description }}</p>
             {% if item.link %}
-                <span class="profile-detail__link body body--two link link--tertiary link--link">
+                <span class="profile-detail__link body body--two link link--tertiary link--link {% if is_external %}link--external{% endif %}">
                     <span class="link__label">View full profile</span>
-                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                    <svg {% if is_external %}width="11" height="13"{% else %}width="12" height="8"{% endif %} class="link__icon" aria-hidden="true"><use xlink:href="{% if is_external %}#arrow-external{% else %}#arrow{% endif %}"></use></svg>
                 </span>
             {% endif %}
         </div>

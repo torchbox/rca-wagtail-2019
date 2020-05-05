@@ -1,4 +1,4 @@
-{% load wagtailimages_tags %}
+{% load wagtailimages_tags wagtailcore_tags %}
 {% image stats_block.background_image max-1000x500 as bg_image %}
 <section class="section section--stat-block {% if stats_block_default_notch_override %}section--stat-block-notch-override{% else %}section--opposite-notch{% endif %} bg bg--stat-block bg--dark" data-stat-block style="--stat-block-bg-image: url('{{ bg_image.url }}')">
 
@@ -43,11 +43,11 @@
         {% endfor %}
     </div>
 
-    {% if stats_block.link_url and stats_block.link_text %}
+    {% if stats_block.page_link %}
         <div class="stat-block__footer grid">
             <div class="stat-block__footer-action">
-                <a href="{{ stats_block.link_url }}" class="stat-block__footer-link link link--tertiary link--link">
-                    {% if stats_block.link_text %}<span class="link__label">{{ stats_block.link_text }}</span>{% endif %}
+                <a href="{% pageurl stats_block.page_link %}" class="stat-block__footer-link link link--tertiary link--link">
+                    <span class="link__label">{{ stats_block.page_link.title }}</span>
                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                 </a>
             </div>

@@ -1,4 +1,5 @@
 from collections import defaultdict
+from itertools import chain
 
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -18,15 +19,13 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from rca.home.models import (
-    DARK_HERO,
-    HERO_COLOUR_CHOICES,
-    LIGHT_HERO,
-    LIGHT_TEXT_ON_DARK_IMAGE,
-)
-from rca.projects.models import ProjectPage
 from rca.utils.blocks import LinkBlock
-from rca.utils.models import BasePage, RelatedPage, RelatedStaffPageWithManualOptions
+from rca.utils.models import (
+    HERO_COLOUR_CHOICES,
+    BasePage,
+    RelatedPage,
+    RelatedStaffPageWithManualOptions,
+)
 
 
 class ResearchCentrePageRelatedResearchSpaces(RelatedPage):
@@ -54,6 +53,13 @@ class ResearchCentrePageStaff(RelatedStaffPageWithManualOptions):
     source_page = ParentalKey(
         "research.ResearchCentrePage", related_name="related_staff"
     )
+
+
+class ResearchCentrePageRelatedProjects(RelatedPage):
+    source_page = ParentalKey(
+        "research.ResearchCentrePage", related_name="research_projects"
+    )
+    panels = [PageChooserPanel("page", "projects.ProjectPage")]
 
 
 class ResearchCentrePage(BasePage):
@@ -115,6 +121,14 @@ class ResearchCentrePage(BasePage):
             "The title value displayed above the Research centre news carousel"
         ),
     )
+
+    highlights_title = models.CharField(
+        max_length=120,
+        blank=True,
+        help_text=_(
+            "The title value displayed above the Research highlights gallery showing project pages"
+        ),
+    )
     related_programmes_title = models.CharField(
         max_length=250,
         help_text=_(
@@ -156,6 +170,13 @@ class ResearchCentrePage(BasePage):
         MultiFieldPanel(
             [InlinePanel("research_spaces", label="Research spaces")],
             heading="Research spaces",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("highlights_title"),
+                InlinePanel("research_projects", label=_("Project pages"), max_num=8),
+            ],
+            heading=_("Research centre highlights"),
         ),
         MultiFieldPanel(
             [InlinePanel("research_opportunities", label="Research opportunities")],
@@ -209,27 +230,19 @@ class ResearchCentrePage(BasePage):
         ]
     )
 
-    def get_child_projects(self):
-        """
-        Returns a list of all child ProjectPages of this page
-        """
-        projects = (
-            ProjectPage.objects.live()
-            .public()
-            .descendant_of(self, inclusive=True)
-            .select_related("listing_image")
-        )
+    def get_related_projects(self):
         child_projects = []
-        for page in projects:
-            page = page.specific
-            child_projects.append(
-                {
-                    "title": page.title,
-                    "link": page.url,
-                    "image": page.listing_image,
-                    "description": page.listing_summary,
-                }
-            )
+        for value in self.research_projects.select_related("page"):
+            if value.page and value.page.live:
+                page = value.page.specific
+                child_projects.append(
+                    {
+                        "title": page.title,
+                        "link": page.url,
+                        "image": page.hero_image,
+                        "description": page.introduction,
+                    }
+                )
         return child_projects
 
     def get_research_spaces(self):
@@ -283,15 +296,18 @@ class ResearchCentrePage(BasePage):
 
     def get_related_programme_pages(self):
         from rca.programmes.models import ProgrammePage
+        from rca.shortcourses.models import ShortCoursePage
 
         programme_pages_qs = ProgrammePage.objects.filter(
             related_schools_and_research_pages__page_id=self.id
         )
+        short_course_pages_qs = ShortCoursePage.objects.filter(
+            related_schools_and_research_pages__page_id=self.id
+        )
+        qs = list(chain(programme_pages_qs, short_course_pages_qs))
+
         programme_pages = [
-            {
-                "title": self.related_programmes_title,
-                "related_items": programme_pages_qs,
-            }
+            {"title": self.related_programmes_title, "related_items": qs}
         ]
         return programme_pages
 
@@ -322,15 +338,11 @@ class ResearchCentrePage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["hero_colour"] = DARK_HERO
-        if int(self.hero_colour_option) == LIGHT_TEXT_ON_DARK_IMAGE:
-            context["hero_colour"] = LIGHT_HERO
-
         context["about_page"] = (
             self.about_page.url if self.about_page else self.about_page_url
         )
 
-        context["projects"] = self.get_child_projects()
+        context["projects"] = self.get_related_projects()
         context["research_spaces"] = self.get_research_spaces()
         context["research_opportunities"] = self.get_research_opportunities()
         context["research_news"] = self.get_research_news()

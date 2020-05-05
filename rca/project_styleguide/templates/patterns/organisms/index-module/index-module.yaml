@@ -1,28 +1,27 @@
 context:
-  item:
-    title: Index Module
-    cards:
-      - {
-          title: 'Innovation RCA',
-          link: '#',
-          meta: Link,
-          person: false,
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
-          image: true,
-        }
-      - {
-          title: 'Consultancy & knowledge exchange',
-          link: '#',
-          meta: Link,
-          person: false,
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
-          image: true,
-        }
-      - {
-          title: 'Custom executive education',
-          link: '#',
-          meta: Link,
-          person: false,
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
-          image: true,
-        }
+  title: Index Module
+  items:
+    - {
+        title: 'Innovation RCA',
+        link: '#',
+        meta: Link,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        image: true,
+      }
+    - {
+        title: 'Consultancy & knowledge exchange',
+        link: '#',
+        meta: Link,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        image: true,
+      }
+    - {
+        title: 'Custom executive education',
+        link: '#',
+        meta: Link,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        image: true,
+      }

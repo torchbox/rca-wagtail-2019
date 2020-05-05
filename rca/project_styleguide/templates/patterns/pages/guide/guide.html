@@ -3,7 +3,7 @@
 {% get_settings %}
 
 {% block body_class %}
-    app--guide no-hero theme-light
+    app--guide no-hero
 {% endblock %}
 
 {% block content %}
@@ -22,24 +22,23 @@
                         </h1>
                     {% endif %}
 
-                    {% if page.edit_date %}
                         <div class="title-area__meta">
-                            Last updated {{ page.edit_date }}
+                            Last updated {{ page.last_published_at|date:'d F Y' }}
                         </div>
-                    {% endif %}
                 </div>
             </div>
-
-            {% if page.introduction %}
                 <div class="introduction grid">
-                    {% include "patterns/molecules/anchor-nav/anchor-nav.html" with anchor_nav=page.anchor_nav %}
+                    {% if anchor_nav %}
+                        {% include "patterns/molecules/anchor-nav/anchor-nav.html" with anchor_nav=anchor_nav %}
+                    {% endif %}
                     <div class="introduction__container">
+                    {% if page.introduction %}
                         <h2 class="introduction__text section__heading heading heading--five">
                             {{ page.introduction }}
                         </h2>
+                    {% endif %}
                     </div>
                 </div>
-            {% endif %}
         </header>
 
         <div class="page__content">
@@ -52,26 +51,31 @@
 
                 <div class="section__row {% if not page.related_staff %}section__row--last{% endif %} section__row--first grid">
                     <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                        {% include "patterns/molecules/streamfield/stream_block.html" %}
+                        {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body %}
                     </div>
                 </div>
 
-                {% if page.related_staff %}
+                {% if related_staff %}
                     <div class="section__row section__row--first section__row--last" id="staff">
-                        {% include "patterns/organisms/people-module/people-module.html" with people=page.related_staff %}
+                    {% comment %} TODO Needs wrapping {% endcomment %}
+                        {% include "patterns/organisms/people-module/people-module.html" with people=related_staff title="Staff" %}
                     </div>
                 {% endif %}
 
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--first-col"></div>
-                </div>
-
             </section>
+            {% if page.further_information %}
+                <section class="section bg bg--dark">
+                <div class="section__row short-course-accordion section__row--last" id="{{ page.further_information_title|slugify }}">
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.further_information course_type="short" title=page.further_information_title %}
+                </div>
+                </section>
+            {% endif %}
 
-            {% if page.index_module %}
+            {% if related_pages %}
                 <section class="section bg bg--dark" id="index">
                     <div class="section__row section__row--first section__row--last-large">
-                        {% include "patterns/organisms/index-module/index-module.html" with item=page.index_module %}
+                        {% include "patterns/organisms/index-module/index-module.html" with items=related_pages.items title=related_pages.title id=page.related_pages_title|slugify %}
+
                     </div>
 
                     <div class="section__notch section__notch--small-med-only">
@@ -80,10 +84,10 @@
                 </section>
             {% endif %}
 
-            {% if page.contact %}
+            {% if page.contact_image %}
                 <section class="section bg bg--light" id="contact">
                     <div class="section__row section__row--first">
-                        {% include "patterns/organisms/contact/contact.html" with heading="Ask a question" text="Get in touch if you’d like to find out more or have any questions about working with the RCA." image=page.contact_image %}
+                        {% include "patterns/organisms/contact/contact.html" with heading="Ask a question" text=page.contact_text image=page.contact_image %}
                     </div>
                 </section>
 
@@ -93,7 +97,7 @@
                     </div>
                 </section>
             {% endif %}
-            
+
         </div>
 
     </div>

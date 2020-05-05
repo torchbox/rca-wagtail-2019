@@ -19,12 +19,6 @@ from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
-from rca.home.models import (
-    DARK_HERO,
-    HERO_COLOUR_CHOICES,
-    LIGHT_HERO,
-    LIGHT_TEXT_ON_DARK_IMAGE,
-)
 from rca.programmes.models import ProgrammeType
 from rca.shortcourses.access_planit import AccessPlanitXML
 from rca.utils.blocks import (
@@ -33,7 +27,12 @@ from rca.utils.blocks import (
     LinkBlock,
     QuoteBlock,
 )
-from rca.utils.models import BasePage, RelatedPage, RelatedStaffPageWithManualOptions
+from rca.utils.models import (
+    HERO_COLOUR_CHOICES,
+    BasePage,
+    RelatedPage,
+    RelatedStaffPageWithManualOptions,
+)
 
 
 class FeeItem(models.Model):
@@ -59,6 +58,15 @@ class ShortCoursePageRelatedProgramme(RelatedPage):
         PageChooserPanel(
             "page", ["programmes.ProgrammePage", "shortcourses.ShortCoursePage"]
         )
+    ]
+
+
+class ShortCoursRelatedSchoolsAndResearchPages(RelatedPage):
+    source_page = ParentalKey(
+        "ShortCoursePage", related_name="related_schools_and_research_pages"
+    )
+    panels = [
+        PageChooserPanel("page", ["schools.SchoolPage", "research.ResearchCentrePage"])
     ]
 
 
@@ -150,8 +158,10 @@ class ShortCoursePage(BasePage):
     external_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="External Links"
     )
+    application_form_url = models.URLField(blank=True)
     access_planit_and_course_data_panels = [
         FieldPanel("access_planit_course_id"),
+        FieldPanel("application_form_url"),
         MultiFieldPanel(
             [
                 FieldPanel("course_details_text"),
@@ -200,6 +210,15 @@ class ShortCoursePage(BasePage):
             [InlinePanel("related_programmes", label="Related programmes")],
             heading="Related Programmes",
         ),
+        MultiFieldPanel(
+            [
+                InlinePanel(
+                    "related_schools_and_research_pages",
+                    label=_("Related Schools and Research centres"),
+                )
+            ],
+            heading=_("Related Schools and Research Centre pages"),
+        ),
         StreamFieldPanel("external_links"),
     ]
     key_details_panels = [
@@ -242,10 +261,15 @@ class ShortCoursePage(BasePage):
 
         if access_planit_data:
             for date in access_planit_data:
+
                 if date["status"] == "Available":
                     booking_bar["message"] = "Next course starts"
                     booking_bar["date"] = date["start_date"]
-                    booking_bar["action"] = f"Book now from \xA3{date['cost']}"
+                    booking_bar["action"] = (
+                        "Complete form to apply"
+                        if self.application_form_url
+                        else f"Book now from \xA3{date['cost']}"
+                    )
                     booking_bar["cost"] = date["cost"]
                     booking_bar["link"] = None
                     booking_bar["modal"] = "booking-details"
@@ -293,8 +317,4 @@ class ShortCoursePage(BasePage):
             }
         ]
         context["related_staff"] = self.related_staff.select_related("image")
-        context["hero_colour"] = DARK_HERO
-        if int(self.hero_colour_option) == LIGHT_TEXT_ON_DARK_IMAGE:
-            context["hero_colour"] = LIGHT_HERO
-
         return context

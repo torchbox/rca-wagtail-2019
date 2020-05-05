@@ -85,6 +85,17 @@ class LinkBlock(blocks.StructBlock):
         icon = "link"
         template = "patterns/molecules/streamfield/blocks/link_block.html"
 
+    def clean(self, value):
+        result = super().clean(value)
+        errors = {}
+
+        if value["url"] and not value["title"]:
+            errors["title"] = ErrorList(["Please add title value to display."])
+
+        if errors:
+            raise ValidationError("Validation error in LinkBlock", params=errors)
+        return result
+
 
 class GalleryBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=False)
@@ -164,6 +175,22 @@ class RelatedPageListBlock(blocks.StructBlock):
         help_text="An optional link to display below the expanded content",
         required=False,
     )
+    page_link = blocks.PageChooserBlock(required=False)
+
+    def clean(self, value):
+        result = super().clean(value)
+        errors = {}
+
+        if value["link"]["url"] and value["page_link"]:
+            errors["page_link"] = ErrorList(
+                ["Please only add a link to a page or an absolute URL"]
+            )
+
+        if errors:
+            raise ValidationError(
+                "Validation error in RelatedPageListBlock", params=errors
+            )
+        return result
 
 
 class CallToActionBlock(blocks.StructBlock):
@@ -210,6 +237,27 @@ class StoryBlock(blocks.StreamBlock):
         template="patterns/molecules/streamfield/blocks/call_to_action_block.html",
     )
     document = DocumentBlock()
+
+    class Meta:
+        template = "patterns/molecules/streamfield/stream_block.html"
+
+
+# Specific streamfield for the guide pages
+class GuideBlock(blocks.StreamBlock):
+    anchor_heading = blocks.CharBlock(
+        classname="full title",
+        icon="title",
+        template="patterns/molecules/streamfield/blocks/anchor_heading_block.html",
+    )
+    heading = blocks.CharBlock(
+        classname="full title",
+        icon="title",
+        template="patterns/molecules/streamfield/blocks/heading_block.html",
+    )
+    paragraph = blocks.RichTextBlock()
+    image = ImageBlock()
+    quote = QuoteBlock()
+    embed = EmbedBlock()
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"

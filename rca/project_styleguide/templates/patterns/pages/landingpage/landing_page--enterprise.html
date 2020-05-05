@@ -2,10 +2,6 @@
 {% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
 {% get_settings %}
 
-{% block header_class %}
-    theme-{{ hero_colour }}
-{% endblock %}
-
 {% block body_class %}
     app--landing-page
 {% endblock %}
@@ -60,10 +56,10 @@
                         {% endif %}
                         <div class="section__content grid">
                             {% include "patterns/organisms/carousel/carousel.html" with carousel=related_pages_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}
-                            {% if page.highlights_link_text %}
+                            {% if page.highlights_page_link %}
                                 <div class="section__action">
-                                    <a class="link link--primary link--link body body--two" href="{{ page.highlights_link_url }}">
-                                        <span class="link__label">{{ page.highlights_link_text }}</span>
+                                    <a class="link link--primary link--link body body--two" href="{% pageurl page.highlights_page_link %}">
+                                        <span class="link__label">{{ page.highlights_page_link.title }}</span>
                                         <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                     </a>
                                 </div>
@@ -121,7 +117,7 @@
             {% if page_list %}
                 <section class="section section--opposite-notch bg bg--light">
                     <div class="section__row section__row--first {% if page.news %}section__row--last-large{% else %}section__row--last{% endif %}">
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page_list title=page_list_title modifier="after-action related-content--meta-new-line" %}
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page_list title=page.page_list_title modifier="after-action related-content--meta-new-line" %}
                     </div>
 
                     <div class="section__notch section__notch--opposite">
