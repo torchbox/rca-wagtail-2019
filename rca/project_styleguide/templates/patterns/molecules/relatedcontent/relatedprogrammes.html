@@ -26,7 +26,7 @@
                     <div class="related-content__meta">
                         <p class="related-content__title body body--one">
                             <a
-                                href="{% pageurl related_item %}"
+                                href="{{ related_item.url }}"
                                 class="related-content__link link link--tertiary"
                                 data-related-title
                                 data-target-image="{{ forloop.counter }}"
@@ -39,6 +39,8 @@
                             <p class="related-content__degree body body--two">{{ related_item.degree_level }}</p>
                         {% elif related_item.programme_type %}
                             <p class="related-content__degree body body--two">{{ related_item.programme_type }}</p>
+                        {% elif related_item.meta %}
+                            <p class="related-content__degree body body--two">{{ related_item.meta }}</p>
                         {% endif %}
                     </div>
                     <p class="related-content__copy body body--two">
