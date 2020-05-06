@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
@@ -50,6 +51,17 @@ class FeaturedImage(LinkFields):
 
     class Meta:
         abstract = True
+
+    def clean(self):
+        if self.link_page:
+            if self.image or self.subtitle or self.description:
+                raise ValidationError(
+                    {
+                        "link_page": ValidationError(
+                            "Please remove the page link if you are are creating a custom teaser"
+                        ),
+                    }
+                )
 
 
 class LandingPageStatsBlock(models.Model):
@@ -244,13 +256,40 @@ class LandingPage(BasePage):
                 )
         return items
 
+    def _format_featured_image(self, featured_image):
+        # If a page object has been selected here, send
+        # through the page object data rather than the manual fields
+        # heading=featured_image.page.title
+        # meta_heading=featured_image.subtitle
+        # meta_copy=featured_image.description
+        # href=featured_image.get_link_url
+        # image=featured_image.image modifier="tight-heading" %}
+        if featured_image.link_page:
+            page = featured_image.link_page.specific
+            image = page.listing_image
+            introduction = page.listing_summary
+
+            if hasattr(page, "hero_image"):
+                image = page.hero_image
+            if hasattr(page, "introduction"):
+                introduction = page.introduction
+
+            featured_image = {
+                "title": featured_image.title,
+                "subtitle": page.title,
+                "description": introduction,
+                "get_link_url": page.url,
+                "image": image,
+            }
+        return featured_image
+
     def get_featured_image(self):
         if hasattr(self, "featured_image"):
-            return self.featured_image.first
+            return self._format_featured_image(self.featured_image.first())
 
     def get_featured_image_secondary(self):
         if hasattr(self, "featured_image_secondary"):
-            return self.featured_image_secondary.first
+            return self._format_featured_image(self.featured_image_secondary.first())
 
     def get_related_pages(self, pages):
         related_pages = []
