@@ -70,6 +70,14 @@ class ShortCoursRelatedSchoolsAndResearchPages(RelatedPage):
     ]
 
 
+class ShortCourseSubjectPlacement(models.Model):
+    page = ParentalKey("ShortCoursePage", related_name="subjects")
+    subject = models.ForeignKey(
+        "programmes.Subject", on_delete=models.CASCADE, related_name="short_course"
+    )
+    panels = [FieldPanel("subject")]
+
+
 class ShortCoursePage(BasePage):
     template = "patterns/pages/shortcourses/short_course.html"
 
@@ -225,6 +233,7 @@ class ShortCoursePage(BasePage):
         InlinePanel("fee_items", label="Fees"),
         FieldPanel("location"),
         FieldPanel("show_register_link"),
+        InlinePanel("subjects", label=_("Subjects")),
     ]
 
     edit_handler = TabbedInterface(
