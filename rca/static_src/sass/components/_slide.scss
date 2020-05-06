@@ -27,6 +27,7 @@
 
         @include media-query(large) {
             display: flex;
+            min-height: 70px; // ensure controls don't butt up against the image
         }
     }
 
