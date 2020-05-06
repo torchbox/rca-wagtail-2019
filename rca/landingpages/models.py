@@ -117,7 +117,13 @@ class LandingPageRelatedPageHighlights(RelatedPage):
     panels = [PageChooserPanel("page")]
 
 
-class HomePageSlideshowBlock(models.Model):
+class LandingPageRelatedPageSlide(RelatedPage):
+    # For carousels and slidewhows that now use page choosers and not URLs
+    source_page = ParentalKey("landingpages.LandingPage", related_name="slideshow_page")
+    panels = [PageChooserPanel("page", ["guides.GuidePage", "projects.ProjectPage"])]
+
+
+class LandingPagePageSlideshowBlock(models.Model):
     source_page = ParentalKey("LandingPage", related_name="slideshow_block")
     title = models.CharField(
         max_length=125, help_text=_("Maximum length of 125 characters")
@@ -190,6 +196,12 @@ class LandingPage(BasePage):
     )
     page_list = StreamField([("page_list", RelatedPageListBlock())], blank=True)
     cta_block = StreamField([("call_to_action", CallToActionBlock())], blank=True)
+    slideshow_title = models.CharField(
+        max_length=125, help_text=_("Maximum length of 125 characters"), blank=True
+    )
+    slideshow_summary = models.CharField(
+        max_length=250, blank=True, help_text=_("Maximum length of 250 characters")
+    )
     contact_title = models.CharField(
         max_length=120, blank=True, help_text=_("Maximum length of 120 characters")
     )
@@ -341,6 +353,36 @@ class LandingPage(BasePage):
             items.append(item)
         return items
 
+    def _format_slideshow_pages(self, slideshow_pages):
+        slideshow = {
+            "title": self.slideshow_title,
+            "summary": self.slideshow_summary,
+            "slides": [],
+        }
+        # The template is formatted to work with blocks, so we need to match the
+        # data structure to now work with pages chooser values
+        for slide in slideshow_pages.all():
+            page = slide.page.specific
+            image = (
+                page.hero_image if hasattr(page, "hero_image") else page.listing_image
+            )
+            summary = (
+                page.introduction
+                if hasattr(page, "introduction")
+                else page.listing_summary
+            )
+            slideshow["slides"].append(
+                {
+                    "value": {
+                        "title": page.title,
+                        "summary": summary,
+                        "image": image,
+                        "link": page.url,
+                    }
+                }
+            )
+        return slideshow
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["about_page"] = self.about_page
@@ -381,6 +423,14 @@ class ResearchLandingPage(LandingPage):
             heading=_("Related page list"),
         ),
         InlinePanel("featured_image", label=_("Featured image"), max_num=1),
+        MultiFieldPanel(
+            [
+                FieldPanel("slideshow_title"),
+                FieldPanel("slideshow_summary"),
+                InlinePanel("slideshow_page", label=_("Page")),
+            ],
+            heading=_("Slideshow"),
+        ),
         InlinePanel("slideshow_block", label=_("Slideshow"), max_num=1),
         StreamFieldPanel("cta_block"),
         MultiFieldPanel(
@@ -397,6 +447,13 @@ class ResearchLandingPage(LandingPage):
 
     class Meta:
         verbose_name = "Landing Page - Research"
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["slideshow_block"] = self._format_slideshow_pages(
+            self.slideshow_page.all()
+        )
+        return context
 
 
 class InnovationLandingPage(LandingPage):
