@@ -173,7 +173,6 @@
 
             #{$root}__heading {
                 @include font-size(xs);
-                word-spacing: 1000px; // force surname onto second line
             }
 
             #{$root}__job-title {
