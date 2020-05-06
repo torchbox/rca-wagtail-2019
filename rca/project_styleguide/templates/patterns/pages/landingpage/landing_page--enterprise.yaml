@@ -5,7 +5,6 @@ context:
     highlights_title: Enterprise highlights
     highlights_page_link:
       title: See all enterprise projects
-      raw: '#'
     news:
       - item:
         meta: 'News'
@@ -30,6 +29,7 @@ context:
         person: false
     related_pages_title: Enterprise at the RCA
     related_pages_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    page_list_title: Executive education programmes
   related_pages:
     - {
         title: 'Innovation RCA',
@@ -61,7 +61,6 @@ context:
     description: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
     get_link_text: Read more
     get_link_url: '#'
-  page_list_title: Executive education programmes
   page_list:
     - item:
       title: Lorem Ipsum
