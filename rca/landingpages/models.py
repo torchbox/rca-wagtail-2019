@@ -259,12 +259,7 @@ class LandingPage(BasePage):
     def _format_featured_image(self, featured_image):
         # If a page object has been selected here, send
         # through the page object data rather than the manual fields
-        # heading=featured_image.page.title
-        # meta_heading=featured_image.subtitle
-        # meta_copy=featured_image.description
-        # href=featured_image.get_link_url
-        # image=featured_image.image modifier="tight-heading" %}
-        if featured_image.link_page:
+        if featured_image and featured_image.link_page:
             page = featured_image.link_page.specific
             image = page.listing_image
             introduction = page.listing_summary
