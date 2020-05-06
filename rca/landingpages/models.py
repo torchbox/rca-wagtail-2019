@@ -118,7 +118,7 @@ class LandingPageRelatedPageHighlights(RelatedPage):
 
 
 class LandingPageRelatedPageSlide(RelatedPage):
-    # For carousels and slidewhows that now use page choosers and not URLs
+    # For carousels and slideshows that now use page choosers and not URLs
     source_page = ParentalKey("landingpages.LandingPage", related_name="slideshow_page")
     panels = [PageChooserPanel("page", ["guides.GuidePage", "projects.ProjectPage"])]
 
