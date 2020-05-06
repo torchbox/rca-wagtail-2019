@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
@@ -50,6 +51,17 @@ class FeaturedImage(LinkFields):
 
     class Meta:
         abstract = True
+
+    def clean(self):
+        if self.link_page:
+            if self.image or self.subtitle or self.description:
+                raise ValidationError(
+                    {
+                        "link_page": ValidationError(
+                            "Please remove the page link if you are are creating a custom teaser"
+                        ),
+                    }
+                )
 
 
 class LandingPageStatsBlock(models.Model):
@@ -244,19 +256,54 @@ class LandingPage(BasePage):
                 )
         return items
 
+    def _format_featured_image(self, featured_image):
+        # If a page object has been selected here, send
+        # through the page object data rather than the manual fields
+        # heading=featured_image.page.title
+        # meta_heading=featured_image.subtitle
+        # meta_copy=featured_image.description
+        # href=featured_image.get_link_url
+        # image=featured_image.image modifier="tight-heading" %}
+        if featured_image.link_page:
+            page = featured_image.link_page.specific
+            image = page.listing_image
+            introduction = page.listing_summary
+
+            if hasattr(page, "hero_image"):
+                image = page.hero_image
+            if hasattr(page, "introduction"):
+                introduction = page.introduction
+
+            featured_image = {
+                "title": featured_image.title,
+                "subtitle": page.title,
+                "description": introduction,
+                "get_link_url": page.url,
+                "image": image,
+            }
+        return featured_image
+
     def get_featured_image(self):
         if hasattr(self, "featured_image"):
-            return self.featured_image.first
+            return self._format_featured_image(self.featured_image.first())
 
     def get_featured_image_secondary(self):
         if hasattr(self, "featured_image_secondary"):
-            return self.featured_image_secondary.first
+            return self._format_featured_image(self.featured_image_secondary.first())
 
     def get_related_pages(self, pages):
         related_pages = []
         for value in pages.select_related("page"):
             if value.page and value.page.live:
                 page = value.page.specific
+
+                # different page types show different tags
+                meta = None
+                if hasattr(page, "related_school_pages"):
+                    related_school = page.related_school_pages.first()
+                    if related_school:
+                        meta = related_school.page.title
+
                 related_pages.append(
                     {
                         "title": page.title,
@@ -267,6 +314,7 @@ class LandingPage(BasePage):
                         "description": page.introduction
                         if hasattr(page, "introduction")
                         else page.listing_summary,
+                        "meta": meta,
                     }
                 )
         return related_pages
@@ -276,15 +324,25 @@ class LandingPage(BasePage):
         into a digestable list for the template"""
         items = []
         for block in self.page_list:
+            # Page link can come from a page chooser, or a manual URL
             item = {
                 "title": block.value["heading"],
                 "related_items": [],
                 "link": block.value["link"],
                 "page_link": block.value["page_link"],
             }
-            for page in block.value["page"]:
-                page = page.value.specific
-                item["related_items"].append(page)
+            for page_block in block.value["page"]:
+                if page_block.block_type == "custom_teaser":
+                    page = {
+                        "title": page_block.value["title"],
+                        "url": page_block.value["link"]["url"],
+                        "listing_image": page_block.value["image"],
+                        "listing_summary": page_block.value["text"],
+                        "meta": page_block.value["meta"],
+                    }
+                    item["related_items"].append(page)
+                if page_block.block_type == "page":
+                    item["related_items"].append(page_block.value.specific)
             items.append(item)
         return items
 

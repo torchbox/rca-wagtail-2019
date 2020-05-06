@@ -162,8 +162,19 @@ class AccordionBlockWithTitle(blocks.StructBlock):
         return result
 
 
+class CustomTeaserBlock(blocks.StructBlock):
+    title = blocks.CharBlock(required=False)
+    meta = blocks.CharBlock(
+        required=False, help_text="Small tag value displayed below the title"
+    )
+    text = blocks.CharBlock(required=False)
+    image = ImageChooserBlock()
+    link = LinkBlock(required=False)
+
+
 class RelatedPageListBlockPage(blocks.StreamBlock):
     page = blocks.PageChooserBlock()
+    custom_teaser = CustomTeaserBlock()
 
 
 class RelatedPageListBlock(blocks.StructBlock):
