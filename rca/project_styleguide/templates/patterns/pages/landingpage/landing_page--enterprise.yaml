@@ -2,6 +2,10 @@ context:
   page:
     title: Enterprise landing page
     introduction: 'Enterprise at the RCA spans incubation, innovation and business acceleration programmes; consultancy and knowledge exchange, and custom executive short courses.'
+    highlights_title: Enterprise highlights
+    highlights_page_link:
+      title: See all enterprise projects
+      raw: '#'
     news:
       - item:
         meta: 'News'
@@ -99,5 +103,8 @@ context:
       description: 'Creating world class experiences that started at the RCA'
       image: true
       link: '#'
-  highlights_title: Enterprise highlights
-  highlights_link_text: '#'
+
+tags:
+  pageurl:
+    page.highlights_page_link:
+      raw: '#'
