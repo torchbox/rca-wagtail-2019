@@ -450,9 +450,15 @@ class ResearchLandingPage(LandingPage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["slideshow_block"] = self._format_slideshow_pages(
-            self.slideshow_page.all()
-        )
+
+        # reset the slideshow block so it can be re-populated as it's set in
+        # the parent context for other slideshow formats.
+        context["slideshow_block"] = []
+        if self.slideshow_page.first():
+            print("==================")
+            context["slideshow_block"] = self._format_slideshow_pages(
+                self.slideshow_page.all()
+            )
         return context
 
 
