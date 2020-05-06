@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RenameModel(
-            old_name="HomePageSlideshowBlock", new_name="LandingPagePageSlideshowBlock",
+            old_name="HomePageSlideshowBlock", new_name="LandingPagePageSlideshowBlock"
         ),
         migrations.AddField(
             model_name="landingpage",
@@ -65,6 +65,6 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={"ordering": ["sort_order"], "abstract": False},
         ),
     ]
