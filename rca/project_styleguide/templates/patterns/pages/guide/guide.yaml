@@ -17,10 +17,11 @@ context:
     body:
       - dummy
     last_published_at: !!timestamp '2020-05-13 2:00:00'
+    related_pages_title: Index Module
   anchor_nav:
     - { title: Introduction, link: '#introduction' }
-    - { title: Article 1, link: '#article-1' }
-    - { title: Article 2, link: '#article-2' }
+    - { title: Article one, link: '#article-one' }
+    - { title: Article two, link: '#article-two' }
     - { title: Staff, link: '#staff' }
     - { title: Index module, link: '#index-module' }
     - { title: Contact, link: '#contact' }
