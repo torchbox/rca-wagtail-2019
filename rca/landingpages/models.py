@@ -285,15 +285,25 @@ class LandingPage(BasePage):
         into a digestable list for the template"""
         items = []
         for block in self.page_list:
+            # Page link can come from a page chooser, or a manual URL
             item = {
                 "title": block.value["heading"],
                 "related_items": [],
                 "link": block.value["link"],
                 "page_link": block.value["page_link"],
             }
-            for page in block.value["page"]:
-                page = page.value.specific
-                item["related_items"].append(page)
+            for page_block in block.value["page"]:
+                if page_block.block_type == "custom_teaser":
+                    page = {
+                        "title": page_block.value["title"],
+                        "url": page_block.value["link"]["url"],
+                        "listing_image": page_block.value["image"],
+                        "listing_summary": page_block.value["text"],
+                        "meta": page_block.value["meta"],
+                    }
+                    item["related_items"].append(page)
+                if page_block.block_type == "page":
+                    item["related_items"].append(page_block.value.specific)
             items.append(item)
         return items
 
