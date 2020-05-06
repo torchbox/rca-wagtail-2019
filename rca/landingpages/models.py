@@ -431,7 +431,6 @@ class ResearchLandingPage(LandingPage):
             ],
             heading=_("Slideshow"),
         ),
-        InlinePanel("slideshow_block", label=_("Slideshow"), max_num=1),
         StreamFieldPanel("cta_block"),
         MultiFieldPanel(
             [
