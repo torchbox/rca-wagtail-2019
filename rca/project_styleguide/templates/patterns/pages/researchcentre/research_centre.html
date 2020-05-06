@@ -122,9 +122,11 @@
             {% if related_programmes.0.related_items %}
                 <section class="section section--notch-mask section--opposite-notch bg bg--dark">
 
-                    <div class="section__notch section__notch--opposite">
-                        <div class="section__notch-fill section__notch-fill--first-col"></div>
-                    </div>
+                    {% if research_opportunities %}
+                        <div class="section__notch section__notch--opposite">
+                            <div class="section__notch-fill section__notch-fill--first-col"></div>
+                        </div>
+                    {% endif %}
 
                         {% include "patterns/molecules/relatedcontent/relatedprogrammes--large.html" with related_sections=related_programmes title=related_programmes.0.title %}
 
