@@ -59,7 +59,7 @@ class FeaturedImage(LinkFields):
                     {
                         "link_page": ValidationError(
                             "Please remove the page link if you are are creating a custom teaser"
-                        ),
+                        )
                     }
                 )
 
