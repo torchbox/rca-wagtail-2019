@@ -141,7 +141,15 @@ class LandingPagePageSlideshowBlock(models.Model):
 class LandingPage(BasePage):
     """ Defines all the fields we will need for the other versions of landing pages
     visibility of some extra fields that aren't needed on certain models which inherit LandingPage
-    are controlled at the content_panels level"""
+    are controlled at the content_panels level.
+
+    There are two main reasons for this appoach:
+    1. We don't need to create three times as many related models, the ParentalKeys can
+        be "LandingPage" instead of ResearchLandingPage and InnovationLandingPage etc.
+    2. The way data is shown in the templates is slightly different but the back end can
+        be consistent, 'shaping' the page data can come from class methods on the main
+        LandingPage class, or be overriden for the other LandingPage classes
+    """
 
     template = "patterns/pages/landingpage/landing_page--generic.html"
     hero_image = models.ForeignKey(
