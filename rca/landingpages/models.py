@@ -455,7 +455,6 @@ class ResearchLandingPage(LandingPage):
         # the parent context for other slideshow formats.
         context["slideshow_block"] = []
         if self.slideshow_page.first():
-            print("==================")
             context["slideshow_block"] = self._format_slideshow_pages(
                 self.slideshow_page.all()
             )
