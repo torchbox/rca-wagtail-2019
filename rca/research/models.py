@@ -282,6 +282,18 @@ class ResearchCentrePage(BasePage):
         for value in self.research_news.select_related("page"):
             if value.page.live:
                 page = value.page.specific
+                page_type = None
+                if page.__class__.__name__ == "GuidePage":
+                    page_type = "GUIDE"
+                if page.__class__.__name__ == "ProjectPage":
+                    page_type = "PROJECT "
+                if page.__class__.__name__ == "ResearchCentrePage":
+                    page_type = "RESEARCH CENTRE"
+                if page.__class__.__name__ == "ShortCoursePage":
+                    page_type = "SHORT COURSE"
+                if page.__class__.__name__ == "ProgrammePage":
+                    page_type = "PROGRAMME"
+
                 research_news["slides"].append(
                     {
                         "value": {
@@ -293,6 +305,7 @@ class ResearchCentrePage(BasePage):
                             "summary": page.introduction
                             if hasattr(page, "introduction")
                             else page.listing_summary,
+                            "type": page_type,
                         }
                     }
                 )
