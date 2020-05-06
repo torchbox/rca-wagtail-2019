@@ -85,7 +85,7 @@ class LinkBlock(blocks.StructBlock):
             # Stale cache data could store a deleted page ID, so try the get
             # query first
             try:
-                page = Page.objects.get(id=6)
+                page = Page.objects.get(id=value["page"])
             except ObjectDoesNotExist:
                 # If we can't get the page, it has no business being in the menu
                 return []
