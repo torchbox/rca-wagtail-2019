@@ -72,6 +72,15 @@
                     </div>
 
                 </section>
+            
+            {% else %}
+                <section class="landing-page__top bg bg--dark">
+
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    </div>
+
+                </section>
             {% endif %}
 
             {% if related_pages %}
@@ -95,9 +104,11 @@
                         </div>
                     </div>
 
-                    <div class="section__notch section__notch--opposite">
-                        <div class="section__notch-fill section__notch-fill--second-col"></div>
-                    </div>
+                    {% if featured_image %}
+                        <div class="section__notch section__notch--opposite">
+                            <div class="section__notch-fill section__notch-fill--second-col"></div>
+                        </div>
+                    {% endif %}  
 
                 </section>
             {% endif %}
