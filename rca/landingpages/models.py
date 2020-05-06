@@ -257,6 +257,14 @@ class LandingPage(BasePage):
         for value in pages.select_related("page"):
             if value.page and value.page.live:
                 page = value.page.specific
+
+                # different page types show different tags
+                meta = None
+                if hasattr(page, "related_school_pages"):
+                    related_school = page.related_school_pages.first()
+                    if related_school:
+                        meta = related_school.page.title
+
                 related_pages.append(
                     {
                         "title": page.title,
@@ -267,6 +275,7 @@ class LandingPage(BasePage):
                         "description": page.introduction
                         if hasattr(page, "introduction")
                         else page.listing_summary,
+                        "meta": meta,
                     }
                 )
         return related_pages
