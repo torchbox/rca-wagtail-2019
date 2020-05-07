@@ -117,7 +117,13 @@ class LandingPageRelatedPageHighlights(RelatedPage):
     panels = [PageChooserPanel("page")]
 
 
-class HomePageSlideshowBlock(models.Model):
+class LandingPageRelatedPageSlide(RelatedPage):
+    # For carousels and slideshows that now use page choosers and not URLs
+    source_page = ParentalKey("landingpages.LandingPage", related_name="slideshow_page")
+    panels = [PageChooserPanel("page", ["guides.GuidePage", "projects.ProjectPage"])]
+
+
+class LandingPagePageSlideshowBlock(models.Model):
     source_page = ParentalKey("LandingPage", related_name="slideshow_block")
     title = models.CharField(
         max_length=125, help_text=_("Maximum length of 125 characters")
@@ -135,7 +141,15 @@ class HomePageSlideshowBlock(models.Model):
 class LandingPage(BasePage):
     """ Defines all the fields we will need for the other versions of landing pages
     visibility of some extra fields that aren't needed on certain models which inherit LandingPage
-    are controlled at the content_panels level"""
+    are controlled at the content_panels level.
+
+    There are two main reasons for this appoach:
+    1. We don't need to create three times as many related models, the ParentalKeys can
+        be "LandingPage" instead of ResearchLandingPage and InnovationLandingPage etc.
+    2. The way data is shown in the templates is slightly different but the back end can
+        be consistent, 'shaping' the page data can come from class methods on the main
+        LandingPage class, or be overriden for the other LandingPage classes
+    """
 
     template = "patterns/pages/landingpage/landing_page--generic.html"
     hero_image = models.ForeignKey(
@@ -190,6 +204,12 @@ class LandingPage(BasePage):
     )
     page_list = StreamField([("page_list", RelatedPageListBlock())], blank=True)
     cta_block = StreamField([("call_to_action", CallToActionBlock())], blank=True)
+    slideshow_title = models.CharField(
+        max_length=125, help_text=_("Maximum length of 125 characters"), blank=True
+    )
+    slideshow_summary = models.CharField(
+        max_length=250, blank=True, help_text=_("Maximum length of 250 characters")
+    )
     contact_title = models.CharField(
         max_length=120, blank=True, help_text=_("Maximum length of 120 characters")
     )
@@ -341,6 +361,36 @@ class LandingPage(BasePage):
             items.append(item)
         return items
 
+    def _format_slideshow_pages(self, slideshow_pages):
+        slideshow = {
+            "title": self.slideshow_title,
+            "summary": self.slideshow_summary,
+            "slides": [],
+        }
+        # The template is formatted to work with blocks, so we need to match the
+        # data structure to now work with pages chooser values
+        for slide in slideshow_pages.all():
+            page = slide.page.specific
+            image = (
+                page.hero_image if hasattr(page, "hero_image") else page.listing_image
+            )
+            summary = (
+                page.introduction
+                if hasattr(page, "introduction")
+                else page.listing_summary
+            )
+            slideshow["slides"].append(
+                {
+                    "value": {
+                        "title": page.title,
+                        "summary": summary,
+                        "image": image,
+                        "link": page.url,
+                    }
+                }
+            )
+        return slideshow
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["about_page"] = self.about_page
@@ -381,7 +431,14 @@ class ResearchLandingPage(LandingPage):
             heading=_("Related page list"),
         ),
         InlinePanel("featured_image", label=_("Featured image"), max_num=1),
-        InlinePanel("slideshow_block", label=_("Slideshow"), max_num=1),
+        MultiFieldPanel(
+            [
+                FieldPanel("slideshow_title"),
+                FieldPanel("slideshow_summary"),
+                InlinePanel("slideshow_page", label=_("Page")),
+            ],
+            heading=_("Slideshow"),
+        ),
         StreamFieldPanel("cta_block"),
         MultiFieldPanel(
             [
@@ -397,6 +454,18 @@ class ResearchLandingPage(LandingPage):
 
     class Meta:
         verbose_name = "Landing Page - Research"
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        # reset the slideshow block so it can be re-populated as it's set in
+        # the parent context for other slideshow formats.
+        context["slideshow_block"] = []
+        if self.slideshow_page.first():
+            context["slideshow_block"] = self._format_slideshow_pages(
+                self.slideshow_page.all()
+            )
+        return context
 
 
 class InnovationLandingPage(LandingPage):
