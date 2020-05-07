@@ -283,15 +283,16 @@ class ResearchCentrePage(BasePage):
             if value.page.live:
                 page = value.page.specific
                 page_type = None
-                if page.__class__.__name__ == "GuidePage":
+                class_name = page.__class__.__name__
+                if class_name == "GuidePage":
                     page_type = "GUIDE"
-                if page.__class__.__name__ == "ProjectPage":
+                if class_name == "ProjectPage":
                     page_type = "PROJECT "
-                if page.__class__.__name__ == "ResearchCentrePage":
+                if class_name == "ResearchCentrePage":
                     page_type = "RESEARCH CENTRE"
-                if page.__class__.__name__ == "ShortCoursePage":
+                if class_name == "ShortCoursePage":
                     page_type = "SHORT COURSE"
-                if page.__class__.__name__ == "ProgrammePage":
+                if class_name == "ProgrammePage":
                     page_type = "PROGRAMME"
 
                 research_news["slides"].append(
