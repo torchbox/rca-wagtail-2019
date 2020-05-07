@@ -2,7 +2,7 @@ from urllib.parse import urljoin, urlparse, urlsplit, urlunsplit
 
 from django import forms
 from django.core import validators
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.forms.utils import ErrorList
 from modelcluster.models import ClusterableModel
 from wagtail.admin.edit_handlers import StreamFieldPanel
@@ -82,7 +82,16 @@ class LinkBlock(blocks.StructBlock):
         )
 
         if value["page"] and not value["url"]:
-            value["url"] = Page.objects.get(id=value["page"]).url
+            # Stale cache data could store a deleted page ID, so try the get
+            # query first
+            try:
+                page = Page.objects.get(id=value["page"])
+            except ObjectDoesNotExist:
+                # If we can't get the page, it has no business being in the menu
+                return []
+            value["url"] = page.url
+            if not value["title"]:
+                value["title"] = page.title
 
         return value
 
