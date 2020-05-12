@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
+from rest_framework.fields import CharField as CharFieldSerializer
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
@@ -251,10 +252,11 @@ class ShortCoursePage(BasePage):
     )
 
     api_fields = [
+        # Fields for filtering and display, shared with programmes.ProgrammePage.
         APIField("subjects"),
         APIField("programme_type"),
         APIField("related_schools_and_research_pages"),
-        APIField("introduction"),
+        APIField("summary", serializer=CharFieldSerializer(source="introduction")),
         APIField(
             name="hero_image_square",
             serializer=ImageRenditionField("fill-580x580", source="hero_image"),

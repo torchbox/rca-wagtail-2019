@@ -1,18 +1,28 @@
 import PropTypes from 'prop-types';
 
-import { programmePage } from './programmes.types';
-
-const PROGRAMME_TYPE = 'programmes.ProgrammePage';
-const SHORT_COURSE_TYPE = 'shortcourses.ShortCoursePage';
-const PROGRAMME_FIELDS = [
-    'degree_level',
-    'programme_description_subtitle',
-    'pathway_blocks',
-    'hero_image_square',
-];
-const SHORT_COURSE_FIELDS = ['introduction', 'hero_image_square'];
+import {
+    PROGRAMME_PAGE_TYPE,
+    SHORT_COURSE_PAGE_TYPE,
+    programmePage,
+} from './programmes.types';
 
 const WAGTAIL_API_ENDPOINT = '/api/v3/pages';
+
+const listedPageTypes = [
+    {
+        type: PROGRAMME_PAGE_TYPE,
+        fields: [
+            'summary',
+            'hero_image_square',
+            'degree_level',
+            'pathway_blocks',
+        ],
+    },
+    {
+        type: SHORT_COURSE_PAGE_TYPE,
+        fields: ['summary', 'hero_image_square'],
+    },
+];
 
 /**
  * Generates a Wagtail API query string based on the given attributes.
@@ -54,10 +64,7 @@ export const getProgrammes = ({ query, filters = {} }) => {
     abortGetProgrammes.abort();
     abortGetProgrammes = new AbortController();
 
-    const requests = [
-        { type: PROGRAMME_TYPE, fields: PROGRAMME_FIELDS },
-        { type: SHORT_COURSE_TYPE, fields: SHORT_COURSE_FIELDS },
-    ].map(({ type, fields }) => {
+    const requests = listedPageTypes.map(({ type, fields }) => {
         const queryString = getWagtailAPIQueryString({
             search: query,
             filters,
