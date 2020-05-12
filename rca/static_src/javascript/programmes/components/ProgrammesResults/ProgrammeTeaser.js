@@ -6,8 +6,6 @@ import {
     programmePageShape,
 } from '../../programmes.types';
 
-const shortCourseLabel = 'Short course';
-
 /**
  * A programme or short course’s teaser info, to be displayed as part of search results.
  * "Degree level" and "Pathway blocks" are for programmes only. Other fields are shared.
@@ -15,6 +13,8 @@ const shortCourseLabel = 'Short course';
 const ProgrammeTeaser = ({ programme, onMouseOver, onFocus }) => {
     const { meta, title, summary, degree_level, pathway_blocks } = programme;
     const isShortCourse = meta.type === SHORT_COURSE_PAGE_TYPE;
+    // Short courses have no degree level. Display a distinguishing label instead.
+    const degreeLabel = isShortCourse ? 'Short course' : degree_level.title;
 
     return (
         <a
@@ -30,7 +30,7 @@ const ProgrammeTeaser = ({ programme, onMouseOver, onFocus }) => {
                     </span>
                 </h2>
                 <small className="programme-teaser__degree">
-                    {isShortCourse ? shortCourseLabel : degree_level.title}
+                    {degreeLabel}
                 </small>
             </div>
             <div className="programme-teaser__info">
