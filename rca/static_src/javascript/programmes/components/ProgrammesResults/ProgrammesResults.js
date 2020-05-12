@@ -48,7 +48,7 @@ const getResultsStatus = (
 };
 
 /**
- * A list of programmes matching a search or filter.
+ * A list of pages matching a search or filter.
  * The list auto-magically appears when matches are found.
  */
 const ProgrammesResults = ({

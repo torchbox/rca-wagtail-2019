@@ -1,16 +1,32 @@
 import PropTypes from 'prop-types';
 
-import { programmePage } from './programmes.types';
-
-const PROGRAMME_TYPE = 'programmes.ProgrammePage';
-const PROGRAMME_FIELDS = [
-    'degree_level',
-    'programme_description_subtitle',
-    'pathway_blocks',
-    'hero_image_square',
-];
+import {
+    PROGRAMME_PAGE_TYPE,
+    SHORT_COURSE_PAGE_TYPE,
+    programmePage,
+} from './programmes.types';
 
 const WAGTAIL_API_ENDPOINT = '/api/v3/pages';
+
+/**
+ * The programmes API queries multiple page types, with different fields for each.
+ * This array also determines the order in which the instances are displayed.
+ */
+const listedPageTypes = [
+    {
+        type: PROGRAMME_PAGE_TYPE,
+        fields: [
+            'summary',
+            'hero_image_square',
+            'degree_level',
+            'pathway_blocks',
+        ],
+    },
+    {
+        type: SHORT_COURSE_PAGE_TYPE,
+        fields: ['summary', 'hero_image_square'],
+    },
+];
 
 /**
  * Generates a Wagtail API query string based on the given attributes.
@@ -42,40 +58,40 @@ export const getWagtailAPIQueryString = ({
 let abortGetProgrammes = new AbortController();
 
 /**
- * Retrieve programmes based on:
+ * Retrieve programme and short course pages based on:
  * @param {string} query – a textual search query.
  * @param {object} filters – A key-val mapping of filters.
  * Or both!
  */
 export const getProgrammes = ({ query, filters = {} }) => {
-    const queryString = getWagtailAPIQueryString({
-        search: query,
-        filters,
-        type: PROGRAMME_TYPE,
-        fields: PROGRAMME_FIELDS,
-        limit: 50,
-    });
-    const url = `${WAGTAIL_API_ENDPOINT}${queryString}`;
-
     // Abort the previous controller if any, and create a new one.
     abortGetProgrammes.abort();
     abortGetProgrammes = new AbortController();
 
-    return fetch(url, { signal: abortGetProgrammes.signal })
-        .then((res) => res.json())
-        .then((result) => {
-            // Use prop-types definitions to check that the API response matches what we expect.
-            if (process.env.NODE_ENV === 'development') {
-                result.items.forEach((item) => {
-                    PropTypes.checkPropTypes(
-                        programmePage,
-                        item,
-                        '',
-                        'API client',
-                    );
-                });
-            }
-
-            return result.items;
+    const requests = listedPageTypes.map(({ type, fields }) => {
+        const queryString = getWagtailAPIQueryString({
+            search: query,
+            filters,
+            type,
+            fields,
+            limit: 50,
         });
+        const url = `${WAGTAIL_API_ENDPOINT}${queryString}`;
+
+        return fetch(url, {
+            signal: abortGetProgrammes.signal,
+        }).then((response) => response.json());
+    });
+
+    return Promise.all(requests).then((results) => {
+        const items = results.reduce((all, res) => all.concat(res.items), []);
+        // Use prop-types definitions to check that the API response matches what we expect.
+        if (process.env.NODE_ENV === 'development') {
+            items.forEach((item) => {
+                PropTypes.checkPropTypes(programmePage, item, '', 'API client');
+            });
+        }
+
+        return items;
+    });
 };
