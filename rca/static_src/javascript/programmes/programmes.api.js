@@ -8,6 +8,10 @@ import {
 
 const WAGTAIL_API_ENDPOINT = '/api/v3/pages';
 
+/**
+ * The programmes API queries multiple page types, with different fields for each.
+ * This array also determines the order in which the instances are displayed.
+ */
 const listedPageTypes = [
     {
         type: PROGRAMME_PAGE_TYPE,
@@ -54,7 +58,7 @@ export const getWagtailAPIQueryString = ({
 let abortGetProgrammes = new AbortController();
 
 /**
- * Retrieve programmes based on:
+ * Retrieve programme and short course pages based on:
  * @param {string} query – a textual search query.
  * @param {object} filters – A key-val mapping of filters.
  * Or both!

@@ -6,7 +6,7 @@ import { programmeCategories } from '../../programmes.types';
 import CategoryItem from './CategoryItem';
 
 /**
- * Tabs for all categories programmes can be filtered by.
+ * Tabs for all categories pages can be filtered by.
  * All tabs are rendered to the DOM so screen readers’ ARIA markup
  * is correct.
  */
