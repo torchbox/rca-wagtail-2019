@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { programmePage } from './programmes.types';
 
 const PROGRAMME_TYPE = 'programmes.ProgrammePage';
+const SHORT_COURSE_TYPE = 'shortcourses.ShortCoursePage';
 const PROGRAMME_FIELDS = [
     'degree_level',
     'programme_description_subtitle',
     'pathway_blocks',
     'hero_image_square',
 ];
+const SHORT_COURSE_FIELDS = ['introduction', 'hero_image_square'];
 
 const WAGTAIL_API_ENDPOINT = '/api/v3/pages';
 
@@ -48,34 +50,37 @@ let abortGetProgrammes = new AbortController();
  * Or both!
  */
 export const getProgrammes = ({ query, filters = {} }) => {
-    const queryString = getWagtailAPIQueryString({
-        search: query,
-        filters,
-        type: PROGRAMME_TYPE,
-        fields: PROGRAMME_FIELDS,
-        limit: 50,
-    });
-    const url = `${WAGTAIL_API_ENDPOINT}${queryString}`;
-
     // Abort the previous controller if any, and create a new one.
     abortGetProgrammes.abort();
     abortGetProgrammes = new AbortController();
 
-    return fetch(url, { signal: abortGetProgrammes.signal })
-        .then((res) => res.json())
-        .then((result) => {
-            // Use prop-types definitions to check that the API response matches what we expect.
-            if (process.env.NODE_ENV === 'development') {
-                result.items.forEach((item) => {
-                    PropTypes.checkPropTypes(
-                        programmePage,
-                        item,
-                        '',
-                        'API client',
-                    );
-                });
-            }
-
-            return result.items;
+    const requests = [
+        { type: PROGRAMME_TYPE, fields: PROGRAMME_FIELDS },
+        { type: SHORT_COURSE_TYPE, fields: SHORT_COURSE_FIELDS },
+    ].map(({ type, fields }) => {
+        const queryString = getWagtailAPIQueryString({
+            search: query,
+            filters,
+            type,
+            fields,
+            limit: 50,
         });
+        const url = `${WAGTAIL_API_ENDPOINT}${queryString}`;
+
+        return fetch(url, {
+            signal: abortGetProgrammes.signal,
+        }).then((response) => response.json());
+    });
+
+    return Promise.all(requests).then((results) => {
+        const items = results.reduce((all, res) => all.concat(res.items), []);
+        // Use prop-types definitions to check that the API response matches what we expect.
+        if (process.env.NODE_ENV === 'development') {
+            items.forEach((item) => {
+                PropTypes.checkPropTypes(programmePage, item, '', 'API client');
+            });
+        }
+
+        return items;
+    });
 };

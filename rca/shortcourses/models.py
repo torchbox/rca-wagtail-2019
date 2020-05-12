@@ -14,8 +14,10 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
     TabbedInterface,
 )
+from wagtail.api import APIField
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
+from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
@@ -247,6 +249,17 @@ class ShortCoursePage(BasePage):
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
+
+    api_fields = [
+        APIField("subjects"),
+        APIField("programme_type"),
+        APIField("related_schools_and_research_pages"),
+        APIField("introduction"),
+        APIField(
+            name="hero_image_square",
+            serializer=ImageRenditionField("fill-580x580", source="hero_image"),
+        ),
+    ]
 
     def get_access_planit_data(self):
         access_planit_course_data = AccessPlanitXML(

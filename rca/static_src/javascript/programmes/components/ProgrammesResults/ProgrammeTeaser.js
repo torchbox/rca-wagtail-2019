@@ -13,7 +13,9 @@ const ProgrammeTeaser = ({ programme, onMouseOver, onFocus }) => {
         degree_level,
         programme_description_subtitle,
         pathway_blocks,
+        introduction,
     } = programme;
+    const isShortCourse = meta.type === 'shortcourses.ShortCoursePage';
 
     return (
         <a
@@ -29,14 +31,16 @@ const ProgrammeTeaser = ({ programme, onMouseOver, onFocus }) => {
                     </span>
                 </h2>
                 <small className="programme-teaser__degree">
-                    {degree_level.title}
+                    {isShortCourse ? 'Short course' : degree_level.title}
                 </small>
             </div>
             <div className="programme-teaser__info">
                 <p className="programme-teaser__description body body--one">
-                    {programme_description_subtitle}
+                    {isShortCourse
+                        ? introduction
+                        : programme_description_subtitle}
                 </p>
-                {pathway_blocks.length > 0 ? (
+                {!isShortCourse && pathway_blocks.length > 0 ? (
                     <div>
                         <p className="programme-teaser__pathways-heading">
                             Pathways:
