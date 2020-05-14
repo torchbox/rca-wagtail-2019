@@ -90,6 +90,13 @@ class SubMenu {
         const childLinks = `[data-nav-level="${itemLevel + 1}"]`;
         this.removeClass(childLinks, this.activeClass);
 
+        // deactive child <li>'s and remove fade icon class
+        const childLinkElements = document.querySelectorAll(childLinks);
+        childLinkElements.forEach(link => {
+            link.parentElement.classList.remove(this.activeClass);
+            link.parentElement.classList.remove(this.fadeIconClass);
+        });
+
         // deactive parent <li>'s and add fade icon class
         const siblingLinkElements = document.querySelectorAll(`[data-nav-level="${itemLevel}"]`);
         siblingLinkElements.forEach(link => {
