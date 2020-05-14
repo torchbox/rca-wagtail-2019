@@ -1,5 +1,3 @@
-import hoverintent from 'hoverintent';
-
 class SubMenu {
     static selector() {
         return '[data-menu-parent]';
@@ -10,50 +8,10 @@ class SubMenu {
         this.navLinks = document.querySelectorAll('[data-menu-id]');
         this.visibleClass = 'is-visible';
         this.activeClass = 'is-active';
-        this.hoverintentOptions = { timeout: 400 };
         this.bindEventListeners();
     }
 
     bindEventListeners() {
-        this.isDesktop = window.innerWidth > 1022;
-
-        if (this.isDesktop) {
-            this.initDesktop();
-        } else {
-            this.initTablet();
-        }
-    }
-
-    // desktop hover events
-    initDesktop() {
-        this.navLinks.forEach((link) => {
-            hoverintent(
-                link,
-                (e) => {
-                    // on hover
-                    this.activateMenu(e.target);
-                },
-                () => {
-                    // hover out
-                },
-            ).options(this.hoverintentOptions);
-        });
-
-        // delay hover actions to make the menu more useable
-        hoverintent(
-            this.node,
-            (e) => {
-                // mouse over
-                this.activateMenu(e.target);
-            },
-            () => {
-                // mouseout
-            },
-        ).options(this.hoverintentOptions);
-    }
-
-    // tablet click events
-    initTablet() {
         this.node.addEventListener('click', (e) => {
             e.preventDefault();
             this.activateMenu(e.target);
