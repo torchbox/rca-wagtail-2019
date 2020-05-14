@@ -12,6 +12,28 @@ class SubMenu {
     }
 
     bindEventListeners() {
+        this.isDesktop = window.innerWidth > 1022;
+
+        if (this.isDesktop) {
+            this.handleDesktop();
+        } else {
+            this.handleMobile();
+        }
+    }
+
+    // Nav item text is an actual link on desktop
+    // Use the icon to drill down the menu
+    handleDesktop() {
+        this.node.addEventListener('click', (e) => {
+            if (!this.node.classList.contains('nav__link')) {
+                e.preventDefault();
+                this.activateMenu(e.target);
+            }
+        });
+    }
+
+    // Nav item text and icon used to drill down on mobile
+    handleMobile() {
         this.node.addEventListener('click', (e) => {
             e.preventDefault();
             this.activateMenu(e.target);
