@@ -107,8 +107,8 @@ class SubMenu {
         this.removeClass(childLinks, this.activeClass);
 
         // deactive child <li>'s and remove fade icon class
-        this.removeClassFromParent(childLinks, this.activeClass)
-        this.removeClassFromParent(childLinks, this.fadeIconClass)
+        this.removeClassFromParent(childLinks, this.activeClass);
+        this.removeClassFromParent(childLinks, this.fadeIconClass);
 
         // deactive parent <li>'s and add fade icon class
         const siblingLinkElements = `[data-nav-level="${itemLevel}"]`;
