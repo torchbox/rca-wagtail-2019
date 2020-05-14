@@ -57,6 +57,22 @@ class SubMenu {
         return toAdd;
     }
 
+    removeClassFromParent(selector, className) {
+        const toRemove = document.querySelectorAll(selector);
+        toRemove.forEach((item) => {
+            item.parentElement.classList.remove(className);
+        });
+        return toRemove;
+    }
+
+    addClassToParent(selector, className) {
+        const toAdd = document.querySelectorAll(selector);
+        toAdd.forEach((item) => {
+            item.parentElement.classList.add(className);
+        });
+        return toAdd;
+    }
+
     // add active link styles
     activateMenu(navItem) {
         // eslint-disable-next-line radix
@@ -91,18 +107,13 @@ class SubMenu {
         this.removeClass(childLinks, this.activeClass);
 
         // deactive child <li>'s and remove fade icon class
-        const childLinkElements = document.querySelectorAll(childLinks);
-        childLinkElements.forEach(link => {
-            link.parentElement.classList.remove(this.activeClass);
-            link.parentElement.classList.remove(this.fadeIconClass);
-        });
+        this.removeClassFromParent(childLinks, this.activeClass)
+        this.removeClassFromParent(childLinks, this.fadeIconClass)
 
         // deactive parent <li>'s and add fade icon class
-        const siblingLinkElements = document.querySelectorAll(`[data-nav-level="${itemLevel}"]`);
-        siblingLinkElements.forEach(link => {
-            link.parentElement.classList.remove(this.activeClass);
-            link.parentElement.classList.add(this.fadeIconClass);
-        });
+        const siblingLinkElements = `[data-nav-level="${itemLevel}"]`;
+        this.removeClassFromParent(siblingLinkElements, this.activeClass);
+        this.addClassToParent(siblingLinkElements, this.fadeIconClass);
 
         // activate my link
         navItem.classList.add(this.activeClass);
