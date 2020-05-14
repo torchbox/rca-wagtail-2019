@@ -258,10 +258,18 @@
             padding: 12px;
             width: 40px;
             height: 40px;
-            transition: fill $transition;
+            transition: fill $transition, opacity $transition;
 
             @include media-query(large) {
                 display: block;
+            }
+
+            .is-active & {
+                opacity: 1;
+            }
+
+            .fade-icon & {
+                opacity: 0.3;
             }
         }
     }
@@ -269,6 +277,7 @@
     &__icon-container {
         &:hover {
             #{$root}__icon--desktop {
+                opacity: 1;
                 fill: $color--tertiary;
             }
         }
