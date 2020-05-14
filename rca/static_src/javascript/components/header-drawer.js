@@ -96,8 +96,13 @@ class HeaderDrawer {
         const visibleItems = document.querySelectorAll(
             '[data-nav-container] .is-visible',
         );
+
         const activeItems = document.querySelectorAll(
             '[data-nav-container] .is-active',
+        );
+
+        const fadedItems = document.querySelectorAll(
+            '[data-nav-container] .fade-icon',
         );
 
         visibleItems.forEach((item) => {
@@ -106,6 +111,10 @@ class HeaderDrawer {
 
         activeItems.forEach((item) => {
             item.classList.remove('is-active');
+        });
+
+        fadedItems.forEach((item) => {
+            item.classList.remove('fade-icon');
         });
     }
 }
