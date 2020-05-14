@@ -41,6 +41,20 @@
                                     <svg class="nav__icon" width="6" height="10"><use xlink:href="#chevron"></use></svg>
                                 {% endif %}
                             </a>
+
+                            {# Desktop nav icon #}
+                            {% if link.secondary_links %}
+                                <a
+                                    href="#"
+                                    class="nav__icon-container"
+                                    data-nav-level="1"
+                                    data-menu="{{ forloop.counter }}"
+                                    data-menu-id={{ forloop.counter }}
+                                    {% if link.secondary_links %}data-menu-parent{% endif %}
+                                >
+                                    <svg class="nav__icon nav__icon--desktop" width="15" height="15"><use xlink:href="#chevron"></use></svg>
+                                </a>
+                            {% endif %}
                         </li>
                     {% endfor %}
                 </ul>
@@ -60,7 +74,7 @@
                             <a href="{{ link.url }}" class="nav__link nav__link--group-heading">{{ link.text }}</a>
                         </li>
                         {% for item in link.secondary_links %}
-                            <li class="nav__item">
+                            <li class="nav__item nav__item--secondary">
 
                                 <!-- Level 2 <a> -->
                                 <a
@@ -78,6 +92,22 @@
                                         <svg class="nav__icon" width="6" height="10"><use xlink:href="#chevron"></use></svg>
                                     {% endif %}
                                 </a>
+
+                                {# Desktop nav icon #}
+                                {% if item.tertiary_links %}
+                                    <a
+                                        href="#"
+                                        class="nav__icon-container"
+                                        data-menu-child
+                                        data-nav-level="2"
+                                        data-parent-id="{{ forloop.parentloop.counter }}"
+                                        data-menu-id="{{ forloop.parentloop.counter}}-{{ forloop.counter }}"
+                                        data-menu="{{ forloop.parentloop.counter }}-{{ forloop.counter }}"
+                                        {% if item.tertiary_links %}data-menu-parent{% endif %}
+                                    >
+                                        <svg class="nav__icon nav__icon--desktop" width="15" height="15"><use xlink:href="#chevron"></use></svg>
+                                    </a>
+                                {% endif %}
                             </li>
                         {% endfor %}
                     </ul>

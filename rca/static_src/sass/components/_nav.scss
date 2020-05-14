@@ -1,4 +1,5 @@
 .nav {
+    $root: &;
     $sub-nav-height--small: 500px;
     $sub-nav-height--large: 900px;
     $gradient-height: 200px;
@@ -138,6 +139,19 @@
                 border-bottom: 1px solid;
             }
         }
+
+        &--primary,
+        &--secondary {
+            @include media-query(large) {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                #{$root}__link {
+                    flex: 1;
+                }
+            }
+        }
     }
 
     &__link {
@@ -224,6 +238,26 @@
 
         @include media-query(large) {
             display: none;
+        }
+
+        &--desktop {
+            display: none;
+            padding: 12px;
+            width: 40px;
+            height: 40px;
+            transition: fill $transition;
+
+            @include media-query(large) {
+                display: block;
+            }
+        }
+    }
+
+    &__icon-container {
+        &:hover {
+            #{$root}__icon--desktop {
+                fill: $color--tertiary;
+            }
         }
     }
 }
