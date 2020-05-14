@@ -89,8 +89,18 @@ class SubMenu {
         const childLinks = `[data-nav-level="${itemLevel + 1}"]`;
         this.removeClass(childLinks, this.activeClass);
 
+        // deactive parent <li>'s
+        const siblingLinkElements = document.querySelectorAll(`[data-nav-level="${itemLevel}"]`);
+        siblingLinkElements.forEach(link => {
+            link.parentElement.classList.remove(this.activeClass);
+        });
+
         // activate my link
         navItem.classList.add(this.activeClass);
+
+        // activate parent <li>
+        const parentItem = navItem.parentElement;
+        parentItem.classList.add(this.activeClass);
 
         // find <a> with same id in previous menu and activate
         const parentAnchor = document.querySelector(

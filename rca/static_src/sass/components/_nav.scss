@@ -107,6 +107,19 @@
     }
 
     &__item {
+        &.is-active {
+            @include media-query(large) {
+                #{$root}__link {
+                    span {
+                        &::after {
+                            width: 100%;
+                            left: 0;
+                        }
+                    }
+                }
+            }
+        }
+
         &--group-heading {
             display: block;
 
