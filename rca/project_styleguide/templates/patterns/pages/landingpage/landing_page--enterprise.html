@@ -19,6 +19,9 @@
         <header class="page__header bg bg--dark">
             <div class="title-area title-area--landing-page grid">
                 <div class="title-area__content">
+                    <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
+                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
+                    </nav>
                     {% if page.title %}
                         <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
                     {% endif %}
@@ -72,7 +75,7 @@
                     </div>
 
                 </section>
-            
+
             {% else %}
                 <section class="landing-page__top bg bg--dark">
 
@@ -108,7 +111,7 @@
                         <div class="section__notch section__notch--opposite">
                             <div class="section__notch-fill section__notch-fill--second-col"></div>
                         </div>
-                    {% endif %}  
+                    {% endif %}
 
                 </section>
             {% endif %}
