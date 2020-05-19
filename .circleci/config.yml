@@ -79,7 +79,6 @@ jobs:
       - run:
           name: deploy staging to heroku
           command: |
-            sudo apt-get install curl
             echo "Deploying to Heroku. To see progress, go to: https://dashboard.heroku.com/apps/$HEROKU_APP_NAME_STAGING/activity"
             curl -sf -X POST -m 900 https://heroku-deploy.torchbox.com/$HEROKU_APP_NAME_STAGING/$CIRCLE_SHA1?key=$DEPLOYMENT_KEY
   deploy_production:
