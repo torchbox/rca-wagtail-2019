@@ -1,5 +1,3 @@
-import hoverintent from 'hoverintent';
-
 class SubMenu {
     static selector() {
         return '[data-menu-parent]';
@@ -10,7 +8,7 @@ class SubMenu {
         this.navLinks = document.querySelectorAll('[data-menu-id]');
         this.visibleClass = 'is-visible';
         this.activeClass = 'is-active';
-        this.hoverintentOptions = { timeout: 400 };
+        this.fadeIconClass = 'fade-icon';
         this.bindEventListeners();
     }
 
@@ -18,42 +16,25 @@ class SubMenu {
         this.isDesktop = window.innerWidth > 1022;
 
         if (this.isDesktop) {
-            this.initDesktop();
+            this.handleDesktop();
         } else {
-            this.initTablet();
+            this.handleMobile();
         }
     }
 
-    // desktop hover events
-    initDesktop() {
-        this.navLinks.forEach((link) => {
-            hoverintent(
-                link,
-                (e) => {
-                    // on hover
-                    this.activateMenu(e.target);
-                },
-                () => {
-                    // hover out
-                },
-            ).options(this.hoverintentOptions);
-        });
-
-        // delay hover actions to make the menu more useable
-        hoverintent(
-            this.node,
-            (e) => {
-                // mouse over
+    // Nav item text is an actual link on desktop
+    // Use the icon to drill down the menu
+    handleDesktop() {
+        this.node.addEventListener('click', (e) => {
+            if (!this.node.classList.contains('nav__link')) {
+                e.preventDefault();
                 this.activateMenu(e.target);
-            },
-            () => {
-                // mouseout
-            },
-        ).options(this.hoverintentOptions);
+            }
+        });
     }
 
-    // tablet click events
-    initTablet() {
+    // Nav item text and icon used to drill down on mobile
+    handleMobile() {
         this.node.addEventListener('click', (e) => {
             e.preventDefault();
             this.activateMenu(e.target);
@@ -72,6 +53,22 @@ class SubMenu {
         const toAdd = document.querySelectorAll(selector);
         toAdd.forEach((item) => {
             item.classList.add(className);
+        });
+        return toAdd;
+    }
+
+    removeClassFromParent(selector, className) {
+        const toRemove = document.querySelectorAll(selector);
+        toRemove.forEach((item) => {
+            item.parentElement.classList.remove(className);
+        });
+        return toRemove;
+    }
+
+    addClassToParent(selector, className) {
+        const toAdd = document.querySelectorAll(selector);
+        toAdd.forEach((item) => {
+            item.parentElement.classList.add(className);
         });
         return toAdd;
     }
@@ -109,8 +106,22 @@ class SubMenu {
         const childLinks = `[data-nav-level="${itemLevel + 1}"]`;
         this.removeClass(childLinks, this.activeClass);
 
+        // deactive child <li>'s and remove fade icon class
+        this.removeClassFromParent(childLinks, this.activeClass);
+        this.removeClassFromParent(childLinks, this.fadeIconClass);
+
+        // deactive parent <li>'s and add fade icon class
+        const siblingLinkElements = `[data-nav-level="${itemLevel}"]`;
+        this.removeClassFromParent(siblingLinkElements, this.activeClass);
+        this.addClassToParent(siblingLinkElements, this.fadeIconClass);
+
         // activate my link
         navItem.classList.add(this.activeClass);
+
+        // activate parent <li> and remove fade icon class
+        const parentItem = navItem.parentElement;
+        parentItem.classList.add(this.activeClass);
+        parentItem.classList.remove(this.fadeIconClass);
 
         // find <a> with same id in previous menu and activate
         const parentAnchor = document.querySelector(
