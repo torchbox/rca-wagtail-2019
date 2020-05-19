@@ -20,7 +20,7 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            sudo apt-get install rsync
+            sudo apt-get install rsync curl
             pip install -r requirements.txt
             pip install -r requirements-dev.txt
       - run:
