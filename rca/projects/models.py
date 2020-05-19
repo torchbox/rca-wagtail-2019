@@ -539,7 +539,10 @@ class ProjectPickerPage(BasePage):
         projects_query = self.get_projects_query()
 
         context["filters"] = self.get_filters(active_filters, projects_query)
-        context["featured_project"] = self._format_results([self.featured_project])[0]
+        if self.featured_project:
+            context["featured_project"] = self._format_results([self.featured_project])[
+                0
+            ]
 
         # Don't show the featured project if queries are being made
         # or we aren't on the first page of the results

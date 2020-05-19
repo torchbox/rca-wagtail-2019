@@ -22,7 +22,7 @@
             {% endif %}
             {% for i in pagination_section %}
                 <li class="pagination__item {% if i == subpages.number %}pagination__item--current{% endif %}">
-                    <a href="?page={{i}}&{% for value in extra_query_params %}{{ value }}&amp;{% endfor %}" class="pagination__link">{{i}}</a>
+                    <a href="?page={{i}}&{% for value in extra_query_params %}{{ value }}&amp;{% endfor %}#results" class="pagination__link">{{i}}</a>
                 </li>
             {% endfor %}
         {% endfor %}
