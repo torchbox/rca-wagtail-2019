@@ -92,7 +92,7 @@
 
     &__footer {
         // Prevent footer grid lines showing outside of footer area
-        @include z-index(above-gridlines);
+        @include z-index(footer);
         position: relative;
         clip: rect(auto, auto, auto, auto);
         clip-path: inset(-0.5px 0 0 0);
