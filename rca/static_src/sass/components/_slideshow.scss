@@ -1,29 +1,9 @@
 .slideshow {
     $root: &;
-    $meta-height: 20px;
+    $meta-height: 70px;
     $meta-height-w-author: 70px;
     padding-bottom: ($gutter * 2);
     overflow-x: hidden; // Prevent horizontal scroll on iOS
-
-    &--author-info {
-        #{$root}__controls {
-            @include media-query(large) {
-                top: -$meta-height-w-author;
-            }
-        }
-
-        #{$root}__scrollbar {
-            @include media-query(medium) {
-                margin-top: 0;
-            }
-        }
-
-        #{$root}__controls-group {
-            &::after {
-                height: $meta-height-w-author;
-            }
-        }
-    }
 
     &__liveregion {
         @include hidden();

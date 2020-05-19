@@ -2,6 +2,8 @@
     margin-bottom: ($gutter / 2);
 
     &__link {
+        @include underline-hover();
+        position: relative;
         color: $color--white;
     }
 }

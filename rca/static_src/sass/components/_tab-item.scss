@@ -5,6 +5,7 @@
     margin-right: ($gutter * 1.5);
     position: relative;
     white-space: nowrap;
+    text-decoration: none; // overriding mixin
 
     &:last-child {
         padding-right: ($gutter);

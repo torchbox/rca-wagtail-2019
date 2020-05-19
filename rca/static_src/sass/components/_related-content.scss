@@ -138,6 +138,10 @@
 
     &__group {
         margin-bottom: ($gutter * 3);
+
+        @include media-query(large) {
+            min-height: 450px;
+        }
     }
 
     &__heading,

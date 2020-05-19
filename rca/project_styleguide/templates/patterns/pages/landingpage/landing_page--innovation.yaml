@@ -13,6 +13,9 @@ context:
     feature_meta_text: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
     feature_meta_link: '#'
     related_courses_title: Programmes
+    highlights_title: Start-ups
+    highlights_page_link:
+      title: See all start-ups
     news:
       - item:
         meta: 'News'
@@ -43,9 +46,6 @@ context:
   page_list:
     - item:
       title: Programmes for RCA students & alumni
-      link:
-        url: '#'
-        title: View all executive education courses
       related_items:
         - item:
           title: Design Thinking & Innovation
@@ -64,9 +64,6 @@ context:
           img: http://placehold.it/300x270
     - item:
       title: Programmes for individuals & companies
-      link:
-        url: '#'
-        title: View all executive education courses
       related_items:
         - item:
           title: Design Thinking & Innovation
@@ -150,4 +147,6 @@ context:
 tags:
   pageurl:
     page.about_page:
+      raw: '#'
+    page.highlights_page_link:
       raw: '#'

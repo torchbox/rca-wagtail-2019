@@ -45,6 +45,7 @@
     }
 
     &__heading {
+        display: inline-block;
         position: relative;
         word-break: break-word; // ensure long names wrap
         margin-bottom: ($gutter / 4);

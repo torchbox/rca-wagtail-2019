@@ -2,6 +2,9 @@ context:
   page:
     title: Enterprise landing page
     introduction: 'Enterprise at the RCA spans incubation, innovation and business acceleration programmes; consultancy and knowledge exchange, and custom executive short courses.'
+    highlights_title: Enterprise highlights
+    highlights_page_link:
+      title: See all enterprise projects
     news:
       - item:
         meta: 'News'
@@ -26,6 +29,7 @@ context:
         person: false
     related_pages_title: Enterprise at the RCA
     related_pages_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    page_list_title: Executive education programmes
   related_pages:
     - {
         title: 'Innovation RCA',
@@ -57,7 +61,6 @@ context:
     description: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
     get_link_text: Read more
     get_link_url: '#'
-  page_list_title: Executive education programmes
   page_list:
     - item:
       title: Lorem Ipsum
@@ -99,5 +102,8 @@ context:
       description: 'Creating world class experiences that started at the RCA'
       image: true
       link: '#'
-  highlights_title: Enterprise highlights
-  highlights_link_text: '#'
+
+tags:
+  pageurl:
+    page.highlights_page_link:
+      raw: '#'

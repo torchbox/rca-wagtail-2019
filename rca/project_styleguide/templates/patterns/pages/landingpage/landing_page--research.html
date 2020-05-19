@@ -19,6 +19,9 @@
         <header class="page__header bg bg--dark">
             <div class="title-area title-area--landing-page grid">
                 <div class="title-area__content">
+                    <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
+                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
+                    </nav>
                     {% if page.title %}
                         <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
                     {% endif %}
@@ -81,7 +84,7 @@
                     </div>
                     {% if not stats_block %}
                         <div class="section__notch section__notch--opposite">
-                            <div class="section__notch-fill section__notch-fill--third-col"></div>
+                            <div class="section__notch-fill section__notch-fill--second-col"></div>
                         </div>
                     {% endif %}
 
@@ -94,14 +97,13 @@
                         {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=featured_image.title meta_heading=featured_image.subtitle meta_copy=featured_image.description href=featured_image.get_link_url image=featured_image.image modifier="tight-heading" %}
                     </div>
                     <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--third-col"></div>
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
                 </section>
             {% endif %}
 
             {% if slideshow_block or page.text_teaser %}
                 <section class="section bg bg--light">
-
                     {% if slideshow_block %}
                         <div class="section__row section__row--first section__row--last">
                             <div class="partnerships partnerships--tight-heading">

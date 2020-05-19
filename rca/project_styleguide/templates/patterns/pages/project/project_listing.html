@@ -45,10 +45,10 @@
                             <button class="filter-tab-options__button link link--primary layout__start-two layout__span-one layout__@large-start-four" data-filter-submit>
                                 <span class="link__label">Show results</span>
                                 <svg width="12" height="8" class="link__icon link__icon--rotated" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                            </button>            
+                            </button>
                         </div>
                     </div>
-                    
+
                 </div>
             </section>
 
@@ -71,7 +71,7 @@
                 </div>
             </div>
 
-            
+
             <section class="section bg bg--light" >
 
                 {% if results %}
@@ -86,7 +86,7 @@
 
                 {% if featured_project and show_featured_project %}
                     <div class="section__row">
-                        {% include "patterns/organisms/image-video-block/image-video-block.html" with heading=false subheading=featured_project.title meta_heading=featured_project.meta_heading image=featured_project.image has_meta=True meta_copy=featured_project.listing_summary href=featured_project.link caption=false video=false school=featured_project.school %}
+                        {% include "patterns/organisms/image-video-block/image-video-block.html" with heading=false subheading=featured_project.title meta_heading=false image=featured_project.image has_meta=True meta_copy=featured_project.listing_summary href=featured_project.link caption=false video=false school=featured_project.school %}
                     </div>
                 {% endif %}
 
@@ -115,8 +115,8 @@
                 {% endif %}
             </section>
 
-            
-        
+
+
         </form>
 
     </div>

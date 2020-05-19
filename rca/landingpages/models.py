@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
@@ -50,6 +51,17 @@ class FeaturedImage(LinkFields):
 
     class Meta:
         abstract = True
+
+    def clean(self):
+        if self.link_page:
+            if self.image or self.subtitle or self.description:
+                raise ValidationError(
+                    {
+                        "link_page": ValidationError(
+                            "Please remove the page link if you are are creating a custom teaser"
+                        )
+                    }
+                )
 
 
 class LandingPageStatsBlock(models.Model):
@@ -105,7 +117,13 @@ class LandingPageRelatedPageHighlights(RelatedPage):
     panels = [PageChooserPanel("page")]
 
 
-class HomePageSlideshowBlock(models.Model):
+class LandingPageRelatedPageSlide(RelatedPage):
+    # For carousels and slideshows that now use page choosers and not URLs
+    source_page = ParentalKey("landingpages.LandingPage", related_name="slideshow_page")
+    panels = [PageChooserPanel("page", ["guides.GuidePage", "projects.ProjectPage"])]
+
+
+class LandingPagePageSlideshowBlock(models.Model):
     source_page = ParentalKey("LandingPage", related_name="slideshow_block")
     title = models.CharField(
         max_length=125, help_text=_("Maximum length of 125 characters")
@@ -123,7 +141,15 @@ class HomePageSlideshowBlock(models.Model):
 class LandingPage(BasePage):
     """ Defines all the fields we will need for the other versions of landing pages
     visibility of some extra fields that aren't needed on certain models which inherit LandingPage
-    are controlled at the content_panels level"""
+    are controlled at the content_panels level.
+
+    There are two main reasons for this appoach:
+    1. We don't need to create three times as many related models, the ParentalKeys can
+        be "LandingPage" instead of ResearchLandingPage and InnovationLandingPage etc.
+    2. The way data is shown in the templates is slightly different but the back end can
+        be consistent, 'shaping' the page data can come from class methods on the main
+        LandingPage class, or be overriden for the other LandingPage classes
+    """
 
     template = "patterns/pages/landingpage/landing_page--generic.html"
     hero_image = models.ForeignKey(
@@ -178,6 +204,12 @@ class LandingPage(BasePage):
     )
     page_list = StreamField([("page_list", RelatedPageListBlock())], blank=True)
     cta_block = StreamField([("call_to_action", CallToActionBlock())], blank=True)
+    slideshow_title = models.CharField(
+        max_length=125, help_text=_("Maximum length of 125 characters"), blank=True
+    )
+    slideshow_summary = models.CharField(
+        max_length=250, blank=True, help_text=_("Maximum length of 250 characters")
+    )
     contact_title = models.CharField(
         max_length=120, blank=True, help_text=_("Maximum length of 120 characters")
     )
@@ -244,19 +276,49 @@ class LandingPage(BasePage):
                 )
         return items
 
+    def _format_featured_image(self, featured_image):
+        # If a page object has been selected here, send
+        # through the page object data rather than the manual fields
+        if featured_image and featured_image.link_page:
+            page = featured_image.link_page.specific
+            image = page.listing_image
+            introduction = page.listing_summary
+
+            if hasattr(page, "hero_image"):
+                image = page.hero_image
+            if hasattr(page, "introduction"):
+                introduction = page.introduction
+
+            featured_image = {
+                "title": featured_image.title,
+                "subtitle": page.title,
+                "description": introduction,
+                "get_link_url": page.url,
+                "image": image,
+            }
+        return featured_image
+
     def get_featured_image(self):
         if hasattr(self, "featured_image"):
-            return self.featured_image.first
+            return self._format_featured_image(self.featured_image.first())
 
     def get_featured_image_secondary(self):
         if hasattr(self, "featured_image_secondary"):
-            return self.featured_image_secondary.first
+            return self._format_featured_image(self.featured_image_secondary.first())
 
     def get_related_pages(self, pages):
         related_pages = []
         for value in pages.select_related("page"):
             if value.page and value.page.live:
                 page = value.page.specific
+
+                # different page types show different tags
+                meta = None
+                if hasattr(page, "related_school_pages"):
+                    related_school = page.related_school_pages.first()
+                    if related_school:
+                        meta = related_school.page.title
+
                 related_pages.append(
                     {
                         "title": page.title,
@@ -267,6 +329,7 @@ class LandingPage(BasePage):
                         "description": page.introduction
                         if hasattr(page, "introduction")
                         else page.listing_summary,
+                        "meta": meta,
                     }
                 )
         return related_pages
@@ -276,17 +339,68 @@ class LandingPage(BasePage):
         into a digestable list for the template"""
         items = []
         for block in self.page_list:
+            # Page link can come from a page chooser, or a manual URL
             item = {
                 "title": block.value["heading"],
                 "related_items": [],
                 "link": block.value["link"],
                 "page_link": block.value["page_link"],
             }
-            for page in block.value["page"]:
-                page = page.value.specific
-                item["related_items"].append(page)
+            for page_block in block.value["page"]:
+                if page_block.block_type == "custom_teaser":
+                    page = {
+                        "title": page_block.value["title"],
+                        "url": page_block.value["link"]["url"],
+                        "listing_image": page_block.value["image"],
+                        "listing_summary": page_block.value["text"],
+                        "meta": page_block.value["meta"],
+                    }
+                    item["related_items"].append(page)
+                if page_block.block_type == "page":
+                    item["related_items"].append(page_block.value.specific)
             items.append(item)
         return items
+
+    def _format_slideshow_pages(self, slideshow_pages):
+        slideshow = {
+            "title": self.slideshow_title,
+            "summary": self.slideshow_summary,
+            "slides": [],
+        }
+        # The template is formatted to work with blocks, so we need to match the
+        # data structure to now work with pages chooser values
+        for slide in slideshow_pages.all():
+            page = slide.page.specific
+            image = (
+                page.hero_image if hasattr(page, "hero_image") else page.listing_image
+            )
+            summary = (
+                page.introduction
+                if hasattr(page, "introduction")
+                else page.listing_summary
+            )
+            page_type = None
+            page_type_mapping = {
+                "GuidePage": "GUIDE",
+                "ProjectPage": "PROJECT",
+                "ResearchCentrePage": "RESEARCH CENTRE",
+                "ShortCoursePage": "SHORT COURSE",
+                "ProgrammePage": "PROGRAMME",
+            }
+            if page.__class__.__name__ in page_type_mapping:
+                page_type = page_type_mapping[page.__class__.__name__]
+            slideshow["slides"].append(
+                {
+                    "value": {
+                        "title": page.title,
+                        "summary": summary,
+                        "image": image,
+                        "link": page.url,
+                        "type": page_type,
+                    }
+                }
+            )
+        return slideshow
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -328,7 +442,14 @@ class ResearchLandingPage(LandingPage):
             heading=_("Related page list"),
         ),
         InlinePanel("featured_image", label=_("Featured image"), max_num=1),
-        InlinePanel("slideshow_block", label=_("Slideshow"), max_num=1),
+        MultiFieldPanel(
+            [
+                FieldPanel("slideshow_title"),
+                FieldPanel("slideshow_summary"),
+                InlinePanel("slideshow_page", label=_("Page")),
+            ],
+            heading=_("Slideshow"),
+        ),
         StreamFieldPanel("cta_block"),
         MultiFieldPanel(
             [
@@ -344,6 +465,18 @@ class ResearchLandingPage(LandingPage):
 
     class Meta:
         verbose_name = "Landing Page - Research"
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        # reset the slideshow block so it can be re-populated as it's set in
+        # the parent context for other slideshow formats.
+        context["slideshow_block"] = []
+        if self.slideshow_page.first():
+            context["slideshow_block"] = self._format_slideshow_pages(
+                self.slideshow_page.all()
+            )
+        return context
 
 
 class InnovationLandingPage(LandingPage):

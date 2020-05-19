@@ -12,6 +12,7 @@
     &--with-preview {
         #{$root}__heading {
             grid-column: 1 / span 1;
+            padding-right: $gutter;
         }
 
         #{$root}__meta {
