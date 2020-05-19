@@ -20,7 +20,7 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            sudo apt-get install rsync curl
+            sudo apt-get install rsync
             pip install -r requirements.txt
             pip install -r requirements-dev.txt
       - run:
@@ -73,7 +73,7 @@ jobs:
             curl -sf -X POST -m 900 https://heroku-deploy.torchbox.com/$HEROKU_APP_NAME_DEV/$CIRCLE_SHA1?key=$DEPLOYMENT_KEY
   deploy_staging:
     docker:
-      - image: buildpack-deps:trusty-curl
+      - image: buildpack-deps:trusty
     steps:
       - checkout
       - run:
