@@ -30,6 +30,10 @@
         display: block;
         font-family: $font--primary;
         transition: color $cubic-transition;
+
+        &::after {
+            width: 0;
+        }
     }
 
     &__button {
