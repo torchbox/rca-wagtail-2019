@@ -1,5 +1,6 @@
 context:
-  reset: true
+  reset:
+    text: Reset
   value:
     title: Explore by
     items:
