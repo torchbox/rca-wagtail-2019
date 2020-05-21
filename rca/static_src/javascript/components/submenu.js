@@ -90,7 +90,9 @@ class SubMenu {
 
         // Move the focus to the fisrt <a> in a child menu that was opened
         const childMenuElement = childMenu[0];
-        childMenuElement.querySelector('a:not(.nav__link--group-heading)').focus();
+        childMenuElement
+            .querySelector('a:not(.nav__link--group-heading)')
+            .focus();
 
         // only show child drawer if has a menu else make sure it's gone
         if (childMenu.length > 0) {
