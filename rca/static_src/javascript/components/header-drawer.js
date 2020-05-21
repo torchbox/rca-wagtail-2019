@@ -71,6 +71,7 @@ class HeaderDrawer {
         } else {
             // open the drawer
             this.open();
+            this.focusMenu();
         }
     }
 
@@ -116,6 +117,11 @@ class HeaderDrawer {
         fadedItems.forEach((item) => {
             item.classList.remove('fade-icon');
         });
+    }
+
+    // move the focus to the first <a> in level 1
+    focusMenu() {
+        document.querySelector('[data-nav-level-1] a').focus();
     }
 }
 
