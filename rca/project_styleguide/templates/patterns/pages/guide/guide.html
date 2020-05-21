@@ -29,7 +29,7 @@
             </div>
                 <div class="introduction grid">
                     {% if anchor_nav %}
-                        {% include "patterns/molecules/anchor-nav/anchor-nav.html" with anchor_nav=anchor_nav %}
+                        {% include "patterns/molecules/anchor-nav/anchor-nav.html" with anchor_nav=anchor_nav show_contact_block=page.contact_image  %}
                     {% endif %}
                     <div class="introduction__container">
                         {% if page.introduction %}
