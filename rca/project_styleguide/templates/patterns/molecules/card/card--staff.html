@@ -1,0 +1,24 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<div class="card card--staff{% if item.image %} card--image{% endif %}{% if modifier %} card--{{ modifier }}{% endif %}">
+    {% if item.image %}
+        {% image card.image fill-80x80 as image_small %}
+        {% image card.image fill-392x392 as image_large %}
+    {% endif %}
+    <div class="card__container">
+        {% if item.link %}<a href="{{ item.link }}" class="card__image-container" aria-label="{{ item.title }}">{% endif %}
+            {% if item.image %}{% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=392 height=392 image_large=image_large classList='card__image' %}{% endif %}
+        {% if item.link %}</a>{% endif %}
+        <div class="card__content-container">
+            <div class="card__content">
+                <h3 class="card__heading">
+                    {% if item.link %}<a href="{{ item.link }}" class="card__heading-link">{% endif %}
+                        {{ item.title }}
+                    {% if item.link %}</a>{% endif %}
+                </h3>
+                {% if item.job_title %}
+                    <div class="card__description card__year">{{ item.job_title }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
