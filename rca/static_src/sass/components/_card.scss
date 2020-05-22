@@ -150,6 +150,55 @@
         }
     }
 
+    &--staff {
+        margin-bottom: ($gutter * 2);
+
+        @include media-query(medium) {
+            padding-right: ($gutter * 2);
+        }
+
+        @include media-query(large) {
+            padding-right: ($gutter * 4);
+            margin-bottom: ($gutter * 2.5);
+        }
+
+        // One off custom breakpoint between medium and large
+        @media only screen and (max-width: $custom-breakpoint-max) and (min-width: $custom-breakpoint-min) {
+            padding-right: $gutter;
+        }
+
+        #{$root}__content {
+            flex-basis: 100%;
+            max-width: 100%;
+            min-width: 100%;
+            top: 0;
+            margin-bottom: 0;
+            padding-right: 0;
+            padding-top: ($gutter * 0.75);
+
+            &::after {
+                display: none;
+            }
+        }
+
+        #{$root}__heading {
+            @include font-size(xs);
+        }
+
+        #{$root}__school {
+            @include font-size(xxxs);
+            padding-right: 50%;
+
+            @include media-query(large) {
+                padding-right: 33.333%;
+            }
+        }
+
+        #{$root}__year {
+            @include font-size(xxs);
+        }
+    }
+
     &__container {
         display: flex;
         flex-direction: column;
