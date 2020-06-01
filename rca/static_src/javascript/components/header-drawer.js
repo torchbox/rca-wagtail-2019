@@ -60,7 +60,7 @@ class HeaderDrawer {
                     this.body.classList.remove(this.menuOpenClass);
                     this.body.classList.add(this.searchOpenClass);
                 }
-            // and menu is clicked
+                // and menu is clicked
             } else if (this.node.dataset.active === 'menu') {
                 // activate it
                 if (!this.body.classList.contains(this.menuOpenClass)) {
@@ -122,7 +122,6 @@ class HeaderDrawer {
         fadedItems.forEach((item) => {
             item.classList.remove('fade-icon');
         });
-
     }
 }
 
