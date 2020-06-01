@@ -10,7 +10,6 @@ from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.utils.urlpatterns import decorate_urlpatterns
 
-from rca.search import views as search_views
 from rca.utils.cache import get_default_cache_control_decorator
 from rca.wagtailapi.api import api_router
 
@@ -19,8 +18,6 @@ private_urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents2/", include(wagtaildocs_urls)),
-    # Search cache-control headers are set on the view itself.
-    path("search/", search_views.search, name="search"),
     # Don’t use generic cache control for API endpoints.
     path("api/v3/", api_router.urls),
 ]
