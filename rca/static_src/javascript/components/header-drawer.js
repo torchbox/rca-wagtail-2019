@@ -1,3 +1,5 @@
+import createFocusTrap from 'focus-trap';
+
 class HeaderDrawer {
     static selector() {
         return '[data-menu-toggle]';
@@ -15,6 +17,12 @@ class HeaderDrawer {
         this.searchOpenClass = 'search-active';
         this.noScrollClass = 'no-scroll';
         this.activeClass = `${this.node.dataset.active}-active`;
+        this.menuFocusTrap = createFocusTrap('.header__menus', {
+            onActivate() {
+                // move the focus to the first <a> in level 1
+                document.querySelector('[data-nav-level-1] a').focus();
+            },
+        });
         this.bindEventListeners();
     }
 
@@ -47,23 +55,15 @@ class HeaderDrawer {
         if (this.body.classList.contains(this.drawerOpenClass)) {
             // and search is clicked
             if (this.node.dataset.active === 'search') {
-                // and the search is active
-                if (this.body.classList.contains(this.searchOpenClass)) {
-                    // close the drawer
-                    this.close();
-                } else {
-                    // activate the search
+                // activate it
+                if (!this.body.classList.contains(this.searchOpenClass)) {
                     this.body.classList.remove(this.menuOpenClass);
                     this.body.classList.add(this.searchOpenClass);
                 }
-                // and menu is clicked
+            // and menu is clicked
             } else if (this.node.dataset.active === 'menu') {
-                // and the menu is active
-                if (this.body.classList.contains(this.menuOpenClass)) {
-                    // close the drawer
-                    this.close();
-                } else {
-                    // activate the menu
+                // activate it
+                if (!this.body.classList.contains(this.menuOpenClass)) {
                     this.body.classList.remove(this.searchOpenClass);
                     this.body.classList.add(this.menuOpenClass);
                 }
@@ -71,7 +71,6 @@ class HeaderDrawer {
         } else {
             // open the drawer
             this.open();
-            this.focusMenu();
         }
     }
 
@@ -81,6 +80,9 @@ class HeaderDrawer {
             this.activeClass,
             this.noScrollClass,
         );
+
+        // Activate the focus trap within .header__menus
+        this.menuFocusTrap.activate();
     }
 
     close() {
@@ -89,6 +91,9 @@ class HeaderDrawer {
             this.activeClass,
             this.noScrollClass,
         );
+
+        // Deactivate the the focus trap within .header__menus
+        this.menuFocusTrap.deactivate();
 
         this.resetMenu();
     }
@@ -117,11 +122,7 @@ class HeaderDrawer {
         fadedItems.forEach((item) => {
             item.classList.remove('fade-icon');
         });
-    }
 
-    // move the focus to the first <a> in level 1
-    focusMenu() {
-        document.querySelector('[data-nav-level-1] a').focus();
     }
 }
 
