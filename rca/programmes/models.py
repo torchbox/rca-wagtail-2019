@@ -608,36 +608,6 @@ class ProgrammePage(BasePage):
         APIField("related_schools_and_research_pages"),
     ]
 
-    def get_alumni_stories(self, programme_type_legacy_slug):
-        # Use the slug as prefix to the cache key
-        cache_key = f"{programme_type_legacy_slug}_programme_latest_alumni_stories"
-        stories_data = cache.get(cache_key)
-        if stories_data is None:
-            try:
-                stories_data = content.pull_alumni_stories(programme_type_legacy_slug)
-            except content.CantPullFromRcaApi:
-                return []
-            else:
-                cache.set(cache_key, stories_data, settings.API_CONTENT_CACHE_TIMEOUT)
-        return stories_data
-
-    def get_news_and_events(self, programme_type_legacy_slug):
-        # Use the slug as prefix to the cache key
-        cache_key = f"{programme_type_legacy_slug}_programme_latest_news_and_events"
-        news_and_events_data = cache.get(cache_key)
-        if news_and_events_data is None:
-            try:
-                news_and_events_data = content.pull_news_and_events(
-                    programme_type_legacy_slug
-                )
-            except content.CantPullFromRcaApi:
-                return []
-            else:
-                cache.set(
-                    cache_key, news_and_events_data, settings.API_CONTENT_CACHE_TIMEOUT
-                )
-        return news_and_events_data
-
     def clean(self):
         errors = defaultdict(list)
         if self.hero_video and not self.hero_video_preview_image:
