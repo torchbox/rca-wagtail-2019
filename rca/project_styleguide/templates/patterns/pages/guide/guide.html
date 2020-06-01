@@ -28,7 +28,7 @@
                 </div>
             </div>
                 <div class="introduction grid">
-                    {% if anchor_nav %}
+                    {% if anchor_nav or page.contact_image %}
                         {% include "patterns/molecules/anchor-nav/anchor-nav.html" with anchor_nav=anchor_nav show_contact_block=page.contact_image  %}
                     {% endif %}
                     <div class="introduction__container">
