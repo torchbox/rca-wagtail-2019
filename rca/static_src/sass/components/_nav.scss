@@ -88,6 +88,11 @@
 
     &--standout {
         margin-top: ($gutter * 5);
+        margin-bottom: ($gutter * 10);
+
+        @include media-query(large) {
+            margin-bottom: 0;
+        }
     }
 
     &--standout-desktop {

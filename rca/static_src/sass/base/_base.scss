@@ -37,6 +37,28 @@ body {
     }
 
     &.nav-open {
+        // mobile nav overlay - has to be attached to the body
+        &::before {
+            @include z-index(header-gridlines);
+            content: '';
+            display: block;
+            pointer-events: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(
+                358.73deg,
+                rgba(0, 0, 0, 0.96) 3.08%,
+                rgba(0, 0, 0, 0) 124.08%
+            );
+
+            @include media-query(medium) {
+                display: none;
+            }
+        }
+
         &::after {
             @include z-index(nav-overlay);
             content: '';
@@ -47,6 +69,13 @@ body {
             bottom: 0;
             background-color: $color--black-80;
             opacity: 1;
+        }
+
+        &.search-active {
+            // hide the overlay when the search is open
+            &::before {
+                display: none;
+            }
         }
     }
 }
