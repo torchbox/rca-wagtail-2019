@@ -160,11 +160,7 @@ context:
             - { title: Service & UX design, id: '3-54', active: false }
             - { title: Sustainable society, id: '3-55', active: false }
     results:
-      - {
-          title: 'Jocelyn Prudence',
-          image: true,
-          link: '#',
-        }
+      - { title: 'Jocelyn Prudence', image: true, link: '#' }
       - {
           title: 'Rachael Finney',
           job_titles: { 'Tutor and Visiting Lecturer' },
@@ -177,48 +173,12 @@ context:
           image: true,
           link: '#',
         }
-      - {
-          title: 'Dr Carol MacGillivray',
-          image: true,
-          link: '#',
-        }
-      - {
-          title: 'Anne Duffau',
-          image: true,
-          link: '#',
-        }
-      - {
-          title: 'Dr Ali Asadipour',
-          image: true,
-          link: '#',
-        }
-      - {
-          title: 'Hattie Allen',
-          image: true,
-          link: '#',
-        }
-      - {
-          title: 'Ronnie Deelen',
-          image: true,
-          link: '#',
-        }
-      - {
-          title: 'Mel Brimfield',
-          image: true,
-          link: '#',
-        }
-      - {
-          title: 'Dr Josephine Berry',
-          image: true,
-          link: '#',
-        }
-      - {
-          title: 'Guilhermina Torrao',
-          image: true,
-          link: '#',
-        }
-      - {
-          title: 'Stephen Douch',
-          image: true,
-          link: '#',
-        }
+      - { title: 'Dr Carol MacGillivray', image: true, link: '#' }
+      - { title: 'Anne Duffau', image: true, link: '#' }
+      - { title: 'Dr Ali Asadipour', image: true, link: '#' }
+      - { title: 'Hattie Allen', image: true, link: '#' }
+      - { title: 'Ronnie Deelen', image: true, link: '#' }
+      - { title: 'Mel Brimfield', image: true, link: '#' }
+      - { title: 'Dr Josephine Berry', image: true, link: '#' }
+      - { title: 'Guilhermina Torrao', image: true, link: '#' }
+      - { title: 'Stephen Douch', image: true, link: '#' }
