@@ -37,9 +37,6 @@
                                 {% if link.secondary_links %}data-menu-parent{% endif %}
                             >
                                 <span>{{ link.text }}</span>
-                                {% if link.secondary_links %}
-                                    <svg class="nav__icon" width="6" height="10"><use xlink:href="#chevron"></use></svg>
-                                {% endif %}
                             </a>
 
                             {# Desktop nav icon #}
@@ -47,12 +44,13 @@
                                 <a
                                     href="#"
                                     class="nav__icon-container"
+                                    data-drill-down
                                     data-nav-level="1"
                                     data-menu="{{ forloop.counter }}"
                                     data-menu-id={{ forloop.counter }}
                                     {% if link.secondary_links %}data-menu-parent{% endif %}
                                 >
-                                    <svg class="nav__icon nav__icon--desktop" width="15" height="15"><use xlink:href="#chevron"></use></svg>
+                                    <svg class="nav__icon" width="15" height="15"><use xlink:href="#chevron"></use></svg>
                                 </a>
                             {% endif %}
                         </li>
@@ -70,9 +68,6 @@
             {% for link in primarynav %}
                 {% if link.secondary_links %}
                     <ul data-ul="2" data-menu-{{ forloop.counter }} class="nav nav--subnav" role="menu">
-                        <li class="nav__item nav__item--group-heading">
-                            <a href="{{ link.url }}" class="nav__link nav__link--group-heading">{{ link.text }}</a>
-                        </li>
                         {% for item in link.secondary_links %}
                             <li class="nav__item nav__item--secondary">
 
@@ -88,9 +83,6 @@
                                     {% if item.tertiary_links %}data-menu-parent{% endif %}
                                 >
                                     <span>{{ item.text }}</span>
-                                    {% if item.tertiary_links %}
-                                        <svg class="nav__icon" width="6" height="10"><use xlink:href="#chevron"></use></svg>
-                                    {% endif %}
                                 </a>
 
                                 {# Desktop nav icon #}
@@ -99,13 +91,14 @@
                                         href="#"
                                         class="nav__icon-container"
                                         data-menu-child
+                                        data-drill-down
                                         data-nav-level="2"
                                         data-parent-id="{{ forloop.parentloop.counter }}"
                                         data-menu-id="{{ forloop.parentloop.counter}}-{{ forloop.counter }}"
                                         data-menu="{{ forloop.parentloop.counter }}-{{ forloop.counter }}"
                                         {% if item.tertiary_links %}data-menu-parent{% endif %}
                                     >
-                                        <svg class="nav__icon nav__icon--desktop" width="15" height="15"><use xlink:href="#chevron"></use></svg>
+                                        <svg class="nav__icon" width="15" height="15"><use xlink:href="#chevron"></use></svg>
                                     </a>
                                 {% endif %}
                             </li>
@@ -120,13 +113,9 @@
             {% for link in primarynav %}
                     {% for item in link.secondary_links %}
                         {% if item.tertiary_links %}
-                        <ul data-ul="3" data-menu-{{ forloop.parentloop.counter }}-{{ forloop.counter }} class="nav nav--subnav">
-                            <li class="nav__item nav__item--group-heading">
-                                <a href="{{ item.url }}" class="nav__link nav__link--group-heading">{{ item.text }}</a>
-                            </li>
+                            <ul data-ul="3" data-menu-{{ forloop.parentloop.counter }}-{{ forloop.counter }} class="nav nav--subnav">
                                 {% for tertiary_item in item.tertiary_links %}
                                     <li>
-
                                         <!-- Level 3 <a> -->
                                         <a
                                             href="{{ tertiary_item.url }}"
@@ -142,7 +131,7 @@
                                     </li>
                                 {% endfor %}
                             </ul>
-                            {% endif %}
+                        {% endif %}
                     {% endfor %}
             {% endfor %}
         </div>
