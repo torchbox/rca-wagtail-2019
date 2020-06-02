@@ -105,7 +105,7 @@ class StaffPage(BasePage):
             ],
             heading="Details",
         ),
-        MultiFieldPanel([FieldPanel("email")], heading=_("Contact information"),),
+        MultiFieldPanel([FieldPanel("email")], heading=_("Contact information")),
         FieldPanel("job_title"),
         FieldPanel("introduction"),
         FieldPanel("body"),
