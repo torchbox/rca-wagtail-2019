@@ -197,6 +197,14 @@
         #{$root}__year {
             @include font-size(xxs);
         }
+
+        #{$root}__description {
+            margin-bottom: 2px;
+
+            &:last-child {
+                margin-bottom: $gutter;
+            }
+        }
     }
 
     &__container {

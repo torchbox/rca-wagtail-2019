@@ -15,9 +15,11 @@
                         {{ item.title }}
                     {% if item.link %}</a>{% endif %}
                 </h3>
-                {% if item.job_title %}
-                    <div class="card__description card__year">{{ item.job_title }}</div>
-                {% endif %}
+                {% for job_title in item.job_titles %}
+                    <div class="card__description card__year">
+                        {{ job_title }}{% if not forloop.last %},{% endif %}
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>

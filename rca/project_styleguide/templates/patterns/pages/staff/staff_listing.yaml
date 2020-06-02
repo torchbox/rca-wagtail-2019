@@ -162,73 +162,63 @@ context:
     results:
       - {
           title: 'Jocelyn Prudence',
-          job_title: 'College Secretary',
           image: true,
           link: '#',
         }
       - {
           title: 'Rachael Finney',
-          job_title: 'Tutor and Visiting Lecturer',
+          job_titles: { 'Tutor and Visiting Lecturer' },
           image: true,
           link: '#',
         }
       - {
           title: 'Jamie Jenkinson',
-          job_title: 'Visiting Lecturer',
+          job_titles: { 'College Secretary' },
           image: true,
           link: '#',
         }
       - {
           title: 'Dr Carol MacGillivray',
-          job_title: 'Visiting Lecturer and Personal Tutor',
           image: true,
           link: '#',
         }
       - {
           title: 'Anne Duffau',
-          job_title: 'Tutor and Acting Pathway Leader',
           image: true,
           link: '#',
         }
       - {
           title: 'Dr Ali Asadipour',
-          job_title: 'Academic Lead',
           image: true,
           link: '#',
         }
       - {
           title: 'Hattie Allen',
-          job_title: 'Executive Education Manager',
           image: true,
           link: '#',
         }
       - {
           title: 'Ronnie Deelen',
-          job_title: 'Visiting Lecturer',
           image: true,
           link: '#',
         }
       - {
           title: 'Mel Brimfield',
-          job_title: 'Senior Tutor',
           image: true,
           link: '#',
         }
       - {
           title: 'Dr Josephine Berry',
-          job_title: 'Tutor (Research) PGR',
           image: true,
           link: '#',
         }
       - {
           title: 'Guilhermina Torrao',
-          job_title: 'Post-doctoral Research Associate Automotive Human Factors',
           image: true,
           link: '#',
         }
       - {
           title: 'Stephen Douch',
-          job_title: 'Research Associate',
           image: true,
           link: '#',
         }
