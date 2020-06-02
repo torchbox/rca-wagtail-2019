@@ -28,13 +28,13 @@
             </div>
         </header>
 
-        <form class="page__content js-detect-sticking js-tabs" id="results" method="GET" URL="#results">
+        <form class="page__content js-detect-sticking js-tabs" method="get" action="#results">
 
             <section class="section section--opposite-notch bg bg--dark filter-bar filter-bar--large" data-filter-bar>
                 <div class="section__notch section__notch--opposite">
 
                     <div class="section__notch-fill section__notch-fill--content-height section__notch-fill--fourth-col">
-                        {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=page.filters modifier="large" reset=True %}
+                        {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" %}
                     </div>
 
                     <div class="filter-tab-options filter-tab-options--mobile">
@@ -63,7 +63,7 @@
 
             <div class="filter-takeover bg bg--light">
                 <div class="filter-takeover__container">
-                    {% for item in page.filters.items %}
+                    {% for item in filters.items %}
                         <div class="filter-takeover__tab-content tabs__panel tabs__panel--hidden js-tab-panel" id="{{ item.tab_title|slugify }}" role="tabpanel" aria-labelledby="tab-{{ item.tab_title|slugify }}">
                             {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" with title="projects" filter_options=item.children %}
                         </div>
@@ -72,27 +72,28 @@
             </div>
 
 
-            <section class="section bg bg--light">
+            <section class="section bg bg--light" >
 
-                {% if page.results %}
+                {% if results %}
                     <div class="section__row section__row--first-small section__row--last-small grid">
                         <div class="results-total heading heading--four layout__start-one layout__span-two layout__@large-start-two">
+                            <span class="results-total__anchor" id="results"></span>
                             <span class="results-total__type">Projects</span>
-                            <span class="results-total__number">236</span>
+                            <span class="results-total__number">{{ results_count }}</span>
                         </div>
                     </div>
                 {% endif %}
 
-                {% if page.feature and page.results %}
+                {% if featured_project and show_featured_project %}
                     <div class="section__row">
-                        {% include "patterns/organisms/image-video-block/image-video-block.html" with heading=false subheading=page.feature.sub_heading meta_heading=false image=page.feature.image has_meta=True meta_copy=page.feature.page_summary href=page.feature.href caption=false video=false school=page.feature.school %}
+                        {% include "patterns/organisms/image-video-block/image-video-block.html" with heading=false subheading=featured_project.title meta_heading=featured_project.meta_heading image=featured_project.image has_meta=True meta_copy=featured_project.listing_summary href=featured_project.link caption=false video=false school=featured_project.school %}
                     </div>
                 {% endif %}
 
-                <div class="section__row {% if page.results %}section__row--last-small {% else %}section__row--first-small section__row--last-large{% endif %} grid">
-                    <div class="results {% if not page.results %}results--no-results{% endif %} layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                        {% if page.results %}
-                            {% for item in page.results %}
+                <div class="section__row {% if results %}section__row--last-small {% else %}section__row--first-small section__row--last-large{% endif %} grid">
+                    <div class="results {% if not results %}results--no-results{% endif %} layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                        {% if results %}
+                            {% for item in results %}
                                 <div class="results__item layout__span-two layout__@medium-span-one">
                                     {% include "patterns/molecules/card/card--project.html" %}
                                 </div>
@@ -105,14 +106,13 @@
                     </div>
                 </div>
 
-                {% if page.results %}
+                {% if results %}
                     <div class="section__row section__row--last grid">
                         <div class="layout__span-two layout__@large-span-one layout__start-one layout__@large-start-three">
-                            {% include "patterns/molecules/pagination/pagination.html" %}
+                            {% include "patterns/molecules/pagination/pagination.html" with subpages=results %}
                         </div>
                     </div>
                 {% endif %}
-
             </section>
 
 

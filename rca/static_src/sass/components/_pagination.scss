@@ -11,12 +11,12 @@
 
     &__item {
         position: relative;
+        margin-right: $spacing;
+        margin-left: $spacing;
 
         &--current {
             @include underline-hover-target();
             @include underline-hover-target-reset();
-            margin-right: $spacing;
-            margin-left: $spacing;
         }
     }
 
@@ -26,11 +26,14 @@
     }
 
     &__link {
+        @include underline-hover();
         display: block;
         font-family: $font--primary;
         transition: color $cubic-transition;
-        padding-left: $spacing;
-        padding-right: $spacing;
+
+        &::after {
+            width: 0;
+        }
     }
 
     &__button {
