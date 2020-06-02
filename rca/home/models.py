@@ -1,7 +1,6 @@
 from collections import defaultdict
 
 from django.conf import settings
-from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
 from modelcluster.fields import ParentalKey
@@ -15,7 +14,7 @@ from wagtail.core.fields import StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from rca.api_content import content
+from rca.api_content.content import get_alumni_stories, get_news_and_events
 from rca.utils.blocks import SlideBlock, StatisticBlock
 from rca.utils.models import HERO_COLOUR_CHOICES, BasePage
 
@@ -176,32 +175,6 @@ class HomePage(BasePage):
         if errors:
             raise ValidationError(errors)
 
-    def get_news_and_events(self):
-        cache_key = "latest_news_and_events"
-        news_and_events_data = cache.get(cache_key)
-        if news_and_events_data is None:
-            try:
-                news_and_events_data = content.pull_news_and_events()
-            except content.CantPullFromRcaApi:
-                return []
-            else:
-                cache.set(
-                    cache_key, news_and_events_data, settings.API_CONTENT_CACHE_TIMEOUT
-                )
-        return news_and_events_data
-
-    def get_alumni_stories(self):
-        cache_key = "latest_alumni_stories"
-        stories_data = cache.get(cache_key)
-        if stories_data is None:
-            try:
-                stories_data = content.pull_alumni_stories()
-            except content.CantPullFromRcaApi:
-                return []
-            else:
-                cache.set(cache_key, stories_data, settings.API_CONTENT_CACHE_TIMEOUT)
-        return stories_data
-
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["transformation_block"] = self.transformation_blocks.select_related(
@@ -212,7 +185,7 @@ class HomePage(BasePage):
             "background_image"
         ).first()
 
-        context["news_and_events"] = self.get_news_and_events()
-        context["alumni_stories"] = self.get_alumni_stories()
+        context["news_and_events"] = get_news_and_events()
+        context["alumni_stories"] = get_alumni_stories()
 
         return context

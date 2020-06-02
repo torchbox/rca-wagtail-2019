@@ -4,6 +4,7 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 from django.conf import settings
+from django.core.cache import cache
 from django.http.request import QueryDict
 from requests.exceptions import ConnectionError, HTTPError, Timeout
 
@@ -12,6 +13,10 @@ Static methods for adding content from the live RCA api
 """
 
 logger = logging.getLogger(__name__)
+
+
+class CantPullFromRcaApi(Exception):
+    pass
 
 
 def format_first_paragraph(input_text, tag):
@@ -36,10 +41,6 @@ def ranged_date_format(date, date_to):
         return date.strftime("%-d %B") + " - " + date_to.strftime("%-d %B %Y")
 
 
-class CantPullFromRcaApi(Exception):
-    pass
-
-
 def fetch_data(url):
     try:
         response = requests.get(url, timeout=10)
@@ -47,21 +48,21 @@ def fetch_data(url):
     except Timeout:
         logger.exception(f"Timeout error occurred when fetching data from {url}")
         raise CantPullFromRcaApi(
-            "Error occured when fetching further detail data from {url}"
+            f"Error occured when fetching further detail data from {url}"
         )
     except (HTTPError, ConnectionError):
         logger.exception(
-            "HTTP/ConnectionError occured when fetching further detail data from {url}"
+            f"HTTP/ConnectionError occured when fetching further detail data from {url}"
         )
         raise CantPullFromRcaApi(
-            "Error occured when fetching further detail data from {url}"
+            f"Error occured when fetching further detail data from {url}"
         )
     except Exception:
         logger.exception(
             f"Exception occured when fetching further detail data from {url}"
         )
         raise CantPullFromRcaApi(
-            "Error occured when fetching further detail data from {url}"
+            f"Error occured when fetching further detail data from {url}"
         )
     else:
         return response.json()
@@ -274,3 +275,41 @@ def pull_alumni_stories(programme_type_slug=None):
         alumni_stories_blog_page_data + alumni_stories_standard_page_data
     )
     return alumni_stories_data
+
+
+class _BaseContentAPI:
+    def __init__(self, func, cache_key):
+        self.func = func
+        self.cache_key = cache_key
+
+    def fetch_from_api(self):
+        try:
+            data = self.func()
+        except CantPullFromRcaApi:
+            pass
+        else:
+            cache.set(self.cache_key, data, None)
+
+    def get_data(self):
+        data = cache.get(self.cache_key)
+        if data is not None:
+            return data
+        return []
+
+
+class AlumniStoriesAPI(_BaseContentAPI):
+    def __init__(self):
+        super().__init__(pull_alumni_stories, "latest_alumni_stories")
+
+
+class NewsEventsAPI(_BaseContentAPI):
+    def __init__(self):
+        super().__init__(pull_news_and_events, "news_and_events_data")
+
+
+def get_alumni_stories():
+    return AlumniStoriesAPI().get_data()
+
+
+def get_news_and_events():
+    return NewsEventsAPI().get_data()
