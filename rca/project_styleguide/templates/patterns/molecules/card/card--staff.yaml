@@ -1,7 +1,10 @@
 context:
   item:
     title: 'Jocelyn Prudence'
-    job_title: 'College Secretary'
+    job_titles:
+      - 'College Secretary'
+      - 'Tutor and Visiting Lecturer'
+      - 'Executive Education Manager'
     image: true
     link: '#'
 
