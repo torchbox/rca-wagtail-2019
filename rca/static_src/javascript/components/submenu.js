@@ -70,11 +70,14 @@ class SubMenu {
         const childMenuSelector = `[data-menu-${navItem.dataset.menuId}]`;
         const childMenu = this.addClass(childMenuSelector, this.visibleClass);
 
-        // Move the focus to the fisrt <a> in a child menu that was opened
-        const childMenuElement = childMenu[0];
-        childMenuElement
-            .querySelector('a:not(.nav__link--group-heading)')
-            .focus();
+        // On desktop...
+        if (window.innerWidth > 1022) {
+            // ...move the focus to the fisrt <a> in a child menu that was opened
+            const childMenuElement = childMenu[0];
+            childMenuElement
+                .querySelector('a:not(.nav__link--group-heading)')
+                .focus();
+        }
 
         // only show child drawer if has a menu else make sure it's gone
         if (childMenu.length > 0) {
