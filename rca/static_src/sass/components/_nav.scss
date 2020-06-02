@@ -120,14 +120,6 @@
             }
         }
 
-        &--group-heading {
-            display: block;
-
-            @include media-query(large) {
-                display: none;
-            }
-        }
-
         &--breadcrumb {
             width: auto;
             padding: 0;
@@ -215,14 +207,6 @@
             &:hover {
                 color: lighten($color--primary, 20%);
                 border-bottom: 1px solid $color--primary;
-            }
-        }
-
-        &--group-heading {
-            font-size: map-get($small-font-sizes, s);
-
-            @include media-query(medium) {
-                font-size: map-get($medium-font-sizes, s);
             }
         }
 
