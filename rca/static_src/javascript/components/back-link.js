@@ -35,7 +35,6 @@ class BackLink {
 
     bindEventListeners() {
         this.node.addEventListener('click', () => {
-
             // re-activate all icons
             this.removeFadeIconClass();
 
@@ -61,14 +60,14 @@ class BackLink {
         this.node.classList.add(this.activeClass);
     }
 
-    onClassRemove() { }
+    onClassRemove() {}
 
     removeFadeIconClass() {
         // get all the active icons
         const activeIcons = document.querySelectorAll('.fade-icon');
 
         // remove the class
-        activeIcons.forEach(icon => {
+        activeIcons.forEach((icon) => {
             icon.classList.remove(this.fadeIconClass);
         });
     }
