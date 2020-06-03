@@ -6,9 +6,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("projects", "0010_improve_relationships_between_models"),
-    ]
+    dependencies = [("projects", "0010_improve_relationships_between_models")]
 
     operations = [
         migrations.AlterField(
@@ -17,5 +15,5 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE, to="projects.ProjectPage"
             ),
-        ),
+        )
     ]
