@@ -2,25 +2,35 @@
     <div class="key-details__header">
         <h3 class="heading heading--five key-details__heading">Key details</h3>
     </div>
-    {% if page.profile_school %}
+    {% if related_schools or research_centres %}
         <div class="key-details__section key-details__section--school">
             <h4 class="body body--two key-details__sub-heading">School, Centre or Area</h4>
             <ul class="key-details__list">
-                {% for item in page.profile_school %}
-                <li class="key-details__list-item">
-                    <a href="{{ item.link }}" class="link link--tertiary">{{ item.title }}</a>
-                </li>
-                {% endfor %}
+                {% if related_schools  %}
+                    {% for item in related_schools %}
+                    <li class="key-details__list-item">
+                        <a href="{{ item.page.url }}" class="link link--tertiary">{{ item.page.title }}</a>
+                    </li>
+                    {% endfor %}
+                {% endif %}
+                {% if research_centres %}
+                    {% for item in research_centres %}
+                    <li class="key-details__list-item">
+                        <a href="{{ item.page.url }}" class="link link--tertiary">{{ item.page.title }}</a>
+                    </li>
+                    {% endfor %}
+                {% endif %}
             </ul>
         </div>
     {% endif %}
-    {% if page.profile_expertise %}
+    {% if areas %}
         <div class="key-details__section key-details__section--expertise">
             <h4 class="body body--two key-details__sub-heading">Areas of expertise</h4>
             <ul class="key-details__list">
-                {% for item in page.profile_expertise %}
+                {% for item in areas %}
                 <li class="key-details__list-item">
-                    <a href="{{ item.link }}" class="link link--tertiary">{{ item.title }}</a>
+                {# Link here depends on the staff picker page #}
+                    <a href="#TODO" class="link link--tertiary">{{ item.area_of_expertise.title }}</a>
                 </li>
                 {% endfor %}
             </ul>
