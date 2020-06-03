@@ -1,9 +1,5 @@
 from wagtail.api.v2 import views
-from wagtail.api.v2.filters import (
-    FieldsFilter,
-    ChildOfFilter,
-    DescendantOfFilter,
-)
+from wagtail.api.v2.filters import ChildOfFilter, DescendantOfFilter, FieldsFilter
 from wagtail.api.v2.serializers import PageSerializer
 
 from rca.navigation.models import NavigationSettings
