@@ -290,6 +290,7 @@ class ProjectFilters {
         // Back
         this.backButtons.forEach((item) => {
             item.addEventListener('click', (e) => {
+                e.preventDefault();
                 // Get the tab ID that clear sits within
                 const targetTabID = e.target
                     .closest(['.js-tab-panel'])
