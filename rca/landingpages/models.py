@@ -444,7 +444,7 @@ class ResearchLandingPage(LandingPage):
             ],
             heading=_("Featured projects"),
         ),
-        FieldPanel('legacy_news_and_event_tags'),
+        FieldPanel("legacy_news_and_event_tags"),
         MultiFieldPanel(
             [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
             heading=_("Related page list"),
