@@ -11,6 +11,7 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.fields import RichTextField, StreamField
+from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.utils.blocks import AccordionBlockWithTitle, GalleryBlock, LinkBlock
@@ -27,7 +28,7 @@ class AreaOfExpertise(models.Model):
 class StaffPageAreOfExpertisePlacement(models.Model):
     page = ParentalKey("StaffPage", related_name="related_area_of_expertise")
     area_of_expertise = models.ForeignKey(
-        AreaOfExpertise, on_delete=models.CASCADE, related_name="staff"
+        AreaOfExpertise, on_delete=models.CASCADE, related_name="related_staff"
     )
     panels = [FieldPanel("area_of_expertise")]
 
@@ -55,7 +56,7 @@ class StaffPage(BasePage):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     profile_image = models.ForeignKey(
-        "images.CustomImage",
+        get_image_model_string(),
         null=True,
         blank=True,
         related_name="+",
