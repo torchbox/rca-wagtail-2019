@@ -643,6 +643,9 @@ AUTH_USER_MODEL = "users.User"
 # This name is displayed in the Wagtail admin.
 WAGTAIL_SITE_NAME = "RCA Website"
 
+# Preserve Wagtail < 2.8 behaviour
+WAGTAILEMBEDS_RESPONSIVE_HTML = True
+
 
 # This is used by Wagtail's email notifications for constructing absolute
 # URLs. Please set to the domain that users will access the admin site.

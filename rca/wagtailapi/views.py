@@ -1,8 +1,8 @@
-from wagtail.api.v2 import endpoints
+from wagtail.api.v2 import views
 from wagtail.api.v2.filters import (
     FieldsFilter,
-    RestrictedChildOfFilter,
-    RestrictedDescendantOfFilter,
+    ChildOfFilter,
+    DescendantOfFilter,
 )
 from wagtail.api.v2.serializers import PageSerializer
 
@@ -10,19 +10,19 @@ from rca.navigation.models import NavigationSettings
 from rca.wagtailapi import filters
 
 
-class PagesAPIEndpoint(endpoints.PagesAPIEndpoint):
+class PagesAPIViewSet(views.PagesAPIViewSet):
     base_serializer_class = PageSerializer
     filter_backends = [
         # NOTE that the following filters should be listed before the SearchFilter.
         filters.DegreeLevelFilter,
         FieldsFilter,
-        RestrictedChildOfFilter,
-        RestrictedDescendantOfFilter,
+        ChildOfFilter,
+        DescendantOfFilter,
         filters.RelatedSchoolsFilter,
         filters.SubjectsFilter,
         filters.SearchFilter,
     ]
 
 
-class NavigationEndpoint(endpoints.BaseAPIEndpoint):
+class NavigationAPIViewSet(views.BaseAPIViewSet):
     model = NavigationSettings
