@@ -34,6 +34,17 @@
             }
         }
 
+        // custom breakpoint to bring page title and breadcrumbs above the fold
+        @media only screen and (max-width: 1400px) and (min-width: 1023px) {
+            .app--research-centre &,
+            .app--project-detail &,
+            .app--short-course &,
+            .app--landing-page & {
+                top: -55px;
+                margin-bottom: -55px;
+            }
+        }
+
         &--three-col {
             display: grid;
             grid-template-columns: 1fr 1fr;
