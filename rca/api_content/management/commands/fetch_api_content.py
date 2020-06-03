@@ -16,6 +16,8 @@ class Command(BaseCommand):
         # For all pages with 'legacy_news_and_event_tags' set,
         # populate the cache with related news and events
         for page in Page.objects.filter(
-            id__in=LegacySiteTaggedPage.objects.values_list('content_object_id', flat=True).distinct()
+            id__in=LegacySiteTaggedPage.objects.values_list(
+                "content_object_id", flat=True
+            ).distinct()
         ).specific():
             page.refetch_legacy_news_and_events()

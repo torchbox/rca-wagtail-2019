@@ -390,9 +390,7 @@ class LegacySiteTaggedPage(ItemBase):
         LegacySiteTag, related_name="tagged_pages", on_delete=models.CASCADE
     )
     content_object = ParentalKey(
-        to=Page,
-        on_delete=models.CASCADE,
-        related_name='tagged_items'
+        to=Page, on_delete=models.CASCADE, related_name="tagged_items"
     )
 
 
@@ -404,14 +402,16 @@ class LegacyNewsAndEventsMixin(models.Model):
             "the legacy site. A maximum of three items with the same combination "
             "of tags will then be displayed on the page."
         ),
-        through=LegacySiteTaggedPage, blank=True)
+        through=LegacySiteTaggedPage,
+        blank=True,
+    )
 
     class Meta:
         abstract = True
 
     @property
     def legacy_news_cache_key(self):
-        return f'{self.pk}-legacy-news-and-events'
+        return f"{self.pk}-legacy-news-and-events"
 
     def refetch_legacy_news_and_events(self):
         """
@@ -419,7 +419,7 @@ class LegacyNewsAndEventsMixin(models.Model):
         the legacy site. The result is cached to reduce real-time
         calls to the legacy API.
         """
-        tags = self.legacy_news_and_event_tags.all().values_list('name', flat=True)
+        tags = self.legacy_news_and_event_tags.all().values_list("name", flat=True)
         value = pull_tagged_news_and_events(*tags)
         cache.set(self.legacy_news_cache_key, value, None)
         return value

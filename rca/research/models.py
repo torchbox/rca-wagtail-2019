@@ -209,7 +209,7 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
         ),
         FieldPanel("related_programmes_title"),
         StreamFieldPanel("related_links"),
-        FieldPanel('legacy_news_and_event_tags'),
+        FieldPanel("legacy_news_and_event_tags"),
     ]
     key_details_panels = [
         MultiFieldPanel(
