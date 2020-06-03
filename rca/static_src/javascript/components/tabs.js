@@ -94,7 +94,7 @@ class Tabs {
                 ) {
                     this.setActiveHashTab();
                 } else {
-                    // clsoe filters modal
+                    // close filters modal
                     document.body.classList.remove(
                         'no-scroll',
                         'project-filters',
