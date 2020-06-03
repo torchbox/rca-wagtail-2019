@@ -18,6 +18,7 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.core.blocks import RichTextBlock
 from wagtail.core.fields import StreamField
+from wagtail.core.models import Orderable, Page
 from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -35,6 +36,13 @@ from rca.utils.models import (
     RelatedStaffPageWithManualOptions,
     ResearchType,
 )
+
+
+class RelatedProjectPage(Orderable):
+    source_page = ParentalKey(Page, related_name="related_project_pages")
+    page = models.ForeignKey("schools.SchoolPage", on_delete=models.CASCADE)
+
+    panels = [PageChooserPanel("page")]
 
 
 class ProjectPageSubjectPlacement(models.Model):

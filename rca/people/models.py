@@ -6,7 +6,6 @@ from wagtail.admin.edit_handlers import (
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
-    PageChooserPanel,
     StreamFieldPanel,
     TabbedInterface,
 )
@@ -15,7 +14,7 @@ from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.utils.blocks import AccordionBlockWithTitle, GalleryBlock, LinkBlock
-from rca.utils.models import BasePage, RelatedPage
+from rca.utils.models import BasePage
 
 
 class AreaOfExpertise(models.Model):
@@ -31,21 +30,6 @@ class StaffPageAreOfExpertisePlacement(models.Model):
         AreaOfExpertise, on_delete=models.CASCADE, related_name="related_staff"
     )
     panels = [FieldPanel("area_of_expertise")]
-
-
-class StaffPageRelatedResearchPage(RelatedPage):
-    source_page = ParentalKey("StaffPage", related_name="related_research_centre_pages")
-    panels = [PageChooserPanel("page", "research.ResearchCentrePage")]
-
-
-class StaffPageRelatedSchoolPage(RelatedPage):
-    source_page = ParentalKey("StaffPage", related_name="related_school_pages")
-    panels = [PageChooserPanel("page", "schools.SchoolPage")]
-
-
-class StaffPagePageRelatedProjects(RelatedPage):
-    source_page = ParentalKey("StaffPage", related_name="related_projects")
-    panels = [PageChooserPanel("page", "projects.ProjectPage")]
 
 
 class StaffPage(BasePage):
@@ -92,7 +76,7 @@ class StaffPage(BasePage):
         InlinePanel(
             "related_research_centre_pages", label=_("Related Research Centres ")
         ),
-        InlinePanel("related_school_pages", label=_("Related Schools")),
+        InlinePanel("related_schools_pages", label=_("Related Schools")),
         InlinePanel("related_area_of_expertise", label=_("Areas of Expertise")),
     ]
 
@@ -113,7 +97,9 @@ class StaffPage(BasePage):
         MultiFieldPanel(
             [
                 FieldPanel("research_highlights_title"),
-                InlinePanel("related_projects", label=_("Project pages"), max_num=8),
+                InlinePanel(
+                    "related_project_pages", label=_("Project pages"), max_num=8
+                ),
             ],
             heading=_("Research highlights gallery"),
         ),

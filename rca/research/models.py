@@ -16,6 +16,7 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.models import Orderable, Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
@@ -26,6 +27,13 @@ from rca.utils.models import (
     RelatedPage,
     RelatedStaffPageWithManualOptions,
 )
+
+
+class RelatedResearchCenterPage(Orderable):
+    source_page = ParentalKey(Page, related_name="related_research_centre_pages")
+    page = models.ForeignKey("research.ResearchCentrePage", on_delete=models.CASCADE)
+
+    panels = [PageChooserPanel("page")]
 
 
 class ResearchCentrePageRelatedResearchSpaces(RelatedPage):
