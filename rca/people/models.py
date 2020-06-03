@@ -131,7 +131,7 @@ class StaffPage(BasePage):
             List
         """
         items = []
-        for page in self.related_projects.all():
+        for page in self.related_project_pages.all():
             page = page.page.specific
             meta = None
             related_school = page.related_school_pages.first()
@@ -153,7 +153,7 @@ class StaffPage(BasePage):
         context = super().get_context(request, *args, **kwargs)
         context["research_highlights"] = self.format_research_highlights()
         context["areas"] = self.related_area_of_expertise.all()
-        context["related_schools"] = self.related_school_pages.all()
+        context["related_schools"] = self.related_schools_pages.all()
         context["research_centres"] = self.related_research_centre_pages.all()
 
         return context
