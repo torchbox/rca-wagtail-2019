@@ -5,20 +5,18 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ("people", "0002_add_base_fields_for_staff_profile"),
-    ]
+    dependencies = [("people", "0002_add_base_fields_for_staff_profile")]
 
     operations = [
-        migrations.RemoveField(model_name="staffpagerelatedresearchpage", name="page",),
+        migrations.RemoveField(model_name="staffpagerelatedresearchpage", name="page"),
         migrations.RemoveField(
-            model_name="staffpagerelatedresearchpage", name="source_page",
+            model_name="staffpagerelatedresearchpage", name="source_page"
         ),
-        migrations.RemoveField(model_name="staffpagerelatedschoolpage", name="page",),
+        migrations.RemoveField(model_name="staffpagerelatedschoolpage", name="page"),
         migrations.RemoveField(
-            model_name="staffpagerelatedschoolpage", name="source_page",
+            model_name="staffpagerelatedschoolpage", name="source_page"
         ),
-        migrations.DeleteModel(name="StaffPagePageRelatedProjects",),
-        migrations.DeleteModel(name="StaffPageRelatedResearchPage",),
-        migrations.DeleteModel(name="StaffPageRelatedSchoolPage",),
+        migrations.DeleteModel(name="StaffPagePageRelatedProjects"),
+        migrations.DeleteModel(name="StaffPageRelatedResearchPage"),
+        migrations.DeleteModel(name="StaffPageRelatedSchoolPage"),
     ]

@@ -80,7 +80,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={"ordering": ["sort_order"], "abstract": False},
         ),
         migrations.CreateModel(
             name="StaffPageRelatedResearchPage",
@@ -109,7 +109,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={"ordering": ["sort_order"], "abstract": False},
         ),
         migrations.CreateModel(
             name="StaffPageRelatedSchoolPage",
@@ -138,13 +138,13 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={"ordering": ["sort_order"], "abstract": False},
         ),
-        migrations.RemoveField(model_name="staffpagephonenumber", name="page",),
+        migrations.RemoveField(model_name="staffpagephonenumber", name="page"),
         migrations.RenameField(
-            model_name="staffpage", old_name="image", new_name="profile_image",
+            model_name="staffpage", old_name="image", new_name="profile_image"
         ),
-        migrations.RemoveField(model_name="staffpage", name="website",),
+        migrations.RemoveField(model_name="staffpage", name="website"),
         migrations.AddField(
             model_name="staffpage",
             name="body",
@@ -292,8 +292,8 @@ class Migration(migrations.Migration):
                 blank=True, help_text="E.G Dr, Professor", max_length=255
             ),
         ),
-        migrations.DeleteModel(name="SocialMediaProfile",),
-        migrations.DeleteModel(name="StaffPagePhoneNumber",),
+        migrations.DeleteModel(name="SocialMediaProfile"),
+        migrations.DeleteModel(name="StaffPagePhoneNumber"),
         migrations.AddField(
             model_name="staffpagerelatedschoolpage",
             name="source_page",
