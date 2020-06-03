@@ -83,17 +83,22 @@ class Tabs {
             targetPanel.scrollIntoView();
         });
 
-
         // used on pages with filters (project and staff picker)
         if (document.body.contains(this.filterBar)) {
             // listen for hash changes in the url to keep track when using back button
             window.addEventListener('hashchange', () => {
                 // activate tab if there's a hash in the url and it's not results
-                if (window.location.hash && window.location.hash !== '#results') {
+                if (
+                    window.location.hash &&
+                    window.location.hash !== '#results'
+                ) {
                     this.setActiveHashTab();
                 } else {
                     // clsoe filters modal
-                    document.body.classList.remove('no-scroll', 'project-filters');
+                    document.body.classList.remove(
+                        'no-scroll',
+                        'project-filters',
+                    );
 
                     // update the theme
                     this.filterBar.classList.remove('bg', 'bg--light');
@@ -103,11 +108,11 @@ class Tabs {
                     this.detectPositionSticky();
 
                     // de-activate the filter buttons
-                    this.categoryButtons.forEach(button => {
+                    this.categoryButtons.forEach((button) => {
                         button.setAttribute('aria-selected', 'false');
-                    })
+                    });
                 }
-            })
+            });
         }
     }
 
@@ -145,7 +150,6 @@ class Tabs {
         this.filterBarSmall.classList.remove('bg', 'bg--dark');
         this.filterBarSmall.classList.add('bg', 'bg--light');
     }
-
 }
 
 export default Tabs;
