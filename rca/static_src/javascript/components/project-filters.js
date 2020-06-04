@@ -311,7 +311,10 @@ class ProjectFilters {
 
         window.addEventListener('hashchange', () => {
             // if there's no hash, reset the filters
-            if (!window.location.hash.length > 0 || window.location.hash === '#results') {
+            if (
+                !window.location.hash.length > 0 ||
+                window.location.hash === '#results'
+            ) {
                 this.closeProjectFilters();
 
                 // de-activate the filter buttons

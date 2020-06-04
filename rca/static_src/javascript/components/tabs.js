@@ -81,7 +81,10 @@ class Tabs {
             // listen for hash changes in the url to keep track when using back button
             window.addEventListener('hashchange', () => {
                 // activate tab if there's a hash in the url and it's not results
-                if ( window.location.hash && window.location.hash !== '#results' ) {
+                if (
+                    window.location.hash &&
+                    window.location.hash !== '#results'
+                ) {
                     this.setActiveHashTab();
                 }
             });
