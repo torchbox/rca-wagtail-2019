@@ -29,6 +29,29 @@
         }
     }
 
+    &__content {
+        @include media-query(large) {
+
+            // add black spacer in to prevent 'white bar' appearing above filters just before sticking
+            .app--staff-listing &,
+            .app--project-listing & {
+                position: relative;
+
+                &::before {
+                    content: '';
+                    width: 100%;
+                    background-color: $color--black;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    height: 105px;
+                }
+            }
+
+        }
+    }
+
     &__header {
         // Adding space to allow for header overlaying content
         #{$root}--no-hero & {
