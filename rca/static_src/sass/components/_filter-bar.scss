@@ -35,13 +35,30 @@
     }
 
     &__link {
-        display: flex;
+        display: inline-flex;
         align-items: center;
         transition: color $cubic-transition;
+
+        &.active {
+            position: relative;
+
+            &::before {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 0;
+                right: $gutter;
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                overflow: hidden;
+                background-color: currentColor;
+            }
+        }
     }
 
     &__label {
-        margin-right: ($gutter / 2);
+        margin-right: ($gutter * 0.75);
     }
 
     &__icon {
