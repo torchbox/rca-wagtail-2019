@@ -60,7 +60,7 @@ class ProjectFilters {
         scroller
             .setup({
                 step: '.js-detect-sticking',
-                offset: 0, // 1 bottom, 0 top
+                offset: 0.02, // 1 bottom, 0 top - set a slight offset to ensure functions are called consistently with 2 sticky elements
             })
             .onStepEnter(() => {
                 this.filterBar.classList.add('filter-bar--stuck');
