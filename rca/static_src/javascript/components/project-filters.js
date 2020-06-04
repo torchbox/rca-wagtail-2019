@@ -308,6 +308,18 @@ class ProjectFilters {
                 this.body.classList.remove('project-filters');
             });
         });
+
+        window.addEventListener('hashchange', () => {
+            // if there's no hash, reset the filters
+            if (!window.location.hash.length > 0 || window.location.hash === '#results') {
+                this.closeProjectFilters();
+
+                // de-activate the filter buttons
+                this.categoryButtons.forEach((button) => {
+                    button.setAttribute('aria-selected', 'false');
+                });
+            }
+        });
     }
 }
 

@@ -1,7 +1,4 @@
 /* eslint-disable no-restricted-syntax */
-import 'intersection-observer';
-import scrollama from 'scrollama';
-
 class Tabs {
     static selector() {
         return '.js-tab-item';
@@ -13,10 +10,6 @@ class Tabs {
         this.allTabs = this.tabset.querySelectorAll('.js-tab-item');
         this.allTabPanels = this.tabset.querySelectorAll('.js-tab-panel');
         this.filterBar = document.querySelector('[data-filter-bar]');
-        this.filterBarSmall = document.querySelector('[data-filter-bar-small]');
-        this.categoryButtons = document.querySelectorAll(
-            '[data-project-category]',
-        );
         this.path = '';
 
         if (this.tabset.hasAttribute('data-tab-hash')) {
@@ -88,67 +81,11 @@ class Tabs {
             // listen for hash changes in the url to keep track when using back button
             window.addEventListener('hashchange', () => {
                 // activate tab if there's a hash in the url and it's not results
-                if (
-                    window.location.hash &&
-                    window.location.hash !== '#results'
-                ) {
+                if ( window.location.hash && window.location.hash !== '#results' ) {
                     this.setActiveHashTab();
-                } else {
-                    // close filters modal
-                    document.body.classList.remove(
-                        'no-scroll',
-                        'project-filters',
-                    );
-
-                    // update the theme
-                    this.filterBar.classList.remove('bg', 'bg--light');
-                    this.filterBar.classList.add('bg', 'bg--dark');
-
-                    // check if the has scrolled and apply relevant classes
-                    this.detectPositionSticky();
-
-                    // de-activate the filter buttons
-                    this.categoryButtons.forEach((button) => {
-                        button.setAttribute('aria-selected', 'false');
-                    });
                 }
             });
         }
-    }
-
-    detectPositionSticky() {
-        // instantiate the scrollama
-        const scroller = scrollama();
-
-        // setup the instance, pass callback functions
-        scroller
-            .setup({
-                step: '.js-detect-sticking',
-                offset: 0, // 1 bottom, 0 top
-            })
-            .onStepEnter(() => {
-                this.filterBar.classList.add('filter-bar--stuck');
-                this.filterBarSmall.classList.add('filter-bar--stuck');
-                this.applyThemeDarkMobile();
-            })
-            .onStepExit(() => {
-                this.filterBar.classList.remove('filter-bar--stuck');
-                this.filterBarSmall.classList.remove('filter-bar--stuck');
-                this.applyThemeLightMobile();
-            });
-
-        // setup resize event
-        window.addEventListener('resize', scroller.resize);
-    }
-
-    applyThemeDarkMobile() {
-        this.filterBarSmall.classList.remove('bg', 'bg--light');
-        this.filterBarSmall.classList.add('bg', 'bg--dark');
-    }
-
-    applyThemeLightMobile() {
-        this.filterBarSmall.classList.remove('bg', 'bg--dark');
-        this.filterBarSmall.classList.add('bg', 'bg--light');
     }
 }
 
