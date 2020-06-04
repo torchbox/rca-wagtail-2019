@@ -41,9 +41,9 @@ def ranged_date_format(date, date_to):
         return date.strftime("%-d %B") + " - " + date_to.strftime("%-d %B %Y")
 
 
-def fetch_data(url):
+def fetch_data(url, **params):
     try:
-        response = requests.get(url, timeout=10)
+        response = requests.get(url, params=params, timeout=10)
         response.raise_for_status()
     except Timeout:
         logger.exception(f"Timeout error occurred when fetching data from {url}")
@@ -222,6 +222,69 @@ def pull_news_and_events(programme_type_slug=None):
     news_and_blog_data = news_and_blog_data[:NEWS_ITEMS]
 
     return news_and_blog_data + events_data
+
+
+def pull_tagged_news_and_events(*tags):
+    """
+    Return a list of items matching the provided tags.
+
+    By default, include 1 article followed by 2 events (when available)
+    If there is only 1 event, include 2 articles (or as many as are available), followed by the event
+    If there are no matching events, include 3 articles (or as many as are available).
+    If there are no matching articles, show 3 events (or as many as are available).
+    """
+    api_url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/"
+
+    if not tags:
+        return []
+
+    tags_string = ",".join(tags)
+
+    # Fetch Events
+    articles_required = 1
+    result = fetch_data(
+        api_url, type="rca.EventItem", limit=3, event_date_from=True, tags=tags_string
+    )
+    events = parse_items_to_list(result, "Event")
+    if len(events) < 2:
+        # fetch more articles to fill the empty slots
+        articles_required = 3 - len(events)
+
+    # Fetch Blog items
+    result = fetch_data(
+        api_url,
+        type="rca.RcaBlogPage",
+        limit=articles_required,
+        order="-date",
+        tags=tags_string,
+        tags_not="Alumni_Story",
+    )
+    # Blog and News are both being used for News content, so they can
+    # both go to the parser as 'News'.
+    blogs = parse_items_to_list(result, "News")
+
+    # Fetch News items
+    result = fetch_data(
+        api_url,
+        type="rca.NewsItem",
+        limit=articles_required,
+        order="-date",
+        tags=tags_string,
+        tags_not="Alumni_Story",
+    )
+    news = parse_items_to_list(result, "News")
+
+    # Combine Blog and News results
+    articles = news + blogs
+
+    # Return only events if there are no articles
+    if not articles:
+        return events
+
+    # Order combined articles by latest first
+    articles.sort(key=lambda x: x["original_date"], reverse=True)
+    # Return a mix of articles and events
+    return articles[:articles_required] + events[:2]
 
 
 def pull_alumni_stories(programme_type_slug=None):

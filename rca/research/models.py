@@ -24,6 +24,7 @@ from rca.utils.blocks import LinkBlock
 from rca.utils.models import (
     HERO_COLOUR_CHOICES,
     BasePage,
+    LegacyNewsAndEventsMixin,
     RelatedPage,
     RelatedStaffPageWithManualOptions,
 )
@@ -70,7 +71,7 @@ class ResearchCentrePageRelatedProjects(RelatedPage):
     panels = [PageChooserPanel("page", "projects.ProjectPage")]
 
 
-class ResearchCentrePage(BasePage):
+class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
     template = "patterns/pages/researchcentre/research_centre.html"
     hero_image = models.ForeignKey(
         "images.CustomImage",
@@ -208,6 +209,7 @@ class ResearchCentrePage(BasePage):
         ),
         FieldPanel("related_programmes_title"),
         StreamFieldPanel("related_links"),
+        FieldPanel("legacy_news_and_event_tags"),
     ]
     key_details_panels = [
         MultiFieldPanel(
