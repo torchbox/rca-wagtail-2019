@@ -124,7 +124,9 @@ class ProjectFilters {
         }
 
         // check for active filters
-        const filtersAreActive = [...this.categoryButtons].some(button => button.classList.contains('categories-tablist__tab--selected'))
+        const filtersAreActive = [...this.categoryButtons].some((button) =>
+            button.classList.contains('categories-tablist__tab--selected'),
+        );
 
         if (filtersAreActive) {
             // add active class to mobile button if so
