@@ -385,7 +385,8 @@ def parse_staff_to_list(data):
     for item in data["supervised_students"]:
         if item["image"]:
             image_fetch_result = fetch_data(
-                f"{settings.API_CONTENT_BASE_URL}/api/v2/images/57215/", timeout=10
+                f"{settings.API_CONTENT_BASE_URL}/api/v2/images/57215/?fields=_,supervised_students",
+                timeout=10,
             )
             item["image_url"] = image_fetch_result["thumbnail"]["url"]
         fullname = item["name"].split(" ")
