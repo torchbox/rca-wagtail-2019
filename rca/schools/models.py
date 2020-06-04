@@ -1,10 +1,19 @@
 from django.db import models
 from django.http import Http404
-from wagtail.admin.edit_handlers import FieldPanel
+from modelcluster.fields import ParentalKey
+from wagtail.admin.edit_handlers import FieldPanel, PageChooserPanel
 from wagtail.api import APIField
+from wagtail.core.models import Orderable, Page
 from wagtail.search import index
 
 from rca.utils.models import BasePage
+
+
+class RelatedSchoolPage(Orderable):
+    source_page = ParentalKey(Page, related_name="related_schools_pages")
+    page = models.ForeignKey("schools.SchoolPage", on_delete=models.CASCADE)
+
+    panels = [PageChooserPanel("page")]
 
 
 class SchoolPage(BasePage):
