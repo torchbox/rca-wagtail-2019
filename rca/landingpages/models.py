@@ -19,7 +19,13 @@ from rca.utils.blocks import (
     SlideBlock,
     StatisticBlock,
 )
-from rca.utils.models import HERO_COLOUR_CHOICES, BasePage, LinkFields, RelatedPage
+from rca.utils.models import (
+    HERO_COLOUR_CHOICES,
+    BasePage,
+    LegacyNewsAndEventsMixin,
+    LinkFields,
+    RelatedPage,
+)
 
 
 class FeaturedImage(LinkFields):
@@ -138,7 +144,7 @@ class LandingPagePageSlideshowBlock(models.Model):
         return self.title
 
 
-class LandingPage(BasePage):
+class LandingPage(LegacyNewsAndEventsMixin, BasePage):
     """ Defines all the fields we will need for the other versions of landing pages
     visibility of some extra fields that aren't needed on certain models which inherit LandingPage
     are controlled at the content_panels level.
@@ -251,6 +257,7 @@ class LandingPage(BasePage):
             heading=_("Related pages grid"),
         ),
         InlinePanel("featured_image", label=_("Featured image"), max_num=1),
+        FieldPanel("legacy_news_and_event_tags"),
         MultiFieldPanel(
             [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
             heading=_("Related page list"),
@@ -437,6 +444,7 @@ class ResearchLandingPage(LandingPage):
             ],
             heading=_("Featured projects"),
         ),
+        FieldPanel("legacy_news_and_event_tags"),
         MultiFieldPanel(
             [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
             heading=_("Related page list"),
@@ -495,6 +503,7 @@ class InnovationLandingPage(LandingPage):
             [InlinePanel("featured_image", label=_("Featured image"), max_num=1)],
             heading=_("Highlight Image"),
         ),
+        FieldPanel("legacy_news_and_event_tags"),
         MultiFieldPanel(
             [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
             heading=_("Related page list"),

@@ -1,5 +1,5 @@
 import datetime
-from unittest import mock
+from unittest.mock import call, patch
 
 from django.test import TestCase
 
@@ -51,7 +51,7 @@ def generate_fake_blogs(num=3):
     yield from generate_fake_news(num=num, dates=dates)
 
 
-@mock.patch("rca.api_content.content.fetch_data", return_value={"items": []})
+@patch("rca.api_content.content.fetch_data", return_value={"items": []})
 class PullTaggedNewsAndEventsTests(TestCase):
     def setUp(self):
         super().setUp()
@@ -63,7 +63,7 @@ class PullTaggedNewsAndEventsTests(TestCase):
 
     # `parse_items_to_list` is used to turn all api results into
     # nice lists, so we'll mock that to return the values we want
-    @mock.patch(
+    @patch(
         "rca.api_content.content.parse_items_to_list",
         side_effect=[
             # when called with events, return 3 fake items
@@ -74,7 +74,7 @@ class PullTaggedNewsAndEventsTests(TestCase):
             list(generate_fake_news(3)),
         ],
     )
-    def test_default(self, mocked_fetch_data, mocked_items_to_list):
+    def test_default(self, mocked_items_to_list, mocked_fetch_data):
         """
         By default, include 1 news/blog followed by 2 events (when available)
         """
@@ -97,39 +97,33 @@ class PullTaggedNewsAndEventsTests(TestCase):
         # EventItems, RcaBlogPages and NewsItems
         url = "https://rca.ac.uk/api/v2/pages/"
         expected_fetch_data_calls = [
-            (
+            call(
                 url,
-                dict(
-                    type="rca.EventItem",
-                    limit=3,
-                    event_date_from=True,
-                    tags=self.tags_string,
-                ),
+                type="rca.EventItem",
+                limit=3,
+                event_date_from=True,
+                tags=self.tags_string,
             ),
-            (
+            call(
                 url,
-                dict(
-                    type="rca.RcaBlogPage",
-                    limit=1,
-                    order="-date",
-                    tags=self.tags_string,
-                    tags_not="Alumni_Story",
-                ),
+                type="rca.RcaBlogPage",
+                limit=1,
+                order="-date",
+                tags=self.tags_string,
+                tags_not="Alumni_Story",
             ),
-            (
+            call(
                 url,
-                dict(
-                    type="rca.NewsItem",
-                    limit=1,
-                    order="-date",
-                    tags=self.tags_string,
-                    tags_not="Alumni_Story",
-                ),
+                type="rca.NewsItem",
+                limit=1,
+                order="-date",
+                tags=self.tags_string,
+                tags_not="Alumni_Story",
             ),
         ]
         mocked_fetch_data.assert_has_calls(expected_fetch_data_calls)
 
-    @mock.patch(
+    @patch(
         "rca.api_content.content.parse_items_to_list",
         side_effect=[
             # when called with events, return only 1 item
@@ -140,7 +134,7 @@ class PullTaggedNewsAndEventsTests(TestCase):
             list(generate_fake_news(3)),
         ],
     )
-    def test_single_event(self, mocked_fetch_data, mocked_items_to_list):
+    def test_single_event(self, mocked_items_to_list, mocked_fetch_data):
         """
         If there is only 1 matching event, show 2 news articles (or as many as are available), followed by the event
         """
@@ -167,42 +161,36 @@ class PullTaggedNewsAndEventsTests(TestCase):
         # EventItems, RcaBlogPages and NewsItems
         url = "https://rca.ac.uk/api/v2/pages/"
         expected_fetch_data_calls = [
-            (
+            call(
                 url,
-                dict(
-                    type="rca.EventItem",
-                    limit=3,
-                    event_date_from=True,
-                    tags=self.tags_string,
-                ),
+                type="rca.EventItem",
+                limit=3,
+                event_date_from=True,
+                tags=self.tags_string,
             ),
-            (
+            call(
                 url,
-                dict(
-                    type="rca.RcaBlogPage",
-                    limit=2,  # note: more items being fetched
-                    order="-date",
-                    tags=self.tags_string,
-                    tags_not="Alumni_Story",
-                ),
+                type="rca.RcaBlogPage",
+                limit=2,  # note: more items being fetched
+                order="-date",
+                tags=self.tags_string,
+                tags_not="Alumni_Story",
             ),
-            (
+            call(
                 url,
-                dict(
-                    type="rca.NewsItem",
-                    limit=2,  # note: more items being fetched
-                    order="-date",
-                    tags=self.tags_string,
-                    tags_not="Alumni_Story",
-                ),
+                type="rca.NewsItem",
+                limit=2,  # note: more items being fetched
+                order="-date",
+                tags=self.tags_string,
+                tags_not="Alumni_Story",
             ),
         ]
         mocked_fetch_data.assert_has_calls(expected_fetch_data_calls)
 
-    @mock.patch(
+    @patch(
         "rca.api_content.content.parse_items_to_list",
         side_effect=[
-            # when called with events, return only 1 item
+            # when called with events, return no items
             [],
             # when called with blogs, return 3 fake items
             list(generate_fake_blogs(3)),
@@ -210,7 +198,7 @@ class PullTaggedNewsAndEventsTests(TestCase):
             list(generate_fake_news(3)),
         ],
     )
-    def test_zero_events(self, mocked_fetch_data, mocked_items_to_list):
+    def test_zero_events(self, mocked_items_to_list, mocked_fetch_data):
         """
         If there are no matching events, include 3 articles (or as many as are available).
         """
@@ -240,42 +228,36 @@ class PullTaggedNewsAndEventsTests(TestCase):
         # EventItems, RcaBlogPages and NewsItems
         url = "https://rca.ac.uk/api/v2/pages/"
         expected_fetch_data_calls = [
-            (
+            call(
                 url,
-                dict(
-                    type="rca.EventItem",
-                    limit=3,
-                    event_date_from=True,
-                    tags=self.tags_string,
-                ),
+                type="rca.EventItem",
+                limit=3,
+                event_date_from=True,
+                tags=self.tags_string,
             ),
-            (
+            call(
                 url,
-                dict(
-                    type="rca.RcaBlogPage",
-                    limit=3,  # note: more items being fetched
-                    order="-date",
-                    tags=self.tags_string,
-                    tags_not="Alumni_Story",
-                ),
+                type="rca.RcaBlogPage",
+                limit=3,  # note: more items being fetched
+                order="-date",
+                tags=self.tags_string,
+                tags_not="Alumni_Story",
             ),
-            (
+            call(
                 url,
-                dict(
-                    type="rca.NewsItem",
-                    limit=3,  # note: more items being fetched
-                    order="-date",
-                    tags=self.tags_string,
-                    tags_not="Alumni_Story",
-                ),
+                type="rca.NewsItem",
+                limit=3,  # note: more items being fetched
+                order="-date",
+                tags=self.tags_string,
+                tags_not="Alumni_Story",
             ),
         ]
         mocked_fetch_data.assert_has_calls(expected_fetch_data_calls)
 
-    @mock.patch(
+    @patch(
         "rca.api_content.content.parse_items_to_list",
         side_effect=[
-            # when called with events, return only 1 item
+            # when called with events, return 3 items
             list(generate_fake_events(3)),
             # when called with blogs, return no items
             [],
@@ -283,7 +265,7 @@ class PullTaggedNewsAndEventsTests(TestCase):
             [],
         ],
     )
-    def test_zero_news(self, mocked_fetch_data, mocked_items_to_list):
+    def test_zero_news(self, mocked_items_to_list, mocked_fetch_data):
         """
         If there are no matching articles, show 3 events (or as many as are available).
         """
@@ -292,7 +274,7 @@ class PullTaggedNewsAndEventsTests(TestCase):
         # There should be 3 items total
         self.assertEqual(len(result), 3)
 
-        # All items should be event
+        # All items should be events
         self.assertEqual(
             [result[0]["type"], result[1]["type"], result[2]["type"]],
             ["Event", "Event", "Event"],
@@ -302,34 +284,28 @@ class PullTaggedNewsAndEventsTests(TestCase):
         # EventItems, RcaBlogPages and NewsItems
         url = "https://rca.ac.uk/api/v2/pages/"
         expected_fetch_data_calls = [
-            (
+            call(
                 url,
-                dict(
-                    type="rca.EventItem",
-                    limit=3,
-                    event_date_from=True,
-                    tags=self.tags_string,
-                ),
+                type="rca.EventItem",
+                limit=3,
+                event_date_from=True,
+                tags=self.tags_string,
             ),
-            (
+            call(
                 url,
-                dict(
-                    type="rca.RcaBlogPage",
-                    limit=1,  # note: back to the minumum number
-                    order="-date",
-                    tags=self.tags_string,
-                    tags_not="Alumni_Story",
-                ),
+                type="rca.RcaBlogPage",
+                limit=1,  # note: back to the minumum number
+                order="-date",
+                tags=self.tags_string,
+                tags_not="Alumni_Story",
             ),
-            (
+            call(
                 url,
-                dict(
-                    type="rca.NewsItem",
-                    limit=1,  # note: back to the minumum number
-                    order="-date",
-                    tags=self.tags_string,
-                    tags_not="Alumni_Story",
-                ),
+                type="rca.NewsItem",
+                limit=1,  # note: back to the minumum number
+                order="-date",
+                tags=self.tags_string,
+                tags_not="Alumni_Story",
             ),
         ]
         mocked_fetch_data.assert_has_calls(expected_fetch_data_calls)

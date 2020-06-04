@@ -1,7 +1,12 @@
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.decorators import method_decorator
+from django.utils.functional import cached_property
 from django.utils.html import format_html
+from modelcluster.contrib.taggit import ClusterTaggableManager
+from modelcluster.fields import ParentalKey
+from taggit.models import ItemBase, TagBase
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     MultiFieldPanel,
@@ -15,6 +20,7 @@ from wagtail.core.models import Orderable, Page
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.models import register_snippet
 
+from rca.api_content.content import CantPullFromRcaApi, pull_tagged_news_and_events
 from rca.utils.cache import get_default_cache_control_decorator
 
 LIGHT_TEXT_ON_DARK_IMAGE = 1
@@ -371,6 +377,84 @@ class BasePage(SocialFields, ListingFields, Page):
         return context
 
         return context
+
+
+class LegacySiteTag(TagBase):
+    class Meta:
+        verbose_name = "legacy site tag"
+        verbose_name_plural = "legacy site tags"
+
+
+class LegacySiteTaggedPage(ItemBase):
+    tag = models.ForeignKey(
+        LegacySiteTag, related_name="tagged_pages", on_delete=models.CASCADE
+    )
+    content_object = ParentalKey(
+        to=Page, on_delete=models.CASCADE, related_name="tagged_items"
+    )
+
+
+class LegacyNewsAndEventsMixin(models.Model):
+    legacy_news_and_event_tags = ClusterTaggableManager(
+        verbose_name="Legacy news and event tags",
+        help_text=(
+            "Specify one or more tags to identify related news and events from "
+            "the legacy site. A maximum of three items with the same combination "
+            "of tags will then be displayed on the page."
+        ),
+        through=LegacySiteTaggedPage,
+        blank=True,
+    )
+
+    class Meta:
+        abstract = True
+
+    @property
+    def legacy_news_cache_key(self):
+        return f"{self.pk}-legacy-news-and-events"
+
+    def refetch_legacy_news_and_events(self):
+        """
+        Fetches the related news and events for this page from
+        the legacy site. The result is cached to reduce real-time
+        calls to the legacy API.
+        """
+        tags = self.legacy_news_and_event_tags.all().values_list("name", flat=True)
+        value = pull_tagged_news_and_events(*tags)
+        cache.set(self.legacy_news_cache_key, value, None)
+        return value
+
+    @cached_property
+    def legacy_news_and_events(self):
+        """
+        Return a list of news and events from the legacy site
+        that are tagged with all of the tags from this
+        page's ``legacy_news_and_event_tags``.
+
+        The cached_property decorator is used so that
+        ``page.legacy_news_and_events`` can be referenced in the
+        template multiple times without triggering another
+        cache lookup.
+        """
+        cached_val = cache.get(self.legacy_news_cache_key)
+        if cached_val is not None:
+            return cached_val
+        return self.refetch_legacy_news_and_events()
+
+    def save(self, *args, **kwargs):
+        """
+        Overrides the default Page.save() method to trigger
+        a cache refresh for legacy news and events (in
+        case the tags for this page have changed).
+        """
+        super().save(*args, **kwargs)
+        try:
+            self.refetch_legacy_news_and_events()
+        except CantPullFromRcaApi:
+            # Legacy API can be a bit unreliable, so don't
+            # break here. The management command can update
+            # the value next time it runs
+            pass
 
 
 class OptionalLink(models.Model):
