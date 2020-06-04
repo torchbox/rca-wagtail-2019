@@ -41,9 +41,9 @@ def ranged_date_format(date, date_to):
         return date.strftime("%-d %B") + " - " + date_to.strftime("%-d %B %Y")
 
 
-def fetch_data(url):
+def fetch_data(url, **params):
     try:
-        response = requests.get(url, timeout=10)
+        response = requests.get(url, params=params, timeout=10)
         response.raise_for_status()
     except Timeout:
         logger.exception(f"Timeout error occurred when fetching data from {url}")
