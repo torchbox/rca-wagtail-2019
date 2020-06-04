@@ -71,8 +71,14 @@ class StaffPage(BasePage):
     related_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="Related Links"
     )
+    legacy_staff_id = models.IntegerField(
+        null=True,
+        blank=True,
+        help_text=_("Add the legacy staff page ID here to show related students"),
+    )
 
     key_details_panels = [
+        FieldPanel("legacy_staff_id"),
         InlinePanel(
             "related_research_centre_pages", label=_("Related Research Centres ")
         ),
