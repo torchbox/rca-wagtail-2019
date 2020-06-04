@@ -45,7 +45,7 @@ class StaffRole(Orderable):
         help_text=_("Specify a custom programme page here if one does not exist"),
         blank=True,
     )
-    page = ParentalKey("StaffPage", related_name="role")
+    page = ParentalKey("StaffPage", related_name="roles")
 
     def clean(self):
         errors = defaultdict(list)
@@ -151,9 +151,7 @@ class StaffPage(BasePage):
             ],
             heading="Details",
         ),
-        MultiFieldPanel(
-            [InlinePanel("role", label=_("Staff role"))], heading=_("Staff roles")
-        ),
+        InlinePanel("roles", label=_("Staff role")),
         MultiFieldPanel([FieldPanel("email")], heading=_("Contact information")),
         FieldPanel("introduction"),
         FieldPanel("body"),
@@ -278,7 +276,7 @@ class StaffPage(BasePage):
         items = []
         # First populate a list of all values
         # E.G [['role title name','programme title'm 'url'], ['role title name','programme title', 'None'], ...]
-        for value in self.role.all():
+        for value in self.roles.all():
             if value.programme:
                 items.append([value.programme.title, value.role, value.programme.url])
             else:
@@ -293,6 +291,7 @@ class StaffPage(BasePage):
             else:
                 re_grouped[key] = {"items": [value]}
             re_grouped[key]["link"] = link
+
         return re_grouped.items()
 
     def get_context(self, request, *args, **kwargs):
