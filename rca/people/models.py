@@ -1,4 +1,6 @@
+from django.core.cache import cache
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -13,6 +15,7 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
+from rca.api_content.content import CantPullFromRcaApi, pull_related_students
 from rca.utils.blocks import AccordionBlockWithTitle, GalleryBlock, LinkBlock
 from rca.utils.models import BasePage
 
@@ -154,6 +157,37 @@ class StaffPage(BasePage):
                 }
             )
         return items
+
+    @property
+    def related_students_cache_key(self):
+        return f"{self.pk}_related_students"
+
+    def fetch_related_students(self):
+        value = pull_related_students(self.legacy_staff_id)
+        cache.set(self.related_students_cache_key, value, None)
+        return value
+
+    @cached_property
+    def legacy_related_students(self):
+        cached_val = cache.get(self.related_students_cache_key)
+        if cached_val is not None:
+            return cached_val
+        return self.fetch_related_students()
+
+    def save(self, *args, **kwargs):
+        """
+        Overrides the default Page.save() method to trigger
+        a cache refresh for legacy news and events (in
+        case the tags for this page have changed).
+        """
+        super().save(*args, **kwargs)
+        try:
+            self.refetch_related_students()
+        except CantPullFromRcaApi:
+            # Legacy API can be a bit unreliable, so don't
+            # break here. The management command can update
+            # the value next time it runs
+            pass
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
