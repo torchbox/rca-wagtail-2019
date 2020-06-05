@@ -13,7 +13,6 @@
 {% block content %}
 
     <div class="page page--no-hero" typeof="schema:Person">
-
         <header class="page__header bg bg--dark">
             <div class="title-area title-area--staff-detail grid">
                 {% if page.profile_image %}
@@ -138,8 +137,8 @@
             </section>
 
             <section class="section section--top-space bg bg--light">
-                {% if page.related_students %}
-                    {% include "patterns/organisms/student-listing/student-listing.html" with student_listing=page.related_students %}
+                {% if page.legacy_related_students %}
+                    {% include "patterns/organisms/student-listing/student-listing-api.html" with student_listing=page.legacy_related_students %}
                 {% endif %}
 
                 {% if page.related_links %}

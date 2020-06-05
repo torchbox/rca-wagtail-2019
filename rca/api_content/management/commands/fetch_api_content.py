@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 from wagtail.core.models import Page
 
+from rca.people.models import StaffPage
 from rca.utils.models import LegacySiteTaggedPage
 
 from ...content import AlumniStoriesAPI, NewsEventsAPI
@@ -21,3 +22,8 @@ class Command(BaseCommand):
             ).distinct()
         ).specific():
             page.refetch_legacy_news_and_events()
+
+        # Fetch related student data for staff pages
+        for page in StaffPage.objects.filter(legacy_staff_id__isnull=False):
+            print(page)
+            page.fetch_related_students()
