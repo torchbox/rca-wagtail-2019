@@ -88,6 +88,11 @@
 
     &--standout {
         margin-top: ($gutter * 5);
+        padding-bottom: ($gutter * 10);
+
+        @include media-query(large) {
+            padding-bottom: 0;
+        }
     }
 
     &--standout-desktop {
@@ -120,14 +125,6 @@
             }
         }
 
-        &--group-heading {
-            display: block;
-
-            @include media-query(large) {
-                display: none;
-            }
-        }
-
         &--breadcrumb {
             width: auto;
             padding: 0;
@@ -155,14 +152,12 @@
 
         &--primary,
         &--secondary {
-            @include media-query(large) {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
-                #{$root}__link {
-                    flex: 1;
-                }
+            #{$root}__link {
+                flex: 1;
             }
         }
     }
@@ -220,14 +215,6 @@
             }
         }
 
-        &--group-heading {
-            font-size: map-get($small-font-sizes, s);
-
-            @include media-query(medium) {
-                font-size: map-get($medium-font-sizes, s);
-            }
-        }
-
         &--base {
             font-size: map-get($small-font-sizes, xs);
             padding: 0;
@@ -245,37 +232,25 @@
     }
 
     &__icon {
-        fill: $color--white;
         pointer-events: none;
+        fill: $color--white;
+        padding: 12px;
+        width: 40px;
+        height: 40px;
+        transition: fill $transition, opacity $transition;
 
-        @include media-query(large) {
-            display: none;
+        .is-active & {
+            opacity: 1;
         }
 
-        &--desktop {
-            display: none;
-            padding: 12px;
-            width: 40px;
-            height: 40px;
-            transition: fill $transition, opacity $transition;
-
-            @include media-query(large) {
-                display: block;
-            }
-
-            .is-active & {
-                opacity: 1;
-            }
-
-            .fade-icon & {
-                opacity: 0.3;
-            }
+        .fade-icon & {
+            opacity: 0.3;
         }
     }
 
     &__icon-container {
         &:hover {
-            #{$root}__icon--desktop {
+            #{$root}__icon {
                 opacity: 1;
                 fill: $color--tertiary;
             }

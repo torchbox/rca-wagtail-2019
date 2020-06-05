@@ -13,31 +13,13 @@ class SubMenu {
     }
 
     bindEventListeners() {
-        this.isDesktop = window.innerWidth > 1022;
-
-        if (this.isDesktop) {
-            this.handleDesktop();
-        } else {
-            this.handleMobile();
-        }
-    }
-
-    // Nav item text is an actual link on desktop
-    // Use the icon to drill down the menu
-    handleDesktop() {
         this.node.addEventListener('click', (e) => {
-            if (!this.node.classList.contains('nav__link')) {
+            // Nav item text is an actual link
+            // Use the icon to drill down the menu
+            if (this.node.hasAttribute('data-drill-down')) {
                 e.preventDefault();
                 this.activateMenu(e.target);
             }
-        });
-    }
-
-    // Nav item text and icon used to drill down on mobile
-    handleMobile() {
-        this.node.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.activateMenu(e.target);
         });
     }
 
@@ -88,11 +70,14 @@ class SubMenu {
         const childMenuSelector = `[data-menu-${navItem.dataset.menuId}]`;
         const childMenu = this.addClass(childMenuSelector, this.visibleClass);
 
-        // Move the focus to the fisrt <a> in a child menu that was opened
-        const childMenuElement = childMenu[0];
-        childMenuElement
-            .querySelector('a:not(.nav__link--group-heading)')
-            .focus();
+        // On desktop...
+        if (window.innerWidth > 1022) {
+            // ...move the focus to the fisrt <a> in a child menu that was opened
+            const childMenuElement = childMenu[0];
+            childMenuElement
+                .querySelector('a:not(.nav__link--group-heading)')
+                .focus();
+        }
 
         // only show child drawer if has a menu else make sure it's gone
         if (childMenu.length > 0) {
