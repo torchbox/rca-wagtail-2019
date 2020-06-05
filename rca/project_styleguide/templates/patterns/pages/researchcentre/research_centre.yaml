@@ -135,28 +135,7 @@ context:
             degree_level: Student programme
             programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
             img: http://placehold.it/300x270
-    news_and_events:
-      - item:
-        meta: 'Event'
-        title: 'Designs for Real Life'
-        description: '6 July 2019 — 4 August 2019'
-        link: '#'
-        image: true
-        person: false
-      - item:
-        meta: 'Event'
-        title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
-        description: '23 November 2019'
-        link: '#'
-        image: false
-        person: false
-      - item:
-        meta: 'News'
-        title: 'Show 2018: School of Architecture: Making Space for the Future'
-        description: '23 November 2019'
-        link: '#'
-        image: true
-        person: false
+    news_and_events: false
     related_links:
       - item:
         value: { text: 'Knowledge Exchange', href: 'http://www.bbc.co.uk' }
