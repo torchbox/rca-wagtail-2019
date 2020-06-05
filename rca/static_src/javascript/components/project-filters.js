@@ -329,13 +329,15 @@ class ProjectFilters {
                 this.categoryButtons.forEach((button) => {
                     button.setAttribute('aria-selected', 'false');
                 });
-            // ensure the mobile filters menu is shown when navigating using back button
+                // ensure the mobile filters menu is shown when navigating using back button
             } else if (window.location.hash === '#filters-active') {
                 // Hide all tabs, and set aria-selected to false
-                [...document.querySelectorAll('.js-tab-panel')].forEach(panel => {
-                    panel.classList.add('tabs__panel--hidden');
-                    panel.setAttribute('aria-selected', 'false');
-                })
+                [...document.querySelectorAll('.js-tab-panel')].forEach(
+                    (panel) => {
+                        panel.classList.add('tabs__panel--hidden');
+                        panel.setAttribute('aria-selected', 'false');
+                    },
+                );
 
                 // Deactivate filter takeover
                 this.body.classList.remove('project-filters');
