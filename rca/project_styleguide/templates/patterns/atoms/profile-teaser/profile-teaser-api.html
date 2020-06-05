@@ -7,8 +7,8 @@
     {% else %}
         <div class="profile-teaser__container">
     {% endif %}
-    {% if item.image %}
-        <img src="{{ item.image_url }}" width="60" height="60" alt="{{ item.name }}" class="profile-teaser__image">
+    {% if item.image_url %}
+        <img src="{{ item.image_url }}" width="60" height="60" alt="" class="profile-teaser__image">
     {% else %}
         <img src="{% static "images/author_placeholder.png" %}" alt="" class="profile-teaser__image profile-teaser__image--placeholder">
     {% endif %}
