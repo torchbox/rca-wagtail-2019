@@ -177,12 +177,12 @@ class StaffPage(BasePage):
     def save(self, *args, **kwargs):
         """
         Overrides the default Page.save() method to trigger
-        a cache refresh for legacy news and events (in
-        case the tags for this page have changed).
+        a cache refresh for related students (in case the
+        legacy_staff_id value has changed).
         """
         super().save(*args, **kwargs)
         try:
-            self.refetch_related_students()
+            self.fetch_related_students()
         except CantPullFromRcaApi:
             # Legacy API can be a bit unreliable, so don't
             # break here. The management command can update
