@@ -103,20 +103,27 @@ context:
         description: 'Creating world class experiences that started at the RCA'
         image: true
         link: '#'
-    related_students:
-      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    legacy_related_students:
       - {
           first_name: 'Nelly',
           surname: 'Abbott',
           meta: Current,
           link: '#',
-          image: false,
+          image_url: 'https://placekitten.com/120/120',
+        }
+      - {
+          first_name: 'Nelly',
+          surname: 'Abbott',
+          meta: Current,
+          link: '#',
+          image_url: 'https://placekitten.com/120/120',
         }
       - {
           first_name: 'Nelly',
           surname: 'Cholmondeley-Cale',
           meta: Current,
           link: '#',
+          image_url: 'https://placekitten.com/120/120',
         }
       - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
       - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
@@ -125,6 +132,7 @@ context:
           surname: 'Wolfeschlegelsteinhausenbergerdorffd',
           meta: Current,
           link: '#',
+          image_url: 'https://placekitten.com/120/120',
         }
     related_links:
       - item:
