@@ -32,6 +32,9 @@
 
     &__back {
         margin-bottom: $gutter;
+        appearance: none;
+        background: transparent;
+        border: 0;
     }
 
     &__back-icon {

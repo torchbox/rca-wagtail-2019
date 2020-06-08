@@ -295,6 +295,8 @@ class ProjectFilters {
 
         // Mobile launcher
         this.mobileLauncher.addEventListener('click', () => {
+            // scroll user to top to reset filter theme
+            document.documentElement.scrollTop = 0;
             this.body.classList.add('project-filters-mobile');
             this.body.classList.add('no-scroll');
             this.applyThemeLightMobile();
@@ -303,6 +305,7 @@ class ProjectFilters {
         // Back
         this.backButtons.forEach((item) => {
             item.addEventListener('click', (e) => {
+                e.preventDefault();
                 // Get the tab ID that clear sits within
                 const targetTabID = e.target
                     .closest(['.js-tab-panel'])
@@ -319,6 +322,39 @@ class ProjectFilters {
                 // Deactivate filter takeover
                 this.body.classList.remove('project-filters');
             });
+        });
+
+        window.addEventListener('hashchange', () => {
+            // if there's no hash, reset the filters
+            if (
+                !window.location.hash.length > 0 ||
+                window.location.hash === '#results'
+            ) {
+                // close filters modal
+                this.closeProjectFilters();
+
+                // hide the mobile filters
+                this.body.classList.remove('project-filters-mobile');
+
+                this.applyThemeLightMobile();
+
+                // de-activate the filter buttons
+                this.categoryButtons.forEach((button) => {
+                    button.setAttribute('aria-selected', 'false');
+                });
+                // ensure the mobile filters menu is shown when navigating using back button
+            } else if (window.location.hash === '#filters-active') {
+                // Hide all tabs, and set aria-selected to false
+                [...document.querySelectorAll('.js-tab-panel')].forEach(
+                    (panel) => {
+                        panel.classList.add('tabs__panel--hidden');
+                        panel.setAttribute('aria-selected', 'false');
+                    },
+                );
+
+                // Deactivate filter takeover
+                this.body.classList.remove('project-filters');
+            }
         });
     }
 }

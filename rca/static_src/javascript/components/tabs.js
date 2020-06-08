@@ -1,5 +1,4 @@
 /* eslint-disable no-restricted-syntax */
-
 class Tabs {
     static selector() {
         return '.js-tab-item';
@@ -10,6 +9,7 @@ class Tabs {
         this.tabset = this.tab.closest(['.js-tabs']);
         this.allTabs = this.tabset.querySelectorAll('.js-tab-item');
         this.allTabPanels = this.tabset.querySelectorAll('.js-tab-panel');
+        this.filterBar = document.querySelector('[data-filter-bar]');
         this.path = '';
 
         if (this.tabset.hasAttribute('data-tab-hash')) {
@@ -75,6 +75,20 @@ class Tabs {
             this.removeHeadroomPinned();
             targetPanel.scrollIntoView();
         });
+
+        // used on pages with filters (project and staff picker)
+        if (document.body.contains(this.filterBar)) {
+            // listen for hash changes in the url to keep track when using back button
+            window.addEventListener('hashchange', () => {
+                // activate tab if there's a hash in the url and it's not results
+                if (
+                    window.location.hash &&
+                    window.location.hash !== '#results'
+                ) {
+                    this.setActiveHashTab();
+                }
+            });
+        }
     }
 }
 
