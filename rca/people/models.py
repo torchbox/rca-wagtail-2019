@@ -1,4 +1,6 @@
+from django.core.cache import cache
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -13,6 +15,7 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
+from rca.api_content.content import CantPullFromRcaApi, pull_related_students
 from rca.utils.blocks import AccordionBlockWithTitle, GalleryBlock, LinkBlock
 from rca.utils.models import BasePage
 
@@ -30,6 +33,25 @@ class StaffPageAreOfExpertisePlacement(models.Model):
         AreaOfExpertise, on_delete=models.CASCADE, related_name="related_staff"
     )
     panels = [FieldPanel("area_of_expertise")]
+
+
+class StaffPageManualRelatedStudents(models.Model):
+    page = ParentalKey(
+        "people.StaffPage",
+        on_delete=models.CASCADE,
+        related_name="related_students_manual",
+    )
+    first_name = models.CharField(max_length=255)
+    surname = models.CharField(max_length=255)
+    status = models.CharField(max_length=255)
+    link = models.URLField(blank=True)
+
+    panels = [
+        FieldPanel("first_name"),
+        FieldPanel("surname"),
+        FieldPanel("status"),
+        FieldPanel("link"),
+    ]
 
 
 class StaffPage(BasePage):
@@ -71,6 +93,11 @@ class StaffPage(BasePage):
     related_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="Related Links"
     )
+    legacy_staff_id = models.IntegerField(
+        null=True,
+        blank=True,
+        help_text=_("Add the legacy staff page ID here to show related students"),
+    )
 
     key_details_panels = [
         InlinePanel(
@@ -104,6 +131,10 @@ class StaffPage(BasePage):
             heading=_("Research highlights gallery"),
         ),
         StreamFieldPanel("gallery"),
+        MultiFieldPanel(
+            [InlinePanel("related_students_manual"), FieldPanel("legacy_staff_id")],
+            heading=_("Related Students"),
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("more_information_title"),
@@ -149,11 +180,68 @@ class StaffPage(BasePage):
             )
         return items
 
+    @property
+    def related_students_cache_key(self):
+        return f"{self.pk}_related_students"
+
+    def fetch_related_students(self):
+        value = pull_related_students(self.legacy_staff_id)
+        cache.set(self.related_students_cache_key, value, None)
+        return value
+
+    @cached_property
+    def legacy_related_students(self):
+        cached_val = cache.get(self.related_students_cache_key)
+        if cached_val is not None:
+            return cached_val
+        return self.fetch_related_students()
+
+    def save(self, *args, **kwargs):
+        """
+        Overrides the default Page.save() method to trigger
+        a cache refresh for related students (in case the
+        legacy_staff_id value has changed).
+        """
+        super().save(*args, **kwargs)
+        try:
+            self.fetch_related_students()
+        except CantPullFromRcaApi:
+            # Legacy API can be a bit unreliable, so don't
+            # break here. The management command can update
+            # the value next time it runs
+            pass
+
+    def get_related_students(self):
+        """ Returns a list containing legacy related students from the cached api
+        request and manual related students at the page level """
+        students = []
+
+        # Format the api content
+        for student in self.legacy_related_students:
+            item = student
+            fullname = student["name"].split(" ")
+            item["first_name"] = fullname[0]
+            # In case we encounter tripple names
+            item["surname"] = " ".join(fullname[1:])
+            students.append(item)
+
+        # Format the students added at the page level
+        for student in self.related_students_manual.all():
+            item = {}
+            item["first_name"] = student.first_name
+            item["surname"] = student.surname
+            item["status"] = student.status
+            item["link"] = student.link
+            students.append(item)
+
+        return students
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["research_highlights"] = self.format_research_highlights()
         context["areas"] = self.related_area_of_expertise.all()
         context["related_schools"] = self.related_schools_pages.all()
         context["research_centres"] = self.related_research_centre_pages.all()
+        context["related_students"] = self.get_related_students()
 
         return context

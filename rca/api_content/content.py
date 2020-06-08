@@ -376,3 +376,31 @@ def get_alumni_stories():
 
 def get_news_and_events():
     return NewsEventsAPI().get_data()
+
+
+def parse_staff_to_list(data):
+    items = []
+    if not data:
+        return []
+    for item in data["supervised_students"]:
+        if item["image"]:
+            image_fetch_result = fetch_data(
+                f"{settings.API_CONTENT_BASE_URL}/api/v2/images/{item['image']}/",
+                timeout=10,
+            )
+            item["image_url"] = image_fetch_result["thumbnail"]["url"]
+        items.append(item)
+
+    return items
+
+
+def pull_related_students(legacy_staff_id):
+    """
+    Return a list of students related to legacy_staf_ id
+    """
+    api_url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/{legacy_staff_id}/?fields=_,supervised_students"
+    # Fetch Staff
+    result = fetch_data(api_url)
+    # Parse to a digestable list
+    result = parse_staff_to_list(result)
+    return result
