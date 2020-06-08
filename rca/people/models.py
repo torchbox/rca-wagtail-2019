@@ -183,8 +183,10 @@ class StaffPage(BasePage):
         return f"{self.pk}_related_students"
 
     def fetch_related_students(self):
-        value = pull_related_students(self.legacy_staff_id)
-        cache.set(self.related_students_cache_key, value, None)
+        value = []
+        if self.legacy_staff_id:
+            value = pull_related_students(self.legacy_staff_id)
+            cache.set(self.related_students_cache_key, value, None)
         return value
 
     @cached_property
