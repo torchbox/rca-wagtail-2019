@@ -1,0 +1,73 @@
+.guide-chapter-nav {
+    $root: &;
+    @include z-index(sticky-nav-bar);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: $color--black;
+    transition: top $transition, transform $transition;
+    transform: translateY(-100%);
+    padding: 10px 0;
+
+    .is-active & {
+        transform: translateY(0%);
+    }
+
+    .headroom--pinned.headroom--not-top.is-active & {
+        border-top: 1px solid $color--grid-line-light;
+        transform: translateY(calc(80px));
+    }
+
+    .headroom--pinned.headroom--not-top & {
+        transform: translateY(0%);
+    }
+
+    &__links {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__prev,
+    &__next {
+        color: $color--white;
+        display: flex;
+        align-items: center;
+    }
+
+    &__prev {
+        opacity: 0;
+        transition: opacity $transition;
+        pointer-events: none;
+
+        &.is-active {
+            pointer-events: all;
+            opacity: 1;
+        }
+
+        #{$root}__icon {
+            transform: rotate(180deg);
+            margin-right: 15px;
+        }
+    }
+
+    &__next {
+        margin-left: auto;
+
+        #{$root}__icon {
+            margin-left: 15px;
+        }
+    }
+
+    &__icon {
+        position: relative;
+        flex-basis: 12px;
+        min-width: 12px;
+        max-width: 12px;
+        width: 12px;
+        height: 8px;
+        fill: currentColor;
+        transform-origin: center center;
+        transition: transform $transition;
+    }
+}

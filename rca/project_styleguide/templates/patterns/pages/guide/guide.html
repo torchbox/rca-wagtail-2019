@@ -42,6 +42,28 @@
         </header>
 
         <div class="page__content">
+            {% if anchor_nav %}
+                <section class="section section--opposite-notch bg bg--light guide-chapter-nav" data-filter-bar>
+                    <div class="section__notch section__notch--opposite">
+
+                        <div class="section__notch-fill section__notch-fill--content-height section__notch-fill--fourth-col">
+                            {# Populated via JS #}
+                            <div class="guide-chapter-nav__links" data-guide-chapter-nav>
+                                <a href="#" class="guide-chapter-nav__prev" data-guide-chapter-nav-prev>
+                                    <svg width="12" height="8" class="guide-chapter-nav__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                    <span>Previous section</span>
+                                </a>
+
+                                <a href="#" class="guide-chapter-nav__next" data-guide-chapter-nav-next>
+                                    <span>Next section</span>
+                                    <svg width="12" height="8" class="guide-chapter-nav__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+            {% endif %}
 
             <section class="section section--opposite-notch bg bg--light">
 
