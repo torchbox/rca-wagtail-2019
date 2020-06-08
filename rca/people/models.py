@@ -35,6 +35,25 @@ class StaffPageAreOfExpertisePlacement(models.Model):
     panels = [FieldPanel("area_of_expertise")]
 
 
+class StaffPageManualRelatedStudents(models.Model):
+    page = ParentalKey(
+        "people.StaffPage",
+        on_delete=models.CASCADE,
+        related_name="related_students_manual",
+    )
+    first_name = models.CharField(max_length=255)
+    surname = models.CharField(max_length=255)
+    status = models.CharField(max_length=255)
+    link = models.URLField(blank=True)
+
+    panels = [
+        FieldPanel("first_name"),
+        FieldPanel("surname"),
+        FieldPanel("status"),
+        FieldPanel("link"),
+    ]
+
+
 class StaffPage(BasePage):
     template = "patterns/pages/staff/staff_detail.html"
     staff_title = models.CharField(
@@ -50,7 +69,6 @@ class StaffPage(BasePage):
         on_delete=models.SET_NULL,
     )
 
-    job_title = models.CharField(max_length=255)
     email = models.EmailField(blank=True)
     introduction = models.TextField(blank=True)
     body = RichTextField(blank=True)
@@ -81,7 +99,6 @@ class StaffPage(BasePage):
     )
 
     key_details_panels = [
-        FieldPanel("legacy_staff_id"),
         InlinePanel(
             "related_research_centre_pages", label=_("Related Research Centres ")
         ),
@@ -100,7 +117,6 @@ class StaffPage(BasePage):
             heading="Details",
         ),
         MultiFieldPanel([FieldPanel("email")], heading=_("Contact information")),
-        FieldPanel("job_title"),
         FieldPanel("introduction"),
         FieldPanel("body"),
         MultiFieldPanel(
@@ -113,6 +129,10 @@ class StaffPage(BasePage):
             heading=_("Research highlights gallery"),
         ),
         StreamFieldPanel("gallery"),
+        MultiFieldPanel(
+            [InlinePanel("related_students_manual"), FieldPanel("legacy_staff_id")],
+            heading=_("Related Students"),
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("more_information_title"),
@@ -163,8 +183,10 @@ class StaffPage(BasePage):
         return f"{self.pk}_related_students"
 
     def fetch_related_students(self):
-        value = pull_related_students(self.legacy_staff_id)
-        cache.set(self.related_students_cache_key, value, None)
+        value = []
+        if self.legacy_staff_id:
+            value = pull_related_students(self.legacy_staff_id)
+            cache.set(self.related_students_cache_key, value, None)
         return value
 
     @cached_property
@@ -189,11 +211,37 @@ class StaffPage(BasePage):
             # the value next time it runs
             pass
 
+    def get_related_students(self):
+        """ Returns a list containing legacy related students from the cached api
+        request and manual related students at the page level """
+        students = []
+
+        # Format the api content
+        for student in self.legacy_related_students:
+            item = student
+            fullname = student["name"].split(" ")
+            item["first_name"] = fullname[0]
+            # In case we encounter tripple names
+            item["surname"] = " ".join(fullname[1:])
+            students.append(item)
+
+        # Format the students added at the page level
+        for student in self.related_students_manual.all():
+            item = {}
+            item["first_name"] = student.first_name
+            item["surname"] = student.surname
+            item["status"] = student.status
+            item["link"] = student.link
+            students.append(item)
+
+        return students
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["research_highlights"] = self.format_research_highlights()
         context["areas"] = self.related_area_of_expertise.all()
         context["related_schools"] = self.related_schools_pages.all()
         context["research_centres"] = self.related_research_centre_pages.all()
+        context["related_students"] = self.get_related_students()
 
         return context
