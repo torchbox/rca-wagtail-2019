@@ -1,6 +1,6 @@
-from django.core.cache import cache
 from collections import defaultdict
 
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
@@ -276,7 +276,7 @@ class StaffPage(BasePage):
         items = []
         # First populate a list of all values
         # E.G [['role title name','programme title'm 'url'], ['role title name','programme title', 'None'], ...]
-        for value in self.roles.all():
+        for value in self.roles.all().select_related("programme"):
             if value.programme:
                 items.append([value.programme.title, value.role, value.programme.url])
             else:
