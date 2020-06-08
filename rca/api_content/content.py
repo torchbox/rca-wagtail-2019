@@ -389,10 +389,6 @@ def parse_staff_to_list(data):
                 timeout=10,
             )
             item["image_url"] = image_fetch_result["thumbnail"]["url"]
-        fullname = item["name"].split(" ")
-        item["first_name"] = fullname[0]
-        # In case we encounter tripple names
-        item["surname"] = " ".join(fullname[1:])
         items.append(item)
 
     return items

@@ -103,37 +103,6 @@ context:
         description: 'Creating world class experiences that started at the RCA'
         image: true
         link: '#'
-    legacy_related_students:
-      - {
-          first_name: 'Nelly',
-          surname: 'Abbott',
-          meta: Current,
-          link: '#',
-          image_url: 'https://placekitten.com/120/120',
-        }
-      - {
-          first_name: 'Nelly',
-          surname: 'Abbott',
-          meta: Current,
-          link: '#',
-          image_url: 'https://placekitten.com/120/120',
-        }
-      - {
-          first_name: 'Nelly',
-          surname: 'Cholmondeley-Cale',
-          meta: Current,
-          link: '#',
-          image_url: 'https://placekitten.com/120/120',
-        }
-      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
-      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
-      - {
-          first_name: 'Yancy',
-          surname: 'Wolfeschlegelsteinhausenbergerdorffd',
-          meta: Current,
-          link: '#',
-          image_url: 'https://placekitten.com/120/120',
-        }
     related_links:
       - item:
         value: { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
@@ -151,3 +120,34 @@ context:
       area_of_expertise: { title: 'Vehicle Design', link: '#' }
   related_schools:
     - page: { title: 'School of Communication', url: '#' }
+  related_students:
+    - {
+        first_name: 'Nelly',
+        surname: 'Abbott',
+        meta: Current,
+        link: '#',
+        image_url: 'https://placekitten.com/120/120',
+      }
+    - {
+        first_name: 'Nelly',
+        surname: 'Abbott',
+        meta: Current,
+        link: '#',
+        image_url: 'https://placekitten.com/120/120',
+      }
+    - {
+        first_name: 'Nelly',
+        surname: 'Cholmondeley-Cale',
+        meta: Current,
+        link: '#',
+        image_url: 'https://placekitten.com/120/120',
+      }
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    - {
+        first_name: 'Yancy',
+        surname: 'Wolfeschlegelsteinhausenbergerdorffd',
+        meta: Current,
+        link: '#',
+        image_url: 'https://placekitten.com/120/120',
+      }
