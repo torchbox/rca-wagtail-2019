@@ -23,28 +23,31 @@ class StaffPageResource(PageResource):
 
     class Meta:
         model = StaffPage
+        # If not set, diffing pages triggers 'pickle' errors
         skip_diff = True
-        use_transactions = True
+        # Pages clean themselves automatically on save()
+        clean_model_instances = False
         import_id_fields = ("legacy_staff_id",)
         fields = (
             "legacy_staff_id",
+            "title",
             "slug",
             "staff_title",
             "first_name",
             "last_name",
-            "job_title",
         )
 
-    def before_save_instance(self, instance, using_transactions, dry_run):
+    def before_save_instance(self, instance, using_transactions=True, dry_run=False):
+        """
+        Add missing required field values.
+        """
         if not instance.title:
             instance.title = instance.name
-        if not instance.job_title:
-            instance.job_title = "TBC"
 
 
 @admin.register(StaffPage)
 class StaffPageModelAdmin(PageImportMixin, admin.ModelAdmin):
-    list_display = ("name", "job_title", "live")
+    list_display = ("staff_title", "first_name", "last_name", "live")
     resource_class = StaffPageResource
 
 
