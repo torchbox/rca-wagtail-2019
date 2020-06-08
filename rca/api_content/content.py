@@ -385,7 +385,7 @@ def parse_staff_to_list(data):
     for item in data["supervised_students"]:
         if item["image"]:
             image_fetch_result = fetch_data(
-                f"{settings.API_CONTENT_BASE_URL}/api/v2/images/57215/?fields=_,supervised_students",
+                f"{settings.API_CONTENT_BASE_URL}/api/v2/images/{item['image']}/",
                 timeout=10,
             )
             item["image_url"] = image_fetch_result["thumbnail"]["url"]
@@ -402,7 +402,7 @@ def pull_related_students(legacy_staff_id):
     """
     Return a list of students related to legacy_staf_ id
     """
-    api_url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/{legacy_staff_id}"
+    api_url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/{legacy_staff_id}/?fields=_,supervised_students"
     # Fetch Staff
     result = fetch_data(api_url)
     # Parse to a digestable list
