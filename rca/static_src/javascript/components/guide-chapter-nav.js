@@ -3,13 +3,17 @@ import scrollama from 'scrollama';
 
 class GuideChapterNav {
     static selector() {
-        return '[data-guide-chapter-nav]'
+        return '[data-guide-chapter-nav]';
     }
 
     constructor(node) {
         this.node = node;
-        this.prevLink = this.node.querySelector('[data-guide-chapter-nav-prev]');
-        this.nextLink = this.node.querySelector('[data-guide-chapter-nav-next]');
+        this.prevLink = this.node.querySelector(
+            '[data-guide-chapter-nav-prev]',
+        );
+        this.nextLink = this.node.querySelector(
+            '[data-guide-chapter-nav-next]',
+        );
 
         this.bindEvents();
     }
@@ -38,7 +42,7 @@ class GuideChapterNav {
                     if (el.index === 0) {
                         document.body.classList.add('is-active');
                     }
-                // scrolling up
+                    // scrolling up
                 } else {
                     this.handleScrollingUpPrevLink(el);
                     this.handleScrollingUpNextLink(el);
@@ -48,7 +52,7 @@ class GuideChapterNav {
                         document.body.classList.remove('is-active');
                     }
                 }
-            })
+            });
 
         // setup resize event
         window.addEventListener('resize', scroller.resize);
@@ -56,12 +60,14 @@ class GuideChapterNav {
 
     // Scrolling down - next link
     handleScrollingDownNextLink(el) {
-        const nextSectionHeading = document.querySelector(`[data-scrollama-index="${el.index + 1}"]`)
+        const nextSectionHeading = document.querySelector(
+            `[data-scrollama-index="${el.index + 1}"]`,
+        );
 
         // get the next section heading
         if (nextSectionHeading) {
             this.nextLink.href = `#${nextSectionHeading.id}`;
-        // if there isn't one but there is a contact us section...
+            // if there isn't one but there is a contact us section...
         } else if (document.body.contains(document.getElementById('contact'))) {
             // ...update the next link href to contact
             this.nextLink.href = `#contact`;
@@ -72,41 +78,44 @@ class GuideChapterNav {
     handleScrollingDownPrevLink(el) {
         // hide the prev link if we're on the first item
         if (el.index === 0) {
-            this.prevLink.classList.remove('is-active')
+            this.prevLink.classList.remove('is-active');
         } else {
-            this.prevLink.classList.add('is-active')
+            this.prevLink.classList.add('is-active');
         }
 
         // get the next section heading
-        const prevSectionHeading = document.querySelector(`[data-scrollama-index="${el.index - 1}"]`)
+        const prevSectionHeading = document.querySelector(
+            `[data-scrollama-index="${el.index - 1}"]`,
+        );
 
         // update the previous link href
         if (prevSectionHeading) {
-            this.prevLink.href = `#${prevSectionHeading.id}`
+            this.prevLink.href = `#${prevSectionHeading.id}`;
         }
     }
 
     // Scrolling up - next link
     handleScrollingUpNextLink(el) {
-        this.nextLink.href = `#${el.element.id}`
+        this.nextLink.href = `#${el.element.id}`;
     }
 
     // Scrolling up - prev link
     handleScrollingUpPrevLink(el) {
-
         // hide the previous link if we're on the first item
         if (el.index <= 1) {
-            this.prevLink.classList.remove('is-active')
+            this.prevLink.classList.remove('is-active');
         } else {
-            this.prevLink.classList.add('is-active')
+            this.prevLink.classList.add('is-active');
         }
 
         // get the previous section heading
-        const prevSectionHeading = document.querySelector(`[data-scrollama-index="${el.index - 2}"]`)
+        const prevSectionHeading = document.querySelector(
+            `[data-scrollama-index="${el.index - 2}"]`,
+        );
 
         // update the previous link href
         if (prevSectionHeading) {
-            this.prevLink.href = `#${prevSectionHeading.id}`
+            this.prevLink.href = `#${prevSectionHeading.id}`;
         }
     }
 }

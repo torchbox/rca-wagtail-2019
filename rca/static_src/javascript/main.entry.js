@@ -108,7 +108,9 @@ document.addEventListener('DOMContentLoaded', () => {
         new Sticky(sticky);
     }
 
-    for (const guidechapternav of document.querySelectorAll(GuideChapterNav.selector())) {
+    for (const guidechapternav of document.querySelectorAll(
+        GuideChapterNav.selector(),
+    )) {
         new GuideChapterNav(guidechapternav);
     }
 
