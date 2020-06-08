@@ -378,7 +378,7 @@ def get_news_and_events():
     return NewsEventsAPI().get_data()
 
 
-def parse_staff_to_list(data):
+def parse_students_to_list(data):
     items = []
     if not data:
         return []
@@ -402,5 +402,5 @@ def pull_related_students(legacy_staff_id):
     # Fetch Staff
     result = fetch_data(api_url)
     # Parse to a digestable list
-    result = parse_staff_to_list(result)
+    result = parse_students_to_list(result)
     return result
