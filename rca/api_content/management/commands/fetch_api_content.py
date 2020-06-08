@@ -25,5 +25,4 @@ class Command(BaseCommand):
 
         # Fetch related student data for staff pages
         for page in StaffPage.objects.filter(legacy_staff_id__isnull=False):
-            print(page)
             page.fetch_related_students()
