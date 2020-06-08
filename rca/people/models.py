@@ -69,7 +69,6 @@ class StaffPage(BasePage):
         on_delete=models.SET_NULL,
     )
 
-    job_title = models.CharField(max_length=255)
     email = models.EmailField(blank=True)
     introduction = models.TextField(blank=True)
     body = RichTextField(blank=True)
@@ -118,7 +117,6 @@ class StaffPage(BasePage):
             heading="Details",
         ),
         MultiFieldPanel([FieldPanel("email")], heading=_("Contact information")),
-        FieldPanel("job_title"),
         FieldPanel("introduction"),
         FieldPanel("body"),
         MultiFieldPanel(
