@@ -7,10 +7,11 @@ context:
     introduction: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ultrices tincidunt quam ac convallis.
   filters:
     title: Filter by
+    arial-label: Filter results
     items:
       - tab_title: School or Centre
         filter_name: school_or_centre
-        children:
+        options:
           - { title: 3D modelling & visualisation, id: '1-1', active: true }
           - { title: Art & curating, id: '1-2', active: false }
           - { title: Creative industries, id: '1-3', active: false }
@@ -22,13 +23,13 @@ context:
           - { title: Future cities, id: '1-9', active: true }
       - tab_title: Research type
         filter_name: type
-        children:
+        options:
           - { title: 3D modelling & visualisation, id: '2-1', active: false }
           - { title: Art & curating, id: '2-2', active: false }
           - { title: Creative industries, id: '2-3', active: false }
       - tab_title: Subject
         filter_name: subject
-        children:
+        options:
           - { title: 3D modelling & visualisation, id: '3-1', active: false }
           - { title: Art & curating, id: '3-2', active: false }
           - { title: Creative industries, id: '3-3', active: false }
@@ -49,7 +50,7 @@ context:
           - { title: Sustainable society, id: '3-18', active: false }
       - tab_title: Theme
         filter_name: theme
-        children:
+        options:
           - { title: Digital futures, id: '4-1', active: false }
           - { title: Emerging technologies, id: '4-2', active: false }
   show_featured_project: true
