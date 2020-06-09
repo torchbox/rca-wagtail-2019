@@ -571,7 +571,4 @@ class ProjectPickerPage(BasePage):
 
         context["results"] = project_results
         context["results_count"] = paginator.count
-
-        context["reset"] = {"href": self.url, "text": "Reset"}
-
         return context
