@@ -65,7 +65,7 @@
                 <div class="filter-takeover__container">
                     {% for item in filters.items %}
                         <div class="filter-takeover__tab-content tabs__panel tabs__panel--hidden js-tab-panel" id="{{ item.tab_title|slugify }}" role="tabpanel" aria-labelledby="tab-{{ item.tab_title|slugify }}">
-                            {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" with title="projects" filter_options=item.children %}
+                            {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" %}
                         </div>
                     {% endfor %}
                 </div>
