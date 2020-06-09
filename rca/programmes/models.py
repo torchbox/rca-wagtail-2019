@@ -769,11 +769,11 @@ class ProgrammeIndexPage(BasePage):
         paginator = Paginator(subpages, per_page)
 
         try:
-            subpages = paginator.page(page_number)
+            results = paginator.page(page_number)
         except PageNotAnInteger:
-            subpages = paginator.page(1)
+            results = paginator.page(1)
         except EmptyPage:
-            subpages = paginator.page(paginator.num_pages)
+            results = paginator.page(paginator.num_pages)
 
         # Listing filters
         programme_types = [
@@ -814,17 +814,17 @@ class ProgrammeIndexPage(BasePage):
             )
 
         filters = [
-            {"id": "subjects", "title": "Subject", "items": subjects},
-            {"id": "programme_type", "title": "Type", "items": programme_types},
+            {"id": "subjects", "title": "Subject", "options": subjects},
+            {"id": "programme_type", "title": "Type", "options": programme_types},
             {
                 "id": "related_schools_and_research_pages",
                 "title": "Schools & centres",
-                "items": schools_and_research_pages,
+                "options": schools_and_research_pages,
             },
         ]
 
         context.update(filters=filters)
-        context["subpages"] = subpages
+        context["results"] = results
 
         return context
 
