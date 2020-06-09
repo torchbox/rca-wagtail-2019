@@ -4,6 +4,7 @@ context:
     href: '#'
   value:
     title: Explore by
+    aria-label: Filter results
     items:
       - { title: School or Centre, href: '#' }
       - { title: Research type, href: '#' }
