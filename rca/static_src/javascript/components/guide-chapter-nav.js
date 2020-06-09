@@ -44,7 +44,7 @@ class GuideChapterNav {
         scroller
             .setup({
                 step: '.anchor-heading',
-                offset: 0.3,
+                offset: 0.35,
             })
             .onStepEnter((el) => {
                 // scrolling down
