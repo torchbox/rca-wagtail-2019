@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
                     "source_page",
                     modelcluster.fields.ParentalKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name="related_schools_pages",
+                        related_name="related_schools",
                         to="wagtailcore.Page",
                     ),
                 ),
