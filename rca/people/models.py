@@ -1,4 +1,7 @@
+from collections import defaultdict
+
 from django.core.cache import cache
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -12,6 +15,7 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.models import Orderable
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
@@ -25,6 +29,37 @@ class AreaOfExpertise(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class StaffRole(Orderable):
+    role = models.CharField(max_length=128)
+    programme = models.ForeignKey(
+        "programmes.ProgrammePage",
+        on_delete=models.CASCADE,
+        related_name="related_programme",
+        null=True,
+        blank=True,
+    )
+    custom_programme = models.CharField(
+        max_length=128,
+        help_text=_("Specify a custom programme page here if one does not exist"),
+        blank=True,
+    )
+    page = ParentalKey("StaffPage", related_name="roles")
+
+    def clean(self):
+        errors = defaultdict(list)
+
+        if self.programme and self.custom_programme:
+            errors["custom_programme"].append(
+                _("Please specify only a programme page, or a custom programme")
+            )
+
+        if errors:
+            raise ValidationError(errors)
+
+    def __str__(self):
+        return self.role
 
 
 class StaffPageAreOfExpertisePlacement(models.Model):
@@ -116,6 +151,7 @@ class StaffPage(BasePage):
             ],
             heading="Details",
         ),
+        InlinePanel("roles", label=_("Staff role")),
         MultiFieldPanel([FieldPanel("email")], heading=_("Contact information")),
         FieldPanel("introduction"),
         FieldPanel("body"),
@@ -236,6 +272,36 @@ class StaffPage(BasePage):
 
         return students
 
+    def get_roles_grouped(self, request):
+        items = []
+        # First populate a list of all values
+        # E.G [['role title name','programme title'm 'url'], ['role title name','programme title', 'None'], ...]
+        for value in self.roles.all().select_related(
+            "programme", "programme__degree_level"
+        ):
+            if value.programme:
+                items.append(
+                    (
+                        str(value.programme),
+                        value.role,
+                        value.programme.get_relative_url(request),
+                    )
+                )
+            else:
+                items.append((value.custom_programme, value.role, None))
+
+        # Create a dictionary of values re-using keys so we can group by both
+        # the programmes and the custom programmes.
+        regrouped = {}
+        for (key, value, link) in items:
+            if key not in regrouped:
+                regrouped[key] = {"label": key, "items": [value], "link": link}
+            else:
+                regrouped[key]["items"].append(value)
+            if link and not regrouped[key]["link"]:
+                regrouped[key]["link"] = link
+        return regrouped.values()
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["research_highlights"] = self.format_research_highlights()
@@ -243,5 +309,6 @@ class StaffPage(BasePage):
         context["related_schools"] = self.related_schools_pages.all()
         context["research_centres"] = self.related_research_centre_pages.all()
         context["related_students"] = self.get_related_students()
+        context["roles"] = self.get_roles_grouped(request)
 
         return context
