@@ -23,7 +23,7 @@ class GuideChapterNav {
             behavior: 'smooth',
             top: element.offsetTop - 70, // account for header on scroll up
         });
-      }
+    }
 
     bindEvents() {
         this.scrollamaInit();
