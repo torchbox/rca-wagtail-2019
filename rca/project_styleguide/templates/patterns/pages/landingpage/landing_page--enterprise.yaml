@@ -5,46 +5,25 @@ context:
     highlights_title: Enterprise highlights
     highlights_page_link:
       title: See all enterprise projects
-    news:
-      - item:
-        meta: 'News'
-        title: 'Writing student wins £25,000 economics prize'
-        description: '6 July 2019 — 4 August 2019'
-        link: '#'
-        image: true
-        person: false
-      - item:
-        meta: 'News'
-        title: 'InnovationRCA awarded Accelerator of the Year'
-        description: '23 November 2019'
-        link: '#'
-        image: false
-        person: false
-      - item:
-        meta: 'News'
-        title: 'MA Fashion Womenswear Student Launches Fashion Boycott'
-        description: '23 November 2019'
-        link: '#'
-        image: true
-        person: false
+    news: false
     legacy_news_and_events:
       - item:
         type: 'News'
-        title: 'Show 2018: School of Architecture: Making Space for the Future'
+        title: 'Show 2018: School of Architecture: Making Space for the Future (legacy example)'
         date: '23 November 2019'
         link: '#'
         image: //placekitten.com/500/500
         person: false
       - item:
         type: 'Event'
-        title: 'Designs for Real Life'
+        title: 'Designs for Real Life (legacy example)'
         date: '6 July 2019 — 4 August 2019'
         link: '#'
         image: //placekitten.com/500/500
         person: false
       - item:
         type: 'Event'
-        title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
+        title: 'Redefining Boundaries: Architecture Work-in-progress 2019 (legacy example)'
         date: '23 November 2019'
         link: '#'
         image: //placekitten.com/500/500
