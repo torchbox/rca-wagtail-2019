@@ -106,9 +106,9 @@
             {% endif %}
 
             {% if page.contact_image %}
-                <section class="section bg bg--light" id="contact">
+                <section class="section bg bg--light">
                     <div class="section__row section__row--first">
-                        {% include "patterns/organisms/contact/contact.html" with heading="Ask a question" text=page.contact_text image=page.contact_image %}
+                        {% include "patterns/organisms/contact/contact.html" with heading="Ask a question" text=page.contact_text image=page.contact_image anchor_heading=True %}
                     </div>
                 </section>
 

@@ -37,11 +37,11 @@
         color: $color--white;
         display: flex;
         align-items: center;
+        transition: opacity $transition;
     }
 
     &__prev {
         opacity: 0;
-        transition: opacity $transition;
         pointer-events: none;
 
         &.is-active {
@@ -56,7 +56,12 @@
     }
 
     &__next {
+        opacity: 1;
         margin-left: auto;
+
+        &.is-hidden {
+            opacity: 0;
+        }
 
         #{$root}__icon {
             margin-left: 15px;

@@ -18,8 +18,22 @@ class GuideChapterNav {
         this.bindEvents();
     }
 
+    scrollUpTo(element) {
+        window.scroll({
+            behavior: 'smooth',
+            top: element.offsetTop - 70, // account for header on scroll up
+        });
+      }
+
     bindEvents() {
         this.scrollamaInit();
+
+        // intercept previous link click to be able to add an offset to account for sticky header
+        this.prevLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const linkHref = this.prevLink.getAttribute('href').split('#')[1];
+            this.scrollUpTo(document.getElementById(linkHref));
+        });
     }
 
     scrollamaInit() {
@@ -68,9 +82,9 @@ class GuideChapterNav {
         if (nextSectionHeading) {
             this.nextLink.href = `#${nextSectionHeading.id}`;
             // if there isn't one but there is a contact us section...
-        } else if (document.body.contains(document.getElementById('contact'))) {
-            // ...update the next link href to contact
-            this.nextLink.href = `#contact`;
+        } else {
+            // hide the next link
+            this.nextLink.classList.add('is-hidden');
         }
     }
 
@@ -101,6 +115,9 @@ class GuideChapterNav {
 
     // Scrolling up - prev link
     handleScrollingUpPrevLink(el) {
+        // show the next link (we hide it when on the last item)
+        this.nextLink.classList.remove('is-hidden');
+
         // hide the previous link if we're on the first item
         if (el.index <= 1) {
             this.prevLink.classList.remove('is-active');
