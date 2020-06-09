@@ -15,7 +15,7 @@
                         {{ item.title }}
                     </a>
                 </h3>
-                {% for r in item.roles %}
+                {% for r in item.roles.all %}
                     <div class="card__description card__year">
                         {{ r.role }}{% if not forloop.last %},{% endif %}
                     </div>
