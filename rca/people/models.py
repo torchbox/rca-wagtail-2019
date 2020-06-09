@@ -348,6 +348,13 @@ class StaffIndexPage(BasePage):
             .order_by("last_name", "first_name")
         )
 
+    def modify_results(self, paginator_page, request):
+        for obj in paginator_page.object_list:
+            # providing request to get_url() massively improves
+            # url generation efficiency, as values are cached
+            # on the request
+            obj.link = obj.get_url(request)
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
@@ -422,6 +429,9 @@ class StaffIndexPage(BasePage):
             results = paginator.page(1)
         except EmptyPage:
             results = paginator.page(paginator.num_pages)
+
+        # Set additional attributes etc
+        self.modify_results(results, request)
 
         # Finalise and return context
         context.update(
