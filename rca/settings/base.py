@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     "rca.research",
     "rca.projects",
     "rca.landingpages",
+    "rca.people",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.postgres_search",
     "wagtail.contrib.settings",
@@ -641,6 +642,9 @@ AUTH_USER_MODEL = "users.User"
 
 # This name is displayed in the Wagtail admin.
 WAGTAIL_SITE_NAME = "RCA Website"
+
+# Preserve Wagtail < 2.8 behaviour
+WAGTAILEMBEDS_RESPONSIVE_HTML = True
 
 
 # This is used by Wagtail's email notifications for constructing absolute

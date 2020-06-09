@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block title_prefix %}
-    {% if page.profile_title %}{{ page.profile_title }}{% endif %} {% if page.profile_firstname %}{{ page.profile_firstname }}{% endif %} {% if page.profile_surname %}{{ page.profile_surname }}{% endif %}
+    {% if page.staff_title %}{{ page.staff_title }}{% endif %} {% if page.first_name %}{{ page.first_name }}{% endif %} {% if page.last_name %}{{ page.last_name }}{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -25,13 +25,13 @@
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
-                    {% if page.profile_title or profile_firstname or profile_surname %}
+                    {% if page.staff_title or page.first_name or last_name %}
                         <h1 property="schema:name" class="title-area__heading heading heading--one">
-                            {% if page.profile_title %}
-                                <span class="title-area__profile-title heading heading--three">{{ page.profile_title }}</span>
+                            {% if page.staff_title %}
+                                <span class="title-area__profile-title heading heading--three">{{ page.staff_title }}</span>
                             {% endif %}
-                            {{ page.profile_firstname }}
-                            {{ page.profile_surname }}
+                            {{ page.first_name }}
+                            {{ page.last_name }}
                         </h1>
                         {% if page.profile_type %}
                             <h2 class="title-area__sub-heading body body--one">{{ page.profile_type }}</h2>
@@ -44,10 +44,10 @@
                         </div>
                     {% endif %}
 
-                    {% if page.profile_contact_email %}
+                    {% if page.email %}
                         <div class="title-area__contact">
-                            <a class="link link--secondary link--link body body--two" href="mailto:{{ page.profile_contact_email }}">
-                                <span class="link__label">Email {{ page.profile_contact_email }}</span>
+                            <a class="link link--secondary link--link body body--two" href="mailto:{{ page.email }}">
+                                <span class="link__label">Email {{ page.email }}</span>
                                 <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                             </a>
                         </div>
@@ -64,10 +64,10 @@
                     <div class="staff-body__container grid">
                         <div class="staff-body__content">
                             <p class="staff-body__introduction heading heading--five" property="schema:description">
-                                {{ page.profile_introduction}}
+                                {{ page.introduction}}
                             </p>
                             <div class="staff-body__description rich-text">
-                                {{ page.profile_body|safe }}
+                                {{ page.body|safe }}
                             </div>
                         </div>
                         <div class="staff-body__key-details">
@@ -76,26 +76,28 @@
                     </div>
                 </div>
 
-                {% if page.research_highlights %}
+                {% if research_highlights %}
                     <div class="section__row {% if page.gallery %}section__row--last{% else %}section__row--last-large{% endif %} research-highlights">
                         <div class="section__header grid">
-                            <h2 class="section__heading section__heading--primary heading heading--four">
-                                Research highlights
-                            </h2>
+                            {% if page.research_highlights_title %}
+                                <h2 class="section__heading section__heading--primary heading heading--four">
+                                    {{ page.research_highlights_title }}
+                                </h2>
+                            {% endif %}
                         </div>
                         <div class="section__content grid">
-                            {% include "patterns/organisms/carousel/carousel.html" with carousel=page.research_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=research_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}
                             <div class="section__action">
                                 <a class="link link--primary link--link body body--two" href="/research">
                                     <span class="link__label">See all research</span>
                                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                                </a>    
+                                </a>
                             </div>
                         </div>
                     </div>
                 {% endif %}
 
-            {% if page.gallery %} 
+            {% if page.gallery %}
                 <div class="section__notch section__notch--opposite">
                     <div class="section__notch-fill section__notch-fill--first-col"></div>
                 </div>
@@ -123,18 +125,18 @@
                 </div>
             {% endif %}
 
-                {% if page.accordion %}
+                {% if page.more_information %}
                     <div class="section__row {% if not page.gallery %}staff-detail-accordion staff-detail-accordion--wo-gallery{% endif %} section__row--last">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.accordion title="More about "|add:page.profile_firstname %}
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title=page.more_information_title %}
                     </div>
                 {% endif %}
 
                 <div class="section__notch">
                     <div class="section__notch-fill section__notch-fill--second-col"></div>
                 </div>
-            
+
             </section>
-            
+
             <section class="section section--top-space bg bg--light">
                 {% if page.related_students %}
                     {% include "patterns/organisms/student-listing/student-listing.html" with student_listing=page.related_students %}
@@ -144,7 +146,7 @@
                     {% include "patterns/organisms/related-links/related-links.html" with related_links=page.related_links title="External links" %}
                 {% endif %}
             </section>
-            
+
         </div>
 
     </div>

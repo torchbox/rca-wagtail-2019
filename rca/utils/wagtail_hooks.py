@@ -5,6 +5,7 @@ from wagtail.contrib.modeladmin.options import (
 )
 from wagtailorderable.modeladmin.mixins import OrderableMixin
 
+from rca.people.models import AreaOfExpertise
 from rca.programmes.models import DegreeLevel, ProgrammeType, Subject
 from rca.utils.models import ResearchType
 
@@ -30,6 +31,11 @@ class ResearchTypeModelAdmin(ModelAdmin):
     menu_icon = "tag"
 
 
+class AreaOfExpertiseModelAdmin(ModelAdmin):
+    model = AreaOfExpertise
+    menu_icon = "tag"
+
+
 class TaxonomiesModelAdminGroup(ModelAdminGroup):
     menu_label = "Taxonomies"
     items = (
@@ -37,6 +43,7 @@ class TaxonomiesModelAdminGroup(ModelAdminGroup):
         ProgrammeTypeModelAdmin,
         SubjectModelAdmin,
         ResearchTypeModelAdmin,
+        AreaOfExpertiseModelAdmin,
     )
     menu_icon = "tag"
 
