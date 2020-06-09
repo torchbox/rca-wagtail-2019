@@ -48,18 +48,10 @@ context:
           - { title: Animation, id: '3-2', active: false }
           - { title: Architecture, id: '3-3', active: false }
           - { title: Architecture Research, id: '3-4', active: false }
-          - {
-              title: Arts &amp; Humanities Research,
-              id: '3-5',
-              active: false,
-            }
+          - { title: Arts &amp; Humanities Research, id: '3-5', active: false }
           - { title: Ceramics &amp; Glass, id: '3-6', active: false }
           - { title: City Design, id: '3-7', active: false }
-          - {
-              title: Communication Art &amp; Design,
-              id: '3-8',
-              active: false,
-            }
+          - { title: Communication Art &amp; Design, id: '3-8', active: false }
           - { title: Communication Research, id: '3-9', active: false }
           - { title: Computer Science MPhil/PhD, id: '3-10', active: false }
           - { title: Conservation, id: '3-11', active: false }
@@ -84,27 +76,11 @@ context:
               id: '3-24',
               active: false,
             }
-          - {
-              title: Graduate Diploma Art & Design,
-              id: '3-25',
-              active: false,
-            }
+          - { title: Graduate Diploma Art & Design, id: '3-25', active: false }
           - { title: History of Design, id: '3-26', active: false }
-          - {
-              title: Industrial Design Engineering,
-              id: '3-27',
-              active: false,
-            }
-          - {
-              title: Information Experience Design,
-              id: '3-28',
-              active: false,
-            }
-          - {
-              title: Innovation Design Engineering,
-              id: '3-29',
-              active: false,
-            }
+          - { title: Industrial Design Engineering, id: '3-27', active: false }
+          - { title: Information Experience Design, id: '3-28', active: false }
+          - { title: Innovation Design Engineering, id: '3-29', active: false }
           - { title: Intelligent Mobility, id: '3-30', active: false }
           - {
               title: Intelligent Mobility Design Centre PhD,
@@ -114,11 +90,7 @@ context:
           - { title: Interior Design, id: '3-32', active: false }
           - { title: Jewellery & Metal, id: '3-33', active: false }
           - { title: MRes Healthcare &amp; Design, id: '3-34', active: false }
-          - {
-              title: MRes RCA Architecture Pathway,
-              id: '3-35',
-              active: false,
-            }
+          - { title: MRes RCA Architecture Pathway, id: '3-35', active: false }
           - {
               title: MRes RCA Arts & Humanities Pathway,
               id: '3-36',
