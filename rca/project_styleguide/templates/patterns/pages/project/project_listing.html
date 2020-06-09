@@ -109,7 +109,7 @@
                 {% if results %}
                     <div class="section__row section__row--last grid">
                         <div class="layout__span-two layout__@large-span-one layout__start-one layout__@large-start-three">
-                            {% include "patterns/molecules/pagination/pagination.html" with subpages=results %}
+                            {% include "patterns/molecules/pagination/pagination.html" with paginator_page=results %}
                         </div>
                     </div>
                 {% endif %}
