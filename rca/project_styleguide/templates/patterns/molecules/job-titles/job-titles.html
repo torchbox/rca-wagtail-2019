@@ -1,16 +1,16 @@
 <div class="job-titles">
-    {% for key,role in job_title %}
+    {% for group in job_titles %}
         <ul class="job-titles__item">
-            {% for item in role.items %}
-                <li class="job-titles__title">{{ item }}</li>
+            {% for role in group.items %}
+                <li class="job-titles__title">{{ role }}</li>
             {% endfor %}
-                <li class="job-titles__department">
-                {% if role.link %}
-                    <a class="body body--two link link--tertiary" href="{{ role.link }}">{{ key }}</a>
-                {% else %}
-                    <p class="body body--two link">{{ key }}</p>
-                {% endif %}
-                </li>
+            <li class="job-titles__department">
+            {% if group.link %}
+                <a class="body body--two link link--tertiary" href="{{ group.link }}">{{ group.label }}</a>
+            {% else %}
+                <p class="body body--two link">{{ group.label }}</p>
+            {% endif %}
+            </li>
         </ul>
     {% endfor %}
 </div>

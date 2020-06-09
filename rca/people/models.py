@@ -272,27 +272,35 @@ class StaffPage(BasePage):
 
         return students
 
-    def get_roles_grouped(self):
+    def get_roles_grouped(self, request):
         items = []
         # First populate a list of all values
         # E.G [['role title name','programme title'm 'url'], ['role title name','programme title', 'None'], ...]
-        for value in self.roles.all().select_related("programme"):
+        for value in self.roles.all().select_related(
+            "programme", "programme__degree_level"
+        ):
             if value.programme:
-                items.append([value.programme.title, value.role, value.programme.url])
+                items.append(
+                    (
+                        str(value.programme),
+                        value.role,
+                        value.programme.get_relative_url(request),
+                    )
+                )
             else:
-                items.append([value.custom_programme, value.role, None])
+                items.append((value.custom_programme, value.role, None))
 
         # Create a dictionary of values re-using keys so we can group by both
         # the programmes and the custom programmes.
-        re_grouped = {}
+        regrouped = {}
         for (key, value, link) in items:
-            if key in re_grouped:
-                re_grouped[key]["items"].append(value)
+            if key not in regrouped:
+                regrouped[key] = {"label": key, "items": [value], "link": link}
             else:
-                re_grouped[key] = {"items": [value]}
-            re_grouped[key]["link"] = link
-
-        return re_grouped.items()
+                regrouped[key]["items"].append(value)
+            if link and not regrouped[key]["link"]:
+                regrouped[key]["link"] = link
+        return regrouped.values()
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -301,6 +309,6 @@ class StaffPage(BasePage):
         context["related_schools"] = self.related_schools_pages.all()
         context["research_centres"] = self.related_research_centre_pages.all()
         context["related_students"] = self.get_related_students()
-        context["roles"] = self.get_roles_grouped()
+        context["roles"] = self.get_roles_grouped(request)
 
         return context
