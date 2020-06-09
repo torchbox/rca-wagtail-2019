@@ -608,6 +608,18 @@ class ProgrammePage(BasePage):
         APIField("related_schools_and_research_pages"),
     ]
 
+    def __str__(self):
+        bits = [self.title]
+        if self.degree_level:
+            bits.append(str(self.degree_level))
+        return " ".join(bits)
+
+    def get_admin_display_title(self):
+        bits = [self.draft_title]
+        if self.degree_level:
+            bits.append(str(self.degree_level))
+        return " ".join(bits)
+
     def clean(self):
         errors = defaultdict(list)
         if self.hero_video and not self.hero_video_preview_image:

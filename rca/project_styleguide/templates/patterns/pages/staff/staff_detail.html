@@ -37,9 +37,9 @@
                         {% endif %}
                     {% endif %}
 
-                    {% if roles%}
+                    {% if roles %}
                         <div class="title-area__job-titles">
-                            {% include "patterns/molecules/job-titles/job-titles.html" with job_title=roles %}
+                            {% include "patterns/molecules/job-titles/job-titles.html" with job_titles=roles %}
                         </div>
                     {% endif %}
 
