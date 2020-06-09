@@ -1,0 +1,11 @@
+{% extends "admin/import_export/import.html" %}
+
+{% block extrahead %}
+  {{ block.super }}
+  <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+  {% if confirm_form %}
+    {{ confirm_form.media }}
+  {% else %}
+    {{ form.media }}
+    {% endif %}
+{% endblock %}

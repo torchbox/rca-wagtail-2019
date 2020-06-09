@@ -188,6 +188,11 @@ class StaffPage(BasePage):
         ]
     )
 
+    @property
+    def name(self):
+        parts = (self.staff_title, self.first_name, self.last_name)
+        return " ".join([p for p in parts if p])
+
     def format_research_highlights(self):
         """Internal method for formatting related projects to the correct
         structure for the gallery template

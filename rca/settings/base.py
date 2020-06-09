@@ -86,6 +86,7 @@ INSTALLED_APPS = [
     "wagtail.admin",
     "wagtail.core",
     "wagtailorderable",
+    "import_export",
     "modelcluster",
     "taggit",
     "captcha",
