@@ -1,11 +1,6 @@
-{% if value.href and value.text %}
-    <a class="link link--primary link--link" href="{{ value.href }}">
-        <span class="link__label">{{ value.text }}</span>
-        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-    </a>
-{% elif href and text %}
-    <a class="link link--primary link--link" href="{{ href }}">
-        <span class="link__label">{{ text }}</span>
+{% if value.href and value.text or href and text %}
+    <a class="link link--primary link--link" href="{% firstof value.href href %}">
+        <span class="link__label">{% firstof value.text text %}</span>
         <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
     </a>
 {% endif %}
