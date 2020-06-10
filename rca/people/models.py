@@ -278,6 +278,9 @@ class StaffPage(BasePage):
             item["link"] = student.link
             students.append(item)
 
+        # Sort students by surname
+        students = sorted(students, key=lambda k: k["surname"])
+
         return students
 
     def get_roles_grouped(self, request):
