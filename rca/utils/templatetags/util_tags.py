@@ -77,6 +77,9 @@ default_domains = [
     "www.rca.ac.uk",
     "0.0.0.0",
     "localhost",
+    "rca-verdant-staging.herokuapp.com",
+    "rca-verdant-production.herokuapp.com",
+    "beta.rca.ac.uk",
 ]
 
 
