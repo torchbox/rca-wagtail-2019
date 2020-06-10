@@ -1,5 +1,3 @@
-import hoverintent from 'hoverintent';
-
 class SubMenu {
     static selector() {
         return '[data-menu-parent]';
@@ -10,53 +8,18 @@ class SubMenu {
         this.navLinks = document.querySelectorAll('[data-menu-id]');
         this.visibleClass = 'is-visible';
         this.activeClass = 'is-active';
-        this.hoverintentOptions = { timeout: 400 };
+        this.fadeIconClass = 'fade-icon';
         this.bindEventListeners();
     }
 
     bindEventListeners() {
-        this.isDesktop = window.innerWidth > 1022;
-
-        if (this.isDesktop) {
-            this.initDesktop();
-        } else {
-            this.initTablet();
-        }
-    }
-
-    // desktop hover events
-    initDesktop() {
-        this.navLinks.forEach((link) => {
-            hoverintent(
-                link,
-                (e) => {
-                    // on hover
-                    this.activateMenu(e.target);
-                },
-                () => {
-                    // hover out
-                },
-            ).options(this.hoverintentOptions);
-        });
-
-        // delay hover actions to make the menu more useable
-        hoverintent(
-            this.node,
-            (e) => {
-                // mouse over
-                this.activateMenu(e.target);
-            },
-            () => {
-                // mouseout
-            },
-        ).options(this.hoverintentOptions);
-    }
-
-    // tablet click events
-    initTablet() {
         this.node.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.activateMenu(e.target);
+            // Nav item text is an actual link
+            // Use the icon to drill down the menu
+            if (this.node.hasAttribute('data-drill-down')) {
+                e.preventDefault();
+                this.activateMenu(e.target);
+            }
         });
     }
 
@@ -76,6 +39,22 @@ class SubMenu {
         return toAdd;
     }
 
+    removeClassFromParent(selector, className) {
+        const toRemove = document.querySelectorAll(selector);
+        toRemove.forEach((item) => {
+            item.parentElement.classList.remove(className);
+        });
+        return toRemove;
+    }
+
+    addClassToParent(selector, className) {
+        const toAdd = document.querySelectorAll(selector);
+        toAdd.forEach((item) => {
+            item.parentElement.classList.add(className);
+        });
+        return toAdd;
+    }
+
     // add active link styles
     activateMenu(navItem) {
         // eslint-disable-next-line radix
@@ -90,6 +69,15 @@ class SubMenu {
         // show only my child menu
         const childMenuSelector = `[data-menu-${navItem.dataset.menuId}]`;
         const childMenu = this.addClass(childMenuSelector, this.visibleClass);
+
+        // On desktop...
+        if (window.innerWidth > 1022) {
+            // ...move the focus to the fisrt <a> in a child menu that was opened
+            const childMenuElement = childMenu[0];
+            childMenuElement
+                .querySelector('a:not(.nav__link--group-heading)')
+                .focus();
+        }
 
         // only show child drawer if has a menu else make sure it's gone
         if (childMenu.length > 0) {
@@ -109,8 +97,22 @@ class SubMenu {
         const childLinks = `[data-nav-level="${itemLevel + 1}"]`;
         this.removeClass(childLinks, this.activeClass);
 
+        // deactive child <li>'s and remove fade icon class
+        this.removeClassFromParent(childLinks, this.activeClass);
+        this.removeClassFromParent(childLinks, this.fadeIconClass);
+
+        // deactive parent <li>'s and add fade icon class
+        const siblingLinkElements = `[data-nav-level="${itemLevel}"]`;
+        this.removeClassFromParent(siblingLinkElements, this.activeClass);
+        this.addClassToParent(siblingLinkElements, this.fadeIconClass);
+
         // activate my link
         navItem.classList.add(this.activeClass);
+
+        // activate parent <li> and remove fade icon class
+        const parentItem = navItem.parentElement;
+        parentItem.classList.add(this.activeClass);
+        parentItem.classList.remove(this.fadeIconClass);
 
         // find <a> with same id in previous menu and activate
         const parentAnchor = document.querySelector(

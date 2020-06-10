@@ -1,4 +1,5 @@
 .nav {
+    $root: &;
     $sub-nav-height--small: 500px;
     $sub-nav-height--large: 900px;
     $gradient-height: 200px;
@@ -87,6 +88,11 @@
 
     &--standout {
         margin-top: ($gutter * 5);
+        padding-bottom: ($gutter * 10);
+
+        @include media-query(large) {
+            padding-bottom: 0;
+        }
     }
 
     &--standout-desktop {
@@ -106,11 +112,16 @@
     }
 
     &__item {
-        &--group-heading {
-            display: block;
-
+        &.is-active {
             @include media-query(large) {
-                display: none;
+                #{$root}__link {
+                    span {
+                        &::after {
+                            width: 100%;
+                            left: 0;
+                        }
+                    }
+                }
             }
         }
 
@@ -136,6 +147,17 @@
             &:last-child {
                 margin-left: 10px;
                 border-bottom: 1px solid;
+            }
+        }
+
+        &--primary,
+        &--secondary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            #{$root}__link {
+                flex: 1;
             }
         }
     }
@@ -170,7 +192,6 @@
             }
 
             &:hover,
-            &:focus,
             &.is-active {
                 span {
                     &::after {
@@ -194,14 +215,6 @@
             }
         }
 
-        &--group-heading {
-            font-size: map-get($small-font-sizes, s);
-
-            @include media-query(medium) {
-                font-size: map-get($medium-font-sizes, s);
-            }
-        }
-
         &--base {
             font-size: map-get($small-font-sizes, xs);
             padding: 0;
@@ -219,11 +232,28 @@
     }
 
     &__icon {
-        fill: $color--white;
         pointer-events: none;
+        fill: $color--white;
+        padding: 12px;
+        width: 40px;
+        height: 40px;
+        transition: fill $transition, opacity $transition;
 
-        @include media-query(large) {
-            display: none;
+        .is-active & {
+            opacity: 1;
+        }
+
+        .fade-icon & {
+            opacity: 0.3;
+        }
+    }
+
+    &__icon-container {
+        &:hover {
+            #{$root}__icon {
+                opacity: 1;
+                fill: $color--tertiary;
+            }
         }
     }
 }

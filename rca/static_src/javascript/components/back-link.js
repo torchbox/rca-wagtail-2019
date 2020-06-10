@@ -8,6 +8,7 @@ class BackLink {
     constructor(node) {
         this.node = node;
         this.activeClass = 'is-visible';
+        this.fadeIconClass = 'fade-icon';
         this.levelTwo = document.querySelector('[data-nav-level-2]');
         this.levelThree = document.querySelector('[data-nav-level-3]');
         this.levelTwoMenus = document.querySelectorAll('[data-nav-level-2] ul');
@@ -34,6 +35,9 @@ class BackLink {
 
     bindEventListeners() {
         this.node.addEventListener('click', () => {
+            // re-activate all icons
+            this.removeFadeIconClass();
+
             // check if level 3 is open first
             if (this.levelThree.classList.contains(this.activeClass)) {
                 this.levelThree.classList.remove(this.activeClass);
@@ -57,6 +61,16 @@ class BackLink {
     }
 
     onClassRemove() {}
+
+    removeFadeIconClass() {
+        // get all the active icons
+        const activeIcons = document.querySelectorAll('.fade-icon');
+
+        // remove the class
+        activeIcons.forEach((icon) => {
+            icon.classList.remove(this.fadeIconClass);
+        });
+    }
 }
 
 export default BackLink;
