@@ -133,9 +133,6 @@ class ProjectPage(BasePage):
         on_delete=models.SET_NULL,
     )
 
-    # School - blocked
-    # Theme - taxonomy needed
-
     gallery = StreamField(
         [("slide", GalleryBlock())], blank=True, verbose_name=_("Gallery")
     )
@@ -164,7 +161,9 @@ class ProjectPage(BasePage):
         related_name="+",
     )
     contact_text = models.TextField(blank=True)
-
+    external_links = StreamField(
+        [("link", LinkBlock())], blank=True, verbose_name="External Links"
+    )
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
             [ImageChooserPanel("hero_image"), FieldPanel("hero_colour_option")],
@@ -198,6 +197,7 @@ class ProjectPage(BasePage):
         StreamFieldPanel("partners"),
         StreamFieldPanel("funders"),
         StreamFieldPanel("quote_carousel"),
+        StreamFieldPanel("external_links"),
         MultiFieldPanel(
             [
                 ImageChooserPanel("contact_image"),
