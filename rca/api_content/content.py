@@ -400,7 +400,7 @@ def parse_students_to_list(data):
 
 def pull_related_students(legacy_staff_id):
     """
-    Return a list of students related to legacy_staf_id
+    Return a list of students related to legacy_staff_id
     """
     api_url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/{legacy_staff_id}/?fields=_,supervised_students"
     # Fetch Staff
