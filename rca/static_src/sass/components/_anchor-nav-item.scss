@@ -5,5 +5,12 @@
         @include underline-hover();
         position: relative;
         color: $color--white;
+
+        &.is-active {
+            &::after {
+                width: 100%;
+                left: 0;
+            }
+        }
     }
 }
