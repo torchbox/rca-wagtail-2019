@@ -108,9 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         new Sticky(sticky);
     }
 
-    for (const anchornav of document.querySelectorAll(
-        AnchorNav.selector(),
-    )) {
+    for (const anchornav of document.querySelectorAll(AnchorNav.selector())) {
         new AnchorNav(anchornav);
     }
 

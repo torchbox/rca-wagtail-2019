@@ -3,7 +3,7 @@ import scrollama from 'scrollama';
 
 class AnchorNav {
     static selector() {
-        return '[data-anchor-nav]'
+        return '[data-anchor-nav]';
     }
 
     constructor(node) {
@@ -42,7 +42,9 @@ class AnchorNav {
     handleDown(el) {
         this.stripClasses();
 
-        const linkToActivate = document.querySelector(`[href="#${el.element.id}"]`);
+        const linkToActivate = document.querySelector(
+            `[href="#${el.element.id}"]`,
+        );
         if (linkToActivate) {
             linkToActivate.classList.add('is-active');
         }
@@ -51,15 +53,19 @@ class AnchorNav {
     handleUp(el) {
         this.stripClasses();
 
-        const previousSection = document.querySelector(`[data-scrollama-index="${el.index - 1}"]`);
+        const previousSection = document.querySelector(
+            `[data-scrollama-index="${el.index - 1}"]`,
+        );
         if (previousSection) {
-            const linkToActivate = document.querySelector(`[href="#${previousSection.id}"]`);
+            const linkToActivate = document.querySelector(
+                `[href="#${previousSection.id}"]`,
+            );
             linkToActivate.classList.add('is-active');
         }
     }
 
     stripClasses() {
-        this.allLinks.forEach(link => link.classList.remove('is-active'));
+        this.allLinks.forEach((link) => link.classList.remove('is-active'));
     }
 }
 
