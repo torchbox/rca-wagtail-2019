@@ -226,8 +226,11 @@ class StaffPage(BasePage):
     def fetch_related_students(self):
         value = []
         if self.legacy_staff_id:
-            value = pull_related_students(self.legacy_staff_id)
-            cache.set(self.related_students_cache_key, value, None)
+            try:
+                value = pull_related_students(self.legacy_staff_id)
+                cache.set(self.related_students_cache_key, value, None)
+            except CantPullFromRcaApi:
+                pass
         return value
 
     @cached_property
