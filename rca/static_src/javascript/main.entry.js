@@ -17,6 +17,7 @@ import Sticky from './components/position-sticky-event';
 import ActualHeight from './components/actual-height';
 import ProjectFilters from './components/project-filters';
 import GuideChapterNav from './components/guide-chapter-nav';
+import AnchorNav from './components/anchor-nav';
 import './components/sticky-header';
 import './components/lazyload-images';
 import './components/outdated-banner';
@@ -112,6 +113,12 @@ document.addEventListener('DOMContentLoaded', () => {
         GuideChapterNav.selector(),
     )) {
         new GuideChapterNav(guidechapternav);
+    }
+
+    for (const anchornav of document.querySelectorAll(
+        AnchorNav.selector(),
+    )) {
+        new AnchorNav(anchornav);
     }
 
     new ActualHeight();
