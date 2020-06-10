@@ -115,9 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         new GuideChapterNav(guidechapternav);
     }
 
-    for (const anchornav of document.querySelectorAll(
-        AnchorNav.selector(),
-    )) {
+    for (const anchornav of document.querySelectorAll(AnchorNav.selector())) {
         new AnchorNav(anchornav);
     }
 
