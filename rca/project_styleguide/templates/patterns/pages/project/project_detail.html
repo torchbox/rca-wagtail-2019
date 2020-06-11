@@ -111,25 +111,25 @@
 
             <section class="section section--opposite-notch bg bg--light">
 
-                {% if project_lead %}
-                    <div class="section__row section__row--first section__row--last">
+                <div class="section__row section__row--first section__row--last">
+                    {% if project_lead %}
                         {% include "patterns/organisms/people-module/people-module.html" with title="Project lead" people=project_lead %}
-                    </div>
-                {% endif %}
+                    {% endif %}
 
-                {% if related_staff %}
-                    <div class="section__row">
-                        {% include "patterns/organisms/student-listing/student-listing.html" with title="Project team" student_listing=related_staff %}
-                    </div>
-                {% endif %}
+                    {% if related_staff %}
+                        <div class="section__row">
+                            {% include "patterns/organisms/student-listing/student-listing.html" with title="Project team" student_listing=related_staff %}
+                        </div>
+                    {% endif %}
 
-                {% if page.partners %}
-                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.partners title="Partners" modifier="padding-small" %}
-                {% endif %}
+                    {% if page.partners %}
+                        {% include "patterns/organisms/related-links/related-links.html" with related_links=page.partners title="Partners" modifier="padding-small" %}
+                    {% endif %}
 
-                {% if page.funders %}
-                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.funders title="Funders" %}
-                {% endif %}
+                    {% if page.funders %}
+                        {% include "patterns/organisms/related-links/related-links.html" with related_links=page.funders title="Funders" %}
+                    {% endif %}
+                </div>
 
                 <div class="section__notch section__notch--opposite">
                     <div class="section__notch-fill section__notch-fill--second-col"></div>
