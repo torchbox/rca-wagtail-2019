@@ -1,8 +1,6 @@
 context:
   paginator_page:
-    number: 1
     next_page_number: 2
-  paginator_page:
     has_previous: true
     has_next: true
     number: 1
