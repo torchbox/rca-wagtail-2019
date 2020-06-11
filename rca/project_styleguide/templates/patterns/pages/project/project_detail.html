@@ -138,7 +138,7 @@
             </section>
 
             {% if page.quote_carousel or page.contact_text or page.contact_email or page.contact_url %}
-                <section class="section section--top-space section--opposite-notch bg bg--dark">
+                <section class="section bg bg--dark">
 
                     {% if page.quote_carousel %}
                         <div class="section__row section__row--first {% if page.contact %}section__row--last{% endif %}">
@@ -147,7 +147,7 @@
                     {% endif %}
 
                     {% if page.contact_text or page.contact_email or page.contact_url %}
-                        <div class="section__row section__row--first">
+                        <div class="section__row {% if page.quote_carousel %}section--contact{% else %}section--top-space-small{% endif %}">
                             {% include "patterns/organisms/contact/contact.html" with heading="Contact us" text=page.contact_text image=page.contact_image %}
                         </div>
                     {% endif %}
