@@ -94,7 +94,7 @@
                             {% endfor %}
                         {% else %}
                             <div class="layout__start-one layout__span-two">
-                                {% include "patterns/molecules/no-results/no-results.html" %}
+                                {% include "patterns/molecules/no-results/no-results.html" with staff=True %}
                             </div>
                         {% endif %}
                     </div>
