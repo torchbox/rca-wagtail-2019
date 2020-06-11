@@ -38,9 +38,13 @@
             <ul class="key-details__list">
                 {% for item in expertise %}
                     <li class="key-details__list-item">
-                        <a class="link link--tertiary" href="{{ item.link }}">
+                        {% if item.link %}
+                            <a class="link link--tertiary" href="{{ item.link }}">
+                        {% endif %}
                             {{ item.title }}
-                        </a>
+                        {% if item.link %}
+                            </a>
+                        {% endif %}
                     </li>
                 {% endfor %}
             </ul>
