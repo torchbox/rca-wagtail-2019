@@ -57,7 +57,7 @@ def querystring(context, base=None, remove_blanks=False, remove_utm=True, **kwar
             continue
 
         if key.endswith(MODE_REMOVE):
-            key = key[: -len(MODE_ADD)]
+            key = key[: -len(MODE_REMOVE)]
             values = set(querydict.get_list(key))
             if value in values:
                 values.remove(value)
