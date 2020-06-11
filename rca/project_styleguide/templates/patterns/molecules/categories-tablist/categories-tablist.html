@@ -2,7 +2,7 @@
     if this component has {{ item.tab_title }}, it'll use the tabs.js setup
     normal {{ item.title }} and is reserved for react programme finder component }}
 {% endcomment %}
-<nav class="categories-tablist {% if modifier %}categories-tablist--{{ modifier }}{% endif %} bg bg--light" aria-label="{{ item.aria-label|default:'Filter results' }}">
+<nav class="categories-tablist {% if modifier %}categories-tablist--{{ modifier }}{% endif %} bg bg--light" aria-label="{{ item.aria_label|default:'Filter results' }}">
     <h2 class="body body--two categories-tablist__heading">{{ value.title }}</h2>
     <div class="categories-tablist__options" role="tablist">
         {% for item in value.items %}
