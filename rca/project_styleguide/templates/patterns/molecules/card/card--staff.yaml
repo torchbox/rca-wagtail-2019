@@ -1,20 +1,21 @@
 context:
   item:
     title: 'Jocelyn Prudence'
-    job_titles:
-      - 'College Secretary'
-      - 'Tutor and Visiting Lecturer'
-      - 'Executive Education Manager'
-    image: true
+    roles:
+      all:
+        - role: 'College Secretary'
+        - role: 'Tutor and Visiting Lecturer'
+        - role: 'Executive Education Manager'
+    profile_image: true
     link: '#'
 
 tags:
   image:
-    card.image fill-80x80 as image_small:
+    item.profile_image fill-80x80 as image_small:
       target_var: image_small
       raw:
         url: '//placekitten.com/80/80'
-    card.image fill-392x392 as image_large:
+    item.profile_image fill-392x392 as image_large:
       target_var: image_large
       raw:
         url: '//placekitten.com/392/392'
