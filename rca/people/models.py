@@ -438,7 +438,7 @@ class StaffIndexPage(BasePage):
             hero_colour="light",
             filters={
                 "title": "Filter by",
-                "aria-label": "Filter results",
+                "aria_label": "Filter results",
                 "items": filters,
             },
             results=results,

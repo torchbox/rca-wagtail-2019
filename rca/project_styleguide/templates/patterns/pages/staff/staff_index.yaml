@@ -4,7 +4,7 @@ context:
     introduction: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ultrices tincidunt quam ac convallis.
   filters:
     title: Filter by
-    aria-label: Filter results
+    aria_label: Filter results
     items:
       - tab_title: School & Centre
         filter_name: school_and_centre

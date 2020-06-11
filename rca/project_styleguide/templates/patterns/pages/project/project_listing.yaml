@@ -7,7 +7,7 @@ context:
     introduction: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ultrices tincidunt quam ac convallis.
   filters:
     title: Filter by
-    arial-label: Filter results
+    arial_label: Filter results
     items:
       - tab_title: School or Centre
         filter_name: school_or_centre
