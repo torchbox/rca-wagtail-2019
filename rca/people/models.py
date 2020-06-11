@@ -431,7 +431,7 @@ class StaffIndexPage(BasePage):
             results = paginator.page(paginator.num_pages)
 
         # Set additional attributes etc
-        self.modify_results(results)
+        self.modify_results(results, request)
 
         # Finalise and return context
         context.update(
