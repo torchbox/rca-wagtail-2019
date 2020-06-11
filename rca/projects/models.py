@@ -437,11 +437,11 @@ class ProjectPickerPage(BasePage):
         expertise = {
             "tab_title": "Expertise",
             "filter_name": "expertise",
-            "children": [],
+            "options": [],
         }
 
         for i in AreaOfExpertise.objects.filter(id__in=used_filter_values["expertise"]):
-            expertise["children"].append(
+            expertise["options"].append(
                 {
                     "id": i.id,
                     "title": i.title,
@@ -449,7 +449,7 @@ class ProjectPickerPage(BasePage):
                 }
             )
         # Only add if there are children.
-        if expertise["children"]:
+        if expertise["options"]:
             filters["items"].append(expertise)
 
         school_or_centre = {
