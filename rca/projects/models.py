@@ -334,12 +334,15 @@ class ProjectPage(BasePage):
         parent_picker = ProjectPickerPage.objects.parent_of(self).live().first()
         expertise = []
         for i in self.expertise.all():
-            expertise.append(
-                {
-                    "title": i.area_of_expertise.title,
-                    "link": f"{parent_picker.url}?expertise={i.id}",
-                }
-            )
+            if parent_picker:
+                expertise.append(
+                    {
+                        "title": i.area_of_expertise.title,
+                        "link": f"{parent_picker.url}?expertise={i.id}",
+                    }
+                )
+            else:
+                expertise.append({"title": i.area_of_expertise.title})
         return expertise
 
     def get_context(self, request, *args, **kwargs):
