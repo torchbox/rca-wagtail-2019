@@ -111,25 +111,25 @@
 
             <section class="section section--opposite-notch bg bg--light">
 
-                {% if project_lead %}
-                    <div class="section__row section__row--first section__row--last">
+                <div class="section__row section__row--first section__row--last">
+                    {% if project_lead %}
                         {% include "patterns/organisms/people-module/people-module.html" with title="Project lead" people=project_lead %}
-                    </div>
-                {% endif %}
+                    {% endif %}
 
-                {% if related_staff %}
-                    <div class="section__row">
-                        {% include "patterns/organisms/student-listing/student-listing.html" with title="Project team" student_listing=related_staff %}
-                    </div>
-                {% endif %}
+                    {% if related_staff %}
+                        <div class="section__row">
+                            {% include "patterns/organisms/student-listing/student-listing.html" with title="Project team" student_listing=related_staff %}
+                        </div>
+                    {% endif %}
 
-                {% if page.partners %}
-                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.partners title="Partners" modifier="padding-small" %}
-                {% endif %}
+                    {% if page.partners %}
+                        {% include "patterns/organisms/related-links/related-links.html" with related_links=page.partners title="Partners" modifier="padding-small" %}
+                    {% endif %}
 
-                {% if page.funders %}
-                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.funders title="Funders" %}
-                {% endif %}
+                    {% if page.funders %}
+                        {% include "patterns/organisms/related-links/related-links.html" with related_links=page.funders title="Funders" %}
+                    {% endif %}
+                </div>
 
                 <div class="section__notch section__notch--opposite">
                     <div class="section__notch-fill section__notch-fill--second-col"></div>
@@ -137,8 +137,8 @@
 
             </section>
 
-            {% if page.quote_carousel or page.contact_text or page.contact_email or page.contact_url or page.external_links %}
-                <section class="section section--top-space section--opposite-notch bg bg--dark">
+            {% if page.quote_carousel or page.contact_text or page.contact_email or page.contact_url %}
+                <section class="section bg bg--dark">
 
                     {% if page.quote_carousel %}
                         <div class="section__row section__row--first {% if page.contact %}section__row--last{% endif %}">
@@ -153,7 +153,7 @@
                     {% endif %}
 
                     {% if page.contact_text or page.contact_email or page.contact_url %}
-                        <div class="section__row section__row--first">
+                        <div class="section__row {% if page.quote_carousel %}section--contact{% else %}section--top-space-small{% endif %}">
                             {% include "patterns/organisms/contact/contact.html" with heading="Contact us" text=page.contact_text image=page.contact_image %}
                         </div>
                     {% endif %}
