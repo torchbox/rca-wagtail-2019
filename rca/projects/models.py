@@ -338,7 +338,7 @@ class ProjectPage(BasePage):
                 expertise.append(
                     {
                         "title": i.area_of_expertise.title,
-                        "link": f"{parent_picker.url}?expertise={i.id}",
+                        "link": f"{parent_picker.url}?expertise={i.area_of_expertise.id}",
                     }
                 )
             else:
