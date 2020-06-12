@@ -22,6 +22,12 @@
         {% block body_top %}{% endblock %}
 
         {% include "patterns/atoms/skip-link/skip-link.html" %}
+
+        {% if settings.utils.SitewideAlertSetting.show_alert %}
+            {# Show the sitewide alert message #}
+            {{ settings.utils.SitewideAlertSetting.message|richtext }}
+        {% endif %}
+
         {% include "patterns/molecules/outdated-banner/outdated-banner.html" %}
         {% include "patterns/atoms/sprites/sprites.html" %}
 
