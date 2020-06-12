@@ -8,6 +8,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils.text import slugify
 from modelcluster.fields import ParentalKey
+from rest_framework.fields import CharField as CharFieldSerializer
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
@@ -596,16 +597,21 @@ class ProgrammePage(BasePage):
         ),
     ]
     api_fields = [
-        APIField("degree_level", serializer=degree_level_serializer()),
+        # Fields for filtering and display, shared with shortcourses.ShortCoursePage.
         APIField("subjects"),
         APIField("programme_type"),
-        APIField("programme_description_subtitle"),
-        APIField("pathway_blocks"),
+        APIField("related_schools_and_research_pages"),
+        APIField(
+            "summary",
+            serializer=CharFieldSerializer(source="programme_description_subtitle"),
+        ),
         APIField(
             name="hero_image_square",
             serializer=ImageRenditionField("fill-580x580", source="hero_image"),
         ),
-        APIField("related_schools_and_research_pages"),
+        # Displayed fields, specific to programmes.
+        APIField("degree_level", serializer=degree_level_serializer()),
+        APIField("pathway_blocks"),
     ]
 
     def __str__(self):

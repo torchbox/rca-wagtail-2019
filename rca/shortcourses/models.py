@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
+from rest_framework.fields import CharField as CharFieldSerializer
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
@@ -14,8 +15,10 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
     TabbedInterface,
 )
+from wagtail.api import APIField
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
+from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
@@ -247,6 +250,18 @@ class ShortCoursePage(BasePage):
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
+
+    api_fields = [
+        # Fields for filtering and display, shared with programmes.ProgrammePage.
+        APIField("subjects"),
+        APIField("programme_type"),
+        APIField("related_schools_and_research_pages"),
+        APIField("summary", serializer=CharFieldSerializer(source="introduction")),
+        APIField(
+            name="hero_image_square",
+            serializer=ImageRenditionField("fill-580x580", source="hero_image"),
+        ),
+    ]
 
     def get_access_planit_data(self):
         access_planit_course_data = AccessPlanitXML(
