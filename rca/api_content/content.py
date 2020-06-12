@@ -378,17 +378,21 @@ def get_news_and_events():
     return NewsEventsAPI().get_data()
 
 
+def fetch_student_image(image_id):
+    image_fetch_result = fetch_data(
+        f"{settings.API_CONTENT_BASE_URL}/api/v2/images/{image_id}/?fields=_,thumbnail",
+        timeout=10,
+    )
+    return image_fetch_result["thumbnail"]["url"]
+
+
 def parse_students_to_list(data):
     items = []
     if not data:
         return []
     for item in data.get("supervised_students", ()):
-        if item["image"]:
-            image_fetch_result = fetch_data(
-                f"{settings.API_CONTENT_BASE_URL}/api/v2/images/{item['image']}/",
-                timeout=10,
-            )
-            item["image_url"] = image_fetch_result["thumbnail"]["url"]
+        if item.get("image"):
+            item["image_url"] = fetch_student_image(item["image"])
         items.append(item)
 
     return items
@@ -396,7 +400,7 @@ def parse_students_to_list(data):
 
 def pull_related_students(legacy_staff_id):
     """
-    Return a list of students related to legacy_staf_ id
+    Return a list of students related to legacy_staff_id
     """
     api_url = f"{settings.API_CONTENT_BASE_URL}/api/v2/pages/{legacy_staff_id}/?fields=_,supervised_students"
     # Fetch Staff
