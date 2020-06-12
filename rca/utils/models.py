@@ -13,6 +13,7 @@ from wagtail.admin.edit_handlers import (
     PageChooserPanel,
     StreamFieldPanel,
 )
+from wagtail.api import APIField
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.core import blocks
 from wagtail.core.fields import RichTextField, StreamField
@@ -632,3 +633,5 @@ class SitewideAlertSetting(BaseSetting):
     )
 
     panels = [FieldPanel("show_alert"), FieldPanel("message")]
+
+    api_fields = [APIField("show_alert"), APIField("message")]
