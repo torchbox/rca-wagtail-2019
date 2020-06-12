@@ -429,3 +429,19 @@ class ProgrammeSettings(BaseSetting):
             [FieldPanel("disable_apply_tab")], "Global settings for programme pages"
         )
     ]
+
+
+@register_setting
+class SitewideAlertSetting(BaseSetting):
+    class Meta:
+        verbose_name = "Sitewide alert"
+
+    show_alert = models.BooleanField(
+        default=False, help_text="Checking this will show the site-wide message"
+    )
+    message = RichTextField(
+        help_text="The message to be shown to all users across the site",
+        features=["h2", "h3", "bold", "italic", "ul", "ol", "link"],
+    )
+
+    panels = [FieldPanel("show_alert"), FieldPanel("message")]
