@@ -1,6 +1,8 @@
+{% load util_tags %}
 {% if value.href and value.text or href and text %}
-    <a class="link link--primary link--link" href="{% firstof value.href href %}">
-        <span class="link__label">{% firstof value.text text %}</span>
-        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+    {% is_external value.href href as is_external %}
+    <a class="link link--primary link--link {% if is_external %}link--external{% endif %}" {% if is_external %} target="_blank" {% endif %} href="{% firstof value.href href %}">
+        <span class="link__label ">{% firstof value.text text %}</span>
+        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow{% if is_external %}-external{% endif %}"></use></svg>
     </a>
 {% endif %}
