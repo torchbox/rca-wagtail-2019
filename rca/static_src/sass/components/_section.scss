@@ -29,6 +29,30 @@
         }
     }
 
+    &--top-space-small {
+        padding-top: ($gutter * 3.5);
+
+        @include media-query(medium) {
+            padding-top: ($gutter * 3.5);
+        }
+
+        @include media-query(large) {
+            padding-top: ($gutter * 5);
+        }
+    }
+
+    &--contact {
+        padding-top: ($gutter * 3.5);
+
+        @include media-query(medium) {
+            padding-top: ($gutter * 3.5);
+        }
+
+        @include media-query(large) {
+            padding-top: ($gutter * 12.5);
+        }
+    }
+
     &--end {
         padding-bottom: ($gutter * 2.5);
 
