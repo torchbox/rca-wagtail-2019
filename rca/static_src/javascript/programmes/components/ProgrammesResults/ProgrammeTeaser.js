@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { programmePageShape } from '../../programmes.types';
+import {
+    SHORT_COURSE_PAGE_TYPE,
+    programmePageShape,
+} from '../../programmes.types';
 
 /**
- * A programme’s teaser info, to be displayed as part of search results.
+ * A programme or short course’s teaser info, to be displayed as part of search results.
+ * "Degree level" and "Pathway blocks" are for programmes only. Other fields are shared.
  */
 const ProgrammeTeaser = ({ programme, onMouseOver, onFocus }) => {
-    const {
-        meta,
-        title,
-        degree_level,
-        programme_description_subtitle,
-        pathway_blocks,
-    } = programme;
+    const { meta, title, summary, degree_level, pathway_blocks } = programme;
+    const isShortCourse = meta.type === SHORT_COURSE_PAGE_TYPE;
+    // Short courses have no degree level. Display a distinguishing label instead.
+    const degreeLabel = isShortCourse ? 'Short course' : degree_level.title;
 
     return (
         <a
@@ -29,14 +30,14 @@ const ProgrammeTeaser = ({ programme, onMouseOver, onFocus }) => {
                     </span>
                 </h2>
                 <small className="programme-teaser__degree">
-                    {degree_level.title}
+                    {degreeLabel}
                 </small>
             </div>
             <div className="programme-teaser__info">
                 <p className="programme-teaser__description body body--one">
-                    {programme_description_subtitle}
+                    {summary}
                 </p>
-                {pathway_blocks.length > 0 ? (
+                {pathway_blocks && pathway_blocks.length > 0 ? (
                     <div>
                         <p className="programme-teaser__pathways-heading">
                             Pathways:

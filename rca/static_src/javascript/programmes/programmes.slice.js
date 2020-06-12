@@ -42,7 +42,7 @@ const { reducer, actions } = createSlice({
 export const { clearResults } = actions;
 
 /**
- * Get the matching programmes from the search API.
+ * Get the matching programmes and short courses from the search API.
  * @param {string} searchQuery
  */
 export const searchProgrammes = (searchQuery, filters = {}) => {

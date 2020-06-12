@@ -10,8 +10,8 @@ import ProgrammesResults from './ProgrammesResults/ProgrammesResults';
 import ProgrammesCategories from './ProgrammesCategories/ProgrammesCategories';
 
 /**
- * Programmes listing, with a search form, filters, and a results view.
- * Programmes come from the Wagtail API (via Redux), UI state is synced in the URL.
+ * Programmes and short courses listing, with a search form, filters, and a results view.
+ * Pages come from the Wagtail API (via Redux), UI state is synced in the URL.
  */
 const ProgrammesExplorer = ({ searchLabel, categories }) => {
     const loc = useLocation();
