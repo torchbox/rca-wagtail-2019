@@ -7,6 +7,7 @@ from wagtail.api.v2.filters import (
 from wagtail.api.v2.serializers import PageSerializer
 
 from rca.navigation.models import NavigationSettings
+from rca.utils.models import SitewideAlertSetting
 from rca.wagtailapi import filters
 
 
@@ -26,3 +27,7 @@ class PagesAPIEndpoint(endpoints.PagesAPIEndpoint):
 
 class NavigationEndpoint(endpoints.BaseAPIEndpoint):
     model = NavigationSettings
+
+
+class SitewideAlertEndpoint(endpoints.BaseAPIEndpoint):
+    model = SitewideAlertSetting
