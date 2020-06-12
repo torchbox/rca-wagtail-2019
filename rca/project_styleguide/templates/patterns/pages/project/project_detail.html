@@ -113,12 +113,12 @@
 
                 <div class="section__row section__row--first section__row--last">
                     {% if project_lead %}
-                        {% include "patterns/organisms/people-module/people-module.html" with title="Project lead" people=project_lead %}
+                        {% include "patterns/organisms/people-module/people-module.html" with title="Lead" people=project_lead %}
                     {% endif %}
 
                     {% if related_staff %}
                         <div class="section__row">
-                            {% include "patterns/organisms/student-listing/student-listing.html" with title="Project team" student_listing=related_staff %}
+                            {% include "patterns/organisms/student-listing/student-listing.html" with title="Team" student_listing=related_staff %}
                         </div>
                     {% endif %}
 
@@ -179,7 +179,7 @@
                             {% include "patterns/organisms/carousel/carousel.html" with carousel=related_projects modifier='carousel carousel--no-margin' datatag='data-carousel' %}
                             <div class="section__action">
                                 <a class="link link--secondary link--link body body--two" href="/research">
-                                    <span class="link__label">See all research</span>
+                                    <span class="link__label">See all related projects</span>
                                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                 </a>
                             </div>
