@@ -1,7 +1,10 @@
 from collections import defaultdict
 
+from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -15,12 +18,17 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable
+from wagtail.core.models import Orderable, Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.search import index
 
 from rca.api_content.content import CantPullFromRcaApi, pull_related_students
+from rca.programmes.models import ProgrammePage
+from rca.research.models import ResearchCentrePage
+from rca.schools.models import SchoolPage
 from rca.utils.blocks import AccordionBlockWithTitle, GalleryBlock, LinkBlock
+from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage
 
 
@@ -91,6 +99,8 @@ class StaffPageManualRelatedStudents(models.Model):
 
 class StaffPage(BasePage):
     template = "patterns/pages/staff/staff_detail.html"
+    parent_page_types = ["people.StaffIndexPage"]
+
     staff_title = models.CharField(
         max_length=255, help_text=_("E.G Dr, Professor"), blank=True
     )
@@ -137,7 +147,7 @@ class StaffPage(BasePage):
         InlinePanel(
             "related_research_centre_pages", label=_("Related Research Centres ")
         ),
-        InlinePanel("related_schools_pages", label=_("Related Schools")),
+        InlinePanel("related_schools", label=_("Related Schools")),
         InlinePanel("related_area_of_expertise", label=_("Areas of Expertise")),
     ]
 
@@ -292,11 +302,7 @@ class StaffPage(BasePage):
         ):
             if value.programme:
                 items.append(
-                    (
-                        str(value.programme),
-                        value.role,
-                        value.programme.get_relative_url(request),
-                    )
+                    (str(value.programme), value.role, value.programme.get_url(request))
                 )
             else:
                 items.append((value.custom_programme, value.role, None))
@@ -317,9 +323,125 @@ class StaffPage(BasePage):
         context = super().get_context(request, *args, **kwargs)
         context["research_highlights"] = self.format_research_highlights()
         context["areas"] = self.related_area_of_expertise.all()
-        context["related_schools"] = self.related_schools_pages.all()
+        context["related_schools"] = self.related_schools.all()
         context["research_centres"] = self.related_research_centre_pages.all()
         context["related_students"] = self.get_related_students()
         context["roles"] = self.get_roles_grouped(request)
+        return context
 
+
+class StaffIndexPage(BasePage):
+    subpage_types = ["people.StaffPage"]
+    template = "patterns/pages/staff/staff_index.html"
+
+    introduction = RichTextField(blank=False, features=["link"])
+
+    content_panels = BasePage.content_panels + [FieldPanel("introduction")]
+
+    search_fields = BasePage.search_fields + [index.SearchField("introduction")]
+
+    def get_base_queryset(self):
+        return (
+            StaffPage.objects.child_of(self)
+            .live()
+            .prefetch_related("roles")
+            .order_by("last_name", "first_name")
+        )
+
+    def modify_results(self, paginator_page, request):
+        for obj in paginator_page.object_list:
+            # providing request to get_url() massively improves
+            # url generation efficiency, as values are cached
+            # on the request
+            obj.link = obj.get_url(request)
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        base_queryset = self.get_base_queryset()
+        queryset = base_queryset.all()
+
+        filters = (
+            TabStyleFilter(
+                "School & Centre",
+                queryset=(
+                    Page.objects.live()
+                    .filter(
+                        content_type__in=list(
+                            ContentType.objects.get_for_models(
+                                SchoolPage, ResearchCentrePage
+                            ).values()
+                        )
+                    )
+                    .filter(
+                        models.Q(
+                            id__in=base_queryset.values_list(
+                                "related_schools__page_id", flat=True
+                            )
+                        )
+                        | models.Q(
+                            id__in=base_queryset.values_list(
+                                "related_research_centre_pages__page_id", flat=True
+                            )
+                        )
+                    )
+                ),
+                filter_by=(
+                    "related_schools__page_id__in",
+                    "related_research_centre_pages__page_id__in",
+                ),
+            ),
+            TabStyleFilter(
+                "Directorates",
+                queryset=(
+                    AreaOfExpertise.objects.filter(
+                        id__in=base_queryset.values_list(
+                            "related_area_of_expertise__area_of_expertise_id", flat=True
+                        )
+                    )
+                ),
+                filter_by="related_area_of_expertise__area_of_expertise_id__in",
+            ),
+            TabStyleFilter(
+                "Programme",
+                queryset=(
+                    ProgrammePage.objects.live().filter(
+                        id__in=base_queryset.values_list(
+                            "roles__programme_id", flat=True
+                        )
+                    )
+                ),
+                filter_by="roles__programme_id__in",
+            ),
+        )
+
+        # Apply filters
+        for f in filters:
+            queryset = f.apply(queryset, request.GET)
+
+        # Paginate filtered queryset
+        per_page = settings.DEFAULT_PER_PAGE
+        page_number = request.GET.get("page")
+        paginator = Paginator(queryset, per_page)
+        try:
+            results = paginator.page(page_number)
+        except PageNotAnInteger:
+            results = paginator.page(1)
+        except EmptyPage:
+            results = paginator.page(paginator.num_pages)
+
+        # Set additional attributes etc
+        self.modify_results(results, request)
+
+        # Finalise and return context
+        context.update(
+            hero_colour="light",
+            filters={
+                "title": "Filter by",
+                "aria_label": "Filter results",
+                "items": filters,
+            },
+            results=results,
+            result_count=paginator.count,
+        )
         return context

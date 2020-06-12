@@ -420,18 +420,18 @@ class ProjectPickerPage(BasePage):
         research_types = {
             "tab_title": "Research type",
             "filter_name": "type",
-            "children": [],
+            "options": [],
         }
         for i in ResearchType.objects.filter(id__in=used_filter_values["type"]):
-            research_types["children"].append(
+            research_types["options"].append(
                 {
                     "id": i.id,
                     "title": i.title,
                     "active": str(i.id) in active_filters["type"],
                 }
             )
-        # Only add if there are children.
-        if research_types["children"]:
+        # Only add if there are options.
+        if research_types["options"]:
             filters["items"].append(research_types)
 
         expertise = {
@@ -455,14 +455,14 @@ class ProjectPickerPage(BasePage):
         school_or_centre = {
             "tab_title": "School or centre",
             "filter_name": "school_or_centre",
-            "children": [],
+            "options": [],
         }
         for i in (
             SchoolPage.objects.live()
             .public()
             .filter(id__in=used_filter_values["school"])
         ):
-            school_or_centre["children"].append(
+            school_or_centre["options"].append(
                 {
                     "id": i.id,
                     "title": i.title,
@@ -474,15 +474,15 @@ class ProjectPickerPage(BasePage):
             .public()
             .filter(id__in=used_filter_values["centre"])
         ):
-            school_or_centre["children"].append(
+            school_or_centre["options"].append(
                 {
                     "id": i.id,
                     "title": i.title,
                     "active": str(i.id) in active_filters["school_or_centre"],
                 }
             )
-        # Only add if there are children.
-        if school_or_centre["children"]:
+        # Only add if there are options.
+        if school_or_centre["options"]:
             filters["items"].append(school_or_centre)
 
         return filters
@@ -595,7 +595,4 @@ class ProjectPickerPage(BasePage):
 
         context["results"] = project_results
         context["results_count"] = paginator.count
-
-        context["reset"] = {"href": self.url, "text": "Reset"}
-
         return context

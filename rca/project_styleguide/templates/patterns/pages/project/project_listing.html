@@ -34,7 +34,7 @@
                 <div class="section__notch section__notch--opposite">
 
                     <div class="section__notch-fill section__notch-fill--content-height section__notch-fill--fourth-col">
-                        {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" %}
+                        {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True reset_button_text="Reset" %}
                     </div>
 
                     <div class="filter-tab-options filter-tab-options--mobile">
@@ -65,7 +65,7 @@
                 <div class="filter-takeover__container">
                     {% for item in filters.items %}
                         <div class="filter-takeover__tab-content tabs__panel tabs__panel--hidden js-tab-panel" id="{{ item.tab_title|slugify }}" role="tabpanel" aria-labelledby="tab-{{ item.tab_title|slugify }}">
-                            {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" with title="projects" filter_options=item.children %}
+                            {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" %}
                         </div>
                     {% endfor %}
                 </div>
@@ -109,7 +109,7 @@
                 {% if results %}
                     <div class="section__row section__row--last grid">
                         <div class="layout__span-two layout__@large-span-one layout__start-one layout__@large-start-three">
-                            {% include "patterns/molecules/pagination/pagination.html" with subpages=results %}
+                            {% include "patterns/molecules/pagination/pagination.html" with paginator_page=results %}
                         </div>
                     </div>
                 {% endif %}
