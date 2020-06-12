@@ -390,7 +390,7 @@ def parse_students_to_list(data):
     items = []
     if not data:
         return []
-    for item in data["supervised_students"]:
+    for item in data.get("supervised_students", ()):
         if item.get("image"):
             item["image_url"] = fetch_student_image(item["image"])
         items.append(item)
