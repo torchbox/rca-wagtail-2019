@@ -194,7 +194,7 @@
                     {% if page.related_links %}
                         <div class="section__row section__row--first">
                             <div class="section__content">
-                                {% include "patterns/organisms/related-links/related-links.html" with related_links=page.related_links title="External links" %}
+                                {% include "patterns/organisms/related-links/related-links.html" with related_links=page.related_links title="Related links" %}
                             </div>
                         </div>
                     {% endif %}
@@ -209,7 +209,7 @@
 
                     <div class="section__container">
                         <header class="section__header grid">
-                            <h3 class="section__heading section__heading--primary heading heading--two">What&#39;s happening at the RCA</h3>
+                            <h3 class="section__heading section__heading--primary heading heading--two">News &amp; events</h3>
                         </header>
                         <div class="section__content grid">
                             {% include "patterns/organisms/news/news_api_content.html" with news=page.legacy_news_and_events %}
