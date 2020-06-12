@@ -20,7 +20,7 @@ class AnchorNav {
         scroller
             .setup({
                 step: '.anchor-heading',
-                offset: 0.05,
+                offset: 0.5,
             })
             .onStepEnter((el) => {
                 if (el.direction === 'down') {

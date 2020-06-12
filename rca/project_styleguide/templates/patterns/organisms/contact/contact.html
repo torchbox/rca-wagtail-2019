@@ -6,7 +6,7 @@
 <div class="contact">
     <div class="grid">
         <div class="contact__intro">
-            <h2 class="contact__heading heading heading--four">{{ heading }}</h2>
+            <h2 class="contact__heading heading heading--four {% if anchor_heading %}anchor-heading{% endif %}" {% if anchor_heading %}id="contact"{% endif %}>{{ heading }}</h2>
             <p class="contact__text body body--one">{{ text }}</p>
         </div>
         {% if page.contact_email %}
