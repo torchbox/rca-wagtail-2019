@@ -20,6 +20,7 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.search import index
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from rca.programmes.models import ProgrammeType
@@ -250,6 +251,30 @@ class ShortCoursePage(BasePage):
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
+
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction", partial_match=True),
+        index.AutocompleteField("introduction", partial_match=True),
+        index.RelatedFields(
+            "programme_type",
+            [
+                index.SearchField("display_name", partial_match=True),
+                index.AutocompleteField("display_name", partial_match=True),
+            ],
+        ),
+        index.RelatedFields(
+            "subjects",
+            [
+                index.RelatedFields(
+                    "subject",
+                    [
+                        index.SearchField("title", partial_match=True),
+                        index.AutocompleteField("title", partial_match=True),
+                    ],
+                )
+            ],
+        ),
+    ]
 
     api_fields = [
         # Fields for filtering and display, shared with programmes.ProgrammePage.
