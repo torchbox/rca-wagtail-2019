@@ -3,7 +3,7 @@
         <div class="people-module__container grid">
             {% if title %}
                 <div class="people-module__header">
-                    <h2 class="heading heading--four people-module__heading">{{ title }}</h2>
+                    <h2 class="heading heading--four people-module__heading {% if anchor_heading %}anchor-heading{% endif %}" {% if anchor_heading %}id="staff"{% endif %}>{{ title }}</h2>
                 </div>
             {% endif %}
             <div class="people-module__content">
