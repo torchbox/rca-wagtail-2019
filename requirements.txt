@@ -19,3 +19,5 @@ wagtail-orderable==1.0.2
 lxml==4.5.0
 django-phonenumber-field[phonenumbers]==4.0.0
 django-import-export==2.2.0
+wagtail-redirect-importer==1.0.2
+
