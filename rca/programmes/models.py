@@ -2,7 +2,6 @@ from collections import defaultdict
 from itertools import chain
 
 from django.conf import settings
-from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
@@ -34,7 +33,6 @@ from wagtail.search import index
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtailorderable.models import Orderable as WagtailOrdable
 
-from rca.api_content import content
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
@@ -814,12 +812,12 @@ class ProgrammeIndexPage(BasePage):
             )
 
         filters = [
-            {"id": "subjects", "title": "Subject", "options": subjects},
-            {"id": "programme_type", "title": "Type", "options": programme_types},
+            {"id": "subjects", "title": "Subject", "items": subjects},
+            {"id": "programme_type", "title": "Type", "items": programme_types},
             {
                 "id": "related_schools_and_research_pages",
                 "title": "Schools & centres",
-                "options": schools_and_research_pages,
+                "items": schools_and_research_pages,
             },
         ]
 
