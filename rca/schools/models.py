@@ -10,7 +10,7 @@ from rca.utils.models import BasePage
 
 
 class RelatedSchoolPage(Orderable):
-    source_page = ParentalKey(Page, related_name="related_schools_pages")
+    source_page = ParentalKey(Page, related_name="related_schools")
     page = models.ForeignKey("schools.SchoolPage", on_delete=models.CASCADE)
 
     panels = [PageChooserPanel("page")]

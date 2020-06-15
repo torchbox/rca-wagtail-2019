@@ -612,6 +612,18 @@ class ProgrammePage(BasePage):
         APIField("pathway_blocks"),
     ]
 
+    def __str__(self):
+        bits = [self.title]
+        if self.degree_level:
+            bits.append(str(self.degree_level))
+        return " ".join(bits)
+
+    def get_admin_display_title(self):
+        bits = [self.draft_title]
+        if self.degree_level:
+            bits.append(str(self.degree_level))
+        return " ".join(bits)
+
     def clean(self):
         errors = defaultdict(list)
         if self.hero_video and not self.hero_video_preview_image:
@@ -755,11 +767,11 @@ class ProgrammeIndexPage(BasePage):
         paginator = Paginator(subpages, per_page)
 
         try:
-            subpages = paginator.page(page_number)
+            results = paginator.page(page_number)
         except PageNotAnInteger:
-            subpages = paginator.page(1)
+            results = paginator.page(1)
         except EmptyPage:
-            subpages = paginator.page(paginator.num_pages)
+            results = paginator.page(paginator.num_pages)
 
         # Listing filters
         programme_types = [
@@ -810,7 +822,7 @@ class ProgrammeIndexPage(BasePage):
         ]
 
         context.update(filters=filters)
-        context["subpages"] = subpages
+        context["results"] = results
 
         return context
 

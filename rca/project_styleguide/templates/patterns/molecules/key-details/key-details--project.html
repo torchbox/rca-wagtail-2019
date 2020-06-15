@@ -32,15 +32,19 @@
             </ul>
         </div>
     {% endif %}
-    {% if subjects %}
+    {% if expertise %}
         <div class="key-details__section key-details__section--tags">
             <h4 class="body body--two key-details__sub-heading">RCA expertise</h4>
             <ul class="key-details__list">
-                {% for item in subjects %}
+                {% for item in expertise %}
                     <li class="key-details__list-item">
-                        <a class="link link--tertiary" href="{{ item.link }}">
+                        {% if item.link %}
+                            <a class="link link--tertiary" href="{{ item.link }}">
+                        {% endif %}
                             {{ item.title }}
-                        </a>
+                        {% if item.link %}
+                            </a>
+                        {% endif %}
                     </li>
                 {% endfor %}
             </ul>

@@ -1,0 +1,27 @@
+{% load wagtailcore_tags wagtailimages_tags static util_tags %}
+
+<div class="profile-teaser">
+    {% if item.link %}
+        {% is_external item.link as is_external %}
+        <a href="{{ item.link }}" {% if is_external %} target="_blank" {% endif %} class="profile-teaser__container profile-teaser__container--link">
+    {% else %}
+        <div class="profile-teaser__container">
+    {% endif %}
+    {% if item.image_url %}
+        <img src="{{ item.image_url }}" width="60" height="60" alt="" class="profile-teaser__image">
+    {% else %}
+        <img src="{% static "images/author_placeholder.png" %}" alt="" class="profile-teaser__image profile-teaser__image--placeholder">
+    {% endif %}
+    {% if item.first_name or item.surname or item.status or item.role %}
+        <div class="profile-teaser__content">
+            <h3 class="profile-teaser__heading body body--one"><span class="profile-teaser__first-name">{{ item.first_name }}</span> <span class="profile-teaser__surname">{{ item.surname }}</span></h3>
+            <p class="profile-teaser__meta body body--two">{{ item.status }}</p>
+            <p class="profile-teaser__meta body body--two">{{ item.role }}</p>
+        </div>
+    {% endif %}
+    {% if item.link %}
+        </a>
+    {% else %}
+        </div>
+    {% endif %}
+</div>

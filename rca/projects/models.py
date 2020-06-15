@@ -45,12 +45,12 @@ class RelatedProjectPage(Orderable):
     panels = [PageChooserPanel("page")]
 
 
-class ProjectPageSubjectPlacement(models.Model):
-    page = ParentalKey("ProjectPage", related_name="subjects")
-    subject = models.ForeignKey(
-        "programmes.Subject", on_delete=models.CASCADE, related_name="projects"
+class ProjectPageExpertisePlacement(models.Model):
+    page = ParentalKey("ProjectPage", related_name="expertise")
+    area_of_expertise = models.ForeignKey(
+        "people.AreaOfExpertise", on_delete=models.CASCADE, related_name="projects"
     )
-    panels = [FieldPanel("subject")]
+    panels = [FieldPanel("area_of_expertise")]
 
 
 class ProjectPageRelatedResearchPage(RelatedPage):
@@ -133,9 +133,6 @@ class ProjectPage(BasePage):
         on_delete=models.SET_NULL,
     )
 
-    # School - blocked
-    # Theme - taxonomy needed
-
     gallery = StreamField(
         [("slide", GalleryBlock())], blank=True, verbose_name=_("Gallery")
     )
@@ -164,7 +161,9 @@ class ProjectPage(BasePage):
         related_name="+",
     )
     contact_text = models.TextField(blank=True)
-
+    external_links = StreamField(
+        [("link", LinkBlock())], blank=True, verbose_name="External Links"
+    )
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
             [ImageChooserPanel("hero_image"), FieldPanel("hero_colour_option")],
@@ -198,6 +197,7 @@ class ProjectPage(BasePage):
         StreamFieldPanel("partners"),
         StreamFieldPanel("funders"),
         StreamFieldPanel("quote_carousel"),
+        StreamFieldPanel("external_links"),
         MultiFieldPanel(
             [
                 ImageChooserPanel("contact_image"),
@@ -210,7 +210,7 @@ class ProjectPage(BasePage):
     ]
 
     key_details_panels = [
-        InlinePanel("subjects", label=_("RCA Experties")),
+        InlinePanel("expertise", label=_("RCA Expertise")),
         InlinePanel("related_school_pages", label=_("Related schools")),
         InlinePanel("related_research_pages", label=_("Related research centres")),
         InlinePanel("research_types", label=_("Research types")),
@@ -264,7 +264,7 @@ class ProjectPage(BasePage):
         IF there are no projects with the same theme School/Centre latest projects with a
         matching research_type will be displayed.
         IF there are no projects with a matching research_type, the latest projects with
-        matching subject tags will be displayed.
+        matching expertise tags will be displayed.
 
         Returns:
             List -- of filtered and formatted ProjectPages
@@ -293,8 +293,10 @@ class ProjectPage(BasePage):
         if projects:
             return self._format_projects_for_gallery(projects)
 
-        subjects = self.subjects.values_list("subject_id")
-        projects = all_projects.filter(subjects__subject_id__in=subjects).distinct()
+        expertise = self.expertise.values_list("area_of_expertise_id")
+        projects = all_projects.filter(
+            expertise__area_of_expertise_id__in=expertise
+        ).distinct()
 
         if projects:
             return self._format_projects_for_gallery(projects)
@@ -324,11 +326,27 @@ class ProjectPage(BasePage):
         if realted_school:
             return realted_school.page
 
+    def get_expertise_linked_filters(self):
+        """ For the expertise taxonomy thats listed out in key details,
+        they need to link to the parent project picker page with a filter pre
+        selected"""
+        # Get parent page
+        parent_picker = ProjectPickerPage.objects.parent_of(self).live().first()
+        expertise = []
+        for i in self.expertise.all().select_related("area_of_expertise"):
+            if parent_picker:
+                expertise.append(
+                    {
+                        "title": i.area_of_expertise.title,
+                        "link": f"{parent_picker.url}?expertise={i.area_of_expertise.id}",
+                    }
+                )
+            else:
+                expertise.append({"title": i.area_of_expertise.title})
+        return expertise
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        subjects = []
-        for i in self.subjects.all():
-            subjects.append({"title": i.subject.title, "link": "TODO"})
         taxonomy_tags = []
         if self.related_school_pages:
             for i in self.related_school_pages.all():
@@ -340,7 +358,7 @@ class ProjectPage(BasePage):
             for i in self.research_types.all():
                 taxonomy_tags.append({"title": i.research_type.title})
 
-        context["subjects"] = subjects
+        context["expertise"] = self.get_expertise_linked_filters()
         context["project_lead"] = self.project_lead.select_related("image")
         context["related_staff"] = self.related_staff.select_related("image")
         context["taxonomy_tags"] = taxonomy_tags
@@ -369,7 +387,7 @@ class ProjectPickerPage(BasePage):
         # Build a list of filter values that will return results.
         project_filter_field_mapping = {
             "type": "research_types__research_type_id",
-            "subject": "subjects__subject_id",
+            "expertise": "expertise__area_of_expertise_id",
             "school": "related_school_pages__page_id",
             "centre": "related_research_pages__page_id",
         }
@@ -379,7 +397,7 @@ class ProjectPickerPage(BasePage):
         # a list of IDs.
         # Example: {
         #     'type': [1,2],
-        #     'subject': [4,8],
+        #     'expertise': [4,8],
         #     'school': [],
         #     'centre': [11,17],
         # }
@@ -393,7 +411,7 @@ class ProjectPickerPage(BasePage):
                 if item[filter_field] is not None
             ]
 
-        from rca.programmes.models import Subject
+        from rca.people.models import AreaOfExpertise
         from rca.research.models import ResearchCentrePage
         from rca.schools.models import SchoolPage
 
@@ -402,45 +420,49 @@ class ProjectPickerPage(BasePage):
         research_types = {
             "tab_title": "Research type",
             "filter_name": "type",
-            "children": [],
+            "options": [],
         }
         for i in ResearchType.objects.filter(id__in=used_filter_values["type"]):
-            research_types["children"].append(
+            research_types["options"].append(
                 {
                     "id": i.id,
                     "title": i.title,
                     "active": str(i.id) in active_filters["type"],
                 }
             )
-        # Only add if there are children.
-        if research_types["children"]:
+        # Only add if there are options.
+        if research_types["options"]:
             filters["items"].append(research_types)
 
-        subjects = {"tab_title": "Subjects", "filter_name": "subject", "children": []}
+        expertise = {
+            "tab_title": "Expertise",
+            "filter_name": "expertise",
+            "options": [],
+        }
 
-        for i in Subject.objects.filter(id__in=used_filter_values["subject"]):
-            subjects["children"].append(
+        for i in AreaOfExpertise.objects.filter(id__in=used_filter_values["expertise"]):
+            expertise["options"].append(
                 {
                     "id": i.id,
                     "title": i.title,
-                    "active": str(i.id) in active_filters["subject"],
+                    "active": str(i.id) in active_filters["expertise"],
                 }
             )
         # Only add if there are children.
-        if subjects["children"]:
-            filters["items"].append(subjects)
+        if expertise["options"]:
+            filters["items"].append(expertise)
 
         school_or_centre = {
             "tab_title": "School or centre",
             "filter_name": "school_or_centre",
-            "children": [],
+            "options": [],
         }
         for i in (
             SchoolPage.objects.live()
             .public()
             .filter(id__in=used_filter_values["school"])
         ):
-            school_or_centre["children"].append(
+            school_or_centre["options"].append(
                 {
                     "id": i.id,
                     "title": i.title,
@@ -452,15 +474,15 @@ class ProjectPickerPage(BasePage):
             .public()
             .filter(id__in=used_filter_values["centre"])
         ):
-            school_or_centre["children"].append(
+            school_or_centre["options"].append(
                 {
                     "id": i.id,
                     "title": i.title,
                     "active": str(i.id) in active_filters["school_or_centre"],
                 }
             )
-        # Only add if there are children.
-        if school_or_centre["children"]:
+        # Only add if there are options.
+        if school_or_centre["options"]:
             filters["items"].append(school_or_centre)
 
         return filters
@@ -492,7 +514,7 @@ class ProjectPickerPage(BasePage):
     def get_active_filters(self, request):
         return {
             "type": request.GET.getlist("type"),
-            "subject": request.GET.getlist("subject"),
+            "expertise": request.GET.getlist("expertise"),
             "school_or_centre": request.GET.getlist("school_or_centre"),
         }
 
@@ -514,7 +536,7 @@ class ProjectPickerPage(BasePage):
     def get_results(self, request, projects_query, active_filters):
         # Request filters
         research_types = active_filters["type"]
-        subjects = active_filters["subject"]
+        expertise = active_filters["expertise"]
         school_or_centre = active_filters["school_or_centre"]
 
         if research_types:
@@ -522,8 +544,10 @@ class ProjectPickerPage(BasePage):
                 research_types__research_type_id__in=research_types
             )
 
-        if subjects:
-            projects_query = projects_query.filter(subjects__subject_id__in=subjects)
+        if expertise:
+            projects_query = projects_query.filter(
+                expertise__area_of_expertise_id__in=expertise
+            )
 
         if school_or_centre:
             projects_query = projects_query.filter(
@@ -538,7 +562,7 @@ class ProjectPickerPage(BasePage):
         active_filters = self.get_active_filters(request)
 
         # Send all the query params through to the context so they can be added
-        # to the pager links, E.G type=1&type=2&subject=1...
+        # to the pager links, E.G type=1&type=2&expertise=1...
         context["extra_query_params"] = self.get_extra_query_params(
             request, active_filters
         )
@@ -571,7 +595,4 @@ class ProjectPickerPage(BasePage):
 
         context["results"] = project_results
         context["results_count"] = paginator.count
-
-        context["reset"] = {"href": self.get_full_url(), "text": "Reset"}
-
         return context

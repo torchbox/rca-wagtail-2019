@@ -122,6 +122,19 @@ class ProjectFilters {
         } else {
             this.CategorySelected(filter);
         }
+
+        // check for active filters
+        const filtersAreActive = [...this.categoryButtons].some((button) =>
+            button.classList.contains('categories-tablist__tab--selected'),
+        );
+
+        if (filtersAreActive) {
+            // add active class to mobile button if so
+            this.mobileLauncher.classList.add('active');
+        } else {
+            // remove if not
+            this.mobileLauncher.classList.remove('active');
+        }
     }
 
     checkResetStatus() {

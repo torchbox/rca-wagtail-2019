@@ -13,7 +13,6 @@
 {% block content %}
 
     <div class="page page--no-hero" typeof="schema:Person">
-
         <header class="page__header bg bg--dark">
             <div class="title-area title-area--staff-detail grid">
                 {% if page.profile_image %}
@@ -38,9 +37,9 @@
                         {% endif %}
                     {% endif %}
 
-                    {% if page.job_title %}
+                    {% if roles %}
                         <div class="title-area__job-titles">
-                            {% include "patterns/molecules/job-titles/job-titles.html" with job_title=page.job_title %}
+                            {% include "patterns/molecules/job-titles/job-titles.html" with job_titles=roles %}
                         </div>
                     {% endif %}
 
@@ -138,8 +137,8 @@
             </section>
 
             <section class="section section--top-space bg bg--light">
-                {% if page.related_students %}
-                    {% include "patterns/organisms/student-listing/student-listing.html" with student_listing=page.related_students %}
+                {% if related_students %}
+                    {% include "patterns/organisms/student-listing/student-listing-api.html" with student_listing=related_students %}
                 {% endif %}
 
                 {% if page.related_links %}

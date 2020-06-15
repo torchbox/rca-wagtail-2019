@@ -1,0 +1,10 @@
+context:
+  page:
+    title: Our People
+    introduction: Lorem ipsum dolor sit amet, consectetur adipiscing elit lorem. Cras ultrices tincidunt quam ac convallis.
+    filters:
+      title: Filter by
+      items:
+        - { title: School & Centre, href: '#' }
+        - { title: Directorates, href: '#' }
+        - { title: Programme, href: '#' }
