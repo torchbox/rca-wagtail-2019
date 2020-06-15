@@ -1,10 +1,7 @@
 context:
   areas:
-    - item:
-      area_of_expertise: { title: 'AI', link: '#' }
-    - item:
-      area_of_expertise: { title: 'Robotics', link: '#' }
-    - item:
-      area_of_expertise: { title: 'Vehicle Design', link: '#' }
+    - { title: 'AI', link: '#' }
+    - { title: 'Robotics', link: '#' }
+    - { title: 'Vehicle Design', link: '#' }
   related_schools:
     - page: { title: 'School of Communication', url: '#' }

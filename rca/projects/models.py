@@ -333,7 +333,7 @@ class ProjectPage(BasePage):
         # Get parent page
         parent_picker = ProjectPickerPage.objects.parent_of(self).live().first()
         expertise = []
-        for i in self.expertise.all():
+        for i in self.expertise.all().select_related("area_of_expertise"):
             if parent_picker:
                 expertise.append(
                     {
