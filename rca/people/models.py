@@ -274,18 +274,20 @@ class StaffPage(BasePage):
         for student in self.legacy_related_students:
             item = student
             fullname = student["name"].split(" ")
-            item["first_name"] = fullname[0]
+            item["first_name"] = fullname[0].title()
             # In case we encounter tripple names
-            item["surname"] = " ".join(fullname[1:])
+            item["surname"] = " ".join(fullname[1:]).title()
             students.append(item)
 
         # Format the students added at the page level
         for student in self.related_students_manual.all():
-            item = {}
-            item["first_name"] = student.first_name
-            item["surname"] = student.surname
-            item["status"] = student.status
-            item["link"] = student.link
+            item = {
+                "first_name": student.first_name.title(),
+                "surname": student.surname.title(),
+                "status": student.status,
+                "link": student.link,
+            }
+
             students.append(item)
 
         # Sort students by surname
