@@ -457,11 +457,7 @@ class ProjectPickerPage(BasePage):
             "filter_name": "school_or_centre",
             "options": [],
         }
-        for i in (
-            SchoolPage.objects.live()
-            .public()
-            .filter(id__in=used_filter_values["school"])
-        ):
+        for i in SchoolPage.objects.live().filter(id__in=used_filter_values["school"]):
             school_or_centre["options"].append(
                 {
                     "id": i.id,
