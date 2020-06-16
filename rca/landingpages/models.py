@@ -245,6 +245,7 @@ class LandingPage(LegacyNewsAndEventsMixin, BasePage):
             [
                 FieldPanel("highlights_title"),
                 InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
+                PageChooserPanel("highlights_page_link"),
             ],
             heading=_("Featured projects"),
         ),
