@@ -629,7 +629,7 @@ class SitewideAlertSetting(BaseSetting):
     )
     message = RichTextField(
         help_text="The message to be shown to all users across the site",
-        features=["h2", "h3", "bold", "italic", "ul", "ol", "link"],
+        features=["h2", "h3", "bold", "italic", "link"],
     )
 
     panels = [FieldPanel("show_alert"), FieldPanel("message")]
