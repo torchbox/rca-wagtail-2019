@@ -292,17 +292,17 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
         for value in self.research_news.select_related("page"):
             if value.page.live:
                 page = value.page.specific
-                page_type = None
+                project_type = "PROJECT"
+                if hasattr(page, "research_types") and page.research_types.first():
+                    project_type = page.research_types.first().research_type.title
                 page_type_mapping = {
                     "GuidePage": "GUIDE",
-                    "ProjectPage": "PROJECT",
+                    "ProjectPage": project_type,
                     "ResearchCentrePage": "RESEARCH CENTRE",
                     "ShortCoursePage": "SHORT COURSE",
                     "ProgrammePage": "PROGRAMME",
                 }
-                if page.__class__.__name__ in page_type_mapping:
-                    page_type = page_type_mapping[page.__class__.__name__]
-
+                page_type = page_type_mapping.get(page.__class__.__name__, None)
                 research_news["slides"].append(
                     {
                         "value": {
