@@ -63,7 +63,7 @@ class ProjectPageRelatedSchoolPage(RelatedPage):
     panels = [PageChooserPanel("page", "schools.SchoolPage")]
 
 
-class ProjectPageResearchTypePlacement(models.Model):
+class ProjectPageResearchTypePlacement(Orderable):
     page = ParentalKey("ProjectPage", related_name="research_types")
     research_type = models.ForeignKey(
         ResearchType,
