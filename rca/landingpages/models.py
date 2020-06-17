@@ -179,6 +179,9 @@ class LandingPage(LegacyNewsAndEventsMixin, BasePage):
     highlights_title = models.TextField(
         max_length=80, blank=True, help_text=_("Maximum length of 80 characters")
     )
+    highlights_page_link_title = models.TextField(
+        max_length=120, blank=True, help_text=_("The text do display for the link")
+    )
     highlights_page_link = models.ForeignKey(
         "wagtailcore.Page",
         null=True,
@@ -245,6 +248,8 @@ class LandingPage(LegacyNewsAndEventsMixin, BasePage):
             [
                 FieldPanel("highlights_title"),
                 InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
+                PageChooserPanel("highlights_page_link"),
+                FieldPanel("highlights_page_link_title"),
             ],
             heading=_("Featured projects"),
         ),
@@ -441,6 +446,7 @@ class ResearchLandingPage(LandingPage):
                 FieldPanel("highlights_title"),
                 InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
                 PageChooserPanel("highlights_page_link"),
+                FieldPanel("highlights_page_link_title"),
             ],
             heading=_("Featured projects"),
         ),
@@ -514,6 +520,7 @@ class InnovationLandingPage(LandingPage):
                 FieldPanel("highlights_title"),
                 InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
                 PageChooserPanel("highlights_page_link"),
+                FieldPanel("highlights_page_link_title"),
             ],
             heading=_("Featured projects"),
         ),
