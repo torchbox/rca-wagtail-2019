@@ -11,7 +11,7 @@ from rca.utils.models import ResearchType
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("utils", "0014_auto_20200617_1709"),
+        ("utils", "0014_add_research_type_slug"),
         ("projects", "0014_make_research_type_orderable"),
     ]
 
