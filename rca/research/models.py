@@ -107,15 +107,21 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
     video = models.URLField(blank=True)
 
     primary_staff_url = models.URLField(
-        blank=True, help_text=_("The external URL to the staff member page")
+        blank=True,
+        help_text=_("The external URL to the staff member page"),
+        verbose_name=_("Head of centre URL"),
     )
     primary_staff_name = models.CharField(
-        blank=True, max_length=250, help_text=_("The name of the staff member")
+        blank=True,
+        max_length=250,
+        help_text=_("The name of the staff member"),
+        verbose_name=_("Head of centre full name"),
     )
     primary_staff_role = models.CharField(
         blank=True,
         max_length=120,
         help_text=_("The role of the staff member, E.G 'Head of Programme'"),
+        verbose_name=_("Head of centre role"),
     )
     centre_address = RichTextField(blank=True, features=["link"])
     centre_tel = PhoneNumberField(blank=True)
@@ -194,7 +200,7 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
         MultiFieldPanel(
             [
                 FieldPanel("more_research_centre_content_title"),
-                InlinePanel("research_news", label="Research news"),
+                InlinePanel("research_news", label="Research guides"),
             ],
             heading="More research centre content",
         ),
