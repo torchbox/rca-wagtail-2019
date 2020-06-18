@@ -149,7 +149,11 @@ class StaffPage(BasePage):
     legacy_staff_id = models.IntegerField(
         null=True,
         blank=True,
-        help_text=_("Add the legacy staff page ID here to show related students"),
+        help_text=_(
+            "Add the legacy staff page ID here to show related students. "
+            "This can be found by editing the page on the legacy site and copying "
+            "the number from the URL, E.G, /admin/pages/3365/edit"
+        ),
     )
 
     key_details_panels = [
