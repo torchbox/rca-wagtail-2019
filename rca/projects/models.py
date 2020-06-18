@@ -2,6 +2,7 @@ from collections import defaultdict
 from urllib.parse import urlencode
 
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
@@ -23,12 +24,16 @@ from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
+from rca.people.models import AreaOfExpertise
+from rca.research.models import ResearchCentrePage
+from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
     AccordionBlockWithTitle,
     GalleryBlock,
     LinkBlock,
     QuoteBlock,
 )
+from rca.utils.filter import TabStyleFilter
 from rca.utils.models import (
     HERO_COLOUR_CHOICES,
     BasePage,
@@ -339,7 +344,7 @@ class ProjectPage(BasePage):
                 expertise.append(
                     {
                         "title": i.area_of_expertise.title,
-                        "link": f"{parent_picker.url}?expertise={i.area_of_expertise.id}",
+                        "link": f"{parent_picker.url}?expertise={i.area_of_expertise.slug}",
                     }
                 )
             else:
@@ -384,107 +389,21 @@ class ProjectPickerPage(BasePage):
         PageChooserPanel("featured_project"),
     ]
 
-    def get_filters(self, active_filters, projects_query):
-        # Build a list of filter values that will return results.
-        project_filter_field_mapping = {
-            "type": "research_types__research_type_id",
-            "expertise": "expertise__area_of_expertise_id",
-            "school": "related_school_pages__page_id",
-            "centre": "related_research_pages__page_id",
+    def get_active_filters(self, request):
+        return {
+            "type": request.GET.getlist("research-type"),
+            "expertise": request.GET.getlist("expertise"),
+            "school_or_centre": request.GET.getlist("school-or-centre"),
         }
 
-        # used_filter_values will equal a dictionary with the same keys as
-        # project_filter_field_mapping and the values of each item will be
-        # a list of IDs.
-        # Example: {
-        #     'type': [1,2],
-        #     'expertise': [4,8],
-        #     'school': [],
-        #     'centre': [11,17],
-        # }
-        used_filter_values = {}
-        for project_filter, filter_field in project_filter_field_mapping.items():
-            used_filter_values[project_filter] = [
-                item[filter_field]
-                for item in projects_query.order_by(filter_field)
-                .values(filter_field)
-                .distinct(filter_field)
-                if item[filter_field] is not None
-            ]
+    def get_extra_query_params(self, request, active_filters):
+        extra_query_params = []
+        for filter_name in active_filters:
+            for filter_id in active_filters[filter_name]:
+                extra_query_params.append(urlencode({filter_name: filter_id}))
+        return extra_query_params
 
-        from rca.people.models import AreaOfExpertise
-        from rca.research.models import ResearchCentrePage
-        from rca.schools.models import SchoolPage
-
-        filters = {"title": "Filter by", "items": []}
-
-        research_types = {
-            "tab_title": "Research type",
-            "filter_name": "type",
-            "options": [],
-        }
-        for i in ResearchType.objects.filter(id__in=used_filter_values["type"]):
-            research_types["options"].append(
-                {
-                    "id": i.id,
-                    "title": i.title,
-                    "active": str(i.id) in active_filters["type"],
-                }
-            )
-        # Only add if there are options.
-        if research_types["options"]:
-            filters["items"].append(research_types)
-
-        expertise = {
-            "tab_title": "Expertise",
-            "filter_name": "expertise",
-            "options": [],
-        }
-
-        for i in AreaOfExpertise.objects.filter(id__in=used_filter_values["expertise"]):
-            expertise["options"].append(
-                {
-                    "id": i.id,
-                    "title": i.title,
-                    "active": str(i.id) in active_filters["expertise"],
-                }
-            )
-        # Only add if there are children.
-        if expertise["options"]:
-            filters["items"].append(expertise)
-
-        school_or_centre = {
-            "tab_title": "School or Centre",
-            "filter_name": "school_or_centre",
-            "options": [],
-        }
-        for i in SchoolPage.objects.live().filter(id__in=used_filter_values["school"]):
-            school_or_centre["options"].append(
-                {
-                    "id": i.id,
-                    "title": i.title,
-                    "active": str(i.id) in active_filters["school_or_centre"],
-                }
-            )
-        for i in (
-            ResearchCentrePage.objects.live()
-            .public()
-            .filter(id__in=used_filter_values["centre"])
-        ):
-            school_or_centre["options"].append(
-                {
-                    "id": i.id,
-                    "title": i.title,
-                    "active": str(i.id) in active_filters["school_or_centre"],
-                }
-            )
-        # Only add if there are options.
-        if school_or_centre["options"]:
-            filters["items"].append(school_or_centre)
-
-        return filters
-
-    def _format_results(self, projects):
+    def _format_projects(self, projects):
         """ Prepares the queryset into a digestable list for the template """
         projects_formatted = []
         for page in projects:
@@ -508,88 +427,124 @@ class ProjectPickerPage(BasePage):
             )
         return projects_formatted
 
-    def get_active_filters(self, request):
-        return {
-            "type": request.GET.getlist("type"),
-            "expertise": request.GET.getlist("expertise"),
-            "school_or_centre": request.GET.getlist("school_or_centre"),
-        }
+    def get_base_queryset(self):
+        return ProjectPage.objects.child_of(self).live().order_by("title")
 
-    def get_extra_query_params(self, request, active_filters):
-        extra_query_params = []
-        for filter_name in active_filters:
-            for filter_id in active_filters[filter_name]:
-                extra_query_params.append(urlencode({filter_name: filter_id}))
-        return extra_query_params
-
-    def get_projects_query(self):
-        return (
-            ProjectPage.objects.live()
-            .public()
-            .descendant_of(self, inclusive=True)
-            .select_related("hero_image")
-        )
-
-    def get_results(self, request, projects_query, active_filters):
-        # Request filters
-        research_types = active_filters["type"]
-        expertise = active_filters["expertise"]
-        school_or_centre = active_filters["school_or_centre"]
-
-        if research_types:
-            projects_query = projects_query.filter(
-                research_types__research_type_id__in=research_types
-            )
-
-        if expertise:
-            projects_query = projects_query.filter(
-                expertise__area_of_expertise_id__in=expertise
-            )
-
-        if school_or_centre:
-            projects_query = projects_query.filter(
-                models.Q(related_school_pages__page_id__in=school_or_centre)
-                | models.Q(related_research_pages__page_id__in=school_or_centre)
-            )
-        return self._format_results(projects_query.distinct())
+    def modify_results(self, paginator_page, request):
+        for obj in paginator_page.object_list:
+            # providing request to get_url() massively improves
+            # url generation efficiency, as values are cached
+            # on the request
+            obj.link = obj.get_url(request)
+            obj.image = obj.hero_image
+            obj.school = obj.get_related_school
 
     def get_context(self, request, *args, **kwargs):
-        page = request.GET.get("page", 1)
         context = super().get_context(request, *args, **kwargs)
-        active_filters = self.get_active_filters(request)
 
-        # Send all the query params through to the context so they can be added
-        # to the pager links, E.G type=1&type=2&expertise=1...
-        context["extra_query_params"] = self.get_extra_query_params(
-            request, active_filters
+        base_queryset = self.get_base_queryset()
+        queryset = base_queryset.all()
+
+        filters = (
+            TabStyleFilter(
+                "Research type",
+                queryset=(
+                    ResearchType.objects.filter(
+                        id__in=base_queryset.values_list(
+                            "research_types__research_type_id", flat=True
+                        )
+                    )
+                ),
+                filter_by="research_types__research_type__slug__in",  # Filter by slug here
+                option_value_field="slug",
+            ),
+            TabStyleFilter(
+                "Expertise",
+                queryset=(
+                    AreaOfExpertise.objects.filter(
+                        id__in=base_queryset.values_list(
+                            "expertise__area_of_expertise_id", flat=True
+                        )
+                    )
+                ),
+                filter_by="expertise__area_of_expertise__slug__in",  # Filter by slug here
+                option_value_field="slug",
+            ),
+            TabStyleFilter(
+                "School or Centre",
+                queryset=(
+                    Page.objects.live()
+                    .filter(
+                        content_type__in=list(
+                            ContentType.objects.get_for_models(
+                                SchoolPage, ResearchCentrePage
+                            ).values()
+                        )
+                    )
+                    .filter(
+                        models.Q(
+                            id__in=base_queryset.values_list(
+                                "related_school_pages__page_id", flat=True
+                            )
+                        )
+                        | models.Q(
+                            id__in=base_queryset.values_list(
+                                "related_research_pages__page_id", flat=True
+                            )
+                        )
+                    )
+                ),
+                filter_by=(
+                    "related_school_pages__page__slug__in",
+                    "related_research_pages__page__slug__in",  # Filter by slug here
+                ),
+                option_value_field="slug",
+            ),
         )
 
-        # Unfiltered Projects query.
-        projects_query = self.get_projects_query()
+        # Apply filters
+        for f in filters:
+            queryset = f.apply(queryset, request.GET)
 
-        context["filters"] = self.get_filters(active_filters, projects_query)
-        if self.featured_project:
-            context["featured_project"] = self._format_results([self.featured_project])[
-                0
-            ]
+        # Paginate filtered queryset
+        per_page = settings.DEFAULT_PER_PAGE
+        page_number = request.GET.get("page")
+        paginator = Paginator(queryset, per_page)
+        try:
+            results = paginator.page(page_number)
+        except PageNotAnInteger:
+            results = paginator.page(1)
+        except EmptyPage:
+            results = paginator.page(paginator.num_pages)
+
+        # Set additional attributes etc
+        self.modify_results(results, request)
+
+        # Finalise and return context
+        context.update(
+            hero_colour="light",
+            filters={
+                "title": "Filter by",
+                "aria_label": "Filter results",
+                "items": filters,
+            },
+            results=results,
+            result_count=paginator.count,
+        )
 
         # Don't show the featured project if queries are being made
         # or we aren't on the first page of the results
         context["show_featured_project"] = True
-        if context["extra_query_params"] or str(page) != "1":
+        extra_query_params = self.get_extra_query_params(
+            request, self.get_active_filters(request)
+        )
+        print(self.get_active_filters(request))
+        if self.featured_project:
+            context["featured_project"] = self._format_projects(
+                [self.featured_project]
+            )[0]
+        print(extra_query_params)
+        if extra_query_params or (page_number and page_number != "1"):
             context["show_featured_project"] = False
 
-        project_results = self.get_results(request, projects_query, active_filters)
-
-        # Pagination
-        paginator = Paginator(project_results, settings.DEFAULT_PER_PAGE)
-        try:
-            project_results = paginator.page(page)
-        except PageNotAnInteger:
-            project_results = paginator.page(1)
-        except EmptyPage:
-            project_results = paginator.page(paginator.num_pages)
-
-        context["results"] = project_results
-        context["results_count"] = paginator.count
         return context

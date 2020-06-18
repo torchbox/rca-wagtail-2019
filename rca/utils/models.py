@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.html import format_html
+from django.utils.text import slugify
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import ItemBase, TagBase
@@ -615,9 +616,14 @@ class ShortCourseDetailSnippet(models.Model):
 class ResearchType(models.Model):
     title = models.CharField(max_length=128)
     description = models.CharField(max_length=500, blank=True)
+    slug = models.SlugField(blank=True)
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(ResearchType, self).save(*args, **kwargs)
 
 
 @register_setting
