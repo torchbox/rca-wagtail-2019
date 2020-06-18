@@ -202,10 +202,7 @@ class ShortCoursePage(BasePage):
         FieldPanel("programme_type"),
         StreamFieldPanel("quote_carousel"),
         MultiFieldPanel(
-            [
-                FieldPanel("staff_title"),
-                InlinePanel("related_staff", label="Team members"),
-            ],
+            [FieldPanel("staff_title"), InlinePanel("related_staff", label="Staff")],
             heading="Short course team",
         ),
         StreamFieldPanel("gallery"),
