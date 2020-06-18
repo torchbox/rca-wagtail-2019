@@ -13,14 +13,4 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="researchtype", name="slug", field=models.SlugField(blank=True),
         ),
-        migrations.AlterField(
-            model_name="legacysitetag",
-            name="name",
-            field=models.CharField(max_length=100, unique=True, verbose_name="Name"),
-        ),
-        migrations.AlterField(
-            model_name="legacysitetag",
-            name="slug",
-            field=models.SlugField(max_length=100, unique=True, verbose_name="Slug"),
-        ),
     ]
