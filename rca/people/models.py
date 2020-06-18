@@ -73,7 +73,10 @@ class StaffRole(Orderable):
 class StaffPageAreOfExpertisePlacement(models.Model):
     page = ParentalKey("StaffPage", related_name="related_area_of_expertise")
     area_of_expertise = models.ForeignKey(
-        AreaOfExpertise, on_delete=models.CASCADE, related_name="related_staff"
+        AreaOfExpertise,
+        on_delete=models.CASCADE,
+        related_name="related_staff",
+        verbose_name=_("Areas of expertise"),
     )
     panels = [FieldPanel("area_of_expertise")]
 
@@ -386,7 +389,7 @@ class StaffIndexPage(BasePage):
 
         filters = (
             TabStyleFilter(
-                "School & Centre",
+                "School or Centre",
                 queryset=(
                     Page.objects.live()
                     .filter(
@@ -415,7 +418,7 @@ class StaffIndexPage(BasePage):
                 ),
             ),
             TabStyleFilter(
-                "Directorates",
+                "Area",
                 queryset=(
                     AreaOfExpertise.objects.filter(
                         id__in=base_queryset.values_list(
