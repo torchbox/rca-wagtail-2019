@@ -226,7 +226,7 @@ class ShortCoursePage(BasePage):
             [
                 InlinePanel(
                     "related_schools_and_research_pages",
-                    label=_("Related Schools and Research centres"),
+                    label=_("Related Schools and Research centre pages"),
                 )
             ],
             heading=_("Related Schools and Research Centre pages"),
@@ -315,7 +315,7 @@ class ShortCoursePage(BasePage):
                     booking_bar["message"] = "Next course starts"
                     booking_bar["date"] = date["start_date"]
                     booking_bar["action"] = (
-                        "Complete form to apply"
+                        "Submit form to apply"
                         if self.application_form_url
                         else f"Book now from \xA3{date['cost']}"
                     )
