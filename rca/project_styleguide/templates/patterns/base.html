@@ -22,8 +22,7 @@
         {% block body_top %}{% endblock %}
 
         {% if settings.utils.SitewideAlertSetting.show_alert %}
-            {# Show the sitewide alert message #}
-            {{ settings.utils.SitewideAlertSetting.message|richtext }}
+            {% include "patterns/molecules/sitewide-alert/sitewide-alert.html" %}
         {% endif %}
 
         {% include "patterns/molecules/outdated-banner/outdated-banner.html" %}

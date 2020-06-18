@@ -14,6 +14,7 @@ import RelatedContent from './components/related-content';
 import Tabs from './components/tabs';
 import Sticky from './components/position-sticky-event';
 import ActualHeight from './components/actual-height';
+import SitewideAlert from './components/sitewide-alert';
 import './components/sticky-header';
 import './components/lazyload-images';
 import './components/outdated-banner';
@@ -27,6 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
     /* eslint-disable no-new, no-restricted-syntax */
     const cookie = document.querySelector(CookieWarning.selector());
     new CookieWarning(cookie);
+
+    const sitewideAlert = document.querySelector(SitewideAlert.selector());
+    new SitewideAlert(sitewideAlert);
 
     for (const accordion of document.querySelectorAll(Accordion.selector())) {
         new Accordion(accordion);
