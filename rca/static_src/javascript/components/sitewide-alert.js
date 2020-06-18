@@ -8,7 +8,7 @@ class SitewideAlert {
     constructor(node) {
         this.node = node;
         this.closeButtons = this.node.querySelectorAll(
-            '[data-sitewide-alert-close]'
+            '[data-sitewide-alert-close]',
         );
         this.cookieName = 'sitewide-alert';
         this.cookieValue = 'disabled';
