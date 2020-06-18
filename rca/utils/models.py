@@ -397,7 +397,7 @@ class LegacySiteTaggedPage(ItemBase):
 
 class LegacyNewsAndEventsMixin(models.Model):
     legacy_news_and_event_tags = ClusterTaggableManager(
-        verbose_name="Legacy news and event tags",
+        verbose_name="Legacy news and events tags",
         help_text=(
             "Specify one or more tags to identify related news and events from "
             "the legacy site. A maximum of three items with the same combination "
