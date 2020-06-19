@@ -447,7 +447,7 @@ class ProjectPickerPage(BasePage):
 
         filters = (
             TabStyleFilter(
-                "Research type",
+                "Project type",
                 queryset=(
                     ResearchType.objects.filter(
                         id__in=base_queryset.values_list(
