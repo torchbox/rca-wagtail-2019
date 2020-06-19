@@ -472,7 +472,7 @@ class ResearchLandingPage(LandingPage):
             [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
             heading=_("Related page list"),
         ),
-        InlinePanel("featured_image", label=_("Featured image"), max_num=1),
+        InlinePanel("featured_image", label=_("Featured content"), max_num=1),
         MultiFieldPanel(
             [
                 FieldPanel("slideshow_title"),
