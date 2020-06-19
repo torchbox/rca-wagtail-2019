@@ -17,7 +17,7 @@ import Sticky from './components/position-sticky-event';
 import ActualHeight from './components/actual-height';
 import ProjectFilters from './components/project-filters';
 import AnchorNav from './components/anchor-nav';
-import SitewideAlert from './components/sitewide-alert';
+// import SitewideAlert from './components/sitewide-alert';
 import './components/sticky-header';
 import './components/lazyload-images';
 import './components/outdated-banner';
@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const cookie = document.querySelector(CookieWarning.selector());
     new CookieWarning(cookie);
 
-    const sitewideAlert = document.querySelector(SitewideAlert.selector());
-    new SitewideAlert(sitewideAlert);
+    // const sitewideAlert = document.querySelector(SitewideAlert.selector());
+    // new SitewideAlert(sitewideAlert);
 
     for (const accordion of document.querySelectorAll(Accordion.selector())) {
         new Accordion(accordion);
