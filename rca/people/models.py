@@ -341,7 +341,7 @@ class StaffPage(BasePage):
                 expertise.append(
                     {
                         "title": i.area_of_expertise.title,
-                        "link": f"{parent.url}?directorates={i.area_of_expertise.slug}",
+                        "link": f"{parent.url}?area={i.area_of_expertise.slug}",
                     }
                 )
             else:
