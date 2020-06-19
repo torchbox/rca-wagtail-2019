@@ -20,8 +20,8 @@
                 </div>
                 <div class="short-course-details-item__content rich-text">
                     {{ page.course_details_text|richtext }}
-                    {{ page.terms_and_conditions.content|safe }}
-                    {{ page.frequently_asked_questions.content|safe }}
+                    {{ page.terms_and_conditions.content|richtext }}
+                    {{ page.frequently_asked_questions.content|richtext }}
                 </div>
             </div>
         </div>
