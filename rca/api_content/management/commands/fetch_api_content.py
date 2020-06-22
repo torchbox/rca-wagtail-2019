@@ -24,5 +24,5 @@ class Command(BaseCommand):
             page.refetch_legacy_news_and_events()
 
         # Fetch related student data for staff pages
-        for page in StaffPage.objects.filter(legacy_staff_id__isnull=False):
+        for page in StaffPage.objects.filter(legacy_staff_id__isnull=False).live():
             page.fetch_related_students()
