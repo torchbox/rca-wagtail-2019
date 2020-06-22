@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils.functional import cached_property
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -34,9 +35,14 @@ from rca.utils.models import BasePage
 
 class AreaOfExpertise(models.Model):
     title = models.CharField(max_length=128)
+    slug = models.SlugField(blank=True)
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(AreaOfExpertise, self).save(*args, **kwargs)
 
 
 class StaffRole(Orderable):
@@ -335,7 +341,7 @@ class StaffPage(BasePage):
                 expertise.append(
                     {
                         "title": i.area_of_expertise.title,
-                        "link": f"{parent.url}?directorates={i.area_of_expertise.id}",
+                        "link": f"{parent.url}?area={i.area_of_expertise.slug}",
                     }
                 )
             else:
@@ -410,9 +416,10 @@ class StaffIndexPage(BasePage):
                     )
                 ),
                 filter_by=(
-                    "related_schools__page_id__in",
-                    "related_research_centre_pages__page_id__in",
+                    "related_schools__page__slug__in",
+                    "related_research_centre_pages__page__slug__in",  # Filter by slug here
                 ),
+                option_value_field="slug",
             ),
             TabStyleFilter(
                 "Directorates",
@@ -423,7 +430,8 @@ class StaffIndexPage(BasePage):
                         )
                     )
                 ),
-                filter_by="related_area_of_expertise__area_of_expertise_id__in",
+                filter_by="related_area_of_expertise__area_of_expertise__slug__in",  # Filter by slug here
+                option_value_field="slug",
             ),
             TabStyleFilter(
                 "Programme",
@@ -434,7 +442,8 @@ class StaffIndexPage(BasePage):
                         )
                     )
                 ),
-                filter_by="roles__programme_id__in",
+                filter_by="roles__programme__slug__in",
+                option_value_field="slug",
             ),
         )
 
