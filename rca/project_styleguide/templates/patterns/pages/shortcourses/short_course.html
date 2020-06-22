@@ -114,7 +114,7 @@
                 <section class="section section--top-space bg bg--light">
                     <div class="contact-anchor" id="contact"></div>
                     <div class="section__container">
-                        {% include "patterns/organisms/contact/contact.html" with heading="Contact us" text=page.contact_text image=page.contact_image %}
+                        {% include "patterns/organisms/contact/contact.html" with heading="Ask a question" text=page.contact_text image=page.contact_image %}
                     </div>
                 </section>
             {% endif %}
@@ -135,10 +135,9 @@
                     {% endif %}
                 </section>
             {% endif %}
-
-            {% if related_links %}
+            {% if page.external_links %}
                 <section class="section section--top-space bg bg--light booking-bar__last-item">
-                    {% include "patterns/organisms/related-links/related-links.html" with related_links=related_links title="More at the RCA" %}
+                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.external_links title="Related pages" %}
                 </section>
             {% endif %}
 

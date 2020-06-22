@@ -79,7 +79,10 @@ class StaffRole(Orderable):
 class StaffPageAreOfExpertisePlacement(models.Model):
     page = ParentalKey("StaffPage", related_name="related_area_of_expertise")
     area_of_expertise = models.ForeignKey(
-        AreaOfExpertise, on_delete=models.CASCADE, related_name="related_staff"
+        AreaOfExpertise,
+        on_delete=models.CASCADE,
+        related_name="related_staff",
+        verbose_name=_("Areas of expertise"),
     )
     panels = [FieldPanel("area_of_expertise")]
 
@@ -146,7 +149,11 @@ class StaffPage(BasePage):
     legacy_staff_id = models.IntegerField(
         null=True,
         blank=True,
-        help_text=_("Add the legacy staff page ID here to show related students"),
+        help_text=_(
+            "Add the legacy staff page ID here to show related students. "
+            "This can be found by editing the page on the legacy site and copying "
+            "the number from the URL, E.G, /admin/pages/3365/edit"
+        ),
     )
 
     key_details_panels = [
@@ -392,7 +399,7 @@ class StaffIndexPage(BasePage):
 
         filters = (
             TabStyleFilter(
-                "School & Centre",
+                "School or Centre",
                 queryset=(
                     Page.objects.live()
                     .filter(
@@ -422,7 +429,7 @@ class StaffIndexPage(BasePage):
                 option_value_field="slug",
             ),
             TabStyleFilter(
-                "Directorates",
+                "Area",
                 queryset=(
                     AreaOfExpertise.objects.filter(
                         id__in=base_queryset.values_list(

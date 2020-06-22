@@ -125,7 +125,7 @@ class ProjectPage(BasePage):
             ("link_block", LinkBlock()),
         ],
         blank=True,
-        verbose_name=_("General information about the project"),
+        verbose_name=_("Body copy"),
     )
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
@@ -136,6 +136,7 @@ class ProjectPage(BasePage):
         blank=True,
         related_name="+",
         on_delete=models.SET_NULL,
+        verbose_name=_("Project PDF"),
     )
 
     gallery = StreamField(

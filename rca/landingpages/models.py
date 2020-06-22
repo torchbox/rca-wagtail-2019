@@ -177,10 +177,16 @@ class LandingPage(LegacyNewsAndEventsMixin, BasePage):
         related_name="+",
     )
     highlights_title = models.TextField(
-        max_length=80, blank=True, help_text=_("Maximum length of 80 characters")
+        max_length=80,
+        blank=True,
+        help_text=_("Maximum length of 80 characters"),
+        verbose_name=_("Featured projects title"),
     )
     highlights_page_link_title = models.TextField(
-        max_length=120, blank=True, help_text=_("The text do display for the link")
+        max_length=120,
+        blank=True,
+        help_text=_("The text do display for the link"),
+        verbose_name=_("Featured projects link title"),
     )
     highlights_page_link = models.ForeignKey(
         "wagtailcore.Page",
@@ -188,6 +194,7 @@ class LandingPage(LegacyNewsAndEventsMixin, BasePage):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
+        verbose_name=_("Featured projects link"),
     )
 
     related_pages_title = models.TextField(
@@ -212,12 +219,22 @@ class LandingPage(LegacyNewsAndEventsMixin, BasePage):
         ),
     )
     page_list = StreamField([("page_list", RelatedPageListBlock())], blank=True)
-    cta_block = StreamField([("call_to_action", CallToActionBlock())], blank=True)
+    cta_block = StreamField(
+        [("call_to_action", CallToActionBlock(label=_("text promo")))],
+        blank=True,
+        verbose_name=_("Text promo"),
+    )
     slideshow_title = models.CharField(
-        max_length=125, help_text=_("Maximum length of 125 characters"), blank=True
+        max_length=125,
+        help_text=_("Maximum length of 125 characters"),
+        blank=True,
+        verbose_name=_("Related content title"),
     )
     slideshow_summary = models.CharField(
-        max_length=250, blank=True, help_text=_("Maximum length of 250 characters")
+        max_length=250,
+        blank=True,
+        help_text=_("Maximum length of 250 characters"),
+        verbose_name=_("Related content summary"),
     )
     contact_title = models.CharField(
         max_length=120, blank=True, help_text=_("Maximum length of 120 characters")
@@ -261,7 +278,7 @@ class LandingPage(LegacyNewsAndEventsMixin, BasePage):
             ],
             heading=_("Related pages grid"),
         ),
-        InlinePanel("featured_image", label=_("Featured image"), max_num=1),
+        InlinePanel("featured_image", label=_("Featured content"), max_num=1),
         FieldPanel("legacy_news_and_event_tags"),
         MultiFieldPanel(
             [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
@@ -455,14 +472,14 @@ class ResearchLandingPage(LandingPage):
             [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
             heading=_("Related page list"),
         ),
-        InlinePanel("featured_image", label=_("Featured image"), max_num=1),
+        InlinePanel("featured_image", label=_("Featured content"), max_num=1),
         MultiFieldPanel(
             [
                 FieldPanel("slideshow_title"),
                 FieldPanel("slideshow_summary"),
                 InlinePanel("slideshow_page", label=_("Page")),
             ],
-            heading=_("Slideshow"),
+            heading=_("Related content"),
         ),
         StreamFieldPanel("cta_block"),
         MultiFieldPanel(
@@ -507,7 +524,7 @@ class InnovationLandingPage(LandingPage):
         ),
         MultiFieldPanel(
             [InlinePanel("featured_image", label=_("Featured image"), max_num=1)],
-            heading=_("Highlight Image"),
+            heading=_("Featured content - top"),
         ),
         FieldPanel("legacy_news_and_event_tags"),
         MultiFieldPanel(
@@ -530,7 +547,7 @@ class InnovationLandingPage(LandingPage):
                     "featured_image_secondary", label=_("Featured image"), max_num=1
                 )
             ],
-            heading=_("Lower image feature"),
+            heading=_("Featured content - bottom"),
         ),
         MultiFieldPanel(
             [
