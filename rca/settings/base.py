@@ -168,11 +168,13 @@ DATABASES = {
 
 # Do not use the same Redis instance for other things like Celery!
 if "REDIS_URL" in env:
+    REDIS_FORCE_TLS = env.get("REDIS_FORCE_TLS", "true").lower() == "true"
+    REDIS_URL = env["REDIS_URL"]
+    if REDIS_FORCE_TLS:
+        REDIS_URL = REDIS_URL.replace("redis://", "rediss://")
+
     CACHES = {
-        "default": {
-            "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": env["REDIS_URL"],
-        }
+        "default": {"BACKEND": "django_redis.cache.RedisCache", "LOCATION": REDIS_URL}
     }
 else:
     CACHES = {
