@@ -62,7 +62,7 @@
                             {% if page.highlights_page_link %}
                                 <div class="section__action">
                                     <a class="link link--primary link--link body body--two" href="{% pageurl page.highlights_page_link %}">
-                                        <span class="link__label">{{ page.highlights_page_link.title }}</span>
+                                        <span class="link__label">{% firstof page.highlights_page_link_title page.highlights_page_link.title %}</span>
                                         <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                     </a>
                                 </div>

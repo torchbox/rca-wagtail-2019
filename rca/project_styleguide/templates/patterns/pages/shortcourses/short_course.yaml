@@ -25,9 +25,9 @@ context:
           author: 'Professor Jeremy Myerson'
     course_details_text: '<p>Early bird offer until 10 March 2020. Booking closes 18 March 2020 or when fully booked.</p>'
     terms_and_conditions:
-      body: '<p>Please be sure to read our <a href="http://facebook.com">Terms &amp; Conditions</a> before applying.</p>'
+      content: '<p>Please be sure to read our <a href="http://facebook.com">Terms &amp; Conditions</a> before applying.</p>'
     frequently_asked_questions:
-      body: '<p>For more information, please visit our <a href="https://google.com">FAQs</a> before applying.</p>'
+      content: '<p>For more information, please visit our <a href="https://google.com">FAQs</a> before applying.</p>'
     video_caption: Watch the course introduction
     introduction_image: True
     introduction: 'Understand the purpose of design thinking in promoting innovation and learn real-world applications and strategies for design thinking.'

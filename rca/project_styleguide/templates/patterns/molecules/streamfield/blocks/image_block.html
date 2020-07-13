@@ -1,7 +1,11 @@
 {% load wagtailimages_tags %}
 
 <div class="image image--full">
-    {% image value.image fill-880x660 as my_image %}
+    {% if guide_page %}
+        {% image value.image fill-828x470 as my_image %}
+    {% else %}
+        {% image value.image fill-880x660 as my_image %}
+    {% endif %}
     <img src="{{ my_image.url }}" width="{{ my_image.width }}" height="{{ my_image.height }}" alt="{{ my_image.image.alt}}" title="{{ my_image.image.title }}">
     {% if value.caption %}
         <p class="image-caption-link">{{ value.caption }}</p>
