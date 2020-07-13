@@ -1,5 +1,5 @@
 {% load wagtailcore_tags %}
 
 {% for block in value %}
-    {% include_block block %}
+    {% include_block block with guide_page=guide_page %}
 {% endfor %}
