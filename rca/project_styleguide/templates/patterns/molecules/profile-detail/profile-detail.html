@@ -21,9 +21,11 @@
 
     <div class="profile-detail__content">
         <div class="profile-detail__overview">
-            <div class="profile-detail__header">
-                <h3 class="profile-detail__heading heading heading--five">{{ item.first_name }} {{ item.surname }}</h3>
-            </div>
+            {% if item.first_name %}
+                <div class="profile-detail__header">
+                    <h3 class="profile-detail__heading heading heading--five">{{ item.first_name }} {{ item.surname }}</h3>
+                </div>
+            {% endif %}
             <h4 class="profile-detail__job-title body body--one">{{ item.role }}</h4>
         </div>
         <div class="profile-detail__more">

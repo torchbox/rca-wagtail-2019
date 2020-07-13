@@ -35,6 +35,7 @@
                                 data-menu="{{ forloop.counter }}"
                                 data-menu-id={{ forloop.counter }}
                                 {% if link.secondary_links %}data-menu-parent{% endif %}
+                                role="menuitem"
                             >
                                 <span>{{ link.text }}</span>
                             </a>
@@ -49,6 +50,7 @@
                                     data-menu="{{ forloop.counter }}"
                                     data-menu-id={{ forloop.counter }}
                                     {% if link.secondary_links %}data-menu-parent{% endif %}
+                                    aria-label="{{ link.text }} submenu"
                                 >
                                     <svg class="nav__icon" width="15" height="15"><use xlink:href="#chevron"></use></svg>
                                 </a>
@@ -81,6 +83,7 @@
                                     data-menu-id="{{ forloop.parentloop.counter}}-{{ forloop.counter }}"
                                     data-menu="{{ forloop.parentloop.counter }}-{{ forloop.counter }}"
                                     {% if item.tertiary_links %}data-menu-parent{% endif %}
+                                    role="menuitem"
                                 >
                                     <span>{{ item.text }}</span>
                                 </a>
@@ -97,6 +100,7 @@
                                         data-menu-id="{{ forloop.parentloop.counter}}-{{ forloop.counter }}"
                                         data-menu="{{ forloop.parentloop.counter }}-{{ forloop.counter }}"
                                         {% if item.tertiary_links %}data-menu-parent{% endif %}
+                                        aria-label="{{ link.text }} submenu"
                                     >
                                         <svg class="nav__icon" width="15" height="15"><use xlink:href="#chevron"></use></svg>
                                     </a>
@@ -125,6 +129,7 @@
                                             data-menu="{{ forloop.parentloop.parentloop.counter }}"
                                             data-menu-id="{{ forloop.parentloop.parentloop.counter }}-{{ forloop.parentloop.counter }}-{{ forloop.counter }}"
                                             data-parent-id="{{ forloop.parentloop.parentloop.counter }}-{{ forloop.parentloop.counter }}"
+                                            role="menuitem"
                                         >
                                             <span>{{ tertiary_item.text }}</span>
                                         </a>

@@ -8,7 +8,9 @@
     {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=829 height=585 image_large=image_large classList='slide__image' %}
 
     <div class="slide__meta">
-        <h2 class="slide__heading">{{ slide.title }}</h2>
+        {% if slide.title %}
+            <h2 class="slide__heading">{{ slide.title }}</h2>
+        {% endif %}
         {% if slide.author %}
             <div class="slide__author-info">
                 {% if slide.link %}
