@@ -33,7 +33,7 @@
         </header>
 
         {% if booking_bar %}
-            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=booking_bar modal=booking_bar.modal %}
+            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=booking_bar modal=booking_bar.modal modal_aria_label="booking-details-title" %}
         {% endif %}
 
         <div class="page__content js-sticky-point js-sticky-point--bottom">
