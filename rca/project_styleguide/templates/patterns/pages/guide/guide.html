@@ -51,7 +51,7 @@
 
                 <div class="section__row {% if not related_staff %}section__row--last{% endif %} section__row--first grid">
                     <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                        {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body %}
+                        {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body guide_page=True %}
                     </div>
                 </div>
 
