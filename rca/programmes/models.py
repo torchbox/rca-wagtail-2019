@@ -138,7 +138,13 @@ class ProgrammePageCareerOpportunities(Orderable):
 
 
 class ProgramPageRelatedStaff(Orderable):
-    # In a future phase, this will become a related page
+    page = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
     source_page = ParentalKey("ProgrammePage", related_name="related_staff")
     image = models.ForeignKey(
         get_image_model_string(),
@@ -147,11 +153,12 @@ class ProgramPageRelatedStaff(Orderable):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    name = models.CharField(max_length=125)
+    name = models.CharField(max_length=125, blank=True)
     role = models.CharField(max_length=125, blank=True)
     description = models.TextField(blank=True)
     link = models.URLField(blank=True)
     panels = [
+        PageChooserPanel("page", page_type="people.StaffPage"),
         ImageChooserPanel("image"),
         FieldPanel("name"),
         FieldPanel("role"),
