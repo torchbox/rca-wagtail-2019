@@ -147,22 +147,34 @@ class RelatedStaffPageWithManualOptions(Orderable):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    first_name = models.CharField(max_length=125)
-    surname = models.CharField(max_length=125)
+    first_name = models.CharField(max_length=125, blank=True)
+    surname = models.CharField(max_length=125, blank=-True)
     role = models.CharField(max_length=125, blank=True)
     description = models.TextField(
         blank=True, help_text="Not displayed for small teaser profiles"
     )
     link = models.URLField(blank=True)
 
+    def get_name(self):
+        if self.first_name:
+            return self.first_name
+        elif self.page:
+            return self.page.title
+        else:
+            return self.id
+
     def __str__(self):
-        return self.name
+        return self.get_name()
 
     class Meta:
         abstract = True
         ordering = ["sort_order"]
 
+    # Validation.
+    # Only allow adding a related staff page, or the inline fields.
+
     panels = [
+        PageChooserPanel("page", page_type="people.StaffPage"),
         ImageChooserPanel("image"),
         FieldPanel("first_name"),
         FieldPanel("surname"),
