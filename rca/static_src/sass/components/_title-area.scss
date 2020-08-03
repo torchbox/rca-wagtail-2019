@@ -192,6 +192,12 @@
                 margin-bottom: ($gutter * 1.5);
             }
         }
+
+        #{$root}__content {
+            @include media-query(large) {
+                grid-column: 2 / span 2;
+            }
+        }
     }
 
     &--research-centre {
