@@ -91,11 +91,19 @@
         width: calc(100% + 40px);
 
         @include media-query(medium) {
+            grid-column: 2;
+            order: 2;
+            left: 0;
+            width: calc(100% + 60px);
+        }
+
+        @include media-query(large) {
             grid-column: auto;
             position: absolute;
             top: 128px;
             left: initial;
             right: 0;
+            order: initial;
             width: 50%;
             height: auto;
         }
