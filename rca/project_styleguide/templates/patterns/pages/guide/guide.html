@@ -84,6 +84,7 @@
 
             {% if page.contact_image %}
                 <section class="section bg bg--light">
+                    <div class="contact-anchor" id="contact"></div>
                     <div class="section__row section__row--first">
                         {% include "patterns/organisms/contact/contact.html" with heading="Ask a question" text=page.contact_text image=page.contact_image anchor_heading=True %}
                     </div>
