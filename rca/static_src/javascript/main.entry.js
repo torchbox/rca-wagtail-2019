@@ -29,8 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const cookie = document.querySelector(CookieWarning.selector());
     new CookieWarning(cookie);
 
-    const sitewideAlert = document.querySelector(SitewideAlert.selector());
-    new SitewideAlert(sitewideAlert);
+    for (const sitewideAlert of document.querySelectorAll(
+        SitewideAlert.selector(),
+    )) {
+        new SitewideAlert(sitewideAlert);
+    }
 
     for (const accordion of document.querySelectorAll(Accordion.selector())) {
         new Accordion(accordion);
