@@ -67,12 +67,17 @@
 
     &__author {
         @include font-size(xs);
-        margin-bottom: ($gutter / 4);
+        display: inline;
         font-weight: $weight--normal;
     }
 
     &__author-course {
         @include font-size(xxs);
+        margin-top: ($gutter / 4);
+    }
+
+    &__link {
+        @include underline-hover();
     }
 
     .glide__slide--active & {
@@ -88,7 +93,8 @@
     }
 
     .bg--dark & {
-        #{$root}__author {
+        #{$root}__author,
+        #{$root}__link {
             color: $color--white;
         }
 
@@ -98,7 +104,8 @@
     }
 
     .bg--light & {
-        #{$root}__author {
+        #{$root}__author,
+        #{$root}__link {
             color: $color--black;
         }
 
