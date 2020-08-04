@@ -9,7 +9,7 @@
                 <p class="text-teaser__text body body--one">{{ teaser.description }}</p>
             {% endif %}
             {% if teaser.link and not teaser.page %}
-                <a class="text-teaser__link link link--primary link--link body body--two" href="{{ teaser.link }}">
+                <a class="text-teaser__link link link--primary link--link body body--two" href="{{ teaser.link.url }}">
                     <span class="link__label">{% firstof teaser.action teaser.link.title %}</span>
                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                 </a>

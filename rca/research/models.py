@@ -380,5 +380,6 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
         context["research_news"] = self.get_research_news()
         context["related_staff"] = self.related_staff.all
         context["related_programmes"] = self.get_related_programme_pages()
+        context["staff_title"] = self.staff_title if self.staff_title else "Staff"
 
         return context

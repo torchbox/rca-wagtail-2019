@@ -192,13 +192,8 @@ class StaffPage(BasePage):
             [InlinePanel("related_students_manual"), FieldPanel("legacy_staff_id")],
             heading=_("Related Students"),
         ),
-        MultiFieldPanel(
-            [
-                FieldPanel("more_information_title"),
-                StreamFieldPanel("more_information"),
-            ],
-            heading=_("More information"),
-        ),
+        FieldPanel("more_information_title"),
+        StreamFieldPanel("more_information"),
         StreamFieldPanel("related_links"),
     ]
 

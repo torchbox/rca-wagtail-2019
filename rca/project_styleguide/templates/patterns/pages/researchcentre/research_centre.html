@@ -75,7 +75,6 @@
                 {% endif %}
 
                 {% if projects %}
-                {{extra_url_params}}
                     <div class="section__row section__row--last-large research-highlights">
                         <div class="section__header grid">
                             <h2 class="section__heading section__heading--primary heading heading--four">
@@ -85,7 +84,8 @@
                         <div class="section__content grid">
                             {% include "patterns/organisms/carousel/carousel.html" with carousel=projects modifier='carousel carousel--no-margin' datatag='data-carousel' %}
                             <div class="section__action">
-                                <a class="link link--primary link--link body body--two" href="/research">
+                                <a class="link link--primary link--link body body--two" href="/research/projects/?school-or-centre={{ page.slug }}#results">
+
                                     <span class="link__label">See all research</span>
                                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                 </a>
@@ -144,7 +144,7 @@
                 <section class="section bg bg--light">
 
                     <div class="section__row section__row--first section__row--last">
-                        {% include "patterns/organisms/people-module/people-module.html" with title="Staff" people=related_staff %}
+                        {% include "patterns/organisms/people-module/people-module.html" with title=staff_title people=related_staff %}
                     </div>
 
                     {% if research_news.slides %}
