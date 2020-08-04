@@ -542,12 +542,10 @@ class ProjectPickerPage(BasePage):
         extra_query_params = self.get_extra_query_params(
             request, self.get_active_filters(request)
         )
-        print(self.get_active_filters(request))
         if self.featured_project:
             context["featured_project"] = self._format_projects(
                 [self.featured_project]
             )[0]
-        print(extra_query_params)
         if extra_query_params or (page_number and page_number != "1"):
             context["show_featured_project"] = False
 
