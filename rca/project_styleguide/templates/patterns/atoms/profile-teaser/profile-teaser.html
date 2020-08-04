@@ -20,7 +20,7 @@
             <p class="profile-teaser__meta profile-teaser__meta--first body body--two">{{ item.meta }}</p>
             {% endif %}
             {% if item.role %}
-                <p class="profile-teaser__meta body body--two">{{ item.role }}</p>
+                <p class="profile-teaser__meta {% if not item.meta %}profile-teaser__meta--first{% endif %} body body--two">{{ item.role }}</p>
             {% endif %}
         </div>
     {% endif %}
