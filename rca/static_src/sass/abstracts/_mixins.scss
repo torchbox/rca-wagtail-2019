@@ -134,13 +134,13 @@
 
 @mixin underline-hover-target() {
     background-image: linear-gradient(currentColor, currentColor);
-    background-position: 100% 100%;
+    background-position: 0% 100%;
     background-repeat: no-repeat;
-    background-size: 0% 2px;
+    background-size: 100% 2px;
     transition: background-size $cubic-transition;
 
     @include media-query(medium) {
-        background-position: 0% 100%;
+        background-size: 0% 2px;
     }
 }
 
