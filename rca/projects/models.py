@@ -329,12 +329,12 @@ class ProjectPage(BasePage):
     def get_related_school_or_centre(self):
         # returns the first related schools page, if none, return the related research
         # centre page
-        realted_school = self.related_school_pages.first()
-        realted_research_page = self.related_research_pages.first()
-        if realted_school:
-            return realted_school.page
-        elif realted_research_page:
-            return realted_research_page.page
+        related_school = self.related_school_pages.first()
+        related_research_page = self.related_research_pages.first()
+        if related_school:
+            return related_school.page
+        elif related_research_page:
+            return related_research_page.page
 
     def get_expertise_linked_filters(self):
         """ For the expertise taxonomy thats listed out in key details,
