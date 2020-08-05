@@ -505,7 +505,7 @@ CACHE_CONTROL_STALE_WHILE_REVALIDATE = int(
 
 # When set to True, client-side JavaScript will not to be able to access the CSRF cookie.
 # https://docs.djangoproject.com/en/stable/ref/settings/#csrf-cookie-httponly
-CSRF_COOKIE_HTTPONLY = True
+# CSRF_COOKIE_HTTPONLY = True
 
 # Force HTTPS redirect
 # https://docs.djangoproject.com/en/stable/ref/settings/#secure-ssl-redirect
