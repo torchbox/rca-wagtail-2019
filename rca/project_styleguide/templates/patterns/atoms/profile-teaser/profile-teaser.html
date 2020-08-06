@@ -16,8 +16,12 @@
     {% if item.first_name or item.surname or item.meta or item.role %}
         <div class="profile-teaser__content">
             <h3 class="profile-teaser__heading body body--one"><span class="profile-teaser__first-name">{{ item.first_name }}</span> <span class="profile-teaser__surname">{{ item.surname }}</span></h3>
-            <p class="profile-teaser__meta body body--two">{{ item.meta }}</p>
-            <p class="profile-teaser__meta body body--two">{{ item.role }}</p>
+            {% if item.meta %}
+            <p class="profile-teaser__meta profile-teaser__meta--first body body--two">{{ item.meta }}</p>
+            {% endif %}
+            {% if item.role %}
+                <p class="profile-teaser__meta {% if not item.meta %}profile-teaser__meta--first{% endif %} body body--two">{{ item.role }}</p>
+            {% endif %}
         </div>
     {% endif %}
     {% if item.link %}

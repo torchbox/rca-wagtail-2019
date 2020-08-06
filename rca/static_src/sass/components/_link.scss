@@ -141,6 +141,30 @@
                 }
             }
         }
+
+        &#{$root}--tertiary {
+            background-image: none;
+            display: inline-block;
+            position: relative;
+            max-width: calc(100% - 14px);
+
+            #{$root}__icon {
+                position: absolute;
+                right: -14px;
+                top: 0.35em;
+            }
+
+            #{$root}__label {
+                @include underline-hover-target();
+                display: inline;
+            }
+
+            &:hover {
+                #{$root}__label {
+                    @include underline-hover-target-reset();
+                }
+            }
+        }
     }
 
     &--up {
@@ -250,7 +274,6 @@
 
     .related-links__item & {
         font-family: $font--primary;
-        display: inline;
 
         @include media-query(large) {
             font-family: $font--secondary;
