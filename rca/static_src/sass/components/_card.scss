@@ -150,6 +150,12 @@
         }
     }
 
+    &--notch-space {
+        #{$root}__content {
+            padding-top: ($gutter * 1.5);
+        }
+    }
+
     &--staff {
         margin-bottom: ($gutter * 2);
 
