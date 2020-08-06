@@ -29,9 +29,13 @@
 
     <div class="profile-detail__content">
         <div class="profile-detail__overview">
-            {% if item.first_name or staff_page %}
+            {% if item.first_name or item.name or staff_page %}
                 <div class="profile-detail__header">
-                    <h3 class="profile-detail__heading heading heading--five">{% firstof item.first_name staff_page.first_name %} {% firstof item.surname staff_page.last_name %}</h3>
+                    {% if item.first_name or item.name %}
+                    <h3 class="profile-detail__heading heading heading--five">{% firstof item.first_name item.name %} {% firstof item.surname %}</h3>
+                    {% elif staff_page %}
+                        <h3 class="profile-detail__heading heading heading--five">{{ staff_page.first_name }} {{ staff_page.last_name }}</h3>
+                    {% endif %}
                 </div>
             {% endif %}
             <h4 class="profile-detail__job-title body body--one">{% firstof item.role staff_page.roles.first.role %}</h4>
