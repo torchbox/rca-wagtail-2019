@@ -164,6 +164,13 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
     related_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="Related Links"
     )
+    research_projects_link = models.URLField(
+        blank=True,
+        help_text=_(
+            "Add a link to a pre-filtered project listing, "
+            "E.G https://rca.ac.uk/research/projects/?school-or-centre=helen-hamlyn-centre#results"
+        ),
+    )
 
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
@@ -190,6 +197,7 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
             [
                 FieldPanel("highlights_title"),
                 InlinePanel("research_projects", label=_("Project pages"), max_num=8),
+                FieldPanel("research_projects_link"),
             ],
             heading=_("Research centre highlights"),
         ),

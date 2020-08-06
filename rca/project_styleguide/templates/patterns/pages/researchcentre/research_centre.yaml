@@ -19,6 +19,7 @@ context:
     centre_more_text: 'About the Helen Hamlyn centre'
     centre_more_link: '#'
     course_intro_video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
+    research_projects_link: '#'
     legacy_news_and_events:
       - item:
         type: 'News'
