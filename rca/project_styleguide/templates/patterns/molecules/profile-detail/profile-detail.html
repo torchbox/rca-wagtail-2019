@@ -1,11 +1,19 @@
 {% load wagtailcore_tags wagtailimages_tags static util_tags %}
 
+{% with item.page.specific as staff_page %}
 <div class="profile-detail">
     {% if item.link %}
         {% is_external item.link as is_external %}
         <a href="{{ item.link }}" {% if is_external %} target="_blank" {% endif %} class="profile-detail__container profile-detail__container--link">
+    {% elif staff_page %}
+        <a href="{{ staff_page.url }}" class="profile-detail__container profile-detail__container--link">
     {% else %}
         <div class="profile-detail__container">
+    {% endif %}
+
+    {% if staff_page.profile_image %}
+        {% image staff_page.profile_image fill-50x50 as image_small %}
+        {% image staff_page.profile_image fill-277x277 as image_large %}
     {% endif %}
 
     {% if item.image %}
@@ -13,7 +21,7 @@
         {% image item.image fill-277x277 as image_large %}
     {% endif %}
 
-    {% if item.image %}
+    {% if item.image or staff_page.profile_image %}
         {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=277 height=277 image_large=image_large classList='profile-detail__image' %}
     {% else %}
         <img src="{% static "images/author_placeholder.png" %}" alt="" class="profile-detail__image profile-detail__image--placeholder">
@@ -21,16 +29,16 @@
 
     <div class="profile-detail__content">
         <div class="profile-detail__overview">
-            {% if item.first_name %}
+            {% if item.first_name or staff_page %}
                 <div class="profile-detail__header">
-                    <h3 class="profile-detail__heading heading heading--five">{{ item.first_name }} {{ item.surname }}</h3>
+                    <h3 class="profile-detail__heading heading heading--five">{% firstof item.first_name staff_page.first_name %} {% firstof item.surname staff_page.last_name %}</h3>
                 </div>
             {% endif %}
-            <h4 class="profile-detail__job-title body body--one">{{ item.role }}</h4>
+            <h4 class="profile-detail__job-title body body--one">{% firstof item.role staff_page.roles.first.role %}</h4>
         </div>
         <div class="profile-detail__more">
-            <p class="profile-detail__body body body--two">{{ item.description }}</p>
-            {% if item.link %}
+            <p class="profile-detail__body body body--two">{% firstof item.description staff_page.introduction %}</p>
+            {% if item.link or staff_page %}
                 <span class="profile-detail__link body body--two link link--tertiary link--link {% if is_external %}link--external{% endif %}">
                     <span class="link__label">View full profile</span>
                     <svg {% if is_external %}width="11" height="13"{% else %}width="12" height="8"{% endif %} class="link__icon" aria-hidden="true"><use xlink:href="{% if is_external %}#arrow-external{% else %}#arrow{% endif %}"></use></svg>
@@ -39,9 +47,10 @@
         </div>
     </div>
 
-    {% if item.link %}
+    {% if item.link or staff_page %}
         </a>
     {% else %}
         </div>
     {% endif %}
 </div>
+{% endwith %}

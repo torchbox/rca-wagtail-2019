@@ -362,5 +362,7 @@ class ShortCoursePage(BasePage):
                 ],
             }
         ]
-        context["related_staff"] = self.related_staff.select_related("image")
+        context["related_staff"] = self.related_staff.select_related(
+            "image"
+        ).prefetch_related("page")
         return context
