@@ -326,11 +326,15 @@ class ProjectPage(BasePage):
         if errors:
             raise ValidationError(errors)
 
-    def get_related_school(self):
-        """ returns the first related schools page"""
-        realted_school = self.related_school_pages.first()
-        if realted_school:
-            return realted_school.page
+    def get_related_school_or_centre(self):
+        # returns the first related schools page, if none, return the related research
+        # centre page
+        related_school = self.related_school_pages.first()
+        related_research_page = self.related_research_pages.first()
+        if related_school:
+            return related_school.page
+        elif related_research_page:
+            return related_research_page.page
 
     def get_expertise_linked_filters(self):
         """ For the expertise taxonomy thats listed out in key details,
@@ -419,7 +423,7 @@ class ProjectPickerPage(BasePage):
                     "title": page.title,
                     "image": page.hero_image,
                     "link": page.url,
-                    "school": page.get_related_school(),
+                    "school": page.get_related_school_or_centre(),
                     "year": year,
                     "listing_summary": page.listing_summary,
                     "meta_heading": page.listing_title,
@@ -437,7 +441,7 @@ class ProjectPickerPage(BasePage):
             # on the request
             obj.link = obj.get_url(request)
             obj.image = obj.hero_image
-            obj.school = obj.get_related_school
+            obj.school = obj.get_related_school_or_centre
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -538,12 +542,10 @@ class ProjectPickerPage(BasePage):
         extra_query_params = self.get_extra_query_params(
             request, self.get_active_filters(request)
         )
-        print(self.get_active_filters(request))
         if self.featured_project:
             context["featured_project"] = self._format_projects(
                 [self.featured_project]
             )[0]
-        print(extra_query_params)
         if extra_query_params or (page_number and page_number != "1"):
             context["show_featured_project"] = False
 

@@ -352,7 +352,7 @@ class LandingPage(LegacyNewsAndEventsMixin, BasePage):
                     {
                         "title": page.title,
                         "link": page.url,
-                        "image": page.hero_image
+                        "image": page.listing_image
                         if hasattr(page, "hero_image") and page.hero_image
                         else page.listing_image,
                         "description": page.introduction

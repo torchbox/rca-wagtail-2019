@@ -1,8 +1,11 @@
+from django.utils.html import escape
 from wagtail.contrib.modeladmin.options import (
     ModelAdmin,
     ModelAdminGroup,
     modeladmin_register,
 )
+from wagtail.core import hooks
+from wagtail.core.rich_text import LinkHandler
 from wagtailorderable.modeladmin.mixins import OrderableMixin
 
 from rca.people.models import AreaOfExpertise
@@ -49,3 +52,17 @@ class TaxonomiesModelAdminGroup(ModelAdminGroup):
 
 
 modeladmin_register(TaxonomiesModelAdminGroup)
+
+
+class TargetBlankExternalLinkHandler(LinkHandler):
+    identifier = "external"
+
+    @classmethod
+    def expand_db_attributes(cls, attrs):
+        href = attrs["href"]
+        return f'<a href="{escape(href)}" target="_blank">'
+
+
+@hooks.register("register_rich_text_features")
+def register_external_link(features):
+    features.register_link_type(TargetBlankExternalLinkHandler)
