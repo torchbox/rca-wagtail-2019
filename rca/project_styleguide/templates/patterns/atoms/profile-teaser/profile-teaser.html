@@ -1,32 +1,48 @@
 {% load wagtailcore_tags wagtailimages_tags static util_tags %}
 
+{% with item.page.specific as staff_page %}
 <div class="profile-teaser">
     {% if item.link %}
         {% is_external item.link as is_external %}
         <a href="{{ item.link }}" {% if is_external %} target="_blank" {% endif %} class="profile-teaser__container profile-teaser__container--link">
+    {% elif staff_page %}
+        <a href="{{ staff_page.url }}" class="profile-teaser__container profile-teaser__container--link">
     {% else %}
         <div class="profile-teaser__container">
     {% endif %}
+
+     {% if staff_page.profile_image %}
+        {% image staff_page.profile_image fill-60x60 as profile_image %}
+    {% endif %}
     {% if item.image %}
         {% image item.image fill-60x60 as profile_image %}
+    {% endif %}
+
+    {% if item.image or staff_page.profile_image %}
         <img src="{{ profile_image.url }}" width="{{ width }}" height="{{ height }}" alt="{{ profile_image.alt }}" class="profile-teaser__image">
     {% else %}
         <img src="{% static "images/author_placeholder.png" %}" alt="" class="profile-teaser__image profile-teaser__image--placeholder">
     {% endif %}
-    {% if item.first_name or item.surname or item.meta or item.role %}
+
+    {% if item.first_name or item.surname or item.meta or item.role or staff_page %}
         <div class="profile-teaser__content">
-            <h3 class="profile-teaser__heading body body--one"><span class="profile-teaser__first-name">{{ item.first_name }}</span> <span class="profile-teaser__surname">{{ item.surname }}</span></h3>
+            <h3 class="profile-teaser__heading body body--one">
+                <span class="profile-teaser__first-name">{% firstof item.first_name staff_page.first_name %}</span>
+                <span class="profile-teaser__surname">{% firstof item.surname staff_page.last_name %}</span>
+            </h3>
+
             {% if item.meta %}
-            <p class="profile-teaser__meta profile-teaser__meta--first body body--two">{{ item.meta }}</p>
+                <p class="profile-teaser__meta profile-teaser__meta--first body body--two">{{ item.meta }}</p>
             {% endif %}
-            {% if item.role %}
-                <p class="profile-teaser__meta {% if not item.meta %}profile-teaser__meta--first{% endif %} body body--two">{{ item.role }}</p>
+            {% if item.role or staff_page %}
+                <p class="profile-teaser__meta {% if not item.meta %}profile-teaser__meta--first{% endif %} body body--two">{% firstof item.role staff_page.roles.first.role %}</p>
             {% endif %}
         </div>
     {% endif %}
-    {% if item.link %}
+    {% if item.link or staff_page %}
         </a>
     {% else %}
         </div>
     {% endif %}
 </div>
+{% endwith %}
