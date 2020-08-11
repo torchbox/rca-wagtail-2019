@@ -3,6 +3,7 @@ from wagtail.api.v2.filters import ChildOfFilter, DescendantOfFilter, FieldsFilt
 from wagtail.api.v2.serializers import PageSerializer
 
 from rca.navigation.models import NavigationSettings
+from rca.utils.models import SitewideAlertSetting
 from rca.wagtailapi import filters
 
 
@@ -22,3 +23,7 @@ class PagesAPIViewSet(views.PagesAPIViewSet):
 
 class NavigationAPIViewSet(views.BaseAPIViewSet):
     model = NavigationSettings
+
+
+class SitewideAlertAPIViewSet(views.BaseAPIViewSet):
+    model = SitewideAlertSetting

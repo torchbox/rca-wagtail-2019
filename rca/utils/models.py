@@ -13,6 +13,7 @@ from wagtail.admin.edit_handlers import (
     PageChooserPanel,
     StreamFieldPanel,
 )
+from wagtail.api import APIField
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.core import blocks
 from wagtail.core.fields import RichTextField, StreamField
@@ -616,3 +617,21 @@ class ResearchType(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(ResearchType, self).save(*args, **kwargs)
+
+
+@register_setting
+class SitewideAlertSetting(BaseSetting):
+    class Meta:
+        verbose_name = "Sitewide alert"
+
+    show_alert = models.BooleanField(
+        default=False, help_text="Checking this will show the site-wide message"
+    )
+    message = RichTextField(
+        help_text="The message to be shown to all users across the site",
+        features=["h2", "h3", "bold", "italic", "link"],
+    )
+
+    panels = [FieldPanel("show_alert"), FieldPanel("message")]
+
+    api_fields = [APIField("show_alert"), APIField("message")]
