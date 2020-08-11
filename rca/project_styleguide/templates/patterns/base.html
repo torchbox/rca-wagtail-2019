@@ -27,6 +27,10 @@
 
         {% include "patterns/atoms/skip-link/skip-link.html" %}
 
+        {% if settings.utils.SitewideAlertSetting.show_alert %}
+            {% include "patterns/molecules/sitewide-alert/sitewide-alert.html" %}
+        {% endif %}
+
         {% include "patterns/molecules/outdated-banner/outdated-banner.html" %}
         {% include "patterns/atoms/sprites/sprites.html" %}
 

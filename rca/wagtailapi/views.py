@@ -1,4 +1,4 @@
-from wagtail.api.v2 import endpoints, views
+from wagtail.api.v2 import views
 from wagtail.api.v2.filters import ChildOfFilter, DescendantOfFilter, FieldsFilter
 from wagtail.api.v2.serializers import PageSerializer
 
@@ -25,5 +25,5 @@ class NavigationAPIViewSet(views.BaseAPIViewSet):
     model = NavigationSettings
 
 
-class SitewideAlertEndpoint(endpoints.BaseAPIEndpoint):
+class SitewideAlertAPIViewSet(views.BaseAPIViewSet):
     model = SitewideAlertSetting
