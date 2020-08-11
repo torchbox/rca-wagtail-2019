@@ -25,5 +25,5 @@ class NavigationAPIViewSet(views.BaseAPIViewSet):
     model = NavigationSettings
 
 
-class SitewideAlertEndpoint(endpoints.BaseAPIEndpoint):
+class SitewideAlertAPIViewSet(views.BaseAPIViewSet):
     model = SitewideAlertSetting
