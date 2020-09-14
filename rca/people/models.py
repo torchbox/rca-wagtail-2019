@@ -381,9 +381,7 @@ class StaffPage(BasePage):
 
         parent = self.get_parent()
         directorate = []
-        for i in self.related_directorates.all().select_related(
-            "directorate"
-        ):
+        for i in self.related_directorates.all().select_related("directorate"):
             if parent:
                 directorate.append(
                     {
