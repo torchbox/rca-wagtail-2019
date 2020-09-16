@@ -25,11 +25,11 @@
             </div>
         {% endif %}
         
-        {% if directorates %}
+        {% if areas %}
             <div class="key-details__section key-details__section--expertise">
-                <h4 class="body body--two key-details__sub-heading">Directorate</h4>
+                <h4 class="body body--two key-details__sub-heading">Expertise</h4>
                 <ul class="key-details__list">
-                    {% for item in directorates %}
+                    {% for item in areas %}
                         <li class="key-details__list-item">
                         {# Link here depends on the staff picker page #}
                             <a href="{{ item.link }}" class="link link--tertiary">{{ item.title }}</a>
@@ -38,12 +38,12 @@
                 </ul>
             </div>
         {% endif %}
-        
-        {% if areas %}
+
+        {% if directorates %}
             <div class="key-details__section key-details__section--expertise">
-                <h4 class="body body--two key-details__sub-heading">Expertise</h4>
+                <h4 class="body body--two key-details__sub-heading">Area</h4>
                 <ul class="key-details__list">
-                    {% for item in areas %}
+                    {% for item in directorates %}
                         <li class="key-details__list-item">
                         {# Link here depends on the staff picker page #}
                             <a href="{{ item.link }}" class="link link--tertiary">{{ item.title }}</a>
