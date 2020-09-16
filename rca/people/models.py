@@ -492,7 +492,7 @@ class StaffIndexPage(BasePage):
                 option_value_field="slug",
             ),
             TabStyleFilter(
-                "Directorate",
+                "Area",
                 queryset=(
                     Directorate.objects.filter(
                         id__in=base_queryset.values_list(
