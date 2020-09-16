@@ -460,7 +460,7 @@ class StaffIndexPage(BasePage):
         queryset = base_queryset.all()
 
         filters = (
-            SchoolCentreExpertiseFilter(
+           SchoolCentreExpertiseFilter(
                 "School, Centre or Area",
                 school_queryset=SchoolPage.objects.live().filter(
                     id__in=base_queryset.values_list(
