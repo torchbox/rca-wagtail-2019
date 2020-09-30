@@ -635,3 +635,30 @@ class SitewideAlertSetting(BaseSetting):
     panels = [FieldPanel("show_alert"), FieldPanel("message")]
 
     api_fields = [APIField("show_alert"), APIField("message")]
+
+
+class SluggedTaxonomy(models.Model):
+    """Taxonomy model that can be used for taxonomies that need a slug
+       as a few are identical
+    """
+
+    title = models.CharField(max_length=128)
+    slug = models.SlugField(blank=True)
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(SluggedTaxonomy, self).save(*args, **kwargs)
+
+    class meta:
+        abstract = True
+
+
+class ResearchTheme(SluggedTaxonomy):
+    pass
+
+
+class Sector(SluggedTaxonomy):
+    pass

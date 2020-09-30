@@ -10,7 +10,7 @@ from wagtailorderable.modeladmin.mixins import OrderableMixin
 
 from rca.people.models import AreaOfExpertise, Directorate
 from rca.programmes.models import DegreeLevel, ProgrammeType, Subject
-from rca.utils.models import ResearchType
+from rca.utils.models import ResearchTheme, ResearchType, Sector
 
 
 class DegreeLevelModelAdmin(ModelAdmin):
@@ -41,6 +41,15 @@ class AreaOfExpertiseModelAdmin(ModelAdmin):
 
 class DirectorateModelAdmin(ModelAdmin):
     model = Directorate
+
+
+class ResearchThemeModelAdmin(ModelAdmin):
+    model = ResearchTheme
+    menu_icon = "tag"
+
+
+class SectorModelAdmin(ModelAdmin):
+    model = Sector
     menu_icon = "tag"
 
 
@@ -53,6 +62,8 @@ class TaxonomiesModelAdminGroup(ModelAdminGroup):
         ResearchTypeModelAdmin,
         AreaOfExpertiseModelAdmin,
         DirectorateModelAdmin,
+        SectorModelAdmin,
+        ResearchThemeModelAdmin,
     )
     menu_icon = "tag"
 
