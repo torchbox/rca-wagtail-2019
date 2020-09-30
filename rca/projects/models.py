@@ -39,8 +39,26 @@ from rca.utils.models import (
     BasePage,
     RelatedPage,
     RelatedStaffPageWithManualOptions,
+    ResearchTheme,
     ResearchType,
+    Sector,
 )
+
+
+class ProjectPageSectorPlacement(models.Model):
+    page = ParentalKey("ProjectPage", related_name="related_sectors")
+    sector = models.ForeignKey(
+        "utils.Sector", on_delete=models.CASCADE, related_name="projects"
+    )
+    panels = [FieldPanel("sector")]
+
+
+class ProjectPageResearchThemePlacement(models.Model):
+    page = ParentalKey("ProjectPage", related_name="related_research_themes")
+    research_theme = models.ForeignKey(
+        "utils.ResearchTheme", on_delete=models.CASCADE, related_name="projects"
+    )
+    panels = [FieldPanel("research_theme")]
 
 
 class RelatedProjectPage(Orderable):
@@ -216,6 +234,8 @@ class ProjectPage(BasePage):
     ]
 
     key_details_panels = [
+        InlinePanel("related_sectors", label=_("Research sectors")),
+        InlinePanel("related_research_themes", label=_("Research themes")),
         InlinePanel("expertise", label=_("RCA Expertise")),
         InlinePanel("related_school_pages", label=_("Related schools")),
         InlinePanel("related_research_pages", label=_("Related research centres")),
@@ -355,6 +375,25 @@ class ProjectPage(BasePage):
                 expertise.append({"title": i.area_of_expertise.title})
         return expertise
 
+    def get_sector_linked_filters(self):
+        """ For the sector taxonomy thats listed out in key details,
+        they need to link to the parent project picker page with a filter pre
+        selected"""
+
+        parent_picker = ProjectPickerPage.objects.parent_of(self).live().first()
+        sectors = []
+        for i in self.related_sectors.all().select_related("sector"):
+            if parent_picker:
+                sectors.append(
+                    {
+                        "title": i.sector.title,
+                        "link": f"{parent_picker.url}?sector={i.sector.slug}",
+                    }
+                )
+            else:
+                sectors.append({"title": i.sector.title})
+        return sectors
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         taxonomy_tags = []
@@ -369,6 +408,7 @@ class ProjectPage(BasePage):
                 taxonomy_tags.append({"title": i.research_type.title})
 
         context["expertise"] = self.get_expertise_linked_filters()
+        context["sectors"] = self.get_sector_linked_filters()
         context["project_lead"] = self.project_lead.select_related("image")
         context["related_staff"] = self.related_staff.select_related("image")
         context["taxonomy_tags"] = taxonomy_tags
@@ -502,6 +542,30 @@ class ProjectPickerPage(BasePage):
                     "related_school_pages__page__slug__in",
                     "related_research_pages__page__slug__in",  # Filter by slug here
                 ),
+                option_value_field="slug",
+            ),
+            TabStyleFilter(
+                "Research themes",
+                queryset=(
+                    ResearchTheme.objects.filter(
+                        id__in=base_queryset.values_list(
+                            "related_research_themes__research_theme_id", flat=True
+                        )
+                    )
+                ),
+                filter_by="related_research_themes__research_theme__slug__in",  # Filter by slug here
+                option_value_field="slug",
+            ),
+            TabStyleFilter(
+                "Sector",
+                queryset=(
+                    Sector.objects.filter(
+                        id__in=base_queryset.values_list(
+                            "related_sectors__sector_id", flat=True
+                        )
+                    )
+                ),
+                filter_by="related_sectors__sector__slug__in",  # Filter by slug here
                 option_value_field="slug",
             ),
         )
