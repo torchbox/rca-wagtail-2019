@@ -128,7 +128,16 @@ class ProgrammePageFeeItem(Orderable):
 
 class ProgrammePageRelatedProgramme(RelatedPage):
     source_page = ParentalKey("ProgrammePage", related_name="related_programmes")
-    panels = [PageChooserPanel("page", "programmes.ProgrammePage")]
+    panels = [
+        PageChooserPanel(
+            "page",
+            [
+                "programmes.ProgrammePage",
+                "guides.GuidePage",
+                "shortcourses.ShortCoursePage",
+            ],
+        )
+    ]
 
 
 class ProgrammePageCareerOpportunities(Orderable):
