@@ -33,7 +33,7 @@
                 <div class="profile-detail__header">
                     {% if item.first_name or item.name %}
                     <h3 class="profile-detail__heading heading heading--five">
-                    {% firstof item.first_name item.name %} {% firstof item.surname %}</h3>
+                    {% firstof item.first_name item.name %} {{ item.surname }}</h3>
                     {% elif staff_page %}
                         <h3 class="profile-detail__heading heading heading--five">{% if staff_page.staff_title %}{{ staff_page.staff_title }} {% endif %}{{ staff_page.first_name }} {{ staff_page.last_name }}</h3>
                     {% endif %}
