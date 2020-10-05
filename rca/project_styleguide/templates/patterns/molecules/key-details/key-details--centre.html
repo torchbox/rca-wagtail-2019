@@ -25,7 +25,7 @@
                 {% endif %}
                 {% if page.centre_tel %}
                     <li class="key-details__list-item">
-                        <p><a class="link link--tertiary" href="tel:{{ page.centre_tel }}">{{ page.centre_tel }}</a></p>
+                        <p><a class="link link--tertiary" href="tel:{{ page.centre_tel }}">{% firstof page.centre_tel_display_text page.centre_tel %}</a></p>
                     </li>
                  {% endif %}
                </ul>
