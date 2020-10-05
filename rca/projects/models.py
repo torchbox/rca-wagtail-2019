@@ -545,7 +545,7 @@ class ProjectPickerPage(BasePage):
                 option_value_field="slug",
             ),
             TabStyleFilter(
-                "Research themes",
+                "Research theme",
                 queryset=(
                     ResearchTheme.objects.filter(
                         id__in=base_queryset.values_list(
