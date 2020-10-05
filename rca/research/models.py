@@ -125,6 +125,13 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
     )
     centre_address = RichTextField(blank=True, features=["link"])
     centre_tel = PhoneNumberField(blank=True)
+    centre_tel_display_text = models.CharField(
+        max_length=120,
+        help_text=(
+            "Specify specific text or numbers to display for the linked tel number"
+        ),
+        blank=True,
+    )
     twitter_username = models.CharField(
         blank=True, max_length=15, help_text=_("The Research Centres Twitter username")
     )
@@ -238,6 +245,7 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
             [
                 FieldPanel("centre_address"),
                 FieldPanel("centre_tel"),
+                FieldPanel("centre_tel_display_text"),
                 FieldPanel("centre_email"),
             ],
             heading="Centre contact information",
