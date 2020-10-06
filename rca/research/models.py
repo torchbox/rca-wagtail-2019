@@ -128,7 +128,8 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
     centre_tel_display_text = models.CharField(
         max_length=120,
         help_text=(
-            "Specify specific text or numbers to display for the linked tel number"
+            "Specify specific text or numbers to display for the linked tel "
+            "number, e.g. +44 (0)20 7590 1234 or +44 (0)7749 183783"
         ),
         blank=True,
     )
