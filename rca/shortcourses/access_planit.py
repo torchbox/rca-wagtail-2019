@@ -94,14 +94,16 @@ class AccessPlanitXML:
         try:
             response = requests.get(url=url)
         except Timeout:
-            logger.exception(
-                f"Timeout occurred fetching XML data for course_id: {self.course_id}"
-            )
+            if settings.API_FETCH_LOGGING:
+                logger.exception(
+                    f"Timeout occurred fetching XML data for course_id: {self.course_id}"
+                )
             raise AccessPlanitException
         except Exception:
-            logger.exception(
-                f"Error occurred fetching XML data for course_id: {self.course_id}"
-            )
+            if settings.API_FETCH_LOGGING:
+                logger.exception(
+                    f"Error occurred fetching XML data for course_id: {self.course_id}"
+                )
             raise AccessPlanitException
         else:
             return self.parse_data(response.text)
