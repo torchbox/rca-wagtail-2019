@@ -46,21 +46,24 @@ def fetch_data(url, **params):
         response = requests.get(url, params=params, timeout=10)
         response.raise_for_status()
     except Timeout:
-        logger.exception(f"Timeout error occurred when fetching data from {url}")
+        if settings.API_FETCH_LOGGING:
+            logger.exception(f"Timeout error occurred when fetching data from {url}")
         raise CantPullFromRcaApi(
             f"Error occured when fetching further detail data from {url}"
         )
     except (HTTPError, ConnectionError):
-        logger.exception(
-            f"HTTP/ConnectionError occured when fetching further detail data from {url}"
-        )
+        if settings.API_FETCH_LOGGING:
+            logger.exception(
+                f"HTTP/ConnectionError occured when fetching further detail data from {url}"
+            )
         raise CantPullFromRcaApi(
             f"Error occured when fetching further detail data from {url}"
         )
     except Exception:
-        logger.exception(
-            f"Exception occured when fetching further detail data from {url}"
-        )
+        if settings.API_FETCH_LOGGING:
+            logger.exception(
+                f"Exception occured when fetching further detail data from {url}"
+            )
         raise CantPullFromRcaApi(
             f"Error occured when fetching further detail data from {url}"
         )
@@ -74,21 +77,21 @@ def parse_items_to_list(data, type):
         return []
     for item in data["items"]:
         _item = {}
-        if type == "News":
-            detail = item["meta"]["detail_url"] + "?fields=_,date,social_image"
         if type == "Event":
             detail = item["meta"]["detail_url"] + "?fields=_,dates_times,social_image"
-        if type == "alumni_stories_standard_page":
-            detail = (
-                item["meta"]["detail_url"]
-                + "?fields=_,first_published_at,social_image,intro"
-            )
-        if type == "alumni_stories_blog_page":
+        elif type == "News":
+            detail = item["meta"]["detail_url"] + "?fields=_,date,social_image"
+        elif type == "alumni_stories_blog_page":
             detail = (
                 item["meta"]["detail_url"]
                 + "?fields=_,first_published_at,social_image,body"
             )
 
+        elif type == "alumni_stories_standard_page":
+            detail = (
+                item["meta"]["detail_url"]
+                + "?fields=_,first_published_at,social_image,intro"
+            )
         data = fetch_data(detail)
         if not data:
             return []
@@ -334,10 +337,7 @@ def pull_alumni_stories(programme_type_slug=None):
         fetched_blog_data, "alumni_stories_blog_page"
     )
 
-    alumni_stories_data = (
-        alumni_stories_blog_page_data + alumni_stories_standard_page_data
-    )
-    return alumni_stories_data
+    return alumni_stories_blog_page_data + alumni_stories_standard_page_data
 
 
 class _BaseContentAPI:
