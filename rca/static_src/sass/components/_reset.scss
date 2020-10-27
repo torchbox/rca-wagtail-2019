@@ -1,5 +1,4 @@
 .reset {
-    @include underline-hover();
     $root: &;
     position: relative;
     display: inline-flex;
@@ -7,9 +6,14 @@
     opacity: 1;
     transition: opacity $cubic-transition;
 
+    @include media-query(large) {
+        @include underline-hover();
+    }
+
     &--hidden {
         @include hidden();
         opacity: 0;
+        background: none;
     }
 
     &__icon {
