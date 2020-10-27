@@ -5,6 +5,7 @@
     $root: &;
     border-bottom: 1px solid $color--grid-line-light;
     overflow: hidden;
+    transition: transform $transition;
 
     @include media-query(medium) {
         border-top: 1px solid $color--grid-line-light;

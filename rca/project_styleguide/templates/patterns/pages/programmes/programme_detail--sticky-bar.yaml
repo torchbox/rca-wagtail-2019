@@ -1,5 +1,10 @@
 context:
+  booking_bar:
+    message: 'Next course starts Thursday 19 March 2020'
+    action: 'Book now for £900'
+    modal: 'booking-details'
   page:
+    show_register_link: True
     get_verbose_name: programme-page
     title: Architecture
     degree_level: 'MA'
