@@ -73,6 +73,9 @@
         transform: translate3d(0, -100%, 0);
     }
 
+    .app--programme-page.sticky-bar & {
+        @include z-index(footer);
+    }
     // Place on last item on the page, to compensate for transform on actual item
     &__last-item {
         margin-bottom: -$booking-bar-height-small;
