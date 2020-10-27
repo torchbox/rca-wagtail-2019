@@ -732,5 +732,5 @@ CACHE_CONTROL_STALE_IF_ERROR = env.get("CACHE_CONTROL_STALE_IF_ERROR", None)
 
 CSRF_TRUSTED_ORIGINS = ["www.rca.ac.uk"]
 
-# Enable / Disable for api fetches from the old site and access planit.
+# Enable / Disable logging exceptions for api fetches from the old site and access planit.
 API_FETCH_LOGGING = env.get("API_FETCH_LOGGING", False)

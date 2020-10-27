@@ -8,6 +8,7 @@ from modelcluster.fields import ParentalKey
 from rest_framework.fields import CharField as CharFieldSerializer
 from wagtail.admin.edit_handlers import (
     FieldPanel,
+    HelpPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
@@ -17,6 +18,7 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.api import APIField
 from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.models import Orderable
 from wagtail.images import get_image_model_string
 from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -82,6 +84,44 @@ class ShortCourseSubjectPlacement(models.Model):
     panels = [FieldPanel("subject")]
 
 
+class ShortCourse(Orderable):
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+    booking_link = models.URLField(blank=True)
+    register_interest_link = models.URLField(blank=True)
+    cost = models.PositiveIntegerField(blank=True)
+    source_page = ParentalKey("ShortCoursePage", related_name="manual_bookings")
+    panels = [
+        FieldPanel("start_date"),
+        FieldPanel("end_date"),
+        FieldPanel("booking_link"),
+        FieldPanel("register_interest_link"),
+        FieldPanel("cost"),
+    ]
+
+    def clean(self):
+        errors = defaultdict(list)
+        super().clean()
+
+        if self.register_interest_link and self.booking_link:
+            errors["booking_link"].append(_("Please define only one link."))
+
+        # Require start time if there's an end time
+        if self.end_date:
+            if not self.start_date:
+                errors["start_date"].append(
+                    _("If you enter an end date, you must also enter a start date")
+                )
+
+            elif self.end_date < self.start_date:
+                errors["end_date"].append(
+                    _("Events involving time travel are not supported")
+                )
+
+        if errors:
+            raise ValidationError(errors)
+
+
 class ShortCoursePage(BasePage):
     template = "patterns/pages/shortcourses/short_course.html"
 
@@ -132,7 +172,7 @@ class ShortCoursePage(BasePage):
     course_details_text = RichTextField(blank=True)
     show_register_link = models.BooleanField(
         default=1,
-        help_text="If selected, a 'Register your interest' link will be \
+        help_text="If selected, an automatic 'Register your interest' link will be \
                                                                    visible in the key details section",
     )
     course_details_text = RichTextField(blank=True)
@@ -170,13 +210,33 @@ class ShortCoursePage(BasePage):
     external_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="External Links"
     )
-    application_form_url = models.URLField(blank=True)
+    application_form_url = models.URLField(
+        blank=True,
+        help_text="Adding an application form URL will override the booking link to Access Planit",
+    )
+    manual_registration_url = models.URLField(
+        blank=True, help_text="Override the register interest link show in the modal",
+    )
+
     access_planit_and_course_data_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("manual_registration_url"),
+                HelpPanel(
+                    "Defining course details manually will override any Access Planit data configured for this page"
+                ),
+                InlinePanel("manual_bookings", label="Booking"),
+            ],
+            heading="Manual course configuration",
+        ),
+        MultiFieldPanel(
+            [FieldPanel("application_form_url")], heading="Application URL"
+        ),
         FieldPanel("access_planit_course_id"),
-        FieldPanel("application_form_url"),
         MultiFieldPanel(
             [
                 FieldPanel("course_details_text"),
+                FieldPanel("show_register_link"),
                 SnippetChooserPanel("frequently_asked_questions"),
                 SnippetChooserPanel("terms_and_conditions"),
             ],
@@ -233,7 +293,6 @@ class ShortCoursePage(BasePage):
     key_details_panels = [
         InlinePanel("fee_items", label="Fees"),
         FieldPanel("location"),
-        FieldPanel("show_register_link"),
         InlinePanel("subjects", label=_("Subjects")),
     ]
 
@@ -285,6 +344,10 @@ class ShortCoursePage(BasePage):
         ),
     ]
 
+    @property
+    def get_manual_bookings(self):
+        return self.manual_bookings.all()
+
     def get_access_planit_data(self):
         access_planit_course_data = AccessPlanitXML(
             course_id=self.access_planit_course_id
@@ -305,9 +368,21 @@ class ShortCoursePage(BasePage):
         # a modal, this link is also used as a generic interest link too though.
         booking_bar["link"] = register_interest_link
 
+        # If manual_booking links are defined, format the booking bar
+        if self.manual_bookings.first():
+            date = self.manual_bookings.first()
+            booking_bar["message"] = "Next course starts"
+            booking_bar["date"] = date.start_date
+            booking_bar["action"] = (
+                f"Book from \xA3{date.cost}" if date.cost else f"Book now"
+            )
+            booking_bar["modal"] = "booking-details"
+            booking_bar["cost"] = date.cost
+            return booking_bar
+
+        # If there is access planit data, format the booking bar
         if access_planit_data:
             for date in access_planit_data:
-
                 if date["status"] == "Available":
                     booking_bar["message"] = "Next course starts"
                     booking_bar["date"] = date["start_date"]
@@ -320,7 +395,7 @@ class ShortCoursePage(BasePage):
                     booking_bar["link"] = None
                     booking_bar["modal"] = "booking-details"
                     break
-        return booking_bar
+            return booking_bar
 
     def clean(self):
         errors = defaultdict(list)
