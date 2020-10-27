@@ -61,7 +61,7 @@ jobs:
           name: Run Black
           command: |
             . venv/bin/activate
-            black --check ./rca --exclude migrations/
+            black --check --diff ./rca --exclude migrations/
   deploy_dev:
     docker:
       - image: buildpack-deps:trusty
