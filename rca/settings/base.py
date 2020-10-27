@@ -738,8 +738,8 @@ API_FETCH_LOGGING = env.get("API_FETCH_LOGGING", False)
 
 # Birdbath
 BIRDBATH_CHECKS = [
-    "birdbath.checks.heroku.HerokuNotProductionCheck",
-    "birdbath.checks.heroku.AnomymisationAllowedCheck",
+    "birdbath.checks.contrib.heroku.HerokuNotProductionCheck",
+    "birdbath.checks.contrib.heroku.AnomymisationAllowedCheck",
 ]
 BIRDBATH_REQUIRED = env.get("BIRDBATH_REQUIRED", "true").lower() == "true"
 BIRDBATH_USER_ANONYMISER_EXCLUDE_EMAIL_RE = r"torchbox\.com$"
