@@ -8,22 +8,25 @@ from rca.shortcourses.models import ShortCoursePage
 class TestBookingBarLogic(TestCase):
     """ Test the various states that the booking bar logic can return
     Scenarios:
-        1 - If no data is passed to the booking bar, E.G no dates data should
-        show "Applications are now closed", and an automatic 'register intereset
-        link' populated using the AccessPlanit course ID
-        2a - Custom/Manual dates have been defined. Booking bar should show
-        'Next start date', and a 'book now' (first date item has book now url)
-        link from the first manually added date via ShortCourseManualDate
-        (manual_bookings)
-        2b - Custom/Manual dates have been defined. Booking bar should show
-        'Next start date', and a 'register' (first date item has register url)
-        link from the first manually added date via ShortCourseManualDate
-        (manual_bookings)
-        3a - If there is access planit data fetched for the course_id, Booking
-        bar should show 'next course starts: start_date' and a book now link
-        3b - If there is access planit data fetched for the course_id and the
-        short course has an 'application_form_url' defined, Booking bar should
-        show 'Next course starts: start date' and  'Submit form to apply' link
+        1 - no data at all show applications are closed
+        2 - If no booking data and show_register_link checked and AP id is preset
+            - populate auto register links in sidebar and in booking bar
+        3 - if no booking data and show_register_link checked and AP id is preset
+            and manual_register_url is defined: Show 'register interest' in booking bar
+            using manual_register_url.value
+        4 - if access planit data comes through register interest link
+            in the modal and sidebar automatically goes to AP form url. Booking
+            bar will show next start date and 'book' link to open modal.
+        5 - if access planit data comes through AND page.manual_register_url
+            is defined, modal and sidebar links go to page.manual_register_url.
+            Booking bar will show next start date and 'book' link to open modal.
+        6 - if access planit data comes through, but a page.application_form_url
+            is defined, booking bar shows next AP course date and "Submit for to
+            apply". > opens modal, modal shows 'apply' links in place of book.
+        7 - If manual booking dates are defined. The first/top booking date is
+            shown in the booking bar, 'Book' link in the booking bar opens modal
+            to show booking manually added booking items
+
     """
 
     def setUp(self):
@@ -41,10 +44,42 @@ class TestBookingBarLogic(TestCase):
             hero_colour_option=1,
         )
 
-    def test_no_data_at_all(self):
-        """1 - If no data is passed to the booking bar, E.G no dates data
-        should show "Applications are now closed", and an automatic 'register
-        intereset link' populated using the AccessPlanit course ID"""
+    def test_no_data(self):
+        """
+        1 no data at all show applications are closed
+        """
+        self.home_page.add_child(instance=self.short_course_page)
+
+        # Get the auto register interest link made in the context
+        register_link = self.short_course_page.get_context(request=None)[
+            "register_interest_link"
+        ]
+
+        booking_bar_data = self.short_course_page._format_booking_bar(
+            register_interest_link=register_link, access_planit_data=None
+        )
+
+        self.assertEqual(
+            {
+                "message": "Applications are now closed",
+                "action": "Register your interest for upcoming dates",
+                "link": register_link,
+            },
+            booking_bar_data,
+        )
+
+        response = self.client.get("/short-course/")
+        self.assertContains(response, "Short course title")
+        self.assertContains(response, "Register your interest for upcoming dates")
+        self.assertContains(response, "Applications are now closed")
+        self.assertContains(response, register_link)
+        self.assertEqual(response.render().status_code, 200)
+
+    def test_no_data_at_and_register_link(self):
+        """
+        2 If no booking data and show_register_link checked and AP id is preset
+        populate auto register links in sidebar and in booking bar
+        """
 
         self.home_page.add_child(instance=self.short_course_page)
 
@@ -73,30 +108,41 @@ class TestBookingBarLogic(TestCase):
         self.assertContains(response, register_link)
         self.assertEqual(response.render().status_code, 200)
 
-    def test_custom_dates_book(self):
-        # TODO
-        """2a - Custom/Manual dates have been defined. Booking bar should show
-        'Next start date', and a 'book now' (first date item has book now url)
-        link from the first manually added date via ShortCourseManualDate
-        (manual_bookings)"""
-        pass
-
     def test_custom_dates_register(self):
-        """2b - Custom/Manual dates have been defined. Booking bar should show
-        'Next start date', and a 'register' (first date item has register url)
-        link from the first manually added date via ShortCourseManualDate
-        (manual_bookings)"""
+        """
+        3 if not booking data and show_register_link checked and AP id is preset
+        and manual_register_url is defined: Show 'register interest' in booking bar
+        using manual_register_url.value
+        """
         pass
 
     def test_access_planit_book(self):
-        """3a - If there is access planit data fetched for the course_id,
-        Booking bar should show 'next course starts: start_date' and a
-        book now link """
+        """
+        4 if access planit data comes through register interest link
+        in the modal and sidebar automatically goes to AP form url. Booking
+        bar will show next start date and 'book' link to open modal.
+        """
+        pass
+
+    def test_access_planit_apply_manual_register(self):
+        """
+        5 if access planit data comes through AND page.manual_register_url
+        is defined, modal and sidebar links go to page.manual_register_url.
+        Booking bar will show next start date and 'book' link to open modal
+        """
         pass
 
     def test_access_planit_apply(self):
-        """3b - If there is access planit data fetched for the course_id and
-        the short course has an 'application_form_url' defined, Booking bar
-        should show 'Next course starts: start date' and 'Submit form to
-        apply' link"""
+        """
+        6 if access planit data comes through, but a page.application_form_url
+        is defined, booking bar shows next AP course date and "Submit for to
+        apply". > opens modal, modal shows 'apply' links in place of book
+        """
         pass
+
+    def test_manual_dates(self):
+        """
+        7 If manual booking dates are defined. The first/top booking date is
+        shown in the booking bar, 'Book' link in the booking bar opens modal
+        to show booking manually added booking items
+        """

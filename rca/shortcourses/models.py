@@ -87,24 +87,19 @@ class ShortCourseSubjectPlacement(models.Model):
 class ShortCourseManualDate(Orderable):
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
-    booking_link = models.URLField(blank=True, null=True)
-    register_interest_link = models.URLField(blank=True, null=True)
+    booking_link = models.URLField(blank=False)
     cost = models.PositiveIntegerField(blank=True, null=True)
     source_page = ParentalKey("ShortCoursePage", related_name="manual_bookings")
     panels = [
         FieldPanel("start_date"),
         FieldPanel("end_date"),
         FieldPanel("booking_link"),
-        FieldPanel("register_interest_link"),
         FieldPanel("cost"),
     ]
 
     def clean(self):
         errors = defaultdict(list)
         super().clean()
-
-        if self.register_interest_link and self.booking_link:
-            errors["booking_link"].append(_("Please define only one link."))
 
         # Require start time if there's an end time
         if self.end_date:
@@ -378,8 +373,6 @@ class ShortCoursePage(BasePage):
                 booking_bar["action"] = (
                     f"Book from \xA3{date.cost}" if date.cost else f"Book now"
                 )
-            if date.register_interest_link:
-                booking_bar["action"] = "Register your interest"
             booking_bar["modal"] = "booking-details"
             booking_bar["cost"] = date.cost
             return booking_bar
@@ -401,6 +394,10 @@ class ShortCoursePage(BasePage):
                     break
             return booking_bar
 
+        # Check for a manual_registration_url if there is no data
+        if self.manual_registration_url:
+            print(booking_bar)
+            booking_bar["link"] = self.manual_registration_url
         return booking_bar
 
     def clean(self):
