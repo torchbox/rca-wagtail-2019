@@ -84,7 +84,7 @@ class ShortCourseSubjectPlacement(models.Model):
     panels = [FieldPanel("subject")]
 
 
-class ShortCourse(Orderable):
+class ShortCourseManualDate(Orderable):
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
     booking_link = models.URLField(blank=True, null=True)
@@ -354,7 +354,7 @@ class ShortCoursePage(BasePage):
         )
         return access_planit_course_data.get_data()
 
-    def _format_booking_bar(self, register_interest_link, access_planit_data):
+    def _format_booking_bar(self, register_interest_link=None, access_planit_data=None):
         """ Booking bar messaging with the next course data available
         Find the next course date marked as status='available' and advertise
         this date in the booking bar. If there are no courses available, add
@@ -368,7 +368,8 @@ class ShortCoursePage(BasePage):
         # a modal, this link is also used as a generic interest link too though.
         booking_bar["link"] = register_interest_link
 
-        # If manual_booking links are defined, format the booking bar
+        # If manual_booking links are defined, format the booking bar and return
+        # it before checking access planit
         if self.manual_bookings.first():
             date = self.manual_bookings.first()
             booking_bar["message"] = "Next course starts"
@@ -399,6 +400,8 @@ class ShortCoursePage(BasePage):
                     booking_bar["modal"] = "booking-details"
                     break
             return booking_bar
+
+        return booking_bar
 
     def clean(self):
         errors = defaultdict(list)
