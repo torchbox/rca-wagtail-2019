@@ -70,7 +70,7 @@ class TestBookingBarLogic(TestCase):
         self.assertContains(response, "Short course title")
         self.assertContains(response, "Register your interest for upcoming dates")
         self.assertContains(response, "Applications are now closed")
-        self.assertContains(response, "register_links")
+        self.assertContains(response, register_link)
         self.assertEqual(response.render().status_code, 200)
 
     def test_custom_dates_book(self):
