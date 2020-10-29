@@ -1,6 +1,5 @@
 from collections import defaultdict
 
-from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from modelcluster.fields import ParentalKey
@@ -10,12 +9,12 @@ from wagtail.admin.edit_handlers import (
     MultiFieldPanel,
     StreamFieldPanel,
 )
-from wagtail.core.fields import StreamField
+from wagtail.core.fields import StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.api_content.content import get_alumni_stories, get_news_and_events
-from rca.utils.blocks import SlideBlock, StatisticBlock
+from rca.utils.blocks import RelatedPageListBlockPage, StatisticBlock
 from rca.utils.models import HERO_COLOUR_CHOICES, BasePage
 
 
@@ -76,7 +75,8 @@ class HomePagePartnershipBlock(models.Model):
     source_page = ParentalKey("HomePage", related_name="partnerships_block")
     title = models.CharField(max_length=125)
     summary = models.CharField(max_length=250)
-    slides = StreamField([("slide", SlideBlock())])
+    slides = StreamField(StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1))
+
     panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("slides")]
 
     def __str__(self):
@@ -175,12 +175,75 @@ class HomePage(BasePage):
         if errors:
             raise ValidationError(errors)
 
+    def _format_partnerships(self, partnerships_block):
+        # The partnerships.slides field offers choice between a page
+        # or a custom teaser, this method formats the data so either values
+        # can be sent to the homepage template and format into a slideshow
+        slideshow = {
+            "title": partnerships_block.title,
+            "summary": partnerships_block.summary,
+            "slides": [],
+        }
+        for slide in partnerships_block.slides:
+            for block in slide.value:
+                if block.block_type == "custom_teaser":
+                    slideshow["slides"].append(
+                        {
+                            "value": {
+                                "title": block.value["title"],
+                                "summary": block.value["text"],
+                                "image": block.value["image"],
+                                "link": block.value["link"],
+                                "type": block.value["meta"],
+                            }
+                        }
+                    )
+                elif block.block_type == "page":
+                    page_type = None
+                    page_type_mapping = {
+                        "GuidePage": "GUIDE",
+                        "ProjectPage": "PROJECT",
+                        "ResearchCentrePage": "RESEARCH CENTRE",
+                        "ShortCoursePage": "SHORT COURSE",
+                        "ProgrammePage": "PROGRAMME",
+                    }
+                    page = block.value.specific
+
+                    if page.__class__.__name__ in page_type_mapping:
+                        page_type = page_type_mapping.get(page.__class__.__name__, None)
+                    summary = (
+                        page.introduction
+                        if hasattr(page, "introduction")
+                        else page.listing_summary
+                    )
+                    image = (
+                        page.hero_image
+                        if hasattr(page, "hero_image")
+                        else page.listing_image
+                    )
+                    slideshow["slides"].append(
+                        {
+                            "value": {
+                                "title": page.title,
+                                "summary": summary,
+                                "image": image,
+                                "link": page.url,
+                                "type": page_type,
+                            }
+                        }
+                    )
+
+        return slideshow
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["transformation_block"] = self.transformation_blocks.select_related(
             "image"
         ).first()
-        context["partnerships_block"] = self.partnerships_block.first()
+        context["partnerships_block"] = self._format_partnerships(
+            self.partnerships_block.first()
+        )
+
         context["stats_block"] = self.stats_block.select_related(
             "background_image"
         ).first()
