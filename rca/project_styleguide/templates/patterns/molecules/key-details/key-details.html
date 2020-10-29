@@ -26,9 +26,9 @@
                 </ul>
             </div>
         {% endif %}
-        {% if page.show_register_link and register_interest_link %}
+        {% if page.show_register_link and register_interest_link or page.manual_registration_url and page.show_register_interest_link %}
             <div class="key-details__section key-details__section--action">
-                <a class="key-details__link link link--primary link--download" href="{{ register_interest_link }}">
+                <a class="key-details__link link link--primary link--download" href="{% firstof page.manual_registration_url register_interest_link %}">
                     <span class="link__label">Register your interest to download the course brochure</span>
                     <svg width="8" height="12" class="link__icon" aria-hidden="true"><use xlink:href="#download"></use></svg>
                 </a>
