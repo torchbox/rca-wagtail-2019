@@ -236,7 +236,6 @@ class ShortCoursePage(BasePage):
         MultiFieldPanel(
             [
                 FieldPanel("course_details_text"),
-                FieldPanel("show_register_link"),
                 SnippetChooserPanel("frequently_asked_questions"),
                 SnippetChooserPanel("terms_and_conditions"),
             ],
@@ -293,6 +292,7 @@ class ShortCoursePage(BasePage):
     key_details_panels = [
         InlinePanel("fee_items", label="Fees"),
         FieldPanel("location"),
+        FieldPanel("show_register_link"),
         InlinePanel("subjects", label=_("Subjects")),
     ]
 
