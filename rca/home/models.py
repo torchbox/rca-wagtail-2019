@@ -193,7 +193,7 @@ class HomePage(BasePage):
                                 "title": block.value["title"],
                                 "summary": block.value["text"],
                                 "image": block.value["image"],
-                                "link": block.value["link"],
+                                "link": block.value["link"]["url"],
                                 "type": block.value["meta"],
                             }
                         }
