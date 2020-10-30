@@ -396,7 +396,6 @@ class ShortCoursePage(BasePage):
 
         # Check for a manual_registration_url if there is no data
         if self.manual_registration_url:
-            print(booking_bar)
             booking_bar["link"] = self.manual_registration_url
         return booking_bar
 
