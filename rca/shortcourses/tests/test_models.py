@@ -1,7 +1,6 @@
 import datetime
 from unittest import mock
 
-from django.conf import settings
 from django.test import TestCase
 
 from rca.home.models import HomePage
@@ -38,9 +37,6 @@ class TestBookingBarLogic(TestCase):
     """
 
     def setUp(self):
-        settings.ACCESS_PLANIT_REGISTER_INTEREST_BASE = (
-            "https://rca.ac.uk/short-courses/register-your-interest/"
-        )
         ProgrammeType.objects.create(
             display_name="Design", description="Some description text", id=1
         )
