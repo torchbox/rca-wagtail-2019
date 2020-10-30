@@ -1,6 +1,7 @@
 import datetime
 from unittest import mock
 
+from django.conf import settings
 from django.test import TestCase
 
 from rca.home.models import HomePage
@@ -37,6 +38,9 @@ class TestBookingBarLogic(TestCase):
     """
 
     def setUp(self):
+        settings.ACCESS_PLANIT_REGISTER_INTEREST_BASE = (
+            "https://rca.ac.uk/short-courses/register-your-interest/"
+        )
         ProgrammeType.objects.create(
             display_name="Design", description="Some description text", id=1
         )
@@ -115,15 +119,16 @@ class TestBookingBarLogic(TestCase):
         )
 
         response = self.client.get("/short-course/")
-        self.assertIn(
-            "/short-courses/register-your-interest/?course_id=1", register_link
+        self.AssertEquals(
+            "https://rca.ac.uk/short-courses/register-your-interest/?course_id=1",
+            register_link,
         )
         self.assertContains(response, "Register your interest for upcoming dates")
         self.assertContains(response, "Applications are now closed")
         self.assertContains(response, register_link)
         self.assertEqual(response.render().status_code, 200)
 
-    def test_no_data_at_and_manual_register_link(self):
+    def test_no_data_and_manual_register_link(self):
         """
         3 If no booking data and show_register_link checked and AP id is preset
         and the manual_registration_url is defined
@@ -208,6 +213,9 @@ class TestBookingBarLogic(TestCase):
         ]
         self.home_page.add_child(instance=self.short_course_page)
         response = self.client.get("/short-course/")
-        self.assertContains(response, "Book from £100")
+        self.assertContains(
+            response,
+            f"Book from \xA3{self.short_course_page.manual_bookings.first().cost}",
+        )
         self.assertContains(response, "Next course starts 01 October 2020")
         self.assertEqual(response.render().status_code, 200)
