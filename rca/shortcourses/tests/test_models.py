@@ -119,7 +119,7 @@ class TestBookingBarLogic(TestCase):
         )
 
         response = self.client.get("/short-course/")
-        self.AssertEquals(
+        self.assertEqual(
             "https://rca.ac.uk/short-courses/register-your-interest/?course_id=1",
             register_link,
         )
