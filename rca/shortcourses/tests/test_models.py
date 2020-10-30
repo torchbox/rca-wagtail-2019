@@ -198,6 +198,7 @@ class TestBookingBarLogic(TestCase):
                 end_date=datetime.date(2020, 10, 3),
                 cost=100,
                 booking_link="https://bookthiscourse.com",
+                sort_order=0,
             ),
             ShortCourseManualDate(
                 source_page=self.short_course_page,
@@ -205,6 +206,7 @@ class TestBookingBarLogic(TestCase):
                 end_date=datetime.date(2020, 10, 30),
                 cost=600,
                 booking_link="https://bookthisothercourse.com",
+                sort_order=1,
             ),
         ]
         self.home_page.add_child(instance=self.short_course_page)
@@ -214,5 +216,4 @@ class TestBookingBarLogic(TestCase):
             f"Book from \xA3{self.short_course_page.manual_bookings.first().cost}",
         )
         self.assertContains(response, "Next course starts 01 October 2020")
-        print(response.content)
         self.assertEqual(response.render().status_code, 200)
