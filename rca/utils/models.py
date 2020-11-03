@@ -661,4 +661,6 @@ class ResearchTheme(SluggedTaxonomy):
 
 
 class Sector(SluggedTaxonomy):
-    pass
+    class Meta:
+        verbose_name = "InnovationRCA sector"
+        verbose_name_plural = "Innovation RCA sectors"
