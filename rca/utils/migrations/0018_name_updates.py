@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
             name="sector",
             options={
                 "verbose_name": "Innovation RCA sector",
-                "verbose_name_plural": "InnovationRCA sectors",
+                "verbose_name_plural": "Innovation RCA sectors",
             },
         ),
     ]

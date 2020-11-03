@@ -662,5 +662,5 @@ class ResearchTheme(SluggedTaxonomy):
 
 class Sector(SluggedTaxonomy):
     class Meta:
-        verbose_name = "InnovationRCA sector"
+        verbose_name = "Innovation RCA sector"
         verbose_name_plural = "Innovation RCA sectors"
