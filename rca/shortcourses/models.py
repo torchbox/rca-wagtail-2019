@@ -149,7 +149,7 @@ class ShortCoursePage(BasePage):
         verbose_name=_("About the course"),
     )
 
-    access_planit_course_id = models.IntegerField()
+    access_planit_course_id = models.IntegerField(blank=True, null=True)
     frequently_asked_questions = models.ForeignKey(
         "utils.ShortCourseDetailSnippet",
         null=True,
@@ -409,6 +409,15 @@ class ShortCoursePage(BasePage):
             errors["contact_url"].append(
                 "Only one of URL or an Email value is supported here"
             )
+        if (
+            not self.access_planit_course_id
+            and not self.manual_registration_url
+            and self.show_register_link
+        ):
+            errors["show_register_link"].append(
+                "An access planit course ID or manual registration link is needed to show the register links"
+            )
+
         if errors:
             raise ValidationError(errors)
 
