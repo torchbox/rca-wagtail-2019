@@ -234,7 +234,7 @@ class ProjectPage(BasePage):
     ]
 
     key_details_panels = [
-        InlinePanel("related_sectors", label=_("Research sectors")),
+        InlinePanel("related_sectors", label=_("Innovation RCA sectors")),
         InlinePanel("related_research_themes", label=_("Research themes")),
         InlinePanel("expertise", label=_("RCA Expertise")),
         InlinePanel("related_school_pages", label=_("Related schools")),
