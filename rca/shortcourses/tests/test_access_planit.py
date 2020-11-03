@@ -206,6 +206,7 @@ class AccessPlanitXMLTest(TestCase):
                 contact_url="https://rca.ac.uk",
                 contact_text="Read more",
                 hero_colour_option=1,
+                show_register_link=0,
             )
         call_command("fetch_access_planit_data")
         for i in range(5):
