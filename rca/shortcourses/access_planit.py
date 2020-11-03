@@ -64,7 +64,7 @@ class AccessPlanitXML:
         exceptions, this raised and caught when setting the data in the cache.
     """
 
-    def __init__(self, course_id):
+    def __init__(self, course_id=0):
         self.course_id = course_id
         self.company_id = settings.ACCESS_PLANIT_SCHOOL_ID
         self.cache_key = f"short_course_{self.course_id}"

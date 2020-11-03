@@ -226,7 +226,7 @@ class AccessPlanitXMLTest(TestCase):
         self, mocked_fetch_data_from_xml
     ):
         """ Test that the example xml goes in the cache as expected """
-        for i in range(5):
+        for i in range(1, 5):
             ShortCoursePage.objects.create(
                 title=f"Short course {i}",
                 path=str(i),
@@ -236,10 +236,10 @@ class AccessPlanitXMLTest(TestCase):
                 contact_url="https://rca.ac.uk",
                 contact_text="Read more",
                 hero_colour_option=1,
+                show_register_link=0,
             )
         call_command("fetch_access_planit_data")
-        for i in range(5):
-            i = str(i)
+        for i in range(1, 5):
             cache_key = f"short_course_{i}"
             self.assertEqual(cache.get(cache_key), self.expected_data)
 

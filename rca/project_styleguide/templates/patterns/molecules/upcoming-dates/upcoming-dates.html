@@ -50,9 +50,11 @@
     </div>
 
     <div class="upcoming-dates__footer">
-        <div class="upcoming-dates__footer-action">
-            <a class="upcoming-dates__footer-link link link--tertiary" href='{% firstof page.manual_registration_url register_interest_link %}'>Register your interest</a>
-        </div>
+        {% if page.show_register_link %}
+            <div class="upcoming-dates__footer-action">
+                <a class="upcoming-dates__footer-link link link--tertiary" href='{% firstof page.manual_registration_url register_interest_link %}'>Register your interest</a>
+            </div>
+        {% endif %}
         {% comment %} <div class="upcoming-dates__footer-action">
             <a class="upcoming-dates__footer-link link link--tertiary" href='#'>View basket (2)</a>
         </div> {% endcomment %}
