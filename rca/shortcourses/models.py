@@ -371,7 +371,7 @@ class ShortCoursePage(BasePage):
             booking_bar["date"] = date.start_date
             if date.booking_link:
                 booking_bar["action"] = (
-                    f"Book from \xA3{date.cost}" if date.cost else f"Book now"
+                    f"Book from \xA3{date.cost}" if date.cost else "Book now"
                 )
             booking_bar["modal"] = "booking-details"
             booking_bar["cost"] = date.cost
