@@ -8,6 +8,7 @@ jobs:
           SECURE_SSL_REDIRECT: false
           ALLOWED_HOSTS: localhost
           DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+          BIRDBATH_REQUIRED: false
       - image: circleci/postgres:11.5
         environment:
           POSTGRES_USER: root

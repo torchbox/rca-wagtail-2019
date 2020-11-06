@@ -371,7 +371,7 @@ class ShortCoursePage(BasePage):
             booking_bar["date"] = date.start_date
             if date.booking_link:
                 booking_bar["action"] = (
-                    f"Book from \xA3{date.cost}" if date.cost else f"Book now"
+                    f"Book from \xA3{date.cost}" if date.cost else "Book now"
                 )
             booking_bar["modal"] = "booking-details"
             booking_bar["cost"] = date.cost
@@ -410,9 +410,9 @@ class ShortCoursePage(BasePage):
                 "Only one of URL or an Email value is supported here"
             )
         if (
-            not self.access_planit_course_id
+            self.show_register_link
             and not self.manual_registration_url
-            and self.show_register_link
+            and not self.access_planit_course_id
         ):
             errors["show_register_link"].append(
                 "An access planit course ID or manual registration link is needed to show the register links"

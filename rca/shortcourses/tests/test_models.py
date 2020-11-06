@@ -9,6 +9,9 @@ from rca.shortcourses.models import ShortCourseManualDate, ShortCoursePage
 
 from .test_access_planit import mocked_fetch_data_from_xml
 
+APPLY_MESSAGE = "Applications are now closed"
+APPLY_ACTION = "Register your interest for upcoming dates"
+
 
 class TestBookingBarLogic(TestCase):
     """ Test the various states that the booking bar logic can return, the logic
@@ -20,9 +23,9 @@ class TestBookingBarLogic(TestCase):
             - no page.show_register_link
             - no manual dates
             - no data from access planit
-        2 - If no booking data and show_register_link checked and AP id is preset
+        2 - If no booking data and show_register_link checked and AP id is present
             - populate auto register links in sidebar and in booking bar
-        3 - If no booking data and show_register_link checked and AP id is preset
+        3 - If no booking data and show_register_link checked and AP id is present
             and the manual_registration_url is defined populate manual register
             links in sidebar and in booking bar
         4 - If access planit course data comes through, but a page
@@ -32,8 +35,6 @@ class TestBookingBarLogic(TestCase):
         5 - If manual booking dates are defined. The first/top booking date is
             shown in the booking bar, 'Book' link in the booking bar opens modal
             to show booking manually added booking items
-
-
     """
 
     def setUp(self):
@@ -71,11 +72,7 @@ class TestBookingBarLogic(TestCase):
         )
 
         self.assertEqual(
-            {
-                "message": "Applications are now closed",
-                "action": "Register your interest for upcoming dates",
-                "link": register_link,
-            },
+            {"message": APPLY_MESSAGE, "action": APPLY_ACTION, "link": register_link},
             booking_bar_data,
         )
 
@@ -86,9 +83,9 @@ class TestBookingBarLogic(TestCase):
         self.assertNotIn(register_link, response)
         self.assertEqual(response.render().status_code, 200)
 
-    def test_no_data_at_and_register_link(self):
+    def test_no_booking_data_and_register_link(self):
         """
-        2 If no booking data and show_register_link checked and AP id is preset
+        2 If no booking data and show_register_link checked and AP id is present
         populate automatic register links in sidebar and in booking bar
         """
         self.short_course_page.show_register_link = 1
@@ -106,11 +103,7 @@ class TestBookingBarLogic(TestCase):
         )
 
         self.assertEqual(
-            {
-                "message": "Applications are now closed",
-                "action": "Register your interest for upcoming dates",
-                "link": register_link,
-            },
+            {"message": APPLY_MESSAGE, "action": APPLY_ACTION, "link": register_link},
             booking_bar_data,
         )
 
@@ -126,7 +119,7 @@ class TestBookingBarLogic(TestCase):
 
     def test_no_data_and_manual_register_link(self):
         """
-        3 If no booking data and show_register_link checked and AP id is preset
+        3 If no booking data and show_register_link checked and AP id is present
         and the manual_registration_url is defined
         populate manual register links in sidebar and in booking bar
         """
@@ -148,8 +141,8 @@ class TestBookingBarLogic(TestCase):
         # Check the manual link has come through as the register link in the booking bar formatter
         self.assertEqual(
             {
-                "message": "Applications are now closed",
-                "action": "Register your interest for upcoming dates",
+                "message": APPLY_MESSAGE,
+                "action": APPLY_ACTION,
                 "link": manual_registration_url,
             },
             booking_bar_data,

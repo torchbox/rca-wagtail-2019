@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "rca.projects",
     "rca.landingpages",
     "rca.people",
+    "birdbath",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.postgres_search",
     "wagtail.contrib.settings",
@@ -735,3 +736,11 @@ CSRF_TRUSTED_ORIGINS = ["www.rca.ac.uk"]
 
 # Enable / Disable logging exceptions for api fetches from the old site and access planit.
 API_FETCH_LOGGING = env.get("API_FETCH_LOGGING", False)
+
+# Birdbath
+BIRDBATH_CHECKS = [
+    "birdbath.checks.contrib.heroku.HerokuNotProductionCheck",
+    "birdbath.checks.contrib.heroku.HerokuAnonymisationAllowedCheck",
+]
+BIRDBATH_REQUIRED = env.get("BIRDBATH_REQUIRED", "true").lower() == "true"
+BIRDBATH_USER_ANONYMISER_EXCLUDE_EMAIL_RE = r"torchbox\.com$"
