@@ -20,9 +20,9 @@ class TestBookingBarLogic(TestCase):
             - no page.show_register_link
             - no manual dates
             - no data from access planit
-        2 - If no booking data and show_register_link checked and AP id is preset
+        2 - If no booking data and show_register_link checked and AP id is present
             - populate auto register links in sidebar and in booking bar
-        3 - If no booking data and show_register_link checked and AP id is preset
+        3 - If no booking data and show_register_link checked and AP id is present
             and the manual_registration_url is defined populate manual register
             links in sidebar and in booking bar
         4 - If access planit course data comes through, but a page
@@ -86,7 +86,7 @@ class TestBookingBarLogic(TestCase):
 
     def test_no_data_at_and_register_link(self):
         """
-        2 If no booking data and show_register_link checked and AP id is preset
+        2 If no booking data and show_register_link checked and AP id is present
         populate automatic register links in sidebar and in booking bar
         """
         self.short_course_page.show_register_link = 1
@@ -124,7 +124,7 @@ class TestBookingBarLogic(TestCase):
 
     def test_no_data_and_manual_register_link(self):
         """
-        3 If no booking data and show_register_link checked and AP id is preset
+        3 If no booking data and show_register_link checked and AP id is present
         and the manual_registration_url is defined
         populate manual register links in sidebar and in booking bar
         """
