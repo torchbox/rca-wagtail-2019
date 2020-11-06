@@ -84,7 +84,7 @@ class TestBookingBarLogic(TestCase):
         self.assertNotIn(register_link, response)
         self.assertEqual(response.render().status_code, 200)
 
-    def test_no_data_at_and_register_link(self):
+    def test_no_booking_data_and_register_link(self):
         """
         2 If no booking data and show_register_link checked and AP id is present
         populate automatic register links in sidebar and in booking bar
