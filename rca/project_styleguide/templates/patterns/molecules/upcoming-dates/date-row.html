@@ -1,0 +1,18 @@
+<div class="upcoming-dates__row">
+    <div class="upcoming-dates__row-item upcoming-dates__row-item--mobile" aria-hidden="true">{{ start_date|date:'d F Y' }} {% if end_date %}to {{ end_date|date:'d F Y' }}{% endif %}</div>
+    <div class="upcoming-dates__row-item upcoming-dates__start-date">{{ start_date|date:'d F Y' }}</div>
+    <div class="upcoming-dates__row-item upcoming-dates__end-date">{{ end_date|date:'d F Y' }}</div>
+    <div class="upcoming-dates__row-item upcoming-dates__action">
+        {% if register_interest_link %}
+            <a href="{{ register_interest_link }}" class="link link--tertiary link--link link--external" target="_blank">
+                <span class="link__label">Register interest</span>
+                <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
+            </a>
+        {% else %}
+            <a href="{{ booking_link }}" class="link link--tertiary link--link link--external" target="_blank">
+                <span class="link__label">Book</span>
+                <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
+            </a>
+        {% endif %}
+    </div>
+</div>

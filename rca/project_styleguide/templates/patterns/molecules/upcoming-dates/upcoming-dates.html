@@ -5,46 +5,12 @@
     </div>
     <div class="upcoming-dates__content">
         {% if page.get_manual_bookings %}
-            {% for item in  page.get_manual_bookings %}
-                <div class="upcoming-dates__row">
-                    <div class="upcoming-dates__row-item upcoming-dates__row-item--mobile" aria-hidden="true">{{ item.start_date|date:'d F Y' }} {% if item.end_date %}to {{ item.end_date|date:'d F Y' }}{% endif %}</div>
-                    <div class="upcoming-dates__row-item upcoming-dates__start-date">{{ item.start_date|date:'d F Y' }}</div>
-                    <div class="upcoming-dates__row-item upcoming-dates__end-date">{{ item.end_date|date:'d F Y' }}</div>
-                    <div class="upcoming-dates__row-item upcoming-dates__action">
-                        {% if item.register_interest_link %}
-                            <a href="{{ item.register_interest_link }}" class="link link--tertiary link--link link--external" target="_blank">
-                                <span class="link__label">Register interest</span>
-                                <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
-                            </a>
-                        {% else %}
-                            <a href="{{ item.booking_link }}" class="link link--tertiary link--link link--external" target="_blank">
-                                <span class="link__label">Book</span>
-                                <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
-                            </a>
-                        {% endif %}
-                    </div>
-                </div>
+            {% for item in page.get_manual_bookings %}
+                {% include 'patterns/molecules/upcoming-dates/date-row.html' with start_date=item.start_date end_date=item.end_date booking_link=item.booking_link register_interest_link=0 %}
             {% endfor %}
         {% else %}
             {% for item in access_planit_data %}
-                <div class="upcoming-dates__row">
-                    <div class="upcoming-dates__row-item upcoming-dates__row-item--mobile" aria-hidden="true">{{ item.start_date|date:'d F Y' }} {% if item.end_date %}to {{ item.end_date|date:'d F Y' }}{% endif %}</div>
-                    <div class="upcoming-dates__row-item upcoming-dates__start-date">{{ item.start_date|date:'d F Y' }}</div>
-                    <div class="upcoming-dates__row-item upcoming-dates__end-date">{{ item.end_date|date:'d F Y' }}</div>
-                    <div class="upcoming-dates__row-item upcoming-dates__action">
-                        {% if page.application_form_url %}
-                            <a href="{{ page.application_form_url }}" class="link link--tertiary link--link link--external" target="_blank">
-                                <span class="link__label">Apply</span>
-                                <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
-                            </a>
-                        {% else %}
-                            <a href="{{ item.book_now_url }}" class="link link--tertiary link--link link--external" target="_blank">
-                                <span class="link__label">Book</span>
-                                <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
-                            </a>
-                        {% endif %}
-                    </div>
-                </div>
+                {% include 'patterns/molecules/upcoming-dates/date-row.html' with start_date=item.start_date end_date=item.end_date booking_link=item.book_now_url register_interest_link=page.application_form_url %}
             {% endfor %}
         {% endif %}
     </div>

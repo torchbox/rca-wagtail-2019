@@ -22,3 +22,4 @@ API_CONTENT_BASE_URL = "https://rca.ac.uk"
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.MD5PasswordHasher",
 ]
+BIRDBATH_REQUIRED = False
