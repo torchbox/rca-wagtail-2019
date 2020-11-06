@@ -410,9 +410,9 @@ class ShortCoursePage(BasePage):
                 "Only one of URL or an Email value is supported here"
             )
         if (
-            not self.access_planit_course_id
+            self.show_register_link
             and not self.manual_registration_url
-            and self.show_register_link
+            and not self.access_planit_course_id
         ):
             errors["show_register_link"].append(
                 "An access planit course ID or manual registration link is needed to show the register links"
