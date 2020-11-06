@@ -9,6 +9,9 @@ from rca.shortcourses.models import ShortCourseManualDate, ShortCoursePage
 
 from .test_access_planit import mocked_fetch_data_from_xml
 
+APPLY_MESSAGE = "Applications are now closed"
+APPLY_ACTION = "Register your interest for upcoming dates"
+
 
 class TestBookingBarLogic(TestCase):
     """ Test the various states that the booking bar logic can return, the logic
@@ -69,11 +72,7 @@ class TestBookingBarLogic(TestCase):
         )
 
         self.assertEqual(
-            {
-                "message": "Applications are now closed",
-                "action": "Register your interest for upcoming dates",
-                "link": register_link,
-            },
+            {"message": APPLY_MESSAGE, "action": APPLY_ACTION, "link": register_link},
             booking_bar_data,
         )
 
@@ -104,11 +103,7 @@ class TestBookingBarLogic(TestCase):
         )
 
         self.assertEqual(
-            {
-                "message": "Applications are now closed",
-                "action": "Register your interest for upcoming dates",
-                "link": register_link,
-            },
+            {"message": APPLY_MESSAGE, "action": APPLY_ACTION, "link": register_link},
             booking_bar_data,
         )
 
@@ -146,8 +141,8 @@ class TestBookingBarLogic(TestCase):
         # Check the manual link has come through as the register link in the booking bar formatter
         self.assertEqual(
             {
-                "message": "Applications are now closed",
-                "action": "Register your interest for upcoming dates",
+                "message": APPLY_MESSAGE,
+                "action": APPLY_ACTION,
                 "link": manual_registration_url,
             },
             booking_bar_data,
