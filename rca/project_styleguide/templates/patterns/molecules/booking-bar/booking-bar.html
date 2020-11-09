@@ -4,7 +4,7 @@
         <div class="booking-bar__message">
             {{ item.message }} {{ item.date|date:'d F Y' }}
         </div>
-        {% if page.show_register_link %}
+        {% if page.show_register_link or page.get_manual_bookings or page.manual_registration_url %}
             <div class="booking-bar__action">
                 {% include "patterns/atoms/modal-launcher/modal-launcher.html" with modal_aria_label=modal_aria_label %}
             </div>

@@ -56,12 +56,12 @@ jobs:
             ./manage.py collectstatic --clear --noinput
             ./manage.py makemigrations --check --noinput
             ./manage.py check
-            ./manage.py test
+            ./manage.py test --settings rca.settings.test
       - run:
           name: Run Black
           command: |
             . venv/bin/activate
-            black --check ./rca --exclude migrations/
+            black --check --diff ./rca --exclude migrations/
   deploy_dev:
     docker:
       - image: buildpack-deps:trusty

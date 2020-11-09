@@ -8,6 +8,7 @@ from modelcluster.fields import ParentalKey
 from rest_framework.fields import CharField as CharFieldSerializer
 from wagtail.admin.edit_handlers import (
     FieldPanel,
+    HelpPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
@@ -17,6 +18,7 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.api import APIField
 from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.models import Orderable
 from wagtail.images import get_image_model_string
 from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -82,6 +84,39 @@ class ShortCourseSubjectPlacement(models.Model):
     panels = [FieldPanel("subject")]
 
 
+class ShortCourseManualDate(Orderable):
+    start_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+    booking_link = models.URLField(blank=False)
+    cost = models.PositiveIntegerField(blank=True, null=True)
+    source_page = ParentalKey("ShortCoursePage", related_name="manual_bookings")
+    panels = [
+        FieldPanel("start_date"),
+        FieldPanel("end_date"),
+        FieldPanel("booking_link"),
+        FieldPanel("cost"),
+    ]
+
+    def clean(self):
+        errors = defaultdict(list)
+        super().clean()
+
+        # Require start time if there's an end time
+        if self.end_date:
+            if not self.start_date:
+                errors["start_date"].append(
+                    _("If you enter an end date, you must also enter a start date")
+                )
+
+            elif self.end_date < self.start_date:
+                errors["end_date"].append(
+                    _("Events involving time travel are not supported")
+                )
+
+        if errors:
+            raise ValidationError(errors)
+
+
 class ShortCoursePage(BasePage):
     template = "patterns/pages/shortcourses/short_course.html"
 
@@ -114,7 +149,7 @@ class ShortCoursePage(BasePage):
         verbose_name=_("About the course"),
     )
 
-    access_planit_course_id = models.IntegerField()
+    access_planit_course_id = models.IntegerField(blank=True, null=True)
     frequently_asked_questions = models.ForeignKey(
         "utils.ShortCourseDetailSnippet",
         null=True,
@@ -132,7 +167,7 @@ class ShortCoursePage(BasePage):
     course_details_text = RichTextField(blank=True)
     show_register_link = models.BooleanField(
         default=1,
-        help_text="If selected, a 'Register your interest' link will be \
+        help_text="If selected, an automatic 'Register your interest' link will be \
                                                                    visible in the key details section",
     )
     course_details_text = RichTextField(blank=True)
@@ -170,10 +205,29 @@ class ShortCoursePage(BasePage):
     external_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="External Links"
     )
-    application_form_url = models.URLField(blank=True)
+    application_form_url = models.URLField(
+        blank=True,
+        help_text="Adding an application form URL will override the booking link to Access Planit",
+    )
+    manual_registration_url = models.URLField(
+        blank=True, help_text="Override the register interest link show in the modal",
+    )
+
     access_planit_and_course_data_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("manual_registration_url"),
+                HelpPanel(
+                    "Defining course details manually will override any Access Planit data configured for this page"
+                ),
+                InlinePanel("manual_bookings", label="Booking"),
+            ],
+            heading="Manual course configuration",
+        ),
+        MultiFieldPanel(
+            [FieldPanel("application_form_url")], heading="Application URL"
+        ),
         FieldPanel("access_planit_course_id"),
-        FieldPanel("application_form_url"),
         MultiFieldPanel(
             [
                 FieldPanel("course_details_text"),
@@ -285,13 +339,17 @@ class ShortCoursePage(BasePage):
         ),
     ]
 
+    @property
+    def get_manual_bookings(self):
+        return self.manual_bookings.all()
+
     def get_access_planit_data(self):
         access_planit_course_data = AccessPlanitXML(
             course_id=self.access_planit_course_id
         )
         return access_planit_course_data.get_data()
 
-    def _format_booking_bar(self, register_interest_link, access_planit_data):
+    def _format_booking_bar(self, register_interest_link=None, access_planit_data=None):
         """ Booking bar messaging with the next course data available
         Find the next course date marked as status='available' and advertise
         this date in the booking bar. If there are no courses available, add
@@ -305,9 +363,23 @@ class ShortCoursePage(BasePage):
         # a modal, this link is also used as a generic interest link too though.
         booking_bar["link"] = register_interest_link
 
+        # If manual_booking links are defined, format the booking bar and return
+        # it before checking access planit
+        if self.manual_bookings.first():
+            date = self.manual_bookings.first()
+            booking_bar["message"] = "Next course starts"
+            booking_bar["date"] = date.start_date
+            if date.booking_link:
+                booking_bar["action"] = (
+                    f"Book from \xA3{date.cost}" if date.cost else "Book now"
+                )
+            booking_bar["modal"] = "booking-details"
+            booking_bar["cost"] = date.cost
+            return booking_bar
+
+        # If there is access planit data, format the booking bar
         if access_planit_data:
             for date in access_planit_data:
-
                 if date["status"] == "Available":
                     booking_bar["message"] = "Next course starts"
                     booking_bar["date"] = date["start_date"]
@@ -320,6 +392,11 @@ class ShortCoursePage(BasePage):
                     booking_bar["link"] = None
                     booking_bar["modal"] = "booking-details"
                     break
+            return booking_bar
+
+        # Check for a manual_registration_url if there is no data
+        if self.manual_registration_url:
+            booking_bar["link"] = self.manual_registration_url
         return booking_bar
 
     def clean(self):
@@ -332,6 +409,15 @@ class ShortCoursePage(BasePage):
             errors["contact_url"].append(
                 "Only one of URL or an Email value is supported here"
             )
+        if (
+            self.show_register_link
+            and not self.manual_registration_url
+            and not self.access_planit_course_id
+        ):
+            errors["show_register_link"].append(
+                "An access planit course ID or manual registration link is needed to show the register links"
+            )
+
         if errors:
             raise ValidationError(errors)
 
