@@ -145,6 +145,10 @@ class AccessPlanitXMLTest(TestCase):
         side_effect=mocked_fetch_data_from_xml,
     )
     @mock.patch("rca.shortcourses.access_planit.requests.get")
+    @mock.patch(
+        "rca.shortcourses.access_planit.AccessPlanitCourseChecker.course_exists",
+        mock.Mock(return_value=True),
+    )
     def test_cached_data_if_timeout(self, mock_get, mocked_fetch_data_from_xml):
         """ Test getting stale cache data with a Timeout failure to get data"""
         logging.disable(logging.CRITICAL)
@@ -200,6 +204,10 @@ class AccessPlanitXMLTest(TestCase):
         "rca.shortcourses.access_planit.AccessPlanitXML.fetch_data_from_xml",
         side_effect=mocked_fetch_data_from_xml,
     )
+    @mock.patch(
+        "rca.shortcourses.access_planit.AccessPlanitCourseChecker.course_exists",
+        mock.Mock(return_value=True),
+    )
     def test_management_command_fetch_with_example_data(
         self, mocked_fetch_data_from_xml
     ):
@@ -222,6 +230,10 @@ class AccessPlanitXMLTest(TestCase):
             self.assertEqual(cache.get(cache_key), self.expected_data)
 
     @mock.patch("rca.shortcourses.access_planit.requests.get")
+    @mock.patch(
+        "rca.shortcourses.access_planit.AccessPlanitCourseChecker.course_exists",
+        mock.Mock(return_value=True),
+    )
     def test_page_renders_with_timeout(self, mock_get):
         logging.disable(logging.CRITICAL)
         """ If there is a timeout for the xml request when the page loads,
@@ -248,6 +260,10 @@ class AccessPlanitXMLTest(TestCase):
     @mock.patch(
         "rca.shortcourses.access_planit.AccessPlanitXML.fetch_data_from_xml",
         side_effect=mocked_fetch_data_from_xml,
+    )
+    @mock.patch(
+        "rca.shortcourses.access_planit.AccessPlanitCourseChecker.course_exists",
+        mock.Mock(return_value=True),
     )
     def test_page_renders_good_xml(self, mocked_fetch_data_from_xml):
         """ Test that the example xml file is passed through the parser and is set
