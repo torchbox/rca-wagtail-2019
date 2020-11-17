@@ -156,6 +156,9 @@ class ProjectPage(BasePage):
         on_delete=models.SET_NULL,
         verbose_name=_("Project PDF"),
     )
+    specification_document_link_text = models.CharField(
+        max_length=80, blank=True, null=True, verbose_name=_("Project PDF link text"),
+    )
 
     gallery = StreamField(
         [("slide", GalleryBlock())], blank=True, verbose_name=_("Gallery")
@@ -243,7 +246,13 @@ class ProjectPage(BasePage):
         FieldPanel("start_date"),
         FieldPanel("end_date"),
         FieldPanel("funding"),
-        DocumentChooserPanel("specification_document"),
+        MultiFieldPanel(
+            [
+                DocumentChooserPanel("specification_document"),
+                FieldPanel("specification_document_link_text"),
+            ],
+            heading="PDF download",
+        ),
     ]
 
     edit_handler = TabbedInterface(
@@ -341,6 +350,10 @@ class ProjectPage(BasePage):
         if self.contact_email and self.contact_url:
             errors["contact_url"].append(
                 "Only one of URL or an Email value is supported here"
+            )
+        if self.specification_document and not self.specification_document_link_text:
+            errors["specification_document_link_text"].append(
+                "You must provide link text for the document"
             )
 
         if errors:
