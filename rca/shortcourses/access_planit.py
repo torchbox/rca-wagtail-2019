@@ -160,9 +160,8 @@ class AccessPlanitCourseChecker:
         if settings.ACCESS_PLANIT_XML_COURSE_URL:
             return settings.ACCESS_PLANIT_XML_COURSE_URL + self.query
 
-    def course_exists(self):
+    def fetch_course_data(self):
         url = self.prepare_query()
-
         try:
             response = requests.get(url=url)
         except Timeout:
@@ -178,6 +177,11 @@ class AccessPlanitCourseChecker:
                 )
             raise AccessPlanitException
         else:
-            bs_content = bs(response.text, "lxml")
+            return response.text
+
+    def course_exists(self):
+        course_data = self.fetch_course_data()
+        if course_data:
+            bs_content = bs(course_data, "lxml")
             courses = bs_content.find_all("wicourse")
             return len(courses) > 0
