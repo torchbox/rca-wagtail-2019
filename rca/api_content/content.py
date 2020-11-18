@@ -31,14 +31,16 @@ def format_first_paragraph(input_text, tag):
 
 def ranged_date_format(date, date_to):
     """ Method to format dates that have 'to' and 'from' values """
-    if int(date[5:7]) is int(date_to[5:7]):
-        date_to = datetime.strptime(date_to, "%Y-%m-%d")
-        date = datetime.strptime(date, "%Y-%m-%d")
-        return date.strftime("%-d") + " - " + date_to.strftime("%-d %B %Y")
+    date = datetime.strptime(date, "%Y-%m-%d")
+    date_to = datetime.strptime(date_to, "%Y-%m-%d")
+
+    if date.year == date_to.year:
+        if date.month == date_to.month:
+            return date.strftime("%-d") + "–" + date_to.strftime("%-d %B %Y")
+        else:
+            return date.strftime("%-d %B") + " – " + date_to.strftime("%-d %B %Y")
     else:
-        date_to = datetime.strptime(date_to, "%Y-%m-%d")
-        date = datetime.strptime(date, "%Y-%m-%d")
-        return date.strftime("%-d %B") + " - " + date_to.strftime("%-d %B %Y")
+        return date.strftime("%-d %B %Y") + " – " + date_to.strftime("%-d %B %Y")
 
 
 def fetch_data(url, **params):
