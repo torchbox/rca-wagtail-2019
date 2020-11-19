@@ -29,6 +29,7 @@
 
     &__link {
         @include underline-hover();
+        background-size: 0% 2px;
         display: block;
         font-family: $font--primary;
         transition: color $cubic-transition;
