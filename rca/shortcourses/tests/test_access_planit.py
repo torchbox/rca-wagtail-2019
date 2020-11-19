@@ -216,6 +216,10 @@ class AccessPlanitXMLTest(TestCase):
                 hero_colour_option=1,
             )
 
+    @mock.patch(
+        "rca.shortcourses.access_planit.AccessPlanitCourseChecker.course_exists",
+        mock.Mock(return_value=True),
+    )
     def test_management_command_fetch_data(self):
         """ Test that xml with no dates doesn't go in the cache """
         for i in range(5):
