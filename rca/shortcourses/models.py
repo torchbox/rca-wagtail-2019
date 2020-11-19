@@ -26,7 +26,11 @@ from wagtail.search import index
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from rca.programmes.models import ProgrammeType
-from rca.shortcourses.access_planit import AccessPlanitXML
+from rca.shortcourses.access_planit import (
+    AccessPlanitCourseChecker,
+    AccessPlanitException,
+    AccessPlanitXML,
+)
 from rca.utils.blocks import (
     AccordionBlockWithTitle,
     GalleryBlock,
@@ -417,6 +421,19 @@ class ShortCoursePage(BasePage):
             errors["show_register_link"].append(
                 "An access planit course ID or manual registration link is needed to show the register links"
             )
+        if self.access_planit_course_id:
+            try:
+                checker = AccessPlanitCourseChecker(
+                    course_id=self.access_planit_course_id
+                )
+                if not checker.course_exists():
+                    errors["access_planit_course_id"].append(
+                        "Could not find a course with this ID"
+                    )
+            except AccessPlanitException:
+                errors["access_planit_course_id"].append(
+                    "Error checking this course ID in Access Planit. Please try again shortly."
+                )
 
         if errors:
             raise ValidationError(errors)
