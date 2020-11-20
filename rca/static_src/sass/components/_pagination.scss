@@ -15,8 +15,10 @@
         margin-left: $spacing;
 
         &--current {
-            @include underline-hover-target();
-            @include underline-hover-target-reset();
+            #{$root}__link {
+                @include underline-hover-target-reset();
+                font-family: $font--secondary;
+            }
         }
     }
 
@@ -27,6 +29,7 @@
 
     &__link {
         @include underline-hover();
+        background-size: 0% 2px;
         display: block;
         font-family: $font--primary;
         transition: color $cubic-transition;
