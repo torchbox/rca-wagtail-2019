@@ -10,7 +10,9 @@
         {% if item.link %}</a>{% endif %}
         <div class="card__content-container">
             <div class="card__content">
-                {% if item.school %}
+                {% if item.is_startup_project %}
+                    <div class="card__meta card__school">Start-up</div>
+                {% elif item.school %}
                     <div class="card__meta card__school">{{ item.school }}</div>
                 {% endif %}
                 <h3 class="card__heading">
