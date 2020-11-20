@@ -13,6 +13,7 @@ from wagtail.core.fields import StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
+from rca.projects.models import ProjectPage
 from rca.utils.blocks import (
     CallToActionBlock,
     RelatedPageListBlock,
@@ -347,6 +348,9 @@ class LandingPage(LegacyNewsAndEventsMixin, BasePage):
                     related_school = page.related_school_pages.first()
                     if related_school:
                         meta = related_school.page.title
+
+                if isinstance(page, ProjectPage) and page.is_startup_project:
+                    meta = "Start-up"
 
                 related_pages.append(
                     {
