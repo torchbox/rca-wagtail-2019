@@ -1,11 +1,13 @@
 from collections import defaultdict
 
+from django.apps import apps
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
+from django.db.models import Q
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -235,6 +237,27 @@ class StaffPage(BasePage):
         parts = (self.staff_title, self.first_name, self.last_name)
         return " ".join([p for p in parts if p])
 
+    def get_research_projects(self):
+        """Yields a list combining project pages editorially-selected on the staff page,
+        and those on which the the staff member is listed as lead or a team member
+        """
+        # ProjectPage model loaded like this to avoid circular import error
+        ProjectPage = apps.get_model("projects", "ProjectPage")
+
+        # First return any editorially-highlighted project pages
+        for p in self.related_project_pages.all():
+            yield p.page.specific
+
+        # Then return any other project pages which the staff member leads or is a team member of,
+        # filtering out any of the highlights already output
+        yield from ProjectPage.objects.filter(
+            Q(project_lead__page_id=self.pk) | Q(related_staff__page_id=self.pk)
+        ).exclude(
+            pk__in=self.related_project_pages.values_list("page_id", flat=True)
+        ).order_by(
+            "-first_published_at"
+        ).distinct()
+
     def format_research_highlights(self):
         """Internal method for formatting related projects to the correct
         structure for the gallery template
@@ -243,8 +266,7 @@ class StaffPage(BasePage):
             List
         """
         items = []
-        for page in self.related_project_pages.all():
-            page = page.page.specific
+        for page in self.get_research_projects():
             meta = None
             related_school = page.related_school_pages.first()
             if related_school is not None:
