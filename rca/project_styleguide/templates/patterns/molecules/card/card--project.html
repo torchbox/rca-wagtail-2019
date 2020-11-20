@@ -1,5 +1,5 @@
 {% load wagtailcore_tags wagtailimages_tags %}
-<div class="card card--project{% if not item.school %} card--notch-space{% endif %}{% if item.image %} card--image{% endif %}{% if modifier %} card--{{ modifier }}{% endif %}">
+<div class="card card--project{% if not item.is_startup_project and not item.school %} card--notch-space{% endif %}{% if item.image %} card--image{% endif %}{% if modifier %} card--{{ modifier }}{% endif %}">
     {% if item.image %}
         {% image item.image fill-80x58 as image_small %}
         {% image item.image fill-392x284 as image_large %}
