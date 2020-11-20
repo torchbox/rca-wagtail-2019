@@ -157,7 +157,13 @@ class ProjectPage(BasePage):
         verbose_name=_("Project PDF"),
     )
     specification_document_link_text = models.CharField(
-        max_length=80, blank=True, null=True, verbose_name=_("Project PDF link text"),
+        max_length=80,
+        blank=True,
+        null=True,
+        verbose_name=_("Project PDF link text"),
+        help_text=_(
+            "You must enter link text if you add a Project PDF, e.g. 'Download project PDF'"
+        ),
     )
 
     gallery = StreamField(
