@@ -6,6 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -415,6 +416,10 @@ class ProjectPage(BasePage):
         context["related_projects"] = self.get_related_projects()
 
         return context
+
+    @cached_property
+    def is_startup_project(self):
+        return len(self.research_types.filter(research_type__title="Start-up")) > 0
 
 
 class ProjectPickerPage(BasePage):
