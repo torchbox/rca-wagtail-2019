@@ -130,3 +130,58 @@ class AccessPlanitXML:
         if short_course_data is None:
             short_course_data = self.get_and_set_data_in_cache()
         return short_course_data
+
+
+class AccessPlanitCourseChecker:
+    """Used for checking a course exists using the AccessPlanit xml feeds.
+
+    Raises:
+        AccessPlanitException: Should the fetch encounter Timeouts or any other
+        exceptions, this raised and caught when setting the data in the cache.
+    """
+
+    def __init__(self, course_id=0):
+        self.course_id = course_id
+        self.company_id = settings.ACCESS_PLANIT_SCHOOL_ID
+        self.timeout = 10
+
+    def prepare_query(self):
+        """ Returns a URL to query """
+        self.query = QueryDict(mutable=True)
+        self.query.update(
+            {
+                "CompanyID": self.company_id,
+                "courseIDs": self.course_id,
+                "venueIDs": "",
+                "categoryIDs": "",
+            }
+        )
+        self.query = self.query.urlencode()
+        if settings.ACCESS_PLANIT_XML_COURSE_URL:
+            return settings.ACCESS_PLANIT_XML_COURSE_URL + self.query
+
+    def fetch_course_data(self):
+        url = self.prepare_query()
+        try:
+            response = requests.get(url=url)
+        except Timeout:
+            if settings.API_FETCH_LOGGING:
+                logger.exception(
+                    f"Timeout occurred fetching XML data for course_id: {self.course_id}"
+                )
+            raise AccessPlanitException
+        except Exception:
+            if settings.API_FETCH_LOGGING:
+                logger.exception(
+                    f"Error occurred fetching XML data for course_id: {self.course_id}"
+                )
+            raise AccessPlanitException
+        else:
+            return response.text
+
+    def course_exists(self):
+        course_data = self.fetch_course_data()
+        if course_data:
+            bs_content = bs(course_data, "lxml")
+            courses = bs_content.find_all("wicourse")
+            return len(courses) > 0

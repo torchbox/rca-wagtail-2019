@@ -53,6 +53,10 @@ class TestBookingBarLogic(TestCase):
             show_register_link=0,
         )
 
+    @mock.patch(
+        "rca.shortcourses.access_planit.AccessPlanitCourseChecker.course_exists",
+        mock.Mock(return_value=True),
+    )
     def test_no_data(self):
         """
         1 no data at all show applications are closed
@@ -83,6 +87,10 @@ class TestBookingBarLogic(TestCase):
         self.assertNotIn(register_link, response)
         self.assertEqual(response.render().status_code, 200)
 
+    @mock.patch(
+        "rca.shortcourses.access_planit.AccessPlanitCourseChecker.course_exists",
+        mock.Mock(return_value=True),
+    )
     def test_no_booking_data_and_register_link(self):
         """
         2 If no booking data and show_register_link checked and AP id is present
@@ -117,6 +125,10 @@ class TestBookingBarLogic(TestCase):
         self.assertContains(response, register_link)
         self.assertEqual(response.render().status_code, 200)
 
+    @mock.patch(
+        "rca.shortcourses.access_planit.AccessPlanitCourseChecker.course_exists",
+        mock.Mock(return_value=True),
+    )
     def test_no_data_and_manual_register_link(self):
         """
         3 If no booking data and show_register_link checked and AP id is present
@@ -158,6 +170,10 @@ class TestBookingBarLogic(TestCase):
         "rca.shortcourses.access_planit.AccessPlanitXML.fetch_data_from_xml",
         side_effect=mocked_fetch_data_from_xml,
     )
+    @mock.patch(
+        "rca.shortcourses.access_planit.AccessPlanitCourseChecker.course_exists",
+        mock.Mock(return_value=True),
+    )
     def test_access_planit_apply(self, mocked_fetch_data_from_xml):
         """
         4 If access planit course data comes through, but a page.application_form_url
@@ -178,6 +194,10 @@ class TestBookingBarLogic(TestCase):
         self.assertNotIn("Book", response)
         self.assertEqual(response.render().status_code, 200)
 
+    @mock.patch(
+        "rca.shortcourses.access_planit.AccessPlanitCourseChecker.course_exists",
+        mock.Mock(return_value=True),
+    )
     def test_manual_dates(self):
         """
         5 If manual booking dates are defined. The first/top booking date is

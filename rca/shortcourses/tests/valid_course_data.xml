@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfWICourse xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="AccessPlanIT.Accessplan.Web.Services">
+  <WICourse>
+    <CourseID>731014</CourseID>
+    <Label>Architecture Summer School</Label>
+    <Text2>&lt;p&gt;&lt;b&gt;Architecture Summer School:&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Experience the environment and methodologies of architectural design studies at the Royal College of Art, develop your skills and generate conceptual and physical products of the highest standard for your portfolio.&lt;br&gt;&lt;/p&gt;</Text2>
+    <Cost>1250</Cost>
+    <CostType>Candidate</CostType>
+    <Type>Class</Type>
+    <Duration>5.00</Duration>
+    <DurationType>0</DurationType>
+    <Currency>GBP</Currency>
+    <CurrencySymbol>£</CurrencySymbol>
+    <CategoryIDs>166,177</CategoryIDs>
+    <PublishDate />
+    <TrainingPoints />
+    <ExternalID />
+    <DeliveryMethodID>2</DeliveryMethodID>
+    <ImageURL />
+    <Categories>
+      <WICategory>
+        <CategoryID>166</CategoryID>
+      </WICategory>
+      <WICategory>
+        <CategoryID>177</CategoryID>
+      </WICategory>
+    </Categories>
+  </WICourse>
+</ArrayOfWICourse>
