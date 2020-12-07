@@ -110,7 +110,7 @@ class SchoolCentreExpertiseFilter(TabStyleFilter):
         if not self.selected_expertise_values:
             return Q()
         return Q(
-            related_expertise_of_expertise__expertise_of_expertise__slug__in=self.selected_expertise_values
+            related_area_of_expertise__area_of_expertise__slug__in=self.selected_expertise_values
         )
 
     @cached_property
