@@ -27,6 +27,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from rca.api_content.content import CantPullFromRcaApi, pull_related_students
+from rca.people.filter import SchoolCentreExpertiseFilter
 from rca.programmes.models import ProgrammePage
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
@@ -415,47 +416,23 @@ class StaffIndexPage(BasePage):
         queryset = base_queryset.all()
 
         filters = (
-            TabStyleFilter(
-                "School or Centre",
-                queryset=(
-                    Page.objects.live()
-                    .filter(
-                        content_type__in=list(
-                            ContentType.objects.get_for_models(
-                                SchoolPage, ResearchCentrePage
-                            ).values()
-                        )
-                    )
-                    .filter(
-                        models.Q(
-                            id__in=base_queryset.values_list(
-                                "related_schools__page_id", flat=True
-                            )
-                        )
-                        | models.Q(
-                            id__in=base_queryset.values_list(
-                                "related_research_centre_pages__page_id", flat=True
-                            )
-                        )
+            SchoolCentreExpertiseFilter(
+                "School, Centre or Area",
+                school_queryset=SchoolPage.objects.live().filter(
+                    id__in=base_queryset.values_list(
+                        "related_schools__page_id", flat=True
                     )
                 ),
-                filter_by=(
-                    "related_schools__page__slug__in",
-                    "related_research_centre_pages__page__slug__in",  # Filter by slug here
-                ),
-                option_value_field="slug",
-            ),
-            TabStyleFilter(
-                "Area",
-                queryset=(
-                    AreaOfExpertise.objects.filter(
-                        id__in=base_queryset.values_list(
-                            "related_area_of_expertise__area_of_expertise_id", flat=True
-                        )
+                centre_queryset=ResearchCentrePage.objects.live().filter(
+                    id__in=base_queryset.values_list(
+                        "related_research_centre_pages__page_id", flat=True
                     )
                 ),
-                filter_by="related_area_of_expertise__area_of_expertise__slug__in",  # Filter by slug here
-                option_value_field="slug",
+                expertise_queryset=AreaOfExpertise.objects.filter(
+                    id__in=base_queryset.values_list(
+                        "related_area_of_expertise__area_of_expertise_id", flat=True
+                    )
+                ),
             ),
             TabStyleFilter(
                 "Programme",
