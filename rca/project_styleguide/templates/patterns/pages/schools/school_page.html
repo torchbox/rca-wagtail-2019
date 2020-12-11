@@ -71,6 +71,36 @@
         {% endif %}
         {{ page.body|richtext }}
 
+        {# about #}
+        {% if page_teasers %}
+            <section class="landing-page__middle section section--start section--opposite-notch bg bg--light">
+
+                <div class="section__row research-spaces">
+                    <div class="section__header section__header--bottom-space grid">
+                    {% if page_teasers.title %}
+                        <h2 class="section__heading section__heading--tight heading heading--two">
+                            {{ page_teasers.title }}
+                        </h2>
+                    {% endif %}
+                    {% if page_teasers.summary %}
+                        <div class="section__introduction">
+                            {{ page_teasers.summary }}
+                        </div>
+                    {% endif %}
+                    </div>
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=page_teasers.pages %}
+                    </div>
+                </div>
+
+                {% if featured_image %}
+                    <div class="section__notch section__notch--opposite">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    </div>
+                {% endif %}
+
+            </section>
+        {% endif %}
     </section>
 </div>
 {% endblock %}
