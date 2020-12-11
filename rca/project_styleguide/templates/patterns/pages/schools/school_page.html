@@ -66,6 +66,11 @@
             </section>
         {% endif %}
 
+         {% if page.introduction_image %}
+            {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.introduction_image caption=page.video_caption video=page.video %}
+        {% endif %}
+        {{ page.body|richtext }}
+
     </section>
 </div>
 {% endblock %}
