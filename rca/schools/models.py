@@ -22,6 +22,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from rca.utils.blocks import LinkBlock, LinkedImageBlock, RelatedPageListBlockPage
+
 from rca.utils.models import (
     DARK_HERO,
     DARK_TEXT_ON_LIGHT_IMAGE,
@@ -64,7 +65,6 @@ class SchoolPageTeaser(models.Model):
     title = models.CharField(max_length=125)
     summary = models.CharField(max_length=250)
     pages = StreamField(StreamBlock([("Page", RelatedPageListBlockPage(max_num=3))]))
-
     panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("pages")]
 
     def __str__(self):

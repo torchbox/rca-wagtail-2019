@@ -7,6 +7,9 @@ context:
     video_caption: Watch the course introductionsolutions to global challenges
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Adds page teasers and jump menu config for school page
   page_teasers:
     title: What makes us different?
     summary: Donec vitae orci sed dolor rutrum auctor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc nulla. Etiam rhoncus.
@@ -35,9 +38,12 @@ context:
           description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
           image: true,
         }
+<<<<<<< HEAD
 =======
 
 >>>>>>> Adds video and image introduction fields
+=======
+>>>>>>> Adds page teasers and jump menu config for school page
 tags:
   pageurl:
     subpage:
