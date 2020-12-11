@@ -22,7 +22,10 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from rca.utils.blocks import LinkBlock, LinkedImageBlock, RelatedPageListBlockPage
+<<<<<<< HEAD
 
+=======
+>>>>>>> Adds collaborator fields to school page
 from rca.utils.models import (
     DARK_HERO,
     DARK_TEXT_ON_LIGHT_IMAGE,
