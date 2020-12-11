@@ -108,6 +108,11 @@ class GalleryBlock(blocks.StructBlock):
         icon = "image"
 
 
+class LinkedImageBlock(blocks.StructBlock):
+    image = ImageChooserBlock()
+    link = LinkBlock()
+
+
 class InfoBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=False)
     text = blocks.RichTextBlock(required=False)

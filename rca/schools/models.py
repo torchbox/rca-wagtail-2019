@@ -21,7 +21,7 @@ from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
-from rca.utils.blocks import LinkBlock, RelatedPageListBlockPage
+from rca.utils.blocks import LinkBlock, LinkedImageBlock, RelatedPageListBlockPage
 from rca.utils.models import (
     DARK_HERO,
     DARK_TEXT_ON_LIGHT_IMAGE,
@@ -63,9 +63,7 @@ class SchoolPageTeaser(models.Model):
     source_page = ParentalKey("SchoolPage", related_name="page_teasers")
     title = models.CharField(max_length=125)
     summary = models.CharField(max_length=250)
-    pages = StreamField(
-        StreamBlock([("Page", RelatedPageListBlockPage(max_num=3))], max_num=1)
-    )
+    pages = StreamField(StreamBlock([("Page", RelatedPageListBlockPage(max_num=3))]))
 
     panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("pages")]
 
@@ -91,7 +89,6 @@ class SchoolPage(BasePage):
     video = models.URLField(blank=True)
     body = RichTextField()
 
-    # school dean
     school_dean = models.ForeignKey(
         "people.StaffPage",
         null=True,
@@ -110,6 +107,12 @@ class SchoolPage(BasePage):
     # Social Links
     social_links = StreamField(
         StreamBlock([("Link", LinkBlock())], max_num=5, required=False)
+    )
+
+    collaborators_heading = models.CharField(blank=True, max_length=120)
+    collaborators = StreamField(
+        StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
+        blank=True,
     )
 
     search_fields = BasePage.search_fields + [index.SearchField("introduction")]
@@ -141,6 +144,10 @@ class SchoolPage(BasePage):
     ]
     about_panel = [
         InlinePanel("page_teasers", max_num=1, label="Page teasers"),
+        MultiFieldPanel(
+            [FieldPanel("collaborators_heading"), StreamFieldPanel("collaborators")],
+            heading="Collaborators",
+        ),
     ]
     research_panels = []
     programmes_panels = []
@@ -213,7 +220,7 @@ class SchoolPage(BasePage):
                     page_teasers["pages"].append(
                         {
                             "title": block.value["title"],
-                            "summary": block.value["text"],
+                            "description": block.value["text"],
                             "image": block.value["image"],
                             "link": block.value["link"]["url"],
                             "type": block.value["meta"],
@@ -234,7 +241,7 @@ class SchoolPage(BasePage):
                     page_teasers["pages"].append(
                         {
                             "title": page.title,
-                            "summary": summary,
+                            "description": summary,
                             "image": image,
                             "link": page.url,
                         }
