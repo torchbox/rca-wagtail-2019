@@ -206,15 +206,6 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
     social_links = StreamField(
         StreamBlock([("Link", LinkBlock())], max_num=5, required=False)
     )
-    news_and_events_heading = models.CharField(blank=True, max_length=120)
-    collaborators_heading = models.CharField(blank=True, max_length=120)
-    collaborators = StreamField(
-        StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
-        blank=True,
-    )
-    research_projects_title = models.CharField(max_length=125, default="Our Research")
-    research_projects_text = models.CharField(max_length=500, blank=True)
-    external_links_heading = models.CharField(max_length=125, blank=True)
 
     external_links = StreamField([("link", InternalExternalLinkBlock())], blank=True)
     research_cta_block = StreamField(
