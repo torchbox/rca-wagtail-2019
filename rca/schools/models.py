@@ -21,7 +21,7 @@ from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
-from rca.utils.blocks import LinkBlock
+from rca.utils.blocks import LinkBlock, RelatedPageListBlockPage
 from rca.utils.models import (
     DARK_HERO,
     DARK_TEXT_ON_LIGHT_IMAGE,
@@ -57,6 +57,20 @@ class HeroItem(models.Model):
 
 class OpenDayLink(LinkFields):
     source_page = ParentalKey("SchoolPage", related_name="open_day_link")
+
+
+class SchoolPageTeaser(models.Model):
+    source_page = ParentalKey("SchoolPage", related_name="page_teasers")
+    title = models.CharField(max_length=125)
+    summary = models.CharField(max_length=250)
+    pages = StreamField(
+        StreamBlock([("Page", RelatedPageListBlockPage(max_num=3))], max_num=1)
+    )
+
+    panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("pages")]
+
+    def __str__(self):
+        return self.title
 
 
 class SchoolPage(BasePage):
@@ -125,10 +139,24 @@ class SchoolPage(BasePage):
         FieldPanel("get_in_touch"),
         StreamFieldPanel("social_links"),
     ]
+    about_panel = [
+        InlinePanel("page_teasers", max_num=1, label="Page teasers"),
+    ]
+    research_panels = []
+    programmes_panels = []
+    short_course_panels = []
+    staff_panels = []
+    contact_panels = []
     edit_handler = TabbedInterface(
         [
             ObjectList(content_panels, heading="Introduction"),
             ObjectList(key_details_panels, heading="Key details"),
+            ObjectList(about_panel, heading="About"),
+            ObjectList(research_panels, heading="Our research"),
+            ObjectList(programmes_panels, heading="Programmes"),
+            ObjectList(programmes_panels, heading="Short Courses"),
+            ObjectList(staff_panels, heading="Staff"),
+            ObjectList(contact_panels, heading="Contact"),
             ObjectList(BasePage.promote_panels, heading="Promote"),
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
@@ -164,6 +192,54 @@ class SchoolPage(BasePage):
         if errors:
             raise ValidationError(errors)
 
+    def page_nav(self):
+        # TODO conditionally set/remove depending on fields
+        return [
+            {"title": "About"},
+            {"title": "Our research"},
+            {"title": "Programmes"},
+            {"title": "Short Courses"},
+            {"title": "Staff"},
+            {"title": "Contact"},
+        ]
+
+    def format_page_teasers(self, obj):
+        page_teasers = {"title": obj.title, "summary": obj.summary, "pages": []}
+        for item in obj.pages:
+            for block in item.value:
+                if block.block_type == "custom_teaser":
+                    page_teasers["pages"].append(
+                        {
+                            "title": block.value["title"],
+                            "summary": block.value["text"],
+                            "image": block.value["image"],
+                            "link": block.value["link"]["url"],
+                            "type": block.value["meta"],
+                        }
+                    )
+                elif block.block_type == "page":
+                    page = block.value.specific
+                    summary = (
+                        page.introduction
+                        if hasattr(page, "introduction")
+                        else page.listing_summary
+                    )
+                    image = (
+                        page.hero_image
+                        if hasattr(page, "hero_image")
+                        else page.listing_image
+                    )
+                    page_teasers["pages"].append(
+                        {
+                            "title": page.title,
+                            "summary": summary,
+                            "image": image,
+                            "link": page.url,
+                        }
+                    )
+
+        return page_teasers
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         # We're picking the hero from multiple objects so we need to override
@@ -178,4 +254,8 @@ class SchoolPage(BasePage):
             ):
                 context["hero_colour"] = DARK_HERO
         context["open_day_link"] = self.open_day_link.first()
+        context["page_teasers"] = self.format_page_teasers(self.page_teasers.first())
+
+        # Set the page tab titles for the jump menu
+        context["tabs"] = self.page_nav()
         return context

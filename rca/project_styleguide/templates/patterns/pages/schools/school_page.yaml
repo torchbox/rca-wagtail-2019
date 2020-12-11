@@ -6,7 +6,34 @@ context:
     introduction_image: true
     video_caption: Watch the course introductionsolutions to global challenges
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
-
+  page_teasers:
+    title: What makes us different?
+    summary: Donec vitae orci sed dolor rutrum auctor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc nulla. Etiam rhoncus.
+    pages:
+      - {
+          title: 'Innovation RCA',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Consultancy & knowledge exchange',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Custom executive education',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
 tags:
   pageurl:
     subpage:
