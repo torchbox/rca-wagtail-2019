@@ -23,7 +23,7 @@ from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
-from rca.utils.blocks import LinkBlock, RelatedPageListBlockPage
+from rca.utils.blocks import LinkBlock, LinkedImageBlock, RelatedPageListBlockPage
 from rca.utils.models import (
     DARK_HERO,
     DARK_TEXT_ON_LIGHT_IMAGE,
@@ -72,9 +72,7 @@ class SchoolPageTeaser(models.Model):
     source_page = ParentalKey("SchoolPage", related_name="page_teasers")
     title = models.CharField(max_length=125)
     summary = models.CharField(max_length=250)
-    pages = StreamField(
-        StreamBlock([("Page", RelatedPageListBlockPage(max_num=3))], max_num=1)
-    )
+    pages = StreamField(StreamBlock([("Page", RelatedPageListBlockPage(max_num=3))]))
 
     panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("pages")]
 
@@ -120,30 +118,12 @@ class SchoolPage(BasePage):
         StreamBlock([("Link", LinkBlock())], max_num=5, required=False)
     )
 
-    external_links = StreamField([("link", InternalExternalLinkBlock())], blank=True)
-    research_cta_block = StreamField(
-        [("call_to_action", CallToActionBlock(label=_("text promo")))], blank=True,
-    )
-    research_collaborators_heading = models.CharField(blank=True, max_length=120)
-    research_collaborators = StreamField(
+    collaborators_heading = models.CharField(blank=True, max_length=120)
+    collaborators = StreamField(
         StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
         blank=True,
     )
-    related_programmes_title = models.CharField(blank=True, max_length=120)
-    related_programmes_summary = models.CharField(blank=True, max_length=500)
-    related_short_courses_title = models.CharField(blank=True, max_length=120)
-    related_short_courses_summary = models.CharField(blank=True, max_length=500)
-    programmes_links_heading = models.CharField(
-        max_length=125, blank=True, verbose_name="Links heading"
-    )
-    programmes_external_links = StreamField(
-        [("link", InternalExternalLinkBlock())], blank=True, verbose_name="Links"
-    )
-    programmes_cta_block = StreamField(
-        [("call_to_action", CallToActionBlock(label=_("text promo")))],
-        blank=True,
-        verbose_name="Call to action",
-    )
+
     search_fields = BasePage.search_fields + [index.SearchField("introduction")]
     api_fields = [APIField("introduction")]
 
@@ -173,6 +153,10 @@ class SchoolPage(BasePage):
     ]
     about_panel = [
         InlinePanel("page_teasers", max_num=1, label="Page teasers"),
+        MultiFieldPanel(
+            [FieldPanel("collaborators_heading"), StreamFieldPanel("collaborators")],
+            heading="Collaborators",
+        ),
     ]
     research_panels = []
     programmes_panels = []
@@ -243,7 +227,7 @@ class SchoolPage(BasePage):
                     page_teasers["pages"].append(
                         {
                             "title": block.value["title"],
-                            "summary": block.value["text"],
+                            "description": block.value["text"],
                             "image": block.value["image"],
                             "link": block.value["link"]["url"],
                             "type": block.value["meta"],
@@ -264,7 +248,7 @@ class SchoolPage(BasePage):
                     page_teasers["pages"].append(
                         {
                             "title": page.title,
-                            "summary": summary,
+                            "description": summary,
                             "image": image,
                             "link": page.url,
                         }

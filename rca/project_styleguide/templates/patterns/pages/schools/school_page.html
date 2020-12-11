@@ -65,6 +65,19 @@
 
             </section>
         {% endif %}
+        {% if page.collaborators_heading %}
+            <h3 class="section__heading section__heading--tight heading heading--three">
+                {{ page.collaborators_heading }}
+            </h3>
+        {% endif %}
+
+        {% if page.collaborators %}
+            {# TODO - @nick this may need reformating from context to fit the carousel template #}
+            {% for c in page.collaborators %}
+                {% image c.value.image width-200 height-200 %}
+                <a href="{{ c.value.link.url }}">{{ c.value.link.title }}</a>
+            {% endfor %}
+        {% endif %}
 
     </section>
 </div>
