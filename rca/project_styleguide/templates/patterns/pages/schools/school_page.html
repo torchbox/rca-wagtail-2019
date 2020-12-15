@@ -79,6 +79,10 @@
             {% endfor %}
         {% endif %}
 
+        {% if stats_block %}
+            {% include "patterns/organisms/stat-block/stat-block.html" %}
+        {% endif %}
+
     </section>
 </div>
 {% endblock %}
