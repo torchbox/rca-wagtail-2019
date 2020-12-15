@@ -1,0 +1,15 @@
+context:
+  datatag: 'data-carousel'
+  carousel:
+    - slide:
+      title: 'Red bull'
+      image: true
+      link: '#'
+    - slide:
+      title: 'Red bull'
+      image: true
+      link: '#'
+    - slide:
+      title: 'Red bull'
+      image: true
+      link: '#'
