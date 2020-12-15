@@ -28,6 +28,18 @@ context:
         title: Staff
       - tab:
         title: Contact
+    sections:
+      about:
+        title: What makes us different?
+        introduction: We teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs.
+      research:
+        introduction: Characterised by its roots in creative and innovative practice, by engagement with partners in business, industry, government and communities.
+      programmes:
+        introduction: We offer a range of Graduate Diploma, MA, MRes, MPhil and PhD degree programmes across the art and design disciplines.
+      short_courses:
+        introduction: Senior-level executive masterclasses, summer courses and custom executive education programmes for businesses and organisations.
+      staff:
+        introduction: Browse profiles of our School’s staff, including world-eminent practitioners in architecure…
     enterprise_highlights:
       - slide:
         meta: 'School of Design'
@@ -200,7 +212,6 @@ context:
     contact: true
     contact_image: true
     related_pages_title: Enterprise at the RCA
-    section_about_intro: We teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs.
     page_list_title: Schools and Research centres
   about_teasers:
     - {
@@ -336,25 +347,6 @@ context:
           number: 100
           meta: Lorem Ipsum
           summary: Our students come from all corners of the globe.
-  related_pages_highlights:
-    - slide:
-      meta: 'Startups'
-      title: 'Lorem ipsum dolor sit'
-      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
-      image: true
-      link: '#'
-    - slide:
-      meta: 'Startups'
-      title: 'Lorem ipsum dolor sit'
-      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
-      image: true
-      link: '#'
-    - slide:
-      meta: 'Startups'
-      title: 'Lorem ipsum dolor sit'
-      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
-      image: true
-      link: '#'
   student_stories:
     slides:
       - slide:
@@ -383,7 +375,77 @@ context:
           image: True
   instagram_feed:
     handle: rca.architecture
-
+  featured_research:
+    - slide:
+      meta: 'Project'
+      title: 'Lorem ipsum dolor sit'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      image: true
+      link: '#'
+    - slide:
+      meta: 'Project'
+      title: 'Lorem ipsum dolor sit'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      image: true
+      link: '#'
+    - slide:
+      meta: 'Project'
+      title: 'Lorem ipsum dolor sit'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      image: true
+      link: '#'
+  student_research:
+    slides:
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'RCA x CERN'
+          summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Research'
+          title: 'Burberry'
+          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'Designing the imposible for NASA'
+          summary: 'Creating world class experiences that started at the RCA'
+          link: '#'
+          person: false
+          image: True
+  research_links:
+    title: Also…
+    links:
+      - item:
+        value: { text: 'Our research themes', href: 'http://www.google.com' }
+      - item:
+        value:
+          {
+            text: 'Architects Council of Europe (ACE)',
+            href: 'http://www.google.com',
+          }
+  research_cta:
+    title: Lab. for Design & Machine Learning
+    description: In addition to the research themes, the School of Architecture created the Laboratory for Design & Machine Learning to conduct research into new interdisciplinary forms of designing, evaluation, and policymaking.
+    action: Find out more
+    link: '#'
+  programmes_cta:
+    title: Custom executive education
+    description: The RCA delivers senior-level custom executive education programmes for business, government, the public sector and universities globally.
+    action: Browse Executive Education
+    link: '#'
+  staff_cta:
+    title: Meet the RCA
+    description: Meet Dr Godofredo Pereira, Head of Programme for MA Environmental Architecture & MA City Design
+    action: Find out more
+    link: '#'
 tags:
   include_block:
     block:

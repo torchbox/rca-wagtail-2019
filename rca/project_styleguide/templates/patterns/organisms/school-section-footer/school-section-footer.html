@@ -1,0 +1,11 @@
+{% if links %}
+<div class="section__row">
+    {% include "patterns/organisms/related-links/related-links.html" with related_links=links.links title=links.title %}
+</div>
+{% endif %}
+
+{% if cta %}
+<div class="section__row">
+    {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=cta %}
+</div>
+{% endif %}

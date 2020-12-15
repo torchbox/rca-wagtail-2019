@@ -79,10 +79,10 @@
                 {% if about_teasers %}
                 <div class="section__row schools__about--teasers">
                     <div class="section__header section__header--bottom-space grid">
-                        <h2 class="section__heading section__heading--tight heading heading--two">What makes us different?</h2>
-                        {% if page.section_about_intro %}
+                        <h2 class="section__heading section__heading--tight heading heading--two">{{ page.sections.about.title|default:"About us" }}</h2>
+                        {% if page.sections.about.introduction %}
                             <div class="section__introduction">
-                                {{ page.section_about_intro }}
+                                {{ page.sections.about.introduction }}
                             </div>
                         {% endif %}
                     </div>
@@ -125,13 +125,17 @@
                 <div class="section__row schools__about--logos">
                     <div class="section__header grid">
                         <h3 class="section__heading section__heading--primary heading heading--two">Latest instagram updates</h3>
-                        <a href="#">Follow us at {{ instagram_feed.handle }}</a>
+                        <div class="section__introduction">
+                            <a href="#">Follow us at {{ instagram_feed.handle }}</a>
+                        </div>
                     </div>
                     <div class="section__content grid">
                         {% include "patterns/molecules/instagram-feed/instagram-feed.html" %}
                     </div>
                 </div>
                 {% endif %}
+
+                {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=about_links cta=about_cta %}
 
             </section>
 
@@ -141,11 +145,103 @@
 
             <section class="schools__research section bg bg--dark" id="our-research">
 
+                <div class="section__row">
+                    <div class="section__header section__header--bottom-space grid">
+                        <h2 class="section__heading section__heading--tight heading heading--two">{{ page.sections.research.title|default:"Our Research" }}</h2>
+                        {% if page.sections.research.introduction %}
+                            <div class="section__introduction">
+                                {{ page.sections.research.introduction }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if featured_research %}
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/carousel/carousel.html" with carousel=featured_research modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                {% if student_research %}
+                <div class="section__row schools__about--student-stories partnerships__carousel">
+                    <div class="section__header grid">
+                        <h3 class="section__heading section__heading--primary heading heading--two">PhD student research</h3>
+                    </div>
+                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=student_research.slides modifier='carousel--square' datatag='data-square-carousel' %}
+                    <div class="section__action">
+                        {# LINK NEEDED HERE #}
+                        <a class="link link--primary link--link body body--two" href="/">
+                            <span class="link__label">Browse all projects from the school</span>
+                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="section__row schools__about--logos">
+                    <div class="section__header grid">
+                        <h3 class="section__heading section__heading--primary heading heading--two">Research collaboration with&hellip;</h3>
+                    </div>
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/logo-carousel/logo-carousel.html" %}
+                    </div>
+                </div>
+
+                {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=research_links cta=research_cta %}
+
                 <div class="section__notch">
                     <div class="section__notch-fill section__notch-fill--second-col"></div>
                 </div>
 
             </section>
+
+            <section class="schools__programmes section bg bg--dark" id="programmes">
+                <div class="section__row">
+                    <div class="section__header section__header--bottom-space grid">
+                        <h2 class="section__heading section__heading--tight heading heading--two">
+                            {{ page.sections.programmes.title|default:"Our programmes" }}
+                        </h2>
+                        {% if page.sections.programmes.introduction %}
+                            <div class="section__introduction">
+                                {{ page.sections.programmes.introduction }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="section__row">
+                    <div class="section__header section__header--bottom-space grid">
+                        <h2 class="section__heading section__heading--tight heading heading--two">
+                            {{ page.sections.short_courses.title|default:"Our short courses" }}
+                        </h2>
+                        {% if page.sections.short_courses.introduction %}
+                            <div class="section__introduction">
+                                {{ page.sections.short_courses.introduction }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=programmes_links cta=programmes_cta %}
+            </section>
+
+            <section class="schools__staff section bg bg--dark" id="staff">
+                <div class="section__row">
+                    <div class="section__header section__header--bottom-space grid">
+                        <h2 class="section__heading section__heading--tight heading heading--two">
+                            {{ page.sections.staff.title|default:"Our staff" }}
+                        </h2>
+                        {% if page.sections.staff.introduction %}
+                            <div class="section__introduction">
+                                {{ page.sections.staff.introduction }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=staff_links cta=staff_cta %}
+            </section>
+
+
+
+
+
 
 
 
