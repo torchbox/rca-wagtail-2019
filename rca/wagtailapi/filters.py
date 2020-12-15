@@ -16,7 +16,7 @@ class DegreeLevelFilter(filters.BaseFilterBackend):
         pks = request.GET.getlist("project", [])
 
         if pks:
-            queryset = queryset.filter(degree_level__in=pks).order_by("title")
+            queryset = queryset.filter(degree_level__in=pks).order_by("title").live()
 
         return queryset
 
@@ -27,9 +27,11 @@ class SubjectsFilter(filters.BaseFilterBackend):
             queryset.model._meta.get_field("subjects")
             subject_ids = [int(id) for id in request.GET.getlist("subjects", [])]
             if subject_ids:
-                queryset = queryset.model.objects.filter(
-                    subjects__subject_id__in=subject_ids
-                ).order_by("title")
+                queryset = (
+                    queryset.model.objects.filter(subjects__subject_id__in=subject_ids)
+                    .order_by("title")
+                    .live()
+                )
             return queryset
         except FieldDoesNotExist:
             return queryset
@@ -51,11 +53,15 @@ class RelatedSchoolsFilter(filters.BaseFilterBackend):
                 )
                 # Create a queryset to return which contains pages that have filter_page_qs
                 # as a relationship
-                queryset = queryset.model.objects.filter(
-                    related_schools_and_research_pages__page_id__in=filter_page_qs.values_list(
-                        "pk", flat=True
+                queryset = (
+                    queryset.model.objects.filter(
+                        related_schools_and_research_pages__page_id__in=filter_page_qs.values_list(
+                            "pk", flat=True
+                        )
                     )
-                ).order_by("title")
+                    .order_by("title")
+                    .live()
+                )
             return queryset
         except FieldDoesNotExist:
             return queryset
