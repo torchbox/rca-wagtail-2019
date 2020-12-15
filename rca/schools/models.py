@@ -21,11 +21,12 @@ from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
-from rca.utils.blocks import LinkBlock, LinkedImageBlock, RelatedPageListBlockPage
-<<<<<<< HEAD
-
-=======
->>>>>>> Adds collaborator fields to school page
+from rca.utils.blocks import (
+    LinkBlock,
+    LinkedImageBlock,
+    RelatedPageListBlockPage,
+    StatisticBlock,
+)
 from rca.utils.models import (
     DARK_HERO,
     DARK_TEXT_ON_LIGHT_IMAGE,
@@ -69,6 +70,27 @@ class SchoolPageTeaser(models.Model):
     summary = models.CharField(max_length=250)
     pages = StreamField(StreamBlock([("Page", RelatedPageListBlockPage(max_num=3))]))
     panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("pages")]
+
+    def __str__(self):
+        return self.title
+
+
+class SchoolPageStatsBlock(models.Model):
+    source_page = ParentalKey("SchoolPage", related_name="stats_block")
+    title = models.CharField(max_length=125)
+    statistics = StreamField([("statistic", StatisticBlock())])
+    background_image = models.ForeignKey(
+        get_image_model_string(),
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    panels = [
+        FieldPanel("title"),
+        ImageChooserPanel("background_image"),
+        StreamFieldPanel("statistics"),
+    ]
 
     def __str__(self):
         return self.title
@@ -151,6 +173,7 @@ class SchoolPage(BasePage):
             [FieldPanel("collaborators_heading"), StreamFieldPanel("collaborators")],
             heading="Collaborators",
         ),
+        InlinePanel("stats_block", label="Statistics", max_num=1),
     ]
     research_panels = []
     programmes_panels = []
@@ -267,7 +290,9 @@ class SchoolPage(BasePage):
                 context["hero_colour"] = DARK_HERO
         context["open_day_link"] = self.open_day_link.first()
         context["page_teasers"] = self.format_page_teasers(self.page_teasers.first())
-
+        context["stats_block"] = self.stats_block.select_related(
+            "background_image"
+        ).first()
         # Set the page tab titles for the jump menu
         context["tabs"] = self.page_nav()
         return context
