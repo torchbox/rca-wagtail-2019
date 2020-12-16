@@ -23,12 +23,16 @@ from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
+from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
+from rca.projects.utils import format_projects_for_gallery
 from rca.utils.blocks import (
+    CallToActionBlock,
     LinkBlock,
     LinkedImageBlock,
     RelatedPageListBlockPage,
     StatisticBlock,
 )
+from rca.utils.formatters import format_page_teasers, related_list_block_slideshow
 from rca.utils.models import (
     DARK_HERO,
     DARK_TEXT_ON_LIGHT_IMAGE,
@@ -85,6 +89,43 @@ class SchoolPageTeaser(models.Model):
         return self.title
 
 
+class SchoolPageStudentResearch(LinkFields):
+    source_page = ParentalKey("schools.SchoolPage", related_name="student_research")
+    title = models.CharField(max_length=125)
+    slides = StreamField(StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1))
+
+    panels = [
+        FieldPanel("title"),
+        StreamFieldPanel("slides"),
+        *LinkFields.panels,
+    ]
+
+    def __str__(self):
+        return self.title
+
+    def clean(self):
+        if self.link_page and self.link_url:
+            raise ValidationError(
+                {
+                    "link_url": ValidationError(
+                        "You must specify link page or link url. You can't use both."
+                    ),
+                    "link_page": ValidationError(
+                        "You must specify link page or link url. You can't use both."
+                    ),
+                }
+            )
+
+        if self.link_url and not self.link_text:
+            raise ValidationError(
+                {
+                    "link_text": ValidationError(
+                        "You must specify link text, if you use the link url field."
+                    )
+                }
+            )
+
+
 class SchoolPageStatsBlock(models.Model):
     source_page = ParentalKey("SchoolPage", related_name="stats_block")
     title = models.CharField(max_length=125)
@@ -104,6 +145,15 @@ class SchoolPageStatsBlock(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class SchoolPageRelatedProjectPage(Orderable):
+    source_page = ParentalKey(
+        "schools.SchoolPage", related_name="manually_related_project_pages"
+    )
+    page = models.ForeignKey("projects.ProjectPage", on_delete=models.CASCADE)
+
+    panels = [PageChooserPanel("page")]
 
 
 class SchoolPage(BasePage):
@@ -149,6 +199,19 @@ class SchoolPage(BasePage):
         StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
         blank=True,
     )
+    research_projects_title = models.CharField(max_length=125, default="Our Research")
+    research_projects_text = models.CharField(max_length=500, blank=True)
+    external_links_heading = models.CharField(max_length=125, blank=True)
+
+    external_links = StreamField([("link", InternalExternalLinkBlock())], blank=True)
+    research_cta_block = StreamField(
+        [("call_to_action", CallToActionBlock(label=_("text promo")))], blank=True,
+    )
+    research_collaborators_heading = models.CharField(blank=True, max_length=120)
+    research_collaborators = StreamField(
+        StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
+        blank=True,
+    )
 
     search_fields = BasePage.search_fields + [index.SearchField("introduction")]
     api_fields = [APIField("introduction")]
@@ -185,7 +248,40 @@ class SchoolPage(BasePage):
         ),
         InlinePanel("stats_block", label="Statistics", max_num=1),
     ]
-    research_panels = []
+    research_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("research_projects_title"),
+                FieldPanel("research_projects_text"),
+                HelpPanel(
+                    content="Projects related to this School are automatically \
+                        listed, this can be overriden by defining projects manually"
+                ),
+                InlinePanel(
+                    "manually_related_project_pages", max_num=5, label="Project"
+                ),
+            ],
+            heading="Research projects",
+        ),
+        MultiFieldPanel(
+            [InlinePanel("student_research", label="Student research", max_num=1)],
+            heading="Student research",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("research_collaborators_heading"),
+                StreamFieldPanel("research_collaborators"),
+            ],
+            heading="Collaborators",
+        ),
+        MultiFieldPanel(
+            [FieldPanel("external_links_heading"), StreamFieldPanel("external_links")],
+            heading="Links",
+        ),
+        MultiFieldPanel(
+            [StreamFieldPanel("research_cta_block")], heading="Call To Action"
+        ),
+    ]
     programmes_panels = []
     short_course_panels = []
     staff_panels = []
@@ -246,44 +342,44 @@ class SchoolPage(BasePage):
             {"title": "Contact"},
         ]
 
-    def format_page_teasers(self, obj):
-        if not obj:
-            return
-        page_teasers = {"title": obj.title, "summary": obj.summary, "pages": []}
-        for item in obj.pages:
-            for block in item.value:
-                if block.block_type == "custom_teaser":
-                    page_teasers["pages"].append(
-                        {
-                            "title": block.value["title"],
-                            "description": block.value["text"],
-                            "image": block.value["image"],
-                            "link": block.value["link"]["url"],
-                            "type": block.value["meta"],
-                        }
-                    )
-                elif block.block_type == "page":
-                    page = block.value.specific
-                    summary = (
-                        page.introduction
-                        if hasattr(page, "introduction")
-                        else page.listing_summary
-                    )
-                    image = (
-                        page.hero_image
-                        if hasattr(page, "hero_image")
-                        else page.listing_image
-                    )
-                    page_teasers["pages"].append(
-                        {
-                            "title": page.title,
-                            "description": summary,
-                            "image": image,
-                            "link": page.url,
-                        }
-                    )
+    def get_related_projects(self):
+        """
+        Displays latest projects related to this school page.
+        Returns:
+            List of:
+                filtered and formatted manually related ProjectPages
+                or automatically fetch project pages from project > school relationship
+        """
+        from rca.projects.models import ProjectPage
 
-        return page_teasers
+        manual_related_projects = [
+            i.page.id for i in self.manually_related_project_pages.all()
+        ]
+        auto_related_projects = ProjectPage.objects.filter(
+            related_school_pages__page_id=self.id
+        )
+        if manual_related_projects:
+            return format_projects_for_gallery(
+                ProjectPage.objects.filter(id__in=manual_related_projects)
+            )
+        elif auto_related_projects:
+            return format_projects_for_gallery(auto_related_projects)
+
+    def get_student_research(self, student_research, request):
+        if not student_research:
+            return
+        if student_research.link_page:
+            link = student_research.link_page.get_url(request)
+        elif student_research.link_url:
+            link = student_research.link_url
+
+        link = student_research.link_page or student_research.link_url
+        return {
+            "title": student_research.title,
+            "link_url": link,
+            "link_text": student_research.link_text or student_research.link_page,
+            "slides": related_list_block_slideshow(student_research.slides),
+        }
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -299,10 +395,14 @@ class SchoolPage(BasePage):
             ):
                 context["hero_colour"] = DARK_HERO
         context["open_day_link"] = self.open_day_link.first()
-        context["page_teasers"] = self.format_page_teasers(self.page_teasers.first())
+        context["page_teasers"] = format_page_teasers(self.page_teasers.first())
         context["stats_block"] = self.stats_block.select_related(
             "background_image"
         ).first()
+        context["related_projects"] = self.get_related_projects()
+        context["student_research"] = self.get_student_research(
+            self.student_research.first(), request
+        )
         # Set the page tab titles for the jump menu
         context["tabs"] = self.page_nav()
         return context

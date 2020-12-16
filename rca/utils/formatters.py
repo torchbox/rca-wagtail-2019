@@ -28,11 +28,13 @@ def related_list_block_slideshow(slides):
                     }
                 )
             elif block.block_type == "page":
+                page_type = None
                 page = block.value.specific
-                page_type = page_type_mapping.get(page.__class__.__name__, None)
+                if page.__class__.__name__ in page_type_mapping:
+                    page_type = page_type_mapping.get(page.__class__.__name__, None)
                 summary = (
                     page.introduction
-                    if hasattr(page, "introduction") and page.introduction
+                    if hasattr(page, "introduction")
                     else page.listing_summary
                 )
                 image = (
@@ -74,7 +76,7 @@ def format_page_teasers(obj):
                 page = block.value.specific
                 summary = (
                     page.introduction
-                    if hasattr(page, "introduction") and page.introduction
+                    if hasattr(page, "introduction")
                     else page.listing_summary
                 )
                 image = (

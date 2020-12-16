@@ -82,6 +82,53 @@
         {% if stats_block %}
             {% include "patterns/organisms/stat-block/stat-block.html" %}
         {% endif %}
+        {# Our research #}
+        {% if related_projects %}
+            <section class="section section--top-space-large bg bg--light">
+
+                <div class="section__row section__row--last-large research-highlights">
+                    <div class="section__header grid">
+                        <h2 class="section__heading section__heading--primary heading heading--four">
+                            {{ page.research_projects_title}}
+                            {{ page.research_projects_text }}
+                        </h2>
+                    </div>
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/carousel/carousel.html" with carousel=related_projects modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                    </div>
+                </div>
+
+            </section>
+        {% endif %}
+        {% if student_research %}
+            <section class="section section--end section--top-space bg bg--light">
+                <div class="partnerships">
+                    <div class="partnerships__header grid">
+                        <h2 class="partnerships__heading heading heading--one">{{ student_research.title }}</h2>
+                    </div>
+                    <div class="partnerships__carousel">
+                        {% include "patterns/organisms/carousel/carousel--square.html" with carousel=student_research.slides modifier='carousel--square' datatag='data-square-carousel' %}
+                    </div>
+
+                </div>
+                <a href="{{ student_research.link_url }}">{{ student_research.link_text }}</a>
+            </section>
+        {% endif %}
+        {% if page.research_collaborators_heading %}
+            <h3 class="section__heading section__heading--tight heading heading--three">
+                {{ page.research_collaborators_heading }}
+            </h3>
+        {% endif %}
+
+        {% if page.research_collaborators %}
+            {# TODO - @nick this may need reformating from context to fit the carousel template #}
+            {% for c in page.research_collaborators %}
+                {% image c.value.image width-200 height-200 %}
+                <a href="{{ c.value.link.url }}">{{ c.value.link.title }}</a>
+            {% endfor %}
+        {% endif %}
+        {{ page.external_links }}
+        {{ page.research_cta_block }}
 
     </section>
 </div>

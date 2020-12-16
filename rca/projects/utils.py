@@ -1,5 +1,5 @@
 def format_projects_for_gallery(projects):
-    """Global function for formatting related projects to the correct
+    """Internal method for formatting related projects to the correct
     structure for the gallery template
 
     Arguments:
@@ -9,7 +9,6 @@ def format_projects_for_gallery(projects):
         List: Maximum of 8 projects
     """
     items = []
-    projects = projects.prefetch_related("related_school_pages__page")
     for page in projects[:8]:
         page = page.specific
         meta = ""
@@ -22,7 +21,7 @@ def format_projects_for_gallery(projects):
                 "title": page.title,
                 "link": page.url,
                 "image": page.hero_image,
-                "description": page.introduction or page.listing_summary,
+                "description": page.introduction,
                 "meta": meta,
             }
         )
