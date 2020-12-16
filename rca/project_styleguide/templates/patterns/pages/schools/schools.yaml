@@ -9,10 +9,10 @@ context:
     introduction: 'Offering an unparalleled interdisciplinary context to pursue design research in the spatial disciplines.'
     introduction_image: true
     school_dean: John Smith
-    location: <p><a>RCA Kensington<a></p><p><a>RCA White City<a></p>.
+    location: <p><a>RCA Kensington</a></p><p><a>RCA White City</a></p>
     next_open_day_start_date: !!timestamp '2020-12-13 2:00:00'
     next_open_day_end_date: !!timestamp '2020-12-15 2:00:00'
-    get_in_touch: <p>0123456789</p><p>email@rca.ac.uk</p>
+    get_in_touch: <p>0123456789</p><p><a href="">email@rca.ac.uk</a></p>
     social_links:
       - '<a>Facebook</a>'
       - '<a>Twitter</a>'
@@ -278,7 +278,7 @@ context:
 tags:
   include_block:
     block:
-      template_name: 'patterns/_pattern_library_only/streamfield/project_streamfield.html'
+      template_name: 'patterns/_pattern_library_only/streamfield/soa_body.html'
   pageurl:
     ancestor_page:
       raw: '#'
