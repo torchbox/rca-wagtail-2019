@@ -89,6 +89,43 @@ class SchoolPageTeaser(models.Model):
         return self.title
 
 
+class SchoolPageStudentResearch(LinkFields):
+    source_page = ParentalKey("schools.SchoolPage", related_name="student_research")
+    title = models.CharField(max_length=125)
+    slides = StreamField(StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1))
+
+    panels = [
+        FieldPanel("title"),
+        StreamFieldPanel("slides"),
+        *LinkFields.panels,
+    ]
+
+    def __str__(self):
+        return self.title
+
+    def clean(self):
+        if self.link_page and self.link_url:
+            raise ValidationError(
+                {
+                    "link_url": ValidationError(
+                        "You must specify link page or link url. You can't use both."
+                    ),
+                    "link_page": ValidationError(
+                        "You must specify link page or link url. You can't use both."
+                    ),
+                }
+            )
+
+        if self.link_url and not self.link_text:
+            raise ValidationError(
+                {
+                    "link_text": ValidationError(
+                        "You must specify link text, if you use the link url field."
+                    )
+                }
+            )
+
+
 class SchoolPageStatsBlock(models.Model):
     source_page = ParentalKey("SchoolPage", related_name="stats_block")
     title = models.CharField(max_length=125)
