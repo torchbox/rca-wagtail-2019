@@ -1,0 +1,20 @@
+context:
+  page:
+    school_dean: John Smith
+    location: <p><a>RCA Kensington<a></p><p><a>RCA White City<a></p>.
+    next_open_day_start_date: !!timestamp '2020-12-13 2:00:00'
+    next_open_day_end_date: !!timestamp '2020-12-15 2:00:00'
+    get_in_touch: <p>0123456789</p><p>email@rca.ac.uk</p>
+    social_links:
+      - '<a>Facebook</a>'
+      - '<a>Twitter</a>'
+      - '<a>Instagram</a>'
+
+  open_day_link:
+    get_link_url: #
+    get_link_text: Book or view all open days
+
+tags:
+  pageurl:
+    page.school_dean:
+      raw: '#'
