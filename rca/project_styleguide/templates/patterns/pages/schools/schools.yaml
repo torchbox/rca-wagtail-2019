@@ -122,7 +122,6 @@ context:
           degree_level: Executive Education
           programme_description_subtitle: Turning innovation into successful real-world businesses.
           img: http://placehold.it/300x270
-  stats_block_default_notch_override: True
   stats_block:
     title: Lorem ipsum dolor sit
     link_url: '#'
