@@ -123,7 +123,7 @@
                 {% endif %}
 
                 {% if instagram_feed %}
-                <div class="section__row section__row--last-large schools__about--logos">
+                <div class="section__row {% if about_links or about_cta %}section__row--last-small{% else %}section__row--last-large{% endif %} schools__about--instagram">
                     <div class="section__header grid">
                         <h3 class="section__heading section__heading--primary body body--one">Latest instagram updates</h3>
                         <div class="section__introduction body body--one">
@@ -145,9 +145,9 @@
             {% endif %}
 
             {# Research #}
-            <section class="schools__research section bg bg--dark" id="our-research">
+            <section class="schools__research section section--start bg bg--dark" id="our-research">
 
-                <div class="section__row section__row--first">
+                <div class="section__row section__row--last-small">
                     <div class="section__header section__header--bottom-space grid">
                         <h2 class="section__heading section__heading--tight heading heading--two">{{ page.sections.research.title|default:"Our Research" }}</h2>
                         {% if page.sections.research.introduction %}
@@ -164,14 +164,14 @@
                 </div>
 
                 {% if student_research %}
-                <div class="section__row schools__about--student-stories partnerships__carousel">
+                <div class="section__row section__row--last schools__about--student-stories partnerships__carousel">
                     <div class="section__header grid">
-                        <h3 class="section__heading section__heading--primary heading heading--two">PhD student research</h3>
+                        <h3 class="section__heading section__heading--primary heading heading--four">PhD student research</h3>
                     </div>
                     {% include "patterns/organisms/carousel/carousel--square.html" with carousel=student_research.slides modifier='carousel--square' datatag='data-square-carousel' %}
-                    <div class="section__action">
+                    <div class="section__action grid">
                         {# LINK NEEDED HERE #}
-                        <a class="link link--primary link--link body body--two" href="/">
+                        <a class="layout__@large-start-two link link--primary link--link body body--two" href="/">
                             <span class="link__label">Browse all projects from the school</span>
                             <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                         </a>
@@ -179,9 +179,9 @@
                 </div>
                 {% endif %}
 
-                <div class="section__row schools__about--logos">
+                <div class="section__row schools__about--logos {% if research_links or research_cta %}section__row--last-small{% else %}section__row--last-large{% endif %}">
                     <div class="section__header grid">
-                        <h3 class="section__heading section__heading--primary heading heading--two">Research collaboration with&hellip;</h3>
+                        <h3 class="section__heading section__heading--secondary heading heading--five">Research collaboration with&hellip;</h3>
                     </div>
                     <div class="section__content grid">
                         {% include "patterns/organisms/logo-carousel/logo-carousel.html" %}
@@ -191,14 +191,14 @@
                 {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=research_links cta=research_cta %}
 
                 <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
                 </div>
 
             </section>
 
             {# Programmes #}
-            <section class="schools__programmes section bg bg--light" id="programmes">
-                <div class="section__row">
+            <section class="schools__programmes section section--start bg bg--light" id="programmes">
+                <div class="section__row section__row--last-small">
                     <div class="section__header section__header--bottom-space grid">
                         <h2 class="section__heading section__heading--tight heading heading--two">
                             {{ page.sections.programmes.title|default:"Our programmes" }}
@@ -209,9 +209,19 @@
                             </div>
                         {% endif %}
                     </div>
+                    <div class="section__content grid">
+                        Programmes list here
+                    </div>
+                    <div class="section__action grid">
+                        {# LINK NEEDED HERE #}
+                        <a class="layout__@large-start-two link link--primary link--link body body--two" href="/">
+                            <span class="link__label">Browse all RCA programmes</span>
+                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                        </a>
+                    </div>
                 </div>
                 <div class="section__row">
-                    <div class="section__header section__header--bottom-space grid">
+                    <div class="section__header grid">
                         <h2 class="section__heading section__heading--tight heading heading--two">
                             {{ page.sections.short_courses.title|default:"Our short courses" }}
                         </h2>
@@ -225,12 +235,20 @@
                         {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=False related_sections=short_courses modifier="after-action related-content--meta-new-line" %}
                     </div>
                 </div>
+
                 {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=programmes_links cta=programmes_cta %}
+
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+
+                
             </section>
 
             {# Staff #}
-            <section class="schools__staff section bg bg--dark" id="staff">
-                <div class="section__row">
+            <section class="schools__staff section section--start section--end bg bg--dark" id="staff">
+
+                <div class="section__row {% if staff_links or staff_cta %}section__row--last-small{% else %}section__row--last-large{% endif %}">
                     <div class="section__header section__header--bottom-space grid">
                         <h2 class="section__heading section__heading--tight heading heading--two">
                             {{ page.sections.staff.title|default:"Our staff" }}
@@ -245,7 +263,9 @@
                         {% include "patterns/organisms/people-module/people-module.html" with people=staff %}
                     </div>
                 </div>
+
                 {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=staff_links cta=staff_cta %}
+
             </section>
 
             {# Contact #}
