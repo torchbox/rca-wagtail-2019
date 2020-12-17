@@ -17,10 +17,6 @@ context:
       - '<a>Facebook</a>'
       - '<a>Twitter</a>'
       - '<a>Instagram</a>'
-    hero_image:
-      title: Synaputral Decadence is the flavour of the distant future
-      creator: Jianjin Lee Chen
-      photographer: Sekiro Yamananka
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     video_caption: Watch the course introduction
     body:
@@ -51,6 +47,10 @@ context:
     contact: true
     contact_image: true
     related_pages_title: Enterprise at the RCA
+  hero_image:
+    title: Synaputral Decadence is the flavour of the distant future
+    creator: Jianjin Lee Chen
+    photographer: Sekiro Yamananka
   open_day_link:
     get_link_url: #
     get_link_text: Book or view all open days
