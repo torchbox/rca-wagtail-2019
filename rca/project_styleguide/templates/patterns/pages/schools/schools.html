@@ -123,7 +123,7 @@
                 {% endif %}
 
                 {% if instagram_feed %}
-                <div class="section__row schools__about--logos">
+                <div class="section__row section__row--last-large schools__about--logos">
                     <div class="section__header grid">
                         <h3 class="section__heading section__heading--primary body body--one">Latest instagram updates</h3>
                         <div class="section__introduction body body--one">
@@ -141,13 +141,13 @@
             </section>
 
             {% if stats_block %}
-                {% include "patterns/organisms/stat-block/stat-block.html" with stats_block=stats_block %}
+                {% include "patterns/organisms/stat-block/stat-block.html" with modifier="school-stat-block" %}
             {% endif %}
 
             {# Research #}
             <section class="schools__research section bg bg--dark" id="our-research">
 
-                <div class="section__row">
+                <div class="section__row section__row--first">
                     <div class="section__header section__header--bottom-space grid">
                         <h2 class="section__heading section__heading--tight heading heading--two">{{ page.sections.research.title|default:"Our Research" }}</h2>
                         {% if page.sections.research.introduction %}
