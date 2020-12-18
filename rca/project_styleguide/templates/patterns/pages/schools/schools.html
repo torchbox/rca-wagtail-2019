@@ -125,13 +125,16 @@
                 {% if instagram_feed %}
                 <div class="section__row {% if about_links or about_cta %}section__row--last-small{% else %}section__row--last-large{% endif %} schools__about--instagram">
                     <div class="section__header grid">
-                        <h3 class="section__heading section__heading--primary body body--one">Latest instagram updates</h3>
-                        <div class="section__introduction body body--one">
-                            <a href="#">Follow us at {{ instagram_feed.handle }}</a>
+                        <h3 class="section__heading section__heading--secondary body body--one">Latest instagram updates</h3>
+                        <div class="section__introduction">
+                            <a href="{{ photo.href }}" class="link link--tertiary link--link link--external" target="_blank">
+                                <span class="link__label">Follow us at {{ instagram_feed.handle }}</span>
+                                <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
+                            </a>
                         </div>
                     </div>
                     <div class="section__content">
-                        {% include "patterns/molecules/instagram-feed/instagram-feed.html" %}
+                        {% include "patterns/molecules/instagram-feed/instagram-feed.html" with modifier="@small-top-margin" %}
                     </div>
                 </div>
                 {% endif %}
