@@ -71,7 +71,7 @@
 
         .app__navigation & {
             margin-top: ($grid * 2.5);
-            opacity: 0.4;
+            opacity: $transition-opacity;
 
             @include media-query(medium) {
                 margin-top: 4px;
@@ -93,7 +93,7 @@
         }
 
         .app__navigation & {
-            opacity: 0.4;
+            opacity: $transition-opacity;
         }
 
         .search-active & {
@@ -172,7 +172,7 @@
         }
 
         &--drawer {
-            transition: transform $cubic-transition;
+            transition: transform $transition-cubic;
             position: absolute;
             top: 0;
             right: 0;

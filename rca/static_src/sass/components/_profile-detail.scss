@@ -28,7 +28,7 @@
         width: 100%;
         height: auto;
         margin-bottom: $gutter;
-        transition: opacity $cubic-transition;
+        transition: opacity $transition-cubic;
     }
 
     &__header {

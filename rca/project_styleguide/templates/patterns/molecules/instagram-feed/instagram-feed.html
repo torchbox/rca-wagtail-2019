@@ -1,4 +1,4 @@
-<div class="instagram-feed">
+<div class="instagram-feed {% if modifier %}instagram-feed--{{ modifier }}{% endif %}">
     <div class="instagram-feed__container grid">
         {% for photo in instagram_feed %}
         <div class="instagram-feed__item {% if forloop.first %}layout__@large-start-two{% endif %}">
