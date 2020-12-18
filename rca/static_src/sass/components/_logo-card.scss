@@ -1,0 +1,42 @@
+.logo-card {
+    position: relative;
+
+    &__container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 116px;
+        width: 116px;
+        background-color: $color--white;
+        padding: $gutter;
+
+        @include media-query(large) {
+            width: 215px;
+            height: 215px;
+        }
+    }
+
+    &__image {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    &__heading {
+        position: absolute;
+        background-color: $color--light-grey;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        color: $color--black;
+        padding: ($gutter / 4) ($gutter / 2);
+
+        @include media-query(large) {
+            right: 10px;
+            bottom: 10px;
+            left: 10px;
+            font-family: $font--secondary;
+        }
+    }
+}

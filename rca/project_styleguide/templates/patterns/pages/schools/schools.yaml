@@ -85,7 +85,7 @@ context:
       title: 'Designs for Real Life'
       description: '6 July 2019 — 4 August 2019'
       link: '#'
-      image: true
+      image: //placekitten.com/526/402
       person: false
     - item:
       meta: 'Event'
@@ -99,8 +99,34 @@ context:
       title: 'Show 2018: School of Architecture: Making Space for the Future'
       description: '23 November 2019'
       link: '#'
-      image: true
+      image: //placekitten.com/251/142
       person: false
+  worked_with:
+    slides:
+      - slide:
+        title: 'Red bull'
+        image: true
+        link: '#'
+      - slide:
+        title: 'Red bull'
+        image: true
+        link: '#'
+      - slide:
+        title: 'Red bull'
+        image: true
+        link: '#'
+      - slide:
+        title: 'Red bull'
+        image: true
+        link: '#'
+      - slide:
+        title: 'Red bull'
+        image: true
+        link: '#'
+      - slide:
+        title: 'Red bull'
+        image: true
+        link: '#'
   short_courses:
     - item:
       link:
@@ -226,6 +252,32 @@ context:
           link: '#'
           person: false
           image: True
+  research_collaboration:
+    slides:
+      - slide:
+        title: 'Red bull'
+        image: true
+        link: '#'
+      - slide:
+        title: 'Red bull'
+        image: true
+        link: '#'
+      - slide:
+        title: 'Red bull'
+        image: true
+        link: '#'
+      - slide:
+        title: 'Red bull'
+        image: true
+        link: '#'
+      - slide:
+        title: 'Red bull'
+        image: true
+        link: '#'
+      - slide:
+        title: 'Red bull'
+        image: true
+        link: '#'
   research_links:
     title: Also…
     links:

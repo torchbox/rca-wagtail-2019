@@ -1,15 +1,27 @@
 context:
-  datatag: 'data-carousel'
+  datatag: 'data-logo-carousel'
   carousel:
     - slide:
       title: 'Red bull'
       image: true
-      link: '#'
+      href: '#'
     - slide:
       title: 'Red bull'
       image: true
-      link: '#'
+      href: '#'
     - slide:
       title: 'Red bull'
       image: true
-      link: '#'
+      href: '#'
+    - slide:
+      title: 'Red bull'
+      image: true
+      href: '#'
+    - slide:
+      title: 'Red bull'
+      image: true
+      href: '#'
+    - slide:
+      title: 'Red bull'
+      image: true
+      href: '#'
