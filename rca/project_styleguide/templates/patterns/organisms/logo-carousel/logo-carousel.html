@@ -1,12 +1,9 @@
-<div class="carousel glide {{ modifier }}" {{ datatag }} data-slidetotal="{{ carousel|length }}">
+<div class="carousel carousel--logo glide {{ modifier }}" {{ datatag }} data-slidetotal="{{ carousel|length }}">
     <div data-glide-el="track" class="carousel__container glide__track">
         <ul class="carousel__slides glide__slides" aria-live="polite">
             {% for slide in carousel %}
             <li class="carousel__item glide__slide">
-            {% comment %}
-                Had to pass the slide through as a card here as well for the images to work :/
-            {% endcomment %}
-                {% include 'patterns/molecules/card/card.html' with item=slide card=slide modifier="carousel" %}
+                {% include 'patterns/molecules/logo-card/logo-card.html' with item=slide %}
             </li>
             {% endfor %}
         </ul>
@@ -17,7 +14,7 @@
                 <button class="carousel__bullet" data-glide-dir="={{ forloop.counter }}" aria-label="Slide {{ forloop.counter }}"></button>
             {% endfor %}
         </div>
-        <div class="carousel__controls-group" data-glide-el="controls">
+        <div class="carousel__controls-group grid" data-glide-el="controls">
             <button class="carousel__button carousel__button--prev button" aria-label="Previous image" data-glide-dir="<">
                 <svg class="carousel__button-icon" width="46" height="46">
                     <use xlink:href="#arrow-left" />

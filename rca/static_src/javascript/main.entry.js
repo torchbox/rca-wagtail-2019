@@ -9,6 +9,7 @@ import CookieWarning from './components/cookie-message';
 import Accordion from './components/accordion';
 import Carousel from './components/carousel';
 import SquareCarousel from './components/carousel-square';
+import LogoCarousel from './components/carousel-logo';
 import Slideshow from './components/slideshow';
 import VideoModal from './components/video-modal';
 import RelatedContent from './components/related-content';
@@ -31,6 +32,14 @@ import '../sass/main.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
     /* eslint-disable no-new, no-restricted-syntax */
+
+    // GridSizeVariables first to ensure custom properites are populated
+    for (const gridVariables of document.querySelectorAll(
+        GridSizeVariables.selector(),
+    )) {
+        new GridSizeVariables(gridVariables);
+    }
+
     const cookie = document.querySelector(CookieWarning.selector());
     new CookieWarning(cookie);
 
@@ -54,14 +63,14 @@ document.addEventListener('DOMContentLoaded', () => {
         new SquareCarousel(squareCarousel);
     }
 
-    for (const slideshow of document.querySelectorAll(Slideshow.selector())) {
-        new Slideshow(slideshow);
+    for (const logoCarousel of document.querySelectorAll(
+        LogoCarousel.selector(),
+    )) {
+        new LogoCarousel(logoCarousel);
     }
 
-    for (const gridVariables of document.querySelectorAll(
-        GridSizeVariables.selector(),
-    )) {
-        new GridSizeVariables(gridVariables);
+    for (const slideshow of document.querySelectorAll(Slideshow.selector())) {
+        new Slideshow(slideshow);
     }
 
     for (const headerdrawer of document.querySelectorAll(
