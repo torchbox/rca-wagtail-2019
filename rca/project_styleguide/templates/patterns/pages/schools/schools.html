@@ -202,7 +202,7 @@
             {# Programmes #}
             <section class="schools__programmes section section--start bg bg--light" id="programmes">
                 <div class="section__row section__row--last-small">
-                    <div class="section__header section__header--bottom-space grid">
+                    <div class="section__header grid">
                         <h2 class="section__heading section__heading--tight heading heading--two">
                             {{ page.sections.programmes.title|default:"Our programmes" }}
                         </h2>
@@ -212,15 +212,8 @@
                             </div>
                         {% endif %}
                     </div>
-                    <div class="section__content grid">
-                        Programmes list here
-                    </div>
-                    <div class="section__action grid">
-                        {# LINK NEEDED HERE #}
-                        <a class="layout__@large-start-two link link--primary link--link body body--two" href="/">
-                            <span class="link__label">Browse all RCA programmes</span>
-                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                        </a>
+                    <div class="section__content">
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=False related_sections=programmes modifier="after-action related-content--meta-new-line related-content--large related-content--sticky" %}
                     </div>
                 </div>
                 <div class="section__row">

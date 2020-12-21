@@ -127,6 +127,57 @@ context:
         title: 'Red bull'
         image: true
         link: '#'
+  programmes:
+    - item:
+      link:
+        url: '#'
+        title: Browse all RCA's Programmes
+      related_items:
+        - item:
+          title: Architecture
+          degree_level: MA
+          programme_description_subtitle: Expand the possibilities of your practice by developing a speculative, independent and critical ethos
+          hero_image: http://placehold.it/500x500/f1f1f1/000
+        - item:
+          title: Architecture Pathway
+          degree_level: MA
+          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
+          hero_image: http://placehold.it/500x500/ff5d1c/fff
+        - item:
+          title: Architecture PhD
+          degree_level: MA
+          programme_description_subtitle: Turning innovation into successful real-world businesses.
+          hero_image: http://placehold.it/500x500
+        - item:
+          title: City Design
+          degree_level: MA
+          programme_description_subtitle: Expand the possibilities of your practice by developing a speculative, independent and critical ethos
+          hero_image: http://placehold.it/500x500/f1f1f1/000
+        - item:
+          title: Environmental Architecture
+          degree_level: MA
+          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
+          hero_image: http://placehold.it/500x500/ff5d1c/fff
+        - item:
+          title: Interior Design
+          degree_level: MA
+          programme_description_subtitle: Turning innovation into successful real-world businesses.
+          hero_image: http://placehold.it/500x500
+        - item:
+          title: Global Innovation Design
+          degree_level: MA
+          programme_description_subtitle: Expand the possibilities of your practice by developing a speculative, independent and critical ethos
+          hero_image: http://placehold.it/500x500/f1f1f1/000
+        - item:
+          title: Fashion
+          degree_level: MA
+          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
+          hero_image: http://placehold.it/500x500/ff5d1c/fff
+        - item:
+          title: Design Products
+          degree_level: MA
+          programme_description_subtitle: Turning innovation into successful real-world businesses.
+          hero_image: http://placehold.it/500x500
   short_courses:
     - item:
       link:
@@ -137,17 +188,17 @@ context:
           title: Design Thinking & Innovation
           degree_level: Executive Education
           programme_description_subtitle: Transform your Customer Experience.
-          img: http://placehold.it/300x270/f1f1f1/000
+          hero_image: http://placehold.it/300x270/f1f1f1/000
         - item:
           title: Service Design Masterclass
           degree_level: Executive Education
           programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
-          img: http://placehold.it/300x270/ff5d1c/fff
+          hero_image: http://placehold.it/300x270/ff5d1c/fff
         - item:
           title: Creative Leadership
           degree_level: Executive Education
           programme_description_subtitle: Turning innovation into successful real-world businesses.
-          img: http://placehold.it/300x270
+          hero_image: http://placehold.it/300x270
   stats_block:
     title: Lorem ipsum dolor sit
     link_url: '#'
@@ -335,6 +386,17 @@ tags:
       raw: '#'
     page.school_dean:
       raw: '#'
+    related_item:
+      raw: '#'
   slugurl:
     "'home'":
       raw: '#'
+  image:
+    programmes.hero_image fill-500x500 as programme_image:
+      target_var: programme_image
+      raw:
+        url: https://placekitten.com/500/500
+    short_courses.hero_image fill-500x500 as programme_image:
+      target_var: programme_image
+      raw:
+        url: https://placekitten.com/500/500
