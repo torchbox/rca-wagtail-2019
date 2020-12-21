@@ -21,7 +21,7 @@
                 </div>
             {% endif %}
 
-            <div class="grid">
+            <div class="related-content__listing grid">
                 {% for related_item in related_section.related_items %}
                     <div class="related-content__meta">
                         <p class="related-content__title body body--one">
@@ -63,7 +63,7 @@
             </div>
             {% if related_section.link.url and related_section.link.title or related_section.page_link  %}
                 <div class="grid">
-                    <div class="section__action">
+                    <div class="related-content__action section__action">
                         <a class="link link--secondary link--link body body--one" href="{% firstof related_section.link.url related_section.page_link.url %}">
                             <span class="link__label">{% firstof related_section.link.title related_section.page_link.title 'Read more' %}</span>
                             <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
