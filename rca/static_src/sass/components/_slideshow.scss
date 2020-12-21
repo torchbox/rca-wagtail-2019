@@ -10,7 +10,7 @@
     }
 
     &__item {
-        opacity: 0.36;
+        opacity: $transition-opacity;
         transition: opacity $transition;
 
         &.glide__slide--active {
@@ -54,7 +54,7 @@
         height: 46px;
         margin: 0;
         padding: 0;
-        transition: background-color $transition, opacity $cubic-transition;
+        transition: background-color $transition, opacity $transition-cubic;
 
         &:first-child {
             margin-right: $gutter;

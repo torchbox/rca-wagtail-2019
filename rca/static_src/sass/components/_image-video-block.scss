@@ -22,6 +22,12 @@
         }
     }
 
+    &--small-bottom-margin {
+        @include media-query(medium) {
+            padding-bottom: ($gutter);
+        }
+    }
+
     &__heading {
         grid-column: 1 / span 2;
         margin-bottom: ($gutter * 1.25);

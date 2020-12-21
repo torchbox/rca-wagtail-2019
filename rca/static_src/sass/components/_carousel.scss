@@ -85,12 +85,69 @@
         }
     }
 
+    &--logo {
+        grid-column: auto;
+        margin-bottom: 0;
+        padding: $gutter 0;
+
+        @include media-query(medium) {
+            padding: 0;
+        }
+
+        #{$root}__container {
+            @include media-query(large) {
+                padding-right: var(--outer-grid-width);
+            }
+        }
+
+        #{$root}__item {
+            &:nth-child(3n) {
+                @include media-query(large) {
+                    padding-right: var(--outer-grid-width);
+                }
+            }
+        }
+
+        #{$root}__controls-group {
+            display: none;
+            pointer-events: none;
+
+            @include media-query(large) {
+                display: grid;
+                position: absolute;
+                top: 50%;
+                left: 0;
+                right: 0;
+                transform: translate3d(0, -50%, 0); // align in centre
+            }
+        }
+
+        #{$root}__button {
+            pointer-events: auto;
+            position: relative;
+
+            &--prev {
+                grid-column: 2 / span 1;
+                left: -77px;
+            }
+
+            &--next {
+                grid-column: 5 / span 1;
+                left: 30px;
+            }
+
+            &:disabled {
+                opacity: 0;
+            }
+        }
+    }
+
     &--no-margin {
         margin-bottom: $gutter;
     }
 
     &__item {
-        opacity: 0.36;
+        opacity: $transition-opacity;
         transition: opacity $transition;
 
         &.glide__slide--active {
@@ -151,7 +208,7 @@
         height: 46px;
         margin: 0;
         padding: 0;
-        transition: background-color $transition, opacity $cubic-transition;
+        transition: background-color $transition, opacity $transition-cubic;
 
         &:hover,
         &:active,
