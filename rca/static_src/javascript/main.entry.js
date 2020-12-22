@@ -9,6 +9,7 @@ import CookieWarning from './components/cookie-message';
 import Accordion from './components/accordion';
 import Carousel from './components/carousel';
 import SquareCarousel from './components/carousel-square';
+import PeopleCarousel from './components/carousel-people';
 import LogoCarousel from './components/carousel-logo';
 import Slideshow from './components/slideshow';
 import VideoModal from './components/video-modal';
@@ -61,6 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
         SquareCarousel.selector(),
     )) {
         new SquareCarousel(squareCarousel);
+    }
+
+    for (const peopleCarousel of document.querySelectorAll(
+        PeopleCarousel.selector(),
+    )) {
+        new PeopleCarousel(peopleCarousel);
     }
 
     for (const logoCarousel of document.querySelectorAll(
