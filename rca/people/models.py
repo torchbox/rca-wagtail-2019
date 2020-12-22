@@ -230,9 +230,7 @@ class StaffPage(BasePage):
         # filtering out any of the highlights already output
         yield from ProjectPage.objects.filter(
             Q(project_lead__page_id=self.pk) | Q(related_staff__page_id=self.pk)
-        ).exclude(
-            pk__in=related_project_page_ids
-        ).order_by(
+        ).exclude(pk__in=related_project_page_ids).order_by(
             "-first_published_at"
         ).distinct()
 
@@ -298,8 +296,8 @@ class StaffPage(BasePage):
             pass
 
     def get_related_students(self):
-        """ Returns a list containing legacy related students from the cached api
-        request and manual related students at the page level """
+        """Returns a list containing legacy related students from the cached api
+        request and manual related students at the page level"""
         students = []
 
         # Format the api content
@@ -354,7 +352,7 @@ class StaffPage(BasePage):
         return regrouped.values()
 
     def get_area_linked_filters(self):
-        """ For the expertise taxonomy thats listed out in key details,
+        """For the expertise taxonomy thats listed out in key details,
         they need to link to the parent staff picker page with a filter pre
         selected"""
 
