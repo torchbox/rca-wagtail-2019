@@ -188,6 +188,23 @@
         }
     }
 
+    // Move to flex layout when inside carousel
+    .people-module__content--carousel & {
+        flex-basis: 100%;
+        min-width: 100%;
+        max-width: 100%;
+
+        @include media-query(large) {
+            flex-basis: 33.333%;
+            min-width: 33.333%;
+            max-width: 33.333%;
+        }
+
+        &:nth-of-type(17) {
+            padding-right: 0;
+        }
+    }
+
     .bg--dark & {
         #{$root}__container {
             color: $color--white;

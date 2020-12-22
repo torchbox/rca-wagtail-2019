@@ -1,16 +1,68 @@
 
-    <div class="people-module {% if people|length == 1 %}people-module--single{% elif people|length > 4 %}people-module--five-plus{% else %}people-module--two-four{% endif %}">
+    <div class="people-module 
+        {% if people|length == 1 %}
+            people-module--single
+        {% elif people|length > 4 %}
+            people-module--five-plus
+        {% else %}
+            people-module--two-four
+        {% endif %}
+    ">
         <div class="people-module__container grid">
             {% if title %}
                 <div class="people-module__header">
                     <h2 class="heading heading--four people-module__heading {% if anchor_heading %}anchor-heading{% endif %}" {% if anchor_heading %}id="staff"{% endif %}>{{ title }}</h2>
                 </div>
             {% endif %}
-            <div class="people-module__content">
-                {% for profile in people %}
-                    {% include "patterns/molecules/profile-detail/profile-detail.html" with item=profile %}
-                {% endfor %}
+        {% if people|length > 17 %}
+        </div>
+        <div class="people-module__container"> 
+        {% endif %}
+
+            <div class="people-module__content {% if people|length > 17 %}people-module__content--carousel carousel glide" data-people-carousel data-slidetotal="{{ people|length }}"{% else %}"{% endif %}>
+                {% if people|length > 17 %}
+                    <div data-glide-el="track" class="people-module__carousel-container carousel__container glide__track">
+                        <ul class="people-module__carousel-slides carousel__slides glide__slides" aria-live="polite">
+                            <li class="people-module__carousel-slide-item carousel__item glide__slide">
+                                <div class="people-module__carousel-item">
+                            {% for profile in people %}
+                                {% if forloop.counter0|divisibleby:17 and not forloop.first %}    
+                                        </div>
+                                    </li>
+                                    <li class="people-module__carousel-slide-item carousel__item glide__slide">
+                                        <div class="people-module__carousel-item">
+                                {% endif %}
+                                {% include "patterns/molecules/profile-detail/profile-detail.html" with item=profile %}
+                            {% endfor %}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="carousel__controls-group grid" data-glide-el="controls">
+                        <button class="carousel__button carousel__button--prev button" aria-label="Previous image" data-glide-dir="<">
+                            <svg class="carousel__button-icon" width="46" height="46" aria-hidden="true">
+                                <use xlink:href="#arrow-left" />
+                            </svg>
+                        </button>
+                        <button class="carousel__button carousel__button--next button" aria-label="Next image" data-glide-dir=">">
+                            <svg class="carousel__button-icon" width="46" height="46" aria-hidden="true">
+                                <use xlink:href="#arrow-right" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="carousel__controls">
+                        <div class="carousel__bullet-container" data-glide-el="controls[nav]">
+                            {% for profile in people %}
+                                <button class="carousel__bullet" data-glide-dir="={{ forloop.counter }}" aria-label="Slide {{ forloop.counter }}"></button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+                    {% for profile in people %}
+                        {% include "patterns/molecules/profile-detail/profile-detail.html" with item=profile %}
+                    {% endfor %}
+                {% endif %}
             </div>
+
             {% if page.staff_link %}
                 <div class="people-module__action">
                     <a class="link link--primary link--link body body--one" href="{{ page.staff_link }}">
@@ -19,5 +71,6 @@
                     </a>
                 </div>
             {% endif %}
+
         </div>
     </div>
