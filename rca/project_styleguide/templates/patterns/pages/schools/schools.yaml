@@ -47,6 +47,8 @@ context:
     contact: true
     contact_image: true
     related_pages_title: Enterprise at the RCA
+    staff_link: '#'
+    staff_link_text: View all school staff
   hero_image:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
