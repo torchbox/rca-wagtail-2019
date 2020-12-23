@@ -194,6 +194,13 @@
         min-width: 100%;
         max-width: 100%;
 
+        @include media-query(medium) {
+            flex-basis: 50%;
+            min-width: 50%;
+            max-width: 50%;
+            padding-right: 0;
+        }
+
         @include media-query(large) {
             flex-basis: 33.333%;
             min-width: 33.333%;
