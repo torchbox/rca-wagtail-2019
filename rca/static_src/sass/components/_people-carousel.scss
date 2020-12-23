@@ -1,4 +1,10 @@
 .people-carousel {
+    margin-bottom: ($gutter * 2);
+
+    @include media-query(medium) {
+        margin-bottom: ($gutter * 3);
+    }
+
     &__item {
         margin-bottom: ($gutter * 2);
 
