@@ -1,4 +1,5 @@
 .logo-card {
+    $root: &;
     position: relative;
 
     &__container {
@@ -10,10 +11,19 @@
         width: 116px;
         background-color: $color--white;
         padding: $gutter;
+        overflow: hidden;
 
         @include media-query(large) {
             width: 215px;
             height: 215px;
+        }
+
+        &:hover,
+        &:focus {
+            #{$root}__heading {
+                transform: translate3d(0, 0, 0);
+                opacity: 1;
+            }
         }
     }
 
@@ -37,6 +47,9 @@
             bottom: 10px;
             left: 10px;
             font-family: $font--secondary;
+            transform: translate3d(0, 100%, 0);
+            opacity: 0;
+            transition: transform $transition-cubic, opacity $transition-cubic;
         }
     }
 }
