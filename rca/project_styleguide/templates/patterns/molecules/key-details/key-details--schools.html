@@ -3,12 +3,12 @@
 <div class="key-details">
 
     <div class="key-details__header">
-        <h3 class="heading heading--five key-details__heading">Key details</h3>
+        <h2 class="heading heading--five key-details__heading">Key details</h2>
     </div>
 
     {% if page.school_dean %}
     <div class="key-details__section key-details__section--dean">
-        <h4 class="body body--two key-details__sub-heading">School Dean</h4>
+        <h3 class="body body--two key-details__sub-heading">School Dean</h3>
         <ul class="key-details__list">
             <li class="key-details__list-item">
                 <a class="link link--tertiary" href="{% pageurl page.school_dean %}">{{ page.school_dean }}</a>
@@ -19,7 +19,7 @@
 
     {% if page.location %}
     <div class="key-details__section key-details__section--location">
-        <h4 class="body body--two key-details__sub-heading">Location</h4>
+        <h3 class="body body--two key-details__sub-heading">Location</h3>
         <ul class="key-details__list">
             <li class="key-details__list-item key-details__list-item--tight">
                 {{ page.location|richtext }}
@@ -30,7 +30,7 @@
 
     {% if page.next_open_day_start_date %}
     <div class="key-details__section key-details__section--date">
-        <h4 class="body body--two key-details__sub-heading">Next open day</h4>
+        <h3 class="body body--two key-details__sub-heading">Next open day</h3>
         <ul class="key-details__list">
             {% if page.next_open_day_end_date and page.next_open_day_start_date %}
             <li class="key-details__list-item">{{ page.next_open_day_start_date|date:'d' }} - {{ page.next_open_day_end_date|date:'d F' }}</li>
@@ -51,7 +51,7 @@
 
     {% if page.get_in_touch %}
     <div class="key-details__section key-details__section--contact">
-        <h4 class="body body--two key-details__sub-heading">Get in touch</h4>
+        <h3 class="body body--two key-details__sub-heading">Get in touch</h3>
         <ul class="key-details__list">
             <li class="key-details__list-item key-details__list-item--tight">
                 {{ page.get_in_touch|richtext }}
