@@ -80,9 +80,9 @@
                 {% if about_teasers %}
                 <div class="section__row section__row--last schools__about--teasers">
                     <div class="section__header section__header--bottom-space grid">
-                        <h2 class="section__heading section__heading--tight heading heading--two">{{ page.sections.about.title|default:"About us" }}</h2>
+                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ page.sections.about.title|default:"About us" }}</h2>
                         {% if page.sections.about.introduction %}
-                            <div class="section__introduction">
+                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
                                 {{ page.sections.about.introduction }}
                             </div>
                         {% endif %}
@@ -126,7 +126,7 @@
                 <div class="section__row {% if about_links or about_cta %}section__row--last-small{% else %}section__row--last-large{% endif %} schools__about--instagram">
                     <div class="section__header grid">
                         <h3 class="section__heading section__heading--secondary body body--one">Latest instagram updates</h3>
-                        <div class="section__introduction">
+                        <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
                             <a href="{{ photo.href }}" class="link link--tertiary link--link link--external" target="_blank">
                                 <span class="link__label">Follow us at {{ instagram_feed.handle }}</span>
                                 <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
@@ -152,9 +152,9 @@
 
                 <div class="section__row section__row--last-small">
                     <div class="section__header section__header--bottom-space grid">
-                        <h2 class="section__heading section__heading--tight heading heading--two">{{ page.sections.research.title|default:"Our Research" }}</h2>
+                        <h2 class="section__heading section__heading--secondary ection__heading--tight heading heading--two">{{ page.sections.research.title|default:"Our Research" }}</h2>
                         {% if page.sections.research.introduction %}
-                            <div class="section__introduction">
+                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
                                 {{ page.sections.research.introduction }}
                             </div>
                         {% endif %}
@@ -203,11 +203,11 @@
             <section class="schools__programmes section section--start bg bg--light" id="programmes">
                 <div class="section__row section__row--last-small">
                     <div class="section__header grid">
-                        <h2 class="section__heading section__heading--tight heading heading--two">
+                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
                             {{ page.sections.programmes.title|default:"Our programmes" }}
                         </h2>
                         {% if page.sections.programmes.introduction %}
-                            <div class="section__introduction">
+                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
                                 {{ page.sections.programmes.introduction }}
                             </div>
                         {% endif %}
@@ -218,11 +218,11 @@
                 </div>
                 <div class="section__row">
                     <div class="section__header grid">
-                        <h2 class="section__heading section__heading--tight heading heading--two">
+                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
                             {{ page.sections.short_courses.title|default:"Our short courses" }}
                         </h2>
                         {% if page.sections.short_courses.introduction %}
-                            <div class="section__introduction">
+                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
                                 {{ page.sections.short_courses.introduction }}
                             </div>
                         {% endif %}
@@ -246,11 +246,11 @@
 
                 <div class="section__row {% if staff_links or staff_cta %}section__row--last-small{% else %}section__row--last-large{% endif %}">
                     <div class="section__header section__header--bottom-space grid">
-                        <h2 class="section__heading section__heading--tight heading heading--two">
+                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
                             {{ page.sections.staff.title|default:"Our staff" }}
                         </h2>
                         {% if page.sections.staff.introduction %}
-                            <div class="section__introduction">
+                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
                                 {{ page.sections.staff.introduction }}
                             </div>
                         {% endif %}

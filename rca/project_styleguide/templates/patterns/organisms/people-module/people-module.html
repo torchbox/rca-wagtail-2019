@@ -35,10 +35,15 @@
                 {% endif %}
             </div>
 
+        {% if people|length > 17 %}
+        </div>
+        <div class="people-module__container grid"> 
+        {% endif %}
+
             {% if page.staff_link %}
                 <div class="people-module__action">
                     <a class="link link--primary link--link body body--one" href="{{ page.staff_link }}">
-                        <span class="link__label">{{ page.staff_link_text }}</span>
+                        <span class="link__label link__label--tight">{{ page.staff_link_text }}</span>
                         <svg class="link__icon" width="12" height="8" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                     </a>
                 </div>

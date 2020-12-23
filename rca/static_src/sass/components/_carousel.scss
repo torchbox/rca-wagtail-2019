@@ -108,6 +108,21 @@
             }
         }
 
+        #{$root}__controls {
+            padding-right: $gutter;
+            padding-left: $gutter;
+            margin-top: ($gutter * 2);
+
+            @include media-query(medium) {
+                padding-right: ($gutter * 3);
+                padding-left: ($gutter * 3);
+            }
+
+            @include media-query(large) {
+                display: none;
+            }
+        }
+
         #{$root}__controls-group {
             display: none;
             pointer-events: none;
