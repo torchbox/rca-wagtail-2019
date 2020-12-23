@@ -6,12 +6,7 @@
 
     &--large {
         #{$root}__degree {
-            display: none;
             margin-bottom: ($gutter * 2);
-
-            @include media-query(large) {
-                display: block;
-            }
         }
 
         #{$root}__listing {
@@ -38,9 +33,13 @@
             grid-column: 1 / span 2;
             padding-top: ($gutter / 4);
 
+            @include media-query(medium) {
+                grid-column: 2 / span 1;
+                padding-top: $gutter;
+            }
+
             @include media-query(large) {
                 grid-column: 3 / span 1;
-                padding-top: $gutter;
             }
         }
 
@@ -289,7 +288,7 @@
             #{$root}__copy {
                 border-top: 0;
 
-                @include media-query(large) {
+                @include media-query(medium) {
                     border-top: 1px solid $color--grid-line-dark;
                 }
             }
@@ -326,7 +325,7 @@
             #{$root}__copy {
                 border-top: 0;
 
-                @include media-query(large) {
+                @include media-query(medium) {
                     border-top: 1px solid $color--grid-line-light;
                 }
             }
