@@ -1,12 +1,12 @@
 {% load wagtailcore_tags wagtailimages_tags static util_tags %}
-<div class="people-carousel carousel carousel--people glide" data-people-carousel data-slidetotal="{{ item|length }}">
+<div class="people-carousel carousel carousel--people glide" data-peek-full-width-carousel data-slidetotal="{{ item|length }}">
  
     <div data-glide-el="track" class="people-carousel__container carousel__container glide__track">
         <ul class="people-carousel__slides carousel__slides glide__slides" aria-live="polite">
             <li class="people-carousel__slide carousel__item glide__slide">
                 <div class="people-carousel__item">
                     {% for profile in item %}
-                        {% if forloop.counter0|divisibleby:perSlide and not forloop.first %}    
+                        {% if forloop.counter0|divisibleby:per_slide and not forloop.first %}    
                                 </div>
                             </li>
                             <li class="people-carousel__slide carousel__item glide__slide">
@@ -35,7 +35,7 @@
     <div class="carousel__controls">
         <div class="carousel__bullet-container" data-glide-el="controls[nav]">
             {% for profile in item %}
-                {% if forloop.counter0|divisibleby:perSlide %}
+                {% if forloop.counter0|divisibleby:per_slide %}
                     <button class="carousel__bullet" data-glide-dir="={{ forloop.counter }}" aria-label="Slide {{ forloop.counter }}"></button>
                 {% endif %}
             {% endfor %}

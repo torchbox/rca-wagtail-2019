@@ -3,7 +3,7 @@
 {% get_settings %}
 
 {% block body_class %}
-    app--landing-page
+    app--school
 {% endblock %}
 
 {% block content %}
@@ -35,7 +35,7 @@
             {% if page.introduction %}
                 <div class="introduction grid">
                     <div class="introduction__container">
-                        <h2 class="introduction__text section__heading heading heading--five">
+                        <h2 class="section__heading heading heading--five">
                             {{ page.introduction }}
                         </h2>
                     </div>
@@ -49,10 +49,10 @@
                         <div class="project-overview__content layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                             <div class="project-overview__media">
                                 {% if page.introduction_image %}
-                                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.introduction_image caption=page.video_caption video=page.video modifier="small-bottom-margin" %}
+                                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.introduction_image caption=page.video_caption video=page.video modifier="small-bottom-margin image-video-block--no-padding" %}
                                 {% endif %}
                             </div>
-                            <div class="project-overview__streamfield">
+                            <div class="project-overview__streamfield project-overview__streamfield--bottom-margin">
                                 <div class="streamfield rich-text ">
                                     {% for block in page.body %}
                                         {% include_block block %}
@@ -72,7 +72,7 @@
 
         <div class="page__content schools landing-page">
 
-            {% include "patterns/molecules/tab-nav/tab-nav.html" with modifier="bg bg--dark" sticky="true" tabs=page.tabs %}
+            {% include "patterns/molecules/tab-nav/tab-nav.html" with modifier="bg bg--dark" sticky=True tabs=page.tabs %}
 
             {# About #}
             <section class="schools__about section section--start bg bg--dark" id="about">
@@ -98,7 +98,12 @@
                         <h2 class="section__heading section__heading--secondary heading heading--five">Organisations we've worked with</h2>
                     </div>
                     <div class="section__content">
-                        {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=worked_with.slides datatag="data-logo-carousel" %}
+                        <div class="u-small-and-medium-bp-only">
+                            {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=worked_with.slides datatag="data-logo-carousel" per_slide=2 %}
+                        </div>
+                        <div class="u-large-bp-only">
+                            {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=worked_with.slides datatag="data-logo-carousel" per_slide=3 %}
+                        </div>
                     </div>
                 </div>
 
@@ -118,7 +123,7 @@
                     <div class="section__header grid">
                         <h2 class="section__heading section__heading--primary heading heading--four">Student stories</h2>
                     </div>
-                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=student_stories.slides modifier='carousel--square' datatag='data-square-carousel' %}
+                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=student_stories.slides modifier='carousel--square' datatag='data-peek-carousel' %}
                 </div>
                 {% endif %}
 
@@ -171,7 +176,7 @@
                     <div class="section__header grid">
                         <h2 class="section__heading section__heading--primary heading heading--four">PhD student research</h2>
                     </div>
-                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=student_research.slides modifier='carousel--square' datatag='data-square-carousel' %}
+                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=student_research.slides modifier='carousel--square' datatag='data-peek-carousel' %}
                     <div class="section__action grid">
                         {# LINK NEEDED HERE #}
                         <a class="layout__@large-start-two link link--primary link--link body body--two" href="/">
@@ -187,7 +192,12 @@
                         <h2 class="section__heading section__heading--secondary heading heading--five">Research collaboration with&hellip;</h2>
                     </div>
                     <div class="section__content">
-                        {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=research_collaboration.slides datatag="data-logo-carousel" %}
+                        <div class="u-small-and-medium-bp-only">
+                            {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=research_collaboration.slides datatag="data-logo-carousel" per_slide=2 %}
+                        </div>
+                        <div class="u-large-bp-only">
+                            {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=research_collaboration.slides datatag="data-logo-carousel" per_slide=3 %}
+                        </div>
                     </div>
                 </div>
 
@@ -200,7 +210,7 @@
             </section>
 
             {# Programmes #}
-            <section class="schools__programmes section section--start bg bg--light" id="programmes">
+            <section class="schools__programmes section section--start bg bg--light" id="programmes-short-courses">
                 <div class="section__row section__row--last-small">
                     <div class="section__header grid">
                         <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">

@@ -4,10 +4,12 @@
     {% for tab in tabs %}
         <a id="tab-{{ tab.title|slugify }}" class="tab-item js-tab-item {% if forloop.counter == 1 %}active{% endif %}" href="#{{ tab.title|slugify }}" role="tab" aria-controls="{{ tab.title|slugify }}" data-tab="{{ tab.title|slugify }}" aria-selected="true">{{ tab.title }}</a>
     {% endfor %}
+    {% if ask_question %}
     <a href="#contact" class="tab-item link link--tertiary link--down" role="tab">
         <span class="link__label">Ask a question</span>
         <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
     </a>
+    {% endif %}
 </nav>
     </div>
 </div>

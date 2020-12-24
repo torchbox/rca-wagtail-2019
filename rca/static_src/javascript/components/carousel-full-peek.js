@@ -1,9 +1,9 @@
 import Glide from '@glidejs/glide';
 import ArrowDisabler from './carousel-arrow-disabler';
 
-class PeopleCarousel {
+class PeekFullCarousel {
     static selector() {
-        return '[data-people-carousel]';
+        return '[data-peek-full-width-carousel]';
     }
 
     constructor(node) {
@@ -115,4 +115,4 @@ class PeopleCarousel {
     }
 }
 
-export default PeopleCarousel;
+export default PeekFullCarousel;

@@ -1,9 +1,9 @@
 import Glide from '@glidejs/glide';
 import ArrowDisabler from './carousel-arrow-disabler';
 
-class SquareCarousel {
+class PeekCarousel {
     static selector() {
-        return '[data-square-carousel]';
+        return '[data-peek-carousel]';
     }
 
     constructor(node) {
@@ -115,4 +115,4 @@ class SquareCarousel {
     }
 }
 
-export default SquareCarousel;
+export default PeekCarousel;

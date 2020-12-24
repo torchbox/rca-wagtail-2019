@@ -6,6 +6,10 @@
         padding-bottom: ($gutter * 6);
     }
 
+    &--no-padding {
+        padding-bottom: 0;
+    }
+
     &--tight-heading {
         #{$root}__heading {
             @include media-query(large) {
