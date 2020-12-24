@@ -8,7 +8,7 @@ import MobileSubMenu from './components/mobile-sub-menu';
 import CookieWarning from './components/cookie-message';
 import Accordion from './components/accordion';
 import Carousel from './components/carousel';
-import PeekCarousel from './components/carousel-peek.js';
+import PeekCarousel from './components/carousel-peek';
 import PeekFullCarousel from './components/carousel-full-peek';
 import LogoCarousel from './components/carousel-logo';
 import Slideshow from './components/slideshow';
