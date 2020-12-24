@@ -16,6 +16,7 @@
     }
 
     .app--landing-page &,
+    .app--school &,
     .app--guide & {
         #{$root}__container {
             margin-bottom: $gutter;

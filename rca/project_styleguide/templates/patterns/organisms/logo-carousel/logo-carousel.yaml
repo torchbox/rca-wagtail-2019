@@ -1,5 +1,5 @@
 context:
-  datatag: 'data-logo-carousel'
+  per_slide: 3
   carousel:
     - slide:
       title: 'Red bull'
