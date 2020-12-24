@@ -8,8 +8,8 @@ import MobileSubMenu from './components/mobile-sub-menu';
 import CookieWarning from './components/cookie-message';
 import Accordion from './components/accordion';
 import Carousel from './components/carousel';
-import SquareCarousel from './components/carousel-square';
-import PeopleCarousel from './components/carousel-people';
+import PeekCarousel from './components/carousel-peek.js';
+import PeekFullCarousel from './components/carousel-full-peek';
 import LogoCarousel from './components/carousel-logo';
 import Slideshow from './components/slideshow';
 import VideoModal from './components/video-modal';
@@ -58,16 +58,16 @@ document.addEventListener('DOMContentLoaded', () => {
         new Carousel(carousel);
     }
 
-    for (const squareCarousel of document.querySelectorAll(
-        SquareCarousel.selector(),
+    for (const peekcarousel of document.querySelectorAll(
+        PeekCarousel.selector(),
     )) {
-        new SquareCarousel(squareCarousel);
+        new PeekCarousel(peekcarousel);
     }
 
-    for (const peopleCarousel of document.querySelectorAll(
-        PeopleCarousel.selector(),
+    for (const peekfullcarousel of document.querySelectorAll(
+        PeekFullCarousel.selector(),
     )) {
-        new PeopleCarousel(peopleCarousel);
+        new PeekFullCarousel(peekfullcarousel);
     }
 
     for (const logoCarousel of document.querySelectorAll(

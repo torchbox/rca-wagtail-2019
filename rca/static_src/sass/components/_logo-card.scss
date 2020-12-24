@@ -7,16 +7,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 116px;
-        width: 116px;
+        height: auto;
+        width: 80%;
         background-color: $color--white;
         padding: $gutter;
         overflow: hidden;
-
-        @include media-query(large) {
-            width: 215px;
-            height: 215px;
-        }
 
         &:hover,
         &:focus {
@@ -50,6 +45,18 @@
             transform: translate3d(0, 100%, 0);
             opacity: 0;
             transition: transform $transition-cubic, opacity $transition-cubic;
+        }
+    }
+
+    .carousel--logo & {
+        flex-basis: 50%;
+        max-width: 50%;
+        min-width: 50%;
+
+        @include media-query(large) {
+            flex-basis: 33.33%;
+            max-width: 33.33%;
+            min-width: 33.33%;
         }
     }
 }

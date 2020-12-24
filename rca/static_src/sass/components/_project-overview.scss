@@ -36,6 +36,10 @@
         @include media-query(large) {
             padding-left: 33.333%;
         }
+
+        &--bottom-margin {
+            margin-bottom: ($gutter * 2);
+        }
     }
 
     &__heading {

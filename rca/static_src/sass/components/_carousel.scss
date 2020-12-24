@@ -100,14 +100,6 @@
             }
         }
 
-        #{$root}__item {
-            &:nth-child(3n) {
-                @include media-query(large) {
-                    padding-right: var(--outer-grid-width);
-                }
-            }
-        }
-
         #{$root}__controls {
             padding-right: $gutter;
             padding-left: $gutter;
@@ -208,6 +200,16 @@
 
         &.glide__slide--active {
             opacity: 1;
+        }
+    }
+
+    &__logo-slide {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        @include media-query(large) {
+            max-width: calc(var(--grid-width) * 3);
         }
     }
 

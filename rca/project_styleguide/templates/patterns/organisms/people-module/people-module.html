@@ -23,10 +23,10 @@
             <div class="people-module__content {% if people|length > 17 %}people-module__content--carousel{% endif %}">
                 {% if people|length > 17 %}
                     <div class="u-small-bp-only">
-                        {% include "patterns/molecules/people-carousel/people-carousel.html" with item=people perSlide=5 %}
+                        {% include "patterns/molecules/people-carousel/people-carousel.html" with item=people per_slide=5 %}
                     </div>
                     <div class="u-medium-and-large-bp-only">
-                        {% include "patterns/molecules/people-carousel/people-carousel.html" with item=people perSlide=17 %}
+                        {% include "patterns/molecules/people-carousel/people-carousel.html" with item=people per_slide=17 %}
                     </div>
                 {% else %}
                     {% for profile in people %}
