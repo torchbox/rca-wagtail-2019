@@ -512,4 +512,24 @@ class SchoolPage(BasePage):
         ]
         # Set the page tab titles for the jump menu
         context["tabs"] = self.page_nav()
+        # Related programmes and courses
+        # TODO - summary text and title handling
+        context["related_sections"] = [
+            {
+                "title": self.related_programmes_title,
+                "summary": self.related_programmes_summary,
+                "related_items": [
+                    page.specific
+                    for page in self.get_related_programmes()
+                ],
+            },
+			{
+				"title": self.related_short_courses_title,
+                "summary": self.related_short_courses_summary,
+                "related_items": [
+                    rel.page.specific
+                    for rel in self.related_short_courses.select_related('page')
+                ]
+			}
+        ]
         return context
