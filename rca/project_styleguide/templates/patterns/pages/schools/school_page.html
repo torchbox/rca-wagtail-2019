@@ -130,6 +130,13 @@
         {{ page.external_links }}
         {{ page.research_cta_block }}
 
+        {# Related Programmes and courses #}
+        {# TODO talk with nick about duplicating / altering this tempalte to add the summary text #}
+        <div class="section__row">
+            {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title='Related bits' %}
+        </div>
+
+
     </section>
 </div>
 {% endblock %}
