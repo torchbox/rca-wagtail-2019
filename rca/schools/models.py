@@ -41,7 +41,7 @@ from rca.utils.models import (
     BasePage,
     LegacyNewsAndEventsMixin,
     LinkFields,
-	RelatedPage,
+    RelatedPage,
 )
 
 
@@ -212,7 +212,8 @@ class SchoolPage(BasePage):
 
     external_links = StreamField([("link", InternalExternalLinkBlock())], blank=True)
     research_cta_block = StreamField(
-        [("call_to_action", CallToActionBlock(label=_("text promo")))], blank=True,
+        [("call_to_action", CallToActionBlock(label=_("text promo")))],
+        blank=True,
     )
     research_collaborators_heading = models.CharField(blank=True, max_length=120)
     research_collaborators = StreamField(
@@ -223,7 +224,6 @@ class SchoolPage(BasePage):
     related_programmes_summary = models.CharField(blank=True, max_length=500)
     related_short_courses_title = models.CharField(blank=True, max_length=120)
     related_short_courses_summary = models.CharField(blank=True, max_length=500)
-
 
     search_fields = BasePage.search_fields + [index.SearchField("introduction")]
     api_fields = [APIField("introduction")]
@@ -295,13 +295,13 @@ class SchoolPage(BasePage):
         ),
     ]
     programmes_panels = [
-        FieldPanel('related_programmes_title'),
-        FieldPanel('related_programmes_summary'),
+        FieldPanel("related_programmes_title"),
+        FieldPanel("related_programmes_summary"),
     ]
     short_course_panels = [
-        FieldPanel('related_short_courses_title'),
-        FieldPanel('related_short_courses_summary'),
-		InlinePanel('related_short_courses', label="Short Course Pages"),
+        FieldPanel("related_short_courses_title"),
+        FieldPanel("related_short_courses_summary"),
+        InlinePanel("related_short_courses", label="Short Course Pages"),
     ]
     staff_panels = []
     contact_panels = []
@@ -414,7 +414,6 @@ class SchoolPage(BasePage):
         )
         return programmes
 
-
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         # We're picking the hero from multiple objects so we need to override
@@ -440,23 +439,22 @@ class SchoolPage(BasePage):
         # Set the page tab titles for the jump menu
         context["tabs"] = self.page_nav()
         # Related programmes and courses
-        # TODO - summary text and title handling
-        context["related_sections"] = [
+        # TODO - summary handling
+        context["related_programmes"] = [
             {
-                "title": self.related_programmes_title,
                 "summary": self.related_programmes_summary,
                 "related_items": [
-                    page.specific
-                    for page in self.get_related_programmes()
+                    page.specific for page in self.get_related_programmes()
                 ],
             },
-			{
-				"title": self.related_short_courses_title,
+        ]
+        context["related_short_courses"] = [
+            {
                 "summary": self.related_short_courses_summary,
                 "related_items": [
                     rel.page.specific
-                    for rel in self.related_short_courses.select_related('page')
-                ]
-			}
+                    for rel in self.related_short_courses.select_related("page")
+                ],
+            }
         ]
         return context
