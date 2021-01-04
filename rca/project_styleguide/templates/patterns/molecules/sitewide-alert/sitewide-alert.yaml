@@ -1,0 +1,5 @@
+context:
+  settings:
+    utils:
+      SitewideAlertSetting:
+        message: What do you call a deer with no eyes?

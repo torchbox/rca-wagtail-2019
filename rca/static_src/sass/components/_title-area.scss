@@ -91,11 +91,19 @@
         width: calc(100% + 40px);
 
         @include media-query(medium) {
+            grid-column: 2;
+            order: 2;
+            left: 0;
+            width: calc(100% + 60px);
+        }
+
+        @include media-query(large) {
             grid-column: auto;
             position: absolute;
             top: 128px;
             left: initial;
             right: 0;
+            order: initial;
             width: 50%;
             height: auto;
         }
@@ -184,6 +192,12 @@
                 margin-bottom: ($gutter * 1.5);
             }
         }
+
+        #{$root}__content {
+            @include media-query(large) {
+                grid-column: 2 / span 2;
+            }
+        }
     }
 
     &--research-centre {
@@ -212,7 +226,6 @@
         padding-bottom: ($gutter);
 
         @include media-query(large) {
-            padding-top: ($gutter * 2);
             padding-bottom: ($gutter * 2);
         }
 

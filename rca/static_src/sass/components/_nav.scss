@@ -11,6 +11,11 @@
         .menu-active & {
             display: block;
         }
+
+        // ensure menu scrolling works consistently in browsers on short screens
+        @media only screen and (min-width: 1023px) and (max-height: 780px) {
+            padding-bottom: 200px;
+        }
     }
 
     &--secondary {
@@ -39,6 +44,13 @@
             display: block;
         }
 
+        // ensure menu scrolling works consistently in browsers on short screens
+        @media only screen and (min-width: 1023px) and (max-height: 780px) {
+            > li:last-child {
+                padding-bottom: 200px;
+            }
+        }
+
         @include media-query(large) {
             padding-top: ($gutter * 9.5);
             max-height: $sub-nav-height--large;
@@ -53,19 +65,15 @@
             display: block;
             pointer-events: none;
             position: fixed;
-            top: 340px;
             left: 0;
             right: 0;
+            bottom: 0;
             height: $gradient-height;
             background: linear-gradient(
                 358.73deg,
                 rgba(0, 0, 0, 0.96) 3.08%,
                 rgba(0, 0, 0, 0) 124.08%
             );
-
-            @include media-query(large) {
-                top: calc(#{$sub-nav-height--large} - #{$gradient-height});
-            }
         }
     }
 

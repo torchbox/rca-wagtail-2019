@@ -6,6 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -39,8 +40,26 @@ from rca.utils.models import (
     BasePage,
     RelatedPage,
     RelatedStaffPageWithManualOptions,
+    ResearchTheme,
     ResearchType,
+    Sector,
 )
+
+
+class ProjectPageSectorPlacement(models.Model):
+    page = ParentalKey("ProjectPage", related_name="related_sectors")
+    sector = models.ForeignKey(
+        "utils.Sector", on_delete=models.CASCADE, related_name="projects"
+    )
+    panels = [FieldPanel("sector")]
+
+
+class ProjectPageResearchThemePlacement(models.Model):
+    page = ParentalKey("ProjectPage", related_name="related_research_themes")
+    research_theme = models.ForeignKey(
+        "utils.ResearchTheme", on_delete=models.CASCADE, related_name="projects"
+    )
+    panels = [FieldPanel("research_theme")]
 
 
 class RelatedProjectPage(Orderable):
@@ -216,6 +235,8 @@ class ProjectPage(BasePage):
     ]
 
     key_details_panels = [
+        InlinePanel("related_sectors", label=_("Innovation RCA sectors")),
+        InlinePanel("related_research_themes", label=_("Research themes")),
         InlinePanel("expertise", label=_("RCA Expertise")),
         InlinePanel("related_school_pages", label=_("Related schools")),
         InlinePanel("related_research_pages", label=_("Related research centres")),
@@ -326,11 +347,15 @@ class ProjectPage(BasePage):
         if errors:
             raise ValidationError(errors)
 
-    def get_related_school(self):
-        """ returns the first related schools page"""
-        realted_school = self.related_school_pages.first()
-        if realted_school:
-            return realted_school.page
+    def get_related_school_or_centre(self):
+        # returns the first related schools page, if none, return the related research
+        # centre page
+        related_school = self.related_school_pages.first()
+        related_research_page = self.related_research_pages.first()
+        if related_school:
+            return related_school.page
+        elif related_research_page:
+            return related_research_page.page
 
     def get_expertise_linked_filters(self):
         """ For the expertise taxonomy thats listed out in key details,
@@ -351,6 +376,25 @@ class ProjectPage(BasePage):
                 expertise.append({"title": i.area_of_expertise.title})
         return expertise
 
+    def get_sector_linked_filters(self):
+        """ For the sector taxonomy thats listed out in key details,
+        they need to link to the parent project picker page with a filter pre
+        selected"""
+
+        parent_picker = ProjectPickerPage.objects.parent_of(self).live().first()
+        sectors = []
+        for i in self.related_sectors.all().select_related("sector"):
+            if parent_picker:
+                sectors.append(
+                    {
+                        "title": i.sector.title,
+                        "link": f"{parent_picker.url}?sector={i.sector.slug}",
+                    }
+                )
+            else:
+                sectors.append({"title": i.sector.title})
+        return sectors
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         taxonomy_tags = []
@@ -365,12 +409,17 @@ class ProjectPage(BasePage):
                 taxonomy_tags.append({"title": i.research_type.title})
 
         context["expertise"] = self.get_expertise_linked_filters()
+        context["sectors"] = self.get_sector_linked_filters()
         context["project_lead"] = self.project_lead.select_related("image")
         context["related_staff"] = self.related_staff.select_related("image")
         context["taxonomy_tags"] = taxonomy_tags
         context["related_projects"] = self.get_related_projects()
 
         return context
+
+    @cached_property
+    def is_startup_project(self):
+        return len(self.research_types.filter(research_type__title="Start-up")) > 0
 
 
 class ProjectPickerPage(BasePage):
@@ -419,7 +468,7 @@ class ProjectPickerPage(BasePage):
                     "title": page.title,
                     "image": page.hero_image,
                     "link": page.url,
-                    "school": page.get_related_school(),
+                    "school": page.get_related_school_or_centre(),
                     "year": year,
                     "listing_summary": page.listing_summary,
                     "meta_heading": page.listing_title,
@@ -437,7 +486,7 @@ class ProjectPickerPage(BasePage):
             # on the request
             obj.link = obj.get_url(request)
             obj.image = obj.hero_image
-            obj.school = obj.get_related_school
+            obj.school = obj.get_related_school_or_centre
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -500,6 +549,30 @@ class ProjectPickerPage(BasePage):
                 ),
                 option_value_field="slug",
             ),
+            TabStyleFilter(
+                "Research theme",
+                queryset=(
+                    ResearchTheme.objects.filter(
+                        id__in=base_queryset.values_list(
+                            "related_research_themes__research_theme_id", flat=True
+                        )
+                    )
+                ),
+                filter_by="related_research_themes__research_theme__slug__in",  # Filter by slug here
+                option_value_field="slug",
+            ),
+            TabStyleFilter(
+                "Sector",
+                queryset=(
+                    Sector.objects.filter(
+                        id__in=base_queryset.values_list(
+                            "related_sectors__sector_id", flat=True
+                        )
+                    )
+                ),
+                filter_by="related_sectors__sector__slug__in",  # Filter by slug here
+                option_value_field="slug",
+            ),
         )
 
         # Apply filters
@@ -538,12 +611,10 @@ class ProjectPickerPage(BasePage):
         extra_query_params = self.get_extra_query_params(
             request, self.get_active_filters(request)
         )
-        print(self.get_active_filters(request))
         if self.featured_project:
             context["featured_project"] = self._format_projects(
                 [self.featured_project]
             )[0]
-        print(extra_query_params)
         if extra_query_params or (page_number and page_number != "1"):
             context["show_featured_project"] = False
 

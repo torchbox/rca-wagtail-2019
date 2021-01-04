@@ -6,9 +6,8 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('research', '0008_researchcentrepage_legacy_news_and_event_tags'),
-        ('research', '0008_improve_relationships_between_models'),
+        ("research", "0008_researchcentrepage_legacy_news_and_event_tags"),
+        ("research", "0008_improve_relationships_between_models"),
     ]
 
-    operations = [
-    ]
+    operations = []

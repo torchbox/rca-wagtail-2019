@@ -26,6 +26,11 @@
                         <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
                     {% endif %}
                 </div>
+                {% if page.hero_image_credit or page.hero_image %}
+                    <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
+                        {% include 'patterns/atoms/image-info/image-info.html' with credit=page.hero_image_credit item=page.hero_image %}
+                    </div>
+                {% endif %}
             </div>
         </header>
 
@@ -138,7 +143,7 @@
             </section>
 
             {% if page.quote_carousel or page.contact_text or page.contact_email or page.contact_url %}
-                <section class="section bg bg--dark">
+                <section class="section section--opposite-notch bg bg--dark">
 
                     {% if page.quote_carousel %}
                         <div class="section__row section__row--first {% if page.contact %}section__row--last{% endif %}">

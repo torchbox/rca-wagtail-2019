@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "rca.projects",
     "rca.landingpages",
     "rca.people",
+    "birdbath",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.postgres_search",
     "wagtail.contrib.settings",
@@ -83,6 +84,7 @@ INSTALLED_APPS = [
     "wagtail.images",
     "wagtail.search",
     "wagtail.admin",
+    "wagtail.contrib.legacy.richtext",
     "wagtail.core",
     "wagtailorderable",
     "import_export",
@@ -724,6 +726,7 @@ except TypeError:
     ACCESS_PLANIT_XML_FEED_TIMEOUT = 60 * 60 * 15
 
 ACCESS_PLANIT_XML_BASE_URL = env.get("ACCESS_PLANIT_XML_BASE_URL", None)
+ACCESS_PLANIT_XML_COURSE_URL = env.get("ACCESS_PLANIT_XML_COURSE_URL", None)
 ACCESS_PLANIT_SCHOOL_ID = env.get("ACCESS_PLANIT_SCHOOL_ID")
 ACCESS_PLANIT_REGISTER_INTEREST_BASE = env.get(
     "ACCESS_PLANIT_REGISTER_INTEREST_BASE", None
@@ -731,3 +734,14 @@ ACCESS_PLANIT_REGISTER_INTEREST_BASE = env.get(
 CACHE_CONTROL_STALE_IF_ERROR = env.get("CACHE_CONTROL_STALE_IF_ERROR", None)
 
 CSRF_TRUSTED_ORIGINS = ["www.rca.ac.uk"]
+
+# Enable / Disable logging exceptions for api fetches from the old site and access planit.
+API_FETCH_LOGGING = env.get("API_FETCH_LOGGING", False)
+
+# Birdbath
+BIRDBATH_CHECKS = [
+    "birdbath.checks.contrib.heroku.HerokuNotProductionCheck",
+    "birdbath.checks.contrib.heroku.HerokuAnonymisationAllowedCheck",
+]
+BIRDBATH_REQUIRED = env.get("BIRDBATH_REQUIRED", "true").lower() == "true"
+BIRDBATH_USER_ANONYMISER_EXCLUDE_EMAIL_RE = r"torchbox\.com$"

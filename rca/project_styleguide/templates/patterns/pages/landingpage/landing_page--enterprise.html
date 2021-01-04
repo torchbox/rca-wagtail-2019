@@ -26,6 +26,11 @@
                         <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
                     {% endif %}
                 </div>
+                {% if page.hero_image_credit or page.hero_image %}
+                    <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
+                        {% include 'patterns/atoms/image-info/image-info.html' with credit=page.hero_image_credit item=page.hero_image %}
+                    </div>
+                {% endif %}
             </div>
             {% if page.introduction %}
                     <div class="introduction grid">

@@ -125,6 +125,14 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
     )
     centre_address = RichTextField(blank=True, features=["link"])
     centre_tel = PhoneNumberField(blank=True)
+    centre_tel_display_text = models.CharField(
+        max_length=120,
+        help_text=(
+            "Specify specific text or numbers to display for the linked tel "
+            "number, e.g. +44 (0)20 7590 1234 or +44 (0)7749 183783"
+        ),
+        blank=True,
+    )
     twitter_username = models.CharField(
         blank=True, max_length=15, help_text=_("The Research Centres Twitter username")
     )
@@ -164,6 +172,13 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
     related_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="Related Links"
     )
+    research_projects_link = models.URLField(
+        blank=True,
+        help_text=_(
+            "Add a link to a pre-filtered project listing, "
+            "E.G https://rca.ac.uk/research/projects/?school-or-centre=helen-hamlyn-centre#results"
+        ),
+    )
 
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
@@ -190,6 +205,7 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
             [
                 FieldPanel("highlights_title"),
                 InlinePanel("research_projects", label=_("Project pages"), max_num=8),
+                FieldPanel("research_projects_link"),
             ],
             heading=_("Research centre highlights"),
         ),
@@ -230,6 +246,7 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
             [
                 FieldPanel("centre_address"),
                 FieldPanel("centre_tel"),
+                FieldPanel("centre_tel_display_text"),
                 FieldPanel("centre_email"),
             ],
             heading="Centre contact information",
@@ -380,5 +397,6 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
         context["research_news"] = self.get_research_news()
         context["related_staff"] = self.related_staff.all
         context["related_programmes"] = self.get_related_programme_pages()
+        context["staff_title"] = self.staff_title if self.staff_title else "Staff"
 
         return context

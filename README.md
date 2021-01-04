@@ -115,6 +115,19 @@ fab pull-staging-images
 fab pull-production-images
 ```
 
+## Data anonymisation
+
+[Django birdbath](https://pypi.org/project/django-birdbath/) is being used to anonymise data locally. Ensure you have exported the following variables into the VM:
+
+```
+export ALLOWS_ANONYMISATION='rca-staging'
+export HEROKU_APP_NAME='rca-staging'
+```
+
+After pulling data, the cli will show a warning about birdbath needing to run. Which you should do.
+
+Birdbath is on by default, set in settings/base.py and is turned off on live environments using environment variables.
+
 ## Deployments
 
 Deployments to stage are automatically handled by CircleCI.

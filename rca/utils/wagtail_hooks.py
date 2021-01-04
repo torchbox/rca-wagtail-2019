@@ -1,13 +1,16 @@
+from django.utils.html import escape
 from wagtail.contrib.modeladmin.options import (
     ModelAdmin,
     ModelAdminGroup,
     modeladmin_register,
 )
+from wagtail.core import hooks
+from wagtail.core.rich_text import LinkHandler
 from wagtailorderable.modeladmin.mixins import OrderableMixin
 
 from rca.people.models import AreaOfExpertise
 from rca.programmes.models import DegreeLevel, ProgrammeType, Subject
-from rca.utils.models import ResearchType
+from rca.utils.models import ResearchTheme, ResearchType, Sector
 
 
 class DegreeLevelModelAdmin(ModelAdmin):
@@ -36,6 +39,16 @@ class AreaOfExpertiseModelAdmin(ModelAdmin):
     menu_icon = "tag"
 
 
+class ResearchThemeModelAdmin(ModelAdmin):
+    model = ResearchTheme
+    menu_icon = "tag"
+
+
+class SectorModelAdmin(ModelAdmin):
+    model = Sector
+    menu_icon = "tag"
+
+
 class TaxonomiesModelAdminGroup(ModelAdminGroup):
     menu_label = "Taxonomies"
     items = (
@@ -44,8 +57,24 @@ class TaxonomiesModelAdminGroup(ModelAdminGroup):
         SubjectModelAdmin,
         ResearchTypeModelAdmin,
         AreaOfExpertiseModelAdmin,
+        SectorModelAdmin,
+        ResearchThemeModelAdmin,
     )
     menu_icon = "tag"
 
 
 modeladmin_register(TaxonomiesModelAdminGroup)
+
+
+class TargetBlankExternalLinkHandler(LinkHandler):
+    identifier = "external"
+
+    @classmethod
+    def expand_db_attributes(cls, attrs):
+        href = attrs["href"]
+        return f'<a href="{escape(href)}" target="_blank">'
+
+
+@hooks.register("register_rich_text_features")
+def register_external_link(features):
+    features.register_link_type(TargetBlankExternalLinkHandler)

@@ -41,6 +41,8 @@
                             <p class="related-content__degree body body--two">{{ related_item.programme_type }}</p>
                         {% elif related_item.meta %}
                             <p class="related-content__degree body body--two">{{ related_item.meta }}</p>
+                        {% elif related_item.get_verbose_name == 'Guide page' %}
+                            <p class="related-content__degree body body--two">Guide</p>
                         {% endif %}
                     </div>
                     <p class="related-content__copy body body--two">

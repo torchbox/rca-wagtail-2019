@@ -34,12 +34,15 @@
     }
 
     &__tab {
-        @include underline-hover-target();
         position: relative;
         color: $color--dark-grey;
         font-family: $font--primary;
         outline-width: initial;
         transition: color $transition;
+
+        @include media-query(large) {
+            @include underline-hover-target();
+        }
 
         &--reset {
             display: inline-flex;
@@ -48,10 +51,13 @@
         }
 
         &--selected {
-            @include underline-hover();
-            @include underline-hover-target-reset();
             color: $color--black;
             font-family: $font--secondary;
+
+            @include media-query(large) {
+                @include underline-hover-target();
+                @include underline-hover-target-reset();
+            }
 
             &::before {
                 content: '';

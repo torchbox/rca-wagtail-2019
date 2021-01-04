@@ -13,6 +13,7 @@ from wagtail.admin.edit_handlers import (
     PageChooserPanel,
     StreamFieldPanel,
 )
+from wagtail.api import APIField
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.core import blocks
 from wagtail.core.fields import RichTextField, StreamField
@@ -147,22 +148,34 @@ class RelatedStaffPageWithManualOptions(Orderable):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    first_name = models.CharField(max_length=125)
-    surname = models.CharField(max_length=125)
+    first_name = models.CharField(max_length=125, blank=True)
+    surname = models.CharField(max_length=125, blank=-True)
     role = models.CharField(max_length=125, blank=True)
     description = models.TextField(
         blank=True, help_text="Not displayed for small teaser profiles"
     )
     link = models.URLField(blank=True)
 
+    def get_name(self):
+        if self.first_name:
+            return self.first_name
+        elif self.page:
+            return self.page.title
+        else:
+            return self.id
+
     def __str__(self):
-        return self.name
+        return self.get_name()
 
     class Meta:
         abstract = True
         ordering = ["sort_order"]
 
+    # Validation.
+    # Only allow adding a related staff page, or the inline fields.
+
     panels = [
+        PageChooserPanel("page", page_type="people.StaffPage"),
         ImageChooserPanel("image"),
         FieldPanel("first_name"),
         FieldPanel("surname"),
@@ -604,3 +617,50 @@ class ResearchType(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(ResearchType, self).save(*args, **kwargs)
+
+
+@register_setting
+class SitewideAlertSetting(BaseSetting):
+    class Meta:
+        verbose_name = "Sitewide alert"
+
+    show_alert = models.BooleanField(
+        default=False, help_text="Checking this will show the site-wide message"
+    )
+    message = RichTextField(
+        help_text="The message to be shown to all users across the site",
+        features=["h2", "h3", "bold", "italic", "link"],
+    )
+
+    panels = [FieldPanel("show_alert"), FieldPanel("message")]
+
+    api_fields = [APIField("show_alert"), APIField("message")]
+
+
+class SluggedTaxonomy(models.Model):
+    """Taxonomy model that can be used for taxonomies that need a slug
+       as a few are identical
+    """
+
+    title = models.CharField(max_length=128)
+    slug = models.SlugField(blank=True)
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(SluggedTaxonomy, self).save(*args, **kwargs)
+
+    class meta:
+        abstract = True
+
+
+class ResearchTheme(SluggedTaxonomy):
+    pass
+
+
+class Sector(SluggedTaxonomy):
+    class Meta:
+        verbose_name = "Innovation RCA sector"
+        verbose_name_plural = "Innovation RCA sectors"

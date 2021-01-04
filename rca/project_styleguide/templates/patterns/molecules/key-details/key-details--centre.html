@@ -9,7 +9,7 @@
                 {% if page.primary_staff_name %}
                     <li class="key-details__list-item">
                         {% if page.primary_staff_url %}
-                            <a href="{{ item.link }}" class="link link--tertiary">
+                            <a href="{{ page.primary_staff_url }}" class="link link--tertiary">
                         {% endif %}
                         {{ page.primary_staff_name }}
                         {% if page.primary_staff_url %}
@@ -25,7 +25,7 @@
                 {% endif %}
                 {% if page.centre_tel %}
                     <li class="key-details__list-item">
-                        <p><a class="link link--tertiary" href="tel:{{ page.centre_tel }}">{{ page.centre_tel }}</a></p>
+                        <p><a class="link link--tertiary" href="tel:{{ page.centre_tel }}">{% firstof page.centre_tel_display_text page.centre_tel %}</a></p>
                     </li>
                  {% endif %}
                </ul>

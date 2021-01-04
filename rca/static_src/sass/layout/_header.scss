@@ -229,6 +229,38 @@
                     padding-top: ($gutter * 6.25);
                 }
             }
+
+            // scroll first level on short screens
+            @media only screen and (min-width: 1023px) and (max-height: 780px) {
+                // gradient to indicate scrolling
+                &::after {
+                    content: '';
+                    display: block;
+                    pointer-events: none;
+                    position: sticky;
+                    bottom: 0;
+                    left: calc(16.74% + 85px);
+                    height: 100px;
+                    width: var(--grid-width);
+                    background: linear-gradient(
+                        358.73deg,
+                        rgba(0, 0, 0, 0.96) 3.08%,
+                        rgba(0, 0, 0, 0) 124.08%
+                    );
+                }
+
+                > nav {
+                    // sass-lint:disable-block no-vendor-prefixes
+                    height: 500px;
+                    overflow: scroll;
+                    // hide scrollbars as per clients request
+                    scrollbar-width: none; // sass-lint:disable-line no-misspelled-properties
+
+                    &::-webkit-scrollbar {
+                        display: none;
+                    }
+                }
+            }
         }
 
         &--level-two {
