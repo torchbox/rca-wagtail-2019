@@ -242,8 +242,7 @@ class SchoolPage(BasePage):
 
     external_links = StreamField([("link", InternalExternalLinkBlock())], blank=True)
     research_cta_block = StreamField(
-        [("call_to_action", CallToActionBlock(label=_("text promo")))],
-        blank=True,
+        [("call_to_action", CallToActionBlock(label=_("text promo")))], blank=True,
     )
     research_collaborators_heading = models.CharField(blank=True, max_length=120)
     research_collaborators = StreamField(
