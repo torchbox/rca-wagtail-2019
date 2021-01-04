@@ -54,14 +54,7 @@ class RelatedSchoolPage(Orderable):
 
 class SchoolPageRelatedShortCourse(RelatedPage):
     source_page = ParentalKey("SchoolPage", related_name="related_short_courses")
-    panels = [
-        PageChooserPanel(
-            "page",
-            [
-                "shortcourses.ShortCoursePage",
-            ],
-        )
-    ]
+    panels = [PageChooserPanel("page", ["shortcourses.ShortCoursePage"])]
 
 
 class HeroItem(models.Model):
@@ -212,8 +205,7 @@ class SchoolPage(BasePage):
 
     external_links = StreamField([("link", InternalExternalLinkBlock())], blank=True)
     research_cta_block = StreamField(
-        [("call_to_action", CallToActionBlock(label=_("text promo")))],
-        blank=True,
+        [("call_to_action", CallToActionBlock(label=_("text promo")))], blank=True,
     )
     research_collaborators_heading = models.CharField(blank=True, max_length=120)
     research_collaborators = StreamField(
