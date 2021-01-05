@@ -189,6 +189,7 @@
                 </div>
                 {% endif %}
 
+                {% if research_collaboration %}
                 <div class="section__row schools__about--logos {% if research_links or research_cta %}section__row--last{% else %}section__row--last-large{% endif %}">
                     <div class="section__header grid">
                         <h2 class="section__heading section__heading--secondary heading heading--five">Research collaborators</h2>
@@ -202,6 +203,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
 
                 {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=research_links cta=research_cta %}
 
