@@ -93,6 +93,7 @@
                 </div>
                 {% endif %}
 
+                {% if worked_with %}
                 <div class="section__row section__row--last schools__about--logos">
                     <div class="section__header grid">
                         <h2 class="section__heading section__heading--secondary heading heading--five">Organisations we've worked with</h2>
@@ -106,6 +107,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
 
                 {% if news_and_events %}
                 <div class="section__row section__row--last schools__about--news">
@@ -119,7 +121,7 @@
                 {% endif %}
 
                 {% if student_stories %}
-                <div class="section__row schools__about--student-stories partnerships__carousel">
+                <div class="section__row {% if instagram_feed == False %}section__row--last {% endif %}schools__about--student-stories partnerships__carousel">
                     <div class="section__header grid">
                         <h2 class="section__heading section__heading--primary heading heading--four">Student stories</h2>
                     </div>
@@ -153,7 +155,7 @@
             {% endif %}
 
             {# Research #}
-            <section class="schools__research section section--start bg bg--dark" id="our-research">
+            <section class="schools__research section {% if stats_block %}section--start {% else %}section--top-space-small {% endif %} bg bg--dark" id="our-research">
 
                 <div class="section__row section__row--last-small">
                     <div class="section__header section__header--bottom-space grid">
