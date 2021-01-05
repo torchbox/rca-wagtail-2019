@@ -76,18 +76,33 @@
                 <a href="{{ c.value.link.url }}">{{ c.value.link.title }}</a>
             {% endfor %}
         {% endif %}
-        {% if page.legacy_news_and_events %}
+
+        {# News, events and student stories #}
+        {% if page.legacy_news_and_events or student_stories %}
             <section class="section {% if page.bottom_feature_image %}{% else %} section--start{% endif %} section--end bg bg--dark">
-                <div class="section__container">
-                    <header class="section__header grid">
-                        <h3 class="section__heading section__heading--primary heading heading--two">News & events</h3>
-                    </header>
-                    <div class="section__content grid">
-                        {% include "patterns/organisms/news/news_api_content.html" with news=page.legacy_news_and_events %}
+                {% if page.legacy_news_and_events %}
+                    <div class="section__container">
+                        <header class="section__header grid">
+                            <h3 class="section__heading section__heading--primary heading heading--two">{% firstof page.news_and_events_heading "News & events" %}</h3>
+                        </header>
+                        <div class="section__content grid">
+                            {% include "patterns/organisms/news/news_api_content.html" with news=page.legacy_news_and_events %}
+                        </div>
                     </div>
-                </div>
+                {% endif %}
+                {% if student_stories %}
+                    <div class="partnerships">
+                        <div class="partnerships__header grid">
+                            <h2 class="partnerships__heading heading heading--one">{{ student_stories.title }}</h2>
+                            <p class="partnerships__introduction">{{ student_stories.summary }}</p>
+                        </div>
+                        <div class="partnerships__carousel">
+                            {% include "patterns/organisms/carousel/carousel--square.html" with carousel=student_stories.slides modifier='carousel--square' datatag='data-square-carousel' %}
+                        </div>
+                    </div>
+                {% endif %}
             </section>
-            {% endif %}
+        {% endif %}
 
         {% if stats_block %}
             {% include "patterns/organisms/stat-block/stat-block.html" %}
