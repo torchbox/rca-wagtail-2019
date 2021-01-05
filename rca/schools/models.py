@@ -39,6 +39,7 @@ from rca.utils.models import (
     HERO_COLOUR_CHOICES,
     LIGHT_HERO,
     BasePage,
+    LegacyNewsAndEventsMixin,
     LinkFields,
     RelatedPage,
 )
@@ -194,8 +195,8 @@ class SchoolPageRelatedProjectPage(Orderable):
     panels = [PageChooserPanel("page")]
 
 
-class SchoolPage(BasePage):
-    template = "patterns/pages/schools/schools.html"
+class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
+    template = "patterns/pages/schools/school_page.html"
     introduction = RichTextField(blank=False, features=["link"])
     introduction_image = models.ForeignKey(
         get_image_model_string(),
@@ -299,6 +300,9 @@ class SchoolPage(BasePage):
         ),
         InlinePanel("stats_block", label="Statistics", max_num=1),
     ]
+    news_and_events_panels = [
+        FieldPanel("legacy_news_and_event_tags"),
+    ]
     research_panels = [
         MultiFieldPanel(
             [
@@ -359,6 +363,7 @@ class SchoolPage(BasePage):
             ObjectList(content_panels, heading="Introduction"),
             ObjectList(key_details_panels, heading="Key details"),
             ObjectList(about_panel, heading="About"),
+            ObjectList(news_and_events_panels, heading="News and Events"),
             ObjectList(research_panels, heading="Our research"),
             ObjectList(programmes_panels, heading="Programmes"),
             ObjectList(short_course_panels, heading="Short Courses"),
