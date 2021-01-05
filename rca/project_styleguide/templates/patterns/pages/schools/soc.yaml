@@ -1,24 +1,22 @@
 context:
   page:
-    title: School of Architecture
+    title: School of Communication
     get_ancestors:
       - is_root: false
         title: Our Schools
     breadcrumb:
       - { label: 'Research', link: /research/ }
-    introduction: 'Offering an unparalleled interdisciplinary context to pursue design research in the spatial disciplines.'
-    introduction_image: true
-    school_dean: John Smith
-    location: <p><a>RCA Kensington</a></p><p><a>RCA White City</a></p>
-    next_open_day_start_date: !!timestamp '2020-12-13 2:00:00'
-    next_open_day_end_date: !!timestamp '2020-12-15 2:00:00'
+    introduction: 'The School of Communication seeks to rise to those challenges; informing and enhancing forward-thinking and transformative processes, approaches and strategies.'
+    introduction_image: True
+    school_dean: Rathna Ramanathan
+    location: <p><a>RCA White City</a></p>
+    next_open_day_start_date: !!timestamp '2021-01-27 2:00:00'
+    next_open_day_end_date: !!timestamp '2021-01-27 2:00:00'
     get_in_touch: <p>0123456789</p><p><a href="">email@rca.ac.uk</a></p>
     social_links:
-      - '<a>Facebook</a>'
-      - '<a>Twitter</a>'
-      - '<a>Instagram</a>'
-    video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
-    video_caption: Watch the course introduction
+      - '<a href="https://www.instagram.com/rcasoc/">Instagram</a>'
+    video: 'https://www.youtube.com/watch?v=hEV0YUfz52s&list=PLk-Jp7vRQvwNQ_B4fvlPpDcudkDtjItY9&index=2'
+    video_caption: Welcome to the School
     body:
       - dummy
     tabs:
@@ -37,7 +35,8 @@ context:
         title: What makes us different?
         introduction: We teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs.
       research:
-        introduction: Characterised by its roots in creative and innovative practice, by engagement with partners in business, industry, government and communities.
+        introduction: We explore how communication practices can help better understand and positively change the terms and narratives of contemporary communication.
+        link: https://www.rca.ac.uk/study/schools/school-of-communication/communication-research-statement/
       programmes:
         introduction: We offer a range of Graduate Diploma, MA, MRes, MPhil and PhD degree programmes across the art and design disciplines.
       short_courses:
@@ -58,27 +57,27 @@ context:
     get_link_text: Book or view all open days
   about_teasers:
     - {
-        title: 'Innovation RCA',
+        title: 'Free courses',
         link: '#',
         meta: false,
         person: false,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        description: 'Civic course, activities with local community.',
         image: true,
       }
     - {
-        title: 'Consultancy & knowledge exchange',
+        title: 'Creativity and innovation',
         link: '#',
         meta: false,
         person: false,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        description: 'We enable creativity and innovation. Critical making and thinking are supported and encouraged through facilitated forums for play, experimentation and risk-taking. The School’s  staff are experienced practitioners, researchers, academics and specialist visiting lecturers, who bring ‘real-world’ knowledge and the necessary guidance and support for the development of new ideas, methods or strategies.',
         image: true,
       }
     - {
-        title: 'Custom executive education',
+        title: 'Evolve new views',
         link: '#',
         meta: false,
         person: false,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        description: 'We de-programme, de-mystify, de-compute and re-form. The opportunity for evolving new views of, and for, the world, arise through rigorous approaches to research, critical self-reflection and making. Students are encouraged to explore new territories and responses, often collaboratively across the College and through externally commissioned projects.',
         image: true,
       }
   news_and_events:
@@ -106,27 +105,15 @@ context:
   worked_with:
     slides:
       - slide:
-        title: 'Red bull'
+        title: 'Story Central'
         image: true
         link: '#'
       - slide:
-        title: 'Red bull'
+        title: 'Fair Trials'
         image: true
         link: '#'
       - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
+        title: 'IRCAM'
         image: true
         link: '#'
   programmes:
@@ -136,50 +123,35 @@ context:
         title: Browse all RCA's Programmes
       related_items:
         - item:
-          title: Architecture
+          title: Animation
           degree_level: MA
           programme_description_subtitle: Expand the possibilities of your practice by developing a speculative, independent and critical ethos
           hero_image: http://placehold.it/500x500/f1f1f1/000
         - item:
-          title: Architecture Pathway
+          title: Communication
+          degree_level: MPhil / PhD
+          programme_description_subtitle: Turning innovation into successful real-world businesses.
+          hero_image: http://placehold.it/500x500
+        - item:
+          title: Digital Direction
           degree_level: MA
           programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
           hero_image: http://placehold.it/500x500/ff5d1c/fff
         - item:
-          title: Architecture PhD
+          title: Information Experience Design
           degree_level: MA
           programme_description_subtitle: Turning innovation into successful real-world businesses.
           hero_image: http://placehold.it/500x500
         - item:
-          title: City Design
+          title: Visual Communication
           degree_level: MA
           programme_description_subtitle: Expand the possibilities of your practice by developing a speculative, independent and critical ethos
           hero_image: http://placehold.it/500x500/f1f1f1/000
         - item:
-          title: Environmental Architecture
-          degree_level: MA
+          title: 'RCA: Communication Design Pathway'
+          degree_level: MRes
           programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
           hero_image: http://placehold.it/500x500/ff5d1c/fff
-        - item:
-          title: Interior Design
-          degree_level: MA
-          programme_description_subtitle: Turning innovation into successful real-world businesses.
-          hero_image: http://placehold.it/500x500
-        - item:
-          title: Global Innovation Design
-          degree_level: MA
-          programme_description_subtitle: Expand the possibilities of your practice by developing a speculative, independent and critical ethos
-          hero_image: http://placehold.it/500x500/f1f1f1/000
-        - item:
-          title: Fashion
-          degree_level: MA
-          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
-          hero_image: http://placehold.it/500x500/ff5d1c/fff
-        - item:
-          title: Design Products
-          degree_level: MA
-          programme_description_subtitle: Turning innovation into successful real-world businesses.
-          hero_image: http://placehold.it/500x500
   short_courses:
     - item:
       link:
@@ -187,51 +159,31 @@ context:
         title: View all our short courses
       related_items:
         - item:
-          title: Design Thinking & Innovation
+          title: 'Graphic design: editorial design summer intensive'
           degree_level: Executive Education
           programme_description_subtitle: Transform your Customer Experience.
           hero_image: http://placehold.it/300x270/f1f1f1/000
         - item:
-          title: Service Design Masterclass
+          title: 'Graphic design: typography summer intensive'
           degree_level: Executive Education
           programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
           hero_image: http://placehold.it/300x270/ff5d1c/fff
         - item:
-          title: Creative Leadership
+          title: 'Illustration: the graphic novel summer intensive'
           degree_level: Executive Education
           programme_description_subtitle: Turning innovation into successful real-world businesses.
           hero_image: http://placehold.it/300x270
   stats_block:
-    title: Lorem ipsum dolor sit
-    link_url: '#'
-    link_text: See all Outcomes
     statistics:
       - stat:
         value:
-          after: '%'
           number: 70
-          summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut semper accumsan urna.
+          summary: BAFTA / Oscar award nominees and winners?
       - stat:
         value:
-          after: '%'
           number: 33
-          meta: Nationalities
-          summary: 1 in 3 of our graduates are business owners or independent professionals
-      - stat:
-        value:
-          number: 76
-          meta: Nationalities
-          summary: Our students come from all corners of the globe.
-      - stat:
-        value:
-          after: st
-          number: 1
-          summary: We're the top rated art & design university in the world.
-      - stat:
-        value:
-          number: 100
-          meta: Lorem Ipsum
-          summary: Our students come from all corners of the globe.
+          meta: Countries
+          summary: Graduate destinations
   student_stories:
     slides:
       - slide:
@@ -259,24 +211,24 @@ context:
           person: false
           image: True
   instagram_feed:
-    handle: rca.architecture
+    handle: rcasoc
   featured_research:
     - slide:
       meta: 'Project'
-      title: 'Lorem ipsum dolor sit'
-      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      title: 'Crafting Futures Central Asia'
+      description: 'Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh'
       image: true
       link: '#'
     - slide:
       meta: 'Project'
-      title: 'Lorem ipsum dolor sit'
-      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      title: 'Polyphonic Intelligences'
+      description: 'Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh'
       image: true
       link: '#'
     - slide:
       meta: 'Project'
-      title: 'Lorem ipsum dolor sit'
-      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      title: 'Location based VR experiences for children'
+      description: 'Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh'
       image: true
       link: '#'
   student_research:
@@ -284,47 +236,39 @@ context:
       - slide:
         value:
           meta: 'Student project'
-          title: 'RCA x CERN'
-          summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
-          link: '#'
-          person: false
-          image: True
-      - slide:
-        value:
-          meta: 'Research'
-          title: 'Burberry'
-          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
+          title: 'Student-led PGR symposium co-organised by SoC PhD student Carmen Hannibal & Cole Robertson (SOAH) '
+          summary: 'Aenean lacinia bibendum nulla sed consectetur. Sed posuere consectetur est at lobortis.'
           link: '#'
           person: false
           image: True
       - slide:
         value:
           meta: 'Student project'
-          title: 'Designing the imposible for NASA'
-          summary: 'Creating world class experiences that started at the RCA'
+          title: 'SoC PGR-led academic journal'
+          summary: 'Curabitur blandit tempus porttitor. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.'
           link: '#'
           person: false
           image: True
   research_collaboration:
     slides:
       - slide:
-        title: 'Red bull'
+        title: 'Microsoft Research'
         image: true
         link: '#'
       - slide:
-        title: 'Red bull'
+        title: 'British Library'
         image: true
         link: '#'
       - slide:
-        title: 'Red bull'
+        title: 'Sense'
         image: true
         link: '#'
       - slide:
-        title: 'Red bull'
+        title: 'British Council'
         image: true
         link: '#'
       - slide:
-        title: 'Red bull'
+        title: 'Dubit'
         image: true
         link: '#'
       - slide:
@@ -335,28 +279,18 @@ context:
     title: Also…
     links:
       - item:
-        value: { text: 'Our research themes', href: 'http://www.google.com' }
+        value: { text: 'Research students', href: '#' }
       - item:
-        value:
-          {
-            text: 'Architects Council of Europe (ACE)',
-            href: 'http://www.google.com',
-          }
-  research_cta:
-    title: Lab. for Design & Machine Learning
-    description: In addition to the research themes, the School of Architecture created the Laboratory for Design & Machine Learning to conduct research into new interdisciplinary forms of designing, evaluation, and policymaking.
-    action: Find out more
-    link: '#'
+        value: { text: 'Research projects', href: '#' }
+      - item:
+        value: { text: 'Communication Practices site', href: '#' }
+  research_cta: False
   programmes_cta:
     title: Custom executive education
     description: The RCA delivers senior-level custom executive education programmes for business, government, the public sector and universities globally.
     action: Browse Executive Education
     link: '#'
-  staff_cta:
-    title: Meet the RCA
-    description: Meet Dr Godofredo Pereira, Head of Programme for MA Environmental Architecture & MA City Design
-    action: Find out more
-    link: '#'
+  staff_cta: False
   staff:
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }

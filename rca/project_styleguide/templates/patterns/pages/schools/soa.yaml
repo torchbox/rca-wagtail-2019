@@ -7,18 +7,17 @@ context:
     breadcrumb:
       - { label: 'Research', link: /research/ }
     introduction: 'The School of Architecture offers an unparalleled interdisciplinary context to pursue design research in the spatial disciplines.'
-    introduction_image: true
+    introduction_image: True
     school_dean: Dr Adrian Lahoud
     location: <p><a>RCA Kensington</a></p>
     next_open_day_start_date: !!timestamp '2021-02-27 2:00:00'
     next_open_day_end_date: !!timestamp '2021-02-27 2:00:00'
     get_in_touch: <p>0123456789</p><p><a href="">soa@rca.ac.uk</a></p>
     social_links:
-      - '<a>Facebook</a>'
-      - '<a>Twitter</a>'
-      - '<a>Instagram</a>'
+      - '<a href="https://twitter.com/rcaarchitecture">Twitter</a>'
+      - '<a href="https://www.instagram.com/rca.architecture/">Instagram</a>'
     video: 'https://www.youtube.com/watch?v=rjt5p56Bcp4&list=PLk-Jp7vRQvwNbjjrvBcC0mDttD0OWaLUZ&index=3'
-    video_caption: Watch the course introduction
+    video_caption: Welcome to the School
     body:
       - dummy
     tabs:
@@ -37,7 +36,8 @@ context:
         title: What makes us different?
         introduction: We teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs.
       research:
-        introduction: Characterised by its roots in creative and innovative practice, by engagement with partners in business, industry, government and communities.
+        introduction: Research in the School of Architecture centres on themes critical to contemporary social and spatial design challenges.
+        link: https://www.rca.ac.uk/study/schools/school-of-architecture/current-research/
       programmes:
         introduction: We offer a range of Graduate Diploma, MA, MRes, MPhil and PhD degree programmes across the art and design disciplines.
       short_courses:
@@ -58,75 +58,58 @@ context:
     get_link_text: Book or view all open days
   about_teasers:
     - {
-        title: 'Innovation RCA',
+        title: 'Creative partnerships that last a lifetime.',
         link: '#',
         meta: false,
         person: false,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        description: 'This context allows students to push their material, conceptual and technical skills beyond traditional disciplinary boundaries – expanding the potential of future practice while forming friendships.',
         image: true,
       }
     - {
-        title: 'Consultancy & knowledge exchange',
+        title: 'How we work across the School',
         link: '#',
         meta: false,
         person: false,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        description: 'The studio-based learning environment is supported by historical, theoretical, media and technical seminars where students are introduced to a wide range of design research methods and approaches. Within each Programme, opportunities for live projects and fieldwork are provided in line with the pedagogical ambitions of studio leaders.',
         image: true,
       }
     - {
-        title: 'Custom executive education',
+        title: 'A hands on experience',
         link: '#',
         meta: false,
         person: false,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        description:
+          'Practice mentorships, live projects. Practice mentor schemes across all programmes
+          Pair students with practices (6 weeks for 15-month prog where they go and sit and work with those orgs)
+          ',
         image: true,
       }
   news_and_events:
     - item:
-      meta: 'Event'
-      title: 'Designs for Real Life'
-      description: '6 July 2019 — 4 August 2019'
-      link: '#'
+      meta: 'News'
+      title: 'RCA Community Engagement project brings a splash of colour to Wandsworth'
+      description: '24 Nov 2020'
+      link: 'https://www.rca.ac.uk/news-and-events/news/rca-community-engagement-project-brings-splash-colour-wandsworth/'
       image: //placekitten.com/526/402
       person: false
     - item:
       meta: 'Event'
-      title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
-      description: '23 November 2019'
-      link: '#'
+      title: "RCA Architect Wins Architects' Journal Student Prize 2020"
+      description: '1 Oct 2020'
+      link: 'https://www.rca.ac.uk/news-and-events/news/rca-architect-wins-architects-journal-student-prize-2020/'
       image: false
       person: false
     - item:
-      meta: 'News'
-      title: 'Show 2018: School of Architecture: Making Space for the Future'
-      description: '23 November 2019'
-      link: '#'
+      meta: 'Event'
+      title: 'Amateur Architecture: Possibilities of rural-urban co-existence in China — part of Co-liberation: International Lecture Series'
+      description: '27 Nov 2020'
+      link: 'https://www.rca.ac.uk/news-and-events/events/amateur-architecture-possibilities-rural-urban-co-existence-china-part-co-liberation-international-lecture-series/'
       image: //placekitten.com/251/142
       person: false
   worked_with:
     slides:
       - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
+        title: 'RIBA'
         image: true
         link: '#'
   programmes:
@@ -165,21 +148,6 @@ context:
           degree_level: MA
           programme_description_subtitle: Turning innovation into successful real-world businesses.
           hero_image: http://placehold.it/500x500
-        - item:
-          title: Global Innovation Design
-          degree_level: MA
-          programme_description_subtitle: Expand the possibilities of your practice by developing a speculative, independent and critical ethos
-          hero_image: http://placehold.it/500x500/f1f1f1/000
-        - item:
-          title: Fashion
-          degree_level: MA
-          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
-          hero_image: http://placehold.it/500x500/ff5d1c/fff
-        - item:
-          title: Design Products
-          degree_level: MA
-          programme_description_subtitle: Turning innovation into successful real-world businesses.
-          hero_image: http://placehold.it/500x500
   short_courses:
     - item:
       link:
@@ -187,166 +155,146 @@ context:
         title: View all our short courses
       related_items:
         - item:
-          title: Design Thinking & Innovation
+          title: Architecture Summer School
           degree_level: Executive Education
           programme_description_subtitle: Transform your Customer Experience.
           hero_image: http://placehold.it/300x270/f1f1f1/000
         - item:
-          title: Service Design Masterclass
+          title: Luxury retail
           degree_level: Executive Education
           programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
           hero_image: http://placehold.it/300x270/ff5d1c/fff
         - item:
-          title: Creative Leadership
+          title: Media studies
           degree_level: Executive Education
           programme_description_subtitle: Turning innovation into successful real-world businesses.
           hero_image: http://placehold.it/300x270
   stats_block:
-    title: Lorem ipsum dolor sit
-    link_url: '#'
-    link_text: See all Outcomes
     statistics:
       - stat:
         value:
-          after: '%'
           number: 70
-          summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut semper accumsan urna.
+          summary: Number of countries our students come from
       - stat:
         value:
           after: '%'
           number: 33
-          meta: Nationalities
-          summary: 1 in 3 of our graduates are business owners or independent professionals
-      - stat:
-        value:
-          number: 76
-          meta: Nationalities
-          summary: Our students come from all corners of the globe.
-      - stat:
-        value:
-          after: st
-          number: 1
-          summary: We're the top rated art & design university in the world.
-      - stat:
-        value:
-          number: 100
-          meta: Lorem Ipsum
-          summary: Our students come from all corners of the globe.
+          summary: of students who go on to work in practice'
   student_stories:
     slides:
       - slide:
         value:
-          meta: 'Student project'
-          title: 'RCA x CERN'
-          summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
-          link: '#'
+          meta: 'Student story'
+          title: 'Why architectural education shouldn’t happen in isolation'
+          summary: 'David Adjaye OBE on how art and architecture can be harnessed for community enrichment, engagement and empowerment.'
+          link: 'https://www.rca.ac.uk/study/the-rca-experience/student-voices/alumni-stories/david-adjaye/'
           person: false
           image: True
       - slide:
         value:
-          meta: 'Research'
-          title: 'Burberry'
-          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
-          link: '#'
+          meta: 'Student story'
+          title: '60 Minutes of Graduation at Home'
+          summary: 'A response to the current context of pandemic deregulation and the impossibility physical shows'
+          link: 'https://2020.rca.ac.uk/events/60-minutes-of-graduating-at-home'
           person: false
           image: True
       - slide:
         value:
-          meta: 'Student project'
-          title: 'Designing the imposible for NASA'
-          summary: 'Creating world class experiences that started at the RCA'
-          link: '#'
+          meta: 'Student story'
+          title: 'Sara Anand, MA City Design, 2017–19'
+          summary: 'Sara Anand studied City Design after working in Mumbai with short stints in Berlin and Moscow. '
+          link: 'https://www.rca.ac.uk/news-and-events/rca-stories/student-story-sara-anand-ma-city-design-201719/'
           person: false
           image: True
   instagram_feed:
     handle: rca.architecture
+  about_links:
+    title: Also…
+    links:
+      - item:
+        value:
+          {
+            text: 'School of Architecture events',
+            href: 'https://www.rca.ac.uk/study/schools/school-of-architecture/school-architecture-events/',
+          }
   featured_research:
     - slide:
       meta: 'Project'
-      title: 'Lorem ipsum dolor sit'
-      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      title: "Architecture's Afterlife"
+      description: 'The multi-sector impact of an architecture qualification across Europe '
       image: true
-      link: '#'
+      link: 'https://www.rca.ac.uk/research-innovation/projects/architectures-afterlife/'
     - slide:
       meta: 'Project'
-      title: 'Lorem ipsum dolor sit'
-      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      title: 'CERFI: Militant Analysis, Collective Equipment and Institutional Programming'
+      description: 'Centre for Institutional Study, Research and Development and its experimentation with collective research practices, analysis of the social unconscious, and militant action-research in institutional programming. '
       image: true
-      link: '#'
+      link: 'https://www.rca.ac.uk/research-innovation/projects/cerfi-militant-analysis-collective-equipment-and-institutional-programming/'
     - slide:
       meta: 'Project'
-      title: 'Lorem ipsum dolor sit'
-      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      title: 'Collective Forms'
+      description: 'Neighbourhood Transformations, Spatialised Governmentality and New Communities in China '
       image: true
-      link: '#'
+      link: 'https://www.rca.ac.uk/research-innovation/projects/collective-forms/'
   student_research:
     slides:
       - slide:
         value:
           meta: 'Student project'
-          title: 'RCA x CERN'
+          title: 'Contradictions of Continuity and Change - Sofía Hernández Chong Cuy'
           summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
           link: '#'
           person: false
           image: True
       - slide:
         value:
-          meta: 'Research'
-          title: 'Burberry'
-          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
-          link: '#'
-          person: false
-          image: True
-      - slide:
-        value:
           meta: 'Student project'
-          title: 'Designing the imposible for NASA'
-          summary: 'Creating world class experiences that started at the RCA'
+          title: 'Design research: Metodological exchanges'
+          summary: 'A series of discussions and workshops at the RCA on design research methods – supported by the London Arts & Humanities Partnership.'
           link: '#'
           person: false
           image: True
   research_collaboration:
     slides:
       - slide:
-        title: 'Red bull'
+        title: 'Royal Institute of British Architects'
         image: true
         link: '#'
       - slide:
-        title: 'Red bull'
+        title: 'Fundación Desierto de Atacama'
         image: true
         link: '#'
       - slide:
-        title: 'Red bull'
+        title: 'Arts Catalyst, London'
         image: true
         link: '#'
       - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
+        title: 'The Global School'
         image: true
         link: '#'
   research_links:
     title: Also…
     links:
       - item:
-        value: { text: 'Our research themes', href: 'http://www.google.com' }
+        value: { text: 'Research students', href: '#' }
       - item:
-        value:
-          {
-            text: 'Architects Council of Europe (ACE)',
-            href: 'http://www.google.com',
-          }
+        value: { text: 'List of supervisors', href: '#' }
+      - item:
+        value: { text: 'Research repository', href: '#' }
   research_cta:
     title: Lab. for Design & Machine Learning
     description: In addition to the research themes, the School of Architecture created the Laboratory for Design & Machine Learning to conduct research into new interdisciplinary forms of designing, evaluation, and policymaking.
     action: Find out more
-    link: '#'
+    link: 'https://www.rca.ac.uk/study/schools/school-of-architecture/current-research/laboratory-design-machine-learning/'
+  programmes_links:
+    title: Also…
+    links:
+      - item:
+        value: { text: 'How to apply', href: '#' }
+      - item:
+        value: { text: 'Fees & funding', href: '#' }
+      - item:
+        value: { text: 'Research repository', href: '#' }
   programmes_cta:
     title: Custom executive education
     description: The RCA delivers senior-level custom executive education programmes for business, government, the public sector and universities globally.
@@ -358,26 +306,14 @@ context:
     action: Find out more
     link: '#'
   staff:
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Adrian Lahoud', role: 'Dean & Head of Programme', link: '#' }
+    - { name: 'Mark Campbell', role: 'Acting HoP', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programme', link: '#' }
+    - { name: 'Godofredo Pereira', role: 'Head of Programme', link: '#' }
+    - { name: 'Graeme Brooker', role: 'Head of Programme', link: '#' }
+    - { name: 'Adam Kaasa', role: 'Head of Programme', link: '#' }
+    - { name: 'Ines Weizman', role: 'Head of Programme', link: '#' }
+    - { name: 'Sam Jacoby', role: 'Head of Programme', link: '#' }
 
 tags:
   include_block:
