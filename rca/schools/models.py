@@ -195,6 +195,17 @@ class SchoolPageRelatedProjectPage(Orderable):
     panels = [PageChooserPanel("page")]
 
 
+class HomePageStudentStories(models.Model):
+    source_page = ParentalKey("SchoolPage", related_name="student_stories")
+    title = models.CharField(max_length=125)
+    slides = StreamField(StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1))
+
+    panels = [FieldPanel("title"), StreamFieldPanel("slides")]
+
+    def __str__(self):
+        return self.title
+
+
 class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
     template = "patterns/pages/schools/school_page.html"
     introduction = RichTextField(blank=False, features=["link"])
@@ -232,6 +243,7 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
     social_links = StreamField(
         StreamBlock([("Link", LinkBlock())], max_num=5, required=False)
     )
+    news_and_events_heading = models.CharField(blank=True, max_length=120)
     collaborators_heading = models.CharField(blank=True, max_length=120)
     collaborators = StreamField(
         StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
@@ -301,6 +313,8 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
         InlinePanel("stats_block", label="Statistics", max_num=1),
     ]
     news_and_events_panels = [
+        FieldPanel("news_and_events_heading"),
+        InlinePanel("student_stories", label="Student Stories"),
         FieldPanel("legacy_news_and_event_tags"),
     ]
     research_panels = [
@@ -450,6 +464,14 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
             "slides": related_list_block_slideshow(student_research.slides),
         }
 
+    def get_student_stories(self, student_stories, request):
+        if not student_stories:
+            return
+        return {
+            "title": student_stories.title,
+            "slides": related_list_block_slideshow(student_stories.slides),
+        }
+
     def get_related_programmes(self):
         """
         Get programme pages from the programme_page__school relationship.
@@ -490,6 +512,9 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
         context["featured_research"] = self.get_related_projects()
         context["student_research"] = self.get_student_research(
             self.student_research.first(), request
+        )
+        context["student_stories"] = self.get_student_stories(
+            self.student_stories.first(), request
         )
 
         context["related_programmes"] = [
