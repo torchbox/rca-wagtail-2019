@@ -65,24 +65,24 @@ context:
       }
   news_and_events:
     - item:
-      meta: 'Event'
-      title: 'Designs for Real Life'
-      description: '6 July 2019 — 4 August 2019'
-      link: '#'
+      meta: 'News'
+      title: 'Textiles graduate wins the Camden Art Centre Emerging Artist Prize with Frieze'
+      description: '15 Oct 2020'
+      link: 'https://www.rca.ac.uk/news-and-events/news/textiles-graduate-wins-camden-art-centre-emerging-artist-prize-frieze/'
       image: //placekitten.com/526/402
       person: false
     - item:
-      meta: 'Event'
-      title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
-      description: '23 November 2019'
-      link: '#'
+      meta: 'News'
+      title: 'InnovationRCA start-up Orbel Health helps healthcare workers and NFL players stay safe'
+      description: '9 Oct 2020'
+      link: 'https://www.rca.ac.uk/news-and-events/news/innovationrca-start-orbel-health-helps-healthcare-workers-and-nfl-players-stay-safe/'
       image: false
       person: false
     - item:
-      meta: 'News'
-      title: 'Show 2018: School of Architecture: Making Space for the Future'
-      description: '23 November 2019'
-      link: '#'
+      meta: 'Event'
+      title: 'Design From More Than One Perspective: Viewpoints/Standpoints/Positions'
+      description: '4 Nov 2020'
+      link: 'https://www.rca.ac.uk/news-and-events/events/design-more-one-perspective-viewpointsstandpointspositions/'
       image: //placekitten.com/251/142
       person: false
   worked_with:
@@ -166,26 +166,26 @@ context:
     slides:
       - slide:
         value:
-          meta: 'Student project'
-          title: 'RCA x CERN'
-          summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
-          link: '#'
+          meta: 'Student story'
+          title: 'InnovationRCA start-up Orbel Health helps healthcare workers and NFL players stay safe'
+          summary: 'RCA alumnus and Orbel Health Founder, Adam Sutcliffe’s Dyson award-winning wearable hand sanitiser device The Orbel™'
+          link: 'https://www.rca.ac.uk/news-and-events/news/innovationrca-start-orbel-health-helps-healthcare-workers-and-nfl-players-stay-safe/'
           person: false
           image: True
       - slide:
         value:
-          meta: 'Research'
-          title: 'Burberry'
-          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
-          link: '#'
+          meta: 'Student story'
+          title: 'RCA student team the Tyre Collective win National James Dyson Award'
+          summary: 'Fresh off their win at the Mayor’s Entrepreneur Awards 2020, the Tyre Collective has been announced as the national winner of the James Dyson Awards 2020 for the UK scooping £2,000.'
+          link: 'https://www.rca.ac.uk/news-and-events/news/rca-student-team-tyre-collective-win-national-james-dyson-award/'
           person: false
           image: True
       - slide:
         value:
-          meta: 'Student project'
-          title: 'Designing the imposible for NASA'
-          summary: 'Creating world class experiences that started at the RCA'
-          link: '#'
+          meta: 'Student story'
+          title: 'RCA students launch virtual workout start-up Quell'
+          summary: 'Two RCA & Imperial College MA/MSc Innovation Design Engineering students are making exercise enjoyable for the millions of people that can’t bring themselves to exercise.'
+          link: 'https://www.rca.ac.uk/news-and-events/news/rca-students-launch-virtual-workout-start-up-quell/'
           person: false
           image: True
   instagram_feed: False
@@ -199,7 +199,7 @@ context:
     - slide:
       meta: 'Project'
       title: 'The Grand Challenge 2020'
-      description: 'The Grand Challenge 2020: 'Enhancing the Human – capability and performance', asked students to consider designing for humans 180 years from now.'
+      description: "The Grand Challenge 2020: 'Enhancing the Human – capability and performance', asked students to consider designing for humans 180 years from now."
       image: true
       link: 'https://www.rca.ac.uk/research-innovation/projects/grand-challenge-2020/'
   student_research: False

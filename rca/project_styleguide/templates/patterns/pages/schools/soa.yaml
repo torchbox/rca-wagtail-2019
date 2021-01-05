@@ -12,7 +12,7 @@ context:
     location: <p><a>RCA Kensington</a></p>
     next_open_day_start_date: !!timestamp '2021-02-27 2:00:00'
     next_open_day_end_date: !!timestamp '2021-02-27 2:00:00'
-    get_in_touch: <p>0123456789</p><p><a href="">soa@rca.ac.uk</a></p>
+    get_in_touch: <p>0123456789</p><p><a href="">soa-admins@rca.ac.uk</a></p>
     social_links:
       - '<a href="https://twitter.com/rcaarchitecture">Twitter</a>'
       - '<a href="https://www.instagram.com/rca.architecture/">Instagram</a>'
