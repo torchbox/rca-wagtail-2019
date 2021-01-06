@@ -47,8 +47,8 @@ class TestBookingBarLogic(TestCase):
             slug="short-course",
             access_planit_course_id="1",
             programme_type_id=1,
-            contact_url="https://rca.ac.uk",
-            contact_text="Read more",
+            contact_model_url="https://rca.ac.uk",
+            contact_model_text="Read more",
             hero_colour_option=1,
             show_register_link=0,
         )

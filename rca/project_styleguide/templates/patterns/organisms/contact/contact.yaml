@@ -4,7 +4,7 @@ context:
   link_text: Register your interest with us here
   link_href: https://www.rca.ac.uk/contact-us/enquire-study/
   page:
-    contact_email: testcourse@rca.ac.uk
+    contact_model_email: testcourse@rca.ac.uk
 
 tags:
   image:
