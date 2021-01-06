@@ -236,7 +236,7 @@ class StaffPage(BasePage):
     @property
     def name(self):
         parts = (self.staff_title, self.first_name, self.last_name)
-        return " ".join([p for p in parts if p])
+        return " ".join(p for p in parts if p)
 
     def get_research_projects(self):
         """Yields a list combining project pages editorially-selected on the staff page,
@@ -244,18 +244,18 @@ class StaffPage(BasePage):
         """
         # ProjectPage model loaded like this to avoid circular import error
         ProjectPage = apps.get_model("projects", "ProjectPage")
+        related_project_page_ids = []
 
         # First return any editorially-highlighted project pages
         for p in self.related_project_pages.all():
+            related_project_page_ids.append(p.page.id)
             yield p.page.specific
 
         # Then return any other project pages which the staff member leads or is a team member of,
         # filtering out any of the highlights already output
         yield from ProjectPage.objects.filter(
             Q(project_lead__page_id=self.pk) | Q(related_staff__page_id=self.pk)
-        ).exclude(
-            pk__in=self.related_project_pages.values_list("page_id", flat=True)
-        ).order_by(
+        ).exclude(pk__in=related_project_page_ids).order_by(
             "-first_published_at"
         ).distinct()
 
