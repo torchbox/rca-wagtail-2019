@@ -58,4 +58,12 @@
             color: $color--black;
         }
     }
+
+    .js-is-sticky.jump-nav & {
+        color: $color--meta-lightbg;
+
+        &:hover {
+            color: $color--black;
+        }
+    }
 }
