@@ -42,7 +42,12 @@ from rca.utils.models import (
     LegacyNewsAndEventsMixin,
     LinkFields,
     RelatedPage,
+    RelatedStaffPageWithManualOptions,
 )
+
+
+class SchoolPagePageStaff(RelatedStaffPageWithManualOptions):
+    source_page = ParentalKey("schools.SchoolPage", related_name="related_staff")
 
 
 class RelatedSchoolPage(Orderable):
@@ -228,6 +233,27 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
     related_short_courses_title = models.CharField(blank=True, max_length=120)
     related_short_courses_summary = models.CharField(blank=True, max_length=500)
 
+    # Staff
+    staff_title = models.CharField(
+        blank=True, max_length=120, verbose_name="Related staff title"
+    )
+    staff_summary = models.CharField(
+        blank=True, max_length=500, verbose_name="Related staff summary text"
+    )
+    staff_external_links = StreamField(
+        [("link", InternalExternalLinkBlock())], blank=True, verbose_name="Links"
+    )
+    staff_external_links_heading = models.CharField(
+        max_length=125, blank=True, verbose_name="Related staff links heading"
+    )
+    staff_cta_block = StreamField(
+        [("call_to_action", CallToActionBlock(label=_("text promo")))], blank=True,
+    )
+    staff_view_more_link_text = models.CharField(
+        blank=True, max_length=120, verbose_name="View more link text"
+    )
+    staff_view_more_link = models.URLField(blank=True, verbose_name="View more link")
+
     search_fields = BasePage.search_fields + [index.SearchField("introduction")]
     api_fields = [APIField("introduction")]
 
@@ -311,7 +337,30 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
         FieldPanel("related_short_courses_summary"),
         InlinePanel("related_short_courses", label="Short Course Pages"),
     ]
-    staff_panels = []
+    staff_panels = [
+        FieldPanel("staff_title"),
+        FieldPanel("staff_summary"),
+        InlinePanel("related_staff", label="Related staff"),
+        HelpPanel(
+            content="By default, related staff will be automatically listed. This \
+                can be overriden by adding staff pages here."
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("staff_view_more_link_text"),
+                FieldPanel("staff_view_more_link"),
+            ],
+            heading="View more staff link",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("staff_external_links_heading"),
+                StreamFieldPanel("staff_external_links", heading="Links"),
+            ],
+            heading="Links",
+        ),
+        StreamFieldPanel("staff_cta_block", heading="Call to action"),
+    ]
     contact_panels = []
     edit_handler = TabbedInterface(
         [
@@ -343,6 +392,12 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
     def clean(self):
         errors = defaultdict(list)
         super().clean()
+        if self.staff_view_more_link and not self.staff_view_more_link_text:
+            errors["staff_view_more_link_text"].append(
+                _("Missing text value for the link")
+            )
+        if self.staff_view_more_link_text and not self.staff_view_more_link:
+            errors["staff_view_more_link"].append(_("Missing url value for the link"))
         if self.next_open_day_end_date and not self.next_open_day_start_date:
             errors["next_open_day_start_date"].append(
                 _("If you enter an end date, you must also enter a start date")
@@ -426,10 +481,50 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
         from rca.programmes.models import ProgrammePage
 
         all_programmes = ProgrammePage.objects.live().public()
-        programmes = all_programmes.filter(
+        return all_programmes.filter(
             related_schools_and_research_pages__page_id=self.id
         )
-        return programmes
+
+    def get_related_staff(self):
+        """Method to return a related staff.
+        The default behaviour should be to find related staff via the relationship
+        from StaffPage > SchoolPage. This also needs to offer the option to
+        manually add related staff to the school page, this helps solve issues
+        of custom ordering that's needed with large (>25) staff items.
+
+        The view more link cannot be 'auto' populated if staff pages are added
+        manually at the page level, as the items in this instance can be a mixture
+        of manual fields or page objects.
+
+        Returns:
+            dict: queryset and 'view more link'
+        """
+        from rca.people.models import StaffPage
+
+        view_more_link = {}
+        if self.staff_view_more_link:
+            view_more_link["url"] = self.staff_view_more_link
+            view_more_link["text"] = self.staff_view_more_link_text
+
+        if self.related_staff.first():
+            return {
+                "staff": self.related_staff.all(),
+                "view_more": view_more_link,
+            }
+
+        staff = StaffPage.objects.filter(related_schools__page=self).live()
+        if staff:
+            if not view_more_link:
+                # If a link hasn't been specified, auto populate a link to
+                # a parent page.
+                parent = staff.first().get_parent()
+                view_more_link["url"] = f"{parent.url}?school-or-centre={self.slug}"
+                view_more_link["text"] = "View all school staff"
+
+            return {
+                "staff": staff,
+                "view_more": view_more_link,
+            }
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -456,6 +551,7 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
         context["student_stories"] = self.get_student_stories(
             self.student_stories.first(), request
         )
+        context["related_staff"] = self.get_related_staff()
         # Set the page tab titles for the jump menu
         context["tabs"] = self.page_nav()
         # Related programmes and courses
