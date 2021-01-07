@@ -214,6 +214,17 @@
             {% include "patterns/molecules/relatedcontent/relatedprogrammes--large.html" with title=page.related_programmes_title related_sections=related_programmes %}
             {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=page.related_short_courses_title related_sections=related_short_courses %}
         </div>
+
+    {# Staff #}
+        {{ page.staff_title }}
+        {{ page.staff_summary }}
+        {{ page.staff_external_links }}
+        {{ page.staff_external_links_heading }}
+        {{ page.staff_cta_block }}
+        {{ related_staff.staff }}
+        {% if related_staff.view_more.url %}
+            <a href="{{ related_staff.view_more.url }}">{{ related_staff.view_more.text }}</a>
+        {% endif %}
     </section>
 </div>
 {% endblock %}
