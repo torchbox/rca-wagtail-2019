@@ -43,7 +43,7 @@ class HeroItem(models.Model):
     hero_image = models.ForeignKey(
         "images.CustomImage",
         null=True,
-        blank=True,
+        blank=False,
         on_delete=models.SET_NULL,
         related_name="+",
     )
