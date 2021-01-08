@@ -204,6 +204,8 @@ class SchoolPage(BasePage):
         ]
 
     def format_page_teasers(self, obj):
+        if not obj:
+            return
         page_teasers = {"title": obj.title, "summary": obj.summary, "pages": []}
         for item in obj.pages:
             for block in item.value:

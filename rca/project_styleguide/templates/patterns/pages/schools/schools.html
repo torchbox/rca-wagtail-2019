@@ -70,23 +70,23 @@
 
         <div class="page__content schools landing-page">
 
-            {% include "patterns/molecules/tab-nav/tab-nav.html" with modifier="bg bg--dark" sticky=True tabs=page.tabs %}
+            {% include "patterns/molecules/tab-nav/tab-nav.html" with modifier="bg bg--dark" sticky=True tabs=tabs %}
 
             {# About #}
             <section class="schools__about section section--start bg bg--dark" id="about">
 
-                {% if about_teasers %}
+                {% if page_teasers %}
                 <div class="section__row section__row--last schools__about--teasers">
                     <div class="section__header section__header--bottom-space grid">
-                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ page.sections.about.title|default:"About us" }}</h2>
-                        {% if page.sections.about.introduction %}
+                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ page_teasers.title|default:"About us" }}</h2>
+                        {% if page_teasers.summary %}
                             <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page.sections.about.introduction }}
+                                {{ page_teasers.summary }}
                             </div>
                         {% endif %}
                     </div>
                     <div class="section__content grid">
-                        {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=about_teasers modifier="no-margin" %}
+                        {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=page_teasers.pages modifier="no-margin" %}
                     </div>
                 </div>
                 {% endif %}
