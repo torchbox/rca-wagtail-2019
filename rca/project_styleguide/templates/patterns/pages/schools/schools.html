@@ -26,7 +26,7 @@
                         <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
                     {% endif %}
                 </div>
-                {% if page.hero_image_credit or page.hero_image %}
+                {% if hero_image_credit or hero_image %}
                     <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
                         {% include 'patterns/atoms/image-info/image-info.html' with credit=hero_image_credit item=hero_image %}
                     </div>
@@ -36,7 +36,7 @@
                 <div class="introduction grid">
                     <div class="introduction__container">
                         <h2 class="section__heading heading heading--five">
-                            {{ page.introduction }}
+                            {{ page.introduction|richtext }}
                         </h2>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                 </div>
 
             </section>
-                
+
         </header>
 
         <div class="page__content schools landing-page">
@@ -252,7 +252,7 @@
                     <div class="section__notch-fill section__notch-fill--third-col"></div>
                 </div>
 
-                
+
             </section>
 
             {# Staff #} 
