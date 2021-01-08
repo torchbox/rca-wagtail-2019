@@ -11,7 +11,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("schools", "0007_adds_video_fields"),
+        ("schools", "0005_adds_video_fields"),
     ]
 
     operations = [
