@@ -9,7 +9,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("schools", "0008_adds_page_teasers"),
+        ("schools", "0006_adds_page_teasers"),
     ]
 
     operations = [
