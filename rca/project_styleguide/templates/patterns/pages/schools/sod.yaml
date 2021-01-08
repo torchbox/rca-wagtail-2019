@@ -16,19 +16,7 @@ context:
     social_links: False
     video: 'https://www.youtube.com/watch?v=tDPrqkgQpWM&list=PLk-Jp7vRQvwPUj9xBUTWyaDPG4MOwzDkz'
     video_caption: Welcome to the School
-    body:
-      - dummy
-    tabs:
-      - tab:
-        title: About
-      - tab:
-        title: Our research
-      - tab:
-        title: Programmes & Short courses
-      - tab:
-        title: Staff
-      - tab:
-        title: Contact
+    body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
     sections:
       about:
         title: What makes us different?
@@ -54,15 +42,18 @@ context:
   open_day_link:
     get_link_url: #
     get_link_text: Book or view all open days
-  about_teasers:
-    - {
-        title: 'Collaboration with industry',
-        link: '#',
-        meta: false,
-        person: false,
-        description: 'Programmes collaborate and innovate with industry partners and also across subject areas to allow strategic opportunities for multidisciplinary teaching and project development to enhance and ensure student mobility, independent learning and interdisciplinary activity. ',
-        image: true,
-      }
+  page_teasers:
+    title: What makes us different?
+    summary: We teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs.
+    pages:
+      - {
+          title: 'Collaboration with industry',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Programmes collaborate and innovate with industry partners and also across subject areas to allow strategic opportunities for multidisciplinary teaching and project development to enhance and ensure student mobility, independent learning and interdisciplinary activity. ',
+          image: true,
+        }
   news_and_events:
     - item:
       meta: 'News'
@@ -241,6 +232,17 @@ context:
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+  tabs:
+    - tab:
+      title: About
+    - tab:
+      title: Our research
+    - tab:
+      title: Programmes & Short courses
+    - tab:
+      title: Staff
+    - tab:
+      title: Contact
 
 tags:
   include_block:

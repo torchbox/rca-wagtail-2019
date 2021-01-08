@@ -20,17 +20,6 @@ context:
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     video_caption: Watch the course introduction
     body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-    tabs:
-      - tab:
-        title: About
-      - tab:
-        title: Our research
-      - tab:
-        title: Programmes & Short courses
-      - tab:
-        title: Staff
-      - tab:
-        title: Contact
     sections:
       about:
         title: What makes us different?
@@ -51,31 +40,35 @@ context:
   open_day_link:
     get_link_url: #
     get_link_text: Book or view all open days
-  about_teasers:
-    - {
-        title: 'Innovation RCA',
-        link: '#',
-        meta: false,
-        person: false,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
-        image: true,
-      }
-    - {
-        title: 'Consultancy & knowledge exchange',
-        link: '#',
-        meta: false,
-        person: false,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
-        image: true,
-      }
-    - {
-        title: 'Custom executive education',
-        link: '#',
-        meta: false,
-        person: false,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
-        image: true,
-      }
+  page_teasers:
+    title: What makes us different?
+    summary: We teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs.
+    pages:
+      - {
+          title: 'Innovation RCA',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Consultancy & knowledge exchange',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Custom executive education',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+
   news_and_events:
     - item:
       meta: 'Event'
@@ -377,6 +370,17 @@ context:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
     photographer: Sekiro Yamananka
+  tabs:
+    - tab:
+      title: About
+    - tab:
+      title: Our research
+    - tab:
+      title: Programmes & Short courses
+    - tab:
+      title: Staff
+    - tab:
+      title: Contact
 
 tags:
   include_block:

@@ -18,8 +18,7 @@ context:
       - '<a href="https://www.instagram.com/rca.architecture/">Instagram</a>'
     video: 'https://www.youtube.com/watch?v=rjt5p56Bcp4&list=PLk-Jp7vRQvwNbjjrvBcC0mDttD0OWaLUZ&index=3'
     video_caption: Welcome to the School
-    body:
-      - dummy
+    body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua
     tabs:
       - tab:
         title: About
@@ -56,34 +55,37 @@ context:
   open_day_link:
     get_link_url: #
     get_link_text: Book or view all open days
-  about_teasers:
-    - {
-        title: 'Creative partnerships that last a lifetime.',
-        link: '#',
-        meta: false,
-        person: false,
-        description: 'This context allows students to push their material, conceptual and technical skills beyond traditional disciplinary boundaries – expanding the potential of future practice while forming friendships.',
-        image: true,
-      }
-    - {
-        title: 'How we work across the School',
-        link: '#',
-        meta: false,
-        person: false,
-        description: 'The studio-based learning environment is supported by historical, theoretical, media and technical seminars where students are introduced to a wide range of design research methods and approaches. Within each Programme, opportunities for live projects and fieldwork are provided in line with the pedagogical ambitions of studio leaders.',
-        image: true,
-      }
-    - {
-        title: 'A hands on experience',
-        link: '#',
-        meta: false,
-        person: false,
-        description:
-          'Practice mentorships, live projects. Practice mentor schemes across all programmes
-          Pair students with practices (6 weeks for 15-month prog where they go and sit and work with those orgs)
-          ',
-        image: true,
-      }
+  page_teasers:
+    title: What makes us different?
+    summary: We teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs.
+    pages:
+      - {
+          title: 'Creative partnerships that last a lifetime.',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'This context allows students to push their material, conceptual and technical skills beyond traditional disciplinary boundaries – expanding the potential of future practice while forming friendships.',
+          image: true,
+        }
+      - {
+          title: 'How we work across the School',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'The studio-based learning environment is supported by historical, theoretical, media and technical seminars where students are introduced to a wide range of design research methods and approaches. Within each Programme, opportunities for live projects and fieldwork are provided in line with the pedagogical ambitions of studio leaders.',
+          image: true,
+        }
+      - {
+          title: 'A hands on experience',
+          link: '#',
+          meta: false,
+          person: false,
+          description:
+            'Practice mentorships, live projects. Practice mentor schemes across all programmes
+            Pair students with practices (6 weeks for 15-month prog where they go and sit and work with those orgs)
+            ',
+          image: true,
+        }
   news_and_events:
     - item:
       meta: 'News'
