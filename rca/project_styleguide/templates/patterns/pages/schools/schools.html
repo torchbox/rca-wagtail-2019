@@ -54,9 +54,7 @@
                             </div>
                             <div class="project-overview__streamfield project-overview__streamfield--bottom-margin">
                                 <div class="streamfield rich-text ">
-                                    {% for block in page.body %}
-                                        {% include_block block %}
-                                    {% endfor %}
+                                    {{ page.body|richtext }}
                                 </div>
                             </div>
                         </div>
