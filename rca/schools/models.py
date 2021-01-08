@@ -17,6 +17,7 @@ from wagtail.admin.edit_handlers import (
 from wagtail.api import APIField
 from wagtail.core.fields import RichTextField, StreamBlock, StreamField
 from wagtail.core.models import Orderable, Page
+from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
@@ -61,6 +62,20 @@ class OpenDayLink(LinkFields):
 class SchoolPage(BasePage):
     template = "patterns/pages/schools/schools.html"
     introduction = RichTextField(blank=False, features=["link"])
+    introduction_image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    video_caption = models.CharField(
+        blank=True,
+        max_length=80,
+        help_text=_("The text displayed next to the video play button"),
+    )
+    video = models.URLField(blank=True)
+    body = RichTextField()
 
     # school dean
     school_dean = models.ForeignKey(
@@ -79,7 +94,9 @@ class SchoolPage(BasePage):
     # Get in touch
     get_in_touch = RichTextField(blank=True, features=["link"])
     # Social Links
-    social_links = StreamField(StreamBlock([("Link", LinkBlock())], max_num=5))
+    social_links = StreamField(
+        StreamBlock([("Link", LinkBlock())], max_num=5, required=False)
+    )
 
     search_fields = BasePage.search_fields + [index.SearchField("introduction")]
     api_fields = [APIField("introduction")]
@@ -87,8 +104,12 @@ class SchoolPage(BasePage):
     # Admin panel configuration
     content_panels = [
         *BasePage.content_panels,
-        FieldPanel("introduction"),
         InlinePanel("hero_items", max_num=5, label="Hero Items"),
+        FieldPanel("introduction"),
+        ImageChooserPanel("introduction_image"),
+        FieldPanel("video"),
+        FieldPanel("video_caption"),
+        FieldPanel("body"),
     ]
     key_details_panels = [
         PageChooserPanel("school_dean"),

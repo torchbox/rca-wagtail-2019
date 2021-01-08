@@ -2,6 +2,11 @@ context:
   page:
     title: Schools and Research page title
     introduction: Donec vitae orci sed dolor rutrum auctor. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc nulla. Etiam rhoncus.
+    body: '<p>Located in Kensington, the School of Architecture provides a stimulating and vibrant cultural context for study in one of the world’s leading cities. Realise live projects and work alongside designers and fine artists in a concentrated, postgraduate-only environment. </p>'
+    introduction_image: true
+    video_caption: Watch the course introductionsolutions to global challenges
+    video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
+
 tags:
   pageurl:
     subpage:
