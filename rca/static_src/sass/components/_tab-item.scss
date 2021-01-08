@@ -19,6 +19,10 @@
         }
     }
 
+    &.is-active {
+        @include underline-hover-target-reset();
+    }
+
     .bg--dark & {
         color: $color--meta-darkbg;
 
@@ -65,5 +69,14 @@
         &:hover {
             color: $color--black;
         }
+
+        &.is-active {
+            color: $color--black;
+        }
+    }
+
+    .jump-nav & {
+        font-family: $font--primary;
+        font-weight: $weight--normal;
     }
 }

@@ -1,6 +1,5 @@
 .jump-nav {
     $root: &;
-    transition: background-color $transition-cubic;
 
     &.js-is-sticky.bg--dark {
         background-color: $color--white;

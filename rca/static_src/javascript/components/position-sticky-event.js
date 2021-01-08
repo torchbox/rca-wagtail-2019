@@ -28,6 +28,9 @@ class Sticky {
                 sticky.classList.remove('js-is-sticky');
             }
         }
+
+        console.log(stickyOffset);
+        console.log(isStuck);
     }
 
     bindEvents() {
