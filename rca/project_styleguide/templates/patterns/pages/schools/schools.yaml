@@ -49,10 +49,6 @@ context:
     related_pages_title: Enterprise at the RCA
     staff_link: '#'
     staff_link_text: View all school staff
-  hero_image:
-    title: Synaputral Decadence is the flavour of the distant future
-    creator: Jianjin Lee Chen
-    photographer: Sekiro Yamananka
   open_day_link:
     get_link_url: #
     get_link_text: Book or view all open days
@@ -378,6 +374,10 @@ context:
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+  hero_image:
+    title: Synaputral Decadence is the flavour of the distant future
+    creator: Jianjin Lee Chen
+    photographer: Sekiro Yamananka
 
 tags:
   include_block:
