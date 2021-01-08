@@ -1,0 +1,33 @@
+.u {
+    &-small-bp-only {
+        display: block;
+
+        @include media-query(medium) {
+            display: none;
+        }
+    }
+
+    &-small-and-medium-bp-only {
+        display: block;
+
+        @include media-query(large) {
+            display: none;
+        }
+    }
+
+    &-medium-and-large-bp-only {
+        display: none;
+
+        @include media-query(medium) {
+            display: block;
+        }
+    }
+
+    &-large-bp-only {
+        display: none;
+
+        @include media-query(large) {
+            display: block;
+        }
+    }
+}

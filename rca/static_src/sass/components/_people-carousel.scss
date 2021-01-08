@@ -1,0 +1,22 @@
+.people-carousel {
+    margin-bottom: ($gutter * 2);
+
+    @include media-query(medium) {
+        margin-bottom: ($gutter * 3);
+    }
+
+    &__item {
+        margin-bottom: ($gutter * 2);
+
+        @include media-query(medium) {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        @include media-query(large) {
+            max-width: calc(var(--grid-width) * 3);
+            margin-bottom: 0;
+        }
+    }
+}

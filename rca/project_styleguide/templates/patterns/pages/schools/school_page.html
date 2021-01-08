@@ -4,8 +4,27 @@
 {% block content %}
 <div class="wrapper">
     <section class="section section--main">
+        {# hero #}
+        {% include "patterns/molecules/hero/hero-schools.html" with modifier="programme" %}
+        {% if hero_image %}
+            <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
+                {% include 'patterns/atoms/image-info/image-info.html' with item=hero_image %}
+            </div>
+        {% endif %}
+
         <h1>{{ page.title }}</h1>
-        <p>{{ page.introduction }}</p>
+         {% if page.introduction %}
+            <div class="project-overview__introduction layout__start-one layout__span-two  layout__@large-start-three layout__@large-span-two">
+                <h2 class="research-centre-overview__heading section__heading heading heading--five">
+                    {{ page.introduction|richtext }}
+                </h2>
+            </div>
+        {% endif %}
+
+        {# key datails #}
+        <div class="school-overview__key-details layout__start-one layout__span-two layout__@large-span-one">
+            {% include "patterns/molecules/key-details/key-details--school.html" %}
+        </div>
     </section>
 </div>
 {% endblock %}

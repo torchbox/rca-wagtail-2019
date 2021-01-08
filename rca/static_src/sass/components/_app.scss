@@ -36,7 +36,7 @@
         @include z-index(nav);
         pointer-events: none;
         transform: translate3d(-100%, 0%, 0);
-        transition: transform $cubic-transition 0.75ms;
+        transition: transform $transition-cubic 0.75ms;
         position: fixed;
         top: 0;
         left: 0;

@@ -349,10 +349,10 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
 
         programme_pages_qs = ProgrammePage.objects.filter(
             related_schools_and_research_pages__page_id=self.id
-        )
+        ).live()
         short_course_pages_qs = ShortCoursePage.objects.filter(
             related_schools_and_research_pages__page_id=self.id
-        )
+        ).live()
         qs = list(chain(programme_pages_qs, short_course_pages_qs))
 
         programme_pages = [

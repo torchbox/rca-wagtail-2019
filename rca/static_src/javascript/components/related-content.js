@@ -5,6 +5,7 @@ class RelatedContent {
 
     constructor(node) {
         this.node = node;
+        this.nodeContainer = node.closest('[data-group]');
         this.visibleClass = 'is-visible';
         this.bindEventListeners();
     }
@@ -20,7 +21,7 @@ class RelatedContent {
         const { targetImage } = e.target.dataset;
 
         // get all the images that belong to the group
-        const images = document.querySelectorAll(
+        const images = this.nodeContainer.querySelectorAll(
             `[data-group="${parentGroup}"] img`,
         );
 
@@ -30,7 +31,7 @@ class RelatedContent {
         });
 
         // get the image we want
-        const currentImage = document.querySelector(
+        const currentImage = this.nodeContainer.querySelector(
             `[data-group="${parentGroup}"] [data-image="${targetImage}"]`,
         );
 

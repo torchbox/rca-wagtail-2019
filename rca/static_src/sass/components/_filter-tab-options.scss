@@ -93,7 +93,7 @@
         position: relative;
         font-family: $font--secondary;
         opacity: 1;
-        transition: opacity $cubic-transition;
+        transition: opacity $transition-cubic;
 
         &.hidden {
             @include hidden();

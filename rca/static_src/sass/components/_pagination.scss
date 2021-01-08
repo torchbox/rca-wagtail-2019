@@ -32,7 +32,7 @@
         background-size: 0% 2px;
         display: block;
         font-family: $font--primary;
-        transition: color $cubic-transition;
+        transition: color $transition-cubic;
 
         &::after {
             width: 0;

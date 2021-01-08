@@ -7,10 +7,7 @@
         color: $color--white;
 
         &.is-active {
-            &::after {
-                width: 100%;
-                left: 0;
-            }
+            @include underline-hover-target-reset();
         }
     }
 }

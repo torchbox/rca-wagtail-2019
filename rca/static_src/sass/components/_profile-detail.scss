@@ -15,7 +15,9 @@
                 }
 
                 #{$root}__heading {
-                    @include underline-hover();
+                    @include media-query(medium) {
+                        @include underline-hover-target-reset();
+                    }
                 }
             }
         }
@@ -28,7 +30,7 @@
         width: 100%;
         height: auto;
         margin-bottom: $gutter;
-        transition: opacity $cubic-transition;
+        transition: opacity $transition-cubic;
     }
 
     &__header {
@@ -36,6 +38,7 @@
     }
 
     &__heading {
+        @include underline-hover-target();
         display: inline;
         position: relative;
     }
@@ -117,70 +120,63 @@
     .people-module--five-plus & {
         grid-row: auto;
         grid-column: 1 / span 2;
+        margin-bottom: $gutter;
 
         @include media-query(medium) {
-            grid-column: 1 / span 1;
+            grid-column: auto / span 1;
             padding-right: ($gutter * 2.5);
         }
 
         @include media-query(large) {
-            grid-column: 1 / span 1;
             padding-right: 0;
+            margin-bottom: ($gutter * 1.5);
         }
 
-        &:nth-of-type(2) {
-            @include media-query(medium) {
-                grid-column: 2 / span 1;
-                margin-top: $margin-top-medium-breakpoint;
-            }
-
-            @include media-query(large) {
-                grid-column: 3 / span 1;
-                margin-top: $margin-top-large-breakpoint;
-            }
+        #{$root}__container {
+            display: flex;
+            flex-direction: row;
         }
 
-        &:nth-of-type(n + 3) {
-            margin-bottom: $gutter;
-
-            @include media-query(large) {
-                margin-bottom: ($gutter * 1.5);
-            }
-
-            #{$root}__container {
-                display: flex;
-                flex-direction: row;
-            }
-
-            #{$root}__image {
-                flex-basis: 60px;
-                max-width: 60px;
-                min-width: 60px;
-                height: 60px;
-            }
-
-            #{$root}__content {
-                padding-left: $gutter;
-            }
-
-            #{$root}__more {
-                display: none;
-            }
-
-            #{$root}__header {
-                line-height: 1.2;
-            }
-
-            #{$root}__heading {
-                @include font-size(xs);
-            }
-
-            #{$root}__job-title {
-                @include font-size(xxs);
-            }
+        #{$root}__image {
+            flex-basis: 60px;
+            max-width: 60px;
+            min-width: 60px;
+            height: 60px;
+            margin-bottom: 0;
         }
 
-        &:nth-of-type(4) {
+        #{$root}__content {
+            padding-left: $gutter;
+        }
+
+        #{$root}__overview {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        #{$root}__more {
+            display: none;
+        }
+
+        #{$root}__header {
+            line-height: 1.2;
+            margin-bottom: 2px;
+        }
+
+        #{$root}__heading {
+            @include font-size(xxs);
+            font-family: $font--secondary;
+            margin-bottom: 0;
+        }
+
+        #{$root}__job-title {
+            @include font-size(xxxs);
+            margin-bottom: 0;
+        }
+
+        &:nth-of-type(17) {
             @include media-query(medium) {
                 grid-column: 1 / span 1;
             }
@@ -190,13 +186,29 @@
                 padding-right: 50%;
             }
         }
+    }
 
-        &:nth-of-type(n + 5) {
-            grid-column: 1 / span 2;
+    // Move to flex layout when inside carousel
+    .people-module__content--carousel & {
+        flex-basis: 100%;
+        min-width: 100%;
+        max-width: 100%;
 
-            @include media-query(medium) {
-                grid-column: auto / span 1;
-            }
+        @include media-query(medium) {
+            flex-basis: 50%;
+            min-width: 50%;
+            max-width: 50%;
+            padding-right: 0;
+        }
+
+        @include media-query(large) {
+            flex-basis: 33.333%;
+            min-width: 33.333%;
+            max-width: 33.333%;
+        }
+
+        &:nth-of-type(17) {
+            padding-right: 0;
         }
     }
 

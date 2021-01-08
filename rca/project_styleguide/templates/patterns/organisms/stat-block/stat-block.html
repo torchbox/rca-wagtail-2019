@@ -1,17 +1,18 @@
 {% load wagtailimages_tags wagtailcore_tags %}
 {% image stats_block.background_image max-1000x500 as bg_image %}
-<section class="section section--stat-block {% if stats_block_default_notch_override %}section--stat-block-notch-override{% else %}section--opposite-notch{% endif %} bg bg--stat-block bg--dark" data-stat-block style="--stat-block-bg-image: url('{{ bg_image.url }}')">
+<section class="section section--stat-block {% if modifier %}section--{{ modifier }}{% endif %} {% if stats_block_default_notch_override %}section--stat-block-notch-override{% else %}section--opposite-notch{% endif %} bg bg--stat-block bg--dark" data-stat-block style="--stat-block-bg-image: url('{{ bg_image.url }}')">
 
     <div class="section__notch {% if not stats_block_default_notch_override %}section__notch--transparent section__notch--opposite{% endif %}">
         <div class="section__notch-fill section__notch-fill--second-col"></div>
     </div>
+
     <div class="section__row stat-block {% if stats_block.statistics|length > 3 %}stat-block--large{% endif %}">
+
         {% if stats_block.title %}
             <div class="stat-block__header grid">
-                <h3 class="stat-block__heading heading heading--three">{{ stats_block.title }}</h3>
+                <h2 class="stat-block__heading heading heading--three">{{ stats_block.title }}</h2>
             </div>
         {% endif %}
-
 
         {% for stat in stats_block.statistics %}
             {% with stat=stat.value %}

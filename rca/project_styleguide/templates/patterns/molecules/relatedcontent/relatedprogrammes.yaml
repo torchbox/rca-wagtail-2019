@@ -8,17 +8,17 @@ context:
           title: Architecture
           degree_level: MA
           programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
-          img: http://placehold.it/300x270/fff/000
+          hero_image: http://placehold.it/300x270/fff/000
         - item:
           title: City design
           degree_level: MA
           programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
-          img: http://placehold.it/300x270/ff5d1c/fff
+          hero_image: http://placehold.it/300x270/ff5d1c/fff
         - item:
           title: Environmental acrhitecture
           degree_level: MA
           programme_description_subtitle: Architecture at the RCA sets out to inspire design innovation
-          img: http://placehold.it/300x270
+          hero_image: http://placehold.it/300x270
 
 tags:
   pageurl:

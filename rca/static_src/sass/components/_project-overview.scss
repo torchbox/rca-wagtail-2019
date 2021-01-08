@@ -1,4 +1,15 @@
 .project-overview {
+    $root: &;
+
+    &--school {
+        #{$root}__media {
+            @include media-query(large) {
+                padding-top: 0;
+                margin-bottom: 0;
+            }
+        }
+    }
+
     &__content {
         @include media-query(large) {
             order: 2;
@@ -24,6 +35,10 @@
     &__streamfield {
         @include media-query(large) {
             padding-left: 33.333%;
+        }
+
+        &--bottom-margin {
+            margin-bottom: ($gutter * 2);
         }
     }
 

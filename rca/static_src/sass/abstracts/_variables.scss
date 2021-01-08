@@ -4,7 +4,7 @@
 $color--black: #000;
 $color--white: #fff;
 $color--orange: #ff5d1c;
-$color--light-grey: #959595;
+$color--light-grey: #bbb;
 $color--dark-grey: #676767;
 
 $color--white-12: rgba($color--white, 0.12);
@@ -130,8 +130,9 @@ $mini-header-height: 80px;
 
 // --------------------------------- Transitions --------------------------------------
 
-$transition: 0.25s ease-out;
-$cubic-transition: 250ms cubic-bezier(0.24, 0.26, 0.2, 1);
+$transition: 250ms ease-out;
+$transition-opacity: 0.36;
+$transition-cubic: 250ms cubic-bezier(0.24, 0.26, 0.2, 1);
 
 // --------------------------------- Custom properties --------------------------------------
 

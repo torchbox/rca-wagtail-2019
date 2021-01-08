@@ -1,0 +1,5 @@
+context:
+  instagram_feed:
+    - { url: //placekitten.com/252/252, alt: 'Alt', href: //instagram.com }
+    - { url: //placekitten.com/252/252, alt: 'Alt', href: //instagram.com }
+    - { url: //placekitten.com/252/252, alt: 'Alt', href: //instagram.com }

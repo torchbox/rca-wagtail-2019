@@ -1,4 +1,4 @@
-<div class="staggered-cards">
+<div class="staggered-cards {% if modifier %}staggered-cards--{{ modifier }}{% endif %}">
     <div class="staggered-cards__container">
         {% for item in staggered_cards %}
             {% include "patterns/molecules/card/card.html" with modifier="simple" %}

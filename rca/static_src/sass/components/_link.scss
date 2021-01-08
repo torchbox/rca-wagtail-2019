@@ -245,6 +245,10 @@
 
     &__label {
         margin-right: 5px;
+
+        &--tight {
+            margin-right: $gutter;
+        }
     }
 
     .bg--dark & {
