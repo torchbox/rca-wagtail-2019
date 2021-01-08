@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("images", "0003_extends_image_fields"),
-        ("schools", "0006_adds_key_details_fields"),
+        ("schools", "0004_adds_hero_and_intro_fields"),
     ]
 
     operations = [
@@ -31,7 +31,9 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AddField(
-            model_name="schoolpage", name="video", field=models.URLField(blank=True),
+            model_name="schoolpage",
+            name="video",
+            field=models.URLField(blank=True),
         ),
         migrations.AddField(
             model_name="schoolpage",
