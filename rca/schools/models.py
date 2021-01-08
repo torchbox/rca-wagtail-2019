@@ -59,7 +59,7 @@ class OpenDayLink(LinkFields):
 
 
 class SchoolPage(BasePage):
-    template = "patterns/pages/schools/school_page.html"
+    template = "patterns/pages/schools/schools.html"
     introduction = RichTextField(blank=False, features=["link"])
 
     # school dean
