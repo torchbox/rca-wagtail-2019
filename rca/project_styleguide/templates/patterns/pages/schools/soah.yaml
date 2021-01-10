@@ -54,6 +54,10 @@ context:
           description: Archive for the School of Arts & Humanities's flagship lecture series
           action: Find out more
           link: 'https://www.rca.ac.uk/study/schools/school-of-arts-humanities/visual-cultures/'
+    related_programmes_title: Our programmes
+    related_programmes_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    related_short_courses_title: Our short courses
+    related_short_courses_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
   hero_image:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
@@ -103,7 +107,7 @@ context:
       link: 'https://www.rca.ac.uk/news-and-events/news/ma-painting-student-wins-10000-castlegate-art-prize/'
       image: //placekitten.com/251/142
       person: false
-  programmes:
+  related_programmes:
     - item:
       link:
         url: '#'
@@ -154,7 +158,7 @@ context:
           degree_level: MA
           programme_description_subtitle: Turning innovation into successful real-world businesses.
           hero_image: http://placehold.it/500x500
-  short_courses:
+  related_short_courses:
     - item:
       link:
         url: '#'
