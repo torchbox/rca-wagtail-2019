@@ -36,6 +36,26 @@ context:
     related_pages_title: Enterprise at the RCA
     staff_link: '#'
     staff_link_text: View all school staff
+    collaborators_heading: Organisations
+    collaborators:
+      - slide:
+        value:
+          link:
+            title: 'Story central'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Fair Trials'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'ICRAM'
+            url: '#'
+          image: true
   hero_image:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
@@ -93,20 +113,6 @@ context:
       link: 'https://www.rca.ac.uk/news-and-events/news/draw-alumni-exhibition-explores-human-power-drawing/'
       image: //placekitten.com/251/142
       person: false
-  worked_with:
-    slides:
-      - slide:
-        title: 'Story Central'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Fair Trials'
-        image: true
-        link: '#'
-      - slide:
-        title: 'IRCAM'
-        image: true
-        link: '#'
   programmes:
     - item:
       link:
