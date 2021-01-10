@@ -45,6 +45,8 @@ from rca.utils.models import (
     Sector,
 )
 
+from .utils import format_projects_for_gallery
+
 
 class ProjectPageSectorPlacement(models.Model):
     page = ParentalKey("ProjectPage", related_name="related_sectors")
@@ -256,35 +258,6 @@ class ProjectPage(BasePage):
         ]
     )
 
-    def _format_projects_for_gallery(self, projects):
-        """Internal method for formatting related projects to the correct
-        structure for the gallery template
-
-        Arguments:
-            projects: Queryset of project pages to format
-
-        Returns:
-            List: Maximum of 8 projects
-        """
-        items = []
-        for page in projects[:8]:
-            page = page.specific
-            meta = ""
-            related_school = page.related_school_pages.first()
-            if related_school is not None:
-                meta = related_school.page.title
-
-            items.append(
-                {
-                    "title": page.title,
-                    "link": page.url,
-                    "image": page.hero_image,
-                    "description": page.introduction,
-                    "meta": meta,
-                }
-            )
-        return items
-
     def get_related_projects(self):
         """
         Displays latest projects from the parent School/Centre  the project belongs to.
@@ -304,21 +277,21 @@ class ProjectPage(BasePage):
             related_school_pages__page_id__in=schools
         ).distinct()
         if projects:
-            return self._format_projects_for_gallery(projects)
+            return format_projects_for_gallery(projects)
 
         research_centres = self.related_research_pages.values_list("page_id")
         projects = all_projects.filter(
             related_research_pages__page_id__in=research_centres
         ).distinct()
         if projects:
-            return self._format_projects_for_gallery(projects)
+            return format_projects_for_gallery(projects)
 
         research_types = self.research_types.values_list("research_type_id")
         projects = all_projects.filter(
             research_types__research_type_id__in=research_types
         ).distinct()
         if projects:
-            return self._format_projects_for_gallery(projects)
+            return format_projects_for_gallery(projects)
 
         expertise = self.expertise.values_list("area_of_expertise_id")
         projects = all_projects.filter(
@@ -326,7 +299,7 @@ class ProjectPage(BasePage):
         ).distinct()
 
         if projects:
-            return self._format_projects_for_gallery(projects)
+            return format_projects_for_gallery(projects)
 
     def clean(self):
         errors = defaultdict(list)
