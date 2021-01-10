@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("images", "0003_extends_image_fields"),
-        ("schools", "0009_adds_collaborators"),
+        ("schools", "0007_adds_collaborators"),
     ]
 
     operations = [
