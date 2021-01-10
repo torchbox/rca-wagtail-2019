@@ -68,7 +68,9 @@ class SchoolPageTeaser(models.Model):
     source_page = ParentalKey("SchoolPage", related_name="page_teasers")
     title = models.CharField(max_length=125)
     summary = models.CharField(max_length=250)
-    pages = StreamField(StreamBlock([("Page", RelatedPageListBlockPage(max_num=3))]))
+    pages = StreamField(
+        StreamBlock([("Page", RelatedPageListBlockPage(max_num=3))], max_num=1)
+    )
     panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("pages")]
 
     def __str__(self):
@@ -78,7 +80,8 @@ class SchoolPageTeaser(models.Model):
 class SchoolPageStatsBlock(models.Model):
     source_page = ParentalKey("SchoolPage", related_name="stats_block")
     title = models.CharField(max_length=125)
-    statistics = StreamField([("statistic", StatisticBlock())])
+    # statistics = StreamField([("statistic", StatisticBlock(max_num=1))])
+    statistics = StreamField(StreamBlock([("statistic", StatisticBlock())], max_num=5))
     background_image = models.ForeignKey(
         get_image_model_string(),
         blank=True,
