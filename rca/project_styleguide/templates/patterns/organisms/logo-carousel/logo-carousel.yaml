@@ -2,26 +2,38 @@ context:
   per_slide: 3
   carousel:
     - slide:
-      title: 'Red bull'
-      image: true
-      href: '#'
+      value:
+        link:
+          title: 'Red bull'
+          url: '#'
+        image: true
     - slide:
-      title: 'Red bull'
-      image: true
-      href: '#'
+      value:
+        link:
+          title: 'Red bull'
+          url: '#'
+        image: true
     - slide:
-      title: 'Red bull'
-      image: true
-      href: '#'
+      value:
+        link:
+          title: 'Red bull'
+          url: '#'
+        image: true
     - slide:
-      title: 'Red bull'
-      image: true
-      href: '#'
+      value:
+        link:
+          title: 'Red bull'
+          url: '#'
+        image: true
     - slide:
-      title: 'Red bull'
-      image: true
-      href: '#'
+      value:
+        link:
+          title: 'Red bull'
+          url: '#'
+        image: true
     - slide:
-      title: 'Red bull'
-      image: true
-      href: '#'
+      value:
+        link:
+          title: 'Red bull'
+          url: '#'
+        image: true

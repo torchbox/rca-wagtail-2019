@@ -35,6 +35,26 @@ context:
     related_pages_title: Enterprise at the RCA
     staff_link: '#'
     staff_link_text: View all school staff
+    collaborators_heading: Organisations
+    collaborators:
+      - slide:
+        value:
+          link:
+            title: 'Logitech'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'CERN'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Telefonica'
+            url: '#'
+          image: true
   hero_image:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
@@ -76,20 +96,6 @@ context:
       link: 'https://www.rca.ac.uk/news-and-events/events/design-more-one-perspective-viewpointsstandpointspositions/'
       image: //placekitten.com/251/142
       person: false
-  worked_with:
-    slides:
-      - slide:
-        title: 'Logitech'
-        image: true
-        link: '#'
-      - slide:
-        title: 'CERN'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Telefonica'
-        image: true
-        link: '#'
   programmes:
     - item:
       link:

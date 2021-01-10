@@ -1,8 +1,9 @@
 context:
   item:
-    title: 'Show 2019: School of Architecture'
+    link:
+      title: 'Show 2019: School of Architecture'
+      url: '#'
     image: true
-    href: '#'
 
 tags:
   image:

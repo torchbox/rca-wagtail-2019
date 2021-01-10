@@ -91,17 +91,17 @@
                 </div>
                 {% endif %}
 
-                {% if worked_with %}
+                {% if page.collaborators %}
                 <div class="section__row section__row--last schools__about--logos">
                     <div class="section__header grid">
-                        <h2 class="section__heading section__heading--secondary heading heading--five">Organisations we've worked with</h2>
+                        <h2 class="section__heading section__heading--secondary heading heading--five">{% firstof page.collaborators_heading "Organisations we've worked with" %}</h2>
                     </div>
                     <div class="section__content">
                         <div class="u-small-and-medium-bp-only">
-                            {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=worked_with.slides datatag="data-logo-carousel" per_slide=2 %}
+                            {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=page.collaborators datatag="data-logo-carousel" per_slide=2 %}
                         </div>
                         <div class="u-large-bp-only">
-                            {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=worked_with.slides datatag="data-logo-carousel" per_slide=3 %}
+                            {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=page.collaborators datatag="data-logo-carousel" per_slide=3 %}
                         </div>
                     </div>
                 </div>

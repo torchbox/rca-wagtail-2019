@@ -37,6 +37,33 @@ context:
     related_pages_title: Enterprise at the RCA
     staff_link: '#'
     staff_link_text: View all school staff
+    collaborators_heading: Organisations
+    collaborators:
+      - slide:
+        value:
+          link:
+            title: 'Red bull'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 2'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 3'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 4'
+            url: '#'
+          image: true
+
   open_day_link:
     get_link_url: #
     get_link_text: Book or view all open days
@@ -91,32 +118,6 @@ context:
       link: '#'
       image: //placekitten.com/251/142
       person: false
-  worked_with:
-    slides:
-      - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
   programmes:
     - item:
       link:

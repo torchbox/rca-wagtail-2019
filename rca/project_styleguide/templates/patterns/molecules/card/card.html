@@ -19,7 +19,7 @@
                     {% if item.link %}</a>{% endif %}
                 </h3>
                 {% if item.description %}
-                    <div class="card__description">{{ item.description }}</div>
+                    <div class="card__description">{{ item.description|safe }}</div>
                 {% endif %}
             </div>
             {% if item.person %}
