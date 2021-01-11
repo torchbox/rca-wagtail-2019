@@ -38,6 +38,7 @@ class AreaOfExpertiseModelAdmin(ModelAdmin):
     model = AreaOfExpertise
     menu_icon = "tag"
 
+
 class ResearchThemeModelAdmin(ModelAdmin):
     model = ResearchTheme
     menu_icon = "tag"
