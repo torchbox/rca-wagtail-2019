@@ -2,7 +2,6 @@ from collections import defaultdict
 
 from django.apps import apps
 from django.conf import settings
-from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -21,13 +20,13 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable, Page
+from wagtail.core.models import Orderable
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from rca.api_content.content import CantPullFromRcaApi, pull_related_students
-from rca.people.filter import SchoolCentreExpertiseFilter
+from rca.people.filter import SchoolCentreDirectorateFilter
 from rca.programmes.models import ProgrammePage
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
@@ -398,7 +397,7 @@ class StaffPage(BasePage):
         return expertise
 
     def get_directorate_linked_filters(self):
-        """For the expertise taxonomy thats listed out in key details,
+        """For the directorate taxonomy thats listed out in key details,
         they need to link to the parent staff picker page with a filter pre
         selected"""
 
@@ -409,11 +408,12 @@ class StaffPage(BasePage):
                 directorates.append(
                     {
                         "title": i.directorate.title,
-                        "link": f"{parent.url}?directorate={i.directorate.slug}",
+                        "link": f"{parent.url}?school-centre-or-area={i.directorate.slug}",
                     }
                 )
             else:
                 directorates.append({"title": i.directorate.title})
+        print(directorates)
         return directorates
 
     def get_context(self, request, *args, **kwargs):
@@ -460,7 +460,7 @@ class StaffIndexPage(BasePage):
         queryset = base_queryset.all()
 
         filters = (
-            SchoolCentreExpertiseFilter(
+            SchoolCentreDirectorateFilter(
                 "School, Centre or Area",
                 school_queryset=SchoolPage.objects.live().filter(
                     id__in=base_queryset.values_list(
@@ -472,9 +472,9 @@ class StaffIndexPage(BasePage):
                         "related_research_centre_pages__page_id", flat=True
                     )
                 ),
-                expertise_queryset=AreaOfExpertise.objects.filter(
+                directorate_queryset=Directorate.objects.filter(
                     id__in=base_queryset.values_list(
-                        "related_area_of_expertise__area_of_expertise_id", flat=True
+                        "related_directorates__directorate_id", flat=True
                     )
                 ),
             ),
@@ -491,15 +491,15 @@ class StaffIndexPage(BasePage):
                 option_value_field="slug",
             ),
             TabStyleFilter(
-                "Directorates",
+                "Expertise",
                 queryset=(
-                    Directorate.objects.filter(
+                    AreaOfExpertise.objects.filter(
                         id__in=base_queryset.values_list(
-                            "related_directorates__directorate_id", flat=True
+                            "related_area_of_expertise__area_of_expertise_id", flat=True
                         )
                     )
                 ),
-                filter_by="related_directorates__directorate__slug__in",  # Filter by slug here
+                filter_by="related_area_of_expertise__area_of_expertise__slug__in",  # Filter by slug here
                 option_value_field="slug",
             ),
         )

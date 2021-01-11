@@ -4,27 +4,32 @@ from django.utils.functional import cached_property
 from rca.utils.filter import TabStyleFilter
 
 
-class SchoolCentreExpertiseFilter(TabStyleFilter):
+class SchoolCentreDirectorateFilter(TabStyleFilter):
     """
     Custom TabStyleFilter class for use on StaffIndexPage, which presents combined
-    filter options for filtering by "School", "Research Centre" or "Area of expertise",
+    filter options for filtering by "School", "Research Centre" or "Directorate",
     and can filter the queryset according to the selected options.
     """
 
     school_value_prefix = "s-"
     centre_value_prefix = "c-"
-    expertise_value_prefix = "e-"
+    directorate_value_prefix = "d-"
 
     def __init__(
-        self, tab_title, school_queryset, centre_queryset, expertise_queryset, **kwargs
+        self,
+        tab_title,
+        school_queryset,
+        centre_queryset,
+        directorate_queryset,
+        **kwargs,
     ):
         super().__init__(tab_title, None, **kwargs)
         self.school_queryset = school_queryset
         self.centre_queryset = centre_queryset
-        self.expertise_queryset = expertise_queryset
+        self.directorate_queryset = directorate_queryset
         # Trick template into displaying choices
         self.queryset = bool(
-            self.school_queryset or self.centre_queryset or self.expertise_queryset
+            self.school_queryset or self.centre_queryset or self.directorate_queryset
         )
 
     def apply(self, queryset, querydict):
@@ -36,14 +41,14 @@ class SchoolCentreExpertiseFilter(TabStyleFilter):
         return queryset.filter(
             self.get_school_filter_q()
             | self.get_centre_filter_q()
-            | self.get_expertise_filter_q()
+            | self.get_directorate_filter_q()
         )
 
     def get_deprefixed_value_set(self, prefix):
         if not self.querydict:
             return set()
         return set(
-            val[len(prefix) :]
+            val[len(prefix) :]  # noqa (flake8 and black fighting)
             for val in self.querydict.getlist(self.name)
             if val.startswith(prefix)
         )
@@ -57,8 +62,8 @@ class SchoolCentreExpertiseFilter(TabStyleFilter):
         return self.get_deprefixed_value_set(self.centre_value_prefix)
 
     @cached_property
-    def selected_expertise_values(self):
-        return self.get_deprefixed_value_set(self.expertise_value_prefix)
+    def selected_directorate_values(self):
+        return self.get_deprefixed_value_set(self.directorate_value_prefix)
 
     @staticmethod
     def generate_prefixed_choices(
@@ -81,11 +86,11 @@ class SchoolCentreExpertiseFilter(TabStyleFilter):
             self.centre_queryset, self.centre_value_prefix, self.selected_centre_values
         )
 
-    def get_expertise_choices(self):
+    def get_directorate_choices(self):
         return self.generate_prefixed_choices(
-            self.expertise_queryset,
-            self.expertise_value_prefix,
-            self.selected_expertise_values,
+            self.directorate_queryset,
+            self.directorate_value_prefix,
+            self.selected_directorate_values,
         )
 
     @property
@@ -106,17 +111,17 @@ class SchoolCentreExpertiseFilter(TabStyleFilter):
             related_research_centre_pages__page__slug__in=self.selected_centre_values
         )
 
-    def get_expertise_filter_q(self):
-        if not self.selected_expertise_values:
+    def get_directorate_filter_q(self):
+        if not self.selected_directorate_values:
             return Q()
         return Q(
-            related_area_of_expertise__area_of_expertise__slug__in=self.selected_expertise_values
+            related_directorates__directorate__slug__in=self.selected_directorate_values
         )
 
     @cached_property
     def options(self):
         choices = list(self.get_school_choices())
         choices.extend(self.get_centre_choices())
-        choices.extend(self.get_expertise_choices())
+        choices.extend(self.get_directorate_choices())
         choices.sort(key=lambda item: item["title"])
         return choices

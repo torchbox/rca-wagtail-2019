@@ -39,10 +39,6 @@ class AreaOfExpertiseModelAdmin(ModelAdmin):
     menu_icon = "tag"
 
 
-class DirectorateModelAdmin(ModelAdmin):
-    model = Directorate
-
-
 class ResearchThemeModelAdmin(ModelAdmin):
     model = ResearchTheme
     menu_icon = "tag"
@@ -50,6 +46,11 @@ class ResearchThemeModelAdmin(ModelAdmin):
 
 class SectorModelAdmin(ModelAdmin):
     model = Sector
+    menu_icon = "tag"
+
+
+class DirectorateModelAdmin(ModelAdmin):
+    model = Directorate
     menu_icon = "tag"
 
 
@@ -64,6 +65,7 @@ class TaxonomiesModelAdminGroup(ModelAdminGroup):
         DirectorateModelAdmin,
         SectorModelAdmin,
         ResearchThemeModelAdmin,
+        DirectorateModelAdmin,
     )
     menu_icon = "tag"
 
