@@ -1,0 +1,156 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% get_settings %}
+
+{% block body_class %}
+    app--staff-detail theme-light
+{% endblock %}
+
+{% block title %}
+    {% if page.staff_title %}{{ page.staff_title }}{% endif %} {% if page.first_name %}{{ page.first_name }}{% endif %} {% if page.last_name %}{{ page.last_name }}{% endif %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="page page--no-hero" typeof="schema:Person">
+        <header class="page__header bg bg--dark">
+            <div class="title-area title-area--staff-detail grid">
+                {% if page.profile_image %}
+                    <div class="title-area__image">
+                        {% include "patterns/atoms/profile-image/profile-image.html" %}
+                    </div>
+                {% endif %}
+                <div class="title-area__content">
+                    <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
+                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
+                    </nav>
+                    {% if page.staff_title or page.first_name or last_name %}
+                        <h1 property="schema:name" class="title-area__heading heading heading--one">
+                            {% if page.staff_title %}
+                                <span class="title-area__profile-title heading heading--three">{{ page.staff_title }}</span>
+                            {% endif %}
+                            {{ page.first_name }}
+                            {{ page.last_name }}
+                        </h1>
+                        {% if page.profile_type %}
+                            <h2 class="title-area__sub-heading body body--one">{{ page.profile_type }}</h2>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if roles %}
+                        <div class="title-area__job-titles">
+                            {% include "patterns/molecules/job-titles/job-titles.html" with job_titles=roles %}
+                        </div>
+                    {% endif %}
+
+                    {% if page.email %}
+                        <div class="title-area__contact">
+                            <a class="link link--secondary link--link body body--two" href="mailto:{{ page.email }}">
+                                <span class="link__label">Email {{ page.email }}</span>
+                                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <div class="page__content">
+
+            <section class="section bg bg--dark {% if page.gallery %}section--opposite-notch{% endif %}">
+
+                <div class="section__row staff-body">
+                    <div class="staff-body__container grid">
+                        <div class="staff-body__content">
+                            <p class="staff-body__introduction heading heading--five" property="schema:description">
+                                {{ page.introduction}}
+                            </p>
+                            <div class="staff-body__description rich-text">
+                                {{ page.body|safe }}
+                            </div>
+                        </div>
+                        <div class="staff-body__key-details">
+                            {% include "patterns/molecules/key-details/key-details--staff.html" %}
+                        </div>
+                    </div>
+                </div>
+
+                {% if research_highlights %}
+                    <div class="section__row {% if page.gallery %}section__row--last{% else %}section__row--last-large{% endif %} research-highlights">
+                        <div class="section__header grid">
+                            {% if page.research_highlights_title %}
+                                <h2 class="section__heading section__heading--primary heading heading--four">
+                                    {{ page.research_highlights_title }}
+                                </h2>
+                            {% endif %}
+                        </div>
+                        <div class="section__content grid">
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=research_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                            <div class="section__action">
+                                <a class="link link--primary link--link body body--two" href="/research">
+                                    <span class="link__label">See all research</span>
+                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+            {% if page.gallery %}
+                <div class="section__notch section__notch--opposite">
+                    <div class="section__notch-fill section__notch-fill--first-col"></div>
+                </div>
+
+            </section>
+
+            <section class="section bg bg--light">
+
+                <div class="section__row section__row--first section__row--last">
+                    <header class="section__header grid">
+                        <h3 class="section__heading section__heading--secondary heading heading--four">
+                            Gallery
+                        </h3>
+                    </header>
+                    <div class="section__content">
+                        {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.gallery modifier='slideshow--author-info' %}
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="section bg bg--dark">
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+            {% endif %}
+
+                {% if page.more_information %}
+                    <div class="section__row {% if not page.gallery %}staff-detail-accordion staff-detail-accordion--wo-gallery{% endif %} section__row--last">
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title=page.more_information_title %}
+                    </div>
+                {% endif %}
+                
+                {% if related_students or page.related_links %}
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    </div>
+                {% endif %}
+
+            </section>
+
+            {% if related_students or page.related_links %}
+                <section class="section section--top-space bg bg--light">
+                    {% if related_students %}
+                        {% include "patterns/organisms/student-listing/student-listing-api.html" with student_listing=related_students %}
+                    {% endif %}
+
+                    {% if page.related_links %}
+                        {% include "patterns/organisms/related-links/related-links.html" with related_links=page.related_links title="External links" %}
+                    {% endif %}
+                </section>
+            {% endif %}
+
+        </div>
+
+    </div>
+{% endblock %}

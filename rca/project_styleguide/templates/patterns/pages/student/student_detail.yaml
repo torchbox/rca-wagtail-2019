@@ -1,0 +1,153 @@
+context:
+  page:
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: More about the RCA
+      - is_root: false
+        depth: 3
+        title: Our Students
+    profile_image: true
+    staff_title: Professor
+    first_name: Katrine
+    last_name: Hesseldahl
+    profile_type: Current PhD student
+    job_title:
+      - department: Intelligent Mobility
+        link: '#'
+        titles:
+          - { label: 'Chair and Director' }
+          - { label: 'Dean of School Mobility' }
+          - { label: 'Head of Programmes' }
+    email: imdc@rca.ac.uk
+    introduction: 'Director of his own practice, Dale has worked on projects of all scales, public and private, around the world.'
+    body: '<p>Dale is an international opinion former and commentator and media persona on design the automotive and transport industry.</p><p>He is a multi award-winning designer, academic leader and a researcher and is regularly cited as one of the most influential and important figures in the automotive industry.</p><p>He is committed to design education and is always keen to raise the intellectual debate about vehicle and automotive design and is currently engaged with a major show at London’s Victoria and Albert museum celebrating the origins processes and history of car design.</p>'
+    more_information:
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Before you apply: Application'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Before you apply: Portfolio'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Personal and organisational benefits'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'How you’ll learn'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'What you’ll learn'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Who should attend'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Locations & facilities'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'The RCA approach to Design Thinking & Innovation'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'About the Design Museum'
+    gallery:
+      - slide:
+        value:
+          title: 'Albertopolissss 550-metre pedestrian tunnel'
+          author: 'Chris Lawton'
+          link: 'http://www.torchbox.com'
+          course: 'Architecture'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel'
+          author: 'Nick Lee'
+          link: 'http://www.torchbox.com'
+          course: 'Design'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel'
+          author: 'Chris Lawton'
+          link: 'http://www.torchbox.com'
+          course: 'Architecture'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel'
+          author: 'Kevin Howbrook'
+          link: 'http://www.torchbox.com'
+          course: 'Design'
+    research_highlights:
+      - slide:
+        meta: 'School of Design'
+        title: 'Advanced Taxi for London'
+        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges.'
+        image: true
+        link: '#'
+      - slide:
+        meta: 'Alumni Story'
+        title: 'A place with a real focus on making'
+        description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
+        image: true
+        link: '#'
+      - slide:
+        meta: 'Alumni Story'
+        title: 'Designing the imposible for NASA'
+        description: 'Creating world class experiences that started at the RCA'
+        image: true
+        link: '#'
+    related_links:
+      - item:
+        value: { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
+      - item:
+        value: { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
+      - item:
+        value: { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
+
+  areas:
+    - item:
+      area_of_expertise: { title: 'AI', link: '#' }
+    - item:
+      area_of_expertise: { title: 'Robotics', link: '#' }
+    - item:
+      area_of_expertise: { title: 'Vehicle Design', link: '#' }
+  related_schools:
+    - page: { title: 'School of Communication', url: '#' }
+  related_students:
+    - {
+        first_name: 'Nelly',
+        surname: 'Abbott',
+        meta: Current,
+        link: '#',
+        image_url: 'https://placekitten.com/120/120',
+      }
+    - {
+        first_name: 'Nelly',
+        surname: 'Abbott',
+        meta: Current,
+        link: '#',
+        image_url: 'https://placekitten.com/120/120',
+      }
+    - {
+        first_name: 'Nelly',
+        surname: 'Cholmondeley-Cale',
+        meta: Current,
+        link: '#',
+        image_url: 'https://placekitten.com/120/120',
+      }
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    - {
+        first_name: 'Yancy',
+        surname: 'Wolfeschlegelsteinhausenbergerdorffd',
+        meta: Current,
+        link: '#',
+        image_url: 'https://placekitten.com/120/120',
+      }
