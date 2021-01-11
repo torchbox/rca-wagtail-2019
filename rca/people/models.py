@@ -27,6 +27,7 @@ from wagtail.search import index
 
 from rca.api_content.content import CantPullFromRcaApi, pull_related_students
 from rca.people.filter import SchoolCentreDirectorateFilter
+from rca.programmes.models import ProgrammePage
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import AccordionBlockWithTitle, GalleryBlock, LinkBlock
@@ -396,7 +397,7 @@ class StaffPage(BasePage):
         return expertise
 
     def get_directorate_linked_filters(self):
-        """For the expertise taxonomy thats listed out in key details,
+        """For the directorate taxonomy thats listed out in key details,
         they need to link to the parent staff picker page with a filter pre
         selected"""
 
@@ -407,11 +408,12 @@ class StaffPage(BasePage):
                 directorates.append(
                     {
                         "title": i.directorate.title,
-                        "link": f"{parent.url}?directorate={i.directorate.slug}",
+                        "link": f"{parent.url}?school-centre-or-area={i.directorate.slug}",
                     }
                 )
             else:
                 directorates.append({"title": i.directorate.title})
+        print(directorates)
         return directorates
 
     def get_context(self, request, *args, **kwargs):
@@ -475,6 +477,18 @@ class StaffIndexPage(BasePage):
                         "related_directorates__directorate_id", flat=True
                     )
                 ),
+            ),
+            TabStyleFilter(
+                "Programme",
+                queryset=(
+                    ProgrammePage.objects.live().filter(
+                        id__in=base_queryset.values_list(
+                            "roles__programme_id", flat=True
+                        )
+                    )
+                ),
+                filter_by="roles__programme__slug__in",
+                option_value_field="slug",
             ),
             TabStyleFilter(
                 "Expertise",
