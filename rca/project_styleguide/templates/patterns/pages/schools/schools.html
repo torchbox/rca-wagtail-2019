@@ -72,10 +72,10 @@
 
         <div class="page__content schools landing-page">
 
-            {% include "patterns/molecules/tab-nav/tab-nav.html" with modifier="bg bg--dark" sticky=True tabs=page.tabs %}
+            {% include "patterns/molecules/jump-nav/jump-nav.html" with modifier="bg bg--dark" sticky=True item=page.tabs %}
 
             {# About #}
-            <section class="schools__about section section--start bg bg--dark" id="about">
+            <section class="schools__about section section--start bg bg--dark anchor-heading" id="about">
 
                 {% if about_teasers %}
                 <div class="section__row section__row--last schools__about--teasers">
@@ -155,7 +155,7 @@
             {% endif %}
 
             {# Research #}
-            <section class="schools__research section {% if stats_block %}section--start {% else %}section--top-space-small {% endif %} bg bg--dark" id="our-research">
+            <section class="schools__research section {% if stats_block %}section--start {% else %}section--top-space-small {% endif %} bg bg--dark anchor-heading" id="our-research">
 
                 <div class="section__row section__row--last-small">
                     <div class="section__header section__header--bottom-space grid">
@@ -214,7 +214,7 @@
             </section>
 
             {# Programmes #}
-            <section class="schools__programmes section section--start bg bg--light" id="programmes-short-courses">
+            <section class="schools__programmes section section--start bg bg--light anchor-heading" id="programmes-short-courses">
                 <div class="section__row section__row--last-small">
                     <div class="section__header grid">
                         <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
@@ -256,7 +256,7 @@
             </section>
 
             {# Staff #} 
-            <section class="schools__staff section section--start section--end bg bg--dark" id="staff">
+            <section class="schools__staff section section--start section--end bg bg--dark anchor-heading" id="staff">
 
                 <div class="section__row {% if staff_links or staff_cta %}section__row--last-small{% else %}section__row--last-large{% endif %}">
                     <div class="section__header section__header--bottom-space grid">
@@ -284,7 +284,7 @@
                     <div class="section__notch section__notch--small-med-only">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
-                    <div class="contact-anchor" id="contact"></div>
+                    <div class="contact-anchor anchor-heading" id="contact" ></div>
                     <div class="section__row section__row--first">
                         {% include "patterns/organisms/contact/contact.html" with heading="Contact us" text="Get in touch if you’d like to find out more or have any questions about working with the RCA." image=page.contact_image %}
                     </div>
