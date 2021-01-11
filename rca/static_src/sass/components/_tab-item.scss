@@ -8,14 +8,17 @@
     text-decoration: none; // overriding mixin
 
     &:last-child {
-        padding-right: ($gutter);
+        display: inline-block;
+        border-right-width: $gutter;
+        border-right-color: transparent;
+        border-right-style: solid;
 
         @include media-query(medium) {
-            padding-right: ($gutter * 3);
+            border-right-width: ($gutter * 3);
         }
 
         @include media-query(large) {
-            padding-right: 0;
+            border-right-width: 0;
         }
     }
 
