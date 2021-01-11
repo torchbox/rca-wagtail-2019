@@ -1,5 +1,6 @@
 <div class="jump-nav tab-nav {{ modifier }} {% if sticky %}sticky{% endif %}">
     <div class="jump-nav__layout tab-nav__layout grid">
+        {% if title %}
         <div class="jump-nav__heading">
             <div class="jump-nav__heading-label">
                 <span class="jump-nav__pre-stuck-heading">Jump to</span>
@@ -9,6 +10,7 @@
                 <use xlink:href="#arrow"></use>
             </svg>
         </div>
+        {% endif %}
         <nav class="jump-nav__container tab-nav__container" data-anchor-nav>
             {% for button in item %}
                 <a class="tab-item" href="#{{ button.title|slugify }}" aria-selected="true">{{ button.title }}</a>

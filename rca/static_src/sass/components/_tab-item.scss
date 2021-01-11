@@ -29,7 +29,8 @@
     .bg--dark & {
         color: $color--meta-darkbg;
 
-        &:hover {
+        &:hover,
+        &.active {
             color: $color--white;
         }
 
@@ -40,16 +41,13 @@
                 color: $color--white;
             }
         }
-
-        &.active {
-            color: $color--white;
-        }
     }
 
     .bg--light & {
         color: $color--meta-lightbg;
 
-        &:hover {
+        &:hover,
+        &.active {
             color: $color--black;
         }
 
@@ -59,10 +57,6 @@
             &:hover {
                 color: $color--black;
             }
-        }
-
-        &.active {
-            color: $color--black;
         }
     }
 
