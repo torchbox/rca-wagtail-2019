@@ -4,7 +4,7 @@
             {% for role in group.items %}
                 <li class="job-titles__title">{{ role }}</li>
             {% endfor %}
-            {% if group.link or ground.label %}
+            {% if group.link or group.label %}
                 <li class="job-titles__department">
                 {% if group.link %}
                     <a class="body body--two link link--tertiary" href="{{ group.link }}">{{ group.label }}</a>
