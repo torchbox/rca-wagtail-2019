@@ -17,10 +17,11 @@ from wagtail.admin.edit_handlers import (
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
+    PageChooserPanel,
     StreamFieldPanel,
     TabbedInterface,
 )
-from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.fields import RichTextField, StreamBlock, StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -32,7 +33,7 @@ from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import AccordionBlockWithTitle, GalleryBlock, LinkBlock
 from rca.utils.filter import TabStyleFilter
-from rca.utils.models import BasePage
+from rca.utils.models import BasePage, SluggedTaxonomy
 
 
 class AreaOfExpertise(models.Model):
@@ -157,6 +158,12 @@ class StaffPage(BasePage):
             "the number from the URL, E.G, /admin/pages/3365/edit"
         ),
     )
+
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+        index.SearchField("first_name"),
+        index.SearchField("last_name"),
+    ]
 
     key_details_panels = [
         InlinePanel(
@@ -501,3 +508,117 @@ class StaffIndexPage(BasePage):
             result_count=paginator.count,
         )
         return context
+
+
+class StudentType(SluggedTaxonomy):
+    pass
+
+
+class StudentPageStudentTypePlacement(models.Model):
+    page = ParentalKey("StudentPage", related_name="student_types")
+    type = models.ForeignKey(
+        StudentType,
+        on_delete=models.CASCADE,
+        related_name="related_student",
+        verbose_name=_("Student type"),
+    )
+    panels = [FieldPanel("type")]
+
+
+class StudentPageAreOfExpertisePlacement(models.Model):
+    page = ParentalKey("StudentPage", related_name="related_area_of_expertise")
+    area_of_expertise = models.ForeignKey(
+        AreaOfExpertise,
+        on_delete=models.CASCADE,
+        related_name="related_student",
+        verbose_name=_("Areas of expertise"),
+    )
+    panels = [FieldPanel("area_of_expertise")]
+
+
+class StudentPage(BasePage):
+    # TODO, update template when it's there
+    template = "patterns/pages/staff/staff_detail.html"
+    parent_page_types = ["people.StudentIndexPage"]
+
+    student_title = models.CharField(
+        max_length=255, help_text=_("E.G Dr, Professor"), blank=True
+    )
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    profile_image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        related_name="+",
+        on_delete=models.SET_NULL,
+    )
+
+    email = models.EmailField(blank=True)
+    introduction = models.TextField(blank=True)
+    bio = RichTextField(blank=True, features=["link"], help_text="Add a detail summary")
+    social_links = StreamField(
+        StreamBlock([("Link", LinkBlock())], max_num=5, required=False, blank=True)
+    )
+    programme = models.ForeignKey(
+        "programmes.ProgrammePage", on_delete=models.SET_NULL, null=True, blank=True,
+    )
+
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+        index.SearchField("first_name"),
+        index.SearchField("last_name"),
+        index.SearchField("bio"),
+    ]
+
+    content_panels = BasePage.content_panels + [
+        MultiFieldPanel(
+            [
+                FieldPanel("student_title"),
+                FieldPanel("first_name"),
+                FieldPanel("last_name"),
+                ImageChooserPanel("profile_image"),
+            ],
+            heading="Details",
+        ),
+        MultiFieldPanel([FieldPanel("email")], heading="Contact information"),
+        PageChooserPanel("programme"),
+        FieldPanel("introduction"),
+        FieldPanel("bio"),
+    ]
+    key_details_panels = [
+        InlinePanel("student_types", label="Student type"),
+        InlinePanel("related_area_of_expertise", label="Areas of Expertise"),
+        InlinePanel(
+            "related_research_centre_pages", label=_("Related Research Centres ")
+        ),
+        InlinePanel("related_schools", label=_("Related Schools")),
+        StreamFieldPanel("social_links"),
+    ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading="Content"),
+            ObjectList(key_details_panels, heading="Key details"),
+            ObjectList(BasePage.promote_panels, heading="Promote"),
+            ObjectList(BasePage.settings_panels, heading="Settings"),
+        ]
+    )
+
+    @property
+    def name(self):
+        parts = (self.student_title, self.first_name, self.last_name)
+        return " ".join(p for p in parts if p)
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        return context
+
+
+class StudentIndexPage(BasePage):
+    # TODO, update template when it's there
+    subpage_types = ["people.StudentPage"]
+    template = "patterns/pages/staff/staff_index.html"
+    introduction = RichTextField(blank=False, features=["link"])
+    content_panels = BasePage.content_panels + [FieldPanel("introduction")]
+    search_fields = BasePage.search_fields + [index.SearchField("introduction")]
