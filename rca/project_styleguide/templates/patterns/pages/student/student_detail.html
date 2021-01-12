@@ -68,6 +68,14 @@
                             <div class="staff-body__description rich-text">
                                 {{ page.body|safe }}
                             </div>
+                            {% if page.thesis %}
+                            <div class="staff-body__action">
+                                <a class="link link--primary link--link body body--two" href="{{ page.thesis }}">
+                                    <span class="link__label">See final thesis</span>
+                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                </a>
+                            </div>
+                            {% endif %}
                         </div>
                         <div class="staff-body__key-details">
                         {% include "patterns/molecules/key-details/key-details--student.html" with areas=areas supervisors=supervisors personal_website=personal_website %}

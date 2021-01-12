@@ -22,6 +22,7 @@ context:
     email: imdc@rca.ac.uk
     introduction: "Katrine's work aims to intrigue, interest and invite people to take steps in the direction towards a more sustainable, fair, fun and beautiful future for our society."
     body: "<p>Katrine's work aims to intrigue, interest and invite people to take steps in the direction towards a more sustainable, fair, fun and beautiful future for our society.</p><p>She is deeply concerned with the scale and complexity of the problems we are facing today, e.g. climate changes, overuse of resources, social inequality, and feels a natural responsibility to be part of creating solutions for these problems.</p>"
+    thesis: '#'
     more_information:
       - path:
         value:
