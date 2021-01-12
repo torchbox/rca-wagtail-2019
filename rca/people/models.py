@@ -389,7 +389,7 @@ class StaffPage(BasePage):
                 expertise.append(
                     {
                         "title": i.area_of_expertise.title,
-                        "link": f"{parent.url}?area={i.area_of_expertise.slug}",
+                        "link": f"{parent.url}?expertise={i.area_of_expertise.slug}",
                     }
                 )
             else:
@@ -408,7 +408,7 @@ class StaffPage(BasePage):
                 directorates.append(
                     {
                         "title": i.directorate.title,
-                        "link": f"{parent.url}?school-centre-or-area={i.directorate.slug}",
+                        "link": f"{parent.url}?school-centre-or-area=d-{i.directorate.slug}",
                     }
                 )
             else:
