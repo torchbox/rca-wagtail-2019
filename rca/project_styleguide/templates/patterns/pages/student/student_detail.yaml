@@ -20,45 +20,41 @@ context:
           - { label: 'Dean of School Mobility' }
           - { label: 'Head of Programmes' }
     email: imdc@rca.ac.uk
-    introduction: 'Director of his own practice, Dale has worked on projects of all scales, public and private, around the world.'
-    body: '<p>Dale is an international opinion former and commentator and media persona on design the automotive and transport industry.</p><p>He is a multi award-winning designer, academic leader and a researcher and is regularly cited as one of the most influential and important figures in the automotive industry.</p><p>He is committed to design education and is always keen to raise the intellectual debate about vehicle and automotive design and is currently engaged with a major show at London’s Victoria and Albert museum celebrating the origins processes and history of car design.</p>'
+    introduction: "Katrine's work aims to intrigue, interest and invite people to take steps in the direction towards a more sustainable, fair, fun and beautiful future for our society."
+    body: "<p>Katrine's work aims to intrigue, interest and invite people to take steps in the direction towards a more sustainable, fair, fun and beautiful future for our society.</p><p>She is deeply concerned with the scale and complexity of the problems we are facing today, e.g. climate changes, overuse of resources, social inequality, and feels a natural responsibility to be part of creating solutions for these problems.</p>"
     more_information:
       - path:
         value:
           body: 'TBC'
-          heading: 'Before you apply: Application'
+          heading: 'PhD'
       - path:
         value:
           body: 'TBC'
-          heading: 'Before you apply: Portfolio'
+          heading: 'Funding'
       - path:
         value:
           body: 'TBC'
-          heading: 'Personal and organisational benefits'
+          heading: 'Degrees'
       - path:
         value:
           body: 'TBC'
-          heading: 'How you’ll learn'
+          heading: 'Experience'
       - path:
         value:
           body: 'TBC'
-          heading: 'What you’ll learn'
+          heading: 'Exhibitions'
       - path:
         value:
           body: 'TBC'
-          heading: 'Who should attend'
+          heading: 'Awards'
       - path:
         value:
           body: 'TBC'
-          heading: 'Locations & facilities'
+          heading: 'Conferences'
       - path:
         value:
           body: 'TBC'
-          heading: 'The RCA approach to Design Thinking & Innovation'
-      - path:
-        value:
-          body: 'TBC'
-          heading: 'About the Design Museum'
+          heading: 'Publications'
     gallery:
       - slide:
         value:
@@ -84,70 +80,45 @@ context:
           author: 'Kevin Howbrook'
           link: 'http://www.torchbox.com'
           course: 'Design'
-    research_highlights:
-      - slide:
-        meta: 'School of Design'
-        title: 'Advanced Taxi for London'
-        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges.'
-        image: true
-        link: '#'
-      - slide:
-        meta: 'Alumni Story'
-        title: 'A place with a real focus on making'
-        description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
-        image: true
-        link: '#'
-      - slide:
-        meta: 'Alumni Story'
-        title: 'Designing the imposible for NASA'
-        description: 'Creating world class experiences that started at the RCA'
-        image: true
-        link: '#'
     related_links:
       - item:
-        value: { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
+        value: { text: 'Instagram feed', href: 'http://www.google.com' }
       - item:
-        value: { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
+        value: { text: 'Linkedin Profile', href: 'http://www.google.com' }
       - item:
-        value: { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
-
+        value: { text: 'Twitter profile', href: 'http://www.google.com' }
+  research_highlights:
+    - slide:
+      meta: 'School of Design'
+      title: 'Advanced Taxi for London'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges.'
+      image: true
+      link: '#'
+    - slide:
+      meta: 'Alumni Story'
+      title: 'A place with a real focus on making'
+      description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
+      image: true
+      link: '#'
+    - slide:
+      meta: 'Alumni Story'
+      title: 'Designing the imposible for NASA'
+      description: 'Creating world class experiences that started at the RCA'
+      image: true
+      link: '#'
+  roles:
+    - items:
+        - Materials Science MPhil/PhD
   areas:
-    - item:
-      area_of_expertise: { title: 'AI', link: '#' }
-    - item:
-      area_of_expertise: { title: 'Robotics', link: '#' }
-    - item:
-      area_of_expertise: { title: 'Vehicle Design', link: '#' }
+    - { title: 'Creative industries', link: '#' }
+    - { title: 'New materials', link: '#' }
+    - { title: 'Sustainable society', link: '#' }
   related_schools:
-    - page: { title: 'School of Communication', url: '#' }
-  related_students:
+    - page: { title: 'Materials Science Research Centre', url: '#' }
+  supervisors:
+    - { title: 'Dr John Smith', link: '#' }
+  personal_website:
     - {
-        first_name: 'Nelly',
-        surname: 'Abbott',
-        meta: Current,
-        link: '#',
-        image_url: 'https://placekitten.com/120/120',
-      }
-    - {
-        first_name: 'Nelly',
-        surname: 'Abbott',
-        meta: Current,
-        link: '#',
-        image_url: 'https://placekitten.com/120/120',
-      }
-    - {
-        first_name: 'Nelly',
-        surname: 'Cholmondeley-Cale',
-        meta: Current,
-        link: '#',
-        image_url: 'https://placekitten.com/120/120',
-      }
-    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
-    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
-    - {
-        first_name: 'Yancy',
-        surname: 'Wolfeschlegelsteinhausenbergerdorffd',
-        meta: Current,
-        link: '#',
-        image_url: 'https://placekitten.com/120/120',
+        title: 'katrinehesseldahl.co.uk',
+        link: 'https://katrinehesseldahl.co.uk',
       }
