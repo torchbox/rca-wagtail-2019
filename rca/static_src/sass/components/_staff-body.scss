@@ -21,4 +21,10 @@
             grid-column: 5 / span 1;
         }
     }
+
+    &__action {
+        @include media-query(large) {
+            padding-top: ($gutter * 2);
+        }
+    }
 }
