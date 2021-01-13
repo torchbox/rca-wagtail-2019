@@ -34,9 +34,7 @@ rules:
         - media-query
   no-warn: 0
   no-debug: 0
-  indentation:
-    - 1
-    - size: 4
+  indentation: 0
   variable-for-property:
     - 0
   no-css-comments: 0
