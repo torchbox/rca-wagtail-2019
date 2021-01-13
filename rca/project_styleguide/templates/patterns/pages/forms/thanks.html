@@ -6,26 +6,39 @@
     <div class="page page--no-hero">
 
         <div class="page__header bg bg--dark">
-            <h1 class="heading heading--display-two">{{ page.title }}</h1>
-            {% if page.introduction %}<p class="introduction">{{ page.introduction }}</p>{% endif %}
+            {% if page.title %}
+            <div class="title-area title-area--guide grid">
+                <div class="title-area__content">
+                    <h1 class="title-area__heading heading heading--display-two">
+                        {{ page.title }}
+                    </h1>
+                </div>
+            </div>
+            {% endif %}
+            {% if page.introduction %}
+            <div class="introduction grid">
+                <p class="introduction__text section__heading heading heading--five">
+                    {{ page.introduction }}
+                </p>
+            </div>
+            {% endif %}
         </div>
 
         <div class="page__content">
 
             <section class="section section--start bg bg--dark">
-
-                {% if about_teasers %}
-                <div class="section__row section__row--last">
+                {% if page.teasers %}
+                <div class="section__row">
                     <div class="section__header section__header--bottom-space grid">
-                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ page.sections.about.title|default:"Find out more" }}</h2>
-                        {% if page.sections.about.introduction %}
+                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--three">{{ page.teasers.title|default:"Find out more" }}</h2>
+                        {% if page.teasers.introduction %}
                             <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page.sections.about.introduction }}
+                                {{ page.teasers.introduction }}
                             </div>
                         {% endif %}
                     </div>
                     <div class="section__content grid">
-                        {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=about_teasers modifier="no-margin" %}
+                        {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=page.teasers.items modifier="no-margin" %}
                     </div>
                 </div>
                 {% endif %}
