@@ -228,8 +228,13 @@ class StaffPage(BasePage):
             [InlinePanel("related_students_manual"), FieldPanel("legacy_staff_id")],
             heading=_("Related Students"),
         ),
-        FieldPanel("more_information_title"),
-        StreamFieldPanel("more_information"),
+        MultiFieldPanel(
+            [
+                FieldPanel("more_information_title"),
+                StreamFieldPanel("more_information"),
+            ],
+            heading="More information",
+        ),
         StreamFieldPanel("related_links"),
     ]
 
@@ -551,6 +556,15 @@ class StudentPage(BasePage):
     gallery = StreamField(
         [("slide", GalleryBlock())], blank=True, verbose_name=_("Gallery")
     )
+    more_information_title = models.CharField(max_length=80, default="More information")
+    more_information = StreamField(
+        [("accordion_block", AccordionBlockWithTitle())],
+        blank=True,
+        verbose_name=_("More information"),
+    )
+    related_links = StreamField(
+        [("link", LinkBlock())], blank=True, verbose_name="Related Links"
+    )
 
     search_fields = BasePage.search_fields + [
         index.SearchField("introduction"),
@@ -583,6 +597,14 @@ class StudentPage(BasePage):
             heading=_("Research highlights gallery"),
         ),
         StreamFieldPanel("gallery"),
+        MultiFieldPanel(
+            [
+                FieldPanel("more_information_title"),
+                StreamFieldPanel("more_information"),
+            ],
+            heading="More information",
+        ),
+        StreamFieldPanel("related_links"),
     ]
     key_details_panels = [
         InlinePanel("student_types", label="Student type"),
