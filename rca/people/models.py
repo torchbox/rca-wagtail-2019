@@ -1,13 +1,11 @@
 from collections import defaultdict
 
-from django.apps import apps
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
-from django.db.models import Q
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -29,6 +27,8 @@ from wagtail.search import index
 
 from rca.api_content.content import CantPullFromRcaApi, pull_related_students
 from rca.people.filter import SchoolCentreDirectorateFilter
+from rca.people.formatters import format_research_highlights
+from rca.people.utils import get_staff_research_projects, get_student_research_projects
 from rca.programmes.models import ProgrammePage
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
@@ -247,52 +247,6 @@ class StaffPage(BasePage):
         parts = (self.staff_title, self.first_name, self.last_name)
         return " ".join(p for p in parts if p)
 
-    def get_research_projects(self):
-        """Yields a list combining project pages editorially-selected on the staff page,
-        and those on which the the staff member is listed as lead or a team member
-        """
-        # ProjectPage model loaded like this to avoid circular import error
-        ProjectPage = apps.get_model("projects", "ProjectPage")
-        related_project_page_ids = []
-
-        # First return any editorially-highlighted project pages
-        for p in self.related_project_pages.all():
-            related_project_page_ids.append(p.page.id)
-            yield p.page.specific
-
-        # Then return any other project pages which the staff member leads or is a team member of,
-        # filtering out any of the highlights already output
-        yield from ProjectPage.objects.filter(
-            Q(project_lead__page_id=self.pk) | Q(related_staff__page_id=self.pk)
-        ).exclude(pk__in=related_project_page_ids).order_by(
-            "-first_published_at"
-        ).distinct()
-
-    def format_research_highlights(self):
-        """Internal method for formatting related projects to the correct
-        structure for the gallery template
-
-        Returns:
-            List
-        """
-        items = []
-        for page in self.get_research_projects():
-            meta = None
-            related_school = page.related_school_pages.first()
-            if related_school is not None:
-                meta = related_school.page.title
-
-            items.append(
-                {
-                    "title": page.title,
-                    "link": page.url,
-                    "image": page.hero_image,
-                    "description": page.introduction,
-                    "meta": meta,
-                }
-            )
-        return items
-
     @property
     def related_students_cache_key(self):
         return f"{self.pk}_related_students"
@@ -407,7 +361,8 @@ class StaffPage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["research_highlights"] = self.format_research_highlights()
+        research_pages = get_staff_research_projects(self)
+        context["research_highlights"] = format_research_highlights(research_pages)
         context["areas"] = get_area_linked_filters(page=self)
         context["directorates"] = self.get_directorate_linked_filters()
         context["related_schools"] = self.related_schools.all()
@@ -655,13 +610,16 @@ class StudentPage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+        research_pages = get_student_research_projects(self)
         context["areas"] = get_area_linked_filters(page=self)
+        context["research_highlights"] = format_research_highlights(research_pages)
         context["related_schools"] = self.related_schools.all()
         context["research_centres"] = self.related_research_centre_pages.all()
         return context
 
 
 class StudentIndexPage(BasePage):
+    max_count = 1
     # TODO, update template when it's there
     subpage_types = ["people.StudentPage"]
     template = "patterns/pages/staff/staff_index.html"
