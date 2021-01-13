@@ -2,7 +2,36 @@ context:
   page:
     title: Thanks
     introduction: Your enquiry about an Architecture MA has now been received and we will respond to you within 48 hours.
-
+  about_teasers:
+    - {
+        title: 'Innovation RCA',
+        link: '#',
+        meta: false,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        image: true,
+      }
+    - {
+        title: 'Consultancy & knowledge exchange',
+        link: '#',
+        meta: false,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        image: true,
+      }
+    - {
+        title: 'Custom executive education',
+        link: '#',
+        meta: false,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        image: true,
+      }
+  cta:
+    title: Lab. for Design & Machine Learning
+    description: In addition to the research themes, the School of Architecture created the Laboratory for Design & Machine Learning to conduct research into new interdisciplinary forms of designing, evaluation, and policymaking.
+    action: Find out more
+    link: '#'
 tags:
   pageurl:
     page:
