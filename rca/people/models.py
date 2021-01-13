@@ -529,6 +529,13 @@ class StudentType(SluggedTaxonomy):
     pass
 
 
+class RelatedStudentPage(Orderable):
+    source_page = ParentalKey(Page, related_name="related_student_pages")
+    page = models.ForeignKey("people.StudentPage", on_delete=models.CASCADE)
+
+    panels = [PageChooserPanel("page")]
+
+
 class StudentPageStudentTypePlacement(models.Model):
     page = ParentalKey("StudentPage", related_name="student_types")
     type = models.ForeignKey(
@@ -579,6 +586,16 @@ class StudentPage(BasePage):
     programme = models.ForeignKey(
         "programmes.ProgrammePage", on_delete=models.SET_NULL, null=True, blank=True,
     )
+    research_highlights_title = models.CharField(
+        max_length=120,
+        blank=True,
+        help_text=_(
+            "The title value displayed above the Research highlights gallery showing project pages"
+        ),
+    )
+    gallery = StreamField(
+        [("slide", GalleryBlock())], blank=True, verbose_name=_("Gallery")
+    )
 
     search_fields = BasePage.search_fields + [
         index.SearchField("introduction"),
@@ -601,6 +618,16 @@ class StudentPage(BasePage):
         PageChooserPanel("programme"),
         FieldPanel("introduction"),
         FieldPanel("bio"),
+        MultiFieldPanel(
+            [
+                FieldPanel("research_highlights_title"),
+                InlinePanel(
+                    "related_project_pages", label=_("Project pages"), max_num=8
+                ),
+            ],
+            heading=_("Research highlights gallery"),
+        ),
+        StreamFieldPanel("gallery"),
     ]
     key_details_panels = [
         InlinePanel("student_types", label="Student type"),
