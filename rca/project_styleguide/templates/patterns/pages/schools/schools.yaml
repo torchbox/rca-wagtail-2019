@@ -14,9 +14,9 @@ context:
     next_open_day_end_date: !!timestamp '2020-12-15 2:00:00'
     get_in_touch: <p>0123456789</p><p><a href="">email@rca.ac.uk</a></p>
     social_links:
-      - '<a>Facebook</a>'
-      - '<a>Twitter</a>'
-      - '<a>Instagram</a>'
+      - '<a href="#" class="link link--tertiary link--link link--external" target="_blank"><span class="link__label">Facebook</span><svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg></a>'
+      - '<a href="#" class="link link--tertiary link--link link--external" target="_blank"><span class="link__label">Twitter</span><svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg></a>'
+      - '<a href="#" class="link link--tertiary link--link link--external" target="_blank"><span class="link__label">Instagram</span><svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg></a>'
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     video_caption: Watch the course introduction
     body:
