@@ -12,6 +12,7 @@
     background-color: transparent;
     width: 100%;
     text-align: left;
+    cursor: pointer;
     transition: border-color $transition;
 
     @include media-query(medium) {
