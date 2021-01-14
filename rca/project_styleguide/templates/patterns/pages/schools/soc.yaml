@@ -18,12 +18,13 @@ context:
     video: 'https://www.youtube.com/watch?v=hEV0YUfz52s&list=PLk-Jp7vRQvwNQ_B4fvlPpDcudkDtjItY9&index=2'
     video_caption: Welcome to the School
     body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+    research_projects_title: Our research
+    research_projects_text: We explore how communication practices can help better understand and positively change the terms and narratives of contemporary communication.
     sections:
       about:
         title: What makes us different?
         introduction: We teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs.
       research:
-        introduction: We explore how communication practices can help better understand and positively change the terms and narratives of contemporary communication.
         link: https://www.rca.ac.uk/study/schools/school-of-communication/communication-research-statement/
       programmes:
         introduction: We offer a range of Graduate Diploma, MA, MRes, MPhil and PhD degree programmes across the art and design disciplines.
@@ -56,6 +57,14 @@ context:
             title: 'ICRAM'
             url: '#'
           image: true
+    external_links_heading: Also...
+    external_links:
+      - item:
+        value: { text: 'Research students', href: '#' }
+      - item:
+        value: { text: 'Research projects', href: '#' }
+      - item:
+        value: { text: 'Communication Practices site', href: '#' }
   hero_image:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
@@ -221,6 +230,7 @@ context:
       image: true
       link: '#'
   student_research:
+    title: PhD student rResearch
     slides:
       - slide:
         value:
@@ -260,15 +270,6 @@ context:
         title: 'Dubit'
         image: true
         link: '#'
-  research_links:
-    title: Also…
-    links:
-      - item:
-        value: { text: 'Research students', href: '#' }
-      - item:
-        value: { text: 'Research projects', href: '#' }
-      - item:
-        value: { text: 'Communication Practices site', href: '#' }
   research_cta: False
   programmes_cta:
     title: Custom executive education
