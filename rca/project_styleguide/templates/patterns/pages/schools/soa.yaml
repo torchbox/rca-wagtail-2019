@@ -76,6 +76,28 @@ context:
     related_programmes_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
     related_short_courses_title: Our short courses
     related_short_courses_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    legacy_news_and_events:
+      - item:
+        meta: 'Event'
+        title: 'Designs for Real Life'
+        description: '6 July 2019 — 4 August 2019'
+        link: '#'
+        image: //placekitten.com/526/402
+        person: false
+      - item:
+        meta: 'Event'
+        title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
+        description: '23 November 2019'
+        link: '#'
+        image: false
+        person: false
+      - item:
+        meta: 'News'
+        title: 'Show 2018: School of Architecture: Making Space for the Future'
+        description: '23 November 2019'
+        link: '#'
+        image: //placekitten.com/251/142
+        person: false
   hero_image:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
@@ -114,28 +136,6 @@ context:
             ',
           image: true,
         }
-  news_and_events:
-    - item:
-      meta: 'News'
-      title: 'RCA Community Engagement project brings a splash of colour to Wandsworth'
-      description: '24 Nov 2020'
-      link: 'https://www.rca.ac.uk/news-and-events/news/rca-community-engagement-project-brings-splash-colour-wandsworth/'
-      image: //placekitten.com/526/402
-      person: false
-    - item:
-      meta: 'Event'
-      title: "RCA Architect Wins Architects' Journal Student Prize 2020"
-      description: '1 Oct 2020'
-      link: 'https://www.rca.ac.uk/news-and-events/news/rca-architect-wins-architects-journal-student-prize-2020/'
-      image: false
-      person: false
-    - item:
-      meta: 'Event'
-      title: 'Amateur Architecture: Possibilities of rural-urban co-existence in China — part of Co-liberation: International Lecture Series'
-      description: '27 Nov 2020'
-      link: 'https://www.rca.ac.uk/news-and-events/events/amateur-architecture-possibilities-rural-urban-co-existence-china-part-co-liberation-international-lecture-series/'
-      image: //placekitten.com/251/142
-      person: false
   related_programmes:
     - item:
       link:

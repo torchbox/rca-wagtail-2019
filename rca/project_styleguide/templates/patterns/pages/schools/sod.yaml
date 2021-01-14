@@ -71,6 +71,28 @@ context:
     related_programmes_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
     related_short_courses_title: Our short courses
     related_short_courses_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    legacy_news_and_events:
+      - item:
+        meta: 'News'
+        title: 'Textiles graduate wins the Camden Art Centre Emerging Artist Prize with Frieze'
+        description: '15 Oct 2020'
+        link: 'https://www.rca.ac.uk/news-and-events/news/textiles-graduate-wins-camden-art-centre-emerging-artist-prize-frieze/'
+        image: //placekitten.com/526/402
+        person: false
+      - item:
+        meta: 'News'
+        title: 'InnovationRCA start-up Orbel Health helps healthcare workers and NFL players stay safe'
+        description: '9 Oct 2020'
+        link: 'https://www.rca.ac.uk/news-and-events/news/innovationrca-start-orbel-health-helps-healthcare-workers-and-nfl-players-stay-safe/'
+        image: false
+        person: false
+      - item:
+        meta: 'Event'
+        title: 'Design From More Than One Perspective: Viewpoints/Standpoints/Positions'
+        description: '4 Nov 2020'
+        link: 'https://www.rca.ac.uk/news-and-events/events/design-more-one-perspective-viewpointsstandpointspositions/'
+        image: //placekitten.com/251/142
+        person: false
   hero_image:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
@@ -90,28 +112,6 @@ context:
           description: 'Programmes collaborate and innovate with industry partners and also across subject areas to allow strategic opportunities for multidisciplinary teaching and project development to enhance and ensure student mobility, independent learning and interdisciplinary activity. ',
           image: true,
         }
-  news_and_events:
-    - item:
-      meta: 'News'
-      title: 'Textiles graduate wins the Camden Art Centre Emerging Artist Prize with Frieze'
-      description: '15 Oct 2020'
-      link: 'https://www.rca.ac.uk/news-and-events/news/textiles-graduate-wins-camden-art-centre-emerging-artist-prize-frieze/'
-      image: //placekitten.com/526/402
-      person: false
-    - item:
-      meta: 'News'
-      title: 'InnovationRCA start-up Orbel Health helps healthcare workers and NFL players stay safe'
-      description: '9 Oct 2020'
-      link: 'https://www.rca.ac.uk/news-and-events/news/innovationrca-start-orbel-health-helps-healthcare-workers-and-nfl-players-stay-safe/'
-      image: false
-      person: false
-    - item:
-      meta: 'Event'
-      title: 'Design From More Than One Perspective: Viewpoints/Standpoints/Positions'
-      description: '4 Nov 2020'
-      link: 'https://www.rca.ac.uk/news-and-events/events/design-more-one-perspective-viewpointsstandpointspositions/'
-      image: //placekitten.com/251/142
-      person: false
   related_programmes:
     - item:
       link:

@@ -69,6 +69,28 @@ context:
     related_programmes_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
     related_short_courses_title: Our short courses
     related_short_courses_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    legacy_news_and_events:
+      - item:
+        meta: 'News'
+        title: 'Dr Rathna Ramanathan, Dean of the School of Communication, to stand down'
+        description: '13 Oct 2020'
+        link: 'https://www.rca.ac.uk/news-and-events/news/dr-rathna-ramanathan-dean-school-communication-stand-down/'
+        image: //placekitten.com/526/402
+        person: false
+      - item:
+        meta: 'News'
+        title: 'Dr Danielle Barrios-O’Neill appointed Head of Programme for MA Information Experience Design'
+        description: '6 Oct 2020'
+        link: 'https://www.rca.ac.uk/news-and-events/news/dr-danielle-barrios-oneill-appointed-head-programme-ma-information-experience-design/'
+        image: false
+        person: false
+      - item:
+        meta: 'News'
+        title: 'DRAW Alumni Exhibition Explores the Human Power of Drawing'
+        description: '3 Jul 2018'
+        link: 'https://www.rca.ac.uk/news-and-events/news/draw-alumni-exhibition-explores-human-power-drawing/'
+        image: //placekitten.com/251/142
+        person: false
   hero_image:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
@@ -104,28 +126,6 @@ context:
           description: 'We de-programme, de-mystify, de-compute and re-form. The opportunity for evolving new views of, and for, the world, arise through rigorous approaches to research, critical self-reflection and making. Students are encouraged to explore new territories and responses, often collaboratively across the College and through externally commissioned projects.',
           image: true,
         }
-  news_and_events:
-    - item:
-      meta: 'News'
-      title: 'Dr Rathna Ramanathan, Dean of the School of Communication, to stand down'
-      description: '13 Oct 2020'
-      link: 'https://www.rca.ac.uk/news-and-events/news/dr-rathna-ramanathan-dean-school-communication-stand-down/'
-      image: //placekitten.com/526/402
-      person: false
-    - item:
-      meta: 'News'
-      title: 'Dr Danielle Barrios-O’Neill appointed Head of Programme for MA Information Experience Design'
-      description: '6 Oct 2020'
-      link: 'https://www.rca.ac.uk/news-and-events/news/dr-danielle-barrios-oneill-appointed-head-programme-ma-information-experience-design/'
-      image: false
-      person: false
-    - item:
-      meta: 'News'
-      title: 'DRAW Alumni Exhibition Explores the Human Power of Drawing'
-      description: '3 Jul 2018'
-      link: 'https://www.rca.ac.uk/news-and-events/news/draw-alumni-exhibition-explores-human-power-drawing/'
-      image: //placekitten.com/251/142
-      person: false
   related_programmes:
     - item:
       link:
