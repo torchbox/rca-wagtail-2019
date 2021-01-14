@@ -74,7 +74,7 @@ def format_page_teasers(obj):
                 page = block.value.specific
                 summary = (
                     page.introduction
-                    if hasattr(page, "introduction")
+                    if hasattr(page, "introduction") and page.introduction
                     else page.listing_summary
                 )
                 image = (
