@@ -6,13 +6,22 @@ $color--white: #fff;
 $color--orange: #ff5d1c;
 $color--light-grey: #bbb;
 $color--dark-grey: #676767;
+$color--red: #ff0000;
 
 $color--white-12: rgba($color--white, 0.12);
 $color--white-24: rgba($color--white, 0.24);
+$color--white-65: rgba($color--white, 0.65);
+$color--white-80: rgba($color--white, 0.8);
 $color--black-12: rgba($color--black, 0.12);
 $color--black-24: rgba($color--black, 0.24);
 $color--black-65: rgba($color--black, 0.65);
 $color--black-80: rgba($color--black, 0.8);
+
+$color--form-input-darkbg: #191919;
+$color--form-input-focus-darkbg: #0d0d0d;
+
+$color--form-input-lightbg: #e5e5e5;
+$color--form-input-focus-lightbg: #f2f2f2;
 
 $color--primary: $color--black;
 $color--secondary: $color--white;
