@@ -20,6 +20,17 @@ context:
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     video_caption: Watch the course introduction
     body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+    tabs:
+      - tab:
+        title: About
+      - tab:
+        title: Our research
+      - tab:
+        title: Programmes & Short courses
+      - tab:
+        title: Staff
+      - tab:
+        title: Contact
     research_projects_title: Our research
     research_projects_text: Characterised by its roots in creative and innovative practice, by engagement with partners in business, industry, government and communities.
     sections:
@@ -338,15 +349,19 @@ context:
         image: true
         link: '#'
   programmes_cta:
-    title: Custom executive education
-    description: The RCA delivers senior-level custom executive education programmes for business, government, the public sector and universities globally.
-    action: Browse Executive Education
-    link: '#'
+    - block:
+      value:
+        title: Custom executive education
+        description: The RCA delivers senior-level custom executive education programmes for business, government, the public sector and universities globally.
+        action: Browse Executive Education
+        link: '#'
   staff_cta:
-    title: Meet the RCA
-    description: Meet Dr Godofredo Pereira, Head of Programme for MA Environmental Architecture & MA City Design
-    action: Find out more
-    link: '#'
+    - block:
+      value:
+        title: Meet the RCA
+        description: Meet Dr Godofredo Pereira, Head of Programme for MA Environmental Architecture & MA City Design
+        action: Find out more
+        link: '#'
   staff:
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
