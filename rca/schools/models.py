@@ -158,7 +158,7 @@ class SchoolPageRelatedProjectPage(Orderable):
     panels = [PageChooserPanel("page")]
 
 
-class HomePageStudentStories(models.Model):
+class StudentPageStudentStories(models.Model):
     source_page = ParentalKey("SchoolPage", related_name="student_stories")
     title = models.CharField(max_length=125)
     slides = StreamField(StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1))
@@ -170,7 +170,7 @@ class HomePageStudentStories(models.Model):
 
 
 class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
-    template = "patterns/pages/schools/school_page.html"
+    template = "patterns/pages/schools/schools.html"
     introduction = RichTextField(blank=False, features=["link"])
     introduction_image = models.ForeignKey(
         get_image_model_string(),
