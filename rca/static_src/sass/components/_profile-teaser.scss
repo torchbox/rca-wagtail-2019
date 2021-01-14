@@ -34,7 +34,7 @@
         min-width: 60px;
         height: 60px;
         flex-basis: 60px;
-        transition: opacity $cubic-transition;
+        transition: opacity $transition-cubic;
     }
 
     &__content {
