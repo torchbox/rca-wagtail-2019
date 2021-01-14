@@ -123,7 +123,7 @@ class ShortCourseManualDate(Orderable):
 
 class ShortCoursePage(BasePage):
     template = "patterns/pages/shortcourses/short_course.html"
-
+    parent_page_types = ["programmes.ProgrammeIndexPage"]
     hero_image = models.ForeignKey(
         "images.CustomImage",
         null=True,
