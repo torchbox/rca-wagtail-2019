@@ -1,0 +1,92 @@
+.exceptional-cta {
+    $root: &;
+    @include font-size(s);
+    display: block;
+    position: relative;
+    font-family: $font--secondary;
+    font-weight: $weight--medium;
+    margin-top: ($gutter * 3);
+    border-top: 4px solid $color--tertiary;
+    padding: ($gutter / 2) ($gutter * 3) 0 0;
+    transition: border-color $transition;
+
+    @include media-query(medium) {
+        padding: ($gutter * 0.75) ($gutter * 4) 0 0;
+    }
+
+    @include media-query(large) {
+        border-top: 6px solid $color--tertiary;
+        padding: ($gutter * 1.1) ($gutter * 5) 0 0;
+    }
+
+    &::after {
+        @include z-index(base);
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        content: '';
+        width: 40px;
+        height: 36px;
+        background-color: $color--tertiary;
+        transition: background-color $transition;
+
+        @include media-query(medium) {
+            width: 60px;
+            height: 56px;
+        }
+
+        @include media-query(large) {
+            width: 80px;
+            height: 74px;
+        }
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+        border-color: $color--white;
+
+        &::after {
+            background-color: $color--white;
+        }
+
+        #{$root}__icon {
+            fill: $color--tertiary;
+        }
+    }
+
+    &__icon {
+        @include z-index(overlap);
+        position: absolute;
+        fill: $color--white;
+        right: 12px;
+        top: calc(
+            20px - 8px
+        ); // height of square minus half height of icon and half of border height
+        width: 18px;
+        height: 12px;
+        transform: rotate(-45deg);
+        transition: fill $transition;
+
+        @include media-query(medium) {
+            top: calc(30px - 9px);
+            right: 20px;
+            width: 24px;
+            height: 16px;
+        }
+
+        @include media-query(large) {
+            top: calc(40px - 11px);
+            right: 27px;
+        }
+    }
+
+    .bg--dark & {
+        color: $color--white;
+    }
+
+    .bg--light & {
+        color: $color--black;
+    }
+}
