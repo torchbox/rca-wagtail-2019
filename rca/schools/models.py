@@ -1,6 +1,7 @@
 import random
 from collections import defaultdict
 
+from django.apps import apps
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -413,12 +414,18 @@ class SchoolPage(BasePage):
         Returns:
             List -- of filtered and formatted Programme Pages.
         """
-        from rca.programmes.models import ProgrammePage
+        ProgrammePage = apps.get_model("programmes", "ProgrammePage")
 
         all_programmes = ProgrammePage.objects.live().public()
         return all_programmes.filter(
             related_schools_and_research_pages__page_id=self.id
         )
+
+    def get_programme_index_link(self):
+        ProgrammeIndexPage = apps.get_model("programmes", "ProgrammeIndexPage")
+        programm_index = ProgrammeIndexPage.objects.live().first()
+        if programm_index:
+            return f"{programm_index.get_url()}?category=related_schools_and_research_pages&value={self.pk}-{self.slug}"
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -442,13 +449,16 @@ class SchoolPage(BasePage):
         context["student_research"] = self.get_student_research(
             self.student_research.first(), request
         )
-        # Related programmes and courses
+
         context["related_programmes"] = [
             {
                 "related_items": [
                     page.specific for page in self.get_related_programmes()
                 ],
-                "link": {"url": "#", "title": "see more TODO"},
+                "link": {
+                    "url": self.get_programme_index_link,
+                    "title": "Browse all RCA's programmes",
+                },
             },
         ]
         context["related_short_courses"] = [
@@ -457,7 +467,10 @@ class SchoolPage(BasePage):
                     rel.page.specific
                     for rel in self.related_short_courses.select_related("page")
                 ],
-                "link": {"url": "#", "title": "see more TODO"},
+                "link": {
+                    "url": self.get_programme_index_link,
+                    "title": "View all of our short courses",
+                },
             }
         ]
         # Set the page tab titles for the jump menu

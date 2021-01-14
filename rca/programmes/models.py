@@ -332,11 +332,6 @@ class ProgrammePage(BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-
-    # TODO
-    # Alumni Stories Carousel (api fetch)
-    # Related Content (news and events api fetch)
-
     # Programme Curriculumm
     curriculum_image = models.ForeignKey(
         get_image_model_string(),
@@ -724,6 +719,7 @@ class ProgrammePage(BasePage):
 
 
 class ProgrammeIndexPage(BasePage):
+    max_count = 1
     subpage_types = ["ProgrammePage", "shortcourses.ShortCoursePage"]
     template = "patterns/pages/programmes/programme_index.html"
 
