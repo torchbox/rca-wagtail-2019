@@ -172,7 +172,7 @@
         }
 
         &--drawer {
-            transition: transform $cubic-transition;
+            transition: transform $transition-cubic;
             position: absolute;
             top: 0;
             right: 0;

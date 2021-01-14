@@ -18,7 +18,7 @@
             background-color: $color--tertiary;
             height: 4px;
             opacity: 0;
-            transition: opacity $cubic-transition, transform $cubic-transition;
+            transition: opacity $transition-cubic, transform $transition-cubic;
         }
     }
 
@@ -75,7 +75,7 @@
         height: 46px;
         width: 100%;
         padding-left: 15px;
-        transition: border-color $transition, background-color $cubic-transition;
+        transition: border-color $transition, background-color $transition-cubic;
     }
 
     &__label {
@@ -85,8 +85,8 @@
         display: block;
         padding: 5px 15px;
         transform: translate3d(1px, 10px, 0);
-        transition: transform $cubic-transition, font-size $cubic-transition,
-            background-color $cubic-transition;
+        transition: transform $transition-cubic, font-size $transition-cubic,
+            background-color $transition-cubic;
 
         @include media-query(large) {
             transform: translate3d(1px, 6px, 0);
