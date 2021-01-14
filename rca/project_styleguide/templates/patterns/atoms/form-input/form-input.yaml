@@ -1,0 +1,5 @@
+context:
+  field:
+    label: Standard input
+    errors: false
+    id_for_label: input

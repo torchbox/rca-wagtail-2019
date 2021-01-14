@@ -1,0 +1,5 @@
+context:
+  field:
+    label: Standard input error
+    id_for_label: input-error
+    errors: Required
