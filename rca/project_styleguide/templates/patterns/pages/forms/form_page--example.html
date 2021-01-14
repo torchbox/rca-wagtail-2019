@@ -32,8 +32,8 @@
                         {% include "patterns/atoms/form-input/form-input.html" %}
                         {% include "patterns/atoms/form-input/form-input--error.html" %}
                         {% include "patterns/atoms/form-input/form-input--required.html" %}       
-                        {% include "patterns/atoms/form-input/form-input--help.html" %}   
-                        <input class="form__submit button" type="submit" value="{% if page.action_text %}{{ page.action_text|safe }}{% else %}Submit{% endif %}" />
+                        {% include "patterns/atoms/form-input/form-input--help.html" %}  
+                        {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text="Send your enquiry" button=True %} 
                     </div>
                 </form>
 

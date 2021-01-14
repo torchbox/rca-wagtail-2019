@@ -6,8 +6,10 @@
     font-family: $font--secondary;
     font-weight: $weight--medium;
     margin-top: ($gutter * 3);
+    border: 0;
     border-top: 4px solid $color--tertiary;
     padding: ($gutter / 2) ($gutter * 3) 0 0;
+    background-color: transparent;
     transition: border-color $transition;
 
     @include media-query(medium) {
