@@ -212,46 +212,51 @@
             </section>
 
             {# Programmes #}
-            <section class="schools__programmes section section--start bg bg--light" id="programmes-short-courses">
-                <div class="section__row section__row--last-small">
-                    <div class="section__header grid">
-                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
-                            {{ page.sections.programmes.title|default:"Our programmes" }}
-                        </h2>
-                        {% if page.sections.programmes.introduction %}
-                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page.sections.programmes.introduction }}
+            {% if programmes or short_courses %}
+                <section class="schools__programmes section section--start bg bg--light" id="programmes-short-courses">
+                    {% if programmes %}
+                        <div class="section__row section__row--last-small">
+                            <div class="section__header grid">
+                                <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
+                                    {{ page.sections.programmes.title|default:"Our programmes" }}
+                                </h2>
+                                {% if page.sections.programmes.introduction %}
+                                    <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
+                                        {{ page.sections.programmes.introduction }}
+                                    </div>
+                                {% endif %}
                             </div>
-                        {% endif %}
-                    </div>
-                    <div class="section__content">
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=False related_sections=programmes modifier="after-action related-content--meta-new-line related-content--large related-content--sticky" %}
-                    </div>
-                </div>
-                <div class="section__row">
-                    <div class="section__header grid">
-                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
-                            {{ page.sections.short_courses.title|default:"Our short courses" }}
-                        </h2>
-                        {% if page.sections.short_courses.introduction %}
-                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page.sections.short_courses.introduction }}
+                            <div class="section__content">
+                                {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=False related_sections=programmes modifier="after-action related-content--meta-new-line related-content--large related-content--sticky" %}
                             </div>
-                        {% endif %}
+                        </div>
+                    {% endif %}
+                    {% if short_courses %}
+                        <div class="section__row">
+                            <div class="section__header grid">
+                                <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
+                                    {{ page.sections.short_courses.title|default:"Our short courses" }}
+                                </h2>
+                                {% if page.sections.short_courses.introduction %}
+                                    <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
+                                        {{ page.sections.short_courses.introduction }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="section__content">
+                                {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=False related_sections=short_courses modifier="after-action related-content--meta-new-line" %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=programmes_links  cta=programmes_cta %}
+
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
-                    <div class="section__content">
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=False related_sections=short_courses modifier="after-action related-content--meta-new-line" %}
-                    </div>
-                </div>
 
-                {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=programmes_links  cta=programmes_cta %}
-
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
-                </div>
-
-
-            </section>
+                </section>
+            {% endif %}
 
             {# Staff #}
             <section class="schools__staff section section--start section--end bg bg--dark" id="staff">
