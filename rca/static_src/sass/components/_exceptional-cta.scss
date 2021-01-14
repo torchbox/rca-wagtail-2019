@@ -10,6 +10,8 @@
     border-top: 4px solid $color--tertiary;
     padding: ($gutter / 2) ($gutter * 3) 0 0;
     background-color: transparent;
+    width: 100%;
+    text-align: left;
     transition: border-color $transition;
 
     @include media-query(medium) {

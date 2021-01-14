@@ -29,11 +29,15 @@
         <section class="section section--start bg bg--dark">
                 <form method="post" class="form grid layout">
                     <div class="form__container layout__start-one layout__@large-start-two layout__span-two">
-                        {% include "patterns/atoms/form-input/form-input.html" %}
-                        {% include "patterns/atoms/form-input/form-input--error.html" %}
-                        {% include "patterns/atoms/form-input/form-input--required.html" %}       
-                        {% include "patterns/atoms/form-input/form-input--help.html" %}  
-                        {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text="Send your enquiry" button=True %} 
+                        <div class="form__content">
+                            {% include "patterns/atoms/form-input/form-input.html" %}
+                            {% include "patterns/atoms/form-input/form-input--error.html" %}
+                            {% include "patterns/atoms/form-input/form-input--required.html" %}       
+                            {% include "patterns/atoms/form-input/form-input--help.html" %}  
+                        </div>
+                        <div class="form__action">
+                            {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text="Send your enquiry" button=True %} 
+                        </div>
                     </div>
                 </form>
 
