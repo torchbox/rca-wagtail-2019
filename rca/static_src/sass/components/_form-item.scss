@@ -134,7 +134,6 @@
             }
         }
 
-        &#{$root}--has-focus,
         &#{$root}--has-content {
             #{$root}__label {
                 color: $color--white-24;
@@ -169,7 +168,6 @@
             }
         }
 
-        &#{$root}--has-focus,
         &#{$root}--has-content {
             #{$root}__label {
                 color: $color--black-24;
