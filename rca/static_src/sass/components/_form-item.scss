@@ -1,91 +1,212 @@
 .form-item {
     $root: &;
-    margin-bottom: 20px;
+    $form-bottom-margin: ($gutter * 0.75);
 
-    // sass-lint:disable class-name-format
-    &--errors {
-        padding: 20px;
-        margin-bottom: 20px;
-        border: 1px dotted red;
+    &__container {
+        @include z-index(above-gridlines);
+        position: relative;
+        margin-bottom: $form-bottom-margin;
+        border-bottom: 4px solid transparent;
+        overflow: hidden;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            background-color: $color--tertiary;
+            height: 4px;
+            opacity: 0;
+            transition: opacity $cubic-transition, transform $cubic-transition;
+        }
     }
 
-    &--checkbox_input {
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: flex-start;
+    // Applied via js
+    &--has-focus,
+    &--has-content {
+        #{$root}__label {
+            @include font-size(xxxs);
+            transform: translate3d(0, -67%, 0); // align label with top of input
+        }
 
-        label {
-            order: 2;
+        #{$root}__input {
+            outline: 0;
+        }
+
+        #{$root}__required {
+            color: $color--tertiary;
+        }
+    }
+
+    // Applied via js when form item has a value
+    &--has-content {
+        #{$root}__container {
+            &::after {
+                opacity: 0;
+            }
+        }
+    }
+
+    // Applied via js when form item has focus
+    &--has-focus {
+        // Orange focus border
+        #{$root}__container {
+            &::after {
+                opacity: 1;
+                transform: translate3d(0, -100%, 0);
+            }
+        }
+    }
+
+    &--has-help-text {
+        #{$root}__container {
             margin-bottom: 0;
-            font-weight: normal;
-        }
-
-        input {
-            order: 1;
-        }
-
-        #{$root}__help {
-            flex-basis: 100%;
-            order: 3;
         }
     }
 
-    &--radio_select {
-        input:not([type='checkbox']) {
-            display: inline-block;
-            // sass-lint:disable no-important
-            width: auto !important;
-            // sass-lint:enddisable
-            margin-right: 5px;
+    &--input {
+        #{$root}__container {
+            padding-top: $gutter;
         }
     }
 
-    &--hidden_input {
-        display: none;
-    }
-
-    &--re_captcha {
-        .required {
-            display: none;
-        }
-    }
-
-    &__required {
-        color: red;
+    &__input {
+        height: 46px;
+        width: 100%;
+        padding-left: 15px;
+        transition: border-color $transition, background-color $cubic-transition;
     }
 
     &__label {
-        @include font-size(m);
+        @include font-size(xs);
+        position: absolute;
+        left: 0;
         display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
+        padding: 5px 15px;
+        transform: translate3d(1px, 10px, 0);
+        transition: transform $cubic-transition, font-size $cubic-transition,
+            background-color $cubic-transition;
+
+        @include media-query(large) {
+            transform: translate3d(1px, 6px, 0);
+        }
     }
 
     &__errors {
-        @include font-size(s);
-        margin-bottom: 10px;
-        font-weight: bold;
-        color: red;
+        @include font-size(xxxs);
+        position: absolute;
+        right: 15px;
+        color: $color--red;
+        transform: translate3d(0, 16px, 0);
+
+        @include media-query(large) {
+            transform: translate3d(0, 15px, 0);
+        }
     }
 
     &__help {
-        @include font-size(s);
-        margin-top: 5px;
-        color: rgba($color--primary, 0.6);
+        @include font-size(xxxs);
+        margin-bottom: $form-bottom-margin;
+        margin-top: ($gutter / 4);
     }
 
-    input:not([type='checkbox']),
-    textarea,
-    select {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid $color--primary;
+    .bg--dark & {
+        #{$root}__input {
+            background-color: $color--form-input-darkbg;
+            border: 1px solid $color--white-12;
+            caret-color: $color--white;
+            color: $color--white;
+        }
+
+        #{$root}__label {
+            color: $color--white-65;
+            background-color: $color--form-input-darkbg;
+        }
+
+        &#{$root}--has-focus {
+            #{$root}__input {
+                background-color: $color--form-input-focus-darkbg;
+            }
+
+            #{$root}__label {
+                background-color: $color--form-input-focus-darkbg;
+            }
+        }
+
+        &#{$root}--has-focus,
+        &#{$root}--has-content {
+            #{$root}__label {
+                color: $color--white-24;
+            }
+        }
+
+        #{$root}__help {
+            color: $color--light-grey;
+        }
     }
 
-    input[type='checkbox'] {
-        margin-right: 10px;
+    .bg--light & {
+        #{$root}__input {
+            background-color: $color--form-input-lightbg;
+            border: 1px solid $color--white-12;
+            caret-color: $color--black;
+            color: $color--black;
+        }
+
+        #{$root}__label {
+            color: $color--black-65;
+            background-color: $color--form-input-lightbg;
+        }
+
+        &#{$root}--has-focus {
+            #{$root}__input {
+                background-color: $color--form-input-focus-lightbg;
+            }
+
+            #{$root}__label {
+                background-color: $color--form-input-focus-lightbg;
+            }
+        }
+
+        &#{$root}--has-focus,
+        &#{$root}--has-content {
+            #{$root}__label {
+                color: $color--black-24;
+            }
+        }
+
+        #{$root}__help {
+            color: $color--dark-grey;
+        }
     }
-    // sass-lint:enddisable
+
+    .bg--dark &,
+    .bg--light & {
+        &#{$root}--errors {
+            #{$root}__input {
+                border-color: $color--red;
+            }
+
+            &#{$root}--has-focus,
+            &#{$root}--has-content {
+                #{$root}__input {
+                    border-color: transparent;
+                }
+
+                #{$root}__container {
+                    &::after {
+                        background-color: $color--red;
+                    }
+                }
+            }
+        }
+
+        &#{$root}--has-focus,
+        &#{$root}--has-content {
+            #{$root}__input {
+                border-color: transparent;
+            }
+        }
+    }
 }

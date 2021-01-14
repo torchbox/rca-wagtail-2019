@@ -1,0 +1,46 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags util_tags static %}
+
+{% block content %}
+
+<div class="page page--no-hero">
+
+    <div class="page__header bg bg--dark">
+        {% if page.title %}
+        <div class="title-area title-area--guide grid">
+            <div class="title-area__content">
+                <h1 class="title-area__heading heading heading--display-two">
+                    {{ page.title }}
+                </h1>
+            </div>
+        </div>
+        {% endif %}
+        {% if page.introduction %}
+        <div class="introduction grid">
+            <p class="introduction__text section__heading heading heading--five">
+                {{ page.introduction }}
+            </p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="page__content">
+
+        <section class="section section--start bg bg--dark">
+                <form method="post" class="form grid layout">
+                    <div class="form__container layout__start-one layout__@large-start-two layout__span-two">
+                        {% include "patterns/atoms/form-input/form-input.html" %}
+                        {% include "patterns/atoms/form-input/form-input--error.html" %}
+                        {% include "patterns/atoms/form-input/form-input--required.html" %}       
+                        {% include "patterns/atoms/form-input/form-input--help.html" %}   
+                        <input class="form__submit button" type="submit" value="{% if page.action_text %}{{ page.action_text|safe }}{% else %}Submit{% endif %}" />
+                    </div>
+                </form>
+
+        </section>
+
+    </div>
+</div>
+
+
+{% endblock %}
