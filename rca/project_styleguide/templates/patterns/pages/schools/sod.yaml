@@ -17,12 +17,13 @@ context:
     video: 'https://www.youtube.com/watch?v=tDPrqkgQpWM&list=PLk-Jp7vRQvwPUj9xBUTWyaDPG4MOwzDkz'
     video_caption: Welcome to the School
     body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+    research_projects_title: Our research
+    research_projects_text: Research in the School of Design interrogates the systems that integrate design into daily life, dealing with designed objects, services, and the ways in which they are produced and used.
     sections:
       about:
         title: What makes us different?
         introduction: We teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs.
       research:
-        introduction: Research in the School of Design interrogates the systems that integrate design into daily life, dealing with designed objects, services, and the ways in which they are produced and used.
         link: https://www.rca.ac.uk/study/schools/school-of-design/funded-research/
       programmes:
         introduction: We offer a range of Graduate Diploma, MA, MRes, MPhil and PhD degree programmes across the art and design disciplines.
@@ -55,6 +56,17 @@ context:
             title: 'Telefonica'
             url: '#'
           image: true
+    external_links_heading: Also...
+    external_links:
+      - item:
+        value: { text: 'Research students', href: '#' }
+    research_block:
+      - block:
+        value:
+          title: Impact case studies
+          description: The range of areas in which our world-leading research achieves high levels of impact – economic, social and cultural – is exemplified by the seven impact case studies submitted to REF2014. Four of these originated in the School of Design, as listed below.
+          action: Find out more
+          link: 'https://www.rca.ac.uk/study/schools/school-of-design/impact-case-studies/'
   hero_image:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
@@ -201,16 +213,6 @@ context:
       link: 'https://www.rca.ac.uk/research-innovation/projects/grand-challenge-2020/'
   student_research: False
   research_collaboration: False
-  research_links:
-    title: Also…
-    links:
-      - item:
-        value: { text: 'Research students', href: '#' }
-  research_cta:
-    title: Impact case studies
-    description: The range of areas in which our world-leading research achieves high levels of impact – economic, social and cultural – is exemplified by the seven impact case studies submitted to REF2014. Four of these originated in the School of Design, as listed below.
-    action: Find out more
-    link: 'https://www.rca.ac.uk/study/schools/school-of-design/impact-case-studies/'
   programmes_cta:
     title: Custom executive education
     description: The RCA delivers senior-level custom executive education programmes for business, government, the public sector and universities globally.

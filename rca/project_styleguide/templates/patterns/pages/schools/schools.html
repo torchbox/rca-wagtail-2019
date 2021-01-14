@@ -157,10 +157,10 @@
 
                 <div class="section__row section__row--last-small">
                     <div class="section__header section__header--bottom-space grid">
-                        <h2 class="section__heading section__heading--secondary ection__heading--tight heading heading--two">{{ page.sections.research.title|default:"Our Research" }}</h2>
-                        {% if page.sections.research.introduction %}
+                        <h2 class="section__heading section__heading--secondary ection__heading--tight heading heading--two">{{ page.research_projects_title|default:"Our Research" }}</h2>
+                        {% if page.research_projects_text %}
                             <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page.sections.research.introduction }}
+                                {{ page.research_projects_text }}
                             </div>
                         {% endif %}
                     </div>
@@ -174,21 +174,22 @@
                 {% if student_research %}
                 <div class="section__row section__row--last schools__about--student-stories partnerships__carousel">
                     <div class="section__header grid">
-                        <h2 class="section__heading section__heading--primary heading heading--four">PhD student research</h2>
+                        <h2 class="section__heading section__heading--primary heading heading--four">{{ student_research.title }}</h2>
                     </div>
                     {% include "patterns/organisms/carousel/carousel--square.html" with carousel=student_research.slides modifier='carousel--square' datatag='data-peek-carousel' %}
+                    {% if student_research.link_url %}
                     <div class="section__action grid">
-                        {# LINK NEEDED HERE #}
-                        <a class="layout__@large-start-two link link--primary link--link body body--two" href="/">
-                            <span class="link__label">Browse all projects from the school</span>
+                        <a class="layout__@large-start-two link link--primary link--link body body--two" href="{{ student_research.link_url }}">
+                            <span class="link__label">{{ student_research.link_text }}</span>
                             <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                         </a>
                     </div>
+                    {% endif %}
                 </div>
                 {% endif %}
 
                 {% if research_collaboration %}
-                <div class="section__row schools__about--logos {% if research_links or research_cta %}section__row--last{% else %}section__row--last-large{% endif %}">
+                <div class="section__row schools__about--logos {% if page.external_links or page.research_cta_block %}section__row--last{% else %}section__row--last-large{% endif %}">
                     <div class="section__header grid">
                         <h2 class="section__heading section__heading--secondary heading heading--five">Research collaborators</h2>
                     </div>
@@ -203,8 +204,7 @@
                 </div>
                 {% endif %}
 
-                {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=research_links cta=research_cta %}
-
+                {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=page.external_links cta=page.research_cta_block %}
                 <div class="section__notch">
                     <div class="section__notch-fill section__notch-fill--third-col"></div>
                 </div>
