@@ -277,7 +277,7 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
     ]
     news_and_events_panels = [
         FieldPanel("news_and_events_heading"),
-        InlinePanel("student_stories", label="Student Stories"),
+        InlinePanel("student_stories", label="Student Stories", max_num=1),
         FieldPanel("legacy_news_and_event_tags"),
     ]
     research_panels = [
