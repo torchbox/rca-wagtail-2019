@@ -181,6 +181,12 @@
 
     .bg--dark &,
     .bg--light & {
+        #{$root}__input {
+            &:-moz-ui-invalid {
+                box-shadow: none;
+            }
+        }
+
         &#{$root}--errors {
             #{$root}__input {
                 border-color: $color--red;

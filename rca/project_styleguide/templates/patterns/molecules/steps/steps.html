@@ -25,9 +25,6 @@
                 </div>
             {% endwith %}
         {% endfor %}
-        <a class="steps__action" href="{{ programme_page_global_fields.apply_cta_link }}" target="_blank" rel="noopener">
-            <span class="steps__action-label">{{ programme_page_global_fields.apply_cta_text }}</span>
-            <svg width="24" height="16" class="steps__action-icon"><use xlink:href="#arrow"></use></svg>
-        </a>
+        {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with link=programme_page_global_fields.apply_cta_link text=programme_page_global_fields.apply_cta_text %}
     </div>
 </div>
