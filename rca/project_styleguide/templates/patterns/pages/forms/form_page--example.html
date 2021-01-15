@@ -32,7 +32,7 @@
 
         <section class="section section--start bg bg--dark">
                 <form method="post" class="form grid layout">
-                    <div class="form__container layout__start-one layout__@large-start-two layout__span-two">
+                    <div class="form__container layout__start-one layout__@large-start-two layout__span-two layout__@large-span-three">
                         <div class="form__content section">
                             <div class="section__row section__row--last-small">
                                 <h2 class="form__heading heading heading--four">Inputs</h2>
@@ -61,6 +61,13 @@
                                 {% include "patterns/atoms/form-textarea/form-textarea--error.html" %}
                                 {% include "patterns/atoms/form-textarea/form-textarea--required.html" %}    
                                 {% include "patterns/atoms/form-textarea/form-textarea--help.html" %} 
+                            </div>
+                            <div class="section__row section__row--last-small">
+                                <h2 class="form__heading heading heading--four">File upload</h2>
+                                {% include "patterns/atoms/form-file/form-file.html" %}
+                                {% include "patterns/atoms/form-file/form-file--error.html" %}
+                                {% include "patterns/atoms/form-file/form-file--required.html" %}    
+                                {% include "patterns/atoms/form-file/form-file--help.html" %} 
                             </div>
                         </div>
                         <div class="form__action">
