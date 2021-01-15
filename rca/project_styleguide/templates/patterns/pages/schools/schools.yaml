@@ -218,7 +218,7 @@ context:
           programme_description_subtitle: Turning innovation into successful real-world businesses.
           hero_image: http://placehold.it/300x270
   stats_block:
-    title: Lorem ipsum dolor sit
+    title: false
     link_url: '#'
     link_text: See all Outcomes
     statistics:
