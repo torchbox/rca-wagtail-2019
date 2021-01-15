@@ -1,6 +1,6 @@
 context:
   field:
-    label: Standard input error
+    label: Telephone number error
     id_for_label: input-error
     field:
       required: True

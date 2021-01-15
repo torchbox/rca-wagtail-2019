@@ -3,6 +3,4 @@ context:
     label: Standard input help
     id_for_label: input-help
     help_text: This is help text
-    field:
-      required: True
     errors: Required

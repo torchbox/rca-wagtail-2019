@@ -1,0 +1,10 @@
+context:
+  field:
+    label: Select field
+    errors: false
+    id_for_label: input
+    options:
+      - { title: one }
+      - { title: two }
+      - { title: three }
+      - { title: four }

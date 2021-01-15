@@ -1,6 +1,7 @@
 .form-item {
     $root: &;
     $form-bottom-margin: ($gutter * 0.75);
+    $form-item-height: 46px;
 
     &__container {
         @include z-index(above-gridlines);
@@ -8,53 +9,47 @@
         margin-bottom: $form-bottom-margin;
         border-bottom: 4px solid transparent;
         overflow: hidden;
-
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            background-color: $color--tertiary;
-            height: 4px;
-            opacity: 0;
-            transition: opacity $transition-cubic, transform $transition-cubic;
-        }
     }
 
     // Applied via js
     &--has-focus,
     &--has-content {
-        #{$root}__label {
-            @include font-size(xxxs);
-            transform: translate3d(0, -67%, 0); // align label with top of input
+        &#{$root}--input {
+            #{$root}__label {
+                @include font-size(xxxs);
+                transform: translate3d(
+                    0,
+                    -67%,
+                    0
+                ); // align label with top of input
+            }
         }
 
         #{$root}__input {
             outline: 0;
         }
-
-        #{$root}__required {
-            color: $color--tertiary;
-        }
     }
 
     // Applied via js when form item has a value
     &--has-content {
-        #{$root}__container {
-            &::after {
-                opacity: 0;
+        &#{$root}--input {
+            #{$root}__container {
+                &::after {
+                    opacity: 0;
+                }
             }
         }
     }
 
     // Applied via js when form item has focus
     &--has-focus {
-        // Orange focus border
-        #{$root}__container {
-            &::after {
-                opacity: 1;
-                transform: translate3d(0, -100%, 0);
+        &#{$root}--input {
+            // Orange focus border
+            #{$root}__container {
+                &::after {
+                    opacity: 1;
+                    transform: translate3d(0, -100%, 0);
+                }
             }
         }
     }
@@ -68,29 +63,86 @@
     &--input {
         #{$root}__container {
             padding-top: $gutter;
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -4px;
+                left: 0;
+                width: 100%;
+                background-color: $color--tertiary;
+                height: 4px;
+                opacity: 0;
+                transition: opacity $transition-cubic,
+                    transform $transition-cubic;
+            }
+        }
+
+        #{$root}__label {
+            @include font-size(xs);
+            position: absolute;
+            left: 0;
+            padding: 5px 15px;
+            margin: 0;
+            transform: translate3d(1px, 10px, 0);
+            transition: transform $transition-cubic, font-size $transition-cubic,
+                background-color $transition-cubic;
+
+            @include media-query(large) {
+                transform: translate3d(1px, 6px, 0);
+            }
         }
     }
 
+    &--tel {
+        #{$root}__container {
+            width: 50%;
+        }
+    }
+
+    &--select {
+        #{$root}__container {
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 2;
+                width: 50px;
+                height: 7px;
+                margin: auto 0;
+                pointer-events: none;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 12px 7px;
+                transform: translate3d(0, 182%, 0); // Centre arrow in select
+            }
+        }
+    }
+
+    &__label {
+        display: block;
+        margin-bottom: ($gutter / 4);
+    }
+
     &__input {
-        height: 46px;
+        height: $form-item-height;
         width: 100%;
         padding-left: 15px;
         transition: border-color $transition, background-color $transition-cubic;
     }
 
-    &__label {
-        @include font-size(xs);
-        position: absolute;
-        left: 0;
-        display: block;
-        padding: 5px 15px;
-        transform: translate3d(1px, 10px, 0);
-        transition: transform $transition-cubic, font-size $transition-cubic,
-            background-color $transition-cubic;
-
-        @include media-query(large) {
-            transform: translate3d(1px, 6px, 0);
-        }
+    &__select {
+        position: relative;
+        width: 100%;
+        height: $form-item-height;
+        margin: 0;
+        cursor: pointer;
+        outline: none;
+        text-indent: 3px;
+        appearance: none;
+        border-radius: 0;
     }
 
     &__errors {
@@ -111,8 +163,13 @@
         margin-top: ($gutter / 4);
     }
 
+    &__required {
+        color: $color--tertiary;
+    }
+
     .bg--dark & {
-        #{$root}__input {
+        #{$root}__input,
+        #{$root}__select {
             background-color: $color--form-input-darkbg;
             border: 1px solid $color--white-12;
             caret-color: $color--white;
@@ -120,33 +177,53 @@
         }
 
         #{$root}__label {
-            color: $color--white-65;
-            background-color: $color--form-input-darkbg;
+            color: $color--light-grey;
         }
 
-        &#{$root}--has-focus {
-            #{$root}__input {
-                background-color: $color--form-input-focus-darkbg;
+        &#{$root}--input {
+            #{$root}__label {
+                color: $color--white-65;
+                background-color: $color--form-input-darkbg;
             }
 
-            #{$root}__label {
-                background-color: $color--form-input-focus-darkbg;
+            #{$root}__required {
+                color: $color--white-65;
             }
-        }
 
-        &#{$root}--has-content {
-            #{$root}__label {
-                color: $color--white-24;
+            &#{$root}--has-focus {
+                #{$root}__input {
+                    background-color: $color--form-input-focus-darkbg;
+                }
+
+                #{$root}__label {
+                    background-color: $color--form-input-focus-darkbg;
+                }
+            }
+
+            &#{$root}--has-content {
+                #{$root}__label {
+                    color: $color--white-24;
+                }
             }
         }
 
         #{$root}__help {
             color: $color--light-grey;
         }
+
+        &#{$root}--select {
+            #{$root}__container {
+                // light arrow svg
+                &::after {
+                    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xLjQgMC42TDYgNS4yTDEwLjYgMC42TDEyIDJMNiA4TDAgMkwxLjQgMC42WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg==');
+                }
+            }
+        }
     }
 
     .bg--light & {
-        #{$root}__input {
+        #{$root}__input,
+        #{$root}__select {
             background-color: $color--form-input-lightbg;
             border: 1px solid $color--white-12;
             caret-color: $color--black;
@@ -154,28 +231,47 @@
         }
 
         #{$root}__label {
-            color: $color--black-65;
-            background-color: $color--form-input-lightbg;
+            color: $color--dark-grey;
         }
 
-        &#{$root}--has-focus {
-            #{$root}__input {
-                background-color: $color--form-input-focus-lightbg;
+        &#{$root}--input {
+            #{$root}__label {
+                color: $color--black-65;
+                background-color: $color--form-input-lightbg;
             }
 
-            #{$root}__label {
-                background-color: $color--form-input-focus-lightbg;
+            #{$root}__required {
+                color: $color--black-65;
             }
-        }
 
-        &#{$root}--has-content {
-            #{$root}__label {
-                color: $color--black-24;
+            &#{$root}--has-focus {
+                #{$root}__input {
+                    background-color: $color--form-input-focus-lightbg;
+                }
+
+                #{$root}__label {
+                    background-color: $color--form-input-focus-lightbg;
+                }
+            }
+
+            &#{$root}--has-content {
+                #{$root}__label {
+                    color: $color--black-24;
+                }
             }
         }
 
         #{$root}__help {
             color: $color--dark-grey;
+        }
+
+        &#{$root}--select {
+            #{$root}__container {
+                // Dark arrow svg
+                &::after {
+                    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xLjQgMC42TDYgNS4yTDEwLjYgMC42TDEyIDJMNiA4TDAgMkwxLjQgMC42WiIgZmlsbD0iYmxhY2siLz4KPC9zdmc+Cg==');
+                }
+            }
         }
     }
 
@@ -210,6 +306,12 @@
         &#{$root}--has-content {
             #{$root}__input {
                 border-color: transparent;
+            }
+
+            &#{$root}--input {
+                #{$root}__required {
+                    color: $color--tertiary;
+                }
             }
         }
     }
