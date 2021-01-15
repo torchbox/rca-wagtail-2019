@@ -65,6 +65,41 @@ context:
         value: { text: 'Research projects', href: '#' }
       - item:
         value: { text: 'Communication Practices site', href: '#' }
+    related_programmes_title: Our programmes
+    related_programmes_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    related_short_courses_title: Our short courses
+    related_short_courses_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    research_collaboration:
+      - slide:
+        value:
+          link:
+            title: 'Microsoft Research'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'British Library'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Sense'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'British Council'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Dubit'
+            url: '#'
+          image: true
   hero_image:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
@@ -122,7 +157,7 @@ context:
       link: 'https://www.rca.ac.uk/news-and-events/news/draw-alumni-exhibition-explores-human-power-drawing/'
       image: //placekitten.com/251/142
       person: false
-  programmes:
+  related_programmes:
     - item:
       link:
         url: '#'
@@ -158,7 +193,7 @@ context:
           degree_level: MRes
           programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
           hero_image: http://placehold.it/500x500/ff5d1c/fff
-  short_courses:
+  related_short_courses:
     - item:
       link:
         url: '#'
@@ -180,6 +215,7 @@ context:
           programme_description_subtitle: Turning innovation into successful real-world businesses.
           hero_image: http://placehold.it/300x270
   stats_block:
+    title: false
     statistics:
       - stat:
         value:
@@ -248,28 +284,6 @@ context:
           link: '#'
           person: false
           image: True
-  research_collaboration:
-    slides:
-      - slide:
-        title: 'Microsoft Research'
-        image: true
-        link: '#'
-      - slide:
-        title: 'British Library'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Sense'
-        image: true
-        link: '#'
-      - slide:
-        title: 'British Council'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Dubit'
-        image: true
-        link: '#'
   research_cta: False
   programmes_cta:
     title: Custom executive education
@@ -298,17 +312,6 @@ context:
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-  tabs:
-    - tab:
-      title: About
-    - tab:
-      title: Our research
-    - tab:
-      title: Programmes & Short courses
-    - tab:
-      title: Staff
-    - tab:
-      title: Contact
 
 tags:
   include_block:

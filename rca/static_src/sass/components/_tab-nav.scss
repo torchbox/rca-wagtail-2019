@@ -3,7 +3,8 @@
         @include z-index(header);
         position: sticky;
         top: 0;
-        transition: transform $transition;
+        transition: transform $transition-cubic,
+            background-color $transition-cubic;
 
         .headroom--pinned.headroom--not-top & {
             transform: translate3d(0, 0, 0);

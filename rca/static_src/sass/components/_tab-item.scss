@@ -8,21 +8,29 @@
     text-decoration: none; // overriding mixin
 
     &:last-child {
-        padding-right: ($gutter);
+        display: inline-block;
+        border-right-width: $gutter;
+        border-right-color: transparent;
+        border-right-style: solid;
 
         @include media-query(medium) {
-            padding-right: ($gutter * 3);
+            border-right-width: ($gutter * 3);
         }
 
         @include media-query(large) {
-            padding-right: 0;
+            border-right-width: 0;
         }
+    }
+
+    &.is-active {
+        @include underline-hover-target-reset();
     }
 
     .bg--dark & {
         color: $color--meta-darkbg;
 
-        &:hover {
+        &:hover,
+        &.active {
             color: $color--white;
         }
 
@@ -33,16 +41,13 @@
                 color: $color--white;
             }
         }
-
-        &.active {
-            color: $color--white;
-        }
     }
 
     .bg--light & {
         color: $color--meta-lightbg;
 
-        &:hover {
+        &:hover,
+        &.active {
             color: $color--black;
         }
 
@@ -53,9 +58,22 @@
                 color: $color--black;
             }
         }
+    }
 
-        &.active {
+    .js-is-sticky.jump-nav & {
+        color: $color--meta-lightbg;
+
+        &:hover {
             color: $color--black;
         }
+
+        &.is-active {
+            color: $color--black;
+        }
+    }
+
+    .jump-nav & {
+        font-family: $font--primary;
+        font-weight: $weight--normal;
     }
 }

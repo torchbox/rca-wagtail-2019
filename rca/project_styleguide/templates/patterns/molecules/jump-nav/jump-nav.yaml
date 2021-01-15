@@ -1,0 +1,13 @@
+context:
+  title: School of Architecture
+  tabs:
+    - tab:
+      title: Overview
+    - tab:
+      title: Curriculum
+    - tab:
+      title: Requirements
+    - tab:
+      title: Fees & funding
+    - tab:
+      title: Apply
