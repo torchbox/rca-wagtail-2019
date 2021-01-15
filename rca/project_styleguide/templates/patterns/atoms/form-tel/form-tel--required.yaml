@@ -1,0 +1,7 @@
+context:
+  field:
+    label: Telephone number required
+    id_for_label: input-required
+    field:
+      required: True
+    errors: Required
