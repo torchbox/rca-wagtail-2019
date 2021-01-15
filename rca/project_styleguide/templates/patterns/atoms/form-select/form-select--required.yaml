@@ -1,6 +1,6 @@
 context:
   field:
-    label: Telephone number required
+    label: Select field required
     id_for_label: input-required
     field:
       required: True

@@ -1,6 +1,6 @@
 context:
   field:
-    label: Telephone number
+    label: Select field
     errors: false
     id_for_label: input
     options:
