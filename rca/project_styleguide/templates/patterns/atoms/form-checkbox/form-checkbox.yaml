@@ -1,0 +1,5 @@
+context:
+  field:
+    label: Checkbox
+    errors: false
+    id_for_label: checkbox
