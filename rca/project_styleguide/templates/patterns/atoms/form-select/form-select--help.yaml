@@ -1,6 +1,6 @@
 context:
   field:
-    label: Telephone number help
+    label: Select field help
     id_for_label: input-help
     help_text: Select help text
     errors: Required

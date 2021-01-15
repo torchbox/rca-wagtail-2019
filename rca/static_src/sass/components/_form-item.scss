@@ -28,10 +28,6 @@
         #{$root}__input {
             outline: 0;
         }
-
-        #{$root}__required {
-            color: $color--tertiary;
-        }
     }
 
     // Applied via js when form item has a value
@@ -86,8 +82,8 @@
             @include font-size(xs);
             position: absolute;
             left: 0;
-            display: block;
             padding: 5px 15px;
+            margin: 0;
             transform: translate3d(1px, 10px, 0);
             transition: transform $transition-cubic, font-size $transition-cubic,
                 background-color $transition-cubic;
@@ -123,6 +119,11 @@
                 transform: translate3d(0, 182%, 0); // Centre arrow in select
             }
         }
+    }
+
+    &__label {
+        display: block;
+        margin-bottom: ($gutter / 4);
     }
 
     &__input {
@@ -162,6 +163,10 @@
         margin-top: ($gutter / 4);
     }
 
+    &__required {
+        color: $color--tertiary;
+    }
+
     .bg--dark & {
         #{$root}__input,
         #{$root}__select {
@@ -171,10 +176,18 @@
             color: $color--white;
         }
 
+        #{$root}__label {
+            color: $color--light-grey;
+        }
+
         &#{$root}--input {
             #{$root}__label {
                 color: $color--white-65;
                 background-color: $color--form-input-darkbg;
+            }
+
+            #{$root}__required {
+                color: $color--white-65;
             }
 
             &#{$root}--has-focus {
@@ -217,10 +230,18 @@
             color: $color--black;
         }
 
+        #{$root}__label {
+            color: $color--dark-grey;
+        }
+
         &#{$root}--input {
             #{$root}__label {
                 color: $color--black-65;
                 background-color: $color--form-input-lightbg;
+            }
+
+            #{$root}__required {
+                color: $color--black-65;
             }
 
             &#{$root}--has-focus {
@@ -285,6 +306,12 @@
         &#{$root}--has-content {
             #{$root}__input {
                 border-color: transparent;
+            }
+
+            &#{$root}--input {
+                #{$root}__required {
+                    color: $color--tertiary;
+                }
             }
         }
     }
