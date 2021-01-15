@@ -64,6 +64,15 @@
         #{$root}__container {
             padding-top: $gutter;
             overflow: hidden;
+            width: 100%;
+
+            @include media-query(medium) {
+                width: 50%;
+            }
+
+            @include media-query(large) {
+                width: 66.66%;
+            }
 
             &::after {
                 content: '';
@@ -97,12 +106,31 @@
 
     &--tel {
         #{$root}__container {
-            width: 50%;
+            width: 100%;
+
+            @include media-query(medium) {
+                width: 50%;
+            }
+
+            @include media-query(large) {
+                width: 33.33%;
+            }
         }
     }
 
     &--select {
         #{$root}__container {
+            @include z-index(under-gridlines);
+            width: 100%;
+
+            @include media-query(medium) {
+                width: calc(50% + 50px); // overlap grid line with down arrow
+            }
+
+            @include media-query(large) {
+                width: calc(33.33% + 50px); // overlap grid line with down arrow
+            }
+
             &::after {
                 content: '';
                 position: absolute;
@@ -121,11 +149,7 @@
 
     &--textarea {
         #{$root}__container {
-            overflow: visible;
-
-            &::after {
-                width: 150%;
-            }
+            width: 100%;
         }
     }
 
@@ -154,7 +178,7 @@
     }
 
     &__textarea {
-        width: 150%;
+        width: 100%;
         min-height: 200px;
         padding: $gutter ($gutter * 0.75);
     }
