@@ -250,6 +250,13 @@
             color: $color--light-grey;
         }
 
+        #{$root}__select {
+            &:focus {
+                border-color: $color--white;
+                background-color: $color--form-input-focus-darkbg;
+            }
+        }
+
         &#{$root}--select {
             #{$root}__container {
                 // light arrow svg
@@ -303,6 +310,13 @@
 
         #{$root}__help {
             color: $color--dark-grey;
+        }
+
+        #{$root}__select {
+            &:focus {
+                border-color: $color--black;
+                background-color: $color--form-input-focus-lightbg;
+            }
         }
 
         &#{$root}--select {
