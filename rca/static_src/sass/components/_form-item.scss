@@ -9,7 +9,6 @@
         position: relative;
         margin-bottom: $form-bottom-margin;
         border-bottom: 4px solid transparent;
-        overflow: hidden;
     }
 
     // Applied via js
@@ -64,6 +63,7 @@
     &--input {
         #{$root}__container {
             padding-top: $gutter;
+            overflow: hidden;
 
             &::after {
                 content: '';
@@ -106,18 +106,25 @@
             &::after {
                 content: '';
                 position: absolute;
-                top: 0;
                 right: 0;
-                bottom: 0;
+                bottom: 18px;
                 z-index: 2;
                 width: 50px;
                 height: 7px;
-                margin: auto 0;
                 pointer-events: none;
                 background-repeat: no-repeat;
                 background-position: center;
                 background-size: 12px 7px;
-                transform: translate3d(0, 182%, 0); // Centre arrow in select
+            }
+        }
+    }
+
+    &--textarea {
+        #{$root}__container {
+            overflow: visible;
+
+            &::after {
+                width: 150%;
             }
         }
     }
@@ -146,6 +153,12 @@
         border-radius: 0;
     }
 
+    &__textarea {
+        width: 150%;
+        min-height: 200px;
+        padding: $gutter ($gutter * 0.75);
+    }
+
     &__errors {
         @include font-size(xxxs);
         position: absolute;
@@ -170,7 +183,8 @@
 
     .bg--dark & {
         #{$root}__input,
-        #{$root}__select {
+        #{$root}__select,
+        #{$root}__textarea {
             background-color: $color--form-input-darkbg;
             border: 1px solid $color--white-12;
             caret-color: $color--white;
@@ -224,7 +238,8 @@
 
     .bg--light & {
         #{$root}__input,
-        #{$root}__select {
+        #{$root}__select,
+        #{$root}__textarea {
             background-color: $color--form-input-lightbg;
             border: 1px solid $color--white-12;
             caret-color: $color--black;

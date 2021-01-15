@@ -55,6 +55,13 @@
                                 {% include "patterns/atoms/form-select/form-select--required.html" %}    
                                 {% include "patterns/atoms/form-select/form-select--help.html" %} 
                             </div>
+                            <div class="section__row section__row--last-small">
+                                <h2 class="form__heading heading heading--four">Textarea</h2>
+                                {% include "patterns/atoms/form-textarea/form-textarea.html" %}
+                                {% include "patterns/atoms/form-textarea/form-textarea--error.html" %}
+                                {% include "patterns/atoms/form-textarea/form-textarea--required.html" %}    
+                                {% include "patterns/atoms/form-textarea/form-textarea--help.html" %} 
+                            </div>
                         </div>
                         <div class="form__action">
                             {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text="Send your enquiry" button=True %} 

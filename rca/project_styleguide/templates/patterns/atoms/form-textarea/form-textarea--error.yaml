@@ -1,0 +1,7 @@
+context:
+  field:
+    label: Textarea error
+    id_for_label: textarea-error
+    field:
+      required: True
+    errors: Required
