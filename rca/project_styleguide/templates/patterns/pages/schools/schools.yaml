@@ -80,6 +80,10 @@ context:
           description: In addition to the research themes, the School of Architecture created the Laboratory for Design & Machine Learning to conduct research into new interdisciplinary forms of designing, evaluation, and policymaking.
           action: Find out more
           link: '#'
+    related_programmes_title: Our programmes
+    related_programmes_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    related_short_courses_title: Our short courses
+    related_short_courses_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
     research_collaboration:
       - slide:
         value:
@@ -159,7 +163,7 @@ context:
       link: '#'
       image: //placekitten.com/251/142
       person: false
-  programmes:
+  related_programmes:
     - item:
       link:
         url: '#'
@@ -210,7 +214,7 @@ context:
           degree_level: MA
           programme_description_subtitle: Turning innovation into successful real-world businesses.
           hero_image: http://placehold.it/500x500
-  short_courses:
+  related_short_courses:
     - item:
       link:
         url: '#'

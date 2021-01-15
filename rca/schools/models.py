@@ -1,6 +1,7 @@
 import random
 from collections import defaultdict
 
+from django.apps import apps
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -39,6 +40,7 @@ from rca.utils.models import (
     LIGHT_HERO,
     BasePage,
     LinkFields,
+    RelatedPage,
 )
 
 
@@ -47,6 +49,11 @@ class RelatedSchoolPage(Orderable):
     page = models.ForeignKey("schools.SchoolPage", on_delete=models.CASCADE)
 
     panels = [PageChooserPanel("page")]
+
+
+class SchoolPageRelatedShortCourse(RelatedPage):
+    source_page = ParentalKey("SchoolPage", related_name="related_short_courses")
+    panels = [PageChooserPanel("page", ["shortcourses.ShortCoursePage"])]
 
 
 class HeroItem(models.Model):
@@ -205,7 +212,21 @@ class SchoolPage(BasePage):
         StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
         blank=True,
     )
-
+    related_programmes_title = models.CharField(blank=True, max_length=120)
+    related_programmes_summary = models.CharField(blank=True, max_length=500)
+    related_short_courses_title = models.CharField(blank=True, max_length=120)
+    related_short_courses_summary = models.CharField(blank=True, max_length=500)
+    programmes_links_heading = models.CharField(
+        max_length=125, blank=True, verbose_name="Links heading"
+    )
+    programmes_external_links = StreamField(
+        [("link", InternalExternalLinkBlock())], blank=True, verbose_name="Links"
+    )
+    programmes_cta_block = StreamField(
+        [("call_to_action", CallToActionBlock(label=_("text promo")))],
+        blank=True,
+        verbose_name="Call to action",
+    )
     search_fields = BasePage.search_fields + [index.SearchField("introduction")]
     api_fields = [APIField("introduction")]
 
@@ -275,8 +296,25 @@ class SchoolPage(BasePage):
             [StreamFieldPanel("research_cta_block")], heading="Call To Action"
         ),
     ]
-    programmes_panels = []
-    short_course_panels = []
+    programmes_panels = [
+        FieldPanel("related_programmes_title"),
+        FieldPanel("related_programmes_summary"),
+    ]
+    short_course_panels = [
+        FieldPanel("related_short_courses_title"),
+        FieldPanel("related_short_courses_summary"),
+        InlinePanel("related_short_courses", label="Short Course Pages"),
+        MultiFieldPanel(
+            [
+                FieldPanel("programmes_links_heading"),
+                StreamFieldPanel("programmes_external_links"),
+            ],
+            heading="Links",
+        ),
+        MultiFieldPanel(
+            [StreamFieldPanel("programmes_cta_block")], heading="Call To Action"
+        ),
+    ]
     staff_panels = []
     contact_panels = []
     edit_handler = TabbedInterface(
@@ -286,7 +324,7 @@ class SchoolPage(BasePage):
             ObjectList(about_panel, heading="About"),
             ObjectList(research_panels, heading="Our research"),
             ObjectList(programmes_panels, heading="Programmes"),
-            ObjectList(programmes_panels, heading="Short Courses"),
+            ObjectList(short_course_panels, heading="Short Courses"),
             ObjectList(staff_panels, heading="Staff"),
             ObjectList(contact_panels, heading="Contact"),
             ObjectList(BasePage.promote_panels, heading="Promote"),
@@ -370,6 +408,25 @@ class SchoolPage(BasePage):
             "slides": related_list_block_slideshow(student_research.slides),
         }
 
+    def get_related_programmes(self):
+        """
+        Get programme pages from the programme_page__school relationship.
+        Returns:
+            List -- of filtered and formatted Programme Pages.
+        """
+        ProgrammePage = apps.get_model("programmes", "ProgrammePage")
+
+        all_programmes = ProgrammePage.objects.live().public()
+        return all_programmes.filter(
+            related_schools_and_research_pages__page_id=self.id
+        )
+
+    def get_programme_index_link(self):
+        ProgrammeIndexPage = apps.get_model("programmes", "ProgrammeIndexPage")
+        programm_index = ProgrammeIndexPage.objects.live().first()
+        if programm_index:
+            return f"{programm_index.get_url()}?category=related_schools_and_research_pages&value={self.pk}-{self.slug}"
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         # We're picking the hero from multiple objects so we need to override
@@ -392,6 +449,30 @@ class SchoolPage(BasePage):
         context["student_research"] = self.get_student_research(
             self.student_research.first(), request
         )
+
+        context["related_programmes"] = [
+            {
+                "related_items": [
+                    page.specific for page in self.get_related_programmes()
+                ],
+                "link": {
+                    "url": self.get_programme_index_link,
+                    "title": "Browse all RCA's programmes",
+                },
+            },
+        ]
+        context["related_short_courses"] = [
+            {
+                "related_items": [
+                    rel.page.specific
+                    for rel in self.related_short_courses.select_related("page")
+                ],
+                "link": {
+                    "url": self.get_programme_index_link,
+                    "title": "View all of our short courses",
+                },
+            }
+        ]
         # Set the page tab titles for the jump menu
         context["tabs"] = self.page_nav()
         return context
