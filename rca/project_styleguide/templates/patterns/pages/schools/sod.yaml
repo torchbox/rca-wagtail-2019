@@ -67,6 +67,7 @@ context:
           description: The range of areas in which our world-leading research achieves high levels of impact – economic, social and cultural – is exemplified by the seven impact case studies submitted to REF2014. Four of these originated in the School of Design, as listed below.
           action: Find out more
           link: 'https://www.rca.ac.uk/study/schools/school-of-design/impact-case-studies/'
+    research_collaboration: False
   hero_image:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
@@ -212,7 +213,6 @@ context:
       image: true
       link: 'https://www.rca.ac.uk/research-innovation/projects/grand-challenge-2020/'
   student_research: False
-  research_collaboration: False
   programmes_cta:
     title: Custom executive education
     description: The RCA delivers senior-level custom executive education programmes for business, government, the public sector and universities globally.
@@ -240,17 +240,6 @@ context:
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-  tabs:
-    - tab:
-      title: About
-    - tab:
-      title: Our research
-    - tab:
-      title: Programmes & Short courses
-    - tab:
-      title: Staff
-    - tab:
-      title: Contact
 
 tags:
   include_block:

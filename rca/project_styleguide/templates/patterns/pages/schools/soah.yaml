@@ -54,6 +54,97 @@ context:
           description: Archive for the School of Arts & Humanities's flagship lecture series
           action: Find out more
           link: 'https://www.rca.ac.uk/study/schools/school-of-arts-humanities/visual-cultures/'
+    research_collaboration:
+      - slide:
+        value:
+          link:
+            title: 'Tate Britain'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Gasworks Gallery'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Johann Jacobs Museum'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Delphina Foundation'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'West Bund Art and Design Fair'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Fundació Antoni Tàpies'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Tensta Konsthall'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Nida Art Colony'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Victoria & Albert Museum'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Royal Crown Derby'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Santorus'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Burberry'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'The Gulbenkian Foundation'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Lisbon'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Art on the Underground'
+            url: '#'
+          image: true
   hero_image:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
@@ -228,68 +319,6 @@ context:
           link: '#'
           person: false
           image: True
-  research_collaboration:
-    slides:
-      - slide:
-        title: 'Tate Britain'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Gasworks Gallery'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Johann Jacobs Museum'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Delphina Foundation'
-        image: true
-        link: '#'
-      - slide:
-        title: 'West Bund Art and Design Fair'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Fundació Antoni Tàpies'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Tensta Konsthall'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Nida Art Colony'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Victoria & Albert Museum'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Royal Crown Derby'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Santorus'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Burberry'
-        image: true
-        link: '#'
-      - slide:
-        title: 'The Gulbenkian Foundation'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Lisbon'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Art on the Underground'
-        image: true
-        link: '#'
   programmes_cta:
     title: Custom executive education
     description: The RCA delivers senior-level custom executive education programmes for business, government, the public sector and universities globally.
@@ -317,17 +346,6 @@ context:
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-  tabs:
-    - tab:
-      title: About
-    - tab:
-      title: Our research
-    - tab:
-      title: Programmes & Short courses
-    - tab:
-      title: Staff
-    - tab:
-      title: Contact
 
 tags:
   include_block:

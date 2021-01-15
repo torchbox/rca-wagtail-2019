@@ -19,17 +19,6 @@ context:
     video: 'https://www.youtube.com/watch?v=rjt5p56Bcp4&list=PLk-Jp7vRQvwNbjjrvBcC0mDttD0OWaLUZ&index=3'
     video_caption: Welcome to the School
     body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua
-    tabs:
-      - tab:
-        title: About
-      - tab:
-        title: Our research
-      - tab:
-        title: Programmes & Short courses
-      - tab:
-        title: Staff
-      - tab:
-        title: Contact
     research_projects_title: Our research
     research_projects_text: Research in the School of Architecture centres on themes critical to contemporary social and spatial design challenges.
     sections:
@@ -72,7 +61,31 @@ context:
           description: In addition to the research themes, the School of Architecture created the Laboratory for Design & Machine Learning to conduct research into new interdisciplinary forms of designing, evaluation, and policymaking.
           action: Find out more
           link: 'https://www.rca.ac.uk/study/schools/school-of-architecture/current-research/laboratory-design-machine-learning/'
-
+    research_collaboration:
+      - slide:
+        value:
+          link:
+            title: 'Royal Institute of British Architects'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Fundación Desierto de Atacama'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Arts Catalyst, London'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'The Global School'
+            url: '#'
+          image: true
   hero_image:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
@@ -277,24 +290,6 @@ context:
           link: '#'
           person: false
           image: True
-  research_collaboration:
-    slides:
-      - slide:
-        title: 'Royal Institute of British Architects'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Fundación Desierto de Atacama'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Arts Catalyst, London'
-        image: true
-        link: '#'
-      - slide:
-        title: 'The Global School'
-        image: true
-        link: '#'
   programmes_links:
     title: Also…
     links:

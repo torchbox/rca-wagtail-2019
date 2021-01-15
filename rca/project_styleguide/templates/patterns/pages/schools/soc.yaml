@@ -65,6 +65,37 @@ context:
         value: { text: 'Research projects', href: '#' }
       - item:
         value: { text: 'Communication Practices site', href: '#' }
+    research_collaboration:
+      - slide:
+        value:
+          link:
+            title: 'Microsoft Research'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'British Library'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Sense'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'British Council'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Dubit'
+            url: '#'
+          image: true
   hero_image:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
@@ -249,28 +280,6 @@ context:
           link: '#'
           person: false
           image: True
-  research_collaboration:
-    slides:
-      - slide:
-        title: 'Microsoft Research'
-        image: true
-        link: '#'
-      - slide:
-        title: 'British Library'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Sense'
-        image: true
-        link: '#'
-      - slide:
-        title: 'British Council'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Dubit'
-        image: true
-        link: '#'
   research_cta: False
   programmes_cta:
     title: Custom executive education
@@ -299,17 +308,6 @@ context:
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-  tabs:
-    - tab:
-      title: About
-    - tab:
-      title: Our research
-    - tab:
-      title: Programmes & Short courses
-    - tab:
-      title: Staff
-    - tab:
-      title: Contact
 
 tags:
   include_block:
