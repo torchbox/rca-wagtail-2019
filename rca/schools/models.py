@@ -212,7 +212,7 @@ class SchoolPage(BasePage):
     # Admin panel configuration
     content_panels = [
         *BasePage.content_panels,
-        InlinePanel("hero_items", max_num=5, label="Hero Items"),
+        InlinePanel("hero_items", max_num=6, label="Hero Items"),
         FieldPanel("introduction"),
         ImageChooserPanel("introduction_image"),
         FieldPanel("video"),
