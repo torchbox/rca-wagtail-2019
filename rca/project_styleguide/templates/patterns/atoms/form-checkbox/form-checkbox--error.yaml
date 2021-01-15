@@ -1,0 +1,7 @@
+context:
+  field:
+    label: Checkbox error
+    id_for_label: checkbox-error
+    field:
+      required: True
+    errors: Required

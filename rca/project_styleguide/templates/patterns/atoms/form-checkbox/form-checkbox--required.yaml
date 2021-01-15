@@ -1,0 +1,6 @@
+context:
+  field:
+    label: Checkbox required
+    id_for_label: checkbox-required
+    field:
+      required: True

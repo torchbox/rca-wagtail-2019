@@ -74,6 +74,20 @@
                                 {% include "patterns/atoms/form-file/form-file--required.html" %}    
                                 {% include "patterns/atoms/form-file/form-file--help.html" %} 
                             </div>
+                            <div class="section__row section__row--last-small">
+                                <h2 class="form__heading heading heading--four">Checkbox</h2>
+                                {% include "patterns/atoms/form-checkbox/form-checkbox.html" %}
+                                {% include "patterns/atoms/form-checkbox/form-checkbox--error.html" %}
+                                {% include "patterns/atoms/form-checkbox/form-checkbox--required.html" %}    
+                                {% include "patterns/atoms/form-checkbox/form-checkbox--help.html" %} 
+                            </div>
+                            <div class="section__row section__row--last-small">
+                                <h2 class="form__heading heading heading--four">Radio</h2>
+                                {% include "patterns/atoms/form-radio/form-radio.html" %}
+                                {% include "patterns/atoms/form-radio/form-radio--error.html" %}
+                                {% include "patterns/atoms/form-radio/form-radio--required.html" %}    
+                                {% include "patterns/atoms/form-radio/form-radio--help.html" %} 
+                            </div>
                         </div>
                         <div class="form__action">
                             {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text="Send your enquiry" button=True %} 
