@@ -1,0 +1,10 @@
+context:
+  field:
+    label: Telephone number
+    errors: false
+    id_for_label: input
+    options:
+      - { title: one }
+      - { title: two }
+      - { title: three }
+      - { title: four }
