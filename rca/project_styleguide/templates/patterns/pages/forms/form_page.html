@@ -33,47 +33,54 @@
         <section class="section section--start bg bg--dark">
             {% if page.form_fields %}
                 <form action="{% pageurl page %}" method="post" class="form grid layout">
+                    <div class="layout__start-one layout__span-two layout__@large-span-one">
+                        {% include "patterns/molecules/key-details/key-details--form.html" with key_details=page.key_details %}
+                    </div>
                     <div class="form__container layout__start-one layout__@large-start-two layout__span-two layout__@large-span-three">
-                        {% csrf_token %}
+                        <div class="form__content section section--top-space-large">
+                            {% csrf_token %}
 
-                        {% if form.errors %}
-                            <div class="form__errors">
-                                There were some errors with your form. Please amend the fields highlighted below.
-                            </div>
-                        {% endif %}
+                            {% if form.errors %}
+                                <div class="form__errors">
+                                    There were some errors with your form. Please amend the fields highlighted below.
+                                </div>
+                            {% endif %}
 
-                        {% for field in form %}
+                            {% for field in form %}
 
-                            {% with widget_type=field|widget_type field_type=field|field_type %}
-                                <div class="form-item {% if field_type %}form-item--{{ field_type }}{% endif %} {% if widget_type %}form-item--{{ widget_type }}{% endif %} {% if field.errors %}form-item--errors{% endif %}">
-                                    <div class="form-item__container">
+                                {% with widget_type=field|widget_type field_type=field|field_type %}
+                                    <div class="form-item {% if field_type %}form-item--{{ field_type }}{% endif %} {% if widget_type %}form-item--{{ widget_type }}{% endif %} {% if field.errors %}form-item--errors{% endif %}">
+                                        <div class="form-item__container">
 
-                                        {% if field.errors %}
-                                            <div class="form-item__errors">
-                                                {{ field.errors }}
-                                            </div>
-                                        {% endif %}
+                                            {% if field.errors %}
+                                                <div class="form-item__errors">
+                                                    {{ field.errors }}
+                                                </div>
+                                            {% endif %}
 
-                                        {% if widget_type == 'checkbox_input' %}
-                                            <label for="{{ field.id_for_label }}" class="form-item__label {% if field.field.required %}required{% endif %}">{{ field.label }} {% if field.field.required %}<span class="form-item__required">*</span>{% endif %}</label>
-                                            {{ field }}
-                                            
-                                        {% else %}
-                                            <label for="{{ field.id_for_label }}" class="form-item__label {% if field.field.required %}required{% endif %}">{{ field.label }} {% if field.field.required %}<span class="form-item__required">*</span>{% endif %}</label>
-                                            {% if widget_type == 'date_input' or widget_type == 'date_time_input' %}<div class="{{ widget_type }}">{% endif %}
-                                            {{ field }}
-                                            {% if widget_type == 'date_input' or widget_type == 'date_time_input' %}</div>{% endif %}
-                                        {% endif %}
+                                            {% if widget_type == 'checkbox_input' %}
+                                                <label for="{{ field.id_for_label }}" class="form-item__label {% if field.field.required %}required{% endif %}">{{ field.label }} {% if field.field.required %}<span class="form-item__required">*</span>{% endif %}</label>
+                                                {{ field }}
+                                                
+                                            {% else %}
+                                                <label for="{{ field.id_for_label }}" class="form-item__label {% if field.field.required %}required{% endif %}">{{ field.label }} {% if field.field.required %}<span class="form-item__required">*</span>{% endif %}</label>
+                                                {% if widget_type == 'date_input' or widget_type == 'date_time_input' %}<div class="{{ widget_type }}">{% endif %}
+                                                {{ field }}
+                                                {% if widget_type == 'date_input' or widget_type == 'date_time_input' %}</div>{% endif %}
+                                            {% endif %}
+
+                                        </div>
+
+                                        {% if field.help_text %}<div class="form-item__help">{{ field.help_text }}</div>{% endif %}
 
                                     </div>
+                                {% endwith %}
 
-                                    {% if field.help_text %}<div class="form-item__help">{{ field.help_text }}</div>{% endif %}
-
-                                </div>
-                            {% endwith %}
-
-                        {% endfor %}
-                        <input class="form__submit button" type="submit" value="{% if page.action_text %}{{ page.action_text|safe }}{% else %}Submit{% endif %}" />
+                            {% endfor %}
+                        </div>
+                        <div class="form__action">
+                            {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text=page.action_text|default:"Send your enquiry" button=True %} 
+                        </div>
                     </div>
                 </form>
             {% endif %}
