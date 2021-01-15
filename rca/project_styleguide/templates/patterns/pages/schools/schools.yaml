@@ -48,7 +48,7 @@ context:
     related_pages_title: Enterprise at the RCA
     staff_link: '#'
     staff_link_text: View all school staff
-    collaborators_heading: Organisations
+    collaborators_heading: Organisations we've worked with
     collaborators:
       - slide:
         value:
@@ -323,31 +323,30 @@ context:
           person: false
           image: True
   research_collaboration:
-    slides:
-      - slide:
-        title: 'Red bull'
+    - slide:
+      value:
+        link:
+          title: 'Red bull'
+          url: '#'
         image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
+    - slide:
+      value:
+        link:
+          title: 'Red bull 2'
+          url: '#'
         image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
+    - slide:
+      value:
+        link:
+          title: 'Red bull 3'
+          url: '#'
         image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
+    - slide:
+      value:
+        link:
+          title: 'Red bull 4'
+          url: '#'
         image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Red bull'
-        image: true
-        link: '#'
   programmes_cta:
     - block:
       value:
