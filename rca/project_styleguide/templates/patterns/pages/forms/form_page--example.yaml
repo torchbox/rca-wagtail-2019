@@ -9,9 +9,10 @@ context:
         }
       - {
           title: Next steps,
-          content: 'After filling out the form, you’ll recieve an email confirmation. You’ll then usually recieve a response from our admissions team within 48 hours.',
+          content: "After filling out the form, you'll recieve an email confirmation. You'll then usually recieve a response from our admissions team within 48 hours.",
         }
-
+  field:
+    - value
 tags:
   pageurl:
     page:
