@@ -1,5 +1,5 @@
 context:
   field:
-    label: Telephone number
+    label: Telephone
     errors: false
-    id_for_label: input
+    id_for_label: telephone

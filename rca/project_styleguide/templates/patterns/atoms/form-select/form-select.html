@@ -7,7 +7,7 @@
             {% if field.field.required %}<span class="form-item__required">*</span>{% endif %}
         </label>
 
-        <select class="form-item__select" name="" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %} data-focus>
+        <select class="form-item__select" name="" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %}>
             {% for item in field.options %}
             <option>{{ item.title }}</option>
             {% endfor %}

@@ -1,7 +1,7 @@
 context:
   field:
-    label: Telephone number error
-    id_for_label: input-error
+    label: Telephone error
+    id_for_label: telephone-error
     field:
       required: True
     errors: Required
