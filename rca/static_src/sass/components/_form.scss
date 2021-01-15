@@ -20,4 +20,10 @@
             margin-bottom: ($gutter * 1.5);
         }
     }
+
+    &__action {
+        @include media-query(large) {
+            width: 66.66%;
+        }
+    }
 }
