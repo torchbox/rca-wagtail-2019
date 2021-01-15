@@ -29,11 +29,28 @@
         <section class="section section--start bg bg--dark">
                 <form method="post" class="form grid layout">
                     <div class="form__container layout__start-one layout__@large-start-two layout__span-two">
-                        <div class="form__content">
-                            {% include "patterns/atoms/form-input/form-input.html" %}
-                            {% include "patterns/atoms/form-input/form-input--error.html" %}
-                            {% include "patterns/atoms/form-input/form-input--required.html" %}       
-                            {% include "patterns/atoms/form-input/form-input--help.html" %}  
+                        <div class="form__content section">
+                            <div class="section__row section__row--last-small">
+                                <h2 class="form__heading heading heading--four">Inputs</h2>
+                                {% include "patterns/atoms/form-input/form-input.html" %}
+                                {% include "patterns/atoms/form-input/form-input--error.html" %}
+                                {% include "patterns/atoms/form-input/form-input--required.html" %}    
+                                {% include "patterns/atoms/form-input/form-input--help.html" %} 
+                            </div>
+                            <div class="section__row section__row--last-small">
+                                <h2 class="form__heading heading heading--four">Telephone</h2>
+                                {% include "patterns/atoms/form-tel/form-tel.html" %}
+                                {% include "patterns/atoms/form-tel/form-tel--error.html" %}
+                                {% include "patterns/atoms/form-tel/form-tel--required.html" %}    
+                                {% include "patterns/atoms/form-tel/form-tel--help.html" %} 
+                            </div>
+                            <div class="section__row section__row--last-small">
+                                <h2 class="form__heading heading heading--four">Select</h2>
+                                {% include "patterns/atoms/form-select/form-select.html" %}
+                                {% include "patterns/atoms/form-select/form-select--error.html" %}
+                                {% include "patterns/atoms/form-select/form-select--required.html" %}    
+                                {% include "patterns/atoms/form-select/form-select--help.html" %} 
+                            </div>
                         </div>
                         <div class="form__action">
                             {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text="Send your enquiry" button=True %} 

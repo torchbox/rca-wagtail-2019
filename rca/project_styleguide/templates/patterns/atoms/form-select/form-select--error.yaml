@@ -1,0 +1,12 @@
+context:
+  field:
+    label: Telephone number error
+    id_for_label: input-error
+    field:
+      required: True
+    errors: Required
+    options:
+      - { title: one }
+      - { title: two }
+      - { title: three }
+      - { title: four }

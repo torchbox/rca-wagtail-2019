@@ -2,4 +2,6 @@ context:
   field:
     label: Standard input error
     id_for_label: input-error
+    field:
+      required: True
     errors: Required
