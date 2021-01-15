@@ -13,11 +13,6 @@
         }
     }
 
-    &--form {
-        // height of header to ensure validation messages aren't hidden behind sticky header
-        scroll-padding-top: 130px;
-    }
-
     &__header {
         @include z-index(header);
         position: fixed;
