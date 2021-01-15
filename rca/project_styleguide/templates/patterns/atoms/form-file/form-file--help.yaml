@@ -1,6 +1,5 @@
 context:
   field:
     label: Standard input help
-    id_for_label: input-help
+    id_for_label: file-help
     help_text: This is help text
-    errors: Required

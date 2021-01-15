@@ -2,7 +2,7 @@ context:
   field:
     label: Select field
     errors: false
-    id_for_label: input
+    id_for_label: select
     options:
       - { title: one }
       - { title: two }

@@ -1,10 +1,9 @@
 context:
   field:
     label: Select field required
-    id_for_label: input-required
+    id_for_label: select-required
     field:
       required: True
-    errors: Required
     options:
       - { title: one }
       - { title: two }

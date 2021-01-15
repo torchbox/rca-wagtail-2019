@@ -1,6 +1,5 @@
 context:
   field:
-    label: Telephone number help
-    id_for_label: input-help
+    label: Telephone help
+    id_for_label: telephone-help
     help_text: Include your country code, for example +44
-    errors: Required

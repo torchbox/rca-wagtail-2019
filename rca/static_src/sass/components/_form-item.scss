@@ -102,6 +102,16 @@
                 transform: translate3d(1px, 6px, 0);
             }
         }
+
+        #{$root}__errors {
+            position: absolute;
+            right: 15px;
+            transform: translate3d(0, 16px, 0);
+
+            @include media-query(large) {
+                transform: translate3d(0, 15px, 0);
+            }
+        }
     }
 
     &--tel {
@@ -114,6 +124,20 @@
 
             @include media-query(large) {
                 width: 33.33%;
+            }
+        }
+    }
+
+    &--select,
+    &--textarea {
+        &#{$root}--errors {
+            #{$root}__container {
+                margin-bottom: 0;
+            }
+
+            #{$root}__errors {
+                margin-bottom: 15px;
+                margin-top: 5px;
             }
         }
     }
@@ -151,6 +175,11 @@
         #{$root}__container {
             width: 100%;
         }
+
+        #{$root}__errors {
+            position: static;
+            transform: none;
+        }
     }
 
     &__label {
@@ -185,14 +214,7 @@
 
     &__errors {
         @include font-size(xxxs);
-        position: absolute;
-        right: 15px;
         color: $color--red;
-        transform: translate3d(0, 16px, 0);
-
-        @include media-query(large) {
-            transform: translate3d(0, 15px, 0);
-        }
     }
 
     &__help {
@@ -351,6 +373,16 @@
                 #{$root}__container {
                     &::after {
                         background-color: $color--red;
+                    }
+                }
+            }
+
+            #{$root}__select {
+                border-color: $color--red;
+
+                #{$root}__container {
+                    &::after {
+                        background-color: transparent; // after is arrow graphic here
                     }
                 }
             }
