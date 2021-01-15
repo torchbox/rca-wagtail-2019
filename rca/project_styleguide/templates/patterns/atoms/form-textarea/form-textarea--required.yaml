@@ -1,0 +1,7 @@
+context:
+  field:
+    label: Textarea required
+    id_for_label: textarea-required
+    field:
+      required: True
+    errors: Required

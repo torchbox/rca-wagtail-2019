@@ -1,3 +1,4 @@
+// sass-lint:disable no-vendor-prefixes
 .form-item {
     $root: &;
     $form-bottom-margin: ($gutter * 0.75);
@@ -8,7 +9,6 @@
         position: relative;
         margin-bottom: $form-bottom-margin;
         border-bottom: 4px solid transparent;
-        overflow: hidden;
     }
 
     // Applied via js
@@ -63,6 +63,16 @@
     &--input {
         #{$root}__container {
             padding-top: $gutter;
+            overflow: hidden;
+            width: 100%;
+
+            @include media-query(medium) {
+                width: 50%;
+            }
+
+            @include media-query(large) {
+                width: 66.66%;
+            }
 
             &::after {
                 content: '';
@@ -96,28 +106,50 @@
 
     &--tel {
         #{$root}__container {
-            width: 50%;
+            width: 100%;
+
+            @include media-query(medium) {
+                width: 50%;
+            }
+
+            @include media-query(large) {
+                width: 33.33%;
+            }
         }
     }
 
     &--select {
         #{$root}__container {
+            @include z-index(under-gridlines);
+            width: 100%;
+
+            @include media-query(medium) {
+                width: calc(50% + 50px); // overlap grid line with down arrow
+            }
+
+            @include media-query(large) {
+                width: calc(33.33% + 50px); // overlap grid line with down arrow
+            }
+
             &::after {
                 content: '';
                 position: absolute;
-                top: 0;
                 right: 0;
-                bottom: 0;
+                bottom: 18px;
                 z-index: 2;
                 width: 50px;
                 height: 7px;
-                margin: auto 0;
                 pointer-events: none;
                 background-repeat: no-repeat;
                 background-position: center;
                 background-size: 12px 7px;
-                transform: translate3d(0, 182%, 0); // Centre arrow in select
             }
+        }
+    }
+
+    &--textarea {
+        #{$root}__container {
+            width: 100%;
         }
     }
 
@@ -145,6 +177,12 @@
         border-radius: 0;
     }
 
+    &__textarea {
+        width: 100%;
+        min-height: 200px;
+        padding: $gutter ($gutter * 0.75);
+    }
+
     &__errors {
         @include font-size(xxxs);
         position: absolute;
@@ -169,7 +207,8 @@
 
     .bg--dark & {
         #{$root}__input,
-        #{$root}__select {
+        #{$root}__select,
+        #{$root}__textarea {
             background-color: $color--form-input-darkbg;
             border: 1px solid $color--white-12;
             caret-color: $color--white;
@@ -211,6 +250,13 @@
             color: $color--light-grey;
         }
 
+        #{$root}__select {
+            &:focus {
+                border-color: $color--white;
+                background-color: $color--form-input-focus-darkbg;
+            }
+        }
+
         &#{$root}--select {
             #{$root}__container {
                 // light arrow svg
@@ -223,7 +269,8 @@
 
     .bg--light & {
         #{$root}__input,
-        #{$root}__select {
+        #{$root}__select,
+        #{$root}__textarea {
             background-color: $color--form-input-lightbg;
             border: 1px solid $color--white-12;
             caret-color: $color--black;
@@ -263,6 +310,13 @@
 
         #{$root}__help {
             color: $color--dark-grey;
+        }
+
+        #{$root}__select {
+            &:focus {
+                border-color: $color--black;
+                background-color: $color--form-input-focus-lightbg;
+            }
         }
 
         &#{$root}--select {
