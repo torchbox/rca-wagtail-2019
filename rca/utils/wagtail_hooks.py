@@ -8,7 +8,7 @@ from wagtail.core import hooks
 from wagtail.core.rich_text import LinkHandler
 from wagtailorderable.modeladmin.mixins import OrderableMixin
 
-from rca.people.models import AreaOfExpertise
+from rca.people.models import AreaOfExpertise, StudentType
 from rca.programmes.models import DegreeLevel, ProgrammeType, Subject
 from rca.utils.models import ResearchTheme, ResearchType, Sector
 
@@ -49,6 +49,11 @@ class SectorModelAdmin(ModelAdmin):
     menu_icon = "tag"
 
 
+class StudentTypeModelAdmin(ModelAdmin):
+    model = StudentType
+    menu_icon = "tag"
+
+
 class TaxonomiesModelAdminGroup(ModelAdminGroup):
     menu_label = "Taxonomies"
     items = (
@@ -59,6 +64,7 @@ class TaxonomiesModelAdminGroup(ModelAdminGroup):
         AreaOfExpertiseModelAdmin,
         SectorModelAdmin,
         ResearchThemeModelAdmin,
+        StudentTypeModelAdmin,
     )
     menu_icon = "tag"
 
