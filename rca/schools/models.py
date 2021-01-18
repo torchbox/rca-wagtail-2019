@@ -550,7 +550,7 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
         context["student_stories"] = self.get_student_stories(
             self.student_stories.first(), request
         )
-        context["related_staff"] = self.get_related_staff()
+        context["staff"] = self.get_related_staff()
         # Set the page tab titles for the jump menu
         context["related_programmes"] = [
             {
