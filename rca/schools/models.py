@@ -429,7 +429,7 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
 
     def get_student_stories(self, student_stories, request):
         if not student_stories:
-            return
+            return {}
         return {
             "title": student_stories.title,
             "slides": related_list_block_slideshow(student_stories.slides),
