@@ -39,6 +39,7 @@ from rca.utils.models import (
     HERO_COLOUR_CHOICES,
     LIGHT_HERO,
     BasePage,
+    LegacyNewsAndEventsMixin,
     LinkFields,
     RelatedPage,
 )
@@ -157,7 +158,18 @@ class SchoolPageRelatedProjectPage(Orderable):
     panels = [PageChooserPanel("page")]
 
 
-class SchoolPage(BasePage):
+class StudentPageStudentStories(models.Model):
+    source_page = ParentalKey("SchoolPage", related_name="student_stories")
+    title = models.CharField(max_length=125)
+    slides = StreamField(StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1))
+
+    panels = [FieldPanel("title"), StreamFieldPanel("slides")]
+
+    def __str__(self):
+        return self.title
+
+
+class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
     template = "patterns/pages/schools/schools.html"
     introduction = RichTextField(blank=False, features=["link"])
     introduction_image = models.ForeignKey(
@@ -194,6 +206,7 @@ class SchoolPage(BasePage):
     social_links = StreamField(
         StreamBlock([("Link", LinkBlock())], max_num=5, required=False)
     )
+    news_and_events_heading = models.CharField(blank=True, max_length=120)
     collaborators_heading = models.CharField(blank=True, max_length=120)
     collaborators = StreamField(
         StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
@@ -262,6 +275,11 @@ class SchoolPage(BasePage):
         ),
         InlinePanel("stats_block", label="Statistics", max_num=1),
     ]
+    news_and_events_panels = [
+        FieldPanel("news_and_events_heading"),
+        InlinePanel("student_stories", label="Student Stories", max_num=1),
+        FieldPanel("legacy_news_and_event_tags"),
+    ]
     research_panels = [
         MultiFieldPanel(
             [
@@ -322,6 +340,7 @@ class SchoolPage(BasePage):
             ObjectList(content_panels, heading="Introduction"),
             ObjectList(key_details_panels, heading="Key details"),
             ObjectList(about_panel, heading="About"),
+            ObjectList(news_and_events_panels, heading="News and Events"),
             ObjectList(research_panels, heading="Our research"),
             ObjectList(programmes_panels, heading="Programmes"),
             ObjectList(short_course_panels, heading="Short Courses"),
@@ -408,6 +427,14 @@ class SchoolPage(BasePage):
             "slides": related_list_block_slideshow(student_research.slides),
         }
 
+    def get_student_stories(self, student_stories, request):
+        if not student_stories:
+            return {}
+        return {
+            "title": student_stories.title,
+            "slides": related_list_block_slideshow(student_stories.slides),
+        }
+
     def get_related_programmes(self):
         """
         Get programme pages from the programme_page__school relationship.
@@ -448,6 +475,9 @@ class SchoolPage(BasePage):
         context["featured_research"] = self.get_related_projects()
         context["student_research"] = self.get_student_research(
             self.student_research.first(), request
+        )
+        context["student_stories"] = self.get_student_stories(
+            self.student_stories.first(), request
         )
 
         context["related_programmes"] = [
