@@ -700,7 +700,7 @@ class ProgrammePage(ContactFieldsMixin, BasePage):
         return context
 
 
-class ProgrammeIndexPage(BasePage):
+class ProgrammeIndexPage(ContactFieldsMixin, BasePage):
     max_count = 1
     subpage_types = ["ProgrammePage", "shortcourses.ShortCoursePage"]
     template = "patterns/pages/programmes/programme_index.html"
