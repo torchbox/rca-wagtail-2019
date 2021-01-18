@@ -46,7 +46,7 @@
                     {% if page.email %}
                         <div class="title-area__contact">
                             <a class="link link--secondary link--link body body--two" href="mailto:{{ page.email }}">
-                                <span class="link__label">Email {{ page.email }}</span>
+                                <span class="link__label">Email {{ page.first_name }} {{ page.last_name }}</span>
                                 <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                             </a>
                         </div>
@@ -68,21 +68,27 @@
                             <div class="staff-body__description rich-text">
                                 {{ page.body|safe }}
                             </div>
+                            {% if page.thesis %}
+                            <div class="staff-body__action">
+                                <a class="link link--primary link--link body body--two" href="{{ page.thesis }}">
+                                    <span class="link__label">See final thesis</span>
+                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                </a>
+                            </div>
+                            {% endif %}
                         </div>
                         <div class="staff-body__key-details">
-                            {% include "patterns/molecules/key-details/key-details--staff.html" %}
+                        {% include "patterns/molecules/key-details/key-details--student.html" with areas=areas supervisors=supervisors personal_website=personal_website %}
                         </div>
                     </div>
                 </div>
 
-                {% if page.research_highlights %}
+                {% if research_highlights %}
                     <div class="section__row {% if page.gallery %}section__row--last{% else %}section__row--last-large{% endif %} research-highlights">
                         <div class="section__header grid">
-                            {% if page.research_highlights_title %}
-                                <h2 class="section__heading section__heading--primary heading heading--four">
-                                    {{ page.research_highlights_title }}
-                                </h2>
-                            {% endif %}
+                            <h2 class="section__heading section__heading--primary heading heading--four">
+                                {{ page.research_highlights_title|default:"Research Highlights" }}
+                            </h2>
                         </div>
                         <div class="section__content grid">
                             {% include "patterns/organisms/carousel/carousel.html" with carousel=research_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}
@@ -125,8 +131,8 @@
             {% endif %}
 
                 {% if page.more_information %}
-                    <div class="section__row {% if not page.gallery %}staff-detail-accordion staff-detail-accordion--wo-gallery{% endif %} section__row--last">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title=page.more_information_title %}
+                    <div class="section__row {% if not page.gallery %}staff-detail-accordion staff-detail-accordion--wo-gallery{% endif %} section__row--first section__row--last">
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title="More about "|add:page.first_name %}
                     </div>
                 {% endif %}
                 
