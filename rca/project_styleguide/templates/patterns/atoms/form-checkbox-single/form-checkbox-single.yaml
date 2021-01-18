@@ -1,0 +1,5 @@
+context:
+  field:
+    label: Checkbox single
+    errors: false
+    id_for_label: Checkbox single-single
