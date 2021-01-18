@@ -129,7 +129,9 @@
     }
 
     &--select,
-    &--textarea {
+    &--textarea,
+    &--radio,
+    &--checkbox {
         &#{$root}--errors {
             #{$root}__container {
                 margin-bottom: 0;
@@ -182,9 +184,22 @@
         }
     }
 
+    &--checkbox,
+    &--radio {
+        #{$root}__container {
+            display: flex;
+            flex-direction: row;
+        }
+
+        #{$root}__label {
+            margin-left: ($gutter / 2);
+        }
+    }
+
     &__label {
         display: block;
         margin-bottom: ($gutter / 4);
+        cursor: pointer;
     }
 
     &__input {
@@ -210,6 +225,43 @@
         width: 100%;
         min-height: 200px;
         padding: $gutter ($gutter * 0.75);
+    }
+
+    &__radio,
+    &__checkbox {
+        position: relative;
+        appearance: none;
+        width: 29px;
+        height: 29px;
+        border: 3px solid $color--white;
+        background-color: transparent;
+        opacity: 0.3;
+        cursor: pointer;
+        transition: border-color $transition-cubic, opacity $transition-cubic;
+
+        &:checked {
+            border-color: $color--tertiary;
+            opacity: 1;
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 3px;
+                left: 3px;
+                width: 17px;
+                height: 17px;
+                background-color: $color--tertiary;
+                opacity: 0.3;
+            }
+        }
+    }
+
+    &__radio {
+        border-radius: 50%;
+
+        &::before {
+            border-radius: 50%;
+        }
     }
 
     &__errors {
@@ -353,7 +405,9 @@
 
     .bg--dark &,
     .bg--light & {
-        #{$root}__input {
+        #{$root}__input,
+        #{$root}__radio,
+        #{$root}__checkbox {
             &:-moz-ui-invalid {
                 box-shadow: none;
             }
@@ -361,6 +415,11 @@
 
         &#{$root}--errors {
             #{$root}__input {
+                border-color: $color--red;
+            }
+
+            #{$root}__radio,
+            #{$root}__checkbox {
                 border-color: $color--red;
             }
 
