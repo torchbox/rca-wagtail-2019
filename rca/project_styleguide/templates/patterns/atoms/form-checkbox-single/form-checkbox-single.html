@@ -1,4 +1,4 @@
-<div class="form-item form-item--checkbox form-item--single-checkbox {% if field.errors %}form-item--errors{% endif %} {% if field.help_text %}form-item--has-help-text{% endif %}">
+<div class="form-item form-item--checkbox_input {% if field.errors %}form-item--errors{% endif %} {% if field.help_text %}form-item--has-help-text{% endif %}">
     <div class="form-item__container">
 
         <input class="form-item__checkbox" type="checkbox" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %}>

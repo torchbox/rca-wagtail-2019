@@ -1,5 +1,5 @@
 <div class="form-item form-item--input form-item--tel {% if field.errors %}form-item--errors{% endif %} {% if field.help_text %}form-item--has-help-text{% endif %}">
-    <div class="form-item__container">
+    <div class="form-item__container" data-focus>
 
         {% if field.errors %}
             <div class="form-item__errors">
@@ -12,7 +12,7 @@
             {% if field.field.required %}<span class="form-item__required">*</span>{% endif %}
         </label>
 
-        <input class="form-item__input" type="input" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %} data-focus>
+        <input class="form-item__input" type="input" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %}>
 
     </div>
 
