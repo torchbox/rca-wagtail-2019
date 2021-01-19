@@ -21,7 +21,7 @@ from wagtail.api import APIField
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.core.blocks import CharBlock, StructBlock, URLBlock
 from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable
+from wagtail.core.models import Orderable, Site
 from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.embeds import embeds
 from wagtail.embeds.exceptions import EmbedException
@@ -710,14 +710,13 @@ class ProgrammePage(BasePage):
             {"title": "Fees & funding"},
         ]
         # Only add the 'apply tab' depending global settings or specific programme page settings
-        programme_settings = ProgrammeSettings.for_site(request.site)
+        site = Site.find_for_request(request)
+        programme_settings = ProgrammeSettings.for_site(site)
         if not programme_settings.disable_apply_tab and not self.disable_apply_tab:
             context["tabs"].append({"title": "Apply"})
 
         # Global fields from ProgrammePageGlobalFieldsSettings
-        programme_page_global_fields = ProgrammePageGlobalFieldsSettings.for_site(
-            request.site
-        )
+        programme_page_global_fields = ProgrammePageGlobalFieldsSettings.for_site(site)
         context["programme_page_global_fields"] = programme_page_global_fields
 
         return context
