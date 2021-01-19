@@ -259,16 +259,17 @@
 
 
             {# Staff #}
+
             <section class="schools__staff section section--start section--end bg bg--dark" id="staff">
 
-                <div class="section__row {% if staff_links or staff_cta %}section__row--last-small{% else %}section__row--last-large{% endif %}">
+                <div class="section__row {% if page.staff_external_links or page.staff_cta %}section__row--last-small{% else %}section__row--last-large{% endif %}">
                     <div class="section__header section__header--bottom-space grid">
                         <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
-                            {{ page.sections.staff.title|default:"Our staff" }}
+                            {{ page.staff_title|default:"Our staff" }}
                         </h2>
-                        {% if page.sections.staff.introduction %}
+                        {% if page.staff_summary %}
                             <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page.sections.staff.introduction }}
+                                {{ page.staff_summary }}
                             </div>
                         {% endif %}
                     </div>
@@ -277,7 +278,7 @@
                     </div>
                 </div>
 
-                {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=staff_links cta=staff_cta %}
+                {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=page.staff_external_links cta=page.staff_cta_block links_heading=page.staff_external_links_heading %}
 
             </section>
 
