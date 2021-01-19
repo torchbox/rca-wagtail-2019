@@ -88,6 +88,7 @@
     &--email_field,
     &--decimal_field,
     &--url_field,
+    &--tel,
     &--date_field,
     &--date_time_field,
     &--textarea {
@@ -157,7 +158,8 @@
         }
     }
 
-    &--tel {
+    &--tel,
+    &--decimal_field {
         #{$root}__container {
             width: 100%;
 
@@ -236,7 +238,7 @@
 
         label {
             margin-left: ($gutter / 2);
-            margin-bottom: 0;
+            margin-bottom: 0 !important; // sass-lint:disable-line no-important
         }
     }
 
@@ -246,6 +248,13 @@
             display: flex !important; // sass-lint:disable-line no-important
             align-items: center;
             flex-direction: row;
+            margin-bottom: (
+                $gutter * 0.75
+            ) !important; // sass-lint:disable-line no-important
+        }
+
+        #{$root}__required {
+            margin-left: 5px;
         }
 
         input {
@@ -257,6 +266,15 @@
                 @include font-size(xxs);
             }
         }
+    }
+
+    // Components without moving label
+    &--checkbox_input,
+    &--checkbox_select_multiple,
+    &--radio_select,
+    &--select_multiple,
+    &--select {
+        padding-top: ($gutter / 2);
     }
 
     &--hidden_input {
@@ -285,6 +303,7 @@
         width: 100%;
         min-height: 200px;
         padding: $gutter ($gutter * 0.75);
+        transition: border-color $transition, background-color $transition-cubic;
     }
 
     input[type='radio'],
@@ -339,6 +358,10 @@
         color: $color--tertiary;
     }
 
+    &__instruction {
+        @include font-size(xxs);
+    }
+
     .bg--dark & {
         input[type='text'],
         input[type='input'],
@@ -356,6 +379,15 @@
 
         label {
             color: $color--light-grey;
+        }
+
+        &#{$root}--checkbox_select_multiple,
+        &#{$root}--radio_select {
+            li {
+                label {
+                    color: $color--white;
+                }
+            }
         }
 
         &#{$root}--input,
@@ -398,6 +430,10 @@
             }
         }
 
+        #{$root}__instruction {
+            color: $color--white-65;
+        }
+
         #{$root}__help {
             color: $color--light-grey;
         }
@@ -438,6 +474,15 @@
             color: $color--dark-grey;
         }
 
+        &#{$root}--checkbox_select_multiple,
+        &#{$root}--radio_select {
+            li {
+                label {
+                    color: $color--black;
+                }
+            }
+        }
+
         &#{$root}--input,
         &#{$root}--text_input,
         &#{$root}--email_field,
@@ -469,6 +514,10 @@
                     color: $color--black-24;
                 }
             }
+        }
+
+        #{$root}__instruction {
+            color: $color--black-65;
         }
 
         #{$root}__help {
