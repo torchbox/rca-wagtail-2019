@@ -5,8 +5,9 @@ class FormFocus {
 
     constructor(node) {
         this.formItem = node;
-        this.formItemClass = '.form-item';
-        this.nearestFormItem = this.formItem.closest(this.formItemClass);
+        this.formFieldInput = this.formItem.querySelector('input');
+        this.formFieldTextarea = this.formItem.querySelector('textarea');
+        this.formType = this.formItem.dataset.focustype;
         this.focusClass = 'form-item--has-focus';
         this.hasContentClass = 'form-item--has-content';
         this.bindEvents();
@@ -14,24 +15,51 @@ class FormFocus {
 
     // Apply focus class
     applyClass() {
-        this.nearestFormItem.classList.add(this.focusClass);
+        this.formItem.classList.add(this.focusClass);
     }
 
     // Remove focus class
     removeClass() {
         // Check if input has content and add content class if it does
-        if (this.formItem.value) {
-            this.nearestFormItem.classList.add(this.hasContentClass);
-            this.nearestFormItem.classList.remove(this.focusClass);
-        } else {
-            this.nearestFormItem.classList.remove(this.focusClass);
-            this.nearestFormItem.classList.remove(this.hasContentClass);
+        if (this.formType === 'textarea') {
+            if (this.formFieldTextarea.value) {
+                this.formItem.classList.add(this.hasContentClass);
+                this.formItem.classList.remove(this.focusClass);
+            } else {
+                this.formItem.classList.remove(this.focusClass);
+                this.formItem.classList.remove(this.hasContentClass);
+            }
+        }
+
+        if (this.formType === 'input') {
+            if (this.formFieldInput.value) {
+                this.formItem.classList.add(this.hasContentClass);
+                this.formItem.classList.remove(this.focusClass);
+            } else {
+                this.formItem.classList.remove(this.focusClass);
+                this.formItem.classList.remove(this.hasContentClass);
+            }
         }
     }
 
     bindEvents() {
-        this.formItem.addEventListener('focusin', () => this.applyClass());
-        this.formItem.addEventListener('focusout', () => this.removeClass());
+        if (this.formType === 'textarea') {
+            this.formFieldTextarea.addEventListener('focusin', () =>
+                this.applyClass(),
+            );
+            this.formFieldTextarea.addEventListener('focusout', () =>
+                this.removeClass(),
+            );
+        }
+
+        if (this.formType === 'input') {
+            this.formFieldInput.addEventListener('focusin', () =>
+                this.applyClass(),
+            );
+            this.formFieldInput.addEventListener('focusout', () =>
+                this.removeClass(),
+            );
+        }
     }
 }
 
