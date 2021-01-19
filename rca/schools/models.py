@@ -515,8 +515,9 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
 
         from rca.people.models import StaffPage
 
-        if self.related_staff.first():
-            return self.related_staff.select_related("image")
+        related_staff = self.related_staff.select_related("image")
+        if related_staff:
+            return related_staff
 
         # For any automatially related staff, adjust the list so we don't have
         # to make edits to the template shared by other page models.
