@@ -1,4 +1,5 @@
 // sass-lint:disable no-vendor-prefixes
+// sass-lint:disable class-name-format
 .form-item {
     $root: &;
     $form-bottom-margin: ($gutter * 0.75);
@@ -14,8 +15,15 @@
     // Applied via js
     &--has-focus,
     &--has-content {
-        &#{$root}--input {
-            #{$root}__label {
+        &#{$root}--input,
+        &#{$root}--text_input,
+        &#{$root}--email_field,
+        &#{$root}--decimal_field,
+        &#{$root}--url_field,
+        &#{$root}--date_field,
+        &#{$root}--date_time_field,
+        &#{$root}--textarea {
+            label {
                 @include font-size(xxxs);
                 transform: translate3d(
                     0,
@@ -25,14 +33,22 @@
             }
         }
 
-        #{$root}__input {
+        input,
+        textarea {
             outline: 0;
         }
     }
 
     // Applied via js when form item has a value
     &--has-content {
-        &#{$root}--input {
+        &#{$root}--input,
+        &#{$root}--text_input,
+        &#{$root}--email_field,
+        &#{$root}--decimal_field,
+        &#{$root}--url_field,
+        &#{$root}--date_field,
+        &#{$root}--date_time_field,
+        &#{$root}--textarea {
             #{$root}__container {
                 &::after {
                     opacity: 0;
@@ -43,7 +59,14 @@
 
     // Applied via js when form item has focus
     &--has-focus {
-        &#{$root}--input {
+        &#{$root}--input,
+        &#{$root}--text_input,
+        &#{$root}--email_field,
+        &#{$root}--decimal_field,
+        &#{$root}--url_field,
+        &#{$root}--date_field,
+        &#{$root}--date_time_field,
+        &#{$root}--textarea {
             // Orange focus border
             #{$root}__container {
                 &::after {
@@ -60,7 +83,15 @@
         }
     }
 
-    &--input {
+    &--input,
+    &--text_input,
+    &--email_field,
+    &--decimal_field,
+    &--url_field,
+    &--tel,
+    &--date_field,
+    &--date_time_field,
+    &--textarea {
         #{$root}__container {
             padding-top: $gutter;
             overflow: hidden;
@@ -88,7 +119,7 @@
             }
         }
 
-        #{$root}__label {
+        label {
             @include font-size(xs);
             position: absolute;
             left: 0;
@@ -112,9 +143,23 @@
                 transform: translate3d(0, 15px, 0);
             }
         }
+
+        input[type='text'],
+        input[type='input'],
+        input[type='email'],
+        input[type='tel'],
+        input[type='url'],
+        input[type='number'] {
+            height: $form-item-height;
+            width: 100%;
+            padding-left: 15px;
+            transition: border-color $transition,
+                background-color $transition-cubic;
+        }
     }
 
-    &--tel {
+    &--tel,
+    &--decimal_field {
         #{$root}__container {
             width: 100%;
 
@@ -130,7 +175,7 @@
 
     &--select,
     &--textarea,
-    &--radio,
+    &--radio_select,
     &--checkbox {
         &#{$root}--errors {
             #{$root}__container {
@@ -184,32 +229,65 @@
         }
     }
 
-    &--checkbox,
-    &--radio {
+    &--checkbox_input {
         #{$root}__container {
             display: flex;
             flex-direction: row;
+            align-items: center;
         }
 
-        #{$root}__label {
+        label {
             margin-left: ($gutter / 2);
+            margin-bottom: 0 !important; // sass-lint:disable-line no-important
         }
     }
 
-    &__label {
+    &--checkbox_select_multiple,
+    &--radio_select {
+        label {
+            display: flex !important; // sass-lint:disable-line no-important
+            align-items: center;
+            flex-direction: row;
+            margin-bottom: (
+                $gutter * 0.75
+            ) !important; // sass-lint:disable-line no-important
+        }
+
+        #{$root}__required {
+            margin-left: 5px;
+        }
+
+        input {
+            margin-right: ($gutter / 2);
+        }
+
+        li {
+            label {
+                @include font-size(xxs);
+            }
+        }
+    }
+
+    // Components without moving label
+    &--checkbox_input,
+    &--checkbox_select_multiple,
+    &--radio_select,
+    &--select_multiple,
+    &--select {
+        padding-top: ($gutter / 2);
+    }
+
+    &--hidden_input {
+        @include hidden();
+    }
+
+    label {
         display: block;
         margin-bottom: ($gutter / 4);
         cursor: pointer;
     }
 
-    &__input {
-        height: $form-item-height;
-        width: 100%;
-        padding-left: 15px;
-        transition: border-color $transition, background-color $transition-cubic;
-    }
-
-    &__select {
+    select {
         position: relative;
         width: 100%;
         height: $form-item-height;
@@ -221,14 +299,15 @@
         border-radius: 0;
     }
 
-    &__textarea {
+    textarea {
         width: 100%;
         min-height: 200px;
         padding: $gutter ($gutter * 0.75);
+        transition: border-color $transition, background-color $transition-cubic;
     }
 
-    &__radio,
-    &__checkbox {
+    input[type='radio'],
+    input[type='checkbox'] {
         position: relative;
         appearance: none;
         width: 29px;
@@ -256,7 +335,7 @@
         }
     }
 
-    &__radio {
+    input[type='radio'] {
         border-radius: 50%;
 
         &::before {
@@ -279,22 +358,47 @@
         color: $color--tertiary;
     }
 
+    &__instruction {
+        @include font-size(xxs);
+    }
+
     .bg--dark & {
-        #{$root}__input,
-        #{$root}__select,
-        #{$root}__textarea {
+        input[type='text'],
+        input[type='input'],
+        input[type='email'],
+        input[type='tel'],
+        input[type='url'],
+        input[type='number'],
+        select,
+        textarea {
             background-color: $color--form-input-darkbg;
             border: 1px solid $color--white-12;
             caret-color: $color--white;
             color: $color--white;
         }
 
-        #{$root}__label {
+        label {
             color: $color--light-grey;
         }
 
-        &#{$root}--input {
-            #{$root}__label {
+        &#{$root}--checkbox_select_multiple,
+        &#{$root}--radio_select {
+            li {
+                label {
+                    color: $color--white;
+                }
+            }
+        }
+
+        &#{$root}--input,
+        &#{$root}--text_input,
+        &#{$root}--email_field,
+        &#{$root}--decimal_field,
+        &#{$root}--url_field,
+        &#{$root}--date_field,
+        &#{$root}--date_time_field,
+        &#{$root}--textarea {
+            label {
                 color: $color--white-65;
                 background-color: $color--form-input-darkbg;
             }
@@ -304,27 +408,37 @@
             }
 
             &#{$root}--has-focus {
-                #{$root}__input {
+                input[type='text'],
+                input[type='input'],
+                input[type='email'],
+                input[type='tel'],
+                input[type='url'],
+                input[type='number'],
+                textarea {
                     background-color: $color--form-input-focus-darkbg;
                 }
 
-                #{$root}__label {
+                label {
                     background-color: $color--form-input-focus-darkbg;
                 }
             }
 
             &#{$root}--has-content {
-                #{$root}__label {
+                label {
                     color: $color--white-24;
                 }
             }
+        }
+
+        #{$root}__instruction {
+            color: $color--white-65;
         }
 
         #{$root}__help {
             color: $color--light-grey;
         }
 
-        #{$root}__select {
+        select {
             &:focus {
                 border-color: $color--white;
                 background-color: $color--form-input-focus-darkbg;
@@ -342,21 +456,41 @@
     }
 
     .bg--light & {
-        #{$root}__input,
-        #{$root}__select,
-        #{$root}__textarea {
+        input[type='text'],
+        input[type='input'],
+        input[type='email'],
+        input[type='tel'],
+        input[type='url'],
+        input[type='number'],
+        select,
+        textarea {
             background-color: $color--form-input-lightbg;
             border: 1px solid $color--white-12;
             caret-color: $color--black;
             color: $color--black;
         }
 
-        #{$root}__label {
+        label {
             color: $color--dark-grey;
         }
 
-        &#{$root}--input {
-            #{$root}__label {
+        &#{$root}--checkbox_select_multiple,
+        &#{$root}--radio_select {
+            li {
+                label {
+                    color: $color--black;
+                }
+            }
+        }
+
+        &#{$root}--input,
+        &#{$root}--text_input,
+        &#{$root}--email_field,
+        &#{$root}--decimal_field,
+        &#{$root}--url_field,
+        &#{$root}--date_field,
+        &#{$root}--date_time_field {
+            label {
                 color: $color--black-65;
                 background-color: $color--form-input-lightbg;
             }
@@ -366,20 +500,24 @@
             }
 
             &#{$root}--has-focus {
-                #{$root}__input {
+                input {
                     background-color: $color--form-input-focus-lightbg;
                 }
 
-                #{$root}__label {
+                label {
                     background-color: $color--form-input-focus-lightbg;
                 }
             }
 
             &#{$root}--has-content {
-                #{$root}__label {
+                label {
                     color: $color--black-24;
                 }
             }
+        }
+
+        #{$root}__instruction {
+            color: $color--black-65;
         }
 
         #{$root}__help {
@@ -405,27 +543,26 @@
 
     .bg--dark &,
     .bg--light & {
-        #{$root}__input,
-        #{$root}__radio,
-        #{$root}__checkbox {
+        input {
             &:-moz-ui-invalid {
                 box-shadow: none;
             }
         }
 
         &#{$root}--errors {
-            #{$root}__input {
-                border-color: $color--red;
-            }
-
-            #{$root}__radio,
-            #{$root}__checkbox {
+            input {
                 border-color: $color--red;
             }
 
             &#{$root}--has-focus,
             &#{$root}--has-content {
-                #{$root}__input {
+                input[type='text'],
+                input[type='input'],
+                input[type='email'],
+                input[type='tel'],
+                input[type='url'],
+                input[type='number'],
+                textarea {
                     border-color: transparent;
                 }
 
@@ -436,7 +573,7 @@
                 }
             }
 
-            #{$root}__select {
+            select {
                 border-color: $color--red;
 
                 #{$root}__container {
@@ -449,11 +586,23 @@
 
         &#{$root}--has-focus,
         &#{$root}--has-content {
-            #{$root}__input {
+            input[type='text'],
+            input[type='input'],
+            input[type='email'],
+            input[type='tel'],
+            input[type='url'],
+            input[type='number'],
+            textarea {
                 border-color: transparent;
             }
 
-            &#{$root}--input {
+            &#{$root}--input,
+            &#{$root}--text_input,
+            &#{$root}--email_field,
+            &#{$root}--decimal_field,
+            &#{$root}--url_field,
+            &#{$root}--date_field,
+            &#{$root}--date_time_field {
                 #{$root}__required {
                     color: $color--tertiary;
                 }
