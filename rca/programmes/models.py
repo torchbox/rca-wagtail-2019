@@ -46,6 +46,7 @@ from rca.utils.blocks import (
 from rca.utils.models import (
     HERO_COLOUR_CHOICES,
     BasePage,
+    ContactFieldsMixin,
     ProgrammeSettings,
     RelatedPage,
 )
@@ -179,7 +180,7 @@ class ProgramPageRelatedStaff(Orderable):
         return self.name
 
 
-class ProgrammePage(BasePage):
+class ProgrammePage(ContactFieldsMixin, BasePage):
     parent_page_types = ["ProgrammeIndexPage"]
     subpage_types = []
     template = "patterns/pages/programmes/programme_detail.html"
@@ -323,15 +324,11 @@ class ProgrammePage(BasePage):
         ],
         blank=True,
     )
-    contact_email = models.EmailField(blank=True)
-    contact_url = models.URLField(blank=True)
-    contact_image = models.ForeignKey(
-        "images.CustomImage",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-    )
+
+    # TODO
+    # Alumni Stories Carousel (api fetch)
+    # Related Content (news and events api fetch)
+
     # Programme Curriculumm
     curriculum_image = models.ForeignKey(
         get_image_model_string(),
@@ -500,14 +497,7 @@ class ProgrammePage(BasePage):
             heading="Facilities",
         ),
         MultiFieldPanel([StreamFieldPanel("notable_alumni_links")], heading="Alumni"),
-        MultiFieldPanel(
-            [
-                ImageChooserPanel("contact_image"),
-                FieldPanel("contact_email"),
-                FieldPanel("contact_url"),
-            ],
-            heading="Contact information",
-        ),
+        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
     ]
     programme_curriculum_pannels = [
         MultiFieldPanel(
@@ -663,14 +653,6 @@ class ProgrammePage(BasePage):
             errors["staff_link_text"].append("Please the text to be used for the link")
         if self.staff_link_text and not self.staff_link:
             errors["staff_link_text"].append("Please add a URL value for the link")
-        if not self.contact_email and not self.contact_url:
-            errors["contact_url"].append(
-                "Please add a target value for the contact us link"
-            )
-        if self.contact_email and self.contact_url:
-            errors["contact_url"].append(
-                "Only one of URL or an Email value is supported here"
-            )
         if not self.search_description:
             errors["search_description"].append(
                 "Please add a search description for the page."
@@ -718,7 +700,7 @@ class ProgrammePage(BasePage):
         return context
 
 
-class ProgrammeIndexPage(BasePage):
+class ProgrammeIndexPage(ContactFieldsMixin, BasePage):
     max_count = 1
     subpage_types = ["ProgrammePage", "shortcourses.ShortCoursePage"]
     template = "patterns/pages/programmes/programme_index.html"
@@ -726,47 +708,13 @@ class ProgrammeIndexPage(BasePage):
     introduction = RichTextField(blank=False, features=["link"])
     search_placeholder_text = models.TextField(blank=True, max_length=120)
 
-    contact_title = models.CharField(max_length=120)
-    contact_text = models.CharField(max_length=250)
-    contact_email = models.EmailField(blank=True)
-    contact_url = models.URLField(blank=True, verbose_name="Contact URL")
-    contact_image = models.ForeignKey(
-        "images.CustomImage",
-        null=True,
-        blank=False,
-        on_delete=models.SET_NULL,
-        related_name="+",
-    )
-
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
         FieldPanel("search_placeholder_text"),
-        MultiFieldPanel(
-            [
-                ImageChooserPanel("contact_image"),
-                FieldPanel("contact_title"),
-                FieldPanel("contact_text"),
-                FieldPanel("contact_email"),
-                FieldPanel("contact_url"),
-            ],
-            heading="Contact information",
-        ),
+        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information",),
     ]
 
     search_fields = BasePage.search_fields + [index.SearchField("introduction")]
-
-    def clean(self):
-        errors = defaultdict(list)
-        if not self.contact_email and not self.contact_url:
-            errors["contact_url"].append(
-                "Please add an email or URL for the contact link"
-            )
-        if self.contact_email and self.contact_url:
-            errors["contact_url"].append(
-                "Please only provide an email or a URL, not both"
-            )
-        if errors:
-            raise ValidationError(errors)
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)

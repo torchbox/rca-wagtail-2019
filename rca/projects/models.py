@@ -38,6 +38,7 @@ from rca.utils.filter import TabStyleFilter
 from rca.utils.models import (
     HERO_COLOUR_CHOICES,
     BasePage,
+    ContactFieldsMixin,
     RelatedPage,
     RelatedStaffPageWithManualOptions,
     ResearchTheme,
@@ -109,7 +110,7 @@ class ProjectPageProjectLeadStaff(RelatedStaffPageWithManualOptions):
     source_page = ParentalKey("projects.ProjectPage", related_name="project_lead")
 
 
-class ProjectPage(BasePage):
+class ProjectPage(ContactFieldsMixin, BasePage):
     template = "patterns/pages/project/project_detail.html"
 
     hero_image = models.ForeignKey(
@@ -178,16 +179,6 @@ class ProjectPage(BasePage):
     quote_carousel = StreamField(
         [("quote", QuoteBlock())], blank=True, verbose_name=_("Quote carousel")
     )
-    contact_email = models.EmailField(blank=True)
-    contact_url = models.URLField(blank=True)
-    contact_image = models.ForeignKey(
-        "images.CustomImage",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-    )
-    contact_text = models.TextField(blank=True)
     external_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="External Links"
     )
@@ -227,10 +218,11 @@ class ProjectPage(BasePage):
         StreamFieldPanel("external_links"),
         MultiFieldPanel(
             [
-                ImageChooserPanel("contact_image"),
-                FieldPanel("contact_text"),
-                FieldPanel("contact_url"),
-                FieldPanel("contact_email"),
+                ImageChooserPanel("contact_model_image"),
+                FieldPanel("contact_model_text"),
+                FieldPanel("contact_model_email"),
+                FieldPanel("contact_model_url"),
+                PageChooserPanel("contact_model_form"),
             ],
             heading="Contact information",
         ),
@@ -307,14 +299,6 @@ class ProjectPage(BasePage):
         if self.end_date and self.end_date < self.start_date:
             errors["end_date"].append(
                 _("Events involving time travel are not supported")
-            )
-        if not self.contact_email and not self.contact_url:
-            errors["contact_url"].append(
-                "Please add a target value for the contact us link"
-            )
-        if self.contact_email and self.contact_url:
-            errors["contact_url"].append(
-                "Only one of URL or an Email value is supported here"
             )
 
         if errors:

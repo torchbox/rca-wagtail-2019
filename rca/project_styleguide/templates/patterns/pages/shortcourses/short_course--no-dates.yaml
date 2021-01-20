@@ -87,7 +87,7 @@ context:
           link: 'http://www.torchbox.com'
           course: 'Design'
     staff_link: false
-    contact_image: true
+    contact_model_image: true
     relatedcontent: true
   related_staff:
     - item
