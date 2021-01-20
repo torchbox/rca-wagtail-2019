@@ -8,14 +8,14 @@ class FormFocus {
         this.formFieldInput = this.formItem.querySelector('input');
         this.formFieldTextarea = this.formItem.querySelector('textarea');
         this.formType = this.formItem.dataset.focustype;
-        this.focusClass = 'form-item--has-focus';
+        this.hasFocusClass = 'form-item--has-focus';
         this.hasContentClass = 'form-item--has-content';
         this.bindEvents();
     }
 
     // Apply focus class
     applyClass() {
-        this.formItem.classList.add(this.focusClass);
+        this.formItem.classList.add(this.hasFocusClass);
     }
 
     // Remove focus class
@@ -24,9 +24,9 @@ class FormFocus {
         if (this.formType === 'textarea') {
             if (this.formFieldTextarea.value) {
                 this.formItem.classList.add(this.hasContentClass);
-                this.formItem.classList.remove(this.focusClass);
+                this.formItem.classList.remove(this.hasFocusClass);
             } else {
-                this.formItem.classList.remove(this.focusClass);
+                this.formItem.classList.remove(this.hasFocusClass);
                 this.formItem.classList.remove(this.hasContentClass);
             }
         }
@@ -34,9 +34,9 @@ class FormFocus {
         if (this.formType === 'input') {
             if (this.formFieldInput.value) {
                 this.formItem.classList.add(this.hasContentClass);
-                this.formItem.classList.remove(this.focusClass);
+                this.formItem.classList.remove(this.hasFocusClass);
             } else {
-                this.formItem.classList.remove(this.focusClass);
+                this.formItem.classList.remove(this.hasFocusClass);
                 this.formItem.classList.remove(this.hasContentClass);
             }
         }
