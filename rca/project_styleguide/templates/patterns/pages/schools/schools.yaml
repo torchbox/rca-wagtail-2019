@@ -49,10 +49,77 @@ context:
     related_pages_title: Enterprise at the RCA
     staff_link: '#'
     staff_link_text: View all school staff
-  hero_image:
-    title: Synaputral Decadence is the flavour of the distant future
-    creator: Jianjin Lee Chen
-    photographer: Sekiro Yamananka
+    hero_image:
+      title: Synaputral Decadence is the flavour of the distant future
+      creator: Jianjin Lee Chen
+      photographer: Sekiro Yamananka
+    collaborators_heading: Organisations we've worked with
+    collaborators:
+      - slide:
+        value:
+          link:
+            title: 'Red bull'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 2'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 3'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 4'
+            url: '#'
+          image: true
+    external_links_heading: Also…
+    external_links:
+      - item:
+        value: { text: 'Our research themes', href: 'http://www.google.com' }
+      - item:
+        value:
+          {
+            text: 'Architects Council of Europe (ACE)',
+            href: 'http://www.google.com',
+          }
+    research_cta_block:
+      - block:
+        value:
+          title: Lab. for Design & Machine Learning
+          description: In addition to the research themes, the School of Architecture created the Laboratory for Design & Machine Learning to conduct research into new interdisciplinary forms of designing, evaluation, and policymaking.
+          action: Find out more
+          link: '#'
+    research_collaboration:
+      - slide:
+        value:
+          link:
+            title: 'Red bull'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 2'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 3'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 4'
+            url: '#'
+          image: true
   open_day_link:
     get_link_url: #
     get_link_text: Book or view all open days
