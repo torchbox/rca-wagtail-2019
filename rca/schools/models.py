@@ -180,9 +180,10 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
     introduction_image = models.ForeignKey(
         get_image_model_string(),
         null=True,
-        blank=True,
+        blank=False,
         on_delete=models.SET_NULL,
         related_name="+",
+        help_text="This image appears after the intro copy. If a video is uploaded, this image is required"
     )
     video_caption = models.CharField(
         blank=True,
@@ -275,8 +276,12 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
         InlinePanel("hero_items", max_num=6, label="Hero Items", help_text="You can add up to 6 hero images"),
         FieldPanel("introduction"),
         ImageChooserPanel("introduction_image"),
-        FieldPanel("video"),
-        FieldPanel("video_caption"),
+        MultiFieldPanel(
+            [
+                FieldPanel("video"),
+                FieldPanel("video_caption"),
+            ], heading="Video"
+        ),
         FieldPanel("body"),
     ]
     key_details_panels = [
