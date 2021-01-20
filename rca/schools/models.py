@@ -1,6 +1,7 @@
 import random
 from collections import defaultdict
 
+from django.apps import apps
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -38,8 +39,16 @@ from rca.utils.models import (
     HERO_COLOUR_CHOICES,
     LIGHT_HERO,
     BasePage,
+    ContactFieldsMixin,
+    LegacyNewsAndEventsMixin,
     LinkFields,
+    RelatedPage,
+    RelatedStaffPageWithManualOptions,
 )
+
+
+class SchoolPagePageStaff(RelatedStaffPageWithManualOptions):
+    source_page = ParentalKey("schools.SchoolPage", related_name="related_staff")
 
 
 class RelatedSchoolPage(Orderable):
@@ -47,6 +56,11 @@ class RelatedSchoolPage(Orderable):
     page = models.ForeignKey("schools.SchoolPage", on_delete=models.CASCADE)
 
     panels = [PageChooserPanel("page")]
+
+
+class SchoolPageRelatedShortCourse(RelatedPage):
+    source_page = ParentalKey("SchoolPage", related_name="related_short_courses")
+    panels = [PageChooserPanel("page", ["shortcourses.ShortCoursePage"])]
 
 
 class HeroItem(models.Model):
@@ -72,9 +86,9 @@ class OpenDayLink(LinkFields):
 class SchoolPageTeaser(models.Model):
     source_page = ParentalKey("SchoolPage", related_name="page_teasers")
     title = models.CharField(max_length=125)
-    summary = models.CharField(max_length=250)
+    summary = models.CharField(max_length=250, blank=True)
     pages = StreamField(
-        StreamBlock([("Page", RelatedPageListBlockPage(max_num=3))], max_num=1)
+        StreamBlock([("Page", RelatedPageListBlockPage(max_num=6))], max_num=1)
     )
     panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("pages")]
 
@@ -150,15 +164,27 @@ class SchoolPageRelatedProjectPage(Orderable):
     panels = [PageChooserPanel("page")]
 
 
-class SchoolPage(BasePage):
+class StudentPageStudentStories(models.Model):
+    source_page = ParentalKey("SchoolPage", related_name="student_stories")
+    title = models.CharField(max_length=125)
+    slides = StreamField(StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1))
+
+    panels = [FieldPanel("title"), StreamFieldPanel("slides")]
+
+    def __str__(self):
+        return self.title
+
+
+class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     template = "patterns/pages/schools/schools.html"
     introduction = RichTextField(blank=False, features=["link"])
     introduction_image = models.ForeignKey(
         get_image_model_string(),
         null=True,
-        blank=True,
+        blank=False,
         on_delete=models.SET_NULL,
         related_name="+",
+        help_text="This image appears after the intro copy. If a video is uploaded, this image is required",
     )
     video_caption = models.CharField(
         blank=True,
@@ -178,8 +204,7 @@ class SchoolPage(BasePage):
     # location
     location = RichTextField(blank=True, features=["link"])
     # next open day
-    next_open_day_start_date = models.DateField(blank=True, null=True)
-    next_open_day_end_date = models.DateField(blank=True, null=True)
+    next_open_day_date = models.DateField(blank=True, null=True)
 
     # Get in touch
     get_in_touch = RichTextField(blank=True, features=["link"])
@@ -187,6 +212,7 @@ class SchoolPage(BasePage):
     social_links = StreamField(
         StreamBlock([("Link", LinkBlock())], max_num=5, required=False)
     )
+    news_and_events_heading = models.CharField(blank=True, max_length=120)
     collaborators_heading = models.CharField(blank=True, max_length=120)
     collaborators = StreamField(
         StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
@@ -205,6 +231,42 @@ class SchoolPage(BasePage):
         StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
         blank=True,
     )
+    related_programmes_title = models.CharField(blank=True, max_length=120)
+    related_programmes_summary = models.CharField(blank=True, max_length=500)
+    related_short_courses_title = models.CharField(blank=True, max_length=120)
+    related_short_courses_summary = models.CharField(blank=True, max_length=500)
+    programmes_links_heading = models.CharField(
+        max_length=125, blank=True, verbose_name="Links heading"
+    )
+    programmes_external_links = StreamField(
+        [("link", InternalExternalLinkBlock())], blank=True, verbose_name="Links"
+    )
+    programmes_cta_block = StreamField(
+        [("call_to_action", CallToActionBlock(label=_("text promo")))],
+        blank=True,
+        verbose_name="Call to action",
+    )
+
+    # Staff
+    staff_title = models.CharField(
+        blank=True, max_length=120, verbose_name="Related staff title"
+    )
+    staff_summary = models.CharField(
+        blank=True, max_length=500, verbose_name="Related staff summary text"
+    )
+    staff_external_links = StreamField(
+        [("link", InternalExternalLinkBlock())], blank=True, verbose_name="Links"
+    )
+    staff_external_links_heading = models.CharField(
+        max_length=125, blank=True, verbose_name="Related staff links heading"
+    )
+    staff_cta_block = StreamField(
+        [("call_to_action", CallToActionBlock(label=_("text promo")))], blank=True,
+    )
+    staff_link = models.URLField(blank=True)
+    staff_link_text = models.CharField(
+        max_length=125, blank=True, help_text="E.g. 'See all staff'"
+    )
 
     search_fields = BasePage.search_fields + [index.SearchField("introduction")]
     api_fields = [APIField("introduction")]
@@ -212,19 +274,24 @@ class SchoolPage(BasePage):
     # Admin panel configuration
     content_panels = [
         *BasePage.content_panels,
-        InlinePanel("hero_items", max_num=5, label="Hero Items"),
+        InlinePanel(
+            "hero_items",
+            max_num=6,
+            label="Hero Items",
+            help_text="You can add up to 6 hero images",
+        ),
         FieldPanel("introduction"),
         ImageChooserPanel("introduction_image"),
-        FieldPanel("video"),
-        FieldPanel("video_caption"),
+        MultiFieldPanel(
+            [FieldPanel("video"), FieldPanel("video_caption")], heading="Video"
+        ),
         FieldPanel("body"),
     ]
     key_details_panels = [
         PageChooserPanel("school_dean"),
         MultiFieldPanel(
             [
-                FieldPanel("next_open_day_start_date"),
-                FieldPanel("next_open_day_end_date"),
+                FieldPanel("next_open_day_date"),
                 InlinePanel("open_day_link", max_num=1, label="Link"),
             ],
             heading="Next open day",
@@ -240,6 +307,11 @@ class SchoolPage(BasePage):
             heading="Collaborators",
         ),
         InlinePanel("stats_block", label="Statistics", max_num=1),
+    ]
+    news_and_events_panels = [
+        FieldPanel("news_and_events_heading"),
+        InlinePanel("student_stories", label="Student Stories", max_num=1),
+        FieldPanel("legacy_news_and_event_tags"),
     ]
     research_panels = [
         MultiFieldPanel(
@@ -275,18 +347,58 @@ class SchoolPage(BasePage):
             [StreamFieldPanel("research_cta_block")], heading="Call To Action"
         ),
     ]
-    programmes_panels = []
-    short_course_panels = []
-    staff_panels = []
-    contact_panels = []
+    programmes_panels = [
+        FieldPanel("related_programmes_title"),
+        FieldPanel("related_programmes_summary"),
+    ]
+    short_course_panels = [
+        FieldPanel("related_short_courses_title"),
+        FieldPanel("related_short_courses_summary"),
+        InlinePanel("related_short_courses", label="Short Course Pages"),
+        MultiFieldPanel(
+            [
+                FieldPanel("programmes_links_heading"),
+                StreamFieldPanel("programmes_external_links"),
+            ],
+            heading="Links",
+        ),
+        MultiFieldPanel(
+            [StreamFieldPanel("programmes_cta_block")], heading="Call To Action"
+        ),
+    ]
+    staff_panels = [
+        FieldPanel("staff_title"),
+        FieldPanel("staff_summary"),
+        InlinePanel("related_staff", label="Related staff"),
+        HelpPanel(
+            content="By default, related staff will be automatically listed. This \
+                can be overriden by adding staff pages here."
+        ),
+        MultiFieldPanel(
+            [FieldPanel("staff_link_text"), FieldPanel("staff_link")],
+            heading="View more staff link",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("staff_external_links_heading"),
+                StreamFieldPanel("staff_external_links", heading="Links"),
+            ],
+            heading="Links",
+        ),
+        StreamFieldPanel("staff_cta_block", heading="Call to action"),
+    ]
+    contact_panels = [
+        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
+    ]
     edit_handler = TabbedInterface(
         [
             ObjectList(content_panels, heading="Introduction"),
             ObjectList(key_details_panels, heading="Key details"),
             ObjectList(about_panel, heading="About"),
+            ObjectList(news_and_events_panels, heading="News and Events"),
             ObjectList(research_panels, heading="Our research"),
             ObjectList(programmes_panels, heading="Programmes"),
-            ObjectList(programmes_panels, heading="Short Courses"),
+            ObjectList(short_course_panels, heading="Short Courses"),
             ObjectList(staff_panels, heading="Staff"),
             ObjectList(contact_panels, heading="Contact"),
             ObjectList(BasePage.promote_panels, heading="Promote"),
@@ -308,19 +420,10 @@ class SchoolPage(BasePage):
     def clean(self):
         errors = defaultdict(list)
         super().clean()
-        if self.next_open_day_end_date and not self.next_open_day_start_date:
-            errors["next_open_day_start_date"].append(
-                _("If you enter an end date, you must also enter a start date")
-            )
-
-        if (
-            self.next_open_day_end_date
-            and self.next_open_day_end_date < self.next_open_day_start_date
-        ):
-            errors["next_open_day_end_date"].append(
-                _("Events involving time travel are not supported")
-            )
-
+        if self.staff_link and not self.staff_link_text:
+            errors["staff_link_text"].append(_("Missing text value for the link"))
+        if self.staff_link_text and not self.staff_link:
+            errors["staff_link"].append(_("Missing url value for the link"))
         if errors:
             raise ValidationError(errors)
 
@@ -370,6 +473,54 @@ class SchoolPage(BasePage):
             "slides": related_list_block_slideshow(student_research.slides),
         }
 
+    def get_student_stories(self, student_stories, request):
+        if not student_stories:
+            return {}
+        return {
+            "title": student_stories.title,
+            "slides": related_list_block_slideshow(student_stories.slides),
+        }
+
+    def get_related_programmes(self):
+        """
+        Get programme pages from the programme_page__school relationship.
+        Returns:
+            List -- of filtered and formatted Programme Pages.
+        """
+        ProgrammePage = apps.get_model("programmes", "ProgrammePage")
+
+        all_programmes = ProgrammePage.objects.live().public()
+        return all_programmes.filter(
+            related_schools_and_research_pages__page_id=self.id
+        )
+
+    def get_programme_index_link(self):
+        ProgrammeIndexPage = apps.get_model("programmes", "ProgrammeIndexPage")
+        programm_index = ProgrammeIndexPage.objects.live().first()
+        if programm_index:
+            return f"{programm_index.get_url()}?category=related_schools_and_research_pages&value={self.pk}-{self.slug}"
+
+    def get_related_staff(self):
+        """Method to return a related staff.
+        The default behaviour should be to find related staff via the relationship
+        from StaffPage > SchoolPage. This also needs to offer the option to
+        manually add related staff to the school page, this helps solve issues
+        of custom ordering that's needed with large (>25) staff items.
+        """
+
+        from rca.people.models import StaffPage
+
+        related_staff = self.related_staff.select_related("image")
+        if related_staff:
+            return related_staff
+
+        # For any automatially related staff, adjust the list so we don't have
+        # to make edits to the template shared by other page models.
+        staff = []
+        for item in StaffPage.objects.filter(related_schools__page=self).live():
+            staff.append({"page": item})
+        return staff
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         # We're picking the hero from multiple objects so we need to override
@@ -392,6 +543,34 @@ class SchoolPage(BasePage):
         context["student_research"] = self.get_student_research(
             self.student_research.first(), request
         )
+        context["student_stories"] = self.get_student_stories(
+            self.student_stories.first(), request
+        )
+        context["staff"] = self.get_related_staff()
+        # Set the page tab titles for the jump menu
+        context["related_programmes"] = [
+            {
+                "related_items": [
+                    page.specific for page in self.get_related_programmes()
+                ],
+                "link": {
+                    "url": self.get_programme_index_link,
+                    "title": "Browse all RCA's programmes",
+                },
+            },
+        ]
+        context["related_short_courses"] = [
+            {
+                "related_items": [
+                    rel.page.specific
+                    for rel in self.related_short_courses.select_related("page")
+                ],
+                "link": {
+                    "url": self.get_programme_index_link,
+                    "title": "View all of our short courses",
+                },
+            }
+        ]
         # Set the page tab titles for the jump menu
         context["tabs"] = self.page_nav()
         return context

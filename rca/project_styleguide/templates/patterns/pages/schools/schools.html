@@ -107,13 +107,13 @@
                 </div>
                 {% endif %}
 
-                {% if news_and_events %}
+                {% if page.legacy_news_and_events %}
                 <div class="section__row section__row--last schools__about--news">
                     <div class="section__header grid">
-                        <h2 class="section__heading section__heading--primary heading heading--four">What's happening</h2>
+                        <h2 class="section__heading section__heading--primary heading heading--four">{% firstof page.news_and_events_heading "News & events" %}</h2>
                     </div>
                     <div class="section__content grid">
-                        {% include "patterns/organisms/news/news_api_content.html" with news=news_and_events %}
+                        {% include "patterns/organisms/news/news_api_content.html" with news=page.legacy_news_and_events %}
                     </div>
                 </div>
                 {% endif %}
@@ -204,7 +204,7 @@
                 </div>
                 {% endif %}
 
-                {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=page.external_links cta=page.research_cta_block %}
+                {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=page.external_links cta=page.research_cta_block links_heading=page.external_links_heading %}
                 <div class="section__notch">
                     <div class="section__notch-fill section__notch-fill--third-col"></div>
                 </div>
@@ -212,58 +212,64 @@
             </section>
 
             {# Programmes #}
-            <section class="schools__programmes section section--start bg bg--light anchor-heading" id="programmes-short-courses">
-                <div class="section__row section__row--last-small">
-                    <div class="section__header grid">
-                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
-                            {{ page.sections.programmes.title|default:"Our programmes" }}
-                        </h2>
-                        {% if page.sections.programmes.introduction %}
-                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page.sections.programmes.introduction }}
+            {% if related_programmes or related_short_courses %}
+                <section class="schools__programmes section section--start bg bg--light" id="programmes-short-courses">
+                    {% if related_programmes %}
+                        <div class="section__row section__row--last-small">
+                            <div class="section__header grid">
+                                <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
+                                    {{ page.related_programmes_title|default:"Our programmes" }}
+                                </h2>
+                                {% if page.related_programmes_summary %}
+                                    <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
+                                        {{ page.related_programmes_summary }}
+                                    </div>
+                                {% endif %}
                             </div>
-                        {% endif %}
-                    </div>
-                    <div class="section__content">
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=False related_sections=programmes modifier="after-action related-content--meta-new-line related-content--large related-content--sticky" %}
-                    </div>
-                </div>
-                <div class="section__row">
-                    <div class="section__header grid">
-                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
-                            {{ page.sections.short_courses.title|default:"Our short courses" }}
-                        </h2>
-                        {% if page.sections.short_courses.introduction %}
-                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page.sections.short_courses.introduction }}
+                            <div class="section__content">
+                                {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=related_programmes title=False modifier="after-action related-content--meta-new-line related-content--large related-content--sticky" %}
                             </div>
-                        {% endif %}
+                        </div>
+                    {% endif %}
+                    {% if related_short_courses %}
+                        <div class="section__row">
+                            <div class="section__header grid">
+                                <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
+                                    {{ page.related_short_courses_title|default:"Our short courses" }}
+                                </h2>
+                                {% if page.related_short_courses_introduction %}
+                                    <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
+                                        {{ page.related_short_courses_introduction }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="section__content">
+                                {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=related_short_courses title=False modifier="after-action related-content--meta-new-line" %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=page.programmes_external_links cta=page.programmes_cta_block links_heading=page.programmes_links_heading %}
+
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
-                    <div class="section__content">
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with title=False related_sections=short_courses modifier="after-action related-content--meta-new-line" %}
-                    </div>
-                </div>
-
-                {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=programmes_links  cta=programmes_cta %}
-
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
-                </div>
+                </section>
+            {% endif %}
 
 
-            </section>
+            {# Staff #}
 
-            {# Staff #} 
-            <section class="schools__staff section section--start section--end bg bg--dark anchor-heading" id="staff">
+            <section class="schools__staff section section--start section--end bg bg--dark" id="staff">
 
-                <div class="section__row {% if staff_links or staff_cta %}section__row--last-small{% else %}section__row--last-large{% endif %}">
+                <div class="section__row {% if page.staff_external_links or page.staff_cta %}section__row--last-small{% else %}section__row--last-large{% endif %}">
                     <div class="section__header section__header--bottom-space grid">
                         <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
-                            {{ page.sections.staff.title|default:"Our staff" }}
+                            {{ page.staff_title|default:"Our staff" }}
                         </h2>
-                        {% if page.sections.staff.introduction %}
+                        {% if page.staff_summary %}
                             <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page.sections.staff.introduction }}
+                                {{ page.staff_summary }}
                             </div>
                         {% endif %}
                     </div>
@@ -272,28 +278,27 @@
                     </div>
                 </div>
 
-                {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=staff_links cta=staff_cta %}
+                {% include "patterns/organisms/school-section-footer/school-section-footer.html" with links=page.staff_external_links cta=page.staff_cta_block links_heading=page.staff_external_links_heading %}
 
             </section>
 
             {# Contact #}
-            {% if page.contact %}
-                <section class="section bg bg--light">
-                    <div class="section__notch section__notch--small-med-only">
-                        <div class="section__notch-fill section__notch-fill--second-col"></div>
-                    </div>
-                    <div class="contact-anchor anchor-heading" id="contact" ></div>
-                    <div class="section__row section__row--first">
-                        {% include "patterns/organisms/contact/contact.html" with heading="Contact us" text="Get in touch if you’d like to find out more or have any questions about working with the RCA." image=page.contact_image %}
-                    </div>
-                </section>
+            <section class="section bg bg--light">
+                <div class="section__notch section__notch--small-med-only">
+                    <div class="section__notch-fill section__notch-fill--second-col"></div>
+                </div>
+                <div class="contact-anchor anchor-heading" id="contact" ></div>
+                <div class="section__row section__row--first">
+                                {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image %}
+                </div>
+            </section>
 
-                <section class="section bg bg--dark">
-                    <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--third-col"></div>
-                    </div>
-                </section>
-            {% endif %}
+            <section class="section bg bg--dark">
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+            </section>
+
 
         </div>
 

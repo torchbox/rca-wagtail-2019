@@ -176,8 +176,8 @@ class AccessPlanitXMLTest(TestCase):
             depth="001",
             access_planit_course_id=1,
             programme_type_id=1,
-            contact_url="https://rca.ac.uk",
-            contact_text="Read more",
+            contact_model_url="https://rca.ac.uk",
+            contact_model_text="Read more",
             hero_colour_option=1,
         )
         # Generate the mocked xml data
@@ -207,8 +207,8 @@ class AccessPlanitXMLTest(TestCase):
                 depth="001",
                 access_planit_course_id="course id cannot be a string",
                 programme_type_id=1,
-                contact_url="https://rca.ac.uk",
-                contact_text="Read more",
+                contact_model_url="https://rca.ac.uk",
+                contact_model_text="Read more",
                 hero_colour_option=1,
             )
 
@@ -237,8 +237,8 @@ class AccessPlanitXMLTest(TestCase):
                 depth="001",
                 access_planit_course_id=i,
                 programme_type_id=1,
-                contact_url="https://rca.ac.uk",
-                contact_text="Read more",
+                contact_model_url="https://rca.ac.uk",
+                contact_model_text="Read more",
                 hero_colour_option=1,
                 show_register_link=0,
             )
@@ -263,8 +263,8 @@ class AccessPlanitXMLTest(TestCase):
             slug="short-course",
             access_planit_course_id="1",
             programme_type_id=1,
-            contact_url="https://rca.ac.uk",
-            contact_text="Read more",
+            contact_model_url="https://rca.ac.uk",
+            contact_model_text="Read more",
             hero_colour_option=1,
         )
         home_page.add_child(instance=short_course_page)
@@ -292,8 +292,8 @@ class AccessPlanitXMLTest(TestCase):
             slug="short-course",
             access_planit_course_id="1",
             programme_type_id=1,
-            contact_url="https://rca.ac.uk",
-            contact_text="Read more",
+            contact_model_url="https://rca.ac.uk",
+            contact_model_text="Read more",
             hero_colour_option=1,
         )
         home_page.add_child(instance=short_course_page)
@@ -364,8 +364,8 @@ class AccessPlanitCourseCheckerTest(TestCase):
                 depth="001",
                 access_planit_course_id=1,
                 programme_type_id=1,
-                contact_url="https://rca.ac.uk",
-                contact_text="Read more",
+                contact_model_url="https://rca.ac.uk",
+                contact_model_text="Read more",
                 hero_colour_option=1,
             )
 
@@ -381,8 +381,8 @@ class AccessPlanitCourseCheckerTest(TestCase):
             depth="001",
             access_planit_course_id=1,
             programme_type_id=1,
-            contact_url="https://rca.ac.uk",
-            contact_text="Read more",
+            contact_model_url="https://rca.ac.uk",
+            contact_model_text="Read more",
             hero_colour_option=1,
         )
 
@@ -398,7 +398,7 @@ class AccessPlanitCourseCheckerTest(TestCase):
                 depth="001",
                 access_planit_course_id=1,
                 programme_type_id=1,
-                contact_url="https://rca.ac.uk",
-                contact_text="Read more",
+                contact_model_url="https://rca.ac.uk",
+                contact_model_text="Read more",
                 hero_colour_option=1,
             )
