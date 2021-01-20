@@ -445,6 +445,17 @@ context:
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+  tabs:
+    - tab:
+      title: Overview
+    - tab:
+      title: Research
+    - tab:
+      title: Study
+    - tab:
+      title: Staff
+    - tab:
+      title: Contact
 
 tags:
   include_block:
