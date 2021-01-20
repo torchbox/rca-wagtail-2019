@@ -39,6 +39,7 @@ from rca.utils.models import (
     HERO_COLOUR_CHOICES,
     LIGHT_HERO,
     BasePage,
+    ContactFieldsMixin,
     LegacyNewsAndEventsMixin,
     LinkFields,
     RelatedPage,
@@ -174,7 +175,7 @@ class StudentPageStudentStories(models.Model):
         return self.title
 
 
-class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
+class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     template = "patterns/pages/schools/schools.html"
     introduction = RichTextField(blank=False, features=["link"])
     introduction_image = models.ForeignKey(

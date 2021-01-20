@@ -74,9 +74,9 @@ context:
         value:
           name: 'Golifer Langston Architects'
           link: '#'
-    contact_text: 'If you want to register your interest about joining the RCA and recieve updates from the RCA and it’s community.'
-    contact_link_url: '#'
-    contact_link_text: 'Register your interest with us here'
+    contact_model_text: 'If you want to register your interest about joining the RCA and recieve updates from the RCA and it’s community.'
+    contact_model_url: '#'
+    contact_model_link_text: 'Register your interest with us here'
     contact_title: 'Contact us'
     pathway_blocks:
       - path:
@@ -167,6 +167,6 @@ context:
     key_details_pathways_information_link_title: Find out more
 tags:
   image:
-    page.contact_image fill-250x250:
+    page.contact_model_image fill-250x250:
       raw: |
         <img src="//placekitten.com/829/585">

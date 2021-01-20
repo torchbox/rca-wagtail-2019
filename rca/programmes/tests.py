@@ -31,10 +31,10 @@ class ProgrammePageTests(WagtailPageTests):
                 title="programmes",
                 slug="programmes",
                 introduction="The introduction",
-                contact_title="Contact us",
-                contact_image=self.image,
-                contact_text="Contact us",
-                contact_url="https://torchbox.com",
+                contact_model_title="Contact us",
+                contact_model_image=self.image,
+                contact_model_text="Contact us",
+                contact_model_url="https://torchbox.com",
             )
         )
         # A second programme index page should not be creatable

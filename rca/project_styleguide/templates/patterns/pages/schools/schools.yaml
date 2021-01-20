@@ -42,7 +42,6 @@ context:
         value:
           link:
             title: 'Red bull'
-            url: '#'
           image: true
       - slide:
         value:

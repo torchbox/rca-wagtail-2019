@@ -146,7 +146,7 @@ context:
       - item:
         value: { text: 'Innovation RCA', href: 'http://www.bbc.co.uk' }
     staff_link: false
-    contact_image: true
+    contact_model_image: true
     relatedcontent: true
     staff_title:
   projects:

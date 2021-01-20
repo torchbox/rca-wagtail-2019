@@ -123,9 +123,9 @@ context:
           quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
           author: 'Benjamin Glatz'
           job_title: 'Digital Transformation Lead, Shell'
-    contact_image: true
-    contact_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
-    contact_email: info@rca.ac.uk
+    contact_model_image: true
+    contact_model_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
+    contact_model_email: info@rca.ac.uk
   project_lead:
     - {
         name: 'Beth Hughes',

@@ -40,7 +40,7 @@ context:
         image: //placekitten.com/500/500
         person: false
     contact: true
-    contact_image: true
+    contact_model_image: true
     highlights_link_text: Enterprise highlights
     highlights_link_url: '#'
     page_list_title: Programmes

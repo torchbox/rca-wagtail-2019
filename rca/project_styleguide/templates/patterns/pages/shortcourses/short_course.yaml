@@ -100,8 +100,8 @@ context:
           course: 'Design'
     staff_title: Programme team
     staff_link: false
-    contact_image: True
-    contact_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
+    contact_model_image: True
+    contact_model_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
     related_programmes: True
     show_register_link: True
   related_staff:
