@@ -202,8 +202,7 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
     # location
     location = RichTextField(blank=True, features=["link"])
     # next open day
-    next_open_day_start_date = models.DateField(blank=True, null=True)
-    next_open_day_end_date = models.DateField(blank=True, null=True)
+    next_open_day_date = models.DateField(blank=True, null=True)
 
     # Get in touch
     get_in_touch = RichTextField(blank=True, features=["link"])
@@ -273,7 +272,7 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
     # Admin panel configuration
     content_panels = [
         *BasePage.content_panels,
-        InlinePanel("hero_items", max_num=6, label="Hero Items"),
+        InlinePanel("hero_items", max_num=6, label="Hero Items", help_text="You can add up to 6 hero images"),
         FieldPanel("introduction"),
         ImageChooserPanel("introduction_image"),
         FieldPanel("video"),
@@ -284,8 +283,7 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
         PageChooserPanel("school_dean"),
         MultiFieldPanel(
             [
-                FieldPanel("next_open_day_start_date"),
-                FieldPanel("next_open_day_end_date"),
+                FieldPanel("next_open_day_date"),
                 InlinePanel("open_day_link", max_num=1, label="Link"),
             ],
             heading="Next open day",
@@ -416,19 +414,6 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
             errors["staff_link_text"].append(_("Missing text value for the link"))
         if self.staff_link_text and not self.staff_link:
             errors["staff_link"].append(_("Missing url value for the link"))
-        if self.next_open_day_end_date and not self.next_open_day_start_date:
-            errors["next_open_day_start_date"].append(
-                _("If you enter an end date, you must also enter a start date")
-            )
-
-        if (
-            self.next_open_day_end_date
-            and self.next_open_day_end_date < self.next_open_day_start_date
-        ):
-            errors["next_open_day_end_date"].append(
-                _("Events involving time travel are not supported")
-            )
-
         if errors:
             raise ValidationError(errors)
 
