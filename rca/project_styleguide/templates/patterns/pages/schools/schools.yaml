@@ -21,17 +21,6 @@ context:
     video_caption: Watch the course introduction
     body:
       - dummy
-    tabs:
-      - tab:
-        title: About
-      - tab:
-        title: Our research
-      - tab:
-        title: Programmes & Short courses
-      - tab:
-        title: Staff
-      - tab:
-        title: Contact
     sections:
       about:
         title: What makes us different?
