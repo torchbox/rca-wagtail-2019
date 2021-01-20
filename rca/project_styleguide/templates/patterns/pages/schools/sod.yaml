@@ -10,8 +10,7 @@ context:
     introduction_image: True
     school_dean: Paul Anderson
     location: <p><a>RCA Kensington</a></p>
-    next_open_day_start_date: False
-    next_open_day_end_date: False
+    next_open_day_date: False
     get_in_touch: <p>0123456789</p><p><a href="">email@rca.ac.uk</a></p>
     social_links: False
     video: 'https://www.youtube.com/watch?v=tDPrqkgQpWM&list=PLk-Jp7vRQvwPUj9xBUTWyaDPG4MOwzDkz'
