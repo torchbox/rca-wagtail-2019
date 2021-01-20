@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "rca.projects",
     "rca.landingpages",
     "rca.people",
+    "rca.enquire_to_study",
     "birdbath",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.postgres_search",
