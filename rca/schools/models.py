@@ -85,9 +85,9 @@ class OpenDayLink(LinkFields):
 class SchoolPageTeaser(models.Model):
     source_page = ParentalKey("SchoolPage", related_name="page_teasers")
     title = models.CharField(max_length=125)
-    summary = models.CharField(max_length=250)
+    summary = models.CharField(max_length=250, blank=True)
     pages = StreamField(
-        StreamBlock([("Page", RelatedPageListBlockPage(max_num=3))], max_num=1)
+        StreamBlock([("Page", RelatedPageListBlockPage(max_num=6))], max_num=1)
     )
     panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("pages")]
 
@@ -183,7 +183,7 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
         blank=False,
         on_delete=models.SET_NULL,
         related_name="+",
-        help_text="This image appears after the intro copy. If a video is uploaded, this image is required"
+        help_text="This image appears after the intro copy. If a video is uploaded, this image is required",
     )
     video_caption = models.CharField(
         blank=True,
@@ -273,14 +273,16 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
     # Admin panel configuration
     content_panels = [
         *BasePage.content_panels,
-        InlinePanel("hero_items", max_num=6, label="Hero Items", help_text="You can add up to 6 hero images"),
+        InlinePanel(
+            "hero_items",
+            max_num=6,
+            label="Hero Items",
+            help_text="You can add up to 6 hero images",
+        ),
         FieldPanel("introduction"),
         ImageChooserPanel("introduction_image"),
         MultiFieldPanel(
-            [
-                FieldPanel("video"),
-                FieldPanel("video_caption"),
-            ], heading="Video"
+            [FieldPanel("video"), FieldPanel("video_caption")], heading="Video"
         ),
         FieldPanel("body"),
     ]
