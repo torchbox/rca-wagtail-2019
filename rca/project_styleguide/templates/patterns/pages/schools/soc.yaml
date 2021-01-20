@@ -10,8 +10,7 @@ context:
     introduction_image: True
     school_dean: Rathna Ramanathan
     location: <p><a>RCA White City</a></p>
-    next_open_day_start_date: !!timestamp '2021-01-27 2:00:00'
-    next_open_day_end_date: !!timestamp '2021-01-27 2:00:00'
+    next_open_day_date: !!timestamp '2021-01-27 2:00:00'
     get_in_touch: <p>0123456789</p><p><a href="">email@rca.ac.uk</a></p>
     social_links:
       - '<a href="https://www.instagram.com/rcasoc/" class="link link--tertiary link--link link--external" target="_blank"><span class="link__label">Instagram</span><svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg></a>'

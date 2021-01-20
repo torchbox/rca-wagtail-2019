@@ -85,9 +85,9 @@ class OpenDayLink(LinkFields):
 class SchoolPageTeaser(models.Model):
     source_page = ParentalKey("SchoolPage", related_name="page_teasers")
     title = models.CharField(max_length=125)
-    summary = models.CharField(max_length=250)
+    summary = models.CharField(max_length=250, blank=True)
     pages = StreamField(
-        StreamBlock([("Page", RelatedPageListBlockPage(max_num=3))], max_num=1)
+        StreamBlock([("Page", RelatedPageListBlockPage(max_num=6))], max_num=1)
     )
     panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("pages")]
 
@@ -180,9 +180,10 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
     introduction_image = models.ForeignKey(
         get_image_model_string(),
         null=True,
-        blank=True,
+        blank=False,
         on_delete=models.SET_NULL,
         related_name="+",
+        help_text="This image appears after the intro copy. If a video is uploaded, this image is required",
     )
     video_caption = models.CharField(
         blank=True,
@@ -202,8 +203,7 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
     # location
     location = RichTextField(blank=True, features=["link"])
     # next open day
-    next_open_day_start_date = models.DateField(blank=True, null=True)
-    next_open_day_end_date = models.DateField(blank=True, null=True)
+    next_open_day_date = models.DateField(blank=True, null=True)
 
     # Get in touch
     get_in_touch = RichTextField(blank=True, features=["link"])
@@ -273,19 +273,24 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
     # Admin panel configuration
     content_panels = [
         *BasePage.content_panels,
-        InlinePanel("hero_items", max_num=6, label="Hero Items"),
+        InlinePanel(
+            "hero_items",
+            max_num=6,
+            label="Hero Items",
+            help_text="You can add up to 6 hero images",
+        ),
         FieldPanel("introduction"),
         ImageChooserPanel("introduction_image"),
-        FieldPanel("video"),
-        FieldPanel("video_caption"),
+        MultiFieldPanel(
+            [FieldPanel("video"), FieldPanel("video_caption")], heading="Video"
+        ),
         FieldPanel("body"),
     ]
     key_details_panels = [
         PageChooserPanel("school_dean"),
         MultiFieldPanel(
             [
-                FieldPanel("next_open_day_start_date"),
-                FieldPanel("next_open_day_end_date"),
+                FieldPanel("next_open_day_date"),
                 InlinePanel("open_day_link", max_num=1, label="Link"),
             ],
             heading="Next open day",
@@ -416,19 +421,6 @@ class SchoolPage(LegacyNewsAndEventsMixin, BasePage):
             errors["staff_link_text"].append(_("Missing text value for the link"))
         if self.staff_link_text and not self.staff_link:
             errors["staff_link"].append(_("Missing url value for the link"))
-        if self.next_open_day_end_date and not self.next_open_day_start_date:
-            errors["next_open_day_start_date"].append(
-                _("If you enter an end date, you must also enter a start date")
-            )
-
-        if (
-            self.next_open_day_end_date
-            and self.next_open_day_end_date < self.next_open_day_start_date
-        ):
-            errors["next_open_day_end_date"].append(
-                _("Events involving time travel are not supported")
-            )
-
         if errors:
             raise ValidationError(errors)
 
