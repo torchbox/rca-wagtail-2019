@@ -387,7 +387,9 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         ),
         StreamFieldPanel("staff_cta_block", heading="Call to action"),
     ]
-    contact_panels = []
+    contact_panels = [
+        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
+    ]
     edit_handler = TabbedInterface(
         [
             ObjectList(content_panels, heading="Introduction"),
