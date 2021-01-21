@@ -1,7 +1,8 @@
 context:
   title: Staff
   page:
-    staff_link: false
+    staff_link: '#'
+    staff_link_text: 'View more staff'
   people:
     - {
         name: 'Beth Hughes',
