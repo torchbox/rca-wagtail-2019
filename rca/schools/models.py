@@ -79,10 +79,6 @@ class HeroItem(models.Model):
     ]
 
 
-class OpenDayLink(LinkFields):
-    source_page = ParentalKey("SchoolPage", related_name="open_day_link")
-
-
 class SchoolPageTeaser(models.Model):
     source_page = ParentalKey("SchoolPage", related_name="page_teasers")
     title = models.CharField(max_length=125)
@@ -203,8 +199,8 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     )
     # location
     location = RichTextField(blank=True, features=["link"])
-    # next open day
     next_open_day_date = models.DateField(blank=True, null=True)
+    link_to_open_days = models.URLField(blank=True)
 
     # Get in touch
     get_in_touch = RichTextField(blank=True, features=["link"])
@@ -291,10 +287,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     key_details_panels = [
         PageChooserPanel("school_dean"),
         MultiFieldPanel(
-            [
-                FieldPanel("next_open_day_date"),
-                InlinePanel("open_day_link", max_num=1, label="Link"),
-            ],
+            [FieldPanel("next_open_day_date"), FieldPanel("link_to_open_days")],
             heading="Next open day",
         ),
         FieldPanel("location"),
@@ -535,7 +528,6 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
                 and hero_image["hero_colour"] == DARK_TEXT_ON_LIGHT_IMAGE
             ):
                 context["hero_colour"] = DARK_HERO
-        context["open_day_link"] = self.open_day_link.first()
         context["page_teasers"] = format_page_teasers(self.page_teasers.first())
         context["stats_block"] = self.stats_block.select_related(
             "background_image"
