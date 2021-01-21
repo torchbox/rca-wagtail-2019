@@ -169,6 +169,14 @@
                         {% include "patterns/organisms/carousel/carousel.html" with carousel=featured_research modifier='carousel carousel--no-margin' datatag='data-carousel' %}
                     </div>
                     {% endif %}
+                    {% if student_research.link_url %}
+                    <div class="section__action grid">
+                        <a class="layout__@large-start-two link link--primary link--link body body--two" href="{{ student_research.link_url }}">
+                            <span class="link__label">{{ student_research.link_text|default:"Browse more research from the School" }}</span>
+                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
 
                 {% if student_research %}
@@ -177,14 +185,6 @@
                         <h2 class="section__heading section__heading--primary heading heading--four">{{ student_research.title }}</h2>
                     </div>
                     {% include "patterns/organisms/carousel/carousel--square.html" with carousel=student_research.slides modifier='carousel--square' datatag='data-peek-carousel' %}
-                    {% if student_research.link_url %}
-                    <div class="section__action grid">
-                        <a class="layout__@large-start-two link link--primary link--link body body--two" href="{{ student_research.link_url }}">
-                            <span class="link__label">{{ student_research.link_text }}</span>
-                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                        </a>
-                    </div>
-                    {% endif %}
                 </div>
                 {% endif %}
 
@@ -288,7 +288,7 @@
                 </div>
                 <div class="contact-anchor anchor-heading" id="contact" ></div>
                 <div class="section__row section__row--first">
-                                {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image %}
+                    {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image %}
                 </div>
             </section>
 

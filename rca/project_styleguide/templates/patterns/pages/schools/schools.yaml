@@ -293,25 +293,23 @@ context:
     handle: rca.architecture
   featured_research:
     - slide:
-      meta: 'Project'
       title: 'Lorem ipsum dolor sit'
       description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
       image: true
       link: '#'
     - slide:
-      meta: 'Project'
       title: 'Lorem ipsum dolor sit'
       description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
       image: true
       link: '#'
     - slide:
-      meta: 'Project'
       title: 'Lorem ipsum dolor sit'
       description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
       image: true
       link: '#'
   student_research:
-    title: PhD student rResearch
+    title: PhD student Research
+    link_url: '#'
     slides:
       - slide:
         value:
