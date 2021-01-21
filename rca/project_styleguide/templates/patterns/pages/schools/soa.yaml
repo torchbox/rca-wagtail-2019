@@ -11,7 +11,7 @@ context:
     school_dean: Dr Adrian Lahoud
     location: <p><a>RCA Kensington</a></p>
     next_open_day_date: !!timestamp '2021-02-27 2:00:00'
-    get_in_touch: <p>0123456789</p><p><a href="">soa-admins@rca.ac.uk</a></p>
+    get_in_touch: <p>+44 (0)20 7590 4444</p><p><a href="">soa-admins@rca.ac.uk</a></p>
     social_links:
       - '<a href="https://twitter.com/rcaarchitecture" class="link link--tertiary link--link link--external" target="_blank"><span class="link__label">Twitter</span><svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg></a>'
       - '<a href="https://www.instagram.com/rca.architecture/" class="link link--tertiary link--link link--external" target="_blank"><span class="link__label">Instagram</span><svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg></a>'
