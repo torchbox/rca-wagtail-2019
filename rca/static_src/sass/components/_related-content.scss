@@ -254,7 +254,6 @@
     }
 
     &__degree {
-        opacity: 0.4;
         margin-bottom: ($gutter / 4);
     }
 
@@ -282,6 +281,10 @@
             @include media-query(medium) {
                 border-top: 1px solid $color--grid-line-dark;
             }
+        }
+
+        #{$root}__degree {
+            color: $color--dark-grey;
         }
 
         &--large {
@@ -319,6 +322,10 @@
             @include media-query(medium) {
                 border-top: 1px solid $color--grid-line-light;
             }
+        }
+
+        #{$root}__degree {
+            color: $color--light-grey;
         }
 
         &--large {
