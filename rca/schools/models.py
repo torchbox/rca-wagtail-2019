@@ -428,12 +428,12 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             raise ValidationError(errors)
 
     def page_nav(self):
+        # If these are updated, the id in the template's FE will need to be updated to match
         # TODO conditionally set/remove depending on fields
         return [
-            {"title": "About"},
-            {"title": "Our research"},
-            {"title": "Programmes"},
-            {"title": "Short Courses"},
+            {"title": "Overview"},
+            {"title": "Research"},
+            {"title": "Study"},
             {"title": "Staff"},
             {"title": "Contact"},
         ]
