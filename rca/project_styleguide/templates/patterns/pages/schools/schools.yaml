@@ -82,6 +82,13 @@ context:
     related_programmes_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
     related_short_courses_title: Our short courses
     related_short_courses_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    programmes_cta_block:
+      - block:
+        value:
+          title: Custom executive education
+          description: The RCA delivers senior-level custom executive education programmes for business, government, the public sector and universities globally.
+          action: Browse Executive Education
+          link: '#'
     legacy_news_and_events:
       - item:
         meta: 'Event'
@@ -337,13 +344,6 @@ context:
           link: '#'
           person: false
           image: True
-  programmes_cta:
-    - block:
-      value:
-        title: Custom executive education
-        description: The RCA delivers senior-level custom executive education programmes for business, government, the public sector and universities globally.
-        action: Browse Executive Education
-        link: '#'
   staff_cta:
     - block:
       value:
