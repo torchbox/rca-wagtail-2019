@@ -110,7 +110,7 @@
                 {% if page.legacy_news_and_events %}
                 <div class="section__row section__row--last schools__about--news">
                     <div class="section__header grid">
-                        <h2 class="section__heading section__heading--primary heading heading--four">{% firstof page.news_and_events_heading "News & events" %}</h2>
+                        <h2 class="section__heading section__heading--primary heading heading--four">{% firstof page.news_and_events_heading "What's happening" %}</h2>
                     </div>
                     <div class="section__content grid">
                         {% include "patterns/organisms/news/news_api_content.html" with news=page.legacy_news_and_events %}
