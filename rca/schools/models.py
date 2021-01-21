@@ -217,6 +217,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     collaborators = StreamField(
         StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
         blank=True,
+        help_text="You can add up to 9 collaborators",
     )
     research_projects_title = models.CharField(max_length=125, default="Our Research")
     research_projects_text = models.CharField(max_length=500, blank=True)

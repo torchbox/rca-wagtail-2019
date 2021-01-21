@@ -111,6 +111,21 @@ class GalleryBlock(blocks.StructBlock):
 class LinkedImageBlock(blocks.StructBlock):
     image = ImageChooserBlock()
     link = LinkBlock()
+    page = blocks.PageChooserBlock(required=False)
+
+    def clean(self, value):
+        result = super().clean(value)
+        errors = {}
+
+        # Ensure a heading or some preview text has been added
+        if value["page"] and value["link"]["url"]:
+            errors["page"] = ErrorList(
+                ["Please choose between a custom link or a page"]
+            )
+
+        if errors:
+            raise ValidationError("Validation error in LinkedImageBlock", params=errors)
+        return result
 
 
 class InfoBlock(blocks.StructBlock):
