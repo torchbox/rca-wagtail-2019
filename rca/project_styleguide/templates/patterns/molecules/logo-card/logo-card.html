@@ -2,7 +2,7 @@
 <div class="logo-card">
     {% if item.image %}
         {% image item.image fill-20x20 as image_small %}
-        {% image item.image fill-200x200 as image_large %}
+        {% image item.image max-200x200 as image_large %}
     {% endif %}
     <{% if item.link.url %}a href="{{ item.link.url }}"{% else %}div{% endif %} class="logo-card__container">
         {% if item.image %}{% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=200 height=200 image_large=image_large classList='logo-card__image' %}{% endif %}
