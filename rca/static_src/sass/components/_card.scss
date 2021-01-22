@@ -88,6 +88,8 @@
 
         #{$root}__heading {
             @include font-size(xs);
+            font-family: $font--secondary;
+            font-weight: $weight--medium;
         }
 
         #{$root}__description {
