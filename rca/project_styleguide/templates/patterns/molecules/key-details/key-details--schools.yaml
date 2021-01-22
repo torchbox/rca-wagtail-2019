@@ -6,10 +6,18 @@ context:
     link_to_open_days: '#'
     get_in_touch: <p>0123456789</p><p>email@rca.ac.uk</p>
     social_links:
-      - '<a href="#" class="link link--tertiary link--link link--external" target="_blank"><span class="link__label">Facebook</span><svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg></a>'
-      - '<a href="#" class="link link--tertiary link--link link--external" target="_blank"><span class="link__label">Twitter</span><svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg></a>'
-      - '<a href="#" class="link link--tertiary link--link link--external" target="_blank"><span class="link__label">Instagram</span><svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg></a>'
-
+      - link:
+        value:
+          title: Facebook
+          href: http://www.facebook.com
+      - link:
+        value:
+          title: Twitter
+          href: http://www.facebook.com
+      - link:
+        value:
+          title: Instagram
+          href: http://www.facebook.com
   open_day_link:
     get_link_url: #
     get_link_text: Book or view all open days

@@ -13,9 +13,18 @@ context:
     next_open_day_date: !!timestamp '2020-12-13 2:00:00'
     get_in_touch: <p>+44 (0)20 7590 4444</p><p><a href="">email@rca.ac.uk</a></p>
     social_links:
-      - '<a href="#" class="link link--tertiary link--link link--external" target="_blank"><span class="link__label">Facebook</span><svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg></a>'
-      - '<a href="#" class="link link--tertiary link--link link--external" target="_blank"><span class="link__label">Twitter</span><svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg></a>'
-      - '<a href="#" class="link link--tertiary link--link link--external" target="_blank"><span class="link__label">Instagram</span><svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg></a>'
+      - link:
+        value:
+          title: Facebook
+          href: http://www.facebook.com
+      - link:
+        value:
+          title: Twitter
+          href: http://www.facebook.com
+      - link:
+        value:
+          title: Instagram
+          href: http://www.facebook.com
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     video_caption: Watch the course introduction
     body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
