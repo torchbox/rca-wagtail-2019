@@ -79,10 +79,6 @@ class HeroItem(models.Model):
     ]
 
 
-class OpenDayLink(LinkFields):
-    source_page = ParentalKey("SchoolPage", related_name="open_day_link")
-
-
 class SchoolPageTeaser(models.Model):
     source_page = ParentalKey("SchoolPage", related_name="page_teasers")
     title = models.CharField(max_length=125)
@@ -203,8 +199,8 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     )
     # location
     location = RichTextField(blank=True, features=["link"])
-    # next open day
     next_open_day_date = models.DateField(blank=True, null=True)
+    link_to_open_days = models.URLField(blank=True)
 
     # Get in touch
     get_in_touch = RichTextField(blank=True, features=["link"])
@@ -217,6 +213,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     collaborators = StreamField(
         StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
         blank=True,
+        help_text="You can add up to 9 collaborators",
     )
     research_projects_title = models.CharField(max_length=125, default="Our Research")
     research_projects_text = models.CharField(max_length=500, blank=True)
@@ -290,10 +287,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     key_details_panels = [
         PageChooserPanel("school_dean"),
         MultiFieldPanel(
-            [
-                FieldPanel("next_open_day_date"),
-                InlinePanel("open_day_link", max_num=1, label="Link"),
-            ],
+            [FieldPanel("next_open_day_date"), FieldPanel("link_to_open_days")],
             heading="Next open day",
         ),
         FieldPanel("location"),
@@ -465,7 +459,11 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     def get_student_research(self, student_research, request):
         if not student_research:
             return {}
-        link = student_research.link_page.get_url(request) or student_research.link_url
+        if student_research.link_page:
+            link = student_research.link_page.get_url(request)
+        else:
+            link = student_research.link_url
+
         return {
             "title": student_research.title,
             "link_url": link,
@@ -534,7 +532,6 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
                 and hero_image["hero_colour"] == DARK_TEXT_ON_LIGHT_IMAGE
             ):
                 context["hero_colour"] = DARK_HERO
-        context["open_day_link"] = self.open_day_link.first()
         context["page_teasers"] = format_page_teasers(self.page_teasers.first())
         context["stats_block"] = self.stats_block.select_related(
             "background_image"
