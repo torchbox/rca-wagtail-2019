@@ -459,7 +459,11 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     def get_student_research(self, student_research, request):
         if not student_research:
             return {}
-        link = student_research.link_page.get_url(request) or student_research.link_url
+        if student_research.link_page:
+            link = student_research.link_page.get_url(request)
+        else:
+            link = student_research.link_url
+
         return {
             "title": student_research.title,
             "link_url": link,
