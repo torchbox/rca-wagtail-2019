@@ -25,6 +25,10 @@
         }
     }
 
+    &__heading-label {
+        margin-right: 5px;
+    }
+
     &__heading-icon {
         transform: rotate(90deg) translateZ(0);
         fill: $color--white;
