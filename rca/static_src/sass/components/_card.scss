@@ -45,6 +45,10 @@
             @include z-index(overlap);
             position: relative;
         }
+
+        #{$root}__meta {
+            min-height: 19px; // ensure space is there even if no meta supplied
+        }
     }
 
     &--person {
@@ -262,10 +266,6 @@
         font-size: map-get($small-font-sizes, xxxs);
         text-transform: uppercase;
         margin-bottom: ($gutter / 4);
-
-        @include media-query(medium) {
-            @include font-size(xxs);
-        }
     }
 
     &__heading {
