@@ -1,4 +1,4 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags util_tags %}
 
 <div class="key-details">
 
@@ -60,7 +60,13 @@
     <div class="key-details__section key-details__section--social">
         <ul class="key-details__list">
             {% for link in page.social_links %}
-                <li class="key-details__list-item">{{ link }}</li>
+                <li class="key-details__list-item">
+                {% is_external link.value.url href as is_external %}
+                    <a class="link link--tertiary link--link {% if is_external %}link--external{% endif %}" {% if is_external %} target="_blank" {% endif %} href="{% firstof value.href href %}">
+                        <span class="link__label ">{{ link.value.title }}</span>
+                        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow{% if is_external %}-external{% endif %}"></use></svg>
+                    </a>
+                </li>
             {% endfor %}
         </ul>
     </div>
