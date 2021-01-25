@@ -66,7 +66,7 @@ class DocumentBlock(blocks.StructBlock):
 
 class QuoteBlock(blocks.StructBlock):
     quote = blocks.CharBlock(
-        classname="title",
+        form_classname="title",
         help_text="Enter quote text only, there is no need to add quotation marks",
     )
     author = blocks.CharBlock(required=False)
@@ -235,7 +235,7 @@ class CallToActionBlock(blocks.StructBlock):
 # Main streamfield block to be inherited by Pages
 class StoryBlock(blocks.StreamBlock):
     heading = blocks.CharBlock(
-        classname="full title",
+        form_classname="full title",
         icon="title",
         template="patterns/molecules/streamfield/blocks/heading_block.html",
     )
@@ -256,12 +256,12 @@ class StoryBlock(blocks.StreamBlock):
 # Specific streamfield for the guide pages
 class GuideBlock(blocks.StreamBlock):
     anchor_heading = blocks.CharBlock(
-        classname="full title",
+        form_classname="full title",
         icon="title",
         template="patterns/molecules/streamfield/blocks/anchor_heading_block.html",
     )
     heading = blocks.CharBlock(
-        classname="full title",
+        form_classname="full title",
         icon="title",
         template="patterns/molecules/streamfield/blocks/heading_block.html",
     )
