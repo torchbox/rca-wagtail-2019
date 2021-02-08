@@ -216,16 +216,7 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         StreamFieldPanel("funders"),
         StreamFieldPanel("quote_carousel"),
         StreamFieldPanel("external_links"),
-        MultiFieldPanel(
-            [
-                ImageChooserPanel("contact_model_image"),
-                FieldPanel("contact_model_text"),
-                FieldPanel("contact_model_email"),
-                FieldPanel("contact_model_url"),
-                PageChooserPanel("contact_model_form"),
-            ],
-            heading="Contact information",
-        ),
+        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
     ]
 
     key_details_panels = [
@@ -294,6 +285,7 @@ class ProjectPage(ContactFieldsMixin, BasePage):
             return format_projects_for_gallery(projects)
 
     def clean(self):
+        super().clean()
         errors = defaultdict(list)
 
         if self.end_date and self.end_date < self.start_date:

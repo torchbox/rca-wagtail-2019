@@ -6,11 +6,9 @@ from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
-    PageChooserPanel,
     StreamFieldPanel,
 )
 from wagtail.core.fields import StreamField
-from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.utils.blocks import AccordionBlockWithTitle, GuideBlock
 from rca.utils.models import (
@@ -60,16 +58,7 @@ class GuidePage(ContactFieldsMixin, BasePage):
             ],
             heading=_("Related pages"),
         ),
-        MultiFieldPanel(
-            [
-                ImageChooserPanel("contact_model_image"),
-                FieldPanel("contact_model_text"),
-                FieldPanel("contact_model_url"),
-                FieldPanel("contact_model_email"),
-                PageChooserPanel("contact_model_form"),
-            ],
-            heading="Contact information",
-        ),
+        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
     ]
 
     def anchor_nav(self):
