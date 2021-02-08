@@ -5,6 +5,7 @@ from django.apps import apps
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.http import Http404
+from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -517,9 +518,23 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
 
     def get_programme_index_link(self):
         ProgrammeIndexPage = apps.get_model("programmes", "ProgrammeIndexPage")
-        programm_index = ProgrammeIndexPage.objects.live().first()
-        if programm_index:
-            return f"{programm_index.get_url()}?category=related_schools_and_research_pages&value={self.pk}-{self.slug}"
+        programme_index = ProgrammeIndexPage.objects.live().first()
+        return programme_index.get_url()
+
+    def get_short_courses_index_link(self):
+        """Returns a link to the programme index page filtered by the
+        Short Course ProgrammeType
+        """
+        ProgrammeType = apps.get_model("programmes", "ProgrammeType")
+        short_course_type = ProgrammeType.objects.filter(
+            display_name="Short course"
+        ).first()
+        if not short_course_type:
+            return
+        return (
+            f"{self.get_programme_index_link()}?category=programme_type&"
+            f"value={str(short_course_type.id)}-{slugify(short_course_type.display_name)}"
+        )
 
     def get_related_staff(self):
         """Method to return a related staff.
@@ -579,6 +594,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
                 },
             },
         ]
+
         context["related_short_courses"] = [
             {
                 "related_items": [
@@ -586,7 +602,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
                     for rel in self.related_short_courses.select_related("page")
                 ],
                 "link": {
-                    "url": self.get_programme_index_link,
+                    "url": self.get_short_courses_index_link(),
                     "title": "View all of our short courses",
                 },
             }
