@@ -497,7 +497,15 @@ class ProgrammePage(ContactFieldsMixin, BasePage):
             heading="Facilities",
         ),
         MultiFieldPanel([StreamFieldPanel("notable_alumni_links")], heading="Alumni"),
-        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
+        MultiFieldPanel(
+            [
+                ImageChooserPanel("contact_model_image"),
+                FieldPanel("contact_model_url"),
+                FieldPanel("contact_model_email"),
+                PageChooserPanel("contact_model_form"),
+            ],
+            heading="Contact information",
+        ),
     ]
     programme_curriculum_pannels = [
         MultiFieldPanel(
@@ -626,6 +634,7 @@ class ProgrammePage(ContactFieldsMixin, BasePage):
         return " ".join(bits)
 
     def clean(self):
+        super().clean()
         errors = defaultdict(list)
         if self.hero_video and not self.hero_video_preview_image:
             errors["hero_video_preview_image"].append(

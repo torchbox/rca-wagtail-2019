@@ -255,16 +255,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
             heading="Short course team",
         ),
         StreamFieldPanel("gallery"),
-        MultiFieldPanel(
-            [
-                ImageChooserPanel("contact_model_image"),
-                FieldPanel("contact_model_text"),
-                FieldPanel("contact_model_email"),
-                FieldPanel("contact_model_url"),
-                PageChooserPanel("contact_model_form"),
-            ],
-            heading="Contact information",
-        ),
+        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
         MultiFieldPanel(
             [InlinePanel("related_programmes", label="Related programmes")],
             heading="Related Programmes",
@@ -396,6 +387,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         return booking_bar
 
     def clean(self):
+        super().clean()
         errors = defaultdict(list)
         if (
             self.show_register_link

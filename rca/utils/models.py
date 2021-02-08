@@ -704,15 +704,15 @@ class ContactFieldsMixin(models.Model):
 
     def clean(self):
         errors = defaultdict(list)
-        if (
-            self.contact_model_email
-            and self.contact_model_url
-            or self.contact_model_url
-            and self.contact_model_form
-            or self.contact_model_email
-            and self.contact_model_form
-        ):
-            errors["contact_model_email"].append("Add only one contact method")
+        VALIDATION_MESSAGE = "Add only one contact method"
+
+        if self.contact_model_email and self.contact_model_url:
+            errors["contact_model_email"].append(VALIDATION_MESSAGE)
+        if self.contact_model_url and self.contact_model_form:
+            errors["contact_model_url"].append(VALIDATION_MESSAGE)
+        if self.contact_model_email and self.contact_model_form:
+            errors["contact_model_email"].append(VALIDATION_MESSAGE)
+
         if errors:
             raise ValidationError(errors)
 
