@@ -62,7 +62,7 @@
             {% for link in page.social_links %}
                 <li class="key-details__list-item">
                 {% is_external link.value.url href as is_external %}
-                    <a class="link link--tertiary link--link {% if is_external %}link--external{% endif %}" {% if is_external %} target="_blank" {% endif %} href="{% firstof value.href href %}">
+                    <a class="link link--tertiary link--link {% if is_external %}link--external{% endif %}" {% if is_external %} target="_blank" {% endif %} href="{% firstof link.value.url href %}">
                         <span class="link__label ">{{ link.value.title }}</span>
                         <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow{% if is_external %}-external{% endif %}"></use></svg>
                     </a>
