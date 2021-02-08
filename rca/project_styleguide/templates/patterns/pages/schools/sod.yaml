@@ -70,7 +70,7 @@ context:
     related_programmes_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
     related_short_courses_title: Our short courses
     related_short_courses_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
-    research_collaboration: False
+    research_collaborators: False
     legacy_news_and_events:
       - item:
         meta: 'News'
