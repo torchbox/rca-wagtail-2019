@@ -222,7 +222,11 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
 
     external_links = StreamField([("link", InternalExternalLinkBlock())], blank=True)
     research_cta_block = StreamField(
-        [("call_to_action", CallToActionBlock(label=_("text promo")))], blank=True,
+        StreamBlock(
+            [("call_to_action", CallToActionBlock(label=_("text promo")))],
+            max_num=1,
+            required=False,
+        )
     )
     research_collaborators_heading = models.CharField(blank=True, max_length=120)
     research_collaborators = StreamField(
@@ -242,9 +246,12 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         [("link", InternalExternalLinkBlock())], blank=True, verbose_name="Links"
     )
     programmes_cta_block = StreamField(
-        [("call_to_action", CallToActionBlock(label=_("text promo")))],
-        blank=True,
-        verbose_name="Call to action",
+        StreamBlock(
+            [("call_to_action", CallToActionBlock(label=_("text promo")))],
+            max_num=1,
+            required=False,
+            verbose_name="Call to action",
+        ),
     )
 
     # Staff
@@ -261,7 +268,12 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         max_length=125, blank=True, verbose_name="Related staff links heading"
     )
     staff_cta_block = StreamField(
-        [("call_to_action", CallToActionBlock(label=_("text promo")))], blank=True,
+        StreamBlock(
+            [("call_to_action", CallToActionBlock(label=_("text promo")))],
+            max_num=1,
+            required=False,
+            verbose_name="Call to action",
+        )
     )
     staff_link = models.URLField(blank=True)
     staff_link_text = models.CharField(

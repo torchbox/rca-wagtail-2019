@@ -120,7 +120,7 @@ context:
         link: '#'
         image: //placekitten.com/251/142
         person: false
-    research_collaboration:
+    research_collaborators:
       - slide:
         value:
           link:

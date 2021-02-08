@@ -53,7 +53,7 @@ context:
           description: Archive for the School of Arts & Humanities's flagship lecture series
           action: Find out more
           link: 'https://www.rca.ac.uk/study/schools/school-of-arts-humanities/visual-cultures/'
-    research_collaboration:
+    research_collaborators:
       - slide:
         value:
           link:
