@@ -5,7 +5,6 @@ from django.apps import apps
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.http import Http404
-from django.shortcuts import render
 from django.utils.translation import ugettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -179,7 +178,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     def serve(self, request):
         if not request.user.is_staff:
             raise Http404
-        return render(request, self.template, self.get_context(request))
+        return super().serve(request)
 
     template = "patterns/pages/schools/schools.html"
     introduction = RichTextField(blank=False, features=["link"])
