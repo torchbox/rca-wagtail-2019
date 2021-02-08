@@ -213,7 +213,8 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     collaborators = StreamField(
         StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
         blank=True,
-        help_text="You can add up to 9 collaborators",
+        help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
+            Aim for logos that sit on a either a white or transparent background.",
     )
     research_projects_title = models.CharField(max_length=125, default="Our Research")
     research_projects_text = models.CharField(max_length=500, blank=True)
@@ -227,6 +228,8 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     research_collaborators = StreamField(
         StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
         blank=True,
+        help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
+            Aim for logos that sit on a either a white or transparent background.",
     )
     related_programmes_title = models.CharField(blank=True, max_length=120)
     related_programmes_summary = models.CharField(blank=True, max_length=500)
