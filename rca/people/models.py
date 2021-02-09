@@ -35,6 +35,8 @@ from rca.utils.blocks import AccordionBlockWithTitle, GalleryBlock, LinkBlock
 from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, SluggedTaxonomy
 
+from .utils import get_area_linked_filters
+
 
 class AreaOfExpertise(models.Model):
     title = models.CharField(max_length=128)
@@ -358,31 +360,10 @@ class StaffPage(BasePage):
                 regrouped[key]["link"] = link
         return regrouped.values()
 
-    def get_area_linked_filters(self):
-        """For the expertise taxonomy thats listed out in key details,
-        they need to link to the parent staff picker page with a filter pre
-        selected"""
-
-        parent = self.get_parent()
-        expertise = []
-        for i in self.related_area_of_expertise.all().select_related(
-            "area_of_expertise"
-        ):
-            if parent:
-                expertise.append(
-                    {
-                        "title": i.area_of_expertise.title,
-                        "link": f"{parent.url}?area={i.area_of_expertise.slug}",
-                    }
-                )
-            else:
-                expertise.append({"title": i.area_of_expertise.title})
-        return expertise
-
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["research_highlights"] = self.format_research_highlights()
-        context["areas"] = self.get_area_linked_filters()
+        context["areas"] = get_area_linked_filters(page=self)
         context["related_schools"] = self.related_schools.all()
         context["research_centres"] = self.related_research_centre_pages.all()
         context["related_students"] = self.get_related_students()
@@ -537,8 +518,7 @@ class StudentPageAreOfExpertisePlacement(models.Model):
 
 
 class StudentPage(BasePage):
-    # TODO, update template when it's there
-    template = "patterns/pages/staff/staff_detail.html"
+    template = "patterns/pages/student/student_detail.html"
     parent_page_types = ["people.StudentIndexPage"]
 
     student_title = models.CharField(
@@ -558,7 +538,9 @@ class StudentPage(BasePage):
     introduction = models.TextField(blank=True)
     bio = RichTextField(blank=True, features=["link"], help_text="Add a detail summary")
     social_links = StreamField(
-        StreamBlock([("Link", LinkBlock())], max_num=5, required=False, blank=True)
+        StreamBlock([("Link", LinkBlock(required=False))], max_num=5, required=False),
+        blank=True,
+        verbose_name="Personal links",
     )
     programme = models.ForeignKey(
         "programmes.ProgrammePage", on_delete=models.SET_NULL, null=True, blank=True,
@@ -612,6 +594,9 @@ class StudentPage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+        context["areas"] = get_area_linked_filters(page=self)
+        context["related_schools"] = self.related_schools.all()
+        context["research_centres"] = self.related_research_centre_pages.all()
         return context
 
 

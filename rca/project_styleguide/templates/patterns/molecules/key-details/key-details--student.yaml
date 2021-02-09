@@ -7,8 +7,8 @@ context:
     - page: { title: 'Materials Science Research Centre', url: '#' }
   supervisors:
     - { title: 'Dr John Smith', link: '#' }
-  personal_website:
-    - {
-        title: 'katrinehesseldahl.co.uk',
-        link: 'https://katrinehesseldahl.co.uk',
-      }
+  social_links:
+    - item:
+      value:
+        title: 'katrinehesseldahl.co.uk'
+        link: 'https://katrinehesseldahl.co.uk'

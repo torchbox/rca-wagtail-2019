@@ -49,14 +49,14 @@
                 </ul>
             </div>
         {% endif %}
-        {% if personal_website %}
+        {% if social_links %}
             <div class="key-details__section key-details__section--supervisors">
-                <h4 class="body body--two key-details__sub-heading">Personal website</h4>
+                <h4 class="body body--two key-details__sub-heading">Personal links</h4>
                 <ul class="key-details__list">
-                    {% for item in personal_website %}
+                    {% for item in social_links %}
                         <li class="key-details__list-item">
-                            <a href="{{ item.link }}" class="link link--tertiary link--link link--external" target="_blank">
-                                <span class="link__label">{{ item.title }}</span>
+                            <a href="{{ item.value.url }}" class="link link--tertiary link--link link--external" target="_blank">
+                                <span class="link__label">{{ item.value.title }}</span>
                                 <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
                             </a>
                         </li>

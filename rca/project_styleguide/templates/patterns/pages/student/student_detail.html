@@ -10,6 +10,7 @@
     {% if page.staff_title %}{{ page.staff_title }}{% endif %} {% if page.first_name %}{{ page.first_name }}{% endif %} {% if page.last_name %}{{ page.last_name }}{% endif %}
 {% endblock %}
 
+
 {% block content %}
 
     <div class="page page--no-hero" typeof="schema:Person">
@@ -24,22 +25,26 @@
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
-                    {% if page.staff_title or page.first_name or page.last_name %}
+                    {% if page.student_title or page.first_name or page.last_name %}
                         <h1 property="schema:name" class="title-area__heading heading heading--one">
-                            {% if page.staff_title %}
-                                <span class="title-area__profile-title heading heading--three">{{ page.staff_title }}</span>
+                            {% if page.student_title %}
+                                <span class="title-area__profile-title heading heading--three">{{ page.student_title }}</span>
                             {% endif %}
                             {{ page.first_name }}
                             {{ page.last_name }}
                         </h1>
-                        {% if page.profile_type %}
-                            <h2 class="title-area__sub-heading body body--one">{{ page.profile_type }}</h2>
-                        {% endif %}
+                        {% for student_type in page.student_types.all %}
+                            <h2 class="title-area__sub-heading body body--one">{{ student_type.type }}</h2>
+                        {% endfor %}
                     {% endif %}
 
-                    {% if roles %}
+                    {% if page.programme %}
                         <div class="title-area__job-titles">
-                            {% include "patterns/molecules/job-titles/job-titles.html" with job_titles=roles %}
+                            <div class="job-titles">
+                                <ul class="job-titles__item">
+                                    <li class="job-titles__title">{{ page.programme }}</li>
+                                </ul>
+                            </div>
                         </div>
                     {% endif %}
 
@@ -66,7 +71,7 @@
                                 {{ page.introduction}}
                             </p>
                             <div class="staff-body__description rich-text">
-                                {{ page.body|safe }}
+                                {{ page.bio|safe }}
                             </div>
                             {% if page.thesis %}
                             <div class="staff-body__action">
@@ -78,7 +83,7 @@
                             {% endif %}
                         </div>
                         <div class="staff-body__key-details">
-                        {% include "patterns/molecules/key-details/key-details--student.html" with areas=areas supervisors=supervisors personal_website=personal_website %}
+                            {% include "patterns/molecules/key-details/key-details--student.html" with areas=areas supervisors=supervisors social_links=page.social_links %}
                         </div>
                     </div>
                 </div>
@@ -135,7 +140,7 @@
                         {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title="More about "|add:page.first_name %}
                     </div>
                 {% endif %}
-                
+
                 {% if related_students or page.related_links %}
                     <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
