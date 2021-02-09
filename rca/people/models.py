@@ -537,8 +537,7 @@ class StudentPageAreOfExpertisePlacement(models.Model):
 
 
 class StudentPage(BasePage):
-    # TODO, update template when it's there
-    template = "patterns/pages/staff/staff_detail.html"
+    template = "patterns/pages/student/student_detail.html"
     parent_page_types = ["people.StudentIndexPage"]
 
     student_title = models.CharField(
