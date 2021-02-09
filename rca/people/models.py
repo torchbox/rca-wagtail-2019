@@ -538,7 +538,9 @@ class StudentPage(BasePage):
     introduction = models.TextField(blank=True)
     bio = RichTextField(blank=True, features=["link"], help_text="Add a detail summary")
     social_links = StreamField(
-        StreamBlock([("Link", LinkBlock())], max_num=5, required=False, blank=True)
+        StreamBlock([("Link", LinkBlock(required=False))], max_num=5, required=False),
+        blank=True,
+        verbose_name="Personal links",
     )
     programme = models.ForeignKey(
         "programmes.ProgrammePage", on_delete=models.SET_NULL, null=True, blank=True,
