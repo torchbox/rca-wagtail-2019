@@ -40,7 +40,11 @@
 
                     {% if page.programme %}
                         <div class="title-area__job-titles">
-                            {{ page.programme }}
+                            <div class="job-titles">
+                                <ul class="job-titles__item">
+                                    <li class="job-titles__title">{{ page.programme }}</li>
+                                </ul>
+                            </div>
                         </div>
                     {% endif %}
 
@@ -67,7 +71,7 @@
                                 {{ page.introduction}}
                             </p>
                             <div class="staff-body__description rich-text">
-                                {{ page.body|safe }}
+                                {{ page.bio|safe }}
                             </div>
                             {% if page.thesis %}
                             <div class="staff-body__action">
@@ -79,7 +83,7 @@
                             {% endif %}
                         </div>
                         <div class="staff-body__key-details">
-                        {% include "patterns/molecules/key-details/key-details--student.html" with areas=areas supervisors=supervisors personal_website=personal_website %}
+                            {% include "patterns/molecules/key-details/key-details--student.html" with areas=areas supervisors=supervisors social_links=page.social_links %}
                         </div>
                     </div>
                 </div>
