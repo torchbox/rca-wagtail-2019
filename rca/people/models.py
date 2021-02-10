@@ -694,7 +694,7 @@ class StudentIndexPage(BasePage):
                 option_value_field="slug",
             ),
             TabStyleFilter(
-                "Area",
+                "Expertise",
                 queryset=(
                     AreaOfExpertise.objects.filter(
                         id__in=base_queryset.values_list(
