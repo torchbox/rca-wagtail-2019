@@ -519,7 +519,8 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     def get_programme_index_link(self):
         ProgrammeIndexPage = apps.get_model("programmes", "ProgrammeIndexPage")
         programme_index = ProgrammeIndexPage.objects.live().first()
-        return programme_index.get_url()
+        if programme_index:
+            return programme_index.get_url()
 
     def get_short_courses_index_link(self):
         """Returns a link to the programme index page filtered by the
@@ -529,12 +530,11 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         short_course_type = ProgrammeType.objects.filter(
             display_name="Short course"
         ).first()
-        if not short_course_type:
-            return
-        return (
-            f"{self.get_programme_index_link()}?category=programme_type&"
-            f"value={str(short_course_type.id)}-{slugify(short_course_type.display_name)}"
-        )
+        if short_course_type:
+            return (
+                f"{self.get_programme_index_link()}?category=programme_type&"
+                f"value={short_course_type.id}-{slugify(short_course_type.display_name)}"
+            )
 
     def get_related_staff(self):
         """Method to return a related staff.
