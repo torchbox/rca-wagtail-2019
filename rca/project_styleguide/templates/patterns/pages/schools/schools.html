@@ -163,7 +163,7 @@
                         <h2 class="section__heading section__heading--secondary ection__heading--tight heading heading--two">{{ page.research_projects_title|default:"Our Research" }}</h2>
                         {% if page.research_projects_text %}
                             <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page.research_projects_text }}
+                                {{ page.research_projects_text|richtext }}
                             </div>
                         {% endif %}
                     </div>
