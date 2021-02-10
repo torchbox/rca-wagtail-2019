@@ -4,6 +4,7 @@ from collections import defaultdict
 from django.apps import apps
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.http import Http404
 from django.utils.translation import ugettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -172,6 +173,13 @@ class StudentPageStudentStories(models.Model):
 
 
 class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
+    # Allow staff to see the new school pages for publishing, anyone else
+    # should receive a 404 and get redirected to the legacy site.
+    def serve(self, request):
+        if not request.user.is_staff:
+            raise Http404
+        return super().serve(request)
+
     template = "patterns/pages/schools/schools.html"
     introduction = RichTextField(blank=False, features=["link"])
     introduction_image = models.ForeignKey(
