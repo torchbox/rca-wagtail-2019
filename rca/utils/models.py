@@ -117,7 +117,7 @@ class RelatedPage(Orderable, models.Model):
     page = models.ForeignKey(
         "wagtailcore.Page",
         null=True,
-        blank=True,
+        blank=False,
         on_delete=models.CASCADE,
         related_name="+",
     )
@@ -130,8 +130,8 @@ class RelatedPage(Orderable, models.Model):
 
 
 class RelatedStaffPageWithManualOptions(Orderable):
-    """ This is in preparation for swapping to an internal page selection in the future
-    so the page selction is not offered at the moment """
+    """This is in preparation for swapping to an internal page selection in the future
+    so the page selction is not offered at the moment"""
 
     page = models.ForeignKey(
         "wagtailcore.Page",
@@ -639,7 +639,7 @@ class SitewideAlertSetting(BaseSetting):
 
 class SluggedTaxonomy(models.Model):
     """Taxonomy model that can be used for taxonomies that need a slug
-       as a few are identical
+    as a few are identical
     """
 
     title = models.CharField(max_length=128)

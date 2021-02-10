@@ -10,7 +10,7 @@ def get_area_linked_filters(page):
             expertise.append(
                 {
                     "title": i.area_of_expertise.title,
-                    "link": f"{parent.url}?area={i.area_of_expertise.slug}",
+                    "link": f"{parent.url}?expertise={i.area_of_expertise.slug}",
                 }
             )
         else:

@@ -52,11 +52,15 @@ jobs:
           name: Run Django tests
           command: |
             . venv/bin/activate
+            pip install coverage
             isort --recursive --check-only --diff ./rca
             ./manage.py collectstatic --clear --noinput
             ./manage.py makemigrations --check --noinput
             ./manage.py check
-            ./manage.py test --settings rca.settings.test
+            coverage run ./manage.py test --settings=rca.settings.test
+            coverage report
+            coverage xml
+            bash <(curl -s https://codecov.io/bash) -t $COVERAGE_TOKEN
       - run:
           name: Run Black
           command: |

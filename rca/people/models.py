@@ -28,6 +28,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from rca.api_content.content import CantPullFromRcaApi, pull_related_students
+from rca.people.filter import SchoolCentreDirectorateFilter
 from rca.programmes.models import ProgrammePage
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
@@ -48,6 +49,18 @@ class AreaOfExpertise(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(AreaOfExpertise, self).save(*args, **kwargs)
+
+
+class Directorate(models.Model):
+    title = models.CharField(max_length=128)
+    slug = models.SlugField(blank=True)
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Directorate, self).save(*args, **kwargs)
 
 
 class StaffRole(Orderable):
@@ -90,6 +103,17 @@ class StaffPageAreOfExpertisePlacement(models.Model):
         verbose_name=_("Areas of expertise"),
     )
     panels = [FieldPanel("area_of_expertise")]
+
+
+class StaffPageDirectorate(models.Model):
+    page = ParentalKey("StaffPage", related_name="related_directorates")
+    directorate = models.ForeignKey(
+        Directorate,
+        on_delete=models.CASCADE,
+        related_name="related_staff",
+        verbose_name=_("Directorates"),
+    )
+    panels = [FieldPanel("directorate")]
 
 
 class StaffPageManualRelatedStudents(models.Model):
@@ -173,6 +197,7 @@ class StaffPage(BasePage):
         ),
         InlinePanel("related_schools", label=_("Related Schools")),
         InlinePanel("related_area_of_expertise", label=_("Areas of Expertise")),
+        InlinePanel("related_directorates", label=_("Directorate")),
     ]
 
     content_panels = BasePage.content_panels + [
@@ -360,10 +385,31 @@ class StaffPage(BasePage):
                 regrouped[key]["link"] = link
         return regrouped.values()
 
+    def get_directorate_linked_filters(self):
+        """For the directorate taxonomy thats listed out in key details,
+        they need to link to the parent staff picker page with a filter pre
+        selected"""
+
+        parent = self.get_parent()
+        directorates = []
+        for i in self.related_directorates.all().select_related("directorate"):
+            if parent:
+                directorates.append(
+                    {
+                        "title": i.directorate.title,
+                        "link": f"{parent.url}?school-centre-or-area=d-{i.directorate.slug}",
+                    }
+                )
+            else:
+                directorates.append({"title": i.directorate.title})
+        print(directorates)
+        return directorates
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["research_highlights"] = self.format_research_highlights()
         context["areas"] = get_area_linked_filters(page=self)
+        context["directorates"] = self.get_directorate_linked_filters()
         context["related_schools"] = self.related_schools.all()
         context["research_centres"] = self.related_research_centre_pages.all()
         context["related_students"] = self.get_related_students()
@@ -403,47 +449,23 @@ class StaffIndexPage(BasePage):
         queryset = base_queryset.all()
 
         filters = (
-            TabStyleFilter(
-                "School or Centre",
-                queryset=(
-                    Page.objects.live()
-                    .filter(
-                        content_type__in=list(
-                            ContentType.objects.get_for_models(
-                                SchoolPage, ResearchCentrePage
-                            ).values()
-                        )
-                    )
-                    .filter(
-                        models.Q(
-                            id__in=base_queryset.values_list(
-                                "related_schools__page_id", flat=True
-                            )
-                        )
-                        | models.Q(
-                            id__in=base_queryset.values_list(
-                                "related_research_centre_pages__page_id", flat=True
-                            )
-                        )
+            SchoolCentreDirectorateFilter(
+                "School, Centre or Area",
+                school_queryset=SchoolPage.objects.live().filter(
+                    id__in=base_queryset.values_list(
+                        "related_schools__page_id", flat=True
                     )
                 ),
-                filter_by=(
-                    "related_schools__page__slug__in",
-                    "related_research_centre_pages__page__slug__in",  # Filter by slug here
-                ),
-                option_value_field="slug",
-            ),
-            TabStyleFilter(
-                "Area",
-                queryset=(
-                    AreaOfExpertise.objects.filter(
-                        id__in=base_queryset.values_list(
-                            "related_area_of_expertise__area_of_expertise_id", flat=True
-                        )
+                centre_queryset=ResearchCentrePage.objects.live().filter(
+                    id__in=base_queryset.values_list(
+                        "related_research_centre_pages__page_id", flat=True
                     )
                 ),
-                filter_by="related_area_of_expertise__area_of_expertise__slug__in",  # Filter by slug here
-                option_value_field="slug",
+                directorate_queryset=Directorate.objects.filter(
+                    id__in=base_queryset.values_list(
+                        "related_directorates__directorate_id", flat=True
+                    )
+                ),
             ),
             TabStyleFilter(
                 "Programme",
@@ -455,6 +477,18 @@ class StaffIndexPage(BasePage):
                     )
                 ),
                 filter_by="roles__programme__slug__in",
+                option_value_field="slug",
+            ),
+            TabStyleFilter(
+                "Expertise",
+                queryset=(
+                    AreaOfExpertise.objects.filter(
+                        id__in=base_queryset.values_list(
+                            "related_area_of_expertise__area_of_expertise_id", flat=True
+                        )
+                    )
+                ),
+                filter_by="related_area_of_expertise__area_of_expertise__slug__in",  # Filter by slug here
                 option_value_field="slug",
             ),
         )
