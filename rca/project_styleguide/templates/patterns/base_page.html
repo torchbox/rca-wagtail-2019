@@ -34,7 +34,7 @@
     <meta name="twitter:description" content="{{ page|social_text:request.site }}">
     {% if page.social_image  %}
         {% image page.social_image fill-1200x1200 as social_img %}
-        <meta name="twitter:image" content="{{ social_img.url }}">
+        <meta name="twitter:image" content="{{ social_img.full_url }}">
     {% else %}
         <meta name="twitter:image" content="{% static "images/social.png" %}">
     {% endif %}
@@ -45,7 +45,7 @@
     <meta property="og:url" content="{{ page.url }}" />
     <meta property="og:title" content="{{ page.title }}" />
     {% if page.social_image %}
-        <meta property="og:image" content="{{ social_img.url }}" />
+        <meta property="og:image" content="{{ social_img.full_url }}" />
     {% else %}
         <meta name="og:image" content="{% static "images/social.png" %}">
     {% endif %}
