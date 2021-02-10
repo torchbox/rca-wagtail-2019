@@ -1,7 +1,6 @@
-| Site           | Branch  | Status                                                                                                                                                         |
-| -------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| RCA Staging    | staging | [![CircleCI](https://circleci.com/gh/torchbox/rca-wagtail-2019/tree/staging.svg?style=shield)](https://circleci.com/gh/torchbox/rca-wagtail-2019/tree/staging) |
-| RCA Production | master  | [![CircleCI](https://circleci.com/gh/torchbox/rca-wagtail-2019/tree/master.svg?style=shield)](https://circleci.com/gh/torchbox/rca-wagtail-2019/tree/master)   |
+[![CircleCI prod](https://circleci.com/gh/torchbox/rca-wagtail-2019/tree/master.svg?style=shield)](https://circleci.com/gh/torchbox/rca-wagtail-2019/tree/master)
+[![codecov](https://codecov.io/gh/torchbox/rca-wagtail-2019/branch/master/graph/badge.svg?token=GBDM9H1A2X)](https://codecov.io/gh/torchbox/rca-wagtail-2019)
+[![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # RCA Wagtail 2019
 
