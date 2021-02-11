@@ -590,7 +590,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
                 ],
                 "link": {
                     "url": self.get_programme_index_link,
-                    "title": "Browse all RCA's programmes",
+                    "title": "Browse all RCA programmes",
                 },
             },
         ]
@@ -603,7 +603,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
                 ],
                 "link": {
                     "url": self.get_short_courses_index_link(),
-                    "title": "View all of our short courses",
+                    "title": "Browse all RCA short courses",
                 },
             }
         ]
