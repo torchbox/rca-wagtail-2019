@@ -222,10 +222,10 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
         blank=True,
         help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
-            Aim for logos that sit on a either a white or transparent background.",
+            Aim for logos that sit on either a white or transparent background.",
     )
     research_projects_title = models.CharField(max_length=125, default="Our Research")
-    research_projects_text = models.CharField(max_length=500, blank=True)
+    research_projects_text = RichTextField(blank=True, features=["link"])
     external_links_heading = models.CharField(max_length=125, blank=True)
 
     external_links = StreamField([("link", InternalExternalLinkBlock())], blank=True)
@@ -241,7 +241,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
         blank=True,
         help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
-            Aim for logos that sit on a either a white or transparent background.",
+            Aim for logos that sit on either a white or transparent background.",
     )
     related_programmes_title = models.CharField(blank=True, max_length=120)
     related_programmes_summary = models.CharField(blank=True, max_length=500)
@@ -471,7 +471,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         ]
         auto_related_projects = ProjectPage.objects.filter(
             related_school_pages__page_id=self.id
-        )
+        )[:6]
         if manual_related_projects:
             return format_projects_for_gallery(
                 ProjectPage.objects.filter(id__in=manual_related_projects)
