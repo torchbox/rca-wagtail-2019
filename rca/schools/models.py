@@ -177,7 +177,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     # Allow admin users to see the new school pages for publishing/previewing,
     # anyone else should receive a 404 and get redirected to the legacy site.
     def serve(self, request):
-        if not request.user.has_perm("wagtailadmin.access_admin"):
+        if not request.user.is_superuser:
             raise Http404
         return super().serve(request)
 
