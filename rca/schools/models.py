@@ -174,10 +174,10 @@ class StudentPageStudentStories(models.Model):
 
 
 class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
-    # Allow staff to see the new school pages for publishing, anyone else
-    # should receive a 404 and get redirected to the legacy site.
+    # Allow admin users to see the new school pages for publishing/previewing,
+    # anyone else should receive a 404 and get redirected to the legacy site.
     def serve(self, request):
-        if not request.user.is_staff:
+        if not request.user.has_perm("wagtailadmin.access_admin"):
             raise Http404
         return super().serve(request)
 
