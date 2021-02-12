@@ -265,7 +265,8 @@
         margin-top: ($gutter * 1.5);
     }
 
-    .key-details--staff .key-details__list-item & {
+    .key-details--staff .key-details__list-item &,
+    .key-details--student .key-details__list-item & {
         &#{$root}--tertiary {
             // Make sure multi line lines hover only shown on last line of link
             display: inline;
