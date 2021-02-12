@@ -36,7 +36,7 @@
         {% image page.social_image fill-1200x1200 as social_img %}
         <meta name="twitter:image" content="{{ social_img.full_url }}">
     {% else %}
-        <meta name="twitter:image" content="{% static "images/social.png" %}">
+        <meta name="twitter:image" content="{{ request.site.root_url }}{% static "images/social.png" %}">
     {% endif %}
 
     {# facebook opengraph tags #}
@@ -47,7 +47,7 @@
     {% if page.social_image %}
         <meta property="og:image" content="{{ social_img.full_url }}" />
     {% else %}
-        <meta name="og:image" content="{% static "images/social.png" %}">
+        <meta name="og:image" content="{{ request.site.root_url }}{% static "images/social.png" %}">
     {% endif %}
     <meta property="og:description" content="{{ page|social_text:request.site }}" />
     <meta property="og:site_name" content="{{ settings.utils.SocialMediaSettings.site_name }}" />
