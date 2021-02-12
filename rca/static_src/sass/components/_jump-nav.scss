@@ -6,6 +6,10 @@
         color: $color--black;
         border-bottom: 1px solid $color--grid-line-dark;
         border-top: 1px solid $color--grid-line-dark;
+
+        #{$root}__heading-icon {
+            fill: $color--black;
+        }
     }
 
     &__heading {
@@ -19,5 +23,14 @@
         @include media-query(large) {
             display: inline-flex;
         }
+    }
+
+    &__heading-label {
+        margin-right: 5px;
+    }
+
+    &__heading-icon {
+        transform: rotate(90deg) translateZ(0);
+        fill: $color--white;
     }
 }

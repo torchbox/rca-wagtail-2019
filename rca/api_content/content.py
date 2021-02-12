@@ -242,7 +242,6 @@ def pull_tagged_news_and_events(*tags):
         return []
 
     tags_string = ",".join(tags)
-
     # Fetch Events
     articles_required = 1
     result = fetch_data(

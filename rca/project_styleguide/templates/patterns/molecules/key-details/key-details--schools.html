@@ -1,4 +1,4 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags util_tags %}
 
 <div class="key-details">
 
@@ -8,7 +8,7 @@
 
     {% if page.school_dean %}
     <div class="key-details__section key-details__section--dean">
-        <h3 class="body body--two key-details__sub-heading">School Dean</h3>
+        <h3 class="body body--two key-details__sub-heading">Dean</h3>
         <ul class="key-details__list">
             <li class="key-details__list-item">
                 <a class="link link--tertiary" href="{% pageurl page.school_dean %}">{{ page.school_dean }}</a>
@@ -28,19 +28,15 @@
     </div>
     {% endif %}
 
-    {% if page.next_open_day_start_date %}
+    {% if page.next_open_day_date %}
     <div class="key-details__section key-details__section--date">
         <h3 class="body body--two key-details__sub-heading">Next open day</h3>
         <ul class="key-details__list">
-            {% if page.next_open_day_end_date and page.next_open_day_start_date %}
-            <li class="key-details__list-item">{{ page.next_open_day_start_date|date:'d' }} - {{ page.next_open_day_end_date|date:'d F' }}</li>
-            {% elif page.next_open_day_start_date %}
-            <li class="key-details__list-item">{{ page.next_open_day_start_date|date:'d m Y' }}</li>
-            {% endif %}
-            {% if open_day_link %}
+            <li class="key-details__list-item">{{ page.next_open_day_date|date:'d M Y' }}</li>
+            {% if page.link_to_open_days %}
             <li class="key-details__list-item">
-                <a class="key-details__link link link--secondary link--link" href="{{ open_day_link.get_link_url }}">
-                    <span class="link__label">{{ open_day_link.get_link_text }}</span>
+                <a class="key-details__link link link--secondary link--link" href="{{ page.link_to_open_days }}">
+                    <span class="link__label">Book or view all open days</span>
                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                 </a>
             </li>
@@ -64,7 +60,13 @@
     <div class="key-details__section key-details__section--social">
         <ul class="key-details__list">
             {% for link in page.social_links %}
-            <li class="key-details__list-item">{{ link|richtext }}</li>
+                <li class="key-details__list-item">
+                {% is_external link.value.url href as is_external %}
+                    <a class="link link--tertiary link--link {% if is_external %}link--external{% endif %}" {% if is_external %} target="_blank" {% endif %} href="{% firstof link.value.url href %}">
+                        <span class="link__label ">{{ link.value.title }}</span>
+                        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow{% if is_external %}-external{% endif %}"></use></svg>
+                    </a>
+                </li>
             {% endfor %}
         </ul>
     </div>

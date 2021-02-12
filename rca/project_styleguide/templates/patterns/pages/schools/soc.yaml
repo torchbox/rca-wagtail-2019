@@ -10,32 +10,23 @@ context:
     introduction_image: True
     school_dean: Rathna Ramanathan
     location: <p><a>RCA White City</a></p>
-    next_open_day_start_date: !!timestamp '2021-01-27 2:00:00'
-    next_open_day_end_date: !!timestamp '2021-01-27 2:00:00'
-    get_in_touch: <p>0123456789</p><p><a href="">email@rca.ac.uk</a></p>
+    next_open_day_date: !!timestamp '2021-01-27 2:00:00'
+    get_in_touch: <p>+44 (0)20 7590 4444</p><p><a href="">email@rca.ac.uk</a></p>
     social_links:
-      - '<a href="https://www.instagram.com/rcasoc/" class="link link--tertiary link--link link--external" target="_blank"><span class="link__label">Instagram</span><svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg></a>'
+      - link:
+        value:
+          title: Instagram
+          href: https://www.instagram.com/rcasoc/
     video: 'https://www.youtube.com/watch?v=hEV0YUfz52s&list=PLk-Jp7vRQvwNQ_B4fvlPpDcudkDtjItY9&index=2'
     video_caption: Welcome to the School
-    body:
-      - dummy
-    tabs:
-      - tab:
-        title: About
-      - tab:
-        title: Our research
-      - tab:
-        title: Programmes & Short courses
-      - tab:
-        title: Staff
-      - tab:
-        title: Contact
+    body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+    research_projects_title: Our research
+    research_projects_text: We explore how communication practices can help better understand and positively change the terms and narratives of contemporary communication.
     sections:
       about:
         title: What makes us different?
         introduction: We teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs.
       research:
-        introduction: We explore how communication practices can help better understand and positively change the terms and narratives of contemporary communication.
         link: https://www.rca.ac.uk/study/schools/school-of-communication/communication-research-statement/
       programmes:
         introduction: We offer a range of Graduate Diploma, MA, MRes, MPhil and PhD degree programmes across the art and design disciplines.
@@ -48,6 +39,91 @@ context:
     related_pages_title: Enterprise at the RCA
     staff_link: '#'
     staff_link_text: View all school staff
+    collaborators_heading: Organisations
+    collaborators:
+      - slide:
+        value:
+          link:
+            title: 'Story central'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Fair Trials'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'ICRAM'
+            url: '#'
+          image: true
+    external_links_heading: Also...
+    external_links:
+      - item:
+        value: { text: 'Research students', href: '#' }
+      - item:
+        value: { text: 'Research projects', href: '#' }
+      - item:
+        value: { text: 'Communication Practices site', href: '#' }
+    related_programmes_title: Our programmes
+    related_programmes_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    related_short_courses_title: Our short courses
+    related_short_courses_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    research_collaborators:
+      - slide:
+        value:
+          link:
+            title: 'Microsoft Research'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'British Library'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Sense'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'British Council'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Dubit'
+            url: '#'
+          image: true
+    legacy_news_and_events:
+      - item:
+        meta: 'News'
+        title: 'Dr Rathna Ramanathan, Dean of the School of Communication, to stand down'
+        description: '13 Oct 2020'
+        link: 'https://www.rca.ac.uk/news-and-events/news/dr-rathna-ramanathan-dean-school-communication-stand-down/'
+        image: //placekitten.com/526/402
+        person: false
+      - item:
+        meta: 'News'
+        title: 'Dr Danielle Barrios-O’Neill appointed Head of Programme for MA Information Experience Design'
+        description: '6 Oct 2020'
+        link: 'https://www.rca.ac.uk/news-and-events/news/dr-danielle-barrios-oneill-appointed-head-programme-ma-information-experience-design/'
+        image: false
+        person: false
+      - item:
+        meta: 'News'
+        title: 'DRAW Alumni Exhibition Explores the Human Power of Drawing'
+        description: '3 Jul 2018'
+        link: 'https://www.rca.ac.uk/news-and-events/news/draw-alumni-exhibition-explores-human-power-drawing/'
+        image: //placekitten.com/251/142
+        person: false
   hero_image:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
@@ -55,68 +131,35 @@ context:
   open_day_link:
     get_link_url: #
     get_link_text: Book or view all open days
-  about_teasers:
-    - {
-        title: 'Free courses',
-        link: '#',
-        meta: false,
-        person: false,
-        description: 'Civic course, activities with local community.',
-        image: true,
-      }
-    - {
-        title: 'Creativity and innovation',
-        link: '#',
-        meta: false,
-        person: false,
-        description: 'We enable creativity and innovation. Critical making and thinking are supported and encouraged through facilitated forums for play, experimentation and risk-taking. The School’s  staff are experienced practitioners, researchers, academics and specialist visiting lecturers, who bring ‘real-world’ knowledge and the necessary guidance and support for the development of new ideas, methods or strategies.',
-        image: true,
-      }
-    - {
-        title: 'Evolve new views',
-        link: '#',
-        meta: false,
-        person: false,
-        description: 'We de-programme, de-mystify, de-compute and re-form. The opportunity for evolving new views of, and for, the world, arise through rigorous approaches to research, critical self-reflection and making. Students are encouraged to explore new territories and responses, often collaboratively across the College and through externally commissioned projects.',
-        image: true,
-      }
-  news_and_events:
-    - item:
-      meta: 'News'
-      title: 'Dr Rathna Ramanathan, Dean of the School of Communication, to stand down'
-      description: '13 Oct 2020'
-      link: 'https://www.rca.ac.uk/news-and-events/news/dr-rathna-ramanathan-dean-school-communication-stand-down/'
-      image: //placekitten.com/526/402
-      person: false
-    - item:
-      meta: 'News'
-      title: 'Dr Danielle Barrios-O’Neill appointed Head of Programme for MA Information Experience Design'
-      description: '6 Oct 2020'
-      link: 'https://www.rca.ac.uk/news-and-events/news/dr-danielle-barrios-oneill-appointed-head-programme-ma-information-experience-design/'
-      image: false
-      person: false
-    - item:
-      meta: 'News'
-      title: 'DRAW Alumni Exhibition Explores the Human Power of Drawing'
-      description: '3 Jul 2018'
-      link: 'https://www.rca.ac.uk/news-and-events/news/draw-alumni-exhibition-explores-human-power-drawing/'
-      image: //placekitten.com/251/142
-      person: false
-  worked_with:
-    slides:
-      - slide:
-        title: 'Story Central'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Fair Trials'
-        image: true
-        link: '#'
-      - slide:
-        title: 'IRCAM'
-        image: true
-        link: '#'
-  programmes:
+  page_teasers:
+    title: What makes us different?
+    summary: We teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs.
+    pages:
+      - {
+          title: 'Free courses',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Civic course, activities with local community.',
+          image: true,
+        }
+      - {
+          title: 'Creativity and innovation',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'We enable creativity and innovation. Critical making and thinking are supported and encouraged through facilitated forums for play, experimentation and risk-taking. The School’s  staff are experienced practitioners, researchers, academics and specialist visiting lecturers, who bring ‘real-world’ knowledge and the necessary guidance and support for the development of new ideas, methods or strategies.',
+          image: true,
+        }
+      - {
+          title: 'Evolve new views',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'We de-programme, de-mystify, de-compute and re-form. The opportunity for evolving new views of, and for, the world, arise through rigorous approaches to research, critical self-reflection and making. Students are encouraged to explore new territories and responses, often collaboratively across the College and through externally commissioned projects.',
+          image: true,
+        }
+  related_programmes:
     - item:
       link:
         url: '#'
@@ -152,7 +195,7 @@ context:
           degree_level: MRes
           programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
           hero_image: http://placehold.it/500x500/ff5d1c/fff
-  short_courses:
+  related_short_courses:
     - item:
       link:
         url: '#'
@@ -174,6 +217,7 @@ context:
           programme_description_subtitle: Turning innovation into successful real-world businesses.
           hero_image: http://placehold.it/300x270
   stats_block:
+    title: false
     statistics:
       - stat:
         value:
@@ -224,6 +268,7 @@ context:
       image: true
       link: '#'
   student_research:
+    title: PhD student rResearch
     slides:
       - slide:
         value:
@@ -241,37 +286,6 @@ context:
           link: '#'
           person: false
           image: True
-  research_collaboration:
-    slides:
-      - slide:
-        title: 'Microsoft Research'
-        image: true
-        link: '#'
-      - slide:
-        title: 'British Library'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Sense'
-        image: true
-        link: '#'
-      - slide:
-        title: 'British Council'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Dubit'
-        image: true
-        link: '#'
-  research_links:
-    title: Also…
-    links:
-      - item:
-        value: { text: 'Research students', href: '#' }
-      - item:
-        value: { text: 'Research projects', href: '#' }
-      - item:
-        value: { text: 'Communication Practices site', href: '#' }
   research_cta: False
   programmes_cta:
     title: Custom executive education
