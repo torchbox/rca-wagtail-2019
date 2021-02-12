@@ -49,6 +49,18 @@
                 </ul>
             </div>
         {% endif %}
+        {% if funding %}
+            <div class="key-details__section key-details__section--supervisors">
+                <h4 class="body body--two key-details__sub-heading">Funding</h4>
+                <ul class="key-details__list">
+                    {% for item in funding %}
+                        <li class="key-details__list-item">
+                            <a href="{{ item.link }}" class="link link--tertiary">{{ item.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
         {% if social_links %}
             <div class="key-details__section key-details__section--supervisors">
                 <h4 class="body body--two key-details__sub-heading">Personal links</h4>
