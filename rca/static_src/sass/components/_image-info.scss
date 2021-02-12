@@ -19,7 +19,7 @@
     }
 
     .title-area & {
-        transition: color $cubic-transition;
+        transition: color $transition-cubic;
 
         .bg--dark & {
             color: $color--meta-darkbg;

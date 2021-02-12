@@ -1,0 +1,10 @@
+context:
+  field:
+    label: Select field help
+    id_for_label: select-help
+    help_text: Select help text
+    options:
+      - { title: one }
+      - { title: two }
+      - { title: three }
+      - { title: four }

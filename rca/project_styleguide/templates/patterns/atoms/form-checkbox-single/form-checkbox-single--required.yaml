@@ -1,0 +1,6 @@
+context:
+  field:
+    label: Checkbox single required
+    id_for_label: Checkbox single-single-required
+    field:
+      required: True

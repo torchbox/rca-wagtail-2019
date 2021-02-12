@@ -4,6 +4,10 @@
 
     &__text {
         margin-bottom: ($gutter * 2);
+
+        &--no-margin {
+            margin-bottom: 0;
+        }
     }
 
     .section__row & {

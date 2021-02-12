@@ -1,0 +1,4 @@
+<{% if button %}button{% else %}a href="{{ link }}" target="_blank" rel="noopener" {% endif %} class="exceptional-cta">
+    <span class="exceptional-cta__label">{{ text }}</span>
+    <svg width="24" height="16" class="exceptional-cta__icon"><use xlink:href="#arrow"></use></svg>
+</{% if button %}button{% else %}a{% endif %}>

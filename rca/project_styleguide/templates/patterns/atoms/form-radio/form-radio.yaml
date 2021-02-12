@@ -1,0 +1,5 @@
+context:
+  field:
+    label: Radio
+    errors: false
+    id_for_label: radio
