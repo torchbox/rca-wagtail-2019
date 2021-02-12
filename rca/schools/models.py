@@ -224,6 +224,21 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
             Aim for logos that sit on either a white or transparent background.",
     )
+    about_external_links = StreamField(
+        [("link", InternalExternalLinkBlock())],
+        blank=True,
+        verbose_name="External links",
+    )
+    about_cta_block = StreamField(
+        StreamBlock(
+            [("call_to_action", CallToActionBlock(label=_("text promo")))],
+            max_num=1,
+            required=False,
+        ),
+        verbose_name="CTA",
+        blank=True,
+    )
+
     research_projects_title = models.CharField(max_length=125, default="Our Research")
     research_projects_text = RichTextField(blank=True, features=["link"])
     external_links_heading = models.CharField(max_length=125, blank=True)
@@ -324,6 +339,8 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             heading="Collaborators",
         ),
         InlinePanel("stats_block", label="Statistics", max_num=1),
+        StreamFieldPanel("about_external_links"),
+        StreamFieldPanel("about_cta_block"),
     ]
     news_and_events_panels = [
         FieldPanel("news_and_events_heading"),
