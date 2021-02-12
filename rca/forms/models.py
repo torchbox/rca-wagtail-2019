@@ -24,7 +24,7 @@ class FormField(AbstractFormField):
 @method_decorator(never_cache, name="serve")
 class FormPage(WagtailCaptchaEmailForm, BasePage):
     template = "patterns/pages/forms/form_page.html"
-    landing_page_template = "patterns/pages/forms/form_page_landing.html"
+    landing_page_template = "patterns/pages/forms/thanks.html"
 
     subpage_types = []
 
