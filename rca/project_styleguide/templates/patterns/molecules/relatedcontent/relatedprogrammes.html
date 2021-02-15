@@ -25,14 +25,13 @@
                 <meta property="schema:provider" content="Royal College of Art" />
                 {% for related_item in related_section.related_items %}
                     <div class="related-content__meta" typeof="schema:Course">
-                        <p class="related-content__title body body--one">
+                        <p class="related-content__title body body--one" property="name">
                             <a
                                 href="{{ related_item.url }}"
                                 class="related-content__link link link--tertiary"
                                 data-related-title
                                 data-target-image="{{ forloop.counter }}"
                                 data-parent-group={{ forloop.parentloop.counter }}
-                                property="name"
                             >
                                 {{ related_item.title }}
                             </a>
