@@ -48,6 +48,7 @@
         }
 
         #{$root}__image-container {
+            @include z-index(above-gridlines);
             position: absolute;
             right: var(--margin-width);
             top: 0;
