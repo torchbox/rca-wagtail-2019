@@ -7,9 +7,8 @@ from phonenumber_field.formfields import PhoneNumberField
 class EnquireToStudyForm(forms.Form):
     first_name = forms.CharField(max_length=255)
     last_name = forms.CharField(max_length=255)
-    email = forms.EmailField(
-        widget=forms.EmailInput(attrs={'placeholder': 'Your email *'}),
-    )
+    email = forms.EmailField()
+
     phone_number = PhoneNumberField()
 
     country_of_residence = CountryField().formfield()
@@ -67,8 +66,8 @@ class EnquireToStudyForm(forms.Form):
 
     FUNDING_CHOICES = [
         ('Self Funded', 'Self Funded'),
-        ('Bank Loan', 'Self Funded'),
-        ('Business or Government funding', 'Self Funded'),
+        ('Bank Loan', 'Bank Loan'),
+        ('Business or Government funding', 'Business or Government funding'),
         ('Scholarships', 'Scholarships'),
         ('Other', 'Other'),
     ]
@@ -84,3 +83,11 @@ class EnquireToStudyForm(forms.Form):
 
     is_read_data_protection_policy = forms.BooleanField()
     is_notification_opt_in = forms.BooleanField()
+
+    def __init__(self, *args, **kwargs):
+        super(EnquireToStudyForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].widget.attrs['placeholder'] = 'First name *'
+        self.fields['last_name'].widget.attrs['placeholder'] = 'Last name *'
+        self.fields['email'].widget.attrs['placeholder'] = 'Email *'
+        self.fields['phone_number'].widget.attrs['placeholder'] = 'Phone number *'
+        self.fields['city'].widget.attrs['placeholder'] = 'City or town of residence *'
