@@ -44,7 +44,6 @@ class GridSizeVariables {
             '--grid-width',
             `${this.gridWidth.width}px`,
         );
-
     }
 }
 
