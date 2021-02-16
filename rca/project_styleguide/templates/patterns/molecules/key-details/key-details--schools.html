@@ -29,13 +29,13 @@
     {% endif %}
 
     {% if page.next_open_day_date %}
-    <div class="key-details__section key-details__section--date" typeof="Event">
-        <h3 class="body body--two key-details__sub-heading" property="name">Next open day</h3>
+    <div class="key-details__section key-details__section--date">
+        <h3 class="body body--two key-details__sub-heading">Next open day</h3>
         <ul class="key-details__list" >
-            <li class="key-details__list-item" property="startDate">{{ page.next_open_day_date|date:'d M Y' }}</li>
+            <li class="key-details__list-item">{{ page.next_open_day_date|date:'d M Y' }}</li>
             {% if page.link_to_open_days %}
             <li class="key-details__list-item">
-                <a class="key-details__link link link--secondary link--link" href="{{ page.link_to_open_days }}" property="url">
+                <a class="key-details__link link link--secondary link--link" href="{{ page.link_to_open_days }}">
                     <span class="link__label">Book or view all open days</span>
                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                 </a>

@@ -1,12 +1,12 @@
 {% load wagtailcore_tags wagtailimages_tags static util_tags %}
 
 {% with item.page.specific as staff_page %}
-<div class="profile-detail" typeof="Person">
+<div class="profile-detail" typeof="schema:Person">
     {% if item.link %}
         {% is_external item.link as is_external %}
-        <a href="{{ item.link }}" {% if is_external %} target="_blank" {% endif %} class="profile-detail__container profile-detail__container--link" property="url">
+        <a href="{{ item.link }}" {% if is_external %} target="_blank" {% endif %} class="profile-detail__container profile-detail__container--link" property="schema:url">
     {% elif staff_page %}
-        <a href="{{ staff_page.url }}" class="profile-detail__container profile-detail__container--link" property="url">
+        <a href="{{ staff_page.url }}" class="profile-detail__container profile-detail__container--link" property="schema:url">
     {% else %}
         <div class="profile-detail__container">
     {% endif %}
@@ -32,17 +32,17 @@
             {% if item.first_name or item.name or staff_page %}
                 <div class="profile-detail__header">
                     {% if item.first_name or item.name %}
-                    <h3 class="profile-detail__heading heading heading--five" property="name">
+                    <h3 class="profile-detail__heading heading heading--five" property="schema:name">
                     {% firstof item.first_name item.name %} {{ item.surname }}</h3>
                     {% elif staff_page %}
-                        <h3 class="profile-detail__heading heading heading--five" property="name">{% if staff_page.staff_title %}{{ staff_page.staff_title }} {% endif %}{{ staff_page.first_name }} {{ staff_page.last_name }}</h3>
+                        <h3 class="profile-detail__heading heading heading--five" property="schema:name">{% if staff_page.staff_title %}{{ staff_page.staff_title }} {% endif %}{{ staff_page.first_name }} {{ staff_page.last_name }}</h3>
                     {% endif %}
                 </div>
             {% endif %}
-            <h4 class="profile-detail__job-title body body--one" property="jobTitle">{% firstof item.role staff_page.roles.first.role %}</h4>
+            <h4 class="profile-detail__job-title body body--one" property="schema:jobTitle">{% firstof item.role staff_page.roles.first.role %}</h4>
         </div>
         <div class="profile-detail__more">
-            <p class="profile-detail__body body body--two" property="description">{% firstof item.description staff_page.introduction %}</p>
+            <p class="profile-detail__body body body--two" property="schema:description">{% firstof item.description staff_page.introduction %}</p>
             {% if item.link or staff_page %}
                 <span class="profile-detail__link body body--two link link--tertiary link--link {% if is_external %}link--external{% endif %}">
                     <span class="link__label">View full profile</span>
