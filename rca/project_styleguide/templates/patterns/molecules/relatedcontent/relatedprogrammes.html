@@ -21,44 +21,48 @@
                 </div>
             {% endif %}
 
-            <div class="related-content__listing grid">
-                <meta property="schema:provider" content="Royal College of Art" />
+            <div class="related-content__listing">
+
                 {% for related_item in related_section.related_items %}
-                    <div class="related-content__meta" typeof="schema:Course">
-                        <p class="related-content__title body body--one" property="name">
-                            <a
-                                href="{{ related_item.url }}"
-                                class="related-content__link link link--tertiary"
-                                data-related-title
-                                data-target-image="{{ forloop.counter }}"
-                                data-parent-group={{ forloop.parentloop.counter }}
-                            >
-                                {{ related_item.title }}
-                            </a>
+                    <div class="related-content__item grid" typeof="schema:Course">
+                        <meta property="schema:provider" content="Royal College of Art" />
+                        <div class="related-content__meta">
+                            <h3 class="related-content__title body body--one" property="schema:name">
+                                <a
+                                    href="{{ related_item.url }}"
+                                    class="related-content__link link link--tertiary"
+                                    data-related-title
+                                    data-target-image="{{ forloop.counter }}"
+                                    data-parent-group="{{ forloop.parentloop.counter }}"
+                                >
+                                    {{ related_item.title }}
+                                </a>
+                            </h3>
+                            {% if related_item.degree_level %}
+                                <p class="related-content__degree body body--two" property="schema:EducationalCredentialAwarded">{{ related_item.degree_level }}</p>
+                            {% elif related_item.programme_type %}
+                                <p class="related-content__degree body body--two">{{ related_item.programme_type }}</p>
+                            {% elif related_item.meta %}
+                                <p class="related-content__degree body body--two">{{ related_item.meta }}</p>
+                            {% elif related_item.get_verbose_name == 'Guide page' %}
+                                <p class="related-content__degree body body--two">Guide</p>
+                            {% endif %}
+                        </div>
+                        <p class="related-content__copy body body--two" property="schema:description">
+                            {% firstof related_item.programme_description_subtitle related_item.introduction related_item.listing_summary %}
                         </p>
-                        {% if related_item.degree_level %}
-                            <p class="related-content__degree body body--two" property="EducationalCredentialAwarded">{{ related_item.degree_level }}</p>
-                        {% elif related_item.programme_type %}
-                            <p class="related-content__degree body body--two">{{ related_item.programme_type }}</p>
-                        {% elif related_item.meta %}
-                            <p class="related-content__degree body body--two">{{ related_item.meta }}</p>
-                        {% elif related_item.get_verbose_name == 'Guide page' %}
-                            <p class="related-content__degree body body--two">Guide</p>
+                        {# we are re-using this component for some page types that don't have hero images :/ #}
+                        {% if related_item.hero_image %}
+                            {% image related_item.hero_image fill-500x500 as programme_image %}
+                        {% else %}
+                            {% image related_item.listing_image fill-500x500 as programme_image %}
                         {% endif %}
-                    </div>
-                    <p class="related-content__copy body body--two">
-                        {% firstof related_item.programme_description_subtitle related_item.introduction related_item.listing_summary %}
-                    </p>
-                    {# we are re-using this component for some page types that don't have hero images :/ #}
-                    {% if related_item.hero_image %}
-                        {% image related_item.hero_image fill-500x500 as programme_image %}
-                    {% else %}
-                        {% image related_item.listing_image fill-500x500 as programme_image %}
-                    {% endif %}
-                    <div class="related-content__image-container">
-                        <img class="related-content__image {% if forloop.first %}is-visible{% endif %}" src="{{ programme_image.url }}" alt="{{ programme_image.alt }}" data-image="{{ forloop.counter }}">
+                        <div class="related-content__image-container">
+                            <img class="related-content__image {% if forloop.first %}is-visible{% endif %}" src="{{ programme_image.url }}" alt="{{ programme_image.alt }}" data-image="{{ forloop.counter }}" property="schema:image">
+                        </div>
                     </div>
                 {% endfor %}
+
             </div>
             {% if related_section.link.url and related_section.link.title or related_section.page_link  %}
                 <div class="grid">

@@ -31,6 +31,10 @@ class GridSizeVariables {
             '--outer-grid-width',
             `${this.leftEdgeCoords.width}px`,
         );
+        document.documentElement.style.setProperty(
+            '--margin-width',
+            `${this.leftEdgeCoords.left}px`,
+        );
 
         // get center grid size
         const gridSelector = document.querySelector('[data-grid-center]');
@@ -39,6 +43,7 @@ class GridSizeVariables {
             '--grid-width',
             `${this.gridWidth.width}px`,
         );
+
     }
 }
 

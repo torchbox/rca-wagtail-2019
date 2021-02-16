@@ -49,11 +49,9 @@
 
         #{$root}__image-container {
             position: absolute;
-            right: 0;
+            right: var(--margin-width);
             top: 0;
-            width: calc(var(--grid-width) + 16.74% + 40px);
-            grid-row: unset;
-            grid-column: unset;
+            width: calc(var(--grid-width) + var(--outer-grid-width));
 
             &::before {
                 content: '';
@@ -161,6 +159,10 @@
         }
     }
 
+    &__listing {
+        position: relative;
+    }
+
     &__heading,
     &__subheading {
         grid-column: 1 / span 2;
@@ -221,12 +223,14 @@
 
     &__image-container {
         display: none;
-        position: relative;
         grid-column: 4 / span 1;
-        grid-row: 1 / span 3;
 
         @include media-query(large) {
+            position: absolute;
+            top: 0;
+            right: calc(var(--margin-width) + var(--outer-grid-width));
             display: block;
+            width: var(--grid-width);
         }
     }
 
