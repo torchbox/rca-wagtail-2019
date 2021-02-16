@@ -67,7 +67,7 @@
                 <ul class="key-details__list">
                     {% for item in social_links %}
                         <li class="key-details__list-item">
-                            <a href="{{ item.value.url }}" class="link link--tertiary link--link link--external" target="_blank">
+                            <a href="{{ item.value.url }}" class="link link--tertiary link--link link--external" target="_blank" rel="noreferrer" property="schema:sameAs" >
                                 <span class="link__label">{{ item.value.title }}</span>
                                 <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
                             </a>
