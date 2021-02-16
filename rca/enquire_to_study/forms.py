@@ -12,12 +12,12 @@ class EnquireToStudyForm(forms.Form):
     first_name = forms.CharField(max_length=255)
     last_name = forms.CharField(max_length=255)
     email = forms.EmailField()
-    phone_number = PhoneNumberField(help_text="Include your country code, for example +44")
+    phone_number = PhoneNumberField()
 
     # Country of residence & citizenship
     country_of_residence = CountryField().formfield()
     city = forms.CharField(max_length=255)
-    is_citizen = forms.ChoiceField(choices=[(True, 'Yes'), (False, 'No')],widget=forms.RadioSelect)
+    is_citizen = forms.ChoiceField(choices=[(True, 'Yes'), (False, 'No')], widget=forms.RadioSelect)
 
     # Study details
     PROGRAMME_CHOICES = [
@@ -65,7 +65,7 @@ class EnquireToStudyForm(forms.Form):
         ('2021/22', '2021/22'),
         ('2022', '2022 onwards')
     ]
-    start_date = forms.ChoiceField(choices=START_DATE_CHOICES,widget=forms.RadioSelect)
+    start_date = forms.ChoiceField(choices=START_DATE_CHOICES, widget=forms.RadioSelect)
 
     FUNDING_CHOICES = [
         ('Self Funded', 'Self Funded'),
@@ -74,7 +74,7 @@ class EnquireToStudyForm(forms.Form):
         ('Scholarships', 'Scholarships'),
         ('Other', 'Other'),
     ]
-    funding = forms.MultipleChoiceField(choices=FUNDING_CHOICES,widget=forms.CheckboxSelectMultiple)
+    funding = forms.MultipleChoiceField(choices=FUNDING_CHOICES, widget=forms.CheckboxSelectMultiple)
 
     # What's the enquiry about ?
     INQUIRY_REASON_CHOICES = [
@@ -83,7 +83,7 @@ class EnquireToStudyForm(forms.Form):
         ('Reason three', 'Reason three'),
         ('Reason four', 'Reason four'),
     ]
-    inquiry_reason = forms.ChoiceField(choices=INQUIRY_REASON_CHOICES,widget=forms.RadioSelect)
+    inquiry_reason = forms.ChoiceField(choices=INQUIRY_REASON_CHOICES, widget=forms.RadioSelect)
 
     # Legal & newsletter
     is_read_data_protection_policy = forms.BooleanField()
@@ -94,8 +94,24 @@ class EnquireToStudyForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(EnquireToStudyForm, self).__init__(*args, **kwargs)
+        # Placeholder
         self.fields['first_name'].widget.attrs['placeholder'] = 'First name *'
         self.fields['last_name'].widget.attrs['placeholder'] = 'Last name *'
         self.fields['email'].widget.attrs['placeholder'] = 'Email *'
         self.fields['phone_number'].widget.attrs['placeholder'] = 'Phone number *'
         self.fields['city'].widget.attrs['placeholder'] = 'City or town of residence *'
+
+        # Labels
+        self.fields['is_citizen'].label = 'Are you also a citizen in this country?'
+        self.fields['programmes'].label = 'Type of programme(s) you\'re interested in'
+        self.fields['courses'].label = 'Type of programme(s) you\'re interested in'
+        self.fields['start_date'].label = 'When do you plan to start your degree?'
+        self.fields['funding'].label = 'How do you plan on funding your study?'
+        self.fields['inquiry_reason'].label = 'What\'s your enquiry about?'
+
+        # Help Text
+        self.fields['phone_number'].help_text = 'Include your country code, for example +44'
+        self.fields['programmes'].help_text = 'Select all that apply'
+        self.fields['courses'].help_text = 'Select all that apply'
+        self.fields['funding'].help_text = 'Select all that apply'
+        self.fields['inquiry_reason'].help_text = 'So we can ensure the correct department receives your message'
