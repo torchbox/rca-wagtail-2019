@@ -31,6 +31,7 @@ class GridSizeVariables {
             '--outer-grid-width',
             `${this.leftEdgeCoords.width}px`,
         );
+
         document.documentElement.style.setProperty(
             '--margin-width',
             `${this.leftEdgeCoords.left}px`,
