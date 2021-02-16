@@ -16,7 +16,7 @@ class EnquireToStudyForm(forms.Form):
 
     city = forms.CharField(max_length=255)
 
-    is_citizen = forms.ChoiceField(choices=[(True, 'Yes'), (False, 'No')])
+    is_citizen = forms.ChoiceField(choices=[(True, 'Yes'), (False, 'No')],widget=forms.RadioSelect)
 
     PROGRAMME_CHOICES = [
         ('Pre-Masters', 'Pre-Masters'),
@@ -63,7 +63,7 @@ class EnquireToStudyForm(forms.Form):
         ('2021/22', '2021/22'),
         ('2022', '2022 onwards')
     ]
-    start_date = forms.ChoiceField(choices=START_DATE_CHOICES)
+    start_date = forms.ChoiceField(choices=START_DATE_CHOICES,widget=forms.RadioSelect)
 
     FUNDING_CHOICES = [
         ('Self Funded', 'Self Funded'),
@@ -72,7 +72,7 @@ class EnquireToStudyForm(forms.Form):
         ('Scholarships', 'Scholarships'),
         ('Other', 'Other'),
     ]
-    funding = forms.MultipleChoiceField(choices=FUNDING_CHOICES)
+    funding = forms.MultipleChoiceField(choices=FUNDING_CHOICES,widget=forms.CheckboxSelectMultiple)
 
     INQUIRY_REASON_CHOICES = [
         ('Reason one', 'Reason one'),
@@ -80,7 +80,7 @@ class EnquireToStudyForm(forms.Form):
         ('Reason three', 'Reason three'),
         ('Reason four', 'Reason four'),
     ]
-    inquiry_reason = forms.ChoiceField(choices=INQUIRY_REASON_CHOICES)
+    inquiry_reason = forms.ChoiceField(choices=INQUIRY_REASON_CHOICES,widget=forms.RadioSelect)
 
     is_read_data_protection_policy = forms.BooleanField()
     is_notification_opt_in = forms.BooleanField()
