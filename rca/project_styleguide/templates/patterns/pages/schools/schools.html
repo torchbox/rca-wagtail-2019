@@ -25,7 +25,7 @@
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
                     {% if page.title %}
-                        <h1 class="title-area__heading heading heading--display-two" property="name">{{ page.title }}</h1>
+                        <h1 class="title-area__heading heading heading--display-two" property="schema:name">{{ page.title }}</h1>
                     {% endif %}
                 </div>
                 {% if hero_image_credit or hero_image %}
@@ -37,7 +37,7 @@
             {% if page.introduction %}
                 <div class="introduction grid">
                     <div class="introduction__container">
-                        <h2 class="section__heading heading heading--five" property="description">
+                        <h2 class="section__heading heading heading--five" property="schema:description">
                             {{ page.introduction|richtext }}
                         </h2>
                     </div>
