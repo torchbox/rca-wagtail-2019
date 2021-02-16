@@ -9,7 +9,6 @@ from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.utils.urlpatterns import decorate_urlpatterns
-from rca.enquire_to_study.views import EnquireToStudyFormView
 
 from rca.utils.cache import get_default_cache_control_decorator
 from rca.wagtailapi.api import api_router
@@ -21,7 +20,7 @@ private_urlpatterns = [
     path("documents2/", include(wagtaildocs_urls)),
     # Don’t use generic cache control for API endpoints.
     path("api/v3/", api_router.urls),
-    path('enquire-to-study/', EnquireToStudyFormView.as_view(), name='enquire_to_study_form'),
+    path("enquire-to-study/", include('rca.enquire_to_study.urls')),
 ]
 
 

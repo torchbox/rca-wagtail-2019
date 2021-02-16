@@ -3,11 +3,11 @@ from django.contrib import messages
 from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import FormView
-
+from django.views.generic import FormView, TemplateView
 
 from .forms import EnquireToStudyForm
 from wagtail.contrib.forms.models import FormSubmission
+
 
 class EnquireToStudyFormView(FormView):
     """Cutsom form with integrations to Mailchimp and QS
@@ -22,7 +22,6 @@ class EnquireToStudyFormView(FormView):
     form_class = EnquireToStudyForm
     success_url = '/enquire-to-study/thanks'
     template_name = 'enquire_to_study/enquire.html'
-    success_message = "Thanks. "
 
     @method_decorator(csrf_exempt)
     def dispatch(self, *args, **kwargs):
@@ -39,13 +38,16 @@ class EnquireToStudyFormView(FormView):
         pass
 
     def form_valid(self, form):
-        #TODO
+        # TODO
         # If location UK/IRE
-            # post_mailchimp
+        # post_mailchimp
         # else
-            # post_qs
+        # post_qs
 
         # create_form_submission
 
         return super().form_valid(form)
 
+
+class EnquireToStudyFormThanksView(TemplateView):
+    template_name = 'enquire_to_study/thanks.html'
