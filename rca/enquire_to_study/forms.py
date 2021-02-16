@@ -1,22 +1,25 @@
 import warnings
+
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Checkbox
 from django import forms
 from django_countries.fields import CountryField
 from phonenumber_field.formfields import PhoneNumberField
 
 
 class EnquireToStudyForm(forms.Form):
+    # Personal Details
     first_name = forms.CharField(max_length=255)
     last_name = forms.CharField(max_length=255)
     email = forms.EmailField()
+    phone_number = PhoneNumberField(help_text="Include your country code, for example +44")
 
-    phone_number = PhoneNumberField()
-
+    # Country of residence & citizenship
     country_of_residence = CountryField().formfield()
-
     city = forms.CharField(max_length=255)
-
     is_citizen = forms.ChoiceField(choices=[(True, 'Yes'), (False, 'No')],widget=forms.RadioSelect)
 
+    # Study details
     PROGRAMME_CHOICES = [
         ('Pre-Masters', 'Pre-Masters'),
         ('Thought Masters', 'Thought Masters'),
@@ -73,6 +76,7 @@ class EnquireToStudyForm(forms.Form):
     ]
     funding = forms.MultipleChoiceField(choices=FUNDING_CHOICES,widget=forms.CheckboxSelectMultiple)
 
+    # What's the enquiry about ?
     INQUIRY_REASON_CHOICES = [
         ('Reason one', 'Reason one'),
         ('Reason two', 'Reason two'),
@@ -81,8 +85,12 @@ class EnquireToStudyForm(forms.Form):
     ]
     inquiry_reason = forms.ChoiceField(choices=INQUIRY_REASON_CHOICES,widget=forms.RadioSelect)
 
+    # Legal & newsletter
     is_read_data_protection_policy = forms.BooleanField()
     is_notification_opt_in = forms.BooleanField()
+
+    # Recaptcha
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
 
     def __init__(self, *args, **kwargs):
         super(EnquireToStudyForm, self).__init__(*args, **kwargs)
