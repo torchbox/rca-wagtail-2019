@@ -20,7 +20,7 @@ class Funding(models.Model):
 
 
 class InquiryReason(models.Model):
-    funding = models.CharField(max_length=255)
+    reason = models.CharField(max_length=255)
 
 
 class Submission(models.Model):
@@ -32,7 +32,7 @@ class Submission(models.Model):
     city = models.CharField(max_length=255)
     is_citizen = models.CharField(max_length=255)
     programmes = models.ForeignKey(Programme, on_delete=models.CASCADE)
-    courses = models.ForeignKey(Programme, on_delete=models.CASCADE)
+    courses = models.ForeignKey(Course, on_delete=models.CASCADE)
     start_date = models.OneToOneField(
         StartDate,
         on_delete=models.CASCADE,
