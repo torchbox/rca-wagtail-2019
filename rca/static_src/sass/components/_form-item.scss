@@ -482,9 +482,11 @@
             &:-webkit-autofill {
                 -webkit-box-shadow: 0 0 0 1000px $color--form-input-darkbg inset;
                 -webkit-text-fill-color: $color--white;
+                transition: -webkit-box-shadow $transition-cubic;
 
-                + label {
-                    background-color: $color--form-input-darkbg;
+                &:focus {
+                    -webkit-box-shadow: 0 0 0 1000px
+                        $color--form-input-focus-darkbg inset;
                 }
             }
         }
@@ -583,9 +585,11 @@
                 -webkit-box-shadow: 0 0 0 1000px $color--form-input-lightbg
                     inset;
                 -webkit-text-fill-color: $color--black;
+                transition: -webkit-box-shadow $transition-cubic;
 
-                + label {
-                    background-color: $color--form-input-lightbg;
+                &:focus {
+                    -webkit-box-shadow: 0 0 0 1000px
+                        $color--form-input-focus-lightbg inset;
                 }
             }
         }
