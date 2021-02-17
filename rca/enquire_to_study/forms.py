@@ -6,7 +6,8 @@ from django import forms
 from django_countries.fields import CountryField
 from phonenumber_field.formfields import PhoneNumberField
 
-from rca.enquire_to_study.models import Submission, Programme, Course, Funding
+from rca.enquire_to_study.models import Submission, Programme, Course, Funding, SubmissionProgrammesOrderable, \
+    SubmissionCoursesOrderable, SubmissionFundingsOrderable
 
 
 class EnquireToStudyForm(forms.Form):
@@ -129,11 +130,13 @@ class EnquireToStudyForm(forms.Form):
         submission = Submission.objects.create(**data)
 
         for programme in programmes:
-            Programme.objects.create(programme=programme, submission=submission)
+            programme = Programme.objects.get_or_create(programme=programme)[0]
+            SubmissionProgrammesOrderable.objects.create(submission=submission, programme=programme)
 
         for course in courses:
-            Course.objects.create(course=course, submission=submission)
+            course = Course.objects.get_or_create(course=course)[0]
+            SubmissionCoursesOrderable.objects.create(submission=submission, course=course)
 
         for funding in fundings:
-            Funding.objects.create(funding=funding, submission=submission)
-
+            funding = Funding.objects.get_or_create(funding=funding)[0]
+            SubmissionFundingsOrderable.objects.create(submission=submission, funding=funding)
