@@ -21,9 +21,10 @@ def get_area_linked_filters(page):
             expertise.append({"title": i.area_of_expertise.title})
     return expertise
 
+
 def get_staff_research_projects(page):
-    """Yields a list combining project pages editorially-selected on the staff page,
-    and those on which the the staff member is listed as lead or a team member
+    """Yields pages combining project pages editorially-selected on the staff page,
+    and those on which the staff member is listed as lead or a team member
     """
     # ProjectPage model loaded like this to avoid circular import error
     ProjectPage = apps.get_model("projects", "ProjectPage")
@@ -44,8 +45,8 @@ def get_staff_research_projects(page):
 
 
 def get_student_research_projects(page):
-    """Yields a list combining project pages editorially-selected on the staff page,
-    and those on which the the staff member is listed as lead or a team member
+    """Yields pages combining project pages editorially-selected,
+    and those on which the student is listed as a team member
     """
     # ProjectPage model loaded like this to avoid circular import error
     ProjectPage = apps.get_model("projects", "ProjectPage")
@@ -56,7 +57,7 @@ def get_student_research_projects(page):
         related_project_page_ids.append(p.page.id)
         yield p.page.specific
 
-    # Then return any other project pages which the staff member leads or is a team member of,
+    # Then return any other project pages which the student is a team member of,
     # filtering out any of the highlights already output
     yield from ProjectPage.objects.filter(
         related_student_pages__page_id=page.pk
