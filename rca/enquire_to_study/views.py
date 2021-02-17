@@ -47,10 +47,10 @@ class EnquireToStudyFormView(FormView):
         # post_mailchimp
         # else
         # post_qs
-        if country_of_residence == "GB" or country_of_residence == "UK":
+        if country_of_residence == "GB" or country_of_residence == "IE":
             self.post_mailchimp()
         else:
-            self.post_qs()
+            self.post_qs(form.cleaned_data)
 
         self.create_form_submission(form)
 
