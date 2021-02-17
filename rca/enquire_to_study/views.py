@@ -9,6 +9,7 @@ from .forms import EnquireToStudyForm
 from wagtail.contrib.forms.models import FormSubmission
 
 from .models import Submission
+import requests
 
 
 class EnquireToStudyFormView(FormView):
