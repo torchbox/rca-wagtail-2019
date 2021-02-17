@@ -359,6 +359,11 @@
 
     &__required {
         color: $color--tertiary;
+
+        // Hide recaptcha required asterisks as it floats weirdly above
+        #{$root}--re_captcha_field & {
+            display: none;
+        }
     }
 
     &__instruction {
