@@ -1,10 +1,7 @@
 from django.db import models
 from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
-
-
-class InquiryReason(models.Model):
-    reason = models.CharField(max_length=255)
+from wagtail.admin.edit_handlers import MultiFieldPanel, FieldRowPanel, FieldPanel
 
 
 class Submission(models.Model):
@@ -19,6 +16,31 @@ class Submission(models.Model):
     start_date = models.CharField(max_length=255)
     is_read_data_protection_policy = models.BooleanField()
     is_notification_opt_in = models.BooleanField()
+
+    panels = [
+        MultiFieldPanel([
+            FieldRowPanel([
+                FieldPanel('first_name', classname='fn'),
+                FieldPanel('last_name', classname='ln'),
+            ]),
+            FieldPanel('email'),
+            FieldPanel('phone_number'),
+        ], help_text='User details'),
+
+        MultiFieldPanel([
+            FieldPanel('country_of_residence'),
+            FieldPanel('city'),
+            FieldPanel('is_citizen')
+        ], help_text='Country of residence & citizenship'),
+
+        FieldPanel('inquiry_reason', help_text="What's your enquiry about?"),
+        FieldPanel('start_date'),
+
+        MultiFieldPanel([
+            FieldPanel('is_read_data_protection_policy'),
+            FieldPanel('is_notification_opt_in'),
+        ], help_text="Legal & newsletter"),
+    ]
 
 
 class Programme(models.Model):
