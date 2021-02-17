@@ -8,6 +8,9 @@
     &__container {
         @include z-index(above-gridlines);
         position: relative;
+        border: 0; // This can be a fieldset, so overriding
+        padding: 0; // This can be a fieldset, so overriding
+        margin: 0; // This can be a fieldset, so overriding
         margin-bottom: $form-bottom-margin;
         border-bottom: 4px solid transparent;
     }
