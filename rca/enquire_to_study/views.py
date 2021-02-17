@@ -8,6 +8,8 @@ from django.views.generic import FormView, TemplateView
 from .forms import EnquireToStudyForm
 from wagtail.contrib.forms.models import FormSubmission
 
+from .models import Submission
+
 
 class EnquireToStudyFormView(FormView):
     """Cutsom form with integrations to Mailchimp and QS
@@ -34,9 +36,8 @@ class EnquireToStudyFormView(FormView):
     def post_qs(self):
         pass
 
-    def create_form_submission(self):
-        data = self.get_form().cleaned_data()
-        print(data)
+    def create_form_submission(self,form):
+        form.save()
         pass
 
     def form_valid(self, form):
@@ -46,7 +47,7 @@ class EnquireToStudyFormView(FormView):
         # else
         # post_qs
 
-        self.create_form_submission()
+        self.create_form_submission(form)
 
         return super().form_valid(form)
 
