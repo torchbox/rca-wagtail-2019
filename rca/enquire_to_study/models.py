@@ -33,6 +33,14 @@ class Funding(models.Model):
         return self.funding
 
 
+@register_snippet
+class InquiryReason(models.Model):
+    reason = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.reason
+
+
 class Submission(ClusterableModel):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -41,7 +49,13 @@ class Submission(ClusterableModel):
     country_of_residence = CountryField()
     city = models.CharField(max_length=255)
     is_citizen = models.BooleanField()
-    inquiry_reason = models.CharField(max_length=255)
+    inquiry_reason = models.ForeignKey(
+        'enquire_to_study.InquiryReason',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     start_date = models.CharField(max_length=255)
     is_read_data_protection_policy = models.BooleanField()
     is_notification_opt_in = models.BooleanField()
@@ -62,8 +76,6 @@ class Submission(ClusterableModel):
             FieldPanel('is_citizen')
         ], heading='Country of residence & citizenship'),
 
-        FieldPanel('inquiry_reason', help_text="What's your enquiry about?"),
-        FieldPanel('start_date'),
         MultiFieldPanel(
             [
                 InlinePanel("submissions_programmes")
@@ -76,12 +88,16 @@ class Submission(ClusterableModel):
             ],
             heading="Courses"
         ),
+        FieldPanel('start_date'),
         MultiFieldPanel(
             [
                 InlinePanel("submissions_funding")
             ],
             heading="Funding"
         ),
+
+        SnippetChooserPanel('inquiry_reason', heading="What's your enquiry about?"),
+
         MultiFieldPanel([
             FieldPanel('is_read_data_protection_policy'),
             FieldPanel('is_notification_opt_in'),
