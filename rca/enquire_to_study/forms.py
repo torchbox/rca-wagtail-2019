@@ -6,7 +6,7 @@ from django import forms
 from django_countries.fields import CountryField
 from phonenumber_field.formfields import PhoneNumberField
 
-from rca.enquire_to_study.models import Submission, Programme, Course, Funding, InquiryReason
+from rca.enquire_to_study.models import Submission, Programme, Course, Funding
 
 
 class EnquireToStudyForm(forms.Form):
@@ -136,3 +136,4 @@ class EnquireToStudyForm(forms.Form):
 
         for funding in fundings:
             Funding.objects.create(funding=funding, submission=submission)
+
