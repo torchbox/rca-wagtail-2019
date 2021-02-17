@@ -456,6 +456,17 @@
                 }
             }
         }
+
+        /* Remove autocomplete styling */
+        input,
+        textarea,
+        select {
+            &:-webkit-autofill {
+                -webkit-box-shadow: 0 0 0px 1000px $color--form-input-darkbg
+                    inset;
+                -webkit-text-fill-color: $color--white;
+            }
+        }
     }
 
     .bg--light & {
@@ -540,6 +551,17 @@
                 &::after {
                     background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xLjQgMC42TDYgNS4yTDEwLjYgMC42TDEyIDJMNiA4TDAgMkwxLjQgMC42WiIgZmlsbD0iYmxhY2siLz4KPC9zdmc+Cg==');
                 }
+            }
+        }
+
+        /* Remove autocomplete styling */
+        input,
+        textarea,
+        select {
+            &:-webkit-autofill {
+                -webkit-box-shadow: 0 0 0px 1000px $color--form-input-lightbg
+                    inset;
+                -webkit-text-fill-color: $color--black;
             }
         }
     }
