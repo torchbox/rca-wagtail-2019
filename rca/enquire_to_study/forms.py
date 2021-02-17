@@ -90,7 +90,7 @@ class EnquireToStudyForm(forms.Form):
 
     # Legal & newsletter
     is_read_data_protection_policy = forms.BooleanField()
-    is_notification_opt_in = forms.BooleanField()
+    is_notification_opt_in = forms.BooleanField(required=False)
 
     # Recaptcha
     captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
