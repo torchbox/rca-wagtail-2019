@@ -35,6 +35,8 @@ class EnquireToStudyFormView(FormView):
         pass
 
     def create_form_submission(self):
+        data = self.get_form().cleaned_data()
+        print(data)
         pass
 
     def form_valid(self, form):
@@ -44,7 +46,7 @@ class EnquireToStudyFormView(FormView):
         # else
         # post_qs
 
-        # create_form_submission
+        self.create_form_submission()
 
         return super().form_valid(form)
 
