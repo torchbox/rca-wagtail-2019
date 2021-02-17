@@ -34,7 +34,7 @@ class EnquireToStudyFormView(FormView):
         # see https://git.torchbox.com/nesta/nesta-wagtail/-/blob/master/nesta/mailchimp/api.py
         pass
 
-    def post_qs(self):
+    def post_qs(self, form_data):
         pass
 
     def create_form_submission(self, form):
