@@ -6,6 +6,8 @@ from django import forms
 from django_countries.fields import CountryField
 from phonenumber_field.formfields import PhoneNumberField
 
+from rca.enquire_to_study.models import Submission, Programme, Course, Funding, InquiryReason
+
 
 class EnquireToStudyForm(forms.Form):
     # Personal Details
@@ -115,3 +117,22 @@ class EnquireToStudyForm(forms.Form):
         self.fields['courses'].help_text = 'Select all that apply'
         self.fields['funding'].help_text = 'Select all that apply'
         self.fields['inquiry_reason'].help_text = 'So we can ensure the correct department receives your message'
+
+    def save(self):
+        data = self.cleaned_data.copy()
+
+        programmes = data.pop("programmes")
+        courses = data.pop("courses")
+        fundings = data.pop("funding")
+        data.pop("captcha")
+
+        submission = Submission.objects.create(**data)
+
+        for programme in programmes:
+            Programme.objects.create(programme=programme, submission=submission)
+
+        for course in courses:
+            Course.objects.create(course=course, submission=submission)
+
+        for funding in fundings:
+            Funding.objects.create(funding=funding, submission=submission)
