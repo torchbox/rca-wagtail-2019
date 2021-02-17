@@ -570,7 +570,11 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         # For any automatially related staff, adjust the list so we don't have
         # to make edits to the template shared by other page models.
         staff = []
-        for item in StaffPage.objects.filter(related_schools__page=self).live():
+        for item in (
+            StaffPage.objects.filter(related_schools__page=self)
+            .live()
+            .order_by("last_name")
+        ):
             staff.append({"page": item})
         return staff
 
