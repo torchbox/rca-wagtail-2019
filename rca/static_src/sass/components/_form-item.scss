@@ -284,7 +284,8 @@
         @include hidden();
     }
 
-    label {
+    label,
+    legend {
         display: block;
         margin-bottom: ($gutter / 4);
         cursor: pointer;
