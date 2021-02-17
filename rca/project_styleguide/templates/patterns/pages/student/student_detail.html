@@ -14,6 +14,11 @@
 {% block content %}
 
     <div class="page page--no-hero" typeof="schema:Person">
+
+        <meta property="schema:affiliation" content="Royal College of Art" />
+        {# Should only show if person is alumni #}
+        <meta property="schema:alumniOf" content="Royal College of Art" />
+
         <header class="page__header bg bg--dark">
             <div class="title-area title-area--staff-detail grid">
                 {% if page.profile_image %}
@@ -43,7 +48,7 @@
                             <div class="job-titles">
                                 <ul class="job-titles__item">
                                     <li class="job-titles__title">Completed PhD student - 2019</li>
-                                    <li class="job-titles__department">
+                                    <li class="job-titles__department" property="schema:award">
                                         <a class="body body--two link link--tertiary" href="#">{{ page.programme }}</a>
                                     </li>
                                 </ul>
@@ -76,6 +81,8 @@
                             <div class="staff-body__description rich-text">
                                 {{ page.bio|safe }}
                             </div>
+
+                            {# Should only show if person is alumni #}
                             {% if page.thesis %}
                             <div class="staff-body__action">
                                 <a class="link link--primary link--link body body--two" href="{{ page.thesis }}">
