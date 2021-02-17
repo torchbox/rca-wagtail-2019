@@ -371,6 +371,18 @@
         @include font-size(xxs);
     }
 
+    input,
+    textarea,
+    select {
+        &:-webkit-autofill {
+            border: 0 !important; // sass-lint:disable-line no-important
+
+            &::after {
+                content: none;
+            }
+        }
+    }
+
     .bg--dark & {
         input[type='text'],
         input[type='input'],
@@ -468,9 +480,12 @@
         textarea,
         select {
             &:-webkit-autofill {
-                -webkit-box-shadow: 0 0 0px 1000px $color--form-input-darkbg
-                    inset;
+                -webkit-box-shadow: 0 0 0 1000px $color--form-input-darkbg inset;
                 -webkit-text-fill-color: $color--white;
+
+                + label {
+                    background-color: $color--form-input-darkbg;
+                }
             }
         }
     }
@@ -565,9 +580,13 @@
         textarea,
         select {
             &:-webkit-autofill {
-                -webkit-box-shadow: 0 0 0px 1000px $color--form-input-lightbg
+                -webkit-box-shadow: 0 0 0 1000px $color--form-input-lightbg
                     inset;
                 -webkit-text-fill-color: $color--black;
+
+                + label {
+                    background-color: $color--form-input-lightbg;
+                }
             }
         }
     }
