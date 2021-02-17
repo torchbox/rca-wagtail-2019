@@ -50,6 +50,9 @@ class FormFocus {
             this.formFieldTextarea.addEventListener('focusout', () =>
                 this.removeClass(),
             );
+            this.formFieldTextarea.addEventListener('input', () =>
+                this.applyClass(),
+            );
         }
 
         if (this.formType === 'input') {
@@ -58,6 +61,9 @@ class FormFocus {
             );
             this.formFieldInput.addEventListener('focusout', () =>
                 this.removeClass(),
+            );
+            this.formFieldInput.addEventListener('input', () =>
+                this.applyClass(),
             );
         }
     }
