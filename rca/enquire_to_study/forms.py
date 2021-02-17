@@ -7,7 +7,7 @@ from django_countries.fields import CountryField
 from phonenumber_field.formfields import PhoneNumberField
 
 from rca.enquire_to_study.models import Submission, Programme, Course, Funding, SubmissionProgrammesOrderable, \
-    SubmissionCoursesOrderable, SubmissionFundingsOrderable
+    SubmissionCoursesOrderable, SubmissionFundingsOrderable, InquiryReason
 
 
 class EnquireToStudyForm(forms.Form):
@@ -125,6 +125,7 @@ class EnquireToStudyForm(forms.Form):
         programmes = data.pop("programmes")
         courses = data.pop("courses")
         fundings = data.pop("funding")
+        data["inquiry_reason"] = InquiryReason.objects.get_or_create(reason=data.pop("inquiry_reason"))[0]
         data.pop("captcha")
 
         submission = Submission.objects.create(**data)
