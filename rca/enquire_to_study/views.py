@@ -36,16 +36,21 @@ class EnquireToStudyFormView(FormView):
     def post_qs(self):
         pass
 
-    def create_form_submission(self,form):
+    def create_form_submission(self, form):
         form.save()
         pass
 
     def form_valid(self, form):
-        # TODO
+        country_of_residence = form.cleaned_data["country_of_residence"]
+
         # If location UK/IRE
         # post_mailchimp
         # else
         # post_qs
+        if country_of_residence == "GB" or country_of_residence == "UK":
+            self.post_mailchimp()
+        else:
+            self.post_qs()
 
         self.create_form_submission(form)
 
