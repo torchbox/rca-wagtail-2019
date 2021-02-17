@@ -1,0 +1,7 @@
+context:
+  field:
+    label: Radio error
+    id_for_label: radio-error
+    field:
+      required: True
+    errors: Required

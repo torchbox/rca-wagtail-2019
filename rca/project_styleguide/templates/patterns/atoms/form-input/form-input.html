@@ -1,0 +1,23 @@
+<div class="form-item form-item--input {% if field.errors %}form-item--errors{% endif %} {% if field.help_text %}form-item--has-help-text{% endif %}" data-focus data-focustype="input">
+    <div class="form-item__container">
+
+        {% if field.errors %}
+            <div class="form-item__errors">
+                {{ field.errors }}
+            </div>
+        {% endif %}
+
+        <label for="{{ field.id_for_label }}" class="form-item__label">
+            {{ field.label }}
+            {% if field.field.required %}<span class="form-item__required">*</span>{% endif %}
+        </label>
+
+        <input class="form-item__input" type="input" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %}>
+
+    </div>
+
+    {% if field.help_text %}<div class="form-item__help">{{ field.help_text }}</div>{% endif %}
+
+</div>
+
+

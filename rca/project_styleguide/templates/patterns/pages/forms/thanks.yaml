@@ -1,0 +1,37 @@
+context:
+  page:
+    title: Thank you
+    introduction: Your enquiry about an Architecture MA has now been received and we will respond to you within 48 hours.
+    teasers:
+      title: More about Architecture
+      introduction: Expand the possibilities of your practice by developing a speculative, independent and critical ethos…
+      items:
+        - {
+            title: 'School of Architecture',
+            link: '#',
+            meta: false,
+            person: false,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            image: true,
+          }
+        - {
+            title: 'Student experience case study',
+            link: '#',
+            meta: false,
+            person: false,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+            image: true,
+          }
+        - {
+            title: 'Additional architecture teaser',
+            link: '#',
+            meta: false,
+            person: false,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
+            image: true,
+          }
+  cta:
+    title: Browse our programmes
+    description: Nullam quis risus eget urna mollis ornare vel eu leo. Maecenas sed diam eget risus varius blandit sit amet non magna.
+    action: Our Programmes
+    link: '#'

@@ -1,0 +1,7 @@
+context:
+  field:
+    label: Telephone error
+    id_for_label: telephone-error
+    field:
+      required: True
+    errors: Required

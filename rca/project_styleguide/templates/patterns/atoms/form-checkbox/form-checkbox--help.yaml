@@ -1,0 +1,5 @@
+context:
+  field:
+    label: Checkbox help
+    id_for_label: checkbox-help
+    help_text: This is help text
