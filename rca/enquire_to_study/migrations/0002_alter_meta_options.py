@@ -6,20 +6,29 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('enquire_to_study', '0001_initial'),
+        ("enquire_to_study", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='funding',
-            options={'verbose_name': 'Enquiry form funding option', 'verbose_name_plural': 'Enquiry form funding options'},
+            name="funding",
+            options={
+                "verbose_name": "Enquiry form funding option",
+                "verbose_name_plural": "Enquiry form funding options",
+            },
         ),
         migrations.AlterModelOptions(
-            name='inquiryreason',
-            options={'verbose_name': 'Enquiry form reason', 'verbose_name_plural': 'Enquiry form reasons'},
+            name="inquiryreason",
+            options={
+                "verbose_name": "Enquiry form reason",
+                "verbose_name_plural": "Enquiry form reasons",
+            },
         ),
         migrations.AlterModelOptions(
-            name='startdate',
-            options={'verbose_name': 'Enquiry form start date', 'verbose_name_plural': 'Enquiry form start dates'},
+            name="startdate",
+            options={
+                "verbose_name": "Enquiry form start date",
+                "verbose_name_plural": "Enquiry form start dates",
+            },
         ),
     ]

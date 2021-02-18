@@ -19,8 +19,8 @@ class Funding(models.Model):
     funding = models.CharField(max_length=255)
 
     class Meta:
-        verbose_name = 'Enquiry form funding option'
-        verbose_name_plural = 'Enquiry form funding options'
+        verbose_name = "Enquiry form funding option"
+        verbose_name_plural = "Enquiry form funding options"
 
     def __str__(self):
         return self.funding
@@ -31,8 +31,8 @@ class EnquiryReason(models.Model):
     reason = models.CharField(max_length=255)
 
     class Meta:
-        verbose_name = 'Enquiry form reason'
-        verbose_name_plural = 'Enquiry form reasons'
+        verbose_name = "Enquiry form reason"
+        verbose_name_plural = "Enquiry form reasons"
 
     def __str__(self):
         return self.reason
@@ -44,8 +44,8 @@ class StartDate(models.Model):
     start_date = models.DateField()
 
     class Meta:
-        verbose_name = 'Enquiry form start date'
-        verbose_name_plural = 'Enquiry form start dates'
+        verbose_name = "Enquiry form start date"
+        verbose_name_plural = "Enquiry form start dates"
 
     def __str__(self):
         return self.label
@@ -123,7 +123,7 @@ class EnquiryFormSubmissionFundingsOrderable(Orderable):
         "enquire_to_study.EnquiryFormSubmission",
         related_name="enquiry_submission_funding",
     )
-    funding = models.ForeignKey("enquire_to_study.Funding", on_delete=models.CASCADE, )
+    funding = models.ForeignKey("enquire_to_study.Funding", on_delete=models.CASCADE,)
 
     panels = [
         SnippetChooserPanel("funding"),
