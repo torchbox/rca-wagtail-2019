@@ -17,7 +17,7 @@ class EnquireToStudyFormView(FormView):
 
     form_class = EnquireToStudyForm
     success_url = "/enquire-to-study/thanks"
-    template_name = "enquire_to_study/enquire.html"
+    template_name = "patterns/pages/enquire_to_study/enquirey_form_page.html"
 
     @method_decorator(csrf_exempt)
     def dispatch(self, *args, **kwargs):
@@ -50,4 +50,4 @@ class EnquireToStudyFormView(FormView):
 
 
 class EnquireToStudyFormThanksView(TemplateView):
-    template_name = "enquire_to_study/thanks.html"
+    template_name = "patterns/pages/enquire_to_study/enquirey_form_thanks.html"
