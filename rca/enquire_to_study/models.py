@@ -23,7 +23,7 @@ class Funding(models.Model):
 
 
 @register_snippet
-class InquiryReason(models.Model):
+class EnquiryReason(models.Model):
     reason = models.CharField(max_length=255)
 
     def __str__(self):
@@ -39,7 +39,7 @@ class StartDate(models.Model):
         return self.label
 
 
-class Submission(ClusterableModel):
+class EnquiryFormSubmission(ClusterableModel):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField()
@@ -47,14 +47,20 @@ class Submission(ClusterableModel):
     country_of_residence = CountryField()
     city = models.CharField(max_length=255)
     is_citizen = models.BooleanField()
-    inquiry_reason = models.ForeignKey(
-        "enquire_to_study.InquiryReason",
+    enquiry_reason = models.ForeignKey(
+        "enquire_to_study.EnquiryReason",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    start_date = models.CharField(max_length=255)
+    start_date = models.ForeignKey(
+        "enquire_to_study.StartDate",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
     is_read_data_protection_policy = models.BooleanField()
     is_notification_opt_in = models.BooleanField()
 
@@ -80,11 +86,16 @@ class Submission(ClusterableModel):
             ],
             heading="Country of residence & citizenship",
         ),
-        MultiFieldPanel([InlinePanel("submissions_programmes")], heading="Programmes"),
-        MultiFieldPanel([InlinePanel("submissions_courses")], heading="Courses"),
+        MultiFieldPanel(
+            [InlinePanel("enquiry_submission_programme_types")],
+            heading="Programmes Types",
+        ),
+        MultiFieldPanel(
+            [InlinePanel("enquiry_submission_programmes")], heading="Programmes"
+        ),
         FieldPanel("start_date"),
-        MultiFieldPanel([InlinePanel("submissions_funding")], heading="Funding"),
-        SnippetChooserPanel("inquiry_reason", heading="What's your enquiry about?"),
+        MultiFieldPanel([InlinePanel("enquiry_submission_funding")], heading="Funding"),
+        SnippetChooserPanel("enquiry_reason", heading="What's your enquiry about?"),
         MultiFieldPanel(
             [
                 FieldPanel("is_read_data_protection_policy"),
@@ -95,12 +106,39 @@ class Submission(ClusterableModel):
     ]
 
 
-class SubmissionFundingsOrderable(Orderable):
-    submission = ParentalKey(
-        "enquire_to_study.Submission", related_name="submissions_funding"
+class EnquiryFormSubmissionFundingsOrderable(Orderable):
+    enquiry_submission = ParentalKey(
+        "enquire_to_study.EnquiryFormSubmission",
+        related_name="enquiry_submission_funding",
     )
     funding = models.ForeignKey("enquire_to_study.Funding", on_delete=models.CASCADE,)
 
     panels = [
         SnippetChooserPanel("funding"),
+    ]
+
+
+class EnquiryFormSubmissionProgrammeTypesOrderable(Orderable):
+    enquiry_submission = ParentalKey(
+        "enquire_to_study.EnquiryFormSubmission",
+        related_name="enquiry_submission_programme_types",
+    )
+    programme_type = models.ForeignKey(
+        "programmes.ProgrammeType", on_delete=models.CASCADE,
+    )
+
+    panels = [
+        SnippetChooserPanel("programme_type"),
+    ]
+
+
+class EnquiryFormSubmissionProgrammesOrderable(Orderable):
+    enquiry_submission = ParentalKey(
+        "enquire_to_study.EnquiryFormSubmission",
+        related_name="enquiry_submission_programmes",
+    )
+    programme = models.ForeignKey("programmes.ProgrammePage", on_delete=models.CASCADE,)
+
+    panels = [
+        SnippetChooserPanel("programme"),
     ]

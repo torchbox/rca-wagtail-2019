@@ -1,3 +1,5 @@
+import warnings
+
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Checkbox
 from django import forms
@@ -5,11 +7,13 @@ from django_countries.fields import CountryField
 from phonenumber_field.formfields import PhoneNumberField
 
 from rca.enquire_to_study.models import (
-    Submission,
+    EnquiryFormSubmission,
     Funding,
-    SubmissionFundingsOrderable,
-    InquiryReason,
+    EnquiryFormSubmissionFundingsOrderable,
+    EnquiryReason,
     StartDate,
+    EnquiryFormSubmissionProgrammeTypesOrderable,
+    EnquiryFormSubmissionProgrammesOrderable,
 )
 from rca.programmes.models import ProgrammePage, ProgrammeType
 
@@ -47,7 +51,7 @@ class EnquireToStudyForm(forms.Form):
 
     # What's the enquiry about ?
     enquiry_reason = forms.ModelChoiceField(
-        queryset=InquiryReason.objects.all(), widget=forms.RadioSelect
+        queryset=EnquiryReason.objects.all(), widget=forms.RadioSelect
     )
 
     # Legal & newsletter
@@ -92,22 +96,20 @@ class EnquireToStudyForm(forms.Form):
         programme_types = data.pop("programme_types")
         programmes = data.pop("programmes")
         fundings = data.pop("funding")
-        data["inquiry_reason"] = InquiryReason.objects.get_or_create(
-            reason=data.pop("inquiry_reason")
-        )[0]
         data.pop("captcha")
         enquiry_submission = EnquiryFormSubmission.objects.create(**data)
 
         for programme_type in programme_types:
-            EnquiryFormSubmissionProgrammeTypesOrderable.objects.create(enquiry_submission=enquiry_submission,
-                                                                        programme_type=programme_type)
+            EnquiryFormSubmissionProgrammeTypesOrderable.objects.create(
+                enquiry_submission=enquiry_submission, programme_type=programme_type
+            )
 
         for programme in programmes:
-            EnquiryFormSubmissionProgrammesOrderable.objects.create(enquiry_submission=enquiry_submission,
-                                                                    programme=programme)
+            EnquiryFormSubmissionProgrammesOrderable.objects.create(
+                enquiry_submission=enquiry_submission, programme=programme
+            )
 
         for funding in fundings:
-            funding = Funding.objects.get_or_create(funding=funding)[0]
-            SubmissionFundingsOrderable.objects.create(
-                submission=submission, funding=funding
+            EnquiryFormSubmissionFundingsOrderable.objects.create(
+                enquiry_submission=enquiry_submission, funding=funding
             )
