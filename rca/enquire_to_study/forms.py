@@ -29,12 +29,12 @@ class EnquireToStudyForm(forms.Form):
     programmes = forms.ModelMultipleChoiceField(queryset=ProgrammePage.objects.live(),
                                                 widget=forms.CheckboxSelectMultiple)
 
-    start_date = forms.ModelMultipleChoiceField(queryset=StartDate.objects.all(), widget=forms.RadioSelect)
+    start_date = forms.ModelChoiceField(queryset=StartDate.objects.all(), widget=forms.RadioSelect)
 
     funding = forms.ModelMultipleChoiceField(queryset=Funding.objects.all(), widget=forms.CheckboxSelectMultiple)
 
     # What's the enquiry about ?
-    inquiry_reason = forms.ModelMultipleChoiceField(queryset=InquiryReason.objects.all(), widget=forms.RadioSelect)
+    inquiry_reason = forms.ModelChoiceField(queryset=InquiryReason.objects.all(), widget=forms.RadioSelect)
 
     # Legal & newsletter
     is_read_data_protection_policy = forms.BooleanField()
