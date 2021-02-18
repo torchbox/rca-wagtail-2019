@@ -77,6 +77,15 @@ class EnquireToStudyForm(forms.Form):
         self.fields["start_date"].label = "When do you plan to start your degree?"
         self.fields["funding"].label = "How do you plan on funding your study?"
         self.fields["enquiry_reason"].label = "What's your enquiry about?"
+        self.fields["is_read_data_protection_policy"].label = (
+            "I have read the data protection notice and agree for my data "
+            "to be processed accordingly. "
+        )
+        self.fields["is_notification_opt_in"].label = (
+            "From time to time we would like to notify you by email about events, "
+            "news, opportunities, and services (including other courses) at RCA. "
+            "Please tick this box to give your consent to be contacted in this way. "
+        )
 
         # Help Text
         self.fields[
