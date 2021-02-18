@@ -20,7 +20,7 @@ class EnquiryFormSubmissionPermissionHelper(PermissionHelper):
 
 class EnquiryFormSubmissionAdmin(ModelAdmin):
     model = EnquiryFormSubmission
-    menu_label = "Submission"
+    menu_label = "Enquiry Submissions"
     menu_icon = "doc-full"
     menu_order = 200
     add_to_settings_menu = False
