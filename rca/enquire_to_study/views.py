@@ -35,7 +35,6 @@ class EnquireToStudyFormView(FormView):
 
     def form_valid(self, form):
         country_of_residence = form.cleaned_data["country_of_residence"]
-        print(country_of_residence)
         # If location UK/IRE
         # post_mailchimp
         # else

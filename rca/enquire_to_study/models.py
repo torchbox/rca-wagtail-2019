@@ -77,20 +77,20 @@ class EnquiryFormSubmission(ClusterableModel):
 
         MultiFieldPanel(
             [
-                InlinePanel("submissions_programmes")
+                InlinePanel("enquiry_submission_programme_types")
             ],
-            heading="Programmes"
+            heading="Programmes Types"
         ),
         MultiFieldPanel(
             [
-                InlinePanel("submissions_courses")
+                InlinePanel("enquiry_submission_programmes")
             ],
-            heading="Courses"
+            heading="Programmes"
         ),
         FieldPanel('start_date'),
         MultiFieldPanel(
             [
-                InlinePanel("submissions_funding")
+                InlinePanel("enquiry_submission_funding")
             ],
             heading="Funding"
         ),
@@ -104,8 +104,8 @@ class EnquiryFormSubmission(ClusterableModel):
     ]
 
 
-class SubmissionFundingsOrderable(Orderable):
-    submission = ParentalKey("enquire_to_study.EnquiryFormSubmission", related_name="submissions_funding")
+class EnquiryFormSubmissionFundingsOrderable(Orderable):
+    enquiry_submission = ParentalKey("enquire_to_study.EnquiryFormSubmission", related_name="enquiry_submission_funding")
     funding = models.ForeignKey(
         "enquire_to_study.Funding",
         on_delete=models.CASCADE,
@@ -113,4 +113,28 @@ class SubmissionFundingsOrderable(Orderable):
 
     panels = [
         SnippetChooserPanel("funding"),
+    ]
+
+
+class EnquiryFormSubmissionProgrammeTypesOrderable(Orderable):
+    enquiry_submission = ParentalKey("enquire_to_study.EnquiryFormSubmission", related_name="enquiry_submission_programme_types")
+    programme_type = models.ForeignKey(
+        "programmes.ProgrammeType",
+        on_delete=models.CASCADE,
+    )
+
+    panels = [
+        SnippetChooserPanel("programme_type"),
+    ]
+
+
+class EnquiryFormSubmissionProgrammesOrderable(Orderable):
+    enquiry_submission = ParentalKey("enquire_to_study.EnquiryFormSubmission", related_name="enquiry_submission_programmes")
+    programme = models.ForeignKey(
+        "programmes.ProgrammePage",
+        on_delete=models.CASCADE,
+    )
+
+    panels = [
+        SnippetChooserPanel("programme"),
     ]
