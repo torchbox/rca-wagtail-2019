@@ -1,8 +1,8 @@
 from django.urls import path
 
 from rca.enquire_to_study.views import (
-    EnquireToStudyFormView,
     EnquireToStudyFormThanksView,
+    EnquireToStudyFormView,
 )
 
 app_name = "enquire_to_study"

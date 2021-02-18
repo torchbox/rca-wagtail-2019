@@ -4,13 +4,7 @@ from django import forms
 from django_countries.fields import CountryField
 from phonenumber_field.formfields import PhoneNumberField
 
-from rca.enquire_to_study.models import (
-    Submission,
-    Funding,
-    SubmissionFundingsOrderable,
-    InquiryReason,
-    StartDate,
-)
+from rca.enquire_to_study.models import Funding, InquiryReason, StartDate
 from rca.programmes.models import ProgrammePage, ProgrammeType
 
 
@@ -88,20 +82,4 @@ class EnquireToStudyForm(forms.Form):
         ].help_text = "So we can ensure the correct department receives your message"
 
     def save(self):
-        data = self.cleaned_data.copy()
-
-        programmes = data.pop("programmes")
-        courses = data.pop("courses")
-        fundings = data.pop("funding")
-        data["inquiry_reason"] = InquiryReason.objects.get_or_create(
-            reason=data.pop("inquiry_reason")
-        )[0]
-        data.pop("captcha")
-
-        submission = Submission.objects.create(**data)
-
-        for funding in fundings:
-            funding = Funding.objects.get_or_create(funding=funding)[0]
-            SubmissionFundingsOrderable.objects.create(
-                submission=submission, funding=funding
-            )
+        pass

@@ -4,10 +4,10 @@ from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from phonenumber_field.modelfields import PhoneNumberField
 from wagtail.admin.edit_handlers import (
-    MultiFieldPanel,
-    FieldRowPanel,
     FieldPanel,
+    FieldRowPanel,
     InlinePanel,
+    MultiFieldPanel,
 )
 from wagtail.core.models import Orderable
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
