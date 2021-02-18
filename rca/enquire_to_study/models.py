@@ -10,22 +10,6 @@ from wagtail.snippets.models import register_snippet
 
 
 @register_snippet
-class Programme(models.Model):
-    programme = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.programme
-
-
-@register_snippet
-class Course(models.Model):
-    course = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.course
-
-
-@register_snippet
 class Funding(models.Model):
     funding = models.CharField(max_length=255)
 
@@ -39,6 +23,15 @@ class InquiryReason(models.Model):
 
     def __str__(self):
         return self.reason
+
+
+@register_snippet
+class StartDate(models.Model):
+    label = models.CharField(max_length=255)
+    start_date = models.DateField()
+
+    def __str__(self):
+        return self.label
 
 
 class Submission(ClusterableModel):
@@ -102,30 +95,6 @@ class Submission(ClusterableModel):
             FieldPanel('is_read_data_protection_policy'),
             FieldPanel('is_notification_opt_in'),
         ], heading="Legal & newsletter"),
-    ]
-
-
-class SubmissionProgrammesOrderable(Orderable):
-    submission = ParentalKey("enquire_to_study.Submission", related_name="submissions_programmes")
-    programme = models.ForeignKey(
-        "enquire_to_study.Programme",
-        on_delete=models.CASCADE,
-    )
-
-    panels = [
-        SnippetChooserPanel("programme"),
-    ]
-
-
-class SubmissionCoursesOrderable(Orderable):
-    submission = ParentalKey("enquire_to_study.Submission", related_name="submissions_courses")
-    course = models.ForeignKey(
-        "enquire_to_study.Course",
-        on_delete=models.CASCADE,
-    )
-
-    panels = [
-        SnippetChooserPanel("course"),
     ]
 
 
