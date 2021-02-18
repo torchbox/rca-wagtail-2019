@@ -111,3 +111,5 @@ class EnquireToStudyForm(forms.Form):
             EnquiryFormSubmissionFundingsOrderable.objects.create(
                 enquiry_submission=enquiry_submission, funding=funding
             )
+
+        return enquiry_submission
