@@ -34,7 +34,7 @@ class EnquireToStudyForm(forms.Form):
     funding = forms.ModelMultipleChoiceField(queryset=Funding.objects.all(), widget=forms.CheckboxSelectMultiple)
 
     # What's the enquiry about ?
-    inquiry_reason = forms.ModelChoiceField(queryset=InquiryReason.objects.all(), widget=forms.RadioSelect)
+    enquiry_reason = forms.ModelChoiceField(queryset=InquiryReason.objects.all(), widget=forms.RadioSelect)
 
     # Legal & newsletter
     is_read_data_protection_policy = forms.BooleanField()
@@ -58,14 +58,14 @@ class EnquireToStudyForm(forms.Form):
         self.fields['programmes'].label = 'The programme(s) you\'re interested in'
         self.fields['start_date'].label = 'When do you plan to start your degree?'
         self.fields['funding'].label = 'How do you plan on funding your study?'
-        self.fields['inquiry_reason'].label = 'What\'s your enquiry about?'
+        self.fields['enquiry_reason'].label = 'What\'s your enquiry about?'
 
         # Help Text
         self.fields['phone_number'].help_text = 'Include your country code, for example +44'
         self.fields['programme_types'].help_text = 'Select all that apply'
         self.fields['programmes'].help_text = 'Select all that apply'
         self.fields['funding'].help_text = 'Select all that apply'
-        self.fields['inquiry_reason'].help_text = 'So we can ensure the correct department receives your message'
+        self.fields['enquiry_reason'].help_text = 'So we can ensure the correct department receives your message'
 
     def save(self):
         data = self.cleaned_data.copy()
