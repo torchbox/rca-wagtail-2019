@@ -3,7 +3,12 @@ from django_countries.fields import CountryField
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from phonenumber_field.modelfields import PhoneNumberField
-from wagtail.admin.edit_handlers import MultiFieldPanel, FieldRowPanel, FieldPanel, InlinePanel
+from wagtail.admin.edit_handlers import (
+    MultiFieldPanel,
+    FieldRowPanel,
+    FieldPanel,
+    InlinePanel,
+)
 from wagtail.core.models import Orderable
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
@@ -43,67 +48,58 @@ class Submission(ClusterableModel):
     city = models.CharField(max_length=255)
     is_citizen = models.BooleanField()
     inquiry_reason = models.ForeignKey(
-        'enquire_to_study.InquiryReason',
+        "enquire_to_study.InquiryReason",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name="+",
     )
     start_date = models.CharField(max_length=255)
     is_read_data_protection_policy = models.BooleanField()
     is_notification_opt_in = models.BooleanField()
 
     panels = [
-        MultiFieldPanel([
-            FieldRowPanel([
-                FieldPanel('first_name', classname='fn'),
-                FieldPanel('last_name', classname='ln'),
-            ]),
-            FieldPanel('email'),
-            FieldPanel('phone_number'),
-        ], heading='User details'),
-
-        MultiFieldPanel([
-            FieldPanel('country_of_residence'),
-            FieldPanel('city'),
-            FieldPanel('is_citizen')
-        ], heading='Country of residence & citizenship'),
-
         MultiFieldPanel(
             [
-                InlinePanel("submissions_programmes")
+                FieldRowPanel(
+                    [
+                        FieldPanel("first_name", classname="fn"),
+                        FieldPanel("last_name", classname="ln"),
+                    ]
+                ),
+                FieldPanel("email"),
+                FieldPanel("phone_number"),
             ],
-            heading="Programmes"
+            heading="User details",
         ),
         MultiFieldPanel(
             [
-                InlinePanel("submissions_courses")
+                FieldPanel("country_of_residence"),
+                FieldPanel("city"),
+                FieldPanel("is_citizen"),
             ],
-            heading="Courses"
+            heading="Country of residence & citizenship",
         ),
-        FieldPanel('start_date'),
+        MultiFieldPanel([InlinePanel("submissions_programmes")], heading="Programmes"),
+        MultiFieldPanel([InlinePanel("submissions_courses")], heading="Courses"),
+        FieldPanel("start_date"),
+        MultiFieldPanel([InlinePanel("submissions_funding")], heading="Funding"),
+        SnippetChooserPanel("inquiry_reason", heading="What's your enquiry about?"),
         MultiFieldPanel(
             [
-                InlinePanel("submissions_funding")
+                FieldPanel("is_read_data_protection_policy"),
+                FieldPanel("is_notification_opt_in"),
             ],
-            heading="Funding"
+            heading="Legal & newsletter",
         ),
-
-        SnippetChooserPanel('inquiry_reason', heading="What's your enquiry about?"),
-
-        MultiFieldPanel([
-            FieldPanel('is_read_data_protection_policy'),
-            FieldPanel('is_notification_opt_in'),
-        ], heading="Legal & newsletter"),
     ]
 
 
 class SubmissionFundingsOrderable(Orderable):
-    submission = ParentalKey("enquire_to_study.Submission", related_name="submissions_funding")
-    funding = models.ForeignKey(
-        "enquire_to_study.Funding",
-        on_delete=models.CASCADE,
+    submission = ParentalKey(
+        "enquire_to_study.Submission", related_name="submissions_funding"
     )
+    funding = models.ForeignKey("enquire_to_study.Funding", on_delete=models.CASCADE,)
 
     panels = [
         SnippetChooserPanel("funding"),

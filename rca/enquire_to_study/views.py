@@ -1,15 +1,8 @@
-import json
-from django.contrib import messages
-from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
 
 from .forms import EnquireToStudyForm
-from wagtail.contrib.forms.models import FormSubmission
-
-from .models import Submission
-import requests
 
 
 class EnquireToStudyFormView(FormView):
@@ -23,8 +16,8 @@ class EnquireToStudyFormView(FormView):
     """
 
     form_class = EnquireToStudyForm
-    success_url = '/enquire-to-study/thanks'
-    template_name = 'enquire_to_study/enquire.html'
+    success_url = "/enquire-to-study/thanks"
+    template_name = "enquire_to_study/enquire.html"
 
     @method_decorator(csrf_exempt)
     def dispatch(self, *args, **kwargs):
@@ -59,4 +52,4 @@ class EnquireToStudyFormView(FormView):
 
 
 class EnquireToStudyFormThanksView(TemplateView):
-    template_name = 'enquire_to_study/thanks.html'
+    template_name = "enquire_to_study/thanks.html"
