@@ -1,6 +1,11 @@
 {% extends "patterns/base_page.html" %}
 {% load wagtailcore_tags wagtailimages_tags util_tags static %}
 
+{% block body_class %}
+    app--thanks no-hero
+{% endblock %}
+
+
 {% block content %}
 
     <div class="page page--no-hero">
@@ -12,21 +17,21 @@
                     <h1 class="title-area__heading heading heading--display-two">
                         {{ page.title }}
                     </h1>
+                    {% if page.introduction %}
+                    <div class="title-area__introduction introduction layout__@large-start-three layout__span-two">
+                        <p class="introduction__text heading heading--five">
+                            {{ page.introduction }}
+                        </p>
+                    </div>
+                    {% endif %}
                 </div>
-            </div>
-            {% endif %}
-            {% if page.introduction %}
-            <div class="introduction grid">
-                <p class="introduction__text section__heading heading heading--five">
-                    {{ page.introduction }}
-                </p>
             </div>
             {% endif %}
         </div>
 
         <div class="page__content">
 
-            <section class="section section--start bg bg--dark">
+            <section class="section section--top-space-small bg bg--dark">
                 {% if page.teasers %}
                 <div class="section__row">
                     <div class="section__header section__header--bottom-space grid">

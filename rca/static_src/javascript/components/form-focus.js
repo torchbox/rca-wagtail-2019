@@ -13,51 +13,60 @@ class FormFocus {
         this.bindEvents();
     }
 
-    // Apply focus class
-    applyClass() {
-        this.formItem.classList.add(this.hasFocusClass);
-    }
-
-    // Remove focus class
-    removeClass() {
-        // Check if input has content and add content class if it does
+    // Apply state class
+    applyStateClass() {
         if (this.formType === 'textarea') {
-            if (this.formFieldTextarea.value) {
-                this.formItem.classList.add(this.hasContentClass);
-                this.formItem.classList.remove(this.hasFocusClass);
-            } else {
-                this.formItem.classList.remove(this.hasFocusClass);
-                this.formItem.classList.remove(this.hasContentClass);
-            }
+            this.checkState(this.formFieldTextarea);
         }
 
         if (this.formType === 'input') {
-            if (this.formFieldInput.value) {
-                this.formItem.classList.add(this.hasContentClass);
-                this.formItem.classList.remove(this.hasFocusClass);
-            } else {
-                this.formItem.classList.remove(this.hasFocusClass);
-                this.formItem.classList.remove(this.hasContentClass);
-            }
+            this.checkState(this.formFieldInput);
+        }
+    }
+
+    checkState(el) {
+        if (el.value && el === document.activeElement) {
+            this.formItem.classList.add(
+                this.hasContentClass,
+                this.hasFocusClass,
+            );
+        } else if (el.value) {
+            this.formItem.classList.add(this.hasContentClass);
+            this.formItem.classList.remove(this.hasFocusClass);
+        } else if (el === document.activeElement) {
+            this.formItem.classList.add(this.hasFocusClass);
+        } else {
+            this.formItem.classList.remove(
+                this.hasFocusClass,
+                this.hasContentClass,
+            );
         }
     }
 
     bindEvents() {
         if (this.formType === 'textarea') {
+            // Input is required to detect autocomplete trigger in Chrome
+            this.formFieldTextarea.addEventListener('input', () =>
+                this.applyStateClass(),
+            );
             this.formFieldTextarea.addEventListener('focusin', () =>
-                this.applyClass(),
+                this.applyStateClass(),
             );
             this.formFieldTextarea.addEventListener('focusout', () =>
-                this.removeClass(),
+                this.applyStateClass(),
             );
         }
 
         if (this.formType === 'input') {
+            // Input is required to detect autocomplete trigger in Chrome
+            this.formFieldInput.addEventListener('input', () =>
+                this.applyStateClass(),
+            );
             this.formFieldInput.addEventListener('focusin', () =>
-                this.applyClass(),
+                this.applyStateClass(),
             );
             this.formFieldInput.addEventListener('focusout', () =>
-                this.removeClass(),
+                this.applyStateClass(),
             );
         }
     }
