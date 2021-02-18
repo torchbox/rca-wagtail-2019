@@ -18,7 +18,7 @@ class Funding(models.Model):
 
 
 @register_snippet
-class InquiryReason(models.Model):
+class EnquiryReason(models.Model):
     reason = models.CharField(max_length=255)
 
     def __str__(self):
@@ -42,8 +42,8 @@ class EnquiryFormSubmission(ClusterableModel):
     country_of_residence = CountryField()
     city = models.CharField(max_length=255)
     is_citizen = models.BooleanField()
-    inquiry_reason = models.ForeignKey(
-        'enquire_to_study.InquiryReason',
+    enquiry_reason = models.ForeignKey(
+        'enquire_to_study.EnquiryReason',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -95,7 +95,7 @@ class EnquiryFormSubmission(ClusterableModel):
             heading="Funding"
         ),
 
-        SnippetChooserPanel('inquiry_reason', heading="What's your enquiry about?"),
+        SnippetChooserPanel('enquiry_reason', heading="What's your enquiry about?"),
 
         MultiFieldPanel([
             FieldPanel('is_read_data_protection_policy'),
