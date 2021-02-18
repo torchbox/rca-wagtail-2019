@@ -15,54 +15,74 @@ class FormFocus {
 
     // Apply focus class
     applyClass() {
-        this.formItem.classList.add(this.hasFocusClass);
-    }
-
-    // Remove focus class
-    removeClass() {
-        // Check if input has content and add content class if it does
         if (this.formType === 'textarea') {
-            if (this.formFieldTextarea.value) {
+            if (
+                this.formFieldTextarea.value &&
+                this.formFieldTextarea === document.activeElement
+            ) {
+                this.formItem.classList.add(
+                    this.hasContentClass,
+                    this.hasFocusClass,
+                );
+            } else if (this.formFieldTextarea.value) {
                 this.formItem.classList.add(this.hasContentClass);
                 this.formItem.classList.remove(this.hasFocusClass);
+            } else if (this.formFieldTextarea === document.activeElement) {
+                this.formItem.classList.add(this.hasFocusClass);
             } else {
-                this.formItem.classList.remove(this.hasFocusClass);
-                this.formItem.classList.remove(this.hasContentClass);
+                this.formItem.classList.remove(
+                    this.hasFocusClass,
+                    this.hasContentClass,
+                );
             }
         }
 
         if (this.formType === 'input') {
-            if (this.formFieldInput.value) {
+            if (
+                this.formFieldInput.value &&
+                this.formFieldInput === document.activeElement
+            ) {
+                this.formItem.classList.add(
+                    this.hasContentClass,
+                    this.hasFocusClass,
+                );
+            } else if (this.formFieldInput.value) {
                 this.formItem.classList.add(this.hasContentClass);
                 this.formItem.classList.remove(this.hasFocusClass);
+            } else if (this.formFieldInput === document.activeElement) {
+                this.formItem.classList.add(this.hasFocusClass);
             } else {
-                this.formItem.classList.remove(this.hasFocusClass);
-                this.formItem.classList.remove(this.hasContentClass);
+                this.formItem.classList.remove(
+                    this.hasFocusClass,
+                    this.hasContentClass,
+                );
             }
         }
     }
 
+    checkFormItemStatus() {}
+
     bindEvents() {
         if (this.formType === 'textarea') {
+            this.formFieldTextarea.addEventListener('input', () =>
+                this.applyClass(),
+            );
             this.formFieldTextarea.addEventListener('focusin', () =>
                 this.applyClass(),
             );
             this.formFieldTextarea.addEventListener('focusout', () =>
-                this.removeClass(),
-            );
-            this.formFieldTextarea.addEventListener('input', () =>
                 this.applyClass(),
             );
         }
 
         if (this.formType === 'input') {
+            this.formFieldInput.addEventListener('input', () =>
+                this.applyClass(),
+            );
             this.formFieldInput.addEventListener('focusin', () =>
                 this.applyClass(),
             );
             this.formFieldInput.addEventListener('focusout', () =>
-                this.removeClass(),
-            );
-            this.formFieldInput.addEventListener('input', () =>
                 this.applyClass(),
             );
         }

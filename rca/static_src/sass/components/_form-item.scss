@@ -376,10 +376,6 @@
     select {
         &:-webkit-autofill {
             border: 0 !important; // sass-lint:disable-line no-important
-
-            &::after {
-                content: none;
-            }
         }
     }
 
@@ -396,6 +392,10 @@
             border: 1px solid $color--white-12;
             caret-color: $color--white;
             color: $color--white;
+
+            &:-webkit-autofill {
+                -webkit-box-shadow: 0 0 0 1000px $color--form-input-darkbg inset;
+            }
         }
 
         label {
@@ -437,6 +437,11 @@
                 input[type='number'],
                 textarea {
                     background-color: $color--form-input-focus-darkbg;
+
+                    &:-webkit-autofill {
+                        -webkit-box-shadow: 0 0 0 1000px
+                            $color--form-input-focus-darkbg inset;
+                    }
                 }
 
                 label {
@@ -480,14 +485,7 @@
         textarea,
         select {
             &:-webkit-autofill {
-                -webkit-box-shadow: 0 0 0 1000px $color--form-input-darkbg inset;
                 -webkit-text-fill-color: $color--white;
-                transition: -webkit-box-shadow $transition-cubic;
-
-                &:focus {
-                    -webkit-box-shadow: 0 0 0 1000px
-                        $color--form-input-focus-darkbg inset;
-                }
             }
         }
     }
@@ -505,6 +503,11 @@
             border: 1px solid $color--white-12;
             caret-color: $color--black;
             color: $color--black;
+
+            &:-webkit-autofill {
+                -webkit-box-shadow: 0 0 0 1000px $color--form-input-lightbg
+                    inset;
+            }
         }
 
         label {
@@ -539,6 +542,11 @@
             &#{$root}--has-focus {
                 input {
                     background-color: $color--form-input-focus-lightbg;
+
+                    &:-webkit-autofill {
+                        -webkit-box-shadow: 0 0 0 1000px
+                            $color--form-input-focus-lightbg inset;
+                    }
                 }
 
                 label {
@@ -582,15 +590,7 @@
         textarea,
         select {
             &:-webkit-autofill {
-                -webkit-box-shadow: 0 0 0 1000px $color--form-input-lightbg
-                    inset;
                 -webkit-text-fill-color: $color--black;
-                transition: -webkit-box-shadow $transition-cubic;
-
-                &:focus {
-                    -webkit-box-shadow: 0 0 0 1000px
-                        $color--form-input-focus-lightbg inset;
-                }
             }
         }
     }
