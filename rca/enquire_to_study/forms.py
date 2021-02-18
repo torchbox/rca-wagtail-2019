@@ -6,12 +6,12 @@ from phonenumber_field.formfields import PhoneNumberField
 
 from rca.enquire_to_study.models import (
     EnquiryFormSubmission,
-    Funding,
     EnquiryFormSubmissionFundingsOrderable,
-    EnquiryReason,
-    StartDate,
-    EnquiryFormSubmissionProgrammeTypesOrderable,
     EnquiryFormSubmissionProgrammesOrderable,
+    EnquiryFormSubmissionProgrammeTypesOrderable,
+    EnquiryReason,
+    Funding,
+    StartDate,
 )
 from rca.programmes.models import ProgrammePage, ProgrammeType
 
