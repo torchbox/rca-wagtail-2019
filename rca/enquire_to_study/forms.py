@@ -6,7 +6,8 @@ from django import forms
 from django_countries.fields import CountryField
 from phonenumber_field.formfields import PhoneNumberField
 
-from rca.enquire_to_study.models import EnquiryFormSubmission, Funding, SubmissionFundingsOrderable, InquiryReason, StartDate
+from rca.enquire_to_study.models import EnquiryFormSubmission, Funding, EnquiryFormSubmissionFundingsOrderable, \
+    InquiryReason, StartDate, EnquiryFormSubmissionProgrammeTypesOrderable, EnquiryFormSubmissionProgrammesOrderable
 from rca.programmes.models import ProgrammePage, ProgrammeType
 
 
@@ -41,7 +42,7 @@ class EnquireToStudyForm(forms.Form):
     is_notification_opt_in = forms.BooleanField(required=False)
 
     # Recaptcha
-    # captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
 
     def __init__(self, *args, **kwargs):
         super(EnquireToStudyForm, self).__init__(*args, **kwargs)
@@ -69,8 +70,20 @@ class EnquireToStudyForm(forms.Form):
 
     def save(self):
         data = self.cleaned_data.copy()
-        print(data)
-        # data.pop("captcha")
+        programme_types = data.pop("programme_types")
+        programmes = data.pop("programmes")
+        fundings = data.pop("funding")
+        data.pop("captcha")
+        enquiry_submission = EnquiryFormSubmission.objects.create(**data)
 
-        EnquiryFormSubmission.objects.create(**data)
+        for programme_type in programme_types:
+            EnquiryFormSubmissionProgrammeTypesOrderable.objects.create(enquiry_submission=enquiry_submission,
+                                                                        programme_type=programme_type)
 
+        for programme in programmes:
+            EnquiryFormSubmissionProgrammesOrderable.objects.create(enquiry_submission=enquiry_submission,
+                                                                    programme=programme)
+
+        for funding in fundings:
+            EnquiryFormSubmissionFundingsOrderable.objects.create(enquiry_submission=enquiry_submission,
+                                                                  funding=funding)
