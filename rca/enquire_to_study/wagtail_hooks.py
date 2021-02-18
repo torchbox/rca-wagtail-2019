@@ -25,7 +25,13 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
     menu_order = 200
     add_to_settings_menu = False
     exclude_from_explorer = False
-    list_display = ("first_name", "last_name", "email", "phone_number", "country_of_residence")
+    list_display = (
+        "first_name",
+        "last_name",
+        "email",
+        "phone_number",
+        "country_of_residence",
+    )
     list_filter = ("country_of_residence",)
     search_fields = ("first_name", "last_name", "email", "country_of_residence")
     permission_helper_class = EnquiryFormSubmissionPermissionHelper
