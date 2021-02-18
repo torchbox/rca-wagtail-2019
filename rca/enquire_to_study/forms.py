@@ -7,7 +7,7 @@ from django_countries.fields import CountryField
 from phonenumber_field.formfields import PhoneNumberField
 
 from rca.enquire_to_study.models import EnquiryFormSubmission, Funding, EnquiryFormSubmissionFundingsOrderable, \
-    InquiryReason, StartDate, EnquiryFormSubmissionProgrammeTypesOrderable, EnquiryFormSubmissionProgrammesOrderable
+    EnquiryReason, StartDate, EnquiryFormSubmissionProgrammeTypesOrderable, EnquiryFormSubmissionProgrammesOrderable
 from rca.programmes.models import ProgrammePage, ProgrammeType
 
 
@@ -35,7 +35,7 @@ class EnquireToStudyForm(forms.Form):
     funding = forms.ModelMultipleChoiceField(queryset=Funding.objects.all(), widget=forms.CheckboxSelectMultiple)
 
     # What's the enquiry about ?
-    enquiry_reason = forms.ModelChoiceField(queryset=InquiryReason.objects.all(), widget=forms.RadioSelect)
+    enquiry_reason = forms.ModelChoiceField(queryset=EnquiryReason.objects.all(), widget=forms.RadioSelect)
 
     # Legal & newsletter
     is_read_data_protection_policy = forms.BooleanField()
