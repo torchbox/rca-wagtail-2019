@@ -29,7 +29,11 @@ class Funding(models.Model):
 @register_snippet
 class EnquiryReason(models.Model):
     reason = models.CharField(max_length=255)
-
+     
+     class Meta:
+        verbose_name='Enquirey form reason'
+        verbose_name_plural='Enquirey form reasons'
+        
     def __str__(self):
         return self.reason
 
