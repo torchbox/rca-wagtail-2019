@@ -13,8 +13,8 @@ class FormFocus {
         this.bindEvents();
     }
 
-    // Apply focus class
-    applyClass() {
+    // Apply state class
+    applyStateClass() {
         if (this.formType === 'textarea') {
             if (
                 this.formFieldTextarea.value &&
@@ -64,26 +64,28 @@ class FormFocus {
 
     bindEvents() {
         if (this.formType === 'textarea') {
+            // Input is required to detect autocomplete trigger in Chrome
             this.formFieldTextarea.addEventListener('input', () =>
-                this.applyClass(),
+                this.applyStateClass(),
             );
             this.formFieldTextarea.addEventListener('focusin', () =>
-                this.applyClass(),
+                this.applyStateClass(),
             );
             this.formFieldTextarea.addEventListener('focusout', () =>
-                this.applyClass(),
+                this.applyStateClass(),
             );
         }
 
         if (this.formType === 'input') {
+            // Input is required to detect autocomplete trigger in Chrome
             this.formFieldInput.addEventListener('input', () =>
-                this.applyClass(),
+                this.applyStateClass(),
             );
             this.formFieldInput.addEventListener('focusin', () =>
-                this.applyClass(),
+                this.applyStateClass(),
             );
             this.formFieldInput.addEventListener('focusout', () =>
-                this.applyClass(),
+                this.applyStateClass(),
             );
         }
     }
