@@ -17,7 +17,11 @@ from wagtail.snippets.models import register_snippet
 @register_snippet
 class Funding(models.Model):
     funding = models.CharField(max_length=255)
-
+    
+    class Meta:
+        verbose_name='Enquirey form funding option'
+        verbose_name_plural='Enquirey form funding options'
+        
     def __str__(self):
         return self.funding
 
