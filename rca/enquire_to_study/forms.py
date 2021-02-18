@@ -1,5 +1,3 @@
-import warnings
-
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Checkbox
 from django import forms
