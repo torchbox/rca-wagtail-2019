@@ -42,7 +42,9 @@ class EnquiryReason(models.Model):
 class StartDate(models.Model):
     label = models.CharField(max_length=255)
     start_date = models.DateField()
-
+    class Meta:
+        verbose_name='Enquirey form start date'
+        verbose_name_plural='Enquirey form start dates'
     def __str__(self):
         return self.label
 
