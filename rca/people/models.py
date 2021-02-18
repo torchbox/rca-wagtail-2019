@@ -489,6 +489,14 @@ class StudentType(SluggedTaxonomy):
     pass
 
 
+class DegreeType(SluggedTaxonomy):
+    pass
+
+
+class DegreeStatus(SluggedTaxonomy):
+    pass
+
+
 class RelatedStudentPage(Orderable):
     source_page = ParentalKey(Page, related_name="related_student_pages")
     page = models.ForeignKey("people.StudentPage", on_delete=models.CASCADE)
@@ -534,10 +542,31 @@ class StudentPage(BasePage):
         related_name="+",
         on_delete=models.SET_NULL,
     )
-
     email = models.EmailField(blank=True)
-    introduction = models.TextField(blank=True)
-    bio = RichTextField(blank=True, features=["link"], help_text="Add a detail summary")
+    degree_status = models.ForeignKey(
+        DegreeStatus,
+        on_delete=models.SET_NULL,
+        related_name="related_student",
+        null=True,
+        blank=True,
+    )
+    degree_start_date = models.DateField(blank=True, null=True)
+    degree_end_date = models.DateField(blank=True, null=True)
+    degree_type = models.ForeignKey(
+        DegreeType,
+        on_delete=models.SET_NULL,
+        related_name="related_student",
+        null=True,
+        blank=True,
+    )
+
+    introduction = models.TextField(blank=True, verbose_name="Project title")
+    bio = RichTextField(
+        blank=True,
+        features=["link"],
+        help_text="Add a detail summary",
+        verbose_name="Abstract",
+    )
     social_links = StreamField(
         StreamBlock([("Link", LinkBlock(required=False))], max_num=5, required=False),
         blank=True,
@@ -585,6 +614,10 @@ class StudentPage(BasePage):
         ),
         MultiFieldPanel([FieldPanel("email")], heading="Contact information"),
         PageChooserPanel("programme"),
+        FieldPanel("degree_start_date"),
+        FieldPanel("degree_end_date"),
+        FieldPanel("degree_type"),
+        FieldPanel("degree_status"),
         FieldPanel("introduction"),
         FieldPanel("bio"),
         MultiFieldPanel(
@@ -642,9 +675,8 @@ class StudentPage(BasePage):
 
 class StudentIndexPage(BasePage):
     max_count = 1
-    # TODO, update template when it's there
     subpage_types = ["people.StudentPage"]
-    template = "patterns/pages/staff/staff_index.html"
+    template = "patterns/pages/student/student_index.html"
     introduction = RichTextField(blank=False, features=["link"])
     content_panels = BasePage.content_panels + [FieldPanel("introduction")]
     search_fields = BasePage.search_fields + [index.SearchField("introduction")]
@@ -710,6 +742,26 @@ class StudentIndexPage(BasePage):
                     )
                 ),
                 filter_by="related_area_of_expertise__area_of_expertise__slug__in",  # Filter by slug here
+                option_value_field="slug",
+            ),
+            TabStyleFilter(
+                "Degree type",
+                queryset=(
+                    DegreeType.objects.filter(
+                        id__in=base_queryset.values_list("degree_type_id", flat=True)
+                    )
+                ),
+                filter_by="degree_type__slug__in",
+                option_value_field="slug",
+            ),
+            TabStyleFilter(
+                "Degree status",
+                queryset=(
+                    DegreeStatus.objects.filter(
+                        id__in=base_queryset.values_list("degree_status_id", flat=True)
+                    )
+                ),
+                filter_by="degree_status__slug__in",
                 option_value_field="slug",
             ),
         )
