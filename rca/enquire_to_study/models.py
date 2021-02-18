@@ -34,7 +34,7 @@ class StartDate(models.Model):
         return self.label
 
 
-class Submission(ClusterableModel):
+class EnquiryFormSubmission(ClusterableModel):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField()
@@ -49,7 +49,13 @@ class Submission(ClusterableModel):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    start_date = models.CharField(max_length=255)
+    start_date = models.ForeignKey(
+        'enquire_to_study.StartDate',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     is_read_data_protection_policy = models.BooleanField()
     is_notification_opt_in = models.BooleanField()
 
@@ -99,7 +105,7 @@ class Submission(ClusterableModel):
 
 
 class SubmissionFundingsOrderable(Orderable):
-    submission = ParentalKey("enquire_to_study.Submission", related_name="submissions_funding")
+    submission = ParentalKey("enquire_to_study.EnquiryFormSubmission", related_name="submissions_funding")
     funding = models.ForeignKey(
         "enquire_to_study.Funding",
         on_delete=models.CASCADE,

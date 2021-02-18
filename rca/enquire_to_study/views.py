@@ -1,15 +1,8 @@
-import json
-from django.contrib import messages
-from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
 
 from .forms import EnquireToStudyForm
-from wagtail.contrib.forms.models import FormSubmission
-
-from .models import Submission
-import requests
 
 
 class EnquireToStudyFormView(FormView):
@@ -39,11 +32,10 @@ class EnquireToStudyFormView(FormView):
 
     def create_form_submission(self, form):
         form.save()
-        pass
 
     def form_valid(self, form):
         country_of_residence = form.cleaned_data["country_of_residence"]
-
+        print(country_of_residence)
         # If location UK/IRE
         # post_mailchimp
         # else

@@ -1,10 +1,10 @@
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 
-from rca.enquire_to_study.models import Submission
+from rca.enquire_to_study.models import EnquiryFormSubmission
 
 
-class SubmissionAdmin(ModelAdmin):
-    model = Submission
+class EnquiryFormSubmissionAdmin(ModelAdmin):
+    model = EnquiryFormSubmission
     menu_label = "Submission"
     menu_icon = "pick"
     menu_order = 200
@@ -15,4 +15,4 @@ class SubmissionAdmin(ModelAdmin):
     search_fields = ("first_name", "last_name", "email", "country_of_residence")
 
 
-modeladmin_register(SubmissionAdmin)
+modeladmin_register(EnquiryFormSubmissionAdmin)
