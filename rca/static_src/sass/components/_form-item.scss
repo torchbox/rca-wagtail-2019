@@ -280,6 +280,13 @@
         padding-top: ($gutter / 2);
     }
 
+    // Hide recaptcha required asterisks as it floats weirdly above
+    &--re_captcha_field {
+        label {
+            @include hidden();
+        }
+    }
+
     &--hidden_input {
         @include hidden();
     }
@@ -360,11 +367,6 @@
 
     &__required {
         color: $color--tertiary;
-
-        // Hide recaptcha required asterisks as it floats weirdly above
-        #{$root}--re_captcha_field & {
-            display: none;
-        }
     }
 
     &__instruction {
