@@ -4,15 +4,7 @@ from django import forms
 from django_countries.fields import CountryField
 from phonenumber_field.formfields import PhoneNumberField
 
-from rca.enquire_to_study.models import (
-    EnquiryFormSubmission,
-    Funding,
-    EnquiryFormSubmissionFundingsOrderable,
-    EnquiryReason,
-    StartDate,
-    EnquiryFormSubmissionProgrammeTypesOrderable,
-    EnquiryFormSubmissionProgrammesOrderable,
-)
+from rca.enquire_to_study.models import Funding, InquiryReason, StartDate
 from rca.programmes.models import ProgrammePage, ProgrammeType
 
 
@@ -49,7 +41,7 @@ class EnquireToStudyForm(forms.Form):
 
     # What's the enquiry about ?
     enquiry_reason = forms.ModelChoiceField(
-        queryset=EnquiryReason.objects.all(), widget=forms.RadioSelect
+        queryset=InquiryReason.objects.all(), widget=forms.RadioSelect
     )
 
     # Legal & newsletter
@@ -90,24 +82,4 @@ class EnquireToStudyForm(forms.Form):
         ].help_text = "So we can ensure the correct department receives your message"
 
     def save(self):
-        data = self.cleaned_data.copy()
-        programme_types = data.pop("programme_types")
-        programmes = data.pop("programmes")
-        fundings = data.pop("funding")
-        data.pop("captcha")
-        enquiry_submission = EnquiryFormSubmission.objects.create(**data)
-
-        for programme_type in programme_types:
-            EnquiryFormSubmissionProgrammeTypesOrderable.objects.create(
-                enquiry_submission=enquiry_submission, programme_type=programme_type
-            )
-
-        for programme in programmes:
-            EnquiryFormSubmissionProgrammesOrderable.objects.create(
-                enquiry_submission=enquiry_submission, programme=programme
-            )
-
-        for funding in fundings:
-            EnquiryFormSubmissionFundingsOrderable.objects.create(
-                enquiry_submission=enquiry_submission, funding=funding
-            )
+        pass
