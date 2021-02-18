@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("programmes", "0055_stop_allowing_blank_pages"),
-        ("enquire_to_study", "0001_initial"),
+        ("enquire_to_study", "0002_alter_meta_options"),
     ]
 
     operations = [
