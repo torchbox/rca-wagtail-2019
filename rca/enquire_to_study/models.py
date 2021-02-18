@@ -17,11 +17,11 @@ from wagtail.snippets.models import register_snippet
 @register_snippet
 class Funding(models.Model):
     funding = models.CharField(max_length=255)
-    
+
     class Meta:
-        verbose_name='Enquirey form funding option'
-        verbose_name_plural='Enquirey form funding options'
-        
+        verbose_name = 'Enquirey form funding option'
+        verbose_name_plural = 'Enquirey form funding options'
+
     def __str__(self):
         return self.funding
 
@@ -29,11 +29,11 @@ class Funding(models.Model):
 @register_snippet
 class InquiryReason(models.Model):
     reason = models.CharField(max_length=255)
-     
-     class Meta:
-        verbose_name='Enquirey form reason'
-        verbose_name_plural='Enquirey form reasons'
-        
+
+    class Meta:
+        verbose_name = 'Enquirey form reason'
+        verbose_name_plural = 'Enquirey form reasons'
+
     def __str__(self):
         return self.reason
 
@@ -42,9 +42,11 @@ class InquiryReason(models.Model):
 class StartDate(models.Model):
     label = models.CharField(max_length=255)
     start_date = models.DateField()
+
     class Meta:
-        verbose_name='Enquirey form start date'
-        verbose_name_plural='Enquirey form start dates'
+        verbose_name = 'Enquirey form start date'
+        verbose_name_plural = 'Enquirey form start dates'
+
     def __str__(self):
         return self.label
 
@@ -109,7 +111,7 @@ class SubmissionFundingsOrderable(Orderable):
     submission = ParentalKey(
         "enquire_to_study.Submission", related_name="submissions_funding"
     )
-    funding = models.ForeignKey("enquire_to_study.Funding", on_delete=models.CASCADE,)
+    funding = models.ForeignKey("enquire_to_study.Funding", on_delete=models.CASCADE, )
 
     panels = [
         SnippetChooserPanel("funding"),
