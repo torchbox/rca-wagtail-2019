@@ -591,7 +591,7 @@ class StudentPage(BasePage):
             [
                 FieldPanel("research_highlights_title"),
                 InlinePanel(
-                    "related_project_pages", label=_("Project pages"), max_num=8
+                    "related_project_pages", label=_("Project pages"), max_num=5
                 ),
             ],
             heading=_("Research highlights gallery"),
