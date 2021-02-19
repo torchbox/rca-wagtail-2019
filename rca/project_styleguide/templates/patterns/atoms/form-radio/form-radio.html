@@ -1,0 +1,25 @@
+<div class="form-item form-item--radio_select {% if field.errors %}form-item--errors{% endif %} {% if field.help_text %}form-item--has-help-text{% endif %}">
+    <div class="form-item__container">
+        <ul>
+            <li>
+                <label for="{{ field.id_for_label }}" class="form-item__label">
+                    <input class="form-item__radio" type="radio" id="{{ field.id_for_label }}" {% if field.field.required %}required{% endif %}>
+                    {{ field.label }}
+                    {% if field.field.required %}<span class="form-item__required">*</span>{% endif %}
+                </label>
+            </li>
+        </ul>
+
+    </div>
+
+    {% if field.help_text %}<div class="form-item__help">{{ field.help_text }}</div>{% endif %}
+
+    {% if field.errors %}
+        <div class="form-item__errors">
+            {{ field.errors }}
+        </div>
+    {% endif %}
+
+</div>
+
+

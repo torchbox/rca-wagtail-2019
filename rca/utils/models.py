@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -664,3 +666,66 @@ class Sector(SluggedTaxonomy):
     class Meta:
         verbose_name = "Innovation RCA sector"
         verbose_name_plural = "Innovation RCA sectors"
+
+
+class ContactFieldsMixin(models.Model):
+    contact_model_title = models.CharField(
+        max_length=120,
+        blank=True,
+        help_text="Maximum length of 120 characters",
+        verbose_name="Contact title",
+    )
+    contact_model_email = models.EmailField(blank=True, verbose_name="Contact email")
+    contact_model_url = models.URLField(blank=True, verbose_name="Contact url")
+    contact_model_form = models.ForeignKey(
+        "forms.FormPage",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        verbose_name="Contact form",
+    )
+    contact_model_image = models.ForeignKey(
+        "images.CustomImage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name="Contact image",
+    )
+    contact_model_text = models.CharField(
+        max_length=250,
+        blank=True,
+        help_text="Maximum length of 250 characters",
+        verbose_name="Contact text",
+    )
+
+    class Meta:
+        abstract = True
+
+    def clean(self):
+        errors = defaultdict(list)
+        VALIDATION_MESSAGE = "Add only one contact method"
+
+        if self.contact_model_email and self.contact_model_url:
+            errors["contact_model_email"].append(VALIDATION_MESSAGE)
+        if self.contact_model_url and self.contact_model_form:
+            errors["contact_model_url"].append(VALIDATION_MESSAGE)
+        if self.contact_model_email and self.contact_model_form:
+            errors["contact_model_email"].append(VALIDATION_MESSAGE)
+
+        if errors:
+            raise ValidationError(errors)
+
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("contact_model_title"),
+                FieldPanel("contact_model_email"),
+                FieldPanel("contact_model_url"),
+                FieldPanel("contact_model_text"),
+                PageChooserPanel("contact_model_form"),
+                ImageChooserPanel("contact_model_image"),
+            ],
+            "Contact",
+        )
+    ]

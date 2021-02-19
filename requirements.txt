@@ -1,5 +1,7 @@
 Django==2.2.12
 wagtail==2.11.2
+# Pin treebeard to <4.5, see: https://github.com/wagtail/wagtail/issues/6820
+django-treebeard<4.5
 psycopg2==2.7.7
 wagtail-django-recaptcha==1.0
 django-pattern-library==0.2.4
@@ -21,4 +23,4 @@ lxml==4.5.0
 django-phonenumber-field[phonenumbers]==4.0.0
 django-import-export==2.2.0
 wagtail-redirect-importer==1.0.2
-
+wagtail-factories==2.0.1

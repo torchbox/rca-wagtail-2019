@@ -1,0 +1,18 @@
+<div class="jump-nav tab-nav {{ modifier }} {% if sticky %}sticky{% endif %}">
+    <div class="jump-nav__layout tab-nav__layout grid">
+        <div class="jump-nav__heading">
+            <div class="jump-nav__heading-label">
+                Jump to
+            </div>
+            <svg width="12" height="8" class="jump-nav__heading-icon" aria-hidden="true">
+                <use xlink:href="#arrow"></use>
+            </svg>
+        </div>
+        <nav class="jump-nav__container tab-nav__container" data-anchor-nav>
+            {% for button in item %}
+                <a class="tab-item" href="#{{ button.title|slugify }}" aria-selected="true">{{ button.title }}</a>
+            {% endfor %}
+        </nav>
+    </div>
+</div>
+<div class="jump-nav__placeholder tab-nav__placeholder {{ modifier }}"></div>

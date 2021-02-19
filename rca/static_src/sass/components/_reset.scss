@@ -4,7 +4,7 @@
     display: inline-flex;
     align-items: center;
     opacity: 1;
-    transition: opacity $cubic-transition;
+    transition: opacity $transition-cubic;
 
     @include media-query(large) {
         @include underline-hover();

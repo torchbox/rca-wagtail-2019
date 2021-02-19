@@ -8,7 +8,7 @@
 
 {% block content %}
 
-    {% include "patterns/molecules/hero/hero.html" with modifier="programme" %}
+    {% include "patterns/molecules/hero/hero.html" with hero_image=page.hero_image modifier="medium" %}
 
     <div class="page page--overlap" >
 
@@ -135,7 +135,7 @@
                         </div>
                     {% endif %}
 
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes--large.html" with related_sections=related_programmes title=related_programmes.0.title %}
+                    {% include "patterns/molecules/relatedcontent/relatedprogrammes--large.html" with related_sections=related_programmes title=related_programmes.0.title %}
 
                     {% if related_staff %}
                         <div class="section__notch">
@@ -171,7 +171,7 @@
                                 <h2 class="partnerships__heading heading heading--two">{{ research_news.title }}</h2>
                             </div>
                             <div class="partnerships__carousel">
-                                {% include "patterns/organisms/carousel/carousel--square.html" with carousel=research_news.slides modifier='carousel--square' datatag='data-square-carousel' %}
+                                {% include "patterns/organisms/carousel/carousel--square.html" with carousel=research_news.slides modifier='carousel--square' datatag='data-peek-carousel' %}
                             </div>
                         </div>
                     </div>

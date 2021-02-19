@@ -1,0 +1,375 @@
+context:
+  page:
+    title: School of Arts & Humanities
+    get_ancestors:
+      - is_root: false
+        title: Our Schools
+    breadcrumb:
+      - { label: 'Research', link: /research/ }
+    introduction: 'The School of Arts & Humanities bridges research and study in the fine and applied arts together with curating, writing and the history of design. '
+    introduction_image: True
+    school_dean: Ken Neil
+    location: <p><a>RCA Battersea</a></p><p><a>RCA Kensington</a></p><p><a>RCA White City</a></p>
+    next_open_day_date: False
+    get_in_touch: <p>+44 (0)20 7590 4444</p><p><a href="">email@rca.ac.uk</a></p>
+    social_links: False
+    video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
+    video_caption: Welcome to the School
+    body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua
+    research_projects_title: Our research
+    research_projects_text: Research in the School of Arts & Humanities is driven by the individual concerns of academics and students. We work within an integrated research culture and our work informs every level of activity in the School.
+    sections:
+      about:
+        title: What makes us different?
+        introduction: We teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs.
+      research:
+        link: https://www.rca.ac.uk/study/schools/school-of-arts-humanities/current-research/
+      programmes:
+        introduction: We offer a range of Graduate Diploma, MA, MRes, MPhil and PhD degree programmes across the art and design disciplines.
+      short_courses:
+        introduction: Senior-level executive masterclasses, summer courses and custom executive education programmes for businesses and organisations.
+      staff:
+        introduction: Browse profiles of our School’s staff, including world-eminent practitioners in architecure…
+    contact: true
+    contact_image: true
+    related_pages_title: Enterprise at the RCA
+    staff_link: '#'
+    staff_link_text: View all school staff
+    external_links_heading: Also...
+    external_links:
+      - item:
+        value: { text: 'Research students', href: '#' }
+      - item:
+        value: { text: 'Completed research projects', href: '#' }
+      - item:
+        value: { text: 'Research website', href: '#' }
+      - item:
+        value:
+          { text: 'Prova: The Arts & Humanities Research Journal', href: '#' }
+    research_cta_block:
+      - block:
+        value:
+          title: 'Prova: The Arts & Humanities Research Journal'
+          description: Archive for the School of Arts & Humanities's flagship lecture series
+          action: Find out more
+          link: 'https://www.rca.ac.uk/study/schools/school-of-arts-humanities/visual-cultures/'
+    research_collaborators:
+      - slide:
+        value:
+          link:
+            title: 'Tate Britain'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Gasworks Gallery'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Johann Jacobs Museum'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Delphina Foundation'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'West Bund Art and Design Fair'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Fundació Antoni Tàpies'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Tensta Konsthall'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Nida Art Colony'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Victoria & Albert Museum'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Royal Crown Derby'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Santorus'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Burberry'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'The Gulbenkian Foundation'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Lisbon'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Art on the Underground'
+            url: '#'
+          image: true
+    related_programmes_title: Our programmes
+    related_programmes_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    related_short_courses_title: Our short courses
+    related_short_courses_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    legacy_news_and_events:
+      - item:
+        meta: 'Event'
+        title: 'Designs for Real Life'
+        description: '6 July 2019 — 4 August 2019'
+        link: '#'
+        image: //placekitten.com/526/402
+        person: false
+      - item:
+        meta: 'Event'
+        title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
+        description: '23 November 2019'
+        link: '#'
+        image: false
+        person: false
+      - item:
+        meta: 'News'
+        title: 'Show 2018: School of Architecture: Making Space for the Future'
+        description: '23 November 2019'
+        link: '#'
+        image: //placekitten.com/251/142
+        person: false
+  hero_image:
+    title: Synaputral Decadence is the flavour of the distant future
+    creator: Jianjin Lee Chen
+    photographer: Sekiro Yamananka
+  open_day_link:
+    get_link_url: #
+    get_link_text: Book or view all open days
+  page_teasers:
+    title: What makes us different?
+    summary: We teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs.
+    pages:
+      - {
+          title: 'Public programmes',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'School-wide public programmes include "SoAH presents" and "Urgency of the arts lectures" ',
+          image: true,
+        }
+      - {
+          title: 'Unique learning experience',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'The School of Arts & Humanities offers students and researchers the opportunity to develop their own practices and careers as artists, makers, historians, theorists, writers and curators. All are encouraged to focus in depth on the particularities of their own work while also being exposed to more critically diverse positions across the School.',
+          image: true,
+        }
+  related_programmes:
+    - item:
+      link:
+        url: '#'
+        title: Browse all RCA's Programmes
+      related_items:
+        - item:
+          title: Architecture
+          degree_level: MA
+          programme_description_subtitle: Expand the possibilities of your practice by developing a speculative, independent and critical ethos
+          hero_image: http://placehold.it/500x500/f1f1f1/000
+        - item:
+          title: Architecture Pathway
+          degree_level: MA
+          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
+          hero_image: http://placehold.it/500x500/ff5d1c/fff
+        - item:
+          title: Architecture PhD
+          degree_level: MA
+          programme_description_subtitle: Turning innovation into successful real-world businesses.
+          hero_image: http://placehold.it/500x500
+        - item:
+          title: City Design
+          degree_level: MA
+          programme_description_subtitle: Expand the possibilities of your practice by developing a speculative, independent and critical ethos
+          hero_image: http://placehold.it/500x500/f1f1f1/000
+        - item:
+          title: Environmental Architecture
+          degree_level: MA
+          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
+          hero_image: http://placehold.it/500x500/ff5d1c/fff
+        - item:
+          title: Interior Design
+          degree_level: MA
+          programme_description_subtitle: Turning innovation into successful real-world businesses.
+          hero_image: http://placehold.it/500x500
+        - item:
+          title: Global Innovation Design
+          degree_level: MA
+          programme_description_subtitle: Expand the possibilities of your practice by developing a speculative, independent and critical ethos
+          hero_image: http://placehold.it/500x500/f1f1f1/000
+        - item:
+          title: Fashion
+          degree_level: MA
+          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
+          hero_image: http://placehold.it/500x500/ff5d1c/fff
+        - item:
+          title: Design Products
+          degree_level: MA
+          programme_description_subtitle: Turning innovation into successful real-world businesses.
+          hero_image: http://placehold.it/500x500
+  related_short_courses:
+    - item:
+      link:
+        url: '#'
+        title: View all our short courses
+      related_items:
+        - item:
+          title: Contemporary Art Summer School
+          degree_level: Executive Education
+          programme_description_subtitle: Transform your Customer Experience.
+          hero_image: http://placehold.it/300x270/f1f1f1/000
+        - item:
+          title: 'Curating, contemporary art & design: theory and practice'
+          degree_level: Executive Education
+          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
+          hero_image: http://placehold.it/300x270/ff5d1c/fff
+  stats_block: False
+  student_stories:
+    slides:
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'RCA PhD student authors book on fashion illustration'
+          summary: 'Current PhD student, Yu Lun Eve Lin, (PhD Arts & Humanities), is hoping to inspire the next generation of Taiwanese fashion designers through her new book on fashion illustration.'
+          link: 'https://www.rca.ac.uk/news-and-events/news/rca-phd-student-authors-book-fashion-illustration/'
+          person: false
+          image: True
+  instagram_feed: False
+  featured_research:
+    - slide:
+      meta: 'Project'
+      title: 'bauhaus imaginista'
+      description: '‘bauhaus imaginista’ was a major international project exploring the transnational character of the Bauhaus and its reception, which was commissioned to mark the school’s centenary, in 2019. '
+      image: true
+      link: 'https://www.rca.ac.uk/research-innovation/projects/bauhaus-imaginista/'
+    - slide:
+      meta: 'Project'
+      title: '4Cs: From Conflict to Conviviality through Creativity and Culture'
+      description: 'A transnational project exploring how training and education in art and culture can reflect on, and respond to, conflict through audience participation and co-production. '
+      image: true
+      link: 'https://www.rca.ac.uk/research-innovation/projects/4cs-conflict-conviviality-through-creativity-and-culture/'
+    - slide:
+      meta: 'Project'
+      title: 'Tai Shani: DC Productions'
+      description: 'Tai Shani’s DC: Productions (originally called Dark Continent) is an epic, episodic project that comprises interconnected yet stand-alone performances, installations and films of experimental narrative texts, an expanded adaptation of Christine de Pizan’s 1405 proto-feminist text, ‘The Book of the City of Ladies’. '
+      image: true
+      link: 'https://www.rca.ac.uk/research-innovation/projects/tai-shani-dc-productions/'
+  student_research:
+    title: PhD student rResearch
+    slides:
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'RCA x CERN'
+          summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'Burberry'
+          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'Designing the imposible for NASA'
+          summary: 'Creating world class experiences that started at the RCA'
+          link: '#'
+          person: false
+          image: True
+  programmes_cta:
+    title: Custom executive education
+    description: The RCA delivers senior-level custom executive education programmes for business, government, the public sector and universities globally.
+    action: Browse Executive Education
+    link: '#'
+  staff_cta: False
+  staff:
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+
+tags:
+  include_block:
+    block:
+      template_name: 'patterns/_pattern_library_only/streamfield/soa_body.html'
+  pageurl:
+    ancestor_page:
+      raw: '#'
+    page.school_dean:
+      raw: '#'
+    related_item:
+      raw: '#'
+  slugurl:
+    "'home'":
+      raw: '#'
+  image:
+    programmes.hero_image fill-500x500 as programme_image:
+      target_var: programme_image
+      raw:
+        url: https://placekitten.com/500/500
+    short_courses.hero_image fill-500x500 as programme_image:
+      target_var: programme_image
+      raw:
+        url: https://placekitten.com/500/500

@@ -6,7 +6,7 @@
           <li class="anchor-nav-item body body--two"><a class="anchor-nav-item__link" href="{{ item.link }}">{{ item.title }}</a></li>
         {% endfor %}
         {% if show_contact_block %}
-          <li class="anchor-nav-item body body--two"><a class="anchor-nav-item__link" href="#contact">Ask a question</a></li>
+          <li class="anchor-nav-item body body--two"><a class="anchor-nav-item__link" href="#contact">{% firstof page.contact_model_title "Ask a question" %}</a></li>
         {% endif %}
       </ul>
     </nav>

@@ -1,0 +1,11 @@
+context:
+  field:
+    label: Select field required
+    id_for_label: select-required
+    field:
+      required: True
+    options:
+      - { title: one }
+      - { title: two }
+      - { title: three }
+      - { title: four }

@@ -33,6 +33,12 @@
             margin-right: 16.74%; // match parent grid
             grid-template-columns: 1fr 1fr 1fr;
         }
+
+        &--carousel {
+            display: block;
+            margin: 0;
+            grid-template-columns: 1fr;
+        }
     }
 
     &__action {
@@ -46,6 +52,8 @@
             grid-column: 4 / span 1;
         }
     }
+
+    /* Template specific */
 
     .app--guide & {
         // Match other heading sizes on the guide page

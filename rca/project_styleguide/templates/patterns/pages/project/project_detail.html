@@ -8,7 +8,7 @@
 
 {% block content %}
 
-    {% include "patterns/molecules/hero/hero.html" with modifier="programme" %}
+    {% include "patterns/molecules/hero/hero.html" with hero_image=page.hero_image modifier="medium" %}
 
     <div class="page page--overlap" >
 
@@ -142,12 +142,12 @@
 
             </section>
 
-            {% if page.quote_carousel or page.contact_text or page.contact_email or page.contact_url %}
+            {% if page.quote_carousel or page.contact_model_text or page.contact_model_email or page.contact_model_url or page.contact_model_form %}
                 <section class="section section--opposite-notch bg bg--dark">
 
                     {% if page.quote_carousel %}
                         <div class="section__row section__row--first {% if page.contact %}section__row--last{% endif %}">
-                            {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.quote_carousel modifier='carousel--square carousel--quotes' datatag='data-square-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.quote_carousel modifier='carousel--square carousel--quotes' datatag='data-peek-carousel' %}
                         </div>
                     {% endif %}
 
@@ -157,9 +157,9 @@
                         </div>
                     {% endif %}
 
-                    {% if page.contact_text or page.contact_email or page.contact_url %}
+                    {% if page.contact_model_text or page.contact_model_email or page.contact_model_url or page.contact_model_form %}
                         <div class="section__row {% if page.quote_carousel %}section--contact{% else %}section--top-space-small{% endif %}">
-                            {% include "patterns/organisms/contact/contact.html" with heading="Contact us" text=page.contact_text image=page.contact_image %}
+                            {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image %}
                         </div>
                     {% endif %}
 

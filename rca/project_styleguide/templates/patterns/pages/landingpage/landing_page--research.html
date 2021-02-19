@@ -8,7 +8,7 @@
 
 {% block content %}
 
-    {% include "patterns/molecules/hero/hero.html" with modifier="programme" %}
+    {% include "patterns/molecules/hero/hero.html" with hero_image=page.hero_image modifier="medium" %}
 
     <div class="page page--overlap" >
 
@@ -121,7 +121,7 @@
                                     </div>
                                 {% endif %}
                                 <div class="partnerships__carousel">
-                                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=slideshow_block.slides modifier='carousel--square' datatag='data-square-carousel' %}
+                                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=slideshow_block.slides modifier='carousel--square' datatag='data-peek-carousel' %}
                                 </div>
                             </div>
                         </div>
@@ -170,14 +170,14 @@
                 </section>
             {% endif %}
 
-            {% if page.contact_image %}
+            {% if page.contact_model_image %}
                 <section class="section bg bg--light">
                     <div class="section__notch section__notch--small-med-only">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
                     <div class="contact-anchor" id="contact"></div>
                     <div class="section__row section__row--first">
-                        {% include "patterns/organisms/contact/contact.html" with heading=page.contact_title text=page.contact_text image=page.contact_image %}
+                        {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image %}
                     </div>
                 </section>
 

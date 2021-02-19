@@ -23,6 +23,7 @@ from rca.utils.blocks import (
 from rca.utils.models import (
     HERO_COLOUR_CHOICES,
     BasePage,
+    ContactFieldsMixin,
     LegacyNewsAndEventsMixin,
     LinkFields,
     RelatedPage,
@@ -145,7 +146,7 @@ class LandingPagePageSlideshowBlock(models.Model):
         return self.title
 
 
-class LandingPage(LegacyNewsAndEventsMixin, BasePage):
+class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     """ Defines all the fields we will need for the other versions of landing pages
     visibility of some extra fields that aren't needed on certain models which inherit LandingPage
     are controlled at the content_panels level.
@@ -236,21 +237,6 @@ class LandingPage(LegacyNewsAndEventsMixin, BasePage):
         blank=True,
         help_text=_("Maximum length of 250 characters"),
         verbose_name=_("Related content summary"),
-    )
-    contact_title = models.CharField(
-        max_length=120, blank=True, help_text=_("Maximum length of 120 characters")
-    )
-    contact_text = models.CharField(
-        max_length=250, blank=True, help_text=_("Maximum length of 250 characters")
-    )
-    contact_email = models.EmailField(blank=True)
-    contact_url = models.URLField(blank=True, verbose_name="Contact URL")
-    contact_image = models.ForeignKey(
-        "images.CustomImage",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
     )
 
     content_panels = BasePage.content_panels + [
@@ -488,11 +474,12 @@ class ResearchLandingPage(LandingPage):
         StreamFieldPanel("cta_block"),
         MultiFieldPanel(
             [
-                ImageChooserPanel("contact_image"),
-                FieldPanel("contact_title"),
-                FieldPanel("contact_text"),
-                FieldPanel("contact_email"),
-                FieldPanel("contact_url"),
+                ImageChooserPanel("contact_model_image"),
+                FieldPanel("contact_model_title"),
+                FieldPanel("contact_model_text"),
+                FieldPanel("contact_model_email"),
+                FieldPanel("contact_model_url"),
+                PageChooserPanel("contact_model_form"),
             ],
             heading="Contact information",
         ),
@@ -555,11 +542,12 @@ class InnovationLandingPage(LandingPage):
         ),
         MultiFieldPanel(
             [
-                ImageChooserPanel("contact_image"),
-                FieldPanel("contact_title"),
-                FieldPanel("contact_text"),
-                FieldPanel("contact_email"),
-                FieldPanel("contact_url"),
+                ImageChooserPanel("contact_model_image"),
+                FieldPanel("contact_model_title"),
+                FieldPanel("contact_model_text"),
+                FieldPanel("contact_model_email"),
+                FieldPanel("contact_model_url"),
+                PageChooserPanel("contact_model_form"),
             ],
             heading="Contact information",
         ),

@@ -1,0 +1,62 @@
+.logo-card {
+    $root: &;
+    position: relative;
+
+    &__container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 80%;
+        background-color: $color--white;
+        padding: $gutter;
+        overflow: hidden;
+
+        &:hover,
+        &:focus {
+            #{$root}__heading {
+                transform: translate3d(0, 0, 0);
+                opacity: 1;
+            }
+        }
+    }
+
+    &__image {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+
+    &__heading {
+        position: absolute;
+        background-color: $color--light-grey;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        color: $color--black;
+        padding: ($gutter / 4) ($gutter / 2);
+
+        @include media-query(large) {
+            right: 10px;
+            bottom: 10px;
+            left: 10px;
+            font-family: $font--secondary;
+            transform: translate3d(0, 100%, 0);
+            opacity: 0;
+            transition: transform $transition-cubic, opacity $transition-cubic;
+        }
+    }
+
+    .carousel--logo & {
+        flex-basis: 50%;
+        max-width: 50%;
+        min-width: 50%;
+
+        @include media-query(large) {
+            flex-basis: 33.33%;
+            max-width: 33.33%;
+            min-width: 33.33%;
+        }
+    }
+}

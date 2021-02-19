@@ -575,4 +575,19 @@
             }
         }
     }
+
+    // School page has black sections either side of stat block
+    &.section--school-stat-block {
+        #{$root}__notch {
+            &:last-child {
+                #{$root}__notch-fill {
+                    background-color: $color--black;
+
+                    &::before {
+                        background-color: $color--black;
+                    }
+                }
+            }
+        }
+    }
 }

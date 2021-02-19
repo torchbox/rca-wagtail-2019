@@ -1,0 +1,6 @@
+context:
+  field:
+    label: Standard input required
+    id_for_label: file-required
+    field:
+      required: True
