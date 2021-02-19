@@ -7,13 +7,19 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('schools', '0015_make_introduction_image_required'),
+        ("schools", "0015_make_introduction_image_required"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='schoolpage',
-            name='introduction_image',
-            field=models.ForeignKey(help_text='This image appears after the intro copy. If a video is uploaded, this image is required', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='images.CustomImage'),
+            model_name="schoolpage",
+            name="introduction_image",
+            field=models.ForeignKey(
+                help_text="This image appears after the intro copy. If a video is uploaded, this image is required",
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="+",
+                to="images.CustomImage",
+            ),
         ),
     ]

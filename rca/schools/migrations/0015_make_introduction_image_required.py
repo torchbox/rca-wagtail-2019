@@ -7,13 +7,18 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('schools', '0014_change_to_single_open_day'),
+        ("schools", "0014_change_to_single_open_day"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='schoolpage',
-            name='introduction_image',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='images.CustomImage'),
+            model_name="schoolpage",
+            name="introduction_image",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="+",
+                to="images.CustomImage",
+            ),
         ),
     ]

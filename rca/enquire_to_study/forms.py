@@ -97,8 +97,10 @@ class EnquireToStudyForm(forms.Form):
         self.fields[
             "enquiry_reason"
         ].help_text = "So we can ensure the correct department receives your message"
-        self.fields["is_notification_opt_in"].help_text = "We will not pass on your personal data to any third " \
-                                                          "parties for marketing purposes."
+        self.fields["is_notification_opt_in"].help_text = (
+            "We will not pass on your personal data to any third "
+            "parties for marketing purposes."
+        )
 
     def save(self):
         data = self.cleaned_data.copy()
