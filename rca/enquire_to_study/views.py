@@ -10,6 +10,7 @@ from django.views.generic import FormView, TemplateView
 from django_countries.ioc_data import IOC_TO_ISO
 from wagtail.admin import messages
 
+from django_countries import countries
 from mailchimp_marketing import Client
 from mailchimp_marketing.api_client import ApiClientError
 
@@ -75,7 +76,7 @@ class EnquireToStudyFormView(FormView):
             "last_name": form_data["last_name"],
             "email_address": form_data["email"],
             "phone_number": str(form_data["phone_number"]),
-            "country_of_residence": form_data["country_of_residence"],
+            "country_of_residence": dict(countries)[form_data["country_of_residence"]],
             "city": form_data["city"],
             "is_citizen": "yes" if form_data["city"] else "no",
             "programme_types": ",".join(
