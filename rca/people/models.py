@@ -247,8 +247,9 @@ class StaffPage(BasePage):
 
         # First return any editorially-highlighted project pages
         for p in self.related_project_pages.all():
-            related_project_page_ids.append(p.page.id)
-            yield p.page.specific
+            if p.page.live:
+                related_project_page_ids.append(p.page.id)
+                yield p.page.specific
 
         # Then return any other project pages which the staff member leads or is a team member of,
         # filtering out any of the highlights already output
@@ -256,7 +257,7 @@ class StaffPage(BasePage):
             Q(project_lead__page_id=self.pk) | Q(related_staff__page_id=self.pk)
         ).exclude(pk__in=related_project_page_ids).order_by(
             "-first_published_at"
-        ).distinct()
+        ).distinct().live()
 
     def format_research_highlights(self):
         """Internal method for formatting related projects to the correct
