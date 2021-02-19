@@ -5,7 +5,7 @@
 {% block content %}
 
 
-    {% include "patterns/molecules/hero/hero.html" with modifier="programme" %}
+    {% include "patterns/molecules/hero/hero.html" with hero_image=page.hero_image modifier="medium" %}
 
     <div class="page page--overlap" typeof="schema:Course">
 
@@ -40,7 +40,7 @@
 
             <div class="tabs js-tabs" data-tab-hash>
 
-                {% include "patterns/molecules/tab-nav/tab-nav.html" with modifier="bg bg--dark" sticky="true" %}
+                {% include "patterns/molecules/tab-nav/tab-nav.html" with modifier="bg bg--dark" sticky=True ask_question=True %}
 
                 <div class="tabs__panel js-tab-panel" id="overview" role="tabpanel" aria-labelledby="tab-overview">
                     {% include "patterns/organisms/programme_tabs/programme_overview.html" %}
@@ -64,7 +64,7 @@
                 <section class="section bg bg--light">
                     <div class="contact-anchor" id="contact"></div>
                     <div class="section__row">
-                        {% include "patterns/organisms/contact/contact.html" with heading=programme_page_global_fields.contact_title text=programme_page_global_fields.contact_text image=page.contact_image %}
+                        {% include "patterns/organisms/contact/contact.html" with heading=programme_page_global_fields.contact_title text=programme_page_global_fields.contact_text image=page.contact_model_image %}
                     </div>
                 </section>
 

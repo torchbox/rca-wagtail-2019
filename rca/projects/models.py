@@ -38,12 +38,15 @@ from rca.utils.filter import TabStyleFilter
 from rca.utils.models import (
     HERO_COLOUR_CHOICES,
     BasePage,
+    ContactFieldsMixin,
     RelatedPage,
     RelatedStaffPageWithManualOptions,
     ResearchTheme,
     ResearchType,
     Sector,
 )
+
+from .utils import format_projects_for_gallery
 
 
 class ProjectPageSectorPlacement(models.Model):
@@ -107,7 +110,7 @@ class ProjectPageProjectLeadStaff(RelatedStaffPageWithManualOptions):
     source_page = ParentalKey("projects.ProjectPage", related_name="project_lead")
 
 
-class ProjectPage(BasePage):
+class ProjectPage(ContactFieldsMixin, BasePage):
     template = "patterns/pages/project/project_detail.html"
 
     hero_image = models.ForeignKey(
@@ -176,16 +179,6 @@ class ProjectPage(BasePage):
     quote_carousel = StreamField(
         [("quote", QuoteBlock())], blank=True, verbose_name=_("Quote carousel")
     )
-    contact_email = models.EmailField(blank=True)
-    contact_url = models.URLField(blank=True)
-    contact_image = models.ForeignKey(
-        "images.CustomImage",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-    )
-    contact_text = models.TextField(blank=True)
     external_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="External Links"
     )
@@ -224,15 +217,7 @@ class ProjectPage(BasePage):
         StreamFieldPanel("funders"),
         StreamFieldPanel("quote_carousel"),
         StreamFieldPanel("external_links"),
-        MultiFieldPanel(
-            [
-                ImageChooserPanel("contact_image"),
-                FieldPanel("contact_text"),
-                FieldPanel("contact_url"),
-                FieldPanel("contact_email"),
-            ],
-            heading="Contact information",
-        ),
+        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
     ]
 
     key_details_panels = [
@@ -257,35 +242,6 @@ class ProjectPage(BasePage):
         ]
     )
 
-    def _format_projects_for_gallery(self, projects):
-        """Internal method for formatting related projects to the correct
-        structure for the gallery template
-
-        Arguments:
-            projects: Queryset of project pages to format
-
-        Returns:
-            List: Maximum of 8 projects
-        """
-        items = []
-        for page in projects[:8]:
-            page = page.specific
-            meta = ""
-            related_school = page.related_school_pages.first()
-            if related_school is not None:
-                meta = related_school.page.title
-
-            items.append(
-                {
-                    "title": page.title,
-                    "link": page.url,
-                    "image": page.hero_image,
-                    "description": page.introduction,
-                    "meta": meta,
-                }
-            )
-        return items
-
     def get_related_projects(self):
         """
         Displays latest projects from the parent School/Centre  the project belongs to.
@@ -305,21 +261,21 @@ class ProjectPage(BasePage):
             related_school_pages__page_id__in=schools
         ).distinct()
         if projects:
-            return self._format_projects_for_gallery(projects)
+            return format_projects_for_gallery(projects)
 
         research_centres = self.related_research_pages.values_list("page_id")
         projects = all_projects.filter(
             related_research_pages__page_id__in=research_centres
         ).distinct()
         if projects:
-            return self._format_projects_for_gallery(projects)
+            return format_projects_for_gallery(projects)
 
         research_types = self.research_types.values_list("research_type_id")
         projects = all_projects.filter(
             research_types__research_type_id__in=research_types
         ).distinct()
         if projects:
-            return self._format_projects_for_gallery(projects)
+            return format_projects_for_gallery(projects)
 
         expertise = self.expertise.values_list("area_of_expertise_id")
         projects = all_projects.filter(
@@ -327,22 +283,15 @@ class ProjectPage(BasePage):
         ).distinct()
 
         if projects:
-            return self._format_projects_for_gallery(projects)
+            return format_projects_for_gallery(projects)
 
     def clean(self):
+        super().clean()
         errors = defaultdict(list)
 
         if self.end_date and self.end_date < self.start_date:
             errors["end_date"].append(
                 _("Events involving time travel are not supported")
-            )
-        if not self.contact_email and not self.contact_url:
-            errors["contact_url"].append(
-                "Please add a target value for the contact us link"
-            )
-        if self.contact_email and self.contact_url:
-            errors["contact_url"].append(
-                "Only one of URL or an Email value is supported here"
             )
 
         if errors:

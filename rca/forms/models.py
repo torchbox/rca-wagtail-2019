@@ -23,7 +23,6 @@ class FormField(AbstractFormField):
 # Never cache form pages since they include CSRF tokens.
 @method_decorator(never_cache, name="serve")
 class FormPage(WagtailCaptchaEmailForm, BasePage):
-    is_creatable = False
     template = "patterns/pages/forms/form_page.html"
     landing_page_template = "patterns/pages/forms/form_page_landing.html"
 

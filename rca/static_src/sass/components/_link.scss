@@ -245,6 +245,10 @@
 
     &__label {
         margin-right: 5px;
+
+        &--tight {
+            margin-right: $gutter;
+        }
     }
 
     .bg--dark & {
@@ -256,6 +260,16 @@
             &:active,
             &:focus {
                 color: $color--white;
+            }
+        }
+    }
+
+    // Components that use font size under 18px (orange doesn't pass on bg--light)
+    .text-teaser &,
+    .contact & {
+        .bg--light & {
+            &#{$root}--primary {
+                color: $color--black;
             }
         }
     }

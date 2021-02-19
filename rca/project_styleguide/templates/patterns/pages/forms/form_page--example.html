@@ -1,0 +1,111 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags util_tags static %}
+
+{% block body_class %}
+    app--form
+{% endblock %}
+
+{% block html_class %}sticky-compensator{% endblock %}
+
+{% block content %}
+
+<div class="page page--no-hero">
+
+    <div class="page__header bg bg--dark">
+        {% if page.title %}
+        <div class="title-area title-area--guide grid">
+            <div class="title-area__content">
+                <h1 class="title-area__heading heading heading--display-two">
+                    {{ page.title }}
+                </h1>
+            </div>
+        </div>
+        {% endif %}
+        {% if page.introduction %}
+        <div class="introduction grid">
+            <p class="introduction__text introduction__text--no-margin heading heading--five layout__@large-start-three layout__span-two">
+                {{ page.introduction }}
+            </p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="page__content">
+
+        <section class="section bg bg--dark">
+                <form method="post" class="form grid layout">
+                    <div class="layout__start-one layout__span-two layout__@large-span-one">
+                        {% include "patterns/molecules/key-details/key-details--form.html" with key_details=page.key_details %}
+                    </div>
+                    <div class="form__container layout__start-one layout__@large-start-two layout__span-two layout__@large-span-three">
+                        <div class="form__content section section--top-space-large">
+                            <div class="section__row section__row--last-small">
+                                <h2 class="form__heading heading heading--four">Inputs</h2>
+                                {% include "patterns/atoms/form-input/form-input.html" %}
+                                {% include "patterns/atoms/form-input/form-input--error.html" %}
+                                {% include "patterns/atoms/form-input/form-input--required.html" %}
+                                {% include "patterns/atoms/form-input/form-input--help.html" %}
+                            </div>
+                            <div class="section__row section__row--last-small">
+                                <h2 class="form__heading heading heading--four">Telephone</h2>
+                                {% include "patterns/atoms/form-tel/form-tel.html" %}
+                                {% include "patterns/atoms/form-tel/form-tel--error.html" %}
+                                {% include "patterns/atoms/form-tel/form-tel--required.html" %}
+                                {% include "patterns/atoms/form-tel/form-tel--help.html" %}
+                            </div>
+                            <div class="section__row section__row--last-small">
+                                <h2 class="form__heading heading heading--four">Select</h2>
+                                {% include "patterns/atoms/form-select/form-select.html" %}
+                                {% include "patterns/atoms/form-select/form-select--error.html" %}
+                                {% include "patterns/atoms/form-select/form-select--required.html" %}
+                                {% include "patterns/atoms/form-select/form-select--help.html" %}
+                            </div>
+                            <div class="section__row section__row--last-small">
+                                <h2 class="form__heading heading heading--four">Textarea</h2>
+                                {% include "patterns/atoms/form-textarea/form-textarea.html" %}
+                                {% include "patterns/atoms/form-textarea/form-textarea--error.html" %}
+                                {% include "patterns/atoms/form-textarea/form-textarea--required.html" %}
+                                {% include "patterns/atoms/form-textarea/form-textarea--help.html" %}
+                            </div>
+                            <div class="section__row section__row--last-small">
+                                <h2 class="form__heading heading heading--four">File upload</h2>
+                                {% include "patterns/atoms/form-file/form-file.html" %}
+                                {% include "patterns/atoms/form-file/form-file--error.html" %}
+                                {% include "patterns/atoms/form-file/form-file--required.html" %}
+                                {% include "patterns/atoms/form-file/form-file--help.html" %}
+                            </div>
+                            <div class="section__row section__row--last-small">
+                                <h2 class="form__heading heading heading--four">Checkbox</h2>
+                                {% include "patterns/atoms/form-checkbox/form-checkbox.html" %}
+                                {% include "patterns/atoms/form-checkbox/form-checkbox--error.html" %}
+                                {% include "patterns/atoms/form-checkbox/form-checkbox--required.html" %}
+                                {% include "patterns/atoms/form-checkbox/form-checkbox--help.html" %}
+                            </div>
+                            <div class="section__row section__row--last-small">
+                                <h2 class="form__heading heading heading--four">Radio</h2>
+                                {% include "patterns/atoms/form-radio/form-radio.html" %}
+                                {% include "patterns/atoms/form-radio/form-radio--error.html" %}
+                                {% include "patterns/atoms/form-radio/form-radio--required.html" %}
+                                {% include "patterns/atoms/form-radio/form-radio--help.html" %}
+                            </div>
+                            <div class="section__row section__row--last-small">
+                                <h2 class="form__heading heading heading--four">Single Checkbox</h2>
+                                {% include "patterns/atoms/form-checkbox-single/form-checkbox-single.html" %}
+                                {% include "patterns/atoms/form-checkbox-single/form-checkbox-single--error.html" %}
+                                {% include "patterns/atoms/form-checkbox-single/form-checkbox-single--required.html" %}
+                                {% include "patterns/atoms/form-checkbox-single/form-checkbox-single--help.html" %}
+                            </div>
+                        </div>
+                        <div class="form__action">
+                            {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text="Send your enquiry" button=True %}
+                        </div>
+                    </div>
+                </form>
+
+        </section>
+
+    </div>
+</div>
+
+
+{% endblock %}

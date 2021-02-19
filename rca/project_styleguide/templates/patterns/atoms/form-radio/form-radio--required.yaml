@@ -1,0 +1,6 @@
+context:
+  field:
+    label: Radio required
+    id_for_label: radio-required
+    field:
+      required: True

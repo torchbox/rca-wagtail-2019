@@ -23,4 +23,4 @@ lxml==4.5.0
 django-phonenumber-field[phonenumbers]==4.0.0
 django-import-export==2.2.0
 wagtail-redirect-importer==1.0.2
-
+wagtail-factories==2.0.1

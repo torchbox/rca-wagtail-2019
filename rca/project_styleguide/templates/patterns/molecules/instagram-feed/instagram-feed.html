@@ -1,0 +1,11 @@
+<div class="instagram-feed {% if modifier %}instagram-feed--{{ modifier }}{% endif %}">
+    <div class="instagram-feed__container grid">
+        {% for photo in instagram_feed %}
+        <div class="instagram-feed__item {% if forloop.first %}layout__@large-start-two{% endif %}">
+            <a class="instagram-feed__item-link" href="{{ photo.href }}">
+                <img class="instagram-feed__item-photo" src="{{ photo.url }}" alt="{{ photo.alt }}">
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>

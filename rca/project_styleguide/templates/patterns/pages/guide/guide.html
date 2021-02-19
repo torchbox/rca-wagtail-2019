@@ -28,8 +28,8 @@
                 </div>
             </div>
                 <div class="introduction grid">
-                    {% if anchor_nav or page.contact_image %}
-                        {% include "patterns/molecules/anchor-nav/anchor-nav.html" with anchor_nav=anchor_nav show_contact_block=page.contact_image  %}
+                    {% if anchor_nav or page.contact_model_image %}
+                        {% include "patterns/molecules/anchor-nav/anchor-nav.html" with anchor_nav=anchor_nav show_contact_block=page.contact_model_image  %}
                     {% endif %}
                     <div class="introduction__container">
                     {% if page.introduction %}
@@ -39,6 +39,7 @@
                     {% endif %}
                     </div>
                 </div>
+            </div>
         </header>
 
         <div class="page__content">
@@ -82,11 +83,11 @@
                 </section>
             {% endif %}
 
-            {% if page.contact_image %}
+            {% if page.contact_model_image or page.contact_model_text or page.contact_model_email or page.contact_model_url or page.contact_model_form %}
                 <section class="section bg bg--light">
                     <div class="contact-anchor" id="contact"></div>
                     <div class="section__row section__row--first">
-                        {% include "patterns/organisms/contact/contact.html" with heading="Ask a question" text=page.contact_text image=page.contact_image anchor_heading=True %}
+                        {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image anchor_heading=True %}
                     </div>
                 </section>
 
@@ -98,6 +99,5 @@
             {% endif %}
 
         </div>
-
     </div>
 {% endblock %}

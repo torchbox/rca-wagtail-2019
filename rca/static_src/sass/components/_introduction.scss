@@ -2,8 +2,16 @@
     $root: &;
     line-height: $line-height-large;
 
+    &--end {
+        margin-bottom: ($gutter * 2);
+    }
+
     &__text {
         margin-bottom: ($gutter * 2);
+
+        &--no-margin {
+            margin-bottom: 0;
+        }
     }
 
     .section__row & {
@@ -12,6 +20,7 @@
     }
 
     .app--landing-page &,
+    .app--school &,
     .app--guide & {
         #{$root}__container {
             margin-bottom: $gutter;
@@ -21,6 +30,16 @@
                 grid-column: 3 / span 2;
                 margin-bottom: ($gutter * 2);
                 margin-right: $gutter;
+            }
+        }
+    }
+
+    .app--thanks & {
+        #{$root}__text {
+            margin-bottom: 0;
+
+            @include media-query(large) {
+                margin-left: 33.33%;
             }
         }
     }

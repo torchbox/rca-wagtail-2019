@@ -21,6 +21,15 @@ html {
     @media (prefers-reduced-motion: reduce) {
         scroll-behavior: auto;
     }
+
+    &.sticky-compensator {
+        // height of header to ensure validation messages aren't hidden behind sticky header
+        scroll-padding-top: 120px;
+
+        @include media-query(large) {
+            scroll-padding-top: 130px;
+        }
+    }
 }
 
 body {

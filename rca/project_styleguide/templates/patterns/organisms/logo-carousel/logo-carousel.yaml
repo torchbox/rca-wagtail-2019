@@ -1,0 +1,39 @@
+context:
+  per_slide: 3
+  carousel:
+    - slide:
+      value:
+        link:
+          title: 'Red bull'
+          url: '#'
+        image: true
+    - slide:
+      value:
+        link:
+          title: 'Red bull'
+          url: '#'
+        image: true
+    - slide:
+      value:
+        link:
+          title: 'Red bull'
+          url: '#'
+        image: true
+    - slide:
+      value:
+        link:
+          title: 'Red bull'
+          url: '#'
+        image: true
+    - slide:
+      value:
+        link:
+          title: 'Red bull'
+          url: '#'
+        image: true
+    - slide:
+      value:
+        link:
+          title: 'Red bull'
+          url: '#'
+        image: true

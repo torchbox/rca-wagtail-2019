@@ -1,0 +1,13 @@
+{% if links %}
+<div class="section__row">
+    {% include "patterns/organisms/related-links/related-links.html" with related_links=links title=links_heading %}
+</div>
+{% endif %}
+
+{% if cta %}
+    <div class="section__row section__row--last">
+        {% for block in cta %}
+            {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value %}
+        {% endfor %}
+    </div>
+{% endif %}

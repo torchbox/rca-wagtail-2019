@@ -40,6 +40,7 @@ from rca.utils.blocks import (
 from rca.utils.models import (
     HERO_COLOUR_CHOICES,
     BasePage,
+    ContactFieldsMixin,
     RelatedPage,
     RelatedStaffPageWithManualOptions,
 )
@@ -121,9 +122,9 @@ class ShortCourseManualDate(Orderable):
             raise ValidationError(errors)
 
 
-class ShortCoursePage(BasePage):
+class ShortCoursePage(ContactFieldsMixin, BasePage):
     template = "patterns/pages/shortcourses/short_course.html"
-
+    parent_page_types = ["programmes.ProgrammeIndexPage"]
     hero_image = models.ForeignKey(
         "images.CustomImage",
         null=True,
@@ -196,16 +197,6 @@ class ShortCoursePage(BasePage):
     gallery = StreamField(
         [("slide", GalleryBlock())], blank=True, verbose_name="Gallery"
     )
-    contact_email = models.EmailField(blank=True)
-    contact_url = models.URLField(blank=True)
-    contact_image = models.ForeignKey(
-        "images.CustomImage",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-    )
-    contact_text = models.TextField(blank=True)
     external_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="External Links"
     )
@@ -264,15 +255,7 @@ class ShortCoursePage(BasePage):
             heading="Short course team",
         ),
         StreamFieldPanel("gallery"),
-        MultiFieldPanel(
-            [
-                ImageChooserPanel("contact_image"),
-                FieldPanel("contact_text"),
-                FieldPanel("contact_url"),
-                FieldPanel("contact_email"),
-            ],
-            heading="Contact information",
-        ),
+        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
         MultiFieldPanel(
             [InlinePanel("related_programmes", label="Related programmes")],
             heading="Related Programmes",
@@ -404,15 +387,8 @@ class ShortCoursePage(BasePage):
         return booking_bar
 
     def clean(self):
+        super().clean()
         errors = defaultdict(list)
-        if not self.contact_email and not self.contact_url:
-            errors["contact_url"].append(
-                "Please add a target value for the contact us link"
-            )
-        if self.contact_email and self.contact_url:
-            errors["contact_url"].append(
-                "Only one of URL or an Email value is supported here"
-            )
         if (
             self.show_register_link
             and not self.manual_registration_url
