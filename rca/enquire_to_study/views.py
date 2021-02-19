@@ -63,7 +63,6 @@ class EnquireToStudyFormView(FormView):
     def post_mailchimp(self, form_data):
         # see https://git.torchbox.com/nesta/nesta-wagtail/-/blob/master/nesta/mailchimp/api.py
         mailchimp = Client()
-
         mailchimp.set_config(
             {
                 "api_key": settings.MAILCHIMP_API_KEY,
@@ -72,10 +71,13 @@ class EnquireToStudyFormView(FormView):
         )
 
         member_info = {
-            "email_address": form_data["email"],
             "first_name": form_data["first_name"],
             "last_name": form_data["last_name"],
+            "email_address": form_data["email"],
             "phone_number": str(form_data["phone_number"]),
+            "country_of_residence": form_data["country_of_residence"],
+            "city": form_data["city"],
+            "is_citizen": "yes" if form_data["city"] else "no",
             "programme_types": ",".join(
                 [
                     programme_type.display_name
@@ -86,11 +88,14 @@ class EnquireToStudyFormView(FormView):
                 [programme.title for programme in form_data["programmes"]]
             ),
             "funding": ",".join([funding.funding for funding in form_data["funding"]]),
+            "enquiry_reason": form_data["enquiry_reason"].reason,
             "start_date": str(form_data["start_date"]),
-            "is_read_data_protection_policy": form_data[
-                "is_read_data_protection_policy"
-            ],
-            "is_notification_opt_in": form_data["is_notification_opt_in"],
+            "is_read_data_protection_policy": "yes"
+            if form_data["is_read_data_protection_policy"]
+            else "no",
+            "is_notification_opt_in": "yes"
+            if form_data["is_notification_opt_in"]
+            else "no",
         }
 
         try:
