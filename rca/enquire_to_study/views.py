@@ -10,6 +10,9 @@ from django.views.generic import FormView, TemplateView
 from django_countries.ioc_data import IOC_TO_ISO
 from wagtail.admin import messages
 
+from mailchimp_marketing import Client
+from mailchimp_marketing.api_client import ApiClientError
+
 from .forms import EnquireToStudyForm
 from .models import EnquireToStudySettings, EnquiryFormSubmission
 
@@ -57,10 +60,31 @@ class EnquireToStudyFormView(FormView):
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
-    def post_mailchimp(self):
-        # Mailchimp is yet to be implemented, so this can pass and the form submission
-        # object can still be created.
-        pass
+    def post_mailchimp(self, form_data):
+        # see https://git.torchbox.com/nesta/nesta-wagtail/-/blob/master/nesta/mailchimp/api.py
+        mailchimp = Client()
+
+        mailchimp.set_config({
+            "api_key": settings.MAILCHIMP_API_KEY,
+            "server": settings.MAILCHIMP_API_KEY.split('-')[-1],
+        })
+        member_info = {
+            "email_address": form_data['email'],
+            "first_name": form_data['first_name'],
+            "last_name": form_data['last_name'],
+            "phone_number": str(form_data['phone_number']),
+            "programme_types": ','.join([programme_type.display_name for programme_type in form_data['programme_types']]),
+            "programmes": ','.join([programme.title for programme in form_data['programmes']]),
+            "funding": ','.join([funding.funding for funding in form_data['funding']]),
+            "start_date": str(form_data['start_date']),
+            "is_read_data_protection_policy": form_data['is_read_data_protection_policy'],
+            "is_notification_opt_in": form_data['is_notification_opt_in'],
+        }
+
+        try:
+            response = mailchimp.lists.add_list_member(settings.MAILCHIMP_LIST_ID, member_info)
+        except ApiClientError as error:
+            print(f"An exception occurred: {error.text}")
 
     def get_qs_data(self, query):
         return requests.get(
@@ -191,8 +215,12 @@ class EnquireToStudyFormView(FormView):
 
     def form_valid(self, form):
         country_of_residence = form.cleaned_data["country_of_residence"]
+        # If location UK/IRE
+        # post_mailchimp
+        # else
+        # post_qs
         if country_of_residence in ["GB", "IE"]:
-            self.post_mailchimp()
+            self.post_mailchimp(form.cleaned_data)
         else:
             self.post_qs(form.cleaned_data)
 
