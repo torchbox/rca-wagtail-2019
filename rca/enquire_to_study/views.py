@@ -64,25 +64,40 @@ class EnquireToStudyFormView(FormView):
         # see https://git.torchbox.com/nesta/nesta-wagtail/-/blob/master/nesta/mailchimp/api.py
         mailchimp = Client()
 
-        mailchimp.set_config({
-            "api_key": settings.MAILCHIMP_API_KEY,
-            "server": settings.MAILCHIMP_API_KEY.split('-')[-1],
-        })
+        mailchimp.set_config(
+            {
+                "api_key": settings.MAILCHIMP_API_KEY,
+                "server": settings.MAILCHIMP_API_KEY.split("-")[-1],
+            }
+        )
+
         member_info = {
-            "email_address": form_data['email'],
-            "first_name": form_data['first_name'],
-            "last_name": form_data['last_name'],
-            "phone_number": str(form_data['phone_number']),
-            "programme_types": ','.join([programme_type.display_name for programme_type in form_data['programme_types']]),
-            "programmes": ','.join([programme.title for programme in form_data['programmes']]),
-            "funding": ','.join([funding.funding for funding in form_data['funding']]),
-            "start_date": str(form_data['start_date']),
-            "is_read_data_protection_policy": form_data['is_read_data_protection_policy'],
-            "is_notification_opt_in": form_data['is_notification_opt_in'],
+            "email_address": form_data["email"],
+            "first_name": form_data["first_name"],
+            "last_name": form_data["last_name"],
+            "phone_number": str(form_data["phone_number"]),
+            "programme_types": ",".join(
+                [
+                    programme_type.display_name
+                    for programme_type in form_data["programme_types"]
+                ]
+            ),
+            "programmes": ",".join(
+                [programme.title for programme in form_data["programmes"]]
+            ),
+            "funding": ",".join([funding.funding for funding in form_data["funding"]]),
+            "start_date": str(form_data["start_date"]),
+            "is_read_data_protection_policy": form_data[
+                "is_read_data_protection_policy"
+            ],
+            "is_notification_opt_in": form_data["is_notification_opt_in"],
         }
 
         try:
-            response = mailchimp.lists.add_list_member(settings.MAILCHIMP_LIST_ID, member_info)
+            response = mailchimp.lists.add_list_member(
+                settings.MAILCHIMP_LIST_ID, member_info
+            )
+            return response
         except ApiClientError as error:
             print(f"An exception occurred: {error.text}")
 
