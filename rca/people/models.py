@@ -562,10 +562,7 @@ class StudentPage(BasePage):
 
     introduction = models.TextField(blank=True, verbose_name="Project title")
     bio = RichTextField(
-        blank=True,
-        features=["link"],
-        help_text="Add a detail summary",
-        verbose_name="Abstract",
+        blank=True, help_text="Add a detail summary", verbose_name="Abstract",
     )
     social_links = StreamField(
         StreamBlock([("Link", LinkBlock(required=False))], max_num=5, required=False),
