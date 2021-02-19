@@ -7,8 +7,8 @@ MicroModal.init({
     onClose: () => {
         window.location.hash = '';
     },
-    awaitOpenAnimation: true,
-    awaitCloseAnimation: true,
+    awaitOpenAnimation: false,
+    awaitCloseAnimation: false,
     disableScroll: true,
 });
 
