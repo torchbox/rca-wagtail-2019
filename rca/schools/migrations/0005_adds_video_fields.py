@@ -31,9 +31,7 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AddField(
-            model_name="schoolpage",
-            name="video",
-            field=models.URLField(blank=True),
+            model_name="schoolpage", name="video", field=models.URLField(blank=True),
         ),
         migrations.AddField(
             model_name="schoolpage",

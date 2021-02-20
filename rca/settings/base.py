@@ -69,7 +69,9 @@ INSTALLED_APPS = [
     "rca.projects",
     "rca.landingpages",
     "rca.people",
+    "rca.enquire_to_study",
     "birdbath",
+    "django_countries",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.postgres_search",
     "wagtail.contrib.settings",
@@ -745,3 +747,7 @@ BIRDBATH_CHECKS = [
 ]
 BIRDBATH_REQUIRED = env.get("BIRDBATH_REQUIRED", "true").lower() == "true"
 BIRDBATH_USER_ANONYMISER_EXCLUDE_EMAIL_RE = r"torchbox\.com$"
+
+# Django Countries
+# https://pypi.org/project/django-countries
+COUNTRIES_FIRST = ["GB", "IE"]
