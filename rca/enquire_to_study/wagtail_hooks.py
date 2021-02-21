@@ -31,6 +31,8 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
         "email",
         "phone_number",
         "country_of_residence",
+        # TODO list programmes and related models in the submission here
+        # Expose as filters too
     )
     list_filter = ("country_of_residence",)
     search_fields = ("first_name", "last_name", "email", "country_of_residence")

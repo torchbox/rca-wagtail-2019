@@ -3,8 +3,14 @@ from wagtail.tests.utils import WagtailPageTests
 
 from rca.home.models import HomePage
 from rca.images.models import CustomImage
+from rca.programmes.factories import ProgrammePageFactory
 from rca.programmes.models import ProgrammeIndexPage, ProgrammePage
 from rca.standardpages.models import IndexPage, InformationPage
+
+
+class TestProgrammePageFactories(WagtailPageTests):
+    def test_factories(self):
+        ProgrammePageFactory()
 
 
 class ProgrammePageTests(WagtailPageTests):
