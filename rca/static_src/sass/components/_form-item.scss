@@ -154,6 +154,8 @@
         input[type='url'],
         input[type='number'] {
             height: $form-item-height;
+            border-radius: 0;
+            appearance: none;
             width: 100%;
             padding-left: 15px;
             transition: border-color $transition,
