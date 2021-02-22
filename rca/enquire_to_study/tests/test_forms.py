@@ -1,6 +1,7 @@
 from unittest.mock import patch
 
 from captcha.client import RecaptchaResponse
+from django.db import IntegrityError
 from django.test import TestCase
 
 from rca.enquire_to_study.factories import (
@@ -9,7 +10,8 @@ from rca.enquire_to_study.factories import (
     StartDateFactory,
 )
 from rca.enquire_to_study.forms import EnquireToStudyForm
-from rca.enquire_to_study.models import EnquiryFormSubmission
+from rca.enquire_to_study.models import EnquiryFormSubmission, EnquiryFormSubmissionProgrammeTypesOrderable, \
+    EnquiryFormSubmissionProgrammesOrderable, EnquiryFormSubmissionFundingsOrderable
 from rca.programmes.factories import ProgrammePageFactory, ProgrammeTypeFactory
 
 
@@ -73,10 +75,35 @@ class TestEnquireToStudyForm(TestCase):
             submission.is_read_data_protection_policy,
         )
 
-        # TODO
+    @patch("captcha.fields.client.submit")
+    def test_submissions_data(self, mocked_submit):
         # Test the submissions has programmes, programme_types and funding FKs
+        mocked_submit.return_value = RecaptchaResponse(is_valid=True)
+        form = EnquireToStudyForm(data=self.form_data)
+        form.is_valid()
+        form.save()
+        submission = EnquiryFormSubmission.objects.first()
+        programme_types_orderable = EnquiryFormSubmissionProgrammeTypesOrderable.objects.first()
+        programmes_orderable = EnquiryFormSubmissionProgrammesOrderable.objects.first()
+        funding_orderable = EnquiryFormSubmissionFundingsOrderable.objects.first()
+
+        self.assertEqual(programme_types_orderable.enquiry_submission, submission)
+        self.assertEqual(programmes_orderable.enquiry_submission, submission)
+        self.assertEqual(funding_orderable.enquiry_submission, submission)
+
+        self.assertEqual(programme_types_orderable.programme_type.pk, self.form_data["programme_types"][0])
+        self.assertEqual(programmes_orderable.programme.pk, self.form_data["programmes"][0])
+        self.assertEqual(funding_orderable.funding.pk, self.form_data["funding"][0])
+
+    @patch("captcha.fields.client.submit")
+    def test_is_read_data_protection_policy_false(self, mocked_submit):
+        # Test form errors with is_read_data_protection_policy false
+        mocked_submit.return_value = RecaptchaResponse(is_valid=True)
+        self.form_data['is_read_data_protection_policy'] = False
+        form = EnquireToStudyForm(data=self.form_data)
+        self.assertFalse(form.is_valid())
+        self.assertRaises(IntegrityError,form.save)
 
     # TODO
-    # Test form errors with is_read_data_protection_policy false
     # Test mailchimp
     # Test QS
