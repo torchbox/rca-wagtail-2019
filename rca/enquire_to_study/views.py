@@ -106,7 +106,7 @@ class EnquireToStudyFormView(FormView):
             )
             return response
         except ApiClientError as error:
-            print(f"An exception occurred: {error.text}")
+            raise Exception(error.text)
 
     def get_qs_data(self, query):
         return requests.get(
