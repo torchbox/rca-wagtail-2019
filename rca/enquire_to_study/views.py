@@ -97,6 +97,7 @@ class EnquireToStudyFormView(FormView):
             "is_notification_opt_in": "yes"
             if form_data["is_notification_opt_in"]
             else "no",
+            "status": "subscribed",
         }
 
         try:
