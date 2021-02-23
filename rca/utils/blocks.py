@@ -262,7 +262,10 @@ class StoryBlock(blocks.StreamBlock):
     paragraph = blocks.RichTextBlock()
     image = ImageBlock()
     quote = QuoteBlock()
-    embed = EmbedBlock()
+    embed = EmbedBlock(
+        label="Embed video",
+        help_text="Add a URL from these providers: YouTube, Vimeo, SoundCloud, Twitter.",
+    )
     call_to_action = SnippetChooserBlock(
         "utils.CallToActionSnippet",
         template="patterns/molecules/streamfield/blocks/call_to_action_block.html",
@@ -287,7 +290,10 @@ class GuideBlock(blocks.StreamBlock):
     paragraph = blocks.RichTextBlock()
     image = ImageBlock()
     quote = QuoteBlock()
-    embed = EmbedBlock()
+    embed = EmbedBlock(
+        label="Embed video",
+        help_text="Add a URL from these providers: YouTube, Vimeo, SoundCloud, Twitter.",
+    )
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"
