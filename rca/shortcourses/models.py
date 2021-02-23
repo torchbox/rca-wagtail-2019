@@ -202,7 +202,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
     )
     application_form_url = models.URLField(
         blank=True,
-        help_text="Adding an application form URL will override the booking link to Access Planit",
+        help_text="Adding an application form URL will override the Access Planit booking modal",
     )
     manual_registration_url = models.URLField(
         blank=True, help_text="Override the register interest link show in the modal",
