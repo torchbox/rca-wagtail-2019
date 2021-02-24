@@ -71,34 +71,22 @@ class EnquireToStudyFormView(FormView):
             }
         )
 
+        country = dict(countries)[form_data["country_of_residence"]]
+        address = f"{country} {form_data['city']}"
         member_info = {
-            "first_name": form_data["first_name"],
-            "last_name": form_data["last_name"],
+            'merge_fields': {
+                "FNAME": form_data["first_name"],
+                "LNAME": form_data["last_name"],
+                "MMERGE7": country if form_data["is_citizen"] else None,
+                "PHONE": str(form_data["phone_number"]),
+                "MMERGE6": form_data["start_date"].label,
+                "ADDRESS": address,
+            },
             "email_address": form_data["email"],
-            "phone_number": str(form_data["phone_number"]),
-            "country_of_residence": dict(countries)[form_data["country_of_residence"]],
-            "city": form_data["city"],
-            "is_citizen": "yes" if form_data["city"] else "no",
-            "programme_types": ",".join(
-                [
-                    programme_type.display_name
-                    for programme_type in form_data["programme_types"]
-                ]
-            ),
-            "programmes": ",".join(
-                [programme.title for programme in form_data["programmes"]]
-            ),
-            "funding": ",".join([funding.funding for funding in form_data["funding"]]),
-            "enquiry_reason": form_data["enquiry_reason"].reason,
-            "start_date": str(form_data["start_date"]),
-            "is_read_data_protection_policy": "yes"
-            if form_data["is_read_data_protection_policy"]
-            else "no",
-            "is_notification_opt_in": "yes"
-            if form_data["is_notification_opt_in"]
-            else "no",
             "status": "subscribed",
         }
+
+        print(member_info)
 
         try:
             response = mailchimp.lists.add_list_member(
