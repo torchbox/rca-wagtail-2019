@@ -2,7 +2,7 @@
 {% if item.modal %}
     <button data-micromodal-trigger="{{ item.modal }}" class="modal-launcher">
 {% else %}
-    <a href="{{ item.link }}" class="modal-launcher">
+    <a href="{{ item.link }}" class="modal-launcher" target="_blank">
 {% endif %}
     <div class="modal-launcher__container">
         <div class="modal-launcher__label" id="{{ modal_aria_label }}">
