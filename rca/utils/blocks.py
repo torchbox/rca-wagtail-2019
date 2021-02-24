@@ -288,7 +288,10 @@ class GuideBlock(blocks.StreamBlock):
     paragraph = blocks.RichTextBlock()
     image = ImageBlock()
     quote = QuoteBlock()
-    embed = EmbedBlock()
+    embed = EmbedBlock(
+        label="Embed media",
+        help_text="Add a URL from these providers: YouTube, Vimeo, SoundCloud, Twitter.",
+    )
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"
