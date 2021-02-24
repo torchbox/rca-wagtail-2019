@@ -74,21 +74,20 @@ class EnquireToStudyFormView(FormView):
         country = dict(countries)[form_data["country_of_residence"]]
 
         member_info = {
-            'merge_fields': {
+            "merge_fields": {
                 "FNAME": form_data["first_name"],
                 "LNAME": form_data["last_name"],
-                "MMERGE7": country if form_data["is_citizen"] else None,
                 "PHONE": str(form_data["phone_number"]),
                 "MMERGE6": form_data["start_date"].label,
+                "MMERGE7": country if form_data["is_citizen"] is True else "N/A",
                 "ADDRESS": {
-                    "addr1": None,
-                    "addr2": None,
+                    "addr1": "N/A",
+                    "addr2": "N/A",
                     "city": form_data["city"],
-                    "state": None,
-                    "zip": None,
+                    "state": "N/A",
+                    "zip": "N/A",
                     "country": country,
-                }
-                ,
+                },
             },
             "email_address": form_data["email"],
             "status": "subscribed",
