@@ -10,7 +10,7 @@ class CustomDocument(AbstractDocument):
     # Provide help text for file field.
     # Suggested filesize (unvalidated) avoids timeout during upload.
     file = models.FileField(
-        upload_to='documents',
-        verbose_name=_('file'),
-        help_text=_('Maximum filesize: 10MB.'),
+        upload_to="documents",
+        verbose_name=_("file"),
+        help_text=_("Maximum filesize: 10MB."),
     )
