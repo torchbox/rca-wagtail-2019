@@ -72,7 +72,7 @@ class EnquireToStudyFormView(FormView):
         )
 
         country = dict(countries)[form_data["country_of_residence"]]
-        address = f"{country} {form_data['city']}"
+
         member_info = {
             'merge_fields': {
                 "FNAME": form_data["first_name"],
@@ -80,13 +80,19 @@ class EnquireToStudyFormView(FormView):
                 "MMERGE7": country if form_data["is_citizen"] else None,
                 "PHONE": str(form_data["phone_number"]),
                 "MMERGE6": form_data["start_date"].label,
-                "ADDRESS": address,
+                "ADDRESS": {
+                    "addr1": None,
+                    "addr2": None,
+                    "city": form_data["city"],
+                    "state": None,
+                    "zip": None,
+                    "country": country,
+                }
+                ,
             },
             "email_address": form_data["email"],
             "status": "subscribed",
         }
-
-        print(member_info)
 
         try:
             response = mailchimp.lists.add_list_member(
