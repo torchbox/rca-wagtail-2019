@@ -79,7 +79,7 @@ class TargetBlankExternalLinkHandler(LinkHandler):
     @classmethod
     def expand_db_attributes(cls, attrs):
         href = attrs["href"]
-        target = "target=\"_blank\"" if is_external(href) else ""
+        target = 'target="_blank"' if is_external(href) else ""
         return f'<a href="{escape(href)}"{target}>'
 
 
