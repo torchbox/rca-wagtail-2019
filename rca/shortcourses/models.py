@@ -343,7 +343,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         a default message."""
 
         booking_bar = {
-            "message": "Applications are now closed",
+            "message": "Bookings not yet open",
             "action": "Register your interest for upcoming dates",
         }
         # If there are no dates the booking link should go to a form, not open
