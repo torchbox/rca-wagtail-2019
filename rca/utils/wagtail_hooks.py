@@ -19,6 +19,7 @@ from rca.events.models import (
 from rca.people.models import AreaOfExpertise, DegreeStatus, DegreeType, Directorate
 from rca.programmes.models import DegreeLevel, ProgrammeType, Subject
 from rca.utils.models import ResearchTheme, ResearchType, Sector
+from rca.utils.templatetags.util_tags import is_external
 
 
 class DegreeLevelModelAdmin(ModelAdmin):
@@ -144,7 +145,8 @@ class TargetBlankExternalLinkHandler(LinkHandler):
     @classmethod
     def expand_db_attributes(cls, attrs):
         href = attrs["href"]
-        return f'<a href="{escape(href)}" target="_blank">'
+        target = "target=\"_blank\"" if is_external(href) else ""
+        return f'<a href="{escape(href)}"{target}>'
 
 
 @hooks.register("register_rich_text_features")
