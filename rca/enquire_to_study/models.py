@@ -11,6 +11,7 @@ from wagtail.admin.edit_handlers import (
     MultiFieldPanel,
 )
 from wagtail.contrib.settings.models import BaseSetting, register_setting
+from wagtail.core.fields import RichTextField
 from wagtail.core.models import Orderable
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
@@ -165,3 +166,9 @@ class EnquireToStudySettings(BaseSetting):
             "Email notification settings",
         )
     ]
+
+
+class EnquiryFormKeyDetails(BaseSetting):
+    content = RichTextField(features=["h3", "bold", "italic", "link"],)
+
+    panels = [FieldPanel("content")]
