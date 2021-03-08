@@ -40,7 +40,7 @@
                     {{ accordion.introduction }}
                 </div>
             {% endif %}
-            {{ accordion.body|richtext }}
+            {{ accordion.body|richtext|linebreaks }}
             {% if accordion.link.url and accordion.link.title %}
                 {% include "patterns/atoms/link-primary/link-primary--link.html" with href=accordion.link.url  text=accordion.link.title %}
             {% endif %}

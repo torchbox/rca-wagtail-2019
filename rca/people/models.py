@@ -564,6 +564,7 @@ class StudentPage(BasePage):
     bio = RichTextField(
         blank=True, help_text="Add a detail summary", verbose_name="Abstract",
     )
+    # TODO remove this streamfield and replace with specific fileds
     social_links = StreamField(
         StreamBlock([("Link", LinkBlock(required=False))], max_num=5, required=False),
         blank=True,
@@ -579,15 +580,25 @@ class StudentPage(BasePage):
             "The title value displayed above the Research highlights gallery showing project pages"
         ),
     )
+    # TODO replace gallery with field system
     gallery = StreamField(
         [("slide", GalleryBlock())], blank=True, verbose_name=_("Gallery")
     )
-    more_information_title = models.CharField(max_length=80, default="More information")
-    more_information = StreamField(
-        [("accordion_block", AccordionBlockWithTitle())],
-        blank=True,
-        verbose_name=_("More information"),
-    )
+
+    # TODO replace body with specific fields
+    biography = models.TextField(blank=True)
+    degrees = models.TextField(blank=True)
+    experience = models.TextField(blank=True)
+    awards = models.TextField(blank=True)
+    funding = models.TextField(blank=True)
+    exhibitions = models.TextField(blank=True)
+    publications = models.TextField(blank=True)
+    research_outputs = models.TextField(blank=True)
+    conferences = models.TextField(blank=True)
+    additional_information_title = models.TextField(blank=True)
+    addition_information_content = models.TextField(blank=True)
+
+    # TODO swap for specific fields.
     related_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="Related Links"
     )
@@ -629,13 +640,23 @@ class StudentPage(BasePage):
         StreamFieldPanel("gallery"),
         MultiFieldPanel(
             [
-                FieldPanel("more_information_title"),
-                StreamFieldPanel("more_information"),
+                FieldPanel("biography"),
+                FieldPanel("degrees"),
+                FieldPanel("experience"),
+                FieldPanel("awards"),
+                FieldPanel("funding"),
+                FieldPanel("exhibitions"),
+                FieldPanel("publications"),
+                FieldPanel("research_outputs"),
+                FieldPanel("conferences"),
+                FieldPanel("additional_information_title"),
+                FieldPanel("addition_information_content"),
             ],
             heading="More information",
         ),
         StreamFieldPanel("related_links"),
     ]
+
     key_details_panels = [
         InlinePanel("student_types", label="Student type"),
         InlinePanel("related_area_of_expertise", label="Areas of Expertise"),
@@ -660,6 +681,48 @@ class StudentPage(BasePage):
         parts = (self.student_title, self.first_name, self.last_name)
         return " ".join(p for p in parts if p)
 
+    def student_information(self):
+        # Method for preparing student data into an accordion friendly format
+        data = []
+        if self.biography:
+            data.append({"value": {"heading": "Biography", "body": self.biography}})
+        if self.degrees:
+            data.append({"value": {"heading": "Degrees", "body": self.degrees}})
+        if self.experience:
+            data.append({"value": {"heading": "Experience", "body": self.experience}})
+        if self.awards:
+            data.append({"value": {"heading": "Awards", "body": self.awards}})
+        if self.funding:
+            data.append({"value": {"heading": "Funding", "body": self.funding}})
+        if self.exhibitions:
+            data.append({"value": {"heading": "Exhibitions", "body": self.exhibitions}})
+        if self.publications:
+            data.append(
+                {"value": {"heading": "Publications", "body": self.publications}}
+            )
+        if self.research_outputs:
+            data.append(
+                {
+                    "value": {
+                        "heading": "Research outputs",
+                        "body": self.research_outputs,
+                    }
+                }
+            )
+        if self.conferences:
+            data.append({"value": {"heading": "Conferences", "body": self.conferences}})
+        if self.addition_information_content:
+            data.append(
+                {
+                    "value": {
+                        "heading": self.additional_information_title
+                        or "Additional information",
+                        "body": self.addition_information_content,
+                    }
+                }
+            )
+        return data
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         research_pages = get_student_research_projects(self)
@@ -667,6 +730,7 @@ class StudentPage(BasePage):
         context["research_highlights"] = format_research_highlights(research_pages)
         context["related_schools"] = self.related_schools.all()
         context["research_centres"] = self.related_research_centre_pages.all()
+        context["student_information"] = self.student_information()
         return context
 
 
