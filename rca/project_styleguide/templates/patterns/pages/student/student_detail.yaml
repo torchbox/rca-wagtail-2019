@@ -24,35 +24,6 @@ context:
     bio: "<p>Katrine's work aims to intrigue, interest and invite people to take steps in the direction towards a more sustainable, fair, fun and beautiful future for our society.</p><p>She is deeply concerned with the scale and complexity of the problems we are facing today, e.g. climate changes, overuse of resources, social inequality, and feels a natural responsibility to be part of creating solutions for these problems.</p>"
     programme: Materials Science MPhil/PhD
     thesis: '#'
-    more_information:
-      - path:
-        value:
-          body: 'TBC'
-          heading: 'PhD'
-      - path:
-        value:
-          body: 'TBC'
-          heading: 'Degrees'
-      - path:
-        value:
-          body: 'TBC'
-          heading: 'Experience'
-      - path:
-        value:
-          body: 'TBC'
-          heading: 'Exhibitions'
-      - path:
-        value:
-          body: 'TBC'
-          heading: 'Awards'
-      - path:
-        value:
-          body: 'TBC'
-          heading: 'Conferences'
-      - path:
-        value:
-          body: 'TBC'
-          heading: 'Publications'
     gallery:
       - slide:
         value:
@@ -125,3 +96,44 @@ context:
     - page: { title: 'Materials Science Research Centre', url: '#' }
   supervisors:
     - { title: 'Dr John Smith', link: '#' }
+  student_information:
+    - item:
+      value:
+        heading: Biography
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Degrees
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Experience
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Awards
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Funding
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Exhibitions
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Publications
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Research outputs
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Conferences
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Additional information
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
