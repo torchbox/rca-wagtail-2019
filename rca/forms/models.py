@@ -18,11 +18,7 @@ from rca.utils.models import BasePage
 
 class FormField(AbstractFormField):
     page = ParentalKey("FormPage", related_name="form_fields")
-    help_text = RichTextField(
-        blank=True,
-        features=('link',),
-        verbose_name='help text',
-    )
+    help_text = RichTextField(blank=True, features=("link",), verbose_name="help text",)
 
 
 # Never cache form pages since they include CSRF tokens.
