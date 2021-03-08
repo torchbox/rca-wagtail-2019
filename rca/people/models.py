@@ -504,6 +504,21 @@ class RelatedStudentPage(Orderable):
     panels = [PageChooserPanel("page")]
 
 
+class StudentPageGallerySlide(Orderable):
+    source_page = ParentalKey("StudentPage", related_name="student_page_gallery_slides")
+    title = models.CharField(max_length=120)
+    image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        related_name="+",
+        on_delete=models.SET_NULL,
+    )
+    author = models.CharField(max_length=120)
+
+    panels = [ImageChooserPanel("image"), FieldPanel("title"), FieldPanel("author")]
+
+
 class StudentPageStudentTypePlacement(models.Model):
     page = ParentalKey("StudentPage", related_name="student_types")
     type = models.ForeignKey(
@@ -637,6 +652,7 @@ class StudentPage(BasePage):
             ],
             heading=_("Research highlights gallery"),
         ),
+        InlinePanel("student_page_gallery_slides", label="Gallery slide", max_num=5),
         StreamFieldPanel("gallery"),
         MultiFieldPanel(
             [
@@ -718,6 +734,24 @@ class StudentPage(BasePage):
                         "heading": self.additional_information_title
                         or "Additional information",
                         "body": self.addition_information_content,
+                    }
+                }
+            )
+        return data
+
+    @property
+    def student_gallery(self):
+        # Format related model to a nice dict
+        data = []
+        if not self.student_page_gallery_slides.exists():
+            return
+        for item in self.student_page_gallery_slides.all():
+            data.append(
+                {
+                    "value": {
+                        "title": item.title,
+                        "author": item.author,
+                        "image": item.image,
                     }
                 }
             )

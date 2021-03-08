@@ -70,7 +70,7 @@
 
         <div class="page__content">
 
-            <section class="section bg bg--dark {% if page.gallery %}section--opposite-notch{% endif %}">
+            <section class="section bg bg--dark {% if page.student_gallery %}section--opposite-notch{% endif %}">
 
                 <div class="section__row staff-body">
                     <div class="staff-body__container grid">
@@ -99,7 +99,7 @@
                 </div>
 
                 {% if research_highlights %}
-                    <div class="section__row {% if page.gallery %}section__row--last{% else %}section__row--last-large{% endif %} research-highlights">
+                    <div class="section__row {% if page.student_gallery %}section__row--last{% else %}section__row--last-large{% endif %} research-highlights">
                         <div class="section__header grid">
                             <h2 class="section__heading section__heading--primary heading heading--four">
                                 {{ page.research_highlights_title|default:"Research Highlights" }}
@@ -117,7 +117,7 @@
                     </div>
                 {% endif %}
 
-            {% if page.gallery %}
+            {% if page.student_gallery %}
                 <div class="section__notch section__notch--opposite">
                     <div class="section__notch-fill section__notch-fill--first-col"></div>
                 </div>
@@ -133,7 +133,7 @@
                         </h3>
                     </header>
                     <div class="section__content">
-                        {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.gallery modifier='slideshow--author-info' %}
+                        {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.student_gallery modifier='slideshow--author-info' %}
                     </div>
                 </div>
 
@@ -146,7 +146,7 @@
             {% endif %}
 
                 {% if student_information %}
-                    <div class="section__row {% if not page.gallery %}staff-detail-accordion staff-detail-accordion--wo-gallery{% endif %} section__row--first section__row--last">
+                    <div class="section__row {% if not page.student_gallery %}staff-detail-accordion staff-detail-accordion--wo-gallery{% endif %} section__row--first section__row--last">
                         {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=student_information title="More about "|add:page.first_name %}
                     </div>
                 {% endif %}
