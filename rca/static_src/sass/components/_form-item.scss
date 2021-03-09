@@ -223,6 +223,12 @@
         }
     }
 
+    &--multiple_choice_field {
+        select {
+            min-height: 150px;
+        }
+    }
+
     &--textarea {
         #{$root}__container {
             width: 100%;
