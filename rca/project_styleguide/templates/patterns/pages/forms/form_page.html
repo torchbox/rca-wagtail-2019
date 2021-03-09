@@ -34,7 +34,7 @@ app--form no-hero
 
         <section class="section bg bg--dark">
             {% if page.form_fields %}
-                <form action="{% pageurl page %}" method="post" class="form grid layout">
+                <form action="{% pageurl page %}" method="post" class="form {% if form.errors %}form--errors{% endif %} grid layout ">
                     <div class="layout__start-one layout__span-two layout__@large-span-one">
                         {% include "patterns/molecules/key-details/key-details--form.html" with key_details=page.key_details %}
                     </div>

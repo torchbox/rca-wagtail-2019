@@ -393,6 +393,42 @@
         }
     }
 
+    // ensure label isn't blocking content on error page
+    .form--errors & {
+        &#{$root}--input,
+        &#{$root}--text_input,
+        &#{$root}--email_field,
+        &#{$root}--decimal_field,
+        &#{$root}--url_field,
+        &#{$root}--date_field,
+        &#{$root}--date_time_field,
+        &#{$root}--textarea {
+            label {
+                @include font-size(xxxs);
+                transform: translate3d(
+                    0,
+                    -67%,
+                    0
+                ); // align label with top of input
+            }
+        }
+
+        &#{$root}--input,
+        &#{$root}--text_input,
+        &#{$root}--email_field,
+        &#{$root}--decimal_field,
+        &#{$root}--url_field,
+        &#{$root}--date_field,
+        &#{$root}--date_time_field,
+        &#{$root}--textarea {
+            #{$root}__container {
+                &::after {
+                    opacity: 0;
+                }
+            }
+        }
+    }
+
     .bg--dark & {
         input[type='text'],
         input[type='input'],
