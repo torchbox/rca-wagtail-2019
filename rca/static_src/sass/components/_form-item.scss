@@ -179,6 +179,7 @@
     }
 
     &--select,
+    &--lazy_select,
     &--textarea,
     &--radio_select,
     &--checkbox {
@@ -194,7 +195,8 @@
         }
     }
 
-    &--select {
+    &--select,
+    &--lazy_select {
         #{$root}__container {
             @include z-index(under-gridlines);
             width: 100%;
@@ -284,7 +286,7 @@
     &--checkbox_select_multiple,
     &--radio_select,
     &--select_multiple,
-    &--select {
+    &--select &--lazy_select {
         padding-top: ($gutter / 2);
     }
 
@@ -489,7 +491,8 @@
             }
         }
 
-        &#{$root}--select {
+        &#{$root}--select,
+        &#{$root}--lazy_select {
             #{$root}__container {
                 // light arrow svg
                 &::after {
@@ -600,7 +603,8 @@
             }
         }
 
-        &#{$root}--select {
+        &#{$root}--select,
+        &#{$root}--lazy_select {
             #{$root}__container {
                 // Dark arrow svg
                 &::after {
