@@ -51,11 +51,7 @@ app--form no-hero
                             {% for field in form %}
 
                                 {% with widget_type=field|widget_type field_type=field|field_type %}
-                                    <div class="form-item {% if field_type %}form-item--{{ field_type }}{% endif %} {% if widget_type %}form-item--{{ widget_type }}{% endif %} {% if field.errors %}form-item--has-content form-item--errors{% endif %} {% if field.help_text %}form-item--has-help-text{% endif %}" {% if widget_type == 'text_input' or field_type == 'email_field' or field_type == 'decimal_field' or field_type == 'url_field' or field_type == 'date_field' or field_type == 'date_time_field' %}
-                                    data-focus data-focustype='input'
-                                {% endif %}{% if widget_type == 'textarea' %}
-                                data-focus data-focustype='textarea'
-                            {% endif %}>
+                                    <div class="form-item {% if field_type %}form-item--{{ field_type }}{% endif %} {% if widget_type %}form-item--{{ widget_type }}{% endif %} {% if field.errors %}form-item--has-content form-item--errors{% endif %} {% if field.help_text %}form-item--has-help-text{% endif %}" {% if widget_type == 'text_input' or field_type == 'email_field' or field_type == 'decimal_field' or field_type == 'url_field' or field_type == 'date_field' or field_type == 'date_time_field' %} data-focus data-focustype='input'{% endif %}{% if widget_type == 'textarea' %}data-focus data-focustype='textarea'{% endif %}>
                                         <{% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}fieldset{% else %}div{% endif %} class="form-item__container">
                                             {% if field.errors %}
                                                 <div class="form-item__errors">
