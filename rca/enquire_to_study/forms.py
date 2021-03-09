@@ -96,12 +96,13 @@ class EnquireToStudyForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        programmes = cleaned_data["programmes"]
-        if len(programmes) > 3:
-            self.add_error(
-                "programmes",
-                forms.ValidationError("Please only select up to 3 programmes."),
-            )
+        if "programmes" in cleaned_data:
+            programmes = cleaned_data["programmes"]
+            if len(programmes) > 3:
+                self.add_error(
+                    "programmes",
+                    forms.ValidationError("Please only select up to 3 programmes."),
+                )
         return cleaned_data
 
     def save(self):
