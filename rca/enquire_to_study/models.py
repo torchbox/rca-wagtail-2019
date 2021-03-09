@@ -139,10 +139,11 @@ class EnquireToStudySettings(BaseSetting):
         verbose_name = "Enquire to study settings"
 
     email_submission_notifations = models.BooleanField(
+        default=True,
         help_text=(
             "When checked, submission confirmation email notifications will "
             "be sent to the user who filled out the form"
-        )
+        ),
     )
     email_subject = models.CharField(max_length=255)
     email_content = models.TextField()
