@@ -20,6 +20,7 @@ class FormFocus {
         }
 
         if (this.formType === 'input') {
+            this.removePlaceholder(this.formFieldInput);
             this.checkState(this.formFieldInput);
         }
     }
@@ -41,6 +42,10 @@ class FormFocus {
                 this.hasContentClass,
             );
         }
+    }
+
+    removePlaceholder(el) {
+        el.setAttribute('placeholder', '');
     }
 
     bindEvents() {
