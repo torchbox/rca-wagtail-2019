@@ -56,7 +56,7 @@ app--form no-hero
                                 {% endif %}{% if widget_type == 'textarea' %}
                                 data-focus data-focustype='textarea'
                             {% endif %}>
-                                        <{% if widget_type == 'checkbox_select_multiple' %}fieldset{% else %}div{% endif %} class="form-item__container">
+                                        <{% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}fieldset{% else %}div{% endif %} class="form-item__container">
                                             {% if field.errors %}
                                                 <div class="form-item__errors">
                                                     {{ field.errors }}
@@ -67,21 +67,21 @@ app--form no-hero
                                                 {{ field }}
                                                 <label for="{{ field.id_for_label }}" class="form-item__label {% if field.field.required %}required{% endif %}">{{ field.label }} {% if field.field.required %} <span class="form-item__required">*</span>{% endif %}</label>
                                             {% else %}
-                                                <{% if widget_type == 'checkbox_select_multiple' %}legend{% else %}label for="{{ field.id_for_label }}"{% endif %} class="form-item__label {% if field.field.required %}required{% endif %}">
+                                                <{% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}legend{% else %}label for="{{ field.id_for_label }}"{% endif %} class="form-item__label {% if field.field.required %}required{% endif %}">
                                                     {% if field_type == 're_captcha_field' %}
                                                         reCaptcha
                                                     {% else %}
                                                         {{ field.label }}
                                                     {% endif %}
                                                     {% if field.field.required %}<span aria-hidden="true" class="form-item__required">*</span>{% endif %}
-                                                </{% if widget_type == 'checkbox_select_multiple' %}legend{% else %}label{% endif %}>
-                                                {% if widget_type == 'checkbox_select_multiple' %}<p class="form-item__instruction">{{ field.help_text|default:'Select all that apply' }}</p>{% endif %}
+                                                </{% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}legend{% else %}label{% endif %}>
+                                                {% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}<p class="form-item__instruction">{{ field.help_text|default:'Select all that apply' }}</p>{% endif %}
                                                 {% if widget_type == 'date_input' or widget_type == 'date_time_input' %}<div class="{{ widget_type }}">{% endif %}
                                                 {{ field }}
                                                 {% if widget_type == 'date_input' or widget_type == 'date_time_input' %}</div>{% endif %}
                                             {% endif %}
 
-                                        </{% if widget_type == 'checkbox_select_multiple' %}fieldset{% else %}div{% endif %} >
+                                        </{% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}fieldset{% else %}div{% endif %} >
 
                                         {% if field.help_text and widget_type != 'checkbox_select_multiple' %}<div class="form-item__help">{{ field.help_text }}</div>{% endif %}
 
