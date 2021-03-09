@@ -412,6 +412,12 @@
             color: $color--light-grey;
         }
 
+        &#{$root}--boolean_field {
+            label {
+                color: $color--white;
+            }
+        }
+
         &#{$root}--checkbox_select_multiple,
         &#{$root}--radio_select {
             li {
@@ -522,6 +528,12 @@
 
         label {
             color: $color--dark-grey;
+        }
+
+        &#{$root}--boolean_field {
+            label {
+                color: $color--black;
+            }
         }
 
         &#{$root}--checkbox_select_multiple,
