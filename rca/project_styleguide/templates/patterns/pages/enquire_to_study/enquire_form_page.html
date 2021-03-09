@@ -30,7 +30,7 @@
 
         <section class="section bg bg--dark">
             {% if form %}
-                <form action="." method="post" class="form grid layout">
+                <form action="." method="post" class="form {% if form.errors %}form--errors{% endif %} grid layout">
                     <div class="form__container layout__start-one layout__@large-start-two layout__span-two layout__@large-span-three">
                         <div class="form__content section section--top-space-large">
                             {% csrf_token %}
