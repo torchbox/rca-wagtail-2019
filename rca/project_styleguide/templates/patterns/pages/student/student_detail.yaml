@@ -49,7 +49,7 @@ context:
           author: 'Kevin Howbrook'
           link: 'http://www.torchbox.com'
           course: 'Design'
-    related_links:
+    student_related_links:
       - item:
         value: { text: 'Instagram feed', href: 'http://www.google.com' }
       - item:

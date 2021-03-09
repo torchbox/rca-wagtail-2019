@@ -19,7 +19,7 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
     TabbedInterface,
 )
-from wagtail.core.fields import RichTextField, StreamBlock, StreamField
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -505,7 +505,7 @@ class RelatedStudentPage(Orderable):
 
 
 class StudentPageGallerySlide(Orderable):
-    source_page = ParentalKey("StudentPage", related_name="student_page_gallery_slides")
+    source_page = ParentalKey("StudentPage", related_name="gallery_slides")
     title = models.CharField(max_length=120)
     image = models.ForeignKey(
         get_image_model_string(),
@@ -528,6 +528,26 @@ class StudentPageStudentTypePlacement(models.Model):
         verbose_name=_("Student type"),
     )
     panels = [FieldPanel("type")]
+
+
+class StudentPageSocialLinks(Orderable):
+    source_page = ParentalKey("StudentPage", related_name="personal_links")
+    link_title = models.CharField(
+        max_length=120, help_text="The text displayed for the link"
+    )
+    url = models.URLField()
+
+    panels = [FieldPanel("link_title"), FieldPanel("url")]
+
+
+class StudentPageRelatedLinks(Orderable):
+    source_page = ParentalKey("StudentPage", related_name="relatedlinks")
+    link_title = models.CharField(
+        max_length=120, help_text="The text displayed for the link"
+    )
+    url = models.URLField()
+
+    panels = [FieldPanel("link_title"), FieldPanel("url")]
 
 
 class StudentPageAreOfExpertisePlacement(models.Model):
@@ -579,12 +599,6 @@ class StudentPage(BasePage):
     bio = RichTextField(
         blank=True, help_text="Add a detail summary", verbose_name="Abstract",
     )
-    # TODO remove this streamfield and replace with specific fileds
-    social_links = StreamField(
-        StreamBlock([("Link", LinkBlock(required=False))], max_num=5, required=False),
-        blank=True,
-        verbose_name="Personal links",
-    )
     programme = models.ForeignKey(
         "programmes.ProgrammePage", on_delete=models.SET_NULL, null=True, blank=True,
     )
@@ -595,12 +609,7 @@ class StudentPage(BasePage):
             "The title value displayed above the Research highlights gallery showing project pages"
         ),
     )
-    # TODO replace gallery with field system
-    gallery = StreamField(
-        [("slide", GalleryBlock())], blank=True, verbose_name=_("Gallery")
-    )
 
-    # TODO replace body with specific fields
     biography = models.TextField(blank=True)
     degrees = models.TextField(blank=True)
     experience = models.TextField(blank=True)
@@ -612,11 +621,6 @@ class StudentPage(BasePage):
     conferences = models.TextField(blank=True)
     additional_information_title = models.TextField(blank=True)
     addition_information_content = models.TextField(blank=True)
-
-    # TODO swap for specific fields.
-    related_links = StreamField(
-        [("link", LinkBlock())], blank=True, verbose_name="Related Links"
-    )
 
     search_fields = BasePage.search_fields + [
         index.SearchField("introduction"),
@@ -652,8 +656,7 @@ class StudentPage(BasePage):
             ],
             heading=_("Research highlights gallery"),
         ),
-        InlinePanel("student_page_gallery_slides", label="Gallery slide", max_num=5),
-        StreamFieldPanel("gallery"),
+        InlinePanel("gallery_slides", label="Gallery slide", max_num=5),
         MultiFieldPanel(
             [
                 FieldPanel("biography"),
@@ -670,7 +673,7 @@ class StudentPage(BasePage):
             ],
             heading="More information",
         ),
-        StreamFieldPanel("related_links"),
+        InlinePanel("relatedlinks", label="Related link", max_num=5),
     ]
 
     key_details_panels = [
@@ -680,7 +683,7 @@ class StudentPage(BasePage):
             "related_research_centre_pages", label=_("Related Research Centres ")
         ),
         InlinePanel("related_schools", label=_("Related Schools")),
-        StreamFieldPanel("social_links"),
+        InlinePanel("personal_links", label="Social link", max_num=5),
     ]
 
     edit_handler = TabbedInterface(
@@ -743,9 +746,9 @@ class StudentPage(BasePage):
     def student_gallery(self):
         # Format related model to a nice dict
         data = []
-        if not self.student_page_gallery_slides.exists():
+        if not self.gallery_slides.exists():
             return
-        for item in self.student_page_gallery_slides.all():
+        for item in self.gallery_slides.all():
             data.append(
                 {
                     "value": {
@@ -756,6 +759,15 @@ class StudentPage(BasePage):
                 }
             )
         return data
+
+    @property
+    def student_related_links(self):
+        if not self.relatedlinks.exists():
+            return
+        return [
+            {"value": {"title": item.link_title, "url": item.url}}
+            for item in self.relatedlinks.all()
+        ]
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)

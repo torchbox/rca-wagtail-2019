@@ -151,7 +151,7 @@
                     </div>
                 {% endif %}
 
-                {% if related_students or page.related_links %}
+                {% if related_students or page.student_related_links %}
                     <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
@@ -159,14 +159,14 @@
 
             </section>
 
-            {% if related_students or page.related_links %}
+            {% if related_students or page.student_related_links %}
                 <section class="section section--top-space bg bg--light">
                     {% if related_students %}
                         {% include "patterns/organisms/student-listing/student-listing-api.html" with student_listing=related_students %}
                     {% endif %}
 
-                    {% if page.related_links %}
-                        {% include "patterns/organisms/related-links/related-links.html" with related_links=page.related_links title="External links" %}
+                    {% if page.student_related_links %}
+                        {% include "patterns/organisms/related-links/related-links.html" with related_links=page.student_related_links title="External links" %}
                     {% endif %}
                 </section>
             {% endif %}
