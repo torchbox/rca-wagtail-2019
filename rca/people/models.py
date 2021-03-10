@@ -510,7 +510,6 @@ class StudentPageGallerySlide(Orderable):
     image = models.ForeignKey(
         get_image_model_string(),
         null=True,
-        blank=True,
         related_name="+",
         on_delete=models.SET_NULL,
     )
