@@ -15,18 +15,6 @@ from wagtail.snippets.models import register_snippet
 
 
 @register_snippet
-class Funding(models.Model):
-    funding = models.CharField(max_length=255)
-
-    class Meta:
-        verbose_name = "Enquiry form funding option"
-        verbose_name_plural = "Enquiry form funding options"
-
-    def __str__(self):
-        return self.funding
-
-
-@register_snippet
 class EnquiryReason(models.Model):
     reason = models.CharField(max_length=255)
 
@@ -106,7 +94,6 @@ class EnquiryFormSubmission(ClusterableModel):
             [InlinePanel("enquiry_submission_programmes")], heading="Programmes"
         ),
         FieldPanel("start_date"),
-        MultiFieldPanel([InlinePanel("enquiry_submission_funding")], heading="Funding"),
         SnippetChooserPanel("enquiry_reason", heading="What's your enquiry about?"),
         MultiFieldPanel(
             [
@@ -115,18 +102,6 @@ class EnquiryFormSubmission(ClusterableModel):
             ],
             heading="Legal & newsletter",
         ),
-    ]
-
-
-class EnquiryFormSubmissionFundingsOrderable(Orderable):
-    enquiry_submission = ParentalKey(
-        "enquire_to_study.EnquiryFormSubmission",
-        related_name="enquiry_submission_funding",
-    )
-    funding = models.ForeignKey("enquire_to_study.Funding", on_delete=models.CASCADE,)
-
-    panels = [
-        SnippetChooserPanel("funding"),
     ]
 
 

@@ -1,16 +1,9 @@
 import factory
 from faker import Factory as FakerFactory
 
-from .models import EnquiryReason, Funding, StartDate
+from .models import EnquiryReason, StartDate
 
 faker = FakerFactory.create()
-
-
-class FundingFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = Funding
-
-    funding = factory.Faker("text", max_nb_chars=25)
 
 
 class StartDateFactory(factory.django.DjangoModelFactory):

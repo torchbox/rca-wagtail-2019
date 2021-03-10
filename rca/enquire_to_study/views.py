@@ -7,12 +7,6 @@ from .forms import EnquireToStudyForm
 
 class EnquireToStudyFormView(FormView):
     """Cutsom form with integrations to Mailchimp and QS
-
-    TODO:
-        - The form will need to generate a submission object, so we can
-            create a dataclip to send to google as a cv export.
-        - Mailchimp Integration
-        - QS Integration
     """
 
     form_class = EnquireToStudyForm
