@@ -745,8 +745,6 @@ class StudentPage(BasePage):
     def student_gallery(self):
         # Format related model to a nice dict
         data = []
-        if not self.gallery_slides.exists():
-            return
         for item in self.gallery_slides.all():
             data.append(
                 {
@@ -761,8 +759,6 @@ class StudentPage(BasePage):
 
     @property
     def student_related_links(self):
-        if not self.relatedlinks.exists():
-            return
         return [
             {"value": {"title": item.link_title, "url": item.url}}
             for item in self.relatedlinks.all()
