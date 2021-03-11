@@ -6,9 +6,11 @@ from phonenumber_field.modelfields import PhoneNumberField
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     FieldRowPanel,
+    HelpPanel,
     InlinePanel,
     MultiFieldPanel,
 )
+from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.core.models import Orderable
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
@@ -128,4 +130,38 @@ class EnquiryFormSubmissionProgrammesOrderable(Orderable):
 
     panels = [
         SnippetChooserPanel("programme"),
+    ]
+
+
+@register_setting
+class EnquireToStudySettings(BaseSetting):
+    class Meta:
+        verbose_name = "Enquire to study settings"
+
+    email_submission_notifations = models.BooleanField(
+        default=True,
+        help_text=(
+            "When checked, submission confirmation email notifications will "
+            "be sent to the user who filled out the form"
+        ),
+    )
+    email_subject = models.CharField(max_length=255)
+    email_content = models.TextField()
+
+    panels = [
+        MultiFieldPanel(
+            [
+                HelpPanel(
+                    content=(
+                        "Use the following fields to specify the contents of the "
+                        "submission notification users will receive after submitting "
+                        "the enquire to study form"
+                    )
+                ),
+                FieldPanel("email_submission_notifations"),
+                FieldPanel("email_subject"),
+                FieldPanel("email_content"),
+            ],
+            "Email notification settings",
+        )
     ]
