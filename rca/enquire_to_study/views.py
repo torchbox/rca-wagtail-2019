@@ -31,7 +31,7 @@ class EnquireToStudyFormView(FormView):
         form.save()
 
     def send_user_email_notification(self, form):
-        enquiry_form_settings = EnquireToStudySettings.objects.first()
+        enquiry_form_settings = EnquireToStudySettings.for_request(self.request)
         if not enquiry_form_settings.email_submission_notifations:
             return
         email_content = enquiry_form_settings.email_content
