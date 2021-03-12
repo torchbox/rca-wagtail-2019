@@ -19,11 +19,7 @@ from rca.utils.models import BasePage
 
 class FormField(AbstractFormField):
     page = ParentalKey("FormPage", related_name="form_fields")
-    help_text = RichTextField(
-        blank=True,
-        features=("link",),
-        verbose_name="help text",
-    )
+    help_text = RichTextField(blank=True, features=("link",), verbose_name="help text",)
 
 
 # Never cache form pages since they include CSRF tokens.
@@ -51,8 +47,7 @@ class FormPage(WagtailCaptchaEmailForm, BasePage):
         "'Email'.",
     )
     email_body_copy = models.TextField(
-        blank=True,
-        help_text="Enter the text to include in the body of the email.",
+        blank=True, help_text="Enter the text to include in the body of the email.",
     )
 
     search_fields = BasePage.search_fields + [index.SearchField("introduction")]
@@ -90,10 +85,7 @@ class FormPage(WagtailCaptchaEmailForm, BasePage):
         address = form.cleaned_data.get("email")
         if address:
             send_mail(
-                self.subject,
-                self.render_email(form),
-                [address],
-                self.from_address,
+                self.subject, self.render_email(form), [address], self.from_address,
             )
 
     def render_email(self, form):
