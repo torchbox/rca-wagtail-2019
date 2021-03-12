@@ -6,16 +6,16 @@ from rca.enquire_to_study.models import EnquiryFormSubmission
 
 class EnquiryFormSubmissionPermissionHelper(PermissionHelper):
     def user_can_list(self, user):
-        return True
+        return user.is_superuser
 
     def user_can_create(self, user):
         return False
 
     def user_can_edit_obj(self, user, obj):
-        return True
+        return user.is_superuser
 
     def user_can_delete_obj(self, user, obj):
-        return True
+        return user.is_superuser
 
 
 class EnquiryFormSubmissionAdmin(ModelAdmin):
