@@ -601,13 +601,6 @@ class StudentPage(BasePage):
     programme = models.ForeignKey(
         "programmes.ProgrammePage", on_delete=models.SET_NULL, null=True, blank=True,
     )
-    research_highlights_title = models.CharField(
-        max_length=120,
-        blank=True,
-        help_text=_(
-            "The title value displayed above the Research highlights gallery showing project pages"
-        ),
-    )
 
     biography = models.TextField(blank=True)
     degrees = models.TextField(blank=True)
@@ -648,7 +641,6 @@ class StudentPage(BasePage):
         FieldPanel("bio"),
         MultiFieldPanel(
             [
-                FieldPanel("research_highlights_title"),
                 InlinePanel(
                     "related_project_pages", label=_("Project pages"), max_num=5
                 ),
@@ -667,22 +659,26 @@ class StudentPage(BasePage):
                 FieldPanel("publications"),
                 FieldPanel("research_outputs"),
                 FieldPanel("conferences"),
-                FieldPanel("additional_information_title"),
-                FieldPanel("addition_information_content"),
             ],
             heading="More information",
         ),
-        InlinePanel("relatedlinks", label="Related link", max_num=5),
+        MultiFieldPanel(
+            [
+                FieldPanel("additional_information_title"),
+                FieldPanel("addition_information_content"),
+            ],
+            heading="Additional information",
+        ),
+        InlinePanel("relatedlinks", label="External links", max_num=5),
     ]
 
     key_details_panels = [
-        InlinePanel("student_types", label="Student type"),
         InlinePanel("related_area_of_expertise", label="Areas of Expertise"),
         InlinePanel(
             "related_research_centre_pages", label=_("Related Research Centres ")
         ),
         InlinePanel("related_schools", label=_("Related Schools")),
-        InlinePanel("personal_links", label="Social link", max_num=5),
+        InlinePanel("personal_links", label="Personal links", max_num=5),
     ]
 
     edit_handler = TabbedInterface(
