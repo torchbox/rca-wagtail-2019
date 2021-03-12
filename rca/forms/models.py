@@ -19,7 +19,11 @@ from rca.utils.models import BasePage
 
 class FormField(AbstractFormField):
     page = ParentalKey("FormPage", related_name="form_fields")
-    help_text = RichTextField(blank=True, features=("link",), verbose_name="help text",)
+    help_text = RichTextField(
+        blank=True,
+        features=("link",),
+        verbose_name="help text",
+    )
 
 
 # Never cache form pages since they include CSRF tokens.
@@ -42,9 +46,9 @@ class FormPage(WagtailCaptchaEmailForm, BasePage):
         blank=True,
         default=False,
         help_text="Tick to send the notification email to the user who submits "
-                  "the form, in addition to the addresses in 'To address'. "
-                  "The form must contain an email address field with the label "
-                  "'Email'.",
+        "the form, in addition to the addresses in 'To address'. "
+        "The form must contain an email address field with the label "
+        "'Email'.",
     )
     email_body_copy = models.TextField(
         blank=True,
@@ -83,9 +87,14 @@ class FormPage(WagtailCaptchaEmailForm, BasePage):
     def send_user_mail(self, form):
         """Sends the email notification to the user who submitted the form.
         Depends on there being a form field labelled 'Email'"""
-        address = form.cleaned_data.get('email')
+        address = form.cleaned_data.get("email")
         if address:
-            send_mail(self.subject, self.render_email(form), [address], self.from_address,)
+            send_mail(
+                self.subject,
+                self.render_email(form),
+                [address],
+                self.from_address,
+            )
 
     def render_email(self, form):
         responses = super().render_email(form)
@@ -93,11 +102,10 @@ class FormPage(WagtailCaptchaEmailForm, BasePage):
         content = [
             "Hi,",
             self.email_body_copy,
-            "See below the responses you submitted:",
+            "See below for the responses you submitted:",
             responses,
-            "Kind regards,\n\nThe Royal College of Art team"
+            "Kind regards,\n\nThe Royal College of Art team",
         ]
 
-        content = '\n\n'.join(content)
+        content = "\n\n".join(content)
         return content
-
