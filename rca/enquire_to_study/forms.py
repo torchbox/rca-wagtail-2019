@@ -27,9 +27,8 @@ class EnquireToStudyForm(forms.Form):
     country_of_citizenship = CountryField().formfield()
 
     # Study details
-    programme_types = forms.ModelMultipleChoiceField(
-        queryset=ProgrammeType.objects.all().exclude(qs_code__exact=""),
-        widget=forms.CheckboxSelectMultiple,
+    programme_types = forms.ModelChoiceField(
+        queryset=ProgrammeType.objects.all().exclude(qs_code__exact=""), widget=forms.RadioSelect, empty_label=None
     )
 
     programmes = forms.ModelMultipleChoiceField(
@@ -63,6 +62,9 @@ class EnquireToStudyForm(forms.Form):
         self.fields["phone_number"].widget.attrs["placeholder"] = "Phone number *"
         self.fields["city"].widget.attrs["placeholder"] = "City or town of residence *"
 
+        # Set initial values
+        self.fields["country_of_residence"].initial = ("GB", "United Kingdon")
+
         # Labels
         self.fields[
             "country_of_citizenship"
@@ -86,12 +88,13 @@ class EnquireToStudyForm(forms.Form):
         # Help Text
         self.fields[
             "phone_number"
-        ].help_text = "Include your country code, for example +44"
-        self.fields["programme_types"].help_text = "Select all that apply"
-        self.fields["programmes"].help_text = "Select all that apply"
+        ].help_text = "You must include your country code, e.g. +442075904444"
+        self.fields["programmes"].help_text = "Select up to 3 programmes"
         self.fields[
             "enquiry_reason"
-        ].help_text = "So we can ensure the correct department receives your message"
+        ].help_text = (
+            "This will help ensure the correct department receives your enquiry"
+        )
         self.fields["is_notification_opt_in"].help_text = (
             "We will not pass on your personal data to any third "
             "parties for marketing purposes."
