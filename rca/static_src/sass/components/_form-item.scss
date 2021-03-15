@@ -383,6 +383,11 @@
 
     &__instruction {
         @include font-size(xxs);
+        margin: 0 0 20px;
+
+        p {
+            margin: 0;
+        }
     }
 
     input,
