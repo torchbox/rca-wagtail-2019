@@ -751,3 +751,6 @@ BIRDBATH_USER_ANONYMISER_EXCLUDE_EMAIL_RE = r"torchbox\.com$"
 # Django Countries
 # https://pypi.org/project/django-countries
 COUNTRIES_FIRST = ["GB", "IE"]
+
+# Needed for form field help text to use rich text.
+WAGTAILFORMS_HELP_TEXT_ALLOW_HTML = True
