@@ -31,6 +31,7 @@ html {
         }
     }
 
+    // Fix for Chrome - doesn't show form validate messages when this is set to smooth
     &.no-scroll-behavoir {
         scroll-behavior: auto;
     }
