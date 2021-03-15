@@ -30,6 +30,10 @@ html {
             scroll-padding-top: 130px;
         }
     }
+
+    &.no-scroll-behavoir {
+        scroll-behavior: auto;
+    }
 }
 
 body {

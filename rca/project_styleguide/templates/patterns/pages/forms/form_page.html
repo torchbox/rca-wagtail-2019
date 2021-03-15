@@ -5,6 +5,10 @@
     app--form
 {% endblock %}
 
+{% block html_class %}
+    no-scroll-behavoir
+{% endblock %}
+
 {% block html_class %}sticky-compensator{% endblock %}
 
 {% block content %}
@@ -84,7 +88,7 @@
                             {% endfor %}
                         </div>
                         <div class="form__action">
-                            {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text=page.action_text|default:"Send your enquiry" button=True %} 
+                            {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text=page.action_text|default:"Send your enquiry" button=True %}
                         </div>
                     </div>
                 </form>
