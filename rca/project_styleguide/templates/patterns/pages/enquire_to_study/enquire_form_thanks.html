@@ -1,0 +1,37 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags util_tags static %}
+
+{% block body_class %}
+    app app--form no-hero theme-light
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="page page--no-hero">
+
+        <div class="page__header bg bg--dark">
+            <div class="title-area title-area--guide grid">
+                <div class="title-area__content">
+                    <h1 class="title-area__heading heading heading--display-two">
+                        Thank you for your enquiry regarding our programmes.
+                    </h1>
+                    <div class="title-area__introduction introduction layout__@large-start-three layout__span-two">
+                        <p class="introduction__text heading heading--five">
+                            It has been forwarded to the relevant department and will be dealt with as soon as possible.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page__content">
+
+            <section class="section section--top-space-small bg bg--dark">
+
+            </section>
+
+        </div>
+    </div>
+
+{% endblock %}
