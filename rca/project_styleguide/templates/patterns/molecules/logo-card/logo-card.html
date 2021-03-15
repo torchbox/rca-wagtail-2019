@@ -1,0 +1,15 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<div class="logo-card">
+    {% if item.image %}
+        {% image item.image fill-20x20 as image_small %}
+        {% image item.image max-200x200 as image_large %}
+    {% endif %}
+    <{% if item.link.url or item.page %}a href="{% firstof item.link.url item.page.url %}"{% else %}div{% endif %} class="logo-card__container">
+        {% if item.image %}{% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=200 height=200 image_large=image_large classList='logo-card__image' %}{% endif %}
+        <div class="logo-card__content">
+            <h3 class="logo-card__heading body body--two">
+               {% firstof item.link.title item.page.title %}
+            </h3>
+        </div>
+    </{% if item.link.url or item.page %}a{% else %}div{% endif %}>
+</div>

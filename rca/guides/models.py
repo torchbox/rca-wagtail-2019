@@ -9,10 +9,14 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
 )
 from wagtail.core.fields import StreamField
-from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.utils.blocks import AccordionBlockWithTitle, GuideBlock
-from rca.utils.models import BasePage, RelatedPage, RelatedStaffPageWithManualOptions
+from rca.utils.models import (
+    BasePage,
+    ContactFieldsMixin,
+    RelatedPage,
+    RelatedStaffPageWithManualOptions,
+)
 
 
 class GuidePageStaff(RelatedStaffPageWithManualOptions):
@@ -23,7 +27,7 @@ class GuidePageRelatedPages(RelatedPage):
     source_page = ParentalKey("guides.GuidePage", related_name="related_pages")
 
 
-class GuidePage(BasePage):
+class GuidePage(ContactFieldsMixin, BasePage):
     template = "patterns/pages/guide/guide.html"
 
     introduction = models.CharField(max_length=500, blank=True)
@@ -35,16 +39,6 @@ class GuidePage(BasePage):
         verbose_name=_("Further information"),
     )
     related_pages_title = models.CharField(blank=True, max_length=120)
-    contact_email = models.EmailField(blank=True)
-    contact_url = models.URLField(blank=True)
-    contact_image = models.ForeignKey(
-        "images.CustomImage",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-    )
-    contact_text = models.TextField(blank=True)
 
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
@@ -64,15 +58,7 @@ class GuidePage(BasePage):
             ],
             heading=_("Related pages"),
         ),
-        MultiFieldPanel(
-            [
-                ImageChooserPanel("contact_image"),
-                FieldPanel("contact_text"),
-                FieldPanel("contact_url"),
-                FieldPanel("contact_email"),
-            ],
-            heading="Contact information",
-        ),
+        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
     ]
 
     def anchor_nav(self):

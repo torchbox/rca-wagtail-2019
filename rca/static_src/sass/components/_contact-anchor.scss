@@ -10,4 +10,8 @@
     @include media-query(large) {
         top: -259px; // height of tabs + inverted notch
     }
+
+    &.anchor-heading {
+        top: 0;
+    }
 }

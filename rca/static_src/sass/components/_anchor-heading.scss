@@ -12,4 +12,8 @@
             padding-top: ($gutter * 4);
         }
     }
+
+    &.contact-anchor {
+        padding-top: 0;
+    }
 }

@@ -8,6 +8,9 @@
     &__container {
         @include z-index(above-gridlines);
         position: relative;
+        border: 0; // This can be a fieldset, so overriding
+        padding: 0; // This can be a fieldset, so overriding
+        margin: 0; // This can be a fieldset, so overriding
         margin-bottom: $form-bottom-margin;
         border-bottom: 4px solid transparent;
     }
@@ -151,6 +154,8 @@
         input[type='url'],
         input[type='number'] {
             height: $form-item-height;
+            border-radius: 0;
+            appearance: none;
             width: 100%;
             padding-left: 15px;
             transition: border-color $transition,
@@ -277,11 +282,19 @@
         padding-top: ($gutter / 2);
     }
 
+    // Hide recaptcha required asterisks as it floats weirdly above
+    &--re_captcha_field {
+        label {
+            @include hidden();
+        }
+    }
+
     &--hidden_input {
         @include hidden();
     }
 
-    label {
+    label,
+    legend {
         display: block;
         margin-bottom: ($gutter / 4);
         cursor: pointer;
@@ -362,6 +375,14 @@
         @include font-size(xxs);
     }
 
+    input,
+    textarea,
+    select {
+        &:-webkit-autofill {
+            border: 0 !important; // sass-lint:disable-line no-important
+        }
+    }
+
     .bg--dark & {
         input[type='text'],
         input[type='input'],
@@ -375,6 +396,10 @@
             border: 1px solid $color--white-12;
             caret-color: $color--white;
             color: $color--white;
+
+            &:-webkit-autofill {
+                -webkit-box-shadow: 0 0 0 1000px $color--form-input-darkbg inset;
+            }
         }
 
         label {
@@ -416,6 +441,11 @@
                 input[type='number'],
                 textarea {
                     background-color: $color--form-input-focus-darkbg;
+
+                    &:-webkit-autofill {
+                        -webkit-box-shadow: 0 0 0 1000px
+                            $color--form-input-focus-darkbg inset;
+                    }
                 }
 
                 label {
@@ -453,6 +483,15 @@
                 }
             }
         }
+
+        /* Remove autocomplete styling */
+        input,
+        textarea,
+        select {
+            &:-webkit-autofill {
+                -webkit-text-fill-color: $color--white;
+            }
+        }
     }
 
     .bg--light & {
@@ -468,6 +507,11 @@
             border: 1px solid $color--white-12;
             caret-color: $color--black;
             color: $color--black;
+
+            &:-webkit-autofill {
+                -webkit-box-shadow: 0 0 0 1000px $color--form-input-lightbg
+                    inset;
+            }
         }
 
         label {
@@ -502,6 +546,11 @@
             &#{$root}--has-focus {
                 input {
                     background-color: $color--form-input-focus-lightbg;
+
+                    &:-webkit-autofill {
+                        -webkit-box-shadow: 0 0 0 1000px
+                            $color--form-input-focus-lightbg inset;
+                    }
                 }
 
                 label {
@@ -537,6 +586,15 @@
                 &::after {
                     background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDEyIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xLjQgMC42TDYgNS4yTDEwLjYgMC42TDEyIDJMNiA4TDAgMkwxLjQgMC42WiIgZmlsbD0iYmxhY2siLz4KPC9zdmc+Cg==');
                 }
+            }
+        }
+
+        /* Remove autocomplete styling */
+        input,
+        textarea,
+        select {
+            &:-webkit-autofill {
+                -webkit-text-fill-color: $color--black;
             }
         }
     }

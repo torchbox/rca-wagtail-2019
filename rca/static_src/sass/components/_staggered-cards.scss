@@ -7,6 +7,10 @@
         margin-bottom: ($gutter * 8);
     }
 
+    &--no-margin {
+        margin-bottom: 0;
+    }
+
     &__container {
         display: flex;
         flex-direction: column;

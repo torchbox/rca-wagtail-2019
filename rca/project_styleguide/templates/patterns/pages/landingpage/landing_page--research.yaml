@@ -83,7 +83,7 @@ context:
         image: //placekitten.com/500/500
         person: false
     contact: true
-    contact_image: true
+    contact_model_image: true
   related_pages_highlights:
     - slide:
       meta: 'School of Design'

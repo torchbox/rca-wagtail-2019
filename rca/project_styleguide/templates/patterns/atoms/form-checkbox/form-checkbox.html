@@ -1,5 +1,5 @@
 <div class="form-item form-item--checkbox_select_multiple {% if field.errors %}form-item--errors{% endif %} {% if field.help_text %}form-item--has-help-text{% endif %}">
-    <div class="form-item__container">
+    <fieldset class="form-item__container">
         <p class="form-item__instruction">Select all that apply<p>
         <ul>
             <li>
@@ -10,7 +10,7 @@
                 </label>
             </li>
         </ul>
-    </div>
+    </fieldset>
 
     {% if field.help_text %}<div class="form-item__help">{{ field.help_text }}</div>{% endif %}
 

@@ -1,0 +1,40 @@
+<div class="carousel carousel--logo glide {{ modifier }}" data-peek-full-width-carousel data-slidetotal="{{ carousel|length }}">
+    <div data-glide-el="track" class="carousel__container glide__track">
+        <ul class="carousel__slides glide__slides" aria-live="polite">
+            <li class="carousel__item glide__slide">
+                <div class="carousel__logo-slide">
+            {% for slide in carousel %}
+                {% if forloop.counter0|divisibleby:per_slide and not forloop.first %}
+                    </div>
+                </li>
+                <li class="carousel__item glide__slide">
+                    <div class="carousel__logo-slide">
+                {% endif %}
+                    {% include 'patterns/molecules/logo-card/logo-card.html' with item=slide.value %}
+            {% endfor %}
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="carousel__controls-group grid" data-glide-el="controls">
+        <button class="carousel__button carousel__button--prev button" aria-label="Previous image" data-glide-dir="<">
+            <svg class="carousel__button-icon" width="46" height="46">
+                <use xlink:href="#arrow-left" />
+            </svg>
+        </button>
+        <button class="carousel__button carousel__button--next button" aria-label="Next image" data-glide-dir=">">
+            <svg class="carousel__button-icon" width="46" height="46">
+                <use xlink:href="#arrow-right" />
+            </svg>
+        </button>
+    </div>
+    <div class="carousel__controls">
+        <div class="carousel__bullet-container" data-glide-el="controls[nav]">
+            {% for slide in carousel %}
+                {% if forloop.counter0|divisibleby:per_slide %}
+                    <button class="carousel__bullet" data-glide-dir="={{ forloop.counter }}" aria-label="Slide {{ forloop.counter }}"></button>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>

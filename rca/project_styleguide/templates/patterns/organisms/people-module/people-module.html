@@ -1,23 +1,53 @@
 
-    <div class="people-module {% if people|length == 1 %}people-module--single{% elif people|length > 4 %}people-module--five-plus{% else %}people-module--two-four{% endif %}">
+    <div class="people-module
+        {% if people|length == 1 %}
+            people-module--single
+        {% elif people|length > 4 %}
+            people-module--five-plus
+        {% else %}
+            people-module--two-four
+        {% endif %}
+    ">
         <div class="people-module__container grid">
             {% if title %}
                 <div class="people-module__header">
                     <h2 class="heading heading--four people-module__heading {% if anchor_heading %}anchor-heading{% endif %}" {% if anchor_heading %}id="staff"{% endif %}>{{ title }}</h2>
                 </div>
             {% endif %}
-            <div class="people-module__content">
-                {% for profile in people %}
-                    {% include "patterns/molecules/profile-detail/profile-detail.html" with item=profile %}
-                {% endfor %}
+
+        {% if people|length > 17 %}
+        </div>
+        <div class="people-module__container">
+        {% endif %}
+
+            <div class="people-module__content {% if people|length > 17 %}people-module__content--carousel{% endif %}">
+                {% if people|length > 17 %}
+                    <div class="u-small-bp-only">
+                        {% include "patterns/molecules/people-carousel/people-carousel.html" with item=people per_slide=5 %}
+                    </div>
+                    <div class="u-medium-and-large-bp-only">
+                        {% include "patterns/molecules/people-carousel/people-carousel.html" with item=people per_slide=17 %}
+                    </div>
+                {% else %}
+                    {% for profile in people %}
+                        {% include "patterns/molecules/profile-detail/profile-detail.html" with item=profile %}
+                    {% endfor %}
+                {% endif %}
             </div>
-            {% if page.staff_link %}
+
+        {% if people|length > 17 %}
+        </div>
+        <div class="people-module__container grid">
+        {% endif %}
+
+            {% if page.staff_link or related_staff.view_more_link %}
                 <div class="people-module__action">
-                    <a class="link link--primary link--link body body--one" href="{{ page.staff_link }}">
-                        <span class="link__label">{{ page.staff_link_text }}</span>
+                    <a class="link link--primary link--link body body--one" href="{% firstof page.staff_link related_staff.view_more_link.url %}">
+                        <span class="link__label link__label--tight">{% firstof page.staff_link_text related_staff.view_more_link.text %}</span>
                         <svg class="link__icon" width="12" height="8" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                     </a>
                 </div>
             {% endif %}
+
         </div>
     </div>

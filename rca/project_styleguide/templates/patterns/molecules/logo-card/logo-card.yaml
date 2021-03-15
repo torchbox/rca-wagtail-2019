@@ -1,0 +1,19 @@
+context:
+  item:
+    link:
+      title: 'Show 2019: School of Architecture'
+      url: '#'
+    image: true
+
+tags:
+  image:
+    item.image fill-20x20 as image_small:
+      target_var: image_small
+      raw:
+        url: '//placekitten.com/20/20'
+    item.image max-200x200 as image_large:
+      target_var: image_large
+      raw:
+        url: '//placekitten.com/200/200'
+        width: '200'
+        height: '200'

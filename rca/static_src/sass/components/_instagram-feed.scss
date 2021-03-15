@@ -1,0 +1,33 @@
+.instagram-feed {
+    &--\@small-top-margin {
+        margin-top: ($gutter * 1.5);
+
+        @include media-query(medium) {
+            margin-top: 0;
+        }
+    }
+
+    &__item {
+        &:nth-child(3) {
+            display: none;
+
+            @include media-query(large) {
+                display: block;
+            }
+        }
+    }
+
+    &__item-link {
+        transition: opacity $transition-cubic;
+
+        &:hover {
+            opacity: $transition-opacity;
+        }
+    }
+
+    &__item-photo {
+        display: block;
+        width: 90%;
+        height: auto;
+    }
+}

@@ -2,6 +2,10 @@
     $root: &;
     line-height: $line-height-large;
 
+    &--end {
+        margin-bottom: ($gutter * 2);
+    }
+
     &__text {
         margin-bottom: ($gutter * 2);
 
@@ -16,6 +20,7 @@
     }
 
     .app--landing-page &,
+    .app--school &,
     .app--guide & {
         #{$root}__container {
             margin-bottom: $gutter;
