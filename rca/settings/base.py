@@ -754,3 +754,5 @@ COUNTRIES_FIRST = ["GB", "IE"]
 
 # Global for a DO NOT REPLY email address
 RCA_DNR_EMAIL = env.get("RCA_DNR_EMAIL", None)
+# Needed for form field help text to use rich text.
+WAGTAILFORMS_HELP_TEXT_ALLOW_HTML = True

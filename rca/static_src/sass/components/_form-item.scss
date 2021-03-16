@@ -179,6 +179,7 @@
     }
 
     &--select,
+    &--lazy_select,
     &--textarea,
     &--radio_select,
     &--checkbox {
@@ -194,7 +195,8 @@
         }
     }
 
-    &--select {
+    &--select,
+    &--lazy_select {
         #{$root}__container {
             @include z-index(under-gridlines);
             width: 100%;
@@ -223,6 +225,12 @@
         }
     }
 
+    &--multiple_choice_field {
+        select {
+            min-height: 150px;
+        }
+    }
+
     &--textarea {
         #{$root}__container {
             width: 100%;
@@ -238,7 +246,7 @@
         #{$root}__container {
             display: flex;
             flex-direction: row;
-            align-items: center;
+            align-items: flex-start;
         }
 
         label {
@@ -278,7 +286,7 @@
     &--checkbox_select_multiple,
     &--radio_select,
     &--select_multiple,
-    &--select {
+    &--select &--lazy_select {
         padding-top: ($gutter / 2);
     }
 
@@ -325,6 +333,8 @@
         appearance: none;
         width: 29px;
         height: 29px;
+        min-width: 29px;
+        max-width: 29px;
         border: 3px solid $color--white;
         background-color: transparent;
         opacity: 0.3;
@@ -373,6 +383,11 @@
 
     &__instruction {
         @include font-size(xxs);
+        margin: 0 0 20px;
+
+        p {
+            margin: 0;
+        }
     }
 
     input,
@@ -380,6 +395,33 @@
     select {
         &:-webkit-autofill {
             border: 0 !important; // sass-lint:disable-line no-important
+        }
+    }
+
+    // ensure label isn't blocking content on error page
+    .form--errors & {
+        &#{$root}--input,
+        &#{$root}--text_input,
+        &#{$root}--email_field,
+        &#{$root}--decimal_field,
+        &#{$root}--url_field,
+        &#{$root}--date_field,
+        &#{$root}--date_time_field,
+        &#{$root}--textarea {
+            label {
+                @include font-size(xxxs);
+                transform: translate3d(
+                    0,
+                    -67%,
+                    0
+                ); // align label with top of input
+            }
+
+            #{$root}__container {
+                &::after {
+                    opacity: 0;
+                }
+            }
         }
     }
 
@@ -402,8 +444,15 @@
             }
         }
 
-        label {
+        label,
+        legend {
             color: $color--light-grey;
+        }
+
+        &#{$root}--boolean_field {
+            label {
+                color: $color--white;
+            }
         }
 
         &#{$root}--checkbox_select_multiple,
@@ -475,7 +524,8 @@
             }
         }
 
-        &#{$root}--select {
+        &#{$root}--select,
+        &#{$root}--lazy_select {
             #{$root}__container {
                 // light arrow svg
                 &::after {
@@ -514,8 +564,15 @@
             }
         }
 
-        label {
+        label,
+        legend {
             color: $color--dark-grey;
+        }
+
+        &#{$root}--boolean_field {
+            label {
+                color: $color--black;
+            }
         }
 
         &#{$root}--checkbox_select_multiple,
@@ -580,7 +637,8 @@
             }
         }
 
-        &#{$root}--select {
+        &#{$root}--select,
+        &#{$root}--lazy_select {
             #{$root}__container {
                 // Dark arrow svg
                 &::after {

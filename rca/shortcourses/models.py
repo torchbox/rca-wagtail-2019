@@ -202,7 +202,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
     )
     application_form_url = models.URLField(
         blank=True,
-        help_text="Adding an application form URL will override the booking link to Access Planit",
+        help_text="Adding an application form URL will override the Access Planit booking modal",
     )
     manual_registration_url = models.URLField(
         blank=True, help_text="Override the register interest link show in the modal",
@@ -343,7 +343,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         a default message."""
 
         booking_bar = {
-            "message": "Applications are now closed",
+            "message": "Bookings not yet open",
             "action": "Register your interest for upcoming dates",
         }
         # If there are no dates the booking link should go to a form, not open
@@ -370,14 +370,17 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
                 if date["status"] == "Available":
                     booking_bar["message"] = "Next course starts"
                     booking_bar["date"] = date["start_date"]
-                    booking_bar["action"] = (
-                        "Submit form to apply"
-                        if self.application_form_url
-                        else f"Book now from \xA3{date['cost']}"
-                    )
                     booking_bar["cost"] = date["cost"]
-                    booking_bar["link"] = None
-                    booking_bar["modal"] = "booking-details"
+                    if self.application_form_url:
+                        # URL has been provided to override AccessPlanit booking
+                        booking_bar["action"] = "Complete form to apply"
+                        booking_bar["link"] = self.application_form_url
+                        booking_bar["modal"] = None
+                    else:
+                        # Open AccessPlanit booking modal
+                        booking_bar["action"] = f"Book now from \xA3{date['cost']}"
+                        booking_bar["link"] = None
+                        booking_bar["modal"] = "booking-details"
                     break
             return booking_bar
 

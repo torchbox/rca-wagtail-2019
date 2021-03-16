@@ -182,7 +182,7 @@ class ProgramPageRelatedStaff(Orderable):
 
 class ProgrammePage(ContactFieldsMixin, BasePage):
     parent_page_types = ["ProgrammeIndexPage"]
-    subpage_types = []
+    subpage_types = ["guides.GuidePage"]
     template = "patterns/pages/programmes/programme_detail.html"
 
     # Comments resemble tabbed panels in the editor
