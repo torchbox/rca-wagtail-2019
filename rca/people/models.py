@@ -38,6 +38,8 @@ from rca.utils.models import BasePage, SluggedTaxonomy
 
 from .utils import get_area_linked_filters
 
+STUDENT_PAGE_RICH_TEXT_FEATURES = features = ["bold", "italic", "link"]
+
 
 class AreaOfExpertise(models.Model):
     title = models.CharField(max_length=128)
@@ -485,10 +487,6 @@ class StaffIndexPage(BasePage):
         return context
 
 
-class StudentType(SluggedTaxonomy):
-    pass
-
-
 class DegreeType(SluggedTaxonomy):
     pass
 
@@ -516,17 +514,6 @@ class StudentPageGallerySlide(Orderable):
     author = models.CharField(max_length=120)
 
     panels = [ImageChooserPanel("image"), FieldPanel("title"), FieldPanel("author")]
-
-
-class StudentPageStudentTypePlacement(models.Model):
-    page = ParentalKey("StudentPage", related_name="student_types")
-    type = models.ForeignKey(
-        StudentType,
-        on_delete=models.CASCADE,
-        related_name="related_student",
-        verbose_name=_("Student type"),
-    )
-    panels = [FieldPanel("type")]
 
 
 class StudentPageSocialLinks(Orderable):
@@ -602,17 +589,21 @@ class StudentPage(BasePage):
         "programmes.ProgrammePage", on_delete=models.SET_NULL, null=True, blank=True,
     )
 
-    biography = models.TextField(blank=True)
-    degrees = models.TextField(blank=True)
-    experience = models.TextField(blank=True)
-    awards = models.TextField(blank=True)
-    funding = models.TextField(blank=True)
-    exhibitions = models.TextField(blank=True)
-    publications = models.TextField(blank=True)
-    research_outputs = models.TextField(blank=True)
-    conferences = models.TextField(blank=True)
+    biography = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
+    degrees = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
+    experience = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
+    awards = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
+    funding = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
+    exhibitions = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
+    publications = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
+    research_outputs = RichTextField(
+        blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES
+    )
+    conferences = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
     additional_information_title = models.TextField(blank=True)
-    addition_information_content = models.TextField(blank=True)
+    addition_information_content = RichTextField(
+        blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES
+    )
 
     search_fields = BasePage.search_fields + [
         index.SearchField("introduction"),
