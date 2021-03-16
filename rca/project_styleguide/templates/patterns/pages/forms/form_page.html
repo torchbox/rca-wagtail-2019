@@ -21,11 +21,18 @@ app--form no-hero
             </div>
         </div>
         {% endif %}
-        {% if page.introduction %}
+        {% if page.introduction or form.errors %}
         <div class="introduction grid">
-            <p class="introduction__text introduction__text--no-margin heading heading--five layout__@large-start-three layout__span-two">
-                {{ page.introduction }}
-            </p>
+            {% if page.introduction %}
+                <p class="introduction__text {% if not form.errors %}introduction__text--no-margin{% endif %} heading heading--five layout__@large-start-three layout__span-two">
+                    {{ page.introduction }}
+                </p>
+            {% endif %}
+            {% if form.errors %}
+                <p class="introduction__errors introduction__text--no-margin heading heading--five layout__@large-start-three layout__span-two">
+                    There were some errors with your form. Please amend the fields highlighted below.
+                </p>
+            {% endif %}
         </div>
         {% endif %}
     </div>
@@ -41,12 +48,6 @@ app--form no-hero
                     <div class="form__container layout__start-one layout__@large-start-two layout__span-two layout__@large-span-three">
                         <div class="form__content section section--top-space-large">
                             {% csrf_token %}
-
-                            {% if form.errors %}
-                                <div class="form__errors">
-                                    There were some errors with your form. Please amend the fields highlighted below.
-                                </div>
-                            {% endif %}
 
                             {% for field in form %}
 
