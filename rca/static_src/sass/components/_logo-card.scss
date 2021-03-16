@@ -10,8 +10,12 @@
         height: 100%;
         width: 80%;
         background-color: $color--white;
-        padding: $gutter;
+        padding: ($gutter * 1.5);
         overflow: hidden;
+
+        @include media-query(medium) {
+            padding: $gutter;
+        }
 
         &:hover,
         &:focus {
@@ -36,12 +40,18 @@
         right: 0;
         color: $color--black;
         padding: ($gutter / 4) ($gutter / 2);
+        font-size: map-get($small-font-sizes, xxxs);
+
+        @include media-query(medium) {
+            font-size: map-get($medium-font-sizes, xxs);
+        }
 
         @include media-query(large) {
             right: 10px;
             bottom: 10px;
             left: 10px;
             font-family: $font--secondary;
+            font-size: map-get($large-font-sizes, xxs);
             transform: translate3d(0, 100%, 0);
             opacity: 0;
             transition: transform $transition-cubic, opacity $transition-cubic;
