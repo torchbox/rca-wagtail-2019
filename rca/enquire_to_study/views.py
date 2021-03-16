@@ -47,11 +47,10 @@ class EnquireToStudyFormView(FormView):
                 )
 
         user_email = form.cleaned_data["email"]
-
         send_mail(
             enquiry_form_settings.email_subject,
             email_content,
-            settings.EMAIL_HOST_USER,
+            settings.RCA_DNR_EMAIL,
             [user_email],
             fail_silently=False,
         )
@@ -68,7 +67,8 @@ class EnquireToStudyFormView(FormView):
             self.post_qs(form.cleaned_data)
 
         self.create_form_submission(form)
-        self.send_user_email_notification(form)
+        if settings.RCA_DNR_EMAIL:
+            self.send_user_email_notification(form)
 
         return super().form_valid(form)
 
