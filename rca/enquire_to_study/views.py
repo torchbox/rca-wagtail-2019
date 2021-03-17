@@ -1,13 +1,17 @@
 import requests
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
+from django.shortcuts import redirect, reverse
+from django.template.response import TemplateResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
 from django_countries.ioc_data import IOC_TO_ISO
+from wagtail.admin import messages
 
 from .forms import EnquireToStudyForm
-from .models import EnquireToStudySettings
+from .models import EnquireToStudySettings, EnquiryFormSubmission
 
 
 class EnquireToStudyFormView(FormView):
@@ -200,3 +204,36 @@ class EnquireToStudyFormView(FormView):
 
 class EnquireToStudyFormThanksView(TemplateView):
     template_name = "patterns/pages/enquire_to_study/enquire_form_thanks.html"
+
+
+def delete(request):
+    if not request.user.has_perm(
+        "enquiry_form_submission:can_delete_enquiry_form_submission"
+    ):
+        raise PermissionDenied()
+
+    from .wagtail_hooks import EnquiryFormSubmissionAdmin
+
+    url_helper = EnquiryFormSubmissionAdmin().url_helper
+    index_url = url_helper.get_action_url("index")
+
+    instances = EnquiryFormSubmission.objects.all()
+    count = len(instances)
+    if request.method == "POST":
+        for instance in instances:
+            instance.delete()
+
+        message_content = f"deleted {count} submissions"
+        messages.success(request, message_content)
+
+        return redirect(index_url)
+
+    return TemplateResponse(
+        request,
+        "enquire_to_study/confirm_delete.html",
+        {
+            "count": count,
+            "index_url": url_helper.get_action_url("index"),
+            "submit_url": (reverse("enquiretostudy_delete")),
+        },
+    )

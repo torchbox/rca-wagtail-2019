@@ -752,8 +752,10 @@ BIRDBATH_USER_ANONYMISER_EXCLUDE_EMAIL_RE = r"torchbox\.com$"
 # https://pypi.org/project/django-countries
 COUNTRIES_FIRST = ["GB", "IE"]
 
+
 # Global for a DO NOT REPLY email address
 RCA_DNR_EMAIL = env.get("RCA_DNR_EMAIL", None)
+
 # Needed for form field help text to use rich text.
 WAGTAILFORMS_HELP_TEXT_ALLOW_HTML = True
 
