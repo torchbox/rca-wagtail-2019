@@ -24,21 +24,22 @@ class EnquireToStudyForm(forms.Form):
     # Country of residence & citizenship
     country_of_residence = CountryField().formfield()
     city = forms.CharField(max_length=255)
-    is_citizen = forms.ChoiceField(
-        choices=[(True, "Yes"), (False, "No")], widget=forms.RadioSelect
-    )
+    country_of_citizenship = CountryField().formfield()
 
     # Study details
     programme_types = forms.ModelMultipleChoiceField(
-        queryset=ProgrammeType.objects.all(), widget=forms.CheckboxSelectMultiple
+        queryset=ProgrammeType.objects.all().exclude(qs_code__exact=""),
+        widget=forms.CheckboxSelectMultiple,
     )
 
     programmes = forms.ModelMultipleChoiceField(
-        queryset=ProgrammePage.objects.live(), widget=forms.CheckboxSelectMultiple
+        queryset=ProgrammePage.objects.filter(qs_code__isnull=False, live=True),
+        widget=forms.CheckboxSelectMultiple,
     )
 
     start_date = forms.ModelChoiceField(
-        queryset=StartDate.objects.all(), widget=forms.RadioSelect
+        queryset=StartDate.objects.filter(qs_code__isnull=False),
+        widget=forms.RadioSelect,
     )
 
     # What's the enquiry about ?
@@ -63,7 +64,9 @@ class EnquireToStudyForm(forms.Form):
         self.fields["city"].widget.attrs["placeholder"] = "City or town of residence *"
 
         # Labels
-        self.fields["is_citizen"].label = "Are you also a citizen in this country?"
+        self.fields[
+            "country_of_citizenship"
+        ].label = "Which country are you a citizen of?"
         self.fields[
             "programme_types"
         ].label = "Type of programme(s) you're interested in"

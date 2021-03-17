@@ -1,0 +1,97 @@
+{
+  "info": {
+    "_postman_id": "080413dc-9212-43c2-9bf2-7019e16c56ae",
+    "name": "QS",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET Programme types / level of study",
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "password",
+              "value": "{{QS_API_PASSWORD}}",
+              "type": "string"
+            },
+            {
+              "key": "username",
+              "value": "{{QS_API_USERNAME}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://enquiryapi-emea.qses-uat.com/EnquiryApi/levelofstudies",
+          "protocol": "https",
+          "host": ["enquiryapi-emea", "qses-uat", "com"],
+          "path": ["EnquiryApi", "levelofstudies"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get programmes",
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "password",
+              "value": "{{QS_API_PASSWORD}}",
+              "type": "string"
+            },
+            {
+              "key": "username",
+              "value": "{{QS_API_USERNAME}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://enquiryapi-emea.qses-uat.com/EnquiryApi/courses",
+          "protocol": "https",
+          "host": ["enquiryapi-emea", "qses-uat", "com"],
+          "path": ["EnquiryApi", "courses"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET Intakes",
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "password",
+              "value": "{{QS_API_PASSWORD}}",
+              "type": "string"
+            },
+            {
+              "key": "username",
+              "value": "{{QS_API_USERNAME}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://enquiryapi-emea.qses-uat.com/EnquiryApi/Intakes",
+          "protocol": "https",
+          "host": ["enquiryapi-emea", "qses-uat", "com"],
+          "path": ["EnquiryApi", "Intakes"]
+        },
+        "description": "Mapped to 'start_date' in the rca form"
+      },
+      "response": []
+    }
+  ]
+}
