@@ -33,6 +33,12 @@ class EnquiryReason(models.Model):
 class StartDate(models.Model):
     label = models.CharField(max_length=255)
     start_date = models.DateField()
+    qs_code = models.CharField(
+        max_length=500,
+        help_text="This value needs to match the value of 'code' in the QS Intake item, E.G jan-18",
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         verbose_name = "Enquiry form start date"
@@ -49,7 +55,7 @@ class EnquiryFormSubmission(ClusterableModel):
     phone_number = PhoneNumberField()
     country_of_residence = CountryField()
     city = models.CharField(max_length=255)
-    is_citizen = models.BooleanField()
+    country_of_citizenship = CountryField()
     enquiry_reason = models.ForeignKey(
         "enquire_to_study.EnquiryReason",
         null=True,
@@ -85,7 +91,7 @@ class EnquiryFormSubmission(ClusterableModel):
             [
                 FieldPanel("country_of_residence"),
                 FieldPanel("city"),
-                FieldPanel("is_citizen"),
+                FieldPanel("country_of_citizenship"),
             ],
             heading="Country of residence & citizenship",
         ),

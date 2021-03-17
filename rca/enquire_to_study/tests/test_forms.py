@@ -16,18 +16,18 @@ from rca.programmes.factories import ProgrammePageFactory, ProgrammeTypeFactory
 
 class TestEnquireToStudyForm(TestCase):
     def setUp(self):
-        self.start_date = StartDateFactory()
+        self.start_date = StartDateFactory(qs_code="test-code")
         self.enquiry_reason = EnquiryReasonFactory()
         self.form_data = {
             "first_name": "Monty",
             "last_name": "python",
-            "email": "person@form.com",
+            "email": "monthpython@holygrail.com",
             "phone_number": "+12125552368",
             "country_of_residence": "GB",
             "city": "Bristol",
-            "is_citizen": True,
-            "programme_types": [ProgrammeTypeFactory().pk],
-            "programmes": [ProgrammePageFactory(programme_type__pk=2).pk],
+            "country_of_citizenship": "GB",
+            "programme_types": [ProgrammeTypeFactory(qs_code="test").pk],
+            "programmes": [ProgrammePageFactory(qs_code=1, programme_type__pk=2).pk],
             "start_date": self.start_date.pk,
             "enquiry_reason": self.enquiry_reason.pk,
             "is_read_data_protection_policy": True,
@@ -61,7 +61,6 @@ class TestEnquireToStudyForm(TestCase):
             self.form_data["country_of_residence"], submission.country_of_residence
         )
         self.assertEqual(self.form_data["city"], submission.city)
-        self.assertEqual(self.form_data["is_citizen"], submission.is_citizen)
         self.assertEqual(
             self.form_data["programme_types"][0],
             submission.enquiry_submission_programme_types.first().programme_type.id,
@@ -79,7 +78,7 @@ class TestEnquireToStudyForm(TestCase):
 
     @patch("captcha.fields.client.submit")
     def test_submissions_data(self, mocked_submit):
-        # Test the submissions has programmes, programme_types
+        # Test the submission created has programmes, programme_types
         mocked_submit.return_value = RecaptchaResponse(is_valid=True)
         form = EnquireToStudyForm(data=self.form_data)
         form.is_valid()
@@ -111,5 +110,8 @@ class TestEnquireToStudyForm(TestCase):
         self.assertRaises(IntegrityError, form.save)
 
     # TODO
-    # Test mailchimp
-    # Test QS
+    # Test that programme types without a QS code don't end up as options in the form
+    # Test that programmes without a QS code don't end up as options in the form
+    # Test QS post sends correct data.
+    # Test QS response?.
+    # Test the form validation for programmes and programme types
