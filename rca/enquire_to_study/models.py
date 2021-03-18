@@ -49,7 +49,7 @@ class StartDate(models.Model):
 
 
 class EnquiryFormSubmission(ClusterableModel):
-    submission_date = models.DateTimeField(blank=True, null=True, auto_now_add=True,)
+    submission_date = models.DateTimeField(blank=True, null=True, auto_now_add=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField()
