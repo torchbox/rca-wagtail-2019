@@ -28,7 +28,9 @@ class EnquireToStudyForm(forms.Form):
 
     # Study details
     programme_types = forms.ModelChoiceField(
-        queryset=ProgrammeType.objects.all().exclude(qs_code__exact=""), widget=forms.RadioSelect, empty_label=None
+        queryset=ProgrammeType.objects.all().exclude(qs_code__exact=""),
+        widget=forms.RadioSelect,
+        empty_label=None,
     )
 
     programmes = forms.ModelMultipleChoiceField(
@@ -39,11 +41,12 @@ class EnquireToStudyForm(forms.Form):
     start_date = forms.ModelChoiceField(
         queryset=StartDate.objects.filter(qs_code__isnull=False),
         widget=forms.RadioSelect,
+        empty_label=None,
     )
 
     # What's the enquiry about ?
     enquiry_reason = forms.ModelChoiceField(
-        queryset=EnquiryReason.objects.all(), widget=forms.RadioSelect
+        queryset=EnquiryReason.objects.all(), widget=forms.RadioSelect, empty_label=None
     )
 
     # Legal & newsletter
@@ -56,14 +59,11 @@ class EnquireToStudyForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(EnquireToStudyForm, self).__init__(*args, **kwargs)
         # Placeholder
-        self.fields["first_name"].widget.attrs["placeholder"] = "First name *"
-        self.fields["last_name"].widget.attrs["placeholder"] = "Last name *"
-        self.fields["email"].widget.attrs["placeholder"] = "Email *"
-        self.fields["phone_number"].widget.attrs["placeholder"] = "Phone number *"
-        self.fields["city"].widget.attrs["placeholder"] = "City or town of residence *"
 
         # Set initial values
         self.fields["country_of_residence"].initial = ("GB", "United Kingdon")
+        print(self.fields["country_of_citizenship"].initial)
+        self.fields["country_of_citizenship"].initial = ("GB", "United Kingdom")
 
         # Labels
         self.fields[
