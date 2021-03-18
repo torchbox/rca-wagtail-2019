@@ -115,15 +115,14 @@ class EnquireToStudyForm(forms.Form):
 
     def save(self):
         data = self.cleaned_data.copy()
-        programme_types = data.pop("programme_types")
+        programme_type = data.pop("programme_types")
         programmes = data.pop("programmes")
         data.pop("captcha")
         enquiry_submission = EnquiryFormSubmission.objects.create(**data)
 
-        for programme_type in programme_types:
-            EnquiryFormSubmissionProgrammeTypesOrderable.objects.create(
-                enquiry_submission=enquiry_submission, programme_type=programme_type
-            )
+        EnquiryFormSubmissionProgrammeTypesOrderable.objects.create(
+            enquiry_submission=enquiry_submission, programme_type=programme_type
+        )
 
         for programme in programmes:
             EnquiryFormSubmissionProgrammesOrderable.objects.create(
