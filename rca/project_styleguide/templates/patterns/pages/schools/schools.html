@@ -218,7 +218,7 @@
             </section>
 
             {# Programmes #}
-            {% if related_programmes or related_short_courses.related_items %}
+            {% if related_programmes or related_short_courses.0.related_items %}
                 <section class="schools__programmes section section--start bg bg--light anchor-heading" id="study">
                     {% if related_programmes %}
                         <div class="section__row section__row--last-small">
@@ -237,7 +237,7 @@
                             </div>
                         </div>
                     {% endif %}
-                    {% if related_short_courses.related_items %}
+                    {% if related_short_courses.0.related_items %}
                         <div class="section__row">
                             <div class="section__header grid">
                                 <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
