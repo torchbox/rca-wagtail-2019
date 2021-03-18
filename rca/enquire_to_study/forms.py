@@ -1,6 +1,7 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Checkbox
 from django import forms
+from django.utils.safestring import mark_safe
 from django_countries.fields import CountryField
 from phonenumber_field.formfields import PhoneNumberField
 
@@ -75,9 +76,11 @@ class EnquireToStudyForm(forms.Form):
         self.fields["programmes"].label = "The programme(s) you're interested in"
         self.fields["start_date"].label = "When do you plan to start your degree?"
         self.fields["enquiry_reason"].label = "What's your enquiry about?"
-        self.fields["is_read_data_protection_policy"].label = (
-            "I have read the data protection notice and agree for my data "
-            "to be processed accordingly. "
+        self.fields["is_read_data_protection_policy"].label = mark_safe(
+            'I have read the <a class="link link--link" '
+            'href="https://www.rca.ac.uk/contact-us/about-this-website/privacy-cookies." '
+            'target="_blank">data protection</a> notice and agree for my data '
+            "to be processed accordingly."
         )
         self.fields["is_notification_opt_in"].label = (
             "From time to time we would like to notify you about events, news, "
