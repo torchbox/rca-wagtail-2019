@@ -78,9 +78,8 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
     get_programme_types.short_description = "Programme types"
 
     list_filter = (
-        "country_of_residence",
-        "enquiry_submission_programmes__programme",
         "enquiry_submission_programme_types__programme_type",
+        "enquiry_submission_programmes__programme",
     )
     search_fields = ("first_name", "last_name", "email", "country_of_residence")
     permission_helper_class = EnquiryFormSubmissionPermissionHelper
