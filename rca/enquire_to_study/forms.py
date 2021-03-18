@@ -63,7 +63,6 @@ class EnquireToStudyForm(forms.Form):
 
         # Set initial values
         self.fields["country_of_residence"].initial = ("GB", "United Kingdon")
-        print(self.fields["country_of_citizenship"].initial)
         self.fields["country_of_citizenship"].initial = ("GB", "United Kingdom")
 
         # Labels
