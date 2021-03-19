@@ -1,6 +1,7 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Checkbox
 from django import forms
+from django.utils.safestring import mark_safe
 from django_countries.fields import CountryField
 from phonenumber_field.formfields import PhoneNumberField
 
@@ -27,9 +28,10 @@ class EnquireToStudyForm(forms.Form):
     country_of_citizenship = CountryField().formfield()
 
     # Study details
-    programme_types = forms.ModelMultipleChoiceField(
+    programme_types = forms.ModelChoiceField(
         queryset=ProgrammeType.objects.all().exclude(qs_code__exact=""),
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.RadioSelect,
+        empty_label=None,
     )
 
     programmes = forms.ModelMultipleChoiceField(
@@ -40,11 +42,12 @@ class EnquireToStudyForm(forms.Form):
     start_date = forms.ModelChoiceField(
         queryset=StartDate.objects.filter(qs_code__isnull=False),
         widget=forms.RadioSelect,
+        empty_label=None,
     )
 
     # What's the enquiry about ?
     enquiry_reason = forms.ModelChoiceField(
-        queryset=EnquiryReason.objects.all(), widget=forms.RadioSelect
+        queryset=EnquiryReason.objects.all(), widget=forms.RadioSelect, empty_label=None
     )
 
     # Legal & newsletter
@@ -57,11 +60,10 @@ class EnquireToStudyForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(EnquireToStudyForm, self).__init__(*args, **kwargs)
         # Placeholder
-        self.fields["first_name"].widget.attrs["placeholder"] = "First name *"
-        self.fields["last_name"].widget.attrs["placeholder"] = "Last name *"
-        self.fields["email"].widget.attrs["placeholder"] = "Email *"
-        self.fields["phone_number"].widget.attrs["placeholder"] = "Phone number *"
-        self.fields["city"].widget.attrs["placeholder"] = "City or town of residence *"
+
+        # Set initial values
+        self.fields["country_of_residence"].initial = ("GB", "United Kingdon")
+        self.fields["country_of_citizenship"].initial = ("GB", "United Kingdom")
 
         # Labels
         self.fields[
@@ -73,9 +75,11 @@ class EnquireToStudyForm(forms.Form):
         self.fields["programmes"].label = "The programme(s) you're interested in"
         self.fields["start_date"].label = "When do you plan to start your degree?"
         self.fields["enquiry_reason"].label = "What's your enquiry about?"
-        self.fields["is_read_data_protection_policy"].label = (
-            "I have read the data protection notice and agree for my data "
-            "to be processed accordingly. "
+        self.fields["is_read_data_protection_policy"].label = mark_safe(
+            'I have read the <a class="link link--link" '
+            'href="https://www.rca.ac.uk/contact-us/about-this-website/privacy-cookies." '
+            'target="_blank">data protection</a> notice and agree for my data '
+            "to be processed accordingly."
         )
         self.fields["is_notification_opt_in"].label = (
             "From time to time we would like to notify you about events, news, "
@@ -86,12 +90,13 @@ class EnquireToStudyForm(forms.Form):
         # Help Text
         self.fields[
             "phone_number"
-        ].help_text = "Include your country code, for example +44"
-        self.fields["programme_types"].help_text = "Select all that apply"
-        self.fields["programmes"].help_text = "Select all that apply"
+        ].help_text = "You must include your country code, e.g. +442075904444"
+        self.fields["programmes"].help_text = "Select up to 3 programmes"
         self.fields[
             "enquiry_reason"
-        ].help_text = "So we can ensure the correct department receives your message"
+        ].help_text = (
+            "This will help ensure the correct department receives your enquiry"
+        )
         self.fields["is_notification_opt_in"].help_text = (
             "We will not pass on your personal data to any third "
             "parties for marketing purposes."
@@ -110,15 +115,14 @@ class EnquireToStudyForm(forms.Form):
 
     def save(self):
         data = self.cleaned_data.copy()
-        programme_types = data.pop("programme_types")
+        programme_type = data.pop("programme_types")
         programmes = data.pop("programmes")
         data.pop("captcha")
         enquiry_submission = EnquiryFormSubmission.objects.create(**data)
 
-        for programme_type in programme_types:
-            EnquiryFormSubmissionProgrammeTypesOrderable.objects.create(
-                enquiry_submission=enquiry_submission, programme_type=programme_type
-            )
+        EnquiryFormSubmissionProgrammeTypesOrderable.objects.create(
+            enquiry_submission=enquiry_submission, programme_type=programme_type
+        )
 
         for programme in programmes:
             EnquiryFormSubmissionProgrammesOrderable.objects.create(

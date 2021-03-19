@@ -40,11 +40,12 @@
         <section class="section bg bg--dark">
             {% if form %}
                 <form action="." method="post" class="form {% if form.errors %}form--errors{% endif %} grid layout">
-                    <div class="layout__start-one layout__span-two layout__@large-span-one">
-                        <div class="key-details">
-                            <div class="key-details__header">
-                                <h2 class="heading heading--five key-details__heading">Key details</h2>
-                            </div>
+                    {% if settings.enquire_to_study.EnquiryFormKeyDetails.content %}
+                        <div class="layout__start-one layout__span-two layout__@large-span-one">
+                            <div class="key-details">
+                                <div class="key-details__header">
+                                    <h2 class="heading heading--five key-details__heading">Key details</h2>
+                                </div>
                                 <div class="key-details__section key-details__section--location">
                                     <ul class="key-details__list">
                                         <li class="key-details__list-item">
@@ -52,8 +53,9 @@
                                         </li>
                                     </ul>
                                 </div>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                     <div class="form__container layout__start-one layout__@large-start-two layout__span-two layout__@large-span-three">
                         <div class="form__content section section--top-space-large">
                             {% csrf_token %}
