@@ -1,8 +1,8 @@
 {% extends "patterns/base_page.html" %}
-{% load wagtailcore_tags wagtailimages_tags util_tags static %}
+{% load wagtailcore_tags wagtailimages_tags util_tags static wagtailsettings_tags %}
 
 {% block body_class %}
-app--form no-hero
+    app app--form no-hero theme-light
 {% endblock %}
 
 {% block html_class %}no-scroll-behavoir sticky-compensator{% endblock %}
@@ -12,24 +12,19 @@ app--form no-hero
 <div class="page page--no-hero">
 
     <div class="page__header bg bg--dark">
-        {% if page.title %}
         <div class="title-area title-area--guide grid">
             <div class="title-area__content">
-                <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
-                    {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
-                </nav>
                 <h1 class="title-area__heading heading heading--display-two">
-                    {{ page.title }}
+                    Enquire to study
                 </h1>
             </div>
         </div>
-        {% endif %}
         {% if page.introduction or form.errors %}
         <div class="introduction grid">
             {% if page.introduction %}
-                <p class="introduction__text {% if not form.errors %}introduction__text--no-margin{% endif %} heading heading--five layout__@large-start-three layout__span-two">
-                    {{ page.introduction }}
-                </p>
+            <p class="introduction__text {% if not form.errors %}introduction__text--no-margin{% endif %} heading heading--five layout__@large-start-three layout__span-two">
+                {{ page.introduction }}
+            </p>
             {% endif %}
             {% if form.errors %}
                 <p class="introduction__errors introduction__text--no-margin heading heading--five layout__@large-start-three layout__span-two">
@@ -43,10 +38,21 @@ app--form no-hero
     <div class="page__content">
 
         <section class="section bg bg--dark">
-            {% if page.form_fields %}
-                <form action="{% pageurl page %}" method="post" class="form {% if form.errors %}form--errors{% endif %} grid layout ">
+            {% if form %}
+                <form action="." method="post" class="form {% if form.errors %}form--errors{% endif %} grid layout">
                     <div class="layout__start-one layout__span-two layout__@large-span-one">
-                        {% include "patterns/molecules/key-details/key-details--form.html" with key_details=page.key_details %}
+                        <div class="key-details">
+                            <div class="key-details__header">
+                                <h2 class="heading heading--five key-details__heading">Key details</h2>
+                            </div>
+                                <div class="key-details__section key-details__section--location">
+                                    <ul class="key-details__list">
+                                        <li class="key-details__list-item">
+                                            {{ settings.enquire_to_study.EnquiryFormKeyDetails.content|richtext }}
+                                        </li>
+                                    </ul>
+                                </div>
+                        </div>
                     </div>
                     <div class="form__container layout__start-one layout__@large-start-two layout__span-two layout__@large-span-three">
                         <div class="form__content section section--top-space-large">
@@ -55,7 +61,11 @@ app--form no-hero
                             {% for field in form %}
 
                                 {% with widget_type=field|widget_type field_type=field|field_type %}
-                                    <div class="form-item {% if field_type %}form-item--{{ field_type }}{% endif %} {% if widget_type %}form-item--{{ widget_type }}{% endif %} {% if field.errors %}form-item--has-content form-item--errors{% endif %} {% if field.help_text %}form-item--has-help-text{% endif %}" {% if widget_type == 'text_input' or field_type == 'email_field' or field_type == 'decimal_field' or field_type == 'url_field' or field_type == 'date_field' or field_type == 'date_time_field' %} data-focus data-focustype='input'{% endif %}{% if widget_type == 'textarea' %}data-focus data-focustype='textarea'{% endif %}>
+                                    <div class="form-item {% if field_type %}form-item--{{ field_type }}{% endif %} {% if widget_type %}form-item--{{ widget_type }}{% endif %} {% if field.errors %}form-item--errors{% endif %} {% if field.help_text %}form-item--has-help-text{% endif %}" {% if widget_type == 'text_input' or field_type == 'email_field' or field_type == 'decimal_field' or field_type == 'url_field' or field_type == 'date_field' or field_type == 'date_time_field' %}
+                                    data-focus data-focustype='input'
+                                {% endif %}{% if widget_type == 'textarea' %}
+                                data-focus data-focustype='textarea'
+                            {% endif %}>
                                         <{% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}fieldset{% else %}div{% endif %} class="form-item__container">
                                             {% if field.errors %}
                                                 <div class="form-item__errors">
@@ -83,7 +93,7 @@ app--form no-hero
 
                                         </{% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}fieldset{% else %}div{% endif %} >
 
-                                        {% if field.help_text and widget_type != 'checkbox_select_multiple' %}<div class="form-item__help">{{ field.help_text|richtext }}</div>{% endif %}
+                                        {% if field.help_text and widget_type != 'checkbox_select_multiple' %}<div class="form-item__help">{{ field.help_text }}</div>{% endif %}
 
                                     </div>
                                 {% endwith %}
@@ -91,7 +101,7 @@ app--form no-hero
                             {% endfor %}
                         </div>
                         <div class="form__action">
-                            {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text=page.action_text|default:"Send your enquiry" button=True %}
+                            {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text="Send your enquiry" button=True %}
                         </div>
                     </div>
                 </form>

@@ -23,3 +23,4 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.MD5PasswordHasher",
 ]
 BIRDBATH_REQUIRED = False
+CAPTCHA_TEST_MODE = True
