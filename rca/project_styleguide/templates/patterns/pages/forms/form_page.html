@@ -26,9 +26,9 @@ app--form no-hero
         {% endif %}
         {% if page.introduction %}
         <div class="introduction grid">
-            <p class="introduction__text introduction__text--no-margin heading heading--five layout__@large-start-three layout__span-two">
-                {{ page.introduction }}
-            </p>
+            <div class="introduction__text introduction__text--no-margin heading heading--five layout__@large-start-three layout__span-two">
+                {{ page.introduction|richtext }}
+            </div>
         </div>
         {% endif %}
     </div>
