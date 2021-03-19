@@ -95,10 +95,6 @@
         }
     }
 
-    &--opposite-notch {
-        overflow: hidden;
-    }
-
     &--before-fixed {
         &::before {
             position: fixed;
@@ -306,8 +302,9 @@
 
             #{$root}__notch--opposite & {
                 left: auto;
-                right: 1px;
-                transform: translate3d(100%, 0, 0);
+                right: calc(var(--margin-width) * -1); // Make negative
+                transform: translate3d(0, 0, 0);
+                width: var(--margin-width);
             }
         }
 
