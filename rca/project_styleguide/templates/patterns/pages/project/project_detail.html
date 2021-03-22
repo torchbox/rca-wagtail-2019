@@ -67,9 +67,11 @@
                     </div>
                 </div>
 
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--first-col"></div>
-                </div>
+                {% if page.gallery %}
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--first-col"></div>
+                    </div>
+                {% endif %}
 
             </section>
 
