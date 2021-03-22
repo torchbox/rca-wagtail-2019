@@ -285,7 +285,6 @@
             height: initial;
         }
 
-        // needs to be accompanied by section--opposite-notch to stop overflow
         #{$root}__notch--opposite & {
             grid-column: 1 / span 2;
         }
