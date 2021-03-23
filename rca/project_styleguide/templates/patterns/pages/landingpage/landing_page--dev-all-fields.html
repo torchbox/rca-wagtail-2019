@@ -57,7 +57,7 @@
 
 
                     {% if related_pages %}
-                        <section class="landing-page__middle section section--start section--opposite-notch bg bg--light">
+                        <section class="landing-page__middle section section--start bg bg--light">
 
                             <div class="section__row research-spaces">
                                 <div class="section__header section__header--bottom-space grid">
@@ -98,8 +98,8 @@
 
             {% if page_list %}
 
-                <section class="section section--opposite-notch bg bg--light">
-                    <div class="section__row section__row--first section__row--last-large">
+                <section class="section bg bg--light">
+                    <div class="sectiont section__row--last-large">
                         {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page_list title=page.page_list_title modifier="after-action related-content--meta-new-line" %}
                     </div>
                     {% if not page.stats_block %}

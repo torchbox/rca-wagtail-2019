@@ -30,7 +30,7 @@ class FormPage(WagtailCaptchaEmailForm, BasePage):
 
     subpage_types = []
 
-    introduction = models.TextField(blank=True)
+    introduction = RichTextField(blank=True)
     thank_you_text = RichTextField(
         blank=True,
         help_text="Text displayed to the user on successful submission of the form",

@@ -13,7 +13,7 @@ import CategoriesPanels from './CategoriesPanels';
 const ProgrammesCategories = ({ categories, activeCategory }) => {
     return (
         <div className="programmes-categories">
-            <div className="section section--opposite-notch bg bg--dark">
+            <div className="section bg bg--dark">
                 <div className="section__notch section__notch--opposite">
                     <div className="section__notch-fill section__notch-fill--content-height section__notch-fill--first-col section__notch-fill--second-col@medium">
                         <CategoriesTablist

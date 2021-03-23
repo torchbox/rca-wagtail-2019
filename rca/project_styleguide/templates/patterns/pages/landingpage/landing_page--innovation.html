@@ -63,7 +63,7 @@
             {% endif %}
 
             {% if page_list %}
-                <section class="section section--opposite-notch bg bg--light">
+                <section class="section bg bg--light">
                     <div class="section__row section__row--first section__row--last-large">
                         {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page_list title=page.page_list_title modifier="after-action related-content--meta-new-line" %}
                     </div>
@@ -81,7 +81,7 @@
             {% endif %}
 
              {% if related_pages_highlights %}
-                <section class="landing-page__top section section--opposite-notch section--start bg bg--light">
+                <section class="landing-page__top section section--start bg bg--light">
 
                     <div class="section__row section__row--last-large research-highlights">
                         {% if page.highlights_title %}

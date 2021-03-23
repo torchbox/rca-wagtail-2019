@@ -27,9 +27,9 @@ app--form no-hero
         {% if page.introduction or form.errors %}
         <div class="introduction grid">
             {% if page.introduction %}
-                <p class="introduction__text {% if not form.errors %}introduction__text--no-margin{% endif %} heading heading--five layout__@large-start-three layout__span-two">
-                    {{ page.introduction }}
-                </p>
+                <div class="introduction__text {% if not form.errors %}introduction__text--no-margin{% endif %} heading heading--five layout__@large-start-three layout__span-two">
+                    {{ page.introduction|richtext }}
+                </div>
             {% endif %}
             {% if form.errors %}
                 <p class="introduction__errors introduction__text--no-margin heading heading--five layout__@large-start-three layout__span-two">
