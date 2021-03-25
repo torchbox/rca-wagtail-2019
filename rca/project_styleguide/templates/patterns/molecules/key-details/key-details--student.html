@@ -61,14 +61,15 @@
                 </ul>
             </div>
         {% endif %}
-        {% if social_links %}
+        {% with personal_links=page.personal_links.all %}
+        {% if personal_links %}
             <div class="key-details__section key-details__section--supervisors">
                 <h4 class="body body--two key-details__sub-heading">Personal links</h4>
                 <ul class="key-details__list">
-                    {% for item in social_links %}
+                    {% for item in personal_links %}
                         <li class="key-details__list-item">
-                            <a href="{{ item.value.url }}" class="link link--tertiary link--link link--external" target="_blank" rel="noreferrer" property="schema:sameAs" >
-                                <span class="link__label">{{ item.value.title }}</span>
+                            <a href="{{ item.url }}" class="link link--tertiary link--link link--external" target="_blank" rel="noreferrer" property="schema:sameAs" >
+                                <span class="link__label">{{ item.link_title }}</span>
                                 <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
                             </a>
                         </li>
@@ -76,5 +77,6 @@
                 </ul>
             </div>
         {% endif %}
+        {% endwith %}
     </div>
 {% endif %}

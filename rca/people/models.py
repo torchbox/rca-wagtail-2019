@@ -19,7 +19,7 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
     TabbedInterface,
 )
-from wagtail.core.fields import RichTextField, StreamBlock, StreamField
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -37,6 +37,8 @@ from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, SluggedTaxonomy
 
 from .utils import get_area_linked_filters
+
+STUDENT_PAGE_RICH_TEXT_FEATURES = features = ["bold", "italic", "link"]
 
 
 class AreaOfExpertise(models.Model):
@@ -485,10 +487,6 @@ class StaffIndexPage(BasePage):
         return context
 
 
-class StudentType(SluggedTaxonomy):
-    pass
-
-
 class DegreeType(SluggedTaxonomy):
     pass
 
@@ -504,15 +502,38 @@ class RelatedStudentPage(Orderable):
     panels = [PageChooserPanel("page")]
 
 
-class StudentPageStudentTypePlacement(models.Model):
-    page = ParentalKey("StudentPage", related_name="student_types")
-    type = models.ForeignKey(
-        StudentType,
-        on_delete=models.CASCADE,
-        related_name="related_student",
-        verbose_name=_("Student type"),
+class StudentPageGallerySlide(Orderable):
+    source_page = ParentalKey("StudentPage", related_name="gallery_slides")
+    title = models.CharField(max_length=120)
+    image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        related_name="+",
+        on_delete=models.SET_NULL,
     )
-    panels = [FieldPanel("type")]
+    author = models.CharField(max_length=120)
+
+    panels = [ImageChooserPanel("image"), FieldPanel("title"), FieldPanel("author")]
+
+
+class StudentPageSocialLinks(Orderable):
+    source_page = ParentalKey("StudentPage", related_name="personal_links")
+    link_title = models.CharField(
+        max_length=120, help_text="The text displayed for the link"
+    )
+    url = models.URLField()
+
+    panels = [FieldPanel("link_title"), FieldPanel("url")]
+
+
+class StudentPageRelatedLinks(Orderable):
+    source_page = ParentalKey("StudentPage", related_name="relatedlinks")
+    link_title = models.CharField(
+        max_length=120, help_text="The text displayed for the link"
+    )
+    url = models.URLField()
+
+    panels = [FieldPanel("link_title"), FieldPanel("url")]
 
 
 class StudentPageAreOfExpertisePlacement(models.Model):
@@ -564,32 +585,24 @@ class StudentPage(BasePage):
     bio = RichTextField(
         blank=True, help_text="Add a detail summary", verbose_name="Abstract",
     )
-    social_links = StreamField(
-        StreamBlock([("Link", LinkBlock(required=False))], max_num=5, required=False),
-        blank=True,
-        verbose_name="Personal links",
-    )
     programme = models.ForeignKey(
         "programmes.ProgrammePage", on_delete=models.SET_NULL, null=True, blank=True,
     )
-    research_highlights_title = models.CharField(
-        max_length=120,
-        blank=True,
-        help_text=_(
-            "The title value displayed above the Research highlights gallery showing project pages"
-        ),
+
+    biography = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
+    degrees = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
+    experience = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
+    awards = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
+    funding = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
+    exhibitions = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
+    publications = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
+    research_outputs = RichTextField(
+        blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES
     )
-    gallery = StreamField(
-        [("slide", GalleryBlock())], blank=True, verbose_name=_("Gallery")
-    )
-    more_information_title = models.CharField(max_length=80, default="More information")
-    more_information = StreamField(
-        [("accordion_block", AccordionBlockWithTitle())],
-        blank=True,
-        verbose_name=_("More information"),
-    )
-    related_links = StreamField(
-        [("link", LinkBlock())], blank=True, verbose_name="Related Links"
+    conferences = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
+    additional_information_title = models.TextField(blank=True)
+    addition_information_content = RichTextField(
+        blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES
     )
 
     search_fields = BasePage.search_fields + [
@@ -619,31 +632,44 @@ class StudentPage(BasePage):
         FieldPanel("bio"),
         MultiFieldPanel(
             [
-                FieldPanel("research_highlights_title"),
                 InlinePanel(
                     "related_project_pages", label=_("Project pages"), max_num=5
                 ),
             ],
             heading=_("Research highlights gallery"),
         ),
-        StreamFieldPanel("gallery"),
+        InlinePanel("gallery_slides", label="Gallery slide", max_num=5),
         MultiFieldPanel(
             [
-                FieldPanel("more_information_title"),
-                StreamFieldPanel("more_information"),
+                FieldPanel("biography"),
+                FieldPanel("degrees"),
+                FieldPanel("experience"),
+                FieldPanel("awards"),
+                FieldPanel("funding"),
+                FieldPanel("exhibitions"),
+                FieldPanel("publications"),
+                FieldPanel("research_outputs"),
+                FieldPanel("conferences"),
             ],
             heading="More information",
         ),
-        StreamFieldPanel("related_links"),
+        MultiFieldPanel(
+            [
+                FieldPanel("additional_information_title"),
+                FieldPanel("addition_information_content"),
+            ],
+            heading="Additional information",
+        ),
+        InlinePanel("relatedlinks", label="External links", max_num=5),
     ]
+
     key_details_panels = [
-        InlinePanel("student_types", label="Student type"),
         InlinePanel("related_area_of_expertise", label="Areas of Expertise"),
         InlinePanel(
             "related_research_centre_pages", label=_("Related Research Centres ")
         ),
         InlinePanel("related_schools", label=_("Related Schools")),
-        StreamFieldPanel("social_links"),
+        InlinePanel("personal_links", label="Personal links", max_num=5),
     ]
 
     edit_handler = TabbedInterface(
@@ -660,6 +686,71 @@ class StudentPage(BasePage):
         parts = (self.student_title, self.first_name, self.last_name)
         return " ".join(p for p in parts if p)
 
+    def student_information(self):
+        # Method for preparing student data into an accordion friendly format
+        data = []
+        if self.biography:
+            data.append({"value": {"heading": "Biography", "body": self.biography}})
+        if self.degrees:
+            data.append({"value": {"heading": "Degrees", "body": self.degrees}})
+        if self.experience:
+            data.append({"value": {"heading": "Experience", "body": self.experience}})
+        if self.awards:
+            data.append({"value": {"heading": "Awards", "body": self.awards}})
+        if self.funding:
+            data.append({"value": {"heading": "Funding", "body": self.funding}})
+        if self.exhibitions:
+            data.append({"value": {"heading": "Exhibitions", "body": self.exhibitions}})
+        if self.publications:
+            data.append(
+                {"value": {"heading": "Publications", "body": self.publications}}
+            )
+        if self.research_outputs:
+            data.append(
+                {
+                    "value": {
+                        "heading": "Research outputs",
+                        "body": self.research_outputs,
+                    }
+                }
+            )
+        if self.conferences:
+            data.append({"value": {"heading": "Conferences", "body": self.conferences}})
+        if self.addition_information_content:
+            data.append(
+                {
+                    "value": {
+                        "heading": self.additional_information_title
+                        or "Additional information",
+                        "body": self.addition_information_content,
+                    }
+                }
+            )
+        return data
+
+    @property
+    def student_gallery(self):
+        # Format related model to a nice dict
+        data = []
+        for item in self.gallery_slides.all():
+            data.append(
+                {
+                    "value": {
+                        "title": item.title,
+                        "author": item.author,
+                        "image": item.image,
+                    }
+                }
+            )
+        return data
+
+    @property
+    def student_related_links(self):
+        return [
+            {"value": {"title": item.link_title, "url": item.url}}
+            for item in self.relatedlinks.all()
+        ]
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         research_pages = get_student_research_projects(self)
@@ -667,6 +758,7 @@ class StudentPage(BasePage):
         context["research_highlights"] = format_research_highlights(research_pages)
         context["related_schools"] = self.related_schools.all()
         context["research_centres"] = self.related_research_centre_pages.all()
+        context["student_information"] = self.student_information()
         return context
 
 

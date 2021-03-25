@@ -9,8 +9,10 @@ context:
     - { title: 'Dr John Smith', link: '#' }
   funding:
     - { title: 'TECHNE, AHRC Doctoral Award', link: '#' }
-  social_links:
-    - item:
-      value:
-        title: 'katrinehesseldahl.co.uk'
-        link: 'https://katrinehesseldahl.co.uk'
+  page:
+    personal_links:
+      all:
+        - {
+            link_title: 'katrinehesseldahl.co.uk',
+            url: 'https://katrinehesseldahl.co.uk',
+          }
