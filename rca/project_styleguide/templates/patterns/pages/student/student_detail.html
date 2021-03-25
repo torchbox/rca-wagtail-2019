@@ -80,10 +80,9 @@
                                 {{ page.bio|safe }}
                             </div>
 
-                            {# Should only show if person is alumni #}
-                            {% if page.thesis %}
+                            {% if page.link_to_final_thesis %}
                             <div class="staff-body__action">
-                                <a class="link link--primary link--link body body--two" href="{{ page.thesis }}">
+                                <a class="link link--primary link--link body body--two" href="{{ page.link_to_final_thesis }}">
                                     <span class="link__label">See final thesis</span>
                                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                 </a>
@@ -91,7 +90,7 @@
                             {% endif %}
                         </div>
                         <div class="staff-body__key-details">
-                            {% include "patterns/molecules/key-details/key-details--student.html" with areas=areas supervisors=supervisors social_links=page.social_links %}
+                            {% include "patterns/molecules/key-details/key-details--student.html" with areas=areas supervisors=page.supervisors social_links=page.social_links %}
                         </div>
                     </div>
                 </div>
