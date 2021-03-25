@@ -7,6 +7,8 @@ from wagtail.admin.edit_handlers import (
     FieldRowPanel,
     InlinePanel,
     MultiFieldPanel,
+    ObjectList,
+    TabbedInterface,
 )
 from wagtail.admin.mail import send_mail
 from wagtail.contrib.forms.models import AbstractFormField
@@ -49,6 +51,7 @@ class FormPage(WagtailCaptchaEmailForm, BasePage):
     email_body_copy = models.TextField(
         blank=True, help_text="Enter the text to include in the body of the email.",
     )
+    key_details = RichTextField(blank=True, features=["link", "h3", "ul", "ol"])
 
     search_fields = BasePage.search_fields + [index.SearchField("introduction")]
 
@@ -72,6 +75,17 @@ class FormPage(WagtailCaptchaEmailForm, BasePage):
             "Email",
         ),
     ]
+
+    key_details_panels = [FieldPanel("key_details")]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading="Content"),
+            ObjectList(key_details_panels, heading="Key details"),
+            ObjectList(BasePage.promote_panels, heading="Promote"),
+            ObjectList(BasePage.settings_panels, heading="Settings"),
+        ]
+    )
 
     def process_form_submission(self, form):
         submission = super().process_form_submission(form)
