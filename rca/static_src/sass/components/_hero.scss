@@ -14,6 +14,14 @@
         width: 100%;
         height: 100vh; /* Fallback for browsers that do not support Custom Properties */
         height: calc(var(--vh, 1vh) * 100);
+
+        #{$root}__image {
+            height: 100vh;
+
+            @include media-query(medium) {
+                height: 100%;
+            }
+        }
     }
 
     &__image {
@@ -24,6 +32,7 @@
 
         @include media-query(medium) {
             min-height: 450px;
+            height: 100%;
         }
 
         @include media-query(large) {
