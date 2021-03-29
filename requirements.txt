@@ -8,7 +8,7 @@ django-pattern-library==0.2.4
 django-birdbath==0.0.2
 
 # Production dependencies
-whitenoise[brotli]==4.1.2
+whitenoise[brotli]==5.2.0
 dj-database-url==0.5.0
 raven==6.10.0
 django-redis==4.10.0
