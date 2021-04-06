@@ -1,12 +1,16 @@
 context:
   page:
-    breadcrumb:
-      - { label: 'More about the RCA', link: /more/ }
-      - { label: 'Staff', link: /more/staff }
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: More about the RCA
+      - is_root: false
+        depth: 3
+        title: Staff
     profile_image: true
-    profile_title: Professor
-    profile_firstname: Dale
-    profile_surname: Harrow
+    staff_title: Professor
+    first_name: Dale
+    last_name: Harrow
     profile_type: Tutor
     job_title:
       - department: Intelligent Mobility
@@ -15,16 +19,10 @@ context:
           - { label: 'Chair and Director' }
           - { label: 'Dean of School Mobility' }
           - { label: 'Head of Programmes' }
-    profile_contact_email: imdc@rca.ac.uk
-    profile_school:
-      - { title: 'Intelligent Mobility Design Centre', link: '#' }
-    profile_expertise:
-      - { title: 'AI', link: '#' }
-      - { title: 'Robotics', link: '#' }
-      - { title: 'Vehicle Design', link: '#' }
-    profile_introduction: 'Director of his own practice, Dale has worked on projects of all scales, public and private, around the world.'
-    profile_body: '<p>Dale is an international opinion former and commentator and media persona on design the automotive and transport industry.</p><p>He is a multi award-winning designer, academic leader and a researcher and is regularly cited as one of the most influential and important figures in the automotive industry.</p><p>He is committed to design education and is always keen to raise the intellectual debate about vehicle and automotive design and is currently engaged with a major show at London’s Victoria and Albert museum celebrating the origins processes and history of car design.</p>'
-    accordion:
+    email: imdc@rca.ac.uk
+    introduction: 'Director of his own practice, Dale has worked on projects of all scales, public and private, around the world.'
+    body: '<p>Dale is an international opinion former and commentator and media persona on design the automotive and transport industry.</p><p>He is a multi award-winning designer, academic leader and a researcher and is regularly cited as one of the most influential and important figures in the automotive industry.</p><p>He is committed to design education and is always keen to raise the intellectual debate about vehicle and automotive design and is currently engaged with a major show at London’s Victoria and Albert museum celebrating the origins processes and history of car design.</p>'
+    more_information:
       - path:
         value:
           body: 'TBC'
@@ -81,24 +79,51 @@ context:
         description: 'Creating world class experiences that started at the RCA'
         image: true
         link: '#'
-    related_students:
-      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
-      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
-      - {
-          first_name: 'Nelly',
-          surname: 'Cholmondeley-Cale',
-          meta: Current,
-          link: '#',
-        }
-      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
-      - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
-      - {
-          first_name: 'Yancy',
-          surname: 'Wolfeschlegelsteinhausenbergerdorffd',
-          meta: Current,
-          link: '#',
-        }
     related_links:
-      - { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
-      - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
-      - { text: 'Lorem ipsum dolor sit', href: 'http://www.google.com' }
+      - item:
+        value: { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
+      - item:
+        value: { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
+      - item:
+        value: { text: 'Lorem ipsum dolor site', href: 'http://www.google.com' }
+
+  areas:
+    - item:
+      area_of_expertise: { title: 'AI', link: '#' }
+    - item:
+      area_of_expertise: { title: 'Robotics', link: '#' }
+    - item:
+      area_of_expertise: { title: 'Vehicle Design', link: '#' }
+  related_schools:
+    - page: { title: 'School of Communication', url: '#' }
+  related_students:
+    - {
+        first_name: 'Nelly',
+        surname: 'Abbott',
+        meta: Current,
+        link: '#',
+        image_url: 'https://placekitten.com/120/120',
+      }
+    - {
+        first_name: 'Nelly',
+        surname: 'Abbott',
+        meta: Current,
+        link: '#',
+        image_url: 'https://placekitten.com/120/120',
+      }
+    - {
+        first_name: 'Nelly',
+        surname: 'Cholmondeley-Cale',
+        meta: Current,
+        link: '#',
+        image_url: 'https://placekitten.com/120/120',
+      }
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    - { first_name: 'Nelly', surname: 'Abbott', meta: Current, link: '#' }
+    - {
+        first_name: 'Yancy',
+        surname: 'Wolfeschlegelsteinhausenbergerdorffd',
+        meta: Current,
+        link: '#',
+        image_url: 'https://placekitten.com/120/120',
+      }
