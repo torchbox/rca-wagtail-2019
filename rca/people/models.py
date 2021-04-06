@@ -754,11 +754,7 @@ class StudentPage(BasePage):
             else:
                 supervisors.append(
                     {
-                        "title": item.title
-                        + " "
-                        + item.first_name
-                        + " "
-                        + item.surname,
+                        "title": f"{item.title} {item.first_name} {item.surname}",
                         "link": item.link,
                     }
                 )
