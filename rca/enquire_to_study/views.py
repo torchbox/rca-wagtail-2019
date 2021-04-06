@@ -131,7 +131,7 @@ class EnquireToStudyFormView(FormView):
                 ),
                 None,
             )
-        for programme_type in form_data["programme_types"]:
+        for programme_type in form_data["programme_type"]:
             level_of_study_code = next(
                 (
                     level
