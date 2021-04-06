@@ -19,20 +19,17 @@
                 </h1>
             </div>
         </div>
-        {% if page.introduction or form.errors %}
+
         <div class="introduction grid">
-            {% if page.introduction %}
             <p class="introduction__text {% if not form.errors %}introduction__text--no-margin{% endif %} heading heading--five layout__@large-start-three layout__span-two">
-                {{ page.introduction }}
+                Please fill in your details below and we will send you relevant information about your programmes of interest, open days and application deadlines. All fields marked * are mandatory.
             </p>
-            {% endif %}
             {% if form.errors %}
                 <p class="introduction__errors introduction__text--no-margin heading heading--five layout__@large-start-three layout__span-two">
                     There were some errors with your form. Please amend the fields highlighted below.
                 </p>
             {% endif %}
         </div>
-        {% endif %}
     </div>
 
     <div class="page__content">
