@@ -28,7 +28,7 @@ class EnquireToStudyForm(forms.Form):
     country_of_citizenship = CountryField().formfield()
 
     # Study details
-    programme_types = forms.ModelChoiceField(
+    programme_type = forms.ModelChoiceField(
         queryset=ProgrammeType.objects.all().exclude(qs_code__exact=""),
         widget=forms.RadioSelect,
         empty_label=None,
@@ -69,9 +69,7 @@ class EnquireToStudyForm(forms.Form):
         self.fields[
             "country_of_citizenship"
         ].label = "Which country are you a citizen of?"
-        self.fields[
-            "programme_types"
-        ].label = "Type of programme(s) you're interested in"
+        self.fields["programme_type"].label = "Type of programme you're interested in"
         self.fields["programmes"].label = "The programme(s) you're interested in"
         self.fields["start_date"].label = "When do you plan to start your degree?"
         self.fields["enquiry_reason"].label = "What's your enquiry about?"
@@ -115,7 +113,7 @@ class EnquireToStudyForm(forms.Form):
 
     def save(self):
         data = self.cleaned_data.copy()
-        programme_type = data.pop("programme_types")
+        programme_type = data.pop("programme_type")
         programmes = data.pop("programmes")
         data.pop("captcha")
         enquiry_submission = EnquiryFormSubmission.objects.create(**data)
