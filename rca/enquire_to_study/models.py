@@ -175,6 +175,7 @@ class EnquireToStudySettings(BaseSetting):
     ]
 
 
+@register_setting
 class EnquiryFormKeyDetails(BaseSetting):
     content = RichTextField(features=["h3", "bold", "italic", "link"],)
 
