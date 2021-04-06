@@ -742,8 +742,6 @@ class StudentPage(BasePage):
 
     @property
     def supervisors(self):
-        if not self.related_supervisor:
-            return
         supervisors = []
         for item in self.related_supervisor.all():
             if item.supervisor_page:
