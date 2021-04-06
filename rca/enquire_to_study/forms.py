@@ -24,7 +24,7 @@ class EnquireToStudyForm(forms.Form):
 
     # Country of residence & citizenship
     country_of_residence = CountryField().formfield()
-    city = forms.CharField(max_length=255)
+    city = forms.CharField(max_length=255, label="City or town of residence")
     country_of_citizenship = CountryField().formfield()
 
     # Study details
@@ -74,10 +74,10 @@ class EnquireToStudyForm(forms.Form):
         self.fields["start_date"].label = "When do you plan to start your degree?"
         self.fields["enquiry_reason"].label = "What's your enquiry about?"
         self.fields["is_read_data_protection_policy"].label = mark_safe(
-            'I have read the <a class="link link--link" '
+            '<p class="rich-text">I have read the <a class="link link--link" '
             'href="https://www.rca.ac.uk/contact-us/about-this-website/privacy-cookies." '
             'target="_blank">data protection</a> notice and agree for my data '
-            "to be processed accordingly."
+            "to be processed accordingly.</p>"
         )
         self.fields["is_notification_opt_in"].label = (
             "From time to time we would like to notify you about events, news, "
