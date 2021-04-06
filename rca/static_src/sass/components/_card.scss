@@ -712,6 +712,10 @@
             }
         }
 
+        #{$root}__heading {
+            color: $color--white;
+        }
+
         #{$root}__description,
         #{$root}__person-meta {
             color: $color--meta-darkbg;
@@ -747,6 +751,10 @@
                     background-color: $color--white;
                 }
             }
+        }
+
+        #{$root}__heading {
+            color: $color--black;
         }
 
         #{$root}__description,
