@@ -680,8 +680,7 @@ class StudentPage(BasePage):
         FieldPanel("degree_type"),
         FieldPanel("degree_status"),
         FieldPanel("link_to_final_thesis"),
-        InlinePanel("related_supervisor", max_num=1, label="Supervisor information"),
-        FieldPanel("student_funding"),
+        InlinePanel("related_supervisor", label="Supervisor information"),
         FieldPanel("introduction"),
         FieldPanel("bio"),
         MultiFieldPanel(
@@ -724,6 +723,7 @@ class StudentPage(BasePage):
         ),
         InlinePanel("related_schools", label=_("Related Schools")),
         InlinePanel("personal_links", label="Personal links", max_num=5),
+        FieldPanel("student_funding"),
     ]
 
     edit_handler = TabbedInterface(
