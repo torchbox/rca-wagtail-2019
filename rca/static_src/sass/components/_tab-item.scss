@@ -60,15 +60,22 @@
         }
     }
 
+    // sass-lint:disable no-vendor-prefixes
     .js-is-sticky.jump-nav & {
         color: $color--meta-lightbg;
+        /* arbitrary webkit-only property that forces a redraw */
+        -webkit-margin-start: 0.1px;
 
         &:hover {
             color: $color--black;
+            /* arbitrary webkit-only property that forces a redraw */
+            -webkit-margin-start: 0.2px;
         }
 
         &.is-active {
             color: $color--black;
+            /* arbitrary webkit-only property that forces a redraw */
+            -webkit-margin-start: 0;
         }
     }
 

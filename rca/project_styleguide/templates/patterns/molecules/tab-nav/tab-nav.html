@@ -1,18 +1,18 @@
 <div class="tab-nav {{ modifier }} {% if sticky %}sticky{% endif %}" role="tablist" aria-label="Programme Tabs">
     <div class="tab-nav__layout grid">
-<nav class="tab-nav__container" role="tablist" aria-label="Tabs">
-    {% for tab in tabs %}
-        {% with tab.title|slugify as tab_title_slug %}
-            <a id="tab-{{ tab_title_slug }}" class="tab-item js-tab-item {% if forloop.counter == 1 %}active{% endif %}" href="#{{ tab_title_slug }}" role="tab" aria-controls="{{ tab_title_slug }}" data-tab="{{ tab_title_slug }}" aria-selected="true">{{ tab.title }}</a>
-        {% endwith %}
-    {% endfor %}
-    {% if ask_question %}
-    <a href="#contact" class="tab-item link link--tertiary link--down" role="tab">
-        <span class="link__label">Ask a question</span>
-        <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
-    </a>
-    {% endif %}
-</nav>
+        <nav class="tab-nav__container" aria-label="Tabs">
+            {% for tab in tabs %}
+                {% with tab.title|slugify as tab_title_slug %}
+                    <a id="tab-{{ tab_title_slug }}" class="tab-item js-tab-item {% if forloop.counter == 1 %}active{% endif %}" href="#{{ tab_title_slug }}" role="tab" aria-controls="{{ tab_title_slug }}" data-tab="{{ tab_title_slug }}" aria-selected="true">{{ tab.title }}</a>
+                {% endwith %}
+            {% endfor %}
+            {% if ask_question %}
+            <a href="#contact" class="tab-item link link--tertiary link--down" role="tab">
+                <span class="link__label">Ask a question</span>
+                <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+            </a>
+            {% endif %}
+        </nav>
     </div>
 </div>
 <div class="tab-nav__placeholder {{ modifier }}"></div>
