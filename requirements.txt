@@ -20,7 +20,7 @@ django-storages[boto3]==1.11.1
 django-referrer-policy==1.0
 django-csp==3.7
 scout-apm==2.18.0
-django-basic-auth-ip-whitelist==0.2.1
+django-basic-auth-ip-whitelist==0.3.4
 redis==3.5.3
 wagtail-orderable==1.0.3
 lxml==4.6.3
