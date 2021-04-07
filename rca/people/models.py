@@ -246,9 +246,10 @@ class StaffPage(BasePage):
         related_project_page_ids = []
 
         # First return any editorially-highlighted project pages
-        for p in self.related_project_pages.filter(page__live=True):
-            related_project_page_ids.append(p.page.id)
-            yield p.page.specific
+        for p in self.related_project_pages.all():
+            if p.page.live:
+                related_project_page_ids.append(p.page.id)
+                yield p.page.specific
 
         # Then return any other project pages which the staff member leads or is a team member of,
         # filtering out any of the highlights already output
