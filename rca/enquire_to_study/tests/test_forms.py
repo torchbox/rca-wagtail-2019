@@ -26,7 +26,7 @@ class TestEnquireToStudyForm(TestCase):
             "country_of_residence": "GB",
             "city": "Bristol",
             "country_of_citizenship": "GB",
-            "programme_types": [ProgrammeTypeFactory(qs_code="test").pk],
+            "programme_type": ProgrammeTypeFactory(qs_code="test").pk,
             "programmes": [ProgrammePageFactory(qs_code=1, programme_type__pk=2).pk],
             "start_date": self.start_date.pk,
             "enquiry_reason": self.enquiry_reason.pk,
@@ -62,7 +62,7 @@ class TestEnquireToStudyForm(TestCase):
         )
         self.assertEqual(self.form_data["city"], submission.city)
         self.assertEqual(
-            self.form_data["programme_types"][0],
+            self.form_data["programme_type"],
             submission.enquiry_submission_programme_types.first().programme_type.id,
         )
         self.assertEqual(
@@ -94,7 +94,7 @@ class TestEnquireToStudyForm(TestCase):
 
         self.assertEqual(
             programme_types_orderable.programme_type.pk,
-            self.form_data["programme_types"][0],
+            self.form_data["programme_type"],
         )
         self.assertEqual(
             programmes_orderable.programme.pk, self.form_data["programmes"][0]

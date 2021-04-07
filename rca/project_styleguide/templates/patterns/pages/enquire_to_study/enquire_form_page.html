@@ -19,20 +19,17 @@
                 </h1>
             </div>
         </div>
-        {% if page.introduction or form.errors %}
+
         <div class="introduction grid">
-            {% if page.introduction %}
             <p class="introduction__text {% if not form.errors %}introduction__text--no-margin{% endif %} heading heading--five layout__@large-start-three layout__span-two">
-                {{ page.introduction }}
+                Please fill in your details below and we will send you relevant information about your programmes of interest, open days and application deadlines. All fields marked * are mandatory.
             </p>
-            {% endif %}
             {% if form.errors %}
                 <p class="introduction__errors introduction__text--no-margin heading heading--five layout__@large-start-three layout__span-two">
                     There were some errors with your form. Please amend the fields highlighted below.
                 </p>
             {% endif %}
         </div>
-        {% endif %}
     </div>
 
     <div class="page__content">
@@ -40,11 +37,12 @@
         <section class="section bg bg--dark">
             {% if form %}
                 <form action="." method="post" class="form {% if form.errors %}form--errors{% endif %} grid layout">
-                    <div class="layout__start-one layout__span-two layout__@large-span-one">
-                        <div class="key-details">
-                            <div class="key-details__header">
-                                <h2 class="heading heading--five key-details__heading">Key details</h2>
-                            </div>
+                    {% if settings.enquire_to_study.EnquiryFormKeyDetails.content %}
+                        <div class="layout__start-one layout__span-two layout__@large-span-one">
+                            <div class="key-details">
+                                <div class="key-details__header">
+                                    <h2 class="heading heading--five key-details__heading">Key details</h2>
+                                </div>
                                 <div class="key-details__section key-details__section--location">
                                     <ul class="key-details__list">
                                         <li class="key-details__list-item">
@@ -52,8 +50,9 @@
                                         </li>
                                     </ul>
                                 </div>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                     <div class="form__container layout__start-one layout__@large-start-two layout__span-two layout__@large-span-three">
                         <div class="form__content section section--top-space-large">
                             {% csrf_token %}
@@ -92,8 +91,11 @@
                                             {% endif %}
 
                                         </{% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}fieldset{% else %}div{% endif %} >
-
-                                        {% if field.help_text and widget_type != 'checkbox_select_multiple' %}<div class="form-item__help">{{ field.help_text }}</div>{% endif %}
+                                        {% if field.help_text %}
+                                            {% if widget_type != 'checkbox_select_multiple' and widget_type != 'radio_select' %}
+                                                <div class="form-item__help">{{ field.help_text }}</div>
+                                            {% endif %}
+                                        {% endif %}
 
                                     </div>
                                 {% endwith %}
