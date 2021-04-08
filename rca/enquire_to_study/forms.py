@@ -74,7 +74,7 @@ class EnquireToStudyForm(forms.Form):
         self.fields["start_date"].label = "When do you plan to start your degree?"
         self.fields["enquiry_reason"].label = "What's your enquiry about?"
         self.fields["is_read_data_protection_policy"].label = mark_safe(
-            '<p class="rich-text">I have read the <a class="link link--link" '
+            '<p class="rich-text form-item__rich-text">I have read the <a class="link link--link" '
             'href="https://www.rca.ac.uk/contact-us/about-this-website/privacy-cookies." '
             'target="_blank">data protection</a> notice and agree for my data '
             "to be processed accordingly.</p>"
