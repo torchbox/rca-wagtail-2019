@@ -390,6 +390,11 @@
         }
     }
 
+    &__rich-text {
+        margin: 0;
+        display: inline-block;
+    }
+
     input,
     textarea,
     select {
