@@ -51,7 +51,7 @@ class FormPage(WagtailCaptchaEmailForm, BasePage):
     email_body_copy = models.TextField(
         blank=True, help_text="Enter the text to include in the body of the email.",
     )
-    key_details = RichTextField(blank=True, features=["link", "h3", "ul", "ol"])
+    key_details = RichTextField(blank=True, features=["bold", "italic", "link", "h3"])
 
     search_fields = BasePage.search_fields + [index.SearchField("introduction")]
 
