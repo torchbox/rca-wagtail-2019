@@ -12,6 +12,7 @@ from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
     FieldPanel,
+    HelpPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
@@ -547,6 +548,54 @@ class StudentPageAreOfExpertisePlacement(models.Model):
     panels = [FieldPanel("area_of_expertise")]
 
 
+class StudentPageSupervisor(models.Model):
+    page = ParentalKey(
+        "people.StudentPage",
+        on_delete=models.CASCADE,
+        related_name="related_supervisor",
+    )
+    supervisor_page = models.ForeignKey(
+        StaffPage, null=True, blank=True, on_delete=models.CASCADE, related_name="+",
+    )
+
+    title = models.CharField(max_length=20, help_text="E.G, Dr, Mrs, etc", blank=True)
+    first_name = models.CharField(max_length=255, blank=True)
+    surname = models.CharField(max_length=255, blank=True)
+    link = models.URLField(blank=True)
+
+    panels = [
+        HelpPanel(
+            content="Choose an internal Staff page or manually enter information"
+        ),
+        PageChooserPanel("supervisor_page"),
+        FieldPanel("title"),
+        FieldPanel("first_name"),
+        FieldPanel("surname"),
+        FieldPanel("link"),
+    ]
+
+    def clean(self):
+        errors = defaultdict(list)
+
+        if self.supervisor_page and any(
+            [self.title, self.first_name, self.surname, self.link]
+        ):
+            errors["supervisor_page"].append(
+                _(
+                    "Please specify a supervisor page or manually enter information, both are not supported"
+                )
+            )
+
+        if not self.supervisor_page and not self.first_name:
+            errors["first_name"].append(_("Please specify a first name"))
+
+        if not self.supervisor_page and not self.surname:
+            errors["surname"].append(_("Please specify a surname"))
+
+        if errors:
+            raise ValidationError(errors)
+
+
 class StudentPage(BasePage):
     template = "patterns/pages/student/student_detail.html"
     parent_page_types = ["people.StudentIndexPage"]
@@ -604,6 +653,8 @@ class StudentPage(BasePage):
     addition_information_content = RichTextField(
         blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES
     )
+    link_to_final_thesis = models.URLField(blank=True)
+    student_funding = RichTextField(blank=True, features=["link"])
 
     search_fields = BasePage.search_fields + [
         index.SearchField("introduction"),
@@ -628,6 +679,8 @@ class StudentPage(BasePage):
         FieldPanel("degree_end_date"),
         FieldPanel("degree_type"),
         FieldPanel("degree_status"),
+        FieldPanel("link_to_final_thesis"),
+        InlinePanel("related_supervisor", label="Supervisor information"),
         FieldPanel("introduction"),
         FieldPanel("bio"),
         MultiFieldPanel(
@@ -670,6 +723,7 @@ class StudentPage(BasePage):
         ),
         InlinePanel("related_schools", label=_("Related Schools")),
         InlinePanel("personal_links", label="Personal links", max_num=5),
+        FieldPanel("student_funding"),
     ]
 
     edit_handler = TabbedInterface(
@@ -685,6 +739,27 @@ class StudentPage(BasePage):
     def name(self):
         parts = (self.student_title, self.first_name, self.last_name)
         return " ".join(p for p in parts if p)
+
+    @property
+    def supervisors(self):
+        supervisors = []
+        for item in self.related_supervisor.all():
+            if item.supervisor_page:
+                supervisors.append(
+                    {
+                        "title": item.supervisor_page.title,
+                        "link": item.supervisor_page.url,
+                    }
+                )
+            else:
+                supervisors.append(
+                    {
+                        "title": f"{item.title} {item.first_name} {item.surname}",
+                        "link": item.link,
+                    }
+                )
+
+        return supervisors
 
     def student_information(self):
         # Method for preparing student data into an accordion friendly format

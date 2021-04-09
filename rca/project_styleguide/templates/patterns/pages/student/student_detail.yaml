@@ -23,7 +23,7 @@ context:
     introduction: "Katrine's work aims to intrigue, interest and invite people to take steps in the direction towards a more sustainable, fair, fun and beautiful future for our society."
     bio: "<p>Katrine's work aims to intrigue, interest and invite people to take steps in the direction towards a more sustainable, fair, fun and beautiful future for our society.</p><p>She is deeply concerned with the scale and complexity of the problems we are facing today, e.g. climate changes, overuse of resources, social inequality, and feels a natural responsibility to be part of creating solutions for these problems.</p>"
     programme: Materials Science MPhil/PhD
-    thesis: '#'
+    link_to_final_thesis: '#'
     student_gallery:
       - slide:
         value:
@@ -69,6 +69,10 @@ context:
         value:
           title: 'katrinehesseldahl.co.uk'
           link: 'https://katrinehesseldahl.co.uk'
+    supervisors:
+      - item:
+        title: 'Dr John Smith'
+        link: '#'
   research_highlights:
     - slide:
       meta: 'School of Design'
@@ -94,8 +98,6 @@ context:
     - { title: 'Sustainable society', link: '#' }
   related_schools:
     - page: { title: 'Materials Science Research Centre', url: '#' }
-  supervisors:
-    - { title: 'Dr John Smith', link: '#' }
   student_information:
     - item:
       value:

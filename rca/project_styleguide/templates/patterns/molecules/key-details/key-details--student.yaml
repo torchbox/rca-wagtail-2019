@@ -6,10 +6,11 @@ context:
   related_schools:
     - page: { title: 'Materials Science Research Centre', url: '#' }
   supervisors:
-    - { title: 'Dr John Smith', link: '#' }
-  funding:
-    - { title: 'TECHNE, AHRC Doctoral Award', link: '#' }
+    - item:
+      title: 'Dr John Smith'
+      link: '#'
   page:
+    student_funding: 'TECHNE, AHRC Doctoral Award'
     personal_links:
       all:
         - {
