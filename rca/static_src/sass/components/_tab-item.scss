@@ -61,20 +61,19 @@
     }
 
     // sass-lint:disable no-vendor-prefixes
+    // Webkit properties added to fix currentColor not being updated correctly on older android devices
+    // https://stackoverflow.com/questions/36046185/how-to-hack-around-linear-gradient-with-currentcolor-bug-in-chrome
     .js-is-sticky.jump-nav & {
         color: $color--meta-lightbg;
-        /* arbitrary webkit-only property that forces a redraw */
         -webkit-margin-start: 0.1px;
 
         &:hover {
             color: $color--black;
-            /* arbitrary webkit-only property that forces a redraw */
             -webkit-margin-start: 0.2px;
         }
 
         &.is-active {
             color: $color--black;
-            /* arbitrary webkit-only property that forces a redraw */
             -webkit-margin-start: 0;
         }
     }

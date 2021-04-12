@@ -1,7 +1,10 @@
 from urllib.parse import urlparse
 
+from bs4 import BeautifulSoup
 from django import template
 from django.conf import settings
+from django.template.loader import render_to_string
+from wagtail.core.rich_text import RichText, expand_db_html
 from wagtail.core.utils import camelcase_to_underscore
 
 from rca.utils.models import SocialMediaSettings
@@ -179,3 +182,37 @@ def slice_pagination(page_range, current_page):
             pagination_pages.append([last_item])
 
     return pagination_pages
+
+
+@register.filter("richtext_force_external_links")
+def richtext_force_external_links(value):
+    """Filter to force all href["target"] attributes to be blank
+    This is similar to the core richtext filter
+    https://github.com/wagtail/wagtail/blob/main/wagtail/core/templatetags/wagtailcore_tags.py#L97-L108
+
+    The main difference being we want to force all links to open in a new window, this is useful for front end
+    form elements where the user would risk losing any form data. Typical scenario is getting the the end of
+    a form, clicking a link to view "terms and conditions", then upon returning to the form page the form inputs
+    could be reset.
+
+    We still set html via `expand_db_html`, to take care of any processing that may be added already, or in the future.
+    """
+    if isinstance(value, RichText):
+        # passing a RichText value through the |richtext_force_external_links filter should have no effect
+        return value
+    elif value is None:
+        html = ""
+    else:
+        if not isinstance(value, str):
+            raise TypeError(
+                "'richtext' template filter received an invalid value; expected string, got {}.".format(
+                    type(value)
+                )
+            )
+        html = expand_db_html(value)
+        soup = BeautifulSoup(html, "html.parser")
+        links = soup.find_all("a")
+        for link in links:
+            link["target"] = "_blank"
+        html = str(soup)
+    return render_to_string("wagtailcore/shared/richtext.html", {"html": html})
