@@ -1,4 +1,4 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags util_tags %}
 
 {% if key_details %}
 <div class="key-details">
@@ -9,7 +9,7 @@
             <h4 class="body body--two key-details__sub-heading">{{ item.title }}</h4>
             <ul class="key-details__list">
                 <li class="key-details__list-item">
-                    {{ key_details|richtext }}
+                    {{ key_details|richtext_force_external_links }}
                 </li>
             </ul>
         </div>
