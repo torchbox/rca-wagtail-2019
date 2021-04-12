@@ -6,6 +6,21 @@
     app--staff-listing no-hero
 {% endblock %}
 
+{% block title %}
+    {% if page.seo_title %}
+        {{ page.seo_title }}
+    {% else %}
+        {{ page.title }}
+    {% endif %}
+    –
+    {% for item in filters.items %}
+        {% for option in item.options %}
+            {% if option.active %}{{ option.title }}{% endif %}
+        {% endfor %}
+    {% endfor %}
+    – Page {{ results.number }} of {{ results.paginator.num_pages }}
+{% endblock %}
+
 {% block content %}
 
     <div class="page page--no-hero">
