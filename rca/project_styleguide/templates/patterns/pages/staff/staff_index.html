@@ -15,7 +15,7 @@
     –
     {% for item in filters.items %}
         {% for option in item.options %}
-            {% if option.active %}{{ option.title }}{% endif %}
+            {% if option.active %}{{ option.title }}{% if not forloop.last %},{% endif %}{% endif %}
         {% endfor %}
     {% endfor %}
     – Page {{ results.number }} of {{ results.paginator.num_pages }}
