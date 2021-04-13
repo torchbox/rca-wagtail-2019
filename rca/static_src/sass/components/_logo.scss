@@ -11,12 +11,12 @@
 
     &__image {
         height: auto;
+        fill: $color--white;
     }
 
     .footer & {
         #{$root}__image {
             width: 92px;
-            fill: $color--white;
 
             @include media-query(medium) {
                 width: 230px;
@@ -28,65 +28,15 @@
         }
     }
 
-    .theme-dark .header & {
-        #{$root}__image {
-            fill: $color--black;
-
-            &--light {
-                display: none;
-            }
-
-            &--dark {
-                display: block;
-            }
-        }
-    }
-
-    .app__navigation &,
-    .theme-light & {
-        #{$root}__image {
-            fill: $color--white;
-        }
-    }
-
-    .app__navigation & {
-        #{$root}__image {
-            &--dark {
-                display: none;
-            }
-        }
-    }
-
     .headroom--pinned.headroom--not-top .header &,
     .headroom--pinned.headroom--not-top .app__navigation & {
         #{$root}__image {
             width: 92px;
-            fill: $color--white;
-
-            &--light {
-                display: block;
-            }
-
-            &--dark {
-                display: none;
-            }
         }
     }
 
     .nav-open & {
         @include z-index(headerLogo);
         position: relative;
-    }
-
-    .app--404 & {
-        #{$root}__image {
-            &--light {
-                display: block;
-            }
-
-            &--dark {
-                display: none;
-            }
-        }
     }
 }
