@@ -22,6 +22,11 @@
             @include z-index(nav);
             position: relative;
             padding-top: ($gutter * 2);
+
+            @include media-query(large) {
+                // Menu buttons aligned with global header icons
+                padding-top: 33px;
+            }
         }
 
         // When inside pinned nav
@@ -137,6 +142,7 @@
         padding-top: ($gutter * 2);
 
         @include media-query(large) {
+            padding-top: 33px; // logo aligned with logo below
             height: 100vh;
         }
 
