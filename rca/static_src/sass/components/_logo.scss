@@ -43,7 +43,6 @@
     &__image {
         height: auto;
         fill: $color--white;
-        transition: transform $transition-cubic;
         transform-origin: left;
     }
 

@@ -1,6 +1,7 @@
 .header {
     $root: &;
     background-color: $color--black;
+    overflow: hidden; // Stop elements poking out during headroom transitions
 
     &__container {
         max-width: $site-width;
