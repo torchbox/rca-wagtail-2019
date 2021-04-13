@@ -1,5 +1,5 @@
 {% extends "patterns/base_page.html" %}
-{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static util_tags %}
 {% get_settings %}
 
 {% block body_class %}
@@ -13,18 +13,12 @@
         {{ page.title }}
     {% endif %}
     –
-    {% for item in filters.items %}
-        {% for option in item.options %}
-            {% if option.active %}{{ option.title }}{% if not forloop.last %},{% endif %}{% endif %}
-        {% endfor %}
-    {% endfor %}
+    {% get_all_active_filters filters %}
     – Page {{ results.number }} of {{ results.paginator.num_pages }}
 {% endblock %}
 
 {% block content %}
-
     <div class="page page--no-hero">
-
         {# Hero #}
         <header class="page__header bg bg--dark">
             <div class="title-area title-area--research-centre grid">
