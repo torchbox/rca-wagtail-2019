@@ -364,7 +364,6 @@ class StaffPage(BasePage):
                 )
             else:
                 directorates.append({"title": i.directorate.title})
-        print(directorates)
         return directorates
 
     def get_context(self, request, *args, **kwargs):

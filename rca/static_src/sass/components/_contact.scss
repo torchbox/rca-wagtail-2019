@@ -1,5 +1,6 @@
 .contact {
     $root: &;
+    position: relative; // allow absolute positioning of image to bottom of component
     padding-top: $gutter;
     padding-bottom: ($gutter * 4);
 
@@ -65,16 +66,13 @@
     }
 
     &__image-container {
-        position: relative;
-        grid-column: 4 / span 2;
-        margin-top: -($gutter * 14);
-        margin-right: $image-offset-right;
         display: none;
 
         #{$root}__image {
             @include z-index(above-gridlines);
             position: absolute;
             height: ($gutter * 30);
+            bottom: 0;
             object-fit: cover;
         }
 

@@ -256,6 +256,10 @@
                     // hide scrollbars as per clients request
                     scrollbar-width: none; // sass-lint:disable-line no-misspelled-properties
 
+                    .search-active & {
+                        height: 0; // don't show nav if search open
+                    }
+
                     &::-webkit-scrollbar {
                         display: none;
                     }

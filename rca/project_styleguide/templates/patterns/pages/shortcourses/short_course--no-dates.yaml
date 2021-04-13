@@ -117,7 +117,7 @@ context:
     - { text: 'Custom Executive Education', href: '#' }
     - { text: 'Innovation RCA', href: '#' }
   booking_bar:
-    message: 'Applications are now closed'
+    message: 'Bookings not yet open'
     action: 'Register your interest for upcoming dates'
     modal: false
   access_planit_data:

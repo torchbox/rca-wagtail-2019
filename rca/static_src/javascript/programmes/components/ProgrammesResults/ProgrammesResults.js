@@ -177,10 +177,7 @@ const ProgrammesResults = ({
                 )}
             </div>
             {hasActiveFilter ? null : (
-                <div
-                    className="section section--opposite-notch bg bg--dark"
-                    aria-hidden="true"
-                >
+                <div className="section bg bg--dark" aria-hidden="true">
                     <div className="section__notch section__notch--opposite">
                         <div className="section__notch-fill section__notch-fill--second-col" />
                     </div>

@@ -9,7 +9,7 @@ from rca.shortcourses.models import ShortCourseManualDate, ShortCoursePage
 
 from .test_access_planit import mocked_fetch_data_from_xml
 
-APPLY_MESSAGE = "Applications are now closed"
+APPLY_MESSAGE = "Bookings not yet open"
 APPLY_ACTION = "Register your interest for upcoming dates"
 
 
@@ -83,7 +83,7 @@ class TestBookingBarLogic(TestCase):
         response = self.client.get("/short-course/")
         self.assertContains(response, "Short course title")
         self.assertNotIn("Register your interest for upcoming dates", response)
-        self.assertContains(response, "Applications are now closed")
+        self.assertContains(response, APPLY_MESSAGE)
         self.assertNotIn(register_link, response)
         self.assertEqual(response.render().status_code, 200)
 
@@ -121,7 +121,7 @@ class TestBookingBarLogic(TestCase):
             register_link,
         )
         self.assertContains(response, "Register your interest for upcoming dates")
-        self.assertContains(response, "Applications are now closed")
+        self.assertContains(response, APPLY_MESSAGE)
         self.assertContains(response, register_link)
         self.assertEqual(response.render().status_code, 200)
 
@@ -162,7 +162,7 @@ class TestBookingBarLogic(TestCase):
 
         response = self.client.get("/short-course/")
         self.assertContains(response, "Register your interest for upcoming dates")
-        self.assertContains(response, "Applications are now closed")
+        self.assertContains(response, APPLY_MESSAGE)
         self.assertContains(response, manual_registration_url)
         self.assertEqual(response.render().status_code, 200)
 

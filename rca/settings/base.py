@@ -745,3 +745,7 @@ BIRDBATH_CHECKS = [
 ]
 BIRDBATH_REQUIRED = env.get("BIRDBATH_REQUIRED", "true").lower() == "true"
 BIRDBATH_USER_ANONYMISER_EXCLUDE_EMAIL_RE = r"torchbox\.com$"
+
+# Needed for form field help text to use rich text.
+WAGTAILFORMS_HELP_TEXT_ALLOW_HTML = True
+BASIC_AUTH_DISABLE_CONSUMING_AUTHORIZATION_HEADER = True

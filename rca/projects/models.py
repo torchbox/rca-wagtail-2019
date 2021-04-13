@@ -160,6 +160,15 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         on_delete=models.SET_NULL,
         verbose_name=_("Project PDF"),
     )
+    specification_document_link_text = models.CharField(
+        max_length=80,
+        blank=True,
+        null=True,
+        verbose_name=_("Project PDF link text"),
+        help_text=_(
+            "You must enter link text if you add a Project PDF, e.g. 'Download project PDF'"
+        ),
+    )
 
     gallery = StreamField(
         [("slide", GalleryBlock())], blank=True, verbose_name=_("Gallery")
@@ -230,7 +239,13 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         FieldPanel("start_date"),
         FieldPanel("end_date"),
         FieldPanel("funding"),
-        DocumentChooserPanel("specification_document"),
+        MultiFieldPanel(
+            [
+                DocumentChooserPanel("specification_document"),
+                FieldPanel("specification_document_link_text"),
+            ],
+            heading="PDF download",
+        ),
     ]
 
     edit_handler = TabbedInterface(
@@ -292,6 +307,10 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         if self.end_date and self.end_date < self.start_date:
             errors["end_date"].append(
                 _("Events involving time travel are not supported")
+            )
+        if self.specification_document and not self.specification_document_link_text:
+            errors["specification_document_link_text"].append(
+                "You must provide link text for the document"
             )
 
         if errors:

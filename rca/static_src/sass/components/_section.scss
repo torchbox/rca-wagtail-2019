@@ -95,10 +95,6 @@
         }
     }
 
-    &--opposite-notch {
-        overflow: hidden;
-    }
-
     &--before-fixed {
         &::before {
             position: fixed;
@@ -289,7 +285,6 @@
             height: initial;
         }
 
-        // needs to be accompanied by section--opposite-notch to stop overflow
         #{$root}__notch--opposite & {
             grid-column: 1 / span 2;
         }
@@ -301,13 +296,13 @@
             top: 0;
             height: 100%;
             content: '';
-            width: 200%;
+            width: 300%;
             transform: translate3d(-100%, 0, 0);
 
             #{$root}__notch--opposite & {
                 left: auto;
                 right: 1px;
-                transform: translate3d(100%, 0, 0);
+                transform: translate3d(0, 0, 0);
             }
         }
 
@@ -323,6 +318,13 @@
                     grid-column: 5 / span 1;
                 }
             }
+
+            &::before {
+                #{$root}__notch--opposite & {
+                    right: calc(var(--margin-width) * -1); // Make negative
+                    width: var(--margin-width);
+                }
+            }
         }
 
         &--second-col {
@@ -335,6 +337,13 @@
 
                 #{$root}__notch--opposite & {
                     grid-column: 4 / span 2;
+                }
+            }
+
+            &::before {
+                #{$root}__notch--opposite & {
+                    right: calc((var(--margin-width)) * -1); // Make negative
+                    width: var(--margin-width);
                 }
             }
         }
@@ -353,6 +362,15 @@
                     grid-column: 4 / span 2;
                 }
             }
+
+            &::before {
+                #{$root}__notch--opposite & {
+                    right: calc(
+                        (var(--margin-width) + var(--outer-grid-width)) * -1
+                    ); // Make negative
+                    width: calc(var(--margin-width) + var(--outer-grid-width));
+                }
+            }
         }
 
         &--third-col {
@@ -367,6 +385,22 @@
                     grid-column: 3 / span 2;
                 }
             }
+
+            &::before {
+                #{$root}__notch--opposite & {
+                    right: calc((var(--margin-width) * -1)); // Make negative
+                    width: calc(var(--margin-width));
+
+                    @include media-query(large) {
+                        right: calc(
+                            (var(--margin-width) + var(--outer-grid-width)) * -1
+                        ); // Make negative
+                        width: calc(
+                            var(--margin-width) + var(--outer-grid-width)
+                        );
+                    }
+                }
+            }
         }
 
         &--fourth-col {
@@ -377,6 +411,22 @@
                     grid-column: 2 / span 3;
                 }
             }
+
+            &::before {
+                #{$root}__notch--opposite & {
+                    right: calc((var(--margin-width) * -1)); // Make negative
+                    width: calc(var(--margin-width));
+
+                    @include media-query(large) {
+                        right: calc(
+                            (var(--margin-width) + var(--outer-grid-width)) * -1
+                        ); // Make negative
+                        width: calc(
+                            var(--margin-width) + var(--outer-grid-width)
+                        );
+                    }
+                }
+            }
         }
 
         &--fifth-col {
@@ -385,6 +435,26 @@
 
                 #{$root}__notch--opposite & {
                     grid-column: 1 / span 3;
+                }
+            }
+
+            &::before {
+                #{$root}__notch--opposite & {
+                    right: calc((var(--margin-width) * -1)); // Make negative
+                    width: calc(var(--margin-width));
+
+                    @include media-query(large) {
+                        right: calc(
+                            (
+                                    var(--margin-width) + var(--grid-width) +
+                                        var(--outer-grid-width)
+                                ) * -1
+                        ); // Make negative
+                        width: calc(
+                            var(--margin-width) + var(--grid-width) +
+                                var(--outer-grid-width)
+                        );
+                    }
                 }
             }
         }
