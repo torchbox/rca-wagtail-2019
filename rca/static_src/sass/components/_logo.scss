@@ -3,15 +3,40 @@
     display: block;
     transition: opacity $transition;
 
+    @include media-query(large) {
+        position: absolute;
+        width: calc(var(--outer-grid-width, 220px) - 1px); // so grid line shows
+        background-color: $color--black;
+        padding-bottom: ($grid * 2);
+    }
+
+    &::before {
+        @include media-query(large) {
+            position: absolute;
+            left: 0;
+            width: calc(
+                var(--margin-width, 290px) + 1px
+            ); // so we don't get a 1px line when rounded down
+            content: '';
+            display: block;
+            height: 110px;
+            background-color: $color--black;
+            transform: translate3d(-100%, 0, 0);
+        }
+    }
+
     &:hover,
     &:focus,
     &:active {
-        opacity: 0.7;
+        #{$root}__image {
+            opacity: 0.7;
+        }
     }
 
     &__image {
         height: auto;
         fill: $color--white;
+        transition: transform $transition-cubic;
     }
 
     .footer & {
@@ -28,10 +53,35 @@
         }
     }
 
+    // Styles to prevent flicker from pinned to normal mode
+    .headroom--unpinned & {
+        @include media-query(large) {
+            position: static;
+        }
+
+        #{$root}__image {
+            transform: scale(57%);
+        }
+
+        &::before {
+            @include media-query(large) {
+                content: none;
+            }
+        }
+    }
+
     .headroom--pinned.headroom--not-top .header &,
     .headroom--pinned.headroom--not-top .app__navigation & {
+        position: static;
+        width: auto;
+        padding-bottom: 0;
+
         #{$root}__image {
-            width: 92px;
+            transform: scale(57%);
+        }
+
+        &::before {
+            content: none;
         }
     }
 

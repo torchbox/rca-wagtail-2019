@@ -100,12 +100,17 @@
 
         .app__header & {
             @include z-index(header-gridlines);
-            display: none;
+            height: $header-height-small;
             overflow: hidden;
+
+            @include media-query(large) {
+                height: $header-height-large;
+            }
         }
 
         .headroom--pinned.headroom--not-top .app__header & {
             display: grid;
+            height: $mini-header-height;
         }
 
         .app__navigation & {

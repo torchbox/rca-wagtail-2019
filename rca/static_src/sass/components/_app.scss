@@ -22,7 +22,7 @@
 
         // Hide when scrolling down
         .headroom--not-top & {
-            transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -200%, 0);
         }
 
         // Make visible and apply bg colour when pinned, but not at top
@@ -61,6 +61,14 @@
             }
         }
     }
+
+    // &__content {
+    //     padding-top: $header-height-small;
+
+    //     @include media-query(large) {
+    //         padding-top: $header-height-large;
+    //     }
+    // }
 
     &__search {
         &--tablet {

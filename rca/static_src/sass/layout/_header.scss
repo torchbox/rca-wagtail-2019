@@ -1,5 +1,6 @@
 .header {
     $root: &;
+    background-color: $color--black;
 
     &__container {
         max-width: $site-width;
@@ -8,7 +9,8 @@
         padding-bottom: ($gutter);
 
         @include media-query(medium) {
-            padding-top: ($gutter * 2);
+            padding-top: 33px;
+            padding-bottom: 33px;
         }
     }
 
@@ -322,7 +324,8 @@
     // Show when scrolling back up
     .headroom--pinned.headroom--not-top & {
         #{$root}__container {
-            padding-top: ($gutter);
+            padding-top: ($gutter / 4);
+            padding-bottom: ($gutter / 4);
         }
     }
 }
