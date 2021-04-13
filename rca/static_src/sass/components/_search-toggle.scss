@@ -19,7 +19,7 @@
     }
 
     .app__navigation & {
-        margin-top: ($grid * 5.75);
+        margin-top: ($grid * 4.75);
         display: flex;
 
         @include media-query(medium) {

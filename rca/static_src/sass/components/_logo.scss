@@ -47,7 +47,8 @@
         transform-origin: left;
     }
 
-    .header & {
+    .header &,
+    .app__navigation & {
         #{$root}__image {
             width: 140px;
 
