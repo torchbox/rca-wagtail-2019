@@ -1,5 +1,7 @@
 .logo {
     $root: &;
+    $custom-breakpoint-min: 1023px;
+    $custom-breakpoint-max: 1220px;
     display: block;
     transition: opacity $transition;
 
@@ -23,6 +25,11 @@
             background-color: $color--black;
             transform: translate3d(-100%, 0, 0);
         }
+
+        // Custom breakpoint to stop logo intersecting with gridline
+        @media only screen and (max-width: $custom-breakpoint-max) and (min-width: $custom-breakpoint-min) {
+            height: 101px;
+        }
     }
 
     &:hover,
@@ -37,6 +44,21 @@
         height: auto;
         fill: $color--white;
         transition: transform $transition-cubic;
+    }
+
+    .header & {
+        #{$root}__image {
+            width: 140px;
+
+            @include media-query(large) {
+                width: 162px;
+            }
+
+            // Custom breakpoint to stop logo intersecting with gridline
+            @media only screen and (max-width: $custom-breakpoint-max) and (min-width: $custom-breakpoint-min) {
+                width: 140px;
+            }
+        }
     }
 
     .footer & {

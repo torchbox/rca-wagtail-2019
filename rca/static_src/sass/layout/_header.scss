@@ -9,8 +9,13 @@
         padding-bottom: ($gutter);
 
         @include media-query(medium) {
+            padding-bottom: ($gutter * 1.5);
+        }
+
+        @include media-query(large) {
             padding-top: 33px;
             padding-bottom: 33px;
+            max-height: $header-height-large; // stop the header increasing in height when audience links wrap
         }
     }
 

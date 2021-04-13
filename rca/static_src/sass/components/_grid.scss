@@ -100,7 +100,6 @@
 
         .app__header & {
             @include z-index(header-gridlines);
-            height: $header-height-small;
             overflow: hidden;
 
             @include media-query(large) {
