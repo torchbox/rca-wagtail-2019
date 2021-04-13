@@ -35,6 +35,7 @@
     &__menu-toggle {
         margin-top: 4px;
         margin-left: auto;
+        color: $color--white;
         cursor: pointer;
         transition: opacity $transition;
 
@@ -84,6 +85,7 @@
     }
 
     &__search-toggle {
+        color: $color--white;
         transition: opacity $transition;
 
         &:hover,
@@ -317,29 +319,10 @@
         }
     }
 
-    .theme-light & {
-        #{$root}__search-toggle,
-        #{$root}__menu-toggle {
-            color: $color--white;
-        }
-    }
-
-    .theme-dark & {
-        #{$root}__search-toggle,
-        #{$root}__menu-toggle {
-            color: $color--black;
-        }
-    }
-
     // Show when scrolling back up
     .headroom--pinned.headroom--not-top & {
         #{$root}__container {
             padding-top: ($gutter);
-        }
-
-        #{$root}__search-toggle,
-        #{$root}__menu-toggle {
-            color: $color--white;
         }
     }
 }
