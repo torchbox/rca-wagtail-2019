@@ -621,13 +621,6 @@ class StudentPage(BasePage):
     )
     degree_start_date = models.DateField(blank=True, null=True)
     degree_end_date = models.DateField(blank=True, null=True)
-    degree_type = models.ForeignKey(
-        DegreeType,
-        on_delete=models.SET_NULL,
-        related_name="related_student",
-        null=True,
-        blank=True,
-    )
 
     introduction = models.TextField(blank=True, verbose_name="Project title")
     bio = RichTextField(
@@ -676,7 +669,6 @@ class StudentPage(BasePage):
         PageChooserPanel("programme"),
         FieldPanel("degree_start_date"),
         FieldPanel("degree_end_date"),
-        FieldPanel("degree_type"),
         FieldPanel("degree_status"),
         FieldPanel("link_to_final_thesis"),
         InlinePanel("related_supervisor", label="Supervisor information"),
@@ -905,16 +897,6 @@ class StudentIndexPage(BasePage):
                     )
                 ),
                 filter_by="related_area_of_expertise__area_of_expertise__slug__in",  # Filter by slug here
-                option_value_field="slug",
-            ),
-            TabStyleFilter(
-                "Degree type",
-                queryset=(
-                    DegreeType.objects.filter(
-                        id__in=base_queryset.values_list("degree_type_id", flat=True)
-                    )
-                ),
-                filter_by="degree_type__slug__in",
                 option_value_field="slug",
             ),
             TabStyleFilter(
