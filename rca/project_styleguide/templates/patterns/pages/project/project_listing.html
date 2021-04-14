@@ -64,9 +64,11 @@
             <div class="filter-takeover bg bg--light">
                 <div class="filter-takeover__container">
                     {% for item in filters.items %}
-                        <div class="filter-takeover__tab-content tabs__panel tabs__panel--hidden js-tab-panel" id="{{ item.tab_title|slugify }}" role="tabpanel" aria-labelledby="tab-{{ item.tab_title|slugify }}">
-                            {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" %}
-                        </div>
+                        {% if item.queryset %}
+                            <div class="filter-takeover__tab-content tabs__panel tabs__panel--hidden js-tab-panel" id="{{ item.tab_title|slugify }}" role="tabpanel" aria-labelledby="tab-{{ item.tab_title|slugify }}">
+                                {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" %}
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
