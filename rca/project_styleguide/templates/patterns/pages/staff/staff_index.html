@@ -12,8 +12,10 @@
     {% else %}
         {{ page.title }}
     {% endif %}
-    –
-    {% get_all_active_filters filters %}
+    {% get_all_active_filters filters as active_filters %}
+    {% if active_filters %}
+        – {{ active_filters }}
+    {% endif %}
     – Page {{ results.number }} of {{ results.paginator.num_pages }}
 {% endblock %}
 
