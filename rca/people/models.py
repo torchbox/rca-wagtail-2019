@@ -33,10 +33,12 @@ from rca.people.utils import get_staff_research_projects, get_student_research_p
 from rca.programmes.models import ProgrammePage
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
+from rca.users.models import User
 from rca.utils.blocks import AccordionBlockWithTitle, GalleryBlock, LinkBlock
 from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, SluggedTaxonomy
 
+from .admin_forms import StudentPageAdminForm
 from .utils import get_area_linked_filters
 
 STUDENT_PAGE_RICH_TEXT_FEATURES = features = ["bold", "italic", "link"]
@@ -596,6 +598,7 @@ class StudentPageSupervisor(models.Model):
 
 
 class StudentPage(BasePage):
+    base_form_class = StudentPageAdminForm
     template = "patterns/pages/student/student_detail.html"
     parent_page_types = ["people.StudentIndexPage"]
 
@@ -649,6 +652,9 @@ class StudentPage(BasePage):
     )
     link_to_final_thesis = models.URLField(blank=True)
     student_funding = RichTextField(blank=True, features=["link"])
+    student_user_account = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, blank=True
+    )
 
     search_fields = BasePage.search_fields + [
         index.SearchField("introduction"),
@@ -658,6 +664,7 @@ class StudentPage(BasePage):
     ]
 
     content_panels = BasePage.content_panels + [
+        FieldPanel("student_user_account"),
         MultiFieldPanel(
             [
                 FieldPanel("student_title"),
