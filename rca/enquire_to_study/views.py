@@ -88,7 +88,7 @@ class EnquireToStudyFormView(FormView):
             "tags": [
                 {
                     "TagType": "Source",
-                    "Tag": "rca_wf_xx_RCA Website Webform_xx_xx_xx-xx-xx",
+                    "Tag": "rca_wf_xx_RCA Webform Submission_xx_xx_xx-xx-xx",
                 }
             ],
             "consents": [
