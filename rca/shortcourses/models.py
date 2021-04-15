@@ -38,7 +38,6 @@ from rca.utils.blocks import (
     QuoteBlock,
 )
 from rca.utils.models import (
-    HERO_COLOUR_CHOICES,
     BasePage,
     ContactFieldsMixin,
     RelatedPage,
@@ -132,7 +131,6 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    hero_colour_option = models.PositiveSmallIntegerField(choices=(HERO_COLOUR_CHOICES))
     introduction = models.CharField(max_length=500, blank=True)
     introduction_image = models.ForeignKey(
         get_image_model_string(),
@@ -233,10 +231,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         ),
     ]
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel(
-            [ImageChooserPanel("hero_image"), FieldPanel("hero_colour_option")],
-            heading=_("Hero"),
-        ),
+        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
         MultiFieldPanel(
             [
                 FieldPanel("introduction"),

@@ -1,16 +1,7 @@
 {% load wagtailcore_tags %}
 
 <a class="logo" href="{% slugurl 'home' %}" aria-label="Home" >
-    {% if hero_colour == "dark" %}
-        <svg class="logo__image logo__image--light" width="162" height="70">
-            <use xlink:href="#logo-light" />
-        </svg>
-        <svg class="logo__image logo__image--dark" width="162" height="70">
-            <use xlink:href="#logo-dark" />
-        </svg>
-    {% else %}
-        <svg class="logo__image" width="162" height="70">
-            <use xlink:href="#logo-light" />
-        </svg>
-    {% endif %}
+    <svg class="logo__image" width="162" height="70">
+        <use xlink:href="#logo-light" />
+    </svg>
 </a>

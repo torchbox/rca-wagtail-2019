@@ -36,7 +36,6 @@ from rca.utils.blocks import (
 )
 from rca.utils.filter import TabStyleFilter
 from rca.utils.models import (
-    HERO_COLOUR_CHOICES,
     BasePage,
     ContactFieldsMixin,
     RelatedPage,
@@ -120,7 +119,6 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    hero_colour_option = models.PositiveSmallIntegerField(choices=(HERO_COLOUR_CHOICES))
     introduction = models.CharField(max_length=500, blank=True)
     introduction_image = models.ForeignKey(
         get_image_model_string(),
@@ -192,10 +190,7 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         [("link", LinkBlock())], blank=True, verbose_name="External Links"
     )
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel(
-            [ImageChooserPanel("hero_image"), FieldPanel("hero_colour_option")],
-            heading=_("Hero"),
-        ),
+        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
         MultiFieldPanel(
             [
                 FieldPanel("introduction"),
@@ -564,7 +559,6 @@ class ProjectPickerPage(BasePage):
 
         # Finalise and return context
         context.update(
-            hero_colour="light",
             filters={
                 "title": "Filter by",
                 "aria_label": "Filter results",

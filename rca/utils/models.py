@@ -381,16 +381,6 @@ class BasePage(SocialFields, ListingFields, Page):
         Page.promote_panels + SocialFields.promote_panels + ListingFields.promote_panels
     )
 
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
-        context["hero_colour"] = LIGHT_HERO
-        if (
-            hasattr(self, "hero_colour_option")
-            and self.hero_colour_option == DARK_TEXT_ON_LIGHT_IMAGE
-        ):
-            context["hero_colour"] = DARK_HERO
-        return context
-
 
 class LegacySiteTag(TagBase):
     class Meta:

@@ -49,7 +49,6 @@ class TestBookingBarLogic(TestCase):
             programme_type_id=1,
             contact_model_url="https://rca.ac.uk",
             contact_model_text="Read more",
-            hero_colour_option=1,
             show_register_link=0,
         )
 

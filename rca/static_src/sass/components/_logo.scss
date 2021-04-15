@@ -1,22 +1,70 @@
 .logo {
     $root: &;
+    $custom-breakpoint-min: 1023px;
+    $custom-breakpoint-max: 1220px;
     display: block;
     transition: opacity $transition;
+
+    @include media-query(large) {
+        position: absolute;
+        width: calc(var(--outer-grid-width, 220px) - 1px); // so grid line shows
+        background-color: $color--black;
+        padding-bottom: ($grid * 2);
+    }
+
+    &::before {
+        @include media-query(large) {
+            position: absolute;
+            left: 0;
+            width: calc(
+                var(--margin-width, 290px) + 1px
+            ); // so we don't get a 1px line when rounded down
+            content: '';
+            display: block;
+            height: 110px;
+            background-color: $color--black;
+            transform: translate3d(-100%, 0, 0);
+        }
+
+        // Custom breakpoint to stop logo intersecting with gridline
+        @media only screen and (max-width: $custom-breakpoint-max) and (min-width: $custom-breakpoint-min) {
+            height: 101px;
+        }
+    }
 
     &:hover,
     &:focus,
     &:active {
-        opacity: 0.7;
+        #{$root}__image {
+            opacity: 0.7;
+        }
     }
 
     &__image {
         height: auto;
+        fill: $color--white;
+        transform-origin: left;
+    }
+
+    .header &,
+    .app__navigation & {
+        #{$root}__image {
+            width: 140px;
+
+            @include media-query(large) {
+                width: 162px;
+            }
+
+            // Custom breakpoint to stop logo intersecting with gridline
+            @media only screen and (max-width: $custom-breakpoint-max) and (min-width: $custom-breakpoint-min) {
+                width: 140px;
+            }
+        }
     }
 
     .footer & {
         #{$root}__image {
             width: 92px;
-            fill: $color--white;
 
             @include media-query(medium) {
                 width: 230px;
@@ -28,65 +76,40 @@
         }
     }
 
-    .theme-dark .header & {
-        #{$root}__image {
-            fill: $color--black;
-
-            &--light {
-                display: none;
-            }
-
-            &--dark {
-                display: block;
-            }
+    // Styles to prevent flicker from pinned to normal mode
+    .headroom--unpinned & {
+        @include media-query(large) {
+            position: static;
         }
-    }
 
-    .app__navigation &,
-    .theme-light & {
         #{$root}__image {
-            fill: $color--white;
+            transform: scale(57%);
         }
-    }
 
-    .app__navigation & {
-        #{$root}__image {
-            &--dark {
-                display: none;
+        &::before {
+            @include media-query(large) {
+                content: none;
             }
         }
     }
 
     .headroom--pinned.headroom--not-top .header &,
     .headroom--pinned.headroom--not-top .app__navigation & {
+        position: static;
+        width: auto;
+        padding-bottom: 0;
+
         #{$root}__image {
-            width: 92px;
-            fill: $color--white;
+            transform: scale(57%);
+        }
 
-            &--light {
-                display: block;
-            }
-
-            &--dark {
-                display: none;
-            }
+        &::before {
+            content: none;
         }
     }
 
     .nav-open & {
         @include z-index(headerLogo);
         position: relative;
-    }
-
-    .app--404 & {
-        #{$root}__image {
-            &--light {
-                display: block;
-            }
-
-            &--dark {
-                display: none;
-            }
-        }
     }
 }

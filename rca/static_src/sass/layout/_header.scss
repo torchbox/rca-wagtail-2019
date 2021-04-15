@@ -1,5 +1,7 @@
 .header {
     $root: &;
+    background-color: $color--black;
+    overflow: hidden; // Stop elements poking out during headroom transitions
 
     &__container {
         max-width: $site-width;
@@ -8,7 +10,13 @@
         padding-bottom: ($gutter);
 
         @include media-query(medium) {
-            padding-top: ($gutter * 2);
+            padding-bottom: ($gutter * 1.5);
+        }
+
+        @include media-query(large) {
+            padding-top: 33px;
+            padding-bottom: 33px;
+            max-height: $header-height-large; // stop the header increasing in height when audience links wrap
         }
     }
 
@@ -20,6 +28,15 @@
             @include z-index(nav);
             position: relative;
             padding-top: ($gutter * 2);
+
+            @include media-query(medium) {
+                padding-top: ($gutter * 1.5);
+            }
+
+            @include media-query(large) {
+                // Menu buttons aligned with global header icons
+                padding-top: 33px;
+            }
         }
 
         // When inside pinned nav
@@ -35,6 +52,7 @@
     &__menu-toggle {
         margin-top: 4px;
         margin-left: auto;
+        color: $color--white;
         cursor: pointer;
         transition: opacity $transition;
 
@@ -84,6 +102,7 @@
     }
 
     &__search-toggle {
+        color: $color--white;
         transition: opacity $transition;
 
         &:hover,
@@ -130,9 +149,10 @@
 
     &__inner {
         background: $color--primary;
-        padding-top: ($gutter * 2);
+        padding-top: ($gutter * 1.5);
 
         @include media-query(large) {
+            padding-top: 33px; // logo aligned with logo below
             height: 100vh;
         }
 
@@ -317,29 +337,11 @@
         }
     }
 
-    .theme-light & {
-        #{$root}__search-toggle,
-        #{$root}__menu-toggle {
-            color: $color--white;
-        }
-    }
-
-    .theme-dark & {
-        #{$root}__search-toggle,
-        #{$root}__menu-toggle {
-            color: $color--black;
-        }
-    }
-
     // Show when scrolling back up
     .headroom--pinned.headroom--not-top & {
         #{$root}__container {
-            padding-top: ($gutter);
-        }
-
-        #{$root}__search-toggle,
-        #{$root}__menu-toggle {
-            color: $color--white;
+            padding-top: ($gutter / 4);
+            padding-bottom: ($gutter / 4);
         }
     }
 }
