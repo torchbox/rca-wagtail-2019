@@ -23,6 +23,7 @@ def do_after_creating_student_user(sender, **kwargs):
             first_name=user.first_name, last_name=user.last_name,
         ).exists()
 
+
         if student_page:
             logger.info(
                 "A Student User has been created, but a StudentPage matching "
@@ -38,6 +39,5 @@ def do_after_creating_student_user(sender, **kwargs):
                     live=False,
                 )
             )
-
 
 m2m_changed.connect(do_after_creating_student_user, sender=User.groups.through)

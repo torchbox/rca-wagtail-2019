@@ -28,5 +28,4 @@ class StudentPageAdminForm(WagtailAdminPageForm):
                     )
                 }
             )
-
         return cleaned_data
