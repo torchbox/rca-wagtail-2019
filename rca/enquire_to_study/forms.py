@@ -75,7 +75,7 @@ class EnquireToStudyForm(forms.Form):
         self.fields["enquiry_reason"].label = "What's your enquiry about?"
         self.fields["is_read_data_protection_policy"].label = mark_safe(
             '<p class="rich-text form-item__rich-text">I have read the <a class="link link--link" '
-            'href="https://www.rca.ac.uk/contact-us/about-this-website/privacy-cookies." '
+            'href="https://www.rca.ac.uk/contact-us/about-this-website/privacy-cookies/" '
             'target="_blank">data protection</a> notice and agree for my data '
             "to be processed accordingly.</p>"
         )
@@ -94,10 +94,6 @@ class EnquireToStudyForm(forms.Form):
             "enquiry_reason"
         ].help_text = (
             "This will help ensure the correct department receives your enquiry"
-        )
-        self.fields["is_notification_opt_in"].help_text = (
-            "We will not pass on your personal data to any third "
-            "parties for marketing purposes."
         )
 
     def clean(self):
