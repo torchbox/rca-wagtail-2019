@@ -21,23 +21,23 @@ def do_after_creating_student_user(sender, **kwargs):
 
         student_page = StudentPage.objects.filter(
             first_name=user.first_name, last_name=user.last_name,
-        )
+        ).exists()
+
         if student_page:
             logger.info(
                 "A Student User has been created, but a StudentPage matching "
                 f"the users name already exists: {student_page} so one has not been created"
             )
-            return
-
-        student_index.add_child(
-            instance=StudentPage(
-                first_name=user.first_name,
-                last_name=user.last_name,
-                title=f"{user.first_name} {user.last_name}",
-                student_user_account=user,
-                live=False,
+        else:
+            student_index.add_child(
+                instance=StudentPage(
+                    first_name=user.first_name,
+                    last_name=user.last_name,
+                    title=f"{user.first_name} {user.last_name}",
+                    student_user_account=user,
+                    live=False,
+                )
             )
-        )
 
 
 m2m_changed.connect(do_after_creating_student_user, sender=User.groups.through)
