@@ -45,10 +45,17 @@
                         <div class="title-area__job-titles">
                             <div class="job-titles">
                                 <ul class="job-titles__item">
-                                <li class="job-titles__title">{{ page.degree_status }} MPhil/PhD student {% if page.degree_end_date %}- {{ page.degree_end_date|date:'Y' }}{% endif %}</li>
+                                {% if page.degree_award and page.degree_end_date %}
+                                    <li class="job-titles__title">Awarded {{ page.get_degree_award_display }} - {{ page.degree_end_date|date:'Y' }}</li>
+                                        <li class="job-titles__department" property="schema:award">
+                                            <a class="body body--two link link--tertiary" href="#">{{ page.programme }}</a>
+                                        </li>
+                                {% else %}
+                                    <li class="job-titles__title">{{ page.degree_status }} MPhil/PhD student {% if page.degree_end_date %}- {{ page.degree_end_date|date:'Y' }}{% endif %}</li>
                                     <li class="job-titles__department" property="schema:award">
                                         <a class="body body--two link link--tertiary" href="#">{{ page.programme }}</a>
                                     </li>
+                                {% endif %}
                                 </ul>
                             </div>
                         </div>

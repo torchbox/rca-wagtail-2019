@@ -621,7 +621,9 @@ class StudentPage(BasePage):
     )
     degree_start_date = models.DateField(blank=True, null=True)
     degree_end_date = models.DateField(blank=True, null=True)
-
+    degree_award = models.CharField(
+        max_length=1, choices=(("1", "MPhil"), ("2", "PhD")), blank=True,
+    )
     introduction = models.TextField(blank=True, verbose_name="Project title")
     bio = RichTextField(
         blank=True, help_text="Add a detail summary", verbose_name="Abstract",
@@ -668,7 +670,10 @@ class StudentPage(BasePage):
         MultiFieldPanel([FieldPanel("email")], heading="Contact information"),
         PageChooserPanel("programme"),
         FieldPanel("degree_start_date"),
-        FieldPanel("degree_end_date"),
+        MultiFieldPanel(
+            [FieldPanel("degree_end_date"), FieldPanel("degree_award")],
+            heading="Degree awarded details",
+        ),
         FieldPanel("degree_status"),
         FieldPanel("link_to_final_thesis"),
         InlinePanel("related_supervisor", label="Supervisor information"),
