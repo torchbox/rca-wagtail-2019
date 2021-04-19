@@ -45,7 +45,7 @@
 
         @include media-query(large) {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
         }
 
         #{$root}__label {
