@@ -5,33 +5,6 @@
     display: block;
     transition: opacity $transition;
 
-    @include media-query(large) {
-        position: absolute;
-        width: calc(var(--outer-grid-width, 220px) - 1px); // so grid line shows
-        background-color: $color--black;
-        padding-bottom: ($grid * 2);
-    }
-
-    &::before {
-        @include media-query(large) {
-            position: absolute;
-            left: 0;
-            width: calc(
-                var(--margin-width, 290px) + 1px
-            ); // so we don't get a 1px line when rounded down
-            content: '';
-            display: block;
-            height: 110px;
-            background-color: $color--black;
-            transform: translate3d(-100%, 0, 0);
-        }
-
-        // Custom breakpoint to stop logo intersecting with gridline
-        @media only screen and (max-width: $custom-breakpoint-max) and (min-width: $custom-breakpoint-min) {
-            height: 101px;
-        }
-    }
-
     &:hover,
     &:focus,
     &:active {
@@ -62,6 +35,37 @@
         }
     }
 
+    .header & {
+        @include media-query(large) {
+            position: absolute;
+            width: calc(
+                var(--outer-grid-width, 220px) - 1px
+            ); // so grid line shows
+            background-color: $color--black;
+            padding-bottom: ($grid * 2);
+        }
+
+        &::before {
+            @include media-query(large) {
+                position: absolute;
+                left: 0;
+                width: calc(
+                    var(--margin-width, 290px) + 1px
+                ); // so we don't get a 1px line when rounded down
+                content: '';
+                display: block;
+                height: 110px;
+                background-color: $color--black;
+                transform: translate3d(-100%, 0, 0);
+            }
+
+            // Custom breakpoint to stop logo intersecting with gridline
+            @media only screen and (max-width: $custom-breakpoint-max) and (min-width: $custom-breakpoint-min) {
+                height: 101px;
+            }
+        }
+    }
+
     .footer & {
         #{$root}__image {
             width: 92px;
@@ -82,14 +86,16 @@
             position: static;
         }
 
-        #{$root}__image {
-            transform: scale(0.57);
-        }
-
         &::before {
             @include media-query(large) {
                 content: none;
             }
+        }
+    }
+
+    .headroom--unpinned .header & {
+        #{$root}__image {
+            transform: scale(0.57);
         }
     }
 
