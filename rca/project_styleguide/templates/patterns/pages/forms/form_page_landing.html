@@ -19,3 +19,15 @@
     </div>
 
 {% endblock %}
+{% block extra_js %}
+    {% if GOOGLE_TAG_MANAGER_ID %}
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event':'form-submission',
+                'formId': '{{ page.id }}',
+                'formName': '{{ page.title }} form'
+            });
+        </script>
+    {% endif %}
+{% endblock%}
