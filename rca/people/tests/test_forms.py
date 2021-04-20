@@ -79,7 +79,7 @@ class TestStudentPageAdminForm(TestCase):
 
     def test_adding_student(self):
         data = self.get_form_data()
-        data["student_user_account"] = self.student
+        data["student_user_account"] = self.student.id
         form = self.get_form(instance=self.student_page, data=data,)
         self.assertTrue(form.is_valid())
 
@@ -91,7 +91,7 @@ class TestStudentPageAdminForm(TestCase):
         page.save()
 
         data = self.get_form_data()
-        data["student_user_account"] = self.student
+        data["student_user_account"] = self.student.id
         form = self.get_form(instance=self.student_page, data=data,)
         self.assertFalse(form.is_valid())
         self.assertIn(

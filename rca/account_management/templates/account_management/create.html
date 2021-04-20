@@ -1,14 +1,20 @@
 {% extends "wagtailadmin/base.html" %}
 {% load wagtailimages_tags %}
 {% load i18n %}
-{% block titletag %}{% trans "Add user" %}{% endblock %}
+{% block titletag %}{% trans "Add Student" %}{% endblock %}
+
 {% block content %}
+{% if form.errors %}
+    <div class="messages">
+        <ul>
+            <li class="error">There were some errors with your form. Please amend the fields highlighted below.
+            </li>
+        </ul>
+    </div>
+{% endif %}
 
-    {% trans "Add user" as add_user_str %}
     {% include "wagtailadmin/shared/header.html" with title="Add student" merged=1 tabbed=1 icon="user" %}
-
     <form action="{% url 'student_account_create' %}" method="POST">
-
             {% csrf_token %}
             <section id="account" class="active nice-padding">
                 <ul class="fields">
