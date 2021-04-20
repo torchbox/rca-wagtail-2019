@@ -138,23 +138,24 @@
             </section>
 
             <section class="section bg bg--dark">
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
-                </div>
+                {% if student_information %}
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    </div>
+                {% endif %}
             {% endif %}
 
                 {% if student_information %}
                     <div class="section__row {% if not page.student_gallery %}staff-detail-accordion staff-detail-accordion--wo-gallery{% endif %} section__row--first section__row--last">
                         {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=student_information title="More about "|add:page.first_name %}
                     </div>
-                {% endif %}
 
-                {% if related_students or page.student_related_links %}
+                    {% if related_students or page.student_related_links %}
                     <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
+                    {% endif %}
                 {% endif %}
-
             </section>
 
             {% if related_students or page.student_related_links %}
