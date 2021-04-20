@@ -93,8 +93,8 @@
         }
     }
 
-    .headroom--pinned.headroom--not-top .header &,
-    .headroom--pinned.headroom--not-top .app__navigation & {
+    .headroom--not-top .header &,
+    .headroom--not-top .app__navigation & {
         position: static;
         width: auto;
         padding-bottom: 0;
