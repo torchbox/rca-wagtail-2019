@@ -82,9 +82,7 @@ app--form no-hero
                                             {% endif %}
 
                                         </{% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}fieldset{% else %}div{% endif %} >
-
-                                        {% if field.help_text and widget_type != 'checkbox_select_multiple' %}<div class="form-item__help">{{ field.help_text|richtext_force_external_links }}</div>{% endif %}
-
+                                        {% if field.help_text and widget_type != 'checkbox_select_multiple' and widget_type != 'radio_select' %}<div class="form-item__help">{{ field.help_text|richtext }}</div>{% endif %}
                                     </div>
                                 {% endwith %}
 
