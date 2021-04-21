@@ -36,6 +36,15 @@ class TestStudentAccountCreationForm(TestCase):
         response = self.client.get(reverse(self.view_name))
         self.assertEqual(response.status_code, 302)
 
+    def test_students_cannot_create_students(self):
+        # Students shouldn't be able to use this form
+        self.client.force_login(self.user)
+        self.client.post(reverse(self.view_name), data=self.form_data)
+        student_user = User.objects.get(username="montypython")
+        self.client.force_login(student_user)
+        response = self.client.get(reverse(self.view_name))
+        self.assertEqual(response.status_code, 302)
+
     def test_form_responds_to_path_for_admin(self):
         self.client.force_login(self.user)
         response = self.client.get(reverse(self.view_name))
