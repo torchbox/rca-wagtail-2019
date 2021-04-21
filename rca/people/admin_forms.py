@@ -8,6 +8,19 @@ class StudentPageAdminForm(WagtailAdminPageForm):
     """Validation for adding StudentPage
     """
 
+    def __init__(self, *args, **kwargs):
+        print(args)
+        print(kwargs)
+        super(StudentPageAdminForm, self).__init__(*args, **kwargs)
+        # TODO work in request.user.group IS/HAS Student and lock fields
+        readonly_fields = [
+            "first_name",
+            "last_name",
+        ]
+        for f in readonly_fields:
+            self.fields[f].widget.attrs["readonly"] = "readonly"
+            self.fields[f].widget.attrs["disabled"] = "disabled"
+
     def clean(self):
         cleaned_data = super().clean()
         # Avoid circular import
