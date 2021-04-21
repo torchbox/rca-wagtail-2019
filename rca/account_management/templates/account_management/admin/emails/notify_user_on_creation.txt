@@ -1,0 +1,10 @@
+{% load i18n %}{% blocktrans with name=user.first_name next_url=finish_registration_url %}Hi {{ name }},
+
+Your RCA Student user account has now been created.
+
+Please click the following link to set your password so you can log in: {{ next_url }}
+
+Note that this link will expire in {{PASSWORD_RESET_TIMEOUT_DAYS}} days.
+
+Thanks,
+RCA Administrators{% endblocktrans %}
