@@ -22,8 +22,6 @@
     .header &,
     .app__navigation & {
         #{$root}__image {
-            width: 140px;
-
             @include media-query(large) {
                 width: 162px;
             }
@@ -48,9 +46,9 @@
         &::before {
             @include media-query(large) {
                 position: absolute;
-                left: 0;
+                left: 1px;
                 width: calc(
-                    var(--margin-width, 290px) + 1px
+                    var(--margin-width, 290px) + 2px
                 ); // so we don't get a 1px line when rounded down
                 content: '';
                 display: block;
@@ -77,6 +75,14 @@
             &--dark {
                 display: none;
             }
+        }
+    }
+
+    // don't resize logo when not at the top
+    .headroom--not-top .header &,
+    .headroom--not-top .app__navigation & {
+        #{$root}__image {
+            width: auto;
         }
     }
 
@@ -114,7 +120,7 @@
         }
     }
 
-    .nav-open & {
+    .nav-open .app__navigation & {
         @include z-index(headerLogo);
         position: relative;
     }

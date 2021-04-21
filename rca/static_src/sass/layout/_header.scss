@@ -95,11 +95,19 @@
         }
 
         .app__navigation & {
-            margin-top: ($grid * 2.5);
+            margin-top: 39px;
             opacity: $transition-opacity;
 
             @include media-query(medium) {
                 margin-top: 4px;
+            }
+        }
+
+        .headroom--pinned.headroom--not-top .app__navigation & {
+            margin-top: 18px;
+
+            @include media-query(medium) {
+                margin-top: 0;
             }
         }
 
