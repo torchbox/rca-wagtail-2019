@@ -5,11 +5,13 @@ from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView
 from wagtail.admin import messages
+from wagtail.admin.views.account import LoginView
 
 from rca.people.models import StudentIndexPage, StudentPage
 from rca.users.models import User
@@ -137,3 +139,32 @@ class CreateStudentFormView(FormView):
             )
 
         return data
+
+
+class CustomLoginView(LoginView):
+    """Custom login view to redirect students to their profile page
+
+    Returns:
+        str: the destination url
+    """
+
+    template_name = "wagtailadmin/login.html"
+
+    def get_success_url(self):
+        # TODO test this
+        if self.request.user.groups.filter(name="Students").exists():
+            # Look up this students page
+            try:
+                student_page = StudentPage.objects.get(
+                    student_user_account=self.request.user
+                )
+            except StudentPage.DoesNotExist:
+                # Just return the user to the admin if there is not a student page so the can
+                # manage their account if the wish
+                return super().get_success_url()
+            else:
+                # Send the student straight to their page for editing
+                return reverse(
+                    "wagtailadmin_pages:edit", kwargs={"page_id": student_page.id}
+                )
+        return super().get_success_url()
