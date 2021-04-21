@@ -8,18 +8,19 @@ def create_student_role(apps, schema_editor):
 
     # Create auth groups
     students = Group.objects.create(name="Students")
+    # Create admin permission
+    admin_permission = Permission.objects.get(codename="access_admin",)
+    students.permissions.add(admin_permission)
 
     try:
-        # Create admin permission
-        admin_permission = Permission.objects.get(codename="access_admin",)
         area_of_expertise_permission = Permission.objects.get(
             codename="add_areaofexpertise",
         )
     except Permission.DoesNotExist:
         pass
     else:
-        # Add permissions to the new students group
-        students.permissions.add(admin_permission, area_of_expertise_permission)
+        # Add taxonomy permission to the new students group
+        students.permissions.add(area_of_expertise_permission)
 
 
 class Migration(migrations.Migration):

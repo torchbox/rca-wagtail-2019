@@ -2,9 +2,12 @@ import logging
 
 from django.conf import settings
 from django.contrib.auth.models import Group
+from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView
 from wagtail.admin import messages
 
@@ -31,6 +34,12 @@ class CreateStudentFormView(FormView):
     template_name = "account_management/create.html"
     form_class = StudentCreateForm
     success_url = "/admin/student/create"
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return super(CreateStudentFormView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         data = super().form_valid(form)
