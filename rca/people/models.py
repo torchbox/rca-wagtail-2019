@@ -598,6 +598,10 @@ class StudentPageSupervisor(models.Model):
 
 
 class StudentPage(BasePage):
+    def get_student_users():
+        users = User.objects.filter(groups__name="Students").order_by("username")
+        return {"pk__in": users}
+
     base_form_class = StudentPageAdminForm
     template = "patterns/pages/student/student_detail.html"
     parent_page_types = ["people.StudentIndexPage"]
@@ -653,7 +657,11 @@ class StudentPage(BasePage):
     link_to_final_thesis = models.URLField(blank=True)
     student_funding = RichTextField(blank=True, features=["link"])
     student_user_account = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, blank=True
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        limit_choices_to=get_student_users,
     )
 
     search_fields = BasePage.search_fields + [
