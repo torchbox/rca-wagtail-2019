@@ -1,0 +1,53 @@
+context:
+  page:
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: More about the RCA
+      - is_root: false
+        depth: 3
+        title: Our Students
+    profile_image: true
+    student_title: Professor
+    first_name: Katrine
+    last_name: Hesseldahl
+    student_type: Current PhD student
+    job_title:
+      - department: Intelligent Mobility
+        link: '#'
+        titles:
+          - { label: 'Chair and Director' }
+          - { label: 'Dean of School Mobility' }
+          - { label: 'Head of Programmes' }
+    email: k.hesseldahl@rca.ac.uk
+    introduction: "Katrine's work aims to intrigue, interest and invite people to take steps in the direction towards a more sustainable, fair, fun and beautiful future for our society."
+    bio: "<p>Katrine's work aims to intrigue, interest and invite people to take steps in the direction towards a more sustainable, fair, fun and beautiful future for our society.</p><p>She is deeply concerned with the scale and complexity of the problems we are facing today, e.g. climate changes, overuse of resources, social inequality, and feels a natural responsibility to be part of creating solutions for these problems.</p>"
+    programme: Materials Science MPhil/PhD
+    link_to_final_thesis: '#'
+    student_gallery: False
+    student_related_links: False
+    related_area_of_expertise:
+      all:
+        - item:
+          area_of_expertise: 'Creative industries'
+        - item:
+          area_of_expertise: 'New materials'
+        - item:
+          area_of_expertise: 'Sustainable society'
+    social_links:
+      - item:
+        value:
+          title: 'katrinehesseldahl.co.uk'
+          link: 'https://katrinehesseldahl.co.uk'
+    supervisors:
+      - item:
+        title: 'Dr John Smith'
+        link: '#'
+  research_highlights: False
+  areas:
+    - { title: 'Creative industries', link: '#' }
+    - { title: 'New materials', link: '#' }
+    - { title: 'Sustainable society', link: '#' }
+  related_schools:
+    - page: { title: 'Materials Science Research Centre', url: '#' }
+  student_information: False
