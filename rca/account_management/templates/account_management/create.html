@@ -21,7 +21,6 @@
     </div>
 
     <form action="{% url 'student_account_create' %}" method="POST">
-            {% csrf_token %}
             <section id="account" class="active nice-padding">
                 <ul class="fields">
                     {% block fields %}
