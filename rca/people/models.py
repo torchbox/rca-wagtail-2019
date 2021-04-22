@@ -598,10 +598,6 @@ class StudentPageSupervisor(models.Model):
 
 
 class StudentPage(BasePage):
-    def get_student_users():
-        users = User.objects.filter(groups__name="Students").order_by("username")
-        return {"pk__in": users}
-
     base_form_class = StudentPageAdminForm
     template = "patterns/pages/student/student_detail.html"
     parent_page_types = ["people.StudentIndexPage"]
@@ -661,7 +657,7 @@ class StudentPage(BasePage):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        limit_choices_to=get_student_users,
+        limit_choices_to={"groups__name": "Students"},
     )
 
     search_fields = BasePage.search_fields + [
