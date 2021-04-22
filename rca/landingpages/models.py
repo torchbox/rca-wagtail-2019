@@ -21,7 +21,6 @@ from rca.utils.blocks import (
     StatisticBlock,
 )
 from rca.utils.models import (
-    HERO_COLOUR_CHOICES,
     BasePage,
     ContactFieldsMixin,
     LegacyNewsAndEventsMixin,
@@ -167,7 +166,6 @@ class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    hero_colour_option = models.PositiveSmallIntegerField(choices=(HERO_COLOUR_CHOICES))
     introduction = models.TextField(
         max_length=500, blank=True, help_text=_("Maximum length of 500 characters")
     )
@@ -240,10 +238,7 @@ class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     )
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel(
-            [ImageChooserPanel("hero_image"), FieldPanel("hero_colour_option")],
-            heading=_("Hero"),
-        ),
+        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
         MultiFieldPanel(
             [FieldPanel("introduction"), PageChooserPanel("about_page")],
             heading=_("Introduction"),
@@ -440,10 +435,7 @@ class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
 class ResearchLandingPage(LandingPage):
     template = "patterns/pages/landingpage/landing_page--research.html"
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel(
-            [ImageChooserPanel("hero_image"), FieldPanel("hero_colour_option")],
-            heading=_("Hero"),
-        ),
+        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
         MultiFieldPanel(
             [FieldPanel("introduction"), PageChooserPanel("about_page")],
             heading=_("Introduction"),
@@ -505,10 +497,7 @@ class InnovationLandingPage(LandingPage):
     template = "patterns/pages/landingpage/landing_page--innovation.html"
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel(
-            [ImageChooserPanel("hero_image"), FieldPanel("hero_colour_option")],
-            heading=_("Hero"),
-        ),
+        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
         MultiFieldPanel(
             [FieldPanel("introduction"), PageChooserPanel("about_page")],
             heading=_("Introduction"),

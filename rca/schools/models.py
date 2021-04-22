@@ -35,10 +35,6 @@ from rca.utils.blocks import (
 )
 from rca.utils.formatters import format_page_teasers, related_list_block_slideshow
 from rca.utils.models import (
-    DARK_HERO,
-    DARK_TEXT_ON_LIGHT_IMAGE,
-    HERO_COLOUR_CHOICES,
-    LIGHT_HERO,
     BasePage,
     ContactFieldsMixin,
     LegacyNewsAndEventsMixin,
@@ -73,10 +69,8 @@ class HeroItem(models.Model):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    hero_colour_option = models.PositiveSmallIntegerField(choices=(HERO_COLOUR_CHOICES))
     panels = [
         ImageChooserPanel("hero_image"),
-        FieldPanel("hero_colour_option"),
     ]
 
 
@@ -441,7 +435,6 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         selected_item = random.choice(hero_items)
         return {
             "image": selected_item.hero_image,
-            "hero_colour": selected_item.hero_colour_option,
         }
 
     def clean(self):
@@ -572,17 +565,9 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        # We're picking the hero from multiple objects so we need to override
-        # the BasePage hero_colour option
         hero_image = self.get_hero_image()
         if hero_image:
             context["hero_image"] = hero_image["image"]
-            context["hero_colour"] = LIGHT_HERO
-            if (
-                hero_image["hero_colour"]
-                and hero_image["hero_colour"] == DARK_TEXT_ON_LIGHT_IMAGE
-            ):
-                context["hero_colour"] = DARK_HERO
         context["page_teasers"] = format_page_teasers(self.page_teasers.first())
         context["stats_block"] = self.stats_block.select_related(
             "background_image"
