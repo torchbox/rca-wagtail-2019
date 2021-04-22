@@ -216,3 +216,20 @@ def richtext_force_external_links(value):
             link["target"] = "_blank"
         html = str(soup)
     return render_to_string("wagtailcore/shared/richtext.html", {"html": html})
+
+
+@register.simple_tag()
+def get_all_active_filters(filters):
+    """Function to return all active items from filters.
+
+    Args:
+        filters (list): of TabStyleFilter objects.
+
+    Returns:
+        str: of all active items from all filters.
+    """
+    all_active_filters = []
+    for f in filters["items"]:
+        for item in f.get_active_filters():
+            all_active_filters.append(item["title"])
+    return ", ".join(all_active_filters)

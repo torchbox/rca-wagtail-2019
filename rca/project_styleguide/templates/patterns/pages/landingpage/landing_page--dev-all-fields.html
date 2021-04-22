@@ -34,7 +34,7 @@
                                 {{ page.introduction }}
                             </h2>
                             {% if page.about_page %}
-                                <a href="{% pageurl page.about_page %}" class="introduction__link link link--tertiary link--link">
+                                <a href="{% pageurl page.about_page %}" class="introduction__link link link--tertiary link--link" {% if page.title %}aria-label="More about {{ page.title }}"{% endif %}>
                                     <span class="link__label">{{ page.about_page.title }}</span>
                                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                 </a>

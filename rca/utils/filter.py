@@ -72,6 +72,9 @@ class TabStyleFilter:
         # to match template usage
         return self.name
 
+    def get_active_filters(self):
+        return [option for option in self.options if option["active"]]
+
     def __iter__(self):
         for value, label in self.queryset.values_list(
             self.option_value_field, self.option_label_field

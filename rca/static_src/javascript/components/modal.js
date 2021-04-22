@@ -17,6 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const modalId = document.querySelector('[data-micromodal-trigger]')
             .dataset.micromodalTrigger;
         MicroModal.close(modalId);
+        // Make sure body is scrollable when modal is closed
+        const bodyStyle = document.querySelector('body').style;
+        bodyStyle.removeProperty('overflow');
+        bodyStyle.removeProperty('height');
     };
 
     const showModal = () => {
