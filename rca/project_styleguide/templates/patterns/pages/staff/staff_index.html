@@ -1,15 +1,26 @@
 {% extends "patterns/base_page.html" %}
-{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static util_tags %}
 {% get_settings %}
 
 {% block body_class %}
     app--staff-listing no-hero
 {% endblock %}
 
+{% block title %}
+    {% if page.seo_title %}
+        {{ page.seo_title }}
+    {% else %}
+        {{ page.title }}
+    {% endif %}
+    {% get_all_active_filters filters as active_filters %}
+    {% if active_filters %}
+        – {{ active_filters }}
+    {% endif %}
+    – Page {{ results.number }} of {{ results.paginator.num_pages }}
+{% endblock %}
+
 {% block content %}
-
     <div class="page page--no-hero">
-
         {# Hero #}
         <header class="page__header bg bg--dark">
             <div class="title-area title-area--research-centre grid">
