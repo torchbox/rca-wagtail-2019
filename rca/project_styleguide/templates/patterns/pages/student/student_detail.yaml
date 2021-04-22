@@ -12,6 +12,7 @@ context:
     first_name: Katrine
     last_name: Hesseldahl
     student_type: Current PhD student
+    degree_status: Current
     job_title:
       - department: Intelligent Mobility
         link: '#'
