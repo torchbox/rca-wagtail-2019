@@ -10,7 +10,6 @@ from rca.users.models import User
 
 class TestAccountManagementViews(TestCase):
 
-    login_view_name = "wagtailcore_login"
     create_view_name = "student_account_create"
 
     def setUp(self):
