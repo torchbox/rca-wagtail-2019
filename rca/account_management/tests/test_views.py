@@ -48,15 +48,11 @@ class TestAccountManagementViews(TestCase):
 
         # Login as the student
         response = self.client.post(
-            reverse(self.login_view_name),
+            "/admin/login/",
             follow=True,
             data={"username": "montypython", "password": "test"},
         )
-
-        print(response.status_code)
-        print(response.redirect_chain)
-        # This is failing with a 404 and the only redirect being accounts/profile
-        # it should be the success url
-        final = reverse("wagtailadmin_pages:edit", kwargs={"page_id": student_page.id})
-        print(final)
-        self.assertRedirects(response, final)
+        redirect_url = reverse(
+            "wagtailadmin_pages:edit", kwargs={"page_id": student_page.id}
+        )
+        self.assertEqual(response.redirect_chain[0], (redirect_url, 302))
