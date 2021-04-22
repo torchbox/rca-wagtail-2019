@@ -227,7 +227,9 @@
 
     &--multiple_choice_field {
         select {
-            min-height: 150px;
+            @include media-query(large) {
+                min-height: 150px;
+            }
         }
     }
 
