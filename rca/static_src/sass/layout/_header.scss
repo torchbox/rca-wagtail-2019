@@ -22,7 +22,11 @@
 
     &__navigation-toggle {
         display: flex;
-        align-items: flex-start;
+        align-items: center;
+
+        @include media-query(medium) {
+            align-items: flex-start;
+        }
 
         .header__menus & {
             @include z-index(nav);
@@ -50,11 +54,14 @@
     }
 
     &__menu-toggle {
-        margin-top: 4px;
         margin-left: auto;
         color: $color--white;
         cursor: pointer;
         transition: opacity $transition;
+
+        @include media-query(medium) {
+            margin-top: 4px;
+        }
 
         .headroom--pinned.headroom--not-top & {
             @include media-query(medium) {
@@ -88,11 +95,19 @@
         }
 
         .app__navigation & {
-            margin-top: ($grid * 2.5);
+            margin-top: 39px;
             opacity: $transition-opacity;
 
             @include media-query(medium) {
                 margin-top: 4px;
+            }
+        }
+
+        .headroom--pinned.headroom--not-top .app__navigation & {
+            margin-top: 18px;
+
+            @include media-query(medium) {
+                margin-top: 0;
             }
         }
 

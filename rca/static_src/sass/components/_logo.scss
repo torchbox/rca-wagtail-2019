@@ -5,33 +5,6 @@
     display: block;
     transition: opacity $transition;
 
-    @include media-query(large) {
-        position: absolute;
-        width: calc(var(--outer-grid-width, 220px) - 1px); // so grid line shows
-        background-color: $color--black;
-        padding-bottom: ($grid * 2);
-    }
-
-    &::before {
-        @include media-query(large) {
-            position: absolute;
-            left: 0;
-            width: calc(
-                var(--margin-width, 290px) + 1px
-            ); // so we don't get a 1px line when rounded down
-            content: '';
-            display: block;
-            height: 110px;
-            background-color: $color--black;
-            transform: translate3d(-100%, 0, 0);
-        }
-
-        // Custom breakpoint to stop logo intersecting with gridline
-        @media only screen and (max-width: $custom-breakpoint-max) and (min-width: $custom-breakpoint-min) {
-            height: 101px;
-        }
-    }
-
     &:hover,
     &:focus,
     &:active {
@@ -49,8 +22,6 @@
     .header &,
     .app__navigation & {
         #{$root}__image {
-            width: 140px;
-
             @include media-query(large) {
                 width: 162px;
             }
@@ -58,6 +29,37 @@
             // Custom breakpoint to stop logo intersecting with gridline
             @media only screen and (max-width: $custom-breakpoint-max) and (min-width: $custom-breakpoint-min) {
                 width: 140px;
+            }
+        }
+    }
+
+    .header & {
+        @include media-query(large) {
+            position: absolute;
+            width: calc(
+                var(--outer-grid-width, 220px) - 1px
+            ); // so grid line shows
+            background-color: $color--black;
+            padding-bottom: ($grid * 2);
+        }
+
+        &::before {
+            @include media-query(large) {
+                position: absolute;
+                left: 1px;
+                width: calc(
+                    var(--margin-width, 290px) + 2px
+                ); // so we don't get a 1px line when rounded down
+                content: '';
+                display: block;
+                height: 110px;
+                background-color: $color--black;
+                transform: translate3d(-100%, 0, 0);
+            }
+
+            // Custom breakpoint to stop logo intersecting with gridline
+            @media only screen and (max-width: $custom-breakpoint-max) and (min-width: $custom-breakpoint-min) {
+                height: 101px;
             }
         }
     }
@@ -76,14 +78,18 @@
         }
     }
 
+    // don't resize logo when not at the top
+    .headroom--not-top .header &,
+    .headroom--not-top .app__navigation & {
+        #{$root}__image {
+            width: auto;
+        }
+    }
+
     // Styles to prevent flicker from pinned to normal mode
     .headroom--unpinned & {
         @include media-query(large) {
             position: static;
-        }
-
-        #{$root}__image {
-            transform: scale(57%);
         }
 
         &::before {
@@ -93,14 +99,20 @@
         }
     }
 
-    .headroom--pinned.headroom--not-top .header &,
-    .headroom--pinned.headroom--not-top .app__navigation & {
+    .headroom--unpinned .header & {
+        #{$root}__image {
+            transform: scale(0.57);
+        }
+    }
+
+    .headroom--not-top .header &,
+    .headroom--not-top .app__navigation & {
         position: static;
         width: auto;
         padding-bottom: 0;
 
         #{$root}__image {
-            transform: scale(57%);
+            transform: scale(0.57);
         }
 
         &::before {
@@ -108,7 +120,7 @@
         }
     }
 
-    .nav-open & {
+    .nav-open .app__navigation & {
         @include z-index(headerLogo);
         position: relative;
     }

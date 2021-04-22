@@ -32,7 +32,6 @@
 
         @include media-query(medium) {
             min-height: 450px;
-            height: 100%;
         }
 
         @include media-query(large) {
