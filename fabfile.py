@@ -230,3 +230,10 @@ def push_media_to_s3_heroku(c, app_instance):
 
 def make_bold(msg):
     return "\033[1m{}\033[0m".format(msg)
+
+
+@task
+def run_tests(c):
+    return local(
+        "coverage erase && coverage run ./manage.py test --settings=rca.settings.test && coverage report"
+    )
