@@ -3,16 +3,22 @@
 {% get_settings %}
 
 {% block body_class %}
-    app--staff-detail theme-light no-hero
+    app--staff-detail theme-light
 {% endblock %}
 
 {% block title %}
     {% if page.staff_title %}{{ page.staff_title }}{% endif %} {% if page.first_name %}{{ page.first_name }}{% endif %} {% if page.last_name %}{{ page.last_name }}{% endif %}
 {% endblock %}
 
+
 {% block content %}
 
     <div class="page page--no-hero" typeof="schema:Person">
+
+        <meta property="schema:affiliation" content="Royal College of Art" />
+        {# Should only show if person is alumni #}
+        <meta property="schema:alumniOf" content="Royal College of Art" />
+
         <header class="page__header bg bg--dark">
             <div class="title-area title-area--staff-detail grid">
                 {% if page.profile_image %}
@@ -24,22 +30,34 @@
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
-                    {% if page.staff_title or page.first_name or page.last_name %}
+                    {% if page.student_title or page.first_name or page.last_name %}
                         <h1 property="schema:name" class="title-area__heading heading heading--one">
-                            {% if page.staff_title %}
-                                <span class="title-area__profile-title heading heading--three">{{ page.staff_title }}</span>
+                            {% if page.student_title %}
+                                <span class="title-area__profile-title heading heading--three">{{ page.student_title }}</span>
                             {% endif %}
                             {{ page.first_name }}
                             {{ page.last_name }}
                         </h1>
-                        {% if page.profile_type %}
-                            <h2 class="title-area__sub-heading body body--one">{{ page.profile_type }}</h2>
-                        {% endif %}
+
                     {% endif %}
 
-                    {% if roles %}
+                    {% if page.programme %}
                         <div class="title-area__job-titles">
-                            {% include "patterns/molecules/job-titles/job-titles.html" with job_titles=roles %}
+                            <div class="job-titles">
+                                <ul class="job-titles__item">
+                                {% if page.degree_award and page.degree_end_date %}
+                                    <li class="job-titles__title">Awarded {{ page.get_degree_award_display }} {{ page.degree_end_date|date:'Y' }}</li>
+                                        <li class="job-titles__department" property="schema:award">
+                                            <a class="body body--two link link--tertiary" href="#">{{ page.programme }}</a>
+                                        </li>
+                                {% else %}
+                                    <li class="job-titles__title">{{ page.degree_status }} MPhil/PhD student {% if page.degree_end_date %}- {{ page.degree_end_date|date:'Y' }}{% endif %}</li>
+                                    <li class="job-titles__department" property="schema:award">
+                                        <a class="body body--two link link--tertiary" href="#">{{ page.programme }}</a>
+                                    </li>
+                                {% endif %}
+                                </ul>
+                            </div>
                         </div>
                     {% endif %}
 
@@ -57,7 +75,7 @@
 
         <div class="page__content">
 
-            <section class="section bg bg--dark">
+            <section class="section bg bg--dark {% if page.student_gallery %}section--opposite-notch{% endif %}">
 
                 <div class="section__row staff-body {% if research_highlights %}staff-body--margin{% endif %}">
                     <div class="staff-body__container grid">
@@ -66,22 +84,31 @@
                                 {{ page.introduction}}
                             </p>
                             <div class="staff-body__description rich-text">
-                                {{ page.body|safe }}
+                                {{ page.bio|safe }}
                             </div>
+
+                            {% if page.link_to_final_thesis %}
+                            <div class="staff-body__action">
+                                <a class="link link--primary link--link body body--two link--external" href="{{ page.link_to_final_thesis }}" target="_blank">
+                                    <span class="link__label">Visit the RCA Research Repository to access the final thesis</span>
+                                    <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
+                            </a>
+                                </a>
+                            </div>
+                            {% endif %}
                         </div>
                         <div class="staff-body__key-details">
-                            {% include "patterns/molecules/key-details/key-details--staff.html" %}
+                            {% include "patterns/molecules/key-details/key-details--student.html" with areas=areas supervisors=page.supervisors social_links=page.social_links %}
                         </div>
                     </div>
                 </div>
+
                 {% if research_highlights %}
-                    <div class="section__row {% if page.gallery %}section__row--last{% else %}section__row--last-large{% endif %} research-highlights">
+                    <div class="section__row {% if page.student_gallery %}section__row--last{% else %}section__row--last-large{% endif %} research-highlights">
                         <div class="section__header grid">
-                            {% if page.research_highlights_title %}
-                                <h2 class="section__heading section__heading--primary heading heading--four">
-                                    {{ page.research_highlights_title }}
-                                </h2>
-                            {% endif %}
+                            <h2 class="section__heading section__heading--primary heading heading--four">
+                                Research projects
+                            </h2>
                         </div>
                         <div class="section__content grid">
                             {% include "patterns/organisms/carousel/carousel.html" with carousel=research_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}
@@ -95,7 +122,7 @@
                     </div>
                 {% endif %}
 
-            {% if page.gallery %}
+            {% if page.student_gallery %}
                 <div class="section__notch section__notch--opposite">
                     <div class="section__notch-fill section__notch-fill--first-col"></div>
                 </div>
@@ -111,40 +138,41 @@
                         </h3>
                     </header>
                     <div class="section__content">
-                        {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.gallery modifier='slideshow--author-info' %}
+                        {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.student_gallery modifier='slideshow--author-info' %}
                     </div>
                 </div>
 
             </section>
 
             <section class="section bg bg--dark">
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
-                </div>
-            {% endif %}
-
-                {% if page.more_information %}
-                    <div class="section__row {% if not page.gallery %}staff-detail-accordion staff-detail-accordion--wo-gallery{% endif %} section__row--last">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title=page.more_information_title %}
+                {% if student_information %}
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
                 {% endif %}
+            {% endif %}
 
-                {% if related_students or page.related_links %}
+                {% if student_information %}
+                    <div class="section__row {% if not page.student_gallery %}staff-detail-accordion staff-detail-accordion--wo-gallery{% endif %} section__row--first section__row--last">
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=student_information title="More about "|add:page.first_name %}
+                    </div>
+
+                    {% if related_students or page.student_related_links %}
                     <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
+                    {% endif %}
                 {% endif %}
-
             </section>
 
-            {% if related_students or page.related_links %}
+            {% if related_students or page.student_related_links %}
                 <section class="section section--top-space bg bg--light">
                     {% if related_students %}
                         {% include "patterns/organisms/student-listing/student-listing-api.html" with student_listing=related_students %}
                     {% endif %}
 
-                    {% if page.related_links %}
-                        {% include "patterns/organisms/related-links/related-links.html" with related_links=page.related_links title="External links" %}
+                    {% if page.student_related_links %}
+                        {% include "patterns/organisms/related-links/related-links.html" with related_links=page.student_related_links title="Additional links" %}
                     {% endif %}
                 </section>
             {% endif %}

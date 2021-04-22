@@ -15,11 +15,16 @@
                         {{ item.title }}
                     {% if item.link %}</span>{% endif %}
                 </h3>
-                {% for r in item.roles.all %}
+                {% if item.degree_type %}
                     <div class="card__description card__year">
-                        {{ r.role }}{% if not forloop.last %},{% endif %}
+                        Degree: {{ item.degree_type }}
                     </div>
-                {% endfor %}
+                {% endif %}
+                {% if item.degree_status %}
+                    <div class="card__description card__year">
+                        Status: {{ item.degree_status }}
+                    </div>
+                {% endif %}
             </div>
         </div>
     </{% if item.link %}a{% else %}div{% endif %}>

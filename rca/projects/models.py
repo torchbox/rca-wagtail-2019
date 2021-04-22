@@ -216,6 +216,7 @@ class ProjectPage(ContactFieldsMixin, BasePage):
             ],
             "Project team and staff",
         ),
+        InlinePanel("related_student_pages", label="Project students"),
         StreamFieldPanel("partners"),
         StreamFieldPanel("funders"),
         StreamFieldPanel("quote_carousel"),
