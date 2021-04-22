@@ -9,8 +9,8 @@ class StudentPageAdminForm(WagtailAdminPageForm):
     """
 
     def __init__(self, *args, **kwargs):
-        print(args)
-        print(kwargs)
+        # print(args)
+        # print(kwargs)
         super(StudentPageAdminForm, self).__init__(*args, **kwargs)
         # TODO work in request.user.group IS/HAS Student and lock fields
         # readonly_fields = [
