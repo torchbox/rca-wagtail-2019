@@ -1,5 +1,7 @@
 from django.apps import apps
 from django.db.models import Q
+from wagtail.admin.edit_handlers import ObjectList, TabbedInterface
+from wagtail.utils.decorators import cached_classmethod
 
 
 def get_area_linked_filters(page):
@@ -64,3 +66,77 @@ def get_student_research_projects(page):
     ).exclude(pk__in=related_project_page_ids).order_by(
         "-first_published_at"
     ).distinct()
+
+
+class PerUserContentPanels(ObjectList):
+    def _replace_children_with_per_user_config(self):
+        if self.request.user.groups.filter(name="Students").exists():
+            if self.classname == "content":
+                self.children = self.instance.basic_content_panels
+            if self.classname == "key_details":
+                self.children = self.instance.basic_key_details_panels
+            elif self.classname in ["promote", "settings"]:
+                self.children = []
+        else:
+            if self.classname == "content":
+                self.children = self.instance.superuser_content_panels
+            if self.classname == "key_details":
+                self.children = self.instance.key_details_panels
+
+        self.children = [
+            child.bind_to(
+                model=self.model,
+                instance=self.instance,
+                request=self.request,
+                form=self.form,
+            )
+            for child in self.children
+        ]
+
+    def on_instance_bound(self):
+        # replace list of children when both instance and request are available
+        if self.request:
+            self._replace_children_with_per_user_config()
+        else:
+            super().on_instance_bound()
+
+    def on_request_bound(self):
+        # replace list of children when both instance and request are available
+        if self.instance:
+            self._replace_children_with_per_user_config()
+        else:
+            super().on_request_bound()
+
+
+class PerUserPageMixin:
+    basic_content_panels = []
+    superuser_content_panels = []
+
+    @cached_classmethod
+    def get_edit_handler(cls):
+        tabs = []
+
+        if cls.basic_content_panels and cls.superuser_content_panels:
+            tabs.append(PerUserContentPanels(heading="Content", classname="content"))
+        if cls.key_details_panels and cls.basic_key_details_panels:
+            tabs.append(
+                PerUserContentPanels(
+                    cls.settings_panels, heading="Key Details", classname="key_details"
+                )
+            )
+        if cls.promote_panels:
+            tabs.append(
+                PerUserContentPanels(
+                    cls.promote_panels, heading="Promote", classname="promote"
+                )
+            )
+        if cls.settings_panels:
+            tabs.append(
+                PerUserContentPanels(
+                    cls.settings_panels, heading="Settings", classname="settings"
+                )
+            )
+
+        edit_handler = TabbedInterface(tabs, base_form_class=cls.base_form_class)
+
+        return edit_handler.bind_to(model=cls)
