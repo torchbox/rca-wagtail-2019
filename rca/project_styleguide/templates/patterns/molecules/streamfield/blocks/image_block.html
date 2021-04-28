@@ -6,7 +6,7 @@
     {% else %}
         {% image value.image fill-880x660 as my_image %}
     {% endif %}
-    <img src="{{ my_image.url }}" width="{{ my_image.width }}" height="{{ my_image.height }}" alt="{{ my_image.image.alt}}" title="{{ my_image.image.title }}">
+    <img src="{{ my_image.url }}" width="{{ my_image.width }}" height="{{ my_image.height }}" alt="{% if my_image.image.alt %}{{ my_image.image.alt }}{% else %}{{ my_image.image.title }}{% endif %}">
     {% if value.caption %}
         <p class="image-caption-link">{{ value.caption }}</p>
     {% endif %}

@@ -3,6 +3,8 @@
 
 {% block body_class %}app--homepage{% endblock %}
 
+{% block header_class %}theme-{{ hero_colour }}{% endblock %}
+
 {% block content %}
 
     {% include "patterns/molecules/hero/hero--home.html" with modifier="home" scrolldown=true %}

@@ -1,3 +1,5 @@
+{% load wagtailcore_tags %}
+
 {% if related_schools or research_centres or areas or supervisors or personal_website %}
     <div class="key-details key-details--student">
         <div class="key-details__header">
@@ -49,14 +51,25 @@
                 </ul>
             </div>
         {% endif %}
-        {% if personal_website %}
+        {% if page.student_funding %}
             <div class="key-details__section key-details__section--supervisors">
-                <h4 class="body body--two key-details__sub-heading">Personal website</h4>
+                <h4 class="body body--two key-details__sub-heading">Funding</h4>
                 <ul class="key-details__list">
-                    {% for item in personal_website %}
+                    <li class="key-details__list-item">
+                        {{ page.student_funding|richtext }}
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+        {% with personal_links=page.personal_links.all %}
+        {% if personal_links %}
+            <div class="key-details__section key-details__section--supervisors">
+                <h4 class="body body--two key-details__sub-heading">Personal links</h4>
+                <ul class="key-details__list">
+                    {% for item in personal_links %}
                         <li class="key-details__list-item">
-                            <a href="{{ item.link }}" class="link link--tertiary link--link link--external" target="_blank">
-                                <span class="link__label">{{ item.title }}</span>
+                            <a href="{{ item.url }}" class="link link--tertiary link--link link--external" target="_blank" rel="noreferrer" property="schema:sameAs" >
+                                <span class="link__label">{{ item.link_title }}</span>
                                 <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
                             </a>
                         </li>
@@ -64,5 +77,6 @@
                 </ul>
             </div>
         {% endif %}
+        {% endwith %}
     </div>
 {% endif %}

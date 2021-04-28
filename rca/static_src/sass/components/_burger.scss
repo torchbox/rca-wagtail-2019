@@ -6,6 +6,7 @@
 
     &__toggle-label {
         @include font-size(xxxs);
+        color: $color--white;
         margin-left: ($gutter / 2);
     }
 
@@ -13,27 +14,41 @@
         stroke: $color--white;
     }
 
-    .theme-dark .header & {
-        #{$root}__toggle-icon {
-            stroke: $color--black;
-        }
-    }
+    .header & {
+        text-align: center;
+        flex-direction: column;
 
-    .theme-light .header & {
-        #{$root}__toggle-icon {
-            stroke: $color--white;
+        @include media-query(medium) {
+            flex-direction: row;
         }
-    }
 
-    .headroom--pinned.headroom--not-top & {
-        #{$root}__toggle-icon {
-            stroke: $color--white;
-        }
-    }
-
-    .app__navigation & {
         #{$root}__toggle-label {
-            color: $color--white;
+            margin-left: 0;
+
+            @include media-query(medium) {
+                margin-left: ($gutter / 2);
+            }
+        }
+
+        #{$root}__toggle-icon {
+            margin-bottom: ($grid / 2);
+
+            @include media-query(medium) {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .headroom--not-top & {
+        text-align: left;
+        flex-direction: row;
+
+        #{$root}__toggle-label {
+            margin-left: ($gutter / 2);
+        }
+
+        #{$root}__toggle-icon {
+            margin-bottom: 0;
         }
     }
 }

@@ -1,8 +1,10 @@
 .staff-body {
-    margin-bottom: ($gutter * 2);
+    &--margin {
+        margin-bottom: ($gutter * 2);
 
-    @include media-query(large) {
-        margin-bottom: ($gutter * 4);
+        @include media-query(large) {
+            margin-bottom: ($gutter * 4);
+        }
     }
 
     &__content {

@@ -8,10 +8,11 @@ context:
         depth: 3
         title: Our Students
     profile_image: true
-    staff_title: Professor
+    student_title: Professor
     first_name: Katrine
     last_name: Hesseldahl
-    profile_type: Current PhD student
+    student_type: Current PhD student
+    degree_status: Current
     job_title:
       - department: Intelligent Mobility
         link: '#'
@@ -19,44 +20,12 @@ context:
           - { label: 'Chair and Director' }
           - { label: 'Dean of School Mobility' }
           - { label: 'Head of Programmes' }
-    email: imdc@rca.ac.uk
+    email: k.hesseldahl@rca.ac.uk
     introduction: "Katrine's work aims to intrigue, interest and invite people to take steps in the direction towards a more sustainable, fair, fun and beautiful future for our society."
-    body: "<p>Katrine's work aims to intrigue, interest and invite people to take steps in the direction towards a more sustainable, fair, fun and beautiful future for our society.</p><p>She is deeply concerned with the scale and complexity of the problems we are facing today, e.g. climate changes, overuse of resources, social inequality, and feels a natural responsibility to be part of creating solutions for these problems.</p>"
-    thesis: '#'
-    more_information:
-      - path:
-        value:
-          body: 'TBC'
-          heading: 'PhD'
-      - path:
-        value:
-          body: 'TBC'
-          heading: 'Funding'
-      - path:
-        value:
-          body: 'TBC'
-          heading: 'Degrees'
-      - path:
-        value:
-          body: 'TBC'
-          heading: 'Experience'
-      - path:
-        value:
-          body: 'TBC'
-          heading: 'Exhibitions'
-      - path:
-        value:
-          body: 'TBC'
-          heading: 'Awards'
-      - path:
-        value:
-          body: 'TBC'
-          heading: 'Conferences'
-      - path:
-        value:
-          body: 'TBC'
-          heading: 'Publications'
-    gallery:
+    bio: "<p>Katrine's work aims to intrigue, interest and invite people to take steps in the direction towards a more sustainable, fair, fun and beautiful future for our society.</p><p>She is deeply concerned with the scale and complexity of the problems we are facing today, e.g. climate changes, overuse of resources, social inequality, and feels a natural responsibility to be part of creating solutions for these problems.</p>"
+    programme: Materials Science MPhil/PhD
+    link_to_final_thesis: '#'
+    student_gallery:
       - slide:
         value:
           title: 'Albertopolissss 550-metre pedestrian tunnel'
@@ -81,13 +50,30 @@ context:
           author: 'Kevin Howbrook'
           link: 'http://www.torchbox.com'
           course: 'Design'
-    related_links:
+    student_related_links:
       - item:
         value: { text: 'Instagram feed', href: 'http://www.google.com' }
       - item:
         value: { text: 'Linkedin Profile', href: 'http://www.google.com' }
       - item:
         value: { text: 'Twitter profile', href: 'http://www.google.com' }
+    related_area_of_expertise:
+      all:
+        - item:
+          area_of_expertise: 'Creative industries'
+        - item:
+          area_of_expertise: 'New materials'
+        - item:
+          area_of_expertise: 'Sustainable society'
+    social_links:
+      - item:
+        value:
+          title: 'katrinehesseldahl.co.uk'
+          link: 'https://katrinehesseldahl.co.uk'
+    supervisors:
+      - item:
+        title: 'Dr John Smith'
+        link: '#'
   research_highlights:
     - slide:
       meta: 'School of Design'
@@ -107,19 +93,50 @@ context:
       description: 'Creating world class experiences that started at the RCA'
       image: true
       link: '#'
-  roles:
-    - items:
-        - Materials Science MPhil/PhD
   areas:
     - { title: 'Creative industries', link: '#' }
     - { title: 'New materials', link: '#' }
     - { title: 'Sustainable society', link: '#' }
   related_schools:
     - page: { title: 'Materials Science Research Centre', url: '#' }
-  supervisors:
-    - { title: 'Dr John Smith', link: '#' }
-  personal_website:
-    - {
-        title: 'katrinehesseldahl.co.uk',
-        link: 'https://katrinehesseldahl.co.uk',
-      }
+  student_information:
+    - item:
+      value:
+        heading: Biography
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Degrees
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Experience
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Awards
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Funding
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Exhibitions
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Publications
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Research outputs
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Conferences
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Additional information
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.

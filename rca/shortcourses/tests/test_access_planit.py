@@ -179,7 +179,6 @@ class AccessPlanitXMLTest(TestCase):
             programme_type_id=1,
             contact_model_url="https://rca.ac.uk",
             contact_model_text="Read more",
-            hero_colour_option=1,
         )
         # Generate the mocked xml data
         AccessPlanitXML(course_id=1).get_data()
@@ -231,7 +230,6 @@ class AccessPlanitXMLTest(TestCase):
                 programme_type_id=1,
                 contact_model_url="https://rca.ac.uk",
                 contact_model_text="Read more",
-                hero_colour_option=1,
                 show_register_link=0,
             )
         call_command("fetch_access_planit_data")
@@ -266,7 +264,6 @@ class AccessPlanitXMLTest(TestCase):
                 programme_type_id=1,
                 contact_model_url="https://rca.ac.uk",
                 contact_model_text="Read more",
-                hero_colour_option=1,
                 show_register_link=0,
             )
         call_command("fetch_access_planit_data")
@@ -292,7 +289,6 @@ class AccessPlanitXMLTest(TestCase):
             programme_type_id=1,
             contact_model_url="https://rca.ac.uk",
             contact_model_text="Read more",
-            hero_colour_option=1,
         )
         home_page.add_child(instance=short_course_page)
         response = self.client.get("/short-course/")
@@ -321,7 +317,6 @@ class AccessPlanitXMLTest(TestCase):
             programme_type_id=1,
             contact_model_url="https://rca.ac.uk",
             contact_model_text="Read more",
-            hero_colour_option=1,
         )
         home_page.add_child(instance=short_course_page)
         response = self.client.get("/short-course/")
@@ -393,7 +388,6 @@ class AccessPlanitCourseCheckerTest(TestCase):
                 programme_type_id=1,
                 contact_model_url="https://rca.ac.uk",
                 contact_model_text="Read more",
-                hero_colour_option=1,
             )
 
     @mock.patch(
@@ -410,7 +404,6 @@ class AccessPlanitCourseCheckerTest(TestCase):
             programme_type_id=1,
             contact_model_url="https://rca.ac.uk",
             contact_model_text="Read more",
-            hero_colour_option=1,
         )
 
     @mock.patch(
@@ -427,5 +420,4 @@ class AccessPlanitCourseCheckerTest(TestCase):
                 programme_type_id=1,
                 contact_model_url="https://rca.ac.uk",
                 contact_model_text="Read more",
-                hero_colour_option=1,
             )

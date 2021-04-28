@@ -1,0 +1,25 @@
+context:
+  item:
+    title: 'Jocelyn Prudence'
+    roles:
+      all:
+        - role: 'College Secretary'
+        - role: 'Tutor and Visiting Lecturer'
+        - role: 'Executive Education Manager'
+    profile_image: true
+    link: '#'
+    degree_status: Current
+    degree_type: PhD
+
+tags:
+  image:
+    item.profile_image fill-80x80 as image_small:
+      target_var: image_small
+      raw:
+        url: '//placekitten.com/80/80'
+    item.profile_image fill-392x392 as image_large:
+      target_var: image_large
+      raw:
+        url: '//placekitten.com/392/392'
+        width: '392'
+        height: '392'
