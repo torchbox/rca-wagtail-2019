@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("projects", "0023_add_pdf_link_text"),
+        ("projects", "0023_merge_20210212_1510"),
     ]
 
     operations = [

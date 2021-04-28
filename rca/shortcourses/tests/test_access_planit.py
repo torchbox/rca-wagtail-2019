@@ -204,7 +204,6 @@ class AccessPlanitXMLTest(TestCase):
                 programme_type_id=1,
                 contact_url="https://rca.ac.uk",
                 contact_text="Read more",
-                hero_colour_option=1,
             )
         with self.assertRaises(TypeError):
             ShortCoursePage.objects.create(
@@ -212,7 +211,6 @@ class AccessPlanitXMLTest(TestCase):
                 path=100,
                 depth="001",
                 access_planit_course_id="course id cannot be a string",
-                hero_colour_option=1,
             )
 
     @mock.patch(
