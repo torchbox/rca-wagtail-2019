@@ -652,14 +652,14 @@ class StudentPage(BasePage):
     )
     link_to_final_thesis = models.URLField(blank=True)
     student_funding = RichTextField(blank=True, features=["link"])
-    student_user_account = models.ForeignKey(
+    student_user_account = models.OneToOneField(
         User,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         limit_choices_to={"groups__name": "Students"},
+        unique=True,
     )
-
     search_fields = BasePage.search_fields + [
         index.SearchField("introduction"),
         index.SearchField("first_name"),
