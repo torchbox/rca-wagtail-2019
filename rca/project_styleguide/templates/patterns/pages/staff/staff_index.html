@@ -1,15 +1,26 @@
 {% extends "patterns/base_page.html" %}
-{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static util_tags %}
 {% get_settings %}
 
 {% block body_class %}
     app--staff-listing no-hero
 {% endblock %}
 
+{% block title %}
+    {% if page.seo_title %}
+        {{ page.seo_title }}
+    {% else %}
+        {{ page.title }}
+    {% endif %}
+    {% get_all_active_filters filters as active_filters %}
+    {% if active_filters %}
+        – {{ active_filters }}
+    {% endif %}
+    – Page {{ results.number }} of {{ results.paginator.num_pages }}
+{% endblock %}
+
 {% block content %}
-
     <div class="page page--no-hero">
-
         {# Hero #}
         <header class="page__header bg bg--dark">
             <div class="title-area title-area--research-centre grid">
@@ -29,9 +40,9 @@
             </div>
         </header>
 
-        <form class="page__content js-detect-sticking js-tabs" id="results" method="GET" URL="#results">
+        <form class="page__content js-detect-sticking js-tabs" method="GET" URL="#results">
 
-            <section class="section section--opposite-notch bg bg--dark filter-bar filter-bar--large" data-filter-bar>
+            <section class="section bg bg--dark filter-bar filter-bar--large" data-filter-bar>
                 <div class="section__notch section__notch--opposite">
 
                     <div class="section__notch-fill section__notch-fill--content-height section__notch-fill--fourth-col">
@@ -65,9 +76,11 @@
             <div class="filter-takeover bg bg--light">
                 <div class="filter-takeover__container">
                     {% for item in filters.items %}
-                        <div class="filter-takeover__tab-content tabs__panel tabs__panel--hidden js-tab-panel" id="{{ item.filter_name }}" role="tabpanel" aria-labelledby="tab-{{ item.filter_name }}">
-                            {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" %}
-                        </div>
+                        {% if item.queryset %}
+                            <div class="filter-takeover__tab-content tabs__panel tabs__panel--hidden js-tab-panel" id="{{ item.filter_name }}" role="tabpanel" aria-labelledby="tab-{{ item.filter_name }}">
+                                {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" %}
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>

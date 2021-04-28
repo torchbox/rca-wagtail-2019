@@ -39,7 +39,7 @@
                                 {{ page.introduction }}
                             </h2>
                             {% if page.about_page %}
-                                <a href="{% pageurl page.about_page %}" class="introduction__link link link--tertiary link--link">
+                                <a href="{% pageurl page.about_page %}" class="introduction__link link link--tertiary link--link" {% if page.title %}aria-label="More about {{ page.title }}"{% endif %}>
                                     <span class="link__label">{% firstof page.about_page.title 'Read more' %}</span>
                                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                 </a>
@@ -83,7 +83,7 @@
             {% endif %}
 
             {% if page_list %}
-                <section class="section section--opposite-notch bg bg--light">
+                <section class="section bg bg--light">
                     <div class="section__row section__row--first section__row--last-large">
                         {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page_list title=page.page_list_title modifier="after-action related-content--meta-new-line" %}
                     </div>

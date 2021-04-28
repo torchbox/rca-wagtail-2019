@@ -37,6 +37,10 @@
             {% if item.role or staff_page %}
                 <p class="profile-teaser__meta {% if not item.meta %}profile-teaser__meta--first{% endif %} body body--two">{% firstof item.role staff_page.roles.first.role %}</p>
             {% endif %}
+            {% if item.degree_status %}
+                <p class="profile-teaser__meta profile-teaser__meta--first body body--two">{{ item.degree_status }}</p>
+            {% endif %}
+
         </div>
     {% endif %}
     {% if item.link or staff_page %}

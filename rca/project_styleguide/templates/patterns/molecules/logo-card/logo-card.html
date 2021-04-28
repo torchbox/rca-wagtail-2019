@@ -7,7 +7,7 @@
     <{% if item.link.url or item.page %}a href="{% firstof item.link.url item.page.url %}"{% else %}div{% endif %} class="logo-card__container">
         {% if item.image %}{% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=200 height=200 image_large=image_large classList='logo-card__image' %}{% endif %}
         <div class="logo-card__content">
-            <h3 class="logo-card__heading body body--two">
+            <h3 class="logo-card__heading">
                {% firstof item.link.title item.page.title %}
             </h3>
         </div>

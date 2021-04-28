@@ -4,10 +4,10 @@
         {% image item.image fill-80x58 as image_small %}
         {% image item.image fill-392x284 as image_large %}
     {% endif %}
-    <div class="card__container">
-        {% if item.link %}<a href="{{ item.link }}" class="card__image-container" aria-label="{{ item.title }}">{% endif %}
+    <{% if item.link %}a href="{{ item.link }}"{% else %}div{% endif %} class="card__container">
+        {% if item.link %}<div class="card__image-container"">{% endif %}
             {% if item.image %}{% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=392 height=284 image_large=image_large classList='card__image' %}{% endif %}
-        {% if item.link %}</a>{% endif %}
+        {% if item.link %}</div>{% endif %}
         <div class="card__content-container">
             <div class="card__content">
                 {% if item.is_startup_project %}
@@ -16,14 +16,14 @@
                     <div class="card__meta card__school">{{ item.school }}</div>
                 {% endif %}
                 <h3 class="card__heading">
-                    {% if item.link %}<a href="{{ item.link }}" class="card__heading-link">{% endif %}
+                    {% if item.link %}<span class="card__heading-link">{% endif %}
                         {{ item.title }}
-                    {% if item.link %}</a>{% endif %}
+                    {% if item.link %}</span>{% endif %}
                 </h3>
                 {% if item.year %}
                     <div class="card__description card__year">{{ item.year }}</div>
                 {% endif %}
             </div>
         </div>
-    </div>
+    </{% if item.link %}a{% else %}div{% endif %}>
 </div>

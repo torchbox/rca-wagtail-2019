@@ -1,9 +1,22 @@
 {% extends "patterns/base_page.html" %}
-{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static util_tags %}
 {% get_settings %}
 
 {% block body_class %}
     app--project-listing no-hero
+{% endblock %}
+
+{% block title %}
+    {% if page.seo_title %}
+        {{ page.seo_title }}
+    {% else %}
+        {{ page.title }}
+    {% endif %}
+    {% get_all_active_filters filters as active_filters %}
+    {% if active_filters %}
+        – {{ active_filters }}
+    {% endif %}
+    – Page {{ results.number }} of {{ results.paginator.num_pages }}
 {% endblock %}
 
 {% block content %}
@@ -30,7 +43,7 @@
 
         <form class="page__content js-detect-sticking js-tabs" method="get" action="#results">
 
-            <section class="section section--opposite-notch bg bg--dark filter-bar filter-bar--large" data-filter-bar>
+            <section class="section bg bg--dark filter-bar filter-bar--large" data-filter-bar>
                 <div class="section__notch section__notch--opposite">
 
                     <div class="section__notch-fill section__notch-fill--content-height section__notch-fill--fourth-col">
@@ -64,9 +77,11 @@
             <div class="filter-takeover bg bg--light">
                 <div class="filter-takeover__container">
                     {% for item in filters.items %}
-                        <div class="filter-takeover__tab-content tabs__panel tabs__panel--hidden js-tab-panel" id="{{ item.tab_title|slugify }}" role="tabpanel" aria-labelledby="tab-{{ item.tab_title|slugify }}">
-                            {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" %}
-                        </div>
+                        {% if item.queryset %}
+                            <div class="filter-takeover__tab-content tabs__panel tabs__panel--hidden js-tab-panel" id="{{ item.tab_title|slugify }}" role="tabpanel" aria-labelledby="tab-{{ item.tab_title|slugify }}">
+                                {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" %}
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>

@@ -1,0 +1,82 @@
+{% load wagtailcore_tags %}
+
+{% if related_schools or research_centres or areas or supervisors or personal_website %}
+    <div class="key-details key-details--student">
+        <div class="key-details__header">
+            <h3 class="heading heading--five key-details__heading">Key details</h3>
+        </div>
+        {% if related_schools or research_centres %}
+            <div class="key-details__section key-details__section--school">
+                <h4 class="body body--two key-details__sub-heading">School, Centre or Area</h4>
+                <ul class="key-details__list">
+                    {% if related_schools  %}
+                        {% for item in related_schools %}
+                        <li class="key-details__list-item">
+                            <a href="{{ item.page.url }}" class="link link--tertiary">{{ item.page.title }}</a>
+                        </li>
+                        {% endfor %}
+                    {% endif %}
+                    {% if research_centres %}
+                        {% for item in research_centres %}
+                        <li class="key-details__list-item">
+                            <a href="{{ item.page.url }}" class="link link--tertiary">{{ item.page.title }}</a>
+                        </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+        {% endif %}
+        {% if areas %}
+            <div class="key-details__section key-details__section--expertise">
+                <h4 class="body body--two key-details__sub-heading">Area of expertise</h4>
+                <ul class="key-details__list">
+                    {% for item in areas %}
+                        <li class="key-details__list-item">
+                        {# Link here depends on the staff picker page #}
+                            <a href="{{ item.link }}" class="link link--tertiary">{{ item.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        {% if supervisors %}
+            <div class="key-details__section key-details__section--supervisors">
+                <h4 class="body body--two key-details__sub-heading">Supervisors</h4>
+                <ul class="key-details__list">
+                    {% for item in supervisors %}
+                        <li class="key-details__list-item">
+                            <a href="{{ item.link }}" class="link link--tertiary">{{ item.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        {% if page.student_funding %}
+            <div class="key-details__section key-details__section--supervisors">
+                <h4 class="body body--two key-details__sub-heading">Funding</h4>
+                <ul class="key-details__list">
+                    <li class="key-details__list-item">
+                        {{ page.student_funding|richtext }}
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+        {% with personal_links=page.personal_links.all %}
+        {% if personal_links %}
+            <div class="key-details__section key-details__section--supervisors">
+                <h4 class="body body--two key-details__sub-heading">Personal links</h4>
+                <ul class="key-details__list">
+                    {% for item in personal_links %}
+                        <li class="key-details__list-item">
+                            <a href="{{ item.url }}" class="link link--tertiary link--link link--external" target="_blank" rel="noreferrer" property="schema:sameAs" >
+                                <span class="link__label">{{ item.link_title }}</span>
+                                <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+{% endif %}
