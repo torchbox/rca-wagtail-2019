@@ -100,6 +100,6 @@ class TestStudentPageAdminForm(TestCase):
         form = self.get_form(instance=self.student_page, data=data,)
         self.assertFalse(form.is_valid())
         self.assertIn(
-            "The Student you have selected already has a user account",
+            "Student page with this Student user account already exists.",
             str(form.errors.get("student_user_account")),
         )
