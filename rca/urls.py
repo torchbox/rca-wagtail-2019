@@ -20,7 +20,7 @@ private_urlpatterns = [
     path("documents2/", include(wagtaildocs_urls)),
     # Don’t use generic cache control for API endpoints.
     path("api/v3/", api_router.urls),
-    path("enquire-to-study/", include("rca.enquire_to_study.urls")),
+    path("/enquire-to-study/", include("rca.enquire_to_study.urls")),
 ]
 
 
