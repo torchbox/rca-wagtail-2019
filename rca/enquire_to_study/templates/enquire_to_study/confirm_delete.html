@@ -16,10 +16,10 @@
 
     {% trans "Delete " as delete_str %}
     <div class="nice-padding">
-        {% if count %}
+        {% if count_delete_submissions %}
 
             <p class="help-block help-warning">
-                You are about to delete {{ count }} Enquiry submissions.
+                You are about to delete {{ count_delete_submissions }} enquiry submission{{ count_delete_submissions|pluralize }}. By continuing, you will delete all enquiries submitted more than 7 days ago. This action cannot be undone.
             </p>
 
             <form action="{{ submit_url }}" method="POST">
@@ -28,10 +28,16 @@
                 <a href="{{ index_url }}" class="button button-secondary">{% trans "No, don't delete" %}</a>
             </form>
 
+        {% elif count_all_submissions %}
+
+            <p class="help-block help-warning">
+                There are currently no submissions older than 7 days to delete.
+            </p>
+
         {% else %}
 
             <p class="help-block help-warning">
-                There are currently no submissions to delete
+                There are currently no submissions to delete.
             </p>
 
         {% endif %}
