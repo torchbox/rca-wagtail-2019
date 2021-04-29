@@ -22,7 +22,6 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.utils.blocks import LinkBlock
 from rca.utils.models import (
-    HERO_COLOUR_CHOICES,
     BasePage,
     LegacyNewsAndEventsMixin,
     RelatedPage,
@@ -80,7 +79,6 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    hero_colour_option = models.PositiveSmallIntegerField(choices=(HERO_COLOUR_CHOICES))
     introduction = models.TextField(max_length=500, blank=True)
     about_page_url = models.URLField(blank=True)
     about_page = models.ForeignKey(
@@ -181,10 +179,7 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
     )
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel(
-            [ImageChooserPanel("hero_image"), FieldPanel("hero_colour_option")],
-            heading="Hero",
-        ),
+        MultiFieldPanel([ImageChooserPanel("hero_image")], heading="Hero",),
         MultiFieldPanel(
             [
                 FieldPanel("introduction"),

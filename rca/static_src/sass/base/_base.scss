@@ -40,6 +40,10 @@ html {
 body {
     background-color: $color--secondary;
 
+    @include media-query(large) {
+        overflow-x: hidden; // so we don't get horizontal scrollbars
+    }
+
     &.no-scroll {
         overflow-y: hidden;
     }

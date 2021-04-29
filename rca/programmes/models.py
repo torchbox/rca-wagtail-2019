@@ -44,7 +44,6 @@ from rca.utils.blocks import (
     StepBlock,
 )
 from rca.utils.models import (
-    HERO_COLOUR_CHOICES,
     BasePage,
     ContactFieldsMixin,
     ProgrammeSettings,
@@ -223,7 +222,6 @@ class ProgrammePage(ContactFieldsMixin, BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    hero_colour_option = models.PositiveSmallIntegerField(choices=(HERO_COLOUR_CHOICES))
 
     # Key Details
     programme_details_credits = models.CharField(max_length=25, blank=True)
@@ -442,7 +440,6 @@ class ProgrammePage(ContactFieldsMixin, BasePage):
                 FieldPanel("hero_image_credit"),
                 FieldPanel("hero_video"),
                 ImageChooserPanel("hero_video_preview_image"),
-                FieldPanel("hero_colour_option"),
             ],
             heading="Hero",
         ),
@@ -737,8 +734,6 @@ class ProgrammeIndexPage(ContactFieldsMixin, BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-
-        context["hero_colour"] = "light"
 
         subpages = self.get_children().live()
         per_page = settings.DEFAULT_PER_PAGE

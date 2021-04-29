@@ -1,19 +1,17 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags util_tags %}
 
 {% if key_details %}
 <div class="key-details">
     <div class="key-details__header">
         <h2 class="heading heading--five key-details__heading">Key details</h2>
     </div>
-    {% for item in key_details %}
         <div class="key-details__section key-details__section--location">
             <h3 class="body body--two key-details__sub-heading">{{ item.title }}</h3>
             <ul class="key-details__list">
                 <li class="key-details__list-item">
-                    {{ item.content }}
+                    {{ key_details|richtext_force_external_links }}
                 </li>
             </ul>
         </div>
-    {% endfor %}
 </div>
 {% endif %}

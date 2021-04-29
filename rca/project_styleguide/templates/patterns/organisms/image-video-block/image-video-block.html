@@ -39,7 +39,7 @@
                         <p class="image-video-block__copy image-video-block__copy--meta-copy body body--one">{{ meta_copy }}</p>
                     {% endif %}
                     {% if href %}
-                        <a href="{{ href }}" class="body body--two link link--tertiary link--link">
+                        <a href="{{ href }}" class="body body--two link link--tertiary link--link" aria-label="Read more {% if meta_heading %}about {{ meta_heading }}{% endif %}">
                             <span class="link__label">Read more</span>
                             <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
                         </a>

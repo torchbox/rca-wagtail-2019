@@ -758,6 +758,7 @@ RCA_DNR_EMAIL = env.get("RCA_DNR_EMAIL", None)
 
 # Needed for form field help text to use rich text.
 WAGTAILFORMS_HELP_TEXT_ALLOW_HTML = True
+BASIC_AUTH_DISABLE_CONSUMING_AUTHORIZATION_HEADER = True
 
 # QS API
 QS_API_ENDPOINT = env.get("QS_API_ENDPOINT", None)

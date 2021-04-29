@@ -15,18 +15,21 @@ app--form no-hero
         {% if page.title %}
         <div class="title-area title-area--guide grid">
             <div class="title-area__content">
+                <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
+                    {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
+                </nav>
                 <h1 class="title-area__heading heading heading--display-two">
                     {{ page.title }}
                 </h1>
             </div>
         </div>
         {% endif %}
-        {% if page.introduction or form.errors %}
+       {% if page.introduction or form.errors %}
         <div class="introduction grid">
             {% if page.introduction %}
-                <p class="introduction__text {% if not form.errors %}introduction__text--no-margin{% endif %} heading heading--five layout__@large-start-three layout__span-two">
-                    {{ page.introduction }}
-                </p>
+                <div class="introduction__text {% if not form.errors %}introduction__text--no-margin{% endif %} heading heading--five layout__@large-start-three layout__span-two">
+                    {{ page.introduction|richtext }}
+                </div>
             {% endif %}
             {% if form.errors %}
                 <p class="introduction__errors introduction__text--no-margin heading heading--five layout__@large-start-three layout__span-two">
@@ -72,16 +75,14 @@ app--form no-hero
                                                     {% endif %}
                                                     {% if field.field.required %}<span aria-hidden="true" class="form-item__required">*</span>{% endif %}
                                                 </{% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}legend{% else %}label{% endif %}>
-                                                {% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}<div class="form-item__instruction">{{ field.help_text|default:'Select all that apply' }}</div>{% endif %}
+                                                {% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}<div class="form-item__instruction">{{ field.help_text|richtext_force_external_links|default:'Select all that apply' }}</div>{% endif %}
                                                 {% if widget_type == 'date_input' or widget_type == 'date_time_input' %}<div class="{{ widget_type }}">{% endif %}
                                                 {{ field }}
                                                 {% if widget_type == 'date_input' or widget_type == 'date_time_input' %}</div>{% endif %}
                                             {% endif %}
 
                                         </{% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}fieldset{% else %}div{% endif %} >
-
-                                        {% if field.help_text and widget_type != 'checkbox_select_multiple' and widget_type != 'radio_select' %}<div class="form-item__help">{{ field.help_text|richtext }}</div>{% endif %}
-
+                                        {% if field.help_text and widget_type != 'checkbox_select_multiple' and widget_type != 'radio_select' %}<div class="form-item__help">{{ field.help_text|richtext_force_external_links }}</div>{% endif %}
                                     </div>
                                 {% endwith %}
 

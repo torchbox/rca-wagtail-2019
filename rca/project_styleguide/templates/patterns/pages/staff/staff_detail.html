@@ -24,7 +24,7 @@
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
-                    {% if page.staff_title or page.first_name or last_name %}
+                    {% if page.staff_title or page.first_name or page.last_name %}
                         <h1 property="schema:name" class="title-area__heading heading heading--one">
                             {% if page.staff_title %}
                                 <span class="title-area__profile-title heading heading--three">{{ page.staff_title }}</span>
@@ -57,9 +57,9 @@
 
         <div class="page__content">
 
-            <section class="section bg bg--dark {% if page.gallery %}section--opposite-notch{% endif %}">
+            <section class="section bg bg--dark">
 
-                <div class="section__row staff-body">
+                <div class="section__row staff-body {% if research_highlights %}staff-body--margin{% endif %}">
                     <div class="staff-body__container grid">
                         <div class="staff-body__content">
                             <p class="staff-body__introduction heading heading--five" property="schema:description">
@@ -74,7 +74,6 @@
                         </div>
                     </div>
                 </div>
-
                 {% if research_highlights %}
                     <div class="section__row {% if page.gallery %}section__row--last{% else %}section__row--last-large{% endif %} research-highlights">
                         <div class="section__header grid">

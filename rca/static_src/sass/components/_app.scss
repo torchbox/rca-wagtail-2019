@@ -18,11 +18,11 @@
         position: fixed;
         width: 100%;
         top: 0;
-        transition: transform $transition;
+        transition: transform $transition-cubic;
 
         // Hide when scrolling down
         .headroom--not-top & {
-            transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -200%, 0);
         }
 
         // Make visible and apply bg colour when pinned, but not at top
@@ -36,7 +36,7 @@
         @include z-index(nav);
         pointer-events: none;
         transform: translate3d(-100%, 0%, 0);
-        transition: transform $transition-cubic 0.75ms;
+        transition: transform $transition-cubic;
         position: fixed;
         top: 0;
         left: 0;

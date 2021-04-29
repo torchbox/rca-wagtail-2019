@@ -1,0 +1,142 @@
+context:
+  page:
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: More about the RCA
+      - is_root: false
+        depth: 3
+        title: Our Students
+    profile_image: true
+    student_title: Professor
+    first_name: Katrine
+    last_name: Hesseldahl
+    student_type: Current PhD student
+    degree_status: Current
+    job_title:
+      - department: Intelligent Mobility
+        link: '#'
+        titles:
+          - { label: 'Chair and Director' }
+          - { label: 'Dean of School Mobility' }
+          - { label: 'Head of Programmes' }
+    email: k.hesseldahl@rca.ac.uk
+    introduction: "Katrine's work aims to intrigue, interest and invite people to take steps in the direction towards a more sustainable, fair, fun and beautiful future for our society."
+    bio: "<p>Katrine's work aims to intrigue, interest and invite people to take steps in the direction towards a more sustainable, fair, fun and beautiful future for our society.</p><p>She is deeply concerned with the scale and complexity of the problems we are facing today, e.g. climate changes, overuse of resources, social inequality, and feels a natural responsibility to be part of creating solutions for these problems.</p>"
+    programme: Materials Science MPhil/PhD
+    link_to_final_thesis: '#'
+    student_gallery:
+      - slide:
+        value:
+          title: 'Albertopolissss 550-metre pedestrian tunnel'
+          author: 'Chris Lawton'
+          link: 'http://www.torchbox.com'
+          course: 'Architecture'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel'
+          author: 'Nick Lee'
+          link: 'http://www.torchbox.com'
+          course: 'Design'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel'
+          author: 'Chris Lawton'
+          link: 'http://www.torchbox.com'
+          course: 'Architecture'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel'
+          author: 'Kevin Howbrook'
+          link: 'http://www.torchbox.com'
+          course: 'Design'
+    student_related_links:
+      - item:
+        value: { text: 'Instagram feed', href: 'http://www.google.com' }
+      - item:
+        value: { text: 'Linkedin Profile', href: 'http://www.google.com' }
+      - item:
+        value: { text: 'Twitter profile', href: 'http://www.google.com' }
+    related_area_of_expertise:
+      all:
+        - item:
+          area_of_expertise: 'Creative industries'
+        - item:
+          area_of_expertise: 'New materials'
+        - item:
+          area_of_expertise: 'Sustainable society'
+    social_links:
+      - item:
+        value:
+          title: 'katrinehesseldahl.co.uk'
+          link: 'https://katrinehesseldahl.co.uk'
+    supervisors:
+      - item:
+        title: 'Dr John Smith'
+        link: '#'
+  research_highlights:
+    - slide:
+      meta: 'School of Design'
+      title: 'Advanced Taxi for London'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges.'
+      image: true
+      link: '#'
+    - slide:
+      meta: 'Alumni Story'
+      title: 'A place with a real focus on making'
+      description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
+      image: true
+      link: '#'
+    - slide:
+      meta: 'Alumni Story'
+      title: 'Designing the imposible for NASA'
+      description: 'Creating world class experiences that started at the RCA'
+      image: true
+      link: '#'
+  areas:
+    - { title: 'Creative industries', link: '#' }
+    - { title: 'New materials', link: '#' }
+    - { title: 'Sustainable society', link: '#' }
+  related_schools:
+    - page: { title: 'Materials Science Research Centre', url: '#' }
+  student_information:
+    - item:
+      value:
+        heading: Biography
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Degrees
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Experience
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Awards
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Funding
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Exhibitions
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Publications
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Research outputs
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Conferences
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    - item:
+      value:
+        heading: Additional information
+        body: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.  At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.

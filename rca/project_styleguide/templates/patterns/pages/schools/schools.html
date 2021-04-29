@@ -158,8 +158,8 @@
             {% endif %}
 
             {# Research #}
-            {% if not stats_block %}<span class="schools__anchor-compensator" id="research"></span>{% endif %}
-            <section class="schools__research section {% if stats_block %}section--start {% else %}section--top-space-small {% endif %} bg bg--dark anchor-heading" {% if stats_block %}id="research"{% endif %}>
+            {% if not stats_block %}<span class="schools__anchor-compensator anchor-heading" id="research"></span>{% endif %}
+            <section class="schools__research section {% if stats_block %}section--start anchor-heading {% else %}section--top-space-small {% endif %} bg bg--dark" {% if stats_block %}id="research"{% endif %}>
 
                 <div class="section__row section__row--last-small">
                     <div class="section__header section__header--bottom-space grid">
@@ -218,7 +218,7 @@
             </section>
 
             {# Programmes #}
-            {% if related_programmes or related_short_courses %}
+            {% if related_programmes or related_short_courses.0.related_items %}
                 <section class="schools__programmes section section--start bg bg--light anchor-heading" id="study">
                     {% if related_programmes %}
                         <div class="section__row section__row--last-small">
@@ -237,7 +237,7 @@
                             </div>
                         </div>
                     {% endif %}
-                    {% if related_short_courses %}
+                    {% if related_short_courses.0.related_items %}
                         <div class="section__row">
                             <div class="section__header grid">
                                 <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">

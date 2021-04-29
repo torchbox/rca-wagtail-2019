@@ -7,6 +7,7 @@
         position: relative;
         display: inline-flex;
         align-items: center;
+        color: $color--white;
     }
 
     &__label {
@@ -15,6 +16,7 @@
 
     &__icon {
         transform: rotate(-45deg) translate(0, 0);
+        fill: $color--white;
     }
 
     &__description {
@@ -38,39 +40,16 @@
         }
     }
 
-    .bg--light &,
-    .theme-dark .header & {
-        #{$root}__link {
-            color: $color--black;
-        }
-
-        #{$root}__icon {
-            fill: $color--black;
-        }
-    }
-
-    .bg--dark &,
-    .theme-light .header &,
-    .headroom--pinned.headroom--not-top .header & {
-        #{$root}__link {
-            color: $color--white;
-        }
-
-        #{$root}__icon {
-            fill: $color--white;
-        }
-    }
-
     .header & {
         display: none;
 
         @include media-query(large) {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
         }
 
         #{$root}__label {
-            @include font-size(xxs);
+            @include font-size(xxxs);
         }
     }
 

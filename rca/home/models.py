@@ -15,7 +15,13 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.api_content.content import get_alumni_stories, get_news_and_events
 from rca.utils.blocks import RelatedPageListBlockPage, StatisticBlock
-from rca.utils.models import HERO_COLOUR_CHOICES, BasePage
+from rca.utils.models import (
+    DARK_HERO,
+    DARK_TEXT_ON_LIGHT_IMAGE,
+    HERO_COLOUR_CHOICES,
+    LIGHT_HERO,
+    BasePage,
+)
 
 
 class HomePageTransofmrationBlock(models.Model):
@@ -179,6 +185,8 @@ class HomePage(BasePage):
         # The partnerships.slides field offers choice between a page
         # or a custom teaser, this method formats the data so either values
         # can be sent to the homepage template and format into a slideshow
+        if not partnerships_block:
+            return
         slideshow = {
             "title": partnerships_block.title,
             "summary": partnerships_block.summary,
@@ -250,5 +258,11 @@ class HomePage(BasePage):
 
         context["news_and_events"] = get_news_and_events()
         context["alumni_stories"] = get_alumni_stories()
+        context["hero_colour"] = LIGHT_HERO
+        if (
+            hasattr(self, "hero_colour_option")
+            and self.hero_colour_option == DARK_TEXT_ON_LIGHT_IMAGE
+        ):
+            context["hero_colour"] = DARK_HERO
 
         return context

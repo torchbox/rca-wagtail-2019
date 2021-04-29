@@ -1,0 +1,19 @@
+context:
+  areas:
+    - { title: 'Creative industries', link: '#' }
+    - { title: 'New materials', link: '#' }
+    - { title: 'Sustainable society', link: '#' }
+  related_schools:
+    - page: { title: 'Materials Science Research Centre', url: '#' }
+  supervisors:
+    - item:
+      title: 'Dr John Smith'
+      link: '#'
+  page:
+    student_funding: 'TECHNE, AHRC Doctoral Award'
+    personal_links:
+      all:
+        - {
+            link_title: 'katrinehesseldahl.co.uk',
+            url: 'https://katrinehesseldahl.co.uk',
+          }
