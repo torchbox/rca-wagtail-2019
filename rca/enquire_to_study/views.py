@@ -322,7 +322,7 @@ def delete(request):
 
     time_threshold = timezone.now() - timedelta(days=7)
     instances = EnquiryFormSubmission.objects.filter(
-        Q(submission_date__gte=time_threshold)
+        Q(submission_date__lte=time_threshold)
     )
     count_delete_submissions = len(instances)
 
