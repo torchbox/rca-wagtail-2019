@@ -79,7 +79,7 @@ class EnquireToStudyFormView(FormView):
                 "LNAME": form_data["last_name"],
                 "PHONE": str(form_data["phone_number"]),
                 "MMERGE6": form_data["start_date"].label,
-                "MMERGE7": country if form_data["is_citizen"] is True else "N/A",
+                "MMERGE7": form_data["country_of_citizenship"],
                 "ADDRESS": {
                     "addr1": "N/A",
                     "addr2": "N/A",
@@ -99,7 +99,16 @@ class EnquireToStudyFormView(FormView):
             )
             return response
         except ApiClientError as error:
-            raise Exception(error.text)
+            try:
+                error_json = json.loads(error.text)
+                if error_json["title"] and error_json["title"] == "Member Exists":
+                    logger.info("Mailchimp: User tried to re-register to signup form")
+                    return
+            except ValueError:
+                logger.warning("Mailchimp: failed to decode error message")
+                return
+            logger.exception(error.text)
+            return
 
     def get_qs_data(self, query):
         return requests.get(
