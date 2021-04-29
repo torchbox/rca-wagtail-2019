@@ -126,7 +126,9 @@ class EnquireToStudyFormView(FormView):
                 "FNAME": form_data["first_name"],
                 "LNAME": form_data["last_name"],
                 "PHONE": str(form_data["phone_number"]),
-                "MMERGE6": form_data["start_date"].label,
+                "MMERGE6": form_data["start_date"].mailchimp_label
+                if form_data["start_date"].mailchimp_label
+                else "",
                 "MMERGE7": form_data["country_of_citizenship"],
                 "ADDRESS": {
                     "addr1": "N/A",
