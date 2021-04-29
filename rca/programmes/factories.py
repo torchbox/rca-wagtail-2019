@@ -28,7 +28,6 @@ class ProgrammePageFactory(wagtail_factories.PageFactory):
         model = ProgrammePage
 
     title = factory.Faker("text", max_nb_chars=25)
-    hero_colour_option = 1
     scholarships_title = factory.Faker("text", max_nb_chars=25)
     scholarships_information = factory.Faker("text", max_nb_chars=100)
     search_description = factory.Faker("text", max_nb_chars=25)
