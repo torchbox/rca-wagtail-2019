@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("programmes", "0059_add_qs_code"),
+        ("programmes", "0060_merge_20210429_1122"),
     ]
 
     operations = [
