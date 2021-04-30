@@ -127,7 +127,7 @@ class CreateStudentFormView(FormView):
                 },
             )
             try:
-                send_mail(
+                user_notification_sent = send_mail(
                     email_subject,
                     email_body,
                     "do-not-reply@rca.ac.uk",
@@ -143,11 +143,12 @@ class CreateStudentFormView(FormView):
                 )
                 return response
             else:
-                messages.success(
-                    self.request,
-                    f"The Student Page for {student_user} has been created."
-                    f"A Notification email has been sent to {student_user.email}",
-                )
+                if user_notification_sent:
+                    messages.success(
+                        self.request,
+                        f"The Student Page for {student_user} has been created."
+                        f"A Notification email has been sent to {student_user.email}",
+                    )
         return response
 
 

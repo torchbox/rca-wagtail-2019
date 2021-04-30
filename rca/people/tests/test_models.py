@@ -2,13 +2,14 @@ from django.test import TestCase
 from wagtail.tests.utils import WagtailPageTests
 
 from rca.home.models import HomePage
-from rca.people.factories import StudentPageFactory
+from rca.people.factories import StudentIndexPageFactory, StudentPageFactory
 from rca.people.models import StudentIndexPage
 
 
 class TestStudentPageFactory(TestCase):
     def test_factories(self):
         StudentPageFactory()
+        StudentIndexPageFactory()
 
 
 class TestStudentIndexPage(WagtailPageTests):
