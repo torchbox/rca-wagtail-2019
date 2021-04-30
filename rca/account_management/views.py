@@ -44,7 +44,7 @@ class CreateStudentFormView(FormView):
         return super(CreateStudentFormView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        data = super().form_valid(form)
+        response = super().form_valid(form)
         # Create the student account
         student_group = Group.objects.get(name="Students")
         student_user = User.objects.create_user(
@@ -64,7 +64,7 @@ class CreateStudentFormView(FormView):
                 self.request,
                 f"The Student account for {student_user} has been created.",
             )
-            return data
+            return response
 
         # Is there a student index page we can create a student page under?
         student_index = StudentIndexPage.objects.first()
@@ -78,7 +78,7 @@ class CreateStudentFormView(FormView):
                 "There is not parent Student Index page to create a Student Page under, "
                 f"so one has not been created for user: {student_user}"
             )
-            return data
+            return response
 
         # If a student page already exist for this user, we don't want to create one.
         student_page = StudentPage.objects.filter(
@@ -138,7 +138,7 @@ class CreateStudentFormView(FormView):
                 f"A Notification email has been sent to {student_user.email}",
             )
 
-        return data
+        return response
 
 
 class CustomLoginView(LoginView):

@@ -16,20 +16,17 @@
     {% include "wagtailadmin/shared/header.html" with title="Add student" merged=1 tabbed=1 icon="user" %}
 
     <div class="help-block help-info">
-        <p>Creating a student account with a the 'create student page' option will notify the
-        student of there account and page via email.</p>
+        <p>Creating a student account with the 'create student page' option will notify the
+        student of their account and page via email.</p>
     </div>
 
     <form action="{% url 'student_account_create' %}" method="POST">
             <section id="account" class="active nice-padding">
-                <ul class="fields">
-                    {% block fields %}
-                        {{form.as_p}}
-                        <li><button class="button">{% trans "Add user" %}</button></li>
-                    {% endblock fields %}
-
-                </ul>
+                {% block fields %}
+                    {{ form.as_p }}
+                {% endblock fields %}
             </section>
+            <input type="submit" value="{% trans 'Add user' %}" class="button" />
 
     </form>
 {% endblock %}
