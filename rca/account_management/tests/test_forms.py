@@ -4,7 +4,7 @@ from django.urls import reverse
 from rca.account_management.forms import StudentCreateForm
 from rca.home.models import HomePage
 from rca.people.factories import StudentIndexPageFactory
-from rca.people.models import StudentIndexPage, StudentPage
+from rca.people.models import StudentPage
 from rca.users.factories import UserFactory
 from rca.users.models import User
 
@@ -16,7 +16,6 @@ class TestStudentAccountCreationForm(TestCase):
     def setUp(self):
         self.user = UserFactory(is_superuser=True)
         self.home_page = HomePage.objects.first()
-        self.student_index = StudentIndexPage.objects.first()
         self.student_index = StudentIndexPageFactory(
             parent=self.home_page,
             title="Students",
