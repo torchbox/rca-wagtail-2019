@@ -1,4 +1,5 @@
 import logging
+from smtplib import SMTPException
 
 from django.conf import settings
 from django.contrib.auth.models import Group
@@ -125,19 +126,28 @@ class CreateStudentFormView(FormView):
                     "PASSWORD_RESET_TIMEOUT_DAYS": settings.PASSWORD_RESET_TIMEOUT_DAYS,
                 },
             )
-
-            send_mail(
-                email_subject,
-                email_body,
-                "do-not-reply@rca.ac.uk",
-                [student_user.email],
-            )
-            messages.success(
-                self.request,
-                f"The Student Page for {student_user} has been created."
-                f"A Notification email has been sent to {student_user.email}",
-            )
-
+            try:
+                send_mail(
+                    email_subject,
+                    email_body,
+                    "do-not-reply@rca.ac.uk",
+                    [student_user.email],
+                )
+            except SMTPException:
+                logger.info(f"Failed to send email to new user {student_user}")
+                messages.warning(
+                    self.request,
+                    f"The Student Page for {student_user} has been created. "
+                    f"A Notification email failed to send to {student_user.email}. ",
+                    "Please contanct the site administrator.",
+                )
+                return response
+            else:
+                messages.success(
+                    self.request,
+                    f"The Student Page for {student_user} has been created."
+                    f"A Notification email has been sent to {student_user.email}",
+                )
         return response
 
 
