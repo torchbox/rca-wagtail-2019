@@ -52,12 +52,10 @@ class TestStudentAccountCreationForm(TestCase):
 
     def test_invalid_form(self):
         form = StudentCreateForm(data={})
-        form.is_valid()
         self.assertFalse(form.is_valid())
 
     def test_valid_form(self):
         form = StudentCreateForm(data=self.form_data)
-        form.is_valid()
         self.assertTrue(form.is_valid())
 
     def test_user_created(self):
