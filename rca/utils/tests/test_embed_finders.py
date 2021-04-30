@@ -1,8 +1,7 @@
 from unittest.mock import patch
 
-from django.test import TestCase
-
 from bs4 import BeautifulSoup
+from django.test import TestCase
 
 from rca.utils.embed_finders import CustomOEmbedFinder
 
@@ -57,6 +56,5 @@ class CustomOEmbedFinderTest(TestCase):
         finder = CustomOEmbedFinder()
         result = finder.find_embed("www.example.com")
         self.assertEqual(
-            result["html"],
-            '<iframe src="www.example.com"></iframe>',
+            result["html"], '<iframe src="www.example.com"></iframe>',
         )

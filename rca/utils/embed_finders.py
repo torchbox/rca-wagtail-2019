@@ -1,6 +1,5 @@
-from wagtail.embeds.finders.oembed import OEmbedFinder
-
 from bs4 import BeautifulSoup
+from wagtail.embeds.finders.oembed import OEmbedFinder
 
 
 class CustomOEmbedFinder(OEmbedFinder):
