@@ -94,7 +94,7 @@ class TestStudentAccountCreationForm(TestCase):
         self.assertEqual(len(StudentPage.objects.all()), 1)
         student_user = User.objects.get(username="montypython")
         student_page = StudentPage.objects.get(student_user_account=student_user)
-        # Confirm that a page was created with the student user detials and relationship.
+        # Confirm that a page was created with the student user details and relationship.
         self.assertEqual(student_page.first_name, student_user.first_name)
         self.assertEqual(student_page.last_name, student_user.last_name)
         self.assertEqual(student_page.student_user_account, student_user)
