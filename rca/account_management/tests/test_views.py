@@ -3,7 +3,8 @@ from django.test import TestCase
 from django.urls import reverse
 
 from rca.home.models import HomePage
-from rca.people.models import StudentIndexPage, StudentPage
+from rca.people.factories import StudentIndexPageFactory
+from rca.people.models import StudentPage
 from rca.users.factories import UserFactory
 from rca.users.models import User
 
@@ -15,12 +16,12 @@ class TestAccountManagementViews(TestCase):
     def setUp(self):
         self.user = UserFactory(is_superuser=True)
         self.home_page = HomePage.objects.first()
-        self.home_page.add_child(
-            instance=StudentIndexPage(
-                title="Students", slug="students", introduction="students",
-            )
+        self.student_index = StudentIndexPageFactory(
+            parent=self.home_page,
+            title="Students",
+            slug="students",
+            introduction="students",
         )
-        self.student_index = StudentIndexPage.objects.first()
 
         self.form_data = {
             "first_name": "Monty",
