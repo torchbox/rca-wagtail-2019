@@ -222,10 +222,10 @@ def delete(request):
     url_helper = EnquiryFormSubmissionAdmin().url_helper
     index_url = url_helper.get_action_url("index")
 
+    all_submissions = EnquiryFormSubmission.objects.all()
+
     time_threshold = timezone.now() - timedelta(days=7)
-    instances = EnquiryFormSubmission.objects.filter(
-        Q(submission_date__lte=time_threshold)
-    )
+    instances = all_submissions.filter(Q(submission_date__lte=time_threshold))
     count_delete_submissions = len(instances)
 
     if request.method == "POST":
@@ -240,7 +240,7 @@ def delete(request):
         request,
         "enquire_to_study/confirm_delete.html",
         {
-            "count_all_submissions": EnquiryFormSubmission.objects.count(),
+            "count_all_submissions": len(all_submissions),
             "count_delete_submissions": count_delete_submissions,
             "index_url": url_helper.get_action_url("index"),
             "submit_url": (reverse("enquiretostudy_delete")),
