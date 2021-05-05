@@ -108,8 +108,11 @@ class CreateStudentFormView(FormView):
                     last_name=form.cleaned_data["last_name"],
                     title=f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}",
                     student_user_account=student_user,
-                    live=False,
+                    live=True,  # set live to create and FK relationships
                 )
+            )
+            StudentPage.objects.filter(student_user_account=student_user).update(
+                live=False
             )
 
             # Generate a password reset link to be emailed to the user.
