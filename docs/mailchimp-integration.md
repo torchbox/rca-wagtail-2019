@@ -1,4 +1,4 @@
-# Mailchimp 
+# Mailchimp
 
 We make use of Mailchimp's API to subscribe people as members when they submit a sign up form (rca.enquire_to_study.views.EnquireToStudyFormView).
 
@@ -13,7 +13,7 @@ If wanting to update the mailchimp integration, request access to the mailchimp 
 ### API keys & IDs
 
 You can get the `MAILCHIMP_API_KEY` from their mailchimp account or from the heroku config.
-For info on finding the `MAILCHIMP_LIST_ID` read this [article](https://mailchimp.com/help/find-audience-id/). 
+For info on finding the `MAILCHIMP_LIST_ID` read this [article](https://mailchimp.com/help/find-audience-id/).
 To get the `MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID` value which is used to map values from the `mailchimp_group_name` field to values within a mailchimp "group", you will have to use the snippet below as group ids are currently only available via the API.
 
 ```python
@@ -27,20 +27,23 @@ mailchimp.set_config(
 )
 mailchimp.get_list_interest_categories(MAILCHIMP_LIST_ID)
 ```
+
 You're interested in the `id` value for which `title` matches the one in mailchimp i.e. 'Programme of interest'. Set `MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID` to this value (i.e. `0da07d9429`).
 
 Example response:
+
 ```python
 'categories':
     [
         {
-            'list_id': '07bbaca3ef', 
-            'id': '0da07d9429', 
-            'title': 'Programme of interest', 
+            'list_id': '07bbaca3ef',
+            'id': '0da07d9429',
+            'title': 'Programme of interest',
     ...
 ```
 
 You an use the endpoint below to confirm the ID works.
+
 ```python
 mailchimp.lists.list_interest_category_interests(settings.MAILCHIMP_LIST_ID, MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID)
 ```
