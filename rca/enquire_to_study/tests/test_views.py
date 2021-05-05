@@ -7,11 +7,7 @@ from django.test import RequestFactory, TestCase
 from django.urls import reverse
 from django.utils import timezone
 
-from rca.enquire_to_study.factories import (
-    EnquiryFormSubmissionFactory,
-    EnquiryReasonFactory,
-    StartDateFactory,
-)
+from rca.enquire_to_study.factories import EnquiryFormSubmissionFactory
 from rca.enquire_to_study.models import EnquiryFormSubmission
 from rca.enquire_to_study.views import EnquireToStudyFormView
 from rca.enquire_to_study.wagtail_hooks import EnquiryFormSubmissionAdmin
@@ -56,17 +52,9 @@ class EnquireToStudyFormDeleteViewTest(TestCase):
         )
 
         # Add submissions
-        self.enquiry_reason = EnquiryReasonFactory()
-        self.start_date = StartDateFactory()
-        self.submission__1 = EnquiryFormSubmissionFactory(
-            enquiry_reason=self.enquiry_reason, start_date=self.start_date
-        )
-        self.submission_2 = EnquiryFormSubmissionFactory(
-            enquiry_reason=self.enquiry_reason, start_date=self.start_date,
-        )
-        self.submission_3 = EnquiryFormSubmissionFactory(
-            enquiry_reason=self.enquiry_reason, start_date=self.start_date,
-        )
+        self.submission__1 = EnquiryFormSubmissionFactory()
+        self.submission_2 = EnquiryFormSubmissionFactory()
+        self.submission_3 = EnquiryFormSubmissionFactory()
         today = timezone.now()
         seven_days_ago = today - timedelta(days=7)
         self.submission_3.submission_date = seven_days_ago
