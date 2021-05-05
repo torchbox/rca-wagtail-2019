@@ -15,8 +15,6 @@ def show_my_uploaded_images_only(images, request):
         # Look up their student page
         student_page = StudentPage.objects.get(student_user_account=user)
         # Get the image collection the user is linked to through their student page
-        # Note: for this to work the page must be published
-        # TODO - fix - it needs to work with drafts
         student_collection = student_page.student_user_image_collection
     except StudentPage.DoesNotExist:
         # this is a student, but a page doesn't exists
