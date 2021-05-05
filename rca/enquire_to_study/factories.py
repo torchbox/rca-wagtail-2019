@@ -25,8 +25,6 @@ class EnquiryFormSubmissionFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = EnquiryFormSubmission
 
-    start_date = StartDateFactory(qs_code="test-code")
-    enquiry_reason = EnquiryReasonFactory()
     first_name = factory.Sequence(lambda n: "test-firstname-%d" % n)
     last_name = factory.Sequence(lambda n: "test-lastname-%d" % n)
     email = factory.Sequence(lambda n: "test-email-%d@example.org" % n)
