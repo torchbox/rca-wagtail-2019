@@ -176,7 +176,7 @@ class CustomLoginView(LoginView):
                     student_user_account=self.request.user
                 )
             except StudentPage.DoesNotExist:
-                # Just return the user to the admin if there is not a student page so the can
+                # Just return the user to the admin if there is not a student page so they can
                 # manage their account if the wish
                 return super().get_success_url()
             else:
