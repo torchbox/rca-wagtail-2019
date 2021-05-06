@@ -70,7 +70,7 @@ def get_student_research_projects(page):
 
 class PerUserContentPanels(ObjectList):
     def _replace_children_with_per_user_config(self):
-        if self.request.user.groups.filter(name="Students").exists():
+        if self.request.user.is_student():
             if self.classname == "content":
                 self.children = self.instance.basic_content_panels
             if self.classname == "key_details":
