@@ -14,10 +14,10 @@ class TestPerRequestEditHandler(TestCase, WagtailTestUtils):
         # Find root page
         self.student = UserFactory(username="student")
         self.user = UserFactory(is_superuser=True)
-        student_group = Group.objects.get(name="Students")
+        self.student_group = Group.objects.get(name="Students")
         admin_permission = Permission.objects.get(codename="access_admin")
-        student_group.permissions.add(admin_permission)
-        self.student.groups.add(student_group)
+        self.student_group.permissions.add(admin_permission)
+        self.student.groups.add(self.student_group)
         self.student.set_password("test")
         self.student.save()
 
@@ -29,9 +29,7 @@ class TestPerRequestEditHandler(TestCase, WagtailTestUtils):
         )
         self.student_index = StudentIndexPage.objects.first()
         GroupPagePermission.objects.create(
-            group=Group.objects.get(name="Students"),
-            page=self.student_index,
-            permission_type="edit",
+            group=self.student_group, page=self.student_index, permission_type="edit",
         )
         self.student_index.add_child(
             instance=StudentPage(
