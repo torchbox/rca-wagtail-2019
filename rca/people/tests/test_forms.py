@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django.test import TestCase
 from wagtail.tests.utils.form_data import nested_form_data
 
@@ -11,6 +12,9 @@ class TestStudentPageAdminForm(TestCase):
         self.student_page = StudentPageFactory()
         self.form_class = StudentPage.get_edit_handler().get_form_class()
         self.student = UserFactory()
+        student_group = Group.objects.get(name="Students")
+        self.student.groups.add(student_group)
+        self.student.save()
 
     def get_form_data(self):
         return nested_form_data(
@@ -53,6 +57,7 @@ class TestStudentPageAdminForm(TestCase):
                 "personal_links-MIN_NUM_FORMS": "0",
                 "personal_links-MAX_NUM_FORMS": "5",
                 "slug": "student-monty-python",
+                "student_user_account": "",
             }
         )
 
@@ -79,8 +84,8 @@ class TestStudentPageAdminForm(TestCase):
 
     def test_adding_student(self):
         data = self.get_form_data()
-        data["student_user_account"] = self.student
-        form = self.get_form(instance=self.student_page, data=data,)
+        data["student_user_account"] = self.student.id
+        form = self.get_form(instance=self.student_page, data=data)
         self.assertTrue(form.is_valid())
 
     def test_adding_student_with_page(self):
@@ -91,10 +96,10 @@ class TestStudentPageAdminForm(TestCase):
         page.save()
 
         data = self.get_form_data()
-        data["student_user_account"] = self.student
+        data["student_user_account"] = self.student.id
         form = self.get_form(instance=self.student_page, data=data,)
         self.assertFalse(form.is_valid())
         self.assertIn(
-            "The Student you have selected already has a user account",
+            "Student page with this Student user account already exists.",
             str(form.errors.get("student_user_account")),
         )

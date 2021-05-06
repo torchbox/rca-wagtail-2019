@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "rca.projects",
     "rca.landingpages",
     "rca.people",
+    "rca.account_management",
     "birdbath",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.postgres_search",
@@ -749,3 +750,5 @@ BIRDBATH_USER_ANONYMISER_EXCLUDE_EMAIL_RE = r"torchbox\.com$"
 # Needed for form field help text to use rich text.
 WAGTAILFORMS_HELP_TEXT_ALLOW_HTML = True
 BASIC_AUTH_DISABLE_CONSUMING_AUTHORIZATION_HEADER = True
+
+PASSWORD_RESET_TIMEOUT_DAYS = 5
