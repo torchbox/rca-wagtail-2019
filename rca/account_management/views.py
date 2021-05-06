@@ -1,4 +1,5 @@
 import logging
+from smtplib import SMTPException
 
 from django.conf import settings
 from django.contrib.auth.models import Group
@@ -44,7 +45,7 @@ class CreateStudentFormView(FormView):
         return super(CreateStudentFormView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        data = super().form_valid(form)
+        response = super().form_valid(form)
         # Create the student account
         student_group = Group.objects.get(name="Students")
         student_user = User.objects.create_user(
@@ -64,7 +65,7 @@ class CreateStudentFormView(FormView):
                 self.request,
                 f"The Student account for {student_user} has been created.",
             )
-            return data
+            return response
 
         # Is there a student index page we can create a student page under?
         student_index = StudentIndexPage.objects.first()
@@ -78,7 +79,7 @@ class CreateStudentFormView(FormView):
                 "There is not parent Student Index page to create a Student Page under, "
                 f"so one has not been created for user: {student_user}"
             )
-            return data
+            return response
 
         # If a student page already exist for this user, we don't want to create one.
         student_page = StudentPage.objects.filter(
@@ -107,8 +108,11 @@ class CreateStudentFormView(FormView):
                     last_name=form.cleaned_data["last_name"],
                     title=f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}",
                     student_user_account=student_user,
-                    live=False,
                 )
+            )
+            # Place the page in draft mode
+            StudentPage.objects.filter(student_user_account=student_user).update(
+                live=False
             )
 
             # Generate a password reset link to be emailed to the user.
@@ -125,20 +129,30 @@ class CreateStudentFormView(FormView):
                     "PASSWORD_RESET_TIMEOUT_DAYS": settings.PASSWORD_RESET_TIMEOUT_DAYS,
                 },
             )
-
-            send_mail(
-                email_subject,
-                email_body,
-                "do-not-reply@rca.ac.uk",
-                [student_user.email],
-            )
-            messages.success(
-                self.request,
-                f"The Student Page for {student_user} has been created."
-                f"A Notification email has been sent to {student_user.email}",
-            )
-
-        return data
+            try:
+                user_notification_sent = send_mail(
+                    email_subject,
+                    email_body,
+                    "do-not-reply@rca.ac.uk",
+                    [student_user.email],
+                )
+            except SMTPException:
+                logger.info(f"Failed to send email to new user {student_user}")
+                messages.warning(
+                    self.request,
+                    f"The Student Page for {student_user} has been created. "
+                    f"A Notification email failed to send to {student_user.email}. ",
+                    "Please contanct the site administrator.",
+                )
+                return response
+            else:
+                if user_notification_sent:
+                    messages.success(
+                        self.request,
+                        f"The Student Page for {student_user} has been created."
+                        f"A Notification email has been sent to {student_user.email}",
+                    )
+        return response
 
 
 class CustomLoginView(LoginView):
@@ -162,7 +176,7 @@ class CustomLoginView(LoginView):
                     student_user_account=self.request.user
                 )
             except StudentPage.DoesNotExist:
-                # Just return the user to the admin if there is not a student page so the can
+                # Just return the user to the admin if there is not a student page so they can
                 # manage their account if the wish
                 return super().get_success_url()
             else:

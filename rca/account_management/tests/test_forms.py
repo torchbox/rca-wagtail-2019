@@ -3,7 +3,8 @@ from django.urls import reverse
 
 from rca.account_management.forms import StudentCreateForm
 from rca.home.models import HomePage
-from rca.people.models import StudentIndexPage, StudentPage
+from rca.people.factories import StudentIndexPageFactory
+from rca.people.models import StudentPage
 from rca.users.factories import UserFactory
 from rca.users.models import User
 
@@ -15,13 +16,12 @@ class TestStudentAccountCreationForm(TestCase):
     def setUp(self):
         self.user = UserFactory(is_superuser=True)
         self.home_page = HomePage.objects.first()
-        self.home_page.add_child(
-            instance=StudentIndexPage(
-                title="Students", slug="students", introduction="students",
-            )
+        self.student_index = StudentIndexPageFactory(
+            parent=self.home_page,
+            title="Students",
+            slug="students",
+            introduction="students",
         )
-        self.student_index = StudentIndexPage.objects.first()
-
         self.form_data = {
             "first_name": "Monty",
             "last_name": "python",
@@ -52,12 +52,10 @@ class TestStudentAccountCreationForm(TestCase):
 
     def test_invalid_form(self):
         form = StudentCreateForm(data={})
-        form.is_valid()
         self.assertFalse(form.is_valid())
 
     def test_valid_form(self):
         form = StudentCreateForm(data=self.form_data)
-        form.is_valid()
         self.assertTrue(form.is_valid())
 
     def test_user_created(self):
@@ -96,7 +94,7 @@ class TestStudentAccountCreationForm(TestCase):
         self.assertEqual(len(StudentPage.objects.all()), 1)
         student_user = User.objects.get(username="montypython")
         student_page = StudentPage.objects.get(student_user_account=student_user)
-        # Confirm that a page was created with the student user detials and relationship.
+        # Confirm that a page was created with the student user details and relationship.
         self.assertEqual(student_page.first_name, student_user.first_name)
         self.assertEqual(student_page.last_name, student_user.last_name)
         self.assertEqual(student_page.student_user_account, student_user)
