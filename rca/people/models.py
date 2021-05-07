@@ -686,6 +686,7 @@ class StudentPage(PerUserPageMixin, BasePage):
         FieldPanel("link_to_final_thesis"),
         InlinePanel("related_supervisor", label="Supervisor information"),
         MultiFieldPanel([FieldPanel("email")], heading="Contact information"),
+        FieldPanel("introduction"),
         FieldPanel("bio"),
         InlinePanel("gallery_slides", label="Gallery slide", max_num=5),
         MultiFieldPanel(
