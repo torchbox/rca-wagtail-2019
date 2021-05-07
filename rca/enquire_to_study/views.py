@@ -88,7 +88,7 @@ class EnquireToStudyFormView(FormView):
                         mapped_user_interests.update({interest_id: True})
                     except KeyError:
                         logger.warning(
-                            f"Mailchimp: Unable to map mailchimp_group_name for program page {program.id}"
+                            f"Mailchimp: Unable to map mailchimp_group_name for program page {program} - {program.id}"
                         )
                         pass
             return mapped_user_interests
@@ -126,9 +126,7 @@ class EnquireToStudyFormView(FormView):
                 "FNAME": form_data["first_name"],
                 "LNAME": form_data["last_name"],
                 "PHONE": str(form_data["phone_number"]),
-                "MMERGE6": form_data["start_date"].mailchimp_label
-                if form_data["start_date"].mailchimp_label
-                else "",
+                "MMERGE6": form_data["start_date"].mailchimp_label or "",
                 "MMERGE7": form_data["country_of_citizenship"],
                 "ADDRESS": {
                     "addr1": "N/A",
@@ -138,6 +136,9 @@ class EnquireToStudyFormView(FormView):
                     "zip": "N/A",
                     "country": country,
                 },
+                "MMERGE9": form_data["city"],
+                "MMERGE11": form_data["programme_type"].display_name,
+                "MMERGE10": form_data["enquiry_reason"].reason,
             },
             "interests": interests,
             "email_address": form_data["email"],
@@ -145,10 +146,9 @@ class EnquireToStudyFormView(FormView):
         }
 
         try:
-            response = mailchimp.lists.add_list_member(
+            return mailchimp.lists.add_list_member(
                 settings.MAILCHIMP_LIST_ID, member_info
             )
-            return response
         except ApiClientError as error:
             try:
                 error_json = json.loads(error.text)
