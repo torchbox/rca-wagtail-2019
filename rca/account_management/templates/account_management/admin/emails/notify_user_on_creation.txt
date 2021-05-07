@@ -6,5 +6,7 @@ Please click the following link to set your password so you can log in: {{ next_
 
 Note that this link will expire in {{PASSWORD_RESET_TIMEOUT_DAYS}} days.
 
+If you have any questions, please contact publications@rca.ac.uk
+
 Thanks,
-RCA Administrators{% endblocktrans %}
+RCA web team{% endblocktrans %}
