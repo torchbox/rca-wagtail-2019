@@ -136,6 +136,7 @@ class EnquireToStudyFormView(FormView):
                     "zip": "N/A",
                     "country": country,
                 },
+                "MMERGE8": form_data["country_of_residence"],
                 "MMERGE9": form_data["city"],
                 "MMERGE11": form_data["programme_type"].display_name,
                 "MMERGE10": form_data["enquiry_reason"].reason,
