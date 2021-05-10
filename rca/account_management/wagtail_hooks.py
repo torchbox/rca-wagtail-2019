@@ -38,12 +38,11 @@ def hide_explorer_menu_item_from_frank(request, menu_items):
         # Hide menu items for students
         items_to_hide = [
             "reports",
-            "search",
             "explorer",
             "forms",
             "taxonomies",
             "student-accounts",
             "settings",
+            "images",
         ]
-
         menu_items[:] = [item for item in menu_items if item.name not in items_to_hide]
