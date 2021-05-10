@@ -33,7 +33,7 @@ def register_student_menu_item():
 
 
 @hooks.register("construct_main_menu")
-def hide_explorer_menu_item_from_frank(request, menu_items):
+def hide_explorer_menu_item_from_students(request, menu_items):
     if request.user.groups.filter(name="Students").exists():
         # Hide menu items for students
         items_to_hide = [
