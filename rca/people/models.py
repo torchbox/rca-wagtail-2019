@@ -712,6 +712,12 @@ class StudentPage(PerUserPageMixin, BasePage):
         ),
         InlinePanel("relatedlinks", label="External links", max_num=5),
     ]
+    basic_promote_panels = [
+        FieldPanel("slug"),
+    ]
+    superuser_basic_promote_panels = [
+        *BasePage.promote_panels,
+    ]
     superuser_content_panels = [
         *BasePage.content_panels,
         FieldPanel("student_user_account"),

@@ -75,7 +75,9 @@ class PerUserContentPanels(ObjectList):
                 self.children = self.instance.basic_content_panels
             if self.classname == "key_details":
                 self.children = self.instance.basic_key_details_panels
-            elif self.classname in ["promote", "settings"]:
+            if self.classname == "promote":
+                self.children = self.instance.basic_promote_panels
+            if self.classname == "settings":
                 self.children = []
         else:
             if self.classname == "content":
