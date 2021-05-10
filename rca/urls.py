@@ -10,7 +10,7 @@ from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.utils.urlpatterns import decorate_urlpatterns
 
-from rca.account_management.views import CustomLoginView, get_collection_by_page
+from rca.account_management.views import CustomLoginView
 from rca.utils.cache import get_default_cache_control_decorator
 from rca.wagtailapi.api import api_router
 
@@ -26,11 +26,6 @@ private_urlpatterns = [
     path("documents2/", include(wagtaildocs_urls)),
     # Don’t use generic cache control for API endpoints.
     path("api/v3/", api_router.urls),
-    path(
-        "admin/ajax/get_collection/",
-        get_collection_by_page,
-        name="get_collection_by_page",
-    ),
 ]
 
 

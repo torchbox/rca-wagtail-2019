@@ -5,7 +5,6 @@ from django.conf import settings
 from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
-from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -13,9 +12,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView
 from wagtail.admin import messages
-from wagtail.admin.auth import PermissionPolicyChecker
 from wagtail.admin.views.account import LoginView
-from wagtail.images.permissions import permission_policy
 
 from rca.people.models import StudentIndexPage, StudentPage
 from rca.users.models import User
@@ -188,33 +185,3 @@ class CustomLoginView(LoginView):
                     "wagtailadmin_pages:edit", kwargs={"page_id": student_page.id}
                 )
         return super().get_success_url()
-
-
-permission_checker = PermissionPolicyChecker(permission_policy)
-
-
-@permission_checker.require("add")
-def get_collection_by_page(request):
-    print("I AM WORKING")
-    """Only allow students to use their own collection if one is linked and created"""
-    data = {}
-    if not request.user.groups.filter(name="Students").exists():
-        print("NOT A STUDENT USER")
-        return JsonResponse(data)
-
-    page = request.GET.get("page", None)
-    page_type = request.GET.get("type", None)
-
-    if page and page_type:
-        try:
-            # Look up the users student page
-            student_page = StudentPage.objects.get(student_user_account=request.user)
-            # Get the image collection the user is linked to through their student page
-            student_collection = student_page.student_user_image_collection
-            if student_collection:
-                data["collection"] = student_collection.id
-        except Exception as e:
-            print(e)  # TODO - remove print and replace with correct exception
-            pass
-
-    return JsonResponse(data)
