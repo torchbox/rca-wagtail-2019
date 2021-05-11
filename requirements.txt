@@ -1,4 +1,4 @@
-Django==3.1.7
+Django==3.1.10
 wagtail==2.12.3
 # Pin treebeard to <4.5, see: https://github.com/wagtail/wagtail/issues/6820
 django-treebeard<4.5
