@@ -66,7 +66,7 @@ class TestStudentAccountCreationForm(TestCase):
         # Check the student was created and the 'students' group was added to the user.
         self.assertEqual(len(User.objects.filter(username="montypython")), 1)
         user = User.objects.get(username="montypython")
-        self.assertTrue(user.groups.filter(name="Students").exists())
+        self.assertTrue(user.is_student())
 
     def test_creating_a_student_does_not_create_a_page(self):
         # Creating a user account with no create_student_page option

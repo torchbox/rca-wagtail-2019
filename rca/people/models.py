@@ -21,7 +21,7 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable, Page
+from wagtail.core.models import Collection, Orderable, Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
@@ -39,7 +39,7 @@ from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, SluggedTaxonomy
 
 from .admin_forms import StudentPageAdminForm
-from .utils import get_area_linked_filters
+from .utils import PerUserPageMixin, get_area_linked_filters
 
 STUDENT_PAGE_RICH_TEXT_FEATURES = features = ["bold", "italic", "link"]
 
@@ -597,7 +597,7 @@ class StudentPageSupervisor(models.Model):
             raise ValidationError(errors)
 
 
-class StudentPage(BasePage):
+class StudentPage(PerUserPageMixin, BasePage):
     base_form_class = StudentPageAdminForm
     template = "patterns/pages/student/student_detail.html"
     parent_page_types = ["people.StudentIndexPage"]
@@ -660,6 +660,14 @@ class StudentPage(BasePage):
         limit_choices_to={"groups__name": "Students"},
         unique=True,
     )
+    student_user_image_collection = models.OneToOneField(
+        Collection,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        unique=True,
+        help_text="This should link to this students image collection",
+    )
     search_fields = BasePage.search_fields + [
         index.SearchField("introduction"),
         index.SearchField("first_name"),
@@ -667,8 +675,61 @@ class StudentPage(BasePage):
         index.SearchField("bio"),
     ]
 
-    content_panels = BasePage.content_panels + [
+    basic_key_details_panels = [
+        InlinePanel("related_area_of_expertise", label="Areas of Expertise"),
+        InlinePanel("personal_links", label="Personal links", max_num=5),
+        FieldPanel("student_funding"),
+    ]
+    key_details_panels = [
+        InlinePanel("related_area_of_expertise", label="Areas of Expertise"),
+        InlinePanel(
+            "related_research_centre_pages", label=_("Related Research Centres ")
+        ),
+        InlinePanel("related_schools", label=_("Related Schools")),
+        InlinePanel("personal_links", label="Personal links", max_num=5),
+        FieldPanel("student_funding"),
+    ]
+    basic_content_panels = [
+        MultiFieldPanel([ImageChooserPanel("profile_image")], heading="Details"),
+        FieldPanel("link_to_final_thesis"),
+        InlinePanel("related_supervisor", label="Supervisor information"),
+        MultiFieldPanel([FieldPanel("email")], heading="Contact information"),
+        FieldPanel("introduction"),
+        FieldPanel("bio"),
+        InlinePanel("gallery_slides", label="Gallery slide", max_num=5),
+        MultiFieldPanel(
+            [
+                FieldPanel("biography"),
+                FieldPanel("degrees"),
+                FieldPanel("experience"),
+                FieldPanel("awards"),
+                FieldPanel("funding"),
+                FieldPanel("exhibitions"),
+                FieldPanel("publications"),
+                FieldPanel("research_outputs"),
+                FieldPanel("conferences"),
+            ],
+            heading="More information",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("additional_information_title"),
+                FieldPanel("addition_information_content"),
+            ],
+            heading="Additional information",
+        ),
+        InlinePanel("relatedlinks", label="External links", max_num=5),
+    ]
+    basic_promote_panels = [
+        FieldPanel("slug"),
+    ]
+    superuser_basic_promote_panels = [
+        *BasePage.promote_panels,
+    ]
+    superuser_content_panels = [
+        *BasePage.content_panels,
         FieldPanel("student_user_account"),
+        FieldPanel("student_user_image_collection"),
         MultiFieldPanel(
             [
                 FieldPanel("student_title"),
@@ -681,10 +742,7 @@ class StudentPage(BasePage):
         MultiFieldPanel([FieldPanel("email")], heading="Contact information"),
         PageChooserPanel("programme"),
         FieldPanel("degree_start_date"),
-        MultiFieldPanel(
-            [FieldPanel("degree_end_date"), FieldPanel("degree_award")],
-            heading="Degree awarded details",
-        ),
+        FieldPanel("degree_end_date"),
         FieldPanel("degree_status"),
         FieldPanel("link_to_final_thesis"),
         InlinePanel("related_supervisor", label="Supervisor information"),
@@ -722,25 +780,6 @@ class StudentPage(BasePage):
         ),
         InlinePanel("relatedlinks", label="External links", max_num=5),
     ]
-
-    key_details_panels = [
-        InlinePanel("related_area_of_expertise", label="Areas of Expertise"),
-        InlinePanel(
-            "related_research_centre_pages", label=_("Related Research Centres ")
-        ),
-        InlinePanel("related_schools", label=_("Related Schools")),
-        InlinePanel("personal_links", label="Personal links", max_num=5),
-        FieldPanel("student_funding"),
-    ]
-
-    edit_handler = TabbedInterface(
-        [
-            ObjectList(content_panels, heading="Content"),
-            ObjectList(key_details_panels, heading="Key details"),
-            ObjectList(BasePage.promote_panels, heading="Promote"),
-            ObjectList(BasePage.settings_panels, heading="Settings"),
-        ]
-    )
 
     @property
     def name(self):

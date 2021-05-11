@@ -169,7 +169,7 @@ class CustomLoginView(LoginView):
         Returns:
             str: the destination url
         """
-        if self.request.user.groups.filter(name="Students").exists():
+        if self.request.user.is_student():
             # Look up this students page
             try:
                 student_page = StudentPage.objects.get(
