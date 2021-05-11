@@ -21,7 +21,7 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable, Page
+from wagtail.core.models import Collection, Orderable, Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
@@ -660,6 +660,14 @@ class StudentPage(PerUserPageMixin, BasePage):
         limit_choices_to={"groups__name": "Students"},
         unique=True,
     )
+    student_user_image_collection = models.OneToOneField(
+        Collection,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        unique=True,
+        help_text="This should link to this students image collection",
+    )
     search_fields = BasePage.search_fields + [
         index.SearchField("introduction"),
         index.SearchField("first_name"),
@@ -721,6 +729,7 @@ class StudentPage(PerUserPageMixin, BasePage):
     superuser_content_panels = [
         *BasePage.content_panels,
         FieldPanel("student_user_account"),
+        FieldPanel("student_user_image_collection"),
         MultiFieldPanel(
             [
                 FieldPanel("student_title"),
