@@ -29,6 +29,7 @@ class TestAccountManagementViews(TestCase):
             "email": "monthpython@holygrail.com",
             "username": "montypython",
             "create_student_page": True,
+            "student_image_collection": 1,
         }
         students = Group.objects.get(name="Students")
         admin_permission = Permission.objects.get(codename="access_admin")

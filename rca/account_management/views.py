@@ -107,13 +107,17 @@ class CreateStudentFormView(FormView):
                     first_name=form.cleaned_data["first_name"],
                     last_name=form.cleaned_data["last_name"],
                     title=f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}",
+                    student_user_image_collection=form.cleaned_data[
+                        "student_image_collection"
+                    ],
                     student_user_account=student_user,
+                    live=True,
                 )
             )
             # Place the page in draft mode
-            StudentPage.objects.filter(student_user_account=student_user).update(
-                live=False
-            )
+            student_page = StudentPage.objects.get(student_user_account=student_user)
+            student_page.save_revision()
+            student_page.unpublish()
 
             # Generate a password reset link to be emailed to the user.
             password_reset_url = self.request.build_absolute_uri(
