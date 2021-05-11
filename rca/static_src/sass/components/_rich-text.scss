@@ -62,6 +62,18 @@
         .bg--light .accordion__content & {
             color: $color--white;
         }
+
+        // Links in forms should always show underline
+        .form-item & {
+            background-size: 100% 2px;
+
+            &:hover {
+                @include media-query(medium) {
+                    // As we show underline by default, added opacity so there's some hover interactivity
+                    opacity: 0.8;
+                }
+            }
+        }
     }
 
     .image {
