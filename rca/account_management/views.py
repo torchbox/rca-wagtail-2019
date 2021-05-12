@@ -141,7 +141,7 @@ class CreateStudentFormView(FormView):
                 messages.warning(
                     self.request,
                     f"The Student Page for {student_user} has been created. "
-                    f"A Notification email failed to send to {student_user.email}. ",
+                    f"A notification email failed to send to {student_user.email}. ",
                     "Please contanct the site administrator.",
                 )
                 return response
@@ -149,8 +149,8 @@ class CreateStudentFormView(FormView):
                 if user_notification_sent:
                     messages.success(
                         self.request,
-                        f"The Student Page for {student_user} has been created."
-                        f"A Notification email has been sent to {student_user.email}",
+                        f"The Student Page for {student_user} has been created. "
+                        f"A notification email has been sent to {student_user.email}",
                     )
         return response
 

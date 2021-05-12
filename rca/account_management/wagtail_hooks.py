@@ -30,3 +30,27 @@ def register_student_menu_item():
         classnames="icon icon-user",
         order=10000,
     )
+
+
+@hooks.register("construct_main_menu")
+def hide_explorer_menu_item_from_students(request, menu_items):
+    if request.user.is_student():
+        # Hide menu items for students
+        items_to_hide = [
+            "reports",
+            "explorer",
+            "forms",
+            "taxonomies",
+            "student-accounts",
+            "settings",
+            "images",
+        ]
+        menu_items[:] = [item for item in menu_items if item.name not in items_to_hide]
+
+
+@hooks.register("construct_homepage_panels")
+def strip_homepage_panels_for_students(request, panels):
+    if request.user.is_student():
+        for i, v in enumerate(panels):
+            del panels[i]
+    return panels
