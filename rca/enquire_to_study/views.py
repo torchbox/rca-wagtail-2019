@@ -70,6 +70,7 @@ class EnquireToStudyFormView(FormView):
             response = mailchimp.lists.list_interest_category_interests(
                 settings.MAILCHIMP_LIST_ID,
                 settings.MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID,
+                count=500,
             )
             mailchimp_interest_ids = {}
             mapped_user_interests = {}
@@ -78,7 +79,6 @@ class EnquireToStudyFormView(FormView):
                     mailchimp_interest_ids.update({interest["name"]: interest["id"]})
             except ValueError:
                 return {}
-
             for program in programmes:
                 if program.mailchimp_group_name:
                     try:
