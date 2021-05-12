@@ -8,7 +8,7 @@ def show_my_uploaded_images_only(images, request):
     # Only show uploaded images
     user = request.user
     # is this user a student?
-    if not user.groups.filter(name="Students").exists():
+    if not user.is_student():
         return images
 
     try:
