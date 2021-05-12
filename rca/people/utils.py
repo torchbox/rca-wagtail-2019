@@ -1,4 +1,5 @@
 from django.apps import apps
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from wagtail.admin.edit_handlers import ObjectList, TabbedInterface
 from wagtail.utils.decorators import cached_classmethod
@@ -71,6 +72,9 @@ def get_student_research_projects(page):
 class PerUserContentPanels(ObjectList):
     def _replace_children_with_per_user_config(self):
         if self.request.user.is_student():
+            if self.instance.student_user_account != self.request.user:
+                raise PermissionDenied
+
             if self.classname == "content":
                 self.children = self.instance.basic_content_panels
             if self.classname == "key_details":
