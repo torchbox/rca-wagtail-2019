@@ -33,7 +33,11 @@ class TestPerRequestEditHandler(TestCase, WagtailTestUtils):
         )
         self.student_index.add_child(
             instance=StudentPage(
-                title="A student", slug="a-student", first_name="a", last_name="student"
+                title="A student",
+                slug="a-student",
+                first_name="a",
+                last_name="student",
+                student_user_account=self.student,
             )
         )
         self.student_page = StudentPage.objects.first()
