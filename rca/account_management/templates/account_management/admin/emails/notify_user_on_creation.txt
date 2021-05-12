@@ -2,7 +2,7 @@
 
 Your RCA Student user account has now been created.
 
-Your username is {{ user }}
+Your username is: {{ user }}
 
 Please click the following link to set your password so you can log in: {{ next_url }}
 
