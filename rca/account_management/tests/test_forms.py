@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from wagtail_factories import CollectionFactory
 
 from rca.account_management.forms import StudentCreateForm
 from rca.home.models import HomePage
@@ -28,7 +29,7 @@ class TestStudentAccountCreationForm(TestCase):
             "email": "monthpython@holygrail.com",
             "username": "montypython",
             "create_student_page": False,
-            "student_user_image_collection": 1,
+            "student_user_image_collection": CollectionFactory().id,
         }
 
     def test_form_302(self):
