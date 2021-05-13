@@ -1,6 +1,7 @@
 from django.contrib.auth.models import Group, Permission
 from django.test import TestCase
 from django.urls import reverse
+from wagtail_factories import CollectionFactory
 
 from rca.home.models import HomePage
 from rca.people.factories import StudentIndexPageFactory
@@ -29,6 +30,7 @@ class TestAccountManagementViews(TestCase):
             "email": "monthpython@holygrail.com",
             "username": "montypython",
             "create_student_page": True,
+            "student_user_image_collection": CollectionFactory().id,
         }
         students = Group.objects.get(name="Students")
         admin_permission = Permission.objects.get(codename="access_admin")
