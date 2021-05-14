@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 from django.conf import settings
+from django.contrib.auth.models import Group
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -21,7 +22,14 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Collection, Orderable, Page
+from wagtail.core.models import (
+    Collection,
+    GroupCollectionPermission,
+    GroupPagePermission,
+    Orderable,
+    Page,
+    Permission,
+)
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
@@ -871,6 +879,44 @@ class StudentPage(PerUserPageMixin, BasePage):
             {"value": {"title": item.link_title, "url": item.url}}
             for item in self.relatedlinks.all()
         ]
+
+    def save(self, *args, **kwargs):
+        """On saving the student page, make sure the student_user_account
+        has a group created with the necessary permissions
+        """
+        super(StudentPage, self).save()
+
+        # Create a specific group for this student so they have edit access to their page
+        # and their image collection
+        specific_student_group, created = Group.objects.get_or_create(
+            name=f"Student: {self.first_name} {self.last_name}"
+        )
+
+        if created:
+            # Create new add GroupPagePermission
+            GroupPagePermission.objects.create(
+                group=specific_student_group, page=self, permission_type="edit"
+            )
+
+            # Create new GroupCollectionPermission for Profile Images collection
+            GroupCollectionPermission.objects.create(
+                group=specific_student_group,
+                collection=Collection.objects.get(
+                    name=self.student_user_image_collection
+                ),
+                permission=Permission.objects.get(codename="add_image"),
+            )
+            GroupCollectionPermission.objects.create(
+                group=specific_student_group,
+                collection=Collection.objects.get(
+                    name=self.student_user_image_collection
+                ),
+                permission=Permission.objects.get(codename="choose_image"),
+            )
+
+        # Add the new specific student group to the user
+        self.student_user_account.groups.add(specific_student_group)
+        self.student_user_account.save()
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
