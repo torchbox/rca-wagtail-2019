@@ -107,9 +107,6 @@ class CreateStudentFormView(FormView):
                     first_name=form.cleaned_data["first_name"],
                     last_name=form.cleaned_data["last_name"],
                     title=f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}",
-                    student_user_image_collection=form.cleaned_data[
-                        "student_user_image_collection"
-                    ],
                     student_user_account=student_user,
                     live=True,
                 )
