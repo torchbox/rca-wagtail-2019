@@ -29,7 +29,9 @@ class TestStudentAccountCreationForm(TestCase):
             "email": "monthpython@holygrail.com",
             "username": "montypython",
             "create_student_page": False,
-            "student_user_image_collection": CollectionFactory().id,
+            "student_user_image_collection": CollectionFactory(
+                name="Student: Monty python"
+            ).id,
         }
 
     def test_form_302(self):
