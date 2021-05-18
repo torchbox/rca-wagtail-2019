@@ -885,11 +885,11 @@ class StudentPage(PerUserPageMixin, BasePage):
         has a group created with the necessary permissions
         """
         super(StudentPage, self).save()
-        if self.student_user_image_collection and self.student_user_image_collection:
+        if self.student_user_image_collection and self.student_user_account:
             # Create a specific group for this student so they have edit access to their page
             # and their image collection
             specific_student_group, created = Group.objects.get_or_create(
-                name=f"Student: {self.first_name} {self.last_name}"
+                name=f"Student: {self.student_user_account.username}"
             )
 
             if created:

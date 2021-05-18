@@ -128,7 +128,7 @@ class CreateStudentFormView(FormView):
             # Create a specific group for this student so they have edit access to their page
             # and their image collection
             specific_student_group, created = Group.objects.get_or_create(
-                name=f"Student: {form.cleaned_data['first_name']} {form.cleaned_data['last_name']}"
+                name=f"Student: {form.cleaned_data['username']}"
             )
 
             # Create new add GroupPagePermission
