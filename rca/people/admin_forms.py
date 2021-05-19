@@ -36,8 +36,10 @@ class StudentPageAdminForm(WagtailAdminPageForm):
             ] = instance.student_user_image_collection
             cleaned_data["student_user_account"] = instance.student_user_account
 
-        student_user_image_collection = cleaned_data["student_user_image_collection"]
-        student_user_account = cleaned_data["student_user_account"]
+        student_user_image_collection = cleaned_data.get(
+            "student_user_image_collection", None
+        )
+        student_user_account = cleaned_data.get("student_user_account", None)
 
         if student_user_image_collection and not student_user_account:
             self.add_error(
