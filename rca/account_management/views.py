@@ -13,12 +13,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView
 from wagtail.admin import messages
 from wagtail.admin.views.account import LoginView
-from wagtail.core.models import (
-    Collection,
-    GroupCollectionPermission,
-    GroupPagePermission,
-    Permission,
-)
 
 from rca.people.models import StudentIndexPage, StudentPage
 from rca.users.models import User
@@ -121,40 +115,10 @@ class CreateStudentFormView(FormView):
                 )
             )
             # Place the page in draft mode
+            # StudentPage.save() handles the creation of the group and permissions for the student
             student_page = StudentPage.objects.get(student_user_account=student_user)
             student_page.save_revision()
             student_page.unpublish()
-
-            # Create a specific group for this student so they have edit access to their page
-            # and their image collection
-            specific_student_group, created = Group.objects.get_or_create(
-                name=f"Student: {form.cleaned_data['username']}"
-            )
-
-            # Create new add GroupPagePermission
-            GroupPagePermission.objects.get_or_create(
-                group=specific_student_group, page=student_page, permission_type="edit"
-            )
-
-            # Create new GroupCollectionPermission for Profile Images collection
-            GroupCollectionPermission.objects.get_or_create(
-                group=specific_student_group,
-                collection=Collection.objects.get(
-                    name=form.cleaned_data["student_user_image_collection"]
-                ),
-                permission=Permission.objects.get(codename="add_image"),
-            )
-            GroupCollectionPermission.objects.get_or_create(
-                group=specific_student_group,
-                collection=Collection.objects.get(
-                    name=form.cleaned_data["student_user_image_collection"]
-                ),
-                permission=Permission.objects.get(codename="choose_image"),
-            )
-
-            # Add the new specific student group
-            student_user.groups.add(specific_student_group)
-            student_user.save()
 
             # Generate a password reset link to be emailed to the user.
             password_reset_url = self.request.build_absolute_uri(

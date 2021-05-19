@@ -885,34 +885,43 @@ class StudentPage(PerUserPageMixin, BasePage):
         has a group created with the necessary permissions
         """
         super(StudentPage, self).save()
+
         if self.student_user_image_collection and self.student_user_account:
+
+            # Check if a group configuration exsists already for this user.
+            group = Group.objects.filter(
+                name=f"Student: {self.student_user_account.username}"
+            )
+            if group:
+                # If we find a group already, we don't need to create one.
+                return
+
             # Create a specific group for this student so they have edit access to their page
             # and their image collection
-            specific_student_group, created = Group.objects.get_or_create(
+            specific_student_group = Group.objects.create(
                 name=f"Student: {self.student_user_account.username}"
             )
 
-            if created:
-                # Create new add GroupPagePermission
-                GroupPagePermission.objects.create(
-                    group=specific_student_group, page=self, permission_type="edit"
-                )
+            # Create new add GroupPagePermission
+            GroupPagePermission.objects.create(
+                group=specific_student_group, page=self, permission_type="edit"
+            )
 
-                # Create new GroupCollectionPermission for Profile Images collection
-                GroupCollectionPermission.objects.create(
-                    group=specific_student_group,
-                    collection=Collection.objects.get(
-                        name=self.student_user_image_collection
-                    ),
-                    permission=Permission.objects.get(codename="add_image"),
-                )
-                GroupCollectionPermission.objects.create(
-                    group=specific_student_group,
-                    collection=Collection.objects.get(
-                        name=self.student_user_image_collection
-                    ),
-                    permission=Permission.objects.get(codename="choose_image"),
-                )
+            # Create new GroupCollectionPermission for Profile Images collection
+            GroupCollectionPermission.objects.create(
+                group=specific_student_group,
+                collection=Collection.objects.get(
+                    name=self.student_user_image_collection
+                ),
+                permission=Permission.objects.get(codename="add_image"),
+            )
+            GroupCollectionPermission.objects.create(
+                group=specific_student_group,
+                collection=Collection.objects.get(
+                    name=self.student_user_image_collection
+                ),
+                permission=Permission.objects.get(codename="choose_image"),
+            )
 
             # Add the new specific student group to the user
             self.student_user_account.groups.add(specific_student_group)
