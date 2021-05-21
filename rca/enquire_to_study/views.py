@@ -97,7 +97,6 @@ class EnquireToStudyFormView(FormView):
             return {}
 
     def post_mailchimp(self, form_data):
-        # see https://git.torchbox.com/nesta/nesta-wagtail/-/blob/master/nesta/mailchimp/api.py
         mailchimp = Client()
         mailchimp.set_config(
             {
