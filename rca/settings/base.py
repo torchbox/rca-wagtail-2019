@@ -652,6 +652,10 @@ WAGTAIL_SITE_NAME = "RCA Website"
 # Preserve Wagtail < 2.8 behaviour
 WAGTAILEMBEDS_RESPONSIVE_HTML = True
 
+WAGTAILEMBEDS_FINDERS = [
+    {"class": "rca.utils.embed_finders.CustomOEmbedFinder"},
+]
+
 
 # This is used by Wagtail's email notifications for constructing absolute
 # URLs. Please set to the domain that users will access the admin site.
