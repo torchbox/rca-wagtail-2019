@@ -39,6 +39,12 @@ class StartDate(models.Model):
         blank=True,
         null=True,
     )
+    mailchimp_label = models.CharField(
+        max_length=255,
+        help_text="This value needs to match the options specified in the 'Intended year of study' field within mailchimps sign-up form , E.G 2021/22",
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         verbose_name = "Enquiry form start date"

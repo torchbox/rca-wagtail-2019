@@ -426,6 +426,13 @@ class ProgrammePage(ContactFieldsMixin, BasePage):
         null=True,
     )
 
+    mailchimp_group_name = models.CharField(
+        max_length=255,
+        help_text="This must match a group name under the category 'Programme of interest' E.G 'MA Animation'",
+        blank=True,
+        null=True,
+    )
+
     content_panels = BasePage.content_panels + [
         # Taxonomy, relationships etc
         FieldPanel("degree_level"),
@@ -563,6 +570,7 @@ class ProgrammePage(ContactFieldsMixin, BasePage):
         ),
         MultiFieldPanel([StreamFieldPanel("steps")], heading="Before you begin"),
         FieldPanel("qs_code"),
+        FieldPanel("mailchimp_group_name"),
     ]
 
     edit_handler = TabbedInterface(
