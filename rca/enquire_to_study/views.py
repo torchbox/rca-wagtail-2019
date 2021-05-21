@@ -326,10 +326,12 @@ class EnquireToStudyFormThanksView(TemplateView):
 
         # If there is a session variable containing form post data send this,
         # through to the thanks template.
+        from django.utils.html import mark_safe
+
         if "enquiry_form_session_data" in self.request.session:
-            context["enquiry_form_session_data"] = self.request.session[
-                "enquiry_form_session_data"
-            ]
+            context["enquiry_form_session_data"] = mark_safe(
+                self.request.session["enquiry_form_session_data"]
+            )
             # In case the page is refreshed, make sure we clear the session form data.
             del self.request.session["enquiry_form_session_data"]
         return context
