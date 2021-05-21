@@ -1,12 +1,15 @@
 import json
 import logging
+from datetime import timedelta
 
 import requests
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
+from django.db.models import Q
 from django.shortcuts import redirect, reverse
 from django.template.response import TemplateResponse
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
@@ -317,13 +320,16 @@ def delete(request):
     url_helper = EnquiryFormSubmissionAdmin().url_helper
     index_url = url_helper.get_action_url("index")
 
-    instances = EnquiryFormSubmission.objects.all()
-    count = len(instances)
-    if request.method == "POST":
-        for instance in instances:
-            instance.delete()
+    all_submissions = EnquiryFormSubmission.objects.all()
 
-        message_content = f"deleted {count} submissions"
+    time_threshold = timezone.now() - timedelta(days=7)
+    instances = all_submissions.filter(Q(submission_date__lte=time_threshold))
+    count_delete_submissions = len(instances)
+
+    if request.method == "POST":
+        instances.delete()
+
+        message_content = f"deleted {count_delete_submissions} submissions"
         messages.success(request, message_content)
 
         return redirect(index_url)
@@ -332,7 +338,8 @@ def delete(request):
         request,
         "enquire_to_study/confirm_delete.html",
         {
-            "count": count,
+            "count_all_submissions": len(all_submissions),
+            "count_delete_submissions": count_delete_submissions,
             "index_url": url_helper.get_action_url("index"),
             "submit_url": (reverse("enquiretostudy_delete")),
         },
