@@ -884,6 +884,8 @@ class StudentPage(PerUserPageMixin, BasePage):
         """On saving the student page, make sure the student_user_account
         has a group created with the necessary permissions
         """
+        print(self.student_user_account)
+        print("=======================")
         super(StudentPage, self).save()
 
         if self.student_user_image_collection and self.student_user_account:

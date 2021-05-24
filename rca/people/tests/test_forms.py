@@ -3,13 +3,12 @@ from wagtail.tests.utils.form_data import nested_form_data
 from wagtail_factories import CollectionFactory
 
 from rca.people.factories import StudentPageFactory
-from rca.people.models import StudentPage
 
 
 class TestStudentPageForm(TestCase):
     def setUp(self):
         self.student_page = StudentPageFactory()
-        self.form_class = StudentPage.get_edit_handler().get_form_class()
+        self.form_class = self.student_page.get_edit_handler().get_form_class()
         self.collection = CollectionFactory(name="Student: foxmulder")
 
     def get_form_data(self):
@@ -32,7 +31,7 @@ class TestStudentPageForm(TestCase):
                 "related_supervisor-MIN_NUM_FORMS": "0",
                 "related_supervisor-MAX_NUM_FORMS": "1000",
                 "introduction": "",
-                "bio": "null",
+                "bio": "",
                 "related_project_pages-TOTAL_FORMS": "0",
                 "related_project_pages-INITIAL_FORMS": "0",
                 "related_project_pages-MIN_NUM_FORMS": "0",
@@ -41,17 +40,17 @@ class TestStudentPageForm(TestCase):
                 "gallery_slides-INITIAL_FORMS": "0",
                 "gallery_slides-MIN_NUM_FORMS": "0",
                 "gallery_slides-MAX_NUM_FORMS": "5",
-                "biography": "null",
-                "degrees": "null",
-                "experience": "null",
-                "awards": "null",
-                "funding": "null",
-                "exhibitions": "null",
-                "publications": "null",
-                "research_outputs": "null",
-                "conferences": "null",
+                "biography": "",
+                "degrees": "",
+                "experience": "",
+                "awards": "",
+                "funding": "",
+                "exhibitions": "",
+                "publications": "",
+                "research_outputs": "",
+                "conferences": "",
                 "additional_information_title": "",
-                "addition_information_content": "null",
+                "addition_information_content": "",
                 "relatedlinks-TOTAL_FORMS": "0",
                 "relatedlinks-INITIAL_FORMS": "0",
                 "relatedlinks-MIN_NUM_FORMS": "0",
@@ -92,5 +91,6 @@ class TestStudentPageForm(TestCase):
         return self.form_class(instance=instance, data=data)
 
     def test_form_not_valid(self):
+        print(self.get_form_data())
         form = self.get_form(instance=self.student_page, data=self.get_form_data())
         self.assertFalse(form.is_valid())

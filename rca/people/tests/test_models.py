@@ -4,7 +4,7 @@ from wagtail_factories import CollectionFactory
 
 from rca.home.models import HomePage
 from rca.people.factories import StudentIndexPageFactory, StudentPageFactory
-from rca.people.models import StudentIndexPage
+from rca.people.models import StudentIndexPage, StudentPage
 from rca.users.models import User
 
 
@@ -41,46 +41,28 @@ class TestStudentPage(WagtailPageTests):
                 title="Students", slug="students", introduction="Students"
             )
         )
-        self.student = User.objects.create(
+        self.student_index = StudentIndexPage.objects.first()
+        self.student = User.objects.create_user(
             username="danascully",
             first_name="dana",
             last_name="Scully",
             email="ds@fbi.com",
             password="1234",
         )
-
+        self.student = User.objects.get(username="danascully")
         self.collection = CollectionFactory(name="Student: dana scully")
 
-    # def test_validation_of_user_field(self):
-    #     # on saving a student page with an image collection and student user,
-    #     # we expect to see a group with permissions added
-    #     self.student_index = StudentIndexPage.objects.first()
-    #     self.student_index.add_child(
-    #         instance=StudentPageFactory(
-    #             title="Dana Scully",
-    #             slug="a-student",
-    #             first_name="dana",
-    #             last_name="student",
-    #             student_user_account=self.student,
-    #         )
-    #     )
-    #     self.assertTrue(False)
-
-    # def test_group_and_rules_creation_on_save(self):
-    #     # on saving a student page with an image collection and student user,
-    #     # we expect to see a group with permissions added
-    #     # self.student.save()
-    #     # print(self.student)
-    #     self.student_index = StudentIndexPage.objects.first()
-    #     self.student_index.add_child(
-    #         instance=StudentPage(
-    #             title="Dana Scully",
-    #             slug="a-student",
-    #             first_name="dana",
-    #             last_name="student",
-    #             student_user_account=self.student,
-    #             student_user_image_collection = self.collection
-    #         )
-    #     )
-    #     print(StudentPage.objects.filter(title="Dana Scully"))
-    #     self.assertTrue(False)
+    def test_creating_creates_permision_group(self):
+        self.student_index.add_child(
+            instance=StudentPage(
+                title="Dana Scully",
+                slug="a-student",
+                first_name="dana",
+                last_name="student",
+                student_user_image_collection=self.collection,
+                student_user_account=self.student
+                # {'student_user_account': ['user instance with id 3 does not exist.']}
+                # I do not understand why, I can see it exists!
+            )
+        )
+        self.assertTrue(False)
