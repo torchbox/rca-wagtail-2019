@@ -113,6 +113,7 @@
 
         .menu-active & {
             opacity: 1;
+            cursor: initial;
         }
     }
 
@@ -132,6 +133,7 @@
 
         .search-active & {
             opacity: 1;
+            cursor: initial;
         }
     }
 
