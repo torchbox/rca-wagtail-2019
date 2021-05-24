@@ -41,7 +41,6 @@ class TestUserEditView(TestCase, WagtailTestUtils):
         response = self.get()
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "wagtailusers/users/edit.html")
-        print(response.content)
         self.assertContains(
             response,
             '<input type="text" name="username" value="testuser" maxlength="150"'

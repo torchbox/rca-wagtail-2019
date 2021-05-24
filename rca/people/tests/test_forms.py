@@ -84,22 +84,13 @@ class TestStudentPageForm(TestCase):
                 "go_live_at": "",
                 "expire_at": "",
                 "student_user_image_collection": self.collection.id,
-                # "student_user_account": "",
+                "student_user_account": "",
             }
         )
 
     def get_form(self, instance, data=None):
         return self.form_class(instance=instance, data=data)
 
-    def test_form_valid(self):
-        form = self.get_form(instance=self.student_page, data=self.get_form_data(),)
-        form.is_valid()
-        print(form.errors)
-        self.assertTrue(form.is_valid())
-
-    # def test_form_invalid(self):
-    #     form = self.get_form(
-    #         instance=self.student_page,
-    #         data=self.get_form_data(),
-    #     )
-    #     self.assertFalse(form.is_valid())
+    def test_form_not_valid(self):
+        form = self.get_form(instance=self.student_page, data=self.get_form_data())
+        self.assertFalse(form.is_valid())
