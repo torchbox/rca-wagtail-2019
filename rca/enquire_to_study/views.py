@@ -263,9 +263,6 @@ class EnquireToStudyFormView(FormView):
         # If the response was successful, no Exception will be raised
         response.raise_for_status()
 
-    def create_form_submission(self, form):
-        form.save()
-
     def send_user_email_notification(self, form):
         enquiry_form_settings = EnquireToStudySettings.for_request(self.request)
         if not enquiry_form_settings.email_submission_notifations:
@@ -291,6 +288,21 @@ class EnquireToStudyFormView(FormView):
             fail_silently=False,
         )
 
+    def set_session_data(self, form_data, enquiry_submission):
+        # Sets form data into session variable for analytics.
+        self.request.session["enquiry_form_session_data"] = {
+            "event": "form-submission",
+            "formName": "Enquire to study form",
+            "formId": "enquire_to_study_form",
+            "countryResidence": form_data["country_of_residence"],
+            "countryCitizen": form_data["country_of_citizenship"],
+            "programme": [i.title for i in form_data["programmes"]],
+            "starting": form_data["start_date"].label,
+            "enquiryType": form_data["enquiry_reason"].reason,
+            "newsletter": str(form_data["is_notification_opt_in"]),
+            "submissionId": enquiry_submission.id,
+        }
+
     def form_valid(self, form):
         country_of_residence = form.cleaned_data["country_of_residence"]
         if country_of_residence in ["GB", "IE"]:
@@ -298,7 +310,11 @@ class EnquireToStudyFormView(FormView):
         else:
             self.post_qs(form.cleaned_data)
 
-        self.create_form_submission(form)
+        enquiry_submission = form.save()
+
+        # Set form session data to pass to analytics.
+        self.set_session_data(form.cleaned_data, enquiry_submission)
+
         if settings.RCA_DNR_EMAIL:
             self.send_user_email_notification(form)
 
@@ -307,6 +323,21 @@ class EnquireToStudyFormView(FormView):
 
 class EnquireToStudyFormThanksView(TemplateView):
     template_name = "patterns/pages/enquire_to_study/enquire_form_thanks.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(EnquireToStudyFormThanksView, self).get_context_data(**kwargs)
+
+        # If there is a session variable containing form post data send this,
+        # through to the thanks template.
+        from django.utils.html import mark_safe
+
+        if "enquiry_form_session_data" in self.request.session:
+            context["enquiry_form_session_data"] = mark_safe(
+                self.request.session["enquiry_form_session_data"]
+            )
+            # In case the page is refreshed, make sure we clear the session form data.
+            del self.request.session["enquiry_form_session_data"]
+        return context
 
 
 def delete(request):
