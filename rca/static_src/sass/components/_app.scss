@@ -30,6 +30,11 @@
             transform: translate3d(0, 0, 0);
             background-color: $color--black;
         }
+
+        // Hide via z-index (for modals)
+        &--hidden {
+            @include z-index(base);
+        }
     }
 
     &__navigation {

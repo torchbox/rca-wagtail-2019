@@ -11,8 +11,10 @@ class VideoModal {
         this.iframe = this.modal.querySelector('iframe');
         this.src = this.iframe.getAttribute('src');
         this.body = document.querySelector('body');
+        this.header = document.querySelector('[data-header]');
         this.noScrollClass = 'no-scroll';
         this.activeClass = 'is-open';
+        this.hiddenHeaderClass = 'app__header--hidden';
         this.storeIframeSrc();
     }
 
@@ -33,6 +35,9 @@ class VideoModal {
             // show the modal
             this.modalWindow.classList.add(this.activeClass);
 
+            // hide the header
+            this.header.classList.add(this.hiddenHeaderClass);
+
             // add the autoplay url to the iframe
             if (
                 this.iframe.getAttribute('src') !== this.modal.dataset.embedUrl
@@ -50,6 +55,9 @@ class VideoModal {
 
             // hide the modal
             this.modalWindow.classList.remove(this.activeClass);
+
+            // show the header
+            this.header.classList.remove(this.hiddenHeaderClass);
 
             // stop the embed playing
             this.iframe.setAttribute('src', '');
