@@ -7,6 +7,7 @@ from rca.people.factories import StudentPageFactory
 
 class TestStudentPageForm(TestCase):
     def setUp(self):
+        super().setUp()
         self.student_page = StudentPageFactory()
         self.form_class = self.student_page.get_edit_handler().get_form_class()
         self.collection = CollectionFactory(name="Student: foxmulder")

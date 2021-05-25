@@ -34,14 +34,16 @@ class TestStudentIndexPage(WagtailPageTests):
 
 class TestStudentPage(WagtailPageTests):
     def setUp(self):
+        super().setUp()
         self.home_page = HomePage.objects.first()
-        self.user = self.login()
         self.home_page.add_child(
             instance=StudentIndexPage(
                 title="Students", slug="students", introduction="Students"
             )
         )
         self.student_index = StudentIndexPage.objects.first()
+
+    def test_creating_creates_permision_group(self):
         self.student = User.objects.create_user(
             username="danascully",
             first_name="dana",
@@ -49,10 +51,9 @@ class TestStudentPage(WagtailPageTests):
             email="ds@fbi.com",
             password="1234",
         )
-        self.student = User.objects.get(username="danascully")
+        self.student.save()
         self.collection = CollectionFactory(name="Student: dana scully")
 
-    def test_creating_creates_permision_group(self):
         self.student_index.add_child(
             instance=StudentPage(
                 title="Dana Scully",

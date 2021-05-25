@@ -30,7 +30,11 @@ class StudentPageAdminForm(WagtailAdminPageForm):
         print(cleaned_data)
         instance = getattr(self, "instance", None)
         # # As these fields are disabled once set, they need adding back into the post data
-        if instance.student_user_image_collection and instance.student_user_account:
+        if (
+            instance
+            and instance.student_user_image_collection
+            and instance.student_user_account
+        ):
             cleaned_data[
                 "student_user_image_collection"
             ] = instance.student_user_image_collection
