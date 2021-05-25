@@ -27,7 +27,6 @@ class StudentPageAdminForm(WagtailAdminPageForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        print(cleaned_data)
         instance = getattr(self, "instance", None)
         # # As these fields are disabled once set, they need adding back into the post data
         if (
@@ -45,9 +44,6 @@ class StudentPageAdminForm(WagtailAdminPageForm):
         )
         student_user_account = cleaned_data.get("student_user_account", None)
 
-        print(student_user_image_collection)
-        print(student_user_account)
-        print("===================")
         if student_user_image_collection and not student_user_account:
             self.add_error(
                 "student_user_account",

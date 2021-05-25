@@ -1,5 +1,12 @@
+from django.contrib.auth.models import Group
 from django.test import TestCase
 from django.urls import reverse
+from wagtail.core.models import (
+    Collection,
+    GroupCollectionPermission,
+    GroupPagePermission,
+    Permission,
+)
 from wagtail_factories import CollectionFactory
 
 from rca.account_management.forms import StudentCreateForm
@@ -23,15 +30,14 @@ class TestStudentAccountCreationForm(TestCase):
             slug="students",
             introduction="students",
         )
+        self.collection = CollectionFactory(name="Student: Monty python")
         self.form_data = {
             "first_name": "Monty",
             "last_name": "python",
             "email": "monthpython@holygrail.com",
             "username": "montypython",
             "create_student_page": False,
-            "student_user_image_collection": CollectionFactory(
-                name="Student: Monty python"
-            ).id,
+            "student_user_image_collection": self.collection.id,
         }
 
     def test_form_302(self):
@@ -85,7 +91,7 @@ class TestStudentAccountCreationForm(TestCase):
 
     def test_creating_a_student_does_create_a_page(self):
         # Creating a user account with no create_student_page=True option
-        # should create a StudentPage object
+        # should create a StudentPage object, with a group
         self.client.force_login(self.user)
         self.assertEqual(len(User.objects.filter(username="montypython")), 0)
         self.assertEqual(len(StudentPage.objects.all()), 0)
@@ -103,3 +109,22 @@ class TestStudentAccountCreationForm(TestCase):
         self.assertEqual(student_page.last_name, student_user.last_name)
         self.assertEqual(student_page.student_user_account, student_user)
         self.assertEqual(student_page.live, False)
+        # Check the group and permissions were created
+        group = Group.objects.get(name=f"Student: {student_user.username}")
+        page_permission = GroupPagePermission.objects.filter(
+            group=group, page=student_page, permission_type="edit"
+        )
+        edit_collection_permission = GroupCollectionPermission.objects.get(
+            group=group,
+            collection=Collection.objects.get(name=self.collection),
+            permission=Permission.objects.get(codename="add_image"),
+        )
+        choose_collection_permission = GroupCollectionPermission.objects.get(
+            group=group,
+            collection=Collection.objects.get(name=self.collection),
+            permission=Permission.objects.get(codename="choose_image"),
+        )
+        self.assertTrue(group)
+        self.assertTrue(page_permission)
+        self.assertTrue(edit_collection_permission)
+        self.assertTrue(choose_collection_permission)
