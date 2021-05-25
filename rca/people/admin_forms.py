@@ -7,7 +7,7 @@ class StudentPageAdminForm(WagtailAdminPageForm):
 
     def __init__(self, *args, **kwargs):
         super(StudentPageAdminForm, self).__init__(*args, **kwargs)
-        # Don't allow changing the user account or image collection once set as the are tied to permissions
+        # Don't allow changing the user account or image collection once set as they are tied to permissions
         if (
             self.instance.student_user_image_collection
             and self.instance.student_user_account
