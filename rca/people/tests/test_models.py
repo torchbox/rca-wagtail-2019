@@ -1,4 +1,11 @@
+from django.contrib.auth.models import Group
 from django.test import TestCase
+from wagtail.core.models import (
+    Collection,
+    GroupCollectionPermission,
+    GroupPagePermission,
+    Permission,
+)
 from wagtail.tests.utils import WagtailPageTests
 from wagtail_factories import CollectionFactory
 
@@ -43,7 +50,6 @@ class TestStudentPage(WagtailPageTests):
         )
         self.student_index = StudentIndexPage.objects.first()
 
-    def test_creating_creates_permision_group(self):
         self.student = User.objects.create_user(
             username="danascully",
             first_name="dana",
@@ -51,9 +57,17 @@ class TestStudentPage(WagtailPageTests):
             email="ds@fbi.com",
             password="1234",
         )
-        self.student.save()
         self.collection = CollectionFactory(name="Student: dana scully")
 
+        student_group = Group.objects.get(name="Students")
+        # Add the student group
+        self.student.groups.add(student_group)
+        self.student.save()
+
+    def test_creating_creates_permision_group(self):
+        """Creating a student page WITH a student user account and student image
+        collection value should generate a group with permission on page.save()
+        """
         self.student_index.add_child(
             instance=StudentPage(
                 title="Dana Scully",
@@ -61,9 +75,40 @@ class TestStudentPage(WagtailPageTests):
                 first_name="dana",
                 last_name="student",
                 student_user_image_collection=self.collection,
-                student_user_account=self.student
-                # {'student_user_account': ['user instance with id 3 does not exist.']}
-                # I do not understand why, I can see it exists!
+                student_user_account=self.student,
             )
         )
-        self.assertTrue(False)
+        student_page = StudentPage.objects.get(slug="a-student")
+        group = Group.objects.get(name=f"Student: {self.student.username}")
+        page_permission = GroupPagePermission.objects.filter(
+            group=group, page=student_page, permission_type="edit"
+        )
+        edit_collection_permission = GroupCollectionPermission.objects.get(
+            group=group,
+            collection=Collection.objects.get(name=self.collection),
+            permission=Permission.objects.get(codename="add_image"),
+        )
+        choose_collection_permission = GroupCollectionPermission.objects.get(
+            group=group,
+            collection=Collection.objects.get(name=self.collection),
+            permission=Permission.objects.get(codename="choose_image"),
+        )
+        self.assertTrue(group)
+        self.assertTrue(page_permission)
+        self.assertTrue(edit_collection_permission)
+        self.assertTrue(choose_collection_permission)
+
+    def test_creating_does_not_create_permision_group(self):
+        """Creating a student page WITHOUT a student user account and student image
+        collection value should NOT generate a group with permission on page.save()
+        """
+        self.student_index.add_child(
+            instance=StudentPage(
+                title="Dana Scully",
+                slug="a-student",
+                first_name="dana",
+                last_name="student",
+            )
+        )
+        group = Group.objects.filter(name=f"Student: {self.student.username}")
+        self.assertFalse(group)
