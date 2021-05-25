@@ -35,7 +35,7 @@
             </div>
         {% endif %}
     {% else %}
-        {% if page.programme_details_credits or page.programme_details_time or page.programme_details_duration %}
+        {% if page.programme_details_credits or page.programme_details_time or page.programme_details_duration or programme_school %}
             <div class="key-details__section key-details__section--details">
                 {% if programme_page_global_fields.key_details_programme_details_title %}
                     <h4 class="body body--two key-details__sub-heading">{{ programme_page_global_fields.key_details_programme_details_title }}</h4>
@@ -55,6 +55,11 @@
                     <li class="key-details__list-item">
                         {{ page.get_programme_details_duration_display }}
                     </li>
+                    {% endif %}
+                    {% if programme_school %}
+                       <li class="key-details__list-item">
+                            <a href="{% pageurl programme_school %}">{{ programme_school.title }}</a>
+                        </li>
                     {% endif %}
                 </ul>
             </div>
