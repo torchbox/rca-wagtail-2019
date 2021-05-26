@@ -115,6 +115,7 @@ class CreateStudentFormView(FormView):
                 )
             )
             # Place the page in draft mode
+            # StudentPage.save() handles the creation of the group and permissions for the student
             student_page = StudentPage.objects.get(student_user_account=student_user)
             student_page.save_revision()
             student_page.unpublish()
