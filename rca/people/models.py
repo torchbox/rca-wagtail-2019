@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 from django.conf import settings
+from django.contrib.auth.models import Group
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -21,7 +22,14 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable, Page
+from wagtail.core.models import (
+    Collection,
+    GroupCollectionPermission,
+    GroupPagePermission,
+    Orderable,
+    Page,
+    Permission,
+)
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
@@ -33,11 +41,13 @@ from rca.people.utils import get_staff_research_projects, get_student_research_p
 from rca.programmes.models import ProgrammePage
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
+from rca.users.models import User
 from rca.utils.blocks import AccordionBlockWithTitle, GalleryBlock, LinkBlock
 from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, SluggedTaxonomy
 
-from .utils import get_area_linked_filters
+from .admin_forms import StudentPageAdminForm
+from .utils import PerUserPageMixin, get_area_linked_filters
 
 STUDENT_PAGE_RICH_TEXT_FEATURES = features = ["bold", "italic", "link"]
 
@@ -595,7 +605,8 @@ class StudentPageSupervisor(models.Model):
             raise ValidationError(errors)
 
 
-class StudentPage(BasePage):
+class StudentPage(PerUserPageMixin, BasePage):
+    base_form_class = StudentPageAdminForm
     template = "patterns/pages/student/student_detail.html"
     parent_page_types = ["people.StudentIndexPage"]
 
@@ -649,7 +660,22 @@ class StudentPage(BasePage):
     )
     link_to_final_thesis = models.URLField(blank=True)
     student_funding = RichTextField(blank=True, features=["link"])
-
+    student_user_account = models.OneToOneField(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        limit_choices_to={"groups__name": "Students"},
+        unique=True,
+    )
+    student_user_image_collection = models.OneToOneField(
+        Collection,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        unique=True,
+        help_text="This should link to this students image collection",
+    )
     search_fields = BasePage.search_fields + [
         index.SearchField("introduction"),
         index.SearchField("first_name"),
@@ -657,7 +683,61 @@ class StudentPage(BasePage):
         index.SearchField("bio"),
     ]
 
-    content_panels = BasePage.content_panels + [
+    basic_key_details_panels = [
+        InlinePanel("related_area_of_expertise", label="Areas of Expertise"),
+        InlinePanel("personal_links", label="Personal links", max_num=5),
+        FieldPanel("student_funding"),
+    ]
+    key_details_panels = [
+        InlinePanel("related_area_of_expertise", label="Areas of Expertise"),
+        InlinePanel(
+            "related_research_centre_pages", label=_("Related Research Centres ")
+        ),
+        InlinePanel("related_schools", label=_("Related Schools")),
+        InlinePanel("personal_links", label="Personal links", max_num=5),
+        FieldPanel("student_funding"),
+    ]
+    basic_content_panels = [
+        MultiFieldPanel([ImageChooserPanel("profile_image")], heading="Details"),
+        FieldPanel("link_to_final_thesis"),
+        InlinePanel("related_supervisor", label="Supervisor information"),
+        MultiFieldPanel([FieldPanel("email")], heading="Contact information"),
+        FieldPanel("introduction"),
+        FieldPanel("bio"),
+        InlinePanel("gallery_slides", label="Gallery slide", max_num=5),
+        MultiFieldPanel(
+            [
+                FieldPanel("biography"),
+                FieldPanel("degrees"),
+                FieldPanel("experience"),
+                FieldPanel("awards"),
+                FieldPanel("funding"),
+                FieldPanel("exhibitions"),
+                FieldPanel("publications"),
+                FieldPanel("research_outputs"),
+                FieldPanel("conferences"),
+            ],
+            heading="More information",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("additional_information_title"),
+                FieldPanel("addition_information_content"),
+            ],
+            heading="Additional information",
+        ),
+        InlinePanel("relatedlinks", label="External links", max_num=5),
+    ]
+    basic_promote_panels = [
+        FieldPanel("slug"),
+    ]
+    superuser_basic_promote_panels = [
+        *BasePage.promote_panels,
+    ]
+    superuser_content_panels = [
+        *BasePage.content_panels,
+        FieldPanel("student_user_account"),
+        FieldPanel("student_user_image_collection"),
         MultiFieldPanel(
             [
                 FieldPanel("student_title"),
@@ -670,10 +750,7 @@ class StudentPage(BasePage):
         MultiFieldPanel([FieldPanel("email")], heading="Contact information"),
         PageChooserPanel("programme"),
         FieldPanel("degree_start_date"),
-        MultiFieldPanel(
-            [FieldPanel("degree_end_date"), FieldPanel("degree_award")],
-            heading="Degree awarded details",
-        ),
+        FieldPanel("degree_end_date"),
         FieldPanel("degree_status"),
         FieldPanel("link_to_final_thesis"),
         InlinePanel("related_supervisor", label="Supervisor information"),
@@ -711,25 +788,6 @@ class StudentPage(BasePage):
         ),
         InlinePanel("relatedlinks", label="External links", max_num=5),
     ]
-
-    key_details_panels = [
-        InlinePanel("related_area_of_expertise", label="Areas of Expertise"),
-        InlinePanel(
-            "related_research_centre_pages", label=_("Related Research Centres ")
-        ),
-        InlinePanel("related_schools", label=_("Related Schools")),
-        InlinePanel("personal_links", label="Personal links", max_num=5),
-        FieldPanel("student_funding"),
-    ]
-
-    edit_handler = TabbedInterface(
-        [
-            ObjectList(content_panels, heading="Content"),
-            ObjectList(key_details_panels, heading="Key details"),
-            ObjectList(BasePage.promote_panels, heading="Promote"),
-            ObjectList(BasePage.settings_panels, heading="Settings"),
-        ]
-    )
 
     @property
     def name(self):
@@ -821,6 +879,53 @@ class StudentPage(BasePage):
             {"value": {"title": item.link_title, "url": item.url}}
             for item in self.relatedlinks.all()
         ]
+
+    def save(self, *args, **kwargs):
+        """On saving the student page, make sure the student_user_account
+        has a group created with the necessary permissions
+        """
+        super(StudentPage, self).save()
+
+        if self.student_user_image_collection and self.student_user_account:
+
+            # Check if a group configuration exsists already for this user.
+            group = Group.objects.filter(
+                name=f"Student: {self.student_user_account.username}"
+            )
+            if group:
+                # If we find a group already, we don't need to create one.
+                return
+
+            # Create a specific group for this student so they have edit access to their page
+            # and their image collection
+            specific_student_group = Group.objects.create(
+                name=f"Student: {self.student_user_account.username}"
+            )
+
+            # Create new add GroupPagePermission
+            GroupPagePermission.objects.create(
+                group=specific_student_group, page=self, permission_type="edit"
+            )
+
+            # Create new GroupCollectionPermission for Profile Images collection
+            GroupCollectionPermission.objects.create(
+                group=specific_student_group,
+                collection=Collection.objects.get(
+                    name=self.student_user_image_collection
+                ),
+                permission=Permission.objects.get(codename="add_image"),
+            )
+            GroupCollectionPermission.objects.create(
+                group=specific_student_group,
+                collection=Collection.objects.get(
+                    name=self.student_user_image_collection
+                ),
+                permission=Permission.objects.get(codename="choose_image"),
+            )
+
+            # Add the new specific student group to the user
+            self.student_user_account.groups.add(specific_student_group)
+            self.student_user_account.save()
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
