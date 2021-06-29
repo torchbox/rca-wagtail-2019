@@ -1,0 +1,15 @@
+.share {
+    &__heading {
+        margin-bottom: $gutter;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        @include media-query(large) {
+            flex-direction: column;
+        }
+    }
+}
