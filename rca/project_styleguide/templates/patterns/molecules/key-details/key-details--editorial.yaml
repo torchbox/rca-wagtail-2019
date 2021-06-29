@@ -1,0 +1,16 @@
+context:
+  page:
+    published_at: !!timestamp '2020-05-13 2:00:00'
+    author: Royal College of Art
+    contact_email: press@rca.ac.uk
+    read_time: 10 minutes
+    press_pack: '#'
+  taxonomy_tags:
+    - item:
+      title: School of Design
+      href: '#'
+
+tags:
+  pageurl:
+    page.school_dean:
+      raw: '#'
