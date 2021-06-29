@@ -29,6 +29,7 @@ import './components/stats-block';
 import './components/parallax';
 import './components/modal';
 import './components/sticky-point';
+import './components/email-share';
 
 import '../sass/main.scss';
 
