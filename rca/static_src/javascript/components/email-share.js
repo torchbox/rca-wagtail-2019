@@ -16,10 +16,6 @@ class EmailShare {
     }
 
     bindEvents() {
-        if (!this.emailButton) {
-            return;
-        }
-
         this.emailButton.addEventListener('click', (event) =>
             this.emailCurrentPage(event),
         );
