@@ -75,23 +75,33 @@
 
                 </div>
 
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+
             </section>
 
         </header>
 
         <div class="page__content">
 
-            <div class="section">
+            <div class="section bg bg--light">
 
-                <div class="section__row section__row--first grid">
+                <div class="section__row section__row--first-small section__row--last grid">
                     {% if not page.introduction_image %}
                         <div class="layout__start-one layout__span-two layout__@large-span-one u-large-bp-only">
                             {% include "patterns/molecules/key-details/key-details--editorial.html" %}
                         </div>
                     {% endif %}
                     <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                        {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body %}
+                        {% for block in page.body %}
+                            {% include_block block %}
+                        {% endfor %}
                     </div>
+                </div>
+
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--second-col"></div>
                 </div>
 
             </div>
