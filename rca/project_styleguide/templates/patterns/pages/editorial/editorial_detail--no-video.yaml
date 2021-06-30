@@ -11,3 +11,5 @@ context:
         title: News
     introduction: 'The Royal College of Art USA Inc. (RCA USA) welcomes renowned Apple designer Peter Russell-Clarke as its incoming Chair and President.'
     introduction_image: false
+    body:
+      - dummy
