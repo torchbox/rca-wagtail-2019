@@ -14,6 +14,15 @@
         display: block;
         padding-top: ($gutter * 1.5);
         margin-bottom: ($gutter * 2);
+        border-top-width: 1px;
+        border-top-style: solid;
+    }
+
+    &--no-border {
+        @include media-query(large) {
+            padding-top: 0;
+            border-top: 0;
+        }
     }
 
     &--short {
@@ -134,7 +143,7 @@
 
     .bg--dark & {
         @include media-query(large) {
-            border-top: 1px solid $color--grid-line-light;
+            border-top-color: $color--grid-line-light;
         }
 
         #{$root}__sub-heading,
@@ -146,7 +155,7 @@
 
     .bg--light & {
         @include media-query(large) {
-            border-top: 1px solid $color--grid-line-dark;
+            border-top-color: $color--grid-line-dark;
         }
 
         #{$root}__sub-heading,

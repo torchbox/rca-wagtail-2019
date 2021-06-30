@@ -1,0 +1,103 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% get_settings %}
+
+{% block body_class %}
+    app--editorial
+{% endblock %}
+
+{% block content %}
+
+    {% if hero_image %}
+        {% include "patterns/molecules/hero/hero.html" with modifier="medium" %}
+    {% endif %}
+
+    <div class="page {% if hero_image %}page--overlap{% else %}page--no-hero{% endif %}">
+
+        {% if hero_image %}
+            <div class="page__notch grid">
+                <div class="page__notch-block bg bg--dark"></div>
+            </div>
+        {% endif %}
+
+        <header class="page__header bg bg--dark">
+            <div class="title-area grid">
+                <div class="title-area__content">
+                    <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
+                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
+                    </nav>
+                    {% if page.title %}
+                        <h1 class="title-area__heading heading heading--display-two" property="schema:name">{{ page.title }}</h1>
+                    {% endif %}
+                </div>
+                {% if hero_image_credit or hero_image %}
+                    <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
+                        {% include 'patterns/atoms/image-info/image-info.html' with credit=hero_image_credit item=hero_image %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <section class="section bg bg--dark">
+
+                <div class="section__row {% if not page.introduction_image %}section__row--last{% endif %} grid">
+
+                    <div class="layout__start-one layout__span-two layout__@large-span-one {% if not page.introduction_image %}u-small-and-medium-bp-only{% endif %}">
+                        {% include "patterns/molecules/key-details/key-details--editorial.html" %}
+                    </div>
+
+                    {% if page.introduction %}
+                        <div class="intro-and-video layout__start-one layout__span-two layout__@large-start-two  layout__@large-span-three">
+
+                            <div class="introduction introduction--narrow">
+                                <div class="introduction__container">
+                                    <h2 class="section__heading heading heading--five" property="schema:description">
+                                        {{ page.introduction|richtext }}
+                                    </h2>
+                                </div>
+                            </div>
+
+                            {% if page.introduction_image %}
+                                <div class="project-overview__content layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                                    <div class="project-overview__media">
+                                        {% if page.introduction_image %}
+                                            {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.introduction_image caption=page.video_caption video=page.video modifier="small-bottom-margin image-video-block--no-padding" %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    {% endif %}
+
+                    <div class="share layout__start-one layout__span-two layout__@large-start-five layout__@large-span-one">
+                        {% include "patterns/molecules/share/share.html" %}
+                    </div>
+
+                </div>
+
+            </section>
+
+        </header>
+
+        <div class="page__content">
+
+            <div class="section">
+
+                <div class="section__row section__row--first grid">
+                    {% if not page.introduction_image %}
+                        <div class="layout__start-one layout__span-two layout__@large-span-one u-large-bp-only">
+                            {% include "patterns/molecules/key-details/key-details--editorial.html" %}
+                        </div>
+                    {% endif %}
+                    <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                        {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body guide_page=True %}
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
