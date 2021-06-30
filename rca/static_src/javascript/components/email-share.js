@@ -1,14 +1,25 @@
-function emailCurrentPage() {
-    window.location.href = `mailto:?subject=${document.title}&body=${escape(
-        window.location.href,
-    )}`;
+class EmailShare {
+    static selector() {
+        return '[data-email-share]';
+    }
+
+    constructor(node) {
+        this.emailButton = node;
+        this.bindEvents();
+    }
+
+    emailCurrentPage(event) {
+        event.preventDefault();
+        window.location.href = `mailto:?subject=${document.title}&body=${escape(
+            window.location.href,
+        )}`;
+    }
+
+    bindEvents() {
+        this.emailButton.addEventListener('click', (event) =>
+            this.emailCurrentPage(event),
+        );
+    }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    document
-        .querySelector('[data-email-share]')
-        .addEventListener('click', (e) => {
-            e.preventDefault();
-            emailCurrentPage();
-        });
-});
+export default EmailShare;
