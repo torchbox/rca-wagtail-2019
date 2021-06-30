@@ -117,15 +117,16 @@
             </section>
 
             <section class="section bg bg--dark">
+
                 {% if related_pages.items %}
                     <div class="section__row section__row--first section__row--last-large">
-                        {% include "patterns/organisms/index-module/index-module.html" with items=related_pages.items title=related_pages.title id=page.related_pages_title anchor_heading=True %}
+                        {% include "patterns/organisms/index-module/index-module.html" with items=related_pages.items title=related_pages.title %}
                     </div>
                 {% endif %}
 
                 {% if page.contact_model_image or page.contact_model_text or page.contact_model_email or page.contact_model_url or page.contact_model_form %}
                     <div class="section__row section__row--first">
-                        {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image anchor_heading=True %}
+                        {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image %}
                     </div>
                 {% endif %}
             </section>
