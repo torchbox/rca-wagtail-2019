@@ -13,3 +13,40 @@ context:
     introduction_image: false
     body:
       - dummy
+    contact: true
+    contact_model_image: true
+  related_pages:
+    title: Also of interest
+    items:
+      - {
+          title: 'Innovation RCA',
+          link: '#',
+          meta: Staff,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Consultancy & knowledge exchange',
+          link: '#',
+          meta: News,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Custom executive education',
+          link: '#',
+          meta: Event,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Custom executive education',
+          link: '#',
+          meta: Research,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
