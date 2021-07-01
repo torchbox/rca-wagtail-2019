@@ -12,6 +12,7 @@ context:
     introduction: '<p>The Royal College of Art USA Inc. (RCA USA) welcomes renowned Apple designer Peter Russell-Clarke as its incoming Chair and President.</p>'
     event_date: !!timestamp '2020-12-13 2:00:00'
     past: false
+    manual_registration_url: '#'
     body:
       - dummy
     collaborators:
@@ -38,6 +39,8 @@ context:
             title: 'Red bull 4'
             url: '#'
           image: true
+    staff_link: false
+
     inline_cta:
       - block:
         value:
@@ -68,9 +71,11 @@ context:
     speakers:
       - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
       - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+  related_staff:
+    view_more_link: false
   booking_bar:
-    message: 'Next course starts Thursday 19 March 2020'
-    action: 'Book now for £900'
+    message: 'Free event - Online - Tickets still available'
+    action: 'Book now'
   related_pages:
     title: Also of interest
     items:

@@ -108,7 +108,7 @@
                 {% if page.collaborators %}
                     <div class="section__row {% if not page.speakers %}section__row--first{% endif %} section__row--last schools__about--logos">
                         <div class="section__header grid">
-                            <h2 class="section__heading section__heading--secondary heading heading--five">{% firstof page.collaborators_heading "Organisations we've worked with" %}</h2>
+                            <h2 class="section__heading section__heading--secondary heading heading--five">{% firstof page.collaborators_heading "Event partners" %}</h2>
                         </div>
                         <div class="section__content">
                             <div class="u-small-and-medium-bp-only">
@@ -139,7 +139,7 @@
 
             <section class="section bg bg--dark">
                 {% if page.series.items %}
-                    <div class="section__row section__row--first section__row--last-large">
+                    <div class="section__row section__row--first {% if not related_pages.items %}section__row--last-large{% endif %}">
                         {% include "patterns/organisms/index-module/index-module.html" with items=page.series.items title="In the series"  %}
                     </div>
                 {% endif %}

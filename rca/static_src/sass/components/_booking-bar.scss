@@ -86,4 +86,21 @@
             margin-bottom: -$booking-bar-height-large;
         }
     }
+
+    /* Template specific */
+    .app--event-detail & {
+        &--no-modal {
+            #{$root}__message {
+                @include media-query(large) {
+                    grid-column: 2 / span 2;
+                }
+            }
+
+            #{$root}__action {
+                @include media-query(large) {
+                    grid-column: 4 / span 1;
+                }
+            }
+        }
+    }
 }
