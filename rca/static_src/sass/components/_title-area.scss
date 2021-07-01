@@ -14,6 +14,10 @@
         margin-bottom: ($gutter / 2);
     }
 
+    &__meta {
+        margin-bottom: $gutter;
+    }
+
     &__content {
         padding-top: ($gutter * 1.5);
         grid-column: 1 / span 2;
@@ -237,7 +241,8 @@
         }
     }
 
-    &--guide {
+    &--guide,
+    &--event {
         #{$root}__heading {
             margin-bottom: ($gutter * 2);
         }

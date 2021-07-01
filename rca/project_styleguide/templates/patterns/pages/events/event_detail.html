@@ -23,7 +23,7 @@
         {% endif %}
 
         <header class="page__header bg bg--dark">
-            <div class="title-area grid">
+            <div class="title-area title-area--event grid">
                 <div class="title-area__content">
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
@@ -32,7 +32,7 @@
                         <h1 class="title-area__heading heading heading--display-two" property="schema:name">{{ page.title }}</h1>
                     {% endif %}
                     {% if page.event_date %}
-                        {% if page.past %}This event took place on {% endif %}{{ page.event_date|date:'d F Y' }}
+                        <h2 class="title-area__meta heading heading--five">{% if page.past %}This event took place on {% endif %}{{ page.event_date|date:'d F Y' }}</h2>
                     {% endif %}
                 </div>
                 {% if hero_image_credit or hero_image %}
@@ -42,9 +42,15 @@
                 {% endif %}
             </div>
 
+            {% if page.past %}
+            <div class="section__notch">
+                <div class="section__notch-fill section__notch-fill--third-col"></div>
+            </div>
+            {% endif %}
+
         </header>
 
-        {% if booking_bar %}
+        {% if booking_bar and not page.past %}
             {% include "patterns/molecules/booking-bar/booking-bar.html" with item=booking_bar %}
         {% endif %}
 
@@ -52,7 +58,7 @@
 
             <section class="section bg bg--light">
 
-                <div class="section__row section__row--first grid">
+                <div class="section__row {% if page.past %}section__row--first{% else %}section__row--first-small{% endif %} grid">
 
                     <div class="layout__start-one layout__span-two layout__@large-span-one">
                         {% include "patterns/molecules/key-details/key-details--event.html" %}
@@ -62,7 +68,7 @@
                         {% if page.introduction %}
                             <div class="introduction">
                                 <div class="introduction__container">
-                                    <div class="section__heading heading heading--five" property="schema:description">
+                                    <div class="introduction__text heading heading--five" property="schema:description">
                                         {{ page.introduction|richtext }}
                                     </div>
                                 </div>
@@ -87,10 +93,10 @@
 
             {# Staff #}
             {% if page.speakers %}
-            <section class="schools__staff section section--start section--end bg bg--light>
+            <section class="section bg bg--light">
 
-                <div class="section__row {% if page.staff_external_links or page.staff_cta %}section__row--last-small{% else %}section__row--last-large{% endif %}">
-                    <div class="section__header section__header--bottom-space grid">
+                <div class="section__row section__row--first section__row--last">
+                    <div class="section__header grid">
                         <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--three">
                             {{ page.speaker_title|default:"Speakers" }}
                         </h2>
@@ -103,6 +109,7 @@
             </section>
             {% endif %}
 
+            {% if page.collaborators or page.inline_cta %}
             <section class="section bg bg--light">
 
                 {% if page.collaborators %}
@@ -136,11 +143,12 @@
                 </div>
 
             </section>
+            {% endif %}
 
             <section class="section bg bg--dark">
                 {% if page.series.items %}
-                    <div class="section__row section__row--first {% if not related_pages.items %}section__row--last-large{% endif %}">
-                        {% include "patterns/organisms/index-module/index-module.html" with items=page.series.items title="In the series"  %}
+                    <div class="in-series section__row section__row--first {% if not related_pages.items %}section__row--last-large{% endif %}">
+                        {% include "patterns/organisms/index-module/index-module.html" with items=page.series.items title="In the series" introduction=page.series.introduction %}
                     </div>
                 {% endif %}
 
@@ -151,7 +159,7 @@
                 {% endif %}
 
                 {% if page.contact_model_image or page.contact_model_text or page.contact_model_email or page.contact_model_url or page.contact_model_form %}
-                    <div class="section__row section__row--first">
+                    <div class="section__row section__row--first booking-bar-last-item">
                         {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image %}
                     </div>
                 {% endif %}

@@ -1,6 +1,6 @@
 {% load wagtailcore_tags util_tags %}
 
-<div class="key-details key-details--no-border">
+<div class="key-details key-details--event key-details--no-border">
 
     <div class="key-details__header">
         <h2 class="heading heading--five key-details__heading">Key details</h2>
@@ -27,6 +27,15 @@
         </ul>
     </div>
     {% endif %}
+
+    <div class="key-details__section key-details__section--dean u-small-bp-only">
+        <h3 class="body body--two key-details__sub-heading">Price</h3>
+        <ul class="key-details__list">
+            <li class="key-details__list-item" property="schema:doorTime">
+                {% if page.event_price %}{{ page.event_price }}{% else %}Free{% endif %}
+            </li>
+        </ul>
+    </div>
 
     {% if page.who_can_attend %}
     <div class="key-details__section key-details__section--who">

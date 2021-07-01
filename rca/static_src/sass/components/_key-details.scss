@@ -39,6 +39,18 @@
         }
     }
 
+    &--tight {
+        #{$root}__list {
+            margin-bottom: $gutter;
+        }
+    }
+
+    &--event {
+        @include media-query(large) {
+            margin-top: -($gutter * 3.25);
+        }
+    }
+
     &--centre {
         #{$root}__meta {
             // Allow for mobile link underline above it
