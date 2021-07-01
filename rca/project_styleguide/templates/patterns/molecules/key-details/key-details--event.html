@@ -6,23 +6,34 @@
         <h2 class="heading heading--five key-details__heading">Key details</h2>
     </div>
 
-    {% if page.published_at %}
+    {% if page.event_time %}
     <div class="key-details__section key-details__section--dean">
-        <h3 class="body body--two key-details__sub-heading">Date</h3>
+        <h3 class="body body--two key-details__sub-heading">Time</h3>
         <ul class="key-details__list">
-            <li class="key-details__list-item">
-                {{ page.published_at|date:'d F Y' }}
+            <li class="key-details__list-item" property="schema:doorTime">
+                {{ page.event_time }} {% if page.timezone %}({{ page.timezone }}){% endif %}
             </li>
         </ul>
     </div>
     {% endif %}
 
-    {% if page.author %}
+    {% if page.location %}
     <div class="key-details__section key-details__section--location">
-        <h3 class="body body--two key-details__sub-heading">Author</h3>
+        <h3 class="body body--two key-details__sub-heading">Location</h3>
         <ul class="key-details__list">
             <li class="key-details__list-item">
-                {{ page.author }}
+                {{ page.location }}
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if page.who_can_attend %}
+    <div class="key-details__section key-details__section--who">
+        <h3 class="body body--two key-details__sub-heading">Who {% if page.past %}could{% else %}can{% endif %} attend</h3>
+        <ul class="key-details__list">
+            <li class="key-details__list-item">
+                {{ page.who_can_attend }}
             </li>
         </ul>
     </div>
@@ -41,6 +52,30 @@
         </div>
     {% endif %}
 
+    {% if page.type %}
+    <div class="key-details__section key-details__section--location">
+        <h3 class="body body--two key-details__sub-heading">Type</h3>
+        <ul class="key-details__list">
+            <li class="key-details__list-item">
+                {{ page.type }}
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if page.series.items %}
+        <div class="key-details__section key-details__section--tags">
+            <h3 class="body body--two key-details__sub-heading">Series</h3>
+            <ul class="key-details__list">
+                {% for item in page.series.items %}
+                    <li class="key-details__list-item">
+                        <a class="link link--tertiary" href="{{ item.link }}">{{ item.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
     <div class="key-details__section key-details__section--read-time">
         <h3 class="body body--two key-details__sub-heading">Read time</h3>
         <ul class="key-details__list">
@@ -50,29 +85,24 @@
         </ul>
     </div>
 
-    {% if page.press_pack %}
+    {% if page.add_to_calendar or page.schedule %}
         <div class="key-details__section key-details__section--press-pack">
-            <h3 class="body body--two key-details__sub-heading">Press pack</h3>
             <ul class="key-details__list">
-                    <li class="key-details__list-item">
-                        <a href="{{ page.press_pack }}" class="link link--tertiary link--link link--external" target="_blank">
-                            <span class="link__label">Download now</span>
-                            <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
-                        </a>
-                    </li>
-            </ul>
-        </div>
-    {% endif %}
-
-    {% if page.contact_email %}
-        <div class="key-details__section key-details__section--email">
-            <ul class="key-details__list">
+                {% if page.schedule %}
                 <li class="key-details__list-item">
-                    <a class="key-details__link link link--secondary link--link" href="mailto:{{ page.contact_email }}">
-                        <span class="link__label">Email {{ page.contact_email }}</span>
-                        <svg width="8" height="12" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                    <a href="#" class="link link--tertiary">
+                        <span class="link__label">View schedule</span>
                     </a>
                 </li>
+                {% endif %}
+                {% if page.add_to_calendar %}
+                <li class="key-details__list-item">
+                    <a href="#" class="link link--tertiary link--link link--external" target="_blank">
+                        <span class="link__label">Add to calendar</span>
+                        <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
+                    </a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     {% endif %}

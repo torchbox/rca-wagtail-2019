@@ -1,10 +1,30 @@
 context:
   page:
-    published_at: !!timestamp '2020-05-13 2:00:00'
-    author: Royal College of Art
-    contact_email: press@rca.ac.uk
-    read_time: 10 minutes
-    press_pack: '#'
+    event_time: 5pm – 8pm
+    timezone: GMT +1
+    location: Online
+    who_can_attend: Open to all
+    type: Exhibition
+    schedule: true
+    add_to_calendar: true
+    series:
+      items:
+        - {
+            title: 'Innovation RCA',
+            link: '#',
+            meta: Exhibition,
+            person: false,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+            image: true,
+          }
+        - {
+            title: 'Consultancy & knowledge exchange',
+            link: '#',
+            meta: Lecture,
+            person: false,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+            image: true,
+          }
   taxonomy_tags:
     - item:
       title: School of Design

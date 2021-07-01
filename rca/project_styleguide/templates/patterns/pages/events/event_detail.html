@@ -12,7 +12,9 @@
         {% include "patterns/molecules/hero/hero.html" with modifier="medium" %}
     {% endif %}
 
-    <div class="page {% if hero_image %}page--overlap{% else %}page--no-hero{% endif %}">
+    <div class="page {% if hero_image %}page--overlap{% else %}page--no-hero{% endif %}" typeof="schema:WebPage">
+
+        <meta property="schema:provider" content="Royal College of Art" />
 
         {% if hero_image %}
             <div class="page__notch grid">
@@ -29,6 +31,9 @@
                     {% if page.title %}
                         <h1 class="title-area__heading heading heading--display-two" property="schema:name">{{ page.title }}</h1>
                     {% endif %}
+                    {% if page.event_date %}
+                        {% if page.past %}This event took place on {% endif %}{{ page.event_date|date:'d F Y' }}
+                    {% endif %}
                 </div>
                 {% if hero_image_credit or hero_image %}
                     <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
@@ -37,56 +42,40 @@
                 {% endif %}
             </div>
 
+        </header>
+
+        {% if booking_bar %}
+            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=booking_bar %}
+        {% endif %}
+
+        <div class="page__content js-sticky-point js-sticky-point--bottom">
+
             <section class="section bg bg--light">
 
-                <div class="section__row {% if not page.introduction_image %}section__row--last{% endif %} grid">
+                <div class="section__row section__row--first grid">
 
-                    <div class="layout__start-one layout__span-two layout__@large-span-one {% if not page.introduction_image %}u-small-and-medium-bp-only{% endif %}">
-                        {% include "patterns/molecules/key-details/key-details--editorial.html" %}
+                    <div class="layout__start-one layout__span-two layout__@large-span-one">
+                        {% include "patterns/molecules/key-details/key-details--event.html" %}
                     </div>
 
                     <div class="layout__start-one layout__span-two layout__@large-start-two  layout__@large-span-three">
-
                         {% if page.introduction %}
-                            <div class="introduction introduction--narrow">
+                            <div class="introduction">
                                 <div class="introduction__container">
-                                    <h2 class="section__heading heading heading--five" property="schema:description">
+                                    <div class="section__heading heading heading--five" property="schema:description">
                                         {{ page.introduction|richtext }}
-                                    </h2>
-                                </div>
-                            </div>
-                        {% endif %}
-
-                        {% if page.speakers %}
-                            <div class="section__row">
-                                <div class="section__header section__header--bottom-space grid">
-                                    <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
-                                        {{ page.speaker_title|default:"Speakers" }}
-                                    </h2>
-                                <div class="section__content">
-                                    {% include "patterns/organisms/people-module/people-module.html" with people=page.speakers title=False %}
-                                </div>
-                            </div>
-                        {% endif %}
-
-                        {% if page.collaborators %}
-                            <div class="section__row section__row--last schools__about--logos">
-                                <div class="section__header grid">
-                                    <h2 class="section__heading section__heading--secondary heading heading--five">{% firstof page.collaborators_heading "Organisations we've worked with" %}</h2>
-                                </div>
-                                <div class="section__content">
-                                    <div class="u-small-and-medium-bp-only">
-                                        {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=page.collaborators datatag="data-logo-carousel" per_slide=2 %}
-                                    </div>
-                                    <div class="u-large-bp-only">
-                                        {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=page.collaborators datatag="data-logo-carousel" per_slide=3 %}
                                     </div>
                                 </div>
                             </div>
                         {% endif %}
+
+                        <div class="streamfield">
+                            {% for block in page.body %}
+                                {% include_block block %}
+                            {% endfor %}
+                        </div>
 
                     </div>
-
 
                     <div class="share layout__start-one layout__span-two layout__@large-start-five layout__@large-span-one">
                         {% include "patterns/molecules/share/share.html" %}
@@ -94,25 +83,43 @@
 
                 </div>
 
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+            </section>
+
+            {# Staff #}
+            {% if page.speakers %}
+            <section class="schools__staff section section--start section--end bg bg--light>
+
+                <div class="section__row {% if page.staff_external_links or page.staff_cta %}section__row--last-small{% else %}section__row--last-large{% endif %}">
+                    <div class="section__header section__header--bottom-space grid">
+                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--three">
+                            {{ page.speaker_title|default:"Speakers" }}
+                        </h2>
+                    </div>
+                    <div class="section__content">
+                        {% include "patterns/organisms/people-module/people-module.html" with people=page.speakers title=False %}
+                    </div>
                 </div>
 
             </section>
-
-        </header>
-
-        <div class="page__content">
+            {% endif %}
 
             <section class="section bg bg--light">
 
-                <div class="section__row section__row--first-small section__row--last grid">
-                    <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                        {% for block in page.body %}
-                            {% include_block block %}
-                        {% endfor %}
+                {% if page.collaborators %}
+                    <div class="section__row {% if not page.speakers %}section__row--first{% endif %} section__row--last schools__about--logos">
+                        <div class="section__header grid">
+                            <h2 class="section__heading section__heading--secondary heading heading--five">{% firstof page.collaborators_heading "Organisations we've worked with" %}</h2>
+                        </div>
+                        <div class="section__content">
+                            <div class="u-small-and-medium-bp-only">
+                                {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=page.collaborators datatag="data-logo-carousel" per_slide=2 %}
+                            </div>
+                            <div class="u-large-bp-only">
+                                {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=page.collaborators datatag="data-logo-carousel" per_slide=3 %}
+                            </div>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
 
                 <div class="section__row">
                     {% if page.inline_cta %}
@@ -131,9 +138,9 @@
             </section>
 
             <section class="section bg bg--dark">
-                {% if series.items %}
+                {% if page.series.items %}
                     <div class="section__row section__row--first section__row--last-large">
-                        {% include "patterns/organisms/index-module/index-module.html" with items=series.items title="In the series"  %}
+                        {% include "patterns/organisms/index-module/index-module.html" with items=page.series.items title="In the series"  %}
                     </div>
                 {% endif %}
 
