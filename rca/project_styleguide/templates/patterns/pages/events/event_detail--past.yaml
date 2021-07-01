@@ -1,20 +1,43 @@
 context:
-  hero_image: true
+  hero_image: false
   page:
-    title: Peter Russell-Clarke appointed as Chair of RCA USA Board of Trustees
+    title: 'SoAH Research Presents | Entanglement: just dreaming (the worlds)'
     get_ancestors:
       - is_root: false
         depth: 2
         title: News & Events
       - is_root: false
         depth: 3
-        title: News
-    introduction: 'The Royal College of Art USA Inc. (RCA USA) welcomes renowned Apple designer Peter Russell-Clarke as its incoming Chair and President.'
-    introduction_image: true
-    video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
-    video_caption: Watch the course introduction
+        title: Events
+    introduction: '<p>The Royal College of Art USA Inc. (RCA USA) welcomes renowned Apple designer Peter Russell-Clarke as its incoming Chair and President.</p>'
+    event_date: !!timestamp '2020-12-13 2:00:00'
+    past: true
     body:
       - dummy
+    collaborators:
+      - slide:
+        value:
+          link:
+            title: 'Red bull'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 2'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 3'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 4'
+            url: '#'
+          image: true
     inline_cta:
       - block:
         value:
@@ -24,24 +47,30 @@ context:
           link: '#'
     contact: true
     contact_model_image: true
-  series:
-    items:
-      - {
-          title: 'Innovation RCA',
-          link: '#',
-          meta: Exhibition,
-          person: false,
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
-          image: true,
-        }
-      - {
-          title: 'Consultancy & knowledge exchange',
-          link: '#',
-          meta: Lecture,
-          person: false,
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
-          image: true,
-        }
+    series:
+      items:
+        - {
+            title: 'Innovation RCA',
+            link: '#',
+            meta: Exhibition,
+            person: false,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+            image: true,
+          }
+        - {
+            title: 'Consultancy & knowledge exchange',
+            link: '#',
+            meta: Lecture,
+            person: false,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+            image: true,
+          }
+    speakers:
+      - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+      - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+  booking_bar:
+    message: 'Next course starts Thursday 19 March 2020'
+    action: 'Book now for £900'
   related_pages:
     title: Also of interest
     items:
@@ -81,7 +110,7 @@ context:
 tags:
   include_block:
     block:
-      template_name: 'patterns/_pattern_library_only/streamfield/editorial_streamfield.html'
+      template_name: 'patterns/_pattern_library_only/streamfield/event_streamfield.html'
   image:
     hero_image fill-320x285 as image_small:
       target_var: image_small
