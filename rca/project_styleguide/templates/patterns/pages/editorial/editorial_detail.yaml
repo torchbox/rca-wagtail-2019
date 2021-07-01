@@ -13,8 +13,20 @@ context:
     introduction_image: true
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     video_caption: Watch the course introduction
+    body:
+      - dummy
+    inline_cta:
+      - block:
+        value:
+          title: Interested in design as a catalyst for change?
+          description: In addition to the research themes, the School of Architecture created the Laboratory for Design & Machine Learning to conduct research into new interdisciplinary forms of designing, evaluation, and policymaking.
+          action: MA Design Products
+          link: '#'
 
 tags:
+  include_block:
+    block:
+      template_name: 'patterns/_pattern_library_only/streamfield/editorial_streamfield.html'
   image:
     hero_image fill-320x285 as image_small:
       target_var: image_small
