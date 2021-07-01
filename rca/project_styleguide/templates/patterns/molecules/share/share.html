@@ -42,6 +42,15 @@
                     </a>
                 </div>
 
+                <div class="share-item share-item--whatsapp">
+                    <a class="share-item__link body body--two" href="https://wa.me/?text={{ page.full_url|urlencode }}" rel="noopener noreferrer" target="_blank" title="Share on Whatsapp">
+                        <svg class="share-item__icon" width="24" height="24">
+                            <use xlink:href="#whatsapp"></use>
+                        </svg>
+                        <div class="share-item__label">Whatsapp {{ page.full_url|urlencode }}</div>
+                    </a>
+                </div>
+
                 <div class="share-item share-item--email">
                     <a class="share-item__link body body--two" data-email-share href="#" title="Share on email">
                         <svg class="share-item__icon" width="24" height="24">
