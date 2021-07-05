@@ -218,8 +218,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     )
     about_cta_block = StreamField(
         StreamBlock(
-            [("call_to_action", CallToActionBlock(label=_("text promo")))],
-            max_num=1
+            [("call_to_action", CallToActionBlock(label=_("text promo")))], max_num=1
         ),
         verbose_name="CTA",
         blank=True,
@@ -232,8 +231,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     external_links = StreamField([("link", InternalExternalLinkBlock())], blank=True)
     research_cta_block = StreamField(
         StreamBlock(
-            [("call_to_action", CallToActionBlock(label=_("text promo")))],
-            max_num=1,
+            [("call_to_action", CallToActionBlock(label=_("text promo")))], max_num=1,
         ),
         blank=True,
     )
