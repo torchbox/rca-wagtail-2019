@@ -11,8 +11,9 @@ def format_projects_for_gallery(projects):
     items = []
     projects = projects.prefetch_related("related_school_pages__page")
     for page in projects[:8]:
-        page = page.specific
-        meta = ""
+        page = page.specific  
+        meta = ", ".join([t.research_type.title for t in page.research_types.all()])
+
         related_school = page.related_school_pages.first()
         if related_school is not None:
             meta = related_school.page.title
