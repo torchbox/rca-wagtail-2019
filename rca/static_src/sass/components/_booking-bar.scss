@@ -73,7 +73,7 @@
     }
 
     // Place on last item on the page, to compensate for transform on actual item
-    &__last-item {
+    &-last-item {
         margin-bottom: -$booking-bar-height-small;
         padding-bottom: ($gutter * 2);
 
@@ -84,6 +84,29 @@
 
         @include media-query(large) {
             margin-bottom: -$booking-bar-height-large;
+        }
+    }
+
+    /* Template specific */
+    .app--event-detail & {
+        &--no-modal {
+            #{$root}__message {
+                @include media-query(large) {
+                    grid-column: 2 / span 2;
+                }
+            }
+
+            #{$root}__action {
+                @include media-query(large) {
+                    grid-column: 4 / span 1;
+                }
+            }
+        }
+
+        &-last-item {
+            @include media-query(large) {
+                padding-bottom: ($gutter * 8);
+            }
         }
     }
 }
