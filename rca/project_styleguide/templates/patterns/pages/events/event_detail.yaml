@@ -2,6 +2,7 @@ context:
   hero_image: true
   page:
     title: 'SoAH Research Presents | Entanglement: just dreaming (the worlds)'
+    full_url: http://www.rca.ac.uk/event/my-awesome-event/
     get_ancestors:
       - is_root: false
         depth: 2

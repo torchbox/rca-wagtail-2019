@@ -12,15 +12,17 @@
         {% include "patterns/molecules/hero/hero.html" with modifier="medium" %}
     {% endif %}
 
-    <div class="page {% if hero_image %}page--overlap{% else %}page--no-hero{% endif %}" typeof="schema:WebPage">
-
-        <meta property="schema:provider" content="Royal College of Art" />
+    <div class="page {% if hero_image %}page--overlap{% else %}page--no-hero{% endif %}" typeof="schema:Event">
 
         {% if hero_image %}
             <div class="page__notch grid">
                 <div class="page__notch-block bg bg--dark"></div>
             </div>
         {% endif %}
+
+        <meta property="schema:organizer" content="Royal College of Art" />
+        <meta property="schema:url" content="{{ page.full_url }}" />
+        {% if hero_image %}{% image hero_image fill-1440x530 as image_large %}<meta property="schema:image" content="{{ image_large.url }}" />{% endif %}
 
         <header class="page__header bg bg--dark">
             <div class="title-area title-area--event grid">
@@ -32,7 +34,7 @@
                         <h1 class="title-area__heading heading heading--display-two" property="schema:name">{{ page.title }}</h1>
                     {% endif %}
                     {% if page.event_date %}
-                        <h2 class="title-area__meta heading heading--five">{% if page.past %}This event took place on {% endif %}{{ page.event_date|date:'d F Y' }}</h2>
+                        <h2 class="title-area__meta heading heading--five">{% if page.past %}This event took place on {% endif %}<span property="schema:startDate">{{ page.event_date|date:'d F Y' }}</span></h2>
                     {% endif %}
                 </div>
                 {% if hero_image_credit or hero_image %}
