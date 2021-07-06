@@ -4,9 +4,10 @@ from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
+    ObjectList,
     PageChooserPanel,
+    TabbedInterface,
 )
-from wagtail.core.fields import RichTextField
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.utils.models import BasePage, RelatedPage
@@ -37,10 +38,20 @@ class EditorialPageAuthor(models.Model):
         return self.author.name
 
 
+class EditorialPageArea(models.Model):
+    page = ParentalKey("EditorialPage", related_name="editorial_area")
+    area = models.ForeignKey(
+        "people.AreaOfExpertise", related_name="+", on_delete=models.CASCADE
+    )
+    panels = [FieldPanel("area")]
+
+    def __str__(self):
+        return self.area.title
+
+
 class EditorialPage(BasePage):
     template = "patterns/pages/editorial/editorial_detail.html"
-    intro_text = RichTextField(blank=True, max_length=255)
-    #  this is not on the base page
+    intro_text = models.CharField(blank=True, max_length=255)
     hero_image = models.ForeignKey(
         "images.CustomImage",
         null=True,
@@ -61,37 +72,8 @@ class EditorialPage(BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-
-    #  do you want it to be from date created - auto_now_add (I think )
-    #  or from date_updated = add_add
     date = models.DateTimeField(auto_now_add=True)
-
-    # author - taxonomy - something to do with get_contenct on project page
-    # create author taxonomy
-    # foreign key to that taxoomy
-    #  look at how newstype is done inn wagtail kit
-    #  essnetially be doing the same thing for all texonomies
-    #  dont do the frontned stuff
-
-    #  create author app
-    #  create author model
-    #  do foreign key to that
-    #
-
-    # school_or_center = foreign key
-
     email = models.EmailField(blank=True, max_length=254)
-
-    # def get_context(self, request, *args, **kwargs):
-    #     context = super().get_context(request, *args, **kwargs)
-    #     taxonomy_tags = []
-    #     if self.related_school_pages:
-    #         for i in self.related_school_pages.all():
-    #             taxonomy_tags.append({"title": i.page.title})
-    #     context["taxonomy_tags"] = taxonomy_tags
-
-    #     return context
-
     # have not included date here as I tink it should be added automiatically
     content_panels = BasePage.content_panels + [
         FieldPanel("intro_text"),
@@ -104,10 +86,28 @@ class EditorialPage(BasePage):
             ],
             heading="Introductory Video",
         ),
-        FieldPanel("email"),
+    ]
+
+    key_details_panels = [
         MultiFieldPanel(
-            [InlinePanel("related_schools_and_research_pages")],
-            heading="Related Schools and Research Centres",
+            [
+                InlinePanel(
+                    "related_schools_and_research_pages",
+                    label="School or Research Centre",
+                ),
+                InlinePanel("editorial_area", label="Area"),
+            ],
+            heading="Related School, Research Centre or Area",
         ),
         InlinePanel("editorial_authors", label="Editorial Authors"),
+        FieldPanel("email"),
     ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading="Content"),
+            ObjectList(key_details_panels, heading="Key details"),
+            ObjectList(BasePage.promote_panels, heading="Promote"),
+            ObjectList(BasePage.settings_panels, heading="Settings"),
+        ]
+    )
