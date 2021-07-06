@@ -18,12 +18,7 @@
         }
 
         &:last-child {
-            opacity: 0.7;
             display: block;
-
-            @include media-query(medium) {
-                opacity: 1;
-            }
 
             &::after {
                 content: '';
