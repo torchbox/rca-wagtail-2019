@@ -72,7 +72,7 @@ class EditorialPage(BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateField()
     email = models.EmailField(blank=True, max_length=254)
     # have not included date here as I tink it should be added automiatically
     content_panels = BasePage.content_panels + [
@@ -89,6 +89,7 @@ class EditorialPage(BasePage):
     ]
 
     key_details_panels = [
+        FieldPanel("date"),
         MultiFieldPanel(
             [
                 InlinePanel(
