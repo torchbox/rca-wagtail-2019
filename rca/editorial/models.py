@@ -38,7 +38,7 @@ class EditorialPageAuthor(models.Model):
 
 
 class EditorialPage(BasePage):
-
+    template = "patterns/pages/editorial/editorial_detail.html"
     intro_text = RichTextField(blank=True, max_length=255)
     #  this is not on the base page
     hero_image = models.ForeignKey(
