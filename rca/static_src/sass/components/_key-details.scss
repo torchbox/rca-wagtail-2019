@@ -62,6 +62,15 @@
         }
     }
 
+    // Make this content secondary on small viewports
+    &--small-secondary {
+        order: 2;
+
+        @include media-query(medium) {
+            order: initial;
+        }
+    }
+
     &__header {
         @include media-query(medium) {
             flex-basis: 100%;

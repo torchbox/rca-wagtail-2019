@@ -11,7 +11,6 @@
 @import 'base/base';
 @import 'base/typography';
 @import 'base/layout';
-@import 'base/utility';
 
 // Components
 @import 'components/accordion';
@@ -65,6 +64,7 @@
 @import 'components/image-caption-link';
 @import 'components/image-info';
 @import 'components/introduction';
+@import 'components/intro-and-video';
 @import 'components/key-details';
 @import 'components/link';
 @import 'components/logo';
@@ -129,6 +129,9 @@
 @import 'components/quote';
 @import 'components/upcoming-dates';
 @import 'components/video-modal';
+
+// Ensure utility items aren't overriden by cascade
+@import 'base/utility';
 
 // Layout
 @import 'layout/footer';
