@@ -1,0 +1,6 @@
+context:
+  item:
+    message: 'Message'
+    action: 'Action'
+    modal: false
+    link: '#'

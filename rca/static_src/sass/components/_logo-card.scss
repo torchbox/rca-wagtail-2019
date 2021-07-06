@@ -69,4 +69,10 @@
             min-width: 33.33%;
         }
     }
+
+    .bg--light & {
+        #{$root}__container {
+            border: 1px solid $color--black-12;
+        }
+    }
 }
