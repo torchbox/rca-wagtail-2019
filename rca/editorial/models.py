@@ -6,7 +6,6 @@ from wagtail.admin.edit_handlers import (
     MultiFieldPanel,
     PageChooserPanel,
 )
-from wagtail.api import APIField
 from wagtail.core.fields import RichTextField
 from wagtail.images.edit_handlers import ImageChooserPanel
 
@@ -20,8 +19,6 @@ class EditorialPageRelatedSchoolsAndResearchPages(RelatedPage):
     panels = [
         PageChooserPanel("page", ["schools.SchoolPage", "research.ResearchCentrePage"])
     ]
-
-    api_fields = [APIField("page")]
 
 
 class Author(models.Model):
