@@ -3,7 +3,15 @@
     overflow: hidden;
 
     &--medium {
-        max-height: 780px;
+        max-height: 290px;
+
+        @include media-query(medium) {
+            max-height: 536px;
+        }
+
+        @include media-query(large) {
+            max-height: 780px;
+        }
     }
 
     &--home {
