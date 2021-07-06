@@ -20,8 +20,9 @@
     {% if page.location %}
     <div class="key-details__section key-details__section--location">
         <h3 class="body body--two key-details__sub-heading">Location</h3>
+        {% if page.location == "Online" %}<meta property="schema:type" content="VirtualLocation" />{% endif %}
         <ul class="key-details__list">
-            <li class="key-details__list-item">
+            <li class="key-details__list-item" property="schema:location">
                 {{ page.location }}
             </li>
         </ul>
@@ -106,7 +107,7 @@
                 {% endif %}
                 {% if page.add_to_calendar %}
                 <li class="key-details__list-item">
-                    <a href="#" class="link link--tertiary link--link link--external" target="_blank">
+                    <a href="#" class="link link--tertiary link--link link--external" target="_blank" rel="noopener noreferrer">
                         <span class="link__label">Add to calendar</span>
                         <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
                     </a>
