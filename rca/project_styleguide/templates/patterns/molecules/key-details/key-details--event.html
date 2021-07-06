@@ -20,8 +20,9 @@
     {% if page.location %}
     <div class="key-details__section key-details__section--location">
         <h3 class="body body--two key-details__sub-heading">Location</h3>
+        {% if page.location == "Online" %}<meta property="schema:type" content="VirtualLocation" />{% endif %}
         <ul class="key-details__list">
-            <li class="key-details__list-item">
+            <li class="key-details__list-item" property="schema:location">
                 {{ page.location }}
             </li>
         </ul>
