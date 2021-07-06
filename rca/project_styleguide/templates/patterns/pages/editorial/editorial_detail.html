@@ -41,12 +41,12 @@
 
                 <div class="section__row {% if not page.introduction_image %}section__row--last{% endif %} grid">
 
-                    <div class="layout__start-one layout__span-two layout__@large-span-one {% if not page.introduction_image %}u-small-and-medium-bp-only{% endif %}">
+                    <div class="key-details key-details--small-secondary layout__start-one layout__span-two layout__@large-span-one {% if not page.introduction_image %}u-small-and-medium-bp-only{% endif %}">
                         {% include "patterns/molecules/key-details/key-details--editorial.html" %}
                     </div>
 
                     {% if page.introduction %}
-                        <div class="intro-and-video layout__start-one layout__span-two layout__@large-start-two  layout__@large-span-three">
+                        <div class="intro-and-video intro-and-video--small-primary layout__start-one layout__span-two layout__@large-start-two  layout__@large-span-three">
 
                             <div class="introduction introduction--narrow">
                                 <div class="introduction__container">
@@ -69,7 +69,7 @@
                         </div>
                     {% endif %}
 
-                    <div class="share layout__start-one layout__span-two layout__@large-start-five layout__@large-span-one">
+                    <div class="share share--small-tertiary layout__start-one layout__span-two layout__@large-start-five layout__@large-span-one">
                         {% include "patterns/molecules/share/share.html" %}
                     </div>
 
@@ -85,7 +85,7 @@
 
         <div class="page__content">
 
-            <div class="section bg bg--light">
+            <section class="section bg bg--light">
 
                 <div class="section__row section__row--first-small section__row--last grid">
                     {% if not page.introduction_image %}
@@ -114,7 +114,21 @@
                     <div class="section__notch-fill section__notch-fill--second-col"></div>
                 </div>
 
-            </div>
+            </section>
+
+            <section class="section bg bg--dark">
+                {% if related_pages.items %}
+                    <div class="section__row section__row--first section__row--last-large">
+                        {% include "patterns/organisms/index-module/index-module.html" with items=related_pages.items title=related_pages.title id=page.related_pages_title anchor_heading=True %}
+                    </div>
+                {% endif %}
+
+                {% if page.contact_model_image or page.contact_model_text or page.contact_model_email or page.contact_model_url or page.contact_model_form %}
+                    <div class="section__row section__row--first">
+                        {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image anchor_heading=True %}
+                    </div>
+                {% endif %}
+            </section>
 
         </div>
 
