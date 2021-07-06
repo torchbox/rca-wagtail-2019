@@ -12,11 +12,11 @@ def related_list_block_slideshow(slides):
     # with RelatedPageListBlockPage()
     # E.G slides = StreamField(StreamBlock([("Page", RelatedPageListBlockPage())]))
     # The reason being that custom field data OR internal pages can be referenced
-    formated_slides = []
+    formatted_slides = []
     for slide in slides:
         for block in slide.value:
             if block.block_type == "custom_teaser":
-                formated_slides.append(
+                formatted_slides.append(
                     {
                         "value": {
                             "title": block.value["title"],
@@ -40,7 +40,7 @@ def related_list_block_slideshow(slides):
                     if hasattr(page, "hero_image")
                     else page.listing_image
                 )
-                formated_slides.append(
+                formatted_slides.append(
                     {
                         "value": {
                             "title": page.title,
@@ -51,7 +51,7 @@ def related_list_block_slideshow(slides):
                         }
                     }
                 )
-    return formated_slides
+    return formatted_slides
 
 
 def format_page_teasers(obj):
