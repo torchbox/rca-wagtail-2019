@@ -15,7 +15,7 @@ def format_projects_for_gallery(projects):
 
     for page in projects[:8]:
         page = page.specific
-        
+
         meta = []
         related_school = page.related_school_pages.first()
         if related_school is not None:

@@ -180,7 +180,10 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
     )
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading="Hero",),
+        MultiFieldPanel(
+            [ImageChooserPanel("hero_image")],
+            heading="Hero",
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("introduction"),
@@ -261,8 +264,9 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
 
     def get_related_projects(self):
         from rca.projects.models import ProjectPage
+
         project_pages = ProjectPage.objects.filter(
-            pk__in=self.research_projects.values_list('page_id', flat=True)
+            pk__in=self.research_projects.values_list("page_id", flat=True)
         ).live()
         return format_projects_for_gallery(project_pages)
 
