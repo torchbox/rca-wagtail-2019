@@ -39,6 +39,7 @@
 
         #{$root}__icon {
             fill: $color--white;
+            color: $color--white; // so currentColour matches the fill for awkward svgs
         }
     }
 
@@ -49,6 +50,7 @@
 
         #{$root}__icon {
             fill: $color--black;
+            color: $color--black; // so currentColour matches the fill for awkward svgs
         }
     }
 }
