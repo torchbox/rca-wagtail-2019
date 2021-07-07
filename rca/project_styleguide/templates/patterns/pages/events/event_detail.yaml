@@ -21,7 +21,6 @@ context:
     type: Exhibition
     schedule: true
     add_to_calendar: true
-    price: false
     read_time: 10 mins
     price: false
     past: false
