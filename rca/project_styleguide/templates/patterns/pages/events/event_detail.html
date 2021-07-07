@@ -12,9 +12,7 @@
         {% include "patterns/molecules/hero/hero.html" with modifier="medium" %}
     {% endif %}
 
-    <div class="page {% if hero_image %}page--overlap{% else %}page--no-hero{% endif %}" typeof="schema:WebPage">
-
-        <meta property="schema:provider" content="Royal College of Art" />
+    <div class="page {% if hero_image %}page--overlap{% else %}page--no-hero{% endif %}">
 
         {% if hero_image %}
             <div class="page__notch grid">
@@ -29,7 +27,7 @@
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
                     {% if page.title %}
-                        <h1 class="title-area__heading heading heading--display-two" property="schema:name">{{ page.title }}</h1>
+                        <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
                     {% endif %}
                     {% if page.event_date %}
                         <h2 class="title-area__meta heading heading--five">{% if page.past %}This event took place on {% endif %}{{ page.event_date|date:'d F Y' }}</h2>
@@ -68,7 +66,7 @@
                         {% if page.introduction %}
                             <div class="introduction">
                                 <div class="introduction__container">
-                                    <div class="introduction__text heading heading--five" property="schema:description">
+                                    <div class="introduction__text heading heading--five">
                                         {{ page.introduction|richtext }}
                                     </div>
                                 </div>
@@ -168,5 +166,37 @@
         </div>
 
     </div>
+
+    {% image hero_image fill-1440x530 as image_large %}
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Event",
+            "name": "{{ page.title }}",
+            "startDate": "{{ page.event_startDate|date:'c' }}",
+            "endDate": "{{ page.event_endDate|date:'c' }}",
+            "eventStatus": "https://schema.org/EventScheduled",
+            "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+            "location": {
+              {% if page.location == "Online" %}
+                "@type": "VirtualLocation",
+                "url": "{{ page.full_url }}"
+              {% else %}
+                "@type": "Place",
+                "name": "{{ page.location }}"
+                "streetAddress": "{{ page.location }}"
+              {% endif %}
+              },
+            "image": "{{ image_large.url }}",
+            "description": "{{ page.introduction|striptags }}",
+            "organizer": {
+              "@type": "Organization",
+              "name": "Royal College of Art",
+              "url": "https://rca.ac.uk"
+            }
+
+          }
+        }
+    </script>
 
 {% endblock %}
