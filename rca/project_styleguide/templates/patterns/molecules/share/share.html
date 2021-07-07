@@ -5,31 +5,58 @@
         <div class="share__container">
 
             <div class="share__header">
-                <h2 class="share__heading">Share this page</h2>
+                <h2 class="share__heading body body--two">Share</h2>
             </div>
 
             <div class="share__content">
 
                 {# see https://dev.twitter.com/web/tweet-button/web-intent #}
                 <div class="share-item share-item--twitter">
-                    <a class="share-item__link" href="https://twitter.com/intent/tweet?text={{ page|social_text:request.site|urlencode }}&amp;url={{ page.full_url|urlencode }}&amp;via={{ social_media_settings.twitter_handle|urlencode }}" title="Share on Twitter">
-                        <div class="share-item__label">Share on Twitter</div>
+                    <a class="share-item__link body body--two" href="https://twitter.com/intent/tweet?text={{ page|social_text:request.site|urlencode }}&amp;url={{ page.full_url|urlencode }}&amp;via={{ social_media_settings.twitter_handle|urlencode }}" title="Share on Twitter">
+                        <svg class="share-item__icon" width="24" height="24">
+                            <use xlink:href="#twitter"></use>
+                        </svg>
+                        <div class="share-item__label">Twitter</div>
                     </a>
                 </div>
 
                 {# see https://developer.linkedin.com/docs/share-on-linkedin #}
                 <div class="share-item share-item--linkedin">
-                    <a class="share-item__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{ page.full_url|urlencode }}&amp;title={{ page.title|urlencode }}&amp;summary={{ page|social_text:request.site|urlencode }}&amp;source={{ social_media_settings.site_name|urlencode }}"
+                    <a class="share-item__link body body--two" href="https://www.linkedin.com/shareArticle?mini=true&amp;url={{ page.full_url|urlencode }}&amp;title={{ page.title|urlencode }}&amp;summary={{ page|social_text:request.site|urlencode }}&amp;source={{ social_media_settings.site_name|urlencode }}"
                     title="Share on LinkedIn">
-                        <div class="share-item__label">Share on LinkedIn</div>
+                        <svg class="share-item__icon" width="24" height="24">
+                            <use xlink:href="#linkedin"></use>
+                        </svg>
+                        <div class="share-item__label">LinkedIn</div>
                     </a>
                 </div>
 
                 {# see https://developers.facebook.com/docs/sharing/reference/feed-dialog/v2.5 #}
                 {# Add a default image to use for social sharing here in case one is not provided on the page. #}
                 <div class="share-item share-item--facebook">
-                    <a class="share-item__link" href="https://www.facebook.com/dialog/feed?app_id={{ social_media_settings.facebook_app_id }}&amp;link={{ page.full_url|urlencode }}&amp;picture={% if social_img %}{{ 'http://'|add:request.site.hostname|add:social_img.url|urlencode }}{% endif %}&amp;name={{ page.title|urlencode }}&amp;description={{ page|social_text:request.site|urlencode }}&amp;redirect_uri={{ page.full_url|urlencode }}" title="Share on Facebook">
-                        <div class="share-item__label">Share on Facebook</div>
+                    <a class="share-item__link body body--two" href="https://www.facebook.com/dialog/feed?app_id={{ social_media_settings.facebook_app_id }}&amp;link={{ page.full_url|urlencode }}&amp;picture={% if social_img %}{{ 'http://'|add:request.site.hostname|add:social_img.url|urlencode }}{% endif %}&amp;name={{ page.title|urlencode }}&amp;description={{ page|social_text:request.site|urlencode }}&amp;redirect_uri={{ page.full_url|urlencode }}" title="Share on Facebook">
+                        <svg class="share-item__icon" width="24" height="24">
+                            <use xlink:href="#facebook"></use>
+                        </svg>
+                        <div class="share-item__label">Facebook</div>
+                    </a>
+                </div>
+
+                <div class="share-item share-item--whatsapp">
+                    <a class="share-item__link body body--two" href="https://wa.me/?text={{ page.full_url|urlencode }}" rel="noopener noreferrer" target="_blank" title="Share on Whatsapp">
+                        <svg class="share-item__icon" width="24" height="24">
+                            <use xlink:href="#whatsapp"></use>
+                        </svg>
+                        <div class="share-item__label">Whatsapp</div>
+                    </a>
+                </div>
+
+                <div class="share-item share-item--email">
+                    <a class="share-item__link body body--two" data-email-share href="#" title="Share on email">
+                        <svg class="share-item__icon" width="24" height="24">
+                            <use xlink:href="#email"></use>
+                        </svg>
+                        <div class="share-item__label">Email</div>
                     </a>
                 </div>
 

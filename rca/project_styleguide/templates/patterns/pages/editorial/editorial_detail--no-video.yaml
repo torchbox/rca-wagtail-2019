@@ -1,0 +1,52 @@
+context:
+  hero_image: false
+  page:
+    title: Peter Russell-Clarke appointed as Chair of RCA USA Board of Trustees
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: News & Events
+      - is_root: false
+        depth: 3
+        title: News
+    introduction: 'The Royal College of Art USA Inc. (RCA USA) welcomes renowned Apple designer Peter Russell-Clarke as its incoming Chair and President.'
+    introduction_image: false
+    body:
+      - dummy
+    contact: true
+    contact_model_image: true
+  related_pages:
+    title: Also of interest
+    items:
+      - {
+          title: 'Innovation RCA',
+          link: '#',
+          meta: Staff,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Consultancy & knowledge exchange',
+          link: '#',
+          meta: News,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Custom executive education',
+          link: '#',
+          meta: Event,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Custom executive education',
+          link: '#',
+          meta: Research,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
