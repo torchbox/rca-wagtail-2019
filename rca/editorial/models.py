@@ -29,16 +29,20 @@ class Author(models.Model):
         return self.name
 
 
+# this is intermin model to hold relationnship between EditorialPage and Author
 class EditorialPageAuthor(models.Model):
+    # when you add editorial page uthor, parental keuy is Editorial Page
+    # remove the edutoiral_
     page = ParentalKey("EditorialPage", related_name="editorial_authors")
     author = models.ForeignKey("Author", related_name="+", on_delete=models.CASCADE)
     panels = [FieldPanel("author")]
 
     def __str__(self):
-        return self.author.name
+        return self.author
 
 
 class EditorialPageArea(models.Model):
+    # remove _editorial
     page = ParentalKey("EditorialPage", related_name="editorial_area")
     area = models.ForeignKey(
         "people.AreaOfExpertise", related_name="+", on_delete=models.CASCADE
@@ -112,3 +116,20 @@ class EditorialPage(BasePage):
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
+
+    # def get_context(self, request, *args, **kwargs):
+    #     context = super().get_context(request, *args, **kwargs)
+
+    #  prob need to do a method for related schools and pages
+    #  need related, schools & areas the nloop over in template
+    # school cetnre or aera could be list separated by commas
+    #  make method which renders just area then all
+
+    #  may need to include a method that I will pass to contenxt which is like the get_area_linked_filter
+
+    #  will probably need o pass in subpages for the realted content -
+    # however, this is prob not part of this as it not in the body
+    #  do i need to include info which talks about number of items allowed
+    # in carousel and accoridian - property on field in body ticket
+
+    # prob nneed to do something with the author and name
