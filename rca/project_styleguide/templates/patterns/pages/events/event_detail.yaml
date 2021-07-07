@@ -12,6 +12,17 @@ context:
         title: Events
     introduction: '<p>Situated within the Royal College of Art, a world-leading art and design institution, the programme encourages interdisciplinary and cross-disciplinary research projects in…</p>'
     event_date: !!timestamp '2020-12-13 2:00:00'
+    event_startDate: !!timestamp '2020-12-13 2:00:00+01:00'
+    event_endDate: !!timestamp '2020-12-16 2:00:00+01:00'
+    event_time: 5pm – 8pm
+    timezone: GMT +1
+    location: Online
+    who_can_attend: Open to all
+    type: Exhibition
+    schedule: true
+    add_to_calendar: true
+    price: false
+    read_time: 10 mins
     price: false
     past: false
     manual_registration_url: '#'
