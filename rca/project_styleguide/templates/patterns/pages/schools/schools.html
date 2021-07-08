@@ -171,6 +171,11 @@
                         {% endif %}
                     </div>
                     {% if featured_research %}
+                    <div class="section__header grid">
+                        <h2 class="section__heading section__heading--primary heading heading--four">
+                            Featured projects
+                        </h2>
+                    </div>
                     <div class="section__content grid">
                         {% include "patterns/organisms/carousel/carousel.html" with carousel=featured_research modifier='carousel carousel--no-margin' datatag='data-carousel' %}
                     </div>
