@@ -26,12 +26,8 @@
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
-                    {% if page.title %}
-                        <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
-                    {% endif %}
-                    {% if page.event_date %}
-                        <h2 class="title-area__meta heading heading--five">{% if page.past %}This event took place on {% endif %}{{ page.event_date|date:'d F Y' }}</h2>
-                    {% endif %}
+                    <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
+                    <h2 class="title-area__meta heading heading--five">{% if page.past %}This event took place on {% endif %}{{ page.event_date }}</h2>
                 </div>
                 {% if hero_image_credit or hero_image %}
                     <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
@@ -67,7 +63,7 @@
                             <div class="introduction">
                                 <div class="introduction__container">
                                     <div class="introduction__text heading heading--five">
-                                        {{ page.introduction|richtext }}
+                                        {{ page.introduction }}
                                     </div>
                                 </div>
                             </div>
