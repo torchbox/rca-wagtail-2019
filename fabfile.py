@@ -42,7 +42,6 @@ def pull_production_data(c):
         pull_database_from_heroku(c, PRODUCTION_APP_INSTANCE)
 
 
-
 @task
 def production_shell(c):
     open_heroku_shell(c, PRODUCTION_APP_INSTANCE)
@@ -176,7 +175,6 @@ def pull_database_backup_from_heroku(c, app_instance):
     )
     local("rm latest.dump")
     print("Database backup restored")
-
 
 
 def open_heroku_shell(c, app_instance, shell_command="bash"):
