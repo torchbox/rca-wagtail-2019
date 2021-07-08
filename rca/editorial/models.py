@@ -29,21 +29,17 @@ class Author(models.Model):
         return self.name
 
 
-# this is intermin model to hold relationnship between EditorialPage and Author
 class EditorialPageAuthor(models.Model):
-    # when you add editorial page uthor, parental keuy is Editorial Page
-    # remove the edutoiral_
-    page = ParentalKey("EditorialPage", related_name="editorial_authors")
+    page = ParentalKey("EditorialPage", related_name="authors")
     author = models.ForeignKey("Author", related_name="+", on_delete=models.CASCADE)
     panels = [FieldPanel("author")]
 
     def __str__(self):
-        return self.author
+        return str(self.author)
 
 
 class EditorialPageArea(models.Model):
-    # remove _editorial
-    page = ParentalKey("EditorialPage", related_name="editorial_area")
+    page = ParentalKey("EditorialPage", related_name="areas")
     area = models.ForeignKey(
         "people.AreaOfExpertise", related_name="+", on_delete=models.CASCADE
     )
@@ -55,7 +51,7 @@ class EditorialPageArea(models.Model):
 
 class EditorialPage(BasePage):
     template = "patterns/pages/editorial/editorial_detail.html"
-    intro_text = models.CharField(blank=True, max_length=255)
+    introduction = models.CharField(blank=True, max_length=255)
     hero_image = models.ForeignKey(
         "images.CustomImage",
         null=True,
@@ -69,43 +65,43 @@ class EditorialPage(BasePage):
         max_length=80,
         help_text="The text displayed next to the video play button",
     )
-    video_preview_image = models.ForeignKey(
+    introduction_image = models.ForeignKey(
         "images.CustomImage",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    date = models.DateField()
-    email = models.EmailField(blank=True, max_length=254)
-    # have not included date here as I tink it should be added automiatically
+    published_at = models.DateField()
+    contact_email = models.EmailField(blank=True, max_length=254)
+
     content_panels = BasePage.content_panels + [
-        FieldPanel("intro_text"),
+        FieldPanel("introduction"),
         ImageChooserPanel("hero_image"),
         MultiFieldPanel(
             [
                 FieldPanel("video"),
                 FieldPanel("video_caption"),
-                ImageChooserPanel("video_preview_image"),
+                ImageChooserPanel("introduction_image"),
             ],
             heading="Introductory Video",
         ),
     ]
 
     key_details_panels = [
-        FieldPanel("date"),
+        FieldPanel("published_at"),
         MultiFieldPanel(
             [
                 InlinePanel(
                     "related_schools_and_research_pages",
                     label="School or Research Centre",
                 ),
-                InlinePanel("editorial_area", label="Area"),
+                InlinePanel("areas", label="Area"),
             ],
             heading="Related School, Research Centre or Area",
         ),
-        InlinePanel("editorial_authors", label="Editorial Authors"),
-        FieldPanel("email"),
+        InlinePanel("authors", label="Authors"),
+        FieldPanel("contact_email"),
     ]
 
     edit_handler = TabbedInterface(
@@ -117,19 +113,21 @@ class EditorialPage(BasePage):
         ]
     )
 
-    # def get_context(self, request, *args, **kwargs):
-    #     context = super().get_context(request, *args, **kwargs)
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        taxonomy_tags = []
 
-    #  prob need to do a method for related schools and pages
-    #  need related, schools & areas the nloop over in template
-    # school cetnre or aera could be list separated by commas
-    #  make method which renders just area then all
+        if self.related_schools_and_research_pages:
+            for related_page in self.related_schools_and_research_pages.all():
+                taxonomy_tags.append({"title": related_page.page.title})
 
-    #  may need to include a method that I will pass to contenxt which is like the get_area_linked_filter
+        context["taxonomy_tags"] = taxonomy_tags
 
-    #  will probably need o pass in subpages for the realted content -
-    # however, this is prob not part of this as it not in the body
-    #  do i need to include info which talks about number of items allowed
-    # in carousel and accoridian - property on field in body ticket
+        # print(self.authors.all())
+        # for author in self.authors.all():
+        #     print(author)
 
-    # prob nneed to do something with the author and name
+        context["author"] = self.authors.first()
+        # print(context)
+
+        return context
