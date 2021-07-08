@@ -29,3 +29,5 @@ context:
     key_details_book_or_view_all_open_days_link_title: Book or view all open days
     key_details_application_deadline_title: Application deadline
     key_details_career_opportunities_title: Career opportunities
+  programme_school:
+    title: School of Architecture
