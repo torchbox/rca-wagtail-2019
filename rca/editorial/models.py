@@ -15,7 +15,7 @@ from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from rca.utils.models import BasePage, RelatedPage
+from rca.utils.models import BasePage, LargeCTAMixin, RelatedPage
 
 
 class EditorialPageRelatedSchoolsAndResearchPages(RelatedPage):
@@ -45,7 +45,7 @@ class EditorialPageArea(models.Model):
         return self.area.title
 
 
-class EditorialPage(BasePage):
+class EditorialPage(LargeCTAMixin, BasePage):
     template = "patterns/pages/editorial/editorial_detail.html"
     introduction = models.CharField(blank=True, max_length=255)
     hero_image = models.ForeignKey(
@@ -101,6 +101,7 @@ class EditorialPage(BasePage):
             heading="Introductory Video",
         ),
         StreamFieldPanel("body"),
+        *LargeCTAMixin.panels,
     ]
 
     key_details_panels = [
