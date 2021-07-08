@@ -46,7 +46,7 @@
     .app--short-course & {
         #{$root}__heading {
             @include media-query(large) {
-                max-width: 150px; // force line wrap after at for "More at the RCA"
+                max-width: 150px; // force line wrap after at for "Additional links"
             }
         }
     }
