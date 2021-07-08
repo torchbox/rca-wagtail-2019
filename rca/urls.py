@@ -11,6 +11,8 @@ from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.utils.urlpatterns import decorate_urlpatterns
 
 from rca.account_management.views import CustomLoginView
+from rca.people import urls as people_urls
+from rca.people.views import student_profile_preview
 from rca.utils.cache import get_default_cache_control_decorator
 from rca.wagtailapi.api import api_router
 
@@ -24,6 +26,11 @@ private_urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents2/", include(wagtaildocs_urls)),
+    path(
+        "profile/preview/<str:id_signed_string>/",
+        student_profile_preview,
+        name="student_profile_preview",
+    ),
     # Don’t use generic cache control for API endpoints.
     path("api/v3/", api_router.urls),
 ]
