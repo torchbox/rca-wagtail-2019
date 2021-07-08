@@ -12,5 +12,5 @@ class CustomDocument(AbstractDocument):
     file = models.FileField(
         upload_to="documents",
         verbose_name=_("file"),
-        help_text=_("Maximum filesize: 10MB."),
+        help_text=_("Maximum file size: 10MB."),
     )
