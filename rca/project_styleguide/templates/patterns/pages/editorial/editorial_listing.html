@@ -1,0 +1,143 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static util_tags %}
+{% get_settings %}
+
+{% block body_class %}
+    app--project-listing no-hero
+{% endblock %}
+
+{% block title %}
+    {% if page.seo_title %}
+        {{ page.seo_title }}
+    {% else %}
+        {{ page.title }}
+    {% endif %}
+    {% get_all_active_filters filters as active_filters %}
+    {% if active_filters %}
+        – {{ active_filters }}
+    {% endif %}
+    – Page {{ results.number }} of {{ results.paginator.num_pages }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="page page--no-hero">
+
+        <header class="page__header bg bg--dark">
+            <div class="title-area title-area--research-centre grid">
+                <div class="title-area__content title-area__content--three-col">
+                    <nav class="title-area__breadcrumb layout__span-two layout__@large-span-three" aria-label="Breadcrumb">
+                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" with breadcrumb=page.breadcrumb %}
+                    </nav>
+                    {% if page.title %}
+                        <div class="title-area__heading layout__span-two layout__start-one layout__@large-span-two">
+                            <h1 class="heading heading--display-two">{{ page.title }}</h1>
+                        </div>
+                    {% endif %}
+                    {% if page.introduction %}
+                        <div class="title-area__introduction layout__span-one layout__start-two layout__@large-start-three">{{ page.introduction }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <form class="page__content js-detect-sticking js-tabs" method="get" action="#results">
+
+            <section class="section bg bg--dark filter-bar filter-bar--large" data-filter-bar>
+                <div class="section__notch section__notch--opposite">
+
+                    <div class="section__notch-fill section__notch-fill--content-height section__notch-fill--fourth-col">
+                        {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True reset_button_text="Reset" %}
+                    </div>
+
+                    <div class="filter-tab-options filter-tab-options--mobile">
+                        <div class="filter-tab-options__footer layout__start-one layout__span-two layout__@large-start-two layout__@large-span-four grid">
+                            <div class="filter-tab-options__clear layout__start-one layout__span-one layout__@large-start-two">
+                                <a class="filter-tab-options__clear-link hidden" href="#" data-filters-clear-category>Clear</a>
+                            </div>
+                            <button class="filter-tab-options__button link link--primary layout__start-two layout__span-one layout__@large-start-four" data-filter-submit>
+                                <span class="link__label">Show results</span>
+                                <svg width="12" height="8" class="link__icon link__icon--rotated" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="filter-bar filter-bar--small bg bg--light" data-filter-bar-small>
+                <a class="filter-bar__link body body--two" href="#filters-active" data-filter-launcher>
+                    <span class="filter-bar__label">Filters</span>
+                    <svg width="12" height="8" class="filter-bar__icon" aria-hidden="true">
+                        <use xlink:href="#arrow"></use>
+                    </svg>
+                </a>
+            </section>
+
+            <div class="filter-takeover bg bg--light">
+                <div class="filter-takeover__container">
+                    {% for item in filters.items %}
+                        {% if item.queryset %}
+                            <div class="filter-takeover__tab-content tabs__panel tabs__panel--hidden js-tab-panel" id="{{ item.tab_title|slugify }}" role="tabpanel" aria-labelledby="tab-{{ item.tab_title|slugify }}">
+                                {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            <section class="section bg bg--light" >
+
+                {% if featured_editorial and show_featured_editorial %}
+                    <div class="section__row section__row--first-small section__row--last-extra-small grid">
+                        <h2 class="heading heading--four layout__start-one layout__span-two layout__@large-start-two">
+                            Editor's pick
+                        </h2>
+                    </div>
+
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/carousel/carousel.html" with carousel=featured_editorial modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                    </div>
+                {% endif %}
+
+                {% if results %}
+                    <div class="section__row section__row--first-small section__row--last-extra-small grid">
+                        <h2 class="results-total heading heading--four layout__start-one layout__span-two layout__@large-start-two">
+                            <span class="results-total__anchor" id="results"></span>
+                            <span class="results-total__type">Results</span>
+                        </h2>
+                    </div>
+                {% endif %}
+
+                <div class="section__row {% if results %}section__row--last-small {% else %}section__row--first-small section__row--last-large{% endif %} grid">
+                    <div class="results {% if not results %}results--no-results{% endif %} layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                        {% if results %}
+                            {% for item in results %}
+                                <div class="results__item layout__span-two layout__@medium-span-one">
+                                    {% include "patterns/molecules/card/card--project.html" %}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="layout__start-one layout__span-two">
+                                {% include "patterns/molecules/no-results/no-results.html" %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if results %}
+                    <div class="section__row section__row--last grid">
+                        <div class="layout__span-two layout__@large-span-one layout__start-one layout__@large-start-three">
+                            {% include "patterns/molecules/pagination/pagination.html" with paginator_page=results %}
+                        </div>
+                    </div>
+                {% endif %}
+            </section>
+
+
+
+        </form>
+
+    </div>
+{% endblock %}
