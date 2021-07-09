@@ -89,19 +89,24 @@
 
             <section class="section bg bg--light" >
 
-                {% if results %}
-                    <div class="section__row section__row--first-small section__row--last-small grid">
-                        <div class="results-total heading heading--four layout__start-one layout__span-two layout__@large-start-two">
-                            <span class="results-total__anchor" id="results"></span>
-                            <span class="results-total__type">Results</span>
-                            <span class="results-total__number">{{ result_count }}</span>
-                        </div>
+                {% if featured_editorial and show_featured_editorial %}
+                    <div class="section__row section__row--first-small section__row--last-extra-small grid">
+                        <h2 class="heading heading--four layout__start-one layout__span-two layout__@large-start-two">
+                            Editor's pick
+                        </h2>
+                    </div>
+
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/carousel/carousel.html" with carousel=featured_editorial modifier='carousel carousel--no-margin' datatag='data-carousel' %}
                     </div>
                 {% endif %}
 
-                {% if featured_project and show_featured_project %}
-                    <div class="section__row">
-                        {% include "patterns/organisms/image-video-block/image-video-block.html" with heading=false subheading=featured_project.title meta_heading=featured_project.meta_heading image=featured_project.image has_meta=True meta_copy=featured_project.listing_summary href=featured_project.link caption=false video=false school=featured_project.school %}
+                {% if results %}
+                    <div class="section__row section__row--first-small section__row--last-extra-small grid">
+                        <h2 class="results-total heading heading--four layout__start-one layout__span-two layout__@large-start-two">
+                            <span class="results-total__anchor" id="results"></span>
+                            <span class="results-total__type">Results</span>
+                        </h2>
                     </div>
                 {% endif %}
 
