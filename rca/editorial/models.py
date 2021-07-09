@@ -32,7 +32,7 @@ class Author(models.Model):
 class EditorialPageArea(models.Model):
     page = ParentalKey("EditorialPage", related_name="areas")
     area = models.ForeignKey(
-        "people.AreaOfExpertise", related_name="area", on_delete=models.CASCADE
+        "people.AreaOfExpertise", related_name="editorial", on_delete=models.CASCADE
     )
     panels = [FieldPanel("area")]
 
