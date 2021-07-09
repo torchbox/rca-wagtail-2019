@@ -32,12 +32,39 @@ class EventDetailPage(BasePage):
         help_text="Enter the end date of the event. This will be the same as "
         "the start date for single day events."
     )
+    asset_heading = models.CharField(
+        blank=True,
+        max_length=40,
+        verbose_name="Heading",
+    )
+    asset_link_text = models.CharField(
+        blank=True,
+        max_length=40,
+        verbose_name="Link Text",
+    )
+    asset_link = models.URLField(
+        blank=True,
+        max_length=255,
+        verbose_name="Link URL",
+    )
     introduction = models.TextField()
 
     content_panels = BasePage.content_panels + [
         ImageChooserPanel("hero_image"),
         MultiFieldPanel(
-            [FieldPanel("start_date"), FieldPanel("end_date"),], heading="Event Dates",
+            [
+                FieldPanel("start_date"),
+                FieldPanel("end_date"),
+            ],
+            heading="Event Dates",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("asset_heading"),
+                FieldPanel("asset_link_text"),
+                FieldPanel("asset_link"),
+            ],
+            heading="Asset Download",
         ),
         FieldPanel("introduction"),
     ]

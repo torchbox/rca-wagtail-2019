@@ -116,5 +116,18 @@
             </ul>
         </div>
     {% endif %}
-
+    
+    {% if page.asset_heading and page.asset_link_text and page.asset_link %}
+         <div class="key-details__section key-details__section--press-pack">
+            <h3 class="body body--two key-details__sub-heading">{{ page.asset_heading }}</h3>
+            <ul class="key-details__list">
+                <li class="key-details__list-item">
+                    <a href="{{ page.asset_link }}" class="link link--tertiary link--link link--external" target="_blank">
+                        <span class="link__label">{{ page.asset_link_text }}</span>
+                        <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
 </div>
