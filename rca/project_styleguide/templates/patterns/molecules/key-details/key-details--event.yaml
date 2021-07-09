@@ -27,9 +27,6 @@ context:
             description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
             image: true,
           }
-    asset_heading: 'Press pack'
-    asset_link_text: 'Download now'
-    asset_link: '#'
   taxonomy_tags:
     - item:
       title: School of Design
