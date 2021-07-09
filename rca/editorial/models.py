@@ -32,7 +32,7 @@ class Author(models.Model):
 class EditorialPageArea(models.Model):
     page = ParentalKey("EditorialPage", related_name="areas")
     area = models.ForeignKey(
-        "people.AreaOfExpertise", related_name="+", on_delete=models.CASCADE
+        "people.AreaOfExpertise", related_name="area", on_delete=models.CASCADE
     )
     panels = [FieldPanel("area")]
 
@@ -119,7 +119,11 @@ class EditorialPage(BasePage):
         if self.related_schools_and_research_pages:
             for related_page in self.related_schools_and_research_pages.all():
                 taxonomy_tags.append({"title": related_page.page.title})
+        if self.areas:
+            for area in self.areas.all():
+                taxonomy_tags.append({"title": area})
 
         context["taxonomy_tags"] = taxonomy_tags
+        context["hero_image"] = self.hero_image
 
         return context
