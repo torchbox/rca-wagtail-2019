@@ -29,15 +29,6 @@ class Author(models.Model):
         return self.name
 
 
-class EditorialPageAuthor(models.Model):
-    page = ParentalKey("EditorialPage", related_name="authors")
-    author = models.ForeignKey("Author", related_name="+", on_delete=models.CASCADE)
-    panels = [FieldPanel("author")]
-
-    def __str__(self):
-        return str(self.author)
-
-
 class EditorialPageArea(models.Model):
     page = ParentalKey("EditorialPage", related_name="areas")
     area = models.ForeignKey(
@@ -72,6 +63,14 @@ class EditorialPage(BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
+
+    author = models.ForeignKey(
+        "editorial.Author",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
     published_at = models.DateField()
     contact_email = models.EmailField(blank=True, max_length=254)
 
@@ -100,7 +99,7 @@ class EditorialPage(BasePage):
             ],
             heading="Related School, Research Centre or Area",
         ),
-        InlinePanel("authors", label="Authors"),
+        FieldPanel("author"),
         FieldPanel("contact_email"),
     ]
 
@@ -122,12 +121,5 @@ class EditorialPage(BasePage):
                 taxonomy_tags.append({"title": related_page.page.title})
 
         context["taxonomy_tags"] = taxonomy_tags
-
-        # print(self.authors.all())
-        # for author in self.authors.all():
-        #     print(author)
-
-        context["author"] = self.authors.first()
-        # print(context)
 
         return context
