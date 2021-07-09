@@ -12,6 +12,7 @@ context:
     items:
       - tab_title: School or Centre
         filter_name: school_or_centre
+        queryset: true
         options:
           - { title: 3D modelling & visualisation, id: '1-1', active: true }
           - { title: Art & curating, id: '1-2', active: false }
@@ -24,12 +25,14 @@ context:
           - { title: Future cities, id: '1-9', active: true }
       - tab_title: Type
         filter_name: type
+        queryset: true
         options:
           - { title: 3D modelling & visualisation, id: '2-1', active: false }
           - { title: Art & curating, id: '2-2', active: false }
           - { title: Creative industries, id: '2-3', active: false }
       - tab_title: Subject
         filter_name: subject
+        queryset: true
         options:
           - { title: 3D modelling & visualisation, id: '3-1', active: false }
           - { title: Art & curating, id: '3-2', active: false }
