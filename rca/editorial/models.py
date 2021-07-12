@@ -157,3 +157,34 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         context["hero_image"] = self.hero_image
 
         return context
+
+
+class EditorialListingRelatedEditorialPage(RelatedPage):
+    source_page = ParentalKey(
+        "EditorialListingPage", related_name="related_editorial_pages"
+    )
+    panels = [PageChooserPanel("page", ["editorial.EditorialPage"])]
+
+
+class EditorialListingPage(BasePage):
+    # template = "patterns/pages/project/project_listing.html"
+    subpage_types = ["editorial.EditorialPage"]
+
+    introduction = models.CharField(max_length=200, blank=True)
+
+    content_panels = BasePage.content_panels + [
+        FieldPanel("introduction"),
+        MultiFieldPanel(
+            [
+                InlinePanel(
+                    "related_editorial_pages", max_num=6, label="Editorial Pages"
+                ),
+            ],
+            heading="Editors picks",
+        ),
+    ]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        return context
