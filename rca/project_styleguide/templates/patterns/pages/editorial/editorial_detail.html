@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block content %}
-
     {% if hero_image %}
         {% include "patterns/molecules/hero/hero.html" with modifier="medium" %}
     {% endif %}
@@ -45,16 +44,18 @@
                         {% include "patterns/molecules/key-details/key-details--editorial.html" %}
                     </div>
 
-                    {% if page.introduction %}
+                    {% if page.introduction or page.introduction_image %}
                         <div class="intro-and-video intro-and-video--small-primary layout__start-one layout__span-two layout__@large-start-two  layout__@large-span-three">
 
-                            <div class="introduction introduction--narrow">
-                                <div class="introduction__container">
-                                    <h2 class="section__heading heading heading--five">
-                                        {{ page.introduction|richtext }}
-                                    </h2>
+                            {% if page.introduction %}
+                                <div class="introduction introduction--narrow">
+                                    <div class="introduction__container">
+                                        <h2 class="section__heading heading heading--five">
+                                            {{ page.introduction|richtext }}
+                                        </h2>
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
 
                             {% if page.introduction_image %}
                                 <div class="project-overview__content layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">

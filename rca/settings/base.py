@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "scout_apm.django",
     "rca.documents",
     "rca.events",
+    "rca.editorial",
     "rca.forms",
     "rca.home",
     "rca.images",
