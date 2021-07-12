@@ -42,7 +42,7 @@ class EventDetailPage(BasePage):
     content_panels = BasePage.content_panels + [
         ImageChooserPanel("hero_image"),
         MultiFieldPanel(
-            [FieldPanel("start_date"), FieldPanel("end_date"), ], heading="Event Dates",
+            [FieldPanel("start_date"), FieldPanel("end_date")], heading="Event Dates",
         ),
         FieldPanel("introduction"),
         StreamFieldPanel("body"),
