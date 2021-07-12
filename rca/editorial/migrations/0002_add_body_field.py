@@ -29,13 +29,4 @@ class Migration(migrations.Migration):
                 blank=True,
             ),
         ),
-        migrations.AlterField(
-            model_name="editorialpagearea",
-            name="area",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                related_name="+",
-                to="people.areaofexpertise",
-            ),
-        ),
     ]
