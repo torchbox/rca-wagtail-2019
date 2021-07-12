@@ -6,8 +6,13 @@ from wagtail.admin.edit_handlers import (
     MultiFieldPanel,
     ObjectList,
     PageChooserPanel,
+    StreamFieldPanel,
     TabbedInterface,
 )
+from wagtail.core import blocks
+from wagtail.core.fields import StreamField
+from wagtail.embeds.blocks import EmbedBlock
+from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.utils.models import BasePage, RelatedPage
@@ -74,6 +79,16 @@ class EditorialPage(BasePage):
     published_at = models.DateField()
     contact_email = models.EmailField(blank=True, max_length=254)
 
+    body = StreamField(
+        [
+            ("heading", blocks.CharBlock()),
+            ("paragraph", blocks.RichTextBlock()),
+            ("image", ImageChooserBlock()),
+            ("embed", EmbedBlock()),
+        ],
+        blank=True,
+    )
+
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
         ImageChooserPanel("hero_image"),
@@ -101,6 +116,7 @@ class EditorialPage(BasePage):
         ),
         FieldPanel("author"),
         FieldPanel("contact_email"),
+        StreamFieldPanel("body"),
     ]
 
     edit_handler = TabbedInterface(
