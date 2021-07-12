@@ -15,3 +15,8 @@ class EventDetailPageBlock(blocks.StreamBlock):
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"
+
+
+class CallToAction(blocks.StreamBlock):
+    call_to_action = utils_blocks.CallToActionBlock()
+

@@ -8,7 +8,7 @@ from wagtail.search import index
 
 from rca.utils.models import BasePage
 
-from .blocks import EventDetailPageBlock
+from .blocks import CallToAction, EventDetailPageBlock
 
 
 class EventIndexPage(BasePage):
@@ -36,16 +36,17 @@ class EventDetailPage(BasePage):
         "the start date for single day events."
     )
     introduction = models.TextField()
-
     body = StreamField(EventDetailPageBlock())
+    call_to_action = StreamField(CallToAction(max_num=1, required=False), blank=True)
 
     content_panels = BasePage.content_panels + [
         ImageChooserPanel("hero_image"),
         MultiFieldPanel(
-            [FieldPanel("start_date"), FieldPanel("end_date"),], heading="Event Dates",
+            [FieldPanel("start_date"), FieldPanel("end_date"), ], heading="Event Dates",
         ),
         FieldPanel("introduction"),
         StreamFieldPanel("body"),
+        StreamFieldPanel("call_to_action"),
     ]
 
     search_fields = BasePage.search_fields + [
@@ -62,6 +63,10 @@ class EventDetailPage(BasePage):
     @property
     def past(self):
         return self.end_date < datetime.date.today()
+
+    @property
+    def inline_cta(self):
+        return self.call_to_action
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
