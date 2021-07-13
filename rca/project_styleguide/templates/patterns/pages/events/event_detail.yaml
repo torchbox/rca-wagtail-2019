@@ -18,7 +18,7 @@ context:
     timezone: GMT +1
     location: Online
     who_can_attend: Open to all
-    type: Exhibition
+    event_type: Exhibition
     schedule: true
     add_to_calendar: true
     read_time: 10 mins

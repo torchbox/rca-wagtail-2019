@@ -11,6 +11,16 @@ from rca.utils.models import BasePage
 from .blocks import CallToAction, EventDetailPageBlock
 
 
+class EventType(models.Model):
+    title = models.CharField(max_length=100)
+
+    class Meta:
+        ordering = ["title"]
+
+    def __str__(self):
+        return self.title
+
+
 class EventIndexPage(BasePage):
     subpage_types = ["EventDetailPage"]
     template = "patterns/pages/events/event_index_page.html"
@@ -35,6 +45,12 @@ class EventDetailPage(BasePage):
         help_text="Enter the end date of the event. This will be the same as "
         "the start date for single day events."
     )
+    event_type = models.ForeignKey(
+        EventType,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="events",
+    )
     introduction = models.TextField()
     body = StreamField(EventDetailPageBlock())
     call_to_action = StreamField(CallToAction(max_num=1, required=False), blank=True)
@@ -44,6 +60,7 @@ class EventDetailPage(BasePage):
         MultiFieldPanel(
             [FieldPanel("start_date"), FieldPanel("end_date")], heading="Event Dates",
         ),
+        FieldPanel("event_type"),
         FieldPanel("introduction"),
         StreamFieldPanel("body"),
         StreamFieldPanel("call_to_action"),
