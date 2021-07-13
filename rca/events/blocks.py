@@ -19,4 +19,3 @@ class EventDetailPageBlock(blocks.StreamBlock):
 
 class CallToAction(blocks.StreamBlock):
     call_to_action = utils_blocks.CallToActionBlock()
-
