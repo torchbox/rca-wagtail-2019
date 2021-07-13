@@ -82,7 +82,7 @@ class EventDetailPage(BasePage):
     @property
     def past(self):
         return self.end_date < datetime.date.today()
-    
+
     @property
     def inline_cta(self):
         return self.call_to_action
