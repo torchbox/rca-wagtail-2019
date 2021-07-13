@@ -8,7 +8,7 @@ from wagtail.search import index
 
 from rca.utils.models import BasePage
 
-from .blocks import CallToAction, EventDetailPageBlock
+from .blocks import CallToAction, EventDetailPageBlock, PartnersBlock
 
 
 class EventIndexPage(BasePage):
@@ -37,6 +37,10 @@ class EventDetailPage(BasePage):
     )
     introduction = models.TextField()
     body = StreamField(EventDetailPageBlock())
+    partners_heading = models.CharField(
+        blank=True, max_length=120, verbose_name="Heading"
+    )
+    partners = StreamField(PartnersBlock(), blank=True)
     call_to_action = StreamField(CallToAction(max_num=1, required=False), blank=True)
 
     content_panels = BasePage.content_panels + [
@@ -46,6 +50,10 @@ class EventDetailPage(BasePage):
         ),
         FieldPanel("introduction"),
         StreamFieldPanel("body"),
+        MultiFieldPanel(
+            [FieldPanel("partners_heading"), StreamFieldPanel("partners")],
+            heading="Partners",
+        ),
         StreamFieldPanel("call_to_action"),
     ]
 

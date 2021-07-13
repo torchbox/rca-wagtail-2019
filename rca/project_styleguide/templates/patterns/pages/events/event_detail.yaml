@@ -27,7 +27,7 @@ context:
     manual_registration_url: '#'
     body:
       - dummy
-    collaborators:
+    partners:
       - slide:
         value:
           link:
