@@ -1,11 +1,14 @@
 import datetime
 
 from django.db import models
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
+from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
+from wagtail.core.fields import StreamField
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from rca.utils.models import BasePage
+
+from .blocks import CallToAction, EventDetailPageBlock
 
 
 class EventIndexPage(BasePage):
@@ -43,7 +46,6 @@ class EventDetailPage(BasePage):
         help_text="Enter the end date of the event. This will be the same as "
         "the start date for single day events."
     )
-    introduction = models.TextField()
     series = models.ForeignKey(
         EventSeries,
         blank=True,
@@ -51,17 +53,25 @@ class EventDetailPage(BasePage):
         on_delete=models.SET_NULL,
         related_name="events",
     )
+    introduction = models.TextField()
+    body = StreamField(EventDetailPageBlock())
+    call_to_action = StreamField(CallToAction(max_num=1, required=False), blank=True)
 
     content_panels = BasePage.content_panels + [
         ImageChooserPanel("hero_image"),
         MultiFieldPanel(
             [FieldPanel("start_date"), FieldPanel("end_date")], heading="Event Dates",
         ),
-        FieldPanel("introduction"),
         FieldPanel("series"),
+        FieldPanel("introduction"),
+        StreamFieldPanel("body"),
+        StreamFieldPanel("call_to_action"),
     ]
 
-    search_fields = BasePage.search_fields + [index.SearchField("introduction")]
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+        index.SearchField("body"),
+    ]
 
     @property
     def event_date(self):
@@ -72,6 +82,10 @@ class EventDetailPage(BasePage):
     @property
     def past(self):
         return self.end_date < datetime.date.today()
+    
+    @property
+    def inline_cta(self):
+        return self.call_to_action
 
     def get_series_events(self):
         today = datetime.date.today()
