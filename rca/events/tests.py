@@ -1,6 +1,6 @@
 from datetime import date
-from freezegun import freeze_time
 
+from freezegun import freeze_time
 from wagtail.tests.utils import WagtailPageTests
 
 from rca.home.models import HomePage
