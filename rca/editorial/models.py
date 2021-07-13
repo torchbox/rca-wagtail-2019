@@ -1,3 +1,4 @@
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -167,7 +168,7 @@ class EditorialListingRelatedEditorialPage(RelatedPage):
 
 
 class EditorialListingPage(BasePage):
-    # template = "patterns/pages/project/project_listing.html"
+    template = "patterns/pages/editorial/editorial_listing.html"
     subpage_types = ["editorial.EditorialPage"]
 
     introduction = models.CharField(max_length=200, blank=True)
@@ -184,7 +185,73 @@ class EditorialListingPage(BasePage):
         ),
     ]
 
+    def get_editor_picks(self, pages):
+        related_pages = []
+        for value in pages.select_related("page"):
+            if value.page and value.page.live:
+                page = value.page.specific
+
+                meta = None
+                if page.related_schools_and_research_pages.exists():
+                    meta = page.related_schools_and_research_pages.first().page.title
+
+                related_pages.append(
+                    {
+                        "title": page.title,
+                        "link": page.url,
+                        "image": page.listing_image or page.hero_image,
+                        "description": page.introduction
+                        if hasattr(page, "introduction")
+                        else page.listing_summary,
+                        "meta": meta,
+                    }
+                )
+        return related_pages
+
+    def get_base_queryset(self):
+        return EditorialPage.objects.child_of(self).live().order_by("-published_at")
+
+    def modify_results(self, paginator_page, request):
+        for obj in paginator_page.object_list:
+            obj.link = obj.get_url(request)
+            obj.image = obj.listing_image or obj.hero_image
+            obj.year = obj.published_at
+            obj.title = obj.listing_title or obj.title
+            if obj.related_schools_and_research_pages.exists():
+                obj.school = obj.related_schools_and_research_pages.first().page.title
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+        context["featured_editorial"] = self.get_editor_picks(
+            self.related_editorial_pages
+        )
 
+        base_queryset = self.get_base_queryset()
+        queryset = base_queryset.all()
+        # Paginate filtered queryset
+        per_page = 12
+
+        page_number = request.GET.get("page")
+        paginator = Paginator(queryset, per_page)
+        try:
+            results = paginator.page(page_number)
+        except PageNotAnInteger:
+            results = paginator.page(1)
+        except EmptyPage:
+            results = paginator.page(paginator.num_pages)
+
+        # Set additional attributes etc
+        self.modify_results(results, request)
+
+        # Finalise and return context
+        context.update(
+            filters={
+                "title": "Filter by",
+                "aria_label": "Filter results",
+                # TODO wire up filters as `items` when taxonomies are there
+                "items": [],
+            },
+            results=results,
+            result_count=paginator.count,
+        )
         return context
