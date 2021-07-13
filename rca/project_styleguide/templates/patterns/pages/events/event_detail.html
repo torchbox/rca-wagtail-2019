@@ -140,9 +140,9 @@
             {% endif %}
 
             <section class="section bg bg--dark">
-                {% if page.series.items %}
+                {% if series_events %}
                     <div class="in-series section__row section__row--first {% if not related_pages.items %}section__row--last-large{% endif %}">
-                        {% include "patterns/organisms/index-module/index-module.html" with items=page.series.items title="In the series" introduction=page.series.introduction %}
+                        {% include "patterns/organisms/index-module/index-module.html" with items=series_events title="In the series" introduction=page.series.introduction %}
                     </div>
                 {% endif %}
 

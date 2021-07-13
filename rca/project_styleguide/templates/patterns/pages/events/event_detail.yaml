@@ -64,26 +64,26 @@ context:
     contact_model_text: Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
     series:
       introduction: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-      items:
-        - {
-            title: 'Innovation RCA',
-            link: '#',
-            meta: Exhibition,
-            person: false,
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
-            image: true,
-          }
-        - {
-            title: 'Consultancy & knowledge exchange',
-            link: '#',
-            meta: Lecture,
-            person: false,
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
-            image: true,
-          }
     speakers:
       - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
       - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+  series_events:
+    - {
+        title: 'Innovation RCA',
+        link: '#',
+        meta: Exhibition,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        image: true,
+      }
+    - {
+        title: 'Consultancy & knowledge exchange',
+        link: '#',
+        meta: Lecture,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        image: true,
+      }
   related_staff:
     view_more_link: false
   booking_bar:
