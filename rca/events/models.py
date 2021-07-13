@@ -1,11 +1,14 @@
 import datetime
 
 from django.db import models
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
+from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
+from wagtail.core.fields import StreamField
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from rca.utils.models import BasePage
+
+from .blocks import EventDetailPageBlock
 
 
 class EventIndexPage(BasePage):
@@ -34,15 +37,21 @@ class EventDetailPage(BasePage):
     )
     introduction = models.TextField()
 
+    body = StreamField(EventDetailPageBlock())
+
     content_panels = BasePage.content_panels + [
         ImageChooserPanel("hero_image"),
         MultiFieldPanel(
             [FieldPanel("start_date"), FieldPanel("end_date"),], heading="Event Dates",
         ),
         FieldPanel("introduction"),
+        StreamFieldPanel("body"),
     ]
 
-    search_fields = BasePage.search_fields + [index.SearchField("introduction")]
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+        index.SearchField("body"),
+    ]
 
     @property
     def event_date(self):
