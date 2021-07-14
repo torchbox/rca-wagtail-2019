@@ -10,3 +10,4 @@ class EditorialPageAdminForm(WagtailAdminPageForm):
         self.fields["contact_model_form"].label = "Form"
         self.fields["contact_model_image"].label = "Image"
         self.fields["contact_model_text"].label = "Text"
+        self.fields["contact_model_link_text"].label = "Link text"
