@@ -719,21 +719,3 @@ class ContactFieldsMixin(models.Model):
             "Contact",
         )
     ]
-
-
-class LargeCTAMixin(ContactFieldsMixin):
-    """Field mixin to enable use of the contact fields, but
-    sets field names to be more generic so it's not bound to contact
-    information.
-    """
-
-    class Meta:
-        abstract = True
-
-
-LargeCTAMixin._meta.get_field("contact_model_title").verbose_name = "Title"
-LargeCTAMixin._meta.get_field("contact_model_email").verbose_name = "Email"
-LargeCTAMixin._meta.get_field("contact_model_url").verbose_name = "URL"
-LargeCTAMixin._meta.get_field("contact_model_text").verbose_name = "Text"
-LargeCTAMixin._meta.get_field("contact_model_form").verbose_name = "Form"
-LargeCTAMixin._meta.get_field("contact_model_image").verbose_name = "Image"
