@@ -2,6 +2,7 @@ import datetime
 
 from django.db import models
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
+from wagtail.core.fields import RichTextField
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
@@ -32,12 +33,12 @@ class EventDetailPage(BasePage):
         help_text="Enter the end date of the event. This will be the same as "
         "the start date for single day events."
     )
-    introduction = models.TextField()
+    introduction = RichTextField()
 
     content_panels = BasePage.content_panels + [
         ImageChooserPanel("hero_image"),
         MultiFieldPanel(
-            [FieldPanel("start_date"), FieldPanel("end_date"),], heading="Event Dates",
+            [FieldPanel("start_date"), FieldPanel("end_date")], heading="Event Dates",
         ),
         FieldPanel("introduction"),
     ]
