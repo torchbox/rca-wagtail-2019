@@ -100,6 +100,7 @@ class EditorialPage(BasePage):
             ],
             heading="Introductory Video",
         ),
+        StreamFieldPanel("body"),
     ]
 
     key_details_panels = [
@@ -116,7 +117,6 @@ class EditorialPage(BasePage):
         ),
         FieldPanel("author"),
         FieldPanel("contact_email"),
-        StreamFieldPanel("body"),
     ]
 
     edit_handler = TabbedInterface(
