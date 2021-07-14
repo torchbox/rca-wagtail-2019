@@ -34,7 +34,11 @@
             <ul class="key-details__list">
                 {% for item in taxonomy_tags %}
                     <li class="key-details__list-item">
-                        <a class="link link--tertiary">{{ item.title }}</a>
+                    {% if item.link %}
+                        <a class="link link--tertiary" href="{{ item.link }}">{{ item.title }}</a>
+                    {% else %}
+                        {{ item.title }}
+                    {% endif %}
                     </li>
                 {% endfor %}
             </ul>

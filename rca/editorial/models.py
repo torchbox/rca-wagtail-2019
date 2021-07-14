@@ -19,6 +19,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.editorial import admin_forms
+from rca.editorial.utils import get_linked_taxonomy
 from rca.people.filter import SchoolCentreDirectorateFilter
 from rca.people.models import Directorate
 from rca.programmes.models import Subject
@@ -182,17 +183,11 @@ class EditorialPage(ContactFieldsMixin, BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        taxonomy_tags = []
 
-        # TODO fix up the rendering of these
-        context["related_schools"] = self.related_schools.all()
-        context["research_centres"] = self.related_research_centre_pages.all()
-
-        if self.related_directorates:
-            for item in self.related_directorates.all():
-                taxonomy_tags.append({"title": item})
-
-        context["taxonomy_tags"] = taxonomy_tags
+        parent = self.get_parent().specific
+        # Link taxonomy/page relations to a parent page so they can be clicked
+        # and applied as filters on the parent listing page
+        context["taxonomy_tags"] = get_linked_taxonomy(self, parent, request)
         context["hero_image"] = self.hero_image
 
         return context
