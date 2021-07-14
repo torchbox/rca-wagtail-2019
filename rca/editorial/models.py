@@ -27,6 +27,7 @@ from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, ContactFieldsMixin
+from rca.utils.blocks import QuoteBlock
 
 
 class Author(models.Model):
@@ -128,6 +129,10 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         blank=True,
     )
 
+    quote_carousel = StreamField(
+        [("quote", QuoteBlock())], blank=True, verbose_name="Quote Carousel"
+    )
+
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
         ImageChooserPanel("hero_image"),
@@ -140,6 +145,7 @@ class EditorialPage(ContactFieldsMixin, BasePage):
             heading="Introductory Video",
         ),
         StreamFieldPanel("body"),
+        StreamFieldPanel("quote_carousel"),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_title"),
