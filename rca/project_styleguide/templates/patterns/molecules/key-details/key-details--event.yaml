@@ -5,10 +5,8 @@ context:
     location: Online
     who_can_attend: Open to all
     type: Exhibition
-    schedule: true
     add_to_calendar: true
     price: false
-    read_time: 10 mins
     series:
       items:
         - {
