@@ -10,6 +10,7 @@ from wagtail.admin.edit_handlers import (
     PageChooserPanel,
     StreamFieldPanel,
 )
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.core.fields import StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -238,6 +239,10 @@ class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         verbose_name=_("Related content summary"),
     )
 
+    tap_widget = models.ForeignKey(
+        "utils.TapWidgetSnippet", on_delete=models.SET_NULL, null=True, blank=True,
+    )
+
     content_panels = BasePage.content_panels + [
         MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
         MultiFieldPanel(
@@ -435,6 +440,7 @@ class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
 
 class ResearchLandingPage(LandingPage):
     template = "patterns/pages/landingpage/landing_page--research.html"
+
     content_panels = BasePage.content_panels + [
         MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
         MultiFieldPanel(
@@ -476,6 +482,7 @@ class ResearchLandingPage(LandingPage):
             ],
             heading="Contact information",
         ),
+        SnippetChooserPanel("tap_widget"),
     ]
 
     class Meta:
@@ -487,6 +494,8 @@ class ResearchLandingPage(LandingPage):
         # reset the slideshow block so it can be re-populated as it's set in
         # the parent context for other slideshow formats.
         context["slideshow_block"] = []
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
         if self.slideshow_page.first():
             context["slideshow_block"] = self._format_slideshow_pages(
                 self.slideshow_page.all()
@@ -541,6 +550,7 @@ class InnovationLandingPage(LandingPage):
             ],
             heading="Contact information",
         ),
+        SnippetChooserPanel("tap_widget"),
     ]
 
     class Meta:
@@ -550,15 +560,26 @@ class InnovationLandingPage(LandingPage):
         context = super().get_context(request, *args, **kwargs)
         context["featured_image_secondary"] = self.get_featured_image_secondary()
         context["page_list"] = self.get_page_list()
-
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
         return context
 
 
 class EnterpriseLandingPage(LandingPage):
     template = "patterns/pages/landingpage/landing_page--enterprise.html"
 
+    content_panels = LandingPage.content_panels + [
+        SnippetChooserPanel("tap_widget"),
+    ]
+
     class Meta:
         verbose_name = "Landing Page - Enterprise"
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
+        return context
 
 
 class TapLandingPage(LandingPage):
