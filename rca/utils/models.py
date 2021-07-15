@@ -725,3 +725,17 @@ class ContactFieldsMixin(models.Model):
             "Contact",
         )
     ]
+
+
+@register_snippet
+class TapWidgetSnippet(models.Model):
+    script_code = models.TextField(blank=True)
+    admin_title = models.CharField(
+        max_length=255,
+        help_text="The title value is only used to identify the snippet in the admin interface ",
+    )
+
+    def __str__(self):
+        return self.admin_title
+
+    panels = [FieldPanel("admin_title"), FieldPanel("script_code")]
