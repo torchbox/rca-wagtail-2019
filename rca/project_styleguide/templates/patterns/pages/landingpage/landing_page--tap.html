@@ -1,0 +1,170 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% get_settings %}
+
+{% block body_class %}
+    app--landing-page
+{% endblock %}
+
+{% block content %}
+
+    {% include "patterns/molecules/hero/hero.html" with hero_image=page.hero_image modifier="medium" %}
+
+    <div class="page page--overlap" >
+
+        <div class="page__notch grid">
+            <div class="page__notch-block bg bg--dark"></div>
+        </div>
+
+        <header class="page__header bg bg--dark">
+            <div class="title-area title-area--landing-page grid">
+                <div class="title-area__content">
+                    <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
+                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
+                    </nav>
+                    {% if page.title %}
+                        <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
+                    {% endif %}
+                </div>
+            </div>
+            {% if page.introduction %}
+                    <div class="introduction grid">
+                        <div class="introduction__container">
+                            <h2 class="introduction__text section__heading heading heading--five">
+                                {{ page.introduction }}
+                            </h2>
+                            {% if page.about_page %}
+                                <a href="{% pageurl page.about_page %}" class="introduction__link link link--tertiary link--link" {% if page.title %}aria-label="More about {{ page.title }}"{% endif %}>
+                                    <span class="link__label">{% firstof page.about_page.title 'Read more' %}</span>
+                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+        </header>
+
+        <div class="page__content landing-page">
+            
+            {% if tap_carousel %}
+                <section class="landing-page__top section section--start bg bg--dark">
+                    <div class="section__row">
+                        {{ tap_carousel }}
+                    </div>
+                </section>
+            {% endif %}
+
+            {% if related_pages_highlights %}
+                <section class="landing-page__top section section--start bg bg--dark">
+
+                    <div class="section__row section__row--last-large research-highlights">
+                        {% if page.highlights_title %}
+                            <div class="section__header grid">
+                                <h2 class="section__heading section__heading--primary heading heading--four">
+                                    {{ page.highlights_title }}
+                                </h2>
+                            </div>
+                        {% endif %}
+                        <div class="section__content grid">
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=related_pages_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                            {% if page.highlights_page_link %}
+                                <div class="section__action">
+                                    <a class="link link--primary link--link body body--two" href="{% pageurl page.highlights_page_link %}">
+                                        <span class="link__label">{% firstof page.highlights_page_link_title page.highlights_page_link.title %}</span>
+                                        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    </div>
+
+                </section>
+            {% endif %}
+
+            {% if related_pages %}
+                <section class="landing-page__middle section section--start bg bg--light">
+
+                    <div class="section__row research-spaces">
+                        <div class="section__header section__header--bottom-space grid">
+                        {% if page.related_pages_title %}
+                            <h2 class="section__heading section__heading--tight heading heading--two">
+                                {{ page.related_pages_title }}
+                            </h2>
+                        {% endif %}
+                        {% if page.related_pages_text %}
+                            <div class="section__introduction">
+                                {{ page.related_pages_text }}
+                            </div>
+                        {% endif %}
+                        </div>
+                        <div class="section__content grid">
+                            {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=related_pages %}
+                        </div>
+                    </div>
+
+                    <div class="section__notch section__notch--opposite">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    </div>
+
+                </section>
+            {% endif %}
+
+            {% if featured_image %}
+                <section class="section bg bg--dark">
+                    <div class="section__row section__row--first section__row--last">
+                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=featured_image.title meta_heading=featured_image.subtitle meta_copy=featured_image.description href=featured_image.get_link_url image=featured_image.image modifier="tight-heading" %}
+                    </div>
+
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    </div>
+                </section>
+            {% endif %}
+
+            {% if page_list %}
+                <section class="section bg bg--light">
+                    <div class="section__row section__row--first section__row--last-large">
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page_list title=page.page_list_title modifier="after-action related-content--meta-new-line" %}
+                    </div>
+
+                    <div class="section__notch section__notch--opposite">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    </div>
+
+                </section>
+            {% endif %}
+
+            {% if page.news %}
+                <section class="section section--start section--end bg bg--dark">
+                    <header class="section__header grid">
+                        <h3 class="section__heading section__heading--primary heading heading--two">News</h3>
+                    </header>
+                    <div class="section__content">
+                        <div class="section__row section__row--last grid">
+                            {% include "patterns/organisms/news/news.html" with news=page.news cta="See all news" %}
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+
+            {% if page.legacy_news_and_events %}
+                <section class="section {% if page.bottom_feature_image %}{% else %} section--start{% endif %} section--end bg bg--dark">
+                    <div class="section__container">
+                        <header class="section__header grid">
+                            <h3 class="section__heading section__heading--primary heading heading--two">News & events</h3>
+                        </header>
+                        <div class="section__content grid">
+                            {% include "patterns/organisms/news/news_api_content.html" with news=page.legacy_news_and_events %}
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+
+        </div>
+
+    </div>
+{% endblock %}
