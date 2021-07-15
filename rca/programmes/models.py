@@ -5,6 +5,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
+from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from modelcluster.fields import ParentalKey
 from rest_framework.fields import CharField as CharFieldSerializer
@@ -429,6 +430,10 @@ class ProgrammePage(ContactFieldsMixin, BasePage):
         null=True,
     )
 
+    tap_widget = models.ForeignKey(
+        "utils.TapWidgetSnippet", on_delete=models.SET_NULL, null=True, blank=True,
+    )
+
     content_panels = BasePage.content_panels + [
         # Taxonomy, relationships etc
         FieldPanel("degree_level"),
@@ -454,6 +459,7 @@ class ProgrammePage(ContactFieldsMixin, BasePage):
             [InlinePanel("related_schools_and_research_pages")],
             heading="Related Schools and Research Centres",
         ),
+        SnippetChooserPanel("tap_widget"),
     ]
     key_details_panels = [
         MultiFieldPanel(
@@ -728,7 +734,8 @@ class ProgrammePage(ContactFieldsMixin, BasePage):
 
         # School
         context["programme_school"] = self.get_school()
-
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
         return context
 
 
