@@ -739,3 +739,19 @@ class TapWidgetSnippet(models.Model):
         return self.admin_title
 
     panels = [FieldPanel("admin_title"), FieldPanel("script_code")]
+
+
+@register_setting
+class SitewideTapSetting(BaseSetting):
+    class Meta:
+        verbose_name = "Sitewide TAP settings"
+
+    show_carousels = models.BooleanField(
+        default=False, help_text="Checking this will show the site-wide TAP carousels"
+    )
+
+    show_widgets = models.BooleanField(
+        default=False, help_text="Checking this will show the site-wide TAP widgets"
+    )
+
+    panels = [FieldPanel("show_carousels"), FieldPanel("show_widgets")]

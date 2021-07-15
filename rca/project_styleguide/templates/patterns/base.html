@@ -68,9 +68,6 @@
         <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
         {% block extra_js %}{% endblock %}
         {% block tap_widget %}
-        {% comment %} {% if settings.utils.SitewideAlertSetting.show_alert %} {% endcomment %}
-        {{ tap_widget_code }}
-        {% comment %} {% endif %} {% endcomment %}
         {% endblock %}
     </body>
 </html>
