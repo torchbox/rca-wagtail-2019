@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
@@ -9,6 +10,7 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
 )
 from wagtail.core.fields import StreamField
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from rca.utils.blocks import AccordionBlockWithTitle, GuideBlock
 from rca.utils.models import (
@@ -39,6 +41,9 @@ class GuidePage(ContactFieldsMixin, BasePage):
         verbose_name=_("Further information"),
     )
     related_pages_title = models.CharField(blank=True, max_length=120)
+    tap_widget = models.ForeignKey(
+        "utils.TapWidgetSnippet", on_delete=models.SET_NULL, null=True, blank=True,
+    )
 
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
@@ -59,6 +64,7 @@ class GuidePage(ContactFieldsMixin, BasePage):
             heading=_("Related pages"),
         ),
         MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
+        SnippetChooserPanel("tap_widget"),
     ]
 
     def anchor_nav(self):
@@ -112,5 +118,7 @@ class GuidePage(ContactFieldsMixin, BasePage):
         context["anchor_nav"] = self.anchor_nav()
         context["related_staff"] = self.related_staff.all
         context["related_pages"] = self.get_related_pages()
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
 
         return context
