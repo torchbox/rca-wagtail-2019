@@ -53,8 +53,8 @@ INSTALLED_APPS = [
     # first - http://help.apm.scoutapp.com/#django.
     "scout_apm.django",
     "rca.documents",
-    "rca.events",
     "rca.editorial",
+    "rca.events",
     "rca.forms",
     "rca.home",
     "rca.images",

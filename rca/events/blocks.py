@@ -19,3 +19,13 @@ class EventDetailPageBlock(blocks.StreamBlock):
 
 class CallToAction(blocks.StreamBlock):
     call_to_action = utils_blocks.CallToActionBlock()
+
+    class Meta:
+        max_num = 1
+
+
+class PartnersBlock(blocks.StreamBlock):
+    partner = utils_blocks.LinkedImageBlock()
+
+    class Meta:
+        max_num = 9

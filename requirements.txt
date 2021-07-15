@@ -8,6 +8,7 @@ django-pattern-library==0.3.0
 django-birdbath==0.0.2
 # Pin cryptography, see: https://github.com/docker/compose/issues/8105#issuecomment-777098885
 cryptography==3.3.2
+freezegun==1.1.0
 
 # Production dependencies
 whitenoise[brotli]==5.2.0
