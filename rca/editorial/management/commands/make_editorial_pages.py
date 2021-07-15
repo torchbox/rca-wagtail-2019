@@ -8,6 +8,7 @@ from faker import Faker
 from wagtail.core.models import Page
 
 from rca.editorial.models import EditorialPage
+from rca.images.models import CustomImage
 
 
 class Command(BaseCommand):
@@ -55,7 +56,11 @@ class Command(BaseCommand):
         for _ in range(int(number_to_create)):
             title = " ".join(fake.words(3)).title()
             fake_page = EditorialPage(
-                title=title, introduction=fake.sentence(), published_at=fake.date(),
+                title=title,
+                introduction=fake.sentence(),
+                published_at=fake.date(),
+                body=self.streamfield(fake),
+                hero_image_id=CustomImage.objects.order_by("?").first().id,
             )
             fake_index_page.add_child(instance=fake_page)
             fake_page.save_revision().publish()
