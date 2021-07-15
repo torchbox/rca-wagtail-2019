@@ -1,6 +1,8 @@
 import datetime
 
 from django.db import models
+from django.db.models.fields import SlugField
+from django.utils.text import slugify
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
 from wagtail.core.fields import StreamField
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -13,12 +15,19 @@ from .blocks import CallToAction, EventDetailPageBlock
 
 class EventType(models.Model):
     title = models.CharField(max_length=100)
+    slug = SlugField()
 
     class Meta:
         ordering = ["title"]
 
     def __str__(self):
         return self.title
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(EventType, self).save(*args, **kwargs)
+
+    panels = [FieldPanel("title")]
 
 
 class EventIndexPage(BasePage):
@@ -46,10 +55,7 @@ class EventDetailPage(BasePage):
         "the start date for single day events."
     )
     event_type = models.ForeignKey(
-        EventType,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name="events",
+        EventType, null=True, on_delete=models.SET_NULL, related_name="events",
     )
     introduction = models.TextField()
     body = StreamField(EventDetailPageBlock())
