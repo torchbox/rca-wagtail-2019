@@ -2,6 +2,7 @@ import json
 import random
 
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.core.management import BaseCommand
 from faker import Faker
 from wagtail.core.models import Page
@@ -20,9 +21,9 @@ class Command(BaseCommand):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if not settings.ALLOW_EDITORIAL_PAGE_GENERATION:
-            assert (
-                False
-            ), "Creating editorial pages is disabled, is settings.ALLOW_EDITORIAL_PAGE_GENERATION set correctly?"
+            raise ImproperlyConfigured(
+                "Creating editorial pages is disabled, is settings.ALLOW_EDITORIAL_PAGE_GENERATION set correctly?"
+            )
 
     def add_arguments(self, parser):
         parser.add_argument("count", help="How many pages to create")

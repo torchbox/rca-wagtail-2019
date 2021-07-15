@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ("images", "0003_extends_image_fields"),
         ("wagtailcore", "0060_fix_workflow_unique_constraint"),
-        ("editorial", "0001_initial"),
+        ("editorial", "0003_add_contact_fields"),
     ]
 
     operations = [
