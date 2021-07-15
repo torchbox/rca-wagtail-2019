@@ -226,8 +226,7 @@ class EditorialListingPage(BasePage):
             self.related_editorial_pages
         )
 
-        base_queryset = self.get_base_queryset()
-        queryset = base_queryset.all()
+        queryset = self.get_base_queryset().all()
         # Paginate filtered queryset
         per_page = 12
 
