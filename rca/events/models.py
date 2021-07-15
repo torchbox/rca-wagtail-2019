@@ -75,13 +75,13 @@ class EventDetailPage(BasePage):
     event_type = models.ForeignKey(
         EventType, null=True, on_delete=models.SET_NULL, related_name="events",
     )
-    introduction = models.TextField()
+    introduction = RichTextField()
     body = StreamField(EventDetailPageBlock())
     partners_heading = models.CharField(
         blank=True, max_length=120, verbose_name="Heading"
     )
-    partners = StreamField(PartnersBlock(), blank=True)
-    call_to_action = StreamField(CallToAction(max_num=1, required=False), blank=True)
+    partners = StreamField(PartnersBlock(required=False), blank=True)
+    call_to_action = StreamField(CallToAction(required=False), blank=True)
 
     content_panels = BasePage.content_panels + [
         ImageChooserPanel("hero_image"),

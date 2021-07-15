@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block content %}
-
     {% if hero_image %}
         {% include "patterns/molecules/hero/hero.html" with modifier="medium" %}
     {% endif %}
@@ -102,15 +101,43 @@
                     </div>
                 </div>
 
-                <div class="section__row">
-                    {% if page.inline_cta %}
-                        <div class="section__row section__row--last">
-                            {% for block in page.inline_cta %}
-                                {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value heading_size="small" %}
-                            {% endfor %}
+                {% if page.quote_carousel %}
+                    <div class="section__row">
+                        {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.quote_carousel modifier='carousel--square carousel--quotes' datatag='data-peek-carousel' %}
+                    </div>
+                {% endif %}
+
+                {% if page.gallery %}
+                    <div class="section__row">
+
+                        <header class="section__header grid">
+                            <h3 class="section__heading section__heading--secondary heading heading--four">
+                                Gallery
+                            </h3>
+                        </header>
+
+                        <div class="section__content">
+                            {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.gallery modifier='slideshow--author-info' %}
                         </div>
-                    {% endif %}
-                </div>
+
+                    </div>
+                {% endif %}
+
+                {% if page.accordion %}
+                    <div class="section__row">
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.accordion title=page.accordion_title %}
+                    </div>
+                {% endif %}
+
+                {% if page.inline_cta %}
+                    <div class="section__row">
+                            <div class="section__row section__row--last">
+                                {% for block in page.inline_cta %}
+                                    {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value heading_size="small" %}
+                                {% endfor %}
+                            </div>
+                    </div>
+                {% endif %}
 
                 <div class="section__notch">
                     <div class="section__notch-fill section__notch-fill--second-col"></div>

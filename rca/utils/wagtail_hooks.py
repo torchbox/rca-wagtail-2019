@@ -8,6 +8,7 @@ from wagtail.core import hooks
 from wagtail.core.rich_text import LinkHandler
 from wagtailorderable.modeladmin.mixins import OrderableMixin
 
+from rca.editorial.models import Author
 from rca.events.models import EventSeries, EventType
 from rca.people.models import AreaOfExpertise, DegreeStatus, DegreeType, Directorate
 from rca.programmes.models import DegreeLevel, ProgrammeType, Subject
@@ -16,6 +17,11 @@ from rca.utils.models import ResearchTheme, ResearchType, Sector
 
 class DegreeLevelModelAdmin(ModelAdmin):
     model = DegreeLevel
+    menu_icon = "tag"
+
+
+class AuthorModelAdmin(ModelAdmin):
+    model = Author
     menu_icon = "tag"
 
 
@@ -89,6 +95,7 @@ class TaxonomiesModelAdminGroup(ModelAdminGroup):
         DegreeStatusModelAdmin,
         EventSeriesModelAdmin,
         EventTypeModelAdmin,
+        AuthorModelAdmin,
     )
     menu_icon = "tag"
 

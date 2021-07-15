@@ -87,7 +87,7 @@ context:
   related_staff:
     view_more_link: false
   booking_bar:
-    message: 'Free event - Online - Tickets still available'
+    message: 'Free event | Online | Tickets still available'
     action: 'Book now'
   related_pages:
     title: Also of interest
