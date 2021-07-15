@@ -1,0 +1,105 @@
+context:
+  page:
+    title: Generic landing page
+    introduction: 'Enterprise at the RCA spans incubation, innovation and business acceleration programmes; consultancy and knowledge exchange, and custom executive short courses.'
+    news: false
+    legacy_news_and_events:
+      - item:
+        type: 'News'
+        title: 'Show 2018: School of Architecture: Making Space for the Future (legacy example)'
+        date: '23 November 2019'
+        link: '#'
+        image: //placekitten.com/500/500
+        person: false
+      - item:
+        type: 'Event'
+        title: 'Designs for Real Life (legacy example)'
+        date: '6 July 2019 — 4 August 2019'
+        link: '#'
+        image: //placekitten.com/500/500
+        person: false
+      - item:
+        type: 'Event'
+        title: 'Redefining Boundaries: Architecture Work-in-progress 2019 (legacy example)'
+        date: '23 November 2019'
+        link: '#'
+        image: //placekitten.com/500/500
+        person: false
+    related_pages_title: Enterprise at the RCA
+    related_pages_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    page_list_title: Executive education programmes
+  related_pages:
+    - {
+        title: 'Innovation RCA',
+        link: '#',
+        meta: false,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        image: true,
+      }
+    - {
+        title: 'Consultancy & knowledge exchange',
+        link: '#',
+        meta: false,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        image: true,
+      }
+    - {
+        title: 'Custom executive education',
+        link: '#',
+        meta: false,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        image: true,
+      }
+  featured_image:
+    title: Enterprise programmes
+    subtitle: Join a thriving community of more than 250 MPhil and PhD students
+    description: Pursue cutting-edge research at the world's leading postgraduate university for art & design.
+    get_link_text: Read more
+    get_link_url: '#'
+  page_list:
+    - item:
+      title: Lorem Ipsum
+      link:
+        url: '#'
+        title: View all executive education courses
+      related_items:
+        - item:
+          title: Design Thinking & Innovation
+          degree_level: Executive Education
+          programme_description_subtitle: Transform your Customer Experience.
+          img: http://placehold.it/300x270/fff/000
+        - item:
+          title: Service Design Masterclass
+          degree_level: Executive Education
+          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
+          img: http://placehold.it/300x270/ff5d1c/fff
+        - item:
+          title: Creative Leadership
+          degree_level: Executive Education
+          programme_description_subtitle: Turning innovation into successful real-world businesses.
+          img: http://placehold.it/300x270
+  related_pages_highlights:
+    - slide:
+      meta: 'School of Design'
+      title: 'Advanced Taxi for London'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      image: true
+      link: '#'
+    - slide:
+      meta: 'Alumni Story'
+      title: 'A place with a real focus on making'
+      description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
+      image: true
+      link: '#'
+    - slide:
+      meta: 'Alumni Story'
+      title: 'Designing the imposible for NASA'
+      description: 'Creating world class experiences that started at the RCA'
+      image: true
+      link: '#'
+  highlights_title: Enterprise highlights
+  highlights_link_text: '#'
+  tap_carousel: 'content is iframe and script snippet'
