@@ -46,7 +46,7 @@
 
         <div class="page__content landing-page">
             
-            {% if tap_carousel %}
+            {% if tap_carousel and settings.utils.SitewideTapSetting.show_carousels %}
                 <section class="landing-page__top section section--start bg bg--dark">
                     <div class="section__row">
                         {{ tap_carousel }}

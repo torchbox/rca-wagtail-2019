@@ -5,7 +5,9 @@
 
 {% block header_class %}theme-{{ hero_colour }}{% endblock %}
 
-{% block tap_widget %}{{ tap_widget_code }}{% endblock %}
+{% block tap_widget %}
+{% if settings.utils.SitewideTapSetting.show_widgets %}{{ tap_widget_code }}{% endif %}
+{% endblock %}
 
 {% block content %}
 
