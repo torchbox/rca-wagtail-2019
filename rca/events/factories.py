@@ -1,7 +1,7 @@
 import factory
 import wagtail_factories
 
-from .models import EventDetailPage, EventSeries
+from .models import EventDetailPage, EventSeries, EventType
 
 
 class EventSeriesFactory(factory.django.DjangoModelFactory):
@@ -10,6 +10,13 @@ class EventSeriesFactory(factory.django.DjangoModelFactory):
 
     title = factory.Faker("text", max_nb_chars=25)
     introduction = factory.Faker("text", max_nb_chars=150)
+
+
+class EventTypeFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = EventType
+
+    title = factory.Faker("text", max_nb_chars=25)
 
 
 class EventDetailPageFactory(wagtail_factories.PageFactory):
