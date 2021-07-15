@@ -14,7 +14,6 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.core.fields import StreamBlock, StreamField
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
-from wagtail.core.fields import StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
