@@ -6,6 +6,8 @@
     app--landing-page
 {% endblock %}
 
+{% block tap_widget %}{{ tap_widget_code }}{% endblock %}
+
 {% block content %}
 
     {% include "patterns/molecules/hero/hero.html" with hero_image=page.hero_image modifier="medium" %}
