@@ -192,8 +192,9 @@ class EditorialListingPage(BasePage):
                 page = value.page.specific
 
                 meta = None
-                if page.related_schools_and_research_pages.exists():
-                    meta = page.related_schools_and_research_pages.first().page.title
+                school_and_research = page.related_schools_and_research_pages.first()
+                if school_and_research:
+                    meta = school_and_research.page.title
 
                 related_pages.append(
                     {
@@ -217,8 +218,9 @@ class EditorialListingPage(BasePage):
             obj.image = obj.listing_image or obj.hero_image
             obj.year = obj.published_at
             obj.title = obj.listing_title or obj.title
-            if obj.related_schools_and_research_pages.exists():
-                obj.school = obj.related_schools_and_research_pages.first().page.title
+            school_and_research = obj.related_schools_and_research_pages.first()
+            if school_and_research:
+                obj.school = school_and_research.page.title
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
