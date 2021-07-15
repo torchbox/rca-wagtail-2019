@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ("images", "0003_extends_image_fields"),
         ("forms", "0006_adds_key_details_field"),
-        ("editorial", "0001_initial"),
+        ("editorial", "0002_add_body_field"),
     ]
 
     operations = [
