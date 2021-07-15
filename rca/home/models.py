@@ -4,6 +4,7 @@ from itertools import chain
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
     FieldPanel,
@@ -15,6 +16,7 @@ from wagtail.admin.edit_handlers import (
 from wagtail.core.fields import StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from rca.api_content.content import get_alumni_stories as get_api_alumni_stories
 from rca.api_content.content import get_news_and_events as get_api_news_and_events
@@ -147,6 +149,9 @@ class HomePage(BasePage):
 
     use_api_for_alumni_stories = models.BooleanField(default=True)
     use_api_for_news_and_events = models.BooleanField(default=True)
+    tap_widget = models.ForeignKey(
+        "utils.TapWidgetSnippet", on_delete=models.SET_NULL, null=True, blank=True,
+    )
 
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
@@ -190,6 +195,7 @@ class HomePage(BasePage):
             ],
             heading="News, Events and Alumni Stories Content Listings",
         ),
+        SnippetChooserPanel("tap_widget"),
     ]
 
     def clean(self):
@@ -359,6 +365,8 @@ class HomePage(BasePage):
         context["news_and_events"] = self.get_news_and_events()
         context["alumni_stories"] = self.get_alumni_stories()
         context["hero_colour"] = LIGHT_HERO
+        context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
+
         if (
             hasattr(self, "hero_colour_option")
             and self.hero_colour_option == DARK_TEXT_ON_LIGHT_IMAGE
