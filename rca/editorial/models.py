@@ -184,10 +184,9 @@ class EditorialPage(ContactFieldsMixin, BasePage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
-        parent = self.get_parent().specific
         # Link taxonomy/page relations to a parent page so they can be clicked
         # and applied as filters on the parent listing page
-        context["taxonomy_tags"] = get_linked_taxonomy(self, parent, request)
+        context["taxonomy_tags"] = get_linked_taxonomy(self, request)
         context["hero_image"] = self.hero_image
 
         return context

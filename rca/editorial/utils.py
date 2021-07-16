@@ -1,4 +1,4 @@
-def get_linked_taxonomy(page, parent, request):
+def get_linked_taxonomy(page, request):
     """Function to generate a list of taxonomy/page relationships
     as links.
 
@@ -22,6 +22,7 @@ def get_linked_taxonomy(page, parent, request):
     related_schools = page.related_schools.all()
     research_centres = page.related_research_centre_pages.all()
     directorates = page.related_directorates.all()
+    parent = page.get_parent().specific
 
     if parent.__class__.__name__ == "EditorialListingPage":
         editorial_listing_parent = True
