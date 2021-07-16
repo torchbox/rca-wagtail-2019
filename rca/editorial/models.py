@@ -1,3 +1,4 @@
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -11,6 +12,7 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.core import blocks
 from wagtail.core.fields import StreamField
+from wagtail.core.models import Orderable
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -156,4 +158,109 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         context["taxonomy_tags"] = taxonomy_tags
         context["hero_image"] = self.hero_image
 
+        return context
+
+
+class EditorialListingRelatedEditorialPage(Orderable):
+    page = models.ForeignKey(
+        EditorialPage,
+        null=True,
+        blank=False,
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
+    source_page = ParentalKey(
+        "EditorialListingPage", related_name="related_editorial_pages"
+    )
+    panels = [PageChooserPanel("page")]
+
+
+class EditorialListingPage(BasePage):
+    template = "patterns/pages/editorial/editorial_listing.html"
+    subpage_types = ["editorial.EditorialPage"]
+
+    introduction = models.CharField(max_length=200, blank=True)
+
+    content_panels = BasePage.content_panels + [
+        FieldPanel("introduction"),
+        MultiFieldPanel(
+            [
+                InlinePanel(
+                    "related_editorial_pages", max_num=6, label="Editorial Pages"
+                ),
+            ],
+            heading="Editors picks",
+        ),
+    ]
+
+    def get_editor_picks(self):
+        related_pages = []
+        pages = (
+            self.related_editorial_pages.all()
+            .prefetch_related("page__hero_image", "page__listing_image")
+            .filter(page__live=True)
+        )
+        for value in pages:
+            page = value.page
+            if page:
+                meta = None
+                school_and_research = page.related_schools_and_research_pages.first()
+                if school_and_research:
+                    meta = school_and_research.page.title
+
+                related_pages.append(
+                    {
+                        "title": page.title,
+                        "link": page.url,
+                        "image": page.listing_image or page.hero_image,
+                        "description": page.introduction or page.listing_summary,
+                        "meta": meta,
+                    }
+                )
+        return related_pages
+
+    def get_base_queryset(self):
+        return EditorialPage.objects.child_of(self).live().order_by("-published_at")
+
+    def modify_results(self, paginator_page, request):
+        for obj in paginator_page.object_list:
+            obj.link = obj.get_url(request)
+            obj.image = obj.listing_image or obj.hero_image
+            obj.year = obj.published_at
+            obj.title = obj.listing_title or obj.title
+            school_and_research = obj.related_schools_and_research_pages.first()
+            if school_and_research:
+                obj.school = school_and_research.page.title
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["featured_editorial"] = self.get_editor_picks()
+
+        queryset = self.get_base_queryset().all()
+        # Paginate filtered queryset
+        per_page = 12
+
+        page_number = request.GET.get("page")
+        paginator = Paginator(queryset, per_page)
+        try:
+            results = paginator.page(page_number)
+        except PageNotAnInteger:
+            results = paginator.page(1)
+        except EmptyPage:
+            results = paginator.page(paginator.num_pages)
+
+        # Set additional attributes etc
+        self.modify_results(results, request)
+
+        # Finalise and return context
+        context.update(
+            filters={
+                "title": "Filter by",
+                "aria_label": "Filter results",
+                # TODO wire up filters as `items` when taxonomies are there
+                "items": [],
+            },
+            results=results,
+            result_count=paginator.count,
+        )
         return context
