@@ -17,13 +17,17 @@ def get_linked_taxonomy(page, parent, request):
     Returns:
         list: Containing taxonomy terms for the template
     """
+    taxonomy_tags = []
     editorial_listing_parent = False
+    related_schools = page.related_schools.all()
+    research_centres = page.related_research_centre_pages.all()
+    directorates = page.related_directorates.all()
+
     if parent.__class__.__name__ == "EditorialListingPage":
         editorial_listing_parent = True
 
-    taxonomy_tags = []
-    if page.related_schools.exists():
-        for item in page.related_schools.all():
+    if related_schools:
+        for item in related_schools:
             if editorial_listing_parent:
                 taxonomy_tags.append(
                     {
@@ -34,8 +38,8 @@ def get_linked_taxonomy(page, parent, request):
             else:
                 taxonomy_tags.append({"title": item.page})
 
-    if page.related_research_centre_pages.exists():
-        for item in page.related_research_centre_pages.all():
+    if research_centres:
+        for item in research_centres:
             if editorial_listing_parent:
                 taxonomy_tags.append(
                     {
@@ -46,16 +50,16 @@ def get_linked_taxonomy(page, parent, request):
             else:
                 taxonomy_tags.append({"title": item.page})
 
-    if page.related_directorates.exists():
-        for item in page.related_directorates.all():
+    if directorates:
+        for item in directorates:
             if editorial_listing_parent:
                 taxonomy_tags.append(
                     {
-                        "title": item.page.title,
+                        "title": item.directorate.title,
                         "link": f"{parent.url}?school-centre-or-area=d-{item.directorate.slug}",
                     }
                 )
             else:
-                taxonomy_tags.append({"title": item.page})
+                taxonomy_tags.append({"title": item.directorate.title})
 
     return taxonomy_tags

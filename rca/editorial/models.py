@@ -26,7 +26,7 @@ from rca.programmes.models import Subject
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.filter import TabStyleFilter
-from rca.utils.models import BasePage, ContactFieldsMixin, RelatedPage
+from rca.utils.models import BasePage, ContactFieldsMixin
 
 
 class Author(models.Model):
@@ -236,8 +236,9 @@ class EditorialListingPage(BasePage):
             page = value.page
             if page:
                 meta = None
-                if page.related_schools.exists():
-                    meta = page.related_schools.first().page.title
+                school = page.related_schools.first()
+                if school:
+                    meta = school.page.title
 
                 related_pages.append(
                     {
@@ -259,8 +260,9 @@ class EditorialListingPage(BasePage):
             obj.image = obj.listing_image or obj.hero_image
             obj.year = obj.published_at
             obj.title = obj.listing_title or obj.title
-            if obj.related_schools.exists():
-                obj.school = obj.related_schools.first().page.title
+            school = obj.related_schools.first()
+            if school:
+                obj.school = school.page.title
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)

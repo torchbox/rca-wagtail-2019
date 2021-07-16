@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
     so the can be used as filters"""
 
     dependencies = [
-        ("programmes", "0060_subject_slug"),
+        ("programmes", "0061_subject_slug"),
     ]
 
     operations = [

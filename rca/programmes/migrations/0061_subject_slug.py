@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("programmes", "0059_remove_hero_colour_options"),
+        ("programmes", "0060_add_contact_fields"),
     ]
 
     operations = [
