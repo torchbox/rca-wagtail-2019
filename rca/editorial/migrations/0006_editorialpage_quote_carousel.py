@@ -8,7 +8,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("editorial", "0004_editoriallistingpage_editoriallistingrelatededitorialpage"),
+        ("editorial", "0005_taxonomy_additions"),
     ]
 
     operations = [
