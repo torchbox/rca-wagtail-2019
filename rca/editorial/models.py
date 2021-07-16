@@ -1,4 +1,6 @@
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
+from django.utils.text import slugify
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
     FieldPanel,
@@ -11,21 +13,20 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.core import blocks
 from wagtail.core.fields import StreamField
+from wagtail.core.models import Orderable
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.editorial import admin_forms
-from rca.utils.models import BasePage, ContactFieldsMixin, RelatedPage
-
-
-class EditorialPageRelatedSchoolsAndResearchPages(RelatedPage):
-    source_page = ParentalKey(
-        "EditorialPage", related_name="related_schools_and_research_pages"
-    )
-    panels = [
-        PageChooserPanel("page", ["schools.SchoolPage", "research.ResearchCentrePage"])
-    ]
+from rca.editorial.utils import get_linked_taxonomy
+from rca.people.filter import SchoolCentreDirectorateFilter
+from rca.people.models import Directorate
+from rca.programmes.models import Subject
+from rca.research.models import ResearchCentrePage
+from rca.schools.models import SchoolPage
+from rca.utils.filter import TabStyleFilter
+from rca.utils.models import BasePage, ContactFieldsMixin
 
 
 class Author(models.Model):
@@ -35,15 +36,51 @@ class Author(models.Model):
         return self.name
 
 
-class EditorialPageArea(models.Model):
-    page = ParentalKey("EditorialPage", related_name="areas")
-    area = models.ForeignKey(
-        "people.AreaOfExpertise", related_name="editorial", on_delete=models.CASCADE
-    )
-    panels = [FieldPanel("area")]
+class EditorialType(models.Model):
+    title = models.CharField(max_length=128)
+    slug = models.SlugField(blank=True)
 
     def __str__(self):
-        return self.area.title
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(EditorialType, self).save(*args, **kwargs)
+
+
+class EditorialPageTypePlacement(models.Model):
+    page = ParentalKey("EditorialPage", related_name="editorial_types")
+    type = models.ForeignKey(
+        EditorialType,
+        on_delete=models.SET_NULL,
+        blank=False,
+        null=True,
+        related_name="editorial_pages",
+    )
+    panels = [FieldPanel("type")]
+
+
+class EditorialPageDirectorate(models.Model):
+    page = ParentalKey("EditorialPage", related_name="related_directorates")
+    directorate = models.ForeignKey(
+        Directorate,
+        on_delete=models.CASCADE,
+        related_name="related_editorial_pages",
+        verbose_name="Directorates",
+    )
+    panels = [FieldPanel("directorate")]
+
+
+class EditorialPageSubjectPlacement(models.Model):
+    page = ParentalKey("EditorialPage", related_name="subjects")
+    subject = models.ForeignKey(
+        Subject,
+        on_delete=models.SET_NULL,
+        blank=False,
+        null=True,
+        related_name="editorial_pages",
+    )
+    panels = [FieldPanel("subject")]
 
 
 class EditorialPage(ContactFieldsMixin, BasePage):
@@ -121,14 +158,16 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         FieldPanel("published_at"),
         MultiFieldPanel(
             [
+                InlinePanel("related_schools", label="Related Schools"),
                 InlinePanel(
-                    "related_schools_and_research_pages",
-                    label="School or Research Centre",
+                    "related_research_centre_pages", label="Related Research Centres "
                 ),
-                InlinePanel("areas", label="Area"),
+                InlinePanel("related_directorates", label="Area / Directorate"),
             ],
             heading="Related School, Research Centre or Area",
         ),
+        InlinePanel("subjects", label="Subject"),
+        InlinePanel("editorial_types", label="Editorial Type"),
         FieldPanel("author"),
         FieldPanel("contact_email"),
     ]
@@ -144,16 +183,165 @@ class EditorialPage(ContactFieldsMixin, BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        taxonomy_tags = []
 
-        if self.related_schools_and_research_pages:
-            for related_page in self.related_schools_and_research_pages.all():
-                taxonomy_tags.append({"title": related_page.page.title})
-        if self.areas:
-            for area in self.areas.all():
-                taxonomy_tags.append({"title": area})
-
-        context["taxonomy_tags"] = taxonomy_tags
+        # Link taxonomy/page relations to a parent page so they can be clicked
+        # and applied as filters on the parent listing page
+        context["taxonomy_tags"] = get_linked_taxonomy(self, request)
         context["hero_image"] = self.hero_image
+
+        return context
+
+
+class EditorialListingRelatedEditorialPage(Orderable):
+    page = models.ForeignKey(
+        EditorialPage,
+        null=True,
+        blank=False,
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
+    source_page = ParentalKey(
+        "EditorialListingPage", related_name="related_editorial_pages"
+    )
+    panels = [PageChooserPanel("page")]
+
+
+class EditorialListingPage(BasePage):
+    template = "patterns/pages/editorial/editorial_listing.html"
+    subpage_types = ["editorial.EditorialPage"]
+
+    introduction = models.CharField(max_length=200, blank=True)
+
+    content_panels = BasePage.content_panels + [
+        FieldPanel("introduction"),
+        MultiFieldPanel(
+            [
+                InlinePanel(
+                    "related_editorial_pages", max_num=6, label="Editorial Pages"
+                ),
+            ],
+            heading="Editors picks",
+        ),
+    ]
+
+    def get_editor_picks(self):
+        related_pages = []
+        pages = (
+            self.related_editorial_pages.all()
+            .prefetch_related("page__hero_image", "page__listing_image")
+            .filter(page__live=True)
+        )
+        for value in pages:
+            page = value.page
+            if page:
+                meta = None
+                school = page.related_schools.first()
+                if school:
+                    meta = school.page.title
+
+                related_pages.append(
+                    {
+                        "title": page.title,
+                        "link": page.url,
+                        "image": page.listing_image or page.hero_image,
+                        "description": page.introduction or page.listing_summary,
+                        "meta": meta,
+                    }
+                )
+        return related_pages
+
+    def get_base_queryset(self):
+        return EditorialPage.objects.child_of(self).live().order_by("-published_at")
+
+    def modify_results(self, paginator_page, request):
+        for obj in paginator_page.object_list:
+            obj.link = obj.get_url(request)
+            obj.image = obj.listing_image or obj.hero_image
+            obj.year = obj.published_at
+            obj.title = obj.listing_title or obj.title
+            school = obj.related_schools.first()
+            if school:
+                obj.school = school.page.title
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["featured_editorial"] = self.get_editor_picks()
+
+        base_queryset = self.get_base_queryset()
+        queryset = base_queryset.all()
+
+        filters = (
+            SchoolCentreDirectorateFilter(
+                "School, Centre or Area",
+                school_queryset=SchoolPage.objects.live().filter(
+                    id__in=base_queryset.values_list(
+                        "related_schools__page_id", flat=True
+                    )
+                ),
+                centre_queryset=ResearchCentrePage.objects.live().filter(
+                    id__in=base_queryset.values_list(
+                        "related_research_centre_pages__page_id", flat=True
+                    )
+                ),
+                directorate_queryset=Directorate.objects.filter(
+                    id__in=base_queryset.values_list(
+                        "related_directorates__directorate_id", flat=True
+                    )
+                ),
+            ),
+            TabStyleFilter(
+                "Type",
+                queryset=(
+                    EditorialType.objects.filter(
+                        id__in=base_queryset.values_list(
+                            "editorial_types__type_id", flat=True
+                        )
+                    )
+                ),
+                filter_by="editorial_types__type__slug__in",
+                option_value_field="slug",
+            ),
+            TabStyleFilter(
+                "Subject",
+                queryset=(
+                    Subject.objects.filter(
+                        id__in=base_queryset.values_list(
+                            "subjects__subject_id", flat=True
+                        )
+                    )
+                ),
+                filter_by="subjects__subject__slug__in",
+                option_value_field="slug",
+            ),
+        )
+        # Apply filters
+        for f in filters:
+            queryset = f.apply(queryset, request.GET)
+
+        # Paginate filtered queryset
+        per_page = 12
+
+        page_number = request.GET.get("page")
+        paginator = Paginator(queryset, per_page)
+        try:
+            results = paginator.page(page_number)
+        except PageNotAnInteger:
+            results = paginator.page(1)
+        except EmptyPage:
+            results = paginator.page(paginator.num_pages)
+
+        # Set additional attributes etc
+        self.modify_results(results, request)
+
+        # Finalise and return context
+        context.update(
+            filters={
+                "title": "Filter by",
+                "aria_label": "Filter results",
+                "items": filters,
+            },
+            results=results,
+            result_count=paginator.count,
+        )
 
         return context
