@@ -1,0 +1,132 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% get_settings %}
+
+{% block body_class %}
+    app--editorial-event-landing
+{% endblock %}
+
+{% block content %}
+
+    <div class="page page--no-hero">
+
+        <header class="page__header bg bg--dark">
+            <div class="title-area title-area--landing-page grid">
+                <div class="title-area__content">
+                    {% if page.title %}
+                        <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
+                    {% endif %}
+                </div>
+            </div>
+
+        </header>
+
+        <div class="page__content">
+
+            {% include "patterns/molecules/jump-nav/jump-nav.html" with modifier="bg bg--dark" sticky=True item=tabs %}
+
+            {# News #}
+            <section class="section section--start bg bg--dark anchor-heading" id="news">
+                <div class="section__row section__row--last schools__about--news">
+                    <div class="section__header grid">
+                        <h2 class="section__heading section__heading--primary heading heading--two">News</h2>
+                    </div>
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/news/news_api_content.html" with news=page.news news_view_all=page.news_view_all modifier="news--single-feature" %}
+                    </div>
+                </div>
+            </section>
+
+            {# Events #}
+            <section class="section section--start anchor-heading bg bg--dark" id="events">
+                <div class="section__row section__row--last schools__about--news">
+                    <div class="section__header grid">
+                        <h2 class="section__heading section__heading--primary heading heading--two">Events</h2>
+                    </div>
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/news/news_api_content.html" with news=page.events news_view_all=page.events_view_all modifier="news--single-feature" %}
+                    </div>
+                </div>
+            </section>
+
+            {# Stories #}
+            <section class=" section section--start bg bg--dark anchor-heading" id="stories">
+
+                <div class="section__row section__row--last-small">
+                    <div class="section__header section__header--bottom-space grid">
+                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">Stories</h2>
+                        {% if page.stories_intro %}
+                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
+                                {{ page.stories_intro|richtext }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if page.stories %}
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/carousel/carousel.html" with carousel=page.stories modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                    </div>
+                    {% endif %}
+                    {% if page.stories_link %}
+                    <div class="section__action grid">
+                        <a class="layout__@large-start-two link link--primary link--link body body--two" href="{{ page.stories_link }}">
+                            <span class="link__label">Browse all stories</span>
+                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </section>
+
+
+            {# Talks #}
+            <section class="section section--start bg bg--dark anchor-heading" id="talks">
+
+                <div class="section__row section__row--last-small">
+                    <div class="section__header section__header--bottom-space grid">
+                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
+                            Talks
+                        </h2>
+                        {% if page.talks_intro %}
+                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
+                                {{ page.talks_intro }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="section__content">
+
+                        {% if page.talks_image %}
+                            {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.talks_video out_of_grid=False curriculum=False heading=False has_meta=False copy=False subheading=False image=page.talks_image caption=page.talks_cta video=page.talks_video modifier="small-bottom-margin image-video-block--no-padding" %}
+                        {% endif %}
+
+                        {% if page.talks_link %}
+                        <div class="section__action grid">
+                            <a class="layout__@large-start-four link link--primary link--link body body--two" href="{{ page.talks_link }}">
+                                <span class="link__label">Browse all Talks</span>
+                                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </section>
+
+            {# CTA #}
+            <section class="section section--start section--end bg bg--dark anchor-heading" id="media-centre">
+                <div class="section__row section__row--last">
+                    {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=page.cta_block %}
+                </div>
+            </section>
+
+            {# Contact #}
+            <section class="section bg bg--dark">
+                <div class="contact-anchor anchor-heading" id="contact" ></div>
+                <div class="section__row section__row--first">
+                    {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image %}
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+{% endblock %}
