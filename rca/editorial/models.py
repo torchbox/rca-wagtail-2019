@@ -185,12 +185,12 @@ class EditorialListingPage(BasePage):
         ),
     ]
 
-    def get_editor_picks(self, pages):
+    def get_editor_picks(self):
         related_pages = []
+        pages = self.related_editorial_pages
         for value in pages.select_related("page"):
             if value.page and value.page.live:
                 page = value.page.specific
-
                 meta = None
                 school_and_research = page.related_schools_and_research_pages.first()
                 if school_and_research:
@@ -224,9 +224,7 @@ class EditorialListingPage(BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["featured_editorial"] = self.get_editor_picks(
-            self.related_editorial_pages
-        )
+        context["featured_editorial"] = self.get_editor_picks()
 
         queryset = self.get_base_queryset().all()
         # Paginate filtered queryset
