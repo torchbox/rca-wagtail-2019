@@ -12,6 +12,7 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.core import blocks
 from wagtail.core.fields import StreamField
+from wagtail.core.models import Orderable
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -160,11 +161,18 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         return context
 
 
-class EditorialListingRelatedEditorialPage(RelatedPage):
+class EditorialListingRelatedEditorialPage(Orderable):
+    page = models.ForeignKey(
+        EditorialPage,
+        null=True,
+        blank=False,
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
     source_page = ParentalKey(
         "EditorialListingPage", related_name="related_editorial_pages"
     )
-    panels = [PageChooserPanel("page", ["editorial.EditorialPage"])]
+    panels = [PageChooserPanel("page")]
 
 
 class EditorialListingPage(BasePage):
@@ -187,10 +195,11 @@ class EditorialListingPage(BasePage):
 
     def get_editor_picks(self):
         related_pages = []
-        pages = self.related_editorial_pages.all()
-        for value in pages.select_related("page"):
-            if value.page and value.page.live:
-                page = value.page.specific
+        pages = self.related_editorial_pages.all().select_related("page")
+        pages = pages.prefetch_related("page__hero_image", "page__listing_image")
+        for value in pages:
+            page = value.page
+            if page and page.live:
                 meta = None
                 school_and_research = page.related_schools_and_research_pages.first()
                 if school_and_research:
