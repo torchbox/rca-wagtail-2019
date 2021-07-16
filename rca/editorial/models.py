@@ -25,9 +25,9 @@ from rca.people.models import Directorate
 from rca.programmes.models import Subject
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
+from rca.utils.blocks import QuoteBlock
 from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, ContactFieldsMixin
-from rca.utils.blocks import QuoteBlock
 
 
 class Author(models.Model):
