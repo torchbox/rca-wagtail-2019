@@ -187,7 +187,7 @@ class EditorialListingPage(BasePage):
 
     def get_editor_picks(self):
         related_pages = []
-        pages = self.related_editorial_pages
+        pages = self.related_editorial_pages.all()
         for value in pages.select_related("page"):
             if value.page and value.page.live:
                 page = value.page.specific
@@ -201,9 +201,7 @@ class EditorialListingPage(BasePage):
                         "title": page.title,
                         "link": page.url,
                         "image": page.listing_image or page.hero_image,
-                        "description": page.introduction
-                        if hasattr(page, "introduction")
-                        else page.listing_summary,
+                        "description": page.introduction or page.listing_summary,
                         "meta": meta,
                     }
                 )
