@@ -195,11 +195,14 @@ class EditorialListingPage(BasePage):
 
     def get_editor_picks(self):
         related_pages = []
-        pages = self.related_editorial_pages.all().select_related("page")
-        pages = pages.prefetch_related("page__hero_image", "page__listing_image")
+        pages = (
+            self.related_editorial_pages.all()
+            .prefetch_related("page__hero_image", "page__listing_image")
+            .filter(page__live=True)
+        )
         for value in pages:
             page = value.page
-            if page and page.live:
+            if page:
                 meta = None
                 school_and_research = page.related_schools_and_research_pages.first()
                 if school_and_research:
