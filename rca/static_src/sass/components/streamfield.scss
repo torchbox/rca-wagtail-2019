@@ -6,4 +6,22 @@
             margin-bottom: ($gutter * 1.5);
         }
     }
+
+    // inline images
+    img {
+        margin-bottom: $gutter;
+
+        @include media-query(large) {
+            margin-bottom: ($gutter * 1.5);
+        }
+    }
+
+    // Video embeds
+    .responsive-object {
+        margin-bottom: $gutter;
+
+        @include media-query(large) {
+            margin-bottom: ($gutter * 1.5);
+        }
+    }
 }
