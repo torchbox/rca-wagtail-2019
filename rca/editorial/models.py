@@ -11,11 +11,8 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
     TabbedInterface,
 )
-from wagtail.core import blocks
 from wagtail.core.fields import StreamField
 from wagtail.core.models import Orderable
-from wagtail.embeds.blocks import EmbedBlock
-from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.editorial import admin_forms
@@ -28,6 +25,8 @@ from rca.schools.models import SchoolPage
 from rca.utils.blocks import QuoteBlock
 from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, ContactFieldsMixin
+
+from .blocks import EditorialPageBlock
 
 
 class Author(models.Model):
@@ -119,15 +118,7 @@ class EditorialPage(ContactFieldsMixin, BasePage):
     published_at = models.DateField()
     contact_email = models.EmailField(blank=True, max_length=254)
 
-    body = StreamField(
-        [
-            ("heading", blocks.CharBlock()),
-            ("paragraph", blocks.RichTextBlock()),
-            ("image", ImageChooserBlock()),
-            ("embed", EmbedBlock()),
-        ],
-        blank=True,
-    )
+    body = StreamField(EditorialPageBlock())
 
     quote_carousel = StreamField(
         [("quote", QuoteBlock())], blank=True, verbose_name="Quote Carousel"
