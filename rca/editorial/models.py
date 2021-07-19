@@ -47,6 +47,8 @@ class EditorialType(models.Model):
         self.slug = slugify(self.title)
         super(EditorialType, self).save(*args, **kwargs)
 
+    panels = [FieldPanel("title")]
+
 
 class EditorialPageTypePlacement(models.Model):
     page = ParentalKey("EditorialPage", related_name="editorial_types")

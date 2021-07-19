@@ -11,7 +11,6 @@ def get_linked_taxonomy(page, request):
 
     Args:
         page :EditorialPage object
-        parent: The EditorialPage parent object
         request
 
     Returns:
