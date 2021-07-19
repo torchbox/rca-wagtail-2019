@@ -10,16 +10,15 @@
 
     <div class="page page--no-hero">
 
-        <header class="page__header bg bg--dark">
-            <div class="title-area title-area--landing-page grid">
-                <div class="title-area__content">
-                    {% if page.title %}
-                        <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
-                    {% endif %}
+        {% if page.title %}
+            <header class="page__header bg bg--dark">
+                <div class="title-area title-area--landing-page grid">
+                    <div class="title-area__content">
+                            <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
+                    </div>
                 </div>
-            </div>
-
-        </header>
+            </header>
+        {% endif %}
 
         <div class="page__content">
 
@@ -27,7 +26,7 @@
 
             {# News #}
             <section class="section section--start bg bg--dark anchor-heading" id="news">
-                <div class="section__row section__row--last schools__about--news">
+                <div class="section__row section__row--last">
                     <div class="section__header grid">
                         <h2 class="section__heading section__heading--primary heading heading--two">News</h2>
                     </div>
@@ -39,7 +38,7 @@
 
             {# Events #}
             <section class="section section--start anchor-heading bg bg--dark" id="events">
-                <div class="section__row section__row--last schools__about--news">
+                <div class="section__row section__row--last">
                     <div class="section__header grid">
                         <h2 class="section__heading section__heading--primary heading heading--two">Events</h2>
                     </div>
