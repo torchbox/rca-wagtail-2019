@@ -10,7 +10,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("editorial", "0005_taxonomy_additions"),
+        ("editorial", "0006_editorialpage_quote_carousel"),
     ]
 
     operations = [
