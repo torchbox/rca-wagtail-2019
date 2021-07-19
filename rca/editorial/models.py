@@ -259,11 +259,11 @@ class EditorialListingPage(BasePage):
         for obj in paginator_page.object_list:
             obj.link = obj.get_url(request)
             obj.image = obj.listing_image or obj.hero_image
-            obj.year = obj.published_at
+            obj.date = obj.published_at
             obj.title = obj.listing_title or obj.title
-            school = obj.related_schools.first()
-            if school:
-                obj.school = school.page.title
+            editorial_type = obj.editorial_types.first()
+            if editorial_type:
+                obj.type = editorial_type.type
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
