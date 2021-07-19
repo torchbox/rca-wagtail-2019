@@ -1,3 +1,5 @@
+from urllib.parse import urlencode
+
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils.text import slugify
@@ -249,6 +251,20 @@ class EditorialListingPage(BasePage):
                 )
         return related_pages
 
+    def get_active_filters(self, request):
+        return {
+            "type": request.GET.getlist("type"),
+            "subject": request.GET.getlist("subject"),
+            "school_or_centre": request.GET.getlist("school-centre-or-area"),
+        }
+
+    def get_extra_query_params(self, request, active_filters):
+        extra_query_params = []
+        for filter_name in active_filters:
+            for filter_id in active_filters[filter_name]:
+                extra_query_params.append(urlencode({filter_name: filter_id}))
+        return extra_query_params
+
     def get_base_queryset(self):
         return EditorialPage.objects.child_of(self).live().order_by("-published_at")
 
@@ -342,5 +358,11 @@ class EditorialListingPage(BasePage):
             results=results,
             result_count=paginator.count,
         )
+        context["show_picks"] = True
+        extra_query_params = self.get_extra_query_params(
+            request, self.get_active_filters(request)
+        )
+        if extra_query_params or (page_number and page_number != "1"):
+            context["show_picks"] = False
 
         return context
