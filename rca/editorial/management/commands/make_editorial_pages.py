@@ -7,8 +7,18 @@ from django.core.management import BaseCommand
 from faker import Faker
 from wagtail.core.models import Page
 
-from rca.editorial.models import EditorialPage
+from rca.editorial.models import (
+    EditorialPage,
+    EditorialPageDirectorate,
+    EditorialPageSubjectPlacement,
+    EditorialPageTypePlacement,
+    EditorialType,
+)
 from rca.images.models import CustomImage
+from rca.people.models import Directorate
+from rca.programmes.models import Subject
+from rca.research.models import RelatedResearchCenterPage, ResearchCentrePage
+from rca.schools.models import RelatedSchoolPage, SchoolPage
 
 
 class Command(BaseCommand):
@@ -53,6 +63,12 @@ class Command(BaseCommand):
         fake_index_page = Page.objects.get(id=options["parent_page_id"])
         fake = Faker()
         number_to_create = options["count"]
+
+        # Create some EditorialType items to work with
+        # Make some 'types'
+        editorial_type = ["News", "Art", "Tech", "Stories", "Blog"]
+        for item in editorial_type:
+            EditorialType.objects.get_or_create(title=item)
         for _ in range(int(number_to_create)):
             title = " ".join(fake.words(3)).title()
             fake_page = EditorialPage(
@@ -63,5 +79,32 @@ class Command(BaseCommand):
                 hero_image_id=CustomImage.objects.order_by("?").first().id,
             )
             fake_index_page.add_child(instance=fake_page)
+
+            # Add related content
+            schools = RelatedSchoolPage(
+                source_page=fake_page, page=SchoolPage.objects.order_by("?").first()
+            )
+            fake_page.related_schools = [schools]
+            research_pages = RelatedResearchCenterPage(
+                source_page=fake_page,
+                page=ResearchCentrePage.objects.order_by("?").first(),
+            )
+            fake_page.related_research_centre_pages = [research_pages]
+
+            subjects = EditorialPageSubjectPlacement(
+                page=fake_page, subject=Subject.objects.order_by("?").first()
+            )
+            fake_page.subjects = [subjects]
+
+            directorates = EditorialPageDirectorate(
+                page=fake_page, directorate=Directorate.objects.order_by("?").first()
+            )
+            fake_page.related_directorates = [directorates]
+
+            editorial_types = EditorialPageTypePlacement(
+                page=fake_page, type=EditorialType.objects.order_by("?").first()
+            )
+            fake_page.editorial_types = [editorial_types]
+
             fake_page.save_revision().publish()
             print("published:" + title)
