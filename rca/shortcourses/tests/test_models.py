@@ -1,6 +1,7 @@
 import datetime
 from unittest import mock
 
+from django.conf import settings
 from django.test import TestCase
 
 from rca.home.models import HomePage
@@ -50,6 +51,9 @@ class TestBookingBarLogic(TestCase):
             contact_model_url="https://rca.ac.uk",
             contact_model_text="Read more",
             show_register_link=0,
+        )
+        settings.ACCESS_PLANIT_REGISTER_INTEREST_BASE = (
+            "https://rca.ac.uk/short-courses/register-your-interest/"
         )
 
     @mock.patch(
