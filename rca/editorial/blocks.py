@@ -13,6 +13,7 @@ class EditorialPageBlock(blocks.StreamBlock):
     )
     paragraph = blocks.RichTextBlock()
     embed = EmbedBlock()
+    quote = utils_blocks.QuoteBlock()
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"
