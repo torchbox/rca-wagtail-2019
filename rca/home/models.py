@@ -16,7 +16,6 @@ from wagtail.admin.edit_handlers import (
 from wagtail.core.fields import StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from rca.api_content.content import get_alumni_stories as get_api_alumni_stories
 from rca.api_content.content import get_news_and_events as get_api_news_and_events
@@ -30,6 +29,7 @@ from rca.utils.models import (
     LIGHT_HERO,
     BasePage,
     get_listing_image,
+    TapMixin,
 )
 
 
@@ -119,7 +119,7 @@ class HomePageStatsBlock(models.Model):
         return self.title
 
 
-class HomePage(BasePage):
+class HomePage(TapMixin, BasePage):
     template = "patterns/pages/home/home_page.html"
 
     # Only allow creating HomePages at the root level
@@ -149,34 +149,35 @@ class HomePage(BasePage):
 
     use_api_for_alumni_stories = models.BooleanField(default=True)
     use_api_for_news_and_events = models.BooleanField(default=True)
-    tap_widget = models.ForeignKey(
-        "utils.TapWidgetSnippet", on_delete=models.SET_NULL, null=True, blank=True,
-    )
 
-    content_panels = BasePage.content_panels + [
-        MultiFieldPanel(
-            [
-                ImageChooserPanel("hero_image"),
-                FieldPanel("hero_image_credit"),
-                FieldPanel("hero_colour_option"),
-                FieldPanel("hero_cta_url"),
-                FieldPanel("hero_cta_text"),
-                FieldPanel("hero_cta_sub_text"),
-            ],
-            heading="Hero",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("strapline"),
-                FieldPanel("strapline_cta_url"),
-                FieldPanel("strapline_cta_text"),
-            ],
-            heading="Strapline",
-        ),
-        InlinePanel("transformation_blocks", label="Transormation block", max_num=1),
-        InlinePanel("partnerships_block", label="Partnerships", max_num=1),
-        InlinePanel("stats_block", label="Statistics", max_num=1),
-        MultiFieldPanel(
+    content_panels = (
+        BasePage.content_panels
+        + [
+            MultiFieldPanel(
+                [
+                    ImageChooserPanel("hero_image"),
+                    FieldPanel("hero_image_credit"),
+                    FieldPanel("hero_colour_option"),
+                    FieldPanel("hero_cta_url"),
+                    FieldPanel("hero_cta_text"),
+                    FieldPanel("hero_cta_sub_text"),
+                ],
+                heading="Hero",
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("strapline"),
+                    FieldPanel("strapline_cta_url"),
+                    FieldPanel("strapline_cta_text"),
+                ],
+                heading="Strapline",
+            ),
+            InlinePanel(
+                "transformation_blocks", label="Transormation block", max_num=1
+            ),
+            InlinePanel("partnerships_block", label="Partnerships", max_num=1),
+            InlinePanel("stats_block", label="Statistics", max_num=1),
+            MultiFieldPanel(
             [
                 HelpPanel(
                     content=(
@@ -195,8 +196,10 @@ class HomePage(BasePage):
             ],
             heading="News, Events and Alumni Stories Content Listings",
         ),
-        SnippetChooserPanel("tap_widget"),
-    ]
+
+        ]
+        + TapMixin.panels
+    )
 
     def clean(self):
         errors = defaultdict(list)
@@ -365,7 +368,8 @@ class HomePage(BasePage):
         context["news_and_events"] = self.get_news_and_events()
         context["alumni_stories"] = self.get_alumni_stories()
         context["hero_colour"] = LIGHT_HERO
-        context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
 
         if (
             hasattr(self, "hero_colour_option")

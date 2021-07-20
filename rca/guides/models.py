@@ -10,7 +10,6 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
 )
 from wagtail.core.fields import StreamField
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from rca.utils.blocks import AccordionBlockWithTitle, GuideBlock
 from rca.utils.models import (
@@ -18,6 +17,7 @@ from rca.utils.models import (
     ContactFieldsMixin,
     RelatedPage,
     RelatedStaffPageWithManualOptions,
+    TapMixin,
 )
 
 
@@ -29,7 +29,7 @@ class GuidePageRelatedPages(RelatedPage):
     source_page = ParentalKey("guides.GuidePage", related_name="related_pages")
 
 
-class GuidePage(ContactFieldsMixin, BasePage):
+class GuidePage(TapMixin, ContactFieldsMixin, BasePage):
     template = "patterns/pages/guide/guide.html"
 
     introduction = models.CharField(max_length=500, blank=True)
@@ -41,31 +41,33 @@ class GuidePage(ContactFieldsMixin, BasePage):
         verbose_name=_("Further information"),
     )
     related_pages_title = models.CharField(blank=True, max_length=120)
-    tap_widget = models.ForeignKey(
-        "utils.TapWidgetSnippet", on_delete=models.SET_NULL, null=True, blank=True,
-    )
 
-    content_panels = BasePage.content_panels + [
-        FieldPanel("introduction"),
-        StreamFieldPanel("body"),
-        MultiFieldPanel([InlinePanel("related_staff")], heading=_("Related staff")),
-        MultiFieldPanel(
-            [
-                FieldPanel("further_information_title"),
-                StreamFieldPanel("further_information"),
-            ],
-            heading=_("Further information"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("related_pages_title"),
-                InlinePanel("related_pages", max_num=6),
-            ],
-            heading=_("Related pages"),
-        ),
-        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
-        SnippetChooserPanel("tap_widget"),
-    ]
+    content_panels = (
+        BasePage.content_panels
+        + [
+            FieldPanel("introduction"),
+            StreamFieldPanel("body"),
+            MultiFieldPanel([InlinePanel("related_staff")], heading=_("Related staff")),
+            MultiFieldPanel(
+                [
+                    FieldPanel("further_information_title"),
+                    StreamFieldPanel("further_information"),
+                ],
+                heading=_("Further information"),
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("related_pages_title"),
+                    InlinePanel("related_pages", max_num=6),
+                ],
+                heading=_("Related pages"),
+            ),
+            MultiFieldPanel(
+                [*ContactFieldsMixin.panels], heading="Contact information"
+            ),
+        ]
+        + TapMixin.panels
+    )
 
     def anchor_nav(self):
         """ Build list of data to be used as
