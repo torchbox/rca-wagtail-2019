@@ -231,5 +231,6 @@ class TestBookingBarLogic(TestCase):
             response,
             f"Book from \xA3{self.short_course_page.manual_bookings.first().cost}",
         )
-        self.assertContains(response, "Next course starts 01 October 2020")
+        self.assertContains(response, "Next course starts 1 October 2020")
+
         self.assertEqual(response.render().status_code, 200)
