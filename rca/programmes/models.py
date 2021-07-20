@@ -49,6 +49,7 @@ from rca.utils.models import (
     ContactFieldsMixin,
     ProgrammeSettings,
     RelatedPage,
+    TapMixin,
 )
 
 
@@ -185,7 +186,7 @@ class ProgramPageRelatedStaff(Orderable):
         return self.name
 
 
-class ProgrammePage(ContactFieldsMixin, BasePage):
+class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     parent_page_types = ["ProgrammeIndexPage"]
     subpage_types = ["guides.GuidePage"]
     template = "patterns/pages/programmes/programme_detail.html"
@@ -422,37 +423,36 @@ class ProgrammePage(ContactFieldsMixin, BasePage):
         blank=True,
     )
 
-    tap_widget = models.ForeignKey(
-        "utils.TapWidgetSnippet", on_delete=models.SET_NULL, null=True, blank=True,
+    content_panels = (
+        BasePage.content_panels
+        + [
+            # Taxonomy, relationships etc
+            FieldPanel("degree_level"),
+            InlinePanel("subjects", label="Subjects"),
+            FieldPanel(
+                "programme_type",
+                help_text="Used to show content related to this programme page",
+            ),
+            MultiFieldPanel(
+                [
+                    ImageChooserPanel("hero_image"),
+                    FieldPanel("hero_image_credit"),
+                    FieldPanel("hero_video"),
+                    ImageChooserPanel("hero_video_preview_image"),
+                ],
+                heading="Hero",
+            ),
+            MultiFieldPanel(
+                [InlinePanel("related_programmes", label="Related programmes")],
+                heading="Related Programmes",
+            ),
+            MultiFieldPanel(
+                [InlinePanel("related_schools_and_research_pages")],
+                heading="Related Schools and Research Centres",
+            ),
+        ]
+        + TapMixin.panels
     )
-
-    content_panels = BasePage.content_panels + [
-        # Taxonomy, relationships etc
-        FieldPanel("degree_level"),
-        InlinePanel("subjects", label="Subjects"),
-        FieldPanel(
-            "programme_type",
-            help_text="Used to show content related to this programme page",
-        ),
-        MultiFieldPanel(
-            [
-                ImageChooserPanel("hero_image"),
-                FieldPanel("hero_image_credit"),
-                FieldPanel("hero_video"),
-                ImageChooserPanel("hero_video_preview_image"),
-            ],
-            heading="Hero",
-        ),
-        MultiFieldPanel(
-            [InlinePanel("related_programmes", label="Related programmes")],
-            heading="Related Programmes",
-        ),
-        MultiFieldPanel(
-            [InlinePanel("related_schools_and_research_pages")],
-            heading="Related Schools and Research Centres",
-        ),
-        SnippetChooserPanel("tap_widget"),
-    ]
     key_details_panels = [
         MultiFieldPanel(
             [
