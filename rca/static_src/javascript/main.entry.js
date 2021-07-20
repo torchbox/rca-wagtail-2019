@@ -21,6 +21,7 @@ import ProjectFilters from './components/project-filters';
 import AnchorNav from './components/anchor-nav';
 import SitewideAlert from './components/sitewide-alert';
 import FormFocus from './components/form-focus';
+import EmailShare from './components/email-share';
 import './components/sticky-header';
 import './components/lazyload-images';
 import './components/outdated-banner';
@@ -138,6 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (const anchornav of document.querySelectorAll(AnchorNav.selector())) {
         new AnchorNav(anchornav);
+    }
+
+    for (const emailshare of document.querySelectorAll(EmailShare.selector())) {
+        new EmailShare(emailshare);
     }
 
     new ActualHeight();

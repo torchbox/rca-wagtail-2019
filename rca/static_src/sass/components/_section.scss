@@ -517,6 +517,14 @@
             }
         }
 
+        &--last-extra-small {
+            padding-bottom: ($gutter * 1);
+
+            @include media-query(large) {
+                padding-bottom: ($gutter * 2);
+            }
+        }
+
         &--last-large {
             padding-bottom: ($gutter * 3.5);
 

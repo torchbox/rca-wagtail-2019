@@ -1,5 +1,5 @@
 tags:
   image:
-    value.image width-878:
+    value.image fill-880x660 as my_image:
       raw: |
-        <img src="//placekitten.com/878/498" width="878" height="498" alt="Some alt">
+        <img src="//placekitten.com/880/660" width="880" height="660" alt="Some alt">

@@ -76,4 +76,9 @@
             color: $color--black;
         }
     }
+
+    /* Template specific */
+    .app--event-detail & {
+        width: 100%;
+    }
 }

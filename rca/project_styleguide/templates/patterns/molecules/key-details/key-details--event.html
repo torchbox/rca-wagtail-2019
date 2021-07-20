@@ -1,0 +1,104 @@
+{% load wagtailcore_tags util_tags %}
+
+<div class="key-details key-details--event key-details--no-border">
+
+    <div class="key-details__header">
+        <h2 class="heading heading--five key-details__heading">Key details</h2>
+    </div>
+
+    {% if page.event_time %}
+    <div class="key-details__section key-details__section--dean">
+        <h3 class="body body--two key-details__sub-heading">Time</h3>
+        <ul class="key-details__list">
+            <li class="key-details__list-item" property="schema:doorTime">
+                {{ page.event_time }} {% if page.timezone %}({{ page.timezone }}){% endif %}
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if page.location %}
+    <div class="key-details__section key-details__section--location">
+        <h3 class="body body--two key-details__sub-heading">Location</h3>
+        {% if page.location == "Online" %}<meta property="schema:type" content="VirtualLocation" />{% endif %}
+        <ul class="key-details__list">
+            <li class="key-details__list-item" property="schema:location">
+                {{ page.location }}
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="key-details__section key-details__section--dean u-small-bp-only">
+        <h3 class="body body--two key-details__sub-heading">Price</h3>
+        <ul class="key-details__list">
+            <li class="key-details__list-item" property="schema:doorTime">
+                {% if page.event_price %}{{ page.event_price }}{% else %}Free{% endif %}
+            </li>
+        </ul>
+    </div>
+
+    {% if page.who_can_attend %}
+    <div class="key-details__section key-details__section--who">
+        <h3 class="body body--two key-details__sub-heading">Who {% if page.past %}could{% else %}can{% endif %} attend</h3>
+        <ul class="key-details__list">
+            <li class="key-details__list-item">
+                {{ page.who_can_attend }}
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if taxonomy_tags %}
+        <div class="key-details__section key-details__section--tags">
+            <h3 class="body body--two key-details__sub-heading">School, Centre or Area</h3>
+            <ul class="key-details__list">
+                {% for item in taxonomy_tags %}
+                    <li class="key-details__list-item">
+                        <a class="link link--tertiary" href="{{ item.href }}">{{ item.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if page.event_type %}
+    <div class="key-details__section key-details__section--location">
+        <h3 class="body body--two key-details__sub-heading">Type</h3>
+        <ul class="key-details__list">
+            <li class="key-details__list-item">
+                {{ page.event_type }}
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if series_events %}
+        <div class="key-details__section key-details__section--tags">
+            <h3 class="body body--two key-details__sub-heading">Also in the series</h3>
+            <ul class="key-details__list">
+                {% for item in series_events %}
+                    <li class="key-details__list-item">
+                        <a class="link link--tertiary" href="{{ item.link }}">{{ item.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if page.add_to_calendar %}
+        <div class="key-details__section key-details__section--press-pack">
+            <ul class="key-details__list">
+                {% if page.add_to_calendar and not page.past %}
+                <li class="key-details__list-item">
+                    <a href="#" class="link link--tertiary link--link link--external" target="_blank" rel="noopener noreferrer">
+                        <span class="link__label">Add to calendar</span>
+                        <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+
+</div>

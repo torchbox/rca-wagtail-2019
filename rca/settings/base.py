@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     # first - http://help.apm.scoutapp.com/#django.
     "scout_apm.django",
     "rca.documents",
+    "rca.editorial",
+    "rca.events",
     "rca.forms",
     "rca.home",
     "rca.images",
@@ -761,3 +763,7 @@ WAGTAIL_USER_EDIT_FORM = "rca.users.forms.CustomUserEditForm"
 
 pixel_limit = env.get("WAGTAILIMAGES_MAX_IMAGE_PIXELS")
 WAGTAILIMAGES_MAX_IMAGE_PIXELS = int(pixel_limit) if pixel_limit else 10000000
+
+ALLOW_EDITORIAL_PAGE_GENERATION = (
+    env.get("ALLOW_EDITORIAL_PAGE_GENERATION", "false").lower() == "true"
+)

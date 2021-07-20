@@ -14,7 +14,7 @@ PIP=$VIRTUALENV_DIR/bin/pip
 # Update package index before installing dependencies
 apt-get update -y
 
-# Upgrade to postgres 11
+# Upgrade to postgres 13
 service postgresql stop
 apt-get remove -y --purge postgresql-*
 apt-get install -y postgresql-13 postgresql-client-13 postgresql-contrib-13
