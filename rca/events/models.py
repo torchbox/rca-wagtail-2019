@@ -120,22 +120,34 @@ class EventDetailPage(BasePage):
 
     def get_series_events(self):
         today = datetime.date.today()
-        return [
-            {
-                "title": e.title,
-                "link": e.url,
-                "meta": "",  # TODO: on separate ticket
-                "description": e.introduction,
-                "image": e.listing_image if e.listing_image else e.hero_image,
-            }
-            for e in (
-                EventDetailPage.objects.filter(series=self.series, end_date__gt=today)
-                .not_page(self)
-                .live()
-                .order_by("-end_date")
-                .select_related("hero_image", "listing_image")
-            )
-        ]
+        query = (
+            EventDetailPage.objects.filter(series=self.series)
+            .not_page(self)
+            .live()
+            .order_by("start_date")
+            .select_related("hero_image", "listing_image")
+        )
+        events = []
+
+        def map_data(events):
+            return [
+                {
+                    "title": e.title,
+                    "link": e.url,
+                    "meta": "",  # TODO: on separate ticket
+                    "description": e.introduction,
+                    "image": e.listing_image if e.listing_image else e.hero_image,
+                }
+                for e in events
+            ]
+
+        for date_filter in (
+            models.Q(start_date__gte=today),
+            models.Q(start_date__lt=today),
+        ):
+            events.extend(map_data(query.filter(date_filter)))
+
+        return events
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
