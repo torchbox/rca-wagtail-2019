@@ -43,6 +43,7 @@ class EventDetailPageTests(WagtailPageTests):
             start_date=date(2021, 1, 8),
             end_date=date(2021, 1, 9),
             series=series,
+            event_type=event_type,
         )
         event4 = EventDetailPageFactory(
             parent=home_page,
