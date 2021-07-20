@@ -1,8 +1,7 @@
 import datetime
 from unittest import mock
 
-from django.conf import settings
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from rca.home.models import HomePage
 from rca.programmes.models import ProgrammeType
@@ -52,9 +51,6 @@ class TestBookingBarLogic(TestCase):
             contact_model_text="Read more",
             show_register_link=0,
         )
-        settings.ACCESS_PLANIT_REGISTER_INTEREST_BASE = (
-            "https://rca.ac.uk/short-courses/register-your-interest/"
-        )
 
     @mock.patch(
         "rca.shortcourses.access_planit.AccessPlanitCourseChecker.course_exists",
@@ -90,6 +86,9 @@ class TestBookingBarLogic(TestCase):
         self.assertNotIn(register_link, response)
         self.assertEqual(response.render().status_code, 200)
 
+    @override_settings(
+        ACCESS_PLANIT_REGISTER_INTEREST_BASE="https://rca.ac.uk/short-courses/register-your-interest/"
+    )
     @mock.patch(
         "rca.shortcourses.access_planit.AccessPlanitCourseChecker.course_exists",
         mock.Mock(return_value=True),
