@@ -21,6 +21,7 @@ from wagtail.core import blocks
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 
 from rca.api_content.content import CantPullFromRcaApi, pull_tagged_news_and_events
@@ -725,6 +726,17 @@ class ContactFieldsMixin(models.Model):
             "Contact",
         )
     ]
+
+
+class TapMixin(models.Model):
+    tap_widget = models.ForeignKey(
+        "utils.TapWidgetSnippet", on_delete=models.SET_NULL, null=True, blank=True,
+    )
+
+    panels = [SnippetChooserPanel("tap_widget")]
+
+    class Meta:
+        abstract = True
 
 
 @register_snippet
