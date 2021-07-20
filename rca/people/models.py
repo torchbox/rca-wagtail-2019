@@ -890,7 +890,7 @@ class StudentPage(PerUserPageMixin, BasePage):
 
             # Check if a group configuration exsists already for this user.
             group = Group.objects.filter(
-                name=f"Student: {self.student_user_account.username}"
+                name=self.student_user_account.student_group_name
             )
             if group:
                 # If we find a group already, we don't need to create one.
@@ -899,7 +899,7 @@ class StudentPage(PerUserPageMixin, BasePage):
             # Create a specific group for this student so they have edit access to their page
             # and their image collection
             specific_student_group = Group.objects.create(
-                name=f"Student: {self.student_user_account.username}"
+                name=self.student_user_account.student_group_name
             )
 
             # Create new add GroupPagePermission
