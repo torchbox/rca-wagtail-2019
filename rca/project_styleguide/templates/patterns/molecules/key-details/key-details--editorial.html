@@ -1,4 +1,4 @@
-{% load wagtailcore_tags util_tags %}
+{% load wagtailcore_tags util_tags reading_time_tags %}
 
 <div class="key-details key-details--no-border">
 
@@ -11,7 +11,7 @@
         <h3 class="body body--two key-details__sub-heading">Date</h3>
         <ul class="key-details__list">
             <li class="key-details__list-item">
-                {{ page.published_at|date:'d F Y' }}
+                {{ page.published_at|date:'j F Y' }}
             </li>
         </ul>
     </div>
@@ -34,7 +34,11 @@
             <ul class="key-details__list">
                 {% for item in taxonomy_tags %}
                     <li class="key-details__list-item">
-                        <a class="link link--tertiary">{{ item.title }}</a>
+                    {% if item.link %}
+                        <a class="link link--tertiary" href="{{ item.link }}">{{ item.title }}</a>
+                    {% else %}
+                        {{ item.title }}
+                    {% endif %}
                     </li>
                 {% endfor %}
             </ul>
@@ -45,7 +49,8 @@
         <h3 class="body body--two key-details__sub-heading">Read time</h3>
         <ul class="key-details__list">
             <li class="key-details__list-item">
-                {{ page.read_time }}
+                {% get_reading_time_minutes page 'body' as reading_time_minutes %}
+                {{ reading_time_minutes }} minute read
             </li>
         </ul>
     </div>

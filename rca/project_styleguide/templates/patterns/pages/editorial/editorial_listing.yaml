@@ -52,7 +52,7 @@ context:
           - { title: Robotics & AI, id: '3-16', active: false }
           - { title: Service & UX design, id: '3-17', active: false }
           - { title: Sustainable society, id: '3-18', active: false }
-  show_featured_editorial: true
+  show_picks: true
   featured_editorial:
     - slide:
       title: 'Lorem ipsum dolor sit'
@@ -71,86 +71,86 @@ context:
       link: '#'
   results:
     - {
-        school: 'School of Arts & Humanities',
+        type: 'Talk',
         title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
-        year: '2020',
+        date: !!timestamp '2021-07-19 2:00:00',
         image: true,
         link: '#',
       }
     - {
-        school: 'The Helen Hamlyn Centre for Design',
+        type: 'News',
         title: 'Marked (Working Title)',
-        year: '2019&#8211;2020',
+        date: !!timestamp '2021-07-19 2:00:00',
         image: true,
         link: '#',
       }
     - {
-        school: 'School of Design',
+        type: 'Talk',
         title: 'Design for Safety – Protecting Lives from the Start',
-        year: '2020',
+        date: !!timestamp '2021-07-18 2:00:00',
         image: true,
         link: '#',
       }
     - {
-        school: 'School of Arts & Humanities',
+        type: 'News',
         title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
-        year: '2020',
+        date: !!timestamp '2021-07-16 2:00:00',
         image: true,
         link: '#',
       }
     - {
-        school: 'School of Arts & Humanities',
+        type: 'Story',
         title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
-        year: '2020',
+        date: !!timestamp '2021-07-15 2:00:00',
         image: true,
         link: '#',
       }
     - {
-        school: 'School of Arts & Humanities',
+        type: 'News',
         title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
-        year: '2020',
+        date: !!timestamp '2021-07-14 2:00:00',
         image: true,
         link: '#',
       }
     - {
-        school: 'School of Arts & Humanities',
+        type: 'News',
         title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
-        year: '2020',
+        date: !!timestamp '2021-07-14 2:00:00',
         image: true,
         link: '#',
       }
     - {
-        school: 'The Helen Hamlyn Centre for Design',
+        type: 'Story',
         title: 'Marked (Working Title)',
-        year: '2019&#8211;2020',
+        date: !!timestamp '2021-07-14 2:00:00',
         image: true,
         link: '#',
       }
     - {
-        school: 'School of Design',
+        type: 'Talk',
         title: 'Design for Safety – Protecting Lives from the Start',
-        year: '2020',
+        date: !!timestamp '2021-07-12 2:00:00',
         image: true,
         link: '#',
       }
     - {
-        school: 'School of Arts & Humanities',
+        type: 'Story',
         title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
-        year: '2020',
+        date: !!timestamp '2021-07-12 2:00:00',
         image: true,
         link: '#',
       }
     - {
-        school: 'School of Arts & Humanities',
+        type: 'News',
         title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
-        year: '2020',
+        date: !!timestamp '2020-12-13 2:00:00',
         image: true,
         link: '#',
       }
     - {
-        school: 'School of Arts & Humanities',
+        type: 'News',
         title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
-        year: '2020',
+        date: !!timestamp '2021-07-11 2:00:00',
         image: true,
         link: '#',
       }

@@ -1,5 +1,5 @@
 Django==3.1.10
-wagtail==2.12.3
+wagtail==2.13.3
 # Pin treebeard to <4.5, see: https://github.com/wagtail/wagtail/issues/6820
 django-treebeard<4.5
 psycopg2==2.8.6
