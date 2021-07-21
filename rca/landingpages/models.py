@@ -558,3 +558,11 @@ class EnterpriseLandingPage(LandingPage):
 
     class Meta:
         verbose_name = "Landing Page - Enterprise"
+
+
+class EELandingPage(BasePage):
+    template = "patterns/pages/editorial_event_landing/editorial_event_landing.html"
+    max_count = 1
+
+    class Meta:
+        verbose_name = "Landing Page - Editorial and Events"
