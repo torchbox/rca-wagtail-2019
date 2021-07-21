@@ -107,8 +107,8 @@ class EventDetailPage(BasePage):
     @property
     def event_date(self):
         if self.start_date == self.end_date:
-            return f"{self.end_date:%d %B %Y}"
-        return f"{self.start_date:%d %B} - {self.end_date:%d %B %Y}"
+            return f"{self.end_date:%-d %B %Y}"
+        return f"{self.start_date:%-d %B} \u2013 {self.end_date:%-d %B %Y}"
 
     @property
     def past(self):
