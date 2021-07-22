@@ -279,7 +279,6 @@ class CallToActionSnippet(models.Model):
                 ),
             ],
             max_num=1,
-            required=True,
         ),
         blank=True,
     )
