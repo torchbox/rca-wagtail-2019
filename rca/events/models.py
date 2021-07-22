@@ -37,6 +37,23 @@ class EventIndexPage(BasePage):
     # TODO: add fields to this placeholder model (needed as event detail parent)
 
 
+class EventEligibility(models.Model):
+    title = models.CharField(max_length=100)
+    slug = SlugField()
+
+    class Meta:
+        ordering = ["title"]
+
+    def __str__(self) -> str:
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    panels = [FieldPanel("title")]
+
+
 class EventSeries(models.Model):
     title = models.CharField(max_length=128)
     introduction = models.TextField()
@@ -75,6 +92,13 @@ class EventDetailPage(BasePage):
     event_type = models.ForeignKey(
         EventType, null=True, on_delete=models.SET_NULL, related_name="events",
     )
+    eligibility = models.ForeignKey(
+        EventEligibility,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="events",
+    )
     introduction = RichTextField()
     body = StreamField(EventDetailPageBlock())
     partners_heading = models.CharField(
@@ -88,8 +112,10 @@ class EventDetailPage(BasePage):
         MultiFieldPanel(
             [FieldPanel("start_date"), FieldPanel("end_date")], heading="Event Dates",
         ),
-        FieldPanel("series"),
-        FieldPanel("event_type"),
+        MultiFieldPanel(
+            [FieldPanel("event_type"), FieldPanel("series"), FieldPanel("eligibility")],
+            heading="Event Taxonomy",
+        ),
         FieldPanel("introduction"),
         StreamFieldPanel("body"),
         MultiFieldPanel(
