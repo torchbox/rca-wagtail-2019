@@ -14,3 +14,7 @@ tags:
   pageurl:
     page.school_dean:
       raw: '#'
+  get_reading_time_minutes:
+    "page 'body' as reading_time_minutes":
+      target_var: reading_time_minutes
+      raw: 3 minutes

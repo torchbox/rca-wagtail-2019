@@ -52,7 +52,7 @@ context:
           - { title: Robotics & AI, id: '3-16', active: false }
           - { title: Service & UX design, id: '3-17', active: false }
           - { title: Sustainable society, id: '3-18', active: false }
-  show_featured_editorial: true
+  show_picks: true
   featured_editorial:
     - slide:
       title: 'Lorem ipsum dolor sit'

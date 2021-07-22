@@ -11,14 +11,14 @@ context:
         depth: 3
         title: Events
     introduction: '<p>Situated within the Royal College of Art, a world-leading art and design institution, the programme encourages interdisciplinary and cross-disciplinary research projects in…</p>'
-    event_date: !!timestamp '2020-12-13 2:00:00'
+    event_date: '13 December 2020'
     event_startDate: !!timestamp '2020-12-13 2:00:00+01:00'
     event_endDate: !!timestamp '2020-12-16 2:00:00+01:00'
     event_time: 5pm – 8pm
     timezone: GMT +1
     location: Online
     who_can_attend: Open to all
-    type: Exhibition
+    event_type: Exhibition
     schedule: true
     add_to_calendar: true
     read_time: 10 mins
@@ -27,7 +27,7 @@ context:
     manual_registration_url: '#'
     body:
       - dummy
-    collaborators:
+    partners:
       - slide:
         value:
           link:
@@ -64,30 +64,30 @@ context:
     contact_model_text: Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
     series:
       introduction: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-      items:
-        - {
-            title: 'Innovation RCA',
-            link: '#',
-            meta: Exhibition,
-            person: false,
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
-            image: true,
-          }
-        - {
-            title: 'Consultancy & knowledge exchange',
-            link: '#',
-            meta: Lecture,
-            person: false,
-            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
-            image: true,
-          }
     speakers:
       - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
       - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+  series_events:
+    - {
+        title: 'Innovation RCA',
+        link: '#',
+        meta: Exhibition,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        image: true,
+      }
+    - {
+        title: 'Consultancy & knowledge exchange',
+        link: '#',
+        meta: Lecture,
+        person: false,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+        image: true,
+      }
   related_staff:
     view_more_link: false
   booking_bar:
-    message: 'Free event - Online - Tickets still available'
+    message: 'Free event | Online | Tickets still available'
     action: 'Book now'
   related_pages:
     title: Also of interest

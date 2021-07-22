@@ -12,9 +12,11 @@
     {% else %}
         {{ page.title }}
     {% endif %}
-    {% get_all_active_filters filters as active_filters %}
-    {% if active_filters %}
-        – {{ active_filters }}
+    {% if filters %}
+        {% get_all_active_filters filters as active_filters %}
+        {% if active_filters %}
+            – {{ active_filters }}
+        {% endif %}
     {% endif %}
     – Page {{ results.number }} of {{ results.paginator.num_pages }}
 {% endblock %}
@@ -89,7 +91,7 @@
 
             <section class="section bg bg--light" >
 
-                {% if featured_editorial and show_featured_editorial %}
+                {% if featured_editorial and show_picks %}
                     <div class="section__row section__row--first-small section__row--last-small grid">
                         <h2 class="heading heading--four layout__start-one layout__span-two layout__@large-start-two">
                             Editor's pick
@@ -134,9 +136,6 @@
                     </div>
                 {% endif %}
             </section>
-
-
-
         </form>
 
     </div>

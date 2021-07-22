@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="share-item share-item--email">
-                    <a class="share-item__link body body--two" data-email-share href="#" title="Share on email">
+                    <a class="share-item__link body body--two" data-email-share href="mailto:?subject={{ page.title|urlencode }}&amp;body={{ page.full_url|urlencode }}" title="Share on email">
                         <svg class="share-item__icon" width="24" height="24">
                             <use xlink:href="#email"></use>
                         </svg>
