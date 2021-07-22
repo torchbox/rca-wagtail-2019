@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -12,6 +13,7 @@ from wagtail.admin.edit_handlers import (
 from wagtail.core.fields import StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from rca.projects.models import ProjectPage
 from rca.utils.blocks import (
@@ -26,6 +28,7 @@ from rca.utils.models import (
     LegacyNewsAndEventsMixin,
     LinkFields,
     RelatedPage,
+    TapMixin,
 )
 
 
@@ -145,7 +148,7 @@ class LandingPagePageSlideshowBlock(models.Model):
         return self.title
 
 
-class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
+class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     """ Defines all the fields we will need for the other versions of landing pages
     visibility of some extra fields that aren't needed on certain models which inherit LandingPage
     are controlled at the content_panels level.
@@ -237,36 +240,42 @@ class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         verbose_name=_("Related content summary"),
     )
 
-    content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
-        MultiFieldPanel(
-            [FieldPanel("introduction"), PageChooserPanel("about_page")],
-            heading=_("Introduction"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("highlights_title"),
-                InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
-                PageChooserPanel("highlights_page_link"),
-                FieldPanel("highlights_page_link_title"),
-            ],
-            heading=_("Featured projects"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("related_pages_title"),
-                FieldPanel("related_pages_text"),
-                InlinePanel("related_pages_grid", max_num=8, label=_("Related Pages")),
-            ],
-            heading=_("Related pages grid"),
-        ),
-        InlinePanel("featured_image", label=_("Featured content"), max_num=1),
-        FieldPanel("legacy_news_and_event_tags"),
-        MultiFieldPanel(
-            [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
-            heading=_("Related page list"),
-        ),
-    ]
+    content_panels = (
+        BasePage.content_panels
+        + [
+            MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+            MultiFieldPanel(
+                [FieldPanel("introduction"), PageChooserPanel("about_page")],
+                heading=_("Introduction"),
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("highlights_title"),
+                    InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
+                    PageChooserPanel("highlights_page_link"),
+                    FieldPanel("highlights_page_link_title"),
+                ],
+                heading=_("Featured projects"),
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("related_pages_title"),
+                    FieldPanel("related_pages_text"),
+                    InlinePanel(
+                        "related_pages_grid", max_num=8, label=_("Related Pages")
+                    ),
+                ],
+                heading=_("Related pages grid"),
+            ),
+            InlinePanel("featured_image", label=_("Featured content"), max_num=1),
+            FieldPanel("legacy_news_and_event_tags"),
+            MultiFieldPanel(
+                [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
+                heading=_("Related page list"),
+            ),
+        ]
+        + TapMixin.panels
+    )
 
     def _format_projects_for_gallery(self, pages):
         """Internal method for formatting related projects to the correct
@@ -429,53 +438,60 @@ class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             "background_image"
         ).first()
         context["slideshow_block"] = self.slideshow_block.first()
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
         return context
 
 
 class ResearchLandingPage(LandingPage):
     template = "patterns/pages/landingpage/landing_page--research.html"
-    content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
-        MultiFieldPanel(
-            [FieldPanel("introduction"), PageChooserPanel("about_page")],
-            heading=_("Introduction"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("highlights_title"),
-                InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
-                PageChooserPanel("highlights_page_link"),
-                FieldPanel("highlights_page_link_title"),
-            ],
-            heading=_("Featured projects"),
-        ),
-        FieldPanel("legacy_news_and_event_tags"),
-        MultiFieldPanel(
-            [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
-            heading=_("Related page list"),
-        ),
-        InlinePanel("featured_image", label=_("Featured content"), max_num=1),
-        MultiFieldPanel(
-            [
-                FieldPanel("slideshow_title"),
-                FieldPanel("slideshow_summary"),
-                InlinePanel("slideshow_page", label=_("Page")),
-            ],
-            heading=_("Related content"),
-        ),
-        StreamFieldPanel("cta_block"),
-        MultiFieldPanel(
-            [
-                ImageChooserPanel("contact_model_image"),
-                FieldPanel("contact_model_title"),
-                FieldPanel("contact_model_text"),
-                FieldPanel("contact_model_email"),
-                FieldPanel("contact_model_url"),
-                PageChooserPanel("contact_model_form"),
-            ],
-            heading="Contact information",
-        ),
-    ]
+
+    content_panels = (
+        BasePage.content_panels
+        + [
+            MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+            MultiFieldPanel(
+                [FieldPanel("introduction"), PageChooserPanel("about_page")],
+                heading=_("Introduction"),
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("highlights_title"),
+                    InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
+                    PageChooserPanel("highlights_page_link"),
+                    FieldPanel("highlights_page_link_title"),
+                ],
+                heading=_("Featured projects"),
+            ),
+            FieldPanel("legacy_news_and_event_tags"),
+            MultiFieldPanel(
+                [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
+                heading=_("Related page list"),
+            ),
+            InlinePanel("featured_image", label=_("Featured content"), max_num=1),
+            MultiFieldPanel(
+                [
+                    FieldPanel("slideshow_title"),
+                    FieldPanel("slideshow_summary"),
+                    InlinePanel("slideshow_page", label=_("Page")),
+                ],
+                heading=_("Related content"),
+            ),
+            StreamFieldPanel("cta_block"),
+            MultiFieldPanel(
+                [
+                    ImageChooserPanel("contact_model_image"),
+                    FieldPanel("contact_model_title"),
+                    FieldPanel("contact_model_text"),
+                    FieldPanel("contact_model_email"),
+                    FieldPanel("contact_model_url"),
+                    PageChooserPanel("contact_model_form"),
+                ],
+                heading="Contact information",
+            ),
+        ]
+        + TapMixin.panels
+    )
 
     class Meta:
         verbose_name = "Landing Page - Research"
@@ -486,6 +502,8 @@ class ResearchLandingPage(LandingPage):
         # reset the slideshow block so it can be re-populated as it's set in
         # the parent context for other slideshow formats.
         context["slideshow_block"] = []
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
         if self.slideshow_page.first():
             context["slideshow_block"] = self._format_slideshow_pages(
                 self.slideshow_page.all()
@@ -496,22 +514,98 @@ class ResearchLandingPage(LandingPage):
 class InnovationLandingPage(LandingPage):
     template = "patterns/pages/landingpage/landing_page--innovation.html"
 
+    content_panels = (
+        BasePage.content_panels
+        + [
+            MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+            MultiFieldPanel(
+                [FieldPanel("introduction"), PageChooserPanel("about_page")],
+                heading=_("Introduction"),
+            ),
+            MultiFieldPanel(
+                [InlinePanel("featured_image", label=_("Featured image"), max_num=1)],
+                heading=_("Featured content - top"),
+            ),
+            FieldPanel("legacy_news_and_event_tags"),
+            MultiFieldPanel(
+                [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
+                heading=_("Related page list"),
+            ),
+            InlinePanel("stats_block", label="Statistics", max_num=1),
+            MultiFieldPanel(
+                [
+                    FieldPanel("highlights_title"),
+                    InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
+                    PageChooserPanel("highlights_page_link"),
+                    FieldPanel("highlights_page_link_title"),
+                ],
+                heading=_("Featured projects"),
+            ),
+            MultiFieldPanel(
+                [
+                    InlinePanel(
+                        "featured_image_secondary", label=_("Featured image"), max_num=1
+                    )
+                ],
+                heading=_("Featured content - bottom"),
+            ),
+            MultiFieldPanel(
+                [
+                    ImageChooserPanel("contact_model_image"),
+                    FieldPanel("contact_model_title"),
+                    FieldPanel("contact_model_text"),
+                    FieldPanel("contact_model_email"),
+                    FieldPanel("contact_model_url"),
+                    PageChooserPanel("contact_model_form"),
+                ],
+                heading="Contact information",
+            ),
+            SnippetChooserPanel("tap_widget"),
+        ]
+        + TapMixin.panels
+    )
+
+    class Meta:
+        verbose_name = "Landing Page - Innovation"
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["featured_image_secondary"] = self.get_featured_image_secondary()
+        context["page_list"] = self.get_page_list()
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
+        return context
+
+
+class EnterpriseLandingPage(LandingPage):
+    template = "patterns/pages/landingpage/landing_page--enterprise.html"
+
+    content_panels = LandingPage.content_panels + TapMixin.panels
+
+    class Meta:
+        verbose_name = "Landing Page - Enterprise"
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
+        return context
+
+
+class TapLandingPage(LandingPage):
+    template = "patterns/pages/landingpage/landing_page--tap.html"
+    tap_carousel = models.TextField(blank=True, verbose_name="Iframe Code")
+
+    class Meta:
+        verbose_name = "Landing Page - TAP"
+
     content_panels = BasePage.content_panels + [
         MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
         MultiFieldPanel(
             [FieldPanel("introduction"), PageChooserPanel("about_page")],
             heading=_("Introduction"),
         ),
-        MultiFieldPanel(
-            [InlinePanel("featured_image", label=_("Featured image"), max_num=1)],
-            heading=_("Featured content - top"),
-        ),
-        FieldPanel("legacy_news_and_event_tags"),
-        MultiFieldPanel(
-            [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
-            heading=_("Related page list"),
-        ),
-        InlinePanel("stats_block", label="Statistics", max_num=1),
+        MultiFieldPanel([FieldPanel("tap_carousel")], heading="TAP Carousel"),
         MultiFieldPanel(
             [
                 FieldPanel("highlights_title"),
@@ -523,41 +617,24 @@ class InnovationLandingPage(LandingPage):
         ),
         MultiFieldPanel(
             [
-                InlinePanel(
-                    "featured_image_secondary", label=_("Featured image"), max_num=1
-                )
+                FieldPanel("related_pages_title"),
+                FieldPanel("related_pages_text"),
+                InlinePanel("related_pages_grid", max_num=8, label=_("Related Pages")),
             ],
-            heading=_("Featured content - bottom"),
+            heading=_("Related pages grid"),
         ),
+        InlinePanel("featured_image", label=_("Featured content"), max_num=1),
+        FieldPanel("legacy_news_and_event_tags"),
         MultiFieldPanel(
-            [
-                ImageChooserPanel("contact_model_image"),
-                FieldPanel("contact_model_title"),
-                FieldPanel("contact_model_text"),
-                FieldPanel("contact_model_email"),
-                FieldPanel("contact_model_url"),
-                PageChooserPanel("contact_model_form"),
-            ],
-            heading="Contact information",
+            [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
+            heading=_("Related page list"),
         ),
     ]
 
-    class Meta:
-        verbose_name = "Landing Page - Innovation"
-
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["featured_image_secondary"] = self.get_featured_image_secondary()
-        context["page_list"] = self.get_page_list()
-
+        context["tap_carousel"] = mark_safe(self.tap_carousel)
         return context
-
-
-class EnterpriseLandingPage(LandingPage):
-    template = "patterns/pages/landingpage/landing_page--enterprise.html"
-
-    class Meta:
-        verbose_name = "Landing Page - Enterprise"
 
 
 class EELandingPage(BasePage):

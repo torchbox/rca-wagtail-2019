@@ -6,10 +6,6 @@
     app--landing-page
 {% endblock %}
 
-{% block tap_widget %}
-{% if settings.utils.SitewideTapSetting.show_widgets %}{{ tap_widget_code }}{% endif %}
-{% endblock %}
-
 {% block content %}
 
     {% include "patterns/molecules/hero/hero.html" with hero_image=page.hero_image modifier="medium" %}
@@ -30,11 +26,6 @@
                         <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
                     {% endif %}
                 </div>
-                {% if page.hero_image_credit or page.hero_image %}
-                    <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
-                        {% include 'patterns/atoms/image-info/image-info.html' with credit=page.hero_image_credit item=page.hero_image %}
-                    </div>
-                {% endif %}
             </div>
             {% if page.introduction %}
                     <div class="introduction grid">
@@ -54,38 +45,17 @@
         </header>
 
         <div class="page__content landing-page">
-
-           {% if featured_image %}
-                <section class="section bg bg--dark">
-                    <div class="section__row section__row--first section__row--last">
-                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=featured_image.title meta_heading=featured_image.subtitle meta_copy=featured_image.description href=featured_image.get_link_url image=featured_image.image modifier="tight-heading" %}
-                    </div>
-                    <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--third-col"></div>
+            
+            {% if tap_carousel and settings.utils.SitewideTapSetting.show_carousels %}
+                <section class="landing-page__top section section--start bg bg--dark">
+                    <div class="section__row">
+                        {{ tap_carousel }}
                     </div>
                 </section>
             {% endif %}
 
-            {% if page_list %}
-                <section class="section bg bg--light">
-                    <div class="section__row section__row--first section__row--last-large">
-                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page_list title=page.page_list_title modifier="after-action related-content--meta-new-line" %}
-                    </div>
-                    {% if not stats_block %}
-                        <div class="section__notch section__notch--opposite">
-                            <div class="section__notch-fill section__notch-fill--third-col"></div>
-                        </div>
-                    {% endif %}
-
-                </section>
-            {% endif %}
-
-            {% if stats_block %}
-                {% include "patterns/organisms/stat-block/stat-block.html" with stats_block=stats_block stats_block_default_notch_override=True %}
-            {% endif %}
-
-             {% if related_pages_highlights %}
-                <section class="landing-page__top section section--start bg bg--light">
+            {% if related_pages_highlights %}
+                <section class="landing-page__top section section--start bg bg--dark">
 
                     <div class="section__row section__row--last-large research-highlights">
                         {% if page.highlights_title %}
@@ -108,27 +78,68 @@
                         </div>
                     </div>
 
-                     <div class="section__notch section__notch--opposite">
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    </div>
+
+                </section>
+            {% endif %}
+
+            {% if related_pages %}
+                <section class="landing-page__middle section section--start bg bg--light">
+
+                    <div class="section__row research-spaces">
+                        <div class="section__header section__header--bottom-space grid">
+                        {% if page.related_pages_title %}
+                            <h2 class="section__heading section__heading--tight heading heading--two">
+                                {{ page.related_pages_title }}
+                            </h2>
+                        {% endif %}
+                        {% if page.related_pages_text %}
+                            <div class="section__introduction">
+                                {{ page.related_pages_text }}
+                            </div>
+                        {% endif %}
+                        </div>
+                        <div class="section__content grid">
+                            {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=related_pages %}
+                        </div>
+                    </div>
+
+                    <div class="section__notch section__notch--opposite">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
 
                 </section>
             {% endif %}
 
-            {% if featured_image_secondary %}
+            {% if featured_image %}
                 <section class="section bg bg--dark">
                     <div class="section__row section__row--first section__row--last">
-                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=featured_image_secondary.title meta_heading=featured_image_secondary.subtitle meta_copy=featured_image_secondary.description href=featured_image_secondary.get_link_url image=featured_image_secondary.image modifier="tight-heading" %}
+                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=featured_image.title meta_heading=featured_image.subtitle meta_copy=featured_image.description href=featured_image.get_link_url image=featured_image.image modifier="tight-heading" %}
                     </div>
 
-                    {% comment %} <div class="section__notch">
+                    <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
-                    </div> {% endcomment %}
+                    </div>
+                </section>
+            {% endif %}
+
+            {% if page_list %}
+                <section class="section bg bg--light">
+                    <div class="section__row section__row--first section__row--last-large">
+                        {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page_list title=page.page_list_title modifier="after-action related-content--meta-new-line" %}
+                    </div>
+
+                    <div class="section__notch section__notch--opposite">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    </div>
+
                 </section>
             {% endif %}
 
             {% if page.news %}
-                <section class="section{% if page.bottom_feature_image %}{% else %} section--start{% endif %} section--end bg bg--dark">
+                <section class="section section--start section--end bg bg--dark">
                     <header class="section__header grid">
                         <h3 class="section__heading section__heading--primary heading heading--two">News</h3>
                     </header>
@@ -152,25 +163,6 @@
                     </div>
                 </section>
             {% endif %}
-
-            {% if page.contact_model_image %}
-                <section class="section bg bg--light">
-                    <div class="section__notch section__notch--small-med-only">
-                        <div class="section__notch-fill section__notch-fill--second-col"></div>
-                    </div>
-                    <div class="contact-anchor" id="contact"></div>
-                    <div class="section__row section__row--first">
-                        {% include "patterns/organisms/contact/contact.html" with heading="Contact us" text=page.contact_model_text image=page.contact_model_image %}
-                    </div>
-                </section>
-
-                <section class="section bg bg--dark">
-                    <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--third-col"></div>
-                    </div>
-                </section>
-            {% endif %}
-
 
         </div>
 

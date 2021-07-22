@@ -5,6 +5,10 @@
 
 {% block header_class %}theme-{{ hero_colour }}{% endblock %}
 
+{% block tap_widget %}
+{% if settings.utils.SitewideTapSetting.show_widgets %}{{ tap_widget_code }}{% endif %}
+{% endblock %}
+
 {% block content %}
 
     {% include "patterns/molecules/hero/hero--home.html" with modifier="home" scrolldown=true %}
