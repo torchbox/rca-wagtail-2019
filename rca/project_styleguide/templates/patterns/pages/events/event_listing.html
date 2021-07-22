@@ -3,7 +3,7 @@
 {% get_settings %}
 
 {% block body_class %}
-    app--editorial-listing no-hero
+    app--event-listing no-hero
 {% endblock %}
 
 {% block title %}
@@ -107,7 +107,8 @@
                     <div class="section__row section__row--first-small section__row--last-extra-small grid">
                         <h2 class="results-total heading heading--four layout__start-one layout__span-two layout__@large-start-two">
                             <span class="results-total__anchor" id="results"></span>
-                            <span class="results-total__type">News</span>
+                            <span class="results-total__type">Events</span>
+                            <span class="results-total__number">{{ result_count }}</span>
                         </h2>
                     </div>
                 {% endif %}
