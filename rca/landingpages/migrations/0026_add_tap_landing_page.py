@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("landingpages", "0024_remove_hero_colour_options"),
+        ("landingpages", "0025_add_contact_fields"),
     ]
 
     operations = [
