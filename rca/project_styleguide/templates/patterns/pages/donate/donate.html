@@ -6,6 +6,23 @@
     app--guide no-hero
 {% endblock %}
 
+{% block extra_js %}
+    <script>
+        window.bboxInit = function () {
+           bbox.showForm('{{ page.form_id }}');
+        };
+        (function () {
+           var e = document.createElement('script'); e.async = true;
+           e.src = 'https://bbox.blackbaudhosting.com/webforms/bbox-min.js';
+           console.log(e);
+           document.getElementsByTagName('head')[0].appendChild(e);
+        } ());
+    </script>
+    <!-- The below js to cancel styles is written in jquery so load this in --->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'donate/js/bb-forms.js' %}"></script>
+{% endblock extra_js %}
+
 {% block content %}
 
     <div class="page page--no-hero">
@@ -27,6 +44,7 @@
                         </div>
                 </div>
             </div>
+
                 <div class="introduction grid">
                     {% if anchor_nav or page.contact_model_image %}
                         {% include "patterns/molecules/anchor-nav/anchor-nav.html" with anchor_nav=anchor_nav show_contact_block=page.contact_model_image  %}
@@ -56,6 +74,13 @@
                     </div>
                 </div>
 
+            </section>
+            <section class="section bg bg--dark">
+                <div class="section__row section__row--last section__row--first grid">
+                    <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                        <div id="bbox-root"></div>
+                    </div>
+                </div>
             </section>
             {% if page.further_information %}
                 <section class="section bg bg--dark">

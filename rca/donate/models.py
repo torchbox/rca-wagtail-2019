@@ -3,6 +3,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
 from wagtail.core.fields import StreamField
+from wagtail.search import index
 
 from rca.utils.blocks import AccordionBlockWithTitle, GuideBlock
 from rca.utils.models import BasePage, ContactFieldsMixin
@@ -19,9 +20,20 @@ class DonationFormPage(ContactFieldsMixin, BasePage):
         blank=True,
         verbose_name=_("Further information"),
     )
+    form_id = models.CharField(
+        max_length=255,
+        help_text="The long number in brackets from the generated JavaScript snippet",
+    )
+
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+        index.SearchField("body"),
+        index.SearchField("further_information"),
+    ]
 
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
+        FieldPanel("form_id"),
         StreamFieldPanel("body"),
         MultiFieldPanel(
             [
@@ -40,6 +52,8 @@ class DonationFormPage(ContactFieldsMixin, BasePage):
         for i, block in enumerate(self.body):
             if block.block_type == "anchor_heading":
                 items.append({"title": block.value, "link": f"#{slugify(block.value)}"})
+        if self.form_id:
+            items.append({"title": "Donate", "link": f"#bbox-root"})
         if self.further_information_title:
             items.append(
                 {
