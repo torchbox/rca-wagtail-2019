@@ -105,7 +105,8 @@
         }
     }
 
-    &--project {
+    &--project,
+    &--result {
         margin-bottom: ($gutter * 2);
 
         @include media-query(medium) {
@@ -152,6 +153,10 @@
         }
 
         #{$root}__year {
+            @include font-size(xxs);
+        }
+
+        #{$root}__location {
             @include font-size(xxs);
         }
     }
@@ -752,7 +757,8 @@
             }
         }
 
-        &#{$root}--project {
+        &#{$root}--project,
+        &#{$root}--result {
             #{$root}__content {
                 background-color: transparent;
             }
@@ -793,7 +799,8 @@
             }
         }
 
-        &#{$root}--project {
+        &#{$root}--project,
+        &#{$root}--result {
             #{$root}__content {
                 background-color: transparent;
             }
