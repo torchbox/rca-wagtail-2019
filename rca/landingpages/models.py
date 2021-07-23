@@ -646,13 +646,6 @@ class EELandingPageRelatedEditorialPage(RelatedPage):
     panels = [PageChooserPanel("page", ["editorial.EditorialPage"])]
 
 
-class EELandingPageRelatedEditorialPage(RelatedPage):
-    source_page = ParentalKey(
-        "landingpages.EELandingPage", related_name="related_editorial_pages"
-    )
-    panels = [PageChooserPanel("page", ["editorial.EditorialPage"])]
-
-
 class EELandingPage(BasePage):
     template = "patterns/pages/editorial_event_landing/editorial_event_landing.html"
     max_count = 1
