@@ -136,6 +136,15 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         blank=True,
         verbose_name="More information",
     )
+    download_assets_heading = models.CharField(
+        blank=True,
+        max_length=125,
+        help_text="The heading text displayed above download link",
+    )
+    download_assets_url = models.URLField(blank=True)
+    download_assets_link_title = models.CharField(
+        blank=True, max_length=125, help_text="The text displayed as the download link",
+    )
 
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
@@ -187,6 +196,14 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         InlinePanel("subjects", label="Subject"),
         InlinePanel("editorial_types", label="Editorial Type"),
         FieldPanel("author"),
+        MultiFieldPanel(
+            [
+                FieldPanel("download_assets_heading"),
+                FieldPanel("download_assets_url"),
+                FieldPanel("download_assets_link_title"),
+            ],
+            heading="Download assets",
+        ),
         FieldPanel("contact_email"),
     ]
 
