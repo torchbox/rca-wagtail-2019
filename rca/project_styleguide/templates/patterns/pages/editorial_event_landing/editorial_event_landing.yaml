@@ -1,35 +1,6 @@
 context:
   page:
     title: News & Events
-    news:
-      - item:
-        type: 'News'
-        title: 'Designs for Real Life'
-        description: '6 July 2021'
-        link: '#'
-        image: //placekitten.com/526/402
-        person: false
-      - item:
-        type: 'Talk'
-        title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
-        description: '23 July 2021'
-        link: '#'
-        image: false
-        person: false
-      - item:
-        type: 'News'
-        title: 'Show 2018: School of Architecture: Making Space for the Future'
-        description: '23 July 2021'
-        link: '#'
-        image: false
-        person: false
-      - item:
-        type: 'Story'
-        title: 'Show 2018: School of Architecture: Making Space for the Future'
-        description: '23 July 2021'
-        link: '#'
-        image: false
-        person: false
     news_view_all:
       title: View all news
       link: '#'
@@ -95,6 +66,35 @@ context:
       description: The Press Office manages relations between the College and the media, acting as the first point of contact for media queries and issuing news releases and statements on behalf of the College.
       action: Launch the Media Centre
       link: '#'
+  news:
+    - item:
+      type: 'News'
+      title: 'Designs for Real Life'
+      description: '6 July 2021'
+      link: '#'
+      image: //placekitten.com/526/402
+      person: false
+    - item:
+      type: 'Talk'
+      title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
+      description: '23 July 2021'
+      link: '#'
+      image: false
+      person: false
+    - item:
+      type: 'News'
+      title: 'Show 2018: School of Architecture: Making Space for the Future'
+      description: '23 July 2021'
+      link: '#'
+      image: false
+      person: false
+    - item:
+      type: 'Story'
+      title: 'Show 2018: School of Architecture: Making Space for the Future'
+      description: '23 July 2021'
+      link: '#'
+      image: false
+      person: false
   tabs:
     - tab:
       title: News

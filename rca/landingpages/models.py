@@ -15,6 +15,8 @@ from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
+from rca.editorial.models import EditorialPage
+from rca.landingpages.utils import news_teaser_formatter
 from rca.projects.models import ProjectPage
 from rca.utils.blocks import (
     CallToActionBlock,
@@ -637,9 +639,64 @@ class TapLandingPage(LandingPage):
         return context
 
 
+class EELandingPageRelatedEditorialPage(RelatedPage):
+    source_page = ParentalKey(
+        "landingpages.EELandingPage", related_name="related_editorial_pages"
+    )
+    panels = [PageChooserPanel("page", ["editorial.EditorialPage"])]
+
+
 class EELandingPage(BasePage):
     template = "patterns/pages/editorial_event_landing/editorial_event_landing.html"
     max_count = 1
 
+    news_link_text = models.TextField(
+        max_length=120, blank=False, help_text=_("The text do display for the link"),
+    )
+    news_link_target_url = models.URLField(blank=False)
+
     class Meta:
         verbose_name = "Landing Page - Editorial and Events"
+
+    def featured_news(self):
+        news = []
+        picked_news = self.related_editorial_pages.first()
+        if picked_news:
+            picked_news = picked_news.page.specific
+            news.append(news_teaser_formatter(picked_news, image=True))
+
+        # Get 3 more items
+        latest_news_items = (
+            EditorialPage.objects.live()
+            .order_by("-published_at")
+            .prefetch_related("hero_image", "editorial_types")[:3]
+        )
+        for item in latest_news_items:
+            news.append(news_teaser_formatter(item))
+
+        return news
+
+    @property
+    def news_view_all(self):
+        return {"link": self.news_link_target_url, "title": self.news_link_text}
+
+    content_panels = BasePage.content_panels + [
+        MultiFieldPanel(
+            [
+                InlinePanel(
+                    "related_editorial_pages",
+                    max_num=1,
+                    min_num=1,
+                    label="Editorial Page",
+                ),
+                FieldPanel("news_link_text"),
+                FieldPanel("news_link_target_url"),
+            ],
+            heading="Featured News",
+        )
+    ]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["news"] = self.featured_news()
+        return context

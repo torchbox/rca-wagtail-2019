@@ -29,6 +29,12 @@ class TestEELandingPageRules(WagtailPageTests):
         self.assertCanCreateAt(HomePage, EELandingPage)
 
     def test_singlet(self):
-        self.home_page.add_child(instance=EELandingPage(title="EE Landing Page"))
+        self.home_page.add_child(
+            instance=EELandingPage(
+                title="EE Landing Page",
+                news_link_text="View more",
+                news_link_target_url="https://rca.ac.uk",
+            )
+        )
         # A second EELandingPage should not be creatable
         self.assertFalse(EELandingPage.can_create_at(self.home_page))
