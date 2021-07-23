@@ -12,3 +12,4 @@ class DonationFormPageFactory(wagtail_factories.PageFactory):
         model = DonationFormPage
 
     title = factory.Faker("text", max_nb_chars=25)
+    form_id = "donate1"
