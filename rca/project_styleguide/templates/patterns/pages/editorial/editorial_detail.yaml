@@ -55,8 +55,8 @@ context:
           author: 'Kevin Howbrook'
           link: 'http://www.torchbox.com'
           course: 'Design'
-    accordion_title: Accordion title
-    accordion:
+    more_information_title: Accordion title
+    more_information:
       - accordion:
         value:
           heading: First Year
