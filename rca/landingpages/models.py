@@ -574,21 +574,19 @@ class EELandingPage(BasePage):
     max_count = 1
 
     news_link_text = models.TextField(
-        max_length=120,
-        blank=False,
-        null=True,
-        help_text=_("The text do display for the link"),
+        max_length=120, blank=False, help_text=_("The text do display for the link"),
     )
-    news_link_target_url = models.URLField(blank=False, null=True)
+    news_link_target_url = models.URLField(blank=False)
 
     class Meta:
         verbose_name = "Landing Page - Editorial and Events"
 
-    @property
-    def news(self):
+    def featured_news(self):
         news = []
-        picked_news = self.related_editorial_pages.first().page.specific
-        news.append(news_teaser_formatter(picked_news, image=True))
+        picked_news = self.related_editorial_pages.first()
+        if picked_news:
+            picked_news = picked_news.page.specific
+            news.append(news_teaser_formatter(picked_news, image=True))
 
         # Get 3 more items
         latest_news_items = (
@@ -620,3 +618,8 @@ class EELandingPage(BasePage):
             heading="Featured News",
         )
     ]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["news"] = self.featured_news()
+        return context
