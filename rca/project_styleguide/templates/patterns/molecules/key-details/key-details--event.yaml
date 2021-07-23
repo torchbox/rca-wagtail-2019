@@ -3,7 +3,7 @@ context:
     event_time: 5pm – 8pm
     timezone: GMT +1
     location: Online
-    who_can_attend: Open to all
+    eligibility: Open to all
     type: Exhibition
     add_to_calendar: true
     price: false
