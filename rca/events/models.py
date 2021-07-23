@@ -112,7 +112,7 @@ class EventDetailPage(BasePage):
     )
     introduction = RichTextField()
     body = StreamField(EventDetailPageBlock())
-    speaker_heading= models.CharField(
+    speaker_heading = models.CharField(
         blank=True, max_length=120, verbose_name="Heading"
     )
     partners_heading = models.CharField(
@@ -132,7 +132,10 @@ class EventDetailPage(BasePage):
         ),
         FieldPanel("introduction"),
         StreamFieldPanel("body"),
-        MultiFieldPanel([FieldPanel("speaker_heading"), InlinePanel("speakers")], heading=_("Event Speakers")),
+        MultiFieldPanel(
+            [FieldPanel("speaker_heading"), InlinePanel("speakers")],
+            heading=_("Event Speakers"),
+        ),
         MultiFieldPanel(
             [FieldPanel("partners_heading"), StreamFieldPanel("partners")],
             heading="Partners",
