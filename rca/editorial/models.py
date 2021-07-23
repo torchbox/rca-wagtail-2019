@@ -24,7 +24,7 @@ from rca.people.models import Directorate
 from rca.programmes.models import Subject
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
-from rca.utils.blocks import AccordionBlockWithTitle, QuoteBlock
+from rca.utils.blocks import AccordionBlockWithTitle, GalleryBlock, QuoteBlock
 from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, ContactFieldsMixin
 
@@ -127,6 +127,9 @@ class EditorialPage(ContactFieldsMixin, BasePage):
     quote_carousel = StreamField(
         [("quote", QuoteBlock())], blank=True, verbose_name="Quote Carousel"
     )
+    gallery = StreamField(
+        [("slide", GalleryBlock())], blank=True, verbose_name="Gallery"
+    )
     more_information_title = models.CharField(max_length=80, default="More information")
     more_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
@@ -147,6 +150,7 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         ),
         StreamFieldPanel("body"),
         StreamFieldPanel("quote_carousel"),
+        StreamFieldPanel("gallery"),
         MultiFieldPanel(
             [
                 FieldPanel("more_information_title"),
