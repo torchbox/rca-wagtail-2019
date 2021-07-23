@@ -5,15 +5,17 @@ from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamField
 from wagtail.core.fields import StreamField
 from wagtail.search import index
 
-from rca.utils.blocks import AccordionBlockWithTitle, GuideBlock
+from rca.utils.blocks import AccordionBlockWithTitle
 from rca.utils.models import BasePage, ContactFieldsMixin
+
+from .blocks import DonationPageBlock
 
 
 class DonationFormPage(ContactFieldsMixin, BasePage):
     template = "patterns/pages/donate/donate.html"
 
     introduction = models.CharField(max_length=500, blank=True)
-    body = StreamField(GuideBlock())
+    body = StreamField(DonationPageBlock())
     further_information_title = models.CharField(blank=True, max_length=120)
     further_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
