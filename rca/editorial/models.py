@@ -24,7 +24,12 @@ from rca.people.models import Directorate
 from rca.programmes.models import Subject
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
-from rca.utils.blocks import AccordionBlockWithTitle, GalleryBlock, QuoteBlock
+from rca.utils.blocks import (
+    AccordionBlockWithTitle,
+    CallToActionBlock,
+    GalleryBlock,
+    QuoteBlock,
+)
 from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, ContactFieldsMixin
 
@@ -123,7 +128,11 @@ class EditorialPage(ContactFieldsMixin, BasePage):
     contact_email = models.EmailField(blank=True, max_length=254)
 
     body = StreamField(EditorialPageBlock())
-
+    cta_block = StreamField(
+        [("call_to_action", CallToActionBlock(label="text promo"))],
+        blank=True,
+        verbose_name="Text promo",
+    )
     quote_carousel = StreamField(
         [("quote", QuoteBlock())], blank=True, verbose_name="Quote Carousel"
     )
@@ -158,6 +167,7 @@ class EditorialPage(ContactFieldsMixin, BasePage):
             heading="Introductory Video",
         ),
         StreamFieldPanel("body"),
+        StreamFieldPanel("cta_block"),
         StreamFieldPanel("quote_carousel"),
         StreamFieldPanel("gallery"),
         MultiFieldPanel(
