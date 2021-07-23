@@ -14,7 +14,7 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.fields import StreamField
-from wagtail.core.models import Orderable
+from wagtail.core.models import Orderable, Page
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.editorial import admin_forms
@@ -43,6 +43,13 @@ class Author(models.Model):
         return self.name
 
 
+class RelatedEditorialPage(Orderable):
+    source_page = ParentalKey(Page, related_name="related_editorialpages")
+    page = models.ForeignKey("editorial.EditorialPage", on_delete=models.CASCADE)
+
+    panels = [PageChooserPanel("page")]
+
+
 class EditorialType(models.Model):
     title = models.CharField(max_length=128)
     slug = models.SlugField(blank=True)
@@ -57,7 +64,7 @@ class EditorialType(models.Model):
     panels = [FieldPanel("title")]
 
 
-class EditorialPageTypePlacement(models.Model):
+class EditorialPageTypePlacement(Orderable):
     page = ParentalKey("EditorialPage", related_name="editorial_types")
     type = models.ForeignKey(
         EditorialType,
@@ -177,6 +184,9 @@ class EditorialPage(ContactFieldsMixin, BasePage):
             ],
             heading="More information",
         ),
+        InlinePanel(
+            "related_editorialpages", label="Related Editorial Pages", max_num=6
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_title"),
@@ -226,8 +236,34 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         ]
     )
 
+    def get_related_pages(self):
+        related_pages = {"title": "Also of interest", "items": []}
+        pages = (
+            self.related_editorialpages.all()
+            .prefetch_related("page__hero_image", "page__listing_image")
+            .filter(page__live=True)
+        )
+        for value in pages:
+            page = value.page
+            meta = ""
+            editorial_type = page.editorial_types.first()
+            if editorial_type:
+                meta = editorial_type.type
+
+            related_pages["items"].append(
+                {
+                    "title": page.title,
+                    "link": page.url,
+                    "image": page.listing_image or page.hero_image,
+                    "description": page.introduction or page.listing_summary,
+                    "meta": meta,
+                }
+            )
+        return related_pages
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+        context["related_pages"] = self.get_related_pages()
 
         # Link taxonomy/page relations to a parent page so they can be clicked
         # and applied as filters on the parent listing page
