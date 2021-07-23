@@ -74,7 +74,7 @@ context:
           link:
             title: 'Find out more'
             url: '#'
-    inline_cta:
+    cta_block:
       - block:
         value:
           title: Interested in design as a catalyst for change?
