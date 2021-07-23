@@ -14,7 +14,7 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.fields import StreamField
-from wagtail.core.models import Orderable
+from wagtail.core.models import Orderable, Page
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.editorial import admin_forms
@@ -24,7 +24,12 @@ from rca.people.models import Directorate
 from rca.programmes.models import Subject
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
-from rca.utils.blocks import QuoteBlock
+from rca.utils.blocks import (
+    AccordionBlockWithTitle,
+    CallToActionBlock,
+    GalleryBlock,
+    QuoteBlock,
+)
 from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, ContactFieldsMixin
 
@@ -36,6 +41,13 @@ class Author(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class RelatedEditorialPage(Orderable):
+    source_page = ParentalKey(Page, related_name="related_editorialpages")
+    page = models.ForeignKey("editorial.EditorialPage", on_delete=models.CASCADE)
+
+    panels = [PageChooserPanel("page")]
 
 
 class EditorialType(models.Model):
@@ -52,7 +64,7 @@ class EditorialType(models.Model):
     panels = [FieldPanel("title")]
 
 
-class EditorialPageTypePlacement(models.Model):
+class EditorialPageTypePlacement(Orderable):
     page = ParentalKey("EditorialPage", related_name="editorial_types")
     type = models.ForeignKey(
         EditorialType,
@@ -123,9 +135,31 @@ class EditorialPage(ContactFieldsMixin, BasePage):
     contact_email = models.EmailField(blank=True, max_length=254)
 
     body = StreamField(EditorialPageBlock())
-
+    cta_block = StreamField(
+        [("call_to_action", CallToActionBlock(label="text promo"))],
+        blank=True,
+        verbose_name="Text promo",
+    )
     quote_carousel = StreamField(
         [("quote", QuoteBlock())], blank=True, verbose_name="Quote Carousel"
+    )
+    gallery = StreamField(
+        [("slide", GalleryBlock())], blank=True, verbose_name="Gallery"
+    )
+    more_information_title = models.CharField(max_length=80, default="More information")
+    more_information = StreamField(
+        [("accordion_block", AccordionBlockWithTitle())],
+        blank=True,
+        verbose_name="More information",
+    )
+    download_assets_heading = models.CharField(
+        blank=True,
+        max_length=125,
+        help_text="The heading text displayed above download link",
+    )
+    download_assets_url = models.URLField(blank=True)
+    download_assets_link_title = models.CharField(
+        blank=True, max_length=125, help_text="The text displayed as the download link",
     )
 
     content_panels = BasePage.content_panels + [
@@ -140,7 +174,19 @@ class EditorialPage(ContactFieldsMixin, BasePage):
             heading="Introductory Video",
         ),
         StreamFieldPanel("body"),
+        StreamFieldPanel("cta_block"),
         StreamFieldPanel("quote_carousel"),
+        StreamFieldPanel("gallery"),
+        MultiFieldPanel(
+            [
+                FieldPanel("more_information_title"),
+                StreamFieldPanel("more_information"),
+            ],
+            heading="More information",
+        ),
+        InlinePanel(
+            "related_editorialpages", label="Related Editorial Pages", max_num=6
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_title"),
@@ -170,6 +216,14 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         InlinePanel("subjects", label="Subject"),
         InlinePanel("editorial_types", label="Editorial Type"),
         FieldPanel("author"),
+        MultiFieldPanel(
+            [
+                FieldPanel("download_assets_heading"),
+                FieldPanel("download_assets_url"),
+                FieldPanel("download_assets_link_title"),
+            ],
+            heading="Download assets",
+        ),
         FieldPanel("contact_email"),
     ]
 
@@ -182,8 +236,34 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         ]
     )
 
+    def get_related_pages(self):
+        related_pages = {"title": "Also of interest", "items": []}
+        pages = (
+            self.related_editorialpages.all()
+            .prefetch_related("page__hero_image", "page__listing_image")
+            .filter(page__live=True)
+        )
+        for value in pages:
+            page = value.page
+            meta = ""
+            editorial_type = page.editorial_types.first()
+            if editorial_type:
+                meta = editorial_type.type
+
+            related_pages["items"].append(
+                {
+                    "title": page.title,
+                    "link": page.url,
+                    "image": page.listing_image or page.hero_image,
+                    "description": page.introduction or page.listing_summary,
+                    "meta": meta,
+                }
+            )
+        return related_pages
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+        context["related_pages"] = self.get_related_pages()
 
         # Link taxonomy/page relations to a parent page so they can be clicked
         # and applied as filters on the parent listing page

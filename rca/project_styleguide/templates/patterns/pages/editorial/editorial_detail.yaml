@@ -55,8 +55,8 @@ context:
           author: 'Kevin Howbrook'
           link: 'http://www.torchbox.com'
           course: 'Design'
-    accordion_title: Accordion title
-    accordion:
+    more_information_title: Accordion title
+    more_information:
       - accordion:
         value:
           heading: First Year
@@ -74,7 +74,7 @@ context:
           link:
             title: 'Find out more'
             url: '#'
-    inline_cta:
+    cta_block:
       - block:
         value:
           title: Interested in design as a catalyst for change?
