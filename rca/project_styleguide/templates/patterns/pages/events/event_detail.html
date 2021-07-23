@@ -86,17 +86,17 @@
             </section>
 
             {# Staff #}
-            {% if page.speakers %}
+            {% if speakers %}
             <section class="section bg bg--light">
 
                 <div class="section__row section__row--first section__row--last">
                     <div class="section__header grid">
                         <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--three">
-                            {{ page.speaker_title|default:"Speakers" }}
+                            {{ page.speaker_heading|default:"Speakers" }}
                         </h2>
                     </div>
                     <div class="section__content">
-                        {% include "patterns/organisms/people-module/people-module.html" with people=page.speakers title=False %}
+                        {% include "patterns/organisms/people-module/people-module.html" with people=speakers title=False %}
                     </div>
                 </div>
 

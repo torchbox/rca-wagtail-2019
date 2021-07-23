@@ -3,12 +3,19 @@ import datetime
 from django.db import models
 from django.db.models.fields import SlugField
 from django.utils.text import slugify
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
+from django.utils.translation import gettext_lazy as _
+from modelcluster.fields import ParentalKey
+from wagtail.admin.edit_handlers import (
+    FieldPanel,
+    InlinePanel,
+    MultiFieldPanel,
+    StreamFieldPanel,
+)
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
-from rca.utils.models import BasePage
+from rca.utils.models import BasePage, RelatedStaffPageWithManualOptions
 
 from .blocks import CallToAction, EventDetailPageBlock, PartnersBlock
 
@@ -65,6 +72,10 @@ class EventSeries(models.Model):
         return self.title
 
 
+class EventDetailPageSpeaker(RelatedStaffPageWithManualOptions):
+    source_page = ParentalKey("events.EventDetailPage", related_name="speakers")
+
+
 class EventDetailPage(BasePage):
     parent_page_types = ["EventIndexPage"]
     subpage_types = []
@@ -101,6 +112,9 @@ class EventDetailPage(BasePage):
     )
     introduction = RichTextField()
     body = StreamField(EventDetailPageBlock())
+    speaker_heading = models.CharField(
+        blank=True, max_length=120, verbose_name="Heading"
+    )
     partners_heading = models.CharField(
         blank=True, max_length=120, verbose_name="Heading"
     )
@@ -118,6 +132,10 @@ class EventDetailPage(BasePage):
         ),
         FieldPanel("introduction"),
         StreamFieldPanel("body"),
+        MultiFieldPanel(
+            [FieldPanel("speaker_heading"), InlinePanel("speakers")],
+            heading=_("Event Speakers"),
+        ),
         MultiFieldPanel(
             [FieldPanel("partners_heading"), StreamFieldPanel("partners")],
             heading="Partners",
@@ -180,5 +198,6 @@ class EventDetailPage(BasePage):
         context.update(
             hero_image=self.hero_image,
             series_events=self.get_series_events() if self.series else [],
+            speakers=self.speakers.all,
         )
         return context
