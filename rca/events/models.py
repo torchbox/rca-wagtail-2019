@@ -9,15 +9,17 @@ from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
+    PageChooserPanel,
     StreamFieldPanel,
 )
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
-from rca.utils.models import BasePage, RelatedStaffPageWithManualOptions
+from rca.utils.models import BasePage, ContactFieldsMixin, RelatedStaffPageWithManualOptions
 
 from .blocks import CallToAction, EventDetailPageBlock, PartnersBlock
+from .forms import EventPageAdminForm
 
 
 class EventType(models.Model):
@@ -76,7 +78,8 @@ class EventDetailPageSpeaker(RelatedStaffPageWithManualOptions):
     source_page = ParentalKey("events.EventDetailPage", related_name="speakers")
 
 
-class EventDetailPage(BasePage):
+class EventDetailPage(ContactFieldsMixin, BasePage):
+    base_form_class = EventPageAdminForm
     parent_page_types = ["EventIndexPage"]
     subpage_types = []
     template = "patterns/pages/events/event_detail.html"
@@ -141,6 +144,18 @@ class EventDetailPage(BasePage):
             heading="Partners",
         ),
         StreamFieldPanel("call_to_action"),
+        MultiFieldPanel(
+            [
+                FieldPanel("contact_model_title"),
+                FieldPanel("contact_model_email"),
+                FieldPanel("contact_model_url"),
+                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_link_text"),
+                FieldPanel("contact_model_text"),
+                ImageChooserPanel("contact_model_image"),
+            ],
+            "Large Call To Action",
+        ),
     ]
 
     search_fields = BasePage.search_fields + [
