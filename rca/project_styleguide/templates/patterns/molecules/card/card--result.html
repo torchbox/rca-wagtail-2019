@@ -1,5 +1,5 @@
 {% load wagtailcore_tags wagtailimages_tags %}
-<div class="card card--project{% if not item.is_startup_project and not item.school %} card--notch-space{% endif %}{% if item.image %} card--image{% endif %}{% if modifier %} card--{{ modifier }}{% endif %}">
+<div class="card card--result{% if not item.type %} card--notch-space{% endif %}{% if item.image %} card--image{% endif %}{% if modifier %} card--{{ modifier }}{% endif %}">
     {% if item.image %}
         {% image item.image fill-80x58 as image_small %}
         {% image item.image fill-392x284 as image_large %}
@@ -18,8 +18,19 @@
                         {{ item.title }}
                     {% if item.link %}</span>{% endif %}
                 </h3>
-                {% if item.date %}
-                    <div class="card__description card__year">{{ item.date|date:'j F Y' }}</div>
+                {% if item.date or item.start_date %}
+                    <div class="card__description">
+                        <span class="card__year">
+                            {% if item.start_date %}
+                                {{ item.start_date|date:'j F' }}
+                                {% if item.end_date %}– {{ item.end_date|date:'j F' }}{% endif %}{% if item.location %},{% endif %}
+                            {% else %}
+                                {{ item.date|date:'j F Y' }}{% if item.location %},{% endif %}
+                            {% endif %}
+
+                        </span>
+                        {% if item.location %}<span class="card__location">{{ item.location }}</span>{% endif %}
+                    </div>
                 {% endif %}
             </div>
         </div>
