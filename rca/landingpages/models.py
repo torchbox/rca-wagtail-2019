@@ -613,6 +613,29 @@ class EELandingPage(BasePage):
     )
     stories_link_target_url = models.URLField(blank=False)
 
+    talks_summary_text = models.TextField(
+        max_length=250,
+        blank=False,
+        help_text=_("Short text summary displayed with the 'Talks' title"),
+    )
+    talks_link_text = models.TextField(
+        max_length=120, blank=False, help_text=_("The text do display for the link"),
+    )
+    talks_link_target_url = models.URLField(blank=False)
+    talks_image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    video_caption = models.CharField(
+        blank=True,
+        max_length=80,
+        help_text=_("The text displayed next to the video play button"),
+    )
+    video = models.URLField(blank=True)
+
     class Meta:
         verbose_name = "Landing Page - Editorial and Events"
 
@@ -701,6 +724,17 @@ class EELandingPage(BasePage):
                 ),
             ],
             heading="Stories",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("talks_summary_text"),
+                ImageChooserPanel("talks_image"),
+                FieldPanel("video_caption"),
+                FieldPanel("video"),
+                FieldPanel("talks_link_text"),
+                FieldPanel("talks_link_target_url"),
+            ],
+            heading="Talks",
         ),
     ]
 
