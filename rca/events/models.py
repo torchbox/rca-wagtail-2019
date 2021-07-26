@@ -16,7 +16,11 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
-from rca.utils.models import BasePage, ContactFieldsMixin, RelatedStaffPageWithManualOptions
+from rca.utils.models import (
+    BasePage,
+    ContactFieldsMixin,
+    RelatedStaffPageWithManualOptions,
+)
 
 from .blocks import CallToAction, EventDetailPageBlock, PartnersBlock
 from .forms import EventPageAdminForm
