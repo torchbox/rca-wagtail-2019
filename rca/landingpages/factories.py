@@ -20,6 +20,8 @@ class EELandingPageFactory(wagtail_factories.PageFactory):
     title = factory.Faker("text", max_nb_chars=25)
     news_link_text = factory.Faker("text", max_nb_chars=25)
     news_link_target_url = "https://rca.ac.uk"
+    events_link_text = factory.Faker("text", max_nb_chars=25)
+    events_link_target_url = "https://rca.ac.uk"
 
 
 class EnterpriseLandingPageFactory(wagtail_factories.PageFactory):
