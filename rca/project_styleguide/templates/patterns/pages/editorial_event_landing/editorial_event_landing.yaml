@@ -17,10 +17,12 @@ context:
     contact: true
     contact_image: true
     cta_block:
-      title: Media Centre
-      description: The Press Office manages relations between the College and the media, acting as the first point of contact for media queries and issuing news releases and statements on behalf of the College.
-      action: Launch the Media Centre
-      link: '#'
+      - block:
+        value:
+          title: Media Centre
+          description: The Press Office manages relations between the College and the media, acting as the first point of contact for media queries and issuing news releases and statements on behalf of the College.
+          action: Launch the Media Centre
+          link: '#'
   stories:
     - slide:
       title: 'Lorem ipsum dolor sit'
