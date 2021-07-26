@@ -10,7 +10,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("editorial", "0007_alterations_to_body_field"),
+        ("editorial", "0013_make_type_orderable"),
     ]
 
     operations = [
