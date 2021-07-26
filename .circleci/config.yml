@@ -49,6 +49,11 @@ jobs:
           command: |
             npm run build:prod
       - run:
+          name: Run Black
+          command: |
+            . venv/bin/activate
+            black --check --diff ./rca --exclude migrations/
+      - run:
           name: Run Django tests
           command: |
             . venv/bin/activate
@@ -61,11 +66,6 @@ jobs:
             coverage report
             coverage xml
             bash <(curl -s https://codecov.io/bash) -t $COVERAGE_TOKEN
-      - run:
-          name: Run Black
-          command: |
-            . venv/bin/activate
-            black --check --diff ./rca --exclude migrations/
   deploy_dev:
     docker:
       - image: buildpack-deps:trusty
