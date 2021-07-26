@@ -16,6 +16,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.editorial.models import EditorialPage
 from rca.events.models import EventDetailPage
+from rca.landingpages import admin_forms
 from rca.landingpages.utils import (
     editorial_teaser_formatter,
     event_teaser_formatter,
@@ -589,7 +590,8 @@ class EELandingPageRelatedEventPage(RelatedPage):
     panels = [PageChooserPanel("page", ["events.EventDetailPage"])]
 
 
-class EELandingPage(BasePage):
+class EELandingPage(ContactFieldsMixin, BasePage):
+    base_form_class = admin_forms.EELandingPageAdminForm
     template = "patterns/pages/editorial_event_landing/editorial_event_landing.html"
     max_count = 1
 
@@ -735,6 +737,18 @@ class EELandingPage(BasePage):
                 FieldPanel("talks_link_target_url"),
             ],
             heading="Talks",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("contact_model_title"),
+                FieldPanel("contact_model_email"),
+                FieldPanel("contact_model_url"),
+                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_link_text"),
+                FieldPanel("contact_model_text"),
+                ImageChooserPanel("contact_model_image"),
+            ],
+            "Large Call To Action",
         ),
     ]
 
