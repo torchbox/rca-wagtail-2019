@@ -4,35 +4,6 @@ context:
     news_view_all:
       title: View all news
       link: '#'
-    events:
-      - item:
-        type: 'Exhibition'
-        title: 'Designs for Real Life'
-        description: '6 July — 4 August 2021, Somerset House'
-        link: '#'
-        image: //placekitten.com/526/402
-        person: false
-      - item:
-        type: 'Lecture'
-        title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
-        description: '23 November 2021, Online'
-        link: '#'
-        image: false
-        person: false
-      - item:
-        type: 'Exhibition'
-        title: 'Show 2018: School of Architecture: Making Space for the Future'
-        description: '23 November 2021, Battersea'
-        link: '#'
-        image: false
-        person: false
-      - item:
-        type: 'Open day'
-        title: 'Show 2018: School of Architecture: Making Space for the Future'
-        description: '23 November 2021, Whitehall'
-        link: '#'
-        image: false
-        person: false
     events_view_all:
       title: View all events
       link: '#'
@@ -66,6 +37,35 @@ context:
       description: The Press Office manages relations between the College and the media, acting as the first point of contact for media queries and issuing news releases and statements on behalf of the College.
       action: Launch the Media Centre
       link: '#'
+  events:
+    - item:
+      type: 'Exhibition'
+      title: 'Designs for Real Life'
+      description: '6 July — 4 August 2021, Somerset House'
+      link: '#'
+      image: //placekitten.com/526/402
+      person: false
+    - item:
+      type: 'Lecture'
+      title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
+      description: '23 November 2021, Online'
+      link: '#'
+      image: false
+      person: false
+    - item:
+      type: 'Exhibition'
+      title: 'Show 2018: School of Architecture: Making Space for the Future'
+      description: '23 November 2021, Battersea'
+      link: '#'
+      image: false
+      person: false
+    - item:
+      type: 'Open day'
+      title: 'Show 2018: School of Architecture: Making Space for the Future'
+      description: '23 November 2021, Whitehall'
+      link: '#'
+      image: false
+      person: false
   news:
     - item:
       type: 'News'

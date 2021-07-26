@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -14,7 +15,8 @@ from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.editorial.models import EditorialPage
-from rca.landingpages.utils import news_teaser_formatter
+from rca.events.models import EventDetailPage
+from rca.landingpages.utils import event_teaser_formatter, news_teaser_formatter
 from rca.projects.models import ProjectPage
 from rca.utils.blocks import (
     CallToActionBlock,
@@ -569,6 +571,13 @@ class EELandingPageRelatedEditorialPage(RelatedPage):
     panels = [PageChooserPanel("page", ["editorial.EditorialPage"])]
 
 
+class EELandingPageRelatedEventPage(RelatedPage):
+    source_page = ParentalKey(
+        "landingpages.EELandingPage", related_name="related_event_pages"
+    )
+    panels = [PageChooserPanel("page", ["events.EventDetailPage"])]
+
+
 class EELandingPage(BasePage):
     template = "patterns/pages/editorial_event_landing/editorial_event_landing.html"
     max_count = 1
@@ -577,6 +586,11 @@ class EELandingPage(BasePage):
         max_length=120, blank=False, help_text=_("The text do display for the link"),
     )
     news_link_target_url = models.URLField(blank=False)
+
+    events_link_text = models.TextField(
+        max_length=120, blank=False, help_text=_("The text do display for the link"),
+    )
+    events_link_target_url = models.URLField(blank=False)
 
     class Meta:
         verbose_name = "Landing Page - Editorial and Events"
@@ -592,6 +606,7 @@ class EELandingPage(BasePage):
         latest_news_items = (
             EditorialPage.objects.live()
             .order_by("-published_at")
+            .exclude(id=picked_news.id)
             .prefetch_related("hero_image", "editorial_types")[:3]
         )
         for item in latest_news_items:
@@ -599,9 +614,33 @@ class EELandingPage(BasePage):
 
         return news
 
+    def featured_events(self):
+        events = []
+        picked_event = self.related_event_pages.first()
+        if picked_event:
+            picked_event = picked_event.page.specific
+            events.append(event_teaser_formatter(picked_event, image=True))
+
+        # Get 3 more items
+        latest_event_items = (
+            EventDetailPage.objects.live()
+            .filter(start_date__gte=timezone.now().date())
+            .exclude(id=picked_event.id)
+            .order_by("-start_date")
+            .prefetch_related("hero_image")[:3]
+        )
+        for item in latest_event_items:
+            events.append(event_teaser_formatter(item))
+
+        return events
+
     @property
     def news_view_all(self):
         return {"link": self.news_link_target_url, "title": self.news_link_text}
+
+    @property
+    def events_view_all(self):
+        return {"link": self.events_link_target_url, "title": self.events_link_text}
 
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
@@ -616,10 +655,21 @@ class EELandingPage(BasePage):
                 FieldPanel("news_link_target_url"),
             ],
             heading="Featured News",
-        )
+        ),
+        MultiFieldPanel(
+            [
+                InlinePanel(
+                    "related_event_pages", max_num=1, min_num=1, label="Event Page"
+                ),
+                FieldPanel("events_link_text"),
+                FieldPanel("events_link_target_url"),
+            ],
+            heading="Featured Events",
+        ),
     ]
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["news"] = self.featured_news()
+        context["events"] = self.featured_events()
         return context
