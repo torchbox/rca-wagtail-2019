@@ -16,7 +16,11 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.editorial.models import EditorialPage
 from rca.events.models import EventDetailPage
-from rca.landingpages.utils import event_teaser_formatter, news_teaser_formatter
+from rca.landingpages.utils import (
+    editorial_teaser_formatter,
+    event_teaser_formatter,
+    news_teaser_formatter,
+)
 from rca.projects.models import ProjectPage
 from rca.utils.blocks import (
     CallToActionBlock,
@@ -571,6 +575,13 @@ class EELandingPageRelatedEditorialPage(RelatedPage):
     panels = [PageChooserPanel("page", ["editorial.EditorialPage"])]
 
 
+class EELandingPageRelatedEditorialStoryPage(RelatedPage):
+    source_page = ParentalKey(
+        "landingpages.EELandingPage", related_name="related_editorial_story_pages"
+    )
+    panels = [PageChooserPanel("page", ["editorial.EditorialPage"])]
+
+
 class EELandingPageRelatedEventPage(RelatedPage):
     source_page = ParentalKey(
         "landingpages.EELandingPage", related_name="related_event_pages"
@@ -591,6 +602,16 @@ class EELandingPage(BasePage):
         max_length=120, blank=False, help_text=_("The text do display for the link"),
     )
     events_link_target_url = models.URLField(blank=False)
+
+    stories_summary_text = models.TextField(
+        max_length=250,
+        blank=False,
+        help_text=_("Short text summary displayed with the 'Stories' title"),
+    )
+    stories_link_text = models.TextField(
+        max_length=120, blank=False, help_text=_("The text do display for the link"),
+    )
+    stories_link_target_url = models.URLField(blank=False)
 
     class Meta:
         verbose_name = "Landing Page - Editorial and Events"
@@ -634,6 +655,10 @@ class EELandingPage(BasePage):
 
         return events
 
+    def get_stories(self):
+        projects = self.related_editorial_story_pages.all().select_related("page")
+        return [editorial_teaser_formatter(page.page.specific) for page in projects]
+
     @property
     def news_view_all(self):
         return {"link": self.news_link_target_url, "title": self.news_link_text}
@@ -666,10 +691,22 @@ class EELandingPage(BasePage):
             ],
             heading="Featured Events",
         ),
+        MultiFieldPanel(
+            [
+                FieldPanel("stories_summary_text"),
+                FieldPanel("stories_link_text"),
+                FieldPanel("stories_link_target_url"),
+                InlinePanel(
+                    "related_editorial_story_pages", label="Editorial Page", max_num=6
+                ),
+            ],
+            heading="Stories",
+        ),
     ]
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["news"] = self.featured_news()
         context["events"] = self.featured_events()
+        context["stories"] = self.get_stories()
         return context

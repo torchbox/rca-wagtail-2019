@@ -7,24 +7,8 @@ context:
     events_view_all:
       title: View all events
       link: '#'
-    stories_intro: Characterised by its roots in creative and innovative practice, by engagement with partners in business, industry, government and communities.
-    stories_link: '#'
-    stories:
-      - slide:
-        title: 'Lorem ipsum dolor sit'
-        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Lorem ipsum dolor sit'
-        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Lorem ipsum dolor sit'
-        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
-        image: true
-        link: '#'
+    stories_summary_text: Characterised by its roots in creative and innovative practice, by engagement with partners in business, industry, government and communities.
+    stories_link_target_url: '#'
     talks_intro: The RCA is famed for its ability to attract leading practitioners and academics from across the creative spectrum.
     talks_link: '#'
     talks_image: true
@@ -36,6 +20,22 @@ context:
       title: Media Centre
       description: The Press Office manages relations between the College and the media, acting as the first point of contact for media queries and issuing news releases and statements on behalf of the College.
       action: Launch the Media Centre
+      link: '#'
+  stories:
+    - slide:
+      title: 'Lorem ipsum dolor sit'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      image: true
+      link: '#'
+    - slide:
+      title: 'Lorem ipsum dolor sit'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      image: true
+      link: '#'
+    - slide:
+      title: 'Lorem ipsum dolor sit'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      image: true
       link: '#'
   events:
     - item:

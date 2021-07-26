@@ -36,6 +36,9 @@ class TestEELandingPageRules(WagtailPageTests):
                 news_link_target_url="https://rca.ac.uk",
                 events_link_text="View more",
                 events_link_target_url="https://rca.ac.uk",
+                stories_link_text="View more",
+                stories_link_target_url="https://rca.ac.uk",
+                stories_summary_text="These are the stories",
             )
         )
         # A second EELandingPage should not be creatable
