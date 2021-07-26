@@ -10,7 +10,7 @@ from wagtail.admin.edit_handlers import (
     PageChooserPanel,
     StreamFieldPanel,
 )
-from wagtail.core.fields import StreamField
+from wagtail.core.fields import StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
@@ -637,6 +637,9 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         help_text=_("The text displayed next to the video play button"),
     )
     video = models.URLField(blank=True)
+    cta_block = StreamField(
+        StreamBlock([("call_to_action", CallToActionBlock())], max_num=1,), blank=True
+    )
 
     class Meta:
         verbose_name = "Landing Page - Editorial and Events"
@@ -738,6 +741,7 @@ class EELandingPage(ContactFieldsMixin, BasePage):
             ],
             heading="Talks",
         ),
+        StreamFieldPanel("cta_block"),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_title"),

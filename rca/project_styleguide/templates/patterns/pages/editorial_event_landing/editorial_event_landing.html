@@ -112,7 +112,9 @@
             {# CTA #}
             <section class="section section--start section--end bg bg--dark anchor-heading" id="media-centre">
                 <div class="section__row section__row--last">
-                    {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=page.cta_block %}
+                    {% for block in page.cta_block %}
+                        {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value %}
+                    {% endfor %}
                 </div>
             </section>
 
