@@ -14,6 +14,7 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.core.models import Orderable
 from wagtail.search import index
 
 from rca.utils.models import (
@@ -82,6 +83,42 @@ class EventDetailPageSpeaker(RelatedStaffPageWithManualOptions):
     source_page = ParentalKey("events.EventDetailPage", related_name="speakers")
 
 
+class EventDetailPageRelatedDirectorate(Orderable):
+    source_page = ParentalKey("events.EventDetailPage", related_name="directorates")
+    directorate = models.ForeignKey(
+        "people.Directorate", null=True, on_delete=models.CASCADE, related_name="+",
+    )
+    panels = [FieldPanel("directorate")]
+
+    class Meta:
+        ordering = ["sort_order"]
+
+
+class EventDetailPageRelatedResearchCentre(Orderable):
+    source_page = ParentalKey("events.EventDetailPage", related_name="research_centres")
+    research_centre = models.ForeignKey(
+        "research.ResearchCentrePage",
+        null=True,
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
+    panels = [PageChooserPanel("research_centre")]
+
+    class Meta:
+        ordering = ["sort_order"]
+
+
+class EventDetailPageRelatedSchool(Orderable):
+    source_page = ParentalKey("events.EventDetailPage", related_name="schools")
+    school = models.ForeignKey(
+        "schools.SchoolPage", null=True, on_delete=models.CASCADE, related_name="+",
+    )
+    panels = [PageChooserPanel("school")]
+
+    class Meta:
+        ordering = ["sort_order"]
+
+
 class EventDetailPage(ContactFieldsMixin, BasePage):
     base_form_class = EventPageAdminForm
     parent_page_types = ["EventIndexPage"]
@@ -137,6 +174,11 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             [FieldPanel("event_type"), FieldPanel("series"), FieldPanel("eligibility")],
             heading="Event Taxonomy",
         ),
+        InlinePanel("directorates", heading="Directorates", label="Directorate"),
+        InlinePanel(
+            "research_centres", heading="Research Centres", label="Research Centre"
+        ),
+        InlinePanel("schools", heading="Schools", label="School"),
         FieldPanel("introduction"),
         StreamFieldPanel("body"),
         MultiFieldPanel(
