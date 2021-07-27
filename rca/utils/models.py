@@ -767,3 +767,21 @@ class SitewideTapSetting(BaseSetting):
     )
 
     panels = [FieldPanel("show_carousels"), FieldPanel("show_widgets")]
+
+
+def get_listing_image(page):
+    """Global function to get a page listing image, should use the
+    listing_image if set, if not, check for a hero image
+
+    Args:
+        page (wagtail.code.Page): The page object
+
+    Returns:
+        rca.image.CustomImage / None: The image object
+    """
+    image = None
+    if hasattr(page, "listing_image") and page.listing_image:
+        image = page.listing_image
+    elif hasattr(page, "hero_image") and page.hero_image:
+        image = page.hero_image
+    return image
