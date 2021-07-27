@@ -75,7 +75,7 @@
 
     {% if series_events %}
         <div class="key-details__section key-details__section--tags">
-            <h3 class="body body--two key-details__sub-heading">Also in the "{{ page.series }}" series</h3>
+            <h3 class="body body--two key-details__sub-heading">Also in the {{ page.series }} series</h3>
             <ul class="key-details__list">
                 {% for item in series_events %}
                     <li class="key-details__list-item">
