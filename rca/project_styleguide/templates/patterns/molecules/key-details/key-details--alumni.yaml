@@ -1,0 +1,21 @@
+context:
+  page:
+    location: '<p>Development & Alumni Relations Office<br>Kensington Gore<br>London<br>SW7 2EU</p>.'
+    social_links:
+      - link:
+        value:
+          title: Twitter
+          href: http://www.facebook.com
+      - link:
+        value:
+          title: Linkedin
+          href: http://www.linkedin.com
+      - link:
+        value:
+          title: Facebook
+          href: http://www.facebook.com
+      - link:
+        value:
+          title: Instagram
+          href: http://www.facebook.com
+    contact_email: alumni@rca.ac.uk
