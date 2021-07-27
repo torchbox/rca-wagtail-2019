@@ -1,6 +1,4 @@
 .schools {
-    position: relative; // ensure school jump menu doesn't flow outsiode of container
-
     // Compensating for the different between section--top-space-small and section--start
     &__anchor-compensator {
         position: relative;

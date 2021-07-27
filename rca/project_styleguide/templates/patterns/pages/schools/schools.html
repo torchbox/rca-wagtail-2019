@@ -46,7 +46,7 @@
 
             <section class="section bg bg--dark">
 
-                <div class="section__row project-overview project-overview--school">
+                <div class="section__row project-overview project-overview--condensed">
                     <div class="section__content grid">
                         <div class="project-overview__content layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                             <div class="project-overview__media">
@@ -70,7 +70,7 @@
 
         </header>
 
-        <div class="page__content schools landing-page">
+        <div class="page__content schools landing-page u-pos-rel">
 
             {% include "patterns/molecules/jump-nav/jump-nav.html" with modifier="bg bg--dark" sticky=True item=tabs %}
 
@@ -154,7 +154,7 @@
             </section>
 
             {% if stats_block %}
-                {% include "patterns/organisms/stat-block/stat-block.html" with modifier="school-stat-block" %}
+                {% include "patterns/organisms/stat-block/stat-block.html" with modifier="both-dark" %}
             {% endif %}
 
             {# Research #}

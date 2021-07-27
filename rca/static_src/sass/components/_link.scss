@@ -266,7 +266,8 @@
 
     // Components that use font size under 18px (orange doesn't pass on bg--light)
     .text-teaser &,
-    .contact & {
+    .contact &,
+    .news & {
         .bg--light & {
             &#{$root}--primary {
                 color: $color--black;

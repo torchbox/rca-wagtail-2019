@@ -6,37 +6,31 @@ context:
         title: Home
     introduction: 'A distinguished community of practising artists and designers'
     introduction_image: true
-    location: <p><a>RCA Kensington</a></p><p><a>RCA White City</a></p>
-    next_open_day_date: !!timestamp '2020-12-13 2:00:00'
-    get_in_touch: <p>+44 (0)20 7590 4444</p><p><a href="">email@rca.ac.uk</a></p>
+    location: '<p>Development & Alumni Relations Office<br>Kensington Gore<br>London<br>SW7 2EU</p>'
     social_links:
-      - link:
-        value:
-          title: Facebook
-          href: http://www.facebook.com
       - link:
         value:
           title: Twitter
           href: http://www.facebook.com
       - link:
         value:
+          title: Linkedin
+          href: http://www.linkedin.com
+      - link:
+        value:
+          title: Facebook
+          href: http://www.facebook.com
+      - link:
+        value:
           title: Instagram
           href: http://www.facebook.com
+    contact_email: alumni@rca.ac.uk
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     video_caption: What it’s like to be an RCA Alumni
     body: With more than 20,000 RCA alumni all over the world, our graduates form a unique international network of artists, designers, creators and innovators. Each year, alumni continue to participate in College life through the alumni relations programme, which offers a range of events, communications and exclusive benefits.
-    research_projects_title: Our research
-    research_projects_text: Characterised by its roots in creative and innovative practice, by engagement with partners in business, industry, government and communities.
-    sections:
-      about:
-        title: What makes us different?
-        introduction: We teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs.
-      programmes:
-        introduction: We offer a range of Graduate Diploma, MA, MRes, MPhil and PhD degree programmes across the art and design disciplines.
-      short_courses:
-        introduction: Senior-level executive masterclasses, summer courses and custom executive education programmes for businesses and organisations.
-      staff:
-        introduction: Browse profiles of our School’s staff, including world-eminent practitioners in architecure…
+    latest_title: Latest
+    get_involved_title: Get involved
+    get_involved_intro: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo.
     contact: true
     contact_image: true
     related_pages_title: Enterprise at the RCA
@@ -67,22 +61,22 @@ context:
             title: 'Red bull 4'
             url: '#'
           image: true
-    external_links_heading: Also…
+    external_links_heading: Also of interest
     external_links:
       - item:
-        value: { text: 'Our research themes', href: 'http://www.google.com' }
+        value: { text: '"A" magazine', href: '/alumni/a-magazine' }
       - item:
-        value:
-          {
-            text: 'Architects Council of Europe (ACE)',
-            href: 'http://www.google.com',
-          }
-    research_cta_block:
+        value: { text: 'Update your details ', href: '/alumni/update-details' }
+      - item:
+        value: { text: 'Alumni news', href: '/alumni/news' }
+      - item:
+        value: { text: 'Alumni events', href: '/alumni/events' }
+    latest_cta_block:
       - block:
         value:
-          title: Lab. for Design & Machine Learning
-          description: In addition to the research themes, the School of Architecture created the Laboratory for Design & Machine Learning to conduct research into new interdisciplinary forms of designing, evaluation, and policymaking.
-          action: Find out more
+          title: Tell us about your experience
+          description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
+          action: Contact the Alumni team
           link: '#'
     related_programmes_title: Our programmes
     related_programmes_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
@@ -117,40 +111,14 @@ context:
         link: '#'
         image: //placekitten.com/251/142
         person: false
-    research_collaborators:
-      - slide:
-        value:
-          link:
-            title: 'Red bull'
-            url: '#'
-          image: true
-      - slide:
-        value:
-          link:
-            title: 'Red bull 2'
-            url: '#'
-          image: true
-      - slide:
-        value:
-          link:
-            title: 'Red bull 3'
-            url: '#'
-          image: true
-      - slide:
-        value:
-          link:
-            title: 'Red bull 4'
-            url: '#'
-          image: true
-  open_day_link:
-    get_link_url: #
-    get_link_text: Book or view all open days
+  news_view_all:
+    title: See all alumni news
   page_teasers:
-    title: What makes us different?
-    summary: We teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs.
+    title: Alumni benefits
+    intro: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
     pages:
       - {
-          title: 'Innovation RCA',
+          title: 'Exclusive events',
           link: '#',
           meta: false,
           person: false,
@@ -158,7 +126,7 @@ context:
           image: true,
         }
       - {
-          title: 'Consultancy & knowledge exchange',
+          title: 'Termly newsletter',
           link: '#',
           meta: false,
           person: false,
@@ -166,86 +134,14 @@ context:
           image: true,
         }
       - {
-          title: 'Custom executive education',
+          title: 'Alumni volunteering',
           link: '#',
           meta: false,
           person: false,
           description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
           image: true,
         }
-  related_programmes:
-    - item:
-      link:
-        url: '#'
-        title: Browse all RCA's Programmes
-      related_items:
-        - item:
-          title: Architecture
-          degree_level: MA
-          programme_description_subtitle: Expand the possibilities of your practice by developing a speculative, independent and critical ethos
-          hero_image: http://placehold.it/500x500/f1f1f1/000
-        - item:
-          title: Architecture Pathway
-          degree_level: MA
-          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
-          hero_image: http://placehold.it/500x500/ff5d1c/fff
-        - item:
-          title: Architecture PhD
-          degree_level: MA
-          programme_description_subtitle: Turning innovation into successful real-world businesses.
-          hero_image: http://placehold.it/500x500
-        - item:
-          title: City Design
-          degree_level: MA
-          programme_description_subtitle: Expand the possibilities of your practice by developing a speculative, independent and critical ethos
-          hero_image: http://placehold.it/500x500/f1f1f1/000
-        - item:
-          title: Environmental Architecture
-          degree_level: MA
-          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
-          hero_image: http://placehold.it/500x500/ff5d1c/fff
-        - item:
-          title: Interior Design
-          degree_level: MA
-          programme_description_subtitle: Turning innovation into successful real-world businesses.
-          hero_image: http://placehold.it/500x500
-        - item:
-          title: Global Innovation Design
-          degree_level: MA
-          programme_description_subtitle: Expand the possibilities of your practice by developing a speculative, independent and critical ethos
-          hero_image: http://placehold.it/500x500/f1f1f1/000
-        - item:
-          title: Fashion
-          degree_level: MA
-          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
-          hero_image: http://placehold.it/500x500/ff5d1c/fff
-        - item:
-          title: Design Products
-          degree_level: MA
-          programme_description_subtitle: Turning innovation into successful real-world businesses.
-          hero_image: http://placehold.it/500x500
-  related_short_courses:
-    - item:
-      link:
-        url: '#'
-        title: View all our short courses
-      related_items:
-        - item:
-          title: Design Thinking & Innovation
-          degree_level: Executive Education
-          programme_description_subtitle: Transform your Customer Experience.
-          hero_image: http://placehold.it/300x270/f1f1f1/000
-        - item:
-          title: Service Design Masterclass
-          degree_level: Executive Education
-          programme_description_subtitle: Learn how Creative Leadership can unlock your potential for innovation.
-          hero_image: http://placehold.it/300x270/ff5d1c/fff
-        - item:
-          title: Creative Leadership
-          degree_level: Executive Education
-          programme_description_subtitle: Turning innovation into successful real-world businesses.
-          hero_image: http://placehold.it/300x270
-  stats_block: False
+  stats_block: True
   student_stories:
     slides:
       - slide:
@@ -274,25 +170,14 @@ context:
           image: True
   instagram_feed:
     handle: rca.architecture
-  featured_research:
-    - slide:
-      title: 'Lorem ipsum dolor sit'
-      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
-      image: true
-      link: '#'
-    - slide:
-      title: 'Lorem ipsum dolor sit'
-      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
-      image: true
-      link: '#'
-    - slide:
-      title: 'Lorem ipsum dolor sit'
-      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
-      image: true
-      link: '#'
-  student_research:
-    title: PhD student Research
-    link_url: '#'
+  get_involved:
+    cta:
+      - block:
+        value:
+          title: Make a donation
+          description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
+          action: Give to GenerationRCA
+          link: '#'
     slides:
       - slide:
         value:
@@ -352,15 +237,13 @@ context:
     photographer: Sekiro Yamananka
   tabs:
     - tab:
-      title: Overview
+      title: Alumni benefits
     - tab:
-      title: Research
+      title: Latest
     - tab:
-      title: Study
+      title: Get involved
     - tab:
-      title: Staff
-    - tab:
-      title: Contact
+      title: Stay connected
 
 tags:
   include_block:
