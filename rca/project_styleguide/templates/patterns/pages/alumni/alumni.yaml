@@ -33,10 +33,7 @@ context:
     get_involved_intro: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo.
     contact: true
     contact_image: true
-    related_pages_title: Enterprise at the RCA
-    staff_link: '#'
-    staff_link_text: View all school staff
-    collaborators_heading: Organisations we've worked with
+    collaborators_heading: Mentor & intern providers
     collaborators:
       - slide:
         value:
@@ -77,17 +74,6 @@ context:
           title: Tell us about your experience
           description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
           action: Contact the Alumni team
-          link: '#'
-    related_programmes_title: Our programmes
-    related_programmes_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
-    related_short_courses_title: Our short courses
-    related_short_courses_summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
-    programmes_cta_block:
-      - block:
-        value:
-          title: Custom executive education
-          description: The RCA delivers senior-level custom executive education programmes for business, government, the public sector and universities globally.
-          action: Browse Executive Education
           link: '#'
     legacy_news_and_events:
       - item:
@@ -203,34 +189,6 @@ context:
           link: '#'
           person: false
           image: True
-  staff_cta:
-    - block:
-      value:
-        title: Meet the RCA
-        description: Meet Dr Godofredo Pereira, Head of Programme for MA Environmental Architecture & MA City Design
-        action: Find out more
-        link: '#'
-  staff:
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
   hero_image:
     title: Synaputral Decadence is the flavour of the distant future
     creator: Jianjin Lee Chen
@@ -246,25 +204,9 @@ context:
       title: Stay connected
 
 tags:
-  include_block:
-    block:
-      template_name: 'patterns/_pattern_library_only/streamfield/soa_body.html'
   pageurl:
     ancestor_page:
-      raw: '#'
-    page.school_dean:
-      raw: '#'
-    related_item:
       raw: '#'
   slugurl:
     "'home'":
       raw: '#'
-  image:
-    programmes.hero_image fill-500x500 as programme_image:
-      target_var: programme_image
-      raw:
-        url: https://placekitten.com/500/500
-    short_courses.hero_image fill-500x500 as programme_image:
-      target_var: programme_image
-      raw:
-        url: https://placekitten.com/500/500
