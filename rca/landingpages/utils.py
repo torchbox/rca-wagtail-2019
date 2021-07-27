@@ -7,10 +7,10 @@ def news_teaser_formatter(item, image=None):
     editorial_type = item.editorial_types.first()
     item_as_dict["type"] = editorial_type.type if editorial_type else ""
 
-    image = get_listing_image(item)
-    if image:
-        item_as_dict["image"] = image.get_rendition("fill-392x284").url
-        item_as_dict["image_alt"] = image.alt
+    listing_image = get_listing_image(item)
+    if image and listing_image:
+        item_as_dict["image"] = listing_image.get_rendition("fill-526x402").url
+        item_as_dict["image_alt"] = listing_image.alt
     item_as_dict["formatted_date"] = item.published_at.strftime("%-d %B %Y")
     item_as_dict["title"] = item.title
     item_as_dict["link"] = item.url
@@ -20,10 +20,10 @@ def news_teaser_formatter(item, image=None):
 
 def event_teaser_formatter(item, image=None):
     item_as_dict = {"type": item.event_type or ""}
-    image = get_listing_image(item)
-    if image:
-        item_as_dict["image"] = image.get_rendition("fill-392x284").url
-        item_as_dict["image_alt"] = image.alt
+    listing_image = get_listing_image(item)
+    if image and listing_image:
+        item_as_dict["image"] = listing_image.get_rendition("fill-526x402").url
+        item_as_dict["image_alt"] = listing_image.alt
     item_as_dict["formatted_date"] = (
         str(item.start_date.strftime("%-d %B %Y")) + ", Location (TODO)"
     )
