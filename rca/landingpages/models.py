@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -695,6 +696,27 @@ class EELandingPage(ContactFieldsMixin, BasePage):
     def events_view_all(self):
         return {"link": self.events_link_target_url, "title": self.events_link_text}
 
+    def custom_anchor_heading_item(self):
+        # The cta_block acts as an extra heading for the navigation, and there
+        # Can only be one, so return it in the style of the anchor nav
+        if self.cta_block:
+            for block in self.cta_block:
+                return {
+                    "title": block.value["title"],
+                    "link": slugify(block.value["title"]),
+                }
+
+    def anchor_nav(self):
+        """ Build list of data to be used as
+        in-page navigation """
+        return [
+            {"title": "News", "link": "news"},
+            {"title": "Events", "link": "events"},
+            {"title": "Stories", "link": "stories"},
+            {"title": "Talks", "link": "talks"},
+            self.custom_anchor_heading_item(),
+        ]
+
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
             [
@@ -761,4 +783,6 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         context["news"] = self.featured_news()
         context["events"] = self.featured_events()
         context["stories"] = self.get_stories()
+        context["tabs"] = self.anchor_nav()
+        context["custom_tab_heading"] = self.custom_anchor_heading_item()
         return context
