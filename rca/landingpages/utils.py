@@ -11,7 +11,7 @@ def news_teaser_formatter(item, image=None):
     if image:
         item_as_dict["image"] = image.get_rendition("fill-392x284").url
         item_as_dict["image_alt"] = image.alt
-    item_as_dict["formatted_date"] = item.published_at
+    item_as_dict["formatted_date"] = item.published_at.strftime("%-d %B %Y")
     item_as_dict["title"] = item.title
     item_as_dict["link"] = item.url
 
@@ -25,7 +25,7 @@ def event_teaser_formatter(item, image=None):
         item_as_dict["image"] = image.get_rendition("fill-392x284").url
         item_as_dict["image_alt"] = image.alt
     item_as_dict["formatted_date"] = (
-        str(item.start_date.strftime("%-d %b %Y")) + ", Location (TODO)"
+        str(item.start_date.strftime("%-d %B %Y")) + ", Location (TODO)"
     )
     item_as_dict["title"] = item.title
     item_as_dict["link"] = item.url
