@@ -13,7 +13,7 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
     TabbedInterface,
 )
-from wagtail.core.fields import StreamField
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.images.edit_handlers import ImageChooserPanel
 
@@ -102,7 +102,9 @@ class EditorialPageSubjectPlacement(models.Model):
 class EditorialPage(ContactFieldsMixin, BasePage):
     base_form_class = admin_forms.EditorialPageAdminForm
     template = "patterns/pages/editorial/editorial_detail.html"
-    introduction = models.CharField(blank=True, max_length=255)
+    introduction = RichTextField(
+        blank=True, features=(["bold", "italic"]), verbose_name="help text",
+    )
     hero_image = models.ForeignKey(
         "images.CustomImage",
         null=True,
