@@ -14,8 +14,8 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
 )
 from wagtail.core.fields import RichTextField, StreamField
-from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.core.models import Orderable
+from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from rca.utils.models import (
