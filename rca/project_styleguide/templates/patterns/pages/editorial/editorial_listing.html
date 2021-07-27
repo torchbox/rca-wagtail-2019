@@ -138,5 +138,13 @@
             </section>
         </form>
 
+        <section class="section bg bg--dark">
+            {% if page.contact_model_image or page.contact_model_text or page.contact_model_email or page.contact_model_url or page.contact_model_form %}
+                <div class="section__row section__row--first section__row--last">
+                    {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image %}
+                </div>
+            {% endif %}
+        </section>
+
     </div>
 {% endblock %}

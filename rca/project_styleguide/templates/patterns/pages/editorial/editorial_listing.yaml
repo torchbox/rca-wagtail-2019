@@ -6,6 +6,9 @@ context:
         title: News & Events
     title: News
     introduction: false
+    contact: true
+    contact_model_image: true
+    contact_model_text: Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
   filters:
     title: Filter by
     arial_label: Filter results

@@ -289,7 +289,8 @@ class EditorialListingRelatedEditorialPage(Orderable):
     panels = [PageChooserPanel("page")]
 
 
-class EditorialListingPage(BasePage):
+class EditorialListingPage(ContactFieldsMixin, BasePage):
+    base_form_class = admin_forms.EditorialPageAdminForm
     template = "patterns/pages/editorial/editorial_listing.html"
     subpage_types = ["editorial.EditorialPage"]
 
@@ -304,6 +305,18 @@ class EditorialListingPage(BasePage):
                 ),
             ],
             heading="Editors picks",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("contact_model_title"),
+                FieldPanel("contact_model_email"),
+                FieldPanel("contact_model_url"),
+                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_link_text"),
+                FieldPanel("contact_model_text"),
+                ImageChooserPanel("contact_model_image"),
+            ],
+            "Large Call To Action",
         ),
     ]
 
