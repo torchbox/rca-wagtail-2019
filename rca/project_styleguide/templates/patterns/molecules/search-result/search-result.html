@@ -3,6 +3,7 @@
 <div class="search-result">
     <a class="search-result__link" href="{% pageurl result %}">
         <h3 class="search-result__heading">{% firstof result.listing_title result.title %}</h3>
+        {% if search_pick %}<div class="search-result_editor-pick">Editor's pick</div>{% endif %}
         {% if result.listing_meta %}<p class="search-result__meta">{{ result.listing_meta }}</p>{% endif %}
         {% if pick.description or result.listing_summary or result.search_description %}
             <p class="search-result__summary">{% firstof pick.description result.listing_summary result.search_description %}</p>

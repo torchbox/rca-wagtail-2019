@@ -32,12 +32,13 @@
                     {% endwith %}
                 {% endif %}
 
-                {% get_search_promotions search_query as search_picks %}
+                {% comment %}{% get_search_promotions search_query as search_picks %}{% endcomment %}
+
                 {% if search_picks %}
                     <ul class="grid">
                         {% for pick in search_picks %}
                             <li class="layout__@large-start-two layout__@large-span-three">
-                                {% include "patterns/molecules/search-result/search-result.html" with result=pick.page.specific %}
+                                {% include "patterns/molecules/search-result/search-result.html" with result=pick.specific search_pick=True %}
                             </li>
                         {% endfor %}
                     </ul>

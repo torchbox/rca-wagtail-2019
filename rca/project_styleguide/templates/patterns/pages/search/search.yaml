@@ -1,5 +1,16 @@
 context:
   search_query: test query
+  search_picks:
+    - specific:
+        title: Page title
+        listing_title: Listing title
+        listing_meta: Event
+        listing_summary: Listing summary
+    - specific:
+        title: Page title
+        listing_title: Listing title
+        listing_meta: Event
+        listing_summary: Listing summary
   search_results:
     - specific:
         title: Page title
