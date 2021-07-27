@@ -31,7 +31,7 @@ from rca.utils.blocks import (
     QuoteBlock,
 )
 from rca.utils.filter import TabStyleFilter
-from rca.utils.models import BasePage, ContactFieldsMixin
+from rca.utils.models import BasePage, ContactFieldsMixin, RelatedPage
 
 from .blocks import EditorialPageBlock
 
@@ -48,6 +48,11 @@ class RelatedEditorialPage(Orderable):
     page = models.ForeignKey("editorial.EditorialPage", on_delete=models.CASCADE)
 
     panels = [PageChooserPanel("page")]
+
+
+class EditorialPageRelatedProgramme(RelatedPage):
+    source_page = ParentalKey("EditorialPage", related_name="related_programmes")
+    panels = [PageChooserPanel("page", ["programmes.ProgrammePage"])]
 
 
 class EditorialType(models.Model):
@@ -217,6 +222,7 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         ),
         InlinePanel("subjects", label="Subject"),
         InlinePanel("editorial_types", label="Editorial Type"),
+        InlinePanel("related_programmes", label="Programme Page"),
         FieldPanel("author"),
         MultiFieldPanel(
             [
@@ -289,7 +295,8 @@ class EditorialListingRelatedEditorialPage(Orderable):
     panels = [PageChooserPanel("page")]
 
 
-class EditorialListingPage(BasePage):
+class EditorialListingPage(ContactFieldsMixin, BasePage):
+    base_form_class = admin_forms.EditorialPageAdminForm
     template = "patterns/pages/editorial/editorial_listing.html"
     subpage_types = ["editorial.EditorialPage"]
 
@@ -304,6 +311,18 @@ class EditorialListingPage(BasePage):
                 ),
             ],
             heading="Editors picks",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("contact_model_title"),
+                FieldPanel("contact_model_email"),
+                FieldPanel("contact_model_url"),
+                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_link_text"),
+                FieldPanel("contact_model_text"),
+                ImageChooserPanel("contact_model_image"),
+            ],
+            "Large Call To Action",
         ),
     ]
 
@@ -336,8 +355,8 @@ class EditorialListingPage(BasePage):
     def get_active_filters(self, request):
         return {
             "type": request.GET.getlist("type"),
-            "subject": request.GET.getlist("subject"),
             "school_or_centre": request.GET.getlist("school-centre-or-area"),
+            "programme": request.GET.getlist("programme"),
         }
 
     def get_extra_query_params(self, request, active_filters):
@@ -361,6 +380,8 @@ class EditorialListingPage(BasePage):
                 obj.type = editorial_type.type
 
     def get_context(self, request, *args, **kwargs):
+        from rca.programmes.models import ProgrammePage
+
         context = super().get_context(request, *args, **kwargs)
         context["featured_editorial"] = self.get_editor_picks()
 
@@ -399,15 +420,15 @@ class EditorialListingPage(BasePage):
                 option_value_field="slug",
             ),
             TabStyleFilter(
-                "Subject",
+                "Programme",
                 queryset=(
-                    Subject.objects.filter(
+                    ProgrammePage.objects.filter(
                         id__in=base_queryset.values_list(
-                            "subjects__subject_id", flat=True
+                            "related_programmes__page_id", flat=True
                         )
                     )
                 ),
-                filter_by="subjects__subject__slug__in",
+                filter_by="related_programmes__page__slug__in",
                 option_value_field="slug",
             ),
         )
