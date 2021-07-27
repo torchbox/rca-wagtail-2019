@@ -1,4 +1,5 @@
 import datetime
+import itertools
 
 from django.db import models
 from django.db.models.fields import SlugField
@@ -86,7 +87,7 @@ class EventDetailPageSpeaker(RelatedStaffPageWithManualOptions):
 class EventDetailPageRelatedDirectorate(Orderable):
     source_page = ParentalKey("events.EventDetailPage", related_name="directorates")
     directorate = models.ForeignKey(
-        "people.Directorate", null=True, on_delete=models.CASCADE, related_name="+",
+        "people.Directorate", on_delete=models.CASCADE, related_name="+",
     )
     panels = [FieldPanel("directorate")]
 
@@ -97,10 +98,7 @@ class EventDetailPageRelatedDirectorate(Orderable):
 class EventDetailPageRelatedResearchCentre(Orderable):
     source_page = ParentalKey("events.EventDetailPage", related_name="research_centres")
     research_centre = models.ForeignKey(
-        "research.ResearchCentrePage",
-        null=True,
-        on_delete=models.CASCADE,
-        related_name="+",
+        "research.ResearchCentrePage", on_delete=models.CASCADE, related_name="+",
     )
     panels = [PageChooserPanel("research_centre")]
 
@@ -111,7 +109,7 @@ class EventDetailPageRelatedResearchCentre(Orderable):
 class EventDetailPageRelatedSchool(Orderable):
     source_page = ParentalKey("events.EventDetailPage", related_name="schools")
     school = models.ForeignKey(
-        "schools.SchoolPage", null=True, on_delete=models.CASCADE, related_name="+",
+        "schools.SchoolPage", on_delete=models.CASCADE, related_name="+",
     )
     panels = [PageChooserPanel("school")]
 
@@ -254,11 +252,36 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
 
         return events
 
+    def get_taxonomy_tags(self):
+        directorates = [
+            {"title": d.directorate.title, "href": "#"}  # TODO: href on separate ticket
+            for d in self.directorates.select_related("directorate")
+        ]
+        schools = [
+            {"title": p.school.title, "href": "#"}  # TODO: href on separate ticket
+            for p in self.schools.filter(school__live=True).select_related("school")
+        ]
+        research_centres = [
+            {
+                "title": p.research_centre.title,
+                "href": "#",  # TODO: href on separate ticket
+            }
+            for p in self.research_centres.filter(
+                research_centre__live=True
+            ).select_related("research_centre")
+        ]
+
+        return sorted(
+            itertools.chain(directorates, research_centres, schools),
+            key=lambda o: o["title"],
+        )
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context.update(
             hero_image=self.hero_image,
             series_events=self.get_series_events() if self.series else [],
             speakers=self.speakers.all,
+            taxonomy_tags=self.get_taxonomy_tags(),
         )
         return context
