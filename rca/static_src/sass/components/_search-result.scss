@@ -1,0 +1,120 @@
+.search-result {
+    $padding-top-small: $gutter;
+    $padding-top-medium: $gutter * 2.5;
+    $padding-top-large: $gutter * 1.5;
+    $root: &;
+    position: relative;
+
+    &__link {
+        position: relative;
+        font-family: $font--primary;
+        color: $color--meta-lightbg;
+
+        &::after {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            right: calc((var(--margin-width) * -1) + 60px);
+            content: '';
+            height: 1px;
+            width: var(--margin-width);
+            background-color: $color--grid-line-dark;
+        }
+    }
+
+    &__header,
+    &__meta,
+    &__summary {
+        height: 100%;
+        border-bottom: 1px solid $color--grid-line-dark;
+        padding-top: $padding-top-small;
+        padding-bottom: $padding-top-small;
+
+        @include media-query(medium) {
+            padding-top: $padding-top-medium;
+            padding-bottom: $padding-top-medium;
+        }
+
+        @include media-query(large) {
+            padding-top: $padding-top-large;
+            padding-bottom: $padding-top-large;
+        }
+    }
+
+    &__heading {
+        @include underline-hover-target();
+        display: inline-block;
+        margin-bottom: ($gutter / 4);
+        color: $color--black;
+
+        #{$root}:hover &,
+        #{$root}:focus & {
+            @include underline-hover-target-reset();
+        }
+    }
+
+    &__editor-pick,
+    &__meta {
+        text-transform: uppercase;
+        margin: 0;
+    }
+
+    &__summary {
+        margin: 0;
+        padding-right: ($gutter * 3); // give space for arrow on hover
+    }
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        top: $padding-top-small;
+        right: $gutter;
+        color: $color--black;
+
+        @include media-query(medium) {
+            width: 36px;
+            height: 36px;
+            top: $padding-top-medium;
+            right: $gutter * 3;
+        }
+
+        @include media-query(large) {
+            width: 46px;
+            height: 46px;
+            top: $padding-top-large;
+        }
+
+        // Arrows only have the show-hide effect for hover-friendly browsers.
+        // Does not respect mobile browsers’ fake hover support.
+        @media (hover: hover) and #{nth(nth($breakpoints, 1), 2)} {
+            opacity: 0;
+
+            #{$root}:hover &,
+            #{$root}:focus & {
+                opacity: 1;
+            }
+        }
+    }
+
+    .search-list__item--pick:nth-child(1) & {
+        .search-list__results--pick & {
+            &::after {
+                display: block;
+                position: absolute;
+                top: 0;
+                right: 0;
+                content: '';
+                height: 2px;
+                width: var(--margin-width);
+                background-color: $color--grid-line-dark;
+            }
+
+            &__header,
+            &__meta,
+            &__summary {
+                border-top: 2px solid $color--grid-line-dark;
+            }
+        }
+    }
+}

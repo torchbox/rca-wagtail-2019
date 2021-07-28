@@ -1,11 +1,15 @@
 context:
-  search_query: test query
+  search_form:
+    label: Search
+    id: site-search
+    placeholder: Search for something else?
+  search_query: Architecture
   search_picks:
     - specific:
         title: Page title
-        listing_title: Listing title
-        listing_meta: Event
-        listing_summary: Listing summary
+        listing_title: Architecture MA
+        listing_meta: Programme
+        listing_summary: Expand the possibilities of your practice by developing a speculative, independent and critical ethos
     - specific:
         title: Page title
         listing_title: Listing title
@@ -13,30 +17,17 @@ context:
         listing_summary: Listing summary
   search_results:
     - specific:
-        title: Page title
-        listing_title: Listing title
-        listing_meta: Event
-        listing_summary: Listing summary
+        title: School of Architecture
+        listing_meta: School
+        listing_summary: Sed posuere consectetur est at lobortis. Etiam porta sem malesuada magna mollis euismod.
     - specific:
-        title: Page title
-        listing_title: Listing title
-        listing_meta: Event
-        listing_summary: Listing summary
+        title: Nick Architecture
+        listing_meta: Staff
+        listing_summary: Aenean lacinia bibendum nulla sed consectetur.
     - specific:
-        title: Page title
-        listing_title: Listing title
-        listing_meta: Event
-        listing_summary: Listing summary
-    - specific:
-        title: Page title
-        listing_title: Listing title
-        listing_meta: Event
-        listing_summary: Listing summary
-    - specific:
-        title: Page title
-        listing_title: Listing title
-        listing_meta: Event
-        listing_summary: Listing summary
+        title: Roberto Architecture
+        listing_meta: Alumni
+        listing_summary: Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Nulla vitae elit libero, a pharetra augue.
     - specific:
         title: Page title
         listing_title: Listing title
