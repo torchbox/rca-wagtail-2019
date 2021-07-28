@@ -12,9 +12,9 @@ context:
         listing_summary: Expand the possibilities of your practice by developing a speculative, independent and critical ethos
     - specific:
         title: Page title
-        listing_title: Listing title
-        listing_meta: Event
-        listing_summary: Listing summary
+        listing_title: Architecture gallery
+        listing_meta: False
+        listing_summary: Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
   search_results:
     - specific:
         title: School of Architecture

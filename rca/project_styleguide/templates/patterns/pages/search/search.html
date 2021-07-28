@@ -28,7 +28,7 @@
                     {% if search_query %}
                         {% with count=search_results.paginator.count %}
                         <div class="search__header grid">
-                            <h2 class="layout__@large-start-two layout__@large-span-three heading heading--four">Results for ‘{{ search_query }}’ <span class="search__count">{{ count }}</span></h2>
+                            <h2 class="layout__@large-start-two layout__span-two layout__@large-span-three heading heading--four">Results for ‘{{ search_query }}’ <span class="search__count">{{ count }}</span></h2>
                         </div>
                         {% endwith %}
                     {% endif %}

@@ -11,31 +11,32 @@
         color: $color--meta-lightbg;
 
         &::after {
-            display: block;
-            position: absolute;
-            bottom: 0;
-            right: calc((var(--margin-width) * -1) + 60px);
-            content: '';
-            height: 1px;
-            width: var(--margin-width);
-            background-color: $color--grid-line-dark;
+            @include media-query(large) {
+                display: block;
+                position: absolute;
+                bottom: 0;
+                right: calc((var(--margin-width) * -1) + 60px);
+                content: '';
+                height: 1px;
+                width: var(--margin-width);
+                background-color: $color--grid-line-dark;
+            }
         }
     }
 
     &__header,
-    &__meta,
-    &__summary {
+    &__meta {
         height: 100%;
-        border-bottom: 1px solid $color--grid-line-dark;
         padding-top: $padding-top-small;
         padding-bottom: $padding-top-small;
 
         @include media-query(medium) {
             padding-top: $padding-top-medium;
-            padding-bottom: $padding-top-medium;
+            padding-bottom: ($gutter / 4);
         }
 
         @include media-query(large) {
+            border-bottom: 1px solid $color--grid-line-dark;
             padding-top: $padding-top-large;
             padding-bottom: $padding-top-large;
         }
@@ -43,8 +44,7 @@
 
     &__heading {
         @include underline-hover-target();
-        display: inline-block;
-        margin-bottom: ($gutter / 4);
+        display: inline;
         color: $color--black;
 
         #{$root}:hover &,
@@ -59,9 +59,25 @@
         margin: 0;
     }
 
+    &__editor-pick {
+        padding-top: ($gutter / 4);
+    }
+
     &__summary {
+        height: 100%;
         margin: 0;
         padding-right: ($gutter * 3); // give space for arrow on hover
+        border-bottom: 1px solid $color--grid-line-dark;
+        padding-bottom: $padding-top-small;
+
+        @include media-query(medium) {
+            padding-bottom: $padding-top-medium;
+        }
+
+        @include media-query(large) {
+            padding-top: $padding-top-large;
+            padding-bottom: $padding-top-large;
+        }
     }
 
     &__icon {
@@ -100,20 +116,27 @@
     .search-list__item--pick:nth-child(1) & {
         .search-list__results--pick & {
             &::after {
-                display: block;
-                position: absolute;
-                top: 0;
-                right: 0;
-                content: '';
-                height: 2px;
-                width: var(--margin-width);
-                background-color: $color--grid-line-dark;
+                @include media-query(large) {
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    content: '';
+                    height: 2px;
+                    width: var(--margin-width);
+                    background-color: $color--grid-line-dark;
+                }
             }
 
             &__header,
-            &__meta,
-            &__summary {
+            &__meta {
                 border-top: 2px solid $color--grid-line-dark;
+            }
+
+            &__summary {
+                @include media-query(large) {
+                    border-top: 2px solid $color--grid-line-dark;
+                }
             }
         }
     }

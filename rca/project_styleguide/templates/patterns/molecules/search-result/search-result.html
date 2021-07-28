@@ -8,7 +8,7 @@
         </div>
         {% if result.listing_meta %}<p class="search-result__meta layout__@large-start-three layout__@large-span-one body body--two">{{ result.listing_meta }}</p>{% endif %}
         {% if pick.description or result.listing_summary or result.search_description %}
-            <p class="search-result__summary layout__@large-start-four layout__@large-span-two body body--one">{% firstof pick.description result.listing_summary result.search_description %}</p>
+            <p class="search-result__summary layout__@large-start-four layout__span-two body body--one">{% firstof pick.description result.listing_summary result.search_description %}</p>
         {% endif %}
         <svg class="search-result__icon" aria-hidden="true">
             <use xlink:href="#arrow-right-filled"></use>
