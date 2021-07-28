@@ -108,7 +108,9 @@ class EditorialPage(ContactFieldsMixin, BasePage):
     base_form_class = admin_forms.EditorialPageAdminForm
     template = "patterns/pages/editorial/editorial_detail.html"
     introduction = RichTextField(
-        blank=True, features=(["bold", "italic"]), verbose_name="help text",
+        blank=True,
+        features=(["bold", "italic"]),
+        help_text="Maximum of 140 characters supported in listings",
     )
     hero_image = models.ForeignKey(
         "images.CustomImage",
