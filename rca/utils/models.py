@@ -732,7 +732,7 @@ def get_listing_image(page):
     listing_image if set, if not, check for a hero image
 
     Args:
-        page (wagtail.code.Page): The page object
+        page: The page object
 
     Returns:
         rca.image.CustomImage / None: The image object
