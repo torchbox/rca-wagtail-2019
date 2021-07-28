@@ -1,0 +1,15 @@
+.search-list {
+    &__results {
+        &--pick {
+            background-color: rgba($color--meta-lightbg, 0.2);
+        }
+
+        &--bottom-margin {
+            margin-bottom: ($gutter * 2);
+        }
+    }
+
+    &__pagination {
+        margin-bottom: ($gutter * 4);
+    }
+}
