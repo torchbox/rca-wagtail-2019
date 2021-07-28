@@ -1,4 +1,5 @@
 import datetime
+import itertools
 
 from django.db import models
 from django.db.models.fields import SlugField
@@ -13,6 +14,7 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
 )
 from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.models import Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
@@ -82,6 +84,39 @@ class EventDetailPageSpeaker(RelatedStaffPageWithManualOptions):
     source_page = ParentalKey("events.EventDetailPage", related_name="speakers")
 
 
+class EventDetailPageRelatedDirectorate(Orderable):
+    source_page = ParentalKey("events.EventDetailPage", related_name="directorates")
+    directorate = models.ForeignKey(
+        "people.Directorate", on_delete=models.CASCADE, related_name="+",
+    )
+    panels = [FieldPanel("directorate")]
+
+    class Meta:
+        ordering = ["sort_order"]
+
+
+class EventDetailPageRelatedResearchCentre(Orderable):
+    source_page = ParentalKey("events.EventDetailPage", related_name="research_centres")
+    research_centre = models.ForeignKey(
+        "research.ResearchCentrePage", on_delete=models.CASCADE, related_name="+",
+    )
+    panels = [PageChooserPanel("research_centre")]
+
+    class Meta:
+        ordering = ["sort_order"]
+
+
+class EventDetailPageRelatedSchool(Orderable):
+    source_page = ParentalKey("events.EventDetailPage", related_name="schools")
+    school = models.ForeignKey(
+        "schools.SchoolPage", on_delete=models.CASCADE, related_name="+",
+    )
+    panels = [PageChooserPanel("school")]
+
+    class Meta:
+        ordering = ["sort_order"]
+
+
 class EventDetailPage(ContactFieldsMixin, BasePage):
     base_form_class = EventPageAdminForm
     parent_page_types = ["EventIndexPage"]
@@ -137,6 +172,11 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             [FieldPanel("event_type"), FieldPanel("series"), FieldPanel("eligibility")],
             heading="Event Taxonomy",
         ),
+        InlinePanel("directorates", heading="Directorates", label="Directorate"),
+        InlinePanel(
+            "research_centres", heading="Research Centres", label="Research Centre"
+        ),
+        InlinePanel("schools", heading="Schools", label="School"),
         FieldPanel("introduction"),
         StreamFieldPanel("body"),
         MultiFieldPanel(
@@ -212,11 +252,36 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
 
         return events
 
+    def get_taxonomy_tags(self):
+        directorates = [
+            {"title": d.directorate.title, "href": "#"}  # TODO: href on separate ticket
+            for d in self.directorates.select_related("directorate")
+        ]
+        schools = [
+            {"title": p.school.title, "href": "#"}  # TODO: href on separate ticket
+            for p in self.schools.filter(school__live=True).select_related("school")
+        ]
+        research_centres = [
+            {
+                "title": p.research_centre.title,
+                "href": "#",  # TODO: href on separate ticket
+            }
+            for p in self.research_centres.filter(
+                research_centre__live=True
+            ).select_related("research_centre")
+        ]
+
+        return sorted(
+            itertools.chain(directorates, research_centres, schools),
+            key=lambda o: o["title"],
+        )
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context.update(
             hero_image=self.hero_image,
             series_events=self.get_series_events() if self.series else [],
             speakers=self.speakers.all,
+            taxonomy_tags=self.get_taxonomy_tags(),
         )
         return context
