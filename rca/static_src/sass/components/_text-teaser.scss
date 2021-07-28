@@ -1,4 +1,6 @@
 .text-teaser {
+    $root: &;
+
     &__heading {
         grid-column: 1 / span 2;
         margin-bottom: ($gutter * 1.5);
@@ -14,6 +16,12 @@
 
         @include media-query(large) {
             grid-column: 3 / span 2;
+        }
+    }
+
+    .app--alumni & {
+        #{$root}__heading {
+            @include font-size(m);
         }
     }
 }
