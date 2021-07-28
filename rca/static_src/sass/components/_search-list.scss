@@ -9,6 +9,16 @@
         }
     }
 
+    &__no-results {
+        margin-top: ($gutter * 2);
+        margin-bottom: ($gutter * 3);
+
+        @include media-query(large) {
+            margin-top: ($gutter * 4);
+            margin-bottom: ($gutter * 8);
+        }
+    }
+
     &__pagination {
         margin-bottom: ($gutter * 4);
     }
