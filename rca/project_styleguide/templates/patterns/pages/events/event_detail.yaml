@@ -24,6 +24,7 @@ context:
     read_time: 10 mins
     price: false
     past: false
+    show_booking_bar: true
     manual_registration_url: '#'
     body:
       - dummy
