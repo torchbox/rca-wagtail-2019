@@ -1,4 +1,5 @@
 .search {
+    $root: &;
     position: relative;
 
     @include media-query(medium) {
@@ -51,8 +52,18 @@
         height: 8px;
     }
 
-    // The programmes’ search form has a slightly different layout.
-    &--programmes {
+    &__count {
+        .bg--light & {
+            color: $color--meta-lightbg;
+        }
+
+        .bg--dark & {
+            color: $color--meta-darkbg;
+        }
+    }
+
+    // The inline search form has a slightly different layout, used on Programme finder and search listing templates
+    &--inline {
         grid-column: 1 / span 2;
         max-width: 460px;
         padding-bottom: $gutter * 1.5;
@@ -64,6 +75,12 @@
         @include media-query(large) {
             grid-column: 2 / span 2;
             padding-bottom: $gutter;
+        }
+
+        .app--search & {
+            @include media-query(medium) {
+                padding-bottom: $gutter;
+            }
         }
     }
 }
