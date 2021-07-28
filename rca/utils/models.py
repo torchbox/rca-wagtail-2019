@@ -774,14 +774,12 @@ def get_listing_image(page):
     listing_image if set, if not, check for a hero image
 
     Args:
-        page (wagtail.code.Page): The page object
+        page: The page object
 
     Returns:
         rca.image.CustomImage / None: The image object
     """
-    image = None
-    if hasattr(page, "listing_image") and page.listing_image:
-        image = page.listing_image
-    elif hasattr(page, "hero_image") and page.hero_image:
-        image = page.hero_image
+    image = getattr(page, "listing_image")
+    if not image:
+        image = getattr(page, "hero_image")
     return image
