@@ -650,7 +650,7 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         picked_news = self.related_editorial_pages.first()
         if picked_news:
             picked_news = picked_news.page.specific
-            news.append(news_teaser_formatter(picked_news, image=True))
+            news.append(news_teaser_formatter(picked_news, return_image=True))
 
         # Get 3 more items
         latest_news_items = (
@@ -669,7 +669,7 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         picked_event = self.related_event_pages.first()
         if picked_event:
             picked_event = picked_event.page.specific
-            events.append(event_teaser_formatter(picked_event, image=True))
+            events.append(event_teaser_formatter(picked_event, return_image=True))
 
         # Get 3 more items
         latest_event_items = (

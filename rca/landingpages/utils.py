@@ -1,14 +1,14 @@
 from rca.utils.models import get_listing_image
 
 
-def news_teaser_formatter(item, image=None):
+def news_teaser_formatter(item, return_image=False):
     item_as_dict = {}
 
     editorial_type = item.editorial_types.first()
     item_as_dict["type"] = editorial_type.type if editorial_type else ""
 
     listing_image = get_listing_image(item)
-    if image and listing_image:
+    if return_image and listing_image:
         item_as_dict["image"] = listing_image.get_rendition("fill-878x472").url
         item_as_dict["image_alt"] = listing_image.alt
     item_as_dict["formatted_date"] = item.published_at.strftime("%-d %B %Y")
@@ -18,10 +18,10 @@ def news_teaser_formatter(item, image=None):
     return item_as_dict
 
 
-def event_teaser_formatter(item, image=None):
+def event_teaser_formatter(item, return_image=False):
     item_as_dict = {"type": item.event_type or ""}
     listing_image = get_listing_image(item)
-    if image and listing_image:
+    if return_image and listing_image:
         item_as_dict["image"] = listing_image.get_rendition("fill-878x472").url
         item_as_dict["image_alt"] = listing_image.alt
     item_as_dict["formatted_date"] = (
