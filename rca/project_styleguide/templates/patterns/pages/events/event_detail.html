@@ -44,7 +44,7 @@
 
         </header>
 
-        {% if booking_bar and not page.past %}
+        {% if page.show_booking_bar and not page.past %}
             {% include "patterns/molecules/booking-bar/booking-bar.html" with item=booking_bar %}
         {% endif %}
 
