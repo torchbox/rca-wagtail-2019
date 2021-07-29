@@ -12,6 +12,7 @@ class EventDetailPageBlock(blocks.StreamBlock):
     )
     paragraph = blocks.RichTextBlock()
     quote = utils_blocks.QuoteBlock()
+    embed = utils_blocks.EmbedBlock()
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"

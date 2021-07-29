@@ -101,6 +101,12 @@
                     </div>
                 </div>
 
+                {% if page.more_information %}
+                    <div class="section__row">
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title=page.more_information_title %}
+                    </div>
+                {% endif %}
+
                 {% if page.quote_carousel %}
                     <div class="section__row">
                         {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.quote_carousel modifier='carousel--square carousel--quotes' datatag='data-peek-carousel' %}
@@ -123,16 +129,10 @@
                     </div>
                 {% endif %}
 
-                {% if page.accordion %}
-                    <div class="section__row">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.accordion title=page.accordion_title %}
-                    </div>
-                {% endif %}
-
-                {% if page.inline_cta %}
+                {% if page.cta_block %}
                     <div class="section__row">
                             <div class="section__row section__row--last">
-                                {% for block in page.inline_cta %}
+                                {% for block in page.cta_block %}
                                     {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value heading_size="small" %}
                                 {% endfor %}
                             </div>

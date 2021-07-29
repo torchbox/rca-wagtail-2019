@@ -10,6 +10,16 @@
         padding-bottom: ($gutter * 3);
     }
 
+    &--spaced {
+        #{$root}__heading {
+            margin-bottom: $gutter;
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 2);
+            }
+        }
+    }
+
     &__heading {
         margin-bottom: ($gutter / 2);
     }

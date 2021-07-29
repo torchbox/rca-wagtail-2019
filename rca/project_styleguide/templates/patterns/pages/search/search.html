@@ -1,48 +1,80 @@
 {% extends "patterns/base_page.html" %}
 {% load static wagtailcore_tags wagtailsearchpromotions_tags %}
 
-{% block body_class %}template-searchresults{% endblock %}
+{% block body_class %}app--search{% endblock %}
 
 {% block title %}{% if search_query %}Search results for &ldquo;{{ search_query }}&rdquo;{% else %}Search{% endif %}{% endblock %}
 
 {% block content %}
 
-    <h1>{% if search_query %}Search results for &ldquo;{{ search_query }}&rdquo;{% else %}Search{% endif %}</h1>
+    <div class="page page--no-hero">
 
-    <form action="{% url 'search' %}" method="get" role="search">
-        <input type="text" placeholder="Search…" name="q"{% if search_query %} value="{{ search_query }}"{% endif %}>
-        <input type="submit" value="Search">
-    </form>
+        <header class="page__header bg bg--dark">
+            <div class="title-area title-area--spaced grid">
+                <div class="title-area__content">
+                    <h1 class="title-area__heading heading heading--display-two">Search results</h1>
 
-    {% get_search_promotions search_query as search_picks %}
-    {% if search_picks %}
-         <ul>
-            {% for pick in search_picks %}
-                <li>
-                    {% include "patterns/molecules/search-result/search-result.html" with result=pick.page.specific %}
-                </li>
-             {% endfor %}
-         </ul>
-    {% endif %}
+                    <form action="{% url 'search' %}" method="get" role="search">
+                        {% include "patterns/molecules/search/search--inline.html" with item=search_form search_query=search_query %}
+                    </form>
+                </div>
+            </div>
+        </header>
+        <div class="page__content">
 
-    {% if search_results %}
+            <section class="section bg bg--light">
 
-        {% with count=search_results.paginator.count %}
-            {{ count }} result{{ count|pluralize }} found.
-        {% endwith %}
+                {% if search_query and search_results %}
+                    <div class="section__row section__row--first-small section__row--last-extra-small">
+                        {% with count=search_results.paginator.count %}
+                        <div class="search__header grid">
+                            <h2 class="layout__@large-start-two layout__span-two layout__@large-span-three heading heading--four">Results for ‘{{ search_query }}’ <span class="search__count">{{ count }}</span></h2>
+                        </div>
+                        {% endwith %}
+                    </div>
+                {% endif %}
 
-        <ul>
-            {% for result in search_results %}
-                <li>
-                    {% include "patterns/molecules/search-result/search-result.html" with result=result.specific %}
-                </li>
-            {% endfor %}
-        </ul>
+                <div class="search-list section__row">
 
-        {% include "patterns/molecules/pagination/pagination.html" with paginator_page=search_results %}
+                    {% comment %}{% get_search_promotions search_query as search_picks %}{% endcomment %}
 
-    {% elif search_query and not search_picks %}
-        No results found.
-    {% endif %}
+                    {% if search_picks %}
+                        <ul class="search-list__results search-list__results--pick">
+                            {% for pick in search_picks %}
+                                <li class="search-list__item--pick">
+                                    {% include "patterns/molecules/search-result/search-result.html" with result=pick.specific search_pick=True %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    {% if search_results %}
+                        <ul class="search-list__results search-list__results--bottom-margin">
+                            {% for result in search_results %}
+                                <li class="search-list__item">
+                                    {% include "patterns/molecules/search-result/search-result.html" with result=result.specific %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        <div class="search-list__pagination">
+                            {% include "patterns/molecules/pagination/pagination.html" with paginator_page=search_results %}
+                        </div>
+
+                    {% elif search_query and not search_picks %}
+                        <div class="search-list__no-results grid">
+                            <div class="layout__@large-start-two layout__span-two">
+                                {% include "patterns/molecules/no-results/no-results--no-filters.html" %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                </div>
+
+            </section>
+
+        </div>
+    </div>
+
 
 {% endblock %}

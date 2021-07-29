@@ -1,0 +1,9 @@
+<div class="search search--inline">
+    <label class="search__label" for="{{ item.id }}">{{ item.label }}</label>
+    <input class="search__input input" id="{{ item.id }}" type="search" placeholder="{{ item.placeholder }}" value="">
+    <button class="search__button button" type="submit" aria-label="Search">
+        <svg class="search__icon" aria-hidden="true">
+            <use xlink:href="#arrow"></use>
+        </svg>
+    </button>
+</div>
