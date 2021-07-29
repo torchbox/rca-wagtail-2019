@@ -28,23 +28,6 @@ from .blocks import CallToAction, EventDetailPageBlock, PartnersBlock
 from .forms import EventPageAdminForm
 
 
-class EventType(models.Model):
-    title = models.CharField(max_length=100)
-    slug = SlugField()
-
-    class Meta:
-        ordering = ["title"]
-
-    def __str__(self):
-        return self.title
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        super(EventType, self).save(*args, **kwargs)
-
-    panels = [FieldPanel("title")]
-
-
 class EventIndexPage(BasePage):
     subpage_types = ["EventDetailPage"]
     template = "patterns/pages/events/event_index_page.html"
@@ -52,14 +35,15 @@ class EventIndexPage(BasePage):
     # TODO: add fields to this placeholder model (needed as event detail parent)
 
 
-class EventEligibility(models.Model):
+class EventTaxonomyBase(models.Model):
     title = models.CharField(max_length=100)
     slug = SlugField()
 
     class Meta:
+        abstract = True
         ordering = ["title"]
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
@@ -67,6 +51,22 @@ class EventEligibility(models.Model):
         super().save(*args, **kwargs)
 
     panels = [FieldPanel("title")]
+
+
+class EventAvailability(EventTaxonomyBase):
+    pass
+
+
+class EventEligibility(EventTaxonomyBase):
+    pass
+
+
+class EventLocation(EventTaxonomyBase):
+    pass
+
+
+class EventType(EventTaxonomyBase):
+    pass
 
 
 class EventSeries(models.Model):
@@ -162,11 +162,45 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
     )
     partners = StreamField(PartnersBlock(required=False), blank=True)
     call_to_action = StreamField(CallToAction(required=False), blank=True)
+    # booking bar
+    show_booking_bar = models.BooleanField(default=False)
+    manual_registration_url_link_text = models.CharField(
+        blank=True, max_length=50, verbose_name="Booking URL link text",
+    )
+    manual_registration_url = models.URLField(
+        blank=True, max_length=255, verbose_name="Booking URL",
+    )
+    event_cost = models.CharField(blank=True, max_length=50, verbose_name="Cost")
+    availability = models.ForeignKey(
+        EventAvailability,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="events",
+    )
+    location = models.ForeignKey(
+        EventLocation,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="events",
+    )
 
     content_panels = BasePage.content_panels + [
         ImageChooserPanel("hero_image"),
         MultiFieldPanel(
             [FieldPanel("start_date"), FieldPanel("end_date")], heading="Event Dates",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("show_booking_bar"),
+                FieldPanel("manual_registration_url_link_text"),
+                FieldPanel("manual_registration_url"),
+                FieldPanel("event_cost"),
+                FieldPanel("availability"),
+                FieldPanel("location"),
+            ],
+            heading="Event Booking",
         ),
         MultiFieldPanel(
             [FieldPanel("event_type"), FieldPanel("series"), FieldPanel("eligibility")],
@@ -259,16 +293,16 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         ]
         schools = [
             {"title": p.school.title, "href": "#"}  # TODO: href on separate ticket
-            for p in self.schools.filter(school__live=True).select_related("school")
+            for p in self.schools.all().select_related("school")
+            if p.school.live  # inefficient hack because modelcluster doesn't support filter lookup
         ]
         research_centres = [
             {
                 "title": p.research_centre.title,
                 "href": "#",  # TODO: href on separate ticket
             }
-            for p in self.research_centres.filter(
-                research_centre__live=True
-            ).select_related("research_centre")
+            for p in self.research_centres.all().select_related("research_centre")
+            if p.research_centre.live  # inefficient hack because modelcluster doesn't support filter lookup
         ]
 
         return sorted(
@@ -276,9 +310,19 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             key=lambda o: o["title"],
         )
 
+    def get_booking_bar(self):
+        return {
+            "action": self.manual_registration_url_link_text,
+            "link": self.manual_registration_url,
+            "message": " | ".join(
+                [self.event_cost, self.location.title, self.availability.title]
+            ),
+        }
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context.update(
+            booking_bar=self.get_booking_bar(),
             hero_image=self.hero_image,
             series_events=self.get_series_events() if self.series else [],
             speakers=self.speakers.all,
