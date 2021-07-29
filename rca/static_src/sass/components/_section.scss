@@ -145,6 +145,14 @@
                 margin-bottom: ($gutter * 6);
             }
         }
+
+        &--bottom-space-small {
+            margin-bottom: ($gutter * 1.5);
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 4);
+            }
+        }
     }
 
     &__heading {
