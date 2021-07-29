@@ -127,7 +127,27 @@ context:
           description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
           image: true,
         }
-  stats_block: True
+  stats_block:
+    title: false
+    statistics:
+      - stat:
+        value:
+          number: 70
+          summary: Number of countries our students come from
+      - stat:
+        value:
+          after: '%'
+          number: 33
+          summary: of students who go on to work in practice'
+      - stat:
+        value:
+          number: 70
+          summary: Number of countries our students come from
+      - stat:
+        value:
+          after: '%'
+          number: 33
+          summary: of students who go on to work in practice'
   student_stories:
     slides:
       - slide:
