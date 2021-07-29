@@ -68,6 +68,9 @@ context:
   speakers:
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
   series_events:
     - {
         title: 'Innovation RCA',
