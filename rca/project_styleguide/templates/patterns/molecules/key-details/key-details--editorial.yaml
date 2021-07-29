@@ -4,7 +4,7 @@ context:
     author: Royal College of Art
     contact_email: press@rca.ac.uk
     read_time: 10 minutes
-    press_pack: '#'
+    download_assets_url: '#'
   taxonomy_tags:
     - item:
       title: School of Design
@@ -17,4 +17,4 @@ tags:
   get_reading_time_minutes:
     "page 'body' as reading_time_minutes":
       target_var: reading_time_minutes
-      raw: 3
+      raw: 3 minutes

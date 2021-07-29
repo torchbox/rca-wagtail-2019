@@ -1,0 +1,49 @@
+{% load wagtailcore_tags util_tags %}
+
+<div class="key-details">
+
+    <div class="key-details__header">
+        <h2 class="heading heading--five key-details__heading">Key details</h2>
+    </div>
+
+    {% if page.location %}
+    <div class="key-details__section key-details__section--location">
+        <h3 class="body body--two key-details__sub-heading">Location</h3>
+        <ul class="key-details__list">
+            <li class="key-details__list-item key-details__list-item--tight">
+                {{ page.location|richtext }}
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if page.social_links %}
+    <div class="key-details__section key-details__section--social">
+        <ul class="key-details__list">
+            {% for link in page.social_links %}
+                <li class="key-details__list-item">
+                {% is_external link.value.url href as is_external %}
+                    <a class="link link--tertiary link--link link--external" target="_blank" href="{% firstof link.value.url href %}">
+                        <span class="link__label ">{{ link.value.title }}</span>
+                        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if page.contact_email %}
+    <div class="key-details__section key-details__section--email">
+        <ul class="key-details__list">
+            <li class="key-details__list-item">
+                <a class="key-details__link link link--secondary link--link" href="mailto:{{ page.contact_email }}">
+                    <span class="link__label">Email {{ page.contact_email }}</span>
+                    <svg width="8" height="12" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                </a>
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+
+</div>

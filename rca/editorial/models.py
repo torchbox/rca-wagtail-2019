@@ -13,8 +13,8 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
     TabbedInterface,
 )
-from wagtail.core.fields import StreamField
-from wagtail.core.models import Orderable
+from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.models import Orderable, Page
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.editorial import admin_forms
@@ -24,9 +24,14 @@ from rca.people.models import Directorate
 from rca.programmes.models import Subject
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
-from rca.utils.blocks import QuoteBlock
+from rca.utils.blocks import (
+    AccordionBlockWithTitle,
+    CallToActionBlock,
+    GalleryBlock,
+    QuoteBlock,
+)
 from rca.utils.filter import TabStyleFilter
-from rca.utils.models import BasePage, ContactFieldsMixin
+from rca.utils.models import BasePage, ContactFieldsMixin, RelatedPage
 
 from .blocks import EditorialPageBlock
 
@@ -36,6 +41,18 @@ class Author(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class RelatedEditorialPage(Orderable):
+    source_page = ParentalKey(Page, related_name="related_editorialpages")
+    page = models.ForeignKey("editorial.EditorialPage", on_delete=models.CASCADE)
+
+    panels = [PageChooserPanel("page")]
+
+
+class EditorialPageRelatedProgramme(RelatedPage):
+    source_page = ParentalKey("EditorialPage", related_name="related_programmes")
+    panels = [PageChooserPanel("page", ["programmes.ProgrammePage"])]
 
 
 class EditorialType(models.Model):
@@ -52,7 +69,7 @@ class EditorialType(models.Model):
     panels = [FieldPanel("title")]
 
 
-class EditorialPageTypePlacement(models.Model):
+class EditorialPageTypePlacement(Orderable):
     page = ParentalKey("EditorialPage", related_name="editorial_types")
     type = models.ForeignKey(
         EditorialType,
@@ -90,7 +107,11 @@ class EditorialPageSubjectPlacement(models.Model):
 class EditorialPage(ContactFieldsMixin, BasePage):
     base_form_class = admin_forms.EditorialPageAdminForm
     template = "patterns/pages/editorial/editorial_detail.html"
-    introduction = models.CharField(blank=True, max_length=255)
+    introduction = RichTextField(
+        blank=True,
+        features=(["bold", "italic"]),
+        help_text="Maximum of 140 characters supported in listings",
+    )
     hero_image = models.ForeignKey(
         "images.CustomImage",
         null=True,
@@ -123,9 +144,31 @@ class EditorialPage(ContactFieldsMixin, BasePage):
     contact_email = models.EmailField(blank=True, max_length=254)
 
     body = StreamField(EditorialPageBlock())
-
+    cta_block = StreamField(
+        [("call_to_action", CallToActionBlock(label="text promo"))],
+        blank=True,
+        verbose_name="Text promo",
+    )
     quote_carousel = StreamField(
         [("quote", QuoteBlock())], blank=True, verbose_name="Quote Carousel"
+    )
+    gallery = StreamField(
+        [("slide", GalleryBlock())], blank=True, verbose_name="Gallery"
+    )
+    more_information_title = models.CharField(max_length=80, default="More information")
+    more_information = StreamField(
+        [("accordion_block", AccordionBlockWithTitle())],
+        blank=True,
+        verbose_name="More information",
+    )
+    download_assets_heading = models.CharField(
+        blank=True,
+        max_length=125,
+        help_text="The heading text displayed above download link",
+    )
+    download_assets_url = models.URLField(blank=True)
+    download_assets_link_title = models.CharField(
+        blank=True, max_length=125, help_text="The text displayed as the download link",
     )
 
     content_panels = BasePage.content_panels + [
@@ -140,7 +183,19 @@ class EditorialPage(ContactFieldsMixin, BasePage):
             heading="Introductory Video",
         ),
         StreamFieldPanel("body"),
+        StreamFieldPanel("cta_block"),
         StreamFieldPanel("quote_carousel"),
+        StreamFieldPanel("gallery"),
+        MultiFieldPanel(
+            [
+                FieldPanel("more_information_title"),
+                StreamFieldPanel("more_information"),
+            ],
+            heading="More information",
+        ),
+        InlinePanel(
+            "related_editorialpages", label="Related Editorial Pages", max_num=6
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_title"),
@@ -169,7 +224,16 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         ),
         InlinePanel("subjects", label="Subject"),
         InlinePanel("editorial_types", label="Editorial Type"),
+        InlinePanel("related_programmes", label="Programme Page"),
         FieldPanel("author"),
+        MultiFieldPanel(
+            [
+                FieldPanel("download_assets_heading"),
+                FieldPanel("download_assets_url"),
+                FieldPanel("download_assets_link_title"),
+            ],
+            heading="Download assets",
+        ),
         FieldPanel("contact_email"),
     ]
 
@@ -182,8 +246,34 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         ]
     )
 
+    def get_related_pages(self):
+        related_pages = {"title": "Also of interest", "items": []}
+        pages = (
+            self.related_editorialpages.all()
+            .prefetch_related("page__hero_image", "page__listing_image")
+            .filter(page__live=True)
+        )
+        for value in pages:
+            page = value.page
+            meta = ""
+            editorial_type = page.editorial_types.first()
+            if editorial_type:
+                meta = editorial_type.type
+
+            related_pages["items"].append(
+                {
+                    "title": page.title,
+                    "link": page.url,
+                    "image": page.listing_image or page.hero_image,
+                    "description": page.introduction or page.listing_summary,
+                    "meta": meta,
+                }
+            )
+        return related_pages
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+        context["related_pages"] = self.get_related_pages()
 
         # Link taxonomy/page relations to a parent page so they can be clicked
         # and applied as filters on the parent listing page
@@ -207,7 +297,8 @@ class EditorialListingRelatedEditorialPage(Orderable):
     panels = [PageChooserPanel("page")]
 
 
-class EditorialListingPage(BasePage):
+class EditorialListingPage(ContactFieldsMixin, BasePage):
+    base_form_class = admin_forms.EditorialPageAdminForm
     template = "patterns/pages/editorial/editorial_listing.html"
     subpage_types = ["editorial.EditorialPage"]
 
@@ -222,6 +313,18 @@ class EditorialListingPage(BasePage):
                 ),
             ],
             heading="Editors picks",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("contact_model_title"),
+                FieldPanel("contact_model_email"),
+                FieldPanel("contact_model_url"),
+                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_link_text"),
+                FieldPanel("contact_model_text"),
+                ImageChooserPanel("contact_model_image"),
+            ],
+            "Large Call To Action",
         ),
     ]
 
@@ -254,8 +357,8 @@ class EditorialListingPage(BasePage):
     def get_active_filters(self, request):
         return {
             "type": request.GET.getlist("type"),
-            "subject": request.GET.getlist("subject"),
             "school_or_centre": request.GET.getlist("school-centre-or-area"),
+            "programme": request.GET.getlist("programme"),
         }
 
     def get_extra_query_params(self, request, active_filters):
@@ -279,6 +382,8 @@ class EditorialListingPage(BasePage):
                 obj.type = editorial_type.type
 
     def get_context(self, request, *args, **kwargs):
+        from rca.programmes.models import ProgrammePage
+
         context = super().get_context(request, *args, **kwargs)
         context["featured_editorial"] = self.get_editor_picks()
 
@@ -317,15 +422,15 @@ class EditorialListingPage(BasePage):
                 option_value_field="slug",
             ),
             TabStyleFilter(
-                "Subject",
+                "Programme",
                 queryset=(
-                    Subject.objects.filter(
+                    ProgrammePage.objects.filter(
                         id__in=base_queryset.values_list(
-                            "subjects__subject_id", flat=True
+                            "related_programmes__page_id", flat=True
                         )
                     )
                 ),
-                filter_by="subjects__subject__slug__in",
+                filter_by="related_programmes__page__slug__in",
                 option_value_field="slug",
             ),
         )

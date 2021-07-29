@@ -50,18 +50,18 @@
         <ul class="key-details__list">
             <li class="key-details__list-item">
                 {% get_reading_time_minutes page 'body' as reading_time_minutes %}
-                {{ reading_time_minutes }} minute read
+                {{ reading_time_minutes }}
             </li>
         </ul>
     </div>
 
-    {% if page.press_pack %}
+    {% if page.download_assets_url %}
         <div class="key-details__section key-details__section--press-pack">
-            <h3 class="body body--two key-details__sub-heading">Press pack</h3>
+            <h3 class="body body--two key-details__sub-heading">{% firstof page.download_assets_heading 'Press pack' %}</h3>
             <ul class="key-details__list">
                 <li class="key-details__list-item">
-                    <a href="{{ page.press_pack }}" class="link link--tertiary link--link link--external" target="_blank">
-                        <span class="link__label">Download now</span>
+                    <a href="{{ page.download_assets_url }}" class="link link--tertiary link--link link--external" target="_blank">
+                        <span class="link__label">{% firstof page.download_assets_link_title 'Download now' %}</span>
                         <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
                     </a>
                 </li>

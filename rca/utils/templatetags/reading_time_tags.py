@@ -58,4 +58,8 @@ def get_reading_time_minutes(context, page, streamfield_name):
     if reading_time_minutes <= 0:
         reading_time_minutes = 1
 
+    if reading_time_minutes > 1:
+        reading_time_minutes = f"{reading_time_minutes} minutes"
+    else:
+        reading_time_minutes = f"{reading_time_minutes} minute"
     return reading_time_minutes

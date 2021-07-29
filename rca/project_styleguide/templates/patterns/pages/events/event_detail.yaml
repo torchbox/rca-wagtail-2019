@@ -24,6 +24,7 @@ context:
     read_time: 10 mins
     price: false
     past: false
+    show_booking_bar: true
     manual_registration_url: '#'
     body:
       - dummy
@@ -64,9 +65,9 @@ context:
     contact_model_text: Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
     series:
       introduction: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-    speakers:
-      - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
-      - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+  speakers:
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
+    - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }
   series_events:
     - {
         title: 'Innovation RCA',

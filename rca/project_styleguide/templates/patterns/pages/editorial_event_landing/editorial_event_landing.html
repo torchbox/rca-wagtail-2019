@@ -31,7 +31,7 @@
                         <h2 class="section__heading section__heading--primary heading heading--two">News</h2>
                     </div>
                     <div class="section__content grid">
-                        {% include "patterns/organisms/news/news_api_content.html" with news=page.news news_view_all=page.news_view_all modifier="news--single-feature" %}
+                        {% include "patterns/organisms/news/news_api_content.html" with news=news news_view_all=page.news_view_all modifier="news--single-feature" %}
                     </div>
                 </div>
             </section>
@@ -43,7 +43,7 @@
                         <h2 class="section__heading section__heading--primary heading heading--two">Events</h2>
                     </div>
                     <div class="section__content grid">
-                        {% include "patterns/organisms/news/news_api_content.html" with news=page.events news_view_all=page.events_view_all modifier="news--single-feature" %}
+                        {% include "patterns/organisms/news/news_api_content.html" with news=events news_view_all=page.events_view_all modifier="news--single-feature" %}
                     </div>
                 </div>
             </section>
@@ -52,23 +52,23 @@
             <section class=" section section--start bg bg--dark anchor-heading" id="stories">
 
                 <div class="section__row section__row--last-small">
-                    <div class="section__header section__header--bottom-space grid">
+                    <div class="section__header section__header--bottom-space-small grid">
                         <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">Stories</h2>
-                        {% if page.stories_intro %}
+                        {% if page.stories_summary_text %}
                             <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page.stories_intro|richtext }}
+                                {{ page.stories_summary_text|richtext }}
                             </div>
                         {% endif %}
                     </div>
-                    {% if page.stories %}
+                    {% if stories %}
                     <div class="section__content grid">
-                        {% include "patterns/organisms/carousel/carousel.html" with carousel=page.stories modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                        {% include "patterns/organisms/carousel/carousel.html" with carousel=stories modifier='carousel carousel--no-margin' datatag='data-carousel' %}
                     </div>
                     {% endif %}
-                    {% if page.stories_link %}
+                    {% if page.stories_link_target_url %}
                     <div class="section__action grid">
-                        <a class="layout__@large-start-two link link--primary link--link body body--two" href="{{ page.stories_link }}">
-                            <span class="link__label">Browse all stories</span>
+                        <a class="layout__@large-start-two link link--primary link--link body body--two" href="{{ page.stories_link_target_url }}">
+                            <span class="link__label">{% firstof page.stories_link_text 'Browse all stories' %}</span>
                             <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                         </a>
                     </div>
@@ -80,26 +80,26 @@
             <section class="section section--start bg bg--dark anchor-heading" id="talks">
 
                 <div class="section__row section__row--last-small">
-                    <div class="section__header section__header--bottom-space grid">
+                    <div class="section__header section__header--bottom-space-small grid">
                         <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
                             Talks
                         </h2>
-                        {% if page.talks_intro %}
+                        {% if page.talks_summary_text %}
                             <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page.talks_intro }}
+                                {{ page.talks_summary_text }}
                             </div>
                         {% endif %}
                     </div>
                     <div class="section__content">
 
                         {% if page.talks_image %}
-                            {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.talks_video out_of_grid=False curriculum=False heading=False has_meta=False copy=False subheading=False image=page.talks_image caption=page.talks_cta video=page.talks_video modifier="small-bottom-margin image-video-block--no-padding" %}
+                            {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=False curriculum=False heading=False has_meta=False copy=False subheading=False image=page.talks_image caption=page.video_caption video=page.video modifier="small-bottom-margin image-video-block--no-padding" %}
                         {% endif %}
 
-                        {% if page.talks_link %}
+                        {% if page.talks_link_target_url %}
                         <div class="section__action grid">
-                            <a class="layout__@large-start-four link link--primary link--link body body--two" href="{{ page.talks_link }}">
-                                <span class="link__label">Browse all Talks</span>
+                            <a class="layout__@large-start-four link link--primary link--link body body--two" href="{{ page.talks_link_target_url }}">
+                                <span class="link__label">{% firstof page.talks_link_text 'Browse all Talks' %}</span>
                                 <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                             </a>
                         </div>
@@ -110,9 +110,11 @@
             </section>
 
             {# CTA #}
-            <section class="section section--start section--end bg bg--dark anchor-heading" id="media-centre">
+            <section class="section section--start section--end bg bg--dark anchor-heading" id="{{custom_tab_heading.link}}">
                 <div class="section__row section__row--last">
-                    {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=page.cta_block %}
+                    {% for block in page.cta_block %}
+                        {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value %}
+                    {% endfor %}
                 </div>
             </section>
 

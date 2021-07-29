@@ -1,5 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
@@ -9,10 +11,18 @@ from wagtail.admin.edit_handlers import (
     PageChooserPanel,
     StreamFieldPanel,
 )
-from wagtail.core.fields import StreamField
+from wagtail.core.fields import StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
+from rca.editorial.models import EditorialPage
+from rca.events.models import EventDetailPage
+from rca.landingpages import admin_forms
+from rca.landingpages.utils import (
+    editorial_teaser_formatter,
+    event_teaser_formatter,
+    news_teaser_formatter,
+)
 from rca.projects.models import ProjectPage
 from rca.utils.blocks import (
     CallToActionBlock,
@@ -558,3 +568,221 @@ class EnterpriseLandingPage(LandingPage):
 
     class Meta:
         verbose_name = "Landing Page - Enterprise"
+
+
+class EELandingPageRelatedEditorialPage(RelatedPage):
+    source_page = ParentalKey(
+        "landingpages.EELandingPage", related_name="related_editorial_pages"
+    )
+    panels = [PageChooserPanel("page", ["editorial.EditorialPage"])]
+
+
+class EELandingPageRelatedEditorialStoryPage(RelatedPage):
+    source_page = ParentalKey(
+        "landingpages.EELandingPage", related_name="related_editorial_story_pages"
+    )
+    panels = [PageChooserPanel("page", ["editorial.EditorialPage"])]
+
+
+class EELandingPageRelatedEventPage(RelatedPage):
+    source_page = ParentalKey(
+        "landingpages.EELandingPage", related_name="related_event_pages"
+    )
+    panels = [PageChooserPanel("page", ["events.EventDetailPage"])]
+
+
+class EELandingPage(ContactFieldsMixin, BasePage):
+    base_form_class = admin_forms.EELandingPageAdminForm
+    template = "patterns/pages/editorial_event_landing/editorial_event_landing.html"
+    max_count = 1
+
+    news_link_text = models.TextField(
+        max_length=120, blank=False, help_text=_("The text do display for the link"),
+    )
+    news_link_target_url = models.URLField(blank=False)
+
+    events_link_text = models.TextField(
+        max_length=120, blank=False, help_text=_("The text do display for the link"),
+    )
+    events_link_target_url = models.URLField(blank=False)
+
+    stories_summary_text = models.TextField(
+        max_length=250,
+        blank=False,
+        help_text=_("Short text summary displayed with the 'Stories' title"),
+    )
+    stories_link_text = models.TextField(
+        max_length=120, blank=False, help_text=_("The text do display for the link"),
+    )
+    stories_link_target_url = models.URLField(blank=False)
+
+    talks_summary_text = models.TextField(
+        max_length=250,
+        blank=False,
+        help_text=_("Short text summary displayed with the 'Talks' title"),
+    )
+    talks_link_text = models.TextField(
+        max_length=120, blank=False, help_text=_("The text do display for the link"),
+    )
+    talks_link_target_url = models.URLField(blank=False)
+    talks_image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    video_caption = models.CharField(
+        blank=True,
+        max_length=80,
+        help_text=_("The text displayed next to the video play button"),
+    )
+    video = models.URLField(blank=True)
+    cta_block = StreamField(
+        StreamBlock([("call_to_action", CallToActionBlock())], max_num=1,), blank=True
+    )
+
+    class Meta:
+        verbose_name = "Landing Page - Editorial and Events"
+
+    def featured_news(self):
+        news = []
+        picked_news = self.related_editorial_pages.first()
+        if picked_news:
+            picked_news = picked_news.page.specific
+            news.append(news_teaser_formatter(picked_news, return_image=True))
+
+        # Get 3 more items
+        latest_news_items = (
+            EditorialPage.objects.live()
+            .order_by("-published_at")
+            .exclude(id=picked_news.id)
+            .prefetch_related("hero_image", "editorial_types")[:3]
+        )
+        for item in latest_news_items:
+            news.append(news_teaser_formatter(item))
+
+        return news
+
+    def featured_events(self):
+        events = []
+        picked_event = self.related_event_pages.first()
+        if picked_event:
+            picked_event = picked_event.page.specific
+            events.append(event_teaser_formatter(picked_event, return_image=True))
+
+        # Get 3 more items
+        latest_event_items = (
+            EventDetailPage.objects.live()
+            .filter(start_date__gte=timezone.now().date())
+            .exclude(id=picked_event.id)
+            .order_by("-start_date")
+            .prefetch_related("hero_image")[:3]
+        )
+        for item in latest_event_items:
+            events.append(event_teaser_formatter(item))
+
+        return events
+
+    def get_stories(self):
+        projects = self.related_editorial_story_pages.all().select_related("page")
+        return [editorial_teaser_formatter(page.page.specific) for page in projects]
+
+    @property
+    def news_view_all(self):
+        return {"link": self.news_link_target_url, "title": self.news_link_text}
+
+    @property
+    def events_view_all(self):
+        return {"link": self.events_link_target_url, "title": self.events_link_text}
+
+    def custom_anchor_heading_item(self):
+        # The cta_block acts as an extra heading for the navigation, and there
+        # Can only be one, so return it in the style of the anchor nav
+        if self.cta_block:
+            for block in self.cta_block:
+                return {
+                    "title": block.value["title"],
+                    "link": slugify(block.value["title"]),
+                }
+
+    def anchor_nav(self):
+        """ Build list of data to be used as
+        in-page navigation """
+        return [
+            {"title": "News", "link": "news"},
+            {"title": "Events", "link": "events"},
+            {"title": "Stories", "link": "stories"},
+            {"title": "Talks", "link": "talks"},
+            self.custom_anchor_heading_item(),
+        ]
+
+    content_panels = BasePage.content_panels + [
+        MultiFieldPanel(
+            [
+                InlinePanel(
+                    "related_editorial_pages",
+                    max_num=1,
+                    min_num=1,
+                    label="Editorial Page",
+                ),
+                FieldPanel("news_link_text"),
+                FieldPanel("news_link_target_url"),
+            ],
+            heading="Featured News",
+        ),
+        MultiFieldPanel(
+            [
+                InlinePanel(
+                    "related_event_pages", max_num=1, min_num=1, label="Event Page"
+                ),
+                FieldPanel("events_link_text"),
+                FieldPanel("events_link_target_url"),
+            ],
+            heading="Featured Events",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("stories_summary_text"),
+                FieldPanel("stories_link_text"),
+                FieldPanel("stories_link_target_url"),
+                InlinePanel(
+                    "related_editorial_story_pages", label="Editorial Page", max_num=6
+                ),
+            ],
+            heading="Stories",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("talks_summary_text"),
+                ImageChooserPanel("talks_image"),
+                FieldPanel("video_caption"),
+                FieldPanel("video"),
+                FieldPanel("talks_link_text"),
+                FieldPanel("talks_link_target_url"),
+            ],
+            heading="Talks",
+        ),
+        StreamFieldPanel("cta_block"),
+        MultiFieldPanel(
+            [
+                FieldPanel("contact_model_title"),
+                FieldPanel("contact_model_email"),
+                FieldPanel("contact_model_url"),
+                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_link_text"),
+                FieldPanel("contact_model_text"),
+                ImageChooserPanel("contact_model_image"),
+            ],
+            "Large Call To Action",
+        ),
+    ]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["news"] = self.featured_news()
+        context["events"] = self.featured_events()
+        context["stories"] = self.get_stories()
+        context["tabs"] = self.anchor_nav()
+        context["custom_tab_heading"] = self.custom_anchor_heading_item()
+        return context

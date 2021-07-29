@@ -1,100 +1,102 @@
 context:
   page:
     title: News & Events
-    news:
-      - item:
-        type: 'News'
-        title: 'Designs for Real Life'
-        description: '6 July 2021'
-        link: '#'
-        image: //placekitten.com/526/402
-        person: false
-      - item:
-        type: 'Talk'
-        title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
-        description: '23 July 2021'
-        link: '#'
-        image: false
-        person: false
-      - item:
-        type: 'News'
-        title: 'Show 2018: School of Architecture: Making Space for the Future'
-        description: '23 July 2021'
-        link: '#'
-        image: false
-        person: false
-      - item:
-        type: 'Story'
-        title: 'Show 2018: School of Architecture: Making Space for the Future'
-        description: '23 July 2021'
-        link: '#'
-        image: false
-        person: false
     news_view_all:
       title: View all news
       link: '#'
-    events:
-      - item:
-        type: 'Exhibition'
-        title: 'Designs for Real Life'
-        description: '6 July — 4 August 2021, Somerset House'
-        link: '#'
-        image: //placekitten.com/526/402
-        person: false
-      - item:
-        type: 'Lecture'
-        title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
-        description: '23 November 2021, Online'
-        link: '#'
-        image: false
-        person: false
-      - item:
-        type: 'Exhibition'
-        title: 'Show 2018: School of Architecture: Making Space for the Future'
-        description: '23 November 2021, Battersea'
-        link: '#'
-        image: false
-        person: false
-      - item:
-        type: 'Open day'
-        title: 'Show 2018: School of Architecture: Making Space for the Future'
-        description: '23 November 2021, Whitehall'
-        link: '#'
-        image: false
-        person: false
     events_view_all:
       title: View all events
       link: '#'
-    stories_intro: Characterised by its roots in creative and innovative practice, by engagement with partners in business, industry, government and communities.
-    stories_link: '#'
-    stories:
-      - slide:
-        title: 'Lorem ipsum dolor sit'
-        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Lorem ipsum dolor sit'
-        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
-        image: true
-        link: '#'
-      - slide:
-        title: 'Lorem ipsum dolor sit'
-        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
-        image: true
-        link: '#'
-    talks_intro: The RCA is famed for its ability to attract leading practitioners and academics from across the creative spectrum.
-    talks_link: '#'
+    stories_summary_text: Characterised by its roots in creative and innovative practice, by engagement with partners in business, industry, government and communities.
+    stories_link_target_url: '#'
+    talks_summary_text: The RCA is famed for its ability to attract leading practitioners and academics from across the creative spectrum.
+    talks_link_target_url: '#'
     talks_image: true
-    talks_video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
-    talks_cta: Watch the course introduction
+    video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
+    video_caption: Watch the course introduction
     contact: true
     contact_image: true
     cta_block:
-      title: Media Centre
-      description: The Press Office manages relations between the College and the media, acting as the first point of contact for media queries and issuing news releases and statements on behalf of the College.
-      action: Launch the Media Centre
+      - block:
+        value:
+          title: Media Centre
+          description: The Press Office manages relations between the College and the media, acting as the first point of contact for media queries and issuing news releases and statements on behalf of the College.
+          action: Launch the Media Centre
+          link: '#'
+  stories:
+    - slide:
+      title: 'Lorem ipsum dolor sit'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      image: true
       link: '#'
+    - slide:
+      title: 'Lorem ipsum dolor sit'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      image: true
+      link: '#'
+    - slide:
+      title: 'Lorem ipsum dolor sit'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      image: true
+      link: '#'
+  events:
+    - item:
+      type: 'Exhibition'
+      title: 'Designs for Real Life'
+      description: '6 July — 4 August 2021, Somerset House'
+      link: '#'
+      image: //placekitten.com/878/600
+      person: false
+    - item:
+      type: 'Lecture'
+      title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
+      description: '23 November 2021, Online'
+      link: '#'
+      image: false
+      person: false
+    - item:
+      type: 'Exhibition'
+      title: 'Show 2018: School of Architecture: Making Space for the Future'
+      description: '23 November 2021, Battersea'
+      link: '#'
+      image: false
+      person: false
+    - item:
+      type: 'Open day'
+      title: 'Show 2018: School of Architecture: Making Space for the Future'
+      description: '23 November 2021, Whitehall'
+      link: '#'
+      image: false
+      person: false
+  news:
+    - item:
+      type: 'News'
+      title: 'Designs for Real Life'
+      description: '6 July 2021'
+      link: '#'
+      image: //placekitten.com/878/600
+      person: false
+    - item:
+      type: 'Talk'
+      title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
+      description: '23 July 2021'
+      link: '#'
+      image: false
+      person: false
+    - item:
+      type: 'News'
+      title: 'Show 2018: School of Architecture: Making Space for the Future'
+      description: '23 July 2021'
+      link: '#'
+      image: false
+      person: false
+    - item:
+      type: 'Story'
+      title: 'Show 2018: School of Architecture: Making Space for the Future'
+      description: '23 July 2021'
+      link: '#'
+      image: false
+      person: false
   tabs:
     - tab:
       title: News

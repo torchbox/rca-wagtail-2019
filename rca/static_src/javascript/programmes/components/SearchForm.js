@@ -40,7 +40,7 @@ const SearchForm = ({ searchQuery, label, startSearch, clear, isLoaded }) => {
             role="search"
         >
             <div className="grid">
-                <div className="search search--programmes">
+                <div className="search search--inline">
                     <label
                         className="search__label"
                         htmlFor="programmes-search-input"
