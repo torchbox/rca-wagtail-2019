@@ -45,7 +45,7 @@ context:
       title: 'Designs for Real Life'
       description: '6 July — 4 August 2021, Somerset House'
       link: '#'
-      image: //placekitten.com/526/402
+      image: //placekitten.com/878/600
       person: false
     - item:
       type: 'Lecture'
@@ -74,7 +74,7 @@ context:
       title: 'Designs for Real Life'
       description: '6 July 2021'
       link: '#'
-      image: //placekitten.com/526/402
+      image: //placekitten.com/878/600
       person: false
     - item:
       type: 'Talk'
