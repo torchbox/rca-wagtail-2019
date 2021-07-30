@@ -455,6 +455,10 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             {"title": "Contact"},
         ]
 
+    @property
+    def listing_meta(self):
+        return "School"
+
     def get_related_projects(self):
         """
         Displays latest projects related to this school page.

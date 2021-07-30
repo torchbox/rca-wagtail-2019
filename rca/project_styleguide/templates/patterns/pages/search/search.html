@@ -36,13 +36,13 @@
 
                 <div class="search-list section__row">
 
-                    {% comment %}{% get_search_promotions search_query as search_picks %}{% endcomment %}
+                    {% get_search_promotions search_query as search_picks %}
 
                     {% if search_picks %}
                         <ul class="search-list__results search-list__results--pick">
                             {% for pick in search_picks %}
                                 <li class="search-list__item--pick">
-                                    {% include "patterns/molecules/search-result/search-result.html" with result=pick.specific search_pick=True %}
+                                    {% include "patterns/molecules/search-result/search-result.html" with result=pick.page search_pick=True %}
                                 </li>
                             {% endfor %}
                         </ul>
