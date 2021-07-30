@@ -10,13 +10,11 @@ from wagtail.core.models import Page
 from rca.editorial.models import (
     EditorialPage,
     EditorialPageDirectorate,
-    EditorialPageSubjectPlacement,
     EditorialPageTypePlacement,
     EditorialType,
 )
 from rca.images.models import CustomImage
 from rca.people.models import Directorate
-from rca.programmes.models import Subject
 from rca.research.models import RelatedResearchCenterPage, ResearchCentrePage
 from rca.schools.models import RelatedSchoolPage, SchoolPage
 
@@ -90,11 +88,6 @@ class Command(BaseCommand):
                 page=ResearchCentrePage.objects.order_by("?").first(),
             )
             fake_page.related_research_centre_pages = [research_pages]
-
-            subjects = EditorialPageSubjectPlacement(
-                page=fake_page, subject=Subject.objects.order_by("?").first()
-            )
-            fake_page.subjects = [subjects]
 
             directorates = EditorialPageDirectorate(
                 page=fake_page, directorate=Directorate.objects.order_by("?").first()
