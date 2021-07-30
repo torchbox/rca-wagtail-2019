@@ -1,6 +1,7 @@
 import datetime
 import itertools
 
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.fields import SlugField
 from django.utils.text import slugify
@@ -255,6 +256,21 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
     def inline_cta(self):
         return self.call_to_action
 
+    def clean(self, *args, **kwargs):
+        super().clean(*args, **kwargs)
+        if self.show_booking_bar and not all(
+            [
+                self.manual_registration_url_link_text,
+                self.manual_registration_url,
+                self.event_cost,
+                self.availability,
+                self.location,
+            ]
+        ):
+            raise ValidationError(
+                {"show_booking_bar": "Please complete all booking fields."}
+            )
+
     def get_series_events(self):
         today = datetime.date.today()
         query = (
@@ -315,14 +331,18 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             "action": self.manual_registration_url_link_text,
             "link": self.manual_registration_url,
             "message": " | ".join(
-                [self.event_cost, self.location.title, self.availability.title]
+                [
+                    self.event_cost,
+                    self.location.title if self.location else "",
+                    self.availability.title if self.availability else "",
+                ]
             ),
         }
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context.update(
-            booking_bar=self.get_booking_bar(),
+            booking_bar=self.get_booking_bar() if self.show_booking_bar else {},
             hero_image=self.hero_image,
             series_events=self.get_series_events() if self.series else [],
             speakers=self.speakers.all,
