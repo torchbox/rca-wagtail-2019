@@ -501,6 +501,14 @@
             }
         }
 
+        &--first-extra-small {
+            padding-top: ($gutter / 4);
+
+            @include media-query(large) {
+                padding-top: ($gutter / 2);
+            }
+        }
+
         &--first-large {
             padding-top: ($gutter * 3.5);
 
