@@ -24,6 +24,10 @@
         }
     }
 
+    &--no-top-margin {
+        margin-top: 0;
+    }
+
     &__heading {
         grid-column: 1 / span 2;
         margin-bottom: $gutter;

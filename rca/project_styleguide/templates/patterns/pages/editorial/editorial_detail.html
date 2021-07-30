@@ -103,12 +103,12 @@
 
                 {% if page.more_information %}
                     <div class="section__row">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title=page.more_information_title %}
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title=page.more_information_title modifier="accordion-block--no-top-margin" %}
                     </div>
                 {% endif %}
 
                 {% if page.quote_carousel %}
-                    <div class="section__row">
+                    <div class="section__row section__row--first-extra-small">
                         {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.quote_carousel modifier='carousel--square carousel--quotes' datatag='data-peek-carousel' %}
                     </div>
                 {% endif %}
