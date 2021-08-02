@@ -35,7 +35,9 @@ class EnquireToStudyForm(forms.Form):
     )
 
     programmes = forms.ModelMultipleChoiceField(
-        queryset=ProgrammePage.objects.filter(qs_code__isnull=False, live=True),
+        queryset=ProgrammePage.objects.filter(
+            qs_code__isnull=False, live=True
+        ).order_by("title"),
         widget=forms.CheckboxSelectMultiple,
     )
 
