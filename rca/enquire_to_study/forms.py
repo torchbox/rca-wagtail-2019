@@ -81,10 +81,16 @@ class EnquireToStudyForm(forms.Form):
             'target="_blank">Enquirer Privacy Notice</a> and understand that my personal '
             "data will be processed in accordance with this notice.</p>"
         )
-        self.fields["is_notification_opt_in"].label = (
+        self.fields["is_notification_opt_in"].label = mark_safe(
+            "<p class='rich-text form-item__rich-text'>"
             "From time to time we would like to notify you about events, news, "
             "opportunities, and services (including other courses) at RCA. "
             "Please tick this box to give your consent to be contacted in this way."
+            " To withdraw consent, email <a clas='link link--link' href='mailto:dpo@rca.ac.uk'>"
+            "dpo@rca.ac.uk</a> or send your request to "
+            "our Data Protection Officer at the following address: The Royal "
+            "College of Art, Kensington Gore, London SW7 2EU."
+            "</p>"
         )
 
         # Help Text
