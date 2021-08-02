@@ -27,6 +27,10 @@
         }
     }
 
+    &__errors {
+        color: $color--red;
+    }
+
     .section__row & {
         @include font-size(s);
         margin-right: ($gutter * 1.5);

@@ -98,6 +98,11 @@ class ProgrammePageSubjectPlacement(models.Model):
 class ProgrammeType(WagtailOrdable):
     display_name = models.CharField(max_length=128)
     description = models.CharField(max_length=500, blank=True)
+    qs_code = models.CharField(
+        max_length=500,
+        help_text="This code needs to match the name of the LevelOfStudy code value in QS",
+        blank=True,
+    )
 
     def __str__(self):
         return self.display_name
@@ -422,6 +427,18 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ],
         blank=True,
     )
+    qs_code = models.PositiveIntegerField(
+        help_text="This code needs to match the name of the codeExternal value in QS, E.G 105",
+        blank=True,
+        null=True,
+    )
+
+    mailchimp_group_name = models.CharField(
+        max_length=255,
+        help_text="This must match a group name under the category 'Programme of interest' E.G 'MA Animation'",
+        blank=True,
+        null=True,
+    )
 
     content_panels = (
         BasePage.content_panels
@@ -563,6 +580,8 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             [ImageChooserPanel("apply_image")], heading="Introduction image"
         ),
         MultiFieldPanel([StreamFieldPanel("steps")], heading="Before you begin"),
+        FieldPanel("qs_code"),
+        FieldPanel("mailchimp_group_name"),
     ]
 
     edit_handler = TabbedInterface(

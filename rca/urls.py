@@ -12,7 +12,6 @@ from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.utils.urlpatterns import decorate_urlpatterns
 
 from rca.account_management.views import CustomLoginView
-from rca.search import views as search_views
 from rca.utils.cache import get_default_cache_control_decorator
 from rca.wagtailapi.api import api_router
 
@@ -28,6 +27,7 @@ private_urlpatterns = [
     path("documents2/", include(wagtaildocs_urls)),
     # Don’t use generic cache control for API endpoints.
     path("api/v3/", api_router.urls),
+    path("enquire-to-study/", include("rca.enquire_to_study.urls")),
 ]
 
 
@@ -91,7 +91,6 @@ urlpatterns = (
     + [
         # Add Wagtail URLs at the end.
         # Wagtail cache-control is set on the page models's serve methods.
-        path("search/", search_views.search, name="search"),
         path("", include(wagtail_urls)),
     ]
 )

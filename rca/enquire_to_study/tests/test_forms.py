@@ -1,0 +1,117 @@
+from unittest.mock import patch
+
+from captcha.client import RecaptchaResponse
+from django.db import IntegrityError
+from django.test import TestCase
+
+from rca.enquire_to_study.factories import EnquiryReasonFactory, StartDateFactory
+from rca.enquire_to_study.forms import EnquireToStudyForm
+from rca.enquire_to_study.models import (
+    EnquiryFormSubmission,
+    EnquiryFormSubmissionProgrammesOrderable,
+    EnquiryFormSubmissionProgrammeTypesOrderable,
+)
+from rca.programmes.factories import ProgrammePageFactory, ProgrammeTypeFactory
+
+
+class TestEnquireToStudyForm(TestCase):
+    def setUp(self):
+        self.start_date = StartDateFactory(qs_code="test-code")
+        self.enquiry_reason = EnquiryReasonFactory()
+        self.form_data = {
+            "first_name": "Monty",
+            "last_name": "python",
+            "email": "monthpython@holygrail.com",
+            "phone_number": "+12125552368",
+            "country_of_residence": "GB",
+            "city": "Bristol",
+            "country_of_citizenship": "GB",
+            "programme_type": ProgrammeTypeFactory(qs_code="test").pk,
+            "programmes": [ProgrammePageFactory(qs_code=1, programme_type__pk=2).pk],
+            "start_date": self.start_date.pk,
+            "enquiry_reason": self.enquiry_reason.pk,
+            "is_read_data_protection_policy": True,
+            "g-recaptcha-response": "PASSED",
+        }
+
+    def test_form_responds_to_path(self):
+        response = self.client.get("/enquire-to-study/")
+        self.assertEqual(response.status_code, 200)
+
+    @patch("captcha.fields.client.submit")
+    def test_valid_form(self, mocked_submit):
+        mocked_submit.return_value = RecaptchaResponse(is_valid=True)
+        form = EnquireToStudyForm(data=self.form_data)
+        form.is_valid()
+        self.assertTrue(form.is_valid())
+
+    @patch("captcha.fields.client.submit")
+    def test_form_save(self, mocked_submit):
+        # Test form save creates submission
+        mocked_submit.return_value = RecaptchaResponse(is_valid=True)
+        form = EnquireToStudyForm(data=self.form_data)
+        form.is_valid()
+        form.save()
+        submission = EnquiryFormSubmission.objects.first()
+        self.assertEqual(self.form_data["first_name"], submission.first_name)
+        self.assertEqual(self.form_data["last_name"], submission.last_name)
+        self.assertEqual(self.form_data["email"], submission.email)
+        self.assertEqual(self.form_data["phone_number"], submission.phone_number)
+        self.assertEqual(
+            self.form_data["country_of_residence"], submission.country_of_residence
+        )
+        self.assertEqual(self.form_data["city"], submission.city)
+        self.assertEqual(
+            self.form_data["programme_type"],
+            submission.enquiry_submission_programme_types.first().programme_type.id,
+        )
+        self.assertEqual(
+            self.form_data["programmes"][0],
+            submission.enquiry_submission_programmes.first().programme.id,
+        )
+        self.assertEqual(self.start_date, submission.start_date)
+        self.assertEqual(self.enquiry_reason, submission.enquiry_reason)
+        self.assertEqual(
+            self.form_data["is_read_data_protection_policy"],
+            submission.is_read_data_protection_policy,
+        )
+
+    @patch("captcha.fields.client.submit")
+    def test_submissions_data(self, mocked_submit):
+        # Test the submission created has programmes, programme_types
+        mocked_submit.return_value = RecaptchaResponse(is_valid=True)
+        form = EnquireToStudyForm(data=self.form_data)
+        form.is_valid()
+        form.save()
+        submission = EnquiryFormSubmission.objects.first()
+        programme_types_orderable = (
+            EnquiryFormSubmissionProgrammeTypesOrderable.objects.first()
+        )
+        programmes_orderable = EnquiryFormSubmissionProgrammesOrderable.objects.first()
+
+        self.assertEqual(programme_types_orderable.enquiry_submission, submission)
+        self.assertEqual(programmes_orderable.enquiry_submission, submission)
+
+        self.assertEqual(
+            programme_types_orderable.programme_type.pk,
+            self.form_data["programme_type"],
+        )
+        self.assertEqual(
+            programmes_orderable.programme.pk, self.form_data["programmes"][0]
+        )
+
+    @patch("captcha.fields.client.submit")
+    def test_is_read_data_protection_policy_false(self, mocked_submit):
+        # Test form errors with is_read_data_protection_policy false
+        mocked_submit.return_value = RecaptchaResponse(is_valid=True)
+        self.form_data["is_read_data_protection_policy"] = False
+        form = EnquireToStudyForm(data=self.form_data)
+        self.assertFalse(form.is_valid())
+        self.assertRaises(IntegrityError, form.save)
+
+    # TODO
+    # Test that programme types without a QS code don't end up as options in the form
+    # Test that programmes without a QS code don't end up as options in the form
+    # Test QS post sends correct data.
+    # Test QS response?.
+    # Test the form validation for programmes and programme types

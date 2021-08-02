@@ -71,9 +71,11 @@ INSTALLED_APPS = [
     "rca.projects",
     "rca.landingpages",
     "rca.people",
+    "rca.enquire_to_study",
     "rca.account_management",
     "rca.donate",
     "birdbath",
+    "django_countries",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.postgres_search",
     "wagtail.contrib.settings",
@@ -754,9 +756,29 @@ BIRDBATH_CHECKS = [
 BIRDBATH_REQUIRED = env.get("BIRDBATH_REQUIRED", "true").lower() == "true"
 BIRDBATH_USER_ANONYMISER_EXCLUDE_EMAIL_RE = r"torchbox\.com$"
 
+# Django Countries
+# https://pypi.org/project/django-countries
+COUNTRIES_FIRST = ["GB", "IE"]
+
+
+# Global for a DO NOT REPLY email address
+RCA_DNR_EMAIL = env.get("RCA_DNR_EMAIL", None)
+
 # Needed for form field help text to use rich text.
 WAGTAILFORMS_HELP_TEXT_ALLOW_HTML = True
 BASIC_AUTH_DISABLE_CONSUMING_AUTHORIZATION_HEADER = True
+
+# QS API
+QS_API_ENDPOINT = env.get("QS_API_ENDPOINT", None)
+QS_API_USERNAME = env.get("QS_API_USERNAME", None)
+QS_API_PASSWORD = env.get("QS_API_PASSWORD", None)
+
+# MAILCHIMP CREDENTIALS
+MAILCHIMP_API_KEY = env.get("MAILCHIMP_API_KEY", None)
+MAILCHIMP_LIST_ID = env.get("MAILCHIMP_LIST_ID", None)
+MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID = env.get(
+    "MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID", None
+)
 
 PASSWORD_RESET_TIMEOUT_DAYS = 5
 

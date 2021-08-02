@@ -1,0 +1,44 @@
+{% extends "wagtailadmin/base.html" %}
+{% load wagtailadmin_tags i18n %}
+{% block content %}
+    {% block header %}
+        <header class="nice-padding hasform">
+            <div class="row header-title">
+                <div class="left">
+                    <div class="col">
+                        <h1>Delete all Enquiry Form Submissions older than 7 days?</h1>
+                    </div>
+                </div>
+            </div>
+        </header>
+    {% endblock %}
+
+    {% trans "Delete " as delete_str %}
+    <div class="nice-padding">
+        {% if count_delete_submissions %}
+
+            <p class="help-block help-warning">
+                You are about to delete {{ count_delete_submissions }} enquiry submission{{ count_delete_submissions|pluralize }}. By continuing, you will delete all enquiries submitted more than 7 days ago. This action cannot be undone.
+            </p>
+
+            <form action="{{ submit_url }}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="{% trans 'Yes, delete' %}" class="button serious" />
+                <a href="{{ index_url }}" class="button button-secondary">{% trans "No, don't delete" %}</a>
+            </form>
+
+        {% elif count_all_submissions %}
+
+            <p class="help-block help-warning">
+                There are currently no submissions older than 7 days to delete.
+            </p>
+
+        {% else %}
+
+            <p class="help-block help-warning">
+                There are currently no submissions to delete.
+            </p>
+
+        {% endif %}
+    </div>
+{% endblock %}

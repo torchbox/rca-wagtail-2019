@@ -30,6 +30,11 @@ html {
             scroll-padding-top: 130px;
         }
     }
+
+    // Fix for Chrome - doesn't show form validate messages when this is set to smooth
+    &.no-scroll-behavoir {
+        scroll-behavior: auto;
+    }
 }
 
 body {
