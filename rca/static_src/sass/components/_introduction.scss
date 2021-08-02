@@ -6,6 +6,19 @@
         margin-bottom: ($gutter * 2);
     }
 
+    &--indented {
+        #{$root}__container {
+            margin-bottom: $gutter;
+            grid-column: 1 / span 2;
+
+            @include media-query(large) {
+                grid-column: 3 / span 2;
+                margin-bottom: ($gutter * 2);
+                margin-right: $gutter;
+            }
+        }
+    }
+
     &__text {
         margin-bottom: ($gutter * 2);
 
@@ -21,19 +34,10 @@
     .section__row & {
         @include font-size(s);
         margin-right: ($gutter * 1.5);
-    }
 
-    .app--landing-page &,
-    .app--school &,
-    .app--guide & {
-        #{$root}__container {
-            margin-bottom: $gutter;
-            grid-column: 1 / span 2;
-
+        &#{$root}--narrow {
             @include media-query(large) {
-                grid-column: 3 / span 2;
-                margin-bottom: ($gutter * 2);
-                margin-right: $gutter;
+                margin-right: 33%;
             }
         }
     }

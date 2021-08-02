@@ -9,6 +9,8 @@ DEV_APP_INSTANCE = "rca-development"
 LOCAL_MEDIA_FOLDER = "/vagrant/media"
 LOCAL_DATABASE_NAME = "rca"
 
+USE_PRODUCTION_BACKUP = True
+
 
 ############
 # Production
@@ -22,7 +24,22 @@ def pull_production_media(c):
 
 @task
 def pull_production_data(c):
-    pull_database_from_heroku(c, PRODUCTION_APP_INSTANCE)
+    if not USE_PRODUCTION_BACKUP:
+        prompt_msg = (
+            "This task is currently configured to pull the live "
+            "production database rather than a backup. Proceeding "
+            "may impact site availability. Can a backup be used "
+            "instead?\n"
+            'Please type the application name "{app_instance}" to '
+            "proceed:\n>>> ".format(app_instance=make_bold(PRODUCTION_APP_INSTANCE))
+        )
+        if input(prompt_msg) != PRODUCTION_APP_INSTANCE:
+            raise Exit("Aborted")
+
+    if USE_PRODUCTION_BACKUP:
+        pull_database_backup_from_heroku(c, PRODUCTION_APP_INSTANCE)
+    else:
+        pull_database_from_heroku(c, PRODUCTION_APP_INSTANCE)
 
 
 @task
@@ -144,6 +161,22 @@ def pull_database_from_heroku(c, app_instance):
         local("django-admin createsuperuser", pty=True)
 
 
+def pull_database_backup_from_heroku(c, app_instance):
+    check_if_logged_in_to_heroku(c)
+    local("heroku pg:backups:download --app {app}".format(app=app_instance))
+    # Need to check whether previous command has succeeded
+    # If an error similar to following is raised, the installed version of Postgres is
+    # older than the Heroku version.
+    # pg_restore: [archiver] unsupported version (1.14) in file header
+    local(
+        "pg_restore --clean --no-privileges --no-owner -d {local_database} latest.dump".format(
+            local_database=LOCAL_DATABASE_NAME
+        )
+    )
+    local("rm latest.dump")
+    print("Database backup restored")
+
+
 def open_heroku_shell(c, app_instance, shell_command="bash"):
     check_if_logged_in_to_heroku(c)
     local(
@@ -230,3 +263,10 @@ def push_media_to_s3_heroku(c, app_instance):
 
 def make_bold(msg):
     return "\033[1m{}\033[0m".format(msg)
+
+
+@task
+def run_tests(c):
+    return local(
+        "coverage erase && coverage run ./manage.py test --settings=rca.settings.test && coverage report"
+    )

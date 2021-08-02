@@ -1,0 +1,85 @@
+{% load wagtailcore_tags util_tags reading_time_tags %}
+
+<div class="key-details key-details--no-border">
+
+    <div class="key-details__header">
+        <h2 class="heading heading--five key-details__heading">Key details</h2>
+    </div>
+
+    {% if page.published_at %}
+    <div class="key-details__section key-details__section--dean">
+        <h3 class="body body--two key-details__sub-heading">Date</h3>
+        <ul class="key-details__list">
+            <li class="key-details__list-item">
+                {{ page.published_at|date:'j F Y' }}
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if page.author %}
+    <div class="key-details__section key-details__section--location">
+        <h3 class="body body--two key-details__sub-heading">Author</h3>
+        <ul class="key-details__list">
+            <li class="key-details__list-item">
+                {{ page.author }}
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if taxonomy_tags %}
+        <div class="key-details__section key-details__section--tags">
+            <h3 class="body body--two key-details__sub-heading">School, Centre or Area</h3>
+            <ul class="key-details__list">
+                {% for item in taxonomy_tags %}
+                    <li class="key-details__list-item">
+                    {% if item.link %}
+                        <a class="link link--tertiary" href="{{ item.link }}">{{ item.title }}</a>
+                    {% else %}
+                        {{ item.title }}
+                    {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <div class="key-details__section key-details__section--read-time">
+        <h3 class="body body--two key-details__sub-heading">Read time</h3>
+        <ul class="key-details__list">
+            <li class="key-details__list-item">
+                {% get_reading_time_minutes page 'body' as reading_time_minutes %}
+                {{ reading_time_minutes }}
+            </li>
+        </ul>
+    </div>
+
+    {% if page.download_assets_url %}
+        <div class="key-details__section key-details__section--press-pack">
+            <h3 class="body body--two key-details__sub-heading">{% firstof page.download_assets_heading 'Press pack' %}</h3>
+            <ul class="key-details__list">
+                <li class="key-details__list-item">
+                    <a href="{{ page.download_assets_url }}" class="link link--tertiary link--link link--external" target="_blank">
+                        <span class="link__label">{% firstof page.download_assets_link_title 'Download now' %}</span>
+                        <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+
+    {% if page.contact_email %}
+        <div class="key-details__section key-details__section--email">
+            <ul class="key-details__list">
+                <li class="key-details__list-item">
+                    <a class="key-details__link link link--secondary link--link" href="mailto:{{ page.contact_email }}">
+                        <span class="link__label">Email {{ page.contact_email }}</span>
+                        <svg width="8" height="12" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+
+</div>

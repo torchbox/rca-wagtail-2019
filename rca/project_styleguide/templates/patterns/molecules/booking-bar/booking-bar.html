@@ -2,7 +2,7 @@
     {% include "patterns/atoms/grid-lines/grid-lines.html" %}
     <div class="booking-bar__container grid">
         <div class="booking-bar__message">
-            {{ item.message }} {{ item.date|date:'d F Y' }}
+            {{ item.message }} {{ item.date|date:'j F Y' }}
         </div>
         {% if page.show_register_link or page.get_manual_bookings or page.manual_registration_url %}
             <div class="booking-bar__action">

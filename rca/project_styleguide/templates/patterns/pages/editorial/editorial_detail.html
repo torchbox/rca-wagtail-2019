@@ -1,0 +1,167 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% get_settings %}
+
+{% block body_class %}
+    app--editorial
+{% endblock %}
+
+{% block content %}
+    {% if hero_image %}
+        {% include "patterns/molecules/hero/hero.html" with modifier="medium" %}
+    {% endif %}
+
+    <div class="page {% if hero_image %}page--overlap{% else %}page--no-hero{% endif %}">
+
+        {% if hero_image %}
+            <div class="page__notch grid">
+                <div class="page__notch-block bg bg--dark"></div>
+            </div>
+        {% endif %}
+
+        <header class="page__header bg bg--dark">
+            <div class="title-area grid">
+                <div class="title-area__content">
+                    <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
+                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
+                    </nav>
+                    {% if page.title %}
+                        <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
+                    {% endif %}
+                </div>
+                {% if hero_image_credit or hero_image %}
+                    <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
+                        {% include 'patterns/atoms/image-info/image-info.html' with credit=hero_image_credit item=hero_image %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <section class="section bg bg--dark">
+
+                <div class="section__row {% if not page.introduction_image %}section__row--last{% endif %} grid">
+
+                    <div class="key-details key-details--small-secondary layout__start-one layout__span-two layout__@large-span-one {% if not page.introduction_image %}u-small-and-medium-bp-only{% endif %}">
+                        {% include "patterns/molecules/key-details/key-details--editorial.html" %}
+                    </div>
+
+                    {% if page.introduction or page.introduction_image %}
+                        <div class="intro-and-video intro-and-video--small-primary layout__start-one layout__span-two layout__@large-start-two  layout__@large-span-three">
+
+                            {% if page.introduction %}
+                                <div class="introduction introduction--narrow">
+                                    <div class="introduction__container">
+                                        <h2 class="section__heading heading heading--five">
+                                            {{ page.introduction|richtext }}
+                                        </h2>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {% if page.introduction_image %}
+                                <div class="project-overview__content layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                                    <div class="project-overview__media">
+                                        {% if page.introduction_image %}
+                                            {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.introduction_image caption=page.video_caption video=page.video modifier="small-bottom-margin image-video-block--no-padding" %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    {% endif %}
+
+                    <div class="share share--small-tertiary layout__start-one layout__span-two layout__@large-start-five layout__@large-span-one">
+                        {% include "patterns/molecules/share/share.html" %}
+                    </div>
+
+                </div>
+
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+
+            </section>
+
+        </header>
+
+        <div class="page__content">
+
+            <section class="section bg bg--light">
+
+                <div class="section__row section__row--first-small section__row--last grid">
+                    {% if not page.introduction_image %}
+                        <div class="layout__start-one layout__span-two layout__@large-span-one u-large-bp-only">
+                            {% include "patterns/molecules/key-details/key-details--editorial.html" %}
+                        </div>
+                    {% endif %}
+                    <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                        {% for block in page.body %}
+                            {% include_block block %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {% if page.more_information %}
+                    <div class="section__row">
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title=page.more_information_title modifier="accordion-block--no-top-margin" %}
+                    </div>
+                {% endif %}
+
+                {% if page.quote_carousel %}
+                    <div class="section__row section__row--first-extra-small">
+                        {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.quote_carousel modifier='carousel--square carousel--quotes' datatag='data-peek-carousel' %}
+                    </div>
+                {% endif %}
+
+                {% if page.gallery %}
+                    <div class="section__row">
+
+                        <header class="section__header grid">
+                            <h3 class="section__heading section__heading--secondary heading heading--four">
+                                Gallery
+                            </h3>
+                        </header>
+
+                        <div class="section__content">
+                            {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.gallery modifier='slideshow--author-info' %}
+                        </div>
+
+                    </div>
+                {% endif %}
+
+                {% if page.cta_block %}
+                    <div class="section__row">
+                            <div class="section__row section__row--last">
+                                {% for block in page.cta_block %}
+                                    {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value heading_size="small" %}
+                                {% endfor %}
+                            </div>
+                    </div>
+                {% endif %}
+
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--second-col"></div>
+                </div>
+
+            </section>
+
+            <section class="section bg bg--dark">
+
+                {% if related_pages.items %}
+                    <div class="section__row section__row--first section__row--last-large">
+                        {% include "patterns/organisms/index-module/index-module.html" with items=related_pages.items title=related_pages.title %}
+                    </div>
+                {% endif %}
+
+                {% if page.contact_model_image or page.contact_model_text or page.contact_model_email or page.contact_model_url or page.contact_model_form %}
+                    <div class="section__row section__row--first">
+                        {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image %}
+                    </div>
+                {% endif %}
+            </section>
+
+        </div>
+
+    </div>
+
+{% endblock %}

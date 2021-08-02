@@ -52,11 +52,11 @@
         }
 
         @include media-query(large) {
-            padding-top: ($gutter * 9.5);
+            padding-top: 182px;
             max-height: $sub-nav-height--large;
 
             .headroom--pinned.headroom--not-top & {
-                padding-top: ($gutter * 8);
+                padding-top: 157px;
             }
         }
 
@@ -174,7 +174,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: $gutter 0;
+        padding: $gutter 5px $gutter 0;
         color: $color--white;
 
         span {

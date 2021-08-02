@@ -75,6 +75,7 @@ def fetch_data(url, **params):
 
 def parse_items_to_list(data, type):
     items = []
+    detail = ""
     if not data:
         return []
     for item in data["items"]:
@@ -94,6 +95,8 @@ def parse_items_to_list(data, type):
                 item["meta"]["detail_url"]
                 + "?fields=_,first_published_at,social_image,intro"
             )
+        if not detail:
+            return []
         data = fetch_data(detail)
         if not data:
             return []

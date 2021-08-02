@@ -61,12 +61,17 @@ class DegreeLevel(models.Model):
 class Subject(models.Model):
     title = models.CharField(max_length=128)
     description = models.CharField(max_length=500)
+    slug = models.SlugField(blank=True)
 
     def __str__(self):
         return self.title
 
     def get_fake_slug(self):
         return slugify(self.title)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Subject, self).save(*args, **kwargs)
 
 
 def degree_level_serializer(*args, **kwargs):
@@ -649,6 +654,11 @@ class ProgrammePage(ContactFieldsMixin, BasePage):
             bits.append(str(self.degree_level))
         return " ".join(bits)
 
+    def get_school(self):
+        related = self.related_schools_and_research_pages.select_related("page").first()
+        if related:
+            return related.page
+
     def clean(self):
         super().clean()
         errors = defaultdict(list)
@@ -720,6 +730,9 @@ class ProgrammePage(ContactFieldsMixin, BasePage):
         # Global fields from ProgrammePageGlobalFieldsSettings
         programme_page_global_fields = ProgrammePageGlobalFieldsSettings.for_site(site)
         context["programme_page_global_fields"] = programme_page_global_fields
+
+        # School
+        context["programme_school"] = self.get_school()
 
         return context
 

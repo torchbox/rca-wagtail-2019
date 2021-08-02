@@ -10,11 +10,17 @@ from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.utils.urlpatterns import decorate_urlpatterns
 
+from rca.account_management.views import CustomLoginView
 from rca.utils.cache import get_default_cache_control_decorator
 from rca.wagtailapi.api import api_router
 
+WAGTAIL_FRONTEND_LOGIN_TEMPLATE = getattr(
+    settings, "WAGTAIL_FRONTEND_LOGIN_TEMPLATE", "wagtailcore/login.html"
+)
 # Private URLs are not meant to be cached.
 private_urlpatterns = [
+    path("admin/login/", CustomLoginView.as_view(), name="wagtailcore_login"),
+    path("admin/_util/login/", CustomLoginView.as_view(), name="wagtailcore_login"),
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents2/", include(wagtaildocs_urls)),
@@ -82,7 +88,7 @@ urlpatterns = (
     + [
         # Add Wagtail URLs at the end.
         # Wagtail cache-control is set on the page models's serve methods.
-        path("", include(wagtail_urls))
+        path("", include(wagtail_urls)),
     ]
 )
 

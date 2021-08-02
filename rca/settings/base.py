@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     # first - http://help.apm.scoutapp.com/#django.
     "scout_apm.django",
     "rca.documents",
+    "rca.editorial",
+    "rca.events",
     "rca.forms",
     "rca.home",
     "rca.images",
@@ -70,6 +72,7 @@ INSTALLED_APPS = [
     "rca.landingpages",
     "rca.people",
     "rca.enquire_to_study",
+    "rca.account_management",
     "birdbath",
     "django_countries",
     "wagtail.contrib.modeladmin",
@@ -652,6 +655,10 @@ WAGTAIL_SITE_NAME = "RCA Website"
 # Preserve Wagtail < 2.8 behaviour
 WAGTAILEMBEDS_RESPONSIVE_HTML = True
 
+WAGTAILEMBEDS_FINDERS = [
+    {"class": "rca.utils.embed_finders.CustomOEmbedFinder"},
+]
+
 
 # This is used by Wagtail's email notifications for constructing absolute
 # URLs. Please set to the domain that users will access the admin site.
@@ -765,10 +772,20 @@ QS_API_ENDPOINT = env.get("QS_API_ENDPOINT", None)
 QS_API_USERNAME = env.get("QS_API_USERNAME", None)
 QS_API_PASSWORD = env.get("QS_API_PASSWORD", None)
 
-
 # MAILCHIMP CREDENTIALS
 MAILCHIMP_API_KEY = env.get("MAILCHIMP_API_KEY", None)
 MAILCHIMP_LIST_ID = env.get("MAILCHIMP_LIST_ID", None)
 MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID = env.get(
     "MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID", None
+)
+
+PASSWORD_RESET_TIMEOUT_DAYS = 5
+
+WAGTAIL_USER_EDIT_FORM = "rca.users.forms.CustomUserEditForm"
+
+pixel_limit = env.get("WAGTAILIMAGES_MAX_IMAGE_PIXELS")
+WAGTAILIMAGES_MAX_IMAGE_PIXELS = int(pixel_limit) if pixel_limit else 10000000
+
+ALLOW_EDITORIAL_PAGE_GENERATION = (
+    env.get("ALLOW_EDITORIAL_PAGE_GENERATION", "false").lower() == "true"
 )

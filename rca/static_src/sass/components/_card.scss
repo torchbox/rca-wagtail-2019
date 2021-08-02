@@ -105,7 +105,8 @@
         }
     }
 
-    &--project {
+    &--project,
+    &--result {
         margin-bottom: ($gutter * 2);
 
         @include media-query(medium) {
@@ -152,6 +153,10 @@
         }
 
         #{$root}__year {
+            @include font-size(xxs);
+        }
+
+        #{$root}__location {
             @include font-size(xxs);
         }
     }
@@ -222,6 +227,7 @@
     &__container {
         display: flex;
         flex-direction: column;
+        font-family: $font--primary;
 
         &:hover,
         &:focus {
@@ -282,11 +288,16 @@
         @include font-size(s);
         margin-bottom: ($gutter / 2);
         line-height: $line-height-large;
+
+        #{$root}__link & {
+            font-family: $font--secondary;
+        }
     }
 
     &__heading-link {
         @include underline-hover-target();
         position: relative;
+        font-family: $font--secondary;
     }
 
     &__description {
@@ -456,8 +467,11 @@
         &:first-child {
             padding-top: $gutter;
 
-            @include media-query(large) {
+            @include media-query(medium) {
                 padding-top: 0;
+            }
+
+            @include media-query(large) {
                 padding-bottom: $gutter; // additional space for border
             }
         }
@@ -507,6 +521,18 @@
                     }
                 }
             }
+        }
+    }
+
+    .news--single-feature .news__sub-features & {
+        &:first-child {
+            @include media-query(large) {
+                padding-bottom: 0;
+            }
+        }
+
+        @include media-query(medium) {
+            grid-row: auto;
         }
     }
 
@@ -731,7 +757,8 @@
             }
         }
 
-        &#{$root}--project {
+        &#{$root}--project,
+        &#{$root}--result {
             #{$root}__content {
                 background-color: transparent;
             }
@@ -772,7 +799,8 @@
             }
         }
 
-        &#{$root}--project {
+        &#{$root}--project,
+        &#{$root}--result {
             #{$root}__content {
                 background-color: transparent;
             }

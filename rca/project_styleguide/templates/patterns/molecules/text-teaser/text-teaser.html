@@ -2,7 +2,7 @@
 <div class="text-teaser">
     <div class="text-teaser__container grid">
         {% if teaser.title %}
-            <h2 class="text-teaser__heading heading heading--two">{{ teaser.title }}</h2>
+            <h2 class="text-teaser__heading heading {% if heading_size == 'small' %}heading--three{% else %}heading--two{% endif %}">{{ teaser.title }}</h2>
         {% endif %}
         <div class="text-teaser__content">
             {% if teaser.description %}

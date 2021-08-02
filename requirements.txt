@@ -1,5 +1,5 @@
-Django==3.1.7
-wagtail==2.12.3
+Django==3.1.10
+wagtail==2.13.3
 # Pin treebeard to <4.5, see: https://github.com/wagtail/wagtail/issues/6820
 django-treebeard<4.5
 psycopg2==2.8.6
@@ -10,6 +10,7 @@ django-countries==7.0
 # Pin cryptography, see: https://github.com/docker/compose/issues/8105#issuecomment-777098885
 cryptography==3.3.2
 mailchimp-marketing==3.0.29
+freezegun==1.1.0
 
 # Production dependencies
 whitenoise[brotli]==5.2.0

@@ -145,6 +145,14 @@
                 margin-bottom: ($gutter * 6);
             }
         }
+
+        &--bottom-space-small {
+            margin-bottom: ($gutter * 1.5);
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 4);
+            }
+        }
     }
 
     &__heading {
@@ -493,6 +501,14 @@
             }
         }
 
+        &--first-extra-small {
+            padding-top: ($gutter / 4);
+
+            @include media-query(large) {
+                padding-top: ($gutter / 2);
+            }
+        }
+
         &--first-large {
             padding-top: ($gutter * 3.5);
 
@@ -514,6 +530,14 @@
 
             @include media-query(large) {
                 padding-bottom: ($gutter * 4);
+            }
+        }
+
+        &--last-extra-small {
+            padding-bottom: ($gutter * 1);
+
+            @include media-query(large) {
+                padding-bottom: ($gutter * 2);
             }
         }
 
@@ -646,8 +670,8 @@
         }
     }
 
-    // School page has black sections either side of stat block
-    &.section--school-stat-block {
+    // Black sections either side of stat block
+    &.section--both-dark {
         #{$root}__notch {
             &:last-child {
                 #{$root}__notch-fill {
@@ -655,6 +679,30 @@
 
                     &::before {
                         background-color: $color--black;
+                    }
+                }
+            }
+        }
+    }
+
+    &.section--light-to-dark {
+        #{$root}__notch {
+            &:last-child {
+                #{$root}__notch-fill {
+                    background-color: $color--black;
+
+                    &::before {
+                        background-color: $color--black;
+                    }
+                }
+            }
+
+            &:first-child {
+                #{$root}__notch-fill {
+                    background-color: $color--white;
+
+                    &::before {
+                        background-color: $color--white;
                     }
                 }
             }

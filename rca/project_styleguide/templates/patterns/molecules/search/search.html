@@ -1,6 +1,6 @@
 <form action="/search" method="get" role="search" class="search">
     <label class="search__label" for="{{ search_id }}">Search</label>
-    <input class="search__input input" id="{{ search_id }}" type="text" placeholder="Search…" name="q"{% if search_query %} value="{{ search_query }}{% endif %}" data-search-input>
+    <input class="search__input input" id="{{ search_id }}" type="text" placeholder="Search…" name="q" value="{% if search_query %}{{ search_query }}{% endif %}" data-search-input>
     <button class="search__button button" type="submit" aria-label="Search">
         <svg width="12px" height="8px" class="search__icon"><use xlink:href="#arrow"></use></svg>
     </button>

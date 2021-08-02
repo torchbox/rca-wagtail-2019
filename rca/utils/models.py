@@ -279,7 +279,6 @@ class CallToActionSnippet(models.Model):
                 ),
             ],
             max_num=1,
-            required=True,
         ),
         blank=True,
     )
@@ -688,6 +687,12 @@ class ContactFieldsMixin(models.Model):
         help_text="Maximum length of 250 characters",
         verbose_name="Contact text",
     )
+    contact_model_link_text = models.CharField(
+        max_length=120,
+        blank=True,
+        help_text="Optional text for the linked url, form or email",
+        verbose_name="Contact link text",
+    )
 
     class Meta:
         abstract = True
@@ -712,6 +717,7 @@ class ContactFieldsMixin(models.Model):
                 FieldPanel("contact_model_title"),
                 FieldPanel("contact_model_email"),
                 FieldPanel("contact_model_url"),
+                FieldPanel("contact_model_link_text"),
                 FieldPanel("contact_model_text"),
                 PageChooserPanel("contact_model_form"),
                 ImageChooserPanel("contact_model_image"),
@@ -719,3 +725,19 @@ class ContactFieldsMixin(models.Model):
             "Contact",
         )
     ]
+
+
+def get_listing_image(page):
+    """Global function to get a page listing image, should use the
+    listing_image if set, if not, check for a hero image
+
+    Args:
+        page: The page object
+
+    Returns:
+        rca.image.CustomImage / None: The image object
+    """
+    image = getattr(page, "listing_image")
+    if not image:
+        image = getattr(page, "hero_image")
+    return image
