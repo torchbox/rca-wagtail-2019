@@ -1,8 +1,8 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
-from django.utils.text import slugify
 from django.utils.safestring import mark_safe
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from phonenumber_field.modelfields import PhoneNumberField
@@ -18,7 +18,6 @@ from wagtail.admin.edit_handlers import (
 from wagtail.core.fields import RichTextField, StreamBlock, StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.core.fields import StreamBlock, StreamField
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
@@ -594,7 +593,6 @@ class InnovationLandingPage(LandingPage):
                 ],
                 heading="Contact information",
             ),
-            SnippetChooserPanel("tap_widget"),
         ]
         + TapMixin.panels
     )
@@ -841,7 +839,7 @@ class EELandingPage(ContactFieldsMixin, BasePage):
                 ImageChooserPanel("contact_model_image"),
             ],
             "Large Call To Action",
-        )
+        ),
     ]
 
     def get_context(self, request, *args, **kwargs):
