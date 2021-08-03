@@ -15,7 +15,6 @@ from wagtail.admin.edit_handlers import (
 from wagtail.core.fields import StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from rca.editorial.models import EditorialPage
 from rca.events.models import EventDetailPage
@@ -570,7 +569,6 @@ class InnovationLandingPage(LandingPage):
                 ],
                 heading="Contact information",
             ),
-            SnippetChooserPanel("tap_widget"),
         ]
         + TapMixin.panels
     )
@@ -599,51 +597,6 @@ class EnterpriseLandingPage(LandingPage):
         context = super().get_context(request, *args, **kwargs)
         if self.tap_widget:
             context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
-        return context
-
-
-class TapLandingPage(LandingPage):
-    template = "patterns/pages/landingpage/landing_page--tap.html"
-    tap_carousel = models.TextField(blank=True, verbose_name="Iframe Code")
-
-    class Meta:
-        verbose_name = "Landing Page - TAP"
-
-    content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
-        MultiFieldPanel(
-            [FieldPanel("introduction"), PageChooserPanel("about_page")],
-            heading=_("Introduction"),
-        ),
-        MultiFieldPanel([FieldPanel("tap_carousel")], heading="TAP Carousel"),
-        MultiFieldPanel(
-            [
-                FieldPanel("highlights_title"),
-                InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
-                PageChooserPanel("highlights_page_link"),
-                FieldPanel("highlights_page_link_title"),
-            ],
-            heading=_("Featured projects"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("related_pages_title"),
-                FieldPanel("related_pages_text"),
-                InlinePanel("related_pages_grid", max_num=8, label=_("Related Pages")),
-            ],
-            heading=_("Related pages grid"),
-        ),
-        InlinePanel("featured_image", label=_("Featured content"), max_num=1),
-        FieldPanel("legacy_news_and_event_tags"),
-        MultiFieldPanel(
-            [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
-            heading=_("Related page list"),
-        ),
-    ]
-
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
-        context["tap_carousel"] = mark_safe(self.tap_carousel)
         return context
 
 
@@ -862,4 +815,49 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         context["stories"] = self.get_stories()
         context["tabs"] = self.anchor_nav()
         context["custom_tab_heading"] = self.custom_anchor_heading_item()
+        return context
+
+
+class TapLandingPage(LandingPage):
+    template = "patterns/pages/landingpage/landing_page--tap.html"
+    tap_carousel = models.TextField(blank=True, verbose_name="Iframe Code")
+
+    class Meta:
+        verbose_name = "Landing Page - TAP"
+
+    content_panels = BasePage.content_panels + [
+        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+        MultiFieldPanel(
+            [FieldPanel("introduction"), PageChooserPanel("about_page")],
+            heading=_("Introduction"),
+        ),
+        MultiFieldPanel([FieldPanel("tap_carousel")], heading="TAP Carousel"),
+        MultiFieldPanel(
+            [
+                FieldPanel("highlights_title"),
+                InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
+                PageChooserPanel("highlights_page_link"),
+                FieldPanel("highlights_page_link_title"),
+            ],
+            heading=_("Featured projects"),
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("related_pages_title"),
+                FieldPanel("related_pages_text"),
+                InlinePanel("related_pages_grid", max_num=8, label=_("Related Pages")),
+            ],
+            heading=_("Related pages grid"),
+        ),
+        InlinePanel("featured_image", label=_("Featured content"), max_num=1),
+        FieldPanel("legacy_news_and_event_tags"),
+        MultiFieldPanel(
+            [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
+            heading=_("Related page list"),
+        ),
+    ]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["tap_carousel"] = mark_safe(self.tap_carousel)
         return context

@@ -728,6 +728,22 @@ class ContactFieldsMixin(models.Model):
     ]
 
 
+def get_listing_image(page):
+    """Global function to get a page listing image, should use the
+    listing_image if set, if not, check for a hero image
+
+    Args:
+        page: The page object
+
+    Returns:
+        rca.image.CustomImage / None: The image object
+    """
+    image = getattr(page, "listing_image")
+    if not image:
+        image = getattr(page, "hero_image")
+    return image
+
+
 class TapMixin(models.Model):
     tap_widget = models.ForeignKey(
         "utils.TapWidgetSnippet", on_delete=models.SET_NULL, null=True, blank=True,
@@ -767,19 +783,3 @@ class SitewideTapSetting(BaseSetting):
     )
 
     panels = [FieldPanel("show_carousels"), FieldPanel("show_widgets")]
-
-
-def get_listing_image(page):
-    """Global function to get a page listing image, should use the
-    listing_image if set, if not, check for a hero image
-
-    Args:
-        page: The page object
-
-    Returns:
-        rca.image.CustomImage / None: The image object
-    """
-    image = getattr(page, "listing_image")
-    if not image:
-        image = getattr(page, "hero_image")
-    return image
