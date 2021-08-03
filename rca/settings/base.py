@@ -803,3 +803,5 @@ if "CORS_ALLOWED_ORIGINS" in env:
 
 CORS_ALLOWED_ORIGIN_REGEXES = r"^/api/.*$"
 CORS_ALLOW_METHODS = ["GET", "OPTIONS"]
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
