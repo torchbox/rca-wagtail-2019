@@ -1,0 +1,53 @@
+.donate-form {
+    label {
+        .bg--dark & {
+            color: $color--white;
+        }
+    }
+
+    // Prevent side padding on parent
+    #bboxdonation_BBEmbeddedForm {
+        padding-left: 0;
+        padding-right: 0;
+
+        // Prevent side margin on form container
+        .BBFormFieldContainer {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        // Use RCA colours on selected states
+        .BBFormRadioLabelGivingLevelSelected {
+            background-color: $color--tertiary;
+            border-color: $color--tertiary;
+        }
+
+        // Use RCA style for main button
+        .BBFormSubmitbutton {
+            background-color: $color--tertiary;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        // Ditch rounded corners on inputs
+        .BBFormTextbox,
+        .BBFormSelectList,
+        .BBFormTextArea {
+            border-radius: 0;
+        }
+
+        // Remove side padding on headings
+        .BBFormSectionHeading {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .BBDFormSectionComments {
+            .BBFormFieldContainer,
+            .BBFormTextArea,
+            .BBFormFieldLabel {
+                margin-left: 0;
+            }
+        }
+    }
+}
