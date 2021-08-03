@@ -21,7 +21,6 @@ from rca.editorial import admin_forms
 from rca.editorial.utils import get_linked_taxonomy
 from rca.people.filter import SchoolCentreDirectorateFilter
 from rca.people.models import Directorate
-from rca.programmes.models import Subject
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
@@ -90,18 +89,6 @@ class EditorialPageDirectorate(models.Model):
         verbose_name="Directorates",
     )
     panels = [FieldPanel("directorate")]
-
-
-class EditorialPageSubjectPlacement(models.Model):
-    page = ParentalKey("EditorialPage", related_name="subjects")
-    subject = models.ForeignKey(
-        Subject,
-        on_delete=models.SET_NULL,
-        blank=False,
-        null=True,
-        related_name="editorial_pages",
-    )
-    panels = [FieldPanel("subject")]
 
 
 class EditorialPage(ContactFieldsMixin, BasePage):
@@ -222,7 +209,6 @@ class EditorialPage(ContactFieldsMixin, BasePage):
             ],
             heading="Related School, Research Centre or Area",
         ),
-        InlinePanel("subjects", label="Subject"),
         InlinePanel("editorial_types", label="Editorial Type"),
         InlinePanel("related_programmes", label="Programme Page"),
         FieldPanel("author"),
