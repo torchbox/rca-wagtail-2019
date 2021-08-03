@@ -6,23 +6,6 @@
     app--guide no-hero
 {% endblock %}
 
-{% block extra_js %}
-    <script>
-        window.bboxInit = function () {
-           bbox.showForm('{{ page.form_id }}');
-        };
-        (function () {
-           var e = document.createElement('script'); e.async = true;
-           e.src = 'https://bbox.blackbaudhosting.com/webforms/bbox-min.js';
-           console.log(e);
-           document.getElementsByTagName('head')[0].appendChild(e);
-        } ());
-    </script>
-    <!-- The below js to cancel styles is written in jquery so load this in --->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{% static 'donate/js/bb-forms.js' %}"></script>
-{% endblock extra_js %}
-
 {% block content %}
 
     <div class="page page--no-hero">
@@ -108,4 +91,62 @@
 
         </div>
     </div>
+{% endblock %}
+
+{% block extra_js %}
+
+    <script>
+        window.bboxInit = function () {
+        bbox.showForm('{{ page.form_id }}');
+        };
+        (function () {
+        var e = document.createElement('script'); e.async = true;
+        e.src = 'https://bbox.blackbaudhosting.com/webforms/bbox-min.js';
+        document.getElementsByTagName('head')[0].appendChild(e);
+        } ());
+    </script>
+    <!-- The below js to cancel styles is written in jquery so load this in --->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'donate/js/bb-forms.js' %}"></script>
+
+    <!-- Tracking code for donations -->
+    <script type = "text/javascript" >
+        BLACKBAUD.netcommunity.api.DonationConfirmation.add(function(data) {
+            if (data.TransTotal) {
+                var items = [];
+                var dataItem;
+
+                for (var i = 0; i < data.Items.length; i++) {
+
+                    dataItem = {};
+                    dataItem.item_id = data.Items[i].ID;
+                    dataItem.item_name = data.Items[i].Name;
+                    dataItem.item_brand = '',
+                    dataItem.item_category = 'Donation',
+                    dataItem.item_variant = '',
+                    dataItem.price = data.Items[i].Price;
+                    dataItem.quantity = data.Items[i].Quantity;
+
+                    items.push(dataItem);
+                }
+
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    "event": "purchase",
+                    "ecommerce": {
+                    "transaction_id": data.TransID,
+                    "affiliation": 'RCA Blackbaud',
+                    "value": data.TransTotal,
+                    "currency": 'GBP',
+                    "tax": '',
+                    "shipping": '',
+                    "items": items
+                    }
+                });
+
+            }
+        });
+    </script>
+
+
 {% endblock %}
