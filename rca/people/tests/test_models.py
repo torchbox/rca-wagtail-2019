@@ -1,11 +1,10 @@
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from django.test import TestCase
 from django.urls import reverse
 from wagtail.core.models import (
     Collection,
     GroupCollectionPermission,
     GroupPagePermission,
-    Permission,
 )
 from wagtail.tests.utils import WagtailPageTests, WagtailTestUtils
 from wagtail.tests.utils.form_data import inline_formset, rich_text
