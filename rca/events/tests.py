@@ -86,3 +86,56 @@ class EventDetailPageTests(WagtailPageTests):
             ],
             event1.get_series_events(),
         )
+
+
+class EventDetailPageDateTests(WagtailPageTests):
+    """
+    Tests for the return values of the event_date_short method
+    """
+
+    def setUp(self):
+        self.home_page = HomePage.objects.first()
+
+    def test_one_day_event(self):
+        one_day_event = EventDetailPageFactory(
+            parent=self.home_page,
+            start_date=date(2021, 1, 6),
+            end_date=date(2021, 1, 6),
+            series=EventSeriesFactory(),
+            event_type=EventTypeFactory(),
+        )
+        self.assertEqual(one_day_event.event_date_short, "6 January 2021")
+
+    def test_same_month_event(self):
+        same_month_event = EventDetailPageFactory(
+            parent=self.home_page,
+            start_date=date(2021, 1, 6),
+            end_date=date(2021, 1, 9),
+            series=EventSeriesFactory(),
+            event_type=EventTypeFactory(),
+        )
+        self.assertEqual(same_month_event.event_date_short, "6 - 9 January 2021")
+
+    def test_different_month_event(self):
+        different_month_event = EventDetailPageFactory(
+            parent=self.home_page,
+            start_date=date(2021, 1, 6),
+            end_date=date(2021, 2, 9),
+            series=EventSeriesFactory(),
+            event_type=EventTypeFactory(),
+        )
+        self.assertEqual(
+            different_month_event.event_date_short, "6 January - 9 February 2021"
+        )
+
+    def test_different_year_event(self):
+        different_year_event = EventDetailPageFactory(
+            parent=self.home_page,
+            start_date=date(2021, 12, 29),
+            end_date=date(2022, 1, 1),
+            series=EventSeriesFactory(),
+            event_type=EventTypeFactory(),
+        )
+        self.assertEqual(
+            different_year_event.event_date_short, "29 December 2021 - 1 January 2022"
+        )
