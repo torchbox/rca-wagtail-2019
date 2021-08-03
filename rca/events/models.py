@@ -2,6 +2,7 @@ import datetime
 import itertools
 
 from django.core.exceptions import ValidationError
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.db.models.fields import SlugField
 from django.utils.text import slugify
@@ -26,14 +27,132 @@ from rca.utils.models import (
 )
 
 from .blocks import CallToAction, EventDetailPageBlock, PartnersBlock
-from .forms import EventPageAdminForm
+from .forms import EventIndexPageAdminForm, EventPageAdminForm
 
 
-class EventIndexPage(BasePage):
+class EventIndexPageRelatedEditorialPage(Orderable):
+    page = models.ForeignKey(
+        "events.EventDetailPage",
+        null=True,
+        blank=False,
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
+    source_page = ParentalKey("EventIndexPage", related_name="related_event_pages")
+    panels = [PageChooserPanel("page")]
+
+
+class EventIndexPage(ContactFieldsMixin, BasePage):
+    base_form_class = EventIndexPageAdminForm
     subpage_types = ["EventDetailPage"]
-    template = "patterns/pages/events/event_index_page.html"
+    template = "patterns/pages/events/event_listing.html"
 
-    # TODO: add fields to this placeholder model (needed as event detail parent)
+    class Meta:
+        verbose_name = "Event Listing Page"
+
+    introduction = models.CharField(max_length=200, blank=True)
+
+    content_panels = BasePage.content_panels + [
+        FieldPanel("introduction"),
+        MultiFieldPanel(
+            [InlinePanel("related_event_pages", max_num=6, label="Event Pages")],
+            heading="Editors picks",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("contact_model_title"),
+                FieldPanel("contact_model_email"),
+                FieldPanel("contact_model_url"),
+                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_link_text"),
+                FieldPanel("contact_model_text"),
+                ImageChooserPanel("contact_model_image"),
+            ],
+            "Large Call To Action",
+        ),
+    ]
+
+    def get_editor_picks(self):
+        related_pages = []
+        pages = (
+            self.related_event_pages.all()
+            .prefetch_related("page__hero_image", "page__listing_image")
+            .filter(page__live=True)
+        )
+        for value in pages:
+            page = value.page
+            if page:
+                meta = page.event_type
+                if page.location:
+                    description = f"{page.event_date_short}, {page.location}"
+                else:
+                    description = f"{page.event_date_short}"
+
+                related_pages.append(
+                    {
+                        "title": page.title,
+                        "link": page.url,
+                        "image": page.listing_image or page.hero_image,
+                        "description": description,
+                        "meta": meta,
+                    }
+                )
+        return related_pages
+
+    def get_base_queryset(self):
+        return EventDetailPage.objects.child_of(self).live().order_by("-start_date")
+
+    def modify_results(self, paginator_page, request):
+        for obj in paginator_page.object_list:
+            if obj.location:
+                date = f"{obj.event_date_short}, {obj.location}"
+            else:
+                date = f"{obj.event_date_short}"
+
+            obj.link = obj.get_url(request)
+            obj.image = obj.listing_image or obj.hero_image
+            obj.short_date = date
+            obj.title = obj.listing_title or obj.title
+            if obj.event_type:
+                obj.type = obj.event_type
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["featured_editorial"] = self.get_editor_picks()
+        context["show_picks"] = True
+
+        base_queryset = self.get_base_queryset()
+        queryset = base_queryset.all()
+
+        # Paginate filtered queryset
+        per_page = 12
+
+        page_number = request.GET.get("page")
+        paginator = Paginator(queryset, per_page)
+        try:
+            results = paginator.page(page_number)
+        except PageNotAnInteger:
+            results = paginator.page(1)
+        except EmptyPage:
+            results = paginator.page(paginator.num_pages)
+
+        # Set additional attributes etc
+        self.modify_results(results, request)
+
+        # Finalise and return context
+        context.update(
+            filters={
+                "title": "Filter by",
+                "aria_label": "Filter results",
+                "items": [],  # TODO
+            },
+            results=results,
+            result_count=paginator.count,
+        )
+
+        context["show_picks"] = True
+
+        return context
 
 
 class EventTaxonomyBase(models.Model):
@@ -247,6 +366,50 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         if self.start_date == self.end_date:
             return f"{self.end_date:%-d %B %Y}"
         return f"{self.start_date:%-d %B} \u2013 {self.end_date:%-d %B %Y}"
+
+    @property
+    def event_date_short(self):
+        """Method to return a specific date format
+        1) When a single date:
+            E.G. 13 May 2021
+            E.G. 9 May 2021
+            (NB - no ordinals, no '0' before single digit dates).
+
+        2) When a span within a month:
+            E.G. 13–15 May 2021
+            (NB closed en-dash for date range)
+
+        3) When a span across multiple months:
+            E.G.13 May – 15 June 2021
+            (NB spaced en-dash)
+
+        4) When a span across multiple years:
+            E.G. 13 December 2021 – 13 January 2022.
+        """
+        start_date_month = self.start_date.strftime("%B")
+        start_date_year = self.start_date.strftime("%Y")
+        end_date_month = self.end_date.strftime("%B")
+        end_date_year = self.end_date.strftime("%Y")
+
+        start_date = self.start_date.strftime("%-d %B %Y")
+        end_date = self.end_date.strftime("%-d %B %Y")
+
+        if start_date == end_date:
+            # 1 Single day
+            # E.G 20 July 2021
+            return start_date
+        elif end_date_year != start_date_year:
+            # 4 When a span across multiple years:
+            # E.G. 13 December 2021 – 13 January 2022.
+            return f"{str(self.start_date.strftime('%-d %B %Y'))} - {str(self.end_date.strftime('%-d %B %Y'))}"
+        elif start_date_month == end_date_month:
+            # 2 Same month, different days
+            # E.G 20 - 22nd July 2021
+            return f"{str(self.start_date.strftime('%-d'))} - {str(self.end_date.strftime('%-d %B %Y'))}"
+        else:
+            # 3 Multiple month span
+            # E.G 20th June - 22nd July 2021
+            return f"{str(self.start_date.strftime('%-d %B'))} - {str(self.end_date.strftime('%-d %B %Y'))}"
 
     @property
     def past(self):
