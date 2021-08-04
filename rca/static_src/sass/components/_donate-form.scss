@@ -71,6 +71,7 @@
             @include media-query(large) {
                 width: var(--grid-width);
                 margin-left: 0;
+                text-align: right;
             }
         }
 
