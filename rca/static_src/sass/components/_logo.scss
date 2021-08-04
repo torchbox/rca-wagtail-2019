@@ -78,14 +78,6 @@
         }
     }
 
-    // don't resize logo when not at the top
-    .headroom--not-top .header &,
-    .headroom--not-top .app__navigation & {
-        #{$root}__image {
-            width: auto;
-        }
-    }
-
     // Styles to prevent flicker from pinned to normal mode
     .headroom--unpinned & {
         @include media-query(large) {
@@ -108,10 +100,11 @@
     .headroom--not-top .header &,
     .headroom--not-top .app__navigation & {
         position: static;
-        width: auto;
+        width: auto; // don't resize logo when not at the top
         padding-bottom: 0;
 
         #{$root}__image {
+            width: auto;
             transform: scale(0.57);
         }
 
