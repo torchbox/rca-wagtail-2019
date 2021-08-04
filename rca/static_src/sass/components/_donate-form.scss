@@ -16,6 +16,13 @@
             margin-right: 0;
         }
 
+        .BBFormSection {
+            max-width: 100%;
+            margin-right: 0;
+            margin-left: 0;
+            margin-bottom: ($gutter * 2);
+        }
+
         // Use RCA colours on selected states
         .BBFormRadioLabelGivingLevelSelected {
             background-color: $color--tertiary;
@@ -36,18 +43,81 @@
             border-radius: 0;
         }
 
-        // Remove side padding on headings
         .BBFormSectionHeading {
+            @include font-size(l);
             padding-left: 0;
             padding-right: 0;
+            border-bottom: 0;
         }
 
+        // Comments
         .BBDFormSectionComments {
             .BBFormFieldContainer,
             .BBFormTextArea,
             .BBFormFieldLabel {
                 margin-left: 0;
             }
+
+            .BBFormFieldLabel {
+                @include media-query(large) {
+                    text-align: right;
+                }
+            }
+        }
+
+        .BBFormFieldLabel {
+            width: 100%;
+
+            @include media-query(large) {
+                width: var(--grid-width);
+                margin-left: 0;
+            }
+        }
+
+        // Labels that are hidden visually
+        .BBAccessibilityOnly {
+            width: 0;
+        }
+
+        .BBFormFieldContainerRequired label::after {
+            @include font-size(xxs);
+            content: '*';
+            color: $color--tertiary;
+            font-weight: bold;
+            margin-left: 0.3em;
+            vertical-align: middle;
+        }
+
+        #bboxdonation_billing_fldAnonymous,
+        #bboxdonation_payment_divProcessedByBlackbaud {
+            @include media-query(large) {
+                margin-left: var(--grid-width);
+            }
+        }
+
+        // Positioning fix to ensure expiration dates are aligned to grid line
+        #bboxdonation_payment_cboMonth {
+            @include media-query(large) {
+                margin-left: 10px;
+            }
+        }
+
+        #bboxdonation_gift_rdlstGivingLevels {
+            margin-bottom: ($gutter * 2);
+        }
+
+        .BBLinkSecureInfo {
+            margin-left: 0;
+        }
+
+        .BBFormFieldUKGiftAidTermsLabel {
+            @include font-size(xxs);
+            line-height: 1.2;
+            font-style: normal;
+        }
+
+        .BBFieldSecurityCode {
+            clear: both;
         }
     }
 }
