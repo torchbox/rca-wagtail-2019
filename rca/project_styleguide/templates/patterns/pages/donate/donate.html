@@ -18,9 +18,6 @@
            document.getElementsByTagName('head')[0].appendChild(e);
         } ());
     </script>
-    <!-- The below js to cancel styles is written in jquery so load this in --->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{% static 'donate/js/bb-forms.js' %}"></script>
 {% endblock extra_js %}
 
 {% block content %}
@@ -78,7 +75,7 @@
             <section class="section bg bg--dark">
                 <div class="section__row section__row--last section__row--first grid">
                     <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                        <div id="bbox-root"></div>
+                        <div class="donate-form" id="bbox-root"></div>
                     </div>
                 </div>
             </section>
