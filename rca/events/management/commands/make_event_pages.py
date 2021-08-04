@@ -7,8 +7,18 @@ from django.core.management import BaseCommand
 from faker import Faker
 from wagtail.core.models import Page
 
-from rca.events.models import EventDetailPage, EventLocation, EventType
+from rca.events.models import (
+    EventDetailPage,
+    EventDetailPageRelatedDirectorate,
+    EventEligibility,
+    EventLocation,
+    EventSeries,
+    EventType,
+)
 from rca.images.models import CustomImage
+from rca.people.models import Directorate
+from rca.research.models import RelatedResearchCenterPage, ResearchCentrePage
+from rca.schools.models import RelatedSchoolPage, SchoolPage
 
 
 class Command(BaseCommand):
@@ -65,8 +75,27 @@ class Command(BaseCommand):
                 hero_image_id=CustomImage.objects.order_by("?").first().id,
                 event_type=EventType.objects.order_by("?").first(),
                 location=EventLocation.objects.order_by("?").first(),
+                eligibility=EventEligibility.objects.order_by("?").first(),
+                series=EventSeries.objects.order_by("?").first(),
             )
             fake_index_page.add_child(instance=fake_page)
+
+            # School, Centre or Area (directorate)
+            schools = RelatedSchoolPage(
+                source_page=fake_page, page=SchoolPage.objects.order_by("?").first()
+            )
+            fake_page.related_schools = [schools]
+            research_pages = RelatedResearchCenterPage(
+                source_page=fake_page,
+                page=ResearchCentrePage.objects.order_by("?").first(),
+            )
+            fake_page.related_research_centre_pages = [research_pages]
+
+            directorates = EventDetailPageRelatedDirectorate(
+                source_page=fake_page,
+                directorate=Directorate.objects.order_by("?").first(),
+            )
+            fake_page.related_directorates = [directorates]
 
             fake_page.save_revision().publish()
             print("published:" + title)
