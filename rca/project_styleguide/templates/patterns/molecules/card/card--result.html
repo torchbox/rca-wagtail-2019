@@ -18,18 +18,19 @@
                         {{ item.title }}
                     {% if item.link %}</span>{% endif %}
                 </h3>
-                {% if item.date or item.start_date %}
+                {% if item.date or item.start_date or item.short_date %}
                     <div class="card__description">
                         <span class="card__year">
-                            {% if item.start_date %}
+                            {% if item.short_date %}
+                                {{ item.short_date }}
+                            {% elif item.start_date %}
                                 {{ item.start_date|date:'j F' }}
                                 {% if item.end_date %}– {{ item.end_date|date:'j F' }}{% endif %}{% if item.location %},{% endif %}
                             {% else %}
                                 {{ item.date|date:'j F Y' }}{% if item.location %},{% endif %}
                             {% endif %}
-
                         </span>
-                        {% if item.location %}<span class="card__location">{{ item.location }}</span>{% endif %}
+                        {% if item.location and not item.short_date %}<span class="card__location">{{ item.location }}</span>{% endif %}
                     </div>
                 {% endif %}
             </div>
