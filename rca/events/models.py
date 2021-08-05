@@ -1,5 +1,5 @@
 import datetime
-import itertools
+from urllib.parse import urlencode
 
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -20,6 +20,12 @@ from wagtail.core.models import Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
+from rca.events.utils import get_linked_taxonomy
+from rca.people.filter import SchoolCentreDirectorateFilter
+from rca.people.models import Directorate
+from rca.research.models import ResearchCentrePage
+from rca.schools.models import SchoolPage
+from rca.utils.filter import TabStyleFilter
 from rca.utils.models import (
     BasePage,
     ContactFieldsMixin,
@@ -116,17 +122,96 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
             if obj.event_type:
                 obj.type = obj.event_type
 
+    def get_active_filters(self, request):
+        return {
+            "type": request.GET.getlist("type"),
+            "series": request.GET.getlist("series"),
+            "location": request.GET.getlist("location"),
+            "eligibility": request.GET.getlist("eligibility"),
+            "school_or_centre": request.GET.getlist("school-centre-or-area"),
+        }
+
+    def get_extra_query_params(self, request, active_filters):
+        extra_query_params = []
+        for filter_name in active_filters:
+            for filter_id in active_filters[filter_name]:
+                extra_query_params.append(urlencode({filter_name: filter_id}))
+        return extra_query_params
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["featured_editorial"] = self.get_editor_picks()
-        context["show_picks"] = True
 
         base_queryset = self.get_base_queryset()
         queryset = base_queryset.all()
 
+        filters = (
+            SchoolCentreDirectorateFilter(
+                "School, Centre or Area",
+                school_queryset=SchoolPage.objects.live().filter(
+                    id__in=base_queryset.values_list(
+                        "related_schools__page_id", flat=True
+                    )
+                ),
+                centre_queryset=ResearchCentrePage.objects.live().filter(
+                    id__in=base_queryset.values_list(
+                        "related_research_centre_pages__page_id", flat=True
+                    )
+                ),
+                directorate_queryset=Directorate.objects.filter(
+                    id__in=base_queryset.values_list(
+                        "related_directorates__directorate_id", flat=True
+                    )
+                ),
+            ),
+            TabStyleFilter(
+                "Type",
+                queryset=(
+                    EventType.objects.filter(
+                        id__in=base_queryset.values_list("event_type_id", flat=True)
+                    )
+                ),
+                filter_by="event_type__slug__in",  # Filter by slug here
+                option_value_field="slug",
+            ),
+            TabStyleFilter(
+                "Location",
+                queryset=(
+                    EventLocation.objects.filter(
+                        id__in=base_queryset.values_list("location_id", flat=True)
+                    )
+                ),
+                filter_by="location__slug__in",  # Filter by slug here
+                option_value_field="slug",
+            ),
+            TabStyleFilter(
+                "Who can attend",
+                queryset=(
+                    EventEligibility.objects.filter(
+                        id__in=base_queryset.values_list("eligibility_id", flat=True)
+                    )
+                ),
+                filter_by="eligibility__slug__in",  # Filter by slug here
+                option_value_field="slug",
+            ),
+            TabStyleFilter(
+                "Series",
+                queryset=(
+                    EventSeries.objects.filter(
+                        id__in=base_queryset.values_list("series_id", flat=True)
+                    )
+                ),
+                filter_by="series__slug__in",  # Filter by slug here
+                option_value_field="slug",
+            ),
+        )
+
+        # Apply filters
+        for f in filters:
+            queryset = f.apply(queryset, request.GET)
+
         # Paginate filtered queryset
         per_page = 12
-
         page_number = request.GET.get("page")
         paginator = Paginator(queryset, per_page)
         try:
@@ -144,13 +229,18 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
             filters={
                 "title": "Filter by",
                 "aria_label": "Filter results",
-                "items": [],  # TODO
+                "items": filters,
             },
             results=results,
             result_count=paginator.count,
         )
 
         context["show_picks"] = True
+        extra_query_params = self.get_extra_query_params(
+            request, self.get_active_filters(request)
+        )
+        if extra_query_params or (page_number and page_number != "1"):
+            context["show_picks"] = False
 
         return context
 
@@ -189,7 +279,7 @@ class EventType(EventTaxonomyBase):
     pass
 
 
-class EventSeries(models.Model):
+class EventSeries(EventTaxonomyBase):
     title = models.CharField(max_length=128)
     introduction = models.TextField()
 
@@ -205,33 +295,13 @@ class EventDetailPageSpeaker(RelatedStaffPageWithManualOptions):
 
 
 class EventDetailPageRelatedDirectorate(Orderable):
-    source_page = ParentalKey("events.EventDetailPage", related_name="directorates")
+    source_page = ParentalKey(
+        "events.EventDetailPage", related_name="related_directorates"
+    )
     directorate = models.ForeignKey(
         "people.Directorate", on_delete=models.CASCADE, related_name="+",
     )
     panels = [FieldPanel("directorate")]
-
-    class Meta:
-        ordering = ["sort_order"]
-
-
-class EventDetailPageRelatedResearchCentre(Orderable):
-    source_page = ParentalKey("events.EventDetailPage", related_name="research_centres")
-    research_centre = models.ForeignKey(
-        "research.ResearchCentrePage", on_delete=models.CASCADE, related_name="+",
-    )
-    panels = [PageChooserPanel("research_centre")]
-
-    class Meta:
-        ordering = ["sort_order"]
-
-
-class EventDetailPageRelatedSchool(Orderable):
-    source_page = ParentalKey("events.EventDetailPage", related_name="schools")
-    school = models.ForeignKey(
-        "schools.SchoolPage", on_delete=models.CASCADE, related_name="+",
-    )
-    panels = [PageChooserPanel("school")]
 
     class Meta:
         ordering = ["sort_order"]
@@ -326,11 +396,15 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             [FieldPanel("event_type"), FieldPanel("series"), FieldPanel("eligibility")],
             heading="Event Taxonomy",
         ),
-        InlinePanel("directorates", heading="Directorates", label="Directorate"),
         InlinePanel(
-            "research_centres", heading="Research Centres", label="Research Centre"
+            "related_directorates", heading="Directorates", label="Directorate"
         ),
-        InlinePanel("schools", heading="Schools", label="School"),
+        InlinePanel(
+            "related_research_centre_pages",
+            heading="Research Centres",
+            label="Research Centre",
+        ),
+        InlinePanel("related_schools", heading="Schools", label="School"),
         FieldPanel("introduction"),
         StreamFieldPanel("body"),
         MultiFieldPanel(
@@ -465,30 +539,6 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
 
         return events
 
-    def get_taxonomy_tags(self):
-        directorates = [
-            {"title": d.directorate.title, "href": "#"}  # TODO: href on separate ticket
-            for d in self.directorates.select_related("directorate")
-        ]
-        schools = [
-            {"title": p.school.title, "href": "#"}  # TODO: href on separate ticket
-            for p in self.schools.all().select_related("school")
-            if p.school.live  # inefficient hack because modelcluster doesn't support filter lookup
-        ]
-        research_centres = [
-            {
-                "title": p.research_centre.title,
-                "href": "#",  # TODO: href on separate ticket
-            }
-            for p in self.research_centres.all().select_related("research_centre")
-            if p.research_centre.live  # inefficient hack because modelcluster doesn't support filter lookup
-        ]
-
-        return sorted(
-            itertools.chain(directorates, research_centres, schools),
-            key=lambda o: o["title"],
-        )
-
     def get_booking_bar(self):
         return {
             "action": self.manual_registration_url_link_text,
@@ -509,6 +559,6 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             hero_image=self.hero_image,
             series_events=self.get_series_events() if self.series else [],
             speakers=self.speakers.all,
-            taxonomy_tags=self.get_taxonomy_tags(),
+            taxonomy_tags=get_linked_taxonomy(self, request),
         )
         return context

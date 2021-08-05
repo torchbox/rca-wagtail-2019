@@ -8,6 +8,7 @@ context:
     add_to_calendar: true
     price: false
     series:
+      title: Talks
       items:
         - {
             title: 'Innovation RCA',
@@ -29,6 +30,7 @@ context:
     - item:
       title: School of Design
       href: '#'
+  series_event: True
 
 tags:
   pageurl:
