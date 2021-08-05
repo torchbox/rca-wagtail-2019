@@ -1,12 +1,12 @@
 context:
   page:
-    title: AlumniRCA
+    title: GenerationRCA
     get_ancestors:
       - is_root: false
         title: Home
-    introduction: 'A distinguished community of practising artists and designers'
+    introduction: 'Secure the future of the RCA: a vision rooted in our historic identity'
     introduction_image: true
-    location: '<p>Development & Alumni Relations Office<br>Kensington Gore<br>London<br>SW7 2EU</p>'
+    location: '<p>Development & Alumni Relations Office<br>Kensington Gore<br>London<br>SW7 2EU.</p>'
     social_links:
       - link:
         value:
@@ -24,67 +24,53 @@ context:
         value:
           title: Instagram
           href: http://www.facebook.com
-    contact_email: alumni@rca.ac.uk
+    contact_email: development@rca.ac.uk
+    contact_tel: (0)20 7590 4112
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     video_caption: What it’s like to be an RCA Alumni
     body: With more than 20,000 RCA alumni all over the world, our graduates form a unique international network of artists, designers, creators and innovators. Each year, alumni continue to participate in College life through the alumni relations programme, which offers a range of events, communications and exclusive benefits.
-    latest_title: Latest
-    get_involved_title: Get involved
-    get_involved_intro: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo.
-    contact: true
-    contact_image: true
-    collaborators_heading: Mentor & intern providers
-    collaborators:
+    how_you_can_help_title: How you can help
+    how_you_can_help_intro: Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+    how_you_can_help:
       - slide:
-        value:
-          link:
-            title: 'Red bull'
-          image: true
+        title: 'Make a Donation'
+        description: 'By supporting GenerationRCA, your generosity will open a new chapter for the Royal College of Art. You will enable the College to move into an exciting and vital new era.'
+        image: true
+        link: '#'
+        meta: Support
       - slide:
-        value:
-          link:
-            title: 'Red bull 2'
-            url: '#'
-          image: true
+        title: 'Lorem ipsum dolor sit'
+        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+        image: true
+        link: '#'
+        meta: Support
       - slide:
-        value:
-          link:
-            title: 'Red bull 3'
-            url: '#'
-          image: true
-      - slide:
-        value:
-          link:
-            title: 'Red bull 4'
-            url: '#'
-          image: true
-    external_links_heading: Also of interest
-    external_links:
-      - item:
-        value: { text: '"A" magazine', href: '/alumni/a-magazine' }
-      - item:
-        value: { text: 'Update your details ', href: '/alumni/update-details' }
-      - item:
-        value: { text: 'Alumni news', href: '/alumni/news' }
-      - item:
-        value: { text: 'Alumni events', href: '/alumni/events' }
-    latest_cta_block:
+        title: 'Lorem ipsum dolor sit'
+        description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+        image: true
+        link: '#'
+        meta: Support
+    how_you_can_help_cta_block:
       - block:
         value:
-          title: Tell us about your experience
+          title: Our world class facilities
           description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
-          action: Contact the Alumni team
+          action: Help us continue to offer these facilities
           link: '#'
-    legacy_news_and_events:
+    stories_title: Success stories
+    stories_intro: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo.
+    contact: true
+    contact_image: true
+    stories:
       - item:
-        meta: 'Event'
+        meta: 'News'
         title: 'Designs for Real Life'
-        description: '6 July 2019 — 4 August 2019'
+        description: '6 July 2019'
         link: '#'
-        image: //placekitten.com/878/472
+        image: //placekitten.com/556/425
         person: false
       - item:
-        meta: 'Event'
+        meta: 'Story'
         title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
         description: '23 November 2019'
         link: '#'
@@ -97,14 +83,21 @@ context:
         link: '#'
         image: //placekitten.com/251/142
         person: false
+    stories_cta_block:
+      - block:
+        value:
+          title: Our world class facilities
+          description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
+          action: Help us continue to offer these facilities
+          link: '#'
   news_view_all:
     title: See all alumni news
   page_teasers:
-    title: Alumni benefits
+    title: The story
     intro: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
     pages:
       - {
-          title: 'Exclusive events',
+          title: 'People',
           link: '#',
           meta: false,
           person: false,
@@ -112,7 +105,7 @@ context:
           image: true,
         }
       - {
-          title: 'Termly newsletter',
+          title: 'Places',
           link: '#',
           meta: false,
           person: false,
@@ -120,13 +113,20 @@ context:
           image: true,
         }
       - {
-          title: 'Alumni volunteering',
+          title: 'Projects',
           link: '#',
           meta: false,
           person: false,
           description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
           image: true,
         }
+    cta:
+      - block:
+        value:
+          title: Support GenerationRCA
+          description: Help the next generation of creatives and support our communities
+          action: Make a donation
+          link: '#'
   stats_block:
     title: false
     statistics:
@@ -148,42 +148,7 @@ context:
           after: '%'
           number: 33
           summary: of students who go on to work in practice'
-  student_stories:
-    slides:
-      - slide:
-        value:
-          meta: 'Student project'
-          title: 'RCA x CERN'
-          summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
-          link: '#'
-          person: false
-          image: True
-      - slide:
-        value:
-          meta: 'Research'
-          title: 'Burberry'
-          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
-          link: '#'
-          person: false
-          image: True
-      - slide:
-        value:
-          meta: 'Student project'
-          title: 'Designing the imposible for NASA'
-          summary: 'Creating world class experiences that started at the RCA'
-          link: '#'
-          person: false
-          image: True
-  instagram_feed:
-    handle: rca.architecture
-  get_involved:
-    cta:
-      - block:
-        value:
-          title: Make a donation
-          description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
-          action: Give to GenerationRCA
-          link: '#'
+  stories:
     slides:
       - slide:
         value:
@@ -215,13 +180,13 @@ context:
     photographer: Sekiro Yamananka
   tabs:
     - tab:
-      title: Alumni benefits
+      title: The story
     - tab:
-      title: Latest
+      title: How you can help
     - tab:
-      title: Get involved
+      title: Success stories
     - tab:
-      title: Stay connected
+      title: Contact
 
 tags:
   pageurl:
