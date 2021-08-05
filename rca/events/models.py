@@ -289,6 +289,8 @@ class EventSeries(EventTaxonomyBase):
     def __str__(self) -> str:
         return self.title
 
+    panels = [FieldPanel("title"), FieldPanel("introduction")]
+
 
 class EventDetailPageSpeaker(RelatedStaffPageWithManualOptions):
     source_page = ParentalKey("events.EventDetailPage", related_name="speakers")
