@@ -33,7 +33,7 @@ from .forms import EventIndexPageAdminForm, EventPageAdminForm
 class EventIndexPageRelatedEditorialPage(Orderable):
     page = models.ForeignKey(
         "events.EventDetailPage",
-        null=True,
+        null=False,
         blank=False,
         on_delete=models.CASCADE,
         related_name="+",
