@@ -224,6 +224,16 @@
         }
     }
 
+    &--carousel {
+        #{$root}__description {
+            margin-bottom: $gutter;
+
+            @include media-query(large) {
+                margin-bottom: 0;
+            }
+        }
+    }
+
     &__container {
         display: flex;
         flex-direction: column;
