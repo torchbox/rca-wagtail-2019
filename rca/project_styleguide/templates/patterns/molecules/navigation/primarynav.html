@@ -8,7 +8,7 @@
         {% include 'patterns/molecules/search/search.html' with search_id="searchMobile" %}
     </div>
 </div>
-<span class="header__inner header__inner--container">
+<div class="header__inner header__inner--inline header__inner--container">
     <div class="header__navigation-toggle">
         {% include 'patterns/molecules/menu-toggle/menu-toggle.html' with modifier="header__menu-toggle--medium" %}
         {% include 'patterns/molecules/search-toggle/search-toggle.html' %}
@@ -18,7 +18,7 @@
         </a>
     </div>
 
-    <span class="header__inner header__inner--menu-container">
+    <div class="header__inner header__inner--inline header__inner--menu-container">
 
         <!-- Level 1 -->
         <div class="header__inner header__inner--level-one" data-nav-level-1>
@@ -141,5 +141,5 @@
             {% endfor %}
         </div>
         {% include 'patterns/molecules/navigation/standoutnav.html' with modifier="nav--standout-mobile" %}
-    </span>
-</span>
+    </div>
+</div>
