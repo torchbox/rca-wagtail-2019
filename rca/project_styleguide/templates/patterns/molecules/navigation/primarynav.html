@@ -71,7 +71,7 @@
                 {% if link.secondary_links %}
                     <ul data-ul="2" data-menu-{{ forloop.counter }} class="nav nav--subnav" role="menu">
                         {% for item in link.secondary_links %}
-                            <li class="nav__item nav__item--secondary">
+                            <li class="nav__item nav__item--secondary" role="presentation">
 
                                 <!-- Level 2 <a> -->
                                 <a
@@ -117,9 +117,9 @@
             {% for link in primarynav %}
                     {% for item in link.secondary_links %}
                         {% if item.tertiary_links %}
-                            <ul data-ul="3" data-menu-{{ forloop.parentloop.counter }}-{{ forloop.counter }} class="nav nav--subnav">
+                            <ul data-ul="3" data-menu-{{ forloop.parentloop.counter }}-{{ forloop.counter }} class="nav nav--subnav" role="menu">
                                 {% for tertiary_item in item.tertiary_links %}
-                                    <li>
+                                    <li role="presentation">
                                         <!-- Level 3 <a> -->
                                         <a
                                             href="{{ tertiary_item.url }}"
