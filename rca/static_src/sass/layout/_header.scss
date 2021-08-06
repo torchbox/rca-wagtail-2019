@@ -231,6 +231,10 @@
             }
         }
 
+        &--inline {
+            display: inline; // used to be spans, now divs
+        }
+
         &--level-zero {
             position: relative;
 
