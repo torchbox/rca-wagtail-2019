@@ -1,3 +1,4 @@
+// sass-lint:disable-block class-name-format no-ids no-important
 .donate-form {
     label {
         .bg--dark & {
@@ -27,13 +28,81 @@
         .BBFormRadioLabelGivingLevelSelected {
             background-color: $color--tertiary;
             border-color: $color--tertiary;
+
+            .BBFormRadioDescriptionOther {
+                visibility: visible;
+                width: auto;
+                float: none;
+            }
+
+            .BBFormGiftOtherAmount {
+                display: inline;
+                font-size: 1em;
+                margin: 0;
+                width: auto;
+            }
+        }
+
+        .BBFormSummaryTotal {
+            padding: 0;
         }
 
         // Use RCA style for main button
         .BBFormSubmitbutton {
-            background-color: $color--tertiary;
+            @include font-size(s);
+            background-color: $color--black;
+            border-top: 4px solid $color--tertiary;
+            color: $color--white;
             border-radius: 0;
             box-shadow: none;
+            text-align: left;
+            padding: 10px 0 0;
+            width: 100%;
+            max-width: 300px;
+
+            @include media-query(large) {
+                padding: 20px 0 0;
+                border-top: 8px solid $color--tertiary;
+                width: calc(var(--grid-width) * 2); // Two columns
+                max-width: 100%;
+            }
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        .BBFormButtonRow {
+            .BBFormFieldContainer {
+                position: relative;
+                max-width: 300px;
+
+                @include media-query(large) {
+                    max-width: calc(var(--grid-width) * 2); // Two columns
+                    margin-left: var(--grid-width);
+                }
+
+                &::after {
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    display: block;
+                    content: url("data:image/svg+xml,%3Csvg width='15' height='14' viewBox='0 0 15 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.07224 13.7992L12.1132 3.75828L12.1132 8.84945L14.0931 8.84945V0.364171H5.60777L5.60777 2.34407L10.6989 2.34407L0.658024 12.385L2.07224 13.7992Z' fill='white'/%3E%3C/svg%3E%0A");
+                    width: 40px;
+                    height: 40px;
+                    background-color: $color--tertiary;
+                    padding-top: 13px;
+                    padding-left: 13px;
+
+                    @include media-query(large) {
+                        width: 80px;
+                        height: 80px;
+                        padding-top: 33px;
+                        padding-left: 28px;
+                        content: url("data:image/svg+xml,%3Csvg width='19' height='19' viewBox='0 0 19 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.42867 18.4283L15.8166 5.04038L15.8166 11.8286L18.4564 11.8286V0.514899H7.14272V3.15476H13.9309L0.543056 16.5427L2.42867 18.4283Z' fill='white'/%3E%3C/svg%3E%0A");
+                    }
+                }
+            }
         }
 
         // Ditch rounded corners on inputs
@@ -41,6 +110,10 @@
         .BBFormSelectList,
         .BBFormTextArea {
             border-radius: 0;
+
+            &:not(:focus) {
+                opacity: 1;
+            }
         }
 
         .BBFormSectionHeading {
@@ -59,6 +132,8 @@
             }
 
             .BBFormFieldLabel {
+                text-align: left;
+
                 @include media-query(large) {
                     text-align: right;
                 }
@@ -67,6 +142,7 @@
 
         .BBFormFieldLabel {
             width: 100%;
+            text-align: left;
 
             @include media-query(large) {
                 width: var(--grid-width);
@@ -109,6 +185,7 @@
 
         .BBLinkSecureInfo {
             margin-left: 0;
+            border-bottom: 0 !important;
         }
 
         .BBFormFieldUKGiftAidTermsLabel {
@@ -119,6 +196,22 @@
 
         .BBFieldSecurityCode {
             clear: both;
+        }
+
+        /* Other amount customisation */
+
+        .BBFormRadioLabelGivingLevelOther {
+            display: flex;
+            align-items: center;
+        }
+
+        .BBFormRadioDescriptionOther {
+            position: static;
+            margin-right: 5px;
+        }
+
+        .BBFormGiftOtherAmount {
+            max-height: 36px; // Stop this misaligning other fields
         }
     }
 }
