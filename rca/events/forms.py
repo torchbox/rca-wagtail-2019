@@ -1,7 +1,7 @@
 from wagtail.admin.forms import WagtailAdminPageForm
 
 
-class EventPageAdminForm(WagtailAdminPageForm):
+class EventAdminForm(WagtailAdminPageForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["contact_model_title"].label = "Title"
@@ -11,7 +11,3 @@ class EventPageAdminForm(WagtailAdminPageForm):
         self.fields["contact_model_image"].label = "Image"
         self.fields["contact_model_text"].label = "Text"
         self.fields["contact_model_link_text"].label = "Link text"
-
-
-class EventIndexPageAdminForm(EventPageAdminForm):
-    pass

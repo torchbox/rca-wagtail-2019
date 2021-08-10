@@ -27,7 +27,7 @@ from rca.utils.models import (
 )
 
 from .blocks import CallToAction, EventDetailPageBlock, PartnersBlock
-from .forms import EventIndexPageAdminForm, EventPageAdminForm
+from .forms import EventAdminForm
 
 
 class EventIndexPageRelatedEditorialPage(Orderable):
@@ -43,7 +43,7 @@ class EventIndexPageRelatedEditorialPage(Orderable):
 
 
 class EventIndexPage(ContactFieldsMixin, BasePage):
-    base_form_class = EventIndexPageAdminForm
+    base_form_class = EventAdminForm
     subpage_types = ["EventDetailPage"]
     template = "patterns/pages/events/event_listing.html"
 
@@ -238,7 +238,7 @@ class EventDetailPageRelatedSchool(Orderable):
 
 
 class EventDetailPage(ContactFieldsMixin, BasePage):
-    base_form_class = EventPageAdminForm
+    base_form_class = EventAdminForm
     parent_page_types = ["EventIndexPage"]
     subpage_types = []
     template = "patterns/pages/events/event_detail.html"
