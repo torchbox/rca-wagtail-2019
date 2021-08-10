@@ -250,5 +250,15 @@
         .BBFormClientErrorItem {
             color: $color--white;
         }
+
+        // Thanks screen
+        .bboxdonation_divThanks {
+            p {
+                @include font-size(m);
+                font-family: $font--secondary;
+                line-height: $line-height-large;
+                margin-bottom: ($gutter * 2);
+            }
+        }
     }
 }
