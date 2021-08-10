@@ -29,6 +29,7 @@ from rca.utils.filter import TabStyleFilter
 from rca.utils.models import (
     BasePage,
     ContactFieldsMixin,
+    RelatedPage,
     RelatedStaffPageWithManualOptions,
 )
 
@@ -309,6 +310,29 @@ class EventDetailPageRelatedDirectorate(Orderable):
         ordering = ["sort_order"]
 
 
+class EventDetailPageRelatedPages(RelatedPage):
+    source_page = ParentalKey("events.EventDetailPage", related_name="related_pages")
+
+    panels = [
+        PageChooserPanel(
+            "page",
+            [
+                "events.EventDetailPage",
+                "guides.GuidePage",
+                "programmes.ProgrammePage",
+                "schools.SchoolPage",
+                "research.ResearchCentrePage",
+                "shortcourses.ShortCoursePage",
+                "editorial.EditorialPage",
+                "landingpages.InnovationLandingPage",
+                "landingpages.EELandingPage",
+                "landingpages.ResearchLandingPage",
+                "landingpages.EnterpriseLandingPage",
+            ],
+        )
+    ]
+
+
 class EventDetailPage(ContactFieldsMixin, BasePage):
     base_form_class = EventAdminForm
     parent_page_types = ["EventIndexPage"]
@@ -418,6 +442,9 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             heading="Partners",
         ),
         StreamFieldPanel("call_to_action"),
+        InlinePanel(
+            "related_pages", label="Page", heading="Also of interest", max_num=6
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_title"),
@@ -436,6 +463,50 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         index.SearchField("introduction"),
         index.SearchField("body"),
     ]
+
+    def get_related_pages(self):
+        related_pages = {"title": "Also of interest", "items": []}
+        pages = self.related_pages.all()
+        for value in pages:
+            page = value.page.specific
+            if not page.live:
+                continue
+
+            meta = ""
+            if (
+                page.__class__.__name__ == "EditorialPage"
+                and page.editorial_types.first()
+            ):
+                meta = page.editorial_types.first().type
+            elif page.__class__.__name__ == "EventDetailPage":
+                meta = "Event"
+            elif page.__class__.__name__ == "GuidePage":
+                meta = "Guide"
+            elif page.__class__.__name__ == "ProgrammePage":
+                meta = "Programme"
+            elif page.__class__.__name__ == "ResearchCentrePage":
+                meta = "Research Centre"
+            elif page.__class__.__name__ == "SchoolPage":
+                meta = "School"
+            elif page.__class__.__name__ == "ShortCoursePage":
+                meta = "Short Course"
+
+            if hasattr(page, "hero_image") and page.hero_image:
+                hero_image = page.hero_image
+
+            if hasattr(page, "introduction"):
+                description = page.introduction
+
+            related_pages["items"].append(
+                {
+                    "title": page.listing_title or page.title,
+                    "link": page.url,
+                    "image": page.listing_image or hero_image,
+                    "description": page.listing_summary or description,
+                    "meta": meta,
+                }
+            )
+        return related_pages
 
     @property
     def event_date(self):
@@ -562,5 +633,6 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             series_events=self.get_series_events() if self.series else [],
             speakers=self.speakers.all,
             taxonomy_tags=get_linked_taxonomy(self, request),
+            related_pages=self.get_related_pages(),
         )
         return context
