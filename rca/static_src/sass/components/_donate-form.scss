@@ -1,4 +1,5 @@
 // sass-lint:disable-block class-name-format no-ids no-important
+// Skinning of Blackbaud form on the donation template
 .donate-form {
     label {
         .bg--dark & {
@@ -151,6 +152,13 @@
             }
         }
 
+        .BBFieldExpiration {
+            .BBFormFieldLabel {
+                margin-left: 0;
+                padding-right: 10px;
+            }
+        }
+
         // Labels that are hidden visually
         .BBAccessibilityOnly {
             width: 0;
@@ -196,6 +204,10 @@
 
         .BBFieldSecurityCode {
             clear: both;
+
+            .BBFormFieldLabel {
+                margin-left: 0;
+            }
         }
 
         /* Other amount customisation */
@@ -212,6 +224,31 @@
 
         .BBFormGiftOtherAmount {
             max-height: 36px; // Stop this misaligning other fields
+        }
+
+        // Validation
+        .BBFormErrorBlock {
+            background-color: transparent;
+            border-radius: 0;
+            border-color: $color--red;
+            padding-top: $gutter;
+
+            ul {
+                margin-top: $gutter;
+            }
+        }
+
+        .BBFormErrorItem {
+            @include font-size(s);
+            color: $color--white;
+        }
+
+        li.BBFormErrorItem {
+            @include font-size(xxs);
+        }
+
+        .BBFormClientErrorItem {
+            color: $color--white;
         }
     }
 }
