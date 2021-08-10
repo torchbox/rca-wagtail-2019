@@ -41,7 +41,10 @@ class StartDate(models.Model):
     )
     mailchimp_label = models.CharField(
         max_length=255,
-        help_text="This value needs to match the options specified in the 'Intended year of study' field within mailchimps sign-up form , E.G 2021/22",
+        help_text=(
+            "This value needs to match the options specified in the 'Intended year of study' "
+            "field within mailchimps sign-up form , E.G 2021/22"
+        ),
         blank=True,
         null=True,
     )
@@ -103,10 +106,6 @@ class EnquiryFormSubmission(ClusterableModel):
             heading="Country of residence & citizenship",
         ),
         MultiFieldPanel(
-            [InlinePanel("enquiry_submission_programme_types")],
-            heading="Programmes Types",
-        ),
-        MultiFieldPanel(
             [InlinePanel("enquiry_submission_programmes")], heading="Programmes"
         ),
         FieldPanel("start_date"),
@@ -118,20 +117,6 @@ class EnquiryFormSubmission(ClusterableModel):
             ],
             heading="Legal & newsletter",
         ),
-    ]
-
-
-class EnquiryFormSubmissionProgrammeTypesOrderable(Orderable):
-    enquiry_submission = ParentalKey(
-        "enquire_to_study.EnquiryFormSubmission",
-        related_name="enquiry_submission_programme_types",
-    )
-    programme_type = models.ForeignKey(
-        "programmes.ProgrammeType", on_delete=models.CASCADE,
-    )
-
-    panels = [
-        SnippetChooserPanel("programme_type"),
     ]
 
 

@@ -96,11 +96,6 @@ class ProgrammePageSubjectPlacement(models.Model):
 class ProgrammeType(WagtailOrdable):
     display_name = models.CharField(max_length=128)
     description = models.CharField(max_length=500, blank=True)
-    qs_code = models.CharField(
-        max_length=500,
-        help_text="This code needs to match the name of the LevelOfStudy code value in QS",
-        blank=True,
-    )
 
     def __str__(self):
         return self.display_name

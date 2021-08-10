@@ -8,11 +8,10 @@ from phonenumber_field.formfields import PhoneNumberField
 from rca.enquire_to_study.models import (
     EnquiryFormSubmission,
     EnquiryFormSubmissionProgrammesOrderable,
-    EnquiryFormSubmissionProgrammeTypesOrderable,
     EnquiryReason,
     StartDate,
 )
-from rca.programmes.models import ProgrammePage, ProgrammeType
+from rca.programmes.models import ProgrammePage
 
 
 class EnquireToStudyForm(forms.Form):
@@ -28,12 +27,6 @@ class EnquireToStudyForm(forms.Form):
     country_of_citizenship = CountryField().formfield()
 
     # Study details
-    programme_type = forms.ModelChoiceField(
-        queryset=ProgrammeType.objects.all().exclude(qs_code__exact=""),
-        widget=forms.RadioSelect,
-        empty_label=None,
-    )
-
     programmes = forms.ModelMultipleChoiceField(
         queryset=ProgrammePage.objects.filter(
             qs_code__isnull=False, live=True
@@ -71,7 +64,6 @@ class EnquireToStudyForm(forms.Form):
         self.fields[
             "country_of_citizenship"
         ].label = "Which country are you a citizen of?"
-        self.fields["programme_type"].label = "Type of programme you're interested in"
         self.fields["programmes"].label = "The programme(s) you're interested in"
         self.fields["start_date"].label = "When do you plan to start your degree?"
         self.fields["enquiry_reason"].label = "What's your enquiry about?"
@@ -117,14 +109,9 @@ class EnquireToStudyForm(forms.Form):
 
     def save(self):
         data = self.cleaned_data.copy()
-        programme_type = data.pop("programme_type")
         programmes = data.pop("programmes")
         data.pop("captcha")
         enquiry_submission = EnquiryFormSubmission.objects.create(**data)
-
-        EnquiryFormSubmissionProgrammeTypesOrderable.objects.create(
-            enquiry_submission=enquiry_submission, programme_type=programme_type
-        )
 
         for programme in programmes:
             EnquiryFormSubmissionProgrammesOrderable.objects.create(

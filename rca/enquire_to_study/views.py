@@ -140,7 +140,6 @@ class EnquireToStudyFormView(FormView):
                 },
                 "MMERGE8": form_data["country_of_residence"],
                 "MMERGE9": form_data["city"],
-                "MMERGE11": form_data["programme_type"].display_name,
                 "MMERGE10": form_data["enquiry_reason"].reason,
             },
             "interests": interests,
@@ -171,8 +170,7 @@ class EnquireToStudyFormView(FormView):
         ).json()
 
     def post_qs(self, form_data):
-        # Get data from QS student enquiry endpoint for matching up selected
-        # programmes and programme types
+        # Get data from QS student enquiry endpoint for matching up selected programmes
         qs_level_studies = self.get_qs_data(query="levelofstudies")
         qs_courses = self.get_qs_data(query="courses")
 
@@ -233,20 +231,6 @@ class EnquireToStudyFormView(FormView):
                 ),
                 None,
             )
-
-            programme_type = form_data["programme_type"]
-            level_of_study_code = next(
-                (
-                    level
-                    for level in qs_level_studies
-                    if level["code"] == programme_type.qs_code
-                ),
-                None,
-            )
-            if not level_of_study_code:
-                raise ValueError(
-                    f"{programme_type.display_name} not found in QS Level of study list"
-                )
 
             level_of_study_code = level_of_study_code["code"]
 
