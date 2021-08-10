@@ -39,9 +39,13 @@
             img {
                 display: none; // Hide Blackbaud logo, seems OTT
             }
+        }
 
-            .taLeft div {
-                margin: 0 !important;
+        #divCSCWhatsThis {
+            .taLeft {
+                div {
+                    margin: 0 !important;
+                }
             }
         }
     }

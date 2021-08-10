@@ -225,5 +225,30 @@
         .BBFormGiftOtherAmount {
             max-height: 36px; // Stop this misaligning other fields
         }
+
+        // Validation
+        .BBFormErrorBlock {
+            background-color: transparent;
+            border-radius: 0;
+            border-color: $color--red;
+            padding-top: $gutter;
+
+            ul {
+                margin-top: $gutter;
+            }
+        }
+
+        .BBFormErrorItem {
+            @include font-size(s);
+            color: $color--white;
+        }
+
+        li.BBFormErrorItem {
+            @include font-size(xxs);
+        }
+
+        .BBFormClientErrorItem {
+            color: $color--white;
+        }
     }
 }
