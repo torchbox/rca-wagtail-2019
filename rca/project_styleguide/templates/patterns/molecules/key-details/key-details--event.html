@@ -55,7 +55,7 @@
             <ul class="key-details__list">
                 {% for item in taxonomy_tags %}
                     <li class="key-details__list-item">
-                        <a class="link link--tertiary" href="{{ item.href }}">{{ item.title }}</a>
+                        <a class="link link--tertiary" href="{{ item.link }}">{{ item.title }}</a>
                     </li>
                 {% endfor %}
             </ul>
@@ -63,19 +63,19 @@
     {% endif %}
 
     {% if page.event_type %}
-    <div class="key-details__section key-details__section--location">
-        <h3 class="body body--two key-details__sub-heading">Type</h3>
-        <ul class="key-details__list">
-            <li class="key-details__list-item">
-                {{ page.event_type }}
-            </li>
-        </ul>
-    </div>
+        <div class="key-details__section key-details__section--location">
+            <h3 class="body body--two key-details__sub-heading">Type</h3>
+            <ul class="key-details__list">
+                <li class="key-details__list-item">
+                    {{ page.event_type }}
+                </li>
+            </ul>
+        </div>
     {% endif %}
 
     {% if series_events %}
         <div class="key-details__section key-details__section--tags">
-            <h3 class="body body--two key-details__sub-heading">Also in the {{ page.series }} series</h3>
+            <h3 class="body body--two key-details__sub-heading">Also in the {{ page.series.title }} series</h3>
             <ul class="key-details__list">
                 {% for item in series_events %}
                     <li class="key-details__list-item">
