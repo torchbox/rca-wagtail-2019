@@ -5,7 +5,11 @@ context:
       - is_root: false
         title: Home
     introduction: 'A distinguished community of practising artists and designers'
-    introduction_image: true
+    hero_image:
+      title: Synaputral Decadence is the flavour of the distant future
+      creator: Jianjin Lee Chen
+      photographer: Sekiro Yamananka
+    video_preview_image: true
     location: '<p>Development & Alumni Relations Office<br>Kensington Gore<br>London<br>SW7 2EU</p>'
     social_links:
       - link:
@@ -209,10 +213,6 @@ context:
           link: '#'
           person: false
           image: True
-  hero_image:
-    title: Synaputral Decadence is the flavour of the distant future
-    creator: Jianjin Lee Chen
-    photographer: Sekiro Yamananka
   tabs:
     - tab:
       title: Alumni benefits

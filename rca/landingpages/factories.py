@@ -3,6 +3,7 @@ import wagtail_factories
 from faker import Factory as FakerFactory
 
 from .models import (
+    AlumniLandingPage,
     EELandingPage,
     EnterpriseLandingPage,
     InnovationLandingPage,
@@ -54,5 +55,12 @@ class InnovationLandingPageFactory(wagtail_factories.PageFactory):
 class LandingPageFactory(wagtail_factories.PageFactory):
     class Meta:
         model = LandingPage
+
+    title = factory.Faker("text", max_nb_chars=25)
+
+
+class ALumniLandingPageFactory(wagtail_factories.PageFactory):
+    class Meta:
+        model = AlumniLandingPage
 
     title = factory.Faker("text", max_nb_chars=25)
