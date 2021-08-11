@@ -649,6 +649,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             bits.append(str(self.degree_level))
         return " ".join(bits)
 
+    @property
+    def introduction(self):
+        return self.programme_description_subtitle
+
     def get_admin_display_title(self):
         bits = [self.draft_title]
         if self.degree_level:
