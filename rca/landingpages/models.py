@@ -9,10 +9,12 @@ from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
+    ObjectList,
     PageChooserPanel,
     StreamFieldPanel,
+    TabbedInterface,
 )
-from wagtail.core.fields import StreamBlock, StreamField
+from wagtail.core.fields import RichTextField, StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
@@ -27,6 +29,7 @@ from rca.landingpages.utils import (
 from rca.projects.models import ProjectPage
 from rca.utils.blocks import (
     CallToActionBlock,
+    LinkBlock,
     RelatedPageListBlock,
     SlideBlock,
     StatisticBlock,
@@ -861,3 +864,56 @@ class TapLandingPage(LandingPage):
         context = super().get_context(request, *args, **kwargs)
         context["tap_carousel"] = mark_safe(self.tap_carousel)
         return context
+
+
+class AlumniLandingPage(LandingPage):
+    max_count = 1
+    template = "patterns/pages/alumni/alumni.html"
+    location = RichTextField(blank=True, features=(["bold", "italic"]))
+    social_links = StreamField(
+        StreamBlock([("Link", LinkBlock())], max_num=5), blank=True
+    )
+    contact_email = models.EmailField(blank=True, max_length=254)
+    body = RichTextField(blank=True)
+    video_caption = models.CharField(
+        blank=True,
+        max_length=80,
+        help_text=_("The text displayed next to the video play button"),
+    )
+    video = models.URLField(blank=True)
+    video_preview_image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+
+    content_panels = BasePage.content_panels + [
+        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+        FieldPanel("introduction"),
+        MultiFieldPanel(
+            [
+                FieldPanel("video"),
+                FieldPanel("video_caption"),
+                ImageChooserPanel("video_preview_image"),
+            ],
+            heading="Video",
+        ),
+        FieldPanel("body"),
+    ]
+    key_details_panels = [
+        FieldPanel("location"),
+        FieldPanel("contact_email"),
+        MultiFieldPanel(
+            [StreamFieldPanel("social_links")], heading="Social media profile links"
+        ),
+    ]
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading="Content"),
+            ObjectList(key_details_panels, heading="Key details"),
+            ObjectList(BasePage.promote_panels, heading="Promote"),
+            ObjectList(BasePage.settings_panels, heading="Settings"),
+        ]
+    )
