@@ -567,8 +567,8 @@
             @include media-query(medium) {
                 position: relative;
                 margin-left: 50%;
-                top: -($gutter * 8);
-                margin-bottom: -($gutter * 12);
+                top: -($gutter * 6);
+                margin-bottom: -($gutter * 10);
             }
 
             @include media-query(large) {
