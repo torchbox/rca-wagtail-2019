@@ -465,9 +465,10 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
     ]
 
     def get_editorial_type(self, page):
-        type = getattr(page, "editorial_types", None)
-        if type:
-            return type.first().type
+        if hasattr(page, "editorial_types"):
+            type = page.editorial_types.first()
+            if type:
+                return type.type
 
     def get_related_pages(self):
         related_pages = {"title": "Also of interest", "items": []}
