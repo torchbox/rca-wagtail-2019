@@ -464,6 +464,11 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         index.SearchField("body"),
     ]
 
+    def get_editorial_type(self, page):
+        type = getattr(page, "editorial_types", None)
+        if type:
+            return type.first().type
+
     def get_related_pages(self):
         related_pages = {"title": "Also of interest", "items": []}
         pages = self.related_pages.all()
@@ -471,34 +476,18 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             page = value.page.specific
             if not page.live:
                 continue
-
-            meta = ""
-            print(page.__class__.__name__)
-            if (
-                page.__class__.__name__ == "EditorialPage"
-                and page.editorial_types.first()
-            ):
-                meta = page.editorial_types.first().type
-            elif page.__class__.__name__ == "EventDetailPage":
-                meta = "Event"
-            elif page.__class__.__name__ == "GuidePage":
-                meta = "Guide"
-            elif page.__class__.__name__ == "ProgrammePage":
-                meta = "Programme"
-            elif page.__class__.__name__ == "ResearchCentrePage":
-                meta = "Research Centre"
-            elif page.__class__.__name__ == "SchoolPage":
-                meta = "School"
-            elif page.__class__.__name__ == "ShortCoursePage":
-                meta = "Short Course"
-
-            hero_image = False
-            if hasattr(page, "hero_image") and page.hero_image:
-                hero_image = page.hero_image
-
-            description = ""
-            if hasattr(page, "introduction"):
-                description = page.introduction
+            PAGE_META_MAPPING = {
+                "EditorialPage": self.get_editorial_type(page),
+                "EventDetailPage": "Event",
+                "GuidePage": "Guide",
+                "ProgrammePage": "Programme",
+                "ResearchCentrePage": "Research Centre",
+                "SchoolPage": "School",
+                "ShortCoursePage": "Short Course",
+            }
+            meta = PAGE_META_MAPPING.get(page.__class__.__name__, "")
+            hero_image = getattr(page, "hero_image", None)
+            description = getattr(page, "introduction", "")
 
             related_pages["items"].append(
                 {
