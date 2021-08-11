@@ -171,7 +171,6 @@ class EnquireToStudyFormView(FormView):
 
     def post_qs(self, form_data):
         # Get data from QS student enquiry endpoint for matching up selected programmes
-        qs_level_studies = self.get_qs_data(query="levelofstudies")
         qs_courses = self.get_qs_data(query="courses")
 
         data = {
@@ -206,7 +205,6 @@ class EnquireToStudyFormView(FormView):
             if v == form_data["country_of_residence"]:
                 data["CountryOfResidence"] = k
 
-        selected_level_of_study_list = []
         selected_course_list = []
         for programme in form_data["programmes"]:
             course_code = next(
@@ -223,21 +221,7 @@ class EnquireToStudyFormView(FormView):
 
             if course_code not in selected_course_list:
                 selected_course_list.append(course_code)
-            level_of_study_code = next(
-                (
-                    level
-                    for level in qs_level_studies
-                    if level["code"] == programme.programme_type.qs_code
-                ),
-                None,
-            )
 
-            level_of_study_code = level_of_study_code["code"]
-
-            if level_of_study_code not in selected_level_of_study_list:
-                selected_level_of_study_list.append(level_of_study_code)
-
-        data["LevelOfStudy"] = ",".join(selected_level_of_study_list)
         data["Course"] = ",".join(selected_course_list)
         response = requests.post(
             f"{settings.QS_API_ENDPOINT}/studentEnquiries",
