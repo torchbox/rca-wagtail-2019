@@ -28,6 +28,13 @@ context:
         value:
           title: Instagram
           href: http://www.facebook.com
+    cta_block:
+      - block:
+        value:
+          title: Make a donation
+          description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
+          action: Give to GenerationRCA
+          link: '#'
     contact_email: alumni@rca.ac.uk
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     video_caption: What it’s like to be an RCA Alumni
@@ -180,14 +187,6 @@ context:
           image: True
   instagram_feed:
     handle: rca.architecture
-  get_involved:
-    cta:
-      - block:
-        value:
-          title: Make a donation
-          description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
-          action: Give to GenerationRCA
-          link: '#'
     slides:
       - slide:
         value:
