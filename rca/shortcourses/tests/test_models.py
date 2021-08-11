@@ -7,10 +7,16 @@ from rca.home.models import HomePage
 from rca.programmes.models import ProgrammeType
 from rca.shortcourses.models import ShortCourseManualDate, ShortCoursePage
 
+from ..factories import ShortCoursePageFactory
 from .test_access_planit import mocked_fetch_data_from_xml
 
 APPLY_MESSAGE = "Bookings not yet open"
 APPLY_ACTION = "Register your interest for upcoming dates"
+
+
+class TestShortCoursePageFactories(TestCase):
+    def test_factories(self):
+        ShortCoursePageFactory()
 
 
 class TestBookingBarLogic(TestCase):

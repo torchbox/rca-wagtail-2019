@@ -1,16 +1,19 @@
+from django.test import TestCase
 from wagtail.images.tests.utils import get_test_image_file
 from wagtail.tests.utils import WagtailPageTests
 
 from rca.home.models import HomePage
 from rca.images.models import CustomImage
-from rca.programmes.factories import ProgrammePageFactory
+from rca.programmes.factories import DegreeLevelFactory, ProgrammePageFactory, ProgrammeTypeFactory
 from rca.programmes.models import ProgrammeIndexPage, ProgrammePage
 from rca.standardpages.models import IndexPage, InformationPage
 
 
-class TestProgrammePageFactories(WagtailPageTests):
+class TestProgrammePageFactories(TestCase):
     def test_factories(self):
         ProgrammePageFactory()
+        DegreeLevelFactory()
+        ProgrammeTypeFactory()
 
 
 class ProgrammePageTests(WagtailPageTests):

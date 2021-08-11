@@ -473,6 +473,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                 continue
 
             meta = ""
+            print(page.__class__.__name__)
             if (
                 page.__class__.__name__ == "EditorialPage"
                 and page.editorial_types.first()
@@ -491,9 +492,11 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             elif page.__class__.__name__ == "ShortCoursePage":
                 meta = "Short Course"
 
+            hero_image = False
             if hasattr(page, "hero_image") and page.hero_image:
                 hero_image = page.hero_image
 
+            description = ""
             if hasattr(page, "introduction"):
                 description = page.introduction
 

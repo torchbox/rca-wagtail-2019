@@ -1,13 +1,33 @@
 from datetime import date
 
+import wagtail_factories
+from django.test import TestCase
 from freezegun import freeze_time
 from wagtail.tests.utils import WagtailPageTests
 
+from rca.editorial.factories import EditorialPageFactory, EditorialTypeFactory
+from rca.editorial.models import EditorialPageTypePlacement
+from rca.guides.factories import GuidePageFactory
 from rca.home.models import HomePage
+from rca.landingpages.factories import (
+    EELandingPageFactory,
+    EnterpriseLandingPageFactory,
+    InnovationLandingPageFactory,
+    ResearchLandingPageFactory,
+)
+from rca.programmes.factories import ProgrammePageFactory
+from rca.research.factories import ResearchCentrePageFactory
+from rca.schools.factories import SchoolPageFactory
+from rca.shortcourses.factories import ShortCoursePageFactory
 from rca.standardpages.models import IndexPage, InformationPage
 
 from .factories import EventDetailPageFactory, EventSeriesFactory, EventTypeFactory
-from .models import EventDetailPage, EventIndexPage
+from .models import EventDetailPage, EventDetailPageRelatedPages, EventIndexPage
+
+
+class TestEventDetailPageFactories(TestCase):
+    def test_factories(self):
+        EventDetailPageFactory()
 
 
 class EventDetailPageTests(WagtailPageTests):
@@ -139,3 +159,111 @@ class EventDetailPageDateTests(WagtailPageTests):
         self.assertEqual(
             different_year_event.event_date_short, "29 December 2021 - 1 January 2022"
         )
+
+
+class EventDetailPageRelatedContentTests(WagtailPageTests):
+    """
+    Test the values returned from the EventDetailPage.get_related_pages method
+    """
+
+    def setUp(self):
+        self.editorial_type = EditorialTypeFactory()
+        self.editorial_page = EditorialPageFactory(
+            editorial_types=[EditorialPageTypePlacement(type=self.editorial_type)]
+        )
+        self.event_page = EventDetailPageFactory()
+        self.guide_page = GuidePageFactory()
+        self.programme_page = ProgrammePageFactory()
+        self.research_page = ResearchCentrePageFactory()
+        self.school_page = SchoolPageFactory(
+            introduction_image=wagtail_factories.ImageFactory()
+        )
+        self.short_course_page = ShortCoursePageFactory()
+        self.landing_page_research = ResearchLandingPageFactory()
+        self.landing_page_innovation = InnovationLandingPageFactory()
+        self.landing_page_ee = EELandingPageFactory()
+        self.landing_page_enterprise = EnterpriseLandingPageFactory()
+
+    def make_related_page(self, event_page, page):
+        return EventDetailPageRelatedPages(source_page=event_page, page=page)
+
+    def test_editorial_related_content_meta_value(self):
+        self.event_page.related_pages = [
+            self.make_related_page(self.event_page, self.editorial_page)
+        ]
+        self.assertEqual(
+            self.event_page.get_related_pages()["items"][0]["meta"], self.editorial_type
+        )
+
+    def test_event_related_content_meta_value(self):
+        self.event_page.related_pages = [
+            self.make_related_page(self.event_page, self.event_page)
+        ]
+        self.assertEqual(
+            self.event_page.get_related_pages()["items"][0]["meta"], "Event"
+        )
+
+    def test_guide_related_content_meta_value(self):
+        self.event_page.related_pages = [
+            self.make_related_page(self.event_page, self.guide_page)
+        ]
+        self.assertEqual(
+            self.event_page.get_related_pages()["items"][0]["meta"], "Guide"
+        )
+
+    def test_programme_related_content_meta_value(self):
+        self.event_page.related_pages = [
+            self.make_related_page(self.event_page, self.programme_page)
+        ]
+        self.assertEqual(
+            self.event_page.get_related_pages()["items"][0]["meta"], "Programme"
+        )
+
+    def test_research_related_content_meta_value(self):
+        self.event_page.related_pages = [
+            self.make_related_page(self.event_page, self.research_page)
+        ]
+        self.assertEqual(
+            self.event_page.get_related_pages()["items"][0]["meta"], "Research Centre"
+        )
+
+    def test_school_related_content_meta_value(self):
+        self.event_page.related_pages = [
+            self.make_related_page(self.event_page, self.school_page)
+        ]
+        self.assertEqual(
+            self.event_page.get_related_pages()["items"][0]["meta"], "School"
+        )
+
+    def test_short_course_related_content_meta_value(self):
+        self.event_page.related_pages = [
+            self.make_related_page(self.event_page, self.short_course_page)
+        ]
+        self.assertEqual(
+            self.event_page.get_related_pages()["items"][0]["meta"], "Short Course"
+        )
+
+    # The landing page models shouldn't have any meta value coming through
+    def test_research_landing_page_related_content_meta_value(self):
+        self.event_page.related_pages = [
+            self.make_related_page(self.event_page, self.landing_page_research)
+        ]
+        self.assertEqual(self.event_page.get_related_pages()["items"][0]["meta"], "")
+
+    def test_innovation_landing_page_related_content_meta_value(self):
+        self.event_page.related_pages = [
+            self.make_related_page(self.event_page, self.landing_page_innovation)
+        ]
+        self.assertEqual(self.event_page.get_related_pages()["items"][0]["meta"], "")
+
+    def test_ee_landing_page_related_content_meta_value(self):
+        self.event_page.related_pages = [
+            self.make_related_page(self.event_page, self.landing_page_ee)
+        ]
+        self.assertEqual(self.event_page.get_related_pages()["items"][0]["meta"], "")
+
+    def test_enterprise_landing_page_related_content_meta_value(self):
+        self.event_page.related_pages = [
+            self.make_related_page(self.event_page, self.landing_page_enterprise)
+        ]
+        self.assertEqual(self.event_page.get_related_pages()["items"][0]["meta"], "")
