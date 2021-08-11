@@ -625,7 +625,7 @@ class EELandingPageRelatedEventPage(RelatedPage):
 
 
 class EELandingPage(ContactFieldsMixin, BasePage):
-    base_form_class = admin_forms.EELandingPageAdminForm
+    base_form_class = admin_forms.LandingPageAdminForm
     template = "patterns/pages/editorial_event_landing/editorial_event_landing.html"
     max_count = 1
 
@@ -868,6 +868,7 @@ class TapLandingPage(LandingPage):
 
 class AlumniLandingPage(LandingPage):
     max_count = 1
+    base_form_class = admin_forms.LandingPageAdminForm
     template = "patterns/pages/alumni/alumni.html"
     location = RichTextField(blank=True, features=(["bold", "italic"]))
     social_links = StreamField(
@@ -901,6 +902,18 @@ class AlumniLandingPage(LandingPage):
             heading="Video",
         ),
         FieldPanel("body"),
+        MultiFieldPanel(
+            [
+                FieldPanel("contact_model_title"),
+                FieldPanel("contact_model_email"),
+                FieldPanel("contact_model_url"),
+                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_link_text"),
+                FieldPanel("contact_model_text"),
+                ImageChooserPanel("contact_model_image"),
+            ],
+            "Contact information",
+        ),
     ]
     key_details_panels = [
         FieldPanel("location"),
