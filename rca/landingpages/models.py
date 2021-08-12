@@ -930,9 +930,9 @@ class AlumniLandingPage(LandingPage):
         context["related_editorial_news"] = self.get_related_editorial_pages(
             self.related_editorial_pages
         )
-        context["student_stories"] = []
+        context["editorial_stories"] = []
         if self.related_editorial_pages_secondary.first():
-            context["student_stories"] = self._format_slideshow_pages(
+            context["editorial_stories"] = self._format_slideshow_pages(
                 self.related_editorial_pages_secondary.all()
             )
 
