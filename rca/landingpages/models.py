@@ -844,7 +844,7 @@ class AlumniLandingPage(LandingPage):
             Aim for logos that sit on either a white or transparent background.",
     )
     # "latest"' section
-    latest_intro = models.TextField(
+    latest_intro = models.CharField(
         max_length=250,
         blank=True,
         help_text=_("Optional short text summary for the 'Latest' section"),
