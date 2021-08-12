@@ -30,6 +30,7 @@ from rca.projects.models import ProjectPage
 from rca.utils.blocks import (
     CallToActionBlock,
     LinkBlock,
+    LinkedImageBlock,
     RelatedPageListBlock,
     SlideBlock,
     StatisticBlock,
@@ -889,6 +890,12 @@ class AlumniLandingPage(LandingPage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
+    collaborators = StreamField(
+        StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
+        blank=True,
+        help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
+            Aim for logos that sit on either a white or transparent background.",
+    )
 
     content_panels = BasePage.content_panels + [
         MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
@@ -902,6 +909,8 @@ class AlumniLandingPage(LandingPage):
             heading="Video",
         ),
         FieldPanel("body"),
+        StreamFieldPanel("collaborators"),
+        StreamFieldPanel("cta_block"),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_title"),
