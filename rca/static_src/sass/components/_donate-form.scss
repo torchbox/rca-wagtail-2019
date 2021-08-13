@@ -88,8 +88,7 @@
                     right: 0;
                     top: 0;
                     display: block;
-                    content: url("data:image/svg+xml,%3Csvg width='15' height='14' viewBox='0 0 15 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.07224 13.7992L12.1132 3.75828L12.1132 8.84945L14.0931 8.84945V0.364171H5.60777L5.60777 2.34407L10.6989 2.34407L0.658024 12.385L2.07224 13.7992Z' fill='white'/%3E%3C/svg%3E%0A");
-                    width: 40px;
+                    content: url("data:image/svg+xml,%3Csvg width='15' height='14' viewBox='0 0 15 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.07224 13.7992L12.1132 3.75828L12.1132 8.84945L14.0931 8.84945V0.364171H5.60777L5.60777 2.34407L10.6989 2.34407L0.658024 12.385L2.07224 13.7992Z' fill='white'/%3E%3C/svg%3E%0A"); // sass-lint:disable-line quotes
                     height: 40px;
                     background-color: $color--tertiary;
                     padding-top: 13px;
@@ -100,7 +99,7 @@
                         height: 80px;
                         padding-top: 33px;
                         padding-left: 28px;
-                        content: url("data:image/svg+xml,%3Csvg width='19' height='19' viewBox='0 0 19 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.42867 18.4283L15.8166 5.04038L15.8166 11.8286L18.4564 11.8286V0.514899H7.14272V3.15476H13.9309L0.543056 16.5427L2.42867 18.4283Z' fill='white'/%3E%3C/svg%3E%0A");
+                        content: url("data:image/svg+xml,%3Csvg width='19' height='19' viewBox='0 0 19 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.42867 18.4283L15.8166 5.04038L15.8166 11.8286L18.4564 11.8286V0.514899H7.14272V3.15476H13.9309L0.543056 16.5427L2.42867 18.4283Z' fill='white'/%3E%3C/svg%3E%0A"); // sass-lint:disable-line quotes
                     }
                 }
             }
@@ -224,6 +223,49 @@
 
         .BBFormGiftOtherAmount {
             max-height: 36px; // Stop this misaligning other fields
+        }
+
+        // Name
+        #bboxdonation_billing_lblFullName {
+            display: none;
+        }
+
+        #divName {
+            margin-bottom: ($gutter * 2);
+            overflow: hidden; // Joys of floats
+        }
+
+        // Showing hidden labels
+        #bboxdonation_billing_lblTitle,
+        #bboxdonation_billing_lblFirstName,
+        #bboxdonation_billing_lblLastName {
+            position: static;
+            left: auto;
+            top: auto;
+            height: auto;
+            width: 100%;
+            text-align: left;
+            clear: both;
+            padding-right: 10px;
+
+            @include media-query(large) {
+                width: var(--grid-width);
+                margin-left: 0;
+                text-align: right;
+            }
+        }
+
+        // Formatting three name inputs/selects
+        #bboxdonation_billing_ddTitle,
+        #bboxdonation_billing_txtFirstName,
+        #bboxdonation_billing_txtLastName {
+            float: left;
+            width: 100%;
+            margin-bottom: 10px;
+
+            @include media-query(medium) {
+                max-width: 350px;
+            }
         }
 
         // Validation
