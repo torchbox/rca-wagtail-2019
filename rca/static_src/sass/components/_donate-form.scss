@@ -302,5 +302,11 @@
                 margin-bottom: ($gutter * 2);
             }
         }
+
+        #bboxdonation_billing_lblPhone {
+            &::after {
+                content: none; // this is an optional field, but flagged as required by blackbaud, nice!
+            }
+        }
     }
 }
