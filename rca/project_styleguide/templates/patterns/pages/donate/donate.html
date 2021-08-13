@@ -6,6 +6,19 @@
     app--guide no-hero
 {% endblock %}
 
+{% block extra_js %}
+    <script>
+        window.bboxInit = function () {
+           bbox.showForm('{{ page.form_id }}');
+        };
+        (function () {
+           var e = document.createElement('script'); e.async = true;
+           e.src = 'https://bbox.blackbaudhosting.com/webforms/bbox-min.js';
+           document.getElementsByTagName('head')[0].appendChild(e);
+        } ());
+    </script>
+{% endblock extra_js %}
+
 {% block content %}
 
     <div class="page page--no-hero">
@@ -27,6 +40,7 @@
                         </div>
                 </div>
             </div>
+
                 <div class="introduction introduction--indented grid">
                     {% if anchor_nav or page.contact_model_image %}
                         {% include "patterns/molecules/anchor-nav/anchor-nav.html" with anchor_nav=anchor_nav show_contact_block=page.contact_model_image  %}
@@ -56,32 +70,22 @@
                     </div>
                 </div>
 
-                {% if related_staff %}
-                    <div class="section__row section__row--first section__row--last">
-                        {% include "patterns/organisms/people-module/people-module.html" with people=related_staff title="Staff" anchor_heading=True %}
+            </section>
+            <section class="section bg bg--dark">
+                <div class="section__row section__row--last section__row--first grid">
+                    <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                        <div class="donate-form anchor-heading" id="bbox-root"></div>
                     </div>
-                {% endif %}
-
+                </div>
             </section>
             {% if page.further_information %}
                 <section class="section bg bg--dark">
                 <div class="section__row section__row--last">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.further_information course_type="short" title=page.further_information_title anchor_heading=True section_id=page.further_information_title|slugify %}
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.further_information course_type="short" title=page.further_information_title anchor_heading=True section_id=page.further_information_title|slugify modifier="accordion-block--no-margin" %}
                 </div>
                 </section>
             {% endif %}
 
-            {% if related_pages.items %}
-                <section class="section bg bg--dark">
-                    <div class="section__row section__row--first section__row--last-large">
-                        {% include "patterns/organisms/index-module/index-module.html" with items=related_pages.items title=related_pages.title id=page.related_pages_title anchor_heading=True %}
-                    </div>
-
-                    <div class="section__notch section__notch--small-med-only">
-                        <div class="section__notch-fill section__notch-fill--second-col"></div>
-                    </div>
-                </section>
-            {% endif %}
 
             {% if page.contact_model_image or page.contact_model_text or page.contact_model_email or page.contact_model_url or page.contact_model_form %}
                 <section class="section bg bg--light">

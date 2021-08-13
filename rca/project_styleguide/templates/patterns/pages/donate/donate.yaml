@@ -1,0 +1,25 @@
+context:
+  page:
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: Example
+      - is_root: false
+        depth: 3
+        title: Example
+    title: Donate
+    form_id: defa0063-24e2-4e3a-a9c0-9a0b28bd72ab
+    edit_date: 7 March 2020
+    introduction: Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+    staff_link: false
+    contact: true
+    contact_model_image: true
+    body:
+      - dummy
+    last_published_at: !!timestamp '2020-05-13 2:00:00'
+    related_pages_title: Index Module
+  anchor_nav:
+    - { title: Introduction, link: '#introduction' }
+    - { title: Article one, link: '#article-one' }
+    - { title: Article two, link: '#article-two' }
+    - { title: Donate, link: '#bbox-root' }
