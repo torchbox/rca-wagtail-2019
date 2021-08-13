@@ -358,7 +358,7 @@
 
     &__errors {
         @include font-size(xxxs);
-        color: $color--red;
+        color: $color--red-light;
     }
 
     &__help {
