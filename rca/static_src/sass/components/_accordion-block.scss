@@ -9,6 +9,10 @@
         margin-top: ($gutter * 4);
     }
 
+    &--no-margin {
+        margin-top: 0;
+    }
+
     &--last {
         @include media-query(large) {
             padding: 0 0 ($gutter * 8);
