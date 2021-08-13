@@ -22,3 +22,4 @@ context:
     - { title: Introduction, link: '#introduction' }
     - { title: Article one, link: '#article-one' }
     - { title: Article two, link: '#article-two' }
+    - { title: Donate, link: '#bbox-root' }
