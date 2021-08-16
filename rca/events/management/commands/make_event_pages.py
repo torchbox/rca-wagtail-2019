@@ -63,14 +63,35 @@ class Command(BaseCommand):
         fake_index_page = Page.objects.get(id=options["parent_page_id"])
         fake = Faker()
         number_to_create = options["count"]
+        import datetime
 
         for _ in range(int(number_to_create)):
+
+            future_date = fake.date_between(start_date="now", end_date="+1y")
+            future_dates = {
+                "start_date": future_date,
+                "end_date": future_date + datetime.timedelta(days=3),
+            }
+            past_date = fake.date_between(start_date="-7y")
+            past_dates = {
+                "start_date": past_date,
+                "end_date": past_date + datetime.timedelta(days=3),
+            }
+
+            # date toggle
+            start_date = past_dates["start_date"]
+            end_date = past_dates["end_date"]
+
+            if _ % 2:
+                start_date = future_dates["start_date"]
+                end_date = future_dates["end_date"]
+
             title = " ".join(fake.words(3)).title()
             fake_page = EventDetailPage(
                 title=title,
                 introduction=fake.sentence(),
-                start_date=fake.date_between(start_date="now", end_date="+3d"),
-                end_date=fake.date_between(start_date="+3d", end_date="+8d"),
+                start_date=start_date,
+                end_date=end_date,
                 body=self.streamfield(fake),
                 hero_image_id=CustomImage.objects.order_by("?").first().id,
                 event_type=EventType.objects.order_by("?").first(),
