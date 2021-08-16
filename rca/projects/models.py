@@ -24,6 +24,7 @@ from wagtail.core.models import Orderable, Page
 from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.search import index
 
 from rca.people.models import AreaOfExpertise
 from rca.research.models import ResearchCentrePage
@@ -189,6 +190,13 @@ class ProjectPage(ContactFieldsMixin, BasePage):
     external_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="External Links"
     )
+
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+        index.SearchField("body"),
+        index.SearchField("more_information"),
+    ]
+
     content_panels = BasePage.content_panels + [
         MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
         MultiFieldPanel(
@@ -251,6 +259,11 @@ class ProjectPage(ContactFieldsMixin, BasePage):
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
+
+    @property
+    def listing_meta(self):
+        # Returns a page 'type' value that's readable for listings,
+        return "Project"
 
     def get_related_projects(self):
         """
@@ -396,6 +409,10 @@ class ProjectPickerPage(BasePage):
         null=True,
         blank=True,
     )
+
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+    ]
 
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),

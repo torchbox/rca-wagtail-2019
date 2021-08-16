@@ -17,6 +17,7 @@ from wagtail.admin.edit_handlers import (
 from wagtail.core.fields import RichTextField, StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.search import index
 
 from rca.editorial.models import EditorialPage
 from rca.events.models import EventDetailPage
@@ -289,6 +290,10 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
         ]
         + TapMixin.panels
     )
+
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+    ]
 
     def _format_projects_for_gallery(self, pages):
         """Internal method for formatting related projects to the correct

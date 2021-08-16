@@ -594,35 +594,17 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     )
 
     search_fields = BasePage.search_fields + [
-        index.SearchField("programme_description_subtitle", partial_match=True),
-        index.AutocompleteField("programme_description_subtitle", partial_match=True),
-        index.SearchField("pathway_blocks", partial_match=True),
-        index.AutocompleteField("pathway_blocks", partial_match=True),
+        index.SearchField("programme_description_copy"),
+        index.SearchField("pathway_blocks"),
+        index.SearchField("what_you_will_cover_blocks"),
+        index.SearchField("requirements_text"),
+        index.SearchField("requirements_blocks"),
+        index.SearchField("scholarship_information_blocks"),
+        index.SearchField("more_information_blocks"),
+        index.RelatedFields("programme_type", [index.SearchField("display_name")]),
+        index.RelatedFields("degree_level", [index.SearchField("title")]),
         index.RelatedFields(
-            "programme_type",
-            [
-                index.SearchField("display_name", partial_match=True),
-                index.AutocompleteField("display_name", partial_match=True),
-            ],
-        ),
-        index.RelatedFields(
-            "degree_level",
-            [
-                index.SearchField("title", partial_match=True),
-                index.AutocompleteField("title", partial_match=True),
-            ],
-        ),
-        index.RelatedFields(
-            "subjects",
-            [
-                index.RelatedFields(
-                    "subject",
-                    [
-                        index.SearchField("title", partial_match=True),
-                        index.AutocompleteField("title", partial_match=True),
-                    ],
-                )
-            ],
+            "subjects", [index.RelatedFields("subject", [index.SearchField("title")])],
         ),
     ]
     api_fields = [
@@ -663,6 +645,11 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         related = self.related_schools_and_research_pages.select_related("page").first()
         if related:
             return related.page
+
+    @property
+    def listing_meta(self):
+        # Returns a page 'type' value that's readable for listings,
+        return "Programme"
 
     def clean(self):
         super().clean()
