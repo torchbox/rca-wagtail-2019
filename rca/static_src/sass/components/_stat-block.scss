@@ -140,6 +140,7 @@
         line-height: 81px;
         font-family: $font--secondary;
         font-weight: $weight--medium;
+        margin-bottom: 0;
 
         @include media-query(medium) {
             font-size: 100px;
