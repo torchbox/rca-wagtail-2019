@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
+from wagtail.search import index
 
 
 class CustomImage(AbstractImage):
@@ -21,6 +22,11 @@ class CustomImage(AbstractImage):
         "dimensions",
         "permission",
     )
+
+    search_fields = AbstractImage.search_fields + [
+        index.SearchField("creator"),
+        index.SearchField("photographer"),
+    ]
 
 
 class Rendition(AbstractRendition):

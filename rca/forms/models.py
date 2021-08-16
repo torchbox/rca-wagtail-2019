@@ -53,7 +53,10 @@ class FormPage(WagtailCaptchaEmailForm, BasePage):
     )
     key_details = RichTextField(blank=True, features=["bold", "italic", "link", "h3"])
 
-    search_fields = BasePage.search_fields + [index.SearchField("introduction")]
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+        index.SearchField("key_details"),
+    ]
 
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
@@ -86,6 +89,11 @@ class FormPage(WagtailCaptchaEmailForm, BasePage):
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
+
+    @property
+    def listing_meta(self):
+        # Returns a page 'type' value that's readable for listings,
+        return "Form"
 
     def process_form_submission(self, form):
         submission = super().process_form_submission(form)
