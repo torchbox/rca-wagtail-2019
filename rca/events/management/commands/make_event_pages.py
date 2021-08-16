@@ -1,3 +1,4 @@
+import datetime
 import json
 import random
 
@@ -41,6 +42,9 @@ class Command(BaseCommand):
         parser.add_argument(
             "parent_page_id", help="The ID of the parent event listing page",
         )
+        parser.add_argument(
+            "date", help="'past' or 'future' event date",
+        )
 
     def streamfield(self, fake):
         # create a streamfield containing paragraphs and headings
@@ -63,7 +67,7 @@ class Command(BaseCommand):
         fake_index_page = Page.objects.get(id=options["parent_page_id"])
         fake = Faker()
         number_to_create = options["count"]
-        import datetime
+        date = str(options["date"])
 
         for _ in range(int(number_to_create)):
 
@@ -82,7 +86,8 @@ class Command(BaseCommand):
             start_date = past_dates["start_date"]
             end_date = past_dates["end_date"]
 
-            if _ % 2:
+            if date == "future":
+                future_dates["start_date"]
                 start_date = future_dates["start_date"]
                 end_date = future_dates["end_date"]
 
