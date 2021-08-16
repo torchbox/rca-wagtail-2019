@@ -9,6 +9,7 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
 )
 from wagtail.core.fields import StreamField
+from wagtail.search import index
 
 from rca.utils.blocks import AccordionBlockWithTitle, GuideBlock
 from rca.utils.models import (
@@ -40,6 +41,12 @@ class GuidePage(ContactFieldsMixin, BasePage):
     )
     related_pages_title = models.CharField(blank=True, max_length=120)
 
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+        index.SearchField("body"),
+        index.SearchField("further_information"),
+    ]
+
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
         StreamFieldPanel("body"),
@@ -60,6 +67,11 @@ class GuidePage(ContactFieldsMixin, BasePage):
         ),
         MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
     ]
+
+    @property
+    def listing_meta(self):
+        # Returns a page 'type' value that's readable for listings,
+        return "Guide"
 
     def anchor_nav(self):
         """ Build list of data to be used as

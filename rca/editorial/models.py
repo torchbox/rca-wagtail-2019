@@ -1,3 +1,4 @@
+import re
 from urllib.parse import urlencode
 
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -16,6 +17,7 @@ from wagtail.admin.edit_handlers import (
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.search import index
 
 from rca.editorial import admin_forms
 from rca.editorial.utils import get_linked_taxonomy
@@ -197,6 +199,13 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         ),
     ]
 
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+        index.SearchField("body"),
+        index.RelatedFields("author", [index.SearchField("name")]),
+        index.SearchField("more_information"),
+    ]
+
     key_details_panels = [
         FieldPanel("published_at"),
         MultiFieldPanel(
@@ -231,6 +240,23 @@ class EditorialPage(ContactFieldsMixin, BasePage):
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
+
+    @property
+    def listing_meta(self):
+        # Returns a page 'type' value that's readable for listings,
+        editorial_type = self.editorial_types.first()
+        if editorial_type:
+            return editorial_type.type
+
+    def search_listing_summary(self):
+        """Method to return the summary without html
+
+        Returns:
+            string: text with html tags removed
+        """
+        text = self.listing_summary or self.introduction
+        text = re.sub("<[^<]+?>", "", text)
+        return text
 
     def get_related_pages(self):
         related_pages = {"title": "Also of interest", "items": []}
@@ -289,6 +315,10 @@ class EditorialListingPage(ContactFieldsMixin, BasePage):
     subpage_types = ["editorial.EditorialPage"]
 
     introduction = models.CharField(max_length=200, blank=True)
+
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+    ]
 
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
