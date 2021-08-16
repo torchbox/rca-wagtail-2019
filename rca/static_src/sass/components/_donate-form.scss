@@ -304,6 +304,8 @@
         }
 
         #bboxdonation_billing_lblPhone {
+            padding-right: 22px; // so it aligns with the other items that have required asterisks
+
             &::after {
                 content: none; // this is an optional field, but flagged as required by blackbaud, nice!
             }
