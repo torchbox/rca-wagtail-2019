@@ -4,10 +4,22 @@ from wagtail.tests.utils import WagtailPageTests
 
 from rca.home.models import HomePage
 from rca.images.models import CustomImage
+from rca.programmes.factories import (
+    DegreeLevelFactory,
+    ProgrammePageFactory,
+    ProgrammeTypeFactory,
+)
 from rca.programmes.models import ProgrammeIndexPage, ProgrammePage
 from rca.standardpages.models import IndexPage, InformationPage
 
 from .factories import DegreeLevelFactory, ProgrammePageFactory, ProgrammeTypeFactory
+
+
+class TestProgrammePageFactories(TestCase):
+    def test_factories(self):
+        ProgrammePageFactory()
+        DegreeLevelFactory()
+        ProgrammeTypeFactory()
 
 
 class TestProgrammePageFactories(TestCase):
