@@ -10,15 +10,13 @@
 
     <div class="page page--no-hero">
 
-        {% if page.title %}
-            <header class="page__header bg bg--dark">
-                <div class="title-area title-area--landing-page grid">
-                    <div class="title-area__content">
-                            <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
-                    </div>
+        <header class="page__header bg bg--dark">
+            <div class="title-area title-area--landing-page grid">
+                <div class="title-area__content">
+                        <h1 class="title-area__heading heading heading--display-two" id="main-content">{{ page.title }}</h1>
                 </div>
-            </header>
-        {% endif %}
+            </div>
+        </header>
 
         <div class="page__content">
 

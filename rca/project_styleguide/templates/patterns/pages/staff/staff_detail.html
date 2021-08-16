@@ -25,7 +25,7 @@
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
                     {% if page.staff_title or page.first_name or page.last_name %}
-                        <h1 property="schema:name" class="title-area__heading heading heading--one">
+                        <h1 property="schema:name" class="title-area__heading heading heading--one" id="main-content">
                             {% if page.staff_title %}
                                 <span class="title-area__profile-title heading heading--three">{{ page.staff_title }}</span>
                             {% endif %}
