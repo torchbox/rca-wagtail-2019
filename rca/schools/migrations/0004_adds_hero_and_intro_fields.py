@@ -17,10 +17,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name="schoolpage",
-            name="description",
-        ),
+        migrations.RemoveField(model_name="schoolpage", name="description",),
         migrations.AddField(
             model_name="schoolpage",
             name="get_in_touch",
@@ -112,9 +109,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={
-                "abstract": False,
-            },
+            options={"abstract": False,},
         ),
         migrations.CreateModel(
             name="HeroItem",

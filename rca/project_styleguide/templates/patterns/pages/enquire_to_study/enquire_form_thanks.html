@@ -1,0 +1,47 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags util_tags static %}
+
+{% block body_class %}
+    app app--form no-hero theme-light
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="page page--no-hero">
+
+        <div class="page__header bg bg--dark">
+            <div class="title-area title-area--guide grid">
+                <div class="title-area__content">
+                    <h1 class="title-area__heading heading heading--display-two">
+                        Thank you for your enquiry. We’re excited that you’re thinking of joining us.
+                    </h1>
+                    <div class="title-area__introduction introduction layout__@large-start-three layout__span-two">
+                        <p class="introduction__text heading heading--five">
+                            Your enquiry has been passed to the relevant team and we'll be in touch soon with more information about your programme(s) of interest.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page__content">
+
+            <section class="section section--top-space-small bg bg--dark">
+
+            </section>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    {% if GOOGLE_TAG_MANAGER_ID and enquiry_form_session_data %}
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push(
+                {{ enquiry_form_session_data }}
+                );
+        </script>
+    {% endif %}
+{% endblock%}

@@ -13,6 +13,7 @@ markdown_extensions:
 nav:
   - 'Home': 'index.md'
   - 'Front end tooling': 'front-end-tooling.md'
+  - 'Mailchimp integration': 'mailchimp-integration.md'
   - Implementation Specs:
       - 'Rebuild Approach': 'implementation-specs/finalised-rebuild-approach.md'
       - 'Programme Page': 'implementation-specs/programme-page.md'
