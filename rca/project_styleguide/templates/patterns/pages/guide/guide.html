@@ -20,15 +20,13 @@
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
-                    {% if page.title %}
-                        <h1 class="title-area__heading heading heading--display-two">
-                            {{ page.title }}
-                        </h1>
-                    {% endif %}
+                    <h1 class="title-area__heading heading heading--display-two" id="main-content">
+                        {{ page.title }}
+                    </h1>
 
-                        <div class="title-area__meta">
-                            Last updated {{ page.last_published_at|date:'j F Y' }}
-                        </div>
+                    <div class="title-area__meta">
+                        Last updated {{ page.last_published_at|date:'j F Y' }}
+                    </div>
                 </div>
             </div>
                 <div class="introduction introduction--indented grid">
