@@ -7,10 +7,12 @@
 
     &__errors {
         @include font-size(s);
-        padding: 20px;
         margin-bottom: 15px;
-        color: $color--white;
-        background-color: $color--tertiary;
+        color: $color--red;
+
+        @include media-query(large) {
+            width: 66%;
+        }
     }
 
     &__heading {
