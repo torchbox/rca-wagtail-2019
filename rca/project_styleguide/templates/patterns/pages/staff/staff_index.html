@@ -28,11 +28,9 @@
                     <nav class="title-area__breadcrumb layout__span-two layout__@large-span-three" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" with breadcrumb=page.breadcrumb %}
                     </nav>
-                    {% if page.title %}
-                        <div class="title-area__heading layout__span-two layout__start-one layout__@large-span-one">
-                            <h1 class="heading heading--display-two">{{ page.title }}</h1>
-                        </div>
-                    {% endif %}
+                    <div class="title-area__heading layout__span-two layout__start-one layout__@large-span-one">
+                        <h1 class="heading heading--display-two" id="main-content">{{ page.title }}</h1>
+                    </div>
                     {% if page.introduction %}
                         <div class="title-area__introduction layout__span-one layout__start-two layout__@large-start-three">{{ page.introduction|richtext }}</div>
                     {% endif %}
