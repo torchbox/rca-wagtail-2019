@@ -8,7 +8,7 @@
 
 {% block content %}
 
-    {% include "patterns/molecules/hero/hero.html" with modifier="medium" %}
+    {% include "patterns/molecules/hero/hero.html" with hero_image=page.hero_image modifier="medium" %}
 
     <div class="page page--overlap">
 
@@ -26,18 +26,18 @@
                         <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
                     {% endif %}
                 </div>
-                {% if hero_image_credit or hero_image %}
+                {% if page.hero_image_credit or page.hero_image %}
                     <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
-                        {% include 'patterns/atoms/image-info/image-info.html' with credit=hero_image_credit item=hero_image %}
+                        {% include 'patterns/atoms/image-info/image-info.html' with credit=page.hero_image_credit item=page.hero_image %}
                     </div>
                 {% endif %}
             </div>
             {% if page.introduction %}
                 <div class="introduction introduction--indented grid">
                     <div class="introduction__container">
-                        <h2 class="section__heading heading heading--five" >
-                            {{ page.introduction|richtext }}
-                        </h2>
+                        <div class="section__heading heading heading--five">
+                            {{ page.introduction }}
+                        </div>
                     </div>
                 </div>
             {% endif %}
@@ -48,8 +48,8 @@
                     <div class="section__content grid">
                         <div class="project-overview__content layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                             <div class="project-overview__media">
-                                {% if page.introduction_image %}
-                                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.introduction_image caption=page.video_caption video=page.video modifier="small-bottom-margin image-video-block--no-padding" %}
+                                {% if page.video_preview_image %}
+                                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.video_preview_image caption=page.video_caption video=page.video modifier="small-bottom-margin image-video-block--no-padding" %}
                                 {% endif %}
                             </div>
                             <div class="project-overview__streamfield project-overview__streamfield--bottom-margin">
@@ -111,20 +111,20 @@
                     </div>
                 </div>
 
-                {% if page.legacy_news_and_events %}
+                {% if related_editorial_news %}
                 <div class="section__row section__row--last">
                     <div class="section__content grid">
-                        {% include "patterns/organisms/news/news_api_content.html" with news=page.legacy_news_and_events %}
+                        {% include "patterns/organisms/news/news_api_content.html" with news=related_editorial_news %}
                     </div>
                 </div>
                 {% endif %}
 
-                {% if student_stories %}
+                {% if editorial_stories %}
                 <div class="section__row section__row--last schools__about--student-stories partnerships__carousel">
                     <div class="section__header grid">
                         <h2 class="section__heading section__heading--primary heading heading--four">My GenerationRCA</h2>
                     </div>
-                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=student_stories.slides modifier='carousel--square' datatag='data-peek-carousel' %}
+                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=editorial_stories.slides modifier='carousel--square' datatag='data-peek-carousel' %}
                 </div>
                 {% endif %}
 
@@ -211,9 +211,9 @@
                 </div>
                 {% endif %}
 
-                {% if get_involved.cta %}
+                {% if page.cta_block %}
                     <div class="section__row section__row--last-large">
-                        {% for block in get_involved.cta %}
+                        {% for block in page.cta_block %}
                             {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value %}
                         {% endfor %}
                     </div>

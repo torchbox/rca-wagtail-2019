@@ -73,7 +73,11 @@
 
         // Custom breakpoint to target mobile only to prevent rellax doing its thing
         @media only screen and (max-width: 599px) {
-            transform: translate3d(0, 0, 0) !important;
+            transform: translate3d(
+                0,
+                0,
+                0
+            ) !important; // sass-lint:disable-line no-important
         }
     }
 

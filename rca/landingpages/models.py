@@ -8,10 +8,12 @@ from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
+    ObjectList,
     PageChooserPanel,
     StreamFieldPanel,
+    TabbedInterface,
 )
-from wagtail.core.fields import StreamBlock, StreamField
+from wagtail.core.fields import RichTextField, StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
@@ -26,6 +28,8 @@ from rca.landingpages.utils import (
 from rca.projects.models import ProjectPage
 from rca.utils.blocks import (
     CallToActionBlock,
+    LinkBlock,
+    LinkedImageBlock,
     RelatedPageListBlock,
     SlideBlock,
     StatisticBlock,
@@ -411,6 +415,12 @@ class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
                 "ShortCoursePage": "SHORT COURSE",
                 "ProgrammePage": "PROGRAMME",
             }
+            # For editorial pages, use the type taxonomy as the meta value
+            if hasattr(page, "editorial_types"):
+                type = page.editorial_types.first()
+                if type:
+                    page_type_mapping["EditorialPage"] = type.type
+
             if page.__class__.__name__ in page_type_mapping:
                 page_type = page_type_mapping[page.__class__.__name__]
             slideshow["slides"].append(
@@ -592,7 +602,7 @@ class EELandingPageRelatedEventPage(RelatedPage):
 
 
 class EELandingPage(ContactFieldsMixin, BasePage):
-    base_form_class = admin_forms.EELandingPageAdminForm
+    base_form_class = admin_forms.LandingPageAdminForm
     template = "patterns/pages/editorial_event_landing/editorial_event_landing.html"
     max_count = 1
 
@@ -685,8 +695,8 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         return events
 
     def get_stories(self):
-        projects = self.related_editorial_story_pages.all().select_related("page")
-        return [editorial_teaser_formatter(page.page.specific) for page in projects]
+        pages = self.related_editorial_story_pages.all().select_related("page")
+        return [editorial_teaser_formatter(page.page.specific) for page in pages]
 
     @property
     def news_view_all(self):
@@ -785,4 +795,145 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         context["stories"] = self.get_stories()
         context["tabs"] = self.anchor_nav()
         context["custom_tab_heading"] = self.custom_anchor_heading_item()
+        return context
+
+
+class AlumniLandingPageRelatedEditorialPage(RelatedPage):
+    source_page = ParentalKey(
+        "landingpages.AlumniLandingPage", related_name="related_editorial_pages"
+    )
+    panels = [PageChooserPanel("page", ["editorial.EditorialPage"])]
+
+
+class AlumniLandingPageSecondaryRelatedEditorialPage(RelatedPage):
+    source_page = ParentalKey(
+        "landingpages.AlumniLandingPage",
+        related_name="related_editorial_pages_secondary",
+    )
+    panels = [PageChooserPanel("page", ["editorial.EditorialPage"])]
+
+
+class AlumniLandingPage(LandingPage):
+    max_count = 1
+    base_form_class = admin_forms.LandingPageAdminForm
+    template = "patterns/pages/alumni/alumni.html"
+    location = RichTextField(blank=True, features=(["bold", "italic"]))
+    social_links = StreamField(
+        StreamBlock([("Link", LinkBlock())], max_num=5), blank=True
+    )
+    contact_email = models.EmailField(blank=True, max_length=254)
+    body = RichTextField(blank=True)
+    video_caption = models.CharField(
+        blank=True,
+        max_length=80,
+        help_text=_("The text displayed next to the video play button"),
+    )
+    video = models.URLField(blank=True)
+    video_preview_image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    # get involved section
+    collaborators = StreamField(
+        StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
+        blank=True,
+        help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
+            Aim for logos that sit on either a white or transparent background.",
+    )
+    # "latest"' section
+    latest_intro = models.CharField(
+        max_length=250,
+        blank=True,
+        help_text=_("Optional short text summary for the 'Latest' section"),
+        verbose_name="Latest section summary",
+    )
+    external_links = StreamField(
+        [("link", LinkBlock())], blank=True, verbose_name="External Links"
+    )
+    latest_cta_block = StreamField(
+        [("call_to_action", CallToActionBlock(label=_("text promo")))],
+        blank=True,
+        verbose_name=_("Text promo"),
+    )
+
+    content_panels = BasePage.content_panels + [
+        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+        FieldPanel("introduction"),
+        MultiFieldPanel(
+            [
+                FieldPanel("video"),
+                FieldPanel("video_caption"),
+                ImageChooserPanel("video_preview_image"),
+            ],
+            heading="Video",
+        ),
+        FieldPanel("body"),
+        # latest
+        FieldPanel("latest_intro"),
+        InlinePanel(
+            "related_editorial_pages",
+            heading="Related Alumni Editorial 'news' pages",
+            max_num=3,
+        ),
+        InlinePanel(
+            "related_editorial_pages_secondary",
+            heading="Related Alumni Editorial 'story' pages",
+            max_num=6,
+        ),
+        StreamFieldPanel("external_links"),
+        StreamFieldPanel("latest_cta_block"),
+        # Get involved
+        StreamFieldPanel("collaborators"),
+        StreamFieldPanel("cta_block"),
+        MultiFieldPanel(
+            [
+                FieldPanel("contact_model_title"),
+                FieldPanel("contact_model_email"),
+                FieldPanel("contact_model_url"),
+                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_link_text"),
+                FieldPanel("contact_model_text"),
+                ImageChooserPanel("contact_model_image"),
+            ],
+            "Contact information",
+        ),
+    ]
+    key_details_panels = [
+        FieldPanel("location"),
+        FieldPanel("contact_email"),
+        MultiFieldPanel(
+            [StreamFieldPanel("social_links")], heading="Social media profile links"
+        ),
+    ]
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading="Content"),
+            ObjectList(key_details_panels, heading="Key details"),
+            ObjectList(BasePage.promote_panels, heading="Promote"),
+            ObjectList(BasePage.settings_panels, heading="Settings"),
+        ]
+    )
+
+    def get_related_editorial_pages(self, pages):
+        related_pages = []
+        for value in pages.select_related("page"):
+            if value.page and value.page.live:
+                page = value.page.specific
+                related_pages.append(news_teaser_formatter(page, True))
+        return related_pages
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["related_editorial_news"] = self.get_related_editorial_pages(
+            self.related_editorial_pages
+        )
+        context["editorial_stories"] = []
+        if self.related_editorial_pages_secondary.first():
+            context["editorial_stories"] = self._format_slideshow_pages(
+                self.related_editorial_pages_secondary.all()
+            )
+
         return context

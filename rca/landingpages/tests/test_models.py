@@ -3,13 +3,14 @@ from wagtail.tests.utils import WagtailPageTests
 
 from rca.home.models import HomePage
 from rca.landingpages.factories import (
+    ALumniLandingPageFactory,
     EELandingPageFactory,
     EnterpriseLandingPageFactory,
     InnovationLandingPageFactory,
     LandingPageFactory,
     ResearchLandingPageFactory,
 )
-from rca.landingpages.models import EELandingPage
+from rca.landingpages.models import AlumniLandingPage, EELandingPage
 
 
 class TestLandingPageFactory(TestCase):
@@ -18,7 +19,8 @@ class TestLandingPageFactory(TestCase):
         ResearchLandingPageFactory(),
         InnovationLandingPageFactory(),
         EnterpriseLandingPageFactory(),
-        LandingPageFactory()
+        LandingPageFactory(),
+        ALumniLandingPageFactory()
 
 
 class TestEELandingPageRules(WagtailPageTests):
@@ -46,3 +48,18 @@ class TestEELandingPageRules(WagtailPageTests):
         )
         # A second EELandingPage should not be creatable
         self.assertFalse(EELandingPage.can_create_at(self.home_page))
+
+
+class TestAlumniLandingPageRules(WagtailPageTests):
+    def setUp(self):
+        self.home_page = HomePage.objects.first()
+
+    def test_can_create(self):
+        self.assertCanCreateAt(HomePage, AlumniLandingPage)
+
+    def test_singlet(self):
+        self.home_page.add_child(
+            instance=AlumniLandingPage(title="Alumni Landing Page",)
+        )
+        # A second EELandingPage should not be creatable
+        self.assertFalse(AlumniLandingPage.can_create_at(self.home_page))

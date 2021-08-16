@@ -5,7 +5,11 @@ context:
       - is_root: false
         title: Home
     introduction: 'A distinguished community of practising artists and designers'
-    introduction_image: true
+    hero_image:
+      title: Synaputral Decadence is the flavour of the distant future
+      creator: Jianjin Lee Chen
+      photographer: Sekiro Yamananka
+    video_preview_image: true
     location: '<p>Development & Alumni Relations Office<br>Kensington Gore<br>London<br>SW7 2EU</p>'
     social_links:
       - link:
@@ -24,6 +28,13 @@ context:
         value:
           title: Instagram
           href: http://www.facebook.com
+    cta_block:
+      - block:
+        value:
+          title: Make a donation
+          description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
+          action: Give to GenerationRCA
+          link: '#'
     contact_email: alumni@rca.ac.uk
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     video_caption: What it’s like to be an RCA Alumni
@@ -75,28 +86,28 @@ context:
           description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
           action: Contact the Alumni team
           link: '#'
-    legacy_news_and_events:
-      - item:
-        meta: 'Event'
-        title: 'Designs for Real Life'
-        description: '6 July 2019 — 4 August 2019'
-        link: '#'
-        image: //placekitten.com/878/472
-        person: false
-      - item:
-        meta: 'Event'
-        title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
-        description: '23 November 2019'
-        link: '#'
-        image: false
-        person: false
-      - item:
-        meta: 'News'
-        title: 'Show 2018: School of Architecture: Making Space for the Future'
-        description: '23 November 2019'
-        link: '#'
-        image: //placekitten.com/251/142
-        person: false
+  related_editorial_news:
+    - item:
+      type: 'News'
+      title: 'Designs for Real Life'
+      description: '6 July 2019 — 4 August 2019'
+      link: '#'
+      image: //placekitten.com/556/425
+      person: false
+    - item:
+      type: 'Tech'
+      title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
+      description: '23 November 2019'
+      link: '#'
+      image: false
+      person: false
+    - item:
+      type: 'News'
+      title: 'Show 2018: School of Architecture: Making Space for the Future'
+      description: '23 November 2019'
+      link: '#'
+      image: //placekitten.com/251/142
+      person: false
   news_view_all:
     title: See all alumni news
   page_teasers:
@@ -148,7 +159,7 @@ context:
           after: '%'
           number: 33
           summary: of students who go on to work in practice'
-  student_stories:
+  editorial_stories:
     slides:
       - slide:
         value:
@@ -176,14 +187,6 @@ context:
           image: True
   instagram_feed:
     handle: rca.architecture
-  get_involved:
-    cta:
-      - block:
-        value:
-          title: Make a donation
-          description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
-          action: Give to GenerationRCA
-          link: '#'
     slides:
       - slide:
         value:
@@ -209,10 +212,6 @@ context:
           link: '#'
           person: false
           image: True
-  hero_image:
-    title: Synaputral Decadence is the flavour of the distant future
-    creator: Jianjin Lee Chen
-    photographer: Sekiro Yamananka
   tabs:
     - tab:
       title: Alumni benefits

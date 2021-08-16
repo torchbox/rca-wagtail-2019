@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     "rca.people",
     "rca.enquire_to_study",
     "rca.account_management",
+    "rca.donate",
     "birdbath",
     "django_countries",
     "wagtail.contrib.modeladmin",
@@ -788,4 +789,7 @@ WAGTAILIMAGES_MAX_IMAGE_PIXELS = int(pixel_limit) if pixel_limit else 10000000
 
 ALLOW_EDITORIAL_PAGE_GENERATION = (
     env.get("ALLOW_EDITORIAL_PAGE_GENERATION", "false").lower() == "true"
+)
+ALLOW_EVENT_PAGE_GENERATION = (
+    env.get("ALLOW_EVENT_PAGE_GENERATION", "false").lower() == "true"
 )

@@ -24,9 +24,11 @@ def event_teaser_formatter(item, return_image=False):
     if return_image and listing_image:
         item_as_dict["image"] = listing_image.get_rendition("fill-878x472").url
         item_as_dict["image_alt"] = listing_image.alt
-    item_as_dict["formatted_date"] = (
-        str(item.start_date.strftime("%-d %B %Y")) + ", Location (TODO)"
-    )
+
+    item_as_dict["formatted_date"] = item.event_date_short
+    if item.location:
+        item_as_dict["formatted_date"] += f", {item.location}"
+
     item_as_dict["title"] = item.title
     item_as_dict["link"] = item.url
 
