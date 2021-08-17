@@ -69,6 +69,7 @@
         @include font-size(xs);
         display: inline;
         font-weight: $weight--normal;
+        margin-bottom: 0;
     }
 
     &__author-course {
