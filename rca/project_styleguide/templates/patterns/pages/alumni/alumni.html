@@ -179,15 +179,15 @@
                 <div class="section__row section__row--last-small">
                     <div class="section__header grid">
                         <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ page.get_involved_title|default:"Get involved" }}</h2>
-                        {% if page.get_involved_intro %}
+                        {% if page.slideshow_summary %}
                             <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page.get_involved_intro|richtext }}
+                                {{ page.slideshow_summary }}
                             </div>
                         {% endif %}
                     </div>
                 </div>
 
-                {% if get_involved %}
+                {% if get_involved.slides %}
                 <div class="section__row section__row--last schools__about--student-stories partnerships__carousel">
                     {% include "patterns/organisms/carousel/carousel--square.html" with carousel=get_involved.slides modifier='carousel--square' control_title="Get involved carousel" datatag='data-peek-carousel' %}
                 </div>

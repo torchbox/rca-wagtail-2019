@@ -399,6 +399,8 @@ class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         # data structure to now work with pages chooser values
         for slide in slideshow_pages.all():
             page = slide.page.specific
+            if not page.live:
+                continue
             image = (
                 page.hero_image if hasattr(page, "hero_image") else page.listing_image
             )
@@ -414,6 +416,8 @@ class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
                 "ResearchCentrePage": "RESEARCH CENTRE",
                 "ShortCoursePage": "SHORT COURSE",
                 "ProgrammePage": "PROGRAMME",
+                "EventDetailPage": "EVENT",
+                "SchoolPage": "SCHOOL",
             }
             # For editorial pages, use the type taxonomy as the meta value
             if hasattr(page, "editorial_types"):
@@ -813,6 +817,13 @@ class AlumniLandingPageSecondaryRelatedEditorialPage(RelatedPage):
     panels = [PageChooserPanel("page", ["editorial.EditorialPage"])]
 
 
+class AlumniLandingPageRelatedPageSlide(RelatedPage):
+    source_page = ParentalKey(
+        "landingpages.LandingPage", related_name="alumni_slideshow_page"
+    )
+    panels = [PageChooserPanel("page")]
+
+
 class AlumniLandingPage(LandingPage):
     max_count = 1
     base_form_class = admin_forms.LandingPageAdminForm
@@ -886,6 +897,13 @@ class AlumniLandingPage(LandingPage):
         StreamFieldPanel("external_links"),
         StreamFieldPanel("latest_cta_block"),
         # Get involved
+        MultiFieldPanel(
+            [
+                FieldPanel("slideshow_summary"),
+                InlinePanel("alumni_slideshow_page", label=_("Page")),
+            ],
+            heading=_("'Get invoved' slideshow"),
+        ),
         StreamFieldPanel("collaborators"),
         StreamFieldPanel("cta_block"),
         InlinePanel("stats_block", label="Statistics", max_num=1),
@@ -936,5 +954,7 @@ class AlumniLandingPage(LandingPage):
             context["editorial_stories"] = self._format_slideshow_pages(
                 self.related_editorial_pages_secondary.all()
             )
-
+        context["get_involved"] = self._format_slideshow_pages(
+            self.alumni_slideshow_page.all()
+        )
         return context
