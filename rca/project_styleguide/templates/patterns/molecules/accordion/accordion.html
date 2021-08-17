@@ -11,7 +11,7 @@
         tabindex="0"
         id="question-{{ accordion_id }}-{{ forloop.counter }}"
     >
-        <h5 class="accordion__heading heading heading--five">{{ accordion.heading }}</h5>
+        <{% if heading_override %}{{ heading_override }}{% else %}h5{% endif %} class="accordion__heading heading heading--five">{{ accordion.heading }}</{% if heading_override %}{{ heading_override }}{% else %}h5{% endif %}>
 
         <div class="accordion__meta">
             {% if accordion.preview_text %}
