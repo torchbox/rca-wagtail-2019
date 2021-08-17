@@ -86,7 +86,7 @@
                                                     {% else %}
                                                         {{ field.label }}
                                                     {% endif %}
-                                                    {% if field.field.required %}<span aria-hidden="true" class="form-item__required">*</span>{% endif %}
+                                                    {% if field.field.required %}<span class="form-item__required">*</span>{% endif %}
                                                 </{% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}legend{% else %}label{% endif %}>
                                                 {% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' and field.help_text %}<div class="form-item__instruction">{{ field.help_text }}</div>{% endif %}
                                                 {% if widget_type == 'date_input' or widget_type == 'date_time_input' %}<div class="{{ widget_type }}">{% endif %}
