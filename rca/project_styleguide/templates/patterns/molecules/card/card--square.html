@@ -16,7 +16,7 @@
                         {{ item.title }}
                     {% if item.link %}</span>{% endif %}
                 </h3>
-                <div class="card__description">{{ item.summary }}</div>
+                <div class="card__description">{{ item.summary|striptags }}</div>
             </div>
             {% if item.person %}
                 <div class="card__person">
