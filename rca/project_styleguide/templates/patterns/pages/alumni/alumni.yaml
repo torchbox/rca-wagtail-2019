@@ -86,6 +86,33 @@ context:
           description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
           action: Contact the Alumni team
           link: '#'
+    slideshow_summary: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta.
+  get_involved:
+    slides:
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'RCA x CERN'
+          summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Research'
+          title: 'Burberry'
+          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'Designing the imposible for NASA'
+          summary: 'Creating world class experiences that started at the RCA'
+          link: '#'
+          person: false
+          image: True
   related_editorial_news:
     - item:
       type: 'News'
