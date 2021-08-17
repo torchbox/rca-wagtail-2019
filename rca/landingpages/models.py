@@ -953,8 +953,7 @@ class AlumniLandingPage(LandingPage):
             context["editorial_stories"] = self._format_slideshow_pages(
                 self.related_editorial_pages_secondary.all()
             )
-        if self.alumni_slideshow_page.first():
-            context["get_involved"] = self._format_slideshow_pages(
-                self.alumni_slideshow_page.all()
-            )
+        context["get_involved"] = self._format_slideshow_pages(
+            self.alumni_slideshow_page.all()
+        )
         return context
