@@ -139,7 +139,7 @@
                             </div>
                         {% endif %}
                         <div class="section__content grid">
-                            {% include "patterns/organisms/carousel/carousel.html" with carousel=related_pages_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=related_pages_highlights modifier='carousel carousel--no-margin' control_title="Related pages carousel" datatag='data-carousel' %}
                             {% if page.highlights_page_link %}
                                 <div class="section__action">
                                     <a class="link link--primary link--link body body--two" href="{% pageurl page.highlights_page_link %}">
@@ -172,7 +172,7 @@
                                     </div>
                                 {% endif %}
                                 <div class="partnerships__carousel">
-                                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=slideshow_block.slides modifier='carousel--square' datatag='data-peek-carousel' %}
+                                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=slideshow_block.slides modifier='carousel--square' control_title="Slideshow carousel" datatag='data-peek-carousel' %}
                                 </div>
                             </div>
                         </div>
