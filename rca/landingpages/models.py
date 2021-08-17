@@ -968,6 +968,7 @@ class AlumniLandingPage(LandingPage):
         # Get involved
         StreamFieldPanel("collaborators"),
         StreamFieldPanel("cta_block"),
+        InlinePanel("stats_block", label="Statistics", max_num=1),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_title"),
