@@ -106,9 +106,9 @@
 
                 <div class="section__row section__row--first section__row--last">
                     <header class="section__header grid">
-                        <h3 class="section__heading section__heading--secondary heading heading--four">
+                        <h2 class="section__heading section__heading--secondary heading heading--four">
                             Gallery
-                        </h3>
+                        </h2>
                     </header>
                     <div class="section__content">
                         {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.gallery control_title="gallery" modifier='slideshow--author-info' %}
@@ -125,7 +125,7 @@
 
                 {% if page.more_information %}
                     <div class="section__row {% if not page.gallery %}staff-detail-accordion staff-detail-accordion--wo-gallery{% endif %} section__row--last">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title=page.more_information_title %}
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' heading_override="h2" accordions=page.more_information title=page.more_information_title %}
                     </div>
                 {% endif %}
 
