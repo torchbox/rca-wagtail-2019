@@ -1,6 +1,6 @@
 <div class="carousel carousel--logo glide {{ modifier }}" data-peek-full-width-carousel data-slidetotal="{{ carousel|length }}">
     <div data-glide-el="track" class="carousel__container glide__track">
-        <ul class="carousel__slides glide__slides" aria-live="polite">
+        <ul class="carousel__slides glide__slides" aria-live="polite" {% if control_title %}id="{{ control_title|slugify }}"{% endif %}>
             <li class="carousel__item glide__slide">
                 <div class="carousel__logo-slide">
             {% for slide in carousel %}
@@ -16,20 +16,20 @@
             </li>
         </ul>
     </div>
-    <div class="carousel__controls-group grid" data-glide-el="controls">
-        <button class="carousel__button carousel__button--prev button" aria-label="Previous image" data-glide-dir="<">
-            <svg class="carousel__button-icon" width="46" height="46">
+    <div class="carousel__controls-group grid" data-glide-el="controls" {% if control_title %}aria-controls="{{ control_title|slugify }}"{% endif %}>
+        <button class="carousel__button carousel__button--prev button" aria-label="Previous slide{% if control_title %} for {{ control_title }}{% endif %}" data-glide-dir="<">
+            <svg class="carousel__button-icon" width="46" height="46" aria-hidden="true">
                 <use xlink:href="#arrow-left" />
             </svg>
         </button>
-        <button class="carousel__button carousel__button--next button" aria-label="Next image" data-glide-dir=">">
-            <svg class="carousel__button-icon" width="46" height="46">
+        <button class="carousel__button carousel__button--next button" aria-label="Next slide{% if control_title %} for {{ control_title }}{% endif %}" data-glide-dir=">">
+            <svg class="carousel__button-icon" width="46" height="46" aria-hidden="true">
                 <use xlink:href="#arrow-right" />
             </svg>
         </button>
     </div>
     <div class="carousel__controls">
-        <div class="carousel__bullet-container" data-glide-el="controls[nav]">
+        <div class="carousel__bullet-container" data-glide-el="controls[nav]" {% if control_title %}aria-controls="{{ control_title|slugify }}"{% endif %}>
             {% for slide in carousel %}
                 {% if forloop.counter0|divisibleby:per_slide %}
                     <button class="carousel__bullet" data-glide-dir="={{ forloop.counter }}" aria-label="Slide {{ forloop.counter }}"></button>

@@ -56,7 +56,7 @@
                         </div>
 
                         <div class="alumni-stories__carousel grid">
-                            {% include "patterns/organisms/carousel/carousel_api_content.html" with carousel=alumni_stories modifier='carousel' datatag='data-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel_api_content.html" with carousel=alumni_stories modifier='carousel' control_title="Alumni Stories" datatag='data-carousel' %}
                         </div>
                     </div>
 
@@ -75,7 +75,7 @@
                             <p class="partnerships__introduction">{{ partnerships_block.summary }}</p>
                         </div>
                         <div class="partnerships__carousel">
-                            {% include "patterns/organisms/carousel/carousel--square.html" with carousel=partnerships_block.slides modifier='carousel--square' datatag='data-peek-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel--square.html" with carousel=partnerships_block.slides modifier='carousel--square' control_title="Partnership carousel" datatag='data-peek-carousel' %}
                         </div>
 
                     </div>
