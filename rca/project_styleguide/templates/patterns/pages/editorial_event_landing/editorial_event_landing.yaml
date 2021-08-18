@@ -108,3 +108,5 @@ context:
       title: Talks
     - tab:
       title: Media Centre
+  custom_tab_heading:
+    link: contact
