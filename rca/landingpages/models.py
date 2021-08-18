@@ -928,6 +928,11 @@ class AlumniLandingPage(LandingPage):
         related_name="+",
     )
     # get involved section
+    collaborators_heading = models.CharField(
+        blank=True,
+        max_length=80,
+        help_text=_("The text displayed above the collaborators carousel"),
+    )
     collaborators = StreamField(
         StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9, required=False),
         blank=True,
@@ -984,7 +989,10 @@ class AlumniLandingPage(LandingPage):
             ],
             heading=_("'Get invoved' slideshow"),
         ),
-        StreamFieldPanel("collaborators"),
+        MultiFieldPanel(
+            [FieldPanel("collaborators_heading"), StreamFieldPanel("collaborators")],
+            heading="Collaborators",
+        ),
         StreamFieldPanel("cta_block"),
         InlinePanel("stats_block", label="Statistics", max_num=1),
         MultiFieldPanel(
