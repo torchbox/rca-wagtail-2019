@@ -87,7 +87,7 @@ default_domains = [
 
 
 @register.simple_tag(name="is_external")
-def is_external(*args):  # sourcery skip: merge-nested-ifs, return-identity
+def is_external(*args):
     """
     Work out if a url value or firstof values is in the list of default_domains.
     If it isn't, return True. Instead of populating an href and target together,
@@ -110,11 +110,11 @@ def is_external(*args):  # sourcery skip: merge-nested-ifs, return-identity
 
     # Pattern library links are all '#' which will be internal.
     # '/' links that come from page.url values
-    if link != "#" and link[0] != "/":
-        if urlparse(link).hostname not in default_domains:
-            return True
-
-    return False
+    return (
+        link != "#"
+        and link[0] != "/"
+        and urlparse(link).hostname not in default_domains
+    )
 
 
 @register.filter
