@@ -112,7 +112,7 @@
                 {% if related_editorial_news %}
                 <div class="section__row section__row--last">
                     <div class="section__content grid">
-                        {% include "patterns/organisms/news/news_api_content.html" with news=related_editorial_news %}
+                        {% include "patterns/organisms/news/news_api_content.html" with news=related_editorial_news news_view_all=page.news_view_all%}
                     </div>
                 </div>
                 {% endif %}
@@ -145,9 +145,9 @@
                     {% endif %}
                 {% endcomment %}
 
-                {% if page.external_links %}
+                {% if page.additional_links %}
                 <div class="section__row">
-                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.external_links title=page.external_links_heading modifier="padding-small" %}
+                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.additional_links title=page.external_links_heading modifier="padding-small" %}
                 </div>
                 {% endif %}
 

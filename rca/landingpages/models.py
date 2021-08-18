@@ -25,6 +25,7 @@ from rca.landingpages.utils import (
     event_teaser_formatter,
     news_teaser_formatter,
 )
+from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
 from rca.projects.models import ProjectPage
 from rca.utils.blocks import (
     CallToActionBlock,
@@ -855,14 +856,20 @@ class AlumniLandingPage(LandingPage):
             Aim for logos that sit on either a white or transparent background.",
     )
     # "latest"' section
+    news_link_text = models.TextField(
+        max_length=120, blank=False, help_text=_("The text do display for the link"),
+    )
+    news_link_target_url = models.URLField(blank=False)
     latest_intro = models.CharField(
         max_length=250,
         blank=True,
         help_text=_("Optional short text summary for the 'Latest' section"),
         verbose_name="Latest section summary",
     )
-    external_links = StreamField(
-        [("link", LinkBlock())], blank=True, verbose_name="External Links"
+    additional_links = StreamField(
+        [("link", InternalExternalLinkBlock())],
+        blank=True,
+        verbose_name="Additional Links",
     )
     latest_cta_block = StreamField(
         [("call_to_action", CallToActionBlock(label=_("text promo")))],
@@ -884,17 +891,24 @@ class AlumniLandingPage(LandingPage):
         FieldPanel("body"),
         # latest
         FieldPanel("latest_intro"),
-        InlinePanel(
-            "related_editorial_pages",
-            heading="Related Alumni Editorial 'news' pages",
-            max_num=3,
+        MultiFieldPanel(
+            [
+                InlinePanel(
+                    "related_editorial_pages",
+                    heading="Related Alumni Editorial 'news' pages",
+                    max_num=3,
+                ),
+                FieldPanel("news_link_target_url"),
+                FieldPanel("news_link_text"),
+            ],
+            heading="Related news",
         ),
         InlinePanel(
             "related_editorial_pages_secondary",
             heading="Related Alumni Editorial 'story' pages",
             max_num=6,
         ),
-        StreamFieldPanel("external_links"),
+        StreamFieldPanel("additional_links"),
         StreamFieldPanel("latest_cta_block"),
         # Get involved
         MultiFieldPanel(
@@ -935,6 +949,10 @@ class AlumniLandingPage(LandingPage):
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
+
+    @property
+    def news_view_all(self):
+        return {"link": self.news_link_target_url, "title": self.news_link_text}
 
     def get_related_editorial_pages(self, pages):
         related_pages = []
