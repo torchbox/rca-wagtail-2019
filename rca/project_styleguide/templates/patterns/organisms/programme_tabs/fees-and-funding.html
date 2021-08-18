@@ -46,7 +46,7 @@
         </div>
 
         <div class="overview grid">
-            <h3 class="overview__heading heading heading--four">{{ programme_page_global_fields.scholarships_section_title }}</h3>
+            {% if programme_page_global_fields.scholarships_section_title %}<h3 class="overview__heading heading heading--four">{{ programme_page_global_fields.scholarships_section_title }}</h3>{% endif %}
             <div class="overview__item">
                 <h4 class="overview__sub-heading heading heading--five">{{ page.scholarships_title }}</h4>
                 <p class="overview__introduction introduction">{{ page.scholarships_information }}</p>
@@ -132,11 +132,11 @@
 
                     <b>Innovation Design Engineering programme</b>
 
-                    <p>Imperial fees are subject to an inflationary uplift, calculated from the RPI for April 2020 and may vary slightly from the value published here; exact fees are to be confirmed in June 2020. </p>
+                    <p>Imperial fees are subject to an inflationary uplift, calculated from the RPI for April 2020 and may vary slightly from the value published here; exact fees are to be confirmed in June 2020.</p>
 
                     <b>Global Innovation Design programme</b>
 
-                    <p>Imperial fees are subject to an inflationary uplift, calculated from the RPI for April 2020 and may vary slightly from the value published here; exact fees are to be confirmed in June 2020. </p>
+                    <p>Imperial fees are subject to an inflationary uplift, calculated from the RPI for April 2020 and may vary slightly from the value published here; exact fees are to be confirmed in June 2020.</p>
 
                     <p>GID students are subject to a £2,000 supplementary fee (included in the above details) due to the higher costs of delivering the programme</p>
                 </div>
