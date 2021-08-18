@@ -109,4 +109,4 @@ context:
     - tab:
       title: Media Centre
   custom_tab_heading:
-    link: contact
+    link: 'media-centre'
