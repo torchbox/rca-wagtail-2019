@@ -32,7 +32,6 @@ class Tabs {
 
         for (const tabPanel of this.allTabPanels) {
             tabPanel.classList.add('tabs__panel--hidden');
-            tabPanel.setAttribute('aria-selected', 'false');
         }
     }
 
@@ -56,7 +55,6 @@ class Tabs {
                 targetTab.setAttribute('aria-selected', 'true');
                 targetTab.classList.add('active');
                 targetPanel.classList.remove('tabs__panel--hidden');
-                targetPanel.setAttribute('aria-selected', 'true');
             }
         }
     }
@@ -71,7 +69,6 @@ class Tabs {
             e.target.setAttribute('aria-selected', 'true');
             this.tab.classList.add('active');
             targetPanel.classList.remove('tabs__panel--hidden');
-            targetPanel.setAttribute('aria-selected', 'true');
             this.removeHeadroomPinned();
             targetPanel.scrollIntoView();
         });
