@@ -43,6 +43,7 @@ from rca.utils.models import (
     LinkFields,
     RelatedPage,
     TapMixin,
+    get_listing_image,
 )
 
 
@@ -364,9 +365,7 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
                     {
                         "title": page.title,
                         "link": page.url,
-                        "image": page.listing_image
-                        if hasattr(page, "hero_image") and page.hero_image
-                        else page.listing_image,
+                        "image": get_listing_image(page),
                         "description": page.introduction
                         if hasattr(page, "introduction")
                         else page.listing_summary,
@@ -967,6 +966,13 @@ class AlumniLandingPage(LandingPage):
             heading="Video",
         ),
         FieldPanel("body"),
+        MultiFieldPanel(
+            [
+                FieldPanel("related_pages_text"),
+                InlinePanel("related_pages_grid", max_num=8, label=_("Related Pages")),
+            ],
+            heading=_("Related pages grid"),
+        ),
         # latest
         FieldPanel("latest_intro"),
         InlinePanel(
@@ -1045,4 +1051,5 @@ class AlumniLandingPage(LandingPage):
         context["get_involved"] = self._format_slideshow_pages(
             self.alumni_slideshow_page.all()
         )
+        context["page_teasers"] = self.get_related_pages(self.related_pages_grid)
         return context

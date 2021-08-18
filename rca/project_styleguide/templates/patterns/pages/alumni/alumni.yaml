@@ -35,6 +35,7 @@ context:
           description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
           action: Give to GenerationRCA
           link: '#'
+    related_pages_text: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper.
     contact_email: alumni@rca.ac.uk
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     video_caption: What it’s like to be an RCA Alumni
