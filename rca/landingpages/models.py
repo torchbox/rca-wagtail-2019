@@ -1038,6 +1038,16 @@ class AlumniLandingPage(LandingPage):
                 related_pages.append(news_teaser_formatter(page, True))
         return related_pages
 
+    def anchor_nav(self):
+        """ Build list of data to be used as
+        in-page navigation """
+        return [
+            {"title": "Alumni benefits", "link": "alumni-benefits"},
+            {"title": "latest", "link": "latest"},
+            {"title": "Get involved", "link": "get-involved"},
+            {"title": "Stay connected", "link": "stay-connected"},
+        ]
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["related_editorial_news"] = self.get_related_editorial_pages(
@@ -1052,4 +1062,5 @@ class AlumniLandingPage(LandingPage):
             self.alumni_slideshow_page.all()
         )
         context["page_teasers"] = self.get_related_pages(self.related_pages_grid)
+        context["tabs"] = self.anchor_nav()
         return context
