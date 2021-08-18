@@ -6,9 +6,8 @@ context:
         depth: 2
         title: Research
     introduction: 'The Royal College of Art excels in world-leading design and art research and creative innovation.'
-    about_page: Read more
-    introduction_link: '#'
-    introduction_link_text: 'Read more'
+    about_page:
+      title: Read more about research
     page_list_title: Research centres & schools
     related_research_centres_schools:
       - item:
