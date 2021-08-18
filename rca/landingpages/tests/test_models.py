@@ -59,7 +59,11 @@ class TestAlumniLandingPageRules(WagtailPageTests):
 
     def test_singlet(self):
         self.home_page.add_child(
-            instance=AlumniLandingPage(title="Alumni Landing Page",)
+            instance=AlumniLandingPage(
+                title="Alumni Landing Page",
+                news_link_text="News",
+                news_link_target_url="https://rca.ac.uk/news",
+            )
         )
         # A second EELandingPage should not be creatable
         self.assertFalse(AlumniLandingPage.can_create_at(self.home_page))
