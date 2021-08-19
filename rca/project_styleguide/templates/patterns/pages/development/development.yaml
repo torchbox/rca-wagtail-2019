@@ -87,7 +87,7 @@ context:
         link: '#'
         image: //placekitten.com/251/142
         person: false
-    stories_cta_block:
+    cta_block:
       - block:
         value:
           title: Our world class facilities
@@ -98,11 +98,11 @@ context:
       title: Make a donation
       text: Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa…
       action: Donate now
+    related_pages_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
   news_view_all:
     title: See all Development news
   page_teasers:
     title: The story
-    intro: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
     pages:
       - {
           title: 'People',
@@ -128,13 +128,6 @@ context:
           description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
           image: true,
         }
-    cta:
-      - block:
-        value:
-          title: Support GenerationRCA
-          description: Help the next generation of creatives and support our communities
-          action: Make a donation
-          link: '#'
   stats_block:
     title: false
     statistics:
