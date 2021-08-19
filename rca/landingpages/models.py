@@ -5,6 +5,7 @@ from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
+from phonenumber_field.modelfields import PhoneNumberField
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     InlinePanel,
@@ -1081,4 +1082,90 @@ class AlumniLandingPage(LandingPage):
         )
         context["page_teasers"] = self.get_related_pages(self.related_pages_grid)
         context["tabs"] = self.anchor_nav()
+        return context
+
+
+class DevelopmentLandingPage(LandingPage):
+    max_count = 1
+    base_form_class = admin_forms.LandingPageAdminForm
+    template = "patterns/pages/development/development.html"
+    location = RichTextField(blank=True, features=(["bold", "italic"]))
+    contact_tel = PhoneNumberField(blank=True)
+    contact_tel_display_text = models.CharField(
+        max_length=120,
+        help_text=(
+            "Specify specific text or numbers to display for the linked tel "
+            "number, e.g. +44 (0)20 7590 1234 or +44 (0)7749 183783"
+        ),
+        blank=True,
+    )
+    contact_email = models.EmailField(blank=True, max_length=254)
+    social_links = StreamField(
+        StreamBlock([("Link", LinkBlock())], max_num=5), blank=True
+    )
+    video_caption = models.CharField(
+        blank=True,
+        max_length=80,
+        help_text=_("The text displayed next to the video play button"),
+    )
+    video = models.URLField(blank=True)
+    video_preview_image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    body = RichTextField(blank=True)
+
+    content_panels = BasePage.content_panels + [
+        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+        FieldPanel("introduction"),
+        MultiFieldPanel(
+            [
+                FieldPanel("video"),
+                FieldPanel("video_caption"),
+                ImageChooserPanel("video_preview_image"),
+            ],
+            heading="Video",
+        ),
+        FieldPanel("body"),
+        MultiFieldPanel(
+            [
+                FieldPanel("contact_model_title"),
+                FieldPanel("contact_model_email"),
+                FieldPanel("contact_model_url"),
+                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_link_text"),
+                FieldPanel("contact_model_text"),
+                ImageChooserPanel("contact_model_image"),
+            ],
+            "Contact information",
+        ),
+    ]
+    key_details_panels = [
+        FieldPanel("location"),
+        MultiFieldPanel(
+            [
+                FieldPanel("contact_tel"),
+                FieldPanel("contact_tel_display_text"),
+                FieldPanel("contact_email"),
+            ],
+            heading="Get in touch",
+        ),
+        MultiFieldPanel(
+            [StreamFieldPanel("social_links")], heading="Social media profile links"
+        ),
+    ]
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading="Content"),
+            ObjectList(key_details_panels, heading="Key details"),
+            ObjectList(BasePage.promote_panels, heading="Promote"),
+            ObjectList(BasePage.settings_panels, heading="Settings"),
+        ]
+    )
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
         return context
