@@ -1060,6 +1060,14 @@ class DevelopmentLandingPage(LandingPage):
         StreamFieldPanel("cta_block"),
         MultiFieldPanel(
             [
+                FieldPanel("related_pages_text"),
+                InlinePanel("related_pages_grid", max_num=5, label=_("Related Pages")),
+            ],
+            heading=_("Related pages grid"),
+        ),
+        StreamFieldPanel("cta_block"),
+        MultiFieldPanel(
+            [
                 FieldPanel("contact_model_title"),
                 FieldPanel("contact_model_email"),
                 FieldPanel("contact_model_url"),
