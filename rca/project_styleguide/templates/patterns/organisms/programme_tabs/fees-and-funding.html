@@ -69,9 +69,9 @@
                             </h4>
                         {% endif %}
                         {% if block.value.text %}
-                            <p class="overview__introduction introduction">
+                            <div class="overview__introduction introduction u-paragraph-emulator">
                                 {{ block.value.text|richtext }}
-                            </p>
+                            </div>
                         {% endif %}
                         {% if block.value.link.url and block.value.link.title %}
                             <div class="overview__item-action">
@@ -96,9 +96,9 @@
                             </h4>
                         {% endif %}
                         {% if block.value.text %}
-                            <p class="overview__introduction introduction">
+                            <div class="overview__introduction introduction u-paragraph-emulator">
                                 {{ block.value.text|richtext }}
-                            </p>
+                            </div>
                         {% endif %}
                         {% if block.value.link.url and block.value.link.title %}
                             <div class="overview__item-action">
