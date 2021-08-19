@@ -982,7 +982,7 @@ class AlumniLandingPage(LandingPage):
         in-page navigation """
         return [
             {"title": "Alumni benefits", "link": "alumni-benefits"},
-            {"title": "latest", "link": "latest"},
+            {"title": "Latest", "link": "latest"},
             {"title": "Get involved", "link": "get-involved"},
             {"title": "Stay connected", "link": "stay-connected"},
         ]
