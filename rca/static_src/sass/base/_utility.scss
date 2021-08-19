@@ -34,4 +34,8 @@
     &-pos-rel {
         position: relative;
     }
+
+    &-paragraph-emulator {
+        margin-bottom: $gutter; // useful for when p tags need richtext tags inside them div.u-paragraph-emulator
+    }
 }

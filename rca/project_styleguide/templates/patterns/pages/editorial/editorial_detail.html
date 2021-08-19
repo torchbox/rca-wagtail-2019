@@ -48,9 +48,9 @@
                             {% if page.introduction %}
                                 <div class="introduction introduction--narrow">
                                     <div class="introduction__container">
-                                        <h2 class="section__heading heading heading--five">
+                                        <div class="section__heading heading heading--five">
                                             {{ page.introduction|richtext }}
-                                        </h2>
+                                        </div>
                                     </div>
                                 </div>
                             {% endif %}
@@ -101,7 +101,7 @@
 
                 {% if page.more_information %}
                     <div class="section__row">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title=page.more_information_title modifier="accordion-block--no-top-margin" %}
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title=page.more_information_title parent_heading_override="h2" heading_override="h3" modifier="accordion-block--no-top-margin" %}
                     </div>
                 {% endif %}
 

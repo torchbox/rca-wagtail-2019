@@ -68,21 +68,21 @@ class EnquireToStudyForm(forms.Form):
         self.fields["start_date"].label = "When do you plan to start your degree?"
         self.fields["enquiry_reason"].label = "What's your enquiry about?"
         self.fields["is_read_data_protection_policy"].label = mark_safe(
-            '<p class="rich-text form-item__rich-text">I acknowledge the RCA’s <a class="link link--link" '
+            '<span class="rich-text form-item__rich-text">I acknowledge the RCA’s <a class="link link--link" '
             'href="https://www.rca.ac.uk/data-protection-privacy-cookies/" '
             'target="_blank">Enquirer Privacy Notice</a> and understand that my personal '
-            "data will be processed in accordance with this notice.</p>"
+            "data will be processed in accordance with this notice.</span>"
         )
         self.fields["is_notification_opt_in"].label = mark_safe(
-            "<p class='rich-text form-item__rich-text'>"
+            "<span class='rich-text form-item__rich-text'>"
             "From time to time we would like to notify you about events, news, "
             "opportunities, and services (including other courses) at RCA. "
             "Please tick this box to give your consent to be contacted in this way."
-            " To withdraw consent, email <a clas='link link--link' href='mailto:dpo@rca.ac.uk'>"
+            " To withdraw consent, email <a class='link link--link' href='mailto:dpo@rca.ac.uk'>"
             "dpo@rca.ac.uk</a> or send your request to "
             "our Data Protection Officer at the following address: The Royal "
             "College of Art, Kensington Gore, London SW7 2EU."
-            "</p>"
+            "</span>"
         )
 
         # Help Text
