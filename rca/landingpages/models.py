@@ -1037,7 +1037,6 @@ class DevelopmentLandingPage(LandingPage):
         related_name="+",
     )
     body = RichTextField(blank=True)
-
     content_panels = BasePage.content_panels + [
         MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
         FieldPanel("introduction"),
@@ -1050,6 +1049,14 @@ class DevelopmentLandingPage(LandingPage):
             heading="Video",
         ),
         FieldPanel("body"),
+        MultiFieldPanel(
+            [
+                FieldPanel("related_pages_text"),
+                InlinePanel("related_pages_grid", max_num=5, label=_("Related Pages")),
+            ],
+            heading=_("Related pages grid"),
+        ),
+        StreamFieldPanel("cta_block"),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_title"),
@@ -1088,4 +1095,5 @@ class DevelopmentLandingPage(LandingPage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+        context["page_teasers"] = self.get_related_pages(self.related_pages_grid)
         return context
