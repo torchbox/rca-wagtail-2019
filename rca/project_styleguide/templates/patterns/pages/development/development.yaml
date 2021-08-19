@@ -5,7 +5,7 @@ context:
       - is_root: false
         title: Home
     introduction: '<p>Secure the future of the RCA: a vision rooted in our historic identity</p>'
-    introduction_image: true
+    video_preview_image: true
     location: '<p>Development & Alumni Relations Office<br>Kensington Gore<br>London<br>SW7 2EU.</p>'
     social_links:
       - link:
@@ -26,6 +26,10 @@ context:
           href: http://www.facebook.com
     contact_email: development@rca.ac.uk
     contact_tel: (0)20 7590 4112
+    hero_image:
+      title: Synaputral Decadence is the flavour of the distant future
+      creator: Jianjin Lee Chen
+      photographer: Sekiro Yamananka
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     video_caption: What it’s like to be an RCA Alumni
     body: With more than 20,000 RCA alumni all over the world, our graduates form a unique international network of artists, designers, creators and innovators. Each year, alumni continue to participate in College life through the alumni relations programme, which offers a range of events, communications and exclusive benefits.
@@ -178,10 +182,6 @@ context:
           link: '#'
           person: false
           image: True
-  hero_image:
-    title: Synaputral Decadence is the flavour of the distant future
-    creator: Jianjin Lee Chen
-    photographer: Sekiro Yamananka
   tabs:
     - tab:
       title: The story
