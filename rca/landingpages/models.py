@@ -1130,6 +1130,7 @@ class DevelopmentLandingPage(LandingPage):
             heading="Video",
         ),
         FieldPanel("body"),
+        InlinePanel("stats_block", label="Statistics", max_num=1),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_title"),
