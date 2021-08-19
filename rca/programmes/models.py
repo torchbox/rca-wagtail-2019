@@ -574,13 +574,13 @@ class ProgrammePage(ContactFieldsMixin, BasePage):
     )
 
     search_fields = BasePage.search_fields + [
-        index.SearchField("programme_description_copy"),
-        index.SearchField("pathway_blocks"),
-        index.SearchField("what_you_will_cover_blocks"),
+        index.SearchField("programme_description_copy", boost=2),
+        index.SearchField("pathway_blocks", boost=2),
+        index.SearchField("what_you_will_cover_blocks", boost=2),
         index.SearchField("requirements_text"),
         index.SearchField("requirements_blocks"),
         index.SearchField("scholarship_information_blocks"),
-        index.SearchField("more_information_blocks"),
+        index.SearchField("more_information_blocks", boost=2),
         index.RelatedFields("programme_type", [index.SearchField("display_name")]),
         index.RelatedFields("degree_level", [index.SearchField("title")]),
         index.RelatedFields(
