@@ -64,3 +64,5 @@ class ALumniLandingPageFactory(wagtail_factories.PageFactory):
         model = AlumniLandingPage
 
     title = factory.Faker("text", max_nb_chars=25)
+    news_link_text = factory.Faker("text", max_nb_chars=25)
+    news_link_target_url = "https://rca.ac.uk/news"

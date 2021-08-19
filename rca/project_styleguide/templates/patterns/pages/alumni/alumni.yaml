@@ -71,7 +71,7 @@ context:
             url: '#'
           image: true
     external_links_heading: Also of interest
-    external_links:
+    additional_links:
       - item:
         value: { text: '"A" magazine', href: '/alumni/a-magazine' }
       - item:
