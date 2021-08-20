@@ -1092,6 +1092,13 @@ class DevelopmentLandingPageRelatedPage(RelatedPage):
     panels = [PageChooserPanel("page")]
 
 
+class DevelopmentLandingPageRelatedEditorialPage(RelatedPage):
+    source_page = ParentalKey(
+        "landingpages.DevelopmentLandingPage", related_name="related_editorial_pages"
+    )
+    panels = [PageChooserPanel("page", ["editorial.EditorialPage"])]
+
+
 class DevelopmentLandingPage(LandingPage):
     max_count = 1
     base_form_class = admin_forms.LandingPageAdminForm
@@ -1132,6 +1139,23 @@ class DevelopmentLandingPage(LandingPage):
         blank=True,
         verbose_name=_("Text promo"),
     )
+    # "Stories"' section
+    stories_link_text = models.TextField(
+        max_length=120, blank=False, help_text=_("The text do display for the link"),
+    )
+    stories_link_target_url = models.URLField(blank=False)
+    stories_intro = models.CharField(
+        max_length=250,
+        blank=True,
+        help_text=_("Optional short text summary for the 'Stories' section"),
+        verbose_name="Stories section summary",
+    )
+    stories_cta_block = StreamField(
+        [("call_to_action", CallToActionBlock(label=_("text promo")))],
+        blank=True,
+        verbose_name=_("Text promo"),
+    )
+
     content_panels = BasePage.content_panels + [
         MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
         FieldPanel("introduction"),
@@ -1160,6 +1184,21 @@ class DevelopmentLandingPage(LandingPage):
                 StreamFieldPanel("help_cta_block"),
             ],
             heading="How you can help",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("stories_intro"),
+                InlinePanel(
+                    "related_editorial_pages",
+                    heading="Related Editorial pages",
+                    label="Editorial page",
+                    max_num=3,
+                ),
+                FieldPanel("stories_link_text"),
+                FieldPanel("stories_link_target_url"),
+                StreamFieldPanel("stories_cta_block"),
+            ],
+            heading="Success stories",
         ),
         MultiFieldPanel(
             [
@@ -1197,6 +1236,14 @@ class DevelopmentLandingPage(LandingPage):
         ]
     )
 
+    def get_related_editorial_pages(self, pages):
+        related_pages = []
+        for value in pages.select_related("page"):
+            if value.page and value.page.live:
+                page = value.page.specific
+                related_pages.append(news_teaser_formatter(page, True))
+        return related_pages
+
     def anchor_nav(self):
         """ Build list of data to be used as
         in-page navigation """
@@ -1207,6 +1254,10 @@ class DevelopmentLandingPage(LandingPage):
             {"title": "Contact", "link": "contact"},
         ]
 
+    @property
+    def stories_view_all(self):
+        return {"link": self.stories_link_target_url, "title": self.stories_link_text}
+
     def get_related_help_pages(self):
         pages = self.related_help_pages.all().select_related("page")
         return [editorial_teaser_formatter(page.page.specific) for page in pages]
@@ -1216,4 +1267,8 @@ class DevelopmentLandingPage(LandingPage):
         context["tabs"] = self.anchor_nav()
         context["page_teasers"] = self.get_related_pages(self.related_pages_grid)
         context["help_pages"] = self.get_related_pages(self.related_help_pages)
+        context["stories"] = self.get_related_editorial_pages(
+            self.related_editorial_pages
+        )
+
         return context

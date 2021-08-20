@@ -47,29 +47,7 @@ context:
     stories_intro: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo.
     contact: true
     contact_image: true
-    stories:
-      - item:
-        type: 'News'
-        title: 'Designs for Real Life'
-        description: '6 July 2019'
-        link: '#'
-        image: //placekitten.com/556/425
-        person: false
-      - item:
-        type: 'Story'
-        title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
-        description: '23 November 2019'
-        link: '#'
-        image: false
-        person: false
-      - item:
-        type: 'News'
-        title: 'Show 2018: School of Architecture: Making Space for the Future'
-        description: '23 November 2019'
-        link: '#'
-        image: //placekitten.com/251/142
-        person: false
-    cta_block:
+    stories_cta_block:
       - block:
         value:
           title: Our world class facilities
@@ -81,7 +59,31 @@ context:
       text: Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa…
       action: Donate now
     related_pages_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
-  news_view_all:
+    stories_view_all:
+      title: See all alumni news
+  stories:
+    - item:
+      type: 'News'
+      title: 'Designs for Real Life'
+      description: '6 July 2019 — 4 August 2019'
+      link: '#'
+      image: //placekitten.com/556/425
+      person: false
+    - item:
+      type: 'Tech'
+      title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
+      description: '23 November 2019'
+      link: '#'
+      image: false
+      person: false
+    - item:
+      type: 'News'
+      title: 'Show 2018: School of Architecture: Making Space for the Future'
+      description: '23 November 2019'
+      link: '#'
+      image: //placekitten.com/251/142
+      person: false
+  stories_view_all:
     title: See all Development news
   help_pages:
     - slide:
@@ -150,32 +152,6 @@ context:
           after: '%'
           number: 33
           summary: of students who go on to work in practice'
-  stories:
-    slides:
-      - slide:
-        value:
-          meta: 'Student project'
-          title: 'RCA x CERN'
-          summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
-          link: '#'
-          person: false
-          image: True
-      - slide:
-        value:
-          meta: 'Research'
-          title: 'Burberry'
-          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
-          link: '#'
-          person: false
-          image: True
-      - slide:
-        value:
-          meta: 'Student project'
-          title: 'Designing the imposible for NASA'
-          summary: 'Creating world class experiences that started at the RCA'
-          link: '#'
-          person: false
-          image: True
   tabs:
     - tab:
       title: The story
