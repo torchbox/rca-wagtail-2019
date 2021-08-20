@@ -1064,23 +1064,15 @@ class DevelopmentLandingPage(LandingPage):
             heading="Video",
         ),
         FieldPanel("body"),
+        MultiFieldPanel(
+            [
+                FieldPanel("related_pages_text"),
+                InlinePanel("related_pages_grid", max_num=5, label=_("Related Pages")),
+            ],
+            heading=_("Related pages grid"),
+        ),
+        StreamFieldPanel("cta_block"),
         InlinePanel("stats_block", label="Statistics", max_num=1),
-        MultiFieldPanel(
-            [
-                FieldPanel("related_pages_text"),
-                InlinePanel("related_pages_grid", max_num=5, label=_("Related Pages")),
-            ],
-            heading=_("Related pages grid"),
-        ),
-        StreamFieldPanel("cta_block"),
-        MultiFieldPanel(
-            [
-                FieldPanel("related_pages_text"),
-                InlinePanel("related_pages_grid", max_num=5, label=_("Related Pages")),
-            ],
-            heading=_("Related pages grid"),
-        ),
-        StreamFieldPanel("cta_block"),
         MultiFieldPanel(
             [
                 FieldPanel("how_you_can_help_intro"),
