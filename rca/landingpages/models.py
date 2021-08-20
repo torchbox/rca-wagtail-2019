@@ -1144,7 +1144,6 @@ class DevelopmentLandingPage(LandingPage):
             heading="Video",
         ),
         FieldPanel("body"),
-        InlinePanel("stats_block", label="Statistics", max_num=1),
         MultiFieldPanel(
             [
                 FieldPanel("related_pages_text"),
@@ -1153,6 +1152,7 @@ class DevelopmentLandingPage(LandingPage):
             heading=_("Related pages grid"),
         ),
         StreamFieldPanel("cta_block"),
+        InlinePanel("stats_block", label="Statistics", max_num=1),
         MultiFieldPanel(
             [
                 FieldPanel("how_you_can_help_intro"),
