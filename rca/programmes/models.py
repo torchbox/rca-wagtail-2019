@@ -330,10 +330,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         blank=True,
     )
 
-    # TODO
-    # Alumni Stories Carousel (api fetch)
-    # Related Content (news and events api fetch)
-
     # Programme Curriculumm
     curriculum_image = models.ForeignKey(
         get_image_model_string(),
