@@ -77,22 +77,21 @@
                 <div class="section__row section__row--last schools__about--teasers">
                     <div class="section__header section__header--bottom-space grid">
                         <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ page_teasers.title|default:"The Story" }}</h2>
-                        {% if page_teasers.intro %}
+                        {% if page.related_pages_text %}
                             <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page_teasers.intro }}
+                                {{ page.related_pages_text }}
                             </div>
                         {% endif %}
                     </div>
                     <div class="section__content grid">
-                        {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=page_teasers.pages modifier="no-margin" %}
+                        {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=page_teasers modifier="no-margin" %}
                     </div>
                 </div>
                 {% endif %}
 
-                {% if page_teasers.cta %}
+                {% if page.cta_block %}
                     <div class="section__row section__row--last-large">
-                        {% for block in page_teasers.cta %}
-                            {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value heading_size="small" %}
+                        {% for block in page.cta_block %}                            {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value heading_size="small" %}
                         {% endfor %}
                     </div>
                 {% endif %}
