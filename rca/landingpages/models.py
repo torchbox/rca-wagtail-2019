@@ -1087,6 +1087,17 @@ class DevelopmentLandingPage(LandingPage):
         ]
     )
 
+    def anchor_nav(self):
+        """ Build list of data to be used as
+        in-page navigation """
+        return [
+            {"title": "The story", "link": "the-story"},
+            {"title": "How you can help", "link": "how-you-can-help"},
+            {"title": "Success stories", "link": "success-stories"},
+            {"title": "Contact", "link": "contact"},
+        ]
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+        context["tabs"] = self.anchor_nav()
         return context
