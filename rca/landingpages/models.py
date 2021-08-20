@@ -1084,7 +1084,7 @@ class DevelopmentLandingPage(LandingPage):
         MultiFieldPanel(
             [
                 FieldPanel("how_you_can_help_intro"),
-                InlinePanel("related_help_pages", label="Page"),
+                InlinePanel("related_help_pages", label="Page", max_num=6),
                 StreamFieldPanel("help_cta_block"),
             ],
             heading="How you can help",
