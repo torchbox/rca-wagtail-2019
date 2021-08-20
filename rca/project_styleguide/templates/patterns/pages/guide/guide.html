@@ -99,6 +99,9 @@
         </div>
     </div>
 
+    {% if page.social_image %}
+        {% image page.social_image fill-1200x1200 as social_img %}
+    {% endif %}
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -120,6 +123,5 @@
               "name": "Royal College of Art"
             }
           }
-
     </script>
 {% endblock %}
