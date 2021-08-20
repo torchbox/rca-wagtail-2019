@@ -162,4 +162,37 @@
 
     </div>
 
+    {% if hero_image %}
+        {% image hero_image fill-1440x530 as image_large %}
+    {% endif %}
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://google.com/article"
+            },
+            "headline": "{{ page.title }}",
+            {% if hero_image %}
+            "image": [
+              "{{ image_large.url }}"
+            ],
+            {% endif %}
+            "datePublished": "{{ page.published_at }}",
+            "dateModified": "{{ page.last_published_at }}",
+            {% if page.author %}
+            "author": {
+              "@type": "Person",
+              "name": "{{ page.author }}"
+            },
+            {% endif %}
+            "publisher": {
+              "@type": "Organization",
+              "name": "Royal College of Art"
+            }
+          }
+
+    </script>
+
 {% endblock %}

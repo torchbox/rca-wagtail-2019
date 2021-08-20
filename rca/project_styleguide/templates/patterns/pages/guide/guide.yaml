@@ -15,6 +15,7 @@ context:
     contact_model_image: true
     body:
       - dummy
+    published_at: !!timestamp '2020-05-13 2:00:00'
     last_published_at: !!timestamp '2020-05-13 2:00:00'
     related_pages_title: Index Module
   anchor_nav:
