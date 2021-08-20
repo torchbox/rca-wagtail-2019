@@ -123,17 +123,17 @@
                     </div>
                 </div>
 
-                {% if page.how_you_can_help %}
+                {% if help_pages %}
                 <div class="section__row section__row--last">
                     <div class="section__content grid">
-                        {% include "patterns/organisms/carousel/carousel.html" with carousel=page.how_you_can_help modifier='carousel carousel--no-margin' control_title="How you can help carousel" datatag='data-carousel' %}
+                        {% include "patterns/organisms/carousel/carousel.html" with carousel=help_pages modifier='carousel carousel--no-margin' control_title="How you can help carousel" datatag='data-carousel' %}
                     </div>
                 </div>
                 {% endif %}
 
-                {% if page.how_you_can_help_cta_block %}
+                {% if page.help_cta_block %}
                     <div class="section__row section__row--last-large">
-                        {% for block in page.how_you_can_help_cta_block %}
+                        {% for block in page.help_cta_block %}
                             {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value heading_size="small" %}
                         {% endfor %}
                     </div>
