@@ -98,4 +98,28 @@
 
         </div>
     </div>
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://google.com/article"
+            },
+            "headline": "{{ page.title }}",
+            {% if page.social_image %}
+            "image": [
+              "{{ social_img.full_url }}"
+            ],
+            {% endif %}
+            "datePublished": "{{ page.published_at }}",
+            "dateModified": "{{ page.last_published_at }}",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Royal College of Art"
+            }
+          }
+
+    </script>
 {% endblock %}
