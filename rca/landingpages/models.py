@@ -1005,6 +1005,13 @@ class AlumniLandingPage(LandingPage):
         return context
 
 
+class DevelopmentLandingPageRelatedPage(RelatedPage):
+    source_page = ParentalKey(
+        "landingpages.DevelopmentLandingPage", related_name="related_help_pages"
+    )
+    panels = [PageChooserPanel("page")]
+
+
 class DevelopmentLandingPage(LandingPage):
     max_count = 1
     base_form_class = admin_forms.LandingPageAdminForm
@@ -1037,6 +1044,14 @@ class DevelopmentLandingPage(LandingPage):
         related_name="+",
     )
     body = RichTextField(blank=True)
+    how_you_can_help_intro = models.CharField(
+        max_length=250, blank=True, help_text=_("Short text summary for the section"),
+    )
+    help_cta_block = StreamField(
+        [("call_to_action", CallToActionBlock(label=_("text promo")))],
+        blank=True,
+        verbose_name=_("Text promo"),
+    )
     content_panels = BasePage.content_panels + [
         MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
         FieldPanel("introduction"),
@@ -1066,6 +1081,14 @@ class DevelopmentLandingPage(LandingPage):
             heading=_("Related pages grid"),
         ),
         StreamFieldPanel("cta_block"),
+        MultiFieldPanel(
+            [
+                FieldPanel("how_you_can_help_intro"),
+                InlinePanel("related_help_pages", label="Page"),
+                StreamFieldPanel("help_cta_block"),
+            ],
+            heading="How you can help",
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_title"),
@@ -1112,8 +1135,13 @@ class DevelopmentLandingPage(LandingPage):
             {"title": "Contact", "link": "contact"},
         ]
 
+    def get_related_help_pages(self):
+        pages = self.related_help_pages.all().select_related("page")
+        return [editorial_teaser_formatter(page.page.specific) for page in pages]
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["tabs"] = self.anchor_nav()
         context["page_teasers"] = self.get_related_pages(self.related_pages_grid)
+        context["help_pages"] = self.get_related_pages(self.related_help_pages)
         return context
