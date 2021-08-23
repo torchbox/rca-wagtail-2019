@@ -739,5 +739,5 @@ def get_listing_image(page):
     """
     image = getattr(page, "listing_image")
     if not image:
-        image = getattr(page, "hero_image")
+        image = getattr(page, "hero_image", None)
     return image
