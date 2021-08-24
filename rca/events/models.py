@@ -633,7 +633,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         string.replace("\n", "\\n")
         return string
 
-    def make_ics(self):
+    def get_ics_record(self):
         # Begin event
         # VEVENT format: http://www.kanzaki.com/docs/ical/vevent.html
         ics_components = [
@@ -688,7 +688,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         if "format" not in request.GET or request.GET["format"] != "ics":
             return super().serve(request)
 
-        ics_components = self.make_ics()
+        ics_components = self.get_ics_record()
 
         response = HttpResponse("\r".join(ics_components), content_type="text/calendar")
         response["Content-Disposition"] = "attachment; filename=" + self.slug + ".ics"
