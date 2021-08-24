@@ -109,11 +109,12 @@ def is_external(*args):
         return False
 
     # Pattern library links are all '#' which will be internal.
-    if link != "#":
-        if urlparse(link).hostname not in default_domains:
-            return True
-
-    return False
+    # '/' links that come from page.url values
+    return (
+        link != "#"
+        and link[0] != "/"
+        and urlparse(link).hostname not in default_domains
+    )
 
 
 @register.filter

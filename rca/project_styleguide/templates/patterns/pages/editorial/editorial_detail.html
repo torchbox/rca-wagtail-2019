@@ -25,9 +25,7 @@
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
-                    {% if page.title %}
-                        <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
-                    {% endif %}
+                    <h1 class="title-area__heading heading heading--display-two" id="main-content">{{ page.title }}</h1>
                 </div>
                 {% if hero_image_credit or hero_image %}
                     <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
@@ -50,9 +48,9 @@
                             {% if page.introduction %}
                                 <div class="introduction introduction--narrow">
                                     <div class="introduction__container">
-                                        <h2 class="section__heading heading heading--five">
+                                        <div class="section__heading heading heading--five">
                                             {{ page.introduction|richtext }}
-                                        </h2>
+                                        </div>
                                     </div>
                                 </div>
                             {% endif %}
@@ -103,13 +101,13 @@
 
                 {% if page.more_information %}
                     <div class="section__row">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title=page.more_information_title modifier="accordion-block--no-top-margin" %}
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title=page.more_information_title parent_heading_override="h2" heading_override="h3" modifier="accordion-block--no-top-margin" %}
                     </div>
                 {% endif %}
 
                 {% if page.quote_carousel %}
                     <div class="section__row section__row--first-extra-small">
-                        {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.quote_carousel modifier='carousel--square carousel--quotes' datatag='data-peek-carousel' %}
+                        {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.quote_carousel modifier='carousel--square carousel--quotes' control_title="Quote carousel" datatag='data-peek-carousel' %}
                     </div>
                 {% endif %}
 
@@ -123,7 +121,7 @@
                         </header>
 
                         <div class="section__content">
-                            {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.gallery modifier='slideshow--author-info' %}
+                            {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.gallery control_title="slideshow" modifier='slideshow--author-info' %}
                         </div>
 
                     </div>
@@ -163,5 +161,38 @@
         </div>
 
     </div>
+
+    {% if hero_image %}
+        {% image hero_image fill-1440x530 as image_large %}
+    {% endif %}
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://google.com/article"
+            },
+            "headline": "{{ page.title }}",
+            {% if hero_image %}
+            "image": [
+              "{{ image_large.url }}"
+            ],
+            {% endif %}
+            "datePublished": "{{ page.published_at }}",
+            "dateModified": "{{ page.last_published_at }}",
+            {% if page.author %}
+            "author": {
+              "@type": "Person",
+              "name": "{{ page.author }}"
+            },
+            {% endif %}
+            "publisher": {
+              "@type": "Organization",
+              "name": "Royal College of Art"
+            }
+          }
+
+    </script>
 
 {% endblock %}

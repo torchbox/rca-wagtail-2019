@@ -6,7 +6,8 @@ context:
         depth: 2
         title: Research
     introduction: 'InnovationRCA is the Royal College of Art’s centre for enterprise and entrepreneurship, helping students and graduates transform compelling ideas into successful businesses.'
-    about_page: 'Read more'
+    about_page:
+      title: 'Read more'
     feature_image: true
     feature_heading: Our Programmes
     feature_meta_heading: Join a thriving community of more than 250 MPhil and PhD students

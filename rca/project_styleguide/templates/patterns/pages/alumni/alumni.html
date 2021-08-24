@@ -22,9 +22,7 @@
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
-                    {% if page.title %}
-                        <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
-                    {% endif %}
+                    <h1 class="title-area__heading heading heading--display-two" id="main-content">{{ page.title }}</h1>
                 </div>
                 {% if page.hero_image_credit or page.hero_image %}
                     <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
@@ -79,14 +77,14 @@
                 <div class="section__row section__row--last schools__about--teasers">
                     <div class="section__header section__header--bottom-space grid">
                         <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ page_teasers.title|default:"Alumni Benefits" }}</h2>
-                        {% if page_teasers.intro %}
+                        {% if  page.related_pages_text %}
                             <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page_teasers.intro }}
+                                {{ page.related_pages_text }}
                             </div>
                         {% endif %}
                     </div>
                     <div class="section__content grid">
-                        {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=page_teasers.pages modifier="no-margin" %}
+                        {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=page_teasers modifier="no-margin" %}
                     </div>
                 </div>
                 {% endif %}
@@ -114,7 +112,7 @@
                 {% if related_editorial_news %}
                 <div class="section__row section__row--last">
                     <div class="section__content grid">
-                        {% include "patterns/organisms/news/news_api_content.html" with news=related_editorial_news %}
+                        {% include "patterns/organisms/news/news_api_content.html" with news=related_editorial_news news_view_all=page.news_view_all %}
                     </div>
                 </div>
                 {% endif %}
@@ -124,7 +122,7 @@
                     <div class="section__header grid">
                         <h2 class="section__heading section__heading--primary heading heading--four">My GenerationRCA</h2>
                     </div>
-                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=editorial_stories.slides modifier='carousel--square' datatag='data-peek-carousel' %}
+                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=editorial_stories.slides modifier='carousel--square' control_title="Editorial stories" datatag='data-peek-carousel' %}
                 </div>
                 {% endif %}
 
@@ -147,9 +145,9 @@
                     {% endif %}
                 {% endcomment %}
 
-                {% if page.external_links %}
+                {% if page.additional_links %}
                 <div class="section__row">
-                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.external_links title=page.external_links_heading modifier="padding-small" %}
+                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.additional_links title=page.external_links_heading modifier="padding-small" %}
                 </div>
                 {% endif %}
 
@@ -181,17 +179,17 @@
                 <div class="section__row section__row--last-small">
                     <div class="section__header grid">
                         <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ page.get_involved_title|default:"Get involved" }}</h2>
-                        {% if page.get_involved_intro %}
+                        {% if page.slideshow_summary %}
                             <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page.get_involved_intro|richtext }}
+                                {{ page.slideshow_summary }}
                             </div>
                         {% endif %}
                     </div>
                 </div>
 
-                {% if get_involved %}
+                {% if get_involved.slides %}
                 <div class="section__row section__row--last schools__about--student-stories partnerships__carousel">
-                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=get_involved.slides modifier='carousel--square' datatag='data-peek-carousel' %}
+                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=get_involved.slides modifier='carousel--square' control_title="Get involved carousel" datatag='data-peek-carousel' %}
                 </div>
                 {% endif %}
 
@@ -202,10 +200,10 @@
                     </div>
                     <div class="section__content">
                         <div class="u-small-and-medium-bp-only">
-                            {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=page.collaborators datatag="data-logo-carousel" per_slide=2 %}
+                            {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=page.collaborators datatag="data-logo-carousel" control_title="Collaborator small carousel" per_slide=2 %}
                         </div>
                         <div class="u-large-bp-only">
-                            {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=page.collaborators datatag="data-logo-carousel" per_slide=3 %}
+                            {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=page.collaborators datatag="data-logo-carousel" control_title="Collaborator large carousel" per_slide=3 %}
                         </div>
                     </div>
                 </div>

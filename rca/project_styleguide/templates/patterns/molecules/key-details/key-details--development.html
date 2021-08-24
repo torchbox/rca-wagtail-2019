@@ -23,7 +23,7 @@
         <ul class="key-details__list">
             {% if page.contact_tel %}
             <li class="key-details__list-item key-details__list-item--tight">
-                <a class="link link--tertiary" href="tel:{{ page.contact_tel }}">{{ page.contact_tel }}</a>
+                <a class="link link--tertiary" href="tel:{{ page.contact_tel|cut:" " }}">{% firstof page.contact_tel_display_text page.contact_tel %}</a>
             </li>
             {% endif %}
             {% if page.contact_email %}

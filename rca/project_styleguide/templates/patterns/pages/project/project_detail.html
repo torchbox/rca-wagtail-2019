@@ -22,9 +22,7 @@
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
-                    {% if page.title %}
-                        <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
-                    {% endif %}
+                    <h1 class="title-area__heading heading heading--display-two" id="main-content">{{ page.title }}</h1>
                 </div>
                 {% if page.hero_image_credit or page.hero_image %}
                     <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
@@ -87,7 +85,7 @@
                         </header>
 
                         <div class="section__content">
-                            {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.gallery modifier='slideshow--author-info' %}
+                            {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.gallery control_title="gallery" modifier='slideshow--author-info' %}
                         </div>
 
                     </div>
@@ -149,7 +147,7 @@
 
                     {% if page.quote_carousel %}
                         <div class="section__row section__row--first {% if page.contact %}section__row--last{% endif %}">
-                            {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.quote_carousel modifier='carousel--square carousel--quotes' datatag='data-peek-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.quote_carousel modifier='carousel--square carousel--quotes' control_title="Quote carousel" datatag='data-peek-carousel' %}
                         </div>
                     {% endif %}
 
@@ -183,7 +181,7 @@
                             </h2>
                         </div>
                         <div class="section__content grid">
-                            {% include "patterns/organisms/carousel/carousel.html" with carousel=related_projects modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=related_projects modifier='carousel carousel--no-margin' control_title="Related projects carousel" datatag='data-carousel' %}
                             <div class="section__action">
                                 <a class="link link--secondary link--link body body--two" href="/research">
                                     <span class="link__label">See all related projects</span>

@@ -4,6 +4,7 @@ from faker import Factory as FakerFactory
 
 from .models import (
     AlumniLandingPage,
+    DevelopmentLandingPage,
     EELandingPage,
     EnterpriseLandingPage,
     InnovationLandingPage,
@@ -64,3 +65,14 @@ class ALumniLandingPageFactory(wagtail_factories.PageFactory):
         model = AlumniLandingPage
 
     title = factory.Faker("text", max_nb_chars=25)
+    news_link_text = factory.Faker("text", max_nb_chars=25)
+    news_link_target_url = "https://rca.ac.uk/news"
+
+
+class DevelopmentLandingPageFactory(wagtail_factories.PageFactory):
+    class Meta:
+        model = DevelopmentLandingPage
+
+    title = factory.Faker("text", max_nb_chars=25)
+    stories_link_text = factory.Faker("text", max_nb_chars=25)
+    stories_link_target_url = "https://rca.ac.uk/news"

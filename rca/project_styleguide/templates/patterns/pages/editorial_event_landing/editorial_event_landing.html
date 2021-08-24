@@ -10,15 +10,13 @@
 
     <div class="page page--no-hero">
 
-        {% if page.title %}
-            <header class="page__header bg bg--dark">
-                <div class="title-area title-area--landing-page grid">
-                    <div class="title-area__content">
-                            <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
-                    </div>
+        <header class="page__header bg bg--dark">
+            <div class="title-area title-area--landing-page grid">
+                <div class="title-area__content">
+                        <h1 class="title-area__heading heading heading--display-two" id="main-content">{{ page.title }}</h1>
                 </div>
-            </header>
-        {% endif %}
+            </div>
+        </header>
 
         <div class="page__content">
 
@@ -62,7 +60,7 @@
                     </div>
                     {% if stories %}
                     <div class="section__content grid">
-                        {% include "patterns/organisms/carousel/carousel.html" with carousel=stories modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                        {% include "patterns/organisms/carousel/carousel.html" with carousel=stories modifier='carousel carousel--no-margin' control_title="Story carousel" datatag='data-carousel' %}
                     </div>
                     {% endif %}
                     {% if page.stories_link_target_url %}
@@ -110,7 +108,7 @@
             </section>
 
             {# CTA #}
-            <section class="section section--start section--end bg bg--dark anchor-heading" id="{{custom_tab_heading.link}}">
+            <section class="section section--start section--end bg bg--dark anchor-heading" {% if custom_tab_heading.link %}id="{{ custom_tab_heading.link }}"{% endif %}>
                 <div class="section__row section__row--last">
                     {% for block in page.cta_block %}
                         {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value %}
