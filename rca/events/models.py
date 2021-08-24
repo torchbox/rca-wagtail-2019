@@ -34,6 +34,7 @@ from rca.utils.models import (
 )
 
 from .blocks import CallToAction, EventDetailPageBlock, PartnersBlock
+from .filter import PastOrFutureFilter
 from .forms import EventAdminForm
 
 
@@ -205,6 +206,7 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
                 filter_by="series__slug__in",  # Filter by slug here
                 option_value_field="slug",
             ),
+            PastOrFutureFilter(tab_title="Date"),
         )
 
         # Apply filters
