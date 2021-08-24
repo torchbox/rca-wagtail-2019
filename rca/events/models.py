@@ -621,7 +621,10 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             ),
         }
 
-    def add_slashes(self, string):
+    def ics_escape_characters(self, string):
+        """
+        Escapes special characters in long form text fields for ics records.
+        """
         string.replace('"', '\\"')
         string.replace("\\", "\\\\")
         string.replace(",", "\\,")
@@ -663,11 +666,12 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                         self.full_url.encode() + str(start_datetime).encode()
                     ).hexdigest()
                     + "@rca.ac.uk",
-                    "URL:" + self.add_slashes(self.full_url),
+                    "URL:" + self.ics_escape_characters(self.full_url),
                     "DTSTAMP:" + self.start_date.strftime("%Y%m%dT%H%M%S"),
-                    "SUMMARY:" + self.add_slashes(self.title),
-                    "DESCRIPTION:" + self.add_slashes(strip_tags(self.introduction)),
-                    "LOCATION:" + self.add_slashes(location),
+                    "SUMMARY:" + self.ics_escape_characters(self.title),
+                    "DESCRIPTION:"
+                    + self.ics_escape_characters(strip_tags(self.introduction)),
+                    "LOCATION:" + self.ics_escape_characters(location),
                     "DTSTART;TZID=Europe/London:"
                     + start_datetime.strftime("%Y%m%dT%H%M%S"),
                     "DTEND;TZID=Europe/London:"
