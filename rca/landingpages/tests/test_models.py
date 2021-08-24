@@ -50,6 +50,7 @@ class TestEELandingPageRules(WagtailPageTests):
                 talks_link_text="View more",
                 talks_link_target_url="https://rca.ac.uk",
                 talks_summary_text="These are the talks",
+                cta_navigation_title="Media centre",
             )
         )
         # A second EELandingPage should not be creatable
