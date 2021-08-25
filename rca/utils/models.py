@@ -437,7 +437,81 @@ class LegacyNewsAndEventsMixin(models.Model):
         ``page.legacy_news_and_events`` can be referenced in the
         template multiple times without triggering another
         cache lookup.
+
+        If there is no ``page.legacy_news_and_event_tags`` value, it returns
+        Editorial and Event pages with relationships to this page.
         """
+
+        from rca.events.models import EventDetailPage
+        from rca.editorial.models import EditorialPage
+        from itertools import chain
+        from django.utils import timezone
+
+        # TODO
+        if not self.legacy_news_and_event_tags.exists():
+            print("I HAVE NO TAGS!")
+            NEWS_ITEMS = 3
+
+            # Try and find an upcoming event
+            event = (
+                EventDetailPage.objects.live()
+                .filter(related_landing_pages__page=self)
+                .filter(start_date__gte=timezone.now().date())
+                .order_by("-start_date")[:1]
+            )
+            # If there is an event, we'll show 2 news items and 1 event
+            if event:
+                NEWS_ITEMS = 2
+
+            # get NEWS_ITEMS
+            news = EditorialPage.objects.filter(
+                related_landing_pages__page=self
+            ).live()[:NEWS_ITEMS]
+            news_and_events_content = list(chain(news, event))
+
+            # Formatting
+            items = []
+            for page in news_and_events_content:
+                # Quite an elaborate check for the editorial_type to avoid
+                # throwing an error when the page here is an EventDetailPage
+                editorial_type = getattr(page, "editorial_types", None)
+                try:
+                    editorial_type = editorial_type.first().type
+                except AttributeError:
+                    editorial_type = ""
+
+                PAGE_META_MAPPING = {
+                    "EditorialPage": editorial_type,
+                    "EventDetailPage": "Event",
+                }
+                meta = PAGE_META_MAPPING.get(page.__class__.__name__, "")
+                editorial_published_date = getattr(page, "published_at", None)
+
+                if editorial_published_date:
+                    editorial_published_date = editorial_published_date.strftime(
+                        "%-d %B %Y"
+                    )
+
+                PAGE_DESCRIPTION_MAPPING = {
+                    "EditorialPage": editorial_published_date,
+                    "EventDetailPage": getattr(page, "event_date_short", None),
+                }
+                description = PAGE_DESCRIPTION_MAPPING.get(page.__class__.__name__, "")
+
+                items.append(
+                    {
+                        "image": get_listing_image(page)
+                        .get_rendition("fill-878x472")
+                        .url,
+                        "title": page.title,
+                        "link": page.url,
+                        "description": description,
+                        "type": meta,
+                    }
+                )
+
+            return items
+
         cached_val = cache.get(self.legacy_news_cache_key)
         if cached_val is not None:
             return cached_val
