@@ -555,7 +555,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
 
     @property
     def past(self):
-        return self.end_date < datetime.date.today()
+        return self.end_date.date() < datetime.date.today()
 
     @property
     def inline_cta(self):
