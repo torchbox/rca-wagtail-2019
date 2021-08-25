@@ -43,7 +43,6 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
         "is_read_data_protection_policy",
         "is_notification_opt_in",
         "get_programmes",
-        "get_programme_types",
     )
     list_display = (
         "submission_date",
@@ -62,14 +61,6 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
         )
 
     get_programmes.short_description = "Programmes"
-
-    def get_programme_types(self, obj):
-        return ", ".join(
-            str(item.programme_type)
-            for item in obj.enquiry_submission_programme_types.all()
-        )
-
-    get_programme_types.short_description = "Programme types"
 
     list_filter = ("enquiry_submission_programmes__programme",)
     search_fields = ("first_name", "last_name", "email", "country_of_residence")
