@@ -135,17 +135,37 @@ class StaffPageManualRelatedStudents(models.Model):
         on_delete=models.CASCADE,
         related_name="related_students_manual",
     )
-    first_name = models.CharField(max_length=255)
-    surname = models.CharField(max_length=255)
-    status = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=255, blank=True)
+    surname = models.CharField(max_length=255, blank=True)
+    status = models.CharField(max_length=255, blank=True)
     link = models.URLField(blank=True)
+    student_page = models.ForeignKey(
+        "people.StudentPage",
+        on_delete=models.CASCADE,
+        related_name="related_programme",
+        null=True,
+        blank=True,
+    )
 
     panels = [
         FieldPanel("first_name"),
         FieldPanel("surname"),
         FieldPanel("status"),
         FieldPanel("link"),
+        PageChooserPanel("student_page"),
     ]
+
+    def clean(self):
+        if self.student_page and any(
+            [self.first_name, self.surname, self.status, self.link]
+        ):
+            raise ValidationError(
+                {
+                    "student_page": ValidationError(
+                        "Please choose between a page or manually entered data"
+                    ),
+                }
+            )
 
 
 class StaffPage(BasePage):
@@ -278,12 +298,11 @@ class StaffPage(BasePage):
 
     def fetch_related_students(self):
         value = []
-        if self.legacy_staff_id:
-            try:
-                value = pull_related_students(self.legacy_staff_id)
-                cache.set(self.related_students_cache_key, value, None)
-            except CantPullFromRcaApi:
-                pass
+        try:
+            value = pull_related_students(self.legacy_staff_id)
+            cache.set(self.related_students_cache_key, value, None)
+        except CantPullFromRcaApi:
+            pass
         return value
 
     @cached_property
@@ -300,13 +319,15 @@ class StaffPage(BasePage):
         legacy_staff_id value has changed).
         """
         super().save(*args, **kwargs)
-        try:
-            self.fetch_related_students()
-        except CantPullFromRcaApi:
-            # Legacy API can be a bit unreliable, so don't
-            # break here. The management command can update
-            # the value next time it runs
-            pass
+        if self.legacy_staff_id:
+            # Don't run if there is no ID
+            try:
+                self.fetch_related_students()
+            except CantPullFromRcaApi:
+                # Legacy API can be a bit unreliable, so don't
+                # break here. The management command can update
+                # the value next time it runs
+                pass
 
     def get_related_students(self):
         """Returns a list containing legacy related students from the cached api
@@ -314,22 +335,37 @@ class StaffPage(BasePage):
         students = []
 
         # Format the api content
-        for student in self.legacy_related_students:
-            item = student
-            fullname = student["name"].split(" ")
-            item["first_name"] = fullname[0].title()
-            # In case we encounter tripple names
-            item["surname"] = " ".join(fullname[1:]).title()
-            students.append(item)
+        if self.legacy_staff_id:
+            for student in self.legacy_related_students:
+                item = student
+                fullname = student["name"].split(" ")
+                item["first_name"] = fullname[0].title()
+                # In case we encounter tripple names
+                item["surname"] = " ".join(fullname[1:]).title()
+                students.append(item)
 
         # Format the students added at the page level
         for student in self.related_students_manual.all():
-            item = {
-                "first_name": student.first_name.title(),
-                "surname": student.surname.title(),
-                "status": student.status,
-                "link": student.link,
-            }
+            if student.student_page:
+                # image
+                student_page = student.student_page.specific
+                image = getattr(student_page, "profile_image", None)
+                if image:
+                    image = image.get_rendition("fill-60x60").url
+                item = {
+                    "first_name": student_page.first_name,
+                    "surname": student_page.last_name,
+                    "status": student_page.degree_status,
+                    "link": student_page.url,
+                    "image_url": image,
+                }
+            else:
+                item = {
+                    "first_name": student.first_name.title(),
+                    "surname": student.surname.title(),
+                    "status": student.status,
+                    "link": student.link,
+                }
 
             students.append(item)
 
