@@ -644,7 +644,10 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             ),
         }
 
-    def add_slashes(self, string):
+    def ics_escape_characters(self, string):
+        """
+        Escapes special characters in long form text fields for ics records.
+        """
         string.replace('"', '\\"')
         string.replace("\\", "\\\\")
         string.replace(",", "\\,")
@@ -653,7 +656,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         string.replace("\n", "\\n")
         return string
 
-    def make_ics(self):
+    def get_ics_record(self):
         # Begin event
         # VEVENT format: http://www.kanzaki.com/docs/ical/vevent.html
         ics_components = [
@@ -686,11 +689,12 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                         self.full_url.encode() + str(start_datetime).encode()
                     ).hexdigest()
                     + "@rca.ac.uk",
-                    "URL:" + self.add_slashes(self.full_url),
+                    "URL:" + self.ics_escape_characters(self.full_url),
                     "DTSTAMP:" + self.start_date.strftime("%Y%m%dT%H%M%S"),
-                    "SUMMARY:" + self.add_slashes(self.title),
-                    "DESCRIPTION:" + self.add_slashes(strip_tags(self.introduction)),
-                    "LOCATION:" + self.add_slashes(location),
+                    "SUMMARY:" + self.ics_escape_characters(self.title),
+                    "DESCRIPTION:"
+                    + self.ics_escape_characters(strip_tags(self.introduction)),
+                    "LOCATION:" + self.ics_escape_characters(location),
                     "DTSTART;TZID=Europe/London:"
                     + start_datetime.strftime("%Y%m%dT%H%M%S"),
                     "DTEND;TZID=Europe/London:"
@@ -707,7 +711,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         if "format" not in request.GET or request.GET["format"] != "ics":
             return super().serve(request)
 
-        ics_components = self.make_ics()
+        ics_components = self.get_ics_record()
 
         response = HttpResponse("\r".join(ics_components), content_type="text/calendar")
         response["Content-Disposition"] = "attachment; filename=" + self.slug + ".ics"
