@@ -2,8 +2,8 @@ import datetime
 from datetime import date
 
 import wagtail_factories
+from django.test import override_settings
 from faker import Faker
-from freezegun import freeze_time
 from wagtail.images.tests.utils import Image, get_test_image_file
 from wagtail.tests.utils import WagtailPageTests
 
@@ -21,7 +21,6 @@ from rca.schools.models import RelatedSchoolPage, SchoolPage
 fake = Faker()
 
 
-@freeze_time("2021-01-03")
 def date_helper():
     future_date = fake.date_between(start_date="now", end_date="+1y")
     return {
@@ -30,6 +29,7 @@ def date_helper():
     }
 
 
+@override_settings(USE_TZ=False)
 class NewsAndEventsMixinTest(WagtailPageTests):
     """
     There is a lot of page setup and handwaving here, however the main aim
@@ -38,7 +38,6 @@ class NewsAndEventsMixinTest(WagtailPageTests):
     (which is planned) we want these to fail.
     """
 
-    @freeze_time("2021-01-03")
     def setUp(self):
         self.editorial_type = EditorialType(title="Art")
         self.editorial_type.save()
@@ -100,8 +99,7 @@ class NewsAndEventsMixinTest(WagtailPageTests):
         )
         self.home_page.add_child(instance=self.event_detail_page)
 
-    def test_schools_page(self):
-        # Test Editorial pages returned
+    def test_schools_page_relatied_editorial(self):
         self.assertIn(
             "fill-878x472.jpg", self.school_page.legacy_news_and_events[0]["image"]
         )
@@ -117,7 +115,8 @@ class NewsAndEventsMixinTest(WagtailPageTests):
         self.assertEqual(
             self.school_page.legacy_news_and_events[0]["type"].title, "Art"
         )
-        # Test Event pages returned
+
+    def test_school_page_related_event(self):
         self.assertIn(
             "fill-878x472.jpg", self.school_page.legacy_news_and_events[1]["image"]
         )
@@ -133,8 +132,7 @@ class NewsAndEventsMixinTest(WagtailPageTests):
         )
         self.assertEqual(self.school_page.legacy_news_and_events[1]["type"], "Event")
 
-    def test_research_page(self):
-        # Test Editorial pages returned
+    def test_research_page_related_editorial(self):
         self.assertIn(
             "fill-878x472.jpg",
             self.research_centre_page.legacy_news_and_events[0]["image"],
@@ -154,24 +152,29 @@ class NewsAndEventsMixinTest(WagtailPageTests):
         self.assertEqual(
             self.research_centre_page.legacy_news_and_events[0]["type"].title, "Art"
         )
-        # Test Event pages returned
+
+    def test_research_page_related_event(self):
         self.assertIn(
-            "fill-878x472.jpg", self.school_page.legacy_news_and_events[1]["image"]
+            "fill-878x472.jpg",
+            self.research_centre_page.legacy_news_and_events[1]["image"],
         )
         self.assertEqual(
-            self.school_page.legacy_news_and_events[1]["title"], "The event page"
+            self.research_centre_page.legacy_news_and_events[1]["title"],
+            "The event page",
         )
         self.assertEqual(
-            self.school_page.legacy_news_and_events[1]["description"],
+            self.research_centre_page.legacy_news_and_events[1]["description"],
             self.event_detail_page.event_date_short,
         )
         self.assertEqual(
-            self.school_page.legacy_news_and_events[1]["link"], "/the-event-page/"
+            self.research_centre_page.legacy_news_and_events[1]["link"],
+            "/the-event-page/",
         )
-        self.assertEqual(self.school_page.legacy_news_and_events[1]["type"], "Event")
+        self.assertEqual(
+            self.research_centre_page.legacy_news_and_events[1]["type"], "Event"
+        )
 
-    def test_landing_page(self):
-        # Test Editorial pages returned
+    def test_landing_page_related_editorial(self):
         self.assertIn(
             "fill-878x472.jpg", self.landing_page.legacy_news_and_events[0]["image"]
         )
@@ -187,18 +190,19 @@ class NewsAndEventsMixinTest(WagtailPageTests):
         self.assertEqual(
             self.landing_page.legacy_news_and_events[0]["type"].title, "Art"
         )
-        # Test Event pages returned
+
+    def test_landing_page_related_event(self):
         self.assertIn(
-            "fill-878x472.jpg", self.school_page.legacy_news_and_events[1]["image"]
+            "fill-878x472.jpg", self.landing_page.legacy_news_and_events[1]["image"]
         )
         self.assertEqual(
-            self.school_page.legacy_news_and_events[1]["title"], "The event page"
+            self.landing_page.legacy_news_and_events[1]["title"], "The event page"
         )
         self.assertEqual(
-            self.school_page.legacy_news_and_events[1]["description"],
+            self.landing_page.legacy_news_and_events[1]["description"],
             self.event_detail_page.event_date_short,
         )
         self.assertEqual(
-            self.school_page.legacy_news_and_events[1]["link"], "/the-event-page/"
+            self.landing_page.legacy_news_and_events[1]["link"], "/the-event-page/"
         )
-        self.assertEqual(self.school_page.legacy_news_and_events[1]["type"], "Event")
+        self.assertEqual(self.landing_page.legacy_news_and_events[1]["type"], "Event")
