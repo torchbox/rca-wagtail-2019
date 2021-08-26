@@ -653,6 +653,10 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         help_text=_("The text displayed next to the video play button"),
     )
     video = models.URLField(blank=True)
+    cta_navigation_title = models.CharField(
+        max_length=80,
+        help_text=_("The text displayed for this section in the in-page navigation"),
+    )
     cta_block = StreamField(
         StreamBlock([("call_to_action", CallToActionBlock())], max_num=1,), blank=True
     )
@@ -717,8 +721,8 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         if self.cta_block:
             for block in self.cta_block:
                 return {
-                    "title": block.value["title"],
-                    "link": slugify(block.value["title"]),
+                    "title": self.cta_navigation_title,
+                    "link": slugify(self.cta_navigation_title),
                 }
 
     def anchor_nav(self):
@@ -729,7 +733,10 @@ class EELandingPage(ContactFieldsMixin, BasePage):
             {"title": "Events", "link": "events"},
             {"title": "Stories", "link": "stories"},
             {"title": "Talks", "link": "talks"},
-            self.custom_anchor_heading_item(),
+            {
+                "title": self.cta_navigation_title,
+                "link": slugify(self.cta_navigation_title),
+            },
         ]
 
     content_panels = BasePage.content_panels + [
@@ -778,7 +785,10 @@ class EELandingPage(ContactFieldsMixin, BasePage):
             ],
             heading="Talks",
         ),
-        StreamFieldPanel("cta_block"),
+        MultiFieldPanel(
+            [FieldPanel("cta_navigation_title"), StreamFieldPanel("cta_block")],
+            heading="CTA",
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_title"),
