@@ -175,12 +175,14 @@ class HomePage(BasePage):
             [
                 HelpPanel(
                     content=(
-                        "These fields control if news, events and alumni stories"
-                        " are fetched from the legacy website. If un-checked, "
-                        "the content featured here will use pages created on this"
-                        " site which will be: Editorial pages tagged with 'news'"
-                        " or 'alumni story' and all 'EventPages' with a start"
-                        " date closest to today"
+                        """<p>These fields control if news/events/alumni stories are fetched
+                        from the legacy website.</p>
+                        <p>If un-checked, the content featured here will use pages created on
+                        <strong>this</strong> site:</p>
+                        <ul>
+                        <li>editorial pages tagged with 'news' or 'alumni story'</li>
+                        <li>'EventPages' with a start date closest to today</li>
+                        </ul>"""
                     )
                 ),
                 FieldPanel("use_api_for_alumni_stories"),
@@ -270,9 +272,9 @@ class HomePage(BasePage):
 
         return slideshow
 
-    def related_news_events_formatter(self, page, story=False):
+    def related_news_events_formatter(self, page, editorial_meta_label=""):
         # Organsises data into a digestable format for the template.
-        editorial_meta = "News" if not story else "Alumni story"
+        editorial_meta = editorial_meta_label
         PAGE_META_MAPPING = {
             "EditorialPage": editorial_meta,
             "EventDetailPage": "Event",
@@ -299,7 +301,6 @@ class HomePage(BasePage):
     def get_news_and_events(self):
         if self.use_api_for_news_and_events:
             return get_api_news_and_events()
-        NEWS_ITEMS = 3
 
         # Try and find an upcoming event
         event = (
@@ -309,8 +310,7 @@ class HomePage(BasePage):
         )
 
         # If there is an event, we'll show 2 news items and 1 event
-        if event:
-            NEWS_ITEMS = 2
+        NEWS_ITEMS = 2 if event else 3
 
         # get NEWS_ITEMS
         news = EditorialPage.objects.filter(editorial_types__type__slug="news").live()[
@@ -319,7 +319,8 @@ class HomePage(BasePage):
         news_and_events_content = list(chain(news, event))
 
         return [
-            self.related_news_events_formatter(page) for page in news_and_events_content
+            self.related_news_events_formatter(page, editorial_meta_label="News")
+            for page in news_and_events_content
         ]
 
     def get_alumni_stories(self):
@@ -331,7 +332,7 @@ class HomePage(BasePage):
             .order_by("-published_at")[:3]
         )
         return [
-            self.related_news_events_formatter(page, story=True)
+            self.related_news_events_formatter(page, editorial_meta_label="story")
             for page in pages_queryset
         ]
 
