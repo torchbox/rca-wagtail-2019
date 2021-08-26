@@ -272,7 +272,9 @@ class HomePage(BasePage):
 
         return slideshow
 
-    def related_news_events_formatter(self, page, editorial_meta_label=""):
+    def related_news_events_formatter(
+        self, page, long_description=False, editorial_meta_label=""
+    ):
         # Organsises data into a digestable format for the template.
         editorial_meta = editorial_meta_label
         PAGE_META_MAPPING = {
@@ -280,11 +282,13 @@ class HomePage(BasePage):
             "EventDetailPage": "Event",
         }
         editorial_published_date = getattr(page, "published_at", None)
-        if editorial_published_date:
-            editorial_published_date = editorial_published_date.strftime("%-d %B %Y")
+        if editorial_published_date and not long_description:
+            editorial_description = editorial_published_date.strftime("%-d %B %Y")
+        else:
+            editorial_description = page.introduction
 
         PAGE_DESCRIPTION_MAPPING = {
-            "EditorialPage": editorial_published_date,
+            "EditorialPage": editorial_description,
             "EventDetailPage": getattr(page, "event_date_short", None),
         }
         meta = PAGE_META_MAPPING.get(page.__class__.__name__, "")
@@ -332,7 +336,9 @@ class HomePage(BasePage):
             .order_by("-published_at")[:3]
         )
         return [
-            self.related_news_events_formatter(page, editorial_meta_label="story")
+            self.related_news_events_formatter(
+                page, editorial_meta_label="Alumni story", long_description=True
+            )
             for page in pages_queryset
         ]
 
