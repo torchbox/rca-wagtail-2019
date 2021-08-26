@@ -460,9 +460,12 @@ class NewsAndEventsMixin:
             }
             description = PAGE_DESCRIPTION_MAPPING.get(page.__class__.__name__, "")
 
+            image = get_listing_image(page)
+            if image:
+                image = image.get_rendition("fill-878x472").url
             items.append(
                 {
-                    "image": get_listing_image(page).get_rendition("fill-878x472").url,
+                    "image": image,
                     "title": page.title,
                     "link": page.url,
                     "description": description,
