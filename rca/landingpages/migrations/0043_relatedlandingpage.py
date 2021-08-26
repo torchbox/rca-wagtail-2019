@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("wagtailcore", "0062_comment_models_and_pagesubscription"),
-        ("landingpages", "0041_development_landing_story_pages_and_cta"),
+        ("landingpages", "0042_add_menu_item_field"),
     ]
 
     operations = [

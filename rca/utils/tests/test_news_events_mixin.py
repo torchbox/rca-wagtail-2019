@@ -3,6 +3,7 @@ from datetime import date
 
 import wagtail_factories
 from faker import Faker
+from freezegun import freeze_time
 from wagtail.images.tests.utils import Image, get_test_image_file
 from wagtail.tests.utils import WagtailPageTests
 
@@ -20,6 +21,7 @@ from rca.schools.models import RelatedSchoolPage, SchoolPage
 fake = Faker()
 
 
+@freeze_time("2021-01-03")
 def date_helper():
     future_date = fake.date_between(start_date="now", end_date="+1y")
     return {
@@ -36,6 +38,7 @@ class NewsAndEventsMixinTest(WagtailPageTests):
     (which is planned) we want these to fail.
     """
 
+    @freeze_time("2021-01-03")
     def setUp(self):
         self.editorial_type = EditorialType(title="Art")
         self.editorial_type.save()
