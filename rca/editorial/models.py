@@ -218,6 +218,11 @@ class EditorialPage(ContactFieldsMixin, BasePage):
             ],
             heading="Related School, Research Centre or Area",
         ),
+        InlinePanel(
+            "related_landing_pages",
+            heading="Related Landing Pages",
+            label="Landing Page",
+        ),
         InlinePanel("editorial_types", label="Editorial Type"),
         InlinePanel("related_programmes", label="Programme Page"),
         FieldPanel("author"),

@@ -440,6 +440,11 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             heading="Research Centres",
             label="Research Centre",
         ),
+        InlinePanel(
+            "related_landing_pages",
+            heading="Related Landing Pages",
+            label="Landing Page",
+        ),
         InlinePanel("related_schools", heading="Schools", label="School"),
         FieldPanel("introduction"),
         StreamFieldPanel("body"),

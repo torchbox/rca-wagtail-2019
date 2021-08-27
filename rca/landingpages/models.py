@@ -16,6 +16,7 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.fields import RichTextField, StreamBlock, StreamField
+from wagtail.core.models import Orderable, Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
@@ -163,6 +164,13 @@ class LandingPagePageSlideshowBlock(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class RelatedLandingPage(Orderable):
+    source_page = ParentalKey(Page, related_name="related_landing_pages")
+    page = models.ForeignKey("landingpages.LandingPage", on_delete=models.CASCADE)
+
+    panels = [PageChooserPanel("page")]
 
 
 class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
