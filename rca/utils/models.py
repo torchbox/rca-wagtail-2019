@@ -485,9 +485,11 @@ class NewsAndEventsMixin:
         if event:
             self.editorial_items = 2
 
-        news = self.editorial_page.objects.filter(
-            related_landing_pages__page=self.page
-        ).live()[: self.editorial_items]
+        news = (
+            self.editorial_page.objects.filter(related_landing_pages__page=self.page)
+            .live()
+            .order_by("-published_at")[: self.editorial_items]
+        )
         return list(chain(news, event))
 
     def get_research_page_editorial_and_events(self):
@@ -500,9 +502,13 @@ class NewsAndEventsMixin:
         if event:
             self.editorial_items = 2
 
-        news = self.editorial_page.objects.filter(
-            related_research_centre_pages__page=self.page
-        ).live()[: self.editorial_items]
+        news = (
+            self.editorial_page.objects.filter(
+                related_research_centre_pages__page=self.page
+            )
+            .live()
+            .order_by("-published_at")[: self.editorial_items]
+        )
         return list(chain(news, event))
 
     def get_schools_editorial_and_events(self):
@@ -515,9 +521,11 @@ class NewsAndEventsMixin:
         if event:
             self.editorial_items = 2
 
-        news = self.editorial_page.objects.filter(
-            related_schools__page=self.page
-        ).live()[: self.editorial_items]
+        news = (
+            self.editorial_page.objects.filter(related_schools__page=self.page)
+            .live()
+            .order_by("-published_at")[: self.editorial_items]
+        )
         return list(chain(news, event))
 
     def get_data(self):
