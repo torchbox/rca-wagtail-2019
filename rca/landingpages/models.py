@@ -293,11 +293,11 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
                 heading=_("Related pages grid"),
             ),
             InlinePanel("featured_image", label=_("Featured content"), max_num=1),
-            FieldPanel("legacy_news_and_event_tags"),
             MultiFieldPanel(
                 [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
                 heading=_("Related page list"),
             ),
+            FieldPanel("legacy_news_and_event_tags"),
         ]
         + TapMixin.panels
     )
@@ -500,7 +500,6 @@ class ResearchLandingPage(LandingPage):
                 ],
                 heading=_("Featured projects"),
             ),
-            FieldPanel("legacy_news_and_event_tags"),
             MultiFieldPanel(
                 [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
                 heading=_("Related page list"),
@@ -515,6 +514,7 @@ class ResearchLandingPage(LandingPage):
                 heading=_("Related content"),
             ),
             StreamFieldPanel("cta_block"),
+            FieldPanel("legacy_news_and_event_tags"),
             MultiFieldPanel(
                 [
                     ImageChooserPanel("contact_model_image"),
@@ -563,7 +563,6 @@ class InnovationLandingPage(LandingPage):
                 [InlinePanel("featured_image", label=_("Featured image"), max_num=1)],
                 heading=_("Featured content - top"),
             ),
-            FieldPanel("legacy_news_and_event_tags"),
             MultiFieldPanel(
                 [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
                 heading=_("Related page list"),
@@ -586,6 +585,7 @@ class InnovationLandingPage(LandingPage):
                 ],
                 heading=_("Featured content - bottom"),
             ),
+            FieldPanel("legacy_news_and_event_tags"),
             MultiFieldPanel(
                 [
                     ImageChooserPanel("contact_model_image"),
