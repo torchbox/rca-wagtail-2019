@@ -479,7 +479,7 @@ class NewsAndEventsMixin:
             self.event_page_model.objects.live()
             .filter(related_landing_pages__page=self.page)
             .filter(start_date__gte=timezone.now().date())
-            .order_by("-start_date")[:1]
+            .order_by("start_date")[:1]
         )
         if event:
             self.editorial_items = 2
@@ -498,7 +498,7 @@ class NewsAndEventsMixin:
             self.event_page_model.objects.live()
             .filter(related_research_centre_pages__page=self.page)
             .filter(start_date__gte=timezone.now().date())
-            .order_by("-start_date")[:1]
+            .order_by("start_date")[:1]
         )
         if event:
             self.editorial_items = 2
@@ -517,7 +517,7 @@ class NewsAndEventsMixin:
             self.event_page_model.objects.live()
             .filter(related_schools__page=self.page)
             .filter(start_date__gte=timezone.now().date())
-            .order_by("-start_date")[:1]
+            .order_by("start_date")[:1]
         )
         if event:
             self.editorial_items = 2
