@@ -99,7 +99,7 @@ class NewsAndEventsMixinTest(WagtailPageTests):
         )
         self.home_page.add_child(instance=self.event_detail_page)
 
-    def test_schools_page_relatied_editorial(self):
+    def test_schools_page_related_editorial(self):
         self.assertIn(
             "fill-878x472.jpg", self.school_page.legacy_news_and_events[0]["image"]
         )
