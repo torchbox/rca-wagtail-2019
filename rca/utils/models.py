@@ -428,6 +428,14 @@ class NewsAndEventsMixin:
         self.page_type = page.__class__.__name__
         self.page_is_landing_page = issubclass(page.__class__, LandingPage)
 
+    def get_editorial_type(self, page):
+        editorial_type = getattr(page, "editorial_types", None)
+        if editorial_type:
+            try:
+                return editorial_type.first().type
+            except AttributeError:
+                return ""
+
     def format_data(self, pages_queryset):
         """
         Used to turn queryset data into a list of dicts
@@ -437,11 +445,7 @@ class NewsAndEventsMixin:
         for page in pages_queryset:
             # Quite an elaborate check for the editorial_type to avoid
             # throwing an error when the page here is an EventDetailPage
-            editorial_type = getattr(page, "editorial_types", None)
-            try:
-                editorial_type = editorial_type.first().type
-            except AttributeError:
-                editorial_type = ""
+            editorial_type = self.get_editorial_type(page)
 
             PAGE_META_MAPPING = {
                 "EditorialPage": editorial_type,
