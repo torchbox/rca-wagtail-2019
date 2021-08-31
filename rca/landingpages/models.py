@@ -738,7 +738,7 @@ class EELandingPage(ContactFieldsMixin, BasePage):
             EventDetailPage.objects.live()
             .filter(start_date__gte=timezone.now().date())
             .exclude(id=picked_event.id)
-            .order_by("-start_date")
+            .order_by("start_date")
             .prefetch_related("hero_image")[:3]
         )
         for item in latest_event_items:

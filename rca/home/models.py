@@ -317,7 +317,7 @@ class HomePage(TapMixin, BasePage):
         event = (
             EventDetailPage.objects.live()
             .filter(start_date__gte=timezone.now().date())
-            .order_by("-start_date")[:1]
+            .order_by("start_date")[:1]
         )
 
         # If there is an event, we'll show 2 news items and 1 event

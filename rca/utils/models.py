@@ -420,8 +420,8 @@ class NewsAndEventsMixin:
         from rca.events.models import EventDetailPage
         from rca.editorial.models import EditorialPage
 
-        self.event_page = EventDetailPage
-        self.editorial_page = EditorialPage
+        self.event_page_model = EventDetailPage
+        self.editorial_page_model = EditorialPage
 
         self.page = page
         self.editorial_items = 3
@@ -477,16 +477,18 @@ class NewsAndEventsMixin:
 
     def get_landing_page_editorial_and_events(self):
         event = (
-            self.event_page.objects.live()
+            self.event_page_model.objects.live()
             .filter(related_landing_pages__page=self.page)
             .filter(start_date__gte=timezone.now().date())
-            .order_by("-start_date")[:1]
+            .order_by("start_date")[:1]
         )
         if event:
             self.editorial_items = 2
 
         news = (
-            self.editorial_page.objects.filter(related_landing_pages__page=self.page)
+            self.editorial_page_model.objects.filter(
+                related_landing_pages__page=self.page
+            )
             .live()
             .order_by("-published_at")[: self.editorial_items]
         )
@@ -494,16 +496,16 @@ class NewsAndEventsMixin:
 
     def get_research_page_editorial_and_events(self):
         event = (
-            self.event_page.objects.live()
+            self.event_page_model.objects.live()
             .filter(related_research_centre_pages__page=self.page)
             .filter(start_date__gte=timezone.now().date())
-            .order_by("-start_date")[:1]
+            .order_by("start_date")[:1]
         )
         if event:
             self.editorial_items = 2
 
         news = (
-            self.editorial_page.objects.filter(
+            self.editorial_page_model.objects.filter(
                 related_research_centre_pages__page=self.page
             )
             .live()
@@ -513,16 +515,16 @@ class NewsAndEventsMixin:
 
     def get_schools_editorial_and_events(self):
         event = (
-            self.event_page.objects.live()
+            self.event_page_model.objects.live()
             .filter(related_schools__page=self.page)
             .filter(start_date__gte=timezone.now().date())
-            .order_by("-start_date")[:1]
+            .order_by("start_date")[:1]
         )
         if event:
             self.editorial_items = 2
 
         news = (
-            self.editorial_page.objects.filter(related_schools__page=self.page)
+            self.editorial_page_model.objects.filter(related_schools__page=self.page)
             .live()
             .order_by("-published_at")[: self.editorial_items]
         )
