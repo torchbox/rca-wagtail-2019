@@ -4,7 +4,7 @@ from django.db import models
 
 
 class PastFutureChoices(models.TextChoices):
-    FUTURE = "future", "Future"
+    FUTURE = "future", "Upcoming"
     PAST = "past", "Past"
 
 
