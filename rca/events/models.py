@@ -209,7 +209,7 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
                 filter_by="series__slug__in",  # Filter by slug here
                 option_value_field="slug",
             ),
-            PastOrFutureFilter(tab_title="Date"),
+            PastOrFutureFilter(tab_title="Upcoming/Past"),
         )
 
         # Apply filters
