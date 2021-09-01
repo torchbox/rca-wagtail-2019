@@ -21,6 +21,7 @@ from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
+from rca.projects.utils import format_projects_for_gallery
 from rca.utils.blocks import LinkBlock
 from rca.utils.models import (
     BasePage,
@@ -187,7 +188,7 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
     ]
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading="Hero",),
+        MultiFieldPanel([ImageChooserPanel("hero_image")], heading="Hero"),
         MultiFieldPanel(
             [
                 FieldPanel("introduction"),
@@ -272,19 +273,12 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
         return "Research"
 
     def get_related_projects(self):
-        child_projects = []
-        for value in self.research_projects.select_related("page"):
-            if value.page and value.page.live:
-                page = value.page.specific
-                child_projects.append(
-                    {
-                        "title": page.title,
-                        "link": page.url,
-                        "image": page.hero_image,
-                        "description": page.introduction,
-                    }
-                )
-        return child_projects
+        from rca.projects.models import ProjectPage
+
+        project_pages = ProjectPage.objects.filter(
+            pk__in=self.research_projects.values_list("page_id", flat=True)
+        ).live()
+        return format_projects_for_gallery(project_pages)
 
     def get_research_spaces(self):
         research_spaces = []

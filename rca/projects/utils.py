@@ -10,12 +10,17 @@ def format_projects_for_gallery(projects):
     """
     items = []
     projects = projects.prefetch_related("related_school_pages__page")
+    projects = projects.prefetch_related("research_types__research_type")
+    projects = projects.select_related("hero_image")
+
     for page in projects[:8]:
         page = page.specific
-        meta = ""
+
+        meta = []
         related_school = page.related_school_pages.first()
         if related_school is not None:
-            meta = related_school.page.title
+            meta.append(related_school.page.title)
+        meta += [t.research_type.title for t in page.research_types.all()]
 
         items.append(
             {
@@ -23,7 +28,7 @@ def format_projects_for_gallery(projects):
                 "link": page.url,
                 "image": page.hero_image,
                 "description": page.introduction or page.listing_summary,
-                "meta": meta,
+                "meta": ", ".join(meta),
             }
         )
     return items
