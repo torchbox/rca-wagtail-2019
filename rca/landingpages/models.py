@@ -15,6 +15,7 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.fields import RichTextField, StreamBlock, StreamField
+from wagtail.core.models import Orderable, Page
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
@@ -162,6 +163,13 @@ class LandingPagePageSlideshowBlock(models.Model):
         return self.title
 
 
+class RelatedLandingPage(Orderable):
+    source_page = ParentalKey(Page, related_name="related_landing_pages")
+    page = models.ForeignKey("landingpages.LandingPage", on_delete=models.CASCADE)
+
+    panels = [PageChooserPanel("page")]
+
+
 class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     """ Defines all the fields we will need for the other versions of landing pages
     visibility of some extra fields that aren't needed on certain models which inherit LandingPage
@@ -278,11 +286,11 @@ class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             heading=_("Related pages grid"),
         ),
         InlinePanel("featured_image", label=_("Featured content"), max_num=1),
-        FieldPanel("legacy_news_and_event_tags"),
         MultiFieldPanel(
             [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
             heading=_("Related page list"),
         ),
+        FieldPanel("legacy_news_and_event_tags"),
     ]
 
     def _format_projects_for_gallery(self, pages):
@@ -474,7 +482,6 @@ class ResearchLandingPage(LandingPage):
             ],
             heading=_("Featured projects"),
         ),
-        FieldPanel("legacy_news_and_event_tags"),
         MultiFieldPanel(
             [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
             heading=_("Related page list"),
@@ -489,6 +496,7 @@ class ResearchLandingPage(LandingPage):
             heading=_("Related content"),
         ),
         StreamFieldPanel("cta_block"),
+        FieldPanel("legacy_news_and_event_tags"),
         MultiFieldPanel(
             [
                 ImageChooserPanel("contact_model_image"),
@@ -531,7 +539,6 @@ class InnovationLandingPage(LandingPage):
             [InlinePanel("featured_image", label=_("Featured image"), max_num=1)],
             heading=_("Featured content - top"),
         ),
-        FieldPanel("legacy_news_and_event_tags"),
         MultiFieldPanel(
             [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
             heading=_("Related page list"),
@@ -554,6 +561,7 @@ class InnovationLandingPage(LandingPage):
             ],
             heading=_("Featured content - bottom"),
         ),
+        FieldPanel("legacy_news_and_event_tags"),
         MultiFieldPanel(
             [
                 ImageChooserPanel("contact_model_image"),
@@ -653,6 +661,10 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         help_text=_("The text displayed next to the video play button"),
     )
     video = models.URLField(blank=True)
+    cta_navigation_title = models.CharField(
+        max_length=80,
+        help_text=_("The text displayed for this section in the in-page navigation"),
+    )
     cta_block = StreamField(
         StreamBlock([("call_to_action", CallToActionBlock())], max_num=1,), blank=True
     )
@@ -691,7 +703,7 @@ class EELandingPage(ContactFieldsMixin, BasePage):
             EventDetailPage.objects.live()
             .filter(start_date__gte=timezone.now().date())
             .exclude(id=picked_event.id)
-            .order_by("-start_date")
+            .order_by("start_date")
             .prefetch_related("hero_image")[:3]
         )
         for item in latest_event_items:
@@ -717,8 +729,8 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         if self.cta_block:
             for block in self.cta_block:
                 return {
-                    "title": block.value["title"],
-                    "link": slugify(block.value["title"]),
+                    "title": self.cta_navigation_title,
+                    "link": slugify(self.cta_navigation_title),
                 }
 
     def anchor_nav(self):
@@ -729,7 +741,10 @@ class EELandingPage(ContactFieldsMixin, BasePage):
             {"title": "Events", "link": "events"},
             {"title": "Stories", "link": "stories"},
             {"title": "Talks", "link": "talks"},
-            self.custom_anchor_heading_item(),
+            {
+                "title": self.cta_navigation_title,
+                "link": slugify(self.cta_navigation_title),
+            },
         ]
 
     content_panels = BasePage.content_panels + [
@@ -778,7 +793,10 @@ class EELandingPage(ContactFieldsMixin, BasePage):
             ],
             heading="Talks",
         ),
-        StreamFieldPanel("cta_block"),
+        MultiFieldPanel(
+            [FieldPanel("cta_navigation_title"), StreamFieldPanel("cta_block")],
+            heading="CTA",
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_title"),

@@ -1,10 +1,13 @@
 import datetime
+import hashlib
 from urllib.parse import urlencode
 
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.db.models.fields import SlugField
+from django.http import HttpResponse
+from django.utils.html import strip_tags
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
@@ -34,6 +37,7 @@ from rca.utils.models import (
 )
 
 from .blocks import CallToAction, EventDetailPageBlock, PartnersBlock
+from .filter import PastOrFutureFilter
 from .forms import EventAdminForm
 
 
@@ -205,6 +209,7 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
                 filter_by="series__slug__in",  # Filter by slug here
                 option_value_field="slug",
             ),
+            PastOrFutureFilter(tab_title="Upcoming/Past"),
         )
 
         # Apply filters
@@ -346,8 +351,8 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    start_date = models.DateField(help_text="Enter the start date of the event.")
-    end_date = models.DateField(
+    start_date = models.DateTimeField(help_text="Enter the start date of the event.")
+    end_date = models.DateTimeField(
         help_text="Enter the end date of the event. This will be the same as "
         "the start date for single day events."
     )
@@ -429,6 +434,11 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             "related_research_centre_pages",
             heading="Research Centres",
             label="Research Centre",
+        ),
+        InlinePanel(
+            "related_landing_pages",
+            heading="Related Landing Pages",
+            label="Landing Page",
         ),
         InlinePanel("related_schools", heading="Schools", label="School"),
         FieldPanel("introduction"),
@@ -553,7 +563,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
 
     @property
     def past(self):
-        return self.end_date < datetime.date.today()
+        return self.end_date.date() < datetime.date.today()
 
     @property
     def inline_cta(self):
@@ -618,6 +628,79 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             ),
         }
 
+    def ics_escape_characters(self, string):
+        """
+        Escapes special characters in long form text fields for ics records.
+        """
+        string.replace('"', '\\"')
+        string.replace("\\", "\\\\")
+        string.replace(",", "\\,")
+        string.replace(":", "\\:")
+        string.replace(";", "\\;")
+        string.replace("\n", "\\n")
+        return string
+
+    def get_ics_record(self):
+        # Begin event
+        # VEVENT format: http://www.kanzaki.com/docs/ical/vevent.html
+        ics_components = [
+            "BEGIN:VCALENDAR",
+            "VERSION:2.0",
+            "PRODID:-//Torchbox//rca//EN",
+        ]
+
+        # Work out number of days the event lasts
+        days = (self.end_date - self.start_date).days + 1 if self.end_date else 1
+
+        for day in range(days):
+            # Get date
+            date = self.start_date + datetime.timedelta(days=day)
+            # Get times
+            start_datetime = datetime.datetime.combine(date, self.start_date.time())
+            end_datetime = datetime.datetime.combine(date, self.end_date.time())
+
+            # Get a location
+            location = getattr(self, "location", None)
+            if location:
+                location = location.title
+
+            # Make event
+            ics_components.extend(
+                [
+                    "BEGIN:VEVENT",
+                    "UID:"
+                    + hashlib.sha1(
+                        self.full_url.encode() + str(start_datetime).encode()
+                    ).hexdigest()
+                    + "@rca.ac.uk",
+                    "URL:" + self.ics_escape_characters(self.full_url),
+                    "DTSTAMP:" + self.start_date.strftime("%Y%m%dT%H%M%S"),
+                    "SUMMARY:" + self.ics_escape_characters(self.title),
+                    "DESCRIPTION:"
+                    + self.ics_escape_characters(strip_tags(self.introduction)),
+                    "LOCATION:" + self.ics_escape_characters(location),
+                    "DTSTART;TZID=Europe/London:"
+                    + start_datetime.strftime("%Y%m%dT%H%M%S"),
+                    "DTEND;TZID=Europe/London:"
+                    + end_datetime.strftime("%Y%m%dT%H%M%S"),
+                    "END:VEVENT",
+                ]
+            )
+        # Finish event
+        ics_components.extend(["END:VCALENDAR"])
+
+        return ics_components
+
+    def serve(self, request):
+        if "format" not in request.GET or request.GET["format"] != "ics":
+            return super().serve(request)
+
+        ics_components = self.get_ics_record()
+
+        response = HttpResponse("\r".join(ics_components), content_type="text/calendar")
+        response["Content-Disposition"] = "attachment; filename=" + self.slug + ".ics"
+        return response
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context.update(
@@ -628,4 +711,5 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             taxonomy_tags=get_linked_taxonomy(self, request),
             related_pages=self.get_related_pages(),
         )
+
         return context
