@@ -322,9 +322,27 @@ class StaffPage(BasePage):
                 # the value next time it runs
                 pass
 
+    def format_student_page(self, page):
+        student_page = page
+        image = getattr(student_page, "profile_image", None)
+        if image:
+            image = image.get_rendition("fill-60x60").url
+        return {
+            "first_name": student_page.first_name,
+            "surname": student_page.last_name,
+            "status": student_page.degree_status,
+            "link": student_page.url,
+            "image_url": image,
+        }
+
     def get_related_students(self):
-        """Returns a list containing legacy related students from the cached api
-        request and manual related students at the page level"""
+        """
+        Returns a list containing:
+        - legacy related students from the cached api
+        - request and manual related students at the page level
+        - Students which reference this page through
+        StudentPage.related_supervisor
+        """
         students = []
 
         # Format the api content
@@ -337,21 +355,20 @@ class StaffPage(BasePage):
                 item["surname"] = " ".join(fullname[1:]).title()
                 students.append(item)
 
+        # Format students which reference this page through
+        # StudentPage.related_supervisor
+        students_with_related_supervisor = StudentPage.objects.filter(
+            related_supervisor__supervisor_page=self
+        ).live()
+        for student in students_with_related_supervisor:
+            item = self.format_student_page(student)
+            students.append(item)
+
         # Format the students added at the page level
         for student in self.related_students_manual.all():
             if student.student_page:
-                # image
                 student_page = student.student_page.specific
-                image = getattr(student_page, "profile_image", None)
-                if image:
-                    image = image.get_rendition("fill-60x60").url
-                item = {
-                    "first_name": student_page.first_name,
-                    "surname": student_page.last_name,
-                    "status": student_page.degree_status,
-                    "link": student_page.url,
-                    "image_url": image,
-                }
+                item = self.format_student_page(student_page)
             else:
                 item = {
                     "first_name": student.first_name.title(),
