@@ -265,42 +265,36 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
         verbose_name=_("Related content summary"),
     )
 
-    content_panels = (
-        BasePage.content_panels
-        + [
-            MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
-            MultiFieldPanel(
-                [FieldPanel("introduction"), PageChooserPanel("about_page")],
-                heading=_("Introduction"),
-            ),
-            MultiFieldPanel(
-                [
-                    FieldPanel("highlights_title"),
-                    InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
-                    PageChooserPanel("highlights_page_link"),
-                    FieldPanel("highlights_page_link_title"),
-                ],
-                heading=_("Featured projects"),
-            ),
-            MultiFieldPanel(
-                [
-                    FieldPanel("related_pages_title"),
-                    FieldPanel("related_pages_text"),
-                    InlinePanel(
-                        "related_pages_grid", max_num=8, label=_("Related Pages")
-                    ),
-                ],
-                heading=_("Related pages grid"),
-            ),
-            InlinePanel("featured_image", label=_("Featured content"), max_num=1),
-            FieldPanel("legacy_news_and_event_tags"),
-            MultiFieldPanel(
-                [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
-                heading=_("Related page list"),
-            ),
-        ]
-        + TapMixin.panels
-    )
+    content_panels = BasePage.content_panels + [
+        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+        MultiFieldPanel(
+            [FieldPanel("introduction"), PageChooserPanel("about_page")],
+            heading=_("Introduction"),
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("highlights_title"),
+                InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
+                PageChooserPanel("highlights_page_link"),
+                FieldPanel("highlights_page_link_title"),
+            ],
+            heading=_("Featured projects"),
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("related_pages_title"),
+                FieldPanel("related_pages_text"),
+                InlinePanel("related_pages_grid", max_num=8, label=_("Related Pages")),
+            ],
+            heading=_("Related pages grid"),
+        ),
+        InlinePanel("featured_image", label=_("Featured content"), max_num=1),
+        FieldPanel("legacy_news_and_event_tags"),
+        MultiFieldPanel(
+            [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
+            heading=_("Related page list"),
+        ),
+    ]
 
     def _format_projects_for_gallery(self, pages):
         """Internal method for formatting related projects to the correct
