@@ -4,6 +4,7 @@ from itertools import chain
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
     FieldPanel,
@@ -27,6 +28,7 @@ from rca.utils.models import (
     HERO_COLOUR_CHOICES,
     LIGHT_HERO,
     BasePage,
+    TapMixin,
     get_listing_image,
 )
 
@@ -117,7 +119,7 @@ class HomePageStatsBlock(models.Model):
         return self.title
 
 
-class HomePage(BasePage):
+class HomePage(TapMixin, BasePage):
     template = "patterns/pages/home/home_page.html"
 
     # Only allow creating HomePages at the root level
@@ -148,34 +150,38 @@ class HomePage(BasePage):
     use_api_for_alumni_stories = models.BooleanField(default=True)
     use_api_for_news_and_events = models.BooleanField(default=True)
 
-    content_panels = BasePage.content_panels + [
-        MultiFieldPanel(
-            [
-                ImageChooserPanel("hero_image"),
-                FieldPanel("hero_image_credit"),
-                FieldPanel("hero_colour_option"),
-                FieldPanel("hero_cta_url"),
-                FieldPanel("hero_cta_text"),
-                FieldPanel("hero_cta_sub_text"),
-            ],
-            heading="Hero",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("strapline"),
-                FieldPanel("strapline_cta_url"),
-                FieldPanel("strapline_cta_text"),
-            ],
-            heading="Strapline",
-        ),
-        InlinePanel("transformation_blocks", label="Transormation block", max_num=1),
-        InlinePanel("partnerships_block", label="Partnerships", max_num=1),
-        InlinePanel("stats_block", label="Statistics", max_num=1),
-        MultiFieldPanel(
-            [
-                HelpPanel(
-                    content=(
-                        """<p>These fields control if news/events/alumni stories are fetched
+    content_panels = (
+        BasePage.content_panels
+        + [
+            MultiFieldPanel(
+                [
+                    ImageChooserPanel("hero_image"),
+                    FieldPanel("hero_image_credit"),
+                    FieldPanel("hero_colour_option"),
+                    FieldPanel("hero_cta_url"),
+                    FieldPanel("hero_cta_text"),
+                    FieldPanel("hero_cta_sub_text"),
+                ],
+                heading="Hero",
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("strapline"),
+                    FieldPanel("strapline_cta_url"),
+                    FieldPanel("strapline_cta_text"),
+                ],
+                heading="Strapline",
+            ),
+            InlinePanel(
+                "transformation_blocks", label="Transormation block", max_num=1
+            ),
+            InlinePanel("partnerships_block", label="Partnerships", max_num=1),
+            InlinePanel("stats_block", label="Statistics", max_num=1),
+            MultiFieldPanel(
+                [
+                    HelpPanel(
+                        content=(
+                            """<p>These fields control if news/events/alumni stories are fetched
                         from the legacy website.</p>
                         <p>If un-checked, the content featured here will use pages created on
                         <strong>this</strong> site:</p>
@@ -183,14 +189,16 @@ class HomePage(BasePage):
                         <li>editorial pages tagged with 'news' or 'alumni story'</li>
                         <li>'EventPages' with a start date closest to today</li>
                         </ul>"""
-                    )
-                ),
-                FieldPanel("use_api_for_alumni_stories"),
-                FieldPanel("use_api_for_news_and_events"),
-            ],
-            heading="News, Events and Alumni Stories Content Listings",
-        ),
-    ]
+                        )
+                    ),
+                    FieldPanel("use_api_for_alumni_stories"),
+                    FieldPanel("use_api_for_news_and_events"),
+                ],
+                heading="News, Events and Alumni Stories Content Listings",
+            ),
+        ]
+        + TapMixin.panels
+    )
 
     def clean(self):
         errors = defaultdict(list)
@@ -359,6 +367,9 @@ class HomePage(BasePage):
         context["news_and_events"] = self.get_news_and_events()
         context["alumni_stories"] = self.get_alumni_stories()
         context["hero_colour"] = LIGHT_HERO
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
+
         if (
             hasattr(self, "hero_colour_option")
             and self.hero_colour_option == DARK_TEXT_ON_LIGHT_IMAGE
