@@ -17,7 +17,6 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.core.fields import RichTextField, StreamBlock, StreamField
 from wagtail.core.models import Orderable, Page
-from wagtail.core.fields import StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 
@@ -45,8 +44,8 @@ from rca.utils.models import (
     LegacyNewsAndEventsMixin,
     LinkFields,
     RelatedPage,
-    get_listing_image,
     TapMixin,
+    get_listing_image,
 )
 
 

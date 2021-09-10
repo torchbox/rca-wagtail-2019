@@ -28,8 +28,8 @@ from rca.utils.models import (
     HERO_COLOUR_CHOICES,
     LIGHT_HERO,
     BasePage,
-    get_listing_image,
     TapMixin,
+    get_listing_image,
 )
 
 
@@ -178,10 +178,10 @@ class HomePage(TapMixin, BasePage):
             InlinePanel("partnerships_block", label="Partnerships", max_num=1),
             InlinePanel("stats_block", label="Statistics", max_num=1),
             MultiFieldPanel(
-            [
-                HelpPanel(
-                    content=(
-                        """<p>These fields control if news/events/alumni stories are fetched
+                [
+                    HelpPanel(
+                        content=(
+                            """<p>These fields control if news/events/alumni stories are fetched
                         from the legacy website.</p>
                         <p>If un-checked, the content featured here will use pages created on
                         <strong>this</strong> site:</p>
@@ -189,14 +189,13 @@ class HomePage(TapMixin, BasePage):
                         <li>editorial pages tagged with 'news' or 'alumni story'</li>
                         <li>'EventPages' with a start date closest to today</li>
                         </ul>"""
-                    )
-                ),
-                FieldPanel("use_api_for_alumni_stories"),
-                FieldPanel("use_api_for_news_and_events"),
-            ],
-            heading="News, Events and Alumni Stories Content Listings",
-        ),
-
+                        )
+                    ),
+                    FieldPanel("use_api_for_alumni_stories"),
+                    FieldPanel("use_api_for_news_and_events"),
+                ],
+                heading="News, Events and Alumni Stories Content Listings",
+            ),
         ]
         + TapMixin.panels
     )
