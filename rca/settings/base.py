@@ -347,11 +347,7 @@ LOGGING = {
     },
     "loggers": {
         "rca": {"handlers": ["console"], "level": "INFO", "propagate": False},
-        "wagtail": {
-            "handlers": ["console"],
-            "level": "INFO",
-            "propagate": False,
-        },
+        "wagtail": {"handlers": ["console"], "level": "INFO", "propagate": False,},
         "django.request": {
             "handlers": ["console"],
             "level": "WARNING",
