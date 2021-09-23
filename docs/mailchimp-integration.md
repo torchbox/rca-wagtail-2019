@@ -25,7 +25,7 @@ mailchimp.set_config(
         "server": settings.MAILCHIMP_API_KEY.split("-")[-1],
     }
 )
-mailchimp.get_list_interest_categories(MAILCHIMP_LIST_ID)
+mailchimp.lists.get_list_interest_categories(MAILCHIMP_LIST_ID)
 ```
 
 You're interested in the `id` value for which `title` matches the one in mailchimp i.e. 'Programme of interest'. Set `MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID` to this value (i.e. `0da07d9429`).

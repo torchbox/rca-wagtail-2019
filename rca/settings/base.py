@@ -5,8 +5,6 @@ import os
 import sys
 
 import dj_database_url
-import raven
-from raven.exceptions import InvalidGitRepository
 
 env = os.environ.copy()
 
@@ -341,11 +339,6 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "verbose",
         },
-        # Send logs with level of at least ERROR to Sentry.
-        "sentry": {
-            "level": "ERROR",
-            "class": "raven.contrib.django.raven_compat.handlers.SentryHandler",
-        },
     },
     "formatters": {
         "verbose": {
@@ -353,19 +346,19 @@ LOGGING = {
         }
     },
     "loggers": {
-        "rca": {"handlers": ["console", "sentry"], "level": "INFO", "propagate": False},
+        "rca": {"handlers": ["console"], "level": "INFO", "propagate": False},
         "wagtail": {
-            "handlers": ["console", "sentry"],
+            "handlers": ["console"],
             "level": "INFO",
             "propagate": False,
         },
         "django.request": {
-            "handlers": ["console", "sentry"],
+            "handlers": ["console"],
             "level": "WARNING",
             "propagate": False,
         },
         "django.security": {
-            "handlers": ["console", "sentry"],
+            "handlers": ["console"],
             "level": "WARNING",
             "propagate": False,
         },
@@ -418,53 +411,57 @@ if "SERVER_EMAIL" in env:
     SERVER_EMAIL = DEFAULT_FROM_EMAIL = env["SERVER_EMAIL"]
 
 
-# Raven (Sentry) configuration.
-# See instructions on the intranet:
-# https://intranet.torchbox.com/delivering-projects/tech/starting-new-project/#sentry
+# Sentry SDK
 
-if "SENTRY_DSN" in env:
-    INSTALLED_APPS.append("raven.contrib.django.raven_compat")
+# Prevent logging errors from the django shell.
+# Errors from other management commands will be still logged.
+if "SENTRY_DSN" in env and not (
+    len(sys.argv) > 1 and sys.argv[1] in ["shell", "shell_plus"]
+):
+    import sentry_sdk
+    from rca.versioning import InvalidGitRepository, fetch_git_sha
+    from sentry_sdk.integrations.django import DjangoIntegration
 
-    RAVEN_CONFIG = {"dsn": env["SENTRY_DSN"], "tags": {}}
-
-    # Specifying the programming language as a tag can be useful when
-    # e.g. JavaScript error logging is enabled within the same project,
-    # so that errors can be filtered by the programming language too.
-    # The 'lang' tag is just an arbitrarily chosen one; any other tags can be used as well.
-    # It has to be overridden in JavaScript: Raven.setTagsContext({lang: 'javascript'});
-    RAVEN_CONFIG["tags"]["lang"] = "python"
-
-    # Prevent logging errors from the django shell.
-    # Errors from other management commands will be still logged.
-    if len(sys.argv) > 1 and sys.argv[1] in ["shell", "shell_plus"]:
-        RAVEN_CONFIG["ignore_exceptions"] = ["*"]
+    SENTRY_CONFIG = {
+        "dsn": env["SENTRY_DSN"],
+        "integrations": [DjangoIntegration()],
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production,
+        "traces_sample_rate": 1.0,
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        "send_default_pii": True,
+    }
 
     # There's a chooser to toggle between environments at the top right corner on sentry.io
     # Values are typically 'staging' or 'production' but can be set to anything else if needed.
     # dokku config:set rca SENTRY_ENVIRONMENT=staging
     # heroku config:set SENTRY_ENVIRONMENT=production
     if "SENTRY_ENVIRONMENT" in env:
-        RAVEN_CONFIG["environment"] = env["SENTRY_ENVIRONMENT"]
+        SENTRY_CONFIG["environment"] = env["SENTRY_ENVIRONMENT"]
 
     # We first assume that the Git repository is present and we can detect the
     # commit hash from it.
     try:
-        RAVEN_CONFIG["release"] = raven.fetch_git_sha(BASE_DIR)
+        SENTRY_CONFIG["release"] = fetch_git_sha(BASE_DIR)
     except InvalidGitRepository:
         try:
             # But if it's not, we assume that the commit hash is available in
             # the GIT_REV environment variable. It's a default environment
             # variable used on Dokku:
             # http://dokku.viewdocs.io/dokku/deployment/methods/git/#configuring-the-git_rev-environment-variable
-            RAVEN_CONFIG["release"] = env["GIT_REV"]
+            SENTRY_CONFIG["release"] = env["GIT_REV"]
         except KeyError:
             try:
-                # Assume this is a Heroku-hosted app with the "runtime-dyno-metadata" lab enabled
-                RAVEN_CONFIG["release"] = env["HEROKU_RELEASE_VERSION"]
+                # Assume this is a Heroku-hosted app with the
+                # "runtime-dyno-metadata" lab enabled
+                SENTRY_CONFIG["release"] = env["HEROKU_RELEASE_VERSION"]
             except KeyError:
                 # If there's no commit hash, we do not set a specific release.
                 pass
 
+    sentry_sdk.init(**SENTRY_CONFIG)  # type: ignore
 
 # Front-end cache
 # This configuration is used to allow purging pages from cache when they are
