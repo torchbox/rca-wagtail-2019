@@ -288,8 +288,42 @@
     &--checkbox_select_multiple,
     &--radio_select,
     &--select_multiple,
-    &--select &--lazy_select {
+    &--select,
+    &--lazy_select {
         padding-top: ($gutter / 2);
+
+        input {
+            &:focus {
+                outline: 2px solid $color--focus;
+            }
+
+            // Undo normal focus for browsers that do support focus-visible
+            &:focus:not(:focus-visible) {
+                outline: initial;
+            }
+
+            // Focus-visible only shows focus state when keyboard is used
+            &:focus-visible {
+                outline: 2px solid $color--focus;
+            }
+
+            &[type='checkbox'],
+            &[type='radio'] {
+                &:focus {
+                    opacity: 1;
+                }
+
+                // Undo normal focus for browsers that do support focus-visible
+                &:focus:not(:focus-visible) {
+                    opacity: initial;
+                }
+
+                // Focus-visible only shows focus state when keyboard is used
+                &:focus-visible {
+                    opacity: 1;
+                }
+            }
+        }
     }
 
     // Hide recaptcha required asterisks as it floats weirdly above
@@ -526,7 +560,8 @@
 
         select {
             &:focus {
-                border-color: $color--white;
+                border-color: $color--focus;
+                border-width: 2px;
                 background-color: $color--form-input-focus-darkbg;
             }
         }
