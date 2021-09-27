@@ -339,6 +339,7 @@ class EventDetailPageRelatedPages(RelatedPage):
 
 
 class EventDetailPage(ContactFieldsMixin, BasePage):
+    pushable_to_intranet = True
     base_form_class = EventAdminForm
     parent_page_types = ["EventIndexPage"]
     subpage_types = []
