@@ -508,12 +508,6 @@
                     background-color: $color--form-input-focus-darkbg;
                 }
             }
-
-            &#{$root}--has-content {
-                label {
-                    color: $color--white-24;
-                }
-            }
         }
 
         #{$root}__instruction {
