@@ -109,12 +109,14 @@ INSTALLED_APPS = [
     "rca.project_styleguide.apps.ProjectStyleguideConfig",
     "rest_framework",
     "wagtail_redirect_importer",
+    "corsheaders",
 ]
 
 # Middleware classes
 # https://docs.djangoproject.com/en/stable/ref/settings/#middleware
 # https://docs.djangoproject.com/en/stable/topics/http/middleware/
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     # Whitenoise middleware is used to server static files (CSS, JS, etc.).
     # According to the official documentation it should be listed underneath
