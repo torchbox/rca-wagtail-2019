@@ -796,9 +796,9 @@ ALLOW_EVENT_PAGE_GENERATION = (
 )
 
 # CORS settings
-if "CORS_ORIGIN_WHITELIST" in env:
-    CORS_ORIGIN_WHITELIST = env["CORS_ORIGIN_WHITELIST"].split(",")
+if "CORS_ALLOWED_ORIGINS" in env:
+    CORS_ALLOWED_ORIGINS = env["CORS_ALLOWED_ORIGINS"].split(",")
     MIDDLEWARE.insert(0, "corsheaders.middleware.CorsMiddleware")
 
-CORS_URLS_REGEX = r"^/api/.*$"
+CORS_ALLOWED_ORIGIN_REGEXES = r"^/api/.*$"
 CORS_ALLOW_METHODS = ["GET", "OPTIONS"]
