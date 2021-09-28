@@ -116,7 +116,6 @@ INSTALLED_APPS = [
 # https://docs.djangoproject.com/en/stable/ref/settings/#middleware
 # https://docs.djangoproject.com/en/stable/topics/http/middleware/
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     # Whitenoise middleware is used to server static files (CSS, JS, etc.).
     # According to the official documentation it should be listed underneath
@@ -799,6 +798,7 @@ ALLOW_EVENT_PAGE_GENERATION = (
 # CORS settings
 if "CORS_ORIGIN_WHITELIST" in env:
     CORS_ORIGIN_WHITELIST = env["CORS_ORIGIN_WHITELIST"].split(",")
+    MIDDLEWARE.insert(0, "corsheaders.middleware.CorsMiddleware")
 
 CORS_URLS_REGEX = r"^/api/.*$"
 CORS_ALLOW_METHODS = ["GET", "OPTIONS"]
