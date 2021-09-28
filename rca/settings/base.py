@@ -645,6 +645,7 @@ if env.get("BASIC_AUTH_ENABLED", "false").lower().strip() == "true":
     # the one passed in X-Forwarded-For. This is because all requests are proxied through
     # the old site and we want to prevent direct access
     BASIC_AUTH_GET_CLIENT_IP_FUNCTION = "rca.utils.clientip.get_client_real_ip"
+    BASIC_AUTH_WHITELISTED_PATHS = ["/api"]
 
 AUTH_USER_MODEL = "users.User"
 
