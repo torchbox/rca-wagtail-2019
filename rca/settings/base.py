@@ -347,7 +347,7 @@ LOGGING = {
     },
     "loggers": {
         "rca": {"handlers": ["console"], "level": "INFO", "propagate": False},
-        "wagtail": {"handlers": ["console"], "level": "INFO", "propagate": False,},
+        "wagtail": {"handlers": ["console"], "level": "INFO", "propagate": False},
         "django.request": {
             "handlers": ["console"],
             "level": "WARNING",
@@ -407,27 +407,20 @@ if "SERVER_EMAIL" in env:
     SERVER_EMAIL = DEFAULT_FROM_EMAIL = env["SERVER_EMAIL"]
 
 
-# Sentry SDK
+# Sentry configuration.
+# See instructions on the intranet:
+# https://intranet.torchbox.com/delivering-projects/tech/starting-new-project/#sentry
+is_in_shell = len(sys.argv) > 1 and sys.argv[1] in ["shell", "shell_plus"]
 
-# Prevent logging errors from the django shell.
-# Errors from other management commands will be still logged.
-if "SENTRY_DSN" in env and not (
-    len(sys.argv) > 1 and sys.argv[1] in ["shell", "shell_plus"]
-):
+if "SENTRY_DSN" in env and not is_in_shell:
+
     import sentry_sdk
-    from rca.versioning import InvalidGitRepository, fetch_git_sha
     from sentry_sdk.integrations.django import DjangoIntegration
+    from sentry_sdk.utils import get_default_release
 
-    SENTRY_CONFIG = {
+    sentry_kwargs = {
         "dsn": env["SENTRY_DSN"],
         "integrations": [DjangoIntegration()],
-        # Set traces_sample_rate to 1.0 to capture 100%
-        # of transactions for performance monitoring.
-        # We recommend adjusting this value in production,
-        "traces_sample_rate": 1.0,
-        # If you wish to associate users to errors (assuming you are using
-        # django.contrib.auth) you may enable sending PII data.
-        "send_default_pii": True,
     }
 
     # There's a chooser to toggle between environments at the top right corner on sentry.io
@@ -435,29 +428,26 @@ if "SENTRY_DSN" in env and not (
     # dokku config:set rca SENTRY_ENVIRONMENT=staging
     # heroku config:set SENTRY_ENVIRONMENT=production
     if "SENTRY_ENVIRONMENT" in env:
-        SENTRY_CONFIG["environment"] = env["SENTRY_ENVIRONMENT"]
+        sentry_kwargs.update({"environment": env["SENTRY_ENVIRONMENT"]})
 
-    # We first assume that the Git repository is present and we can detect the
-    # commit hash from it.
-    try:
-        SENTRY_CONFIG["release"] = fetch_git_sha(BASE_DIR)
-    except InvalidGitRepository:
+    release = get_default_release()
+    if release is None:
         try:
             # But if it's not, we assume that the commit hash is available in
             # the GIT_REV environment variable. It's a default environment
             # variable used on Dokku:
             # http://dokku.viewdocs.io/dokku/deployment/methods/git/#configuring-the-git_rev-environment-variable
-            SENTRY_CONFIG["release"] = env["GIT_REV"]
+            release = env["GIT_REV"]
         except KeyError:
             try:
-                # Assume this is a Heroku-hosted app with the
-                # "runtime-dyno-metadata" lab enabled
-                SENTRY_CONFIG["release"] = env["HEROKU_RELEASE_VERSION"]
+                # Assume this is a Heroku-hosted app with the "runtime-dyno-metadata" lab enabled
+                release = env["HEROKU_RELEASE_VERSION"]
             except KeyError:
                 # If there's no commit hash, we do not set a specific release.
-                pass
+                release = None
 
-    sentry_sdk.init(**SENTRY_CONFIG)  # type: ignore
+    sentry_kwargs.update({"release": release})
+    sentry_sdk.init(**sentry_kwargs)
 
 # Front-end cache
 # This configuration is used to allow purging pages from cache when they are
