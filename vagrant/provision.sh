@@ -16,7 +16,7 @@ apt-get update -y
 
 # Upgrade to postgres 13
 service postgresql stop
-apt-get remove -y --purge postgresql-*
+DEBIAN_FRONTEND=noninteractive apt-get remove -y --purge postgresql-*
 apt-get install -y postgresql-13 postgresql-client-13 postgresql-contrib-13
 pg_ctlcluster 13 main start
 su - postgres -c "createuser -s vagrant"
@@ -64,7 +64,7 @@ rm -rf /tmp/awscli-bundle || true
 rm -rf /tmp/awscli-bundle.zip || true
 curl -sSL "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "/tmp/awscli-bundle.zip"
 unzip -q /tmp/awscli-bundle.zip -d /tmp
-/tmp/awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+python3 /tmp/awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 
 # Add a couple of aliases to manage.py into .bashrc
 cat << EOF >> /home/vagrant/.bashrc

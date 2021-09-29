@@ -37,7 +37,7 @@ static:
 
 # Check python code style.
 flake8:
-  image: python:3.6
+  image: python:3.8
   stage: test
   script:
     # Remember to update a version in requirements-dev.txt
@@ -47,7 +47,7 @@ flake8:
 # Check imports sort order, i.e. check whether they are in an alphabetical
 # order and grouped properly.
 isort:
-  image: python:3.6
+  image: python:3.8
   stage: test
   before_script:
     # Remember to update a version in requirements-dev.txt
@@ -81,7 +81,7 @@ lint_format:
 
 # Run black and check for changes
 black:
-  image: python:3.7
+  image: python:3.8
   stage: test
   before_script:
     # Remember to update a version in requirements-dev.txt
@@ -92,7 +92,7 @@ black:
 # Check settings, migrations and run tests.
 test_python:
   # Make sure this Python version matches the version in your Dockerfile.
-  image: python:3.6.6
+  image: python:3.8
   stage: test
   services:
     # Make sure this matches the Postgres version you run on your servers.
@@ -232,7 +232,7 @@ deploy_production:
     - git push heroku-production HEAD:master
 
 docs:
-  image: python:3.6
+  image: python:3.8
   stage: deploy
   only:
     - master
