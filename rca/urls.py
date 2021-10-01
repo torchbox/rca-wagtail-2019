@@ -2,6 +2,7 @@ from django.apps import apps
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
+from django.views.decorators.cache import never_cache
 from django.views.decorators.vary import vary_on_headers
 from django.views.generic import TemplateView
 from wagtail.admin import urls as wagtailadmin_urls
@@ -26,6 +27,7 @@ private_urlpatterns = [
     path("documents2/", include(wagtaildocs_urls)),
     # Don’t use generic cache control for API endpoints.
     path("api/v3/", api_router.urls),
+    path("enquire-to-study/", include("rca.enquire_to_study.urls")),
 ]
 
 
@@ -69,6 +71,8 @@ if getattr(settings, "PATTERN_LIBRARY_ENABLED", False) and apps.is_installed(
 
 # Set public URLs to use the "default" cache settings.
 urlpatterns = decorate_urlpatterns(urlpatterns, get_default_cache_control_decorator())
+# Set private URLs to never cache
+private_urlpatterns = decorate_urlpatterns(private_urlpatterns, never_cache)
 
 # Set vary header to instruct cache to serve different version on different
 # cookies, different request method (e.g. AJAX) and different protocol

@@ -2,14 +2,14 @@
 {% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
 {% get_settings %}
 
+{% block tap_widget %}{{ tap_widget_code }}{% endblock %}
+
 {% block content %}
 
 
     {% include "patterns/molecules/hero/hero.html" with hero_image=page.hero_image modifier="medium" %}
 
-    <div class="page page--overlap" typeof="schema:Course">
-
-        <meta property="schema:provider" content="Royal College of Art" />
+    <div class="page page--overlap">
 
         <div class="page__notch grid">
             <div class="page__notch-block bg bg--dark"></div>
@@ -21,9 +21,7 @@
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
-                    {% if page.title %}
-                        <h1 property="schema:name" class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
-                    {% endif %}
+                    <h1 class="title-area__heading heading heading--display-two" id="main-content">{{ page.title }}</h1>
                     {% if page.degree_level %}
                         <p class="title-area__introduction introduction">{{ page.degree_level }}</p>
                     {% endif %}
@@ -80,4 +78,18 @@
             </div>
         </div>
     </div>
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "{{ page.title }}",
+          "description": "{{ page.introduction }}",
+          "provider": {
+            "@type": "Organization",
+            "name": "Royal College of Art",
+            "sameAs": "https://rca.ac.uk/"
+          }
+        }
+    </script>
 {% endblock %}

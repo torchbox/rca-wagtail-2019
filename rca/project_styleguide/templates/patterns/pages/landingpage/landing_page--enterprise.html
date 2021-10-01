@@ -6,6 +6,10 @@
     app--landing-page
 {% endblock %}
 
+{% block tap_widget %}
+{% if settings.utils.SitewideTapSetting.show_widgets %}{{ tap_widget_code }}{% endif %}
+{% endblock %}
+
 {% block content %}
 
     {% include "patterns/molecules/hero/hero.html" with hero_image=page.hero_image modifier="medium" %}
@@ -22,9 +26,7 @@
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
-                    {% if page.title %}
-                        <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
-                    {% endif %}
+                    <h1 class="title-area__heading heading heading--display-two" id="main-content">{{ page.title }}</h1>
                 </div>
                 {% if page.hero_image_credit or page.hero_image %}
                     <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
@@ -38,9 +40,9 @@
                             <h2 class="introduction__text section__heading heading heading--five">
                                 {{ page.introduction }}
                             </h2>
-                            {% if page.about_page %}
-                                <a href="{% pageurl page.about_page %}" class="introduction__link link link--tertiary link--link" {% if page.title %}aria-label="More about {{ page.title }}"{% endif %}>
-                                    <span class="link__label">{% firstof page.about_page.title 'Read more' %}</span>
+                            {% if page.about_page and page.about_page.title %}
+                                <a href="{% pageurl page.about_page %}" class="introduction__link link link--tertiary link--link">
+                                    <span class="link__label">{{ page.about_page.title }}</span>
                                     <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                 </a>
                             {% endif %}
@@ -63,7 +65,7 @@
                             </div>
                         {% endif %}
                         <div class="section__content grid">
-                            {% include "patterns/organisms/carousel/carousel.html" with carousel=related_pages_highlights modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=related_pages_highlights modifier='carousel carousel--no-margin' control_title="Related pages carousel" datatag='data-carousel' %}
                             {% if page.highlights_page_link %}
                                 <div class="section__action">
                                     <a class="link link--primary link--link body body--two" href="{% pageurl page.highlights_page_link %}">
@@ -163,7 +165,7 @@
                 <section class="section {% if page.bottom_feature_image %}{% else %} section--start{% endif %} section--end bg bg--dark">
                     <div class="section__container">
                         <header class="section__header grid">
-                            <h3 class="section__heading section__heading--primary heading heading--two">News & events</h3>
+                            <h3 class="section__heading section__heading--primary heading heading--two">What&#39;s happening at the RCA</h3>
                         </header>
                         <div class="section__content grid">
                             {% include "patterns/organisms/news/news_api_content.html" with news=page.legacy_news_and_events %}

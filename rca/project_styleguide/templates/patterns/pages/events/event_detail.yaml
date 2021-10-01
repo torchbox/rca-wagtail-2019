@@ -64,6 +64,7 @@ context:
     contact_model_image: true
     contact_model_text: Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
     series:
+      title: Talks
       introduction: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
   speakers:
     - { name: 'Beth Hughes', role: 'Head of Programmes', link: '#' }

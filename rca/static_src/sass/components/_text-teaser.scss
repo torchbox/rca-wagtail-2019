@@ -19,6 +19,12 @@
         }
     }
 
+    &__text {
+        @include media-query(large) {
+            margin-bottom: ($gutter * 2);
+        }
+    }
+
     .app--alumni & {
         #{$root}__heading {
             @include font-size(m);

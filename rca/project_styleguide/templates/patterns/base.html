@@ -38,12 +38,12 @@
 
         <nav class="app__navigation" data-nav-container>
             {% include "patterns/atoms/grid-lines/grid-lines.html" %}
-            <section class="header__menus">
+            <div class="header__menus">
                 {% primarynav %}
-            </section>
+            </div>
         </nav>
 
-        <main class="app__content" id="main-content">
+        <main class="app__content">
 
             {% include "patterns/atoms/grid-lines/grid-lines.html" with data_tag_left="data-left-edge" data_tag_center="data-grid-center" %}
 
@@ -65,7 +65,9 @@
             {% include "patterns/molecules/cookie-message/cookie-message.html" %}
         </div>
 
-        <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
         {% block extra_js %}{% endblock %}
+        {% block tap_widget %}
+        {% endblock %}
     </body>
 </html>

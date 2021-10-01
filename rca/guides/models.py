@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
@@ -16,6 +17,7 @@ from rca.utils.models import (
     ContactFieldsMixin,
     RelatedPage,
     RelatedStaffPageWithManualOptions,
+    TapMixin,
 )
 
 
@@ -27,7 +29,7 @@ class GuidePageRelatedPages(RelatedPage):
     source_page = ParentalKey("guides.GuidePage", related_name="related_pages")
 
 
-class GuidePage(ContactFieldsMixin, BasePage):
+class GuidePage(TapMixin, ContactFieldsMixin, BasePage):
     template = "patterns/pages/guide/guide.html"
 
     introduction = models.CharField(max_length=500, blank=True)
@@ -40,26 +42,32 @@ class GuidePage(ContactFieldsMixin, BasePage):
     )
     related_pages_title = models.CharField(blank=True, max_length=120)
 
-    content_panels = BasePage.content_panels + [
-        FieldPanel("introduction"),
-        StreamFieldPanel("body"),
-        MultiFieldPanel([InlinePanel("related_staff")], heading=_("Related staff")),
-        MultiFieldPanel(
-            [
-                FieldPanel("further_information_title"),
-                StreamFieldPanel("further_information"),
-            ],
-            heading=_("Further information"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("related_pages_title"),
-                InlinePanel("related_pages", max_num=6),
-            ],
-            heading=_("Related pages"),
-        ),
-        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
-    ]
+    content_panels = (
+        BasePage.content_panels
+        + [
+            FieldPanel("introduction"),
+            StreamFieldPanel("body"),
+            MultiFieldPanel([InlinePanel("related_staff")], heading=_("Related staff")),
+            MultiFieldPanel(
+                [
+                    FieldPanel("further_information_title"),
+                    StreamFieldPanel("further_information"),
+                ],
+                heading=_("Further information"),
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("related_pages_title"),
+                    InlinePanel("related_pages", max_num=6),
+                ],
+                heading=_("Related pages"),
+            ),
+            MultiFieldPanel(
+                [*ContactFieldsMixin.panels], heading="Contact information"
+            ),
+        ]
+        + TapMixin.panels
+    )
 
     def anchor_nav(self):
         """ Build list of data to be used as
@@ -112,5 +120,7 @@ class GuidePage(ContactFieldsMixin, BasePage):
         context["anchor_nav"] = self.anchor_nav()
         context["related_staff"] = self.related_staff.all
         context["related_pages"] = self.get_related_pages()
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
 
         return context

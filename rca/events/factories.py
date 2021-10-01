@@ -27,3 +27,4 @@ class EventDetailPageFactory(wagtail_factories.PageFactory):
     introduction = factory.Faker("text", max_nb_chars=150)
     start_date = factory.Faker("date")
     end_date = factory.Faker("date")
+    event_type = factory.SubFactory(EventTypeFactory)

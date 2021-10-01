@@ -5,11 +5,17 @@
 
 {% block header_class %}theme-{{ hero_colour }}{% endblock %}
 
+{% block tap_widget %}
+{% if settings.utils.SitewideTapSetting.show_widgets %}{{ tap_widget_code }}{% endif %}
+{% endblock %}
+
 {% block content %}
 
     {% include "patterns/molecules/hero/hero--home.html" with modifier="home" scrolldown=true %}
 
     <div class="page page--overlay" id="content">
+
+        <span id="main-content"></span>
 
         {% include "patterns/atoms/grid-lines/grid-lines.html" %}
         {% include "patterns/molecules/hero-action-pane/hero-action-pane.html" %}
@@ -56,7 +62,7 @@
                         </div>
 
                         <div class="alumni-stories__carousel grid">
-                            {% include "patterns/organisms/carousel/carousel_api_content.html" with carousel=alumni_stories modifier='carousel' datatag='data-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel_api_content.html" with carousel=alumni_stories modifier='carousel' control_title="Alumni Stories" datatag='data-carousel' %}
                         </div>
                     </div>
 
@@ -75,7 +81,7 @@
                             <p class="partnerships__introduction">{{ partnerships_block.summary }}</p>
                         </div>
                         <div class="partnerships__carousel">
-                            {% include "patterns/organisms/carousel/carousel--square.html" with carousel=partnerships_block.slides modifier='carousel--square' datatag='data-peek-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel--square.html" with carousel=partnerships_block.slides modifier='carousel--square' control_title="Partnership carousel" datatag='data-peek-carousel' %}
                         </div>
 
                     </div>
@@ -91,7 +97,7 @@
                     {% if news_and_events %}
                         <div class="section__container">
                             <header class="section__header grid">
-                                <h3 class="section__heading section__heading--primary heading heading--two">News & events</h3>
+                                <h3 class="section__heading section__heading--primary heading heading--two">What&#39;s happening at the RCA</h3>
                             </header>
                                 <div class="section__content grid">
                                     {% include "patterns/organisms/news/news_api_content.html" with news=news_and_events %}

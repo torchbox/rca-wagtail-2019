@@ -29,7 +29,7 @@
 
         {% if paginator_page.has_next %}
             <li class="pagination__button pagination__button--next">
-                <a class="pagination__button-link" href="{% querystring page=paginator_page.next_page_number %}" class="next">
+                <a class="pagination__button-link next" href="{% querystring page=paginator_page.next_page_number %}">
                     <span class="pagination__button-label">next</span>
                     <svg width="23" height="23" class="pagination__button-icon" aria-hidden="true">
                         <use xlink:href="#arrow-right"></use>

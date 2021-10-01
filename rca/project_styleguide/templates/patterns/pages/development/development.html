@@ -1,0 +1,195 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% get_settings %}
+
+{% block body_class %}
+    app--development
+{% endblock %}
+
+{% block content %}
+
+    {% include "patterns/molecules/hero/hero.html" with hero_image=page.hero_image modifier="medium" %}
+
+    <div class="page page--overlap">
+
+        <div class="page__notch grid">
+            <div class="page__notch-block bg bg--dark"></div>
+        </div>
+
+        <header class="page__header bg bg--dark">
+            <div class="title-area title-area--landing-page grid">
+                <div class="title-area__content">
+                    <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
+                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
+                    </nav>
+                    <h1 class="title-area__heading heading heading--display-two" id="main-content">{{ page.title }}</h1>
+                </div>
+                {% if page.hero_image_credit or page.hero_image %}
+                    <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
+                        {% include 'patterns/atoms/image-info/image-info.html' with credit=page.hero_image_credit item=page.hero_image %}
+                    </div>
+                {% endif %}
+            </div>
+            {% if page.introduction %}
+                <div class="introduction introduction--indented grid">
+                    <div class="introduction__container">
+                        <div class="section__heading heading heading--five">
+                            {{ page.introduction|richtext }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <section class="section bg bg--dark">
+
+                <div class="section__row section__row--last project-overview project-overview--condensed">
+                    <div class="section__content grid">
+                        <div class="project-overview__content layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                            <div class="project-overview__media">
+                                {% if page.video_preview_image %}
+                                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.video_preview_image caption=page.video_caption video=page.video modifier="small-bottom-margin image-video-block--no-padding" %}
+                                {% endif %}
+                            </div>
+                            <div class="project-overview__streamfield project-overview__streamfield--bottom-margin">
+                                <div class="streamfield rich-text ">
+                                    {{ page.body|richtext }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-overview__key-details layout__start-one layout__span-two layout__@large-span-one">
+                            {% include "patterns/molecules/key-details/key-details--development.html" %}
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </header>
+
+        <div class="page__content u-pos-rel">
+
+            {% include "patterns/molecules/jump-nav/jump-nav.html" with modifier="bg bg--dark" sticky=True item=tabs %}
+
+            {# First section #}
+            <section class="schools__about section section--start bg bg--dark anchor-heading" id="the-story">
+
+                {% if page_teasers %}
+                <div class="section__row section__row--last schools__about--teasers">
+                    <div class="section__header section__header--bottom-space grid">
+                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ page_teasers.title|default:"The story" }}</h2>
+                        {% if page.related_pages_text %}
+                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
+                                {{ page.related_pages_text }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=page_teasers modifier="no-margin" %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if page.cta_block %}
+                    <div class="section__row section__row--last-large">
+                        {% for block in page.cta_block %}                            {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value heading_size="small" %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if not stats_block %}
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+                {% endif %}
+
+            </section>
+
+            {% if stats_block %}
+                {% include "patterns/organisms/stat-block/stat-block.html" with modifier="both-dark" %}
+            {% endif %}
+
+            {# Second section #}
+            {% if not stats_block %}<span class="schools__anchor-compensator anchor-heading" id="how-you-can-help"></span>{% endif %}
+            <section class="section bg bg--dark anchor-heading {% if stats_block %}section--start anchor-heading {% else %}section--top-space-small {% endif %}" {% if stats_block %}id="how-you-can-help"{% endif %}>
+
+                <div class="section__row section__row--last-small">
+                    <div class="section__header grid">
+                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ page.how_you_can_help_title|default:"How you can help" }}</h2>
+                        {% if page.how_you_can_help_intro %}
+                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
+                                {{ page.how_you_can_help_intro|richtext }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if help_pages %}
+                <div class="section__row section__row--last">
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/carousel/carousel.html" with carousel=help_pages modifier='carousel carousel--no-margin' control_title="How you can help carousel" datatag='data-carousel' %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if page.help_cta_block %}
+                    <div class="section__row section__row--last-large">
+                        {% for block in page.help_cta_block %}
+                            {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value heading_size="small" %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+
+            </section>
+
+
+            {# Third section #}
+            <section class="schools__programmes section section--start bg bg--light section--top-space-small anchor-heading" id="success-stories">
+
+                <div class="section__row section__row--last-small">
+                    <div class="section__header grid">
+                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ page.stories_title|default:"Success Stories" }}</h2>
+                        {% if page.stories_intro %}
+                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
+                                {{ page.stories_intro|richtext }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if stories %}
+                <div class="section__row section__row--last">
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/news/news_api_content.html" with news=stories news_view_all=page.stories_view_all %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if page.stories_cta_block %}
+                    <div class="section__row section__row--last-large">
+                        {% for block in page.stories_cta_block %}
+                            {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value heading_size="small" %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+            </section>
+
+            {# Large CTA section #}
+            <section class="section bg bg--dark">
+                <div class="section__notch section__notch--small-med-only">
+                    <div class="section__notch-fill section__notch-fill--second-col"></div>
+                </div>
+                <div class="contact-anchor anchor-heading" id="contact" ></div>
+                <div class="section__row section__row--first">
+                    {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image %}
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+{% endblock %}

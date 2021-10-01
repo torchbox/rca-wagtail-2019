@@ -30,6 +30,11 @@ html {
             scroll-padding-top: 130px;
         }
     }
+
+    // Fix for Chrome - doesn't show form validate messages when this is set to smooth
+    &.no-scroll-behavoir {
+        scroll-behavior: auto;
+    }
 }
 
 body {
@@ -120,6 +125,21 @@ a {
     &:focus,
     &:hover {
         cursor: pointer;
+    }
+
+    // Set focus for Safari - doesn't support focus-visible:nth-last-of-type() https://caniuse.com/?search=focus-visible
+    &:focus {
+        outline: 2px solid $color--focus;
+    }
+
+    // Undo normal focus for browsers that do support focus-visible
+    &:focus:not(:focus-visible) {
+        outline: initial;
+    }
+
+    // Focus-visible only shows focus state when keyboard is used
+    &:focus-visible {
+        outline: 2px solid $color--focus;
     }
 }
 

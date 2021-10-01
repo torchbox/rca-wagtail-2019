@@ -1,0 +1,54 @@
+{% load wagtailcore_tags util_tags %}
+
+<div class="key-details">
+
+    <div class="key-details__header">
+        <h2 class="heading heading--five key-details__heading">Key details</h2>
+    </div>
+
+    {% if page.location %}
+    <div class="key-details__section key-details__section--location">
+        <h3 class="body body--two key-details__sub-heading">Location</h3>
+        <ul class="key-details__list">
+            <li class="key-details__list-item key-details__list-item--tight">
+                {{ page.location|richtext }}
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if page.contact_email or page.contact_tel %}
+    <div class="key-details__section key-details__section--contact">
+        <h3 class="body body--two key-details__sub-heading">Get in touch</h3>
+        <ul class="key-details__list">
+            {% if page.contact_tel %}
+            <li class="key-details__list-item key-details__list-item--tight">
+                <a class="link link--tertiary" href="tel:{{ page.contact_tel|cut:" " }}">{% firstof page.contact_tel_display_text page.contact_tel %}</a>
+            </li>
+            {% endif %}
+            {% if page.contact_email %}
+            <li class="key-details__list-item key-details__list-item--tight">
+                <a class="link link--tertiary" href="mailto:{{ page.contact_email }}">{{ page.contact_email }}</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if page.social_links %}
+    <div class="key-details__section key-details__section--social">
+        <ul class="key-details__list">
+            {% for link in page.social_links %}
+                <li class="key-details__list-item">
+                {% is_external link.value.url href as is_external %}
+                    <a class="link link--tertiary link--link link--external" target="_blank" href="{% firstof link.value.url href %}">
+                        <span class="link__label ">{{ link.value.title }}</span>
+                        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+</div>

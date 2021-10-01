@@ -209,6 +209,11 @@ class EditorialPage(ContactFieldsMixin, BasePage):
             ],
             heading="Related School, Research Centre or Area",
         ),
+        InlinePanel(
+            "related_landing_pages",
+            heading="Related Landing Pages",
+            label="Landing Page",
+        ),
         InlinePanel("editorial_types", label="Editorial Type"),
         InlinePanel("related_programmes", label="Programme Page"),
         FieldPanel("author"),
@@ -234,13 +239,13 @@ class EditorialPage(ContactFieldsMixin, BasePage):
 
     def get_related_pages(self):
         related_pages = {"title": "Also of interest", "items": []}
-        pages = (
-            self.related_editorialpages.all()
-            .prefetch_related("page__hero_image", "page__listing_image")
-            .filter(page__live=True)
+        pages = self.related_editorialpages.all().prefetch_related(
+            "page__hero_image", "page__listing_image"
         )
         for value in pages:
             page = value.page
+            if not page.live:
+                continue
             meta = ""
             editorial_type = page.editorial_types.first()
             if editorial_type:

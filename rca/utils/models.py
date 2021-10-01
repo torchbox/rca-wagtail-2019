@@ -1,8 +1,10 @@
 from collections import defaultdict
+from itertools import chain
 
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.text import slugify
@@ -21,6 +23,7 @@ from wagtail.core import blocks
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 
 from rca.api_content.content import CantPullFromRcaApi, pull_tagged_news_and_events
@@ -396,6 +399,162 @@ class LegacySiteTaggedPage(ItemBase):
     )
 
 
+class NewsAndEventsMixin:
+    """
+    This class is desiged to first work _with_ LegacyNewsAndEventsMixin and
+    eventually replace it.
+
+    If a page has no ``legacy_news_and_event_tags`` value, then this class can
+    be used to return related editorial and event pages from within this site,
+    rather than via the api. The reasoning for this is that publishing editorial
+    and event items is likely to take time. Adding this logic means that if and
+    when a page in question has enough newly published events end editorial
+    pages related, the ``legacy_news_and_event_tags`` value can be set as blank.
+    This will be instatiated and internal related page data will be returned.
+
+    """
+
+    def __init__(self, page, *args, **kwargs):
+
+        from rca.landingpages.models import LandingPage
+        from rca.events.models import EventDetailPage
+        from rca.editorial.models import EditorialPage
+
+        self.event_page_model = EventDetailPage
+        self.editorial_page_model = EditorialPage
+
+        self.page = page
+        self.editorial_items = 3
+        self.page_type = page.__class__.__name__
+        self.page_is_landing_page = issubclass(page.__class__, LandingPage)
+
+    def get_editorial_type(self, page):
+        editorial_type = getattr(page, "editorial_types", None)
+        if editorial_type:
+            try:
+                return editorial_type.first().type
+            except AttributeError:
+                return ""
+
+    def format_data(self, pages_queryset):
+        """
+        Used to turn queryset data into a list of dicts
+        for the template
+        """
+        items = []
+        for page in pages_queryset:
+            # Quite an elaborate check for the editorial_type to avoid
+            # throwing an error when the page here is an EventDetailPage
+            editorial_type = self.get_editorial_type(page)
+
+            PAGE_META_MAPPING = {
+                "EditorialPage": editorial_type,
+                "EventDetailPage": "Event",
+            }
+            meta = PAGE_META_MAPPING.get(page.__class__.__name__, "")
+            editorial_published_date = getattr(page, "published_at", None)
+
+            if editorial_published_date:
+                editorial_published_date = editorial_published_date.strftime(
+                    "%-d %B %Y"
+                )
+
+            PAGE_DESCRIPTION_MAPPING = {
+                "EditorialPage": editorial_published_date,
+                "EventDetailPage": getattr(page, "event_date_short", None),
+            }
+            description = PAGE_DESCRIPTION_MAPPING.get(page.__class__.__name__, "")
+
+            image = get_listing_image(page)
+            if image:
+                image = image.get_rendition("fill-878x472").url
+            items.append(
+                {
+                    "image": image,
+                    "title": page.title,
+                    "link": page.url,
+                    "description": description,
+                    "type": meta,
+                }
+            )
+        return items
+
+    def get_landing_page_editorial_and_events(self):
+        event = (
+            self.event_page_model.objects.live()
+            .filter(related_landing_pages__page=self.page)
+            .filter(start_date__gte=timezone.now().date())
+            .order_by("start_date")[:1]
+        )
+        if event:
+            self.editorial_items = 2
+
+        news = (
+            self.editorial_page_model.objects.filter(
+                related_landing_pages__page=self.page
+            )
+            .live()
+            .order_by("-published_at")[: self.editorial_items]
+        )
+        return list(chain(news, event))
+
+    def get_research_page_editorial_and_events(self):
+        event = (
+            self.event_page_model.objects.live()
+            .filter(related_research_centre_pages__page=self.page)
+            .filter(start_date__gte=timezone.now().date())
+            .order_by("start_date")[:1]
+        )
+        if event:
+            self.editorial_items = 2
+
+        news = (
+            self.editorial_page_model.objects.filter(
+                related_research_centre_pages__page=self.page
+            )
+            .live()
+            .order_by("-published_at")[: self.editorial_items]
+        )
+        return list(chain(news, event))
+
+    def get_schools_editorial_and_events(self):
+        event = (
+            self.event_page_model.objects.live()
+            .filter(related_schools__page=self.page)
+            .filter(start_date__gte=timezone.now().date())
+            .order_by("start_date")[:1]
+        )
+        if event:
+            self.editorial_items = 2
+
+        news = (
+            self.editorial_page_model.objects.filter(related_schools__page=self.page)
+            .live()
+            .order_by("-published_at")[: self.editorial_items]
+        )
+        return list(chain(news, event))
+
+    def get_data(self):
+        if self.page_is_landing_page:
+            data = self.format_data(self.get_landing_page_editorial_and_events())
+        if self.page_type == "ResearchCentrePage":
+            data = self.format_data(self.get_research_page_editorial_and_events())
+        elif self.page_type == "SchoolPage":
+            data = self.format_data(self.get_schools_editorial_and_events())
+        return data
+
+    @property
+    def legacy_news_and_events(self):
+        """
+        Once ready to turn off legacy news and events, all models with
+        LegacyNewsAndEventsMixin can be replaced with NewsAndEventsMixin,
+        then the legacy_news_and_events method below will be used soley for the
+        internal pages that are related. This will make template integration
+        easier as this property is already in use on LegacyNewsAndEventsMixin.
+        """
+        return self.get_data()
+
+
 class LegacyNewsAndEventsMixin(models.Model):
     legacy_news_and_event_tags = ClusterTaggableManager(
         verbose_name="Legacy news and events tags",
@@ -437,7 +596,15 @@ class LegacyNewsAndEventsMixin(models.Model):
         ``page.legacy_news_and_events`` can be referenced in the
         template multiple times without triggering another
         cache lookup.
+
+        If there is no ``page.legacy_news_and_event_tags`` value, it returns
+        Editorial and Event pages with relationships to this page via
+        utils.NewsAndEventsMixin.
         """
+
+        if not self.legacy_news_and_event_tags.exists():
+            return NewsAndEventsMixin(page=self).get_data()
+
         cached_val = cache.get(self.legacy_news_cache_key)
         if cached_val is not None:
             return cached_val
@@ -739,5 +906,46 @@ def get_listing_image(page):
     """
     image = getattr(page, "listing_image")
     if not image:
-        image = getattr(page, "hero_image")
+        image = getattr(page, "hero_image", None)
     return image
+
+
+class TapMixin(models.Model):
+    tap_widget = models.ForeignKey(
+        "utils.TapWidgetSnippet", on_delete=models.SET_NULL, null=True, blank=True,
+    )
+
+    panels = [SnippetChooserPanel("tap_widget")]
+
+    class Meta:
+        abstract = True
+
+
+@register_snippet
+class TapWidgetSnippet(models.Model):
+    script_code = models.TextField(blank=True)
+    admin_title = models.CharField(
+        max_length=255,
+        help_text="The title value is only used to identify the snippet in the admin interface ",
+    )
+
+    def __str__(self):
+        return self.admin_title
+
+    panels = [FieldPanel("admin_title"), FieldPanel("script_code")]
+
+
+@register_setting
+class SitewideTapSetting(BaseSetting):
+    class Meta:
+        verbose_name = "Sitewide TAP settings"
+
+    show_carousels = models.BooleanField(
+        default=False, help_text="Checking this will show the site-wide TAP carousels"
+    )
+
+    show_widgets = models.BooleanField(
+        default=False, help_text="Checking this will show the site-wide TAP widgets"
+    )
+
+    panels = [FieldPanel("show_carousels"), FieldPanel("show_widgets")]

@@ -16,7 +16,7 @@
 
     &__icon {
         transform: rotate(-45deg) translate(0, 0);
-        fill: $color--white;
+        fill: currentColor;
     }
 
     &__description {

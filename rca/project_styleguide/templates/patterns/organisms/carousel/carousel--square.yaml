@@ -1,6 +1,7 @@
 context:
   modifier: 'carousel--square'
   datatag: 'data-peek-carousel'
+  control_title: Square carousel
   carousel:
     - slide:
       value:

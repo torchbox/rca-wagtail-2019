@@ -16,6 +16,7 @@ context:
     video_caption: Watch the course introduction
     contact: true
     contact_image: true
+    cta_navigation_title: Media centre
     cta_block:
       - block:
         value:
@@ -108,3 +109,5 @@ context:
       title: Talks
     - tab:
       title: Media Centre
+  custom_tab_heading:
+    link: 'media-centre'

@@ -1,7 +1,7 @@
 from wagtail.admin.forms import WagtailAdminPageForm
 
 
-class EELandingPageAdminForm(WagtailAdminPageForm):
+class LandingPageAdminForm(WagtailAdminPageForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["contact_model_title"].label = "Title"

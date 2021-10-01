@@ -1,5 +1,6 @@
 context:
   modifier: 'slideshow--author-info'
+  control_title: 'Slideshow'
   slideshow:
     - slide:
       value:
