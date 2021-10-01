@@ -62,9 +62,9 @@ apt-get update -y
 apt-get install -y unzip
 rm -rf /tmp/awscli-bundle || true
 rm -rf /tmp/awscli-bundle.zip || true
-curl -sSL "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "/tmp/awscli-bundle.zip"
-unzip -q /tmp/awscli-bundle.zip -d /tmp
-/tmp/awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip -d /tmp
+/tmp/aws/install -i /usr/local/aws -b /usr/local/bin/aws
 
 # Add a couple of aliases to manage.py into .bashrc
 cat << EOF >> /home/vagrant/.bashrc
