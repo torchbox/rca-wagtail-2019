@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class AccountManagementConfig(AppConfig):
-    name = "account_management"
+    name = "rca.account_management"

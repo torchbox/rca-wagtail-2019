@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from django.conf import settings
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -28,7 +28,6 @@ from wagtail.core.models import (
     GroupPagePermission,
     Orderable,
     Page,
-    Permission,
 )
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel

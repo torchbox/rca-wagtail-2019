@@ -775,6 +775,7 @@ WAGTAILIMAGES_MAX_IMAGE_PIXELS = int(pixel_limit) if pixel_limit else 10000000
 ALLOW_EDITORIAL_PAGE_GENERATION = (
     env.get("ALLOW_EDITORIAL_PAGE_GENERATION", "false").lower() == "true"
 )
+
 ALLOW_EVENT_PAGE_GENERATION = (
     env.get("ALLOW_EVENT_PAGE_GENERATION", "false").lower() == "true"
 )
@@ -786,3 +787,5 @@ if "CORS_ALLOWED_ORIGINS" in env:
 
 CORS_ALLOWED_ORIGIN_REGEXES = r"^/api/.*$"
 CORS_ALLOW_METHODS = ["GET", "OPTIONS"]
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
