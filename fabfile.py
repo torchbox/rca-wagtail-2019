@@ -1,15 +1,32 @@
+import datetime
+import os
+import subprocess
+from shlex import quote, split
+
 from invoke import run as local
 from invoke.exceptions import Exit
 from invoke.tasks import task
 
+# Process .env file
+if os.path.exists(".env"):
+    with open(".env", "r") as f:
+        for line in f.readlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            var, value = line.strip().split("=", 1)
+            os.environ.setdefault(var, value)
+
+FRONTEND = os.getenv("FRONTEND", "docker")
+
+PROJECT_DIR = "/app"
+
 PRODUCTION_APP_INSTANCE = "rca-production"
 STAGING_APP_INSTANCE = "rca-staging"
-DEV_APP_INSTANCE = "rca-development"
+DEVELOPMENT_APP_INSTANCE = "rca-development"
 
-LOCAL_MEDIA_FOLDER = "/vagrant/media"
-LOCAL_DATABASE_NAME = "rca"
-
-USE_PRODUCTION_BACKUP = True
+LOCAL_DATABASE_NAME = PROJECT_NAME = "rca"
+LOCAL_DATABASE_USERNAME = "rca"
 
 
 ############
@@ -17,34 +34,211 @@ USE_PRODUCTION_BACKUP = True
 ############
 
 
+def dexec(cmd, service="web", **kwargs):
+    return local(
+        "docker-compose exec -T {} bash -c {}".format(quote(service), quote(cmd)),
+        **kwargs,
+    )
+
+
+def sudexec(cmd, service="web", **kwargs):
+    return local(
+        "docker-compose exec --user=root -T {} bash -c {}".format(
+            quote(service), quote(cmd)
+        ),
+        **kwargs,
+    )
+
+
+@task
+def build(c):
+    """
+    Build the development environment (call this first)
+    """
+    # Create mount points
+    group = subprocess.check_output(["id", "-gn"], encoding="utf-8").strip()
+    local("mkdir -p media database_dumps")
+    local("chown -R $USER:{} media database_dumps".format(group))
+    local("chmod -R 775 media database_dumps")
+
+    if FRONTEND == "local":
+        local("docker-compose up -d --build web")
+    else:
+        local("docker-compose up -d --build web frontend")
+        dexec("npm ci", service="frontend")
+    local("docker-compose stop")
+    print("Project built: now run 'fab start'")
+
+
+@task
+def start(c):
+    """
+    Start the development environment
+    """
+    if FRONTEND == "local":
+        local("docker-compose up -d web utils")
+    else:
+        local("docker-compose up -d web frontend utils")
+
+    print("Use `fab ssh` to enter the web container and run `djrun`")
+    if FRONTEND != "local":
+        print(
+            'Use `fab npm "<command>"` to run the front-end tooling (e.g. `fab npm "run start"`)'
+        )
+
+
+@task
+def stop(c):
+    """
+    Stop the development environment
+    """
+    local("docker-compose stop")
+
+
+@task
+def restart(c):
+    """
+    Restart the development environment
+    """
+    stop(c)
+    start(c)
+
+
+@task
+def destroy(c):
+    """
+    Destroy development environment containers (database will lost!)
+    """
+    local("docker-compose down")
+
+
+@task
+def ssh(c):
+    """
+    Run bash in the local web container
+    """
+    subprocess.run(["docker-compose", "exec", "--env", "LC_ALL=C", "web", "bash"])
+
+
+@task
+def ssh_root(c):
+    """
+    Run bash as root in the local web container
+    """
+    subprocess.run(
+        ["docker-compose", "exec", "--env", "LC_ALL=C", "--user=root", "web", "bash"]
+    )
+
+
+@task
+def npm(c, command, daemonise=False):
+    """
+    Run npm in the frontend container E.G fab npm 'test'
+    """
+    exec_args = []
+    if daemonise:
+        exec_args.append("-d")
+    subprocess.run(
+        ["docker-compose", "exec"] + exec_args + ["frontend", "npm"] + split(command)
+    )
+
+
+@task
+def psql(c, command=None):
+    """
+    Connect to the local postgres DB using psql
+    """
+    cmd_list = [
+        "docker-compose",
+        "exec",
+        "db",
+        "psql",
+        *["-d", LOCAL_DATABASE_NAME],
+        *["-U", LOCAL_DATABASE_USERNAME],
+    ]
+    if command:
+        cmd_list.extend(["-c", command])
+
+    subprocess.run(cmd_list)
+
+
+def delete_docker_database(c, local_database_name=LOCAL_DATABASE_NAME):
+    dexec(
+        "dropdb --if-exists --host db --username={project_name} {database_name}".format(
+            project_name=PROJECT_NAME, database_name=LOCAL_DATABASE_NAME
+        ),
+        "db",
+    )
+    dexec(
+        "createdb --host db --username={project_name} {database_name}".format(
+            project_name=PROJECT_NAME, database_name=LOCAL_DATABASE_NAME
+        ),
+        "db",
+    )
+
+
+@task
+def import_data(c, database_filename):
+    """
+    Import local data file to the db container.
+    """
+    # Copy the data file to the db container
+    delete_docker_database(c)
+    # Import the database file to the db container
+    dexec(
+        "pg_restore --clean --no-acl --if-exists --no-owner --host db \
+            --username={project_name} -d {database_name} {database_filename}".format(
+            project_name=PROJECT_NAME,
+            database_name=LOCAL_DATABASE_NAME,
+            database_filename=database_filename,
+        ),
+        service="db",
+    )
+    print(
+        "Any superuser accounts you previously created locally will have been wiped and will need to be recreated."
+    )
+
+
+def delete_local_renditions(c, local_database_name=LOCAL_DATABASE_NAME):
+    try:
+        psql(c, "DELETE FROM images_rendition;")
+    except Exception:
+        pass
+
+
+#########
+# Production
+#########
+
+
 @task
 def pull_production_media(c):
+    """Pull media from production AWS S3"""
     pull_media_from_s3_heroku(c, PRODUCTION_APP_INSTANCE)
 
 
 @task
-def pull_production_data(c):
-    if not USE_PRODUCTION_BACKUP:
-        prompt_msg = (
-            "This task is currently configured to pull the live "
-            "production database rather than a backup. Proceeding "
-            "may impact site availability. Can a backup be used "
-            "instead?\n"
-            'Please type the application name "{app_instance}" to '
-            "proceed:\n>>> ".format(app_instance=make_bold(PRODUCTION_APP_INSTANCE))
-        )
-        if input(prompt_msg) != PRODUCTION_APP_INSTANCE:
-            raise Exit("Aborted")
-
-    if USE_PRODUCTION_BACKUP:
-        pull_database_backup_from_heroku(c, PRODUCTION_APP_INSTANCE)
-    else:
-        pull_database_from_heroku(c, PRODUCTION_APP_INSTANCE)
+def pull_production_images(c):
+    """Pull images from production AWS S3"""
+    pull_images_from_s3_heroku(c, PRODUCTION_APP_INSTANCE)
 
 
 @task
-def production_shell(c):
-    open_heroku_shell(c, PRODUCTION_APP_INSTANCE)
+def pull_production_data(c):
+    """Pull database from production Heroku Postgres"""
+    pull_database_from_heroku(c, PRODUCTION_APP_INSTANCE)
+
+
+# @task
+# def production_shell(c):
+#     """Spin up a one-time Heroku production dyno and connect to shell"""
+#     open_heroku_shell(c, PRODUCTION_APP_INSTANCE)
+
+
+# @task
+# def push_production_media(c):
+#     """Push local media content to production isntance"""
+#     push_media_to_s3_heroku(c, PRODUCTION_APP_INSTANCE)
 
 
 #########
@@ -54,80 +248,105 @@ def production_shell(c):
 
 @task
 def pull_staging_media(c):
+    """Pull media from staging AWS S3"""
     pull_media_from_s3_heroku(c, STAGING_APP_INSTANCE)
 
 
 @task
+def pull_staging_images(c):
+    """Pull images from staging AWS S3"""
+    pull_images_from_s3_heroku(c, STAGING_APP_INSTANCE)
+
+
+@task
 def pull_staging_data(c):
+    """Pull database from staging Heroku Postgres"""
     pull_database_from_heroku(c, STAGING_APP_INSTANCE)
 
 
-@task
-def staging_shell(c):
-    open_heroku_shell(c, STAGING_APP_INSTANCE)
+# @task
+# def staging_shell(c):
+#     """Spin up a one-time Heroku staging dyno and connect to shell"""
+#     open_heroku_shell(c, STAGING_APP_INSTANCE)
 
 
-@task
-def push_staging_media(c):
-    push_media_to_s3_heroku(c, STAGING_APP_INSTANCE)
+# @task
+# def push_staging_media(c):
+#     """Push local media content to staging isntance"""
+#     push_media_to_s3_heroku(c, STAGING_APP_INSTANCE)
 
 
-#########
+#############
 # Development
-#########
+#############
 
 
 @task
 def pull_dev_media(c):
-    pull_media_from_s3_heroku(c, DEV_APP_INSTANCE)
+    """Pull media from development AWS S3"""
+    pull_media_from_s3_heroku(c, DEVELOPMENT_APP_INSTANCE)
+
+
+@task
+def pull_dev_images(c):
+    """Pull images from development AWS S3"""
+    pull_images_from_s3_heroku(c, DEVELOPMENT_APP_INSTANCE)
 
 
 @task
 def pull_dev_data(c):
-    pull_database_from_heroku(c, DEV_APP_INSTANCE)
+    """Pull database from development Heroku Postgres"""
+    pull_database_from_heroku(c, DEVELOPMENT_APP_INSTANCE)
 
 
-@task
-def dev_shell(c):
-    open_heroku_shell(c, DEV_APP_INSTANCE)
+# @task
+# def dev_shell(c):
+#     """Spin up a one-time Heroku development dyno and connect to shell"""
+#     open_heroku_shell(c, DEVELOPMENT_APP_INSTANCE)
 
 
-@task
-def push_dev_media(c):
-    push_media_to_s3_heroku(c, DEV_APP_INSTANCE)
+# @task
+# def push_dev_media(c):
+#     """Push local media content to development instance"""
+#     push_media_to_s3_heroku(c, DEVELOPMENT_APP_INSTANCE)
 
 
-#######
-# Local
-#######
+####
+# S3
+####
 
 
-def delete_local_database(c, local_database_name=LOCAL_DATABASE_NAME):
-    local(
-        "dropdb --if-exists {database_name}".format(database_name=LOCAL_DATABASE_NAME)
+def aws(c, command, aws_access_key_id, aws_secret_access_key):
+    return dexec(
+        "AWS_ACCESS_KEY_ID={access_key_id} AWS_SECRET_ACCESS_KEY={secret_key} "
+        "aws {command}".format(
+            access_key_id=aws_access_key_id,
+            secret_key=aws_secret_access_key,
+            command=command,
+        ),
+        service="utils",
     )
 
 
-########
-# Heroku
-########
+def pull_media_from_s3(
+    c, aws_access_key_id, aws_secret_access_key, aws_storage_bucket_name,
+):
+    aws_cmd = "s3 sync --delete s3://{bucket_name} /app/media".format(
+        bucket_name=aws_storage_bucket_name,
+    )
+    aws(c, aws_cmd, aws_access_key_id, aws_secret_access_key)
 
 
-def check_if_logged_in_to_heroku(c):
-    if not local("heroku auth:whoami", warn=True):
-        raise Exit(
-            'Log-in with the "heroku login -i" command before running this ' "command."
-        )
+def push_media_to_s3(
+    c, aws_access_key_id, aws_secret_access_key, aws_storage_bucket_name,
+):
+    aws_cmd = "s3 sync --delete /app/media s3://{bucket_name}/".format(
+        bucket_name=aws_storage_bucket_name,
+    )
+    aws(c, aws_cmd, aws_access_key_id, aws_secret_access_key)
 
 
-def get_heroku_variable(c, app_instance, variable):
-    check_if_logged_in_to_heroku(c)
-    return local(
-        "heroku config:get {var} --app {app}".format(app=app_instance, var=variable)
-    ).stdout.strip()
-
-
-def pull_media_from_s3_heroku(c, app_instance):
+def pull_images_from_s3_heroku(c, app_instance):
     check_if_logged_in_to_heroku(c)
     aws_access_key_id = get_heroku_variable(c, app_instance, "AWS_ACCESS_KEY_ID")
     aws_secret_access_key = get_heroku_variable(
@@ -136,97 +355,21 @@ def pull_media_from_s3_heroku(c, app_instance):
     aws_storage_bucket_name = get_heroku_variable(
         c, app_instance, "AWS_STORAGE_BUCKET_NAME"
     )
-    pull_media_from_s3(
+    pull_images_from_s3(
         c, aws_access_key_id, aws_secret_access_key, aws_storage_bucket_name
     )
 
 
-def pull_database_from_heroku(c, app_instance):
-    check_if_logged_in_to_heroku(c)
-    delete_local_database(c)
-    local(
-        "heroku pg:pull --app {app} DATABASE_URL {local_database}".format(
-            app=app_instance, local_database=LOCAL_DATABASE_NAME
-        )
-    )
-    answer = (
-        input(
-            "Any superuser accounts you previously created locally will"
-            " have been wiped. Do you wish to create a new superuser? (Y/n): "
-        )
-        .strip()
-        .lower()
-    )
-    if not answer or answer == "y":
-        local("django-admin createsuperuser", pty=True)
-
-
-def pull_database_backup_from_heroku(c, app_instance):
-    check_if_logged_in_to_heroku(c)
-    local("heroku pg:backups:download --app {app}".format(app=app_instance))
-    # Need to check whether previous command has succeeded
-    # If an error similar to following is raised, the installed version of Postgres is
-    # older than the Heroku version.
-    # pg_restore: [archiver] unsupported version (1.14) in file header
-    local(
-        "pg_restore --clean --no-privileges --no-owner -d {local_database} latest.dump".format(
-            local_database=LOCAL_DATABASE_NAME
-        )
-    )
-    local("rm latest.dump")
-    print("Database backup restored")
-
-
-def open_heroku_shell(c, app_instance, shell_command="bash"):
-    check_if_logged_in_to_heroku(c)
-    local(
-        "heroku run --app {app} {command}".format(
-            app=app_instance, command=shell_command
-        )
-    )
-
-
-####
-# S3
-####
-
-
-def aws(c, command, aws_access_key_id, aws_secret_access_key, **kwargs):
-    return local(
-        "AWS_ACCESS_KEY_ID={access_key_id} AWS_SECRET_ACCESS_KEY={secret_key} "
-        "aws {command}".format(
-            access_key_id=aws_access_key_id,
-            secret_key=aws_secret_access_key,
-            command=command,
-        ),
-        **kwargs
-    )
-
-
-def pull_media_from_s3(
-    c,
-    aws_access_key_id,
-    aws_secret_access_key,
-    aws_storage_bucket_name,
-    local_media_folder=LOCAL_MEDIA_FOLDER,
+def pull_images_from_s3(
+    c, aws_access_key_id, aws_secret_access_key, aws_storage_bucket_name,
 ):
-    aws_cmd = "s3 sync --delete s3://{bucket_name} {local_media}".format(
-        bucket_name=aws_storage_bucket_name, local_media=local_media_folder
+    aws_cmd = "s3 sync --delete s3://{bucket_name}/original_images /app/media/original_images".format(
+        bucket_name=aws_storage_bucket_name,
     )
     aws(c, aws_cmd, aws_access_key_id, aws_secret_access_key)
-
-
-def push_media_to_s3(
-    c,
-    aws_access_key_id,
-    aws_secret_access_key,
-    aws_storage_bucket_name,
-    local_media_folder=LOCAL_MEDIA_FOLDER,
-):
-    aws_cmd = "s3 sync --delete {local_media} s3://{bucket_name}/".format(
-        bucket_name=aws_storage_bucket_name, local_media=local_media_folder
-    )
-    aws(c, aws_cmd, aws_access_key_id, aws_secret_access_key)
+    # The above command just syncs the original images, so we need to drop the wagtailimages_renditions
+    # table so that the renditions will be re-created when requested on the local build.
+    delete_local_renditions(c)
 
 
 def push_media_to_s3_heroku(c, app_instance):
@@ -261,8 +404,136 @@ def push_media_to_s3_heroku(c, app_instance):
     )
 
 
+########
+# Heroku
+########
+
+
+@task
+def heroku_login(c):
+    """
+    Log into the Heroku app for accessing config vars, database backups etc.
+    """
+    subprocess.call(["docker-compose", "exec", "utils", "heroku", "login"])
+
+
+def check_if_logged_in_to_heroku(c):
+    if not dexec("heroku auth:whoami", service="utils", hide="both", warn=True):
+        raise Exit(
+            'Log-in with the "fab heroku-login" command before running this ' "command."
+        )
+
+
+def check_if_heroku_app_access_granted(c, app_instance):
+    check_if_logged_in_to_heroku(c)
+    # Any command targeting an app would do. This one prints the list of who has access.
+    result = dexec(
+        f"heroku access --app {app_instance}", hide="both", warn=True, service="utils"
+    )
+    if result.failed:
+        raise Exit(
+            "You do not have access to this app. Please either try to add yourself with:\n"
+            f"heroku apps:join --app {app_instance}\n\n"
+            "Or ask a team admin to add you with:\n"
+            f"heroku access:add <your email address> --app {app_instance}"
+        )
+
+
+def get_heroku_variable(c, app_instance, variable):
+    check_if_logged_in_to_heroku(c)
+    return dexec(
+        "heroku config:get {var} --app {app}".format(app=app_instance, var=variable),
+        service="utils",
+        hide="both",
+    ).stdout.strip()
+
+
+def pull_media_from_s3_heroku(c, app_instance):
+    check_if_logged_in_to_heroku(c)
+    aws_access_key_id = get_heroku_variable(c, app_instance, "AWS_ACCESS_KEY_ID")
+    aws_secret_access_key = get_heroku_variable(
+        c, app_instance, "AWS_SECRET_ACCESS_KEY"
+    )
+    aws_storage_bucket_name = get_heroku_variable(
+        c, app_instance, "AWS_STORAGE_BUCKET_NAME"
+    )
+    pull_media_from_s3(
+        c, aws_access_key_id, aws_secret_access_key, aws_storage_bucket_name
+    )
+
+
+def pull_database_from_heroku(c, app_instance):
+    check_if_heroku_app_access_granted(c, app_instance)
+
+    datestamp = datetime.datetime.now().isoformat(timespec="seconds")
+
+    dexec(
+        "heroku pg:backups:download --output=/app/database_dumps/{datestamp}.dump --app {app}".format(
+            app=app_instance, datestamp=datestamp,
+        ),
+        service="utils",
+    )
+
+    import_data(c, f"/app/database_dumps/{datestamp}.dump")
+
+    dexec(
+        "rm /app/database_dumps/{datestamp}.dump".format(datestamp=datestamp,),
+        service="utils",
+    )
+
+
+def open_heroku_shell(c, app_instance, shell_command="bash"):
+    subprocess.call(
+        [
+            "docker-compose",
+            "exec",
+            "utils",
+            "heroku",
+            "run",
+            shell_command,
+            "-a",
+            app_instance,
+        ]
+    )
+
+
+#######
+# Utils
+#######
+
+
 def make_bold(msg):
     return "\033[1m{}\033[0m".format(msg)
+
+
+@task
+def dellar_snapshot(c, filename):
+    """Snapshot the database, files will be stored in the db container"""
+    dexec(
+        "pg_dump -d {database_name} -U {database_username} > {filename}.psql".format(
+            database_name=LOCAL_DATABASE_NAME,
+            database_username=LOCAL_DATABASE_USERNAME,
+            filename=filename,
+        ),
+        service="db",
+    ),
+    print("Database snapshot created")
+
+
+@task
+def dellar_restore(c, filename):
+    """ Restore the database from a snapshot in the db container """
+    delete_docker_database(c)
+
+    dexec(
+        "psql -U {database_username} -d {database_name} < {filename}.psql".format(
+            database_name=LOCAL_DATABASE_NAME,
+            database_username=LOCAL_DATABASE_USERNAME,
+            filename=filename,
+        ),
+        service="db",
+    ),
+    print("Database restored.")
 
 
 @task
