@@ -57,13 +57,12 @@ services:
       - ./.prettierrc.toml:/home/node/.prettierrc.toml:delegated,ro
       - ./.stylelintignore:/home/node/.stylelintignore:delegated,ro
       - ./.stylelintrc.js:/home/node/.stylelintrc.js:delegated,ro
-      # TODO - browsersync webpack solution
-      # - ./browsersync.config.js:/home/node/browsersync.config.js:delegated,ro
       - ./package-lock.json:/home/node/package-lock.json:delegated,rw
       - ./package.json:/home/node/package.json:delegated,rw
       - ./webpack.config.js:/home/node/webpack.config.js:delegated,ro
       # Source files
       - ./rca/static_src:/home/node/rca/static_src:delegated,ro
+      - ./rca/static_compiled:/home/node/rca/static_compiled:delegated,rw
     command: tail -f /dev/null # do nothing forever - exec commands elsewhere
     ports:
       - 3000:3000

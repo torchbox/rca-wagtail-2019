@@ -1,7 +1,7 @@
 import datetime
 import os
 import subprocess
-from shlex import quote, split
+from shlex import quote
 
 from invoke import run as local
 from invoke.exceptions import Exit
@@ -12,7 +12,7 @@ if os.path.exists(".env"):
     with open(".env", "r") as f:
         for line in f.readlines():
             line = line.strip()
-            if not line or line.startswith("#"):
+            if not line or line.startswith("#") or "=" not in line:
                 continue
             var, value = line.strip().split("=", 1)
             os.environ.setdefault(var, value)
@@ -80,10 +80,10 @@ def start(c):
     else:
         local("docker-compose up -d web frontend utils")
 
-    print("Use `fab ssh` to enter the web container and run `djrun`")
+    print("Use `fab sh` to enter the web container and run `djrun`")
     if FRONTEND != "local":
         print(
-            'Use `fab npm "<command>"` to run the front-end tooling (e.g. `fab npm "run start"`)'
+            "Use `fab sh --service frontend` to enter the frontend container and run `npm run start`"
         )
 
 
@@ -113,33 +113,25 @@ def destroy(c):
 
 
 @task
-def ssh(c):
+def sh(c, service="web"):
     """
-    Run bash in the local web container
+    Run bash in a local container
     """
-    subprocess.run(["docker-compose", "exec", "--env", "LC_ALL=C", "web", "bash"])
+    subprocess.run(["docker-compose", "exec", service, "bash"])
 
 
 @task
-def ssh_root(c):
+def sh_root(c, service="web"):
     """
     Run bash as root in the local web container
     """
-    subprocess.run(
-        ["docker-compose", "exec", "--env", "LC_ALL=C", "--user=root", "web", "bash"]
-    )
+    subprocess.run(["docker-compose", "exec", "--user=root", service, "bash"])
 
 
 @task
-def npm(c, command, daemonise=False):
-    """
-    Run npm in the frontend container E.G fab npm 'test'
-    """
-    exec_args = []
-    if daemonise:
-        exec_args.append("-d")
-    subprocess.run(
-        ["docker-compose", "exec"] + exec_args + ["frontend", "npm"] + split(command)
+def npm(c, command):
+    print(
+        f"`fab npm …` has been removed, use `fab sh --service frontend` and run `npm {command}` from there instead."
     )
 
 
