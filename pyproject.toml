@@ -33,6 +33,8 @@ lxml = "^4.6.3"
 django-birdbath = "^0.0.5"
 tblib = "^1.7.0"
 django-countries = "^7.2.1"
+mailchimp-marketing = "^3.0.69"
+freezegun = "^1.1.0"
 
 [tool.poetry.extras]
 gunicorn = ["gunicorn"]
