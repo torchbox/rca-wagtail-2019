@@ -48,7 +48,7 @@ wagtailmakeup = "^0.0.1"
 black = "20.8b1"
 detect-secrets = "~0.14"
 flake8 = "3.8.3"
-isort = "5.7.0"
+isort = "4.3.18"
 pre-commit = "~2.11"
 
 # Documentation
