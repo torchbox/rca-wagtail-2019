@@ -47,7 +47,7 @@ stellar = "~0.4"
 wagtailmakeup = "^0.0.1"
 
 # Linters etc.
-black = "20.8b1"
+black = "19.10b"
 detect-secrets = "~0.14"
 flake8 = "3.8.3"
 isort = "4.3.18"
