@@ -45,6 +45,8 @@ def primarynav(context):
                 tertiary_links = []
                 if tertiary_pages:
                     for i in tertiary_pages:
+                        if not i["page"] and not i["url"]:
+                            continue
                         tertiary_url = (
                             i["page"].get_url(request) if i["page"] else i["url"]
                         )
