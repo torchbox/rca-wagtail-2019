@@ -1,7 +1,10 @@
+import logging
+
 from django import template
 
 from rca.navigation.templatetags import utils
 
+logger = logging.getLogger(__name__)
 register = template.Library()
 
 
@@ -45,6 +48,11 @@ def primarynav(context):
                 tertiary_links = []
                 if tertiary_pages:
                     for i in tertiary_pages:
+                        if not i["page"] and not i["url"]:
+                            logger.warning(
+                                "A page has been deleted that is still referenced in the navigation."
+                            )
+                            continue
                         tertiary_url = (
                             i["page"].get_url(request) if i["page"] else i["url"]
                         )
