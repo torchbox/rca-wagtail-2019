@@ -30,3 +30,4 @@ django-phonenumber-field[phonenumbers]==5.0.0
 django-import-export==2.5.0
 wagtail-redirect-importer==1.0.2
 wagtail-factories==2.0.1
+django-cors-headers==3.8.0
