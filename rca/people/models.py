@@ -804,6 +804,7 @@ class StudentPage(PerUserPageMixin, BasePage):
         PageChooserPanel("programme"),
         FieldPanel("degree_start_date"),
         FieldPanel("degree_end_date"),
+        FieldPanel("degree_award"),
         FieldPanel("degree_status"),
         FieldPanel("link_to_final_thesis"),
         InlinePanel("related_supervisor", label="Supervisor information"),
