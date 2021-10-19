@@ -49,13 +49,15 @@ class HomePageTransofmrationBlock(models.Model):
     video_caption = models.CharField(
         blank=True,
         max_length=80,
-        help_text="The text dipsplayed next to the video play button",
+        help_text="The text displayed next to the video play button",
     )
     sub_heading = models.CharField(
         max_length=125, blank=True, help_text="The title below the image"
     )
     page_title = models.CharField(
-        max_length=125, blank=True, help_text="A title for the linked related page"
+        max_length=125,
+        blank=True,
+        help_text="Please add informative help text that includes the name or nature of the target content",
     )
     page_summary = models.CharField(
         max_length=250, blank=True, help_text="A summary for the linked related page"
@@ -173,7 +175,7 @@ class HomePage(TapMixin, BasePage):
                 heading="Strapline",
             ),
             InlinePanel(
-                "transformation_blocks", label="Transormation block", max_num=1
+                "transformation_blocks", label="Transformation block", max_num=1
             ),
             InlinePanel("partnerships_block", label="Partnerships", max_num=1),
             InlinePanel("stats_block", label="Statistics", max_num=1),
