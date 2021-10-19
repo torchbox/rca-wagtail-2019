@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import ItemBase, TagBase
@@ -176,8 +177,18 @@ class RelatedStaffPageWithManualOptions(Orderable):
         abstract = True
         ordering = ["sort_order"]
 
-    # Validation.
-    # Only allow adding a related staff page, or the inline fields.
+    def clean(self):
+        errors = defaultdict(list)
+
+        if not self.page and not self.role:
+            errors["role"].append(
+                _(
+                    "If you are not referencing a Staff Page, please add a custom role valiue, E.G 'Tutor'"
+                )
+            )
+
+        if errors:
+            raise ValidationError(errors)
 
     panels = [
         PageChooserPanel("page", page_type="people.StaffPage"),
