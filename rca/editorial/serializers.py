@@ -3,7 +3,10 @@ from rest_framework.fields import Field
 
 class EditorialTypeTaxonomySerializer(Field):
     def to_representation(self, value):
-        return [{"title": v.type.title, "id": v.type.id} for v in value.all()]
+        return [
+            {"title": v.type.title, "id": v.type.id}
+            for v in value.filter(type__isnull=False)
+        ]
 
 
 class RelatedAuthorSerializer(Field):

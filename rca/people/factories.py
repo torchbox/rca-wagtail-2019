@@ -2,9 +2,16 @@ import factory
 import wagtail_factories
 from faker import Factory as FakerFactory
 
-from .models import StudentIndexPage, StudentPage
+from .models import Directorate, StudentIndexPage, StudentPage
 
 faker = FakerFactory.create()
+
+
+class DirectorateFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Directorate
+
+    title = factory.Faker("text", max_nb_chars=25)
 
 
 class StudentPageFactory(wagtail_factories.PageFactory):
