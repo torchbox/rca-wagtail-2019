@@ -476,7 +476,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         index.SearchField("body"),
     ]
 
-    api_fields = [
+    api_fields = BasePage.api_fields + [
         APIField("hero_image"),
         APIField("start_date"),
         APIField("end_date"),

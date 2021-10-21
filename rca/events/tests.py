@@ -323,3 +323,8 @@ class EventSerializerTests(WagtailPageTests):
         response = self.client.get(f"/api/v3/pages/{self.event_page.id}/")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["related_directorates"], [])
+
+
+# TODO
+# The intranet integration depends on the api structure remaining intact.
+# we need to write tests to confirm it fails if changed

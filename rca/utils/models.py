@@ -383,6 +383,12 @@ class BasePage(SocialFields, ListingFields, Page):
         Page.promote_panels + SocialFields.promote_panels + ListingFields.promote_panels
     )
 
+    api_fields = [
+        APIField("listing_image"),
+        APIField("listing_title"),
+        APIField("listing_summary"),
+    ]
+
 
 class LegacySiteTag(TagBase):
     class Meta:
