@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from wagtail.api import APIField
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
 from wagtail.search import index
 
@@ -22,6 +23,19 @@ class CustomImage(AbstractImage):
         "dimensions",
         "permission",
     )
+    api_fields = [
+        APIField("alt"),
+        APIField("creator"),
+        APIField("year"),
+        APIField("medium"),
+        APIField("photographer"),
+        APIField("dimensions"),
+        APIField("permission"),
+        APIField("focal_point_x"),
+        APIField("focal_point_y"),
+        APIField("focal_point_width"),
+        APIField("focal_point_height"),
+    ]
 
     search_fields = AbstractImage.search_fields + [
         index.SearchField("creator"),

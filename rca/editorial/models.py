@@ -14,6 +14,7 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
     TabbedInterface,
 )
+from wagtail.api import APIField
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -35,6 +36,7 @@ from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, ContactFieldsMixin, RelatedPage
 
 from .blocks import EditorialPageBlock
+from .serializers import EditorialTypeTaxonomySerializer, RelatedAuthorSerializer
 
 
 class Author(models.Model):
@@ -245,6 +247,41 @@ class EditorialPage(ContactFieldsMixin, BasePage):
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
+
+    api_fields = [
+        APIField("hero_image"),
+        APIField("introduction"),
+        APIField("hero_image"),
+        APIField("video"),
+        APIField("video_caption"),
+        APIField("introduction_image"),
+        APIField("body"),
+        APIField("cta_block"),
+        APIField("quote_carousel"),
+        APIField("gallery"),
+        APIField("more_information_title"),
+        APIField("more_information"),
+        APIField("related_editorialpages"),
+        APIField("contact_model_title"),
+        APIField("contact_model_email"),
+        APIField("contact_model_url"),
+        APIField("contact_model_form"),
+        APIField("contact_model_link_text"),
+        APIField("contact_model_text"),
+        APIField("contact_model_image"),
+        APIField("published_at"),
+        APIField("related_schools"),
+        APIField("related_research_centre_pages"),
+        APIField("related_directorates"),
+        APIField("related_landing_pages"),
+        APIField("editorial_types", serializer=EditorialTypeTaxonomySerializer()),
+        APIField("related_programmes"),
+        APIField("download_assets_heading"),
+        APIField("download_assets_url"),
+        APIField("download_assets_link_title"),
+        APIField("contact_email"),
+        APIField("author", serializer=RelatedAuthorSerializer()),
+    ]
 
     @property
     def listing_meta(self):
