@@ -40,7 +40,11 @@ from rca.utils.models import (
 from .blocks import CallToAction, EventDetailPageBlock, PartnersBlock
 from .filter import PastOrFutureFilter
 from .forms import EventAdminForm
-from .serializers import EventTaxonomySerializer, RelatedDirectoratesSerializer
+from .serializers import (
+    EventTaxonomySerializer,
+    RelatedDirectoratesSerializer,
+    RelatedSchoolSerializer,
+)
 
 
 class EventIndexPageRelatedEditorialPage(Orderable):
@@ -507,7 +511,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         APIField("related_directorates", serializer=RelatedDirectoratesSerializer()),
         APIField("related_research_centre_pages"),
         APIField("related_landing_pages"),
-        APIField("related_schools"),
+        APIField("related_schools", serializer=RelatedSchoolSerializer()),
         APIField("introduction"),
         APIField("body"),
         APIField("speaker_heading"),
