@@ -189,6 +189,30 @@ class RelatedStaffPageWithManualOptions(Orderable):
         FieldPanel("link"),
     ]
 
+    def first_name_api(self):
+        if self.first_name:
+            return self.first_name
+        if self.page:
+            page = self.page.specific
+            return page.first_name
+
+    def surname_api(self):
+        if self.surname:
+            return self.surname
+        if self.page:
+            page = self.page.specific
+            return page.last_name
+
+    api_fields = [
+        APIField("page"),
+        APIField("image"),
+        APIField("first_name_api"),
+        APIField("surname_api"),
+        APIField("role"),
+        APIField("description"),
+        APIField("link"),
+    ]
+
 
 # Generic social fields abstract class to add social image/text to any new content type easily.
 class SocialFields(models.Model):

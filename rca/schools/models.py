@@ -54,6 +54,10 @@ class RelatedSchoolPage(Orderable):
 
     panels = [PageChooserPanel("page")]
 
+    api_fields = [
+        "page",
+    ]
+
 
 class SchoolPageRelatedShortCourse(RelatedPage):
     source_page = ParentalKey("SchoolPage", related_name="related_short_courses")

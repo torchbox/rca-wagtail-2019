@@ -476,6 +476,21 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         index.SearchField("body"),
     ]
 
+    # Methods for the API that the intranet imported uses
+    def contact_email(self):
+        # Used for the intranet importer which is expecting these to be FKs
+        return [{"email_address": self.contact_model_email}]
+
+    def dates_times(self):
+        return [
+            {
+                "date_from": self.start_date.strftime("%Y-%m-%d"),
+                "date_to": self.end_date.strftime("%Y-%m-%d"),
+                "time_from": self.start_date.strftime("%H:%M:%S"),
+                "time_to": self.end_date.strftime("%H:%M:%S"),
+            }
+        ]
+
     api_fields = BasePage.api_fields + [
         APIField("hero_image"),
         APIField("start_date"),
@@ -502,11 +517,13 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         APIField("related_pages"),
         APIField("contact_model_title"),
         APIField("contact_model_email"),
+        APIField("contact_email"),
         APIField("contact_model_url"),
         APIField("contact_model_form"),
         APIField("contact_model_link_text"),
         APIField("contact_model_text"),
         APIField("contact_model_image"),
+        "dates_times",
     ]
 
     def get_editorial_type(self, page):
