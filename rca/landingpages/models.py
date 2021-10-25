@@ -850,51 +850,6 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         return context
 
 
-class TapLandingPage(LandingPage):
-    template = "patterns/pages/landingpage/landing_page--tap.html"
-    tap_carousel = models.TextField(blank=True, verbose_name="Iframe Code")
-
-    class Meta:
-        verbose_name = "Landing Page - TAP"
-
-    content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
-        MultiFieldPanel(
-            [FieldPanel("introduction"), PageChooserPanel("about_page")],
-            heading=_("Introduction"),
-        ),
-        MultiFieldPanel([FieldPanel("tap_carousel")], heading="TAP Carousel"),
-        MultiFieldPanel(
-            [
-                FieldPanel("highlights_title"),
-                InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
-                PageChooserPanel("highlights_page_link"),
-                FieldPanel("highlights_page_link_title"),
-            ],
-            heading=_("Featured projects"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("related_pages_title"),
-                FieldPanel("related_pages_text"),
-                InlinePanel("related_pages_grid", max_num=8, label=_("Related Pages")),
-            ],
-            heading=_("Related pages grid"),
-        ),
-        InlinePanel("featured_image", label=_("Featured content"), max_num=1),
-        FieldPanel("legacy_news_and_event_tags"),
-        MultiFieldPanel(
-            [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
-            heading=_("Related page list"),
-        ),
-    ]
-
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
-        context["tap_carousel"] = mark_safe(self.tap_carousel)
-        return context
-
-
 class AlumniLandingPageRelatedEditorialPage(RelatedPage):
     source_page = ParentalKey(
         "landingpages.AlumniLandingPage", related_name="related_editorial_pages"
