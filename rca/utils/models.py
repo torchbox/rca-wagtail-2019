@@ -201,18 +201,16 @@ class RelatedStaffPageWithManualOptions(Orderable):
     ]
 
     def first_name_api(self):
-        if self.first_name:
-            return self.first_name
         if self.page:
             page = self.page.specific
             return page.first_name
+        return self.first_name
 
     def surname_api(self):
-        if self.surname:
-            return self.surname
         if self.page:
             page = self.page.specific
             return page.last_name
+        return self.surname
 
     api_fields = [
         APIField("page"),
