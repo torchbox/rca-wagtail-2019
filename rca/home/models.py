@@ -63,6 +63,11 @@ class HomePageTransofmrationBlock(models.Model):
         max_length=250, blank=True, help_text="A summary for the linked related page"
     )
     page_link_url = models.URLField(blank=True, help_text="A url to a related page")
+    read_more_link_text = models.CharField(
+        max_length=125,
+        blank=True,
+        help_text="Specific text to use for the 'read more' link",
+    )
 
     panels = [
         FieldPanel("heading"),
@@ -73,6 +78,7 @@ class HomePageTransofmrationBlock(models.Model):
         FieldPanel("page_title"),
         FieldPanel("page_summary"),
         FieldPanel("page_link_url"),
+        FieldPanel("read_more_link_text"),
     ]
 
     def __str__(self):
