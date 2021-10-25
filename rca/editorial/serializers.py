@@ -1,4 +1,5 @@
 from rest_framework.fields import Field
+from wagtail.core.models import Page
 
 
 class EditorialTypeTaxonomySerializer(Field):
@@ -11,4 +12,32 @@ class EditorialTypeTaxonomySerializer(Field):
 
 class RelatedAuthorSerializer(Field):
     def to_representation(self, value):
-        return {"name": value.name, "id": value.id}
+        return getattr(value, "name", "")
+
+
+class CTABlockSerializer(Field):
+    def to_representation(self, value):
+        blocks = []
+        for block in value.raw_data:
+            page_link = None
+            page_title = None
+            if block["value"]["page"]:
+                page = Page.objects.get(id=block["value"]["page"])
+                page_link = page.full_url
+                page_title = page.title
+
+            blocks.append(
+                {
+                    "type": "call_to_action",
+                    "value": {
+                        "title": block["value"]["title"],
+                        "description": block["value"]["description"],
+                        "page": block["value"]["page"],
+                        "link": {
+                            "title": block["value"]["link"]["title"] or page_title,
+                            "url": block["value"]["link"]["url"] or page_link,
+                        },
+                    },
+                },
+            )
+        return blocks

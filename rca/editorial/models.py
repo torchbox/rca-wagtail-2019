@@ -20,6 +20,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.editorial import admin_forms
 from rca.editorial.utils import get_linked_taxonomy
+from rca.events.serializers import RelatedSchoolSerializer
 from rca.people.filter import SchoolCentreDirectorateFilter
 from rca.people.models import Directorate
 from rca.research.models import ResearchCentrePage
@@ -34,7 +35,11 @@ from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, ContactFieldsMixin, RelatedPage
 
 from .blocks import EditorialPageBlock
-from .serializers import EditorialTypeTaxonomySerializer, RelatedAuthorSerializer
+from .serializers import (
+    CTABlockSerializer,
+    EditorialTypeTaxonomySerializer,
+    RelatedAuthorSerializer,
+)
 
 
 class Author(models.Model):
@@ -239,6 +244,12 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         ]
     )
 
+    def author_as_string(self):
+        if self.author:
+            return self.author
+        else:
+            return ""
+
     api_fields = [
         APIField("hero_image"),
         APIField("introduction"),
@@ -247,7 +258,7 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         APIField("video_caption"),
         APIField("introduction_image"),
         APIField("body"),
-        APIField("cta_block"),
+        APIField("cta_block", serializer=CTABlockSerializer()),
         APIField("quote_carousel"),
         APIField("gallery"),
         APIField("more_information_title"),
@@ -261,7 +272,7 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         APIField("contact_model_text"),
         APIField("contact_model_image"),
         APIField("published_at"),
-        APIField("related_schools"),
+        APIField("related_schools", serializer=RelatedSchoolSerializer()),
         APIField("related_research_centre_pages"),
         APIField("related_directorates"),
         APIField("related_landing_pages"),
@@ -271,7 +282,7 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         APIField("download_assets_url"),
         APIField("download_assets_link_title"),
         APIField("contact_email"),
-        APIField("author", serializer=RelatedAuthorSerializer()),
+        APIField("author_as_string", serializer=RelatedAuthorSerializer()),
     ]
 
     def get_related_pages(self):
