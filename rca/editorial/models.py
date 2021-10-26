@@ -250,7 +250,7 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         else:
             return ""
 
-    api_fields = [
+    api_fields = BasePage.api_fields + [
         APIField("hero_image"),
         APIField("introduction"),
         APIField("hero_image"),
