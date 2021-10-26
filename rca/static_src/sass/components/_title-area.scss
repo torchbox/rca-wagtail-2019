@@ -20,6 +20,16 @@
         }
     }
 
+    &--breadcrumb {
+        #{$root}__content {
+            // Ensure that the baseline of the breadcrumb aligns with the top of the notch
+            @include media-query(large) {
+                position: relative;
+                top: -17px;
+                margin-bottom: -17px;
+            }
+        }
+    }
     &__heading {
         margin-bottom: ($gutter / 2);
     }
