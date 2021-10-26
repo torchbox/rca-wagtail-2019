@@ -17,7 +17,7 @@
         </div>
 
         <header class="page__header bg bg--dark">
-            <div class="title-area title-area--landing-page grid">
+            <div class="title-area title-area--breadcrumb title-area--landing-page grid">
                 <div class="title-area__content">
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
@@ -45,7 +45,7 @@
         </header>
 
         <div class="page__content landing-page">
-            
+
             {% if tap_carousel and settings.utils.SitewideTapSetting.show_carousels %}
                 <section class="landing-page__top section section--start bg bg--dark">
                     <div class="section__row">
