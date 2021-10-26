@@ -298,13 +298,13 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         index.SearchField("related_programmes_summary"),
         index.SearchField("related_short_courses_summary"),
     ]
+
     intranet_slug = models.SlugField(
         blank=True,
         help_text="In order to import events and news to the intranet, this \
             slug value should match the category of the School Category on the \
             intranet",
     )
-    search_fields = BasePage.search_fields + [index.SearchField("introduction")]
 
     api_fields = [APIField("introduction")]
 
