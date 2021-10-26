@@ -22,6 +22,7 @@ class HeaderDrawer {
                 // move the focus to the first <a> in level 1
                 document.querySelector('[data-nav-level-1] a').focus();
             },
+            allowOutsideClick: true,
         });
         this.bindEventListeners();
     }
