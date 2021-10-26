@@ -18,6 +18,7 @@ from wagtail.admin.edit_handlers import (
     PageChooserPanel,
     StreamFieldPanel,
 )
+from wagtail.api import APIField
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
@@ -39,6 +40,11 @@ from rca.utils.models import (
 from .blocks import CallToAction, EventDetailPageBlock, PartnersBlock
 from .filter import PastOrFutureFilter
 from .forms import EventAdminForm
+from .serializers import (
+    EventTaxonomySerializer,
+    RelatedDirectoratesSerializer,
+    RelatedSchoolSerializer,
+)
 
 
 class EventIndexPageRelatedEditorialPage(Orderable):
@@ -472,6 +478,56 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
     search_fields = BasePage.search_fields + [
         index.SearchField("introduction"),
         index.SearchField("body"),
+    ]
+
+    # Methods for the API that the intranet imported uses
+    def contact_email(self):
+        # Used for the intranet importer which is expecting these to be FKs
+        return [{"email_address": self.contact_model_email}]
+
+    def dates_times(self):
+        return [
+            {
+                "date_from": self.start_date.strftime("%Y-%m-%d"),
+                "date_to": self.end_date.strftime("%Y-%m-%d"),
+                "time_from": self.start_date.strftime("%H:%M:%S"),
+                "time_to": self.end_date.strftime("%H:%M:%S"),
+            }
+        ]
+
+    api_fields = BasePage.api_fields + [
+        APIField("hero_image"),
+        APIField("start_date"),
+        APIField("end_date"),
+        APIField("show_booking_bar"),
+        APIField("manual_registration_url_link_text"),
+        APIField("manual_registration_url"),
+        APIField("event_cost"),
+        APIField("availability", serializer=EventTaxonomySerializer()),
+        APIField("location", serializer=EventTaxonomySerializer()),
+        APIField("event_type", serializer=EventTaxonomySerializer()),
+        APIField("series", serializer=EventTaxonomySerializer()),
+        APIField("eligibility", serializer=EventTaxonomySerializer()),
+        APIField("related_directorates", serializer=RelatedDirectoratesSerializer()),
+        APIField("related_research_centre_pages"),
+        APIField("related_landing_pages"),
+        APIField("related_schools", serializer=RelatedSchoolSerializer()),
+        APIField("introduction"),
+        APIField("body"),
+        APIField("speaker_heading"),
+        APIField("speakers"),
+        APIField("partners_heading"),
+        APIField("partners"),
+        APIField("related_pages"),
+        APIField("contact_model_title"),
+        APIField("contact_model_email"),
+        APIField("contact_email"),
+        APIField("contact_model_url"),
+        APIField("contact_model_form"),
+        APIField("contact_model_link_text"),
+        APIField("contact_model_text"),
+        APIField("contact_model_image"),
+        "dates_times",
     ]
 
     def get_editorial_type(self, page):

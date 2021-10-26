@@ -1,11 +1,12 @@
 from wagtail.api.v2 import views
 from wagtail.api.v2.filters import ChildOfFilter, DescendantOfFilter, FieldsFilter
+from wagtail.images.api.v2.views import ImagesAPIViewSet
 
 from rca.navigation.models import NavigationSettings
 from rca.utils.models import SitewideAlertSetting
 from rca.wagtailapi import filters
 
-from .serializers import RCAPageSerializer
+from .serializers import RCAImageSerializer, RCAPageSerializer
 
 
 class PagesAPIViewSet(views.PagesAPIViewSet):
@@ -44,3 +45,14 @@ class NavigationAPIViewSet(views.BaseAPIViewSet):
 
 class SitewideAlertAPIViewSet(views.BaseAPIViewSet):
     model = SitewideAlertSetting
+
+
+class RCAImagesViewset(ImagesAPIViewSet):
+    base_serializer_class = RCAImageSerializer
+
+    body_fields = ImagesAPIViewSet.body_fields + [
+        "thumbnail",
+        "original",
+        "rca2019_feed_image",
+        "rca2019_feed_image_small",
+    ]

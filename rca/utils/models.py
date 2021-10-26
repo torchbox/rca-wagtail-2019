@@ -189,6 +189,28 @@ class RelatedStaffPageWithManualOptions(Orderable):
         FieldPanel("link"),
     ]
 
+    def first_name_api(self):
+        if self.page:
+            page = self.page.specific
+            return page.first_name
+        return self.first_name
+
+    def surname_api(self):
+        if self.page:
+            page = self.page.specific
+            return page.last_name
+        return self.surname
+
+    api_fields = [
+        APIField("page"),
+        APIField("image"),
+        APIField("first_name_api"),
+        APIField("surname_api"),
+        APIField("role"),
+        APIField("description"),
+        APIField("link"),
+    ]
+
 
 # Generic social fields abstract class to add social image/text to any new content type easily.
 class SocialFields(models.Model):
@@ -382,6 +404,12 @@ class BasePage(SocialFields, ListingFields, Page):
     promote_panels = (
         Page.promote_panels + SocialFields.promote_panels + ListingFields.promote_panels
     )
+
+    api_fields = [
+        APIField("listing_image"),
+        APIField("listing_title"),
+        APIField("listing_summary"),
+    ]
 
 
 class LegacySiteTag(TagBase):
