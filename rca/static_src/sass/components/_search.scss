@@ -17,11 +17,14 @@
         appearance: none;
         border-radius: 0;
         width: 100%;
-        border-bottom: 1px solid $color--white;
+        border-bottom: 1px inset $color--white;
         padding: ($gutter / 2) ($gutter * 1.5) ($gutter / 2) ($gutter / 2);
+        transition: border-width $transition-cubic,
+            border-color $transition-cubic;
 
         &:focus {
             outline: 0;
+            border-bottom: 4px inset $color--tertiary;
         }
     }
 
