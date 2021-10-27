@@ -22,7 +22,10 @@ from wagtail.search import index
 
 from rca.editorial import admin_forms
 from rca.editorial.utils import get_linked_taxonomy
-from rca.events.serializers import RelatedSchoolSerializer
+from rca.events.serializers import (
+    RelatedDirectoratesSerializer,
+    RelatedSchoolSerializer,
+)
 from rca.people.filter import SchoolCentreDirectorateFilter
 from rca.people.models import Directorate
 from rca.research.models import ResearchCentrePage
@@ -259,6 +262,22 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         else:
             return ""
 
+    def related_programmes_api(self):
+        programmes = []
+        for related_page in self.related_programmes.all():
+            page = related_page.page.specific
+            programmes.append(
+                {
+                    "page": {
+                        "title": page.title,
+                        "id": page.id,
+                        "slug": page.slug,
+                        "intranet_slug": page.intranet_slug,
+                    },
+                }
+            )
+        return programmes
+
     api_fields = BasePage.api_fields + [
         APIField("hero_image"),
         APIField("introduction"),
@@ -283,7 +302,7 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         APIField("published_at"),
         APIField("related_schools", serializer=RelatedSchoolSerializer()),
         APIField("related_research_centre_pages"),
-        APIField("related_directorates"),
+        APIField("related_directorates", serializer=RelatedDirectoratesSerializer()),
         APIField("related_landing_pages"),
         APIField("editorial_types", serializer=EditorialTypeTaxonomySerializer()),
         APIField("related_programmes"),
@@ -292,6 +311,7 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         APIField("download_assets_link_title"),
         APIField("contact_email"),
         APIField("author_as_string", serializer=RelatedAuthorSerializer()),
+        "related_programmes_api",
     ]
 
     @property

@@ -502,6 +502,23 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             }
         ]
 
+    def related_programmes(self):
+        programmes = []
+        for related_page in self.related_pages.all():
+            page = related_page.page.specific
+            if page.__class__.__name__ == "ProgrammePage":
+                programmes.append(
+                    {
+                        "page": {
+                            "title": page.title,
+                            "id": page.id,
+                            "slug": page.slug,
+                            "intranet_slug": page.intranet_slug,
+                        },
+                    }
+                )
+        return programmes
+
     api_fields = BasePage.api_fields + [
         APIField("hero_image"),
         APIField("start_date"),
@@ -535,6 +552,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         APIField("contact_model_text"),
         APIField("contact_model_image"),
         "dates_times",
+        "related_programmes",
     ]
 
     def search_listing_summary(self):

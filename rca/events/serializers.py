@@ -9,7 +9,11 @@ class EventTaxonomySerializer(Field):
 class RelatedDirectoratesSerializer(Field):
     def to_representation(self, value):
         return [
-            {"title": v.directorate.title, "id": v.directorate.id}
+            {
+                "title": v.directorate.title,
+                "id": v.directorate.id,
+                "intranet_slug": v.directorate.intranet_slug,
+            }
             for v in value.filter(directorate__isnull=False)
         ]
 

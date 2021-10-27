@@ -66,6 +66,11 @@ class AreaOfExpertise(models.Model):
 class Directorate(models.Model):
     title = models.CharField(max_length=128)
     slug = models.SlugField(blank=True)
+    intranet_slug = models.SlugField(
+        blank=True,
+        help_text="In order to import events and news to the intranet and relate them to this taxonomy, this \
+            slug value should match the value of the slug on the Category page on the intranet",
+    )
 
     def __str__(self):
         return self.title

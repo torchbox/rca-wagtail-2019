@@ -430,6 +430,11 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         blank=True,
         null=True,
     )
+    intranet_slug = models.SlugField(
+        blank=True,
+        help_text="In order to import events and news to the intranet and relate them to this programme, this \
+            slug value should match the value of the slug on the Category page on the intranet",
+    )
 
     content_panels = (
         BasePage.content_panels
@@ -574,6 +579,9 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         FieldPanel("qs_code"),
         FieldPanel("mailchimp_group_name"),
     ]
+    promote_panels = BasePage.promote_panels + [
+        FieldPanel("intranet_slug"),
+    ]
 
     edit_handler = TabbedInterface(
         [
@@ -584,7 +592,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             ObjectList(programme_requirements_pannels, heading="Requirements"),
             ObjectList(programme_fees_and_funding_panels, heading="Fees"),
             ObjectList(programme_apply_pannels, heading="Apply"),
-            ObjectList(BasePage.promote_panels, heading="Promote"),
+            ObjectList(promote_panels, heading="Promote"),
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
