@@ -71,7 +71,7 @@ services:
   utils:
     build:
       context: .
-      dockerfile: ./ocker/Dockerfile.utils
+      dockerfile: ./docker/Dockerfile.utils
     init: true
     tty: true
     volumes:
