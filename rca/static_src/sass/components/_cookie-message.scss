@@ -18,7 +18,7 @@
 
     &.active {
         display: block;
-        transform: translate3d(0, 0, 0);
+        pointer-events: auto;
     }
 
     &__container {
@@ -28,7 +28,6 @@
         width: 100%;
         margin: 0 auto;
         padding: $gutter;
-        pointer-events: auto;
 
         @include media-query(large) {
             width: ($gutter * 35);
@@ -60,10 +59,17 @@
 
     &__link {
         color: $color--primary;
-        pointer-events: auto;
 
         &:hover {
             color: $color--black;
         }
+    }
+
+    &__btn {
+        font-family: $font--secondary;
+        background: transparent;
+        border: 0;
+        padding: 0;
+        cursor: pointer;
     }
 }
