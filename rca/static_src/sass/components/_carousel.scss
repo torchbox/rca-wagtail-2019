@@ -8,6 +8,10 @@
         grid-column: 2 / span 3;
     }
 
+    &--no-margin {
+        margin-bottom: 0;
+    }
+
     &--square {
         @include media-query(large) {
             grid-column: 2 / span 2;
