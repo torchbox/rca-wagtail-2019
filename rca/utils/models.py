@@ -212,6 +212,11 @@ class RelatedStaffPageWithManualOptions(Orderable):
             return page.last_name
         return self.surname
 
+    def link_or_page(self):
+        if self.page:
+            return self.page.full_url
+        return self.link
+
     api_fields = [
         APIField("page"),
         APIField("image"),
@@ -220,6 +225,7 @@ class RelatedStaffPageWithManualOptions(Orderable):
         APIField("role"),
         APIField("description"),
         APIField("link"),
+        "link_or_page",
     ]
 
 
