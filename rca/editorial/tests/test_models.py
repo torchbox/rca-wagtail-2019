@@ -1,7 +1,11 @@
 from django.test import TestCase
 from wagtail.tests.utils import WagtailPageTests
 
-from rca.editorial.factories import EditorialPageFactory, EditorialTypeFactory
+from rca.editorial.factories import (
+    AuthorFactory,
+    EditorialPageFactory,
+    EditorialTypeFactory,
+)
 from rca.editorial.models import (
     EditorialListingPage,
     EditorialPage,
@@ -13,6 +17,7 @@ from rca.standardpages.models import IndexPage, InformationPage
 class TestEditorialFactories(TestCase):
     def test_factories(self):
         EditorialPageFactory()
+        AuthorFactory()
         # Test with type
         type = EditorialTypeFactory()
         EditorialPageFactory(editorial_types=[EditorialPageTypePlacement(type=type)])
