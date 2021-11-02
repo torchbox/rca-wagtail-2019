@@ -1,0 +1,14 @@
+.embed {
+    $root: &;
+
+    &__container {
+        @include z-index(above-gridlines);
+        position: relative;
+
+        &--padded {
+            #{$root}__container {
+                padding: 30px;
+            }
+        }
+    }
+}
