@@ -7,6 +7,19 @@ from wagtail.tests.utils import WagtailPageTests
 
 from rca.editorial.factories import EditorialPageFactory, EditorialTypeFactory
 from rca.editorial.models import EditorialPageTypePlacement
+from rca.events.factories import (
+    EventAvailabilityFactory,
+    EventDetailPageFactory,
+    EventEligibility,
+    EventLocationFactory,
+    EventSeriesFactory,
+    EventTypeFactory,
+)
+from rca.events.models import (
+    EventDetailPage,
+    EventDetailPageRelatedPages,
+    EventIndexPage,
+)
 from rca.guides.factories import GuidePageFactory
 from rca.home.models import HomePage
 from rca.landingpages.factories import (
@@ -15,27 +28,19 @@ from rca.landingpages.factories import (
     InnovationLandingPageFactory,
     ResearchLandingPageFactory,
 )
-from rca.people.factories import DirectorateFactory
-from rca.people.models import Directorate
 from rca.programmes.factories import ProgrammePageFactory
 from rca.research.factories import ResearchCentrePageFactory
 from rca.schools.factories import SchoolPageFactory
 from rca.shortcourses.factories import ShortCoursePageFactory
 from rca.standardpages.models import IndexPage, InformationPage
 
-from .factories import EventDetailPageFactory, EventSeriesFactory, EventTypeFactory
-from .models import (
-    EventDetailPage,
-    EventDetailPageRelatedDirectorate,
-    EventDetailPageRelatedPages,
-    EventIndexPage,
-    EventType,
-)
-
 
 class TestEventDetailPageFactories(TestCase):
     def test_factories(self):
         EventDetailPageFactory()
+        EventLocationFactory()
+        EventAvailabilityFactory()
+        EventEligibility()
 
 
 class EventDetailPageTests(WagtailPageTests):
@@ -275,56 +280,3 @@ class EventDetailPageRelatedContentTests(WagtailPageTests):
             self.make_related_page(self.event_page, self.landing_page_enterprise)
         ]
         self.assertEqual(self.event_page.get_related_pages()["items"][0]["meta"], "")
-
-
-class EventSerializerTests(WagtailPageTests):
-    def setUp(self):
-        self.home_page = HomePage.objects.first()
-        self.event_page = EventDetailPageFactory(
-            parent=self.home_page, event_type=EventTypeFactory(),
-        )
-
-    def test_api_response_for_event(self):
-        response = self.client.get(f"/api/v3/pages/{self.event_page.id}/")
-        self.assertEqual(response.status_code, 200)
-
-    def test_api_response_for_event_with_null_type(self):
-        event_type = EventType.objects.get(id=self.event_page.event_type.id)
-        event_type.delete()
-        self.event_page.refresh_from_db()
-        response = self.client.get(f"/api/v3/pages/{self.event_page.id}/")
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data["event_type"], None)
-
-    def test_api_response_for_event_with_null_directorate(self):
-        # Add a directorate that relates to the page
-        directorate = DirectorateFactory()
-        self.event_page.related_directorates = [
-            EventDetailPageRelatedDirectorate(
-                source_page=self.event_page, directorate=directorate
-            )
-        ]
-        self.event_page.save()
-        # Check the directorate is there
-        response = self.client.get(f"/api/v3/pages/{self.event_page.id}/")
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(
-            response.data["related_directorates"][0]["title"], directorate.title
-        )
-
-        # Delete the directorate
-        directorate = Directorate.objects.get(
-            id=self.event_page.related_directorates.first().directorate.id
-        )
-        directorate.delete()
-
-        # Assert there are no related directorates
-        self.assertQuerysetEqual(self.event_page.related_directorates.all(), [])
-        response = self.client.get(f"/api/v3/pages/{self.event_page.id}/")
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data["related_directorates"], [])
-
-
-# TODO
-# The intranet integration depends on the api structure remaining intact.
-# we need to write tests to confirm it fails if changed

@@ -2,7 +2,7 @@ import factory
 import wagtail_factories
 from faker import Factory as FakerFactory
 
-from .models import Directorate, StudentIndexPage, StudentPage
+from .models import Directorate, StaffPage, StudentIndexPage, StudentPage
 
 faker = FakerFactory.create()
 
@@ -29,3 +29,12 @@ class StudentIndexPageFactory(wagtail_factories.PageFactory):
 
     title = factory.Faker("text", max_nb_chars=25)
     introduction = factory.Faker("text", max_nb_chars=250)
+
+
+class StaffPageFactory(wagtail_factories.PageFactory):
+    class Meta:
+        model = StaffPage
+
+    title = factory.Faker("text", max_nb_chars=25)
+    first_name = factory.Faker("text", max_nb_chars=25)
+    last_name = factory.Faker("text", max_nb_chars=25)
