@@ -281,7 +281,6 @@ class EditorialPage(ContactFieldsMixin, BasePage):
     api_fields = BasePage.api_fields + [
         APIField("hero_image"),
         APIField("introduction"),
-        APIField("hero_image"),
         APIField("video"),
         APIField("video_caption"),
         APIField("introduction_image"),

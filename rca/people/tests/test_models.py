@@ -13,6 +13,7 @@ from wagtail_factories import CollectionFactory
 from rca.home.models import HomePage
 from rca.people.factories import (
     DirectorateFactory,
+    StaffPageFactory,
     StudentIndexPageFactory,
     StudentPageFactory,
 )
@@ -26,6 +27,7 @@ class TestStudentPageFactory(TestCase):
         StudentPageFactory()
         StudentIndexPageFactory()
         DirectorateFactory()
+        StaffPageFactory()
 
 
 class TestStudentIndexPage(WagtailPageTests):
