@@ -129,7 +129,7 @@ Birdbath is on by default, set in settings/base.py and is turned off on live env
 
 ## Deployments
 
-Deployments to stage are automatically handled by CircleCI.
+Deployments to staging and dev sites are automatically handled by CircleCI. If for any reason deployment is not triggered, you can go to the [CircleCI admin page](https://app.circleci.com/pipelines/github/torchbox/rca-wagtail-2019?branch=dev) and manually trigger the pipeline for the branch.
 
 For production, CircleCI requires manual approval, this is done over at the [CircleCI Workflows for master](https://circleci.com/gh/torchbox/workflows/rca-wagtail-2019/tree/master). A job awaiting approval will show as 'pending'. Manual approval consists of clicking on the pending tasks and clicking 'approve'.
 
