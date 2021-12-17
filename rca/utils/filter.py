@@ -76,21 +76,14 @@ class TabStyleFilter:
         return [option for option in self.options if option["active"]]
 
     def __iter__(self):
-
-        for item in self.queryset.values_list(
-            self.option_value_field, self.option_label_field, "degree_level__title"
+        for value, label in self.queryset.values_list(
+            self.option_value_field, self.option_label_field
         ).order_by(self.option_label_field):
             # would be nicer to user 'value' and 'label' as
             # keys here, but the 'id'/'title' combo seems
             # to be established already
-            label = item[0]
-            title = item[1]
-            suffix = item[2]
             yield dict(
-                id=label,
-                title=title,
-                suffix=suffix,
-                active=bool(label in self.selected_values),
+                id=value, title=label, active=bool(value in self.selected_values)
             )
 
     @property
