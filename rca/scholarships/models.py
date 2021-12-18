@@ -96,3 +96,8 @@ class ScholarshipListingPage(BasePage):
         )
 
         return context
+
+
+class ScholarshipFormSubmission(ClusterableModel):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
