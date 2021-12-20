@@ -1,6 +1,6 @@
 .cookie {
-    @include z-index(cookie-message);
     $root: &;
+    @include z-index(cookie-message);
     position: fixed;
     right: auto;
     bottom: 0;

@@ -1,4 +1,3 @@
-// sass-lint:disable-block indentation
 // --------------------------------- Colors -------------------------------------
 
 $color--black: #000;
@@ -42,10 +41,10 @@ $color--focus: $color--blue;
 
 // --------------------------------- Fonts --------------------------------------
 
-$font--primary: 'Benton Sans Old', 'Helvetica Neue', Arial, Helvetica,
-    Sans-Serif; // Benton Sans Regular
-$font--secondary: 'Benton Sans Medium', 'Helvetica Neue', Arial, Helvetica,
-    Sans-Serif;
+$font--primary: 'Benton Sans Old', 'Helvetica Neue', arial, helvetica,
+    sans-serif; // Benton Sans Regular
+$font--secondary: 'Benton Sans Medium', 'Helvetica Neue', arial, helvetica,
+    sans-serif;
 
 // Font weights
 // Now handled by font family due to limitations of third party font service
@@ -110,7 +109,7 @@ $z-index: (
     base: 10,
     overlap: 20,
     free30: 30,
-    headerLogo: 40,
+    header-logo: 40,
     under-gridlines: 45,
     gridlines: 50,
     above-gridlines: 60,

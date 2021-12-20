@@ -106,9 +106,9 @@ const ProgrammesResults = ({
                             >
                                 <Icon
                                     name="arrow"
-                                    className="programmes-results__back__icon"
+                                    className="programmes-results__back-icon"
                                 />
-                                <span className="programmes-results__back__text">
+                                <span className="programmes-results__back-text">
                                     Back
                                 </span>
                             </button>

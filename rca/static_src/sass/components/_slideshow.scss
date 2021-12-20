@@ -60,11 +60,13 @@
             margin-right: $gutter;
         }
 
+        /* stylelint-disable a11y/no-outline-none */
         &:hover,
         &:active,
         &:focus {
-            outline: none;
+            outline: 0;
         }
+        /* stylelint-enable a11y/no-outline-none */
 
         &:disabled {
             opacity: 0.3;
@@ -87,18 +89,19 @@
     }
 
     &__bullet {
-        flex-basis: auto;
         flex: 1;
         height: 2px;
         border: 0;
         padding: 0;
         margin: 0;
 
+        /* stylelint-disable a11y/no-outline-none */
         &:hover,
         &:active,
         &:focus {
             outline: 0;
         }
+        /* stylelint-enable a11y/no-outline-none */
     }
 
     .bg--dark & {

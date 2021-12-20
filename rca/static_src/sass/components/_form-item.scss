@@ -477,7 +477,9 @@
             color: $color--white;
 
             &:-webkit-autofill {
+                /* stylelint-disable property-no-vendor-prefix */
                 -webkit-box-shadow: 0 0 0 1000px $color--form-input-darkbg inset;
+                /* stylelint-enable property-no-vendor-prefix */
             }
         }
 
@@ -529,8 +531,10 @@
                     background-color: $color--form-input-focus-darkbg;
 
                     &:-webkit-autofill {
+                        /* stylelint-disable property-no-vendor-prefix */
                         -webkit-box-shadow: 0 0 0 1000px
                             $color--form-input-focus-darkbg inset;
+                        /* stylelint-enable property-no-vendor-prefix */
                     }
                 }
 
@@ -591,8 +595,10 @@
             color: $color--black;
 
             &:-webkit-autofill {
+                /* stylelint-disable property-no-vendor-prefix */
                 -webkit-box-shadow: 0 0 0 1000px $color--form-input-lightbg
                     inset;
+                /* stylelint-enable property-no-vendor-prefix */
             }
         }
 
@@ -637,8 +643,10 @@
                     background-color: $color--form-input-focus-lightbg;
 
                     &:-webkit-autofill {
+                        /* stylelint-disable property-no-vendor-prefix */
                         -webkit-box-shadow: 0 0 0 1000px
                             $color--form-input-focus-lightbg inset;
+                        /* stylelint-enable property-no-vendor-prefix */
                     }
                 }
 

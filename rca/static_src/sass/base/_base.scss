@@ -12,6 +12,7 @@ $BASE DEFAULTS
 // Prevent text size change on orientation change.
 html {
     font-family: $font--primary;
+    /* stylelint-disable-next-line property-no-vendor-prefix */
     -webkit-text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

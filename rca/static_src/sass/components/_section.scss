@@ -156,6 +156,7 @@
     }
 
     &__heading {
+        // sass-lint:disable-block no-ids
         grid-column: 1 / span 2;
 
         @include media-query(medium) {
@@ -193,11 +194,13 @@
         }
 
         // Tab with different heading layout
+        /* stylelint-disable selector-max-id */
         #tab-panel-apply & {
             @include media-query(large) {
                 grid-column: 2 / span 1;
             }
         }
+        /* stylelint-enable selector-max-id */
 
         // Template specific alterations
         .app--short-course .programme-overview & {
