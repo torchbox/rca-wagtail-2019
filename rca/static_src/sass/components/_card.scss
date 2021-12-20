@@ -400,7 +400,7 @@
                 top: -35px;
                 padding-top: ($gutter * 1.25);
                 margin-bottom: -35px;
-                background-color: transparent !important; // sass-lint:disable-line no-important
+                background-color: transparent !important;
             }
 
             &::after {
@@ -500,7 +500,7 @@
             min-width: 100%;
             top: 0;
             padding: 0;
-            background-color: transparent !important; // sass-lint:disable-line no-important
+            background-color: transparent !important;
         }
 
         #{$root}__meta {

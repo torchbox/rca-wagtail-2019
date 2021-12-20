@@ -10,7 +10,6 @@ $BASE DEFAULTS
 }
 
 // Prevent text size change on orientation change.
-// sass-lint:disable no-vendor-prefixes
 html {
     font-family: $font--primary;
     -webkit-text-size-adjust: 100%;

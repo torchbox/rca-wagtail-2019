@@ -15,7 +15,6 @@
     }
 
     &--home {
-        // sass-lint:disable-block no-duplicate-properties
         @include z-index(base);
         position: fixed;
         left: 0;
@@ -64,7 +63,6 @@
     }
 
     &__placeholder {
-        // sass-lint:disable-block no-duplicate-properties
         height: 100vh; /* Fallback for browsers that do not support Custom Properties */
         height: calc(var(--vh, 1vh) * 100);
         pointer-events: none;

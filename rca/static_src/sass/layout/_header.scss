@@ -291,11 +291,10 @@
                 }
 
                 > nav {
-                    // sass-lint:disable-block no-vendor-prefixes
                     height: 500px;
                     overflow: scroll;
                     // hide scrollbars as per clients request
-                    scrollbar-width: none; // sass-lint:disable-line no-misspelled-properties
+                    scrollbar-width: none;
 
                     .search-active & {
                         height: 0; // don't show nav if search open
