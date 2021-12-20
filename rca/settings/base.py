@@ -107,6 +107,7 @@ INSTALLED_APPS = [
     "rca.project_styleguide.apps.ProjectStyleguideConfig",
     "rest_framework",
     "wagtail_redirect_importer",
+    "corsheaders",
 ]
 
 # Middleware classes
@@ -627,6 +628,7 @@ if env.get("BASIC_AUTH_ENABLED", "false").lower().strip() == "true":
     # the one passed in X-Forwarded-For. This is because all requests are proxied through
     # the old site and we want to prevent direct access
     BASIC_AUTH_GET_CLIENT_IP_FUNCTION = "rca.utils.clientip.get_client_real_ip"
+    BASIC_AUTH_WHITELISTED_PATHS = ["/api"]
 
 AUTH_USER_MODEL = "users.User"
 
@@ -776,3 +778,11 @@ ALLOW_EDITORIAL_PAGE_GENERATION = (
 ALLOW_EVENT_PAGE_GENERATION = (
     env.get("ALLOW_EVENT_PAGE_GENERATION", "false").lower() == "true"
 )
+
+# CORS settings
+if "CORS_ALLOWED_ORIGINS" in env:
+    CORS_ALLOWED_ORIGINS = env["CORS_ALLOWED_ORIGINS"].split(",")
+    MIDDLEWARE.insert(0, "corsheaders.middleware.CorsMiddleware")
+
+CORS_ALLOWED_ORIGIN_REGEXES = r"^/api/.*$"
+CORS_ALLOW_METHODS = ["GET", "OPTIONS"]

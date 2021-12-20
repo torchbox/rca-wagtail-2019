@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import ItemBase, TagBase
@@ -176,8 +177,18 @@ class RelatedStaffPageWithManualOptions(Orderable):
         abstract = True
         ordering = ["sort_order"]
 
-    # Validation.
-    # Only allow adding a related staff page, or the inline fields.
+    def clean(self):
+        errors = defaultdict(list)
+
+        if not self.page and not self.role:
+            errors["role"].append(
+                _(
+                    "If you are not referencing a Staff Page, please add a custom role valiue, E.G 'Tutor'"
+                )
+            )
+
+        if errors:
+            raise ValidationError(errors)
 
     panels = [
         PageChooserPanel("page", page_type="people.StaffPage"),
@@ -187,6 +198,34 @@ class RelatedStaffPageWithManualOptions(Orderable):
         FieldPanel("role"),
         FieldPanel("description"),
         FieldPanel("link"),
+    ]
+
+    def first_name_api(self):
+        if self.page:
+            page = self.page.specific
+            return page.first_name
+        return self.first_name
+
+    def surname_api(self):
+        if self.page:
+            page = self.page.specific
+            return page.last_name
+        return self.surname
+
+    def link_or_page(self):
+        if self.page:
+            return self.page.full_url
+        return self.link
+
+    api_fields = [
+        APIField("page"),
+        APIField("image"),
+        APIField("first_name_api"),
+        APIField("surname_api"),
+        APIField("role"),
+        APIField("description"),
+        APIField("link"),
+        "link_or_page",
     ]
 
 
@@ -382,6 +421,12 @@ class BasePage(SocialFields, ListingFields, Page):
     promote_panels = (
         Page.promote_panels + SocialFields.promote_panels + ListingFields.promote_panels
     )
+
+    api_fields = [
+        APIField("listing_image"),
+        APIField("listing_title"),
+        APIField("listing_summary"),
+    ]
 
 
 class LegacySiteTag(TagBase):

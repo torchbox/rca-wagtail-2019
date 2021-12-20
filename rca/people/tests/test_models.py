@@ -12,7 +12,12 @@ from wagtail.tests.utils.form_data import inline_formset, rich_text
 from wagtail_factories import CollectionFactory
 
 from rca.home.models import HomePage
-from rca.people.factories import StudentIndexPageFactory, StudentPageFactory
+from rca.people.factories import (
+    DirectorateFactory,
+    StaffPageFactory,
+    StudentIndexPageFactory,
+    StudentPageFactory,
+)
 from rca.people.models import StudentIndexPage, StudentPage
 from rca.users.factories import UserFactory
 from rca.users.models import User
@@ -22,6 +27,8 @@ class TestStudentPageFactory(TestCase):
     def test_factories(self):
         StudentPageFactory()
         StudentIndexPageFactory()
+        DirectorateFactory()
+        StaffPageFactory()
 
 
 class TestStudentIndexPage(WagtailPageTests):

@@ -7,6 +7,19 @@ from wagtail.tests.utils import WagtailPageTests
 
 from rca.editorial.factories import EditorialPageFactory, EditorialTypeFactory
 from rca.editorial.models import EditorialPageTypePlacement
+from rca.events.factories import (
+    EventAvailabilityFactory,
+    EventDetailPageFactory,
+    EventEligibility,
+    EventLocationFactory,
+    EventSeriesFactory,
+    EventTypeFactory,
+)
+from rca.events.models import (
+    EventDetailPage,
+    EventDetailPageRelatedPages,
+    EventIndexPage,
+)
 from rca.guides.factories import GuidePageFactory
 from rca.home.models import HomePage
 from rca.landingpages.factories import (
@@ -21,13 +34,13 @@ from rca.schools.factories import SchoolPageFactory
 from rca.shortcourses.factories import ShortCoursePageFactory
 from rca.standardpages.models import IndexPage, InformationPage
 
-from .factories import EventDetailPageFactory, EventSeriesFactory, EventTypeFactory
-from .models import EventDetailPage, EventDetailPageRelatedPages, EventIndexPage
-
 
 class TestEventDetailPageFactories(TestCase):
     def test_factories(self):
         EventDetailPageFactory()
+        EventLocationFactory()
+        EventAvailabilityFactory()
+        EventEligibility()
 
 
 class EventDetailPageTests(WagtailPageTests):
