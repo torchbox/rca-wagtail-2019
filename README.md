@@ -78,7 +78,7 @@ git clone https://github.com/torchbox/rca-wagtail-2019
 cd rca
 fab build
 fab start
-fab sh
+fab ssh
 ```
 
 Then within the SSH session:
@@ -111,15 +111,15 @@ npm run build:prod
 
 There are two ways to run the frontend tooling:
 
-- In Docker. This is the default, most portable and secure, but much slower on macOS. Running `fab start` will start a `frontend` container. Use `fab sh --service frontend` in a separate terminal to SSH into the container. Then run npm commands within this new SSH session. `exit` once you’re done.
-- Or run npm commands from a terminal on your local machine. Create a `.env` file in the project root (see `.env.example`) with `FRONTEND=local`. `fab start` will no longer start a `frontend` container.
+- In Docker. This is the default, most portable and secure, but much slower on macOS. use `fab ssh` to enter the container and run `npm run start:reload` live changes should be viewable on :3000
+- Or run npm commands from a terminal on your local machine. Create a .env file in the project root (see .env.example) with FRONTEND=local. fab start will no longer start a frontend container. Now, when running fab start, Docker won't attempt to bind to the ports needed for the frontend dev server, meaning they can be run locally. All the tooling still remains available in the container.
 
 ## Installing python packages
 
 Python packages can be installed using `poetry` in the web container:
 
 ```
-fab sh
+fab ssh
 poetry add wagtail-guide
 ```
 

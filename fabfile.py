@@ -27,6 +27,9 @@ DEVELOPMENT_APP_INSTANCE = "rca-development"
 
 LOCAL_DATABASE_NAME = PROJECT_NAME = "rca"
 LOCAL_DATABASE_USERNAME = "rca"
+LOCAL_DUMP_DIR = "database_dumps"
+LOCAL_MEDIA_DIR = "media"
+LOCAL_IMAGES_DIR = LOCAL_MEDIA_DIR + "/original_images"
 
 
 ############
@@ -55,19 +58,16 @@ def build(c):
     """
     Build the development environment (call this first)
     """
-    # Create mount points
-    group = subprocess.check_output(["id", "-gn"], encoding="utf-8").strip()
-    local("mkdir -p media database_dumps")
-    local("chown -R $USER:{} media database_dumps".format(group))
-    local("chmod -R 775 media database_dumps")
+    directories_to_init = [LOCAL_DUMP_DIR, LOCAL_MEDIA_DIR]
+    directories_arg = " ".join(directories_to_init)
 
-    if FRONTEND == "local":
-        local("docker-compose up -d --build web")
-    else:
-        local("docker-compose up -d --build web frontend")
-        dexec("npm ci", service="frontend")
-    local("docker-compose stop")
-    print("Project built: now run 'fab start'")
+    group = subprocess.check_output(["id", "-gn"], encoding="utf-8").strip()
+    local("mkdir -p " + directories_arg)
+    local("chown -R $USER:{} {}".format(group, directories_arg))
+    local("chmod -R 775 " + directories_arg)
+
+    local("docker-compose pull")
+    local("docker-compose build")
 
 
 @task
@@ -76,14 +76,10 @@ def start(c):
     Start the development environment
     """
     if FRONTEND == "local":
-        local("docker-compose up -d web utils")
+        local("docker-compose up -d")
     else:
-        local("docker-compose up -d web frontend utils")
-
-    print("Use `fab sh` to enter the web container and run `djrun`")
-    if FRONTEND != "local":
-        print(
-            "Use `fab sh --service frontend` to enter the frontend container and run `npm run start`"
+        local(
+            "docker-compose -f docker-compose.yml -f docker/docker-compose-frontend.yml up -d"
         )
 
 
@@ -113,7 +109,7 @@ def destroy(c):
 
 
 @task
-def sh(c, service="web"):
+def ssh(c, service="web"):
     """
     Run bash in a local container
     """
@@ -121,7 +117,7 @@ def sh(c, service="web"):
 
 
 @task
-def sh_root(c, service="web"):
+def ssh_root(c, service="web"):
     """
     Run bash as root in the local web container
     """
@@ -309,14 +305,13 @@ def pull_dev_data(c):
 
 
 def aws(c, command, aws_access_key_id, aws_secret_access_key):
-    return dexec(
+    return local(
         "AWS_ACCESS_KEY_ID={access_key_id} AWS_SECRET_ACCESS_KEY={secret_key} "
         "aws {command}".format(
             access_key_id=aws_access_key_id,
             secret_key=aws_secret_access_key,
             command=command,
-        ),
-        service="utils",
+        )
     )
 
 
@@ -339,7 +334,6 @@ def push_media_to_s3(
 
 
 def pull_images_from_s3_heroku(c, app_instance):
-    check_if_logged_in_to_heroku(c)
     aws_access_key_id = get_heroku_variable(c, app_instance, "AWS_ACCESS_KEY_ID")
     aws_secret_access_key = get_heroku_variable(
         c, app_instance, "AWS_SECRET_ACCESS_KEY"
@@ -365,7 +359,6 @@ def pull_images_from_s3(
 
 
 def push_media_to_s3_heroku(c, app_instance):
-    check_if_logged_in_to_heroku(c)
     prompt_msg = (
         "You are about to push your media folder contents to the "
         "S3 bucket. It's a destructive operation. \n"
@@ -401,47 +394,7 @@ def push_media_to_s3_heroku(c, app_instance):
 ########
 
 
-@task
-def heroku_login(c):
-    """
-    Log into the Heroku app for accessing config vars, database backups etc.
-    """
-    subprocess.call(["docker-compose", "exec", "utils", "heroku", "login"])
-
-
-def check_if_logged_in_to_heroku(c):
-    if not dexec("heroku auth:whoami", service="utils", hide="both", warn=True):
-        raise Exit(
-            'Log-in with the "fab heroku-login" command before running this ' "command."
-        )
-
-
-def check_if_heroku_app_access_granted(c, app_instance):
-    check_if_logged_in_to_heroku(c)
-    # Any command targeting an app would do. This one prints the list of who has access.
-    result = dexec(
-        f"heroku access --app {app_instance}", hide="both", warn=True, service="utils"
-    )
-    if result.failed:
-        raise Exit(
-            "You do not have access to this app. Please either try to add yourself with:\n"
-            f"heroku apps:join --app {app_instance}\n\n"
-            "Or ask a team admin to add you with:\n"
-            f"heroku access:add <your email address> --app {app_instance}"
-        )
-
-
-def get_heroku_variable(c, app_instance, variable):
-    check_if_logged_in_to_heroku(c)
-    return dexec(
-        "heroku config:get {var} --app {app}".format(app=app_instance, var=variable),
-        service="utils",
-        hide="both",
-    ).stdout.strip()
-
-
 def pull_media_from_s3_heroku(c, app_instance):
-    check_if_logged_in_to_heroku(c)
     aws_access_key_id = get_heroku_variable(c, app_instance, "AWS_ACCESS_KEY_ID")
     aws_secret_access_key = get_heroku_variable(
         c, app_instance, "AWS_SECRET_ACCESS_KEY"
@@ -455,38 +408,25 @@ def pull_media_from_s3_heroku(c, app_instance):
 
 
 def pull_database_from_heroku(c, app_instance):
-    check_if_heroku_app_access_granted(c, app_instance)
+    datestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
-    datestamp = datetime.datetime.now().isoformat(timespec="seconds")
-
-    dexec(
-        "heroku pg:backups:download --output=/app/database_dumps/{datestamp}.dump --app {app}".format(
-            app=app_instance, datestamp=datestamp,
+    local(
+        "heroku pg:backups:download --output={dump_folder}/{datestamp}.dump --app {app}".format(
+            app=app_instance, dump_folder=LOCAL_DUMP_DIR, datestamp=datestamp
         ),
-        service="utils",
     )
 
-    import_data(c, f"/app/database_dumps/{datestamp}.dump")
+    import_data(c, f"/app/{LOCAL_DUMP_DIR}/{datestamp}.dump")
 
-    dexec(
-        "rm /app/database_dumps/{datestamp}.dump".format(datestamp=datestamp,),
-        service="utils",
+    local(
+        "rm {dump_folder}/{datestamp}.dump".format(
+            dump_folder=LOCAL_DUMP_DIR, datestamp=datestamp,
+        ),
     )
 
 
 def open_heroku_shell(c, app_instance, shell_command="bash"):
-    subprocess.call(
-        [
-            "docker-compose",
-            "exec",
-            "utils",
-            "heroku",
-            "run",
-            shell_command,
-            "-a",
-            app_instance,
-        ]
-    )
+    subprocess.call(["heroku", "run", shell_command, "-a", app_instance])
 
 
 #######
@@ -496,6 +436,12 @@ def open_heroku_shell(c, app_instance, shell_command="bash"):
 
 def make_bold(msg):
     return "\033[1m{}\033[0m".format(msg)
+
+
+def get_heroku_variable(c, app_instance, variable):
+    return local(
+        "heroku config:get {var} --app {app}".format(app=app_instance, var=variable)
+    ).stdout.strip()
 
 
 @task

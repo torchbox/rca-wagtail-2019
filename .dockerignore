@@ -33,3 +33,5 @@ wheels/
 .installed.cfg
 *.egg
 /Dockerfile
+
+/database_dumps
