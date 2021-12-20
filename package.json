@@ -19,7 +19,6 @@
     "not android 4.4.3-4.4.4",
     "not OperaMini all"
   ],
-  "sasslintConfig": ".sass-lint.yml",
   "jest": {
     "testPathIgnorePatterns": [
       "/node_modules/",
