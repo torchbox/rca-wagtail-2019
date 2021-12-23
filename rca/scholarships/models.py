@@ -6,7 +6,7 @@ from rca.utils.models import BasePage, ContactFieldsMixin, SluggedTaxonomy
 
 class ScholarshipFeeStatus(SluggedTaxonomy):
     panels = [
-        FieldPanel('title'),
+        FieldPanel("title"),
     ]
 
     class Meta:
@@ -15,13 +15,13 @@ class ScholarshipFeeStatus(SluggedTaxonomy):
 
 class ScholarshipFunding(SluggedTaxonomy):
     panels = [
-        FieldPanel('title'),
+        FieldPanel("title"),
     ]
 
 
 class ScholarshipLocation(SluggedTaxonomy):
     panels = [
-        FieldPanel('title'),
+        FieldPanel("title"),
     ]
 
 
