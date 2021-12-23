@@ -11,6 +11,8 @@ context:
     introduction: Join a thriving community of more than 250 MPhil and PhD students pursuing cutting-edge research at the world's leading postgraduate university for art & design
     body:
       - dummy
+    lower_body:
+      - dummy
     contact: true
     contact_model_image: true
     published_at: !!timestamp '2020-05-13 2:00:00'
