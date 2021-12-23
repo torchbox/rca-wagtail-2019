@@ -52,34 +52,22 @@
                     <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                         {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body guide_page=True %}
                     </div>
-                </div>
 
-                {% if related_staff %}
-                    <div class="section__row section__row--first section__row--last">
-                        {% include "patterns/organisms/people-module/people-module.html" with people=related_staff title="Staff" anchor_heading=True %}
+                    {# Listing to go here #}
+                    <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                    <hr>
+                        <h3>Placeholder for Listing</h3>
+                    <hr>
                     </div>
-                {% endif %}
+
+                    <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                        {% include "patterns/molecules/streamfield/stream_block.html" with value=page.lower_body guide_page=True %}
+                    </div>
+                </div>
 
             </section>
-            {% if page.further_information %}
-                <section class="section bg bg--dark">
-                <div class="section__row section__row--last">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.further_information course_type="short" title=page.further_information_title anchor_heading=True section_id=page.further_information_title|slugify %}
-                </div>
-                </section>
-            {% endif %}
 
-            {% if related_pages.items %}
-                <section class="section bg bg--dark">
-                    <div class="section__row section__row--first section__row--last-large">
-                        {% include "patterns/organisms/index-module/index-module.html" with items=related_pages.items title=related_pages.title id=page.related_pages_title anchor_heading=True %}
-                    </div>
 
-                    <div class="section__notch section__notch--small-med-only">
-                        <div class="section__notch-fill section__notch-fill--second-col"></div>
-                    </div>
-                </section>
-            {% endif %}
 
             {% if page.contact_model_image or page.contact_model_text or page.contact_model_email or page.contact_model_url or page.contact_model_form %}
                 <section class="section bg bg--light">
