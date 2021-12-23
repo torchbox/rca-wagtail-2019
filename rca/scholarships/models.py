@@ -4,6 +4,10 @@ from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamField
 from wagtail.core.fields import StreamField
 
 from rca.scholarships.blocks import ScholarshipsListingPageBlock
+from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
+from wagtail.snippets.models import register_snippet
+
+from rca.programmes.models import ProgrammePage
 from rca.utils.models import BasePage, ContactFieldsMixin, SluggedTaxonomy
 
 
@@ -28,6 +32,16 @@ class ScholarshipLocation(SluggedTaxonomy):
     ]
 
 
+@register_snippet
+class Scholarship(models.Model):
+    title = models.CharField(max_length=50)
+    active = models.BooleanField(default=True)
+    summary = models.CharField(max_length=255)
+    eligable_programmes = models.ManyToManyField(ProgrammePage)
+    funding_categories = models.ManyToManyField(ScholarshipFunding)
+    fee_statuses = models.ManyToManyField(ScholarshipFeeStatus)
+
+
 class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
     template = "patterns/pages/scholarships/scholarships_listing_page.html"
     max_count = 1
@@ -43,7 +57,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
     ]
 
     def anchor_nav(self):
-        """ Build list of data to be used as in-page navigation """
+        """Build list of data to be used as in-page navigation"""
         items = []
         blocks = []
 
