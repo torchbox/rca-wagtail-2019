@@ -2,8 +2,20 @@ from django.test import TestCase
 from wagtail.tests.utils import WagtailPageTests
 
 from rca.home.models import HomePage
-from rca.scholarships.factories import ScholarshipsListingPageFactory
+from rca.scholarships.factories import (
+    ScholarshipFeeStatusFactory,
+    ScholarshipFundingFactory,
+    ScholarshipLocationFactory,
+    ScholarshipsListingPageFactory,
+)
 from rca.scholarships.models import ScholarshipsListingPage
+
+
+class TestScholarshipsTaxonomyFactory(TestCase):
+    def test_factories(self):
+        ScholarshipFeeStatusFactory()
+        ScholarshipFundingFactory()
+        ScholarshipLocationFactory()
 
 
 class TestScholarshipsListingPageFactory(TestCase):
