@@ -8,7 +8,9 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.fields import RichTextField, StreamField
+from wagtail.snippets.models import register_snippet
 
+from rca.programmes.models import ProgrammePage
 from rca.scholarships.blocks import ScholarshipsListingPageBlock
 from rca.utils.blocks import CallToActionBlock
 from rca.utils.models import BasePage, ContactFieldsMixin, SluggedTaxonomy
@@ -20,6 +22,7 @@ class ScholarshipFeeStatus(SluggedTaxonomy):
     ]
 
     class Meta:
+        ordering = ("title",)
         verbose_name_plural = "Scholarship Fee Statuses"
 
 
@@ -28,11 +31,31 @@ class ScholarshipFunding(SluggedTaxonomy):
         FieldPanel("title"),
     ]
 
+    class Meta:
+        ordering = ("title",)
+
 
 class ScholarshipLocation(SluggedTaxonomy):
     panels = [
         FieldPanel("title"),
     ]
+
+    class Meta:
+        ordering = ("title",)
+
+
+@register_snippet
+class Scholarship(models.Model):
+    title = models.CharField(max_length=50)
+    active = models.BooleanField(default=True)
+    summary = models.CharField(max_length=255)
+    value = models.CharField(max_length=100)
+    eligable_programmes = models.ManyToManyField(ProgrammePage)
+    funding_categories = models.ManyToManyField(ScholarshipFunding)
+    fee_statuses = models.ManyToManyField(ScholarshipFeeStatus)
+
+    def __str__(self) -> str:
+        return self.title
 
 
 class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
@@ -81,7 +104,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
     )
 
     def anchor_nav(self):
-        """ Build list of data to be used as in-page navigation """
+        """Build list of data to be used as in-page navigation"""
         items = []
         blocks = []
 
