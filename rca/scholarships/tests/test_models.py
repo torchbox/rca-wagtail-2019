@@ -4,6 +4,7 @@ from wagtail.tests.utils import WagtailPageTests
 from rca.home.models import HomePage
 from rca.scholarships.factories import (
     ScholarshipFactory,
+    ScholarshipEnquiryFormSubmissionFactory,
     ScholarshipFeeStatusFactory,
     ScholarshipFundingFactory,
     ScholarshipLocationFactory,
@@ -40,3 +41,8 @@ class TestScholarshipsListingPageRules(WagtailPageTests):
         self.home_page.add_child(instance=ScholarshipsListingPage(title="Scholarships"))
         # A second ScholarshipsListingPage should not be creatable
         self.assertFalse(ScholarshipsListingPage.can_create_at(self.home_page))
+
+
+class TestScholarshipFormFactory(TestCase):
+    def test_factories(self):
+        ScholarshipEnquiryFormSubmissionFactory()

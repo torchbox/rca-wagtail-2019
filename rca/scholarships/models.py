@@ -1,7 +1,9 @@
 from django.db import models
 from django.utils.text import slugify
+from modelcluster.models import ClusterableModel
 from wagtail.admin.edit_handlers import (
     FieldPanel,
+    FieldRowPanel,
     MultiFieldPanel,
     ObjectList,
     StreamFieldPanel,
@@ -122,3 +124,45 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         context = super().get_context(request, *args, **kwargs)
         context["anchor_nav"] = self.anchor_nav()
         return context
+
+
+class ScholarshipEnquiryFormSubmission(ClusterableModel):
+    submission_date = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    email = models.EmailField()
+    rca_id_number = models.CharField(max_length=100)
+    programme = models.ForeignKey("programmes.ProgrammePage", on_delete=models.CASCADE,)
+
+    # TODO
+    # related Scholarship snippet
+    # Scholarship eligibility (needs confirmation of choices from RCA) - these will be  hardcoded.
+
+    is_read_data_protection_policy = models.BooleanField()
+    is_notification_opt_in = models.BooleanField()
+
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldRowPanel(
+                    [
+                        FieldPanel("first_name", classname="fn"),
+                        FieldPanel("last_name", classname="ln"),
+                    ]
+                ),
+                FieldPanel("rca_id_number"),
+            ],
+            heading="User details",
+        ),
+        FieldPanel("programme"),
+        MultiFieldPanel(
+            [
+                FieldPanel("is_read_data_protection_policy"),
+                FieldPanel("is_notification_opt_in"),
+            ],
+            heading="Legal & newsletter",
+        ),
+    ]
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} - {self.rca_id_number}"
