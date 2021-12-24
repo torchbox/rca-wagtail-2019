@@ -3,8 +3,8 @@ from wagtail.tests.utils import WagtailPageTests
 
 from rca.home.models import HomePage
 from rca.scholarships.factories import (
-    ScholarshipFactory,
     ScholarshipEnquiryFormSubmissionFactory,
+    ScholarshipFactory,
     ScholarshipFeeStatusFactory,
     ScholarshipFundingFactory,
     ScholarshipLocationFactory,
