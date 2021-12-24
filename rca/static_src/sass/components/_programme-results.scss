@@ -48,7 +48,7 @@
             appearance: none;
         }
 
-        &__icon {
+        &-icon {
             width: 12px;
             height: 8px;
             margin-right: 5px;
@@ -60,7 +60,7 @@
         &:hover,
         &:active,
         &:focus {
-            #{$root}__back__icon {
+            #{$root}__back-icon {
                 transform: rotateY(180deg) translate3d(3px, 0, 0);
             }
         }

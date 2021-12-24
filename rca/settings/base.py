@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     "rca.enquire_to_study",
     "rca.account_management",
     "rca.donate",
+    "rca.scholarships",
     "birdbath",
     "django_countries",
     "wagtail.contrib.modeladmin",
@@ -411,7 +412,6 @@ if "SERVER_EMAIL" in env:
 is_in_shell = len(sys.argv) > 1 and sys.argv[1] in ["shell", "shell_plus"]
 
 if "SENTRY_DSN" in env and not is_in_shell:
-
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
     from sentry_sdk.utils import get_default_release
@@ -423,7 +423,7 @@ if "SENTRY_DSN" in env and not is_in_shell:
 
     # There's a chooser to toggle between environments at the top right corner on sentry.io
     # Values are typically 'staging' or 'production' but can be set to anything else if needed.
-    # dokku config:set rca SENTRY_ENVIRONMENT=staging
+    # dokku config:set gosh SENTRY_ENVIRONMENT=staging
     # heroku config:set SENTRY_ENVIRONMENT=production
     if "SENTRY_ENVIRONMENT" in env:
         sentry_kwargs.update({"environment": env["SENTRY_ENVIRONMENT"]})

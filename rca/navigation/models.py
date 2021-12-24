@@ -42,7 +42,7 @@ class URLOrRelativeURLBLock(blocks.FieldBlock):
         max_length=None,
         min_length=None,
         validators=(),
-        **kwargs
+        **kwargs,
     ):
         self.field = URLOrRelativeURLFormField(
             required=required,

@@ -115,7 +115,7 @@
     }
 
     .nav-open .app__navigation & {
-        @include z-index(headerLogo);
+        @include z-index(header-logo);
         position: relative;
     }
 }

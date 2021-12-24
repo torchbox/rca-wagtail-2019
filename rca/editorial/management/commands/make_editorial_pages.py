@@ -45,7 +45,7 @@ class Command(BaseCommand):
         blocks = []
         for _ in range(random.randrange(3, 5)):
             heading = fake.sentence()[0:-1]
-            blocks.append({u"type": u"heading", u"value": heading})
+            blocks.append({"type": "heading", "value": heading})
             paragraphs = []
             for _ in range(random.randrange(2, 4)):
                 sentences = []
@@ -54,7 +54,7 @@ class Command(BaseCommand):
                     sentences.append(sentence)
                 paragraphs.append(" ".join(sentences))
             paragraph_block = "<p>" + "</p><p>".join(paragraphs) + "</p>"
-            blocks.append({u"type": u"paragraph", u"value": paragraph_block})
+            blocks.append({"type": "paragraph", "value": paragraph_block})
         return json.dumps(blocks)
 
     def handle(self, *args, **options):

@@ -1,0 +1,26 @@
+context:
+  page:
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: Scholarships
+      - is_root: false
+        depth: 3
+        title: Scholarships listing
+    title: Scholarships
+    introduction: Join a thriving community of more than 250 MPhil and PhD students pursuing cutting-edge research at the world's leading postgraduate university for art & design
+    characteristics_disclaimer: Some of these Scholarships are dependent on personal characteristics, please use the form to Express Interest.
+    body:
+      - dummy
+    lower_body:
+      - dummy
+    contact: true
+    contact_model_image: true
+    published_at: !!timestamp '2020-05-13 2:00:00'
+    last_published_at: !!timestamp '2020-05-13 2:00:00'
+  anchor_nav:
+    - { title: Introduction, link: '#introduction' }
+    - { title: Article one, link: '#article-one' }
+    - { title: Article two, link: '#article-two' }
+    - { title: Staff, link: '#staff' }
+    - { title: Index module, link: '#index-module' }

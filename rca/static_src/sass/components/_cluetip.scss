@@ -1,5 +1,5 @@
-// sass-lint:disable-block class-name-format no-ids no-important
 // Skinning of Blackbaud modal on the donation template
+/* stylelint-disable selector-max-id -- third party system */
 #cluetip {
     #cluetip-outer {
         padding: $gutter;
@@ -50,3 +50,4 @@
         }
     }
 }
+/* stylelint-enable selector-max-id */

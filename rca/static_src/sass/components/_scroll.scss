@@ -15,6 +15,7 @@
 
     &__icon {
         stroke: currentColor;
+        /* stylelint-disable-next-line scale-unlimited/declaration-strict-value */
         fill: none;
         width: 19px;
         height: 18px;

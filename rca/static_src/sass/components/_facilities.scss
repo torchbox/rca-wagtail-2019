@@ -68,10 +68,10 @@
 
     &__view-all {
         &--medium {
-            display: none !important; // sass-lint:disable-line no-important
+            display: none !important;
 
             @include media-query(medium) {
-                display: inline-flex !important; // sass-lint:disable-line no-important
+                display: inline-flex !important;
             }
 
             @include media-query(large) {

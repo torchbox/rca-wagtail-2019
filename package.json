@@ -19,7 +19,6 @@
     "not android 4.4.3-4.4.4",
     "not OperaMini all"
   ],
-  "sasslintConfig": ".sass-lint.yml",
   "jest": {
     "testPathIgnorePatterns": [
       "/node_modules/",
@@ -55,22 +54,13 @@
   },
   "scripts": {
     "//[ Utility ]//": "",
-    "serve": "browser-sync start --config browsersync.config.js",
-    "reload": "browser-sync reload",
-    "create_dirs:dest_js": "mkdir -p $npm_package_config_dest_js",
-    "create_dirs:dest_css": "mkdir -p $npm_package_config_dest_css",
-    "create_dirs:dest_img": "mkdir -p $npm_package_config_dest_img",
-    "create_dirs:dest_font": "mkdir -p $npm_package_config_dest_font",
-    "create_dirs": "npm-run-all -p create_dirs:*",
-    "clean:dist": "rm -rf $npm_package_config_dist/{js/**,css/**,images/**}",
-    "clean": "npm-run-all -p clean:*",
+    "clean": "npm_package_config_dist=\"${npm_package_config_dist:-./wagtailkit_repo_name/static_compiled}\" && rm -rf $npm_package_config_dist/*",
     "//[ Webpack build ]//": "",
-    "compile:prod": "webpack --mode production",
-    "compile:dev": "webpack --mode development --progress",
-    "compile:watch": "npm run compile:dev -- --watch",
+    "compile:watch": "webpack --mode development --progress --watch",
+    "compile:reload": "webpack-dev-server",
     "//[ Linting & formatting ]//": "",
-    "lint:css": "sass-lint $npm_package_config_src_css'/**/**' -v -q",
-    "lint:js": "eslint .",
+    "lint:css": "stylelint $npm_package_config_src_css'/**/**' && stylelint --report-needless-disables $npm_package_config_src_css'/**/**'",
+    "lint:js": "eslint --report-unused-disable-directives .",
     "lint:format": "prettier --check '**/?(.)*.{md,css,scss,js,json,yaml,yml}'",
     "lint": "npm-run-all -p lint:format lint:js lint:css",
     "format": "prettier --write '**/?(.)*.{md,css,scss,js,json,yaml,yml}'",
@@ -79,21 +69,14 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "//[ Watches ]//": "",
-    "watch:font": "onchange $npm_package_config_src_font'/**/**' -- npm-run-all sync:font reload",
-    "watch:font:debug": "onchange $npm_package_config_src_font'/**/**' -- npm-run-all sync:font",
-    "watch:img": "onchange $npm_package_config_src_img'/**/**' -- npm-run-all sync:img reload",
-    "watch:img:debug": "onchange $npm_package_config_src_img'/**/**' -- npm-run-all sync:img",
-    "watch:js": "onchange $npm_package_config_dest_js'/**/**' -- npm-run-all -p reload lint:js",
-    "watch:css": "onchange $npm_package_config_dest_css -- npm-run-all -p reload lint:css",
+    "watch:js": "onchange $npm_package_config_dest_js'/**/**' -- npm run lint:js",
+    "watch:css": "onchange $npm_package_config_dest_css -- npm run lint:css",
     "watch": "npm-run-all -p watch:*",
-    "//[ Syncs ]//": "",
-    "sync:font": "rsync -rtvu --delete $npm_package_config_src_font/ $npm_package_config_dest_font/",
-    "sync:img": "rsync -rtvu --delete $npm_package_config_src_img/ $npm_package_config_dest_img/",
-    "sync": "npm-run-all -p sync:*",
-    "//[ Tasks ]//": "",
-    "build": "npm-run-all clean create_dirs sync compile:dev",
-    "build:prod": "npm-run-all clean create_dirs sync compile:prod",
-    "start": "npm-run-all clean create_dirs sync compile:dev -p compile:watch watch serve --silent"
+    "//[ Build tasks ]//": "",
+    "build": "npm run clean && webpack --mode development --progress",
+    "build:prod": "npm run clean && webpack --mode production",
+    "start": "npm-run-all clean -p compile:watch watch --silent",
+    "start:reload": "npm-run-all clean -p compile:reload watch --silent"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
@@ -126,10 +109,12 @@
     "postcss-loader": "^3.0.0",
     "prettier": "^1.19.1",
     "sass": "^1.24.2",
-    "sass-lint": "^1.12.1",
     "sass-loader": "^7.3.1",
+    "stylelint": "^13.13.1",
+    "stylelint-config-torchbox": "^1.0.0",
     "webpack": "^4.41.4",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
     "@babel/polyfill": "^7.7.0",
@@ -148,6 +133,7 @@
     "react-transition-group": "^4.3.0",
     "react-use": "^13.14.0",
     "rellax": "^1.10.0",
+    "rsync": "^0.6.1",
     "scrollama": "^2.1.4",
     "vanilla-lazyload": "^12.4.0"
   }

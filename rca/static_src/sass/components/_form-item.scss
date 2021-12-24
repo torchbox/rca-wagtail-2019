@@ -1,5 +1,3 @@
-// sass-lint:disable no-vendor-prefixes
-// sass-lint:disable class-name-format
 .form-item {
     $root: &;
     $form-bottom-margin: ($gutter * 0.75);
@@ -253,19 +251,17 @@
 
         label {
             margin-left: ($gutter / 2);
-            margin-bottom: 0 !important; // sass-lint:disable-line no-important
+            margin-bottom: 0 !important;
         }
     }
 
     &--checkbox_select_multiple,
     &--radio_select {
         label {
-            display: flex !important; // sass-lint:disable-line no-important
+            display: flex !important;
             align-items: center;
             flex-direction: row;
-            margin-bottom: (
-                $gutter * 0.75
-            ) !important; // sass-lint:disable-line no-important
+            margin-bottom: ($gutter * 0.75) !important;
         }
 
         #{$root}__required {
@@ -435,7 +431,7 @@
     textarea,
     select {
         &:-webkit-autofill {
-            border: 0 !important; // sass-lint:disable-line no-important
+            border: 0 !important;
         }
     }
 
@@ -481,7 +477,9 @@
             color: $color--white;
 
             &:-webkit-autofill {
+                /* stylelint-disable property-no-vendor-prefix */
                 -webkit-box-shadow: 0 0 0 1000px $color--form-input-darkbg inset;
+                /* stylelint-enable property-no-vendor-prefix */
             }
         }
 
@@ -533,8 +531,10 @@
                     background-color: $color--form-input-focus-darkbg;
 
                     &:-webkit-autofill {
+                        /* stylelint-disable property-no-vendor-prefix */
                         -webkit-box-shadow: 0 0 0 1000px
                             $color--form-input-focus-darkbg inset;
+                        /* stylelint-enable property-no-vendor-prefix */
                     }
                 }
 
@@ -595,8 +595,10 @@
             color: $color--black;
 
             &:-webkit-autofill {
+                /* stylelint-disable property-no-vendor-prefix */
                 -webkit-box-shadow: 0 0 0 1000px $color--form-input-lightbg
                     inset;
+                /* stylelint-enable property-no-vendor-prefix */
             }
         }
 
@@ -641,8 +643,10 @@
                     background-color: $color--form-input-focus-lightbg;
 
                     &:-webkit-autofill {
+                        /* stylelint-disable property-no-vendor-prefix */
                         -webkit-box-shadow: 0 0 0 1000px
                             $color--form-input-focus-lightbg inset;
+                        /* stylelint-enable property-no-vendor-prefix */
                     }
                 }
 

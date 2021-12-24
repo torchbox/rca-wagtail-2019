@@ -1,5 +1,4 @@
 .hero-action-pane {
-    @include z-index(under);
     $root: &;
     $hero-action-pane-height-small: 110px;
     $hero-action-pane-height-medium: 160px;
@@ -7,6 +6,7 @@
     $hero-action-pane-height-large: (
         $hero-action-pane-height-medium + $hero-image-credit-height
     );
+    @include z-index(under);
     position: relative;
     pointer-events: none;
     height: $hero-action-pane-height-small;
@@ -73,11 +73,7 @@
 
         // Custom breakpoint to target mobile only to prevent rellax doing its thing
         @media only screen and (max-width: 599px) {
-            transform: translate3d(
-                0,
-                0,
-                0
-            ) !important; // sass-lint:disable-line no-important
+            transform: translate3d(0, 0, 0) !important;
         }
     }
 
