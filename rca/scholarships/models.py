@@ -2,12 +2,10 @@ from django.db import models
 from django.utils.text import slugify
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
 from wagtail.core.fields import StreamField
-
-from rca.scholarships.blocks import ScholarshipsListingPageBlock
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtail.snippets.models import register_snippet
 
 from rca.programmes.models import ProgrammePage
+from rca.scholarships.blocks import ScholarshipsListingPageBlock
 from rca.utils.models import BasePage, ContactFieldsMixin, SluggedTaxonomy
 
 
@@ -17,6 +15,7 @@ class ScholarshipFeeStatus(SluggedTaxonomy):
     ]
 
     class Meta:
+        ordering = ("title",)
         verbose_name_plural = "Scholarship Fee Statuses"
 
 
@@ -25,11 +24,17 @@ class ScholarshipFunding(SluggedTaxonomy):
         FieldPanel("title"),
     ]
 
+    class Meta:
+        ordering = ("title",)
+
 
 class ScholarshipLocation(SluggedTaxonomy):
     panels = [
         FieldPanel("title"),
     ]
+
+    class Meta:
+        ordering = ("title",)
 
 
 @register_snippet
@@ -37,9 +42,13 @@ class Scholarship(models.Model):
     title = models.CharField(max_length=50)
     active = models.BooleanField(default=True)
     summary = models.CharField(max_length=255)
+    value = models.CharField(max_length=100)
     eligable_programmes = models.ManyToManyField(ProgrammePage)
     funding_categories = models.ManyToManyField(ScholarshipFunding)
     fee_statuses = models.ManyToManyField(ScholarshipFeeStatus)
+
+    def __str__(self) -> str:
+        return self.title
 
 
 class ScholarshipsListingPage(ContactFieldsMixin, BasePage):

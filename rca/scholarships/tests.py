@@ -3,12 +3,18 @@ from wagtail.tests.utils import WagtailPageTests
 
 from rca.home.models import HomePage
 from rca.scholarships.factories import (
+    ScholarshipFactory,
     ScholarshipFeeStatusFactory,
     ScholarshipFundingFactory,
     ScholarshipLocationFactory,
     ScholarshipsListingPageFactory,
 )
 from rca.scholarships.models import ScholarshipsListingPage
+
+
+class TestScholarshipFactory(TestCase):
+    def test_factories(self):
+        ScholarshipFactory()
 
 
 class TestScholarshipsTaxonomyFactory(TestCase):
