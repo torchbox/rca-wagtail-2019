@@ -76,7 +76,6 @@ INSTALLED_APPS = [
     "birdbath",
     "django_countries",
     "wagtail.contrib.modeladmin",
-    "wagtail.contrib.postgres_search",
     "wagtail.contrib.settings",
     "wagtail.contrib.search_promotions",
     "wagtail.contrib.forms",
@@ -193,9 +192,7 @@ else:
 # Search
 # https://docs.wagtail.io/en/latest/topics/search/backends.html
 
-WAGTAILSEARCH_BACKENDS = {
-    "default": {"BACKEND": "wagtail.contrib.postgres_search.backend"}
-}
+WAGTAILSEARCH_BACKENDS = {"default": {"BACKEND": "wagtail.search.backends.database"}}
 
 
 # Password validation
@@ -787,3 +784,5 @@ if "CORS_ALLOWED_ORIGINS" in env:
 
 CORS_ALLOWED_ORIGIN_REGEXES = r"^/api/.*$"
 CORS_ALLOW_METHODS = ["GET", "OPTIONS"]
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
