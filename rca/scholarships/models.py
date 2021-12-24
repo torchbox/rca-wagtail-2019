@@ -1,15 +1,19 @@
 from django.db import models
 from django.utils.text import slugify
+from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     FieldRowPanel,
+    InlinePanel,
     MultiFieldPanel,
     ObjectList,
     StreamFieldPanel,
     TabbedInterface,
 )
 from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.models import Orderable
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 
 from rca.programmes.models import ProgrammePage
@@ -126,6 +130,20 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         return context
 
 
+class ScholarshipEnquiryFormSubmissionScholarshipOrderable(Orderable):
+    scholarship_submission = ParentalKey(
+        "scholarships.ScholarshipEnquiryFormSubmission",
+        related_name="scholarship_submission_scholarships",
+    )
+    scholarship = models.ForeignKey(
+        "scholarships.Scholarship", on_delete=models.CASCADE,
+    )
+
+    panels = [
+        SnippetChooserPanel("scholarship"),
+    ]
+
+
 class ScholarshipEnquiryFormSubmission(ClusterableModel):
     submission_date = models.DateTimeField(blank=True, null=True, auto_now_add=True)
     first_name = models.CharField(max_length=255)
@@ -155,6 +173,7 @@ class ScholarshipEnquiryFormSubmission(ClusterableModel):
             heading="User details",
         ),
         FieldPanel("programme"),
+        InlinePanel("scholarship_submission_scholarships", label="Scholarship"),
         MultiFieldPanel(
             [
                 FieldPanel("is_read_data_protection_policy"),
