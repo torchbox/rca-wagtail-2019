@@ -54,7 +54,7 @@
   },
   "scripts": {
     "//[ Utility ]//": "",
-    "clean": "npm_package_config_dist=\"${npm_package_config_dist:-./wagtailkit_repo_name/static_compiled}\" && rm -rf $npm_package_config_dist/*",
+    "clean": "npm_package_config_dist=\"${npm_package_config_dist:-./rca/static_compiled}\" && rm -rf $npm_package_config_dist/*",
     "//[ Webpack build ]//": "",
     "compile:watch": "webpack --mode development --progress --watch",
     "compile:reload": "webpack-dev-server",

@@ -1,13 +1,19 @@
 from django.db import models
 from django.utils.text import slugify
+from modelcluster.fields import ParentalKey
+from modelcluster.models import ClusterableModel
 from wagtail.admin.edit_handlers import (
     FieldPanel,
+    FieldRowPanel,
+    InlinePanel,
     MultiFieldPanel,
     ObjectList,
     StreamFieldPanel,
     TabbedInterface,
 )
 from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.models import Orderable
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 
 from rca.programmes.models import ProgrammePage
@@ -122,3 +128,60 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         context = super().get_context(request, *args, **kwargs)
         context["anchor_nav"] = self.anchor_nav()
         return context
+
+
+class ScholarshipEnquiryFormSubmissionScholarshipOrderable(Orderable):
+    scholarship_submission = ParentalKey(
+        "scholarships.ScholarshipEnquiryFormSubmission",
+        related_name="scholarship_submission_scholarships",
+    )
+    scholarship = models.ForeignKey(
+        "scholarships.Scholarship", on_delete=models.CASCADE,
+    )
+
+    panels = [
+        SnippetChooserPanel("scholarship"),
+    ]
+
+
+class ScholarshipEnquiryFormSubmission(ClusterableModel):
+    submission_date = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    email = models.EmailField()
+    rca_id_number = models.CharField(max_length=100)
+    programme = models.ForeignKey("programmes.ProgrammePage", on_delete=models.CASCADE,)
+
+    # TODO
+    # related Scholarship snippet
+    # Scholarship eligibility (needs confirmation of choices from RCA) - these will be  hardcoded.
+
+    is_read_data_protection_policy = models.BooleanField()
+    is_notification_opt_in = models.BooleanField()
+
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldRowPanel(
+                    [
+                        FieldPanel("first_name", classname="fn"),
+                        FieldPanel("last_name", classname="ln"),
+                    ]
+                ),
+                FieldPanel("rca_id_number"),
+            ],
+            heading="User details",
+        ),
+        FieldPanel("programme"),
+        InlinePanel("scholarship_submission_scholarships", label="Scholarship"),
+        MultiFieldPanel(
+            [
+                FieldPanel("is_read_data_protection_policy"),
+                FieldPanel("is_notification_opt_in"),
+            ],
+            heading="Legal & newsletter",
+        ),
+    ]
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} - {self.rca_id_number}"
