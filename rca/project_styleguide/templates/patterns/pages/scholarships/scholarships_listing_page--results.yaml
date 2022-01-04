@@ -1,0 +1,96 @@
+context:
+  results: true
+  page:
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: Scholarships
+      - is_root: false
+        depth: 3
+        title: Scholarships listing
+    title: RCA scholarships and awards
+    introduction: The College believes it is vital to provide visible pathways of access to study across our programmes for those suffering financial hardship and for those from under-represented groups.
+    characteristics_disclaimer: Some of these Scholarships are dependent on personal characteristics, please use the form to Express Interest.
+    body:
+      - dummy
+    steps:
+      - step:
+        value:
+          heading: <b>Select your programme</b>
+      - step:
+        value:
+          heading: View all scholarships avaliable for this programme
+      - step:
+        value:
+          heading: 'Use the ‘Express interest’ button if you hold an offer'
+    lower_body:
+      - dummy
+    contact: true
+    contact_model_image: true
+    published_at: !!timestamp '2020-05-13 2:00:00'
+    last_published_at: !!timestamp '2020-05-13 2:00:00'
+  anchor_nav:
+    - { title: Introduction, link: '#introduction' }
+    - { title: Article one, link: '#article-one' }
+    - { title: Article two, link: '#article-two' }
+    - { title: Scholarships for 2022/23 entry, link: '#scholarships' }
+    - { title: Article three, link: '#article-three' }
+    - { title: Article four, link: '#article-four' }
+    - { title: Index module, link: '#index-module' }
+  results:
+    - accordion:
+      value:
+        heading: The Coats Foundation Trust Bursary
+        preview_text:
+        body: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
+        introduction: The RCA provides a unique environment for postgraduate art and design students to reflect upon their own practice, and to engage with students from their own and other disciplines
+        link:
+          title: 'Find out more'
+          url: '#'
+    - accordion:
+      value:
+        heading: Haberdashers’ Bursary
+        preview_text:
+        body: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
+        link:
+          title: 'Find out more'
+          url: '#'
+  related_pages:
+    title: Index Module
+    items:
+      - {
+          title: 'Innovation RCA',
+          link: '#',
+          meta: Link,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Consultancy & knowledge exchange',
+          link: '#',
+          meta: Link,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Custom executive education',
+          link: '#',
+          meta: Link,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+  stats_block:
+    title: false
+    statistics:
+      - stat:
+        value:
+          number: 70
+          summary: Number of countries our students come from
+      - stat:
+        value:
+          after: '%'
+          number: 33
+          summary: of students who go on to work in practice'
