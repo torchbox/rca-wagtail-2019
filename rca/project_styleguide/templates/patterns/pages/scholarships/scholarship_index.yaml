@@ -1,0 +1,75 @@
+context:
+  page:
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: Study
+      - is_root: false
+        depth: 3
+        title: Application process
+      - is_root: false
+        depth: 4
+        title: Funding your studies
+    title: RCA scholarships and awards
+    edit_date: 7 March 2020
+    introduction: The College believes it is vital to provide visible pathways of access to study across our programmes for those suffering financial hardship and for those from under-represented groups.
+    staff_link: false
+    contact: true
+    contact_model_image: true
+    body_one:
+      - dummy
+    body_two:
+      - dummy
+    published_at: !!timestamp '2020-05-13 2:00:00'
+    last_published_at: !!timestamp '2020-05-13 2:00:00'
+    related_pages_title: Index Module
+  anchor_nav:
+    - { title: Introduction, link: '#introduction' }
+    - { title: Article one, link: '#article-one' }
+    - { title: Article two, link: '#article-two' }
+    - { title: Scholarships for 2022/23 entry, link: '#scholarships' }
+    - { title: Article three, link: '#article-three' }
+    - { title: Article four, link: '#article-four' }
+    - { title: Index module, link: '#index-module' }
+  related_pages:
+    title: Index Module
+    items:
+      - {
+          title: 'Innovation RCA',
+          link: '#',
+          meta: Link,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Consultancy & knowledge exchange',
+          link: '#',
+          meta: Link,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Custom executive education',
+          link: '#',
+          meta: Link,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+  related_staff:
+    - {
+        name: 'Beth Hughes',
+        role: 'Head of Programmes',
+        description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
+        link: '#',
+        link_text: 'Read more',
+      }
+    - {
+        name: 'Beth Hughes',
+        role: 'Head of Programmes',
+        description: 'Director of her own practice, Beth Hughes has worked on projects of all scales, public and private, around the world.',
+        link: '#',
+        link_text: 'Read more',
+      }
