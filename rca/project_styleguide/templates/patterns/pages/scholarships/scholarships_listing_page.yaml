@@ -7,8 +7,8 @@ context:
       - is_root: false
         depth: 3
         title: Scholarships listing
-    title: Scholarships
-    introduction: Join a thriving community of more than 250 MPhil and PhD students pursuing cutting-edge research at the world's leading postgraduate university for art & design
+    title: RCA scholarships and awards
+    introduction: The College believes it is vital to provide visible pathways of access to study across our programmes for those suffering financial hardship and for those from under-represented groups.
     characteristics_disclaimer: Some of these Scholarships are dependent on personal characteristics, please use the form to Express Interest.
     body:
       - dummy
@@ -22,5 +22,34 @@ context:
     - { title: Introduction, link: '#introduction' }
     - { title: Article one, link: '#article-one' }
     - { title: Article two, link: '#article-two' }
-    - { title: Staff, link: '#staff' }
+    - { title: Scholarships for 2022/23 entry, link: '#scholarships' }
+    - { title: Article three, link: '#article-three' }
+    - { title: Article four, link: '#article-four' }
     - { title: Index module, link: '#index-module' }
+  related_pages:
+    title: Index Module
+    items:
+      - {
+          title: 'Innovation RCA',
+          link: '#',
+          meta: Link,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Consultancy & knowledge exchange',
+          link: '#',
+          meta: Link,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Custom executive education',
+          link: '#',
+          meta: Link,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }

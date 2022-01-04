@@ -48,7 +48,7 @@
                     <div class="section__notch-fill section__notch-fill--second-col"></div>
                 </div>
 
-                <div class="section__row {% if not related_staff %}section__row--last{% endif %} section__row--first grid">
+                <div class="section__row section__row--last section__row--first grid">
                     <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                         {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body guide_page=True %}
                     </div>
@@ -68,7 +68,17 @@
 
             </section>
 
+            {% if related_pages.items %}
+                <section class="section bg bg--dark">
+                    <div class="section__row section__row--first section__row--last-large">
+                        {% include "patterns/organisms/index-module/index-module.html" with items=related_pages.items title=related_pages.title id=page.related_pages_title anchor_heading=True %}
+                    </div>
 
+                    <div class="section__notch section__notch--small-med-only">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    </div>
+                </section>
+            {% endif %}
 
             {% if page.contact_model_image or page.contact_model_text or page.contact_model_email or page.contact_model_url or page.contact_model_form %}
                 <section class="section bg bg--light">
