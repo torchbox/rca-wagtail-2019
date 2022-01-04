@@ -130,6 +130,22 @@ fab sh
 poetry install --no-root
 ```
 
+## Installing npm packages
+
+NPM packages can be installed via the web container:
+
+```
+fab ssh
+npm add [your thing]
+```
+
+To reset installed dependencies back to how they are in the `poetry.lock` file:
+
+```
+fab sh
+poetry install --no-root
+```
+
 ## Deployment
 
 The static assets should be automatically generated on deployment and you do

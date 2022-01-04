@@ -127,7 +127,7 @@ def ssh_root(c, service="web"):
 @task
 def npm(c, command):
     print(
-        f"`fab npm …` has been removed, use `fab sh --service frontend` and run `npm {command}` from there instead."
+        f"`fab npm …` has been removed, use `fab ssh and run `npm {command}` from inside the web container instead."
     )
 
 
