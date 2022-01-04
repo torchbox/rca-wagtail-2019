@@ -1,4 +1,4 @@
-<div class="steps grid">
+<div class="steps grid {% if modifier %}steps--{{ modifier }}{% endif %}">
     <h4 class="steps__heading heading heading--five">{{ title }}</h4>
     <div class="steps__content">
         {% for step in steps %}

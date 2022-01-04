@@ -6,6 +6,10 @@
     app--guide no-hero
 {% endblock %}
 
+{% block tap_widget %}
+{% if settings.utils.SitewideTapSetting.show_widgets %}{{ tap_widget_code }}{% endif %}
+{% endblock %}
+
 {% block content %}
 
     <div class="page page--no-hero">
@@ -48,50 +52,35 @@
                     <div class="section__notch-fill section__notch-fill--second-col"></div>
                 </div>
 
-                <div class="section__row section__row--last section__row--first grid">
+                <div class="section__row section__row--first grid">
                     <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                        {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body guide_page=True %}
+                        {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body_one guide_page=True %}
+                    </div>
+                </div>
+
+                <div class="section__row section__row--first grid" id="scholarships">
+                    <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                        Scholarship finder app to sit here
+                    </div>
+                </div>
+
+                <div class="section__row {% if not related_staff %}section__row--last{% endif %} section__row--first grid">
+                    <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                        {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body_two guide_page=True %}
                     </div>
                 </div>
 
             </section>
-
-            {% if stats_block %}
-                {% include "patterns/organisms/stat-block/stat-block.html" with modifier="light-to-dark" %}
+            {% if page.further_information %}
+                <section class="section bg bg--dark">
+                <div class="section__row section__row--last">
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.further_information course_type="short" title=page.further_information_title anchor_heading=True section_id=page.further_information_title|slugify %}
+                </div>
+                </section>
             {% endif %}
 
-            <section class="section bg bg--dark section--start section--end" id="scholarships">
-
-                <div class="section__row section__row--last-small grid">
-                    <h2 class="heading heading--two layout__start-one layout__span-two layout__@large-start-two layout__@large-span-two">Scholarships for 2022/23 entry</h2>
-                </div>
-
-                {% if page.steps %}
-                    {% include "patterns/molecules/steps/steps.html" with title="To express interest in scholarships you may be eligible for:" steps=page.steps modifier="condensed" %}
-                {% endif %}
-
-                <div class="section__row grid">
-                    {% if results %}
-                        <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-two">
-                            {{ page.characteristics_disclaimer }}
-                        </div>
-                    {% endif %}
-                </div>
-
-            </section>
-
-            <section class="section bg bg--light">
-
-                <div class="section__row section__row--last section__row--first grid">
-                    <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                        {% include "patterns/molecules/streamfield/stream_block.html" with value=page.lower_body guide_page=True %}
-                    </div>
-                </div>
-
-            </section>
-
             {% if related_pages.items %}
-                <section class="section bg bg--dark" id="index-module">
+                <section class="section bg bg--dark">
                     <div class="section__row section__row--first section__row--last-large">
                         {% include "patterns/organisms/index-module/index-module.html" with items=related_pages.items title=related_pages.title id=page.related_pages_title anchor_heading=True %}
                     </div>
@@ -123,4 +112,26 @@
     {% if page.social_image %}
         {% image page.social_image fill-1200x1200 as social_img %}
     {% endif %}
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://google.com/article"
+            },
+            "headline": "{{ page.title }}",
+            {% if page.social_image %}
+            "image": [
+              "{{ social_img.full_url }}"
+            ],
+            {% endif %}
+            "datePublished": "{{ page.published_at }}",
+            "dateModified": "{{ page.last_published_at }}",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Royal College of Art"
+            }
+          }
+    </script>
 {% endblock %}
