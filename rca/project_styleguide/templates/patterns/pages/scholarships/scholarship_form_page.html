@@ -43,8 +43,8 @@ app--form no-hero
     <div class="page__content">
 
         <section class="section bg bg--dark">
-            {% if page.form_fields.exists %}
-                <form action="{% pageurl page %}" method="post" class="form {% if form.errors %}form--errors{% endif %} grid layout ">
+            
+                <form id="scholarship-form" action="." method="post" class="form {% if form.errors %}form--errors{% endif %} grid layout " data-scholarships-url="/scholarship-enquiry/ajax/load-scholarships/">
                     <div class="layout__start-one layout__span-two layout__@large-span-one">
                         {% include "patterns/molecules/key-details/key-details--form.html" with key_details=page.key_details %}
                     </div>
@@ -52,7 +52,16 @@ app--form no-hero
                         <div class="form__content section section--top-space-large">
                             {% csrf_token %}
 
+                            <h2>Your Details</h2>
+
                             {% for field in form %}
+
+                                {% if field.name == "rca_id_number" %}
+                                    <h2>Scholarship Choice(s)</h2>
+                                {% elif field.name == "is_read_data_protection_policy" %}
+                                    <h2>Legal & newsletter</h2>
+                                {% endif %}
+                                    
 
                                 {% with widget_type=field|widget_type field_type=field|field_type %}
                                     <div class="form-item {% if field_type %}form-item--{{ field_type }}{% endif %} {% if widget_type %}form-item--{{ widget_type }}{% endif %} {% if field.errors %}form-item--has-content form-item--errors{% endif %} {% if field.help_text %}form-item--has-help-text{% endif %}" {% if widget_type == 'text_input' or field_type == 'email_field' or field_type == 'decimal_field' or field_type == 'url_field' or field_type == 'date_field' or field_type == 'date_time_field' %} data-focus data-focustype='input'{% endif %}{% if widget_type == 'textarea' %}data-focus data-focustype='textarea'{% endif %}>
@@ -93,12 +102,11 @@ app--form no-hero
                         </div>
                     </div>
                 </form>
-            {% endif %}
+            
 
         </section>
 
     </div>
 </div>
-
 
 {% endblock %}

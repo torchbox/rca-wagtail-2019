@@ -28,6 +28,7 @@ private_urlpatterns = [
     # Don’t use generic cache control for API endpoints.
     path("api/v3/", api_router.urls),
     path("enquire-to-study/", include("rca.enquire_to_study.urls")),
+    path("scholarship-enquiry/", include("rca.scholarships.urls")),
 ]
 
 
