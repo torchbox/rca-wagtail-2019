@@ -1,10 +1,10 @@
-<div class="booking-bar {% if not item.modal %}booking-bar--no-modal{% endif %} bg bg--dark ">
+<div class="booking-bar {% if modifier %}booking-bar--{{ modifier }} {% endif %}{% if not item.modal %}booking-bar--no-modal{% endif %} bg bg--dark ">
     {% include "patterns/atoms/grid-lines/grid-lines.html" %}
     <div class="booking-bar__container grid">
         <div class="booking-bar__message">
             {{ item.message }} {{ item.date|date:'j F Y' }}
         </div>
-        {% if page.show_register_link or page.get_manual_bookings or page.manual_registration_url %}
+        {% if page.show_register_link or page.get_manual_bookings or page.manual_registration_url or page.show_interest_link %}
             <div class="booking-bar__action">
                 {% include "patterns/atoms/modal-launcher/modal-launcher.html" with modal_aria_label=modal_aria_label %}
             </div>
