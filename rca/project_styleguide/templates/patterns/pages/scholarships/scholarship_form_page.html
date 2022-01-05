@@ -44,7 +44,7 @@ app--form no-hero
 
         <section class="section bg bg--dark">
             
-                <form id="scholarship-form" action="." method="post" class="form {% if form.errors %}form--errors{% endif %} grid layout " data-scholarships-url="/scholarship-enquiry/ajax/load-scholarships/">
+                <form id="scholarship-form" action="." method="post" class="form {% if form.errors %}form--errors{% endif %} grid layout " data-scholarships-url="{% url 'scholarships:ajax_load_scholarships' %}">
                     <div class="layout__start-one layout__span-two layout__@large-span-one">
                         {% include "patterns/molecules/key-details/key-details--form.html" with key_details=page.key_details %}
                     </div>
