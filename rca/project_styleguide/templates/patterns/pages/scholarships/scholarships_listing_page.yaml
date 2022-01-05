@@ -29,6 +29,23 @@ context:
     contact_model_image: true
     published_at: !!timestamp '2020-05-13 2:00:00'
     last_published_at: !!timestamp '2020-05-13 2:00:00'
+  filters:
+    title: Filter by
+    arial_label: Filter results
+    items:
+      - tab_title: School or Centre
+        filter_name: school_or_centre
+        queryset: true
+        options:
+          - { title: 3D modelling & visualisation, id: '1-1', active: false }
+          - { title: Art & curating, id: '1-2', active: false }
+          - { title: Creative industries, id: '1-3', active: false }
+          - { title: Critical practice, id: '1-4', active: false }
+          - { title: Culture & communication, id: '1-5', active: false }
+          - { title: Digital futures, id: '1-6', active: false }
+          - { title: Emerging technologies, id: '1-7', active: false }
+          - { title: Engineering design, id: '1-8', active: false }
+          - { title: Future cities, id: '1-9', active: false }
   anchor_nav:
     - { title: Introduction, link: '#introduction' }
     - { title: Article one, link: '#article-one' }
@@ -76,3 +93,6 @@ context:
           after: '%'
           number: 33
           summary: of students who go on to work in practice'
+
+tags:
+  get_all_active_filters: false
