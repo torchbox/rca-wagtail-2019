@@ -1,5 +1,4 @@
 context:
-  results: true
   page:
     get_ancestors:
       - is_root: false
