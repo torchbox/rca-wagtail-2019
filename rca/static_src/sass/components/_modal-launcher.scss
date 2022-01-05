@@ -65,6 +65,12 @@
         }
     }
 
+    .app--scholarship-listing & {
+        @include media-query(large) {
+            width: 100%;
+        }
+    }
+
     .bg--dark & {
         #{$root}__label {
             color: $color--white;

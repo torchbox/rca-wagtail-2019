@@ -10,6 +10,8 @@ context:
     title: RCA scholarships and awards
     introduction: The College believes it is vital to provide visible pathways of access to study across our programmes for those suffering financial hardship and for those from under-represented groups.
     characteristics_disclaimer: Some of these Scholarships are dependent on personal characteristics, please use the form to Express Interest.
+    show_interest_bar: true
+    show_interest_link: true
     body:
       - dummy
     steps:
@@ -106,3 +108,9 @@ context:
           after: '%'
           number: 33
           summary: of students who go on to work in practice'
+  interest_bar:
+    message: 'Hold an offer and want to apply for these Scholarships?'
+    action: 'Express interest'
+    modal: false
+    link: '/pattern-library/render-pattern/patterns/pages/scholarships/scholarship_form_page.html'
+    link_same_page: true
