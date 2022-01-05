@@ -40,20 +40,33 @@ context:
     - accordion:
       value:
         heading: The Coats Foundation Trust Bursary
-        preview_text:
-        body: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
-        introduction: The RCA provides a unique environment for postgraduate art and design students to reflect upon their own practice, and to engage with students from their own and other disciplines
-        link:
-          title: 'Find out more'
-          url: '#'
+        introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
+        body: '<b>Eligible programmes:</b> Intelligent Mobility MA<br><b>Funding categories:</b> Financial hardship, Widening participation<br><b>Eligible fee status:</b> Any <br><b>Value:</b> Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000'
     - accordion:
       value:
         heading: Haberdashers’ Bursary
-        preview_text:
-        body: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
-        link:
-          title: 'Find out more'
-          url: '#'
+        introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
+        body: '<b>Eligible programmes:</b> Intelligent Mobility MA<br><b>Funding categories:</b> Financial hardship, Widening participation<br><b>Eligible fee status:</b> Any <br><b>Value:</b> Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000'
+    - accordion:
+      value:
+        heading: House of Fraser Bursary
+        introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
+        body: '<b>Eligible programmes:</b> Intelligent Mobility MA<br><b>Funding categories:</b> Financial hardship, Widening participation<br><b>Eligible fee status:</b> Any <br><b>Value:</b> Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000'
+    - accordion:
+      value:
+        heading: Karakusevic Carson Scholarship
+        introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
+        body: '<b>Eligible programmes:</b> Intelligent Mobility MA<br><b>Funding categories:</b> Financial hardship, Widening participation<br><b>Eligible fee status:</b> Any <br><b>Value:</b> Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000'
+    - accordion:
+      value:
+        heading: World of Interiors Bursary
+        introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
+        body: '<b>Eligible programmes:</b> Intelligent Mobility MA<br><b>Funding categories:</b> Financial hardship, Widening participation<br><b>Eligible fee status:</b> Any <br><b>Value:</b> Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000'
+    - accordion:
+      value:
+        heading: W H Smith Bursary
+        introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
+        body: '<b>Eligible programmes:</b> Intelligent Mobility MA<br><b>Funding categories:</b> Financial hardship, Widening participation<br><b>Eligible fee status:</b> Any <br><b>Value:</b> Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000'
   related_pages:
     title: Index Module
     items:
