@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "rca-wagtail-2019"
+name = "rca"
 version = "0.1.0"
 description = ""
 authors = ["Kevin Howbrook <kevin.howbrook@torchbox.com>"]
