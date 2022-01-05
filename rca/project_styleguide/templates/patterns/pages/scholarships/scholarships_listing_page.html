@@ -60,9 +60,15 @@
                 {% include "patterns/organisms/stat-block/stat-block.html" with modifier="light-to-dark" %}
             {% endif %}
 
-            <section class="section bg bg--dark section--start section--end" id="scholarships">
+            <section class="section bg bg--dark section--end" id="scholarships">
 
-                <div class="section__row section__row--last-small grid">
+                {% if not stats_block %}
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--fourth-col"></div>
+                    </div>
+                {% endif %}
+
+                <div class="section__row section__row--first section__row--last-small grid">
                     <h2 class="heading heading--two layout__start-one layout__span-two layout__@large-start-two layout__@large-span-two">Scholarships for 2022/23 entry</h2>
                 </div>
 
@@ -70,14 +76,19 @@
                     {% include "patterns/molecules/steps/steps.html" with title="To express interest in scholarships you may be eligible for:" steps=page.steps modifier="condensed" %}
                 {% endif %}
 
-                <div class="section__row grid">
-                    {% if results %}
+                {% if results %}
+
+                    <div class="section__row grid">
                         <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-two">
                             {{ page.characteristics_disclaimer }}
                         </div>
-                    {% endif %}
-                </div>
+                    </div>
 
+                    <div class="section__row">
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=results title=results_title  section_id=page.results_title|slugify %}
+                    </div>
+
+                {% endif %}
             </section>
 
             <section class="section bg bg--light">
