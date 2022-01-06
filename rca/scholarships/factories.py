@@ -8,6 +8,7 @@ from rca.programmes.factories import ProgrammePageFactory
 from rca.scholarships.models import (
     Scholarship,
     ScholarshipEnquiryFormSubmission,
+    ScholarshipEnquiryFormSubmissionScholarshipOrderable,
     ScholarshipFeeStatus,
     ScholarshipFunding,
     ScholarshipLocation,
@@ -100,3 +101,17 @@ class ScholarshipEnquiryFormSubmissionFactory(factory.django.DjangoModelFactory)
     is_read_data_protection_policy = True
     is_notification_opt_in = True
     programme = factory.SubFactory(ProgrammePageFactory)
+
+    @factory.post_generation
+    def scholarships(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if not extracted:
+            extracted = ScholarshipFactory.generate_batch(
+                strategy=factory.CREATE_STRATEGY, size=2,
+            )
+        for scholarship in extracted:
+            ScholarshipEnquiryFormSubmissionScholarshipOrderable.objects.create(
+                scholarship_submission=obj, scholarship=scholarship,
+            )
