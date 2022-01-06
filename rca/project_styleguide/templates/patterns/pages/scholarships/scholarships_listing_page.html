@@ -6,20 +6,6 @@
     app--guide app--scholarship-listing no-hero
 {% endblock %}
 
-{% block title %}
-    {% if page.seo_title %}
-        {{ page.seo_title }}
-    {% else %}
-        {{ page.title }}
-    {% endif %}
-    {% if filters %}
-        {% get_all_active_filters filters as active_filters %}
-        {% if active_filters %}
-            – {{ active_filters }}
-        {% endif %}
-    {% endif %}
-{% endblock %}
-
 {% block content %}
 
     <div class="page page--no-hero">
@@ -102,12 +88,9 @@
                 <form class="section bg bg--dark js-tabs" method="get" action="#results" id="results">
 
                     <div class="section__row">
-                        <nav class="section bg bg--dark filter-bar filter-bar--large" data-filter-bar>
-                            <div class="section__notch section__notch--opposite">
-
-                                <div class="section__notch-fill section__notch-fill--content-height section__notch-fill--fourth-col">
-                                    {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True reset_button_text="Reset" %}
-                                </div>
+                        <nav class="section filter-bar filter-bar--large grid" data-filter-bar>
+                            <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                                {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True dark=True reset_button_text="Reset" %}
 
                                 <div class="filter-tab-options filter-tab-options--mobile">
                                     <div class="filter-tab-options__footer layout__start-one layout__span-two layout__@large-start-two layout__@large-span-four grid">
@@ -120,11 +103,10 @@
                                         </button>
                                     </div>
                                 </div>
-
                             </div>
                         </nav>
 
-                        <nav class="filter-bar filter-bar--small bg bg--light" data-filter-bar-small>
+                        <nav class="filter-bar filter-bar--small" data-filter-bar-small>
                             <a class="filter-bar__link body body--two" href="#filters-active" data-filter-launcher>
                                 <span class="filter-bar__label">Filters</span>
                                 <svg width="12" height="8" class="filter-bar__icon" aria-hidden="true">
