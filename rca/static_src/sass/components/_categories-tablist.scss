@@ -20,7 +20,6 @@
     }
 
     &__heading {
-        color: $color--dark-grey;
         margin-bottom: $gutter * 0.5;
 
         @include media-query(medium) {
@@ -35,7 +34,6 @@
 
     &__tab {
         position: relative;
-        color: $color--dark-grey;
         font-family: $font--primary;
         outline-width: initial;
         transition: color $transition;
@@ -47,11 +45,9 @@
         &--reset {
             display: inline-flex;
             align-items: center;
-            color: $color--black;
         }
 
         &--selected {
-            color: $color--black;
             font-family: $font--secondary;
 
             @include media-query(large) {
@@ -86,7 +82,6 @@
         &:hover {
             @include underline-hover-target-reset();
             position: relative;
-            color: $color--black;
         }
     }
 
@@ -98,6 +93,42 @@
     &__tab-icon {
         @include media-query(large) {
             display: none;
+        }
+    }
+
+    .bg--dark & {
+        #{$root}__heading {
+            color: $color--light-grey;
+        }
+
+        #{$root}__tab {
+            color: $color--light-grey;
+
+            &--reset,
+            &--selected,
+            &[aria-selected='true'],
+            &:focus,
+            &:hover {
+                color: $color--white;
+            }
+        }
+    }
+
+    .bg--light & {
+        #{$root}__heading {
+            color: $color--dark-grey;
+        }
+
+        #{$root}__tab {
+            color: $color--dark-grey;
+
+            &--reset,
+            &--selected,
+            &[aria-selected='true'],
+            &:focus,
+            &:hover {
+                color: $color--black;
+            }
         }
     }
 
@@ -211,5 +242,9 @@
                 }
             }
         }
+    }
+
+    .app--scholarship-listing & {
+        padding-left: 0;
     }
 }
