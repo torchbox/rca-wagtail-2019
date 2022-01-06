@@ -60,14 +60,23 @@ def scholarships_delete(request):
 
 def load_scholarships(request):
     scholarships = Scholarship.objects.all()
-
-    try:
-        programme = ProgrammePage.objects.get(pk=int(request.GET.get("programme")))
-    except Exception:
-        programme = None
+    programme = request.GET.get("programme")
 
     if programme:
-        scholarships = scholarships.filter(eligable_programmes=programme)
+        try:
+            # if programme is an int, search by programme page id
+            programme = int(programme)
+            programme_page = ProgrammePage.objects.get(id=programme)
+        except (ProgrammePage.DoesNotExist, ValueError):
+            # if not, search by slug
+            try:
+                programme_page = ProgrammePage.objects.get(slug=programme)
+            except ProgrammePage.DoesNotExist:
+                programme_page = None
+                scholarships = scholarships.none()
+
+        if programme_page:
+            scholarships = scholarships.filter(eligable_programmes=programme_page)
 
     return JsonResponse(
         [{"id": s.id, "title": str(s)} for s in scholarships], safe=False
