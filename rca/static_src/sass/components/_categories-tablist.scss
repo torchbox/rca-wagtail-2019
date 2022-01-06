@@ -111,10 +111,6 @@
         }
     }
 
-    .project-filters & {
-        background-color: $color--white; // filter bar is always white
-    }
-
     .filter-bar--stuck & {
         background-color: $color--black;
 
@@ -137,6 +133,8 @@
 
     // When project filters are open
     .project-filters & {
+        background-color: $color--white; // filter bar is always white
+
         &__tab {
             color: $color--meta-lightbg;
 
