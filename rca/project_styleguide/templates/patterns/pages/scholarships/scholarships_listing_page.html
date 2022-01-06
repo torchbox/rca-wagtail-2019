@@ -48,19 +48,52 @@
                     <div class="section__notch-fill section__notch-fill--second-col"></div>
                 </div>
 
-                <div class="section__row {% if not related_staff %}section__row--last{% endif %} section__row--first grid">
+                <div class="section__row section__row--last section__row--first grid">
                     <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                         {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body guide_page=True %}
                     </div>
+                </div>
 
-                    {# Listing to go here #}
-                    <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                    <hr>
-                        <h3>Placeholder for Listing</h3>
-                        {{ page.characteristics_disclaimer }}
-                    <hr>
+            </section>
+
+            {% if stats_block %}
+                {% include "patterns/organisms/stat-block/stat-block.html" with modifier="light-to-dark" %}
+            {% endif %}
+
+            <section class="section bg bg--dark section--end" id="scholarships">
+
+                {% if not stats_block %}
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--fourth-col"></div>
+                    </div>
+                {% endif %}
+
+                <div class="section__row section__row--first section__row--last-small grid">
+                    <h2 class="heading heading--two layout__start-one layout__span-two layout__@large-start-two layout__@large-span-two">Scholarships for 2022/23 entry</h2>
+                </div>
+
+                {% if page.steps %}
+                    {% include "patterns/molecules/steps/steps.html" with title="To express interest in scholarships you may be eligible for:" steps=page.steps modifier="condensed" %}
+                {% endif %}
+
+                {% if results %}
+
+                    <div class="section__row grid">
+                        <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-two">
+                            {{ page.characteristics_disclaimer }}
+                        </div>
                     </div>
 
+                    <div class="section__row">
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=results title=results_title  section_id=page.results_title|slugify %}
+                    </div>
+
+                {% endif %}
+            </section>
+
+            <section class="section bg bg--light">
+
+                <div class="section__row section__row--last section__row--first grid">
                     <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                         {% include "patterns/molecules/streamfield/stream_block.html" with value=page.lower_body guide_page=True %}
                     </div>
@@ -68,7 +101,17 @@
 
             </section>
 
+            {% if related_pages.items %}
+                <section class="section bg bg--dark" id="index-module">
+                    <div class="section__row section__row--first section__row--last-large">
+                        {% include "patterns/organisms/index-module/index-module.html" with items=related_pages.items title=related_pages.title id=page.related_pages_title anchor_heading=True %}
+                    </div>
 
+                    <div class="section__notch section__notch--small-med-only">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    </div>
+                </section>
+            {% endif %}
 
             {% if page.contact_model_image or page.contact_model_text or page.contact_model_email or page.contact_model_url or page.contact_model_form %}
                 <section class="section bg bg--light">
