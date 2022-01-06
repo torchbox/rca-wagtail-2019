@@ -846,7 +846,7 @@ class SluggedTaxonomy(models.Model):
     """
 
     title = models.CharField(max_length=128)
-    slug = models.SlugField(blank=True)
+    slug = models.SlugField(blank=True, max_length=128)
 
     def __str__(self):
         return self.title
@@ -854,9 +854,6 @@ class SluggedTaxonomy(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(SluggedTaxonomy, self).save(*args, **kwargs)
-
-    class meta:
-        abstract = True
 
 
 class ResearchTheme(SluggedTaxonomy):
