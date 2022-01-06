@@ -112,16 +112,25 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
     def anchor_nav(self):
         """Build list of data to be used as in-page navigation"""
         items = []
-        blocks = []
 
-        for block in self.body:
-            blocks.append(block)
-        for block in self.lower_body:
-            blocks.append(block)
-
-        for i, block in enumerate(blocks):
+        def process_block(block):
             if block.block_type == "anchor_heading":
                 items.append({"title": block.value, "link": f"#{slugify(block.value)}"})
+
+        for block in self.body:
+            process_block(block)
+
+        # insert link for hardcoded "Scholarships for YYYY/YY" heading
+        items.append(
+            {
+                "title": "Scholarships for 2022/23 entry",
+                "link": "#scholarships-for-entry",
+            }
+        )
+
+        for block in self.lower_body:
+            process_block(block)
+
         return items
 
     def get_context(self, request, *args, **kwargs):
