@@ -1,9 +1,9 @@
 {% extends "patterns/base_page.html" %}
-{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static util_tags %}
 {% get_settings %}
 
 {% block body_class %}
-    app--guide no-hero
+    app--guide app--scholarship-listing no-hero
 {% endblock %}
 
 {% block content %}
@@ -40,15 +40,21 @@
             </div>
         </header>
 
-        <div class="page__content">
+        {% if page.show_interest_bar %}
+            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=interest_bar %}
+        {% endif %}
+
+        <div class="page__content js-sticky-point js-sticky-point--bottom">
 
             <section class="section bg bg--light">
 
-                <div class="section__notch">
-                    <div class="section__notch-fill section__notch-fill--second-col"></div>
-                </div>
+                {% if not page.show_interest_bar %}
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--second-col"></div>
+                    </div>
+                {% endif %}
 
-                <div class="section__row section__row--last section__row--first grid">
+                <div class="section__row section__row--last {% if page.show_interest_bar %}section__row--first-extra-small{% else %}section__row--first{% endif %} grid">
                     <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                         {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body guide_page=True %}
                     </div>
@@ -76,20 +82,67 @@
                     {% include "patterns/molecules/steps/steps.html" with title="To express interest in scholarships you may be eligible for:" steps=page.steps modifier="condensed" %}
                 {% endif %}
 
-                {% if results %}
+            </section>
 
-                    <div class="section__row grid">
-                        <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-two">
-                            {{ page.characteristics_disclaimer }}
+            {% if results %}
+                <form class="section bg bg--dark js-tabs" method="get" action="#results" id="results">
+
+                    <div class="section__row">
+                        <nav class="section filter-bar filter-bar--large" data-filter-bar>
+                            <div class="grid">
+                                <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                                    {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True dark=True reset_button_text="Reset" %}
+
+                                    <div class="filter-tab-options filter-tab-options--mobile">
+                                        <div class="filter-tab-options__footer layout__start-one layout__span-two layout__@large-start-two layout__@large-span-four grid">
+                                            <div class="filter-tab-options__clear layout__start-one layout__span-one layout__@large-start-two">
+                                                <a class="filter-tab-options__clear-link hidden" href="#" data-filters-clear-category>Clear</a>
+                                            </div>
+                                            <button class="filter-tab-options__button link link--primary layout__start-two layout__span-one layout__@large-start-four" data-filter-submit>
+                                                <span class="link__label">Show results</span>
+                                                <svg width="12" height="8" class="link__icon link__icon--rotated" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+
+                        <nav class="filter-bar filter-bar--small bg bg--light" data-filter-bar-small>
+                            <a class="filter-bar__link body body--two" href="#filters-active" data-filter-launcher>
+                                <span class="filter-bar__label">Filters</span>
+                                <svg width="12" height="8" class="filter-bar__icon" aria-hidden="true">
+                                    <use xlink:href="#arrow"></use>
+                                </svg>
+                            </a>
+                        </nav>
+
+                        <div class="filter-takeover bg bg--light">
+                            <div class="filter-takeover__container">
+                                {% for item in filters.items %}
+                                    {% if item.queryset %}
+                                        <div class="filter-takeover__tab-content tabs__panel tabs__panel--hidden js-tab-panel" id="{{ item.tab_title|slugify }}" role="tabpanel" aria-labelledby="tab-{{ item.tab_title|slugify }}">
+                                            {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" %}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
 
-                    <div class="section__row">
+                    <div class="section__row grid">
+                        <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                            <p class="body body--one"><b>Scholarship results showing for ***Design*** programme</b></p>
+                            <p class="body body--two">{{ page.characteristics_disclaimer }}</p>
+                        </div>
+                    </div>
+
+                    <div class="section__row section__row--last-small">
                         {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=results title=results_title  section_id=page.results_title|slugify %}
                     </div>
 
-                {% endif %}
-            </section>
+                </form>
+            {% endif %}
 
             <section class="section bg bg--light">
 
@@ -114,9 +167,9 @@
             {% endif %}
 
             {% if page.contact_model_image or page.contact_model_text or page.contact_model_email or page.contact_model_url or page.contact_model_form %}
-                <section class="section bg bg--light">
+                <section class="section bg bg--dark">
                     <div class="contact-anchor anchor-heading" id="contact"></div>
-                    <div class="section__row section__row--first">
+                    <div class="section__row section__row--first booking-bar-last-item">
                         {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image anchor_heading=True %}
                     </div>
                 </section>
