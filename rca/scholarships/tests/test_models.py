@@ -46,3 +46,18 @@ class TestScholarshipsListingPageRules(WagtailPageTests):
 class TestScholarshipFormFactory(TestCase):
     def test_factories(self):
         ScholarshipEnquiryFormSubmissionFactory()
+
+
+class TestScholarshipEnquiryFormSubmission(TestCase):
+    def test_get_scholarships(self):
+        scholarship1 = ScholarshipFactory()
+        scholarship2 = ScholarshipFactory()
+        submission = ScholarshipEnquiryFormSubmissionFactory(
+            scholarships=[scholarship1, scholarship2]
+        )
+
+        scholarships = submission.get_scholarships()
+
+        self.assertEqual(2, len(scholarships))
+        self.assertEqual(scholarships[0].id, scholarship1.id)
+        self.assertEqual(scholarships[1].id, scholarship2.id)

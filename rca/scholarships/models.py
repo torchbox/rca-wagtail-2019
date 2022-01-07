@@ -203,3 +203,6 @@ class ScholarshipEnquiryFormSubmission(ClusterableModel):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.rca_id_number}"
+
+    def get_scholarships(self):
+        return [s.scholarship for s in self.scholarship_submission_scholarships.all()]
