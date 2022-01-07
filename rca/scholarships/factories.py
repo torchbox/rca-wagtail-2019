@@ -4,6 +4,7 @@ import factory
 import wagtail_factories
 from faker import Factory as FakerFactory
 
+from rca.home.models import HomePage
 from rca.programmes.factories import ProgrammePageFactory
 from rca.scholarships.models import (
     Scholarship,
@@ -32,8 +33,11 @@ class ScholarshipFactory(factory.django.DjangoModelFactory):
             return
 
         if not extracted:
+            parent = HomePage.objects.first()
             extracted = ProgrammePageFactory.generate_batch(
-                strategy=factory.CREATE_STRATEGY, size=random.randint(1, 4),
+                parent=parent,
+                strategy=factory.CREATE_STRATEGY,
+                size=random.randint(1, 4),
             )
         obj.eligable_programmes.add(*extracted)
 
