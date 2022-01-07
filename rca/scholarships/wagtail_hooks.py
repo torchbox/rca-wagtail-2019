@@ -41,6 +41,8 @@ class ScholarshipEnquiryFormSubmissionAdmin(ModelAdmin):
         "rca_id_number",
         "is_read_data_protection_policy",
         "is_notification_opt_in",
+        "programme",
+        "scholarships",
     )
     list_display = (
         "submission_date",
@@ -52,6 +54,9 @@ class ScholarshipEnquiryFormSubmissionAdmin(ModelAdmin):
 
     search_fields = ("first_name", "last_name", "email", "rca_id_number")
     permission_helper_class = ScholarshipEnquiryFormSubmissionPermissionHelper
+
+    def scholarships(self, submission):
+        return "|".join([s.title for s in submission.get_scholarships()])
 
 
 class ScholarshipAdminGroup(ModelAdminGroup):
