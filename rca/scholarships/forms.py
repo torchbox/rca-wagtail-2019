@@ -1,6 +1,7 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Checkbox
 from django import forms
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
 from .models import (
@@ -18,6 +19,7 @@ class ScholarshipSubmissionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["is_read_data_protection_policy"].required = True
         self.fields["scholarships"].queryset = Scholarship.objects.all()
 
     def save(self, commit=True):
@@ -56,8 +58,10 @@ class ScholarshipSubmissionForm(forms.ModelForm):
         labels = {
             "programme": _("Which programme is your offer for?"),
             "is_read_data_protection_policy": _(
-                _(
-                    "I have read the data protection notice and agree for my data to be processed accordingly"
+                mark_safe(
+                    'I have read the <a href="https://www.rca.ac.uk/data-protection-privacy-cookies/" '
+                    'target="_blank">data protection notice</a> '
+                    "and agree for my data to be processed accordingly"
                 )
             ),
             "is_notification_opt_in": _(
