@@ -56,12 +56,21 @@ class Scholarship(models.Model):
     active = models.BooleanField(default=True)
     summary = models.CharField(max_length=255)
     value = models.CharField(max_length=100)
+    location = models.ForeignKey(
+        ScholarshipLocation, null=True, on_delete=models.SET_NULL
+    )
     eligable_programmes = models.ManyToManyField(ProgrammePage)
     funding_categories = models.ManyToManyField(ScholarshipFunding)
     fee_statuses = models.ManyToManyField(ScholarshipFeeStatus)
 
+    class Meta:
+        ordering = ("title",)
+
     def __str__(self) -> str:
-        return self.title
+        text = self.title
+        if self.location:
+            text += f" ({self.location})"
+        return text
 
 
 class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
@@ -194,3 +203,6 @@ class ScholarshipEnquiryFormSubmission(ClusterableModel):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.rca_id_number}"
+
+    def get_scholarships(self):
+        return [s.scholarship for s in self.scholarship_submission_scholarships.all()]

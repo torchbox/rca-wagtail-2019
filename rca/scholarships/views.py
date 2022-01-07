@@ -2,12 +2,23 @@ from datetime import timedelta
 
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
+from django.http import JsonResponse
 from django.shortcuts import redirect, reverse
 from django.template.response import TemplateResponse
+from django.urls import reverse_lazy
 from django.utils import timezone
+from django.views.generic import TemplateView
+from django.views.generic.edit import CreateView
 from wagtail.admin import messages
 
-from rca.scholarships.models import ScholarshipEnquiryFormSubmission
+from rca.programmes.models import ProgrammePage
+
+from .forms import ScholarshipSubmissionForm
+from .models import (
+    Scholarship,
+    ScholarshipEnquiryFormSubmission,
+    ScholarshipsListingPage,
+)
 
 
 def scholarships_delete(request):
@@ -45,3 +56,49 @@ def scholarships_delete(request):
             "submit_url": (reverse("scholarships_delete")),
         },
     )
+
+
+def load_scholarships(request):
+    scholarships = Scholarship.objects.all()
+    programme = request.GET.get("programme")
+
+    if programme:
+        try:
+            # if programme is an int, search by programme page id
+            programme = int(programme)
+            programme_page = ProgrammePage.objects.get(id=programme)
+        except (ProgrammePage.DoesNotExist, ValueError):
+            # if not, search by slug
+            try:
+                programme_page = ProgrammePage.objects.get(slug=programme)
+            except ProgrammePage.DoesNotExist:
+                programme_page = None
+                scholarships = scholarships.none()
+
+        if programme_page:
+            scholarships = scholarships.filter(eligable_programmes=programme_page)
+
+    return JsonResponse(
+        [{"id": s.id, "title": str(s)} for s in scholarships], safe=False
+    )
+
+
+class ScholarshipEnquiryFormView(CreateView):
+    template_name = "patterns/pages/scholarships/scholarship_form_page.html"
+    form_class = ScholarshipSubmissionForm
+    success_url = reverse_lazy("scholarships:scholarship_enquiry_form_thanks")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        scholarships_listing_page = ScholarshipsListingPage.objects.first()
+        if scholarships_listing_page:
+            context["page"] = {
+                "title": "Express your interest in a Scholarship",
+                "introduction": scholarships_listing_page.form_introduction,
+                "key_details": scholarships_listing_page.key_details,
+            }
+        return context
+
+
+class ScholarshipEnquiryFormThanksView(TemplateView):
+    template_name = "patterns/pages/scholarships/scholarship_form_thanks.html"

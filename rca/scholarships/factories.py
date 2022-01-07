@@ -4,10 +4,12 @@ import factory
 import wagtail_factories
 from faker import Factory as FakerFactory
 
+from rca.home.models import HomePage
 from rca.programmes.factories import ProgrammePageFactory
 from rca.scholarships.models import (
     Scholarship,
     ScholarshipEnquiryFormSubmission,
+    ScholarshipEnquiryFormSubmissionScholarshipOrderable,
     ScholarshipFeeStatus,
     ScholarshipFunding,
     ScholarshipLocation,
@@ -32,8 +34,11 @@ class ScholarshipFactory(factory.django.DjangoModelFactory):
             return
 
         if not extracted:
+            parent = HomePage.objects.first()
             extracted = ProgrammePageFactory.generate_batch(
-                strategy=factory.CREATE_STRATEGY, size=random.randint(1, 4),
+                parent=parent,
+                strategy=factory.CREATE_STRATEGY,
+                size=random.randint(1, 4),
             )
         obj.eligable_programmes.add(*extracted)
 
@@ -100,3 +105,17 @@ class ScholarshipEnquiryFormSubmissionFactory(factory.django.DjangoModelFactory)
     is_read_data_protection_policy = True
     is_notification_opt_in = True
     programme = factory.SubFactory(ProgrammePageFactory)
+
+    @factory.post_generation
+    def scholarships(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        if not extracted:
+            extracted = ScholarshipFactory.generate_batch(
+                strategy=factory.CREATE_STRATEGY, size=2,
+            )
+        for scholarship in extracted:
+            ScholarshipEnquiryFormSubmissionScholarshipOrderable.objects.create(
+                scholarship_submission=obj, scholarship=scholarship,
+            )
