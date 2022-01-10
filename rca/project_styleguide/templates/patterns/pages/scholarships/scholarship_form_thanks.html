@@ -1,1 +1,66 @@
-{% extends "patterns/pages/forms/thanks.html" %}
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags util_tags static %}
+
+{% block body_class %}
+    app app--form no-hero theme-light
+{% endblock %}
+
+{% block title %}
+    Thanks for your interest
+{% endblock %}
+
+{% block content %}
+
+    <div class="page page--no-hero">
+
+        <div class="page__header bg bg--dark">
+            <div class="title-area title-area--guide grid">
+                <div class="title-area__content">
+                    <h1 class="title-area__heading heading heading--display-two" id="main-content">
+                        Thanks for your interest
+                    </h1>
+                    <div class="title-area__introduction introduction layout__@large-start-three layout__span-two">
+                        <p class="introduction__text heading heading--five">
+                            Maecenas faucibus mollis interdum. Etiam porta sem malesuada magna mollis euismod. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Nulla vitae elit libero, a pharetra augue.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page__content">
+
+            <section class="section section--top-space-small bg bg--dark">
+
+                <div class="section__row section__row--last">
+                    {# Hardcoded using text-teaser component, needs swapping out for actual component when possible #}
+                    <div class="text-teaser">
+                        <div class="text-teaser__container grid">
+                                <h2 class="text-teaser__heading heading heading--two">More about RCA</h2>
+                            <div class="text-teaser__content">
+                                <p class="text-teaser__text body body--one">Thanks for your enquiry, now why not read more about the Royal College of Art…</p>
+                                <a class="text-teaser__link link link--primary link--link body body--two" href="/">
+                                    <span class="link__label">RCA Homepage</span>
+                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    {% if GOOGLE_TAG_MANAGER_ID and enquiry_form_session_data %}
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push(
+                {{ enquiry_form_session_data }}
+                );
+        </script>
+    {% endif %}
+{% endblock%}

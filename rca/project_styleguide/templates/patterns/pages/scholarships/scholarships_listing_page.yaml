@@ -35,8 +35,8 @@ context:
     title: Filter by
     arial_label: Filter results
     items:
-      - tab_title: School or Centre
-        filter_name: school_or_centre
+      - tab_title: Programme
+        filter_name: programme
         queryset: true
         options:
           - { title: 3D modelling & visualisation, id: '1-1', active: false }
@@ -95,6 +95,5 @@ context:
           after: '%'
           number: 33
           summary: of students who go on to work in practice'
-
 tags:
   get_all_active_filters: false
