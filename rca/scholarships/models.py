@@ -17,9 +17,12 @@ from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 
 from rca.programmes.models import ProgrammePage
-from rca.scholarships.blocks import ScholarshipsListingPageBlock
 from rca.utils.blocks import CallToActionBlock, SnippetChooserBlock, StepBlock
+from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, ContactFieldsMixin, SluggedTaxonomy
+
+from .blocks import ScholarshipsListingPageBlock
+from .filters import ProgrammeTabStyleFilter
 
 
 class ScholarshipFeeStatus(SluggedTaxonomy):
@@ -168,6 +171,67 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["anchor_nav"] = self.anchor_nav()
+
+        queryset = Scholarship.objects.prefetch_related(
+            "eligable_programmes", "funding_categories", "fee_statuses"
+        )
+
+        filters = (
+            ProgrammeTabStyleFilter(
+                "Programme",
+                queryset=(
+                    ProgrammePage.objects.filter(
+                        id__in=queryset.values_list(
+                            "eligable_programmes__id", flat=True
+                        )
+                    ).live()
+                ),
+                filter_by="eligable_programmes__slug__in",
+                option_value_field="slug",
+            ),
+            TabStyleFilter(
+                "Location",
+                queryset=(
+                    ScholarshipLocation.objects.filter(
+                        id__in=queryset.values_list("location_id", flat=True)
+                    )
+                ),
+                filter_by="location__slug__in",
+                option_value_field="slug",
+            ),
+        )
+
+        # Apply filters
+        for f in filters:
+            queryset = f.apply(queryset, request.GET)
+
+        # Format scholarships for template
+        results = [
+            {
+                "value": {
+                    "heading": s.title,
+                    "introduction": s.summary,
+                    "eligible_programmes": ",".join(
+                        x.title for x in s.eligable_programmes.live()
+                    ),
+                    "funding_categories": ",".join(
+                        x.title for x in s.funding_categories.all()
+                    ),
+                    "fee_statuses": ",".join(x.title for x in s.fee_statuses.all()),
+                    "value": s.value,
+                }
+            }
+            for s in queryset
+        ]
+
+        context.update(
+            filters={
+                "title": "Filter by",
+                "aria_label": "Filter results",
+                "items": filters,
+            },
+            results=results,
+        )
         return context
 
 
