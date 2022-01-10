@@ -31,16 +31,14 @@ class TestScholarshipsListingPageFactory(TestCase):
 
 
 class TestScholarshipsListingPageRules(WagtailPageTests):
-    def setUp(self):
-        self.home_page = HomePage.objects.first()
-
     def test_can_create(self):
         self.assertCanCreateAt(HomePage, ScholarshipsListingPage)
 
     def test_singlet(self):
-        self.home_page.add_child(instance=ScholarshipsListingPage(title="Scholarships"))
+        home_page = HomePage.objects.first()
+        ScholarshipsListingPageFactory(parent=home_page)
         # A second ScholarshipsListingPage should not be creatable
-        self.assertFalse(ScholarshipsListingPage.can_create_at(self.home_page))
+        self.assertFalse(ScholarshipsListingPage.can_create_at(home_page))
 
 
 class TestScholarshipFormFactory(TestCase):
