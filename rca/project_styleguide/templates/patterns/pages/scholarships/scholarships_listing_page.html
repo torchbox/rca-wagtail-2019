@@ -79,12 +79,11 @@
                 </div>
 
                 {% if page.steps %}
-                    {% include "patterns/molecules/steps/steps.html" with title="To express interest in scholarships you may be eligible for:" steps=page.steps modifier="condensed" %}
+                    {% include "patterns/molecules/steps/steps.html" with title="To express interest in scholarships you may be eligible for:" steps=page.steps modifier="condensed" scholarships=True %}
                 {% endif %}
 
             </section>
 
-            {% if results %}
                 <form class="section bg bg--dark js-tabs" method="get" action="#results" id="results">
 
                     <div class="section__row">
@@ -142,7 +141,6 @@
                     </div>
 
                 </form>
-            {% endif %}
 
             <section class="section bg bg--light">
 
