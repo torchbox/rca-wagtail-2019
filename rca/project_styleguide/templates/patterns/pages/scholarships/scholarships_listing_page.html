@@ -75,11 +75,11 @@
                 {% endif %}
 
                 <div class="section__row section__row--first section__row--last-small grid">
-                    <h2 id="scholarships-for-entry" class="heading heading--two layout__start-one layout__span-two layout__@large-start-two layout__@large-span-two">Scholarships for 2022/23 entry</h2>
+                    <h2 id="scholarship-listing-title" class="heading heading--two layout__start-one layout__span-two layout__@large-start-two layout__@large-span-two">{{ page.scholarship_listing_title }}</h2>
                 </div>
 
-                {% if page.steps %}
-                    {% include "patterns/molecules/steps/steps.html" with title="To express interest in scholarships you may be eligible for:" steps=page.steps modifier="condensed" scholarships=True %}
+                {% if page.scholarship_application_steps %}
+                    {% include "patterns/molecules/steps/steps.html" with title=page.scholarship_listing_sub_title steps=page.scholarship_application_steps modifier="condensed" scholarships=True %}
                 {% endif %}
 
             </section>
@@ -128,13 +128,18 @@
                             </div>
                         </div>
                     </div>
+                        
+                    {% comment %}
 
+                    Hidden until implemented to avoid confusion during testing.
+                    
                     <div class="section__row grid">
                         <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                             <p class="body body--one"><b>Scholarship results showing for ***Design*** programme</b></p>
                             <p class="body body--two">{{ page.characteristics_disclaimer }}</p>
                         </div>
                     </div>
+                    {% endcomment %}
 
                     <div class="section__row section__row--last-small">
                         {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=results title=results_title  section_id=page.results_title|slugify %}
