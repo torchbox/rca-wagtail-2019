@@ -13,6 +13,7 @@ class ScholarshipList {
     }
 
     getData() {
+        // Ideally this would be refactored to use fetch
         const xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function getScholarships() {
             if (this.readyState === 4 && this.status === 200) {
