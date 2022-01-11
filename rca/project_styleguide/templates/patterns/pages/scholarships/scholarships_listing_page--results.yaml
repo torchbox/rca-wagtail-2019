@@ -60,32 +60,50 @@ context:
       value:
         heading: The Coats Foundation Trust Bursary
         introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
-        body: '<b>Eligible programmes:</b> Intelligent Mobility MA<br><b>Funding categories:</b> Financial hardship, Widening participation<br><b>Eligible fee status:</b> Any <br><b>Value:</b> Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000'
+        eligible_programmes: Intelligent Mobility MA
+        funding_categories: Financial hardship, Widening participation
+        fee_statuses: Any
+        value: Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000
     - accordion:
       value:
         heading: Haberdashers’ Bursary
         introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
-        body: '<b>Eligible programmes:</b> Intelligent Mobility MA<br><b>Funding categories:</b> Financial hardship, Widening participation<br><b>Eligible fee status:</b> Any <br><b>Value:</b> Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000'
+        eligible_programmes: Intelligent Mobility MA
+        funding_categories: Financial hardship, Widening participation
+        fee_statuses: Any
+        value: Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000
     - accordion:
       value:
         heading: House of Fraser Bursary
         introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
-        body: '<b>Eligible programmes:</b> Intelligent Mobility MA<br><b>Funding categories:</b> Financial hardship, Widening participation<br><b>Eligible fee status:</b> Any <br><b>Value:</b> Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000'
+        eligible_programmes: Intelligent Mobility MA
+        funding_categories: Financial hardship, Widening participation
+        fee_statuses: Any
+        value: Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000
     - accordion:
       value:
         heading: Karakusevic Carson Scholarship
         introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
-        body: '<b>Eligible programmes:</b> Intelligent Mobility MA<br><b>Funding categories:</b> Financial hardship, Widening participation<br><b>Eligible fee status:</b> Any <br><b>Value:</b> Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000'
+        eligible_programmes: Intelligent Mobility MA
+        funding_categories: Financial hardship, Widening participation
+        fee_statuses: Any
+        value: Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000
     - accordion:
       value:
         heading: World of Interiors Bursary
         introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
-        body: '<b>Eligible programmes:</b> Intelligent Mobility MA<br><b>Funding categories:</b> Financial hardship, Widening participation<br><b>Eligible fee status:</b> Any <br><b>Value:</b> Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000'
+        eligible_programmes: Intelligent Mobility MA
+        funding_categories: Financial hardship, Widening participation
+        fee_statuses: Any
+        value: Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000
     - accordion:
       value:
         heading: W H Smith Bursary
         introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
-        body: '<b>Eligible programmes:</b> Intelligent Mobility MA<br><b>Funding categories:</b> Financial hardship, Widening participation<br><b>Eligible fee status:</b> Any <br><b>Value:</b> Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000'
+        eligible_programmes: Intelligent Mobility MA
+        funding_categories: Financial hardship, Widening participation
+        fee_statuses: Any
+        value: Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000
   related_pages:
     title: Index Module
     items:
