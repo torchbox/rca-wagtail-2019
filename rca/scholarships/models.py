@@ -172,36 +172,36 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         context = super().get_context(request, *args, **kwargs)
         context["anchor_nav"] = self.anchor_nav()
 
-        if "programme" in request.GET:
-            queryset = Scholarship.objects.prefetch_related(
-                "eligable_programmes", "funding_categories", "fee_statuses"
-            )
+        queryset = Scholarship.objects.prefetch_related(
+            "eligable_programmes", "funding_categories", "fee_statuses"
+        )
 
-            filters = (
-                ProgrammeTabStyleFilter(
-                    "Programme",
-                    queryset=(
-                        ProgrammePage.objects.filter(
-                            id__in=queryset.values_list(
-                                "eligable_programmes__id", flat=True
-                            )
-                        ).live()
-                    ),
-                    filter_by="eligable_programmes__slug__in",
-                    option_value_field="slug",
-                ),
-                TabStyleFilter(
-                    "Location",
-                    queryset=(
-                        ScholarshipLocation.objects.filter(
-                            id__in=queryset.values_list("location_id", flat=True)
+        filters = (
+            ProgrammeTabStyleFilter(
+                "Programme",
+                queryset=(
+                    ProgrammePage.objects.filter(
+                        id__in=queryset.values_list(
+                            "eligable_programmes__id", flat=True
                         )
-                    ),
-                    filter_by="location__slug__in",
-                    option_value_field="slug",
+                    ).live()
                 ),
-            )
+                filter_by="eligable_programmes__slug__in",
+                option_value_field="slug",
+            ),
+            TabStyleFilter(
+                "Location",
+                queryset=(
+                    ScholarshipLocation.objects.filter(
+                        id__in=queryset.values_list("location_id", flat=True)
+                    )
+                ),
+                filter_by="location__slug__in",
+                option_value_field="slug",
+            ),
+        )
 
+        if "programme" in request.GET:
             # Apply filters
             for f in filters:
                 queryset = f.apply(queryset, request.GET)
@@ -213,7 +213,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
                         "heading": s.title,
                         "introduction": s.summary,
                         "eligible_programmes": ",".join(
-                            x.title for x in s.eligable_programmes.live()
+                            str(x) for x in s.eligable_programmes.live()
                         ),
                         "funding_categories": ",".join(
                             x.title for x in s.funding_categories.all()
@@ -224,15 +224,17 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
                 }
                 for s in queryset
             ]
+        else:
+            results = []
 
-            context.update(
-                filters={
-                    "title": "Filter by",
-                    "aria_label": "Filter results",
-                    "items": filters,
-                },
-                results=results,
-            )
+        context.update(
+            filters={
+                "title": "Filter by",
+                "aria_label": "Filter results",
+                "items": filters,
+            },
+            results=results,
+        )
         return context
 
 
