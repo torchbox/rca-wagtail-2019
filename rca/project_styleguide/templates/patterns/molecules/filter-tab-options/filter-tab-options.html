@@ -20,7 +20,7 @@
             {% for option in item.options %}
                 <div class="filter-tab-options__item layout__span-two">
                     <input class="filter-tab-options__checkbox" type="checkbox" id="filter-{{ item.filter_name }}-{{ option.id }}" name="{{ item.filter_name }}" value="{{ option.id }}" {% if option.active %}checked{% endif %} />
-                    <label class="filter-tab-options__link body body--one {% if option.active %}selected{% endif %}" for="filter-{{ item.filter_name }}-{{ option.id }}" data-filter-option>{{ option.title }}</label>
+                    <label class="filter-tab-options__link body body--one {% if option.active %}selected{% endif %}" for="filter-{{ item.filter_name }}-{{ option.id }}" data-filter-option>{{ option.title }} {{ option.suffix }}</label>
                 </div>
             {% endfor %}
         </div>
