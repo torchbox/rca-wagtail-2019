@@ -99,6 +99,19 @@ class ScholarshipEnquiryFormView(CreateView):
             }
         return context
 
+    def get_form_kwargs(self):
+        """Return the keyword arguments for instantiating the form."""
+        kwargs = super().get_form_kwargs()
+        programme_slug = self.request.GET.get("programme")
+        if programme_slug:
+            try:
+                programme = ProgrammePage.objects.get(slug=programme_slug)
+            except Exception:
+                pass
+            else:
+                kwargs.update({"programme": programme})
+        return kwargs
+
 
 class ScholarshipEnquiryFormThanksView(TemplateView):
     template_name = "patterns/pages/scholarships/scholarship_form_thanks.html"
