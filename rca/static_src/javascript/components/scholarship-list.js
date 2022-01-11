@@ -33,13 +33,18 @@ class ScholarshipList {
     // Update JSON data attribute
     updateJSONdata(activeOption) {
         // update json path to follow /scholarship-enquiry/ajax/load-scholarships/?programme=46 pattern
-        this.dataURL = `${this.baseDataURL}?programme=${activeOption}`;
-        this.getData();
+        if (activeOption !== null) {
+            this.dataURL = `${this.baseDataURL}?programme=${activeOption}`;
+            this.form.setAttribute('data-scholarships-url', this.dataURL);
+            this.getData();
+        }
     }
 
     // Update Programme select option to parsed ID
     selectProgrammeOption(programme) {
         this.programmeChooser.value = programme;
+
+        this.updateJSONdata(programme);
     }
 
     getData() {
@@ -72,8 +77,6 @@ class ScholarshipList {
         this.programmeChooser.addEventListener('input', (e) => {
             this.getActiveOption();
             this.getData(e);
-
-            console.log(this.dataURL);
         });
     }
 }
