@@ -201,31 +201,39 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
             ),
         )
 
-        if "programme" in request.GET:
-            # Apply filters
-            for f in filters:
-                queryset = f.apply(queryset, request.GET)
+        programme = None
+        results = []
 
-            # Format scholarships for template
-            results = [
-                {
-                    "value": {
-                        "heading": s.title,
-                        "introduction": s.summary,
-                        "eligible_programmes": ",".join(
-                            str(x) for x in s.eligable_programmes.live()
-                        ),
-                        "funding_categories": ",".join(
-                            x.title for x in s.funding_categories.all()
-                        ),
-                        "fee_statuses": ",".join(x.title for x in s.fee_statuses.all()),
-                        "value": s.value,
+        if "programme" in request.GET:
+            try:
+                programme = ProgrammePage.objects.get(slug=request.GET["programme"])
+            except Exception:
+                pass
+            else:
+                # Apply filters
+                for f in filters:
+                    queryset = f.apply(queryset, request.GET)
+
+                # Format scholarships for template
+                results = [
+                    {
+                        "value": {
+                            "heading": s.title,
+                            "introduction": s.summary,
+                            "eligible_programmes": ",".join(
+                                str(x) for x in s.eligable_programmes.live()
+                            ),
+                            "funding_categories": ",".join(
+                                x.title for x in s.funding_categories.all()
+                            ),
+                            "fee_statuses": ",".join(
+                                x.title for x in s.fee_statuses.all()
+                            ),
+                            "value": s.value,
+                        }
                     }
-                }
-                for s in queryset
-            ]
-        else:
-            results = []
+                    for s in queryset
+                ]
 
         context.update(
             filters={
@@ -233,6 +241,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
                 "aria_label": "Filter results",
                 "items": filters,
             },
+            programme=programme,
             results=results,
         )
         return context
