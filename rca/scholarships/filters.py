@@ -10,7 +10,6 @@ class ProgrammeTabStyleFilter(TabStyleFilter):
         for item in self.queryset.values_list(
             self.option_value_field, self.option_label_field, "degree_level__title"
         ).order_by(self.option_label_field):
-            print(item)
             label = item[0]
             title = item[1]
             suffix = item[2]
