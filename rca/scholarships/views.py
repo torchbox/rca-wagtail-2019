@@ -102,3 +102,14 @@ class ScholarshipEnquiryFormView(CreateView):
 
 class ScholarshipEnquiryFormThanksView(TemplateView):
     template_name = "patterns/pages/scholarships/scholarship_form_thanks.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        scholarships_listing_page = ScholarshipsListingPage.objects.first()
+        if scholarships_listing_page:
+            try:
+                context["call_to_action"] = scholarships_listing_page.cta_block[0].value
+            except Exception:
+                # catch all the things so as not to crash the page.
+                pass
+        return context
