@@ -59,9 +59,10 @@ class ScholarshipSubmissionForm(forms.ModelForm):
             "programme": _("Which programme is your offer for?"),
             "is_read_data_protection_policy": _(
                 mark_safe(
-                    'I have read the <a href="https://www.rca.ac.uk/data-protection-privacy-cookies/" '
+                    '<span class="rich-text form-item__rich-text">I have read the <a class="link link--link" '
+                    'href="https://www.rca.ac.uk/data-protection-privacy-cookies/" '
                     'target="_blank">data protection notice</a> '
-                    "and agree for my data to be processed accordingly"
+                    "and agree for my data to be processed accordingly</span>"
                 )
             ),
             "is_notification_opt_in": _(

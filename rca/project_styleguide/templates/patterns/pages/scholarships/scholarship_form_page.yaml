@@ -12,15 +12,7 @@ context:
       - is_root: false
         depth: 4
         title: Funding your studies
-    key_details:
-      - {
-          title: Application deadlines,
-          content: 'Applications are now open to start study in September 2021 and the January 2021 intake of the Graduate Diploma Art & Design.',
-        }
-      - {
-          title: Next steps,
-          content: 'After filling out the form, you’ll recieve an email confirmation. You’ll then usually recieve a response from our admissions team within 48 hours.',
-        }
+    key_details: '<p><b>Application deadlines</b></p><p>Applications are now open to start study in September 2021 and the January 2021 intake of the Graduate Diploma Art & Design.</p><p><b>Next steps</b></p><p>After filling out the form, you’ll recieve an email confirmation. You’ll then usually recieve a response within 48 hours.</p>'
 
 tags:
   pageurl:
