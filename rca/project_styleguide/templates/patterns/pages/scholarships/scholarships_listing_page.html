@@ -129,17 +129,12 @@
                         </div>
                     </div>
 
-                    {% comment %}
-
-                    Hidden until implemented to avoid confusion during testing.
-
                     <div class="section__row grid">
                         <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                            <p class="body body--one"><b>Scholarship results showing for ***Design*** programme</b></p>
+                            {% comment %} <p class="body body--one"><b>Scholarship results showing for ***Design*** programme</b></p> {% endcomment %}
                             <p class="body body--two">{{ page.characteristics_disclaimer }}</p>
                         </div>
                     </div>
-                    {% endcomment %}
 
                     <div class="section__row section__row--last-small">
                         {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=results title=results_title section_id=page.results_title|slugify %}
