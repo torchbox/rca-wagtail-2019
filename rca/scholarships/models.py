@@ -201,28 +201,31 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
             ),
         )
 
-        # Apply filters
-        for f in filters:
-            queryset = f.apply(queryset, request.GET)
+        if "programme" in request.GET:
+            # Apply filters
+            for f in filters:
+                queryset = f.apply(queryset, request.GET)
 
-        # Format scholarships for template
-        results = [
-            {
-                "value": {
-                    "heading": s.title,
-                    "introduction": s.summary,
-                    "eligible_programmes": ",".join(
-                        x.title for x in s.eligable_programmes.live()
-                    ),
-                    "funding_categories": ",".join(
-                        x.title for x in s.funding_categories.all()
-                    ),
-                    "fee_statuses": ",".join(x.title for x in s.fee_statuses.all()),
-                    "value": s.value,
+            # Format scholarships for template
+            results = [
+                {
+                    "value": {
+                        "heading": s.title,
+                        "introduction": s.summary,
+                        "eligible_programmes": ",".join(
+                            str(x) for x in s.eligable_programmes.live()
+                        ),
+                        "funding_categories": ",".join(
+                            x.title for x in s.funding_categories.all()
+                        ),
+                        "fee_statuses": ",".join(x.title for x in s.fee_statuses.all()),
+                        "value": s.value,
+                    }
                 }
-            }
-            for s in queryset
-        ]
+                for s in queryset
+            ]
+        else:
+            results = []
 
         context.update(
             filters={

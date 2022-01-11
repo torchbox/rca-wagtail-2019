@@ -53,14 +53,14 @@ app--form no-hero
                             {% csrf_token %}
 
                             <div class="section__row section__row--last-extra-small">
-                                <h2 class="form__heading heading heading--four">Your Details</h2>
+                                <h2 class="form__heading heading heading--four">Your details</h2>
 
                                 {% for field in form %}
 
                                     {% if field.name == "rca_id_number" %}
                                         </div>
                                         <div class="section__row section__row--last-extra-small">
-                                            <h2 class="form__heading heading heading--four">Scholarship Choice(s)</h2>
+                                            <h2 class="form__heading heading heading--four">Scholarship choice(s)</h2>
                                     {% elif field.name == "is_read_data_protection_policy" %}
                                         </div>
                                         <div class="section__row section__row--last-extra-small">
