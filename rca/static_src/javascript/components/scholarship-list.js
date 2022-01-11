@@ -8,8 +8,31 @@ class ScholarshipList {
         this.dataURL = this.form.getAttribute('data-scholarships-url');
         this.programmeChooser = document.getElementById('id_programme');
 
+        this.checkURLParam();
         this.getData();
         this.bindEvents();
+    }
+
+    // Get URL Param ID for the programme
+    checkURLParam() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const programme = urlParams.get('programme');
+        this.selectProgrammeOption(programme);
+    }
+
+    // Update URL Param
+    updateURLParam() {
+        const activeOption = this.programmeChooser.options[
+            this.programmeChooser.selectedIndex
+        ].value;
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('programme', activeOption);
+        window.location.search = urlParams;
+    }
+
+    // Update Programme select option to parsed ID
+    selectProgrammeOption(programme) {
+        this.programmeChooser.value = programme;
     }
 
     getData() {
@@ -40,6 +63,7 @@ class ScholarshipList {
     bindEvents() {
         // Check when programme select is changed, and replaces scholarships accordingly
         this.programmeChooser.addEventListener('input', (e) => {
+            this.updateURLParam();
             this.getData(e);
         });
     }
