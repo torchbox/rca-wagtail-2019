@@ -32,21 +32,11 @@
 
             <section class="section section--top-space-small bg bg--dark">
 
+                {% if call_to_action %}
                 <div class="section__row section__row--last">
-                    {# Hardcoded using text-teaser component, needs swapping out for actual component when possible #}
-                    <div class="text-teaser">
-                        <div class="text-teaser__container grid">
-                                <h2 class="text-teaser__heading heading heading--two">More about RCA</h2>
-                            <div class="text-teaser__content">
-                                <p class="text-teaser__text body body--one">Thanks for your enquiry, now why not read more about the Royal College of Art…</p>
-                                <a class="text-teaser__link link link--primary link--link body body--two" href="/">
-                                    <span class="link__label">RCA Homepage</span>
-                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=call_to_action %}
                 </div>
+                {% endif %}
 
             </section>
 
