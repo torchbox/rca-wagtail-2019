@@ -1,6 +1,7 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Checkbox
 from django import forms
+from django.db import models
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
@@ -13,9 +14,25 @@ from .models import (
 
 class ScholarshipSubmissionForm(forms.ModelForm):
     scholarships = forms.ModelMultipleChoiceField(
-        queryset=None, widget=forms.CheckboxSelectMultiple,
+        queryset=None,
+        widget=forms.CheckboxSelectMultiple,
+        label=_("Which scholarship(s) you're interested in"),
+        help_text=_("Select all that apply"),
     )
     captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
+
+    # for FE testing, remove when added to model
+    class EligibilityChoices(models.TextChoices):
+        CHOICE1 = "CHOICE1", "Choice 1"
+        CHOICE2 = "CHOICE2", "Choice 2"
+        CHOICE3 = "CHOICE3", "Choice 3"
+
+    scholarship_eligibility = forms.ChoiceField(
+        choices=EligibilityChoices.choices,
+        widget=forms.CheckboxSelectMultiple,
+        help_text=_("Select all that apply"),
+        required=False,
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -43,6 +60,7 @@ class ScholarshipSubmissionForm(forms.ModelForm):
             "rca_id_number",
             "programme",
             "scholarships",
+            "scholarship_eligibility",
             "is_read_data_protection_policy",
             "is_notification_opt_in",
             "captcha",
@@ -59,7 +77,8 @@ class ScholarshipSubmissionForm(forms.ModelForm):
             "programme": _("Which programme is your offer for?"),
             "is_read_data_protection_policy": _(
                 mark_safe(
-                    '<span class="rich-text form-item__rich-text">I have read the <a class="link link--link" href="https://www.rca.ac.uk/data-protection-privacy-cookies/" '
+                    '<span class="rich-text form-item__rich-text">I have read the <a class="link link--link" '
+                    'href="https://www.rca.ac.uk/data-protection-privacy-cookies/" '
                     'target="_blank">data protection notice</a> '
                     "and agree for my data to be processed accordingly</span>"
                 )
@@ -71,4 +90,5 @@ class ScholarshipSubmissionForm(forms.ModelForm):
                     "box to give your consent to be contacted in this way"
                 )
             ),
+            "rca_id_number": "RCA ID number",
         }
