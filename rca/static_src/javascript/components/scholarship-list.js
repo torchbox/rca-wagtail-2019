@@ -6,6 +6,7 @@ class ScholarshipList {
     constructor() {
         this.form = document.getElementById('scholarship-form');
         this.dataURL = this.form.getAttribute('data-scholarships-url');
+        this.baseDataURL = this.dataURL;
         this.programmeChooser = document.getElementById('id_programme');
 
         this.checkURLParam();
@@ -20,14 +21,20 @@ class ScholarshipList {
         this.selectProgrammeOption(programme);
     }
 
-    // Update URL Param
-    updateURLParam() {
+    // Get the active Scholarship select option
+    getActiveOption() {
         const activeOption = this.programmeChooser.options[
             this.programmeChooser.selectedIndex
         ].value;
-        const urlParams = new URLSearchParams(window.location.search);
-        urlParams.set('programme', activeOption);
-        window.location.search = urlParams;
+
+        this.updateJSONdata(activeOption);
+    }
+
+    // Update JSON data attribute
+    updateJSONdata(activeOption) {
+        // update json path to follow /scholarship-enquiry/ajax/load-scholarships/?programme=46 pattern
+        this.dataURL = `${this.baseDataURL}?programme=${activeOption}`;
+        this.getData();
     }
 
     // Update Programme select option to parsed ID
@@ -63,8 +70,10 @@ class ScholarshipList {
     bindEvents() {
         // Check when programme select is changed, and replaces scholarships accordingly
         this.programmeChooser.addEventListener('input', (e) => {
-            this.updateURLParam();
+            this.getActiveOption();
             this.getData(e);
+
+            console.log(this.dataURL);
         });
     }
 }
