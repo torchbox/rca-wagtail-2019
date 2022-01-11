@@ -22,6 +22,7 @@ import AnchorNav from './components/anchor-nav';
 import SitewideAlert from './components/sitewide-alert';
 import FormFocus from './components/form-focus';
 import EmailShare from './components/email-share';
+import ScholarshipList from './components/scholarship-list';
 import './components/sticky-header';
 import './components/lazyload-images';
 import './components/outdated-banner';
@@ -143,6 +144,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (const emailshare of document.querySelectorAll(EmailShare.selector())) {
         new EmailShare(emailshare);
+    }
+
+    for (const scholarshiplist of document.querySelectorAll(
+        ScholarshipList.selector(),
+    )) {
+        new ScholarshipList(scholarshiplist);
     }
 
     new ActualHeight();
