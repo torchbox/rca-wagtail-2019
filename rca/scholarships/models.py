@@ -1,3 +1,4 @@
+from django import forms
 from django.db import models
 from django.shortcuts import reverse
 from django.utils.http import urlencode
@@ -48,6 +49,15 @@ class ScholarshipFunding(SluggedTaxonomy):
 
 
 class ScholarshipLocation(SluggedTaxonomy):
+    panels = [
+        FieldPanel("title"),
+    ]
+
+    class Meta:
+        ordering = ("title",)
+
+
+class ScholarshipEligibilityCriteria(SluggedTaxonomy):
     panels = [
         FieldPanel("title"),
     ]
@@ -288,11 +298,9 @@ class ScholarshipEnquiryFormSubmission(ClusterableModel):
     email = models.EmailField()
     rca_id_number = models.CharField(max_length=100)
     programme = models.ForeignKey("programmes.ProgrammePage", on_delete=models.CASCADE,)
-
-    # TODO
-    # related Scholarship snippet
-    # Scholarship eligibility (needs confirmation of choices from RCA) - these will be  hardcoded.
-
+    eligibility_criteria = models.ManyToManyField(
+        ScholarshipEligibilityCriteria, blank=True
+    )
     is_read_data_protection_policy = models.BooleanField()
     is_notification_opt_in = models.BooleanField()
 
@@ -311,6 +319,7 @@ class ScholarshipEnquiryFormSubmission(ClusterableModel):
         ),
         FieldPanel("programme"),
         InlinePanel("scholarship_submission_scholarships", label="Scholarship"),
+        FieldPanel("eligibility_criteria", widget=forms.CheckboxSelectMultiple),
         MultiFieldPanel(
             [
                 FieldPanel("is_read_data_protection_policy"),
