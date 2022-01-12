@@ -138,7 +138,9 @@
                     {% if results %}
                         <div class="section__row grid">
                             <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                                <p class="body body--one"><b>Scholarship results showing for {{ programme }} programme</b></p>
+                                {% if programme %}
+                                    <p class="body body--one"><b>Scholarship results showing for {{ programme }} programme</b></p>
+                                {% endif %}
                                 <p class="body body--two">{{ page.characteristics_disclaimer }}</p>
                             </div>
                         </div>

@@ -1,5 +1,8 @@
 from django.db import models
+from django.shortcuts import reverse
+from django.utils.http import urlencode
 from django.utils.text import slugify
+from django.utils.translation import gettext as _
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.admin.edit_handlers import (
@@ -144,6 +147,14 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         ]
     )
 
+    @property
+    def show_interest_bar(self):
+        return True
+
+    @property
+    def show_interest_link(self):
+        return True
+
     def anchor_nav(self):
         """Build list of data to be used as in-page navigation"""
         items = []
@@ -170,8 +181,9 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["anchor_nav"] = self.anchor_nav()
 
+        programme = None
+        results = []
         queryset = Scholarship.objects.prefetch_related(
             "eligable_programmes", "funding_categories", "fee_statuses"
         )
@@ -201,45 +213,53 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
             ),
         )
 
-        programme = None
-        results = []
+        if "programme" in request.GET or "location" in request.GET:
+            # Apply filters
+            for f in filters:
+                queryset = f.apply(queryset, request.GET)
 
-        if "programme" in request.GET:
+            # Format scholarships for template
+            results = [
+                {
+                    "value": {
+                        "heading": s.title,
+                        "introduction": s.summary,
+                        "eligible_programmes": ",".join(
+                            str(x) for x in s.eligable_programmes.live()
+                        ),
+                        "funding_categories": ",".join(
+                            x.title for x in s.funding_categories.all()
+                        ),
+                        "fee_statuses": ",".join(x.title for x in s.fee_statuses.all()),
+                        "value": s.value,
+                    }
+                }
+                for s in queryset
+            ]
+
+            # Template needs the programme for title and slug
             try:
                 programme = ProgrammePage.objects.get(slug=request.GET["programme"])
             except Exception:
                 pass
-            else:
-                # Apply filters
-                for f in filters:
-                    queryset = f.apply(queryset, request.GET)
 
-                # Format scholarships for template
-                results = [
-                    {
-                        "value": {
-                            "heading": s.title,
-                            "introduction": s.summary,
-                            "eligible_programmes": ",".join(
-                                str(x) for x in s.eligable_programmes.live()
-                            ),
-                            "funding_categories": ",".join(
-                                x.title for x in s.funding_categories.all()
-                            ),
-                            "fee_statuses": ",".join(
-                                x.title for x in s.fee_statuses.all()
-                            ),
-                            "value": s.value,
-                        }
-                    }
-                    for s in queryset
-                ]
+        # Create the link for the sticky CTA
+        interest_bar_link = reverse("scholarships:scholarship_enquiry_form")
+        if programme:
+            interest_bar_link += f"?{urlencode({'programme': programme.slug})}"
 
         context.update(
+            anchor_nav=self.anchor_nav(),
             filters={
-                "title": "Filter by",
+                "title": _("Filter by"),
                 "aria_label": "Filter results",
                 "items": filters,
+            },
+            interest_bar={
+                "action": _("Express interest"),
+                "link": interest_bar_link,
+                "message": _("Hold an offer and want to apply for these Scholarships?"),
+                "link_same_page": True,
             },
             programme=programme,
             results=results,
