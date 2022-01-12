@@ -247,7 +247,7 @@ class ProjectFilters {
             } else {
                 // If this is a single option form, then only allow a single selection for programme tab
                 if (e.target.hasAttribute('data-filter-single')) {
-                    const parentEl = document.querySelector('#tab-programme');
+                    const parentEl = document.querySelector('#programme');
 
                     if (this.contains(parentEl, e.target)) {
                         // Clear all filters selected state within current tab (programmes)
