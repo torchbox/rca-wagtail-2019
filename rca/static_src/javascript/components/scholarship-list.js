@@ -8,7 +8,6 @@ class ScholarshipList {
         this.dataURL = this.form.getAttribute('data-scholarships-url');
         this.baseDataURL = this.dataURL;
         this.programmeChooser = document.getElementById('id_programme');
-        this.getData();
         this.bindEvents();
     }
 
