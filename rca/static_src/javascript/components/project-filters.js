@@ -247,13 +247,6 @@ class ProjectFilters {
             }
             // Check if reset needs to show
             this.checkResetStatus();
-
-            // If this is a single option form, then submit the form
-            if (e.target.hasAttribute('data-filter-single')) {
-                this.closeProjectFilters();
-                this.body.classList.remove('project-filters-mobile');
-                document.getElementById('results').submit();
-            }
         });
 
         // Categories
