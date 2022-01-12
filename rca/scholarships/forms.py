@@ -35,9 +35,14 @@ class ScholarshipSubmissionForm(forms.ModelForm):
     )
 
     def __init__(self, *args, **kwargs):
+        programme = kwargs.pop("programme", None)
         super().__init__(*args, **kwargs)
+        scholarships = Scholarship.objects.all()
+        if programme:
+            self.fields["programme"].initial = programme
+            scholarships = scholarships.filter(eligable_programmes=programme)
+        self.fields["scholarships"].queryset = scholarships
         self.fields["is_read_data_protection_policy"].required = True
-        self.fields["scholarships"].queryset = Scholarship.objects.all()
 
     def save(self, commit=True):
         submission = super().save(commit=False)
