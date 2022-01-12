@@ -8,17 +8,8 @@ class ScholarshipList {
         this.dataURL = this.form.getAttribute('data-scholarships-url');
         this.baseDataURL = this.dataURL;
         this.programmeChooser = document.getElementById('id_programme');
-
-        this.checkURLParam();
         this.getData();
         this.bindEvents();
-    }
-
-    // Get URL Param ID for the programme
-    checkURLParam() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const programme = urlParams.get('programme');
-        this.selectProgrammeOption(programme);
     }
 
     // Get the active Scholarship select option
