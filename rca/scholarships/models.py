@@ -261,6 +261,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
                 "action": _("Express interest"),
                 "link": interest_bar_link,
                 "message": _("Hold an offer and want to apply for these Scholarships?"),
+                "link_same_page": True,
             },
             programme=programme,
             results=results,
