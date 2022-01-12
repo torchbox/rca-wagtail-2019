@@ -34,6 +34,29 @@
         }
     }
 
+    // Scholarship template doesn't show filter bar until a filter has been selected using a different component
+    &--no-results-large {
+        display: none;
+
+        .project-filters & {
+            @include media-query(large) {
+                display: block;
+            }
+        }
+    }
+
+    &--no-results-small {
+        display: none;
+
+        .project-filters & {
+            display: block;
+
+            @include media-query(large) {
+                display: none;
+            }
+        }
+    }
+
     &__link {
         display: inline-flex;
         align-items: center;
