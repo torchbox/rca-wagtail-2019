@@ -19,6 +19,7 @@ from rca.events.models import (
 from rca.people.models import AreaOfExpertise, DegreeStatus, DegreeType, Directorate
 from rca.programmes.models import DegreeLevel, ProgrammeType, Subject
 from rca.scholarships.models import (
+    ScholarshipEligibilityCriteria,
     ScholarshipFeeStatus,
     ScholarshipFunding,
     ScholarshipLocation,
@@ -117,6 +118,11 @@ class EditorialTypeModelAdmin(ModelAdmin):
     menu_icon = "tag"
 
 
+class ScholarshipEligibilityCriteriaModelAdmin(ModelAdmin):
+    model = ScholarshipEligibilityCriteria
+    menu_icon = "tag"
+
+
 class ScholarshipFeeStatusModelAdmin(ModelAdmin):
     model = ScholarshipFeeStatus
     menu_icon = "tag"
@@ -152,6 +158,7 @@ class TaxonomiesModelAdminGroup(ModelAdminGroup):
         EventTypeModelAdmin,
         AuthorModelAdmin,
         EditorialTypeModelAdmin,
+        ScholarshipEligibilityCriteriaModelAdmin,
         ScholarshipFeeStatusModelAdmin,
         ScholarshipFundingModelAdmin,
         ScholarshipLocationModelAdmin,
