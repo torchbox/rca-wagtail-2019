@@ -43,6 +43,7 @@ class ScholarshipEnquiryFormSubmissionAdmin(ModelAdmin):
         "is_notification_opt_in",
         "programme",
         "scholarships",
+        "eligibility",
     )
     list_display = (
         "submission_date",
@@ -57,6 +58,9 @@ class ScholarshipEnquiryFormSubmissionAdmin(ModelAdmin):
 
     def scholarships(self, submission):
         return "|".join([s.title for s in submission.get_scholarships()])
+
+    def eligibility(self, submission):
+        return "|".join([s.title for s in submission.eligibility_criteria.all()])
 
 
 class ScholarshipAdminGroup(ModelAdminGroup):

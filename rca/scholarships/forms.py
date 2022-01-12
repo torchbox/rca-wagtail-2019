@@ -1,7 +1,6 @@
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Checkbox
 from django import forms
-from django.db import models
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
@@ -20,19 +19,6 @@ class ScholarshipSubmissionForm(forms.ModelForm):
         help_text=_("Select all that apply"),
     )
     captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
-
-    # for FE testing, remove when added to model
-    class EligibilityChoices(models.TextChoices):
-        CHOICE1 = "CHOICE1", "Choice 1"
-        CHOICE2 = "CHOICE2", "Choice 2"
-        CHOICE3 = "CHOICE3", "Choice 3"
-
-    scholarship_eligibility = forms.ChoiceField(
-        choices=EligibilityChoices.choices,
-        widget=forms.CheckboxSelectMultiple,
-        help_text=_("Select all that apply"),
-        required=False,
-    )
 
     def __init__(self, *args, **kwargs):
         programme = kwargs.pop("programme", None)
@@ -54,6 +40,7 @@ class ScholarshipSubmissionForm(forms.ModelForm):
                 )
             )
         submission.save()
+        self.save_m2m()
         return submission
 
     class Meta:
@@ -65,12 +52,13 @@ class ScholarshipSubmissionForm(forms.ModelForm):
             "rca_id_number",
             "programme",
             "scholarships",
-            "scholarship_eligibility",
+            "eligibility_criteria",
             "is_read_data_protection_policy",
             "is_notification_opt_in",
             "captcha",
         )
         help_texts = {
+            "eligibility_criteria": _("Select all that apply"),
             "rca_id_number": _("You can find this on your offer letter"),
             "is_notification_opt_in": _(
                 _(
@@ -79,6 +67,7 @@ class ScholarshipSubmissionForm(forms.ModelForm):
             ),
         }
         labels = {
+            "eligibility_criteria": _("Scholarship eligibility"),
             "programme": _("Which programme is your offer for?"),
             "is_read_data_protection_policy": _(
                 mark_safe(
@@ -96,4 +85,7 @@ class ScholarshipSubmissionForm(forms.ModelForm):
                 )
             ),
             "rca_id_number": "RCA ID number",
+        }
+        widgets = {
+            "eligibility_criteria": forms.CheckboxSelectMultiple,
         }
