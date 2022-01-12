@@ -40,7 +40,7 @@
             </div>
         </header>
 
-        {% if page.show_interest_bar %}
+        {% if page.show_interest_bar and results %}
             {% include "patterns/molecules/booking-bar/booking-bar.html" with item=interest_bar %}
         {% endif %}
 
@@ -84,10 +84,13 @@
 
             </section>
 
+
                 <form class="section bg bg--dark js-tabs" method="get" action="#results" id="results">
 
                     <div class="section__row">
-                        <nav class="section filter-bar filter-bar--large" data-filter-bar>
+
+                        <nav class="section filter-bar filter-bar--large {% if not results %}filter-bar--no-results-large{% endif %} " data-filter-bar>
+
                             <div class="grid">
                                 <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                                     {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True dark=True reset_button_text="Reset" %}
@@ -105,9 +108,11 @@
                                     </div>
                                 </div>
                             </div>
+
                         </nav>
 
-                        <nav class="filter-bar filter-bar--small bg bg--light" data-filter-bar-small>
+
+                        <nav class="filter-bar filter-bar--small {% if not results %}filter-bar--no-results-small{% endif %} bg bg--light" data-filter-bar-small>
                             <a class="filter-bar__link body body--two" href="#filters-active" data-filter-launcher>
                                 <span class="filter-bar__label">Filters</span>
                                 <svg width="12" height="8" class="filter-bar__icon" aria-hidden="true">
@@ -129,18 +134,22 @@
                         </div>
                     </div>
 
-                    <div class="section__row grid">
-                        <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                            <p class="body body--one"><b>Scholarship results showing for {{ programme }} programme</b></p>
-                            <p class="body body--two">{{ page.characteristics_disclaimer }}</p>
-                        </div>
-                    </div>
 
-                    <div class="section__row section__row--last-small">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=results title=results_title section_id=page.results_title|slugify %}
-                    </div>
+                    {% if results %}
+                        <div class="section__row grid">
+                            <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                                <p class="body body--one"><b>Scholarship results showing for {{ programme }} programme</b></p>
+                                <p class="body body--two">{{ page.characteristics_disclaimer }}</p>
+                            </div>
+                        </div>
+
+                        <div class="section__row section__row--last-small">
+                            {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=results title=results_title section_id=page.results_title|slugify %}
+                        </div>
+                    {% endif %}
 
                 </form>
+
 
             <section class="section bg bg--light">
 
