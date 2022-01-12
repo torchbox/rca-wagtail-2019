@@ -144,7 +144,7 @@ context:
           number: 33
           summary: of students who go on to work in practice'
   interest_bar:
-    message: 'Hold an offer and want to apply for these Scholarships?'
+    message: 'Hold an offer and want to apply for these scholarships?'
     action: 'Express interest'
     modal: false
     link: '/pattern-library/render-pattern/patterns/pages/scholarships/scholarship_form_page.html'
