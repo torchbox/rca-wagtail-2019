@@ -182,6 +182,8 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
+        programme = None
+        results = []
         queryset = Scholarship.objects.prefetch_related(
             "eligable_programmes", "funding_categories", "fee_statuses"
         )
@@ -211,39 +213,35 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
             ),
         )
 
-        programme = None
-        results = []
+        if "programme" in request.GET or "location" in request.GET:
+            # Apply filters
+            for f in filters:
+                queryset = f.apply(queryset, request.GET)
 
-        if "programme" in request.GET:
+            # Format scholarships for template
+            results = [
+                {
+                    "value": {
+                        "heading": s.title,
+                        "introduction": s.summary,
+                        "eligible_programmes": ",".join(
+                            str(x) for x in s.eligable_programmes.live()
+                        ),
+                        "funding_categories": ",".join(
+                            x.title for x in s.funding_categories.all()
+                        ),
+                        "fee_statuses": ",".join(x.title for x in s.fee_statuses.all()),
+                        "value": s.value,
+                    }
+                }
+                for s in queryset
+            ]
+
+            # Template needs the programme for title and slug
             try:
                 programme = ProgrammePage.objects.get(slug=request.GET["programme"])
             except Exception:
                 pass
-            else:
-                # Apply filters
-                for f in filters:
-                    queryset = f.apply(queryset, request.GET)
-
-                # Format scholarships for template
-                results = [
-                    {
-                        "value": {
-                            "heading": s.title,
-                            "introduction": s.summary,
-                            "eligible_programmes": ",".join(
-                                str(x) for x in s.eligable_programmes.live()
-                            ),
-                            "funding_categories": ",".join(
-                                x.title for x in s.funding_categories.all()
-                            ),
-                            "fee_statuses": ",".join(
-                                x.title for x in s.fee_statuses.all()
-                            ),
-                            "value": s.value,
-                        }
-                    }
-                    for s in queryset
-                ]
 
         # Create the link for the sticky CTA
         interest_bar_link = reverse("scholarships:scholarship_enquiry_form")
