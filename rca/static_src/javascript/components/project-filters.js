@@ -240,6 +240,19 @@ class ProjectFilters {
                 filterItem.classList.remove('selected');
                 this.checkCategoryActive(filterItem);
             } else {
+                // If this is a single option form, then only allow a single selection for programme tab
+                if (e.target.hasAttribute('data-filter-single')) {
+                    const parentEl = document.querySelector('#programme');
+
+                    if (this.contains(parentEl, e.target)) {
+                        // Clear all filters selected state within current tab (programmes)
+                        // Get the tab ID that clear sits within
+                        const targetTabID = e.target
+                            .closest(['.js-tab-panel'])
+                            .getAttribute('id');
+                        this.clearCurrentCategoryFilters(targetTabID);
+                    }
+                }
                 filterItem.classList.add('selected');
                 // Show reset button
                 closestClearButton.classList.remove('hidden');
