@@ -217,6 +217,11 @@ class ProjectFilters {
         this.detectPositionSticky();
     }
 
+    // Check if an element is within a parent
+    contains(parent, child) {
+        return parent !== child && parent.contains(child);
+    }
+
     bindEvents() {
         // Detect when sticky
         this.detectPositionSticky();
