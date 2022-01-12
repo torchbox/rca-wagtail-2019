@@ -4,6 +4,8 @@ from django import forms
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
+from rca.programmes.models import ProgrammePage
+
 from .models import (
     Scholarship,
     ScholarshipEnquiryFormSubmission,
@@ -24,6 +26,9 @@ class ScholarshipSubmissionForm(forms.ModelForm):
         programme = kwargs.pop("programme", None)
         super().__init__(*args, **kwargs)
         scholarships = Scholarship.objects.all()
+        self.fields["programme"].queryset = ProgrammePage.objects.live().order_by(
+            "title"
+        )
         if programme:
             self.fields["programme"].initial = programme
             scholarships = scholarships.filter(eligable_programmes=programme)
