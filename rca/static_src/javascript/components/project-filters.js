@@ -250,13 +250,12 @@ class ProjectFilters {
                     const parentEl = document.querySelector('#programme');
 
                     if (this.contains(parentEl, e.target)) {
-                        // Clear all filters selected state
+                        // Clear all filters selected state within current tab (programmes)
                         // Get the tab ID that clear sits within
                         const targetTabID = e.target
                             .closest(['.js-tab-panel'])
                             .getAttribute('id');
                         this.clearCurrentCategoryFilters(targetTabID);
-                        console.log('i am in programmes');
                     }
                 }
                 filterItem.classList.add('selected');
