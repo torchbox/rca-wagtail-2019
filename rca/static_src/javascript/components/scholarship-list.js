@@ -65,7 +65,12 @@ class ScholarshipList {
                         </li>`;
                     })
                     .join('');
-                dataLocation.innerHTML = scholarshipsData;
+                if (scholarships.length === 0) {
+                    dataLocation.innerHTML =
+                        '<p class="body body--two" style="color: red;">No scholarships currently avaliable for this programme</p>';
+                } else {
+                    dataLocation.innerHTML = scholarshipsData;
+                }
             }
         };
         xmlhttp.open('GET', this.dataURL, true);
