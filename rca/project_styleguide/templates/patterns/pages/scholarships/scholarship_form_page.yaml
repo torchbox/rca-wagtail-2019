@@ -1,0 +1,20 @@
+context:
+  page:
+    title: Express your interest in a Scholarship
+    introduction: We are very much looking forward to hearing more from you. The RCA offers a unique and life changing way of thinking about and approaching art and design study and practice. If you would like to find out more about studying at the RCA, please fill out your details below and we will be in touch.
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: Study
+      - is_root: false
+        depth: 3
+        title: Application process
+      - is_root: false
+        depth: 4
+        title: Funding your studies
+    key_details: '<p><b>Application deadlines</b></p><p>Applications are now open to start study in September 2021 and the January 2021 intake of the Graduate Diploma Art & Design.</p><p><b>Next steps</b></p><p>After filling out the form, you’ll recieve an email confirmation. You’ll then usually recieve a response within 48 hours.</p>'
+
+tags:
+  pageurl:
+    page:
+      raw: '#'

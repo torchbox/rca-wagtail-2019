@@ -560,6 +560,16 @@
         }
     }
 
+    &__sticky-placeholder {
+        @include media-query(medium) {
+            height: ($gutter * 10);
+        }
+
+        @include media-query(large) {
+            height: $notch-height-large;
+        }
+    }
+
     // Custom grid lines for categories-panels
     &.opportunities-to-work {
         #{$root}__heading {

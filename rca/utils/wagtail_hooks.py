@@ -18,6 +18,12 @@ from rca.events.models import (
 )
 from rca.people.models import AreaOfExpertise, DegreeStatus, DegreeType, Directorate
 from rca.programmes.models import DegreeLevel, ProgrammeType, Subject
+from rca.scholarships.models import (
+    ScholarshipEligibilityCriteria,
+    ScholarshipFeeStatus,
+    ScholarshipFunding,
+    ScholarshipLocation,
+)
 from rca.utils.models import ResearchTheme, ResearchType, Sector
 from rca.utils.templatetags.util_tags import is_external
 
@@ -112,6 +118,26 @@ class EditorialTypeModelAdmin(ModelAdmin):
     menu_icon = "tag"
 
 
+class ScholarshipEligibilityCriteriaModelAdmin(ModelAdmin):
+    model = ScholarshipEligibilityCriteria
+    menu_icon = "tag"
+
+
+class ScholarshipFeeStatusModelAdmin(ModelAdmin):
+    model = ScholarshipFeeStatus
+    menu_icon = "tag"
+
+
+class ScholarshipFundingModelAdmin(ModelAdmin):
+    model = ScholarshipFunding
+    menu_icon = "tag"
+
+
+class ScholarshipLocationModelAdmin(ModelAdmin):
+    model = ScholarshipLocation
+    menu_icon = "tag"
+
+
 class TaxonomiesModelAdminGroup(ModelAdminGroup):
     menu_label = "Taxonomies"
     items = (
@@ -132,6 +158,10 @@ class TaxonomiesModelAdminGroup(ModelAdminGroup):
         EventTypeModelAdmin,
         AuthorModelAdmin,
         EditorialTypeModelAdmin,
+        ScholarshipEligibilityCriteriaModelAdmin,
+        ScholarshipFeeStatusModelAdmin,
+        ScholarshipFundingModelAdmin,
+        ScholarshipLocationModelAdmin,
     )
     menu_icon = "tag"
 
