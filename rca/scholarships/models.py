@@ -234,13 +234,15 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
                     "value": {
                         "heading": s.title,
                         "introduction": s.summary,
-                        "eligible_programmes": ",".join(
+                        "eligible_programmes": ", ".join(
                             str(x) for x in s.eligable_programmes.live()
                         ),
-                        "funding_categories": ",".join(
+                        "funding_categories": ", ".join(
                             x.title for x in s.funding_categories.all()
                         ),
-                        "fee_statuses": ",".join(x.title for x in s.fee_statuses.all()),
+                        "fee_statuses": ", ".join(
+                            x.title for x in s.fee_statuses.all()
+                        ),
                         "value": s.value,
                     }
                 }
