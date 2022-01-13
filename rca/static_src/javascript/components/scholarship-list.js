@@ -57,7 +57,7 @@ class ScholarshipList {
                     .join('');
                 if (scholarships.length === 0) {
                     dataLocation.innerHTML =
-                        '<p class="body body--two" style="color: red;">No scholarships currently avaliable for this programme</p>';
+                        '<p class="body body--two" style="color: red;">There are no scholarships currently available for this programme.</p>';
                 } else {
                     dataLocation.innerHTML = scholarshipsData;
                 }
