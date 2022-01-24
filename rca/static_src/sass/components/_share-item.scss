@@ -16,6 +16,10 @@
         flex-direction: row;
         align-items: center;
 
+        @include media-query(large) {
+            padding-left: 10px;
+        }
+
         &:hover,
         &:focus {
             #{$root}__icon {
