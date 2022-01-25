@@ -28,7 +28,7 @@
                             <p class="related-content__degree body body--one" property="schema:EducationalCredentialAwarded">{% firstof related_item.degree_level related_item.programme_type %}</p>
                         </div>
                         <p class="related-content__copy body body--one" property="schema:description">
-                            {% firstof related_item.programme_description_subtitle|striptags related_item.introduction|striptags related_item.listing_summary|striptags %}
+                            {% firstof related_item.programme_description_subtitle related_item.introduction related_item.listing_summary %}
                         </p>
                         {% image related_item.hero_image fill-500x500 as programme_image %}
                         <div class="related-content__image-container">
