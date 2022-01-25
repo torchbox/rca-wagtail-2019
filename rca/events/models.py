@@ -13,6 +13,7 @@ from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
     FieldPanel,
+    FieldRowPanel,
     InlinePanel,
     MultiFieldPanel,
     PageChooserPanel,
@@ -358,9 +359,15 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         related_name="+",
     )
     start_date = models.DateTimeField(help_text="Enter the start date of the event.")
+    start_time = models.TimeField(
+        blank=True, null=True, help_text="Enter the start time of the event."
+    )
     end_date = models.DateTimeField(
         help_text="Enter the end date of the event. This will be the same as "
         "the start date for single day events."
+    )
+    end_time = models.TimeField(
+        blank=True, null=True, help_text="Enter the end time of the event."
     )
     series = models.ForeignKey(
         EventSeries,
@@ -416,7 +423,11 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
     content_panels = BasePage.content_panels + [
         ImageChooserPanel("hero_image"),
         MultiFieldPanel(
-            [FieldPanel("start_date"), FieldPanel("end_date")], heading="Event Dates",
+            [
+                FieldRowPanel([FieldPanel("start_date"), FieldPanel("start_time")]),
+                FieldRowPanel([FieldPanel("end_date"), FieldPanel("end_time")]),
+            ],
+            heading="Event Dates",
         ),
         MultiFieldPanel(
             [
