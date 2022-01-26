@@ -7,6 +7,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.db.models.fields import SlugField
 from django.http import HttpResponse
+from django.template.defaultfilters import time
 from django.utils.html import strip_tags
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -603,6 +604,15 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         return f"{self.start_date:%-d %B} \u2013 {self.end_date:%-d %B %Y}"
 
     @property
+    def event_time(self):
+        TIME_FORMAT = "fA"
+        if self.start_time:
+            start_time = time(self.start_time, TIME_FORMAT).lower()
+            end_time = time(self.end_time, TIME_FORMAT).lower()
+            return f"{start_time} \u2013 {end_time}"
+        return ""
+
+    @property
     def event_date_short(self):
         """Method to return a specific date format
         1) When a single date:
@@ -648,7 +658,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
 
     @property
     def past(self):
-        return self.end_date.date() < datetime.date.today()
+        return self.end_date < datetime.date.today()
 
     @property
     def inline_cta(self):
@@ -667,6 +677,14 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         ):
             raise ValidationError(
                 {"show_booking_bar": "Please complete all booking fields."}
+            )
+        if self.start_time and not self.end_time:
+            raise ValidationError({"end_time": "Please enter an end time."})
+        if self.end_time and not self.start_time:
+            raise ValidationError({"start_time": "Please enter a start time."})
+        if (self.start_time and self.end_time) and (self.start_time >= self.end_time):
+            raise ValidationError(
+                {"end_time": "The end time must come after the start time."}
             )
 
     def get_series_events(self):
