@@ -358,11 +358,11 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
-    start_date = models.DateTimeField(help_text="Enter the start date of the event.")
+    start_date = models.DateField(help_text="Enter the start date of the event.")
     start_time = models.TimeField(
         blank=True, null=True, help_text="Enter the start time of the event."
     )
-    end_date = models.DateTimeField(
+    end_date = models.DateField(
         help_text="Enter the end date of the event. This will be the same as "
         "the start date for single day events."
     )
