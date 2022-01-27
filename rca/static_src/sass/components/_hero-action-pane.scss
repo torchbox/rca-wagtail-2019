@@ -2,7 +2,8 @@
     $root: &;
     $hero-action-pane-height-small: 110px;
     $hero-action-pane-height-medium: 160px;
-    $hero-image-credit-height: 25px;
+    $hero-image-credit-height: 40px;
+    $hero-action-pane-overlap: 80px;
     $hero-action-pane-height-large: (
         $hero-action-pane-height-medium + $hero-image-credit-height
     );
@@ -36,6 +37,7 @@
         padding: ($gutter * 3) 0;
 
         @include media-query(large) {
+            @include z-index(sticky-nav-bar);
             display: grid;
             max-height: $hero-action-pane-height-medium;
             grid-template-columns: 1fr 1fr 27.5%;
@@ -47,7 +49,7 @@
             display: block;
             width: ($gutter * 4);
             height: $hero-action-pane-height-medium;
-            transform: translate3d(-80px, 0, 0);
+            transform: translate3d(-$hero-action-pane-overlap, 0, 0);
             background-color: $color--white;
         }
 
@@ -161,8 +163,66 @@
             @include z-index(above-gridlines);
             position: absolute;
             top: 0;
-            display: block;
+            width: 40px;
+            height: 40px;
+            left: -$hero-action-pane-overlap; // align with white block below
+            height: $hero-image-credit-height;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            background-color: $color--black;
             grid-column: 3 / span 3;
+            border: 0;
+            cursor: pointer;
+        }
+
+        &--open {
+            background-color: $color--white;
+            width: calc(100% + (#{$hero-action-pane-overlap} * 2));
+
+            #{$root}__credit-icon--open {
+                display: none;
+            }
+
+            #{$root}__credit-icon--close {
+                display: block;
+            }
+
+            #{$root}__credit-details {
+                display: block;
+            }
+        }
+
+        &:hover {
+            #{$root}__credit-icon {
+                fill: $color--tertiary;
+            }
+        }
+    }
+
+    &__credit-details {
+        display: none;
+    }
+
+    &__credit-icon {
+        transition: fill $transition-cubic;
+
+        &--open {
+            fill: $color--white;
+            height: 24px;
+            width: 24px;
+            margin-left: 4px;
+        }
+
+        &--close {
+            display: none;
+            fill: $color--black;
+            height: 16px;
+            width: 16px;
+            margin-right: ($gutter / 2);
+            margin-left: 6px;
+            margin-right: 54px; // align text with gridline
         }
     }
 

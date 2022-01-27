@@ -3,9 +3,18 @@
 
 <div class="hero-action-pane grid">
 
-    <div class="hero-action-pane__credit" data-parallax data-rellax-speed="-1">
-        {% include 'patterns/atoms/image-info/image-info.html' with credit=page.hero_image_credit item=page.hero_image %}
-    </div>
+    <button class="hero-action-pane__credit" aria-label="Show image credit" data-parallax data-rellax-speed="-1" x-data="{ open: !false }"
+    class="data-viewer__toggle" x-on:click="open = ! open" x-bind:class="! open ? 'hero-action-pane__credit--open' : ''">
+        <svg class="hero-action-pane__credit-icon hero-action-pane__credit-icon--open" width="24" height="24" aria-hidden="true">
+            <use xlink:href="#camera" />
+        </svg>
+        <svg class="hero-action-pane__credit-icon hero-action-pane__credit-icon--close" width="24" height="24" aria-hidden="true">
+            <use xlink:href="#close" />
+        </svg>
+        <div class="hero-action-pane__credit-details">
+            {% include 'patterns/atoms/image-info/image-info.html' with credit=page.hero_image_credit item=page.hero_image %}
+        </div>
+    </button>
 
     {% if page.hero_cta_url %}
         <div class="hero-action-pane__cta" data-parallax data-rellax-speed="-3">
