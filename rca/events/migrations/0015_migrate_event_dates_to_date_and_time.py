@@ -2,25 +2,36 @@
 
 import json
 
-from dateutil import parser
 from django.db import migrations
+from django.utils import timezone
 
 
-def convert_page_datetime_to_date_and_time(page):
-    page.start_time = page.start_date.time()
-    page.end_time = page.end_date.time()
-    page.save()
-
-
-def convert_revision_datetime_to_date_and_time(revision):
+def convert_revision_datetime_to_date_and_time(revision, model):
+    default_timezone = timezone.get_default_timezone()
     data = json.loads(revision.content_json)
 
-    start_date = parser.parse(data["start_date"])
+    # start date to date and time
+    field = model._meta.get_field("start_date")
+    value = field.to_python(data["start_date"])
+    # convert to local timezone as timezone info is lost during conversion
+    # and some dates and times can appear incorrectly.
+    if timezone.is_aware(value):
+        value = timezone.localtime(value, default_timezone)
+    else:
+        value = timezone.make_aware(value, default_timezone)
+    start_date = value
     start_time = start_date.time()
     data["start_date"] = start_date.date().isoformat()
     data["start_time"] = start_time.isoformat()
 
-    end_date = parser.parse(data["end_date"])
+    # end date to date and time
+    field = model._meta.get_field("end_date")
+    value = field.to_python(data["end_date"])
+    if timezone.is_aware(value):
+        value = timezone.localtime(value, default_timezone)
+    else:
+        value = timezone.make_aware(value, default_timezone)
+    end_date = value
     end_time = end_date.time()
     data["end_date"] = end_date.date().isoformat()
     data["end_time"] = end_time.isoformat()
@@ -29,24 +40,20 @@ def convert_revision_datetime_to_date_and_time(revision):
     revision.save()
 
 
-def process(apps, page_func, revision_func):
+def process(apps, func):
     PageRevision = apps.get_model("wagtailcore", "PageRevision")
     EventDetailPage = apps.get_model("events", "EventDetailPage")
 
-    pages = EventDetailPage.objects.all()
+    page_ids = EventDetailPage.objects.values_list("id")
 
-    for page in pages:
-        page_func(page)
-
-        for revision in PageRevision.objects.filter(page=page):
-            revision_func(revision)
+    # event pages are currently all in draft so only process revisions
+    for revision in PageRevision.objects.filter(page_id__in=page_ids):
+        func(revision, EventDetailPage)
 
 
 def migrate_datetimes_to_separate_date_and_time(apps, _):
     process(
-        apps,
-        convert_page_datetime_to_date_and_time,
-        convert_revision_datetime_to_date_and_time,
+        apps, convert_revision_datetime_to_date_and_time,
     )
 
 
