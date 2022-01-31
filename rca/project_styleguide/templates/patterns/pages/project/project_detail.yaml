@@ -72,6 +72,37 @@ context:
         value:
           body: 'TBC'
           heading: 'Outcomes'
+    working_with_heading: The opportunity to work with…
+    working_with:
+      - slide:
+        value:
+          link:
+            title: 'Red bull'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 2'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 3'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 4'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 5'
+            url: '#'
+          image: true
     partners:
       - item:
         value: { text: 'CERN', href: 'http://www.google.com' }
