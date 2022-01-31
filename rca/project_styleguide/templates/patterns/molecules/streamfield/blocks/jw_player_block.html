@@ -1,0 +1,10 @@
+<div class="streamfield-video" id="streamfield-js-player-{{ block.id }}"></div>
+
+<script src="{cloud_hosted_player_library_url}"></script>
+<script type="text/javaScript">
+    jwplayer("streamfield-js-player-{{ block.id }}").setup({
+        "playlist": [{
+            "file": "{{ value.media_resource_url }}"
+        }]
+    });
+</script>
