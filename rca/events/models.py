@@ -509,8 +509,10 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             {
                 "date_from": self.start_date.strftime("%Y-%m-%d"),
                 "date_to": self.end_date.strftime("%Y-%m-%d"),
-                "time_from": self.start_date.strftime("%H:%M:%S"),
-                "time_to": self.end_date.strftime("%H:%M:%S"),
+                "time_from": self.start_time.strftime("%H:%M:%S")
+                if self.start_time
+                else "",
+                "time_to": self.end_time.strftime("%H:%M:%S") if self.end_time else "",
             }
         ]
 
@@ -535,6 +537,8 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         APIField("hero_image"),
         APIField("start_date"),
         APIField("end_date"),
+        APIField("start_time"),
+        APIField("end_time"),
         APIField("show_booking_bar"),
         APIField("manual_registration_url_link_text"),
         APIField("manual_registration_url"),

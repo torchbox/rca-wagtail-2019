@@ -1,5 +1,5 @@
 import json
-from datetime import date
+from datetime import date, time
 
 import wagtail_factories
 from wagtail.tests.utils import WagtailPageTests
@@ -61,6 +61,8 @@ class EventAPIResponseTest(WagtailPageTests):
             introduction="Welcome, to the introduction",
             start_date=date(2021, 1, 6),
             end_date=date(2021, 1, 6),
+            start_time=time(9, 15),
+            end_time=time(17, 45),
             location=EventLocationFactory(title="Roswell"),
             availability=EventAvailabilityFactory(title="Tickets still available"),
             eligibility=EventEligibilityFactory(title="Aliens only"),
@@ -149,8 +151,8 @@ class EventAPIResponseTest(WagtailPageTests):
                 {
                     "date_from": "2021-01-06",
                     "date_to": "2021-01-06",
-                    "time_from": "00:00:00",
-                    "time_to": "00:00:00",
+                    "time_from": "09:15:00",
+                    "time_to": "17:45:00",
                 }
             ],
         )
