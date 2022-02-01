@@ -261,7 +261,8 @@ class JWPLayerBlock(blocks.StructBlock):
         max_length=1000, help_text="The URL of the video to show."
     )
     poster_image = ImageChooserBlock(
-        help_text="The poster image to show as a placeholder for the video."
+        help_text="The poster image to show as a placeholder for the video. "
+        "For best results use an image 1920x1080 pixels"
     )
 
     class Meta:
@@ -286,6 +287,7 @@ class StoryBlock(blocks.StreamBlock):
         template="patterns/molecules/streamfield/blocks/call_to_action_block.html",
     )
     document = DocumentBlock()
+    jw_video = JWPLayerBlock()
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"
@@ -310,6 +312,7 @@ class GuideBlock(blocks.StreamBlock):
         label="Embed media",
         help_text="Add a URL from these providers: YouTube, Vimeo, SoundCloud, Twitter.",
     )
+    jw_video = JWPLayerBlock()
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"

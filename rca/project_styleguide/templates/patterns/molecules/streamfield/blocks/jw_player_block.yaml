@@ -2,4 +2,6 @@ context:
   block:
     id: 24
   value:
-    media_resource_url: https://3d26876b73d7.us-west-2.playback.live-video.net/api/video/v1/us-west-2.913157848533.channel.rkCBS9iD1eyd.m3u8
+    video_url: https://3d26876b73d7.us-west-2.playback.live-video.net/api/video/v1/us-west-2.913157848533.channel.rkCBS9iD1eyd.m3u8
+  poster_image:
+    full_url: '//placekitten.com/1920/1080'
