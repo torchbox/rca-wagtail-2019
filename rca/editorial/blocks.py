@@ -14,6 +14,7 @@ class EditorialPageBlock(blocks.StreamBlock):
     paragraph = blocks.RichTextBlock()
     embed = EmbedBlock()
     quote = utils_blocks.QuoteBlock()
+    jw_video = utils_blocks.JWPLayerBlock()
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"
