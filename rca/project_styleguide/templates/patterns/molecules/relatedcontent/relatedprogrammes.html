@@ -49,7 +49,7 @@
                             {% endif %}
                         </div>
                         <p class="related-content__copy body body--two" property="schema:description">
-                            {% firstof related_item.programme_description_subtitle related_item.introduction related_item.listing_summary %}
+                            {% firstof related_item.programme_description_subtitle related_item.introduction|default:''|striptags related_item.listing_summary %}
                         </p>
                         {# we are re-using this component for some page types that don't have hero images :/ #}
                         {% if related_item.hero_image %}

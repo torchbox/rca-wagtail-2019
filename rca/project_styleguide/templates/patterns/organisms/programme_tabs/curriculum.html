@@ -14,4 +14,22 @@
     {% if page.what_you_will_cover_blocks %}
         {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='2' accordions=page.what_you_will_cover_blocks title='What you\'ll cover' modifier="accordion-block--last" %}
     {% endif %}
+
+    {% if page.working_with %}
+        <div class="section__row section__row--first-small-med-bp section__row--last">
+            <div class="section__header grid">
+                <h2 class="section__heading section__heading--secondary heading heading--five">{% firstof page.working_with_heading "The opportunity to work with…" %}</h2>
+            </div>
+            <div class="section__content">
+                <div class="u-small-and-medium-bp-only">
+                    {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=page.working_with datatag="data-logo-carousel" control_title="Working with small carousel" per_slide=2 %}
+                </div>
+                <div class="u-large-bp-only">
+                    {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=page.working_with datatag="data-logo-carousel" control_title="Working with large carousel" per_slide=3 %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
 </section>
+
+
