@@ -1,5 +1,5 @@
 import json
-from datetime import date
+from datetime import date, time
 
 import wagtail_factories
 from wagtail.tests.utils import WagtailPageTests
@@ -61,6 +61,8 @@ class EventAPIResponseTest(WagtailPageTests):
             introduction="Welcome, to the introduction",
             start_date=date(2021, 1, 6),
             end_date=date(2021, 1, 6),
+            start_time=time(9, 15),
+            end_time=time(17, 45),
             location=EventLocationFactory(title="Roswell"),
             availability=EventAvailabilityFactory(title="Tickets still available"),
             eligibility=EventEligibilityFactory(title="Aliens only"),
@@ -97,28 +99,37 @@ class EventAPIResponseTest(WagtailPageTests):
         ]
         self.event_page.related_pages = [
             EventDetailPageRelatedPages(
-                source_page=self.event_page, page=self.programme_one
+                source_page=self.event_page, page=self.programme_one, sort_order=1
             ),
             EventDetailPageRelatedPages(
-                source_page=self.event_page, page=self.programme_two
+                source_page=self.event_page, page=self.programme_two, sort_order=2
             ),
             EventDetailPageRelatedPages(
-                source_page=self.event_page, page=self.related_event
+                source_page=self.event_page, page=self.related_event, sort_order=3
             ),
         ]
         self.event_page.speakers = [
-            EventDetailPageSpeaker(source_page=self.event_page, page=self.staff_one),
-            EventDetailPageSpeaker(source_page=self.event_page, page=self.staff_two),
+            EventDetailPageSpeaker(
+                source_page=self.event_page, page=self.staff_one, sort_order=1
+            ),
+            EventDetailPageSpeaker(
+                source_page=self.event_page, page=self.staff_two, sort_order=2
+            ),
             EventDetailPageSpeaker(
                 source_page=self.event_page,
                 first_name="Lister",
                 surname="Red",
                 link="https://rca.ac.uk/lister",
+                sort_order=3,
             ),
         ]
         self.event_page.related_schools = [
-            RelatedSchoolPage(source_page=self.event_page, page=self.school_one),
-            RelatedSchoolPage(source_page=self.event_page, page=self.school_two),
+            RelatedSchoolPage(
+                source_page=self.event_page, page=self.school_one, sort_order=1
+            ),
+            RelatedSchoolPage(
+                source_page=self.event_page, page=self.school_two, sort_order=2
+            ),
         ]
         self.event_page.save()
 
@@ -140,8 +151,8 @@ class EventAPIResponseTest(WagtailPageTests):
                 {
                     "date_from": "2021-01-06",
                     "date_to": "2021-01-06",
-                    "time_from": "00:00:00",
-                    "time_to": "00:00:00",
+                    "time_from": "09:15:00",
+                    "time_to": "17:45:00",
                 }
             ],
         )

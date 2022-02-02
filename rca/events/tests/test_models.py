@@ -1,6 +1,7 @@
-from datetime import date
+from datetime import date, time
 
 import wagtail_factories
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 from freezegun import freeze_time
 from wagtail.tests.utils import WagtailPageTests
@@ -172,6 +173,104 @@ class EventDetailPageDateTests(WagtailPageTests):
         self.assertEqual(
             different_year_event.event_date_short, "29 December 2021 - 1 January 2022"
         )
+
+    def test_past_event(self):
+        event = EventDetailPageFactory.build(
+            parent=self.home_page,
+            start_date=date(2021, 12, 29),
+            end_date=date(2022, 1, 1),
+        )
+        self.assertTrue(event.past)
+
+    def test_future_event(self):
+        event = EventDetailPageFactory.build(
+            parent=self.home_page,
+            start_date=date(2091, 12, 29),
+            end_date=date(2092, 1, 1),
+        )
+        self.assertFalse(event.past)
+
+    def test_event_time(self):
+        testcases = (
+            ("", EventDetailPageFactory.build(start_time=None, end_time=None)),
+            (
+                "9am – 5:30pm",
+                EventDetailPageFactory.build(start_time=time(9), end_time=time(17, 30)),
+            ),
+            (
+                "9:30am – 5pm",
+                EventDetailPageFactory.build(start_time=time(9, 30), end_time=time(17)),
+            ),
+            (
+                "12pm – 11:59pm",
+                EventDetailPageFactory.build(
+                    start_time=time(12), end_time=time(23, 59)
+                ),
+            ),
+            (
+                "12am – 11:59am",
+                EventDetailPageFactory.build(
+                    start_time=time(00), end_time=time(11, 59)
+                ),
+            ),
+        )
+        for test, page in testcases:
+            with self.subTest(f"Testing time format: {test}", test=test, page=page):
+                self.assertEqual(test, page.event_time)
+
+    def test_event_time_validation(self):
+        testcases = (
+            (time(17, 30), time(9)),
+            (time(13), time(12, 59)),
+            (time(11, 59), time(00)),
+            (time(12), time(12)),
+        )
+        for start_time, end_time in testcases:
+            with self.subTest(
+                f"Testing time validation: start time: {start_time}, end time: {end_time}",
+                start_time=start_time,
+                end_time=end_time,
+            ):
+                with self.assertRaises(ValidationError) as cm:
+                    EventDetailPageFactory.build(
+                        start_time=start_time,
+                        end_time=end_time,
+                        path="0",
+                        depth=0,
+                        event_type=EventTypeFactory(),
+                    ).full_clean()
+
+                the_exception = cm.exception
+                self.assertEqual(1, len(the_exception.messages))
+                self.assertEqual(
+                    "The end time must come after the start time.",
+                    the_exception.messages[0],
+                )
+
+    def test_event_time_required(self):
+        testcases = (
+            (time(9), None, "Please enter an end time."),
+            (None, time(12, 59), "Please enter a start time."),
+        )
+        for start_time, end_time, message in testcases:
+            with self.subTest(
+                f"Testing time required: start time: {start_time}, end time: {end_time}",
+                start_time=start_time,
+                end_time=end_time,
+                message=message,
+            ):
+                with self.assertRaises(ValidationError) as cm:
+                    EventDetailPageFactory.build(
+                        start_time=start_time,
+                        end_time=end_time,
+                        path="0",
+                        depth=0,
+                        event_type=EventTypeFactory(),
+                    ).full_clean()
+
+                the_exception = cm.exception
+                self.assertEqual(1, len(the_exception.messages))
+                self.assertEqual(message, the_exception.messages[0])
 
 
 class EventDetailPageRelatedContentTests(WagtailPageTests):
