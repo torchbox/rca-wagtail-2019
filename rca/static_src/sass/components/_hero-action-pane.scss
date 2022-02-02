@@ -59,7 +59,11 @@
             display: block;
             width: 100%;
             height: $hero-action-pane-height-medium;
-            transform: translate3d(100%, 0, 0);
+            transform: translate3d(
+                99%,
+                0,
+                0
+            ); // 100% creates an awkward 1px line in chrome
             background-color: $color--white;
         }
     }
@@ -173,6 +177,8 @@
             background-color: $color--black;
             grid-column: 3 / span 3;
             border: 0;
+            padding: 0;
+            margin: 0;
             cursor: pointer;
         }
 
@@ -205,13 +211,14 @@
     }
 
     &__credit-icon {
+        position: relative;
         transition: fill $transition-cubic;
 
         &--open {
             fill: $color--white;
             height: 24px;
             width: 24px;
-            margin-left: 4px;
+            left: calc(50% - 12px);
         }
 
         &--close {
@@ -219,8 +226,8 @@
             fill: $color--black;
             height: 16px;
             width: 16px;
-            margin-left: 6px;
-            margin-right: 54px; // align text with gridline
+            left: 11px;
+            margin-right: 64px; // align text with gridline
         }
     }
 
