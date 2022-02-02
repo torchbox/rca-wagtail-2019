@@ -537,7 +537,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         all_programmes = ProgrammePage.objects.live().public()
         return all_programmes.filter(
             related_schools_and_research_pages__page_id=self.id
-        )
+        ).order_by("title")
 
     def get_programme_index_link(self):
         ProgrammeIndexPage = apps.get_model("programmes", "ProgrammeIndexPage")
