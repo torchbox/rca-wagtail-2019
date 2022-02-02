@@ -712,23 +712,11 @@ except TypeError:
 API_CONTENT_BASE_URL = env.get("API_CONTENT_BASE_URL", "https://rca.ac.uk")
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
-# Access planit details, for fetching xml data on the shourt course pages.
-try:
-    ACCESS_PLANIT_XML_FEED_TIMEOUT = int(env.get("ACCESS_PLANIT_XML_FEED_TIMEOUT"))
-except TypeError:
-    ACCESS_PLANIT_XML_FEED_TIMEOUT = 60 * 60 * 15
-
-ACCESS_PLANIT_XML_BASE_URL = env.get("ACCESS_PLANIT_XML_BASE_URL", None)
-ACCESS_PLANIT_XML_COURSE_URL = env.get("ACCESS_PLANIT_XML_COURSE_URL", None)
-ACCESS_PLANIT_SCHOOL_ID = env.get("ACCESS_PLANIT_SCHOOL_ID")
-ACCESS_PLANIT_REGISTER_INTEREST_BASE = env.get(
-    "ACCESS_PLANIT_REGISTER_INTEREST_BASE", None
-)
 CACHE_CONTROL_STALE_IF_ERROR = env.get("CACHE_CONTROL_STALE_IF_ERROR", None)
 
 CSRF_TRUSTED_ORIGINS = ["www.rca.ac.uk"]
 
-# Enable / Disable logging exceptions for api fetches from the old site and access planit.
+# Enable / Disable logging exceptions for api fetches from the old site.
 API_FETCH_LOGGING = env.get("API_FETCH_LOGGING", False)
 
 # Birdbath
