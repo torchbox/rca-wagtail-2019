@@ -4,11 +4,11 @@
 
 <div class="streamfield-video" id="streamfield-js-player-{{ block.id }}"></div>
 
-<script src="{cloud_hosted_player_library_url}"></script>
+<script src="https://cdn.jwplayer.com/libraries/CWFyJq91.js"></script>
 <script type="text/javaScript">
     jwplayer("streamfield-js-player-{{ block.id }}").setup({
         "playlist": [{
-            "file": "{{ value.video_url }}"
+            "file": "{{ value.video_url }}",
             "image": "{{ poster_image.full_url }}"
         }]
     });

@@ -7,14 +7,15 @@
         }
     }
 
-    div > p:first-child {
-        // Normally a heading is the first item in streamfield, but if not, add space
-        .app--guide & {
-            margin-top: ($gutter * 1.5);
+    .jwplayer {
+        @include z-index(above-gridlines);
+        position: relative;
+        margin-bottom: $gutter;
+        margin-top: $gutter;
 
-            @include media-query(large) {
-                margin-top: ($gutter * 4);
-            }
+        @include media-query(large) {
+            margin-top: ($gutter * 1.5);
+            margin-bottom: ($gutter * 1.5);
         }
     }
 }
