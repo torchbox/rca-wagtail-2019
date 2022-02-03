@@ -143,7 +143,7 @@ class TestBookingBarLogic(TestCase):
 
     def test_manual_dates(self):
         """
-        5 If manual booking dates are defined. The first/top booking date is
+        4 If manual booking dates are defined. The first/top booking date is
         shown in the booking bar, 'Book' link in the booking bar opens modal
         to show booking manually added booking items
         """
