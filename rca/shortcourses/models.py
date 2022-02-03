@@ -82,10 +82,10 @@ class ShortCourseSubjectPlacement(models.Model):
 
 
 class ShortCourseManualDate(Orderable):
-    start_date = models.DateField(blank=True, null=True)
-    end_date = models.DateField(blank=True, null=True)
-    booking_link = models.URLField(blank=False)
-    cost = models.PositiveIntegerField(blank=True, null=True)
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)
+    booking_link = models.URLField(blank=True)
+    cost = models.PositiveIntegerField(null=True)
     source_page = ParentalKey("ShortCoursePage", related_name="manual_bookings")
     panels = [
         FieldPanel("start_date"),
@@ -190,22 +190,21 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         [("link", LinkBlock())], blank=True, verbose_name="External Links"
     )
     application_form_url = models.URLField(
-        blank=True, help_text="The URL of the application form",
+        blank=True,
+        help_text="The URL of the application form. This will be a direct link and won't open the modal",
     )
     manual_registration_url = models.URLField(
-        blank=True, help_text="Override the register interest link show in the modal",
+        blank=True, help_text="The register interest link shown in the modal",
     )
 
     course_data_panels = [
         MultiFieldPanel(
             [
-                FieldPanel("manual_registration_url"),
+                FieldPanel("manual_registration_url", heading="Registration URL"),
+                FieldPanel("application_form_url"),
                 InlinePanel("manual_bookings", label="Booking"),
             ],
-            heading="Manual course configuration",
-        ),
-        MultiFieldPanel(
-            [FieldPanel("application_form_url")], heading="Application URL"
+            heading="Course configuration",
         ),
         MultiFieldPanel(
             [
@@ -309,7 +308,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
     def get_manual_bookings(self):
         return self.manual_bookings.all()
 
-    def _format_booking_bar(self, register_interest_link=""):
+    def _format_booking_bar(self):
         """ Booking bar messaging with the next course data available
         Find the next course date marked as status='available' and advertise
         this date in the booking bar. If there are no courses available, add
@@ -318,14 +317,14 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         booking_bar = {
             "message": "Bookings not yet open",
             "action": "Register your interest for upcoming dates",
+            "link": self.manual_registration_url,
         }
-        # If there are no dates the booking link should go to a form, not open
-        # a modal, this link is also used as a generic interest link too though.
-        booking_bar["link"] = register_interest_link
 
-        # If manual_booking links are defined, format the booking bar and return it
+        # If manual_booking links are defined, format the booking bar
         manual_booking = self.manual_bookings.first()
-        if manual_booking:
+        if manual_booking and (
+            manual_booking.booking_link or self.application_form_url
+        ):
             booking_bar["message"] = "Next course starts"
             booking_bar["date"] = manual_booking.start_date
             booking_bar["action"] = (
@@ -342,10 +341,6 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
                 booking_bar["link"] = self.application_form_url
                 booking_bar["modal"] = None
 
-        # Check for a manual_registration_url if there is no data
-        if self.manual_registration_url and not self.application_form_url:
-            booking_bar["link"] = self.manual_registration_url
-
         return booking_bar
 
     def clean(self):
@@ -360,14 +355,10 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
             raise ValidationError(errors)
 
     def get_context(self, request, *args, **kwargs):
-        REGISTER_INTEREST_LINK = (
-            "https://rca.ac.uk/short-courses/register-your-interest/"
-        )
-
         context = super().get_context(request, *args, **kwargs)
 
-        context["register_interest_link"] = REGISTER_INTEREST_LINK
-        context["booking_bar"] = self._format_booking_bar(REGISTER_INTEREST_LINK)
+        context["register_interest_link"] = self.manual_registration_url
+        context["booking_bar"] = self._format_booking_bar()
         context["shortcourse_details_fees"] = self.fee_items.values_list(
             "text", flat=True
         )

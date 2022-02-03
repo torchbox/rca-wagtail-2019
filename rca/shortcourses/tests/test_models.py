@@ -63,9 +63,7 @@ class TestBookingBarLogic(TestCase):
             "register_interest_link"
         ]
 
-        booking_bar_data = self.short_course_page._format_booking_bar(
-            register_interest_link=register_link
-        )
+        booking_bar_data = self.short_course_page._format_booking_bar()
 
         self.assertEqual(
             {"message": APPLY_MESSAGE, "action": APPLY_ACTION, "link": register_link},
@@ -98,9 +96,7 @@ class TestBookingBarLogic(TestCase):
             "register_interest_link"
         ]
 
-        booking_bar_data = self.short_course_page._format_booking_bar(
-            register_interest_link=register_link
-        )
+        booking_bar_data = self.short_course_page._format_booking_bar()
 
         self.assertEqual(
             {"message": APPLY_MESSAGE, "action": APPLY_ACTION, "link": register_link},
@@ -128,15 +124,7 @@ class TestBookingBarLogic(TestCase):
         self.short_course_page.manual_registration_url = manual_registration_url
         self.home_page.add_child(instance=self.short_course_page)
 
-        # Get the auto register interest link made in the context
-        # E.G /short-courses/register-your-interest/?course_id=[course_id]
-        register_link = self.short_course_page.get_context(request=None)[
-            "register_interest_link"
-        ]
-
-        booking_bar_data = self.short_course_page._format_booking_bar(
-            register_interest_link=register_link
-        )
+        booking_bar_data = self.short_course_page._format_booking_bar()
         # Check the manual link has come through as the register link in the booking bar formatter
         self.assertEqual(
             {
