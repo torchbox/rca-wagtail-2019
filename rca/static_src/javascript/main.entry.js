@@ -1,4 +1,5 @@
 import '@babel/polyfill';
+import Alpine from 'alpinejs';
 
 import GridSizeVariables from './components/grid-size-variables';
 import HeaderDrawer from './components/header-drawer';
@@ -153,4 +154,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     new ActualHeight();
+    Alpine.start();
 });
