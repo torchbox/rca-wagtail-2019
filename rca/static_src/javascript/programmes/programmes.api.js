@@ -85,6 +85,17 @@ export const getProgrammes = ({ query, filters = {} }) => {
 
     return Promise.all(requests).then((results) => {
         const items = results.reduce((all, res) => all.concat(res.items), []);
+        items.sort((a, b) => {
+            const fa = a.title.toLowerCase();
+            const fb = b.title.toLowerCase();
+            if (fa < fb) {
+                return -1;
+            }
+            if (fa > fb) {
+                return 1;
+            }
+            return 0;
+        });
         // Use prop-types definitions to check that the API response matches what we expect.
         if (process.env.NODE_ENV === 'development') {
             items.forEach((item) => {
