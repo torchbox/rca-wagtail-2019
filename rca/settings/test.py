@@ -11,10 +11,6 @@ RECAPTCHA_PRIVATE_KEY = "dummy-key-value"  # pragma: allowlist secret
 # Don't redirect to HTTPS in tests.
 SECURE_SSL_REDIRECT = False
 
-ACCESS_PLANIT_SCHOOL_ID = "ROYALC9RCH"
-ACCESS_PLANIT_REGISTER_INTEREST_BASE = (
-    "https://rca.ac.uk/short-courses/register-your-interest/"
-)
 API_CONTENT_BASE_URL = "https://rca.ac.uk"
 
 # By default, Django uses a computationally difficult algorithm for passwords hashing.
