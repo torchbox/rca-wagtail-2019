@@ -337,7 +337,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
 
             # Override some values if the course has an application form
             if self.application_form_url:
-                booking_bar["action"] = "Apply Now"
+                booking_bar["action"] = "Apply now"
                 booking_bar["link"] = self.application_form_url
                 booking_bar["modal"] = None
 
