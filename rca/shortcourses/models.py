@@ -1,6 +1,5 @@
 from collections import defaultdict
 
-from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -8,7 +7,6 @@ from modelcluster.fields import ParentalKey
 from rest_framework.fields import CharField as CharFieldSerializer
 from wagtail.admin.edit_handlers import (
     FieldPanel,
-    HelpPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
@@ -26,11 +24,6 @@ from wagtail.search import index
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from rca.programmes.models import ProgrammeType
-from rca.shortcourses.access_planit import (
-    AccessPlanitCourseChecker,
-    AccessPlanitException,
-    AccessPlanitXML,
-)
 from rca.utils.blocks import (
     AccordionBlockWithTitle,
     GalleryBlock,
@@ -89,10 +82,10 @@ class ShortCourseSubjectPlacement(models.Model):
 
 
 class ShortCourseManualDate(Orderable):
-    start_date = models.DateField(blank=True, null=True)
-    end_date = models.DateField(blank=True, null=True)
-    booking_link = models.URLField(blank=False)
-    cost = models.PositiveIntegerField(blank=True, null=True)
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)
+    booking_link = models.URLField(blank=True)
+    cost = models.PositiveIntegerField(null=True)
     source_page = ParentalKey("ShortCoursePage", related_name="manual_bookings")
     panels = [
         FieldPanel("start_date"),
@@ -151,8 +144,6 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         blank=True,
         verbose_name=_("About the course"),
     )
-
-    access_planit_course_id = models.IntegerField(blank=True, null=True)
     frequently_asked_questions = models.ForeignKey(
         "utils.ShortCourseDetailSnippet",
         null=True,
@@ -170,8 +161,8 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
     course_details_text = RichTextField(blank=True)
     show_register_link = models.BooleanField(
         default=1,
-        help_text="If selected, an automatic 'Register your interest' link will be \
-                                                                   visible in the key details section",
+        help_text="If selected, an automatic 'Register your interest' link "
+        "will be visible in the key details section",
     )
     course_details_text = RichTextField(blank=True)
     programme_type = models.ForeignKey(
@@ -200,27 +191,21 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
     )
     application_form_url = models.URLField(
         blank=True,
-        help_text="Adding an application form URL will override the Access Planit booking modal",
+        help_text="The URL of the application form. This will be a direct link and won't open the modal",
     )
     manual_registration_url = models.URLField(
-        blank=True, help_text="Override the register interest link show in the modal",
+        blank=True, help_text="The register interest link shown in the modal",
     )
 
-    access_planit_and_course_data_panels = [
+    course_data_panels = [
         MultiFieldPanel(
             [
-                FieldPanel("manual_registration_url"),
-                HelpPanel(
-                    "Defining course details manually will override any Access Planit data configured for this page"
-                ),
+                FieldPanel("manual_registration_url", heading="Registration URL"),
+                FieldPanel("application_form_url"),
                 InlinePanel("manual_bookings", label="Booking"),
             ],
-            heading="Manual course configuration",
+            heading="Course configuration",
         ),
-        MultiFieldPanel(
-            [FieldPanel("application_form_url")], heading="Application URL"
-        ),
-        FieldPanel("access_planit_course_id"),
         MultiFieldPanel(
             [
                 FieldPanel("course_details_text"),
@@ -277,9 +262,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         [
             ObjectList(content_panels, heading="Content"),
             ObjectList(key_details_panels, heading="Key details"),
-            ObjectList(
-                access_planit_and_course_data_panels, heading="Course configuration"
-            ),
+            ObjectList(course_data_panels, heading="Course configuration"),
             ObjectList(BasePage.promote_panels, heading="Promote"),
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
@@ -325,13 +308,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
     def get_manual_bookings(self):
         return self.manual_bookings.all()
 
-    def get_access_planit_data(self):
-        access_planit_course_data = AccessPlanitXML(
-            course_id=self.access_planit_course_id
-        )
-        return access_planit_course_data.get_data()
-
-    def _format_booking_bar(self, register_interest_link=None, access_planit_data=None):
+    def _format_booking_bar(self):
         """ Booking bar messaging with the next course data available
         Find the next course date marked as status='available' and advertise
         this date in the booking bar. If there are no courses available, add
@@ -340,93 +317,48 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         booking_bar = {
             "message": "Bookings not yet open",
             "action": "Register your interest for upcoming dates",
+            "link": self.manual_registration_url,
         }
-        # If there are no dates the booking link should go to a form, not open
-        # a modal, this link is also used as a generic interest link too though.
-        booking_bar["link"] = register_interest_link
 
-        # If manual_booking links are defined, format the booking bar and return
-        # it before checking access planit
-        if self.manual_bookings.first():
-            date = self.manual_bookings.first()
+        # If manual_booking links are defined, format the booking bar
+        manual_booking = self.manual_bookings.first()
+        if manual_booking and (
+            manual_booking.booking_link or self.application_form_url
+        ):
             booking_bar["message"] = "Next course starts"
-            booking_bar["date"] = date.start_date
-            if date.booking_link:
-                booking_bar["action"] = (
-                    f"Book from \xA3{date.cost}" if date.cost else "Book now"
-                )
+            booking_bar["date"] = manual_booking.start_date
+            booking_bar["action"] = (
+                f"Book from \xA3{manual_booking.cost}"
+                if manual_booking.cost
+                else "Book now"
+            )
             booking_bar["modal"] = "booking-details"
-            booking_bar["cost"] = date.cost
-            return booking_bar
+            booking_bar["cost"] = manual_booking.cost
 
-        # If there is access planit data, format the booking bar
-        if access_planit_data:
-            for date in access_planit_data:
-                if date["status"] == "Available":
-                    booking_bar["message"] = "Next course starts"
-                    booking_bar["date"] = date["start_date"]
-                    booking_bar["cost"] = date["cost"]
-                    if self.application_form_url:
-                        # URL has been provided to override AccessPlanit booking
-                        booking_bar["action"] = "Complete form to apply"
-                        booking_bar["link"] = self.application_form_url
-                        booking_bar["modal"] = None
-                    else:
-                        # Open AccessPlanit booking modal
-                        booking_bar["action"] = f"Book now from \xA3{date['cost']}"
-                        booking_bar["link"] = None
-                        booking_bar["modal"] = "booking-details"
-                    break
-            return booking_bar
+            # Override some values if the course has an application form
+            if self.application_form_url:
+                booking_bar["action"] = "Apply now"
+                booking_bar["link"] = self.application_form_url
+                booking_bar["modal"] = None
 
-        # Check for a manual_registration_url if there is no data
-        if self.manual_registration_url:
-            booking_bar["link"] = self.manual_registration_url
         return booking_bar
 
     def clean(self):
         super().clean()
         errors = defaultdict(list)
-        if (
-            self.show_register_link
-            and not self.manual_registration_url
-            and not self.access_planit_course_id
-        ):
+        if self.show_register_link and not self.manual_registration_url:
             errors["show_register_link"].append(
-                "An access planit course ID or manual registration link is needed to show the register links"
+                "A  manual registration link is needed to show the register links"
             )
-        if self.access_planit_course_id:
-            try:
-                checker = AccessPlanitCourseChecker(
-                    course_id=self.access_planit_course_id
-                )
-                if not checker.course_exists():
-                    errors["access_planit_course_id"].append(
-                        "Could not find a course with this ID"
-                    )
-            except AccessPlanitException:
-                errors["access_planit_course_id"].append(
-                    "Error checking this course ID in Access Planit. Please try again shortly."
-                )
 
         if errors:
             raise ValidationError(errors)
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        access_planit_data = self.get_access_planit_data()
-        context[
-            "register_interest_link"
-        ] = (
-            register_interest_link
-        ) = f"{settings.ACCESS_PLANIT_REGISTER_INTEREST_BASE}?course_id={self.access_planit_course_id}"
-        context["booking_bar"] = self._format_booking_bar(
-            register_interest_link, access_planit_data
-        )
-        context["booking_bar"] = self._format_booking_bar(
-            register_interest_link, access_planit_data
-        )
-        context["access_planit_data"] = access_planit_data
+
+        context["register_interest_link"] = self.manual_registration_url
+        context["booking_bar"] = self._format_booking_bar()
         context["shortcourse_details_fees"] = self.fee_items.values_list(
             "text", flat=True
         )
