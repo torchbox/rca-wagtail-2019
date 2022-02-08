@@ -159,7 +159,7 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         verbose_name=_("Project PDF"),
     )
     specification_document_link_text = models.CharField(
-        max_length=80,
+        max_length=300,
         blank=True,
         null=True,
         verbose_name=_("Project PDF link text"),
