@@ -1,0 +1,14 @@
+context:
+  block:
+    id: 24
+  value:
+    video_url: https://3d26876b73d7.us-west-2.playback.live-video.net/api/video/v1/us-west-2.913157848533.channel.rkCBS9iD1eyd.m3u8
+  poster_image:
+    full_url: '//placekitten.com/1920/1080'
+
+tags:
+  image:
+    value.poster_image fill-1920x1080 as poster_image:
+      target_var: poster_image
+      raw:
+        full_url: '//placekitten.com/1920/1080'
