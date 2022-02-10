@@ -12,7 +12,6 @@
         position: relative;
         margin-bottom: $gutter;
         margin-top: $gutter;
-
         @include media-query(large) {
             margin-top: ($gutter * 1.5);
             margin-bottom: ($gutter * 1.5);
@@ -33,6 +32,7 @@
         margin-bottom: $gutter;
 
         @include media-query(large) {
+            margin-top: ($gutter * 1.5);
             margin-bottom: ($gutter * 1.5);
         }
     }
