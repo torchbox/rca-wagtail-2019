@@ -309,9 +309,12 @@ class HomePage(TapMixin, BasePage):
         }
         meta = PAGE_META_MAPPING.get(page.__class__.__name__, "")
         description = PAGE_DESCRIPTION_MAPPING.get(page.__class__.__name__, "")
-
+        try:
+            image = get_listing_image(page).get_rendition("fill-878x472").url
+        except AttributeError:
+            image = None
         return {
-            "image": get_listing_image(page).get_rendition("fill-878x472").url,
+            "image": image,
             "title": page.title,
             "link": page.url,
             "description": description,
@@ -333,9 +336,11 @@ class HomePage(TapMixin, BasePage):
         NEWS_ITEMS = 2 if event else 3
 
         # get NEWS_ITEMS
-        news = EditorialPage.objects.filter(editorial_types__type__slug="news").live()[
-            :NEWS_ITEMS
-        ]
+        news = (
+            EditorialPage.objects.filter(editorial_types__type__slug="news")
+            .live()
+            .order_by("-published_at")[:NEWS_ITEMS]
+        )
         news_and_events_content = list(chain(news, event))
 
         return [
