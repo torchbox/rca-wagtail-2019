@@ -739,13 +739,14 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         """
         Escapes special characters in long form text fields for ics records.
         """
-        string.replace('"', '\\"')
-        string.replace("\\", "\\\\")
-        string.replace(",", "\\,")
-        string.replace(":", "\\:")
-        string.replace(";", "\\;")
-        string.replace("\n", "\\n")
-        return string
+        if string:
+            string.replace('"', '\\"')
+            string.replace("\\", "\\\\")
+            string.replace(",", "\\,")
+            string.replace(":", "\\:")
+            string.replace(";", "\\;")
+            string.replace("\n", "\\n")
+        return string or ""
 
     def get_ics_record(self):
         # Begin event
