@@ -763,8 +763,8 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             # Get date
             date = self.start_date + datetime.timedelta(days=day)
             # Get times
-            start_datetime = datetime.datetime.combine(date, self.start_date.time())
-            end_datetime = datetime.datetime.combine(date, self.end_date.time())
+            start_datetime = datetime.datetime.combine(date, self.start_time)
+            end_datetime = datetime.datetime.combine(date, self.end_time)
 
             # Get a location
             location = getattr(self, "location", None)
