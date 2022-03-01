@@ -27,8 +27,8 @@ def register_student_menu_item():
     return MenuItem(
         "Student accounts",
         reverse("student_account_create"),
-        classnames="icon icon-user",
         order=10000,
+        icon_name="user"
     )
 
 
