@@ -28,7 +28,7 @@ def register_student_menu_item():
         "Student accounts",
         reverse("student_account_create"),
         order=10000,
-        icon_name="user"
+        icon_name="user",
     )
 
 
