@@ -21,8 +21,6 @@ The following areas of functionality are critical paths for the site which don't
 
 As well as testing the critical paths, these areas of functionality should be checked:
 
-- ...
-- Other places where you know extra maintenance or checks may be necessary
-- This could be code which you know should be checked and possibly removed - e.g. because you've patched something until a fix is merged in a subsequent release.
-- Any previous fixes which may need to be updated/reapplied on subsequent upgrades
-- Technical debt which could be affected by an upgrade.
+- For unknown reasons, [the sidebar is not working properly](https://github.com/wagtail/wagtail.org/pull/144)
+  after upgrading from Wagtail v2.15 to v2.16 . We decided to disable the sidebar. When the legacy sidebar removed in
+  Wagtail 2.18, then that is the time to fix this issue If the problem still persists.
