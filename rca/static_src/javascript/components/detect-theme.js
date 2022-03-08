@@ -6,7 +6,6 @@ class DetectTheme {
     constructor(node) {
         this.container = node;
         this.detect();
-        this.bindEvents();
     }
 
     detect() {
@@ -21,15 +20,21 @@ class DetectTheme {
     }
 
     setLightTheme() {
-        const a = document.getElementsByClassName('bg--dark');
-        [...a].forEach((x) => (x.className += ' bg--light'));
-        [...a].forEach((x) => x.classList.remove('bg--dark'));
+        const elements = document.querySelectorAll('.bg--dark');
+
+        elements.forEach((item) => {
+            item.classList.remove('bg--dark');
+            item.classList.add('bg--light');
+        });
     }
 
     setDarkTheme() {
-        const a = document.getElementsByClassName('bg--light');
-        [...a].forEach((x) => (x.className += ' bg--dark'));
-        [...a].forEach((x) => x.classList.remove('bg--light'));
+        const elements = document.querySelectorAll('.bg--light');
+
+        elements.forEach((item) => {
+            item.classList.remove('bg--light');
+            item.classList.add('bg--dark');
+        });
     }
 }
 
