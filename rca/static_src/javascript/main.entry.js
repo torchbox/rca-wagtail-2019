@@ -24,6 +24,7 @@ import SitewideAlert from './components/sitewide-alert';
 import FormFocus from './components/form-focus';
 import EmailShare from './components/email-share';
 import ScholarshipList from './components/scholarship-list';
+import DetectTheme from './components/detect-theme';
 import './components/sticky-header';
 import './components/lazyload-images';
 import './components/outdated-banner';
@@ -151,6 +152,12 @@ document.addEventListener('DOMContentLoaded', () => {
         ScholarshipList.selector(),
     )) {
         new ScholarshipList(scholarshiplist);
+    }
+
+    for (const detecttheme of document.querySelectorAll(
+        DetectTheme.selector(),
+    )) {
+        new DetectTheme(detecttheme);
     }
 
     new ActualHeight();
