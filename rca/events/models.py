@@ -761,13 +761,14 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         """
         Escapes special characters in long form text fields for ics records.
         """
-        string.replace('"', '\\"')
-        string.replace("\\", "\\\\")
-        string.replace(",", "\\,")
-        string.replace(":", "\\:")
-        string.replace(";", "\\;")
-        string.replace("\n", "\\n")
-        return string
+        if string:
+            string.replace('"', '\\"')
+            string.replace("\\", "\\\\")
+            string.replace(",", "\\,")
+            string.replace(":", "\\:")
+            string.replace(";", "\\;")
+            string.replace("\n", "\\n")
+        return string or ""
 
     def get_ics_record(self):
         # Begin event
@@ -784,9 +785,38 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         for day in range(days):
             # Get date
             date = self.start_date + datetime.timedelta(days=day)
+
+            # If no time provided, show this as an all day event
+            # Use datetime.time(0, 0, 0) as placeholder
+            start_time = self.start_time or datetime.time(0, 0, 0)
+            end_time = self.end_time or datetime.time(0, 0, 0)
+
             # Get times
-            start_datetime = datetime.datetime.combine(date, self.start_date.time())
-            end_datetime = datetime.datetime.combine(date, self.end_date.time())
+            start_datetime = datetime.datetime.combine(date, start_time)
+            end_datetime = datetime.datetime.combine(date, end_time)
+
+            schedule_info = []
+
+            # If no time provided, only return the date info
+            if not all([self.start_time, self.end_time]):
+                schedule_info.extend(
+                    [
+                        "DTSTART;TZID=Europe/London:"
+                        + start_datetime.strftime("%Y%m%d"),
+                        "DTEND;TZID=Europe/London:" + end_datetime.strftime("%Y%m%d"),
+                        "END:VEVENT",
+                    ]
+                )
+            else:
+                schedule_info.extend(
+                    [
+                        "DTSTART;TZID=Europe/London:"
+                        + start_datetime.strftime("%Y%m%dT%H%M%S"),
+                        "DTEND;TZID=Europe/London:"
+                        + end_datetime.strftime("%Y%m%dT%H%M%S"),
+                        "END:VEVENT",
+                    ]
+                )
 
             # Get a location
             location = getattr(self, "location", None)
@@ -808,13 +838,12 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                     "DESCRIPTION:"
                     + self.ics_escape_characters(strip_tags(self.introduction)),
                     "LOCATION:" + self.ics_escape_characters(location),
-                    "DTSTART;TZID=Europe/London:"
-                    + start_datetime.strftime("%Y%m%dT%H%M%S"),
-                    "DTEND;TZID=Europe/London:"
-                    + end_datetime.strftime("%Y%m%dT%H%M%S"),
-                    "END:VEVENT",
                 ]
             )
+
+            # append schedule information
+            ics_components.extend(schedule_info)
+
         # Finish event
         ics_components.extend(["END:VCALENDAR"])
 
