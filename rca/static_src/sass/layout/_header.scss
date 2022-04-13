@@ -96,7 +96,7 @@
 
         .app__navigation & {
             margin-top: 39px;
-            opacity: $transition-opacity;
+            opacity: 0.65;
 
             @include media-query(medium) {
                 margin-top: 4px;
@@ -128,7 +128,7 @@
         }
 
         .app__navigation & {
-            opacity: $transition-opacity;
+            opacity: 0.65;
         }
 
         .search-active & {
