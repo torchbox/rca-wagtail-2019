@@ -11,7 +11,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="enquiryformsubmission", name="is_citizen",),
+        migrations.RemoveField(
+            model_name="enquiryformsubmission",
+            name="is_citizen",
+        ),
         migrations.AddField(
             model_name="enquiryformsubmission",
             name="country_of_citizenship",

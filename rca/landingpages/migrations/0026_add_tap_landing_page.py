@@ -30,7 +30,9 @@ class Migration(migrations.Migration):
                     models.TextField(blank=True, verbose_name="Iframe Code"),
                 ),
             ],
-            options={"verbose_name": "Landing Page - TAP",},
+            options={
+                "verbose_name": "Landing Page - TAP",
+            },
             bases=("landingpages.landingpage",),
         ),
     ]

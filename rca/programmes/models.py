@@ -758,7 +758,10 @@ class ProgrammeIndexPage(ContactFieldsMixin, BasePage):
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
         FieldPanel("search_placeholder_text"),
-        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information",),
+        MultiFieldPanel(
+            [*ContactFieldsMixin.panels],
+            heading="Contact information",
+        ),
     ]
 
     search_fields = BasePage.search_fields + [index.SearchField("introduction")]

@@ -10,6 +10,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.DeleteModel(name="EnquiryFormSubmissionFundingsOrderable",),
-        migrations.DeleteModel(name="Funding",),
+        migrations.DeleteModel(
+            name="EnquiryFormSubmissionFundingsOrderable",
+        ),
+        migrations.DeleteModel(
+            name="Funding",
+        ),
     ]

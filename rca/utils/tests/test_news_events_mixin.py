@@ -46,7 +46,8 @@ class NewsAndEventsMixinTest(WagtailPageTests):
 
         # make 3 event pages related to the above
         self.image = Image.objects.create(
-            title="Test image", file=get_test_image_file(colour="white"),
+            title="Test image",
+            file=get_test_image_file(colour="white"),
         )
         self.home_page = HomePage.objects.first()
 
@@ -64,7 +65,9 @@ class NewsAndEventsMixinTest(WagtailPageTests):
         )
         self.home_page.add_child(instance=self.research_centre_page)
 
-        self.landing_page = ResearchLandingPage(title=fake.words(3),)
+        self.landing_page = ResearchLandingPage(
+            title=fake.words(3),
+        )
         self.home_page.add_child(instance=self.landing_page)
 
         # Make EditorialPages we expecting to be returned

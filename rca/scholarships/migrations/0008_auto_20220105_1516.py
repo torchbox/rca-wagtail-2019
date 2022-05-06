@@ -12,7 +12,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterModelOptions(
-            name="scholarship", options={"ordering": ("title",)},
+            name="scholarship",
+            options={"ordering": ("title",)},
         ),
         migrations.AddField(
             model_name="scholarship",

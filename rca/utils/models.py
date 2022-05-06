@@ -461,9 +461,9 @@ class NewsAndEventsMixin:
 
     def __init__(self, page, *args, **kwargs):
 
-        from rca.landingpages.models import LandingPage
-        from rca.events.models import EventDetailPage
         from rca.editorial.models import EditorialPage
+        from rca.events.models import EventDetailPage
+        from rca.landingpages.models import LandingPage
 
         self.event_page_model = EventDetailPage
         self.editorial_page_model = EditorialPage
@@ -954,7 +954,10 @@ def get_listing_image(page):
 
 class TapMixin(models.Model):
     tap_widget = models.ForeignKey(
-        "utils.TapWidgetSnippet", on_delete=models.SET_NULL, null=True, blank=True,
+        "utils.TapWidgetSnippet",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
     )
 
     panels = [SnippetChooserPanel("tap_widget")]

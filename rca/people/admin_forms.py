@@ -2,8 +2,7 @@ from wagtail.admin.forms import WagtailAdminPageForm
 
 
 class StudentPageAdminForm(WagtailAdminPageForm):
-    """Validation for adding StudentPage
-    """
+    """Validation for adding StudentPage"""
 
     def __init__(self, *args, **kwargs):
         super(StudentPageAdminForm, self).__init__(*args, **kwargs)

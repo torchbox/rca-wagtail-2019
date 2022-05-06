@@ -37,7 +37,8 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("count", help="How many pages to create")
         parser.add_argument(
-            "parent_page_id", help="The ID of the parent editorial listing page",
+            "parent_page_id",
+            help="The ID of the parent editorial listing page",
         )
 
     def streamfield(self, fake):

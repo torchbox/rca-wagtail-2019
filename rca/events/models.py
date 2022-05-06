@@ -315,7 +315,9 @@ class EventDetailPageRelatedDirectorate(Orderable):
         "events.EventDetailPage", related_name="related_directorates"
     )
     directorate = models.ForeignKey(
-        "people.Directorate", on_delete=models.CASCADE, related_name="+",
+        "people.Directorate",
+        on_delete=models.CASCADE,
+        related_name="+",
     )
     panels = [FieldPanel("directorate")]
 
@@ -378,7 +380,10 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         related_name="events",
     )
     event_type = models.ForeignKey(
-        EventType, null=True, on_delete=models.SET_NULL, related_name="events",
+        EventType,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="events",
     )
     eligibility = models.ForeignKey(
         EventEligibility,
@@ -400,10 +405,14 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
     # booking bar
     show_booking_bar = models.BooleanField(default=False)
     manual_registration_url_link_text = models.CharField(
-        blank=True, max_length=50, verbose_name="Booking URL link text",
+        blank=True,
+        max_length=50,
+        verbose_name="Booking URL link text",
     )
     manual_registration_url = models.URLField(
-        blank=True, max_length=255, verbose_name="Booking URL",
+        blank=True,
+        max_length=255,
+        verbose_name="Booking URL",
     )
     event_cost = models.CharField(blank=True, max_length=50, verbose_name="Cost")
     availability = models.ForeignKey(

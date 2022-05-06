@@ -10,5 +10,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="studentpage", name="degree_type",),
+        migrations.RemoveField(
+            model_name="studentpage",
+            name="degree_type",
+        ),
     ]

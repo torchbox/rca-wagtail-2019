@@ -316,7 +316,10 @@ def aws(c, command, aws_access_key_id, aws_secret_access_key):
 
 
 def pull_media_from_s3(
-    c, aws_access_key_id, aws_secret_access_key, aws_storage_bucket_name,
+    c,
+    aws_access_key_id,
+    aws_secret_access_key,
+    aws_storage_bucket_name,
 ):
     aws_cmd = "s3 sync --delete s3://{bucket_name} /app/media".format(
         bucket_name=aws_storage_bucket_name,
@@ -325,7 +328,10 @@ def pull_media_from_s3(
 
 
 def push_media_to_s3(
-    c, aws_access_key_id, aws_secret_access_key, aws_storage_bucket_name,
+    c,
+    aws_access_key_id,
+    aws_secret_access_key,
+    aws_storage_bucket_name,
 ):
     aws_cmd = "s3 sync --delete /app/media s3://{bucket_name}/".format(
         bucket_name=aws_storage_bucket_name,
@@ -347,7 +353,10 @@ def pull_images_from_s3_heroku(c, app_instance):
 
 
 def pull_images_from_s3(
-    c, aws_access_key_id, aws_secret_access_key, aws_storage_bucket_name,
+    c,
+    aws_access_key_id,
+    aws_secret_access_key,
+    aws_storage_bucket_name,
 ):
     aws_cmd = "s3 sync --delete s3://{bucket_name}/original_images /app/media/original_images".format(
         bucket_name=aws_storage_bucket_name,
@@ -420,7 +429,8 @@ def pull_database_from_heroku(c, app_instance):
 
     local(
         "rm {dump_folder}/{datestamp}.dump".format(
-            dump_folder=LOCAL_DUMP_DIR, datestamp=datestamp,
+            dump_folder=LOCAL_DUMP_DIR,
+            datestamp=datestamp,
         ),
     )
 
@@ -460,7 +470,7 @@ def dellar_snapshot(c, filename):
 
 @task
 def dellar_restore(c, filename):
-    """ Restore the database from a snapshot in the db container """
+    """Restore the database from a snapshot in the db container"""
     delete_docker_database(c)
 
     dexec(

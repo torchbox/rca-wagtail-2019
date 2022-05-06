@@ -53,7 +53,8 @@ def process(apps, func):
 
 def migrate_datetimes_to_separate_date_and_time(apps, _):
     process(
-        apps, convert_revision_datetime_to_date_and_time,
+        apps,
+        convert_revision_datetime_to_date_and_time,
     )
 
 

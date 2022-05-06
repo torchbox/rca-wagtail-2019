@@ -15,7 +15,8 @@ class PastOrFutureFilter:
     name = "tense"
 
     def __init__(
-        self, tab_title,
+        self,
+        tab_title,
     ):
         self.tab_title = tab_title
         self.querydict = None
