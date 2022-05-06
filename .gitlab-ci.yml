@@ -18,10 +18,8 @@ stages:
 
 # Test if static assets can be built succesfully.
 static:
-  image: node:12-alpine
+  image: node:16
   stage: build
-  before_script:
-    - apk add --no-cache rsync
   script:
     # Make sure your project has a package-lock.json lockfile, otherwise this install will fail.
     - npm ci
@@ -35,28 +33,51 @@ static:
       - ./rca/static_compiled
     expire_in: 1 week
 
+poetry:
+  # If you update the python image version here, make sure you update all jobs that depend on this
+  # and the version in the Dockerfile and provision scripts as well
+  image: python:3.8
+  stage: build
+  variables:
+    POETRY_VERSION: 1.1.8
+  script:
+    - pip install poetry==$POETRY_VERSION
+    - python -m venv venv
+    - source venv/bin/activate
+    - poetry install
+  artifacts:
+    name: 'poetry-$CI_JOB_ID'
+    paths:
+      - ./venv/
+    expire_in: 30 mins
+
 # Check python code style.
 flake8:
-  image: python:3.6
+  # Make sure the python image version here matches the poetry job
+  image: python:3.8
   stage: test
+  dependencies:
+    - poetry
+  before_script:
+    - source venv/bin/activate
   script:
-    # Remember to update a version in requirements-dev.txt
-    - pip install flake8==3.7.7
     - flake8 rca
 
 # Check imports sort order, i.e. check whether they are in an alphabetical
 # order and grouped properly.
 isort:
-  image: python:3.6
+  # Make sure the python image version here matches the poetry job
+  image: python:3.8
   stage: test
+  dependencies:
+    - poetry
   before_script:
-    # Remember to update a version in requirements-dev.txt
-    - pip install isort==4.3.15
+    - source venv/bin/activate
   script:
-    - isort --check-only --diff --recursive rca
+    - isort --check-only --diff rca fabfile.py
 
 lint_js:
-  image: node:12-alpine
+  image: node:16
   stage: test
   dependencies:
     - static
@@ -64,7 +85,7 @@ lint_js:
     - npm run lint:js
 
 lint_css:
-  image: node:12-alpine
+  image: node:16
   stage: test
   dependencies:
     - static
@@ -72,34 +93,37 @@ lint_css:
     - npm run lint:css
 
 lint_format:
-  image: node:12-alpine
+  image: node:16
   stage: test
   dependencies:
     - static
   script:
     - npm run lint:format
 
-# Run black and check for changes
 black:
-  image: python:3.7
+  # Make sure the python image version here matches the poetry job
+  image: python:3.8
   stage: test
+  dependencies:
+    - poetry
   before_script:
-    # Remember to update a version in requirements-dev.txt
-    - pip install black==19.3b0
+    - source venv/bin/activate
   script:
     - black --check ./
 
 # Check settings, migrations and run tests.
 test_python:
   # Make sure this Python version matches the version in your Dockerfile.
-  image: python:3.6.6
+  image: python:3.8
   stage: test
   services:
     # Make sure this matches the Postgres version you run on your servers.
-    - postgres:9.6
+    - postgres:12.10
   dependencies:
     - static
+    - poetry
   variables:
+    POSTGRES_HOST_AUTH_METHOD: trust
     # Run tests with the production settings.
     DJANGO_SETTINGS_MODULE: rca.settings.production
 
@@ -116,9 +140,7 @@ test_python:
     # Don't redirect to HTTPS in tests.
     SECURE_SSL_REDIRECT: 'false'
   before_script:
-    # Install requirements
-    - pip install wheel
-    - pip install -r requirements.txt
+    - source venv/bin/activate
   script:
     # We need to run the collectstatic command, because we use ManifestStaticFilesStorage.
     # Otherwise the check command will fail
@@ -137,7 +159,7 @@ test_python:
     - python manage.py test
 
 test_js:
-  image: node:12-alpine
+  image: node:16
   stage: test
   dependencies:
     - static
@@ -232,12 +254,15 @@ deploy_production:
     - git push heroku-production HEAD:master
 
 docs:
-  image: python:3.6
+  image: python:3.8
   stage: deploy
   only:
     - master
+  dependencies:
+    - poetry
+  before_script:
+    - . .venv/bin/activate
   script:
-    - pip install -r requirements-docs.txt
     - mkdocs build
     - pushd site
     - tar -cvzf docs.tar.gz *
