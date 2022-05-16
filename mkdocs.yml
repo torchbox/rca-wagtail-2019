@@ -18,3 +18,5 @@ nav:
       - 'Rebuild Approach': 'implementation-specs/finalised-rebuild-approach.md'
       - 'Programme Page': 'implementation-specs/programme-page.md'
       - 'Content relationship via API': 'implementation-specs/content-relationships.md'
+      - 'Support runbook': 'support-runbook.md'
+      - 'Upgrading guidelines': 'upgrading.md'
