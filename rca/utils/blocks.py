@@ -1,11 +1,11 @@
 from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
 from wagtail.core import blocks
+from wagtail.core.blocks.struct_block import StructBlockValidationError
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.snippets.blocks import SnippetChooserBlock
-from wagtail.core.blocks.struct_block import StructBlockValidationError
 
 
 class FeeBlock(blocks.StructBlock):
@@ -104,10 +104,13 @@ class GalleryBlock(blocks.StructBlock):
     author = blocks.CharBlock(required=False)
     link = blocks.URLBlock(required=False)
     course = blocks.CharBlock(required=False)
-    document = DocumentChooserBlock(required=False, help_text="Recommended maximum file size: 10MB")
-    video_embed = EmbedBlock(help_text="Add a YouTube or Vimeo video URL", required=False)
+    document = DocumentChooserBlock(
+        required=False, help_text="Recommended maximum file size: 10MB"
+    )
+    video_embed = EmbedBlock(
+        help_text="Add a YouTube or Vimeo video URL", required=False
+    )
     audio_embed = EmbedBlock(help_text="Add a Soundcloud URL", required=False)
-
 
     def clean(self, value):
         if bool(value.get("document")):
@@ -118,15 +121,27 @@ class GalleryBlock(blocks.StructBlock):
 
         if bool(value.get("document")) and bool(value.get("video_embed")):
             raise StructBlockValidationError(
-                {"document": ErrorList(["Multiple values are not supported for Document and Video."])},
+                {
+                    "document": ErrorList(
+                        ["Multiple values are not supported for Document and Video."]
+                    )
+                },
             )
         if bool(value.get("document")) and bool(value.get("audio_embed")):
             raise StructBlockValidationError(
-                {"document": ErrorList(["Multiple values are not supported for Document and Audio."])},
+                {
+                    "document": ErrorList(
+                        ["Multiple values are not supported for Document and Audio."]
+                    )
+                },
             )
         if bool(value.get("video_embed")) and bool(value.get("audio_embed")):
             raise StructBlockValidationError(
-                {"video_embed": ErrorList(["Multiple values are not supported for Video and Audio."])},
+                {
+                    "video_embed": ErrorList(
+                        ["Multiple values are not supported for Video and Audio."]
+                    )
+                },
             )
         return super().clean(value)
 
