@@ -6,7 +6,7 @@ authors = ["Kevin Howbrook <kevin.howbrook@torchbox.com>"]
 
 [tool.poetry.dependencies]
 python = "~3.8"
-django = "~3.2.14"
+django = "~3.2.15"
 wagtail = "~3.0"
 psycopg2 = "~2.8"
 gunicorn = {version = "~20.0", optional = true}
@@ -30,7 +30,7 @@ wagtail_redirect_importer = "^1.0.2"
 django-import-export = "^2.5.0"
 django-phonenumber-field = {extras = ["phonenumbers"], version = "^5.2.0"}
 lxml = "^4.6.3"
-django-birdbath = "^0.0.5"
+django-birdbath = "^1.0.0"
 tblib = "^1.7.0"
 django-countries = "^7.2.1"
 mailchimp-marketing = "^3.0.69"

@@ -22,7 +22,7 @@ jobs:
       - run:
           name: install python dependencies
           command: |
-            curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | POETRY_VERSION=1.1.8 python
+            curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - --version=1.1.15
             . $HOME/.poetry/env
             python -m venv venv
             . ./venv/bin/activate
@@ -103,6 +103,26 @@ jobs:
           command: |
             echo "Deploying to Heroku. To see progress, go to: https://dashboard.heroku.com/apps/$HEROKU_APP_NAME_PRODUCTION/activity"
             curl -sf -X POST -m 900 https://heroku-deploy.torchbox.com/$HEROKU_APP_NAME_PRODUCTION/$CIRCLE_SHA1?key=$DEPLOYMENT_KEY -d "Content-Length: 0"
+
+  copy_prod_to_dev:
+    docker:
+      - image: buildpack-deps:trusty
+    steps:
+      - checkout
+      - run:
+          name: update packages
+          command: 'apt-get update -y'
+      - run:
+          name: install curl, jq
+          command: 'apt-get install -y curl jq'
+      - run:
+          name: Send POST request to FlightPath
+          command: |
+            export JOB_STATUS=$(curl -f -X POST -m 900 -H "Authorization: Token $FLIGHTPATH_AUTH_KEY" -d "source_key=$DEPLOYMENT_KEY&destination_key=$DEPLOYMENT_KEY&copy_media=1&from_backup=1" "https://flightpath.torchbox.com/copy/$HEROKU_APP_NAME_PRODUCTION/$HEROKU_APP_NAME_DEV/")
+            echo $JOB_STATUS
+            export JOB_ID=$(echo $JOB_STATUS | jq -r '.job_id')
+            echo $JOB_ID
+
 workflows:
   version: 2
   build-deploy:
@@ -134,3 +154,10 @@ workflows:
           filters:
             branches:
               only: master
+      - copy_prod_to_dev:
+          type: approval
+          requires:
+            - test
+          filters:
+            branches:
+              only: dev
