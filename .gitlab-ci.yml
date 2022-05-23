@@ -84,8 +84,8 @@ black:
   image: python:3.7
   stage: test
   before_script:
-    # Remember to update a version in pyproject.toml
-    - pip install black==22.3.0
+    # Remember to update a version in requirements-dev.txt
+    - pip install black==19.3b0
   script:
     - black --check ./
 
@@ -167,6 +167,7 @@ test_js:
         password $HEROKU_TOKEN
       EOF
     - chmod 600 ~/.netrc
+
     # Add Heroku's Git remote using Heroku CLI.
     - heroku git:remote --app $HEROKU_APP --remote heroku
   script:
@@ -222,6 +223,7 @@ deploy_production:
         password $HEROKU_TOKEN
       EOF
     - chmod 600 ~/.netrc
+
     # Add Heroku's Git remote using Heroku CLI.
     - heroku git:remote --app $HEROKU_APP --remote heroku-production
   script:
