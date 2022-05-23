@@ -1,4 +1,4 @@
-{% load wagtailimages_tags %}
+{% load wagtailimages_tags wagtailembeds_tags %}
 
 <div class="slide {% if slide.author %}slide--author{% endif %}" data-slide>
 
@@ -7,7 +7,38 @@
 
     {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=829 height=585 image_large=image_large classList='slide__image' %}
 
+    <!-- FE NOTE: this will be the popup / model for the video or audio -->
+    {% if slide.video_embed %}
+        {% embed slide.video_embed.url %}
+    {% endif %}
+    {% if slide.audio_embed %}
+        {% embed slide.audio_embed.url %}
+    {% endif %}
+
+
     <div class="slide__meta">
+
+        <!-- new meta area to sit in the bottom corner -->
+        <div class="meta__meta__wtf" style="background-color: pink!important;border:1px solid black;padding:10px;">
+            {% if slide.document %}
+                {% with file_size=slide.document.file_size|filesizeformat file_extension=slide.document.file_extension|upper %}
+                <a href="{{ slide.document.url }}" download="{% firstof slide.document.title slide.title %}">
+                    <span style="">[]</span>
+                    Download<br>
+                    {{ file_extension }}
+                    ({{ file_size }})
+                    {% endwith %}
+                </a>
+            {% endif %}
+            {% if slide.video_embed %}
+                Play video
+            {% endif%}
+            {% if slide.audio_embed %}
+                Play audio
+            {% endif %}
+
+        </div>
+
         {% if slide.title %}
             <p class="slide__heading">{{ slide.title }}</p>
         {% endif %}
