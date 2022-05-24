@@ -111,6 +111,9 @@ class GalleryBlock(blocks.StructBlock):
     audio_embed = EmbedBlock(help_text="Add a Soundcloud URL", required=False)
 
     def clean(self, value):
+        result = super().clean(value)
+        errors = {}
+
         if bool(value.get("document")):
             if value.get("document").file_size > 10000000:
                 errors["document"] = ErrorList(
@@ -135,7 +138,7 @@ class GalleryBlock(blocks.StructBlock):
         if errors:
             raise StructBlockValidationError(errors)
 
-        return super().clean(value)
+        return result
 
     class Meta:
         icon = "image"
