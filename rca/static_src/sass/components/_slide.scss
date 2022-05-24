@@ -14,15 +14,16 @@
         width: 100%;
         height: auto;
         margin-bottom: ($gutter);
+        transition: opacity $transition-cubic;
     }
 
     &__meta {
+        position: relative;
         opacity: 0;
         transition: opacity $transition;
 
         @include media-query(medium) {
             @include z-index(base);
-            position: relative;
         }
 
         @include media-query(large) {
@@ -79,6 +80,47 @@
 
     &__link {
         @include underline-hover();
+    }
+
+    &__type {
+        @include font-size(xxxs);
+        position: absolute;
+        top: -20px;
+        right: 0;
+        height: 64px;
+        transform: translate3d(0, -100%, 0); // sit above the parent area
+    }
+
+    &__action {
+        @include underline-hover-target();
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: $gutter ($gutter * 1.5);
+        font-family: $font--secondary;
+        color: $color--black;
+        background-color: $color--white;
+        text-transform: uppercase;
+        line-height: 1.2;
+
+        &:hover,
+        &:focus {
+            text-decoration: underline;
+        }
+    }
+
+    &__type-icon {
+        fill: $color--dark-grey;
+        margin-right: 10px;
+
+        &::after {
+            content: '';
+            display: block;
+            height: 24px;
+            width: 24px;
+            border-radius: 100%;
+            background-color: $color--dark-grey;
+        }
     }
 
     .glide__slide--active & {

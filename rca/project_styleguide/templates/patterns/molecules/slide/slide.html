@@ -1,47 +1,50 @@
 {% load wagtailimages_tags wagtailembeds_tags %}
 
-<div class="slide {% if slide.author %}slide--author{% endif %}" data-slide>
+<div class="slide {% if slide.author %}slide--author{% endif %}" data-slide {% if slide.video_embed or slide.audio_embed %}data-video-modal{% endif %}>
 
     {% image slide.image fill-100x71 as image_small %}
     {% image slide.image fill-829x585 as image_large %}
 
     {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=829 height=585 image_large=image_large classList='slide__image' %}
 
-    <!-- FE NOTE: this will be the popup / model for the video or audio -->
-    {% if slide.video_embed %}
-        {% embed slide.video_embed.url %}
-    {% endif %}
-    {% if slide.audio_embed %}
-        {% embed slide.audio_embed.url %}
-    {% endif %}
-
-
     <div class="slide__meta">
+        {% if slide.document or slide.video_embed or slide.audio_embed %}
+            <div class="slide__type">
 
-        <!-- new meta area to sit in the bottom corner -->
-        <div class="meta__meta__wtf" style="background-color: pink!important;border:1px solid black;padding:10px;">
-            {% if slide.document %}
-                {% with file_size=slide.document.file_size|filesizeformat file_extension=slide.document.file_extension|upper %}
-                <a href="{{ slide.document.url }}" download="{% firstof slide.document.title slide.title %}">
-                    <span style="">[]</span>
-                    Download<br>
-                    {{ file_extension }}
-                    ({{ file_size }})
-                    {% endwith %}
-                </a>
-            {% endif %}
-            {% if slide.video_embed %}
-                Play video
-            {% endif%}
-            {% if slide.audio_embed %}
-                Play audio
-            {% endif %}
+                {% if slide.document or slide.video_embed or slide.audio_embed %}
+                    {% if slide.document %}
+                        <a class="slide__action" href="{{ slide.document.url }}" download="{% firstof slide.document.title slide.title %}">
+                    {% else %}
+                        <a class="slide__action" data-modal-open aria-label="Play {{ slide.title }}" tabindex="0">
+                    {% endif %}
+                {% endif %}
 
-        </div>
+                    {% if slide.document %}
+                        {% with file_size=slide.document.file_size|filesizeformat file_extension=slide.document.file_extension|upper %}
+                            <svg width="24" height="24" class="slide__type-icon" aria-hidden="true"><use xlink:href="#download-file"></use></svg>
+                            <span class="slide__type-label">Download <br>{{ file_extension }} ({{ file_size }})</span>
+                        {% endwith %}
+                    {% endif %}
+                    {% if slide.video_embed %}
+                        <svg width="24" height="24" class="slide__type-icon" aria-hidden="true"><use xlink:href="#play-icon"></use></svg>
+                        <span class="slide__type-label">Play<br> video</span>
+                    {% endif%}
+                    {% if slide.audio_embed %}
+                        <svg width="24" height="24" class="slide__type-icon" aria-hidden="true"><use xlink:href="#audio"></use></svg>
+                        <span class="slide__type-label">Play<br> audio</span>
+                    {% endif %}
+
+                {% if slide.document or slide.video_embed or slide.audio_embed %}
+                    </a>
+                {% endif %}
+
+            </div>
+        {% endif %}
 
         {% if slide.title %}
             <p class="slide__heading">{{ slide.title }}</p>
         {% endif %}
+
         {% if slide.author %}
             <div class="slide__author-info">
                 {% if slide.link %}
@@ -55,4 +58,25 @@
             </div>
         {% endif %}
     </div>
+
+    {% if slide.video_embed or slide.audio_embed %}
+        <div class="slide__modal">
+            <div data-modal-window class="video-modal" aria-live="polite">
+                <a data-modal-close class="video-modal__close">
+                    <svg class="video-modal__close-icon" width="20" height="20"><use xlink:href="#close"></use></svg>
+                </a>
+                <div class="video-modal__container">
+                    <div style="padding-bottom: 56.25%" class="responsive-object">
+                        {% if slide.video_embed %}
+                            {% embed slide.video_embed.url %}
+                        {% endif %}
+                        {% if slide.audio_embed %}
+                            {% embed slide.audio_embed.url %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
 </div>
