@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
 from wagtail.core import blocks
+from wagtail.core.blocks.struct_block import StructBlockValidationError
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
@@ -103,6 +104,38 @@ class GalleryBlock(blocks.StructBlock):
     author = blocks.CharBlock(required=False)
     link = blocks.URLBlock(required=False)
     course = blocks.CharBlock(required=False)
+    document = DocumentChooserBlock(required=False, help_text="Maximum file size: 10MB")
+    video_embed = EmbedBlock(
+        help_text="Add a YouTube or Vimeo video URL", required=False
+    )
+    audio_embed = EmbedBlock(help_text="Add a Soundcloud URL", required=False)
+
+    def clean(self, value):
+        if bool(value.get("document")):
+            if value.get("document").file_size > 10000000:
+                errors["document"] = ErrorList(
+                    ["Please ensure your file is below 10MB"]
+                )
+
+        if bool(value.get("document")) and bool(value.get("video_embed")):
+            errors["document"] = ErrorList(
+                ["Multiple values are not supported for Document and Video."]
+            )
+
+        if bool(value.get("document")) and bool(value.get("audio_embed")):
+            errors["document"] = ErrorList(
+                ["Multiple values are not supported for Document and Audio."]
+            )
+
+        if bool(value.get("video_embed")) and bool(value.get("audio_embed")):
+            errors["video_embed"] = ErrorList(
+                ["Multiple values are not supported for Video and Audio."]
+            )
+
+        if errors:
+            raise StructBlockValidationError(errors)
+
+        return super().clean(value)
 
     class Meta:
         icon = "image"
