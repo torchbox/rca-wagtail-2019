@@ -105,7 +105,7 @@ class GalleryBlock(blocks.StructBlock):
     link = blocks.URLBlock(required=False)
     course = blocks.CharBlock(required=False)
     document = DocumentChooserBlock(
-        required=False, help_text="Recommended maximum file size: 10MB"
+        required=False, help_text="Maximum file size: 10MB"
     )
     video_embed = EmbedBlock(
         help_text="Add a YouTube or Vimeo video URL", required=False
