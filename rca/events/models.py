@@ -387,11 +387,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         EventType, null=True, on_delete=models.SET_NULL, related_name="events",
     )
     eligibility = models.ForeignKey(
-        EventEligibility,
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name="events",
+        EventEligibility, null=True, on_delete=models.SET_NULL, related_name="events",
     )
     introduction = RichTextField()
     body = StreamField(EventDetailPageBlock())
@@ -420,11 +416,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         related_name="events",
     )
     location = models.ForeignKey(
-        EventLocation,
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name="events",
+        EventLocation, null=True, on_delete=models.SET_NULL, related_name="events",
     )
 
     content_panels = BasePage.content_panels + [
