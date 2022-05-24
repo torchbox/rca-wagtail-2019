@@ -57,8 +57,8 @@ class ImageBlock(blocks.StructBlock):
 
 
 class DocumentBlock(blocks.StructBlock):
-    document = DocumentChooserBlock(required=False)
-    title = blocks.CharBlock()
+    document = DocumentChooserBlock()
+    title = blocks.CharBlock(required=False)
 
     class Meta:
         icon = "doc-full-inverse"
