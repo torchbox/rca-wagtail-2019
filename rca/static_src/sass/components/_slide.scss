@@ -102,6 +102,8 @@
         background-color: $color--white;
         text-transform: uppercase;
         line-height: 1.2;
+        border: 0;
+        cursor: pointer;
 
         &:hover,
         &:focus {
