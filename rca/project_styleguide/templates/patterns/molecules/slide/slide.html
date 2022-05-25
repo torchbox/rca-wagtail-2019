@@ -1,6 +1,6 @@
-{% load wagtailimages_tags wagtailembeds_tags %}
+{% load wagtailimages_tags %}
 
-<div class="slide {% if slide.author %}slide--author{% endif %}" data-slide {% if slide.video_embed or slide.audio_embed %}data-video-modal{% endif %}>
+<div class="slide {% if slide.author %}slide--author{% endif %}" data-slide>
 
     {% image slide.image fill-100x71 as image_small %}
     {% image slide.image fill-829x585 as image_large %}
@@ -15,7 +15,7 @@
                     {% if slide.document %}
                         <a class="slide__action" href="{{ slide.document.url }}" download="{% firstof slide.document.title slide.title %}">
                     {% else %}
-                        <a class="slide__action" data-modal-open aria-label="Play {{ slide.title }}" tabindex="0">
+                        <a class="slide__action" data-micromodal-trigger="slideshow-modal-{{ forloop.counter }}" aria-label="Play {{ slide.title }}">
                     {% endif %}
                 {% endif %}
 
@@ -59,24 +59,6 @@
         {% endif %}
     </div>
 
-    {% if slide.video_embed or slide.audio_embed %}
-        <div class="slide__modal">
-            <div data-modal-window class="video-modal" aria-live="polite">
-                <a data-modal-close class="video-modal__close">
-                    <svg class="video-modal__close-icon" width="20" height="20"><use xlink:href="#close"></use></svg>
-                </a>
-                <div class="video-modal__container">
-                    <div style="padding-bottom: 56.25%" class="responsive-object">
-                        {% if slide.video_embed %}
-                            {% embed slide.video_embed.url %}
-                        {% endif %}
-                        {% if slide.audio_embed %}
-                            {% embed slide.audio_embed.url %}
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endif %}
+
 
 </div>
