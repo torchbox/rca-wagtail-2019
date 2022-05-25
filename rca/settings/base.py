@@ -734,10 +734,18 @@ API_FETCH_LOGGING = env.get("API_FETCH_LOGGING", False)
 # Birdbath
 BIRDBATH_CHECKS = [
     "birdbath.checks.contrib.heroku.HerokuNotProductionCheck",
-    "birdbath.checks.contrib.heroku.HerokuAnonymisationAllowedCheck",
+]
+BIRDBATH_PROCESSORS = [
+    "birdbath.processors.users.UserEmailAnonymiser",
+    "birdbath.processors.users.UserPasswordAnonymiser",
+    "birdbath.processors.contrib.wagtail.SearchQueryCleaner",
+    "birdbath.processors.contrib.wagtail.FormSubmissionCleaner",
+    "rca.enquire_to_study.birdbath.EnquiryFormSubmissionDeleter",
+    "rca.scholarships.birdbath.ScholarshipEnquiryFormSubmissionDeleter",
 ]
 BIRDBATH_REQUIRED = env.get("BIRDBATH_REQUIRED", "true").lower() == "true"
-BIRDBATH_USER_ANONYMISER_EXCLUDE_EMAIL_RE = r"torchbox\.com$"
+BIRDBATH_USER_ANONYMISER_EXCLUDE_SUPERUSERS = True
+BIRDBATH_USER_ANONYMISER_EXCLUDE_EMAIL_RE = r"(torchbox\.com|rca\.ac\.uk)$"
 
 # Django Countries
 # https://pypi.org/project/django-countries
