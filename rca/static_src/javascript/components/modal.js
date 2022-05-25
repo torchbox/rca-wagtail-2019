@@ -12,6 +12,16 @@ MicroModal.init({
     disableScroll: true,
 });
 
+// Stop videos by replacing their src
+const stopAllVideos = () => {
+    const iframes = document.querySelectorAll('iframe');
+    iframes.forEach((i) => {
+        const source = i.src;
+        i.src = '';
+        i.src = source;
+    });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     const closeModal = () => {
         const modalId = document.querySelector('[data-micromodal-trigger]')
@@ -21,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const bodyStyle = document.querySelector('body').style;
         bodyStyle.removeProperty('overflow');
         bodyStyle.removeProperty('height');
+        stopAllVideos();
     };
 
     const showModal = () => {

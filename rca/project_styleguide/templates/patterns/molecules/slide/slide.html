@@ -15,7 +15,7 @@
                     {% if slide.document %}
                         <a class="slide__action" href="{{ slide.document.url }}" download="{% firstof slide.document.title slide.title %}">
                     {% else %}
-                        <a class="slide__action" data-micromodal-trigger="slideshow-modal-{{ forloop.counter }}" aria-label="Play {{ slide.title }}">
+                        <button class="slide__action" data-micromodal-trigger="slideshow-modal-{{ forloop.counter }}" aria-label="Play {{ slide.title }}">
                     {% endif %}
                 {% endif %}
 
@@ -35,7 +35,11 @@
                     {% endif %}
 
                 {% if slide.document or slide.video_embed or slide.audio_embed %}
-                    </a>
+                    {% if slide.document %}
+                        </a>
+                    {% else %}
+                        </button>
+                    {% endif %}
                 {% endif %}
 
             </div>
