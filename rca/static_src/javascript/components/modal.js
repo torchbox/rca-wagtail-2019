@@ -5,7 +5,7 @@ MicroModal.init({
         window.location.hash = 'modal-open';
     },
     onClose: () => {
-        window.location.hash = '';
+        window.history.replaceState(null, null, ' ');
     },
     awaitOpenAnimation: false,
     awaitCloseAnimation: false,
