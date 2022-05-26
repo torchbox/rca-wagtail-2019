@@ -100,6 +100,8 @@
         font-family: $font--secondary;
         color: $color--black;
         background-color: $color--white;
+        background-size: 0;
+        background-image: none;
         text-transform: uppercase;
         line-height: 1.2;
         border: 0;
