@@ -12,6 +12,7 @@ from rca.events.factories import (
     EventAvailabilityFactory,
     EventDetailPageFactory,
     EventEligibility,
+    EventEligibilityFactory,
     EventLocationFactory,
     EventSeriesFactory,
     EventTypeFactory,
@@ -137,6 +138,8 @@ class EventDetailPageDateTests(WagtailPageTests):
             end_date=date(2021, 1, 6),
             series=EventSeriesFactory(),
             event_type=EventTypeFactory(),
+            location=EventLocationFactory(),
+            eligibility=EventEligibilityFactory(),
         )
         self.assertEqual(one_day_event.event_date_short, "6 January 2021")
 
@@ -147,6 +150,8 @@ class EventDetailPageDateTests(WagtailPageTests):
             end_date=date(2021, 1, 9),
             series=EventSeriesFactory(),
             event_type=EventTypeFactory(),
+            location=EventLocationFactory(),
+            eligibility=EventEligibilityFactory(),
         )
         self.assertEqual(same_month_event.event_date_short, "6 - 9 January 2021")
 
@@ -157,6 +162,8 @@ class EventDetailPageDateTests(WagtailPageTests):
             end_date=date(2021, 2, 9),
             series=EventSeriesFactory(),
             event_type=EventTypeFactory(),
+            location=EventLocationFactory(),
+            eligibility=EventEligibilityFactory(),
         )
         self.assertEqual(
             different_month_event.event_date_short, "6 January - 9 February 2021"
@@ -169,6 +176,8 @@ class EventDetailPageDateTests(WagtailPageTests):
             end_date=date(2022, 1, 1),
             series=EventSeriesFactory(),
             event_type=EventTypeFactory(),
+            location=EventLocationFactory(),
+            eligibility=EventEligibilityFactory(),
         )
         self.assertEqual(
             different_year_event.event_date_short, "29 December 2021 - 1 January 2022"
@@ -179,6 +188,8 @@ class EventDetailPageDateTests(WagtailPageTests):
             parent=self.home_page,
             start_date=date(2021, 12, 29),
             end_date=date(2022, 1, 1),
+            location=EventLocationFactory(),
+            eligibility=EventEligibilityFactory(),
         )
         self.assertTrue(event.past)
 
@@ -187,6 +198,8 @@ class EventDetailPageDateTests(WagtailPageTests):
             parent=self.home_page,
             start_date=date(2091, 12, 29),
             end_date=date(2092, 1, 1),
+            location=EventLocationFactory(),
+            eligibility=EventEligibilityFactory(),
         )
         self.assertFalse(event.past)
 
@@ -238,6 +251,8 @@ class EventDetailPageDateTests(WagtailPageTests):
                         path="0",
                         depth=0,
                         event_type=EventTypeFactory(),
+                        location=EventLocationFactory(),
+                        eligibility=EventEligibilityFactory(),
                     ).full_clean()
 
                 the_exception = cm.exception
@@ -266,9 +281,12 @@ class EventDetailPageDateTests(WagtailPageTests):
                         path="0",
                         depth=0,
                         event_type=EventTypeFactory(),
+                        location=EventLocationFactory(),
+                        eligibility=EventEligibilityFactory(),
                     ).full_clean()
 
                 the_exception = cm.exception
+
                 self.assertEqual(1, len(the_exception.messages))
                 self.assertEqual(message, the_exception.messages[0])
 

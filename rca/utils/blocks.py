@@ -57,8 +57,8 @@ class ImageBlock(blocks.StructBlock):
 
 
 class DocumentBlock(blocks.StructBlock):
-    document = DocumentChooserBlock(required=False)
-    title = blocks.CharBlock()
+    document = DocumentChooserBlock()
+    title = blocks.CharBlock(required=False)
 
     class Meta:
         icon = "doc-full-inverse"
@@ -104,46 +104,41 @@ class GalleryBlock(blocks.StructBlock):
     author = blocks.CharBlock(required=False)
     link = blocks.URLBlock(required=False)
     course = blocks.CharBlock(required=False)
-    document = DocumentChooserBlock(
-        required=False, help_text="Recommended maximum file size: 10MB"
-    )
+    document = DocumentChooserBlock(required=False, help_text="Maximum file size: 10MB")
     video_embed = EmbedBlock(
         help_text="Add a YouTube or Vimeo video URL", required=False
     )
     audio_embed = EmbedBlock(help_text="Add a Soundcloud URL", required=False)
 
     def clean(self, value):
+        result = super().clean(value)
+        errors = {}
+
         if bool(value.get("document")):
             if value.get("document").file_size > 10000000:
-                raise StructBlockValidationError(
-                    {"document": ErrorList(["Please ensure your file is below 10MB"])},
+                errors["document"] = ErrorList(
+                    ["Please ensure your file is below 10MB"]
                 )
 
         if bool(value.get("document")) and bool(value.get("video_embed")):
-            raise StructBlockValidationError(
-                {
-                    "document": ErrorList(
-                        ["Multiple values are not supported for Document and Video."]
-                    )
-                },
+            errors["document"] = ErrorList(
+                ["Multiple values are not supported for Document and Video."]
             )
+
         if bool(value.get("document")) and bool(value.get("audio_embed")):
-            raise StructBlockValidationError(
-                {
-                    "document": ErrorList(
-                        ["Multiple values are not supported for Document and Audio."]
-                    )
-                },
+            errors["document"] = ErrorList(
+                ["Multiple values are not supported for Document and Audio."]
             )
+
         if bool(value.get("video_embed")) and bool(value.get("audio_embed")):
-            raise StructBlockValidationError(
-                {
-                    "video_embed": ErrorList(
-                        ["Multiple values are not supported for Video and Audio."]
-                    )
-                },
+            errors["video_embed"] = ErrorList(
+                ["Multiple values are not supported for Video and Audio."]
             )
-        return super().clean(value)
+
+        if errors:
+            raise StructBlockValidationError(errors)
+
+        return result
 
     class Meta:
         icon = "image"

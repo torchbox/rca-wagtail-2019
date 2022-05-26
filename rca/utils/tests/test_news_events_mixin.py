@@ -12,6 +12,7 @@ from rca.editorial.models import (
     EditorialPageTypePlacement,
     EditorialType,
 )
+from rca.events.factories import EventEligibilityFactory, EventLocationFactory
 from rca.events.models import EventDetailPage, EventType
 from rca.home.models import HomePage
 from rca.landingpages.models import RelatedLandingPage, ResearchLandingPage
@@ -96,6 +97,8 @@ class NewsAndEventsMixinTest(WagtailPageTests):
                 RelatedResearchCenterPage(page=self.research_centre_page)
             ],
             related_landing_pages=[RelatedLandingPage(page=self.landing_page)],
+            location=EventLocationFactory(),
+            eligibility=EventEligibilityFactory(),
         )
         self.home_page.add_child(instance=self.event_detail_page)
 
