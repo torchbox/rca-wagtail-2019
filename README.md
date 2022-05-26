@@ -189,16 +189,9 @@ fab pull-production-images
 
 ## Data anonymisation
 
-[Django birdbath](https://pypi.org/project/django-birdbath/) is being used to anonymise data locally. Ensure you have exported the following variables into the VM:
+[Django birdbath](https://pypi.org/project/django-birdbath/) is being used to anonymise data locally.
 
-```
-export ALLOWS_ANONYMISATION='rca-staging'
-export HEROKU_APP_NAME='rca-staging'
-```
-
-After pulling data, the cli will show a warning about birdbath needing to run. Which you should do.
-
-Birdbath is on by default, set in settings/base.py and is turned off on live environments using environment variables.
+Birdbath is on by default and will run after `fab pull-production-data` si run.
 
 ## Deployments
 
@@ -231,3 +224,7 @@ Or if you want to push your local media files.
 fab push-staging-media
 fab push-production-media
 ```
+
+## Synchronising a production environment to a development environment.
+
+See the [reset development environment](docs/reset_development.md) documentation.
