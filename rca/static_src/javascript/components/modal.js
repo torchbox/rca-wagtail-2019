@@ -8,7 +8,6 @@ const stopAllVideos = () => {
         i.src = '';
         i.src = source;
     });
-    console.log('stop videos');
 };
 
 MicroModal.init({
@@ -39,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const modalId = document.querySelector('[data-micromodal-trigger]')
             .dataset.micromodalTrigger;
         MicroModal.show(modalId);
-        console.log('modal show');
     };
 
     // check for a modal hash, which allows us to auto-open the modal on page load
