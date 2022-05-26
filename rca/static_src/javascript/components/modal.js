@@ -1,17 +1,5 @@
 import MicroModal from 'micromodal'; // es6 module
 
-MicroModal.init({
-    onShow: () => {
-        window.location.hash = 'modal-open';
-    },
-    onClose: () => {
-        window.history.replaceState(null, null, ' ');
-    },
-    awaitOpenAnimation: false,
-    awaitCloseAnimation: false,
-    disableScroll: true,
-});
-
 // Stop videos by replacing their src
 const stopAllVideos = () => {
     const iframes = document.querySelectorAll('iframe');
@@ -20,7 +8,21 @@ const stopAllVideos = () => {
         i.src = '';
         i.src = source;
     });
+    console.log('stop videos');
 };
+
+MicroModal.init({
+    onShow: () => {
+        window.location.hash = 'modal-open';
+    },
+    onClose: () => {
+        window.history.replaceState(null, null, ' ');
+        stopAllVideos();
+    },
+    awaitOpenAnimation: false,
+    awaitCloseAnimation: false,
+    disableScroll: true,
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     const closeModal = () => {
@@ -31,20 +33,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const bodyStyle = document.querySelector('body').style;
         bodyStyle.removeProperty('overflow');
         bodyStyle.removeProperty('height');
-        stopAllVideos();
     };
 
     const showModal = () => {
         const modalId = document.querySelector('[data-micromodal-trigger]')
             .dataset.micromodalTrigger;
         MicroModal.show(modalId);
+        console.log('modal show');
     };
 
-    // check for a modal
+    // check for a modal hash, which allows us to auto-open the modal on page load
     if (
-        document.body.contains(
-            document.querySelector('[data-micromodal-trigger]'),
-        )
+        document.body.contains(document.querySelector('[data-micromodal-hash]'))
     ) {
         // check if the modal should be open on page load
         if (window.location.hash && window.location.hash === '#modal-open') {
