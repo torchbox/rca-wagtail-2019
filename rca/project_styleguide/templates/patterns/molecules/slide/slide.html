@@ -1,4 +1,4 @@
-{% load wagtailimages_tags wagtailembeds_tags %}
+{% load wagtailimages_tags %}
 
 <div class="slide {% if slide.author %}slide--author{% endif %}" data-slide>
 
@@ -6,15 +6,6 @@
     {% image slide.image fill-829x585 as image_large %}
 
     {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=829 height=585 image_large=image_large classList='slide__image' %}
-
-    <!-- FE NOTE: this will be the popup / model for the video or audio -->
-    {% if slide.video_embed %}
-        {% embed slide.video_embed.url %}
-    {% endif %}
-    {% if slide.audio_embed %}
-        {% embed slide.audio_embed.url %}
-    {% endif %}
-
 
     <div class="slide__meta">
         {% if slide.document or slide.video_embed or slide.audio_embed %}
