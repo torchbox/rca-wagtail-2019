@@ -125,6 +125,10 @@
         }
     }
 
+    &__type-label {
+        text-align: left;
+    }
+
     .glide__slide--active & {
         #{$root}__meta {
             opacity: 1;
