@@ -28,3 +28,11 @@
         </div>
     </div>
 </div>
+
+<div class="slideshow-modals">
+    {% for slide in slideshow %}
+        {% include 'patterns/molecules/slide-modal/slide-modal.html' with slide=slide.value %}
+    {% endfor %}
+</div>
+
+
