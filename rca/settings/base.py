@@ -89,7 +89,7 @@ INSTALLED_APPS = [
     "wagtail.search",
     "wagtail.admin",
     "wagtail.contrib.legacy.richtext",
-    "wagtail.core",
+    "wagtail",
     "wagtailorderable",
     "import_export",
     "modelcluster",

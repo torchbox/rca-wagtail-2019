@@ -2,8 +2,8 @@
 
 import django.db.models.deletion
 import modelcluster.fields
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 from django.db import migrations, models
 
 
@@ -18,42 +18,42 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="developmentlandingpage",
             name="help_cta_block",
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
                     (
                         "call_to_action",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
                                 (
                                     "title",
-                                    wagtail.core.blocks.CharBlock(
+                                    wagtail.blocks.CharBlock(
                                         help_text="A large heading diplayed at the top of block",
                                         required=False,
                                     ),
                                 ),
                                 (
                                     "description",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
                                 (
                                     "page",
-                                    wagtail.core.blocks.PageChooserBlock(
+                                    wagtail.blocks.PageChooserBlock(
                                         required=False
                                     ),
                                 ),
                                 (
                                     "link",
-                                    wagtail.core.blocks.StructBlock(
+                                    wagtail.blocks.StructBlock(
                                         [
                                             (
                                                 "title",
-                                                wagtail.core.blocks.CharBlock(
+                                                wagtail.blocks.CharBlock(
                                                     required=False
                                                 ),
                                             ),
                                             (
                                                 "url",
-                                                wagtail.core.blocks.URLBlock(
+                                                wagtail.blocks.URLBlock(
                                                     required=False
                                                 ),
                                             ),

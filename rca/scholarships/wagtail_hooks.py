@@ -5,7 +5,7 @@ from wagtail.contrib.modeladmin.options import (
     ModelAdminGroup,
     modeladmin_register,
 )
-from wagtail.core import hooks
+from wagtail import hooks
 
 from rca.scholarships.models import ScholarshipEnquiryFormSubmission
 from rca.scholarships.views import scholarships_delete

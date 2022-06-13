@@ -4,8 +4,8 @@ from wagtail.contrib.modeladmin.options import (
     ModelAdminGroup,
     modeladmin_register,
 )
-from wagtail.core import hooks
-from wagtail.core.rich_text import LinkHandler
+from wagtail import hooks
+from wagtail.rich_text import LinkHandler
 from wagtailorderable.modeladmin.mixins import OrderableMixin
 
 from rca.editorial.models import Author, EditorialType

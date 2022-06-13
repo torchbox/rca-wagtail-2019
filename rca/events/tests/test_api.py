@@ -2,7 +2,7 @@ import json
 from datetime import date, time
 
 import wagtail_factories
-from wagtail.tests.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTests
 
 from rca.events.factories import (
     EventAvailabilityFactory,

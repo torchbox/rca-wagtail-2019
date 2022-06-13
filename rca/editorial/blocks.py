@@ -1,4 +1,4 @@
-from wagtail.core import blocks
+from wagtail import blocks
 from wagtail.embeds.blocks import EmbedBlock
 
 from rca.utils import blocks as utils_blocks

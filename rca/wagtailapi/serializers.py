@@ -4,7 +4,7 @@ from collections import OrderedDict
 from rest_framework.fields import Field
 from wagtail.api.v2.serializers import PageSerializer, get_serializer_class
 from wagtail.api.v2.utils import get_full_url
-from wagtail.core.models import Page
+from wagtail.models import Page
 from wagtail.images.api.v2.serializers import ImageSerializer
 from wagtail.images.models import SourceImageIOError
 

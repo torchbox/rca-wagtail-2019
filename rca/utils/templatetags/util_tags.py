@@ -4,8 +4,8 @@ from bs4 import BeautifulSoup
 from django import template
 from django.conf import settings
 from django.template.loader import render_to_string
-from wagtail.core.rich_text import RichText, expand_db_html
-from wagtail.core.utils import camelcase_to_underscore
+from wagtail.rich_text import RichText, expand_db_html
+from wagtail.coreutils import camelcase_to_underscore
 
 from rca.utils.models import SocialMediaSettings
 

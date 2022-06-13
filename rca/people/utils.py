@@ -1,6 +1,6 @@
 from django.apps import apps
 from django.db.models import Q
-from wagtail.admin.edit_handlers import ObjectList, TabbedInterface
+from wagtail.admin.panels import ObjectList, TabbedInterface
 from wagtail.utils.decorators import cached_classmethod
 
 

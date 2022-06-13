@@ -5,7 +5,7 @@ import wagtail_factories
 from django.test import override_settings
 from faker import Faker
 from wagtail.images.tests.utils import Image, get_test_image_file
-from wagtail.tests.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTests
 
 from rca.editorial.models import (
     EditorialPage,

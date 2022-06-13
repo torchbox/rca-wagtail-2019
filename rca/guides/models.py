@@ -3,13 +3,13 @@ from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
     StreamFieldPanel,
 )
-from wagtail.core.fields import StreamField
+from wagtail.fields import StreamField
 
 from rca.utils.blocks import AccordionBlockWithTitle, GuideBlock
 from rca.utils.models import (

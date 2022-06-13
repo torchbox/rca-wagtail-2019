@@ -5,12 +5,12 @@ from django.core import validators
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.forms.utils import ErrorList
 from modelcluster.models import ClusterableModel
-from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtail.admin.panels import StreamFieldPanel
 from wagtail.api import APIField
 from wagtail.contrib.settings.models import BaseSetting, register_setting
-from wagtail.core import blocks
-from wagtail.core.fields import StreamField
-from wagtail.core.models import Page
+from wagtail import blocks
+from wagtail.fields import StreamField
+from wagtail.models import Page
 
 
 def url_or_relative_url_validator(value):

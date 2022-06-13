@@ -2,8 +2,8 @@
 
 import django.db.models.deletion
 import modelcluster.fields
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 import wagtail.images.blocks
 from django.db import migrations, models
 
@@ -19,25 +19,25 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="studentpage",
             name="gallery",
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
                     (
                         "slide",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
                                 (
                                     "title",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
                                 ("image", wagtail.images.blocks.ImageChooserBlock()),
                                 (
                                     "author",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
-                                ("link", wagtail.core.blocks.URLBlock(required=False)),
+                                ("link", wagtail.blocks.URLBlock(required=False)),
                                 (
                                     "course",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
                             ]
                         ),

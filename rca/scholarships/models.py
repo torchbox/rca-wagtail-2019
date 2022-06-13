@@ -6,7 +6,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext as _
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     FieldRowPanel,
     InlinePanel,
@@ -15,8 +15,8 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
     TabbedInterface,
 )
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable
+from wagtail.fields import RichTextField, StreamField
+from wagtail.models import Orderable
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 

@@ -9,7 +9,7 @@ from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from modelcluster.fields import ParentalKey
 from rest_framework.fields import CharField as CharFieldSerializer
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
@@ -20,9 +20,9 @@ from wagtail.admin.edit_handlers import (
 )
 from wagtail.api import APIField
 from wagtail.contrib.settings.models import BaseSetting, register_setting
-from wagtail.core.blocks import CharBlock, StructBlock, URLBlock
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable, Site
+from wagtail.blocks import CharBlock, StructBlock, URLBlock
+from wagtail.fields import RichTextField, StreamField
+from wagtail.models import Orderable, Site
 from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.embeds import embeds
 from wagtail.embeds.exceptions import EmbedException

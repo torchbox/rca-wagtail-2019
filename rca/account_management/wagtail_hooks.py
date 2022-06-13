@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls import url
 from django.shortcuts import reverse
 from wagtail.admin.menu import MenuItem
-from wagtail.core import hooks
+from wagtail import hooks
 
 from .views import CreateStudentFormView
 

@@ -6,14 +6,14 @@ from django.db import models
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     HelpPanel,
     InlinePanel,
     MultiFieldPanel,
     StreamFieldPanel,
 )
-from wagtail.core.fields import StreamBlock, StreamField
+from wagtail.fields import StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.edit_handlers import ImageChooserPanel
 

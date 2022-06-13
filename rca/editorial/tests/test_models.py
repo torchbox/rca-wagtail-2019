@@ -1,5 +1,5 @@
 from django.test import TestCase
-from wagtail.tests.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTests
 
 from rca.editorial.factories import (
     AuthorFactory,

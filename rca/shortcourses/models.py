@@ -5,7 +5,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from rest_framework.fields import CharField as CharFieldSerializer
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
@@ -15,8 +15,8 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.api import APIField
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable
+from wagtail.fields import RichTextField, StreamField
+from wagtail.models import Orderable
 from wagtail.images import get_image_model_string
 from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.edit_handlers import ImageChooserPanel
