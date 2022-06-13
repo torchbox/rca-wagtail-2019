@@ -72,7 +72,7 @@ def social_media_links(context):
 
 
 default_domains = [
-    settings.BASE_URL,
+    settings.WAGTAILADMIN_BASE_URL,
     "rca-production.herokuapp.com",
     "rca-staging.herokuapp.com",
     "rca-development.herokuapp.com",

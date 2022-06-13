@@ -49,5 +49,5 @@ class Rendition(AbstractRendition):
         # patch for https://github.com/wagtail/wagtail/issues/6803
         url = self.url
         if url.startswith("/"):
-            url = settings.BASE_URL + url
+            url = settings.WAGTAILADMIN_BASE_URL + url
         return url

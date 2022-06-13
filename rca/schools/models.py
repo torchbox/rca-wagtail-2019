@@ -14,14 +14,12 @@ from wagtail.admin.panels import (
     MultiFieldPanel,
     ObjectList,
     PageChooserPanel,
-    StreamFieldPanel,
     TabbedInterface,
 )
 from wagtail.api import APIField
 from wagtail.fields import RichTextField, StreamBlock, StreamField
-from wagtail.models import Orderable, Page
 from wagtail.images import get_image_model_string
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.models import Orderable, Page
 from wagtail.search import index
 
 from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
@@ -51,7 +49,7 @@ class SchoolPagePageStaff(RelatedStaffPageWithManualOptions):
 class RelatedSchoolPage(Orderable):
     source_page = ParentalKey(Page, related_name="related_schools")
     page = models.ForeignKey("schools.SchoolPage", on_delete=models.CASCADE)
-    panels = [PageChooserPanel("page")]
+    panels = [FieldPanel("page")]
 
     api_fields = [
         "page",
@@ -73,7 +71,7 @@ class HeroItem(models.Model):
         related_name="+",
     )
     panels = [
-        ImageChooserPanel("hero_image"),
+        FieldPanel("hero_image"),
     ]
 
 
@@ -82,9 +80,10 @@ class SchoolPageTeaser(models.Model):
     title = models.CharField(max_length=125)
     summary = models.CharField(max_length=250, blank=True)
     pages = StreamField(
-        StreamBlock([("Page", RelatedPageListBlockPage(max_num=6))], max_num=1)
+        StreamBlock([("Page", RelatedPageListBlockPage(max_num=6))], max_num=1),
+        use_json_field=True,
     )
-    panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("pages")]
+    panels = [FieldPanel("title"), FieldPanel("summary"), FieldPanel("pages")]
 
     def __str__(self):
         return self.title
@@ -94,7 +93,9 @@ class SchoolPageStatsBlock(models.Model):
     source_page = ParentalKey("SchoolPage", related_name="stats_block")
     title = models.CharField(max_length=125)
     # statistics = StreamField([("statistic", StatisticBlock(max_num=1))])
-    statistics = StreamField(StreamBlock([("statistic", StatisticBlock())], max_num=5))
+    statistics = StreamField(
+        StreamBlock([("statistic", StatisticBlock())], max_num=5), use_json_field=True
+    )
     background_image = models.ForeignKey(
         get_image_model_string(),
         blank=True,
@@ -104,8 +105,8 @@ class SchoolPageStatsBlock(models.Model):
     )
     panels = [
         FieldPanel("title"),
-        ImageChooserPanel("background_image"),
-        StreamFieldPanel("statistics"),
+        FieldPanel("background_image"),
+        FieldPanel("statistics"),
     ]
 
     def __str__(self):
@@ -115,11 +116,14 @@ class SchoolPageStatsBlock(models.Model):
 class SchoolPageStudentResearch(LinkFields):
     source_page = ParentalKey("schools.SchoolPage", related_name="student_research")
     title = models.CharField(max_length=125)
-    slides = StreamField(StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1))
+    slides = StreamField(
+        StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1),
+        use_json_field=True,
+    )
 
     panels = [
         FieldPanel("title"),
-        StreamFieldPanel("slides"),
+        FieldPanel("slides"),
         *LinkFields.panels,
     ]
 
@@ -155,15 +159,18 @@ class SchoolPageRelatedProjectPage(Orderable):
     )
     page = models.ForeignKey("projects.ProjectPage", on_delete=models.CASCADE)
 
-    panels = [PageChooserPanel("page")]
+    panels = [FieldPanel("page")]
 
 
 class StudentPageStudentStories(models.Model):
     source_page = ParentalKey("SchoolPage", related_name="student_stories")
     title = models.CharField(max_length=125)
-    slides = StreamField(StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1))
+    slides = StreamField(
+        StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1),
+        use_json_field=True,
+    )
 
-    panels = [FieldPanel("title"), StreamFieldPanel("slides")]
+    panels = [FieldPanel("title"), FieldPanel("slides")]
 
     def __str__(self):
         return self.title
@@ -204,7 +211,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     get_in_touch = RichTextField(blank=True, features=["link"])
     # Social Links
     social_links = StreamField(
-        StreamBlock([("Link", LinkBlock())], max_num=5), blank=True
+        StreamBlock([("Link", LinkBlock())], max_num=5), blank=True, use_json_field=True
     )
     news_and_events_heading = models.CharField(blank=True, max_length=120)
     collaborators_heading = models.CharField(blank=True, max_length=120)
@@ -213,11 +220,13 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         blank=True,
         help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
             Aim for logos that sit on either a white or transparent background.",
+        use_json_field=True,
     )
     about_external_links = StreamField(
         [("link", InternalExternalLinkBlock())],
         blank=True,
         verbose_name="External links",
+        use_json_field=True,
     )
     about_cta_block = StreamField(
         StreamBlock(
@@ -225,19 +234,23 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         ),
         verbose_name="CTA",
         blank=True,
+        use_json_field=True,
     )
 
     research_projects_title = models.CharField(max_length=125, default="Our Research")
     research_projects_text = RichTextField(blank=True, features=["link"])
     external_links_heading = models.CharField(max_length=125, blank=True)
 
-    external_links = StreamField([("link", InternalExternalLinkBlock())], blank=True)
+    external_links = StreamField(
+        [("link", InternalExternalLinkBlock())], blank=True, use_json_field=True
+    )
     research_cta_block = StreamField(
         StreamBlock(
             [("call_to_action", CallToActionBlock(label=_("text promo")))],
             max_num=1,
         ),
         blank=True,
+        use_json_field=True,
     )
     research_collaborators_heading = models.CharField(blank=True, max_length=120)
     research_collaborators = StreamField(
@@ -245,6 +258,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         blank=True,
         help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
             Aim for logos that sit on either a white or transparent background.",
+        use_json_field=True,
     )
     related_programmes_title = models.CharField(blank=True, max_length=120)
     related_programmes_summary = models.CharField(blank=True, max_length=500)
@@ -254,7 +268,10 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         max_length=125, blank=True, verbose_name="Links heading"
     )
     programmes_external_links = StreamField(
-        [("link", InternalExternalLinkBlock())], blank=True, verbose_name="Links"
+        [("link", InternalExternalLinkBlock())],
+        blank=True,
+        verbose_name="Links",
+        use_json_field=True,
     )
     programmes_cta_block = StreamField(
         StreamBlock(
@@ -263,6 +280,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             verbose_name="Call to action",
         ),
         blank=True,
+        use_json_field=True,
     )
 
     # Staff
@@ -273,7 +291,10 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         blank=True, max_length=500, verbose_name="Related staff summary text"
     )
     staff_external_links = StreamField(
-        [("link", InternalExternalLinkBlock())], blank=True, verbose_name="Links"
+        [("link", InternalExternalLinkBlock())],
+        blank=True,
+        verbose_name="Links",
+        use_json_field=True,
     )
     staff_external_links_heading = models.CharField(
         max_length=125, blank=True, verbose_name="Related staff links heading"
@@ -285,6 +306,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             verbose_name="Call to action",
         ),
         blank=True,
+        use_json_field=True,
     )
     staff_link = models.URLField(blank=True)
     staff_link_text = models.CharField(
@@ -310,31 +332,31 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             help_text="You can add up to 6 hero images",
         ),
         FieldPanel("introduction"),
-        ImageChooserPanel("introduction_image"),
+        FieldPanel("introduction_image"),
         MultiFieldPanel(
             [FieldPanel("video"), FieldPanel("video_caption")], heading="Video"
         ),
         FieldPanel("body"),
     ]
     key_details_panels = [
-        PageChooserPanel("school_dean"),
+        FieldPanel("school_dean"),
         MultiFieldPanel(
             [FieldPanel("next_open_day_date"), FieldPanel("link_to_open_days")],
             heading="Next open day",
         ),
         FieldPanel("location"),
         FieldPanel("get_in_touch"),
-        StreamFieldPanel("social_links"),
+        FieldPanel("social_links"),
     ]
     about_panel = [
         InlinePanel("page_teasers", max_num=1, label="Page teasers"),
         MultiFieldPanel(
-            [FieldPanel("collaborators_heading"), StreamFieldPanel("collaborators")],
+            [FieldPanel("collaborators_heading"), FieldPanel("collaborators")],
             heading="Collaborators",
         ),
         InlinePanel("stats_block", label="Statistics", max_num=1),
-        StreamFieldPanel("about_external_links"),
-        StreamFieldPanel("about_cta_block"),
+        FieldPanel("about_external_links"),
+        FieldPanel("about_cta_block"),
     ]
     news_and_events_panels = [
         FieldPanel("news_and_events_heading"),
@@ -363,17 +385,15 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         MultiFieldPanel(
             [
                 FieldPanel("research_collaborators_heading"),
-                StreamFieldPanel("research_collaborators"),
+                FieldPanel("research_collaborators"),
             ],
             heading="Collaborators",
         ),
         MultiFieldPanel(
-            [FieldPanel("external_links_heading"), StreamFieldPanel("external_links")],
+            [FieldPanel("external_links_heading"), FieldPanel("external_links")],
             heading="Links",
         ),
-        MultiFieldPanel(
-            [StreamFieldPanel("research_cta_block")], heading="Call To Action"
-        ),
+        MultiFieldPanel([FieldPanel("research_cta_block")], heading="Call To Action"),
     ]
     programmes_panels = [
         FieldPanel("related_programmes_title"),
@@ -386,13 +406,11 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         MultiFieldPanel(
             [
                 FieldPanel("programmes_links_heading"),
-                StreamFieldPanel("programmes_external_links"),
+                FieldPanel("programmes_external_links"),
             ],
             heading="Links",
         ),
-        MultiFieldPanel(
-            [StreamFieldPanel("programmes_cta_block")], heading="Call To Action"
-        ),
+        MultiFieldPanel([FieldPanel("programmes_cta_block")], heading="Call To Action"),
     ]
     staff_panels = [
         FieldPanel("staff_title"),
@@ -409,11 +427,11 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         MultiFieldPanel(
             [
                 FieldPanel("staff_external_links_heading"),
-                StreamFieldPanel("staff_external_links", heading="Links"),
+                FieldPanel("staff_external_links", heading="Links"),
             ],
             heading="Links",
         ),
-        StreamFieldPanel("staff_cta_block", heading="Call to action"),
+        FieldPanel("staff_cta_block", heading="Call to action"),
     ]
     contact_panels = [
         MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),

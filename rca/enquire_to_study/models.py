@@ -13,7 +13,6 @@ from wagtail.admin.panels import (
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.fields import RichTextField
 from wagtail.models import Orderable
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 
 
@@ -109,7 +108,7 @@ class EnquiryFormSubmission(ClusterableModel):
             [InlinePanel("enquiry_submission_programmes")], heading="Programmes"
         ),
         FieldPanel("start_date"),
-        SnippetChooserPanel("enquiry_reason", heading="What's your enquiry about?"),
+        FieldPanel("enquiry_reason", heading="What's your enquiry about?"),
         MultiFieldPanel(
             [
                 FieldPanel("is_read_data_protection_policy"),
@@ -131,7 +130,7 @@ class EnquiryFormSubmissionProgrammesOrderable(Orderable):
     )
 
     panels = [
-        SnippetChooserPanel("programme"),
+        FieldPanel("programme"),
     ]
 
 

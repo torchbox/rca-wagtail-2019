@@ -18,10 +18,10 @@ from wagtail.admin.panels import (
     MultiFieldPanel,
     ObjectList,
     PageChooserPanel,
-    StreamFieldPanel,
     TabbedInterface,
 )
 from wagtail.fields import RichTextField, StreamField
+from wagtail.images import get_image_model_string
 from wagtail.models import (
     Collection,
     GroupCollectionPermission,
@@ -29,8 +29,6 @@ from wagtail.models import (
     Orderable,
     Page,
 )
-from wagtail.images import get_image_model_string
-from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from rca.api_content.content import CantPullFromRcaApi, pull_related_students
@@ -156,7 +154,7 @@ class StaffPageManualRelatedStudents(models.Model):
         FieldPanel("surname"),
         FieldPanel("status"),
         FieldPanel("link"),
-        PageChooserPanel("student_page"),
+        FieldPanel("student_page"),
     ]
 
     def clean(self):
@@ -201,16 +199,23 @@ class StaffPage(BasePage):
         ),
     )
     gallery = StreamField(
-        [("slide", GalleryBlock())], blank=True, verbose_name=_("Gallery")
+        [("slide", GalleryBlock())],
+        blank=True,
+        verbose_name=_("Gallery"),
+        use_json_field=True,
     )
     more_information_title = models.CharField(max_length=80, default="More information")
     more_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name=_("More information"),
+        use_json_field=True,
     )
     related_links = StreamField(
-        [("link", LinkBlock())], blank=True, verbose_name="Related Links"
+        [("link", LinkBlock())],
+        blank=True,
+        verbose_name="Related Links",
+        use_json_field=True,
     )
     legacy_staff_id = models.IntegerField(
         null=True,
@@ -243,7 +248,7 @@ class StaffPage(BasePage):
                 FieldPanel("staff_title"),
                 FieldPanel("first_name"),
                 FieldPanel("last_name"),
-                ImageChooserPanel("profile_image"),
+                FieldPanel("profile_image"),
             ],
             heading="Details",
         ),
@@ -260,19 +265,16 @@ class StaffPage(BasePage):
             ],
             heading=_("Research highlights gallery"),
         ),
-        StreamFieldPanel("gallery"),
+        FieldPanel("gallery"),
         MultiFieldPanel(
             [InlinePanel("related_students_manual"), FieldPanel("legacy_staff_id")],
             heading=_("Related Students"),
         ),
         MultiFieldPanel(
-            [
-                FieldPanel("more_information_title"),
-                StreamFieldPanel("more_information"),
-            ],
+            [FieldPanel("more_information_title"), FieldPanel("more_information"),],
             heading="More information",
         ),
-        StreamFieldPanel("related_links"),
+        FieldPanel("related_links"),
     ]
 
     edit_handler = TabbedInterface(
@@ -566,7 +568,7 @@ class RelatedStudentPage(Orderable):
     source_page = ParentalKey(Page, related_name="related_student_pages")
     page = models.ForeignKey("people.StudentPage", on_delete=models.CASCADE)
 
-    panels = [PageChooserPanel("page")]
+    panels = [FieldPanel("page")]
 
 
 class StudentPageGallerySlide(Orderable):
@@ -580,7 +582,7 @@ class StudentPageGallerySlide(Orderable):
     )
     author = models.CharField(max_length=120)
 
-    panels = [ImageChooserPanel("image"), FieldPanel("title"), FieldPanel("author")]
+    panels = [FieldPanel("image"), FieldPanel("title"), FieldPanel("author")]
 
 
 class StudentPageSocialLinks(Orderable):
@@ -637,7 +639,7 @@ class StudentPageSupervisor(models.Model):
         HelpPanel(
             content="Choose an internal Staff page or manually enter information"
         ),
-        PageChooserPanel("supervisor_page"),
+        FieldPanel("supervisor_page"),
         FieldPanel("title"),
         FieldPanel("first_name"),
         FieldPanel("surname"),
@@ -766,7 +768,7 @@ class StudentPage(PerUserPageMixin, BasePage):
         FieldPanel("student_funding"),
     ]
     basic_content_panels = [
-        MultiFieldPanel([ImageChooserPanel("profile_image")], heading="Details"),
+        MultiFieldPanel([FieldPanel("profile_image")], heading="Details"),
         FieldPanel("link_to_final_thesis"),
         InlinePanel("related_supervisor", label="Supervisor information"),
         MultiFieldPanel([FieldPanel("email")], heading="Contact information"),
@@ -811,12 +813,12 @@ class StudentPage(PerUserPageMixin, BasePage):
                 FieldPanel("student_title"),
                 FieldPanel("first_name"),
                 FieldPanel("last_name"),
-                ImageChooserPanel("profile_image"),
+                FieldPanel("profile_image"),
             ],
             heading="Details",
         ),
         MultiFieldPanel([FieldPanel("email")], heading="Contact information"),
-        PageChooserPanel("programme"),
+        FieldPanel("programme"),
         FieldPanel("degree_start_date"),
         FieldPanel("degree_end_date"),
         FieldPanel("degree_award"),

@@ -12,19 +12,12 @@ from django.utils.translation import gettext_lazy as _
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import ItemBase, TagBase
-from wagtail.admin.panels import (
-    FieldPanel,
-    MultiFieldPanel,
-    PageChooserPanel,
-    StreamFieldPanel,
-)
+from wagtail import blocks
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel
 from wagtail.api import APIField
 from wagtail.contrib.settings.models import BaseSetting, register_setting
-from wagtail import blocks
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Orderable, Page
-from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 
 from rca.api_content.content import CantPullFromRcaApi, pull_tagged_news_and_events
@@ -108,11 +101,7 @@ class LinkFields(models.Model):
 
     panels = [
         MultiFieldPanel(
-            [
-                PageChooserPanel("link_page"),
-                FieldPanel("link_url"),
-                FieldPanel("link_text"),
-            ],
+            [FieldPanel("link_page"), FieldPanel("link_url"), FieldPanel("link_text"),],
             "Link",
         )
     ]
@@ -132,7 +121,7 @@ class RelatedPage(Orderable, models.Model):
         abstract = True
         ordering = ["sort_order"]
 
-    panels = [PageChooserPanel("page")]
+    panels = [FieldPanel("page")]
 
 
 class RelatedStaffPageWithManualOptions(Orderable):
@@ -192,7 +181,7 @@ class RelatedStaffPageWithManualOptions(Orderable):
 
     panels = [
         PageChooserPanel("page", page_type="people.StaffPage"),
-        ImageChooserPanel("image"),
+        FieldPanel("image"),
         FieldPanel("first_name"),
         FieldPanel("surname"),
         FieldPanel("role"),
@@ -245,8 +234,7 @@ class SocialFields(models.Model):
 
     promote_panels = [
         MultiFieldPanel(
-            [ImageChooserPanel("social_image"), FieldPanel("social_text")],
-            "Social networks",
+            [FieldPanel("social_image"), FieldPanel("social_text")], "Social networks",
         )
     ]
 
@@ -279,7 +267,7 @@ class ListingFields(models.Model):
     promote_panels = [
         MultiFieldPanel(
             [
-                ImageChooserPanel("listing_image"),
+                FieldPanel("listing_image"),
                 FieldPanel("listing_title"),
                 FieldPanel("listing_summary"),
             ],
@@ -323,13 +311,14 @@ class CallToActionSnippet(models.Model):
             max_num=1,
         ),
         blank=True,
+        use_json_field=True,
     )
 
     panels = [
         FieldPanel("title"),
         FieldPanel("summary"),
-        ImageChooserPanel("image"),
-        StreamFieldPanel("link"),
+        FieldPanel("image"),
+        FieldPanel("link"),
     ]
 
     def get_link_text(self):
@@ -461,9 +450,9 @@ class NewsAndEventsMixin:
 
     def __init__(self, page, *args, **kwargs):
 
-        from rca.landingpages.models import LandingPage
-        from rca.events.models import EventDetailPage
         from rca.editorial.models import EditorialPage
+        from rca.events.models import EventDetailPage
+        from rca.landingpages.models import LandingPage
 
         self.event_page_model = EventDetailPage
         self.editorial_page_model = EditorialPage
@@ -928,8 +917,8 @@ class ContactFieldsMixin(models.Model):
                 FieldPanel("contact_model_url"),
                 FieldPanel("contact_model_link_text"),
                 FieldPanel("contact_model_text"),
-                PageChooserPanel("contact_model_form"),
-                ImageChooserPanel("contact_model_image"),
+                FieldPanel("contact_model_form"),
+                FieldPanel("contact_model_image"),
             ],
             "Contact",
         )
@@ -960,7 +949,7 @@ class TapMixin(models.Model):
         blank=True,
     )
 
-    panels = [SnippetChooserPanel("tap_widget")]
+    panels = [FieldPanel("tap_widget")]
 
     class Meta:
         abstract = True

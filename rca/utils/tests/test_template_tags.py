@@ -30,7 +30,7 @@ class IsExternalTestCase(TestCase):
     def test_all_internals(self):
         # all the internal domains with protocol should return false
         domains_with_protocol = [
-            settings.BASE_URL,
+            settings.WAGTAILADMIN_BASE_URL,
             "https://rca-production.herokuapp.com/monty",
             "https://rca-staging.herokuapp.com/python",
             "https://rca-development.herokuapp.com/and",
