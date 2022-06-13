@@ -7,7 +7,7 @@ authors = ["Kevin Howbrook <kevin.howbrook@torchbox.com>"]
 [tool.poetry.dependencies]
 python = "~3.8"
 django = "~3.2.13"
-wagtail = "~2.16"
+wagtail = "~3.0"
 psycopg2 = "~2.8"
 gunicorn = {version = "~20.0", optional = true}
 wagtail-django-recaptcha = "1.0"
@@ -22,10 +22,13 @@ django-csp = "~3.6"
 scout-apm = "~2.18"
 django-basic-auth-ip-whitelist = "~0.3.4"
 wagtail-accessibility = "~0.2"
-wagtail-storages = "~0.0.4"
+wagtail-storages = "0.5.1rc1"
 coverage = "^5.4"
 wagtail-factories = "^2.0.1"
-wagtail-orderable = "^1.0.3"
+# wagtail-orderable = "^1.0.3"
+# Update this to the latest version once it's released
+# https://github.com/elton2048/wagtail-orderable/pull/32
+wagtail-orderable = {git = "https://github.com/BrianXu20/wagtail-orderable.git", rev = "feature/wagtail-3.0"}
 wagtail_redirect_importer = "^1.0.2"
 django-import-export = "^2.5.0"
 django-phonenumber-field = {extras = ["phonenumbers"], version = "^5.2.0"}
