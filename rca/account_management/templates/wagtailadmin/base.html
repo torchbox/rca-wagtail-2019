@@ -2,6 +2,48 @@
 {% load wagtailadmin_tags wagtailcore_tags i18n %}
 
 {% block furniture %}
+    <template data-wagtail-sidebar-branding-logo>{% block branding_logo %}{% endblock %}</template>
+    {% sidebar_props %}
+    {% comment nicks notes %} 
+    The current intent is: If the user is a student we don't want them to be able to see the search bar
+    {% endcomment %}
+    <aside id="wagtail-sidebar" class="sidebar-loading" data-wagtail-sidebar aria-label="{% trans 'Sidebar' %}"></aside>
+    <main class="content-wrapper w-overflow-x-hidden" id="main">
+        <div class="content">
+            {# Always show messages div so it can be appended to by JS #}
+            <div class="messages">
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            {% message_level_tag message as level_tag %}
+                            <li class="{% message_tags message %}">
+                                {% if level_tag == "error" %}
+                                    {# There is no error icon, use warning icon instead #}
+                                    {% icon name="warning" class_name="messages-icon" %}
+                                {% elif message.extra_tags == "lock" %}
+                                    {% icon name="lock" class_name="messages-icon" %}
+                                {% elif message.extra_tags == "unlock" %}
+                                    {% icon name="lock-open" class_name="messages-icon" %}
+                                {% else %}
+                                    {% icon name=level_tag class_name="messages-icon" %}
+                                {% endif %}
+                                {{ message|safe }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+{% endblock %}
+
+{% comment nicks notes %} 
+The below is the 2.16 version of the side bar
+{% endcomment %}
+
+{% comment %} {% block furniture %}
     <aside class="nav-wrapper" data-nav-primary>
         <div class="inner">
             <a href="{% url 'wagtailadmin_home' %}" class="logo" aria-label="{% trans 'Dashboard' %}">
@@ -57,4 +99,4 @@
             {% block content %}{% endblock %}
         </div>
     </main>
-{% endblock %}
+{% endblock %} {% endcomment %}

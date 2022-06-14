@@ -141,4 +141,4 @@ class PerUserPageMixin:
 
         edit_handler = TabbedInterface(tabs, base_form_class=cls.base_form_class)
 
-        return edit_handler.bind_to(model=cls)
+        return edit_handler.bind_to_model(cls)
