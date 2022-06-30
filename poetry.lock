@@ -1765,7 +1765,7 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.8"
-content-hash = "b35d37a9339cc80bad6620e637eac00e5fad650aebe06b322e3e8fae258b0449"
+content-hash = "eb3d16c96eb15a37b1a3f21f4c4b018bb1964ddf9c160915b158d4decd9aacdf"
 
 [metadata.files]
 anyascii = [
