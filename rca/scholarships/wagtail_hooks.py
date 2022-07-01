@@ -1,11 +1,11 @@
 from django.conf.urls import url
+from wagtail import hooks
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
 from wagtail.contrib.modeladmin.options import (
     ModelAdmin,
     ModelAdminGroup,
     modeladmin_register,
 )
-from wagtail import hooks
 
 from rca.scholarships.models import ScholarshipEnquiryFormSubmission
 from rca.scholarships.views import scholarships_delete

@@ -1,7 +1,7 @@
 from django.conf.urls import url
+from wagtail import hooks
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
-from wagtail import hooks
 
 from rca.enquire_to_study.models import EnquiryFormSubmission
 

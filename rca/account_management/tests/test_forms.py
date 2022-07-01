@@ -1,11 +1,7 @@
 from django.contrib.auth.models import Group, Permission
 from django.test import TestCase
 from django.urls import reverse
-from wagtail.models import (
-    Collection,
-    GroupCollectionPermission,
-    GroupPagePermission,
-)
+from wagtail.models import Collection, GroupCollectionPermission, GroupPagePermission
 from wagtail_factories import CollectionFactory
 
 from rca.account_management.forms import StudentCreateForm

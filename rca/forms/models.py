@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from modelcluster.fields import ParentalKey
+from wagtail.admin.mail import send_mail
 from wagtail.admin.panels import (
     FieldPanel,
     FieldRowPanel,
@@ -10,7 +11,6 @@ from wagtail.admin.panels import (
     ObjectList,
     TabbedInterface,
 )
-from wagtail.admin.mail import send_mail
 from wagtail.contrib.forms.models import AbstractFormField
 from wagtail.fields import RichTextField
 from wagtail.search import index
