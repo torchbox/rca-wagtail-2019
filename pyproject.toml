@@ -25,10 +25,7 @@ wagtail-accessibility = "~0.2"
 wagtail-storages = "0.5.1rc1"
 coverage = "^5.4"
 wagtail-factories = "^2.0.1"
-# wagtail-orderable = "^1.0.3"
-# Update this to the latest version once it's released
-# https://github.com/elton2048/wagtail-orderable/pull/32
-wagtail-orderable = {git = "https://github.com/BrianXu20/wagtail-orderable.git", rev = "feature/wagtail-3.0"}
+wagtail-orderable = "^1.0.4"
 wagtail_redirect_importer = "^1.0.2"
 django-import-export = "^2.5.0"
 django-phonenumber-field = {extras = ["phonenumbers"], version = "^5.2.0"}
