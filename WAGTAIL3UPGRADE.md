@@ -14,7 +14,6 @@ The side bar is now a javascript constructed element so the current implementati
 
 `rca/account_management/templates/wagtailadmin/base.html`
 
-
 ## Content Panels
 
 ### Current Implementation
@@ -23,7 +22,11 @@ The side bar is now a javascript constructed element so the current implementati
 
 ### Problem
 
-I'm unsure about the changes needed here. I'm not entirely sure how this is intended or currently works.
+I'm unsure about the all changes needed here.
+
+I have a feeling it's a more changes than we have seen on other panel updates.
+
+The upgrade [docs] have an example but it's not quite what we need due to the student/staff permissions used.
 
 ### Files:
 
