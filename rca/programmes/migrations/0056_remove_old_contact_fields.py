@@ -11,12 +11,36 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="programmeindexpage", name="contact_email",),
-        migrations.RemoveField(model_name="programmeindexpage", name="contact_image",),
-        migrations.RemoveField(model_name="programmeindexpage", name="contact_text",),
-        migrations.RemoveField(model_name="programmeindexpage", name="contact_title",),
-        migrations.RemoveField(model_name="programmeindexpage", name="contact_url",),
-        migrations.RemoveField(model_name="programmepage", name="contact_email",),
-        migrations.RemoveField(model_name="programmepage", name="contact_image",),
-        migrations.RemoveField(model_name="programmepage", name="contact_url",),
+        migrations.RemoveField(
+            model_name="programmeindexpage",
+            name="contact_email",
+        ),
+        migrations.RemoveField(
+            model_name="programmeindexpage",
+            name="contact_image",
+        ),
+        migrations.RemoveField(
+            model_name="programmeindexpage",
+            name="contact_text",
+        ),
+        migrations.RemoveField(
+            model_name="programmeindexpage",
+            name="contact_title",
+        ),
+        migrations.RemoveField(
+            model_name="programmeindexpage",
+            name="contact_url",
+        ),
+        migrations.RemoveField(
+            model_name="programmepage",
+            name="contact_email",
+        ),
+        migrations.RemoveField(
+            model_name="programmepage",
+            name="contact_image",
+        ),
+        migrations.RemoveField(
+            model_name="programmepage",
+            name="contact_url",
+        ),
     ]

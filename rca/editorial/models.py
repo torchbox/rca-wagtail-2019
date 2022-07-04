@@ -165,7 +165,9 @@ class EditorialPage(ContactFieldsMixin, BasePage):
     )
     download_assets_url = models.URLField(blank=True)
     download_assets_link_title = models.CharField(
-        blank=True, max_length=125, help_text="The text displayed as the download link",
+        blank=True,
+        max_length=125,
+        help_text="The text displayed as the download link",
     )
 
     content_panels = BasePage.content_panels + [

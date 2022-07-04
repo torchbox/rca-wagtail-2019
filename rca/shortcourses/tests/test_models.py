@@ -18,7 +18,7 @@ class TestShortCoursePageFactories(TestCase):
 
 
 class TestBookingBarLogic(TestCase):
-    """ Test the various states that the booking bar logic can return, the logic
+    """Test the various states that the booking bar logic can return, the logic
     for this has become quite involved so the main aim of the testing here is
     to describe how it actually functions.
 
@@ -105,7 +105,8 @@ class TestBookingBarLogic(TestCase):
 
         response = self.client.get("/short-course/")
         self.assertEqual(
-            "https://rca.ac.uk/short-courses/register-your-interest/", register_link,
+            "https://rca.ac.uk/short-courses/register-your-interest/",
+            register_link,
         )
         self.assertContains(response, "Register your interest for upcoming dates")
         self.assertContains(response, APPLY_MESSAGE)

@@ -954,7 +954,10 @@ def get_listing_image(page):
 
 class TapMixin(models.Model):
     tap_widget = models.ForeignKey(
-        "utils.TapWidgetSnippet", on_delete=models.SET_NULL, null=True, blank=True,
+        "utils.TapWidgetSnippet",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
     )
 
     panels = [SnippetChooserPanel("tap_widget")]

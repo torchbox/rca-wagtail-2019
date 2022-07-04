@@ -173,7 +173,7 @@ class RelatedLandingPage(Orderable):
 
 
 class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
-    """ Defines all the fields we will need for the other versions of landing pages
+    """Defines all the fields we will need for the other versions of landing pages
     visibility of some extra fields that aren't needed on certain models which inherit LandingPage
     are controlled at the content_panels level.
 
@@ -265,7 +265,10 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
     )
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+        MultiFieldPanel(
+            [ImageChooserPanel("hero_image")],
+            heading=_("Hero"),
+        ),
         MultiFieldPanel(
             [FieldPanel("introduction"), PageChooserPanel("about_page")],
             heading=_("Introduction"),
@@ -374,7 +377,7 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
         return related_pages
 
     def get_page_list(self):
-        """ Formats the related items coming from streamfield blocks
+        """Formats the related items coming from streamfield blocks
         into a digestable list for the template"""
         items = []
         for block in self.page_list:
@@ -475,7 +478,10 @@ class ResearchLandingPage(LandingPage):
     content_panels = (
         BasePage.content_panels
         + [
-            MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+            MultiFieldPanel(
+                [ImageChooserPanel("hero_image")],
+                heading=_("Hero"),
+            ),
             MultiFieldPanel(
                 [FieldPanel("introduction"), PageChooserPanel("about_page")],
                 heading=_("Introduction"),
@@ -543,7 +549,10 @@ class InnovationLandingPage(LandingPage):
     content_panels = (
         BasePage.content_panels
         + [
-            MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+            MultiFieldPanel(
+                [ImageChooserPanel("hero_image")],
+                heading=_("Hero"),
+            ),
             MultiFieldPanel(
                 [FieldPanel("introduction"), PageChooserPanel("about_page")],
                 heading=_("Introduction"),
@@ -644,12 +653,16 @@ class EELandingPage(ContactFieldsMixin, BasePage):
     max_count = 1
 
     news_link_text = models.TextField(
-        max_length=120, blank=False, help_text=_("The text do display for the link"),
+        max_length=120,
+        blank=False,
+        help_text=_("The text do display for the link"),
     )
     news_link_target_url = models.URLField(blank=False)
 
     events_link_text = models.TextField(
-        max_length=120, blank=False, help_text=_("The text do display for the link"),
+        max_length=120,
+        blank=False,
+        help_text=_("The text do display for the link"),
     )
     events_link_target_url = models.URLField(blank=False)
 
@@ -659,7 +672,9 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         help_text=_("Short text summary displayed with the 'Stories' title"),
     )
     stories_link_text = models.TextField(
-        max_length=120, blank=False, help_text=_("The text do display for the link"),
+        max_length=120,
+        blank=False,
+        help_text=_("The text do display for the link"),
     )
     stories_link_target_url = models.URLField(blank=False)
 
@@ -669,7 +684,9 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         help_text=_("Short text summary displayed with the 'Talks' title"),
     )
     talks_link_text = models.TextField(
-        max_length=120, blank=False, help_text=_("The text do display for the link"),
+        max_length=120,
+        blank=False,
+        help_text=_("The text do display for the link"),
     )
     talks_link_target_url = models.URLField(blank=False)
     talks_image = models.ForeignKey(
@@ -690,7 +707,11 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         help_text=_("The text displayed for this section in the in-page navigation"),
     )
     cta_block = StreamField(
-        StreamBlock([("call_to_action", CallToActionBlock())], max_num=1,), blank=True
+        StreamBlock(
+            [("call_to_action", CallToActionBlock())],
+            max_num=1,
+        ),
+        blank=True,
     )
 
     class Meta:
@@ -758,8 +779,8 @@ class EELandingPage(ContactFieldsMixin, BasePage):
                 }
 
     def anchor_nav(self):
-        """ Build list of data to be used as
-        in-page navigation """
+        """Build list of data to be used as
+        in-page navigation"""
         return [
             {"title": "News", "link": "news"},
             {"title": "Events", "link": "events"},
@@ -904,7 +925,9 @@ class AlumniLandingPage(LandingPage):
     )
     # "latest"' section
     news_link_text = models.TextField(
-        max_length=120, blank=False, help_text=_("The text do display for the link"),
+        max_length=120,
+        blank=False,
+        help_text=_("The text do display for the link"),
     )
     news_link_target_url = models.URLField(blank=False)
     latest_intro = models.CharField(
@@ -925,7 +948,10 @@ class AlumniLandingPage(LandingPage):
     )
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+        MultiFieldPanel(
+            [ImageChooserPanel("hero_image")],
+            heading=_("Hero"),
+        ),
         FieldPanel("introduction"),
         MultiFieldPanel(
             [
@@ -1020,8 +1046,8 @@ class AlumniLandingPage(LandingPage):
         return related_pages
 
     def anchor_nav(self):
-        """ Build list of data to be used as
-        in-page navigation """
+        """Build list of data to be used as
+        in-page navigation"""
         return [
             {"title": "Alumni benefits", "link": "alumni-benefits"},
             {"title": "Latest", "link": "latest"},
@@ -1094,7 +1120,9 @@ class DevelopmentLandingPage(LandingPage):
     )
     body = RichTextField(blank=True)
     how_you_can_help_intro = models.CharField(
-        max_length=250, blank=True, help_text=_("Short text summary for the section"),
+        max_length=250,
+        blank=True,
+        help_text=_("Short text summary for the section"),
     )
     help_cta_block = StreamField(
         [("call_to_action", CallToActionBlock(label=_("text promo")))],
@@ -1103,7 +1131,9 @@ class DevelopmentLandingPage(LandingPage):
     )
     # "Stories"' section
     stories_link_text = models.TextField(
-        max_length=120, blank=False, help_text=_("The text do display for the link"),
+        max_length=120,
+        blank=False,
+        help_text=_("The text do display for the link"),
     )
     stories_link_target_url = models.URLField(blank=False)
     stories_intro = models.CharField(
@@ -1119,7 +1149,10 @@ class DevelopmentLandingPage(LandingPage):
     )
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+        MultiFieldPanel(
+            [ImageChooserPanel("hero_image")],
+            heading=_("Hero"),
+        ),
         FieldPanel("introduction"),
         MultiFieldPanel(
             [
@@ -1207,8 +1240,8 @@ class DevelopmentLandingPage(LandingPage):
         return related_pages
 
     def anchor_nav(self):
-        """ Build list of data to be used as
-        in-page navigation """
+        """Build list of data to be used as
+        in-page navigation"""
         return [
             {"title": "The story", "link": "the-story"},
             {"title": "How you can help", "link": "how-you-can-help"},
@@ -1243,7 +1276,10 @@ class TapLandingPage(LandingPage):
         verbose_name = "Landing Page - TAP"
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+        MultiFieldPanel(
+            [ImageChooserPanel("hero_image")],
+            heading=_("Hero"),
+        ),
         MultiFieldPanel(
             [FieldPanel("introduction"), PageChooserPanel("about_page")],
             heading=_("Introduction"),

@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
             new_name="next_open_day_date",
         ),
         migrations.RemoveField(
-            model_name="schoolpage", name="next_open_day_start_date",
+            model_name="schoolpage",
+            name="next_open_day_start_date",
         ),
     ]

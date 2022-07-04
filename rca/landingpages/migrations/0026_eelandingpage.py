@@ -66,7 +66,9 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "Landing Page - Editorial and Events",},
+            options={
+                "verbose_name": "Landing Page - Editorial and Events",
+            },
             bases=("wagtailcore.page", models.Model),
         ),
     ]

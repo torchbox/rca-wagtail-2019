@@ -12,8 +12,20 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="guidepage", name="contact_email",),
-        migrations.RemoveField(model_name="guidepage", name="contact_image",),
-        migrations.RemoveField(model_name="guidepage", name="contact_text",),
-        migrations.RemoveField(model_name="guidepage", name="contact_url",),
+        migrations.RemoveField(
+            model_name="guidepage",
+            name="contact_email",
+        ),
+        migrations.RemoveField(
+            model_name="guidepage",
+            name="contact_image",
+        ),
+        migrations.RemoveField(
+            model_name="guidepage",
+            name="contact_text",
+        ),
+        migrations.RemoveField(
+            model_name="guidepage",
+            name="contact_url",
+        ),
     ]

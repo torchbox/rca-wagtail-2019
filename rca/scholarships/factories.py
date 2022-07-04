@@ -49,7 +49,8 @@ class ScholarshipFactory(factory.django.DjangoModelFactory):
 
         if not extracted:
             extracted = ScholarshipFundingFactory.generate_batch(
-                strategy=factory.CREATE_STRATEGY, size=random.randint(1, 4),
+                strategy=factory.CREATE_STRATEGY,
+                size=random.randint(1, 4),
             )
         obj.funding_categories.add(*extracted)
 
@@ -60,7 +61,8 @@ class ScholarshipFactory(factory.django.DjangoModelFactory):
 
         if not extracted:
             extracted = ScholarshipFeeStatusFactory.generate_batch(
-                strategy=factory.CREATE_STRATEGY, size=random.randint(1, 4),
+                strategy=factory.CREATE_STRATEGY,
+                size=random.randint(1, 4),
             )
         obj.fee_statuses.add(*extracted)
 
@@ -116,9 +118,11 @@ class ScholarshipEnquiryFormSubmissionFactory(factory.django.DjangoModelFactory)
 
         if not extracted:
             extracted = ScholarshipFactory.generate_batch(
-                strategy=factory.CREATE_STRATEGY, size=2,
+                strategy=factory.CREATE_STRATEGY,
+                size=2,
             )
         for scholarship in extracted:
             ScholarshipEnquiryFormSubmissionScholarshipOrderable.objects.create(
-                scholarship_submission=obj, scholarship=scholarship,
+                scholarship_submission=obj,
+                scholarship=scholarship,
             )
