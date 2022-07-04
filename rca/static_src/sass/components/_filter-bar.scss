@@ -14,10 +14,10 @@
     &--small {
         border-width: 0 0 1px;
         border-style: solid;
-        padding: ($gutter / 2) $gutter;
+        padding: ($gutter * 0.5) $gutter;
 
         @include media-query(medium) {
-            padding: ($gutter / 2) ($gutter * 3);
+            padding: ($gutter * 0.5) ($gutter * 3);
         }
 
         @include media-query(large) {

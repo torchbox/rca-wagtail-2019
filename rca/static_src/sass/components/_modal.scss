@@ -27,7 +27,7 @@
     }
 
     &__header {
-        margin-top: ($gutter / 2);
+        margin-top: ($gutter * 0.5);
         margin-bottom: ($gutter * 2);
 
         @include media-query(medium) {
@@ -53,7 +53,7 @@
     &__close-label {
         display: none;
         font-family: $font--secondary;
-        margin-right: ($gutter / 4);
+        margin-right: ($gutter * 0.25);
         pointer-events: none;
 
         @include media-query(large) {

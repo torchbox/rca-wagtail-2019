@@ -35,7 +35,7 @@
         grid-column: 1 / span 1;
         padding-top: ($gutter);
         padding-bottom: ($gutter);
-        padding-right: ($gutter / 2);
+        padding-right: ($gutter * 0.5);
 
         @include media-query(medium) {
             display: block;
