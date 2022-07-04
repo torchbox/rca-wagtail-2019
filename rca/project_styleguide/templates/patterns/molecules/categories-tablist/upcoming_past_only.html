@@ -1,0 +1,43 @@
+<a style="color:red" id="eventtoggle" onclick="toggleEvents()">
+
+</a>
+
+<script>
+    const toggle = document.getElementById('eventtoggle');
+
+    var location_root = window.location.href
+    location_root = location_root.replace("#results","");
+    var events_path = window.location.pathname
+
+    let paramString = location_root.split('?')[1];
+    let queryString = new URLSearchParams(paramString);
+    tense = queryString.get('tense')
+    if (tense == 'past'){
+        toggle.text = "Show future events"
+    }
+    if (tense == 'future' || !tense){
+        console.log('future tense')
+        toggle.text = "Show past events"
+    }
+
+    function toggleEvents(){
+        toggle_state = toggle.getAttribute('data-events-past');
+        tense = queryString.get('tense')
+        if (!tense){
+            queryString.set('tense', 'past')
+            url = `${events_path}?${queryString.toString()}#results`
+            window.location = url
+        }
+        if (tense == 'past'){
+            queryString.set('tense', 'future')
+            url = `${events_path}?${queryString.toString()}#results`
+            window.location = url
+        }
+        if (tense == 'future'){
+            queryString.set('tense', 'past')
+            url = `${events_path}?${queryString.toString()}#results`
+            window.location = url
+        }
+    }
+
+</script>
