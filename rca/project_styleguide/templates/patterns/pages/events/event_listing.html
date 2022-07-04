@@ -41,6 +41,8 @@
             </div>
         </header>
 
+        {% include "patterns/molecules/categories-tablist/upcoming_past_only.html" with value=filters modifier="large" reset=True reset_button_text="Reset" %}
+
         <form class="page__content js-detect-sticking js-tabs" method="get" action="#results">
 
             <nav class="section bg bg--dark filter-bar filter-bar--large" data-filter-bar>
@@ -59,6 +61,7 @@
                                 <span class="link__label">Show results</span>
                                 <svg width="12" height="8" class="link__icon link__icon--rotated" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                             </button>
+
                         </div>
                     </div>
 
