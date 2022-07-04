@@ -54,7 +54,7 @@
         @include font-size(xxs);
 
         li {
-            margin-bottom: ($gutter / 4);
+            margin-bottom: ($gutter * 0.25);
         }
     }
 

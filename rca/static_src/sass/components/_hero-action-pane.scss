@@ -87,7 +87,7 @@
         position: relative;
         width: 170px;
         display: block;
-        padding-top: ($gutter / 2);
+        padding-top: ($gutter * 0.5);
         pointer-events: auto;
 
         @include media-query(medium) {
@@ -130,8 +130,8 @@
     &__cta-heading {
         @include font-size(xs);
         color: currentColor;
-        margin-bottom: ($gutter / 2);
-        padding-right: ($gutter / 2);
+        margin-bottom: ($gutter * 0.5);
+        padding-right: ($gutter * 0.5);
 
         @include media-query(medium) {
             padding-right: $gutter;
@@ -141,13 +141,13 @@
     &__cta-sub-heading {
         @include font-size(xxxs);
         color: currentColor;
-        padding-right: ($gutter / 2);
+        padding-right: ($gutter * 0.5);
     }
 
     &__cta-icon {
         position: absolute;
         left: 161px;
-        top: ($gutter / 2);
+        top: ($gutter * 0.5);
         transition: transform $transition;
         transform: rotate(-45deg) translate3d(0, 0, 0);
 
