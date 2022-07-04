@@ -10,7 +10,7 @@
 
     &__label {
         @include font-size(xxxs);
-        margin-left: ($gutter / 2);
+        margin-left: ($gutter * 0.5);
         color: $color--white;
     }
 

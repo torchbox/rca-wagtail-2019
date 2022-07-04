@@ -214,7 +214,7 @@
     }
 
     &__preview-text {
-        margin: ($gutter / 2) 0 0;
+        margin: ($gutter * 0.5) 0 0;
         transition: color $transition;
         max-width: 65%;
         font-weight: $weight--normal;

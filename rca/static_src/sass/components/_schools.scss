@@ -5,7 +5,7 @@
         top: -($gutter);
 
         @include media-query(medium) {
-            top: -($gutter / 2);
+            top: -($gutter * 0.5);
         }
 
         @include media-query(large) {

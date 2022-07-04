@@ -18,7 +18,7 @@
         border-radius: 0;
         width: 100%;
         border-bottom: 1px inset $color--white;
-        padding: ($gutter / 2) ($gutter * 1.5) ($gutter / 2) ($gutter / 2);
+        padding: ($gutter * 0.5) ($gutter * 1.5) ($gutter * 0.5) ($gutter * 0.5);
         transition: border-width $transition-cubic,
             border-color $transition-cubic;
 
