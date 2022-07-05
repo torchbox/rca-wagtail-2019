@@ -11,7 +11,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterModelOptions(
-            name="editorialpagetypeplacement", options={"ordering": ["sort_order"]},
+            name="editorialpagetypeplacement",
+            options={"ordering": ["sort_order"]},
         ),
         migrations.AddField(
             model_name="editorialpagetypeplacement",

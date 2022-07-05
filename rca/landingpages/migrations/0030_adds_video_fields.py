@@ -48,7 +48,9 @@ class Migration(migrations.Migration):
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name="eelandingpage", name="video", field=models.URLField(blank=True),
+            model_name="eelandingpage",
+            name="video",
+            field=models.URLField(blank=True),
         ),
         migrations.AddField(
             model_name="eelandingpage",

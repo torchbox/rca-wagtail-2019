@@ -214,7 +214,8 @@ class EventAPIResponseTest(WagtailPageTests):
             response.data["related_schools"][1]["page"]["intranet_slug"], "school-two"
         )
         self.assertEqual(
-            response.data["listing_title"], "The listing title",
+            response.data["listing_title"],
+            "The listing title",
         )
         self.assertEqual(response.data["listing_summary"], "A summary for listing")
         self.assertEqual(response.data["listing_image"]["title"], "The listing image")
@@ -232,7 +233,8 @@ class EventSerializerTests(WagtailPageTests):
     def setUp(self):
         self.home_page = HomePage.objects.first()
         self.event_page = EventDetailPageFactory(
-            parent=self.home_page, event_type=EventTypeFactory(),
+            parent=self.home_page,
+            event_type=EventTypeFactory(),
         )
 
     def test_api_response_for_event(self):

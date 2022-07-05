@@ -190,7 +190,10 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         [("link", LinkBlock())], blank=True, verbose_name="External Links"
     )
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+        MultiFieldPanel(
+            [ImageChooserPanel("hero_image")],
+            heading=_("Hero"),
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("introduction"),
@@ -322,7 +325,7 @@ class ProjectPage(ContactFieldsMixin, BasePage):
             return related_research_page.page
 
     def get_expertise_linked_filters(self):
-        """ For the expertise taxonomy thats listed out in key details,
+        """For the expertise taxonomy thats listed out in key details,
         they need to link to the parent project picker page with a filter pre
         selected"""
         # Get parent page
@@ -341,7 +344,7 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         return expertise
 
     def get_sector_linked_filters(self):
-        """ For the sector taxonomy thats listed out in key details,
+        """For the sector taxonomy thats listed out in key details,
         they need to link to the parent project picker page with a filter pre
         selected"""
 
@@ -417,7 +420,7 @@ class ProjectPickerPage(BasePage):
         return extra_query_params
 
     def _format_projects(self, projects):
-        """ Prepares the queryset into a digestable list for the template """
+        """Prepares the queryset into a digestable list for the template"""
         projects_formatted = []
         for page in projects:
             year = None

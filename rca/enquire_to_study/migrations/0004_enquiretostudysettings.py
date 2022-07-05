@@ -42,6 +42,8 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "Enquire to study settings",},
+            options={
+                "verbose_name": "Enquire to study settings",
+            },
         ),
     ]

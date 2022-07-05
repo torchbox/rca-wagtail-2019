@@ -6,13 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shortcourses', '0027_merge_20210210_0850'),
+        ("shortcourses", "0027_merge_20210210_0850"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='shortcoursepage',
-            name='application_form_url',
-            field=models.URLField(blank=True, help_text='Adding an application form URL will override the Access Planit booking modal'),
+            model_name="shortcoursepage",
+            name="application_form_url",
+            field=models.URLField(
+                blank=True,
+                help_text="Adding an application form URL will override the Access Planit booking modal",
+            ),
         ),
     ]

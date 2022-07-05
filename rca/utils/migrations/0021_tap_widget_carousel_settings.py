@@ -47,6 +47,8 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"verbose_name": "Sitewide TAP settings",},
+            options={
+                "verbose_name": "Sitewide TAP settings",
+            },
         ),
     ]

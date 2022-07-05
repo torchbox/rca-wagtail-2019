@@ -116,7 +116,8 @@ class EditorialPageAPIResponseTest(WagtailPageTests):
     def test_editorial_response(self):
         response = self.client.get(f"/api/v3/pages/{self.editorial_page.id}/")
         self.assertEqual(
-            response.data["listing_title"], "The listing title",
+            response.data["listing_title"],
+            "The listing title",
         )
         self.assertEqual(response.data["listing_summary"], "A summary for listing")
         self.assertEqual(response.data["listing_image"]["title"], "The listing image")
@@ -173,7 +174,9 @@ class EditorialPageAPIResponseTest(WagtailPageTests):
 class EditorialSerializerTests(WagtailPageTests):
     def setUp(self):
         self.home_page = HomePage.objects.first()
-        self.editorial_page = EditorialPageFactory(parent=self.home_page,)
+        self.editorial_page = EditorialPageFactory(
+            parent=self.home_page,
+        )
 
     def test_api_response_for_editorial(self):
         response = self.client.get(f"/api/v3/pages/{self.editorial_page.id}/")

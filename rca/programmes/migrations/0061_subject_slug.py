@@ -11,6 +11,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name="subject", name="slug", field=models.SlugField(blank=True),
+            model_name="subject",
+            name="slug",
+            field=models.SlugField(blank=True),
         ),
     ]

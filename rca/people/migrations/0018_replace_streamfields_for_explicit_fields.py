@@ -13,13 +13,26 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="studentpage", name="gallery",),
-        migrations.RemoveField(model_name="studentpage", name="more_information",),
         migrations.RemoveField(
-            model_name="studentpage", name="more_information_title",
+            model_name="studentpage",
+            name="gallery",
         ),
-        migrations.RemoveField(model_name="studentpage", name="related_links",),
-        migrations.RemoveField(model_name="studentpage", name="social_links",),
+        migrations.RemoveField(
+            model_name="studentpage",
+            name="more_information",
+        ),
+        migrations.RemoveField(
+            model_name="studentpage",
+            name="more_information_title",
+        ),
+        migrations.RemoveField(
+            model_name="studentpage",
+            name="related_links",
+        ),
+        migrations.RemoveField(
+            model_name="studentpage",
+            name="social_links",
+        ),
         migrations.AddField(
             model_name="studentpage",
             name="addition_information_content",
@@ -31,7 +44,9 @@ class Migration(migrations.Migration):
             field=models.TextField(blank=True),
         ),
         migrations.AddField(
-            model_name="studentpage", name="awards", field=models.TextField(blank=True),
+            model_name="studentpage",
+            name="awards",
+            field=models.TextField(blank=True),
         ),
         migrations.AddField(
             model_name="studentpage",
@@ -105,7 +120,10 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={
+                "ordering": ["sort_order"],
+                "abstract": False,
+            },
         ),
         migrations.CreateModel(
             name="StudentPageRelatedLinks",
@@ -139,7 +157,10 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={
+                "ordering": ["sort_order"],
+                "abstract": False,
+            },
         ),
         migrations.CreateModel(
             name="StudentPageGallerySlide",
@@ -177,6 +198,9 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={
+                "ordering": ["sort_order"],
+                "abstract": False,
+            },
         ),
     ]

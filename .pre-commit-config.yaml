@@ -1,9 +1,9 @@
 default_language_version:
-  node: system
+  node: 18.4.0
   python: python3.8
 repos:
   - repo: https://github.com/python/black
-    rev: 19.10b0
+    rev: 22.3.0
     hooks:
       - id: black
   - repo: https://github.com/pre-commit/mirrors-isort
