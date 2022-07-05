@@ -39,7 +39,7 @@ class EventToggleSwitch {
             window.location = url;
         }
 
-        if (this.tense == 'past') {
+        if (this.tense === 'past') {
             this.queryString.set('tense', 'future');
             const url = `${
                 this.events_path
@@ -47,7 +47,7 @@ class EventToggleSwitch {
             window.location = url;
         }
 
-        if (this.tense == 'future') {
+        if (this.tense === 'future') {
             this.queryString.set('tense', 'past');
             const url = `${
                 this.events_path
