@@ -11,7 +11,7 @@
         height: 0;
 
         &:checked {
-            & + #{$root}__switch {
+            + #{$root}__switch {
                 background-color: $color--tertiary;
 
                 &::before {
@@ -21,7 +21,7 @@
         }
 
         &:focus {
-            & + #{$root}__switch {
+            + #{$root}__switch {
                 box-shadow: 0 0 1px $color--tertiary;
             }
         }
@@ -34,7 +34,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: #ccc;
+        background-color: $color--light-grey;
         transition: 0.4s;
         border-radius: 34px;
 
