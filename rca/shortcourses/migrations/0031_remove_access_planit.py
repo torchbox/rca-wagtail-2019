@@ -11,7 +11,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RemoveField(
-            model_name="shortcoursepage", name="access_planit_course_id",
+            model_name="shortcoursepage",
+            name="access_planit_course_id",
         ),
         migrations.AlterField(
             model_name="shortcoursemanualdate",

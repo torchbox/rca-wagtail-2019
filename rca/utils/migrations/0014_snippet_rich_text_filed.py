@@ -12,9 +12,13 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RemoveField(
-            model_name="shortcoursedetailsnippet", name="snippet_type",
+            model_name="shortcoursedetailsnippet",
+            name="snippet_type",
         ),
-        migrations.RemoveField(model_name="shortcoursedetailsnippet", name="url",),
+        migrations.RemoveField(
+            model_name="shortcoursedetailsnippet",
+            name="url",
+        ),
         migrations.AddField(
             model_name="shortcoursedetailsnippet",
             name="content",

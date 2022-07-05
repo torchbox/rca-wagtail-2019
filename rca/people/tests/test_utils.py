@@ -24,12 +24,16 @@ class TestPerRequestEditHandler(TestCase, WagtailTestUtils):
         self.home_page = HomePage.objects.first()
         self.home_page.add_child(
             instance=StudentIndexPage(
-                title="Students", slug="students", introduction="students",
+                title="Students",
+                slug="students",
+                introduction="students",
             )
         )
         self.student_index = StudentIndexPage.objects.first()
         GroupPagePermission.objects.create(
-            group=self.student_group, page=self.student_index, permission_type="edit",
+            group=self.student_group,
+            page=self.student_index,
+            permission_type="edit",
         )
         self.student_index.add_child(
             instance=StudentPage(

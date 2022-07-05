@@ -82,8 +82,8 @@ class GuidePage(TapMixin, ContactFieldsMixin, BasePage):
         return "Guide"
 
     def anchor_nav(self):
-        """ Build list of data to be used as
-        in-page navigation """
+        """Build list of data to be used as
+        in-page navigation"""
         items = []
         for i, block in enumerate(self.body):
             if block.block_type == "anchor_heading":

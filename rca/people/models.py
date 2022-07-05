@@ -628,7 +628,11 @@ class StudentPageSupervisor(models.Model):
         related_name="related_supervisor",
     )
     supervisor_page = models.ForeignKey(
-        StaffPage, null=True, blank=True, on_delete=models.CASCADE, related_name="+",
+        StaffPage,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="+",
     )
 
     title = models.CharField(max_length=20, help_text="E.G, Dr, Mrs, etc", blank=True)
@@ -697,14 +701,21 @@ class StudentPage(PerUserPageMixin, BasePage):
     degree_start_date = models.DateField(blank=True, null=True)
     degree_end_date = models.DateField(blank=True, null=True)
     degree_award = models.CharField(
-        max_length=1, choices=(("1", "MPhil"), ("2", "PhD")), blank=True,
+        max_length=1,
+        choices=(("1", "MPhil"), ("2", "PhD")),
+        blank=True,
     )
     introduction = models.TextField(blank=True, verbose_name="Project title")
     bio = RichTextField(
-        blank=True, help_text="Add a detail summary", verbose_name="Abstract",
+        blank=True,
+        help_text="Add a detail summary",
+        verbose_name="Abstract",
     )
     programme = models.ForeignKey(
-        "programmes.ProgrammePage", on_delete=models.SET_NULL, null=True, blank=True,
+        "programmes.ProgrammePage",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
     )
 
     biography = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)

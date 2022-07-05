@@ -25,7 +25,8 @@ class ProgrammePageTests(WagtailPageTests):
         self.home_page = HomePage.objects.first()
         self.user = self.login()
         self.image = CustomImage.objects.create(
-            title="Test image", file=get_test_image_file(),
+            title="Test image",
+            file=get_test_image_file(),
         )
 
     def test_can_create_under_programme_index_page(self):

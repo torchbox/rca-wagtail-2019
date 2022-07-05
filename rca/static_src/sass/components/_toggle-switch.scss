@@ -1,0 +1,105 @@
+.toggle-switch {
+    $root: &;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    @include media-query(large) {
+        justify-content: flex-start;
+    }
+
+    &__checkbox {
+        @include hidden();
+
+        &:checked {
+            + #{$root}__switch {
+                &::before {
+                    transform: translateX(23px);
+                    background-color: $color--tertiary;
+                }
+            }
+        }
+
+        &:focus {
+            + #{$root}__switch {
+                box-shadow: 0 0 1px $color--tertiary;
+            }
+        }
+    }
+
+    &__label {
+        @include underline-hover();
+        order: 1;
+        margin-right: ($grid * 0.5);
+        color: $color--dark-grey;
+
+        &:hover {
+            color: $color--black;
+        }
+    }
+
+    &__switch {
+        position: relative;
+        flex-shrink: 0;
+        overflow: hidden;
+        order: 2;
+        width: 54px;
+        height: 30px;
+        background-color: $color--white-24;
+        border: 3px solid $color--dark-grey;
+        border-radius: 20px;
+        margin-right: $gutter;
+
+        @include media-query(large) {
+            margin-right: 0;
+        }
+
+        &::before {
+            position: absolute;
+            cursor: pointer;
+            content: '';
+            width: 20px;
+            height: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: $color--light-grey;
+            transition: background-color $transition-cubic,
+                transform $transition-cubic;
+            border-radius: 50%;
+        }
+    }
+
+    .categories-tablist & {
+        margin-bottom: $gutter;
+
+        @include media-query(large) {
+            position: relative;
+            top: -2px; // align with other filter categories
+            border-left: 1px solid $color--grid-line-dark;
+            padding-left: $gutter;
+            margin-right: $gutter;
+            margin-bottom: 0;
+        }
+
+        .filter-bar--stuck & {
+            border-color: $color--white-24;
+        }
+    }
+
+    .filter-bar--stuck & {
+        #{$root}__label {
+            color: $color--light-grey;
+        }
+    }
+}
+
+/* stylelint-disable selector-max-id */
+.app--event-listing {
+    #tab-upcomingpast {
+        display: none !important; // don't display toggle tab, as toggle implements this functionality
+    }
+}
+/* stylelint-enable selector-max-id */

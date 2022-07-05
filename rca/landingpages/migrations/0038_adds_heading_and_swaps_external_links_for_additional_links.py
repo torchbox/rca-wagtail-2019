@@ -14,7 +14,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="alumnilandingpage", name="external_links",),
+        migrations.RemoveField(
+            model_name="alumnilandingpage",
+            name="external_links",
+        ),
         migrations.AddField(
             model_name="alumnilandingpage",
             name="additional_links",

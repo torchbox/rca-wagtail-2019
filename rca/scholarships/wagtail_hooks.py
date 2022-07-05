@@ -76,5 +76,9 @@ modeladmin_register(ScholarshipAdminGroup)
 @hooks.register("register_admin_urls")
 def register_admin_urls():
     return [
-        url(r"^scholarships/delete", scholarships_delete, name="scholarships_delete",),
+        url(
+            r"^scholarships/delete",
+            scholarships_delete,
+            name="scholarships_delete",
+        ),
     ]

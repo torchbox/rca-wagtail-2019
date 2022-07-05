@@ -115,14 +115,19 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.RemoveField(
-            model_name="editorialpagerelatedschoolsandresearchpages", name="page",
+            model_name="editorialpagerelatedschoolsandresearchpages",
+            name="page",
         ),
         migrations.RemoveField(
             model_name="editorialpagerelatedschoolsandresearchpages",
             name="source_page",
         ),
-        migrations.DeleteModel(name="EditorialPageArea",),
-        migrations.DeleteModel(name="EditorialPageRelatedSchoolsAndResearchPages",),
+        migrations.DeleteModel(
+            name="EditorialPageArea",
+        ),
+        migrations.DeleteModel(
+            name="EditorialPageRelatedSchoolsAndResearchPages",
+        ),
         migrations.AddField(
             model_name="editorialpagetypeplacement",
             name="type",

@@ -6,13 +6,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('projects', '0022_merge_20210210_0850'),
+        ("projects", "0022_merge_20210210_0850"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='projectpage',
-            name='specification_document_link_text',
-            field=models.CharField(blank=True, help_text="You must enter link text if you add a Project PDF, e.g. 'Download project PDF'", max_length=80, null=True, verbose_name='Project PDF link text'),
+            model_name="projectpage",
+            name="specification_document_link_text",
+            field=models.CharField(
+                blank=True,
+                help_text="You must enter link text if you add a Project PDF, e.g. 'Download project PDF'",
+                max_length=80,
+                null=True,
+                verbose_name="Project PDF link text",
+            ),
         ),
     ]

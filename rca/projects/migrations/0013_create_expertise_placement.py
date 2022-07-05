@@ -43,5 +43,7 @@ class Migration(migrations.Migration):
                 ),
             ],
         ),
-        migrations.DeleteModel(name="ProjectPageSubjectPlacement",),
+        migrations.DeleteModel(
+            name="ProjectPageSubjectPlacement",
+        ),
     ]

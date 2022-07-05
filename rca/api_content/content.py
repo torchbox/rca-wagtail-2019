@@ -30,7 +30,7 @@ def format_first_paragraph(input_text, tag):
 
 
 def ranged_date_format(date, date_to):
-    """ Method to format dates that have 'to' and 'from' values """
+    """Method to format dates that have 'to' and 'from' values"""
     date = datetime.strptime(date, "%Y-%m-%d")
     date_to = datetime.strptime(date_to, "%Y-%m-%d")
 

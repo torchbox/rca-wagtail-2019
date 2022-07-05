@@ -47,7 +47,7 @@
                 <div class="section__notch section__notch--opposite">
 
                     <div class="section__notch-fill section__notch-fill--content-height section__notch-fill--fourth-col">
-                        {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True reset_button_text="Reset" %}
+                        {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True reset_button_text="Reset" events=True %}
                     </div>
 
                     <div class="filter-tab-options filter-tab-options--mobile">
@@ -59,6 +59,7 @@
                                 <span class="link__label">Show results</span>
                                 <svg width="12" height="8" class="link__icon link__icon--rotated" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                             </button>
+
                         </div>
                     </div>
 

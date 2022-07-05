@@ -6,18 +6,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('forms', '0003_auto_20210308_1545'),
+        ("forms", "0003_auto_20210308_1545"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='formpage',
-            name='email_body_copy',
-            field=models.TextField(blank=True, help_text='Enter the text to include in the body of the email.'),
+            model_name="formpage",
+            name="email_body_copy",
+            field=models.TextField(
+                blank=True,
+                help_text="Enter the text to include in the body of the email.",
+            ),
         ),
         migrations.AddField(
-            model_name='formpage',
-            name='send_user_notification',
-            field=models.BooleanField(blank=True, default=False, help_text="Tick to send the notification email to the user who submits the form, in addition to the addresses in 'To address'. The form must contain an email address field with the label 'Email'."),
+            model_name="formpage",
+            name="send_user_notification",
+            field=models.BooleanField(
+                blank=True,
+                default=False,
+                help_text="Tick to send the notification email to the user who submits the form, in addition to the addresses in 'To address'. The form must contain an email address field with the label 'Email'.",
+            ),
         ),
     ]

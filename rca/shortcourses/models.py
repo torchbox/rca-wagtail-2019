@@ -193,7 +193,8 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         help_text="The URL of the application form. This will be a direct link and won't open the modal",
     )
     manual_registration_url = models.URLField(
-        blank=True, help_text="The register interest link shown in the modal",
+        blank=True,
+        help_text="The register interest link shown in the modal",
     )
 
     course_data_panels = [
@@ -215,7 +216,10 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         ),
     ]
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+        MultiFieldPanel(
+            [ImageChooserPanel("hero_image")],
+            heading=_("Hero"),
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("introduction"),
@@ -275,7 +279,8 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         index.SearchField("location"),
         index.RelatedFields("programme_type", [index.SearchField("display_name")]),
         index.RelatedFields(
-            "subjects", [index.RelatedFields("subject", [index.SearchField("title")])],
+            "subjects",
+            [index.RelatedFields("subject", [index.SearchField("title")])],
         ),
     ]
 
@@ -301,7 +306,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         return self.manual_bookings.all()
 
     def _format_booking_bar(self):
-        """ Booking bar messaging with the next course data available
+        """Booking bar messaging with the next course data available
         Find the next course date marked as status='available' and advertise
         this date in the booking bar. If there are no courses available, add
         a default message."""
