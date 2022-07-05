@@ -15,5 +15,7 @@ class Migration(migrations.Migration):
             name="link_to_open_days",
             field=models.URLField(blank=True),
         ),
-        migrations.DeleteModel(name="OpenDayLink",),
+        migrations.DeleteModel(
+            name="OpenDayLink",
+        ),
     ]

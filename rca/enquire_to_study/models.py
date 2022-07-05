@@ -125,7 +125,10 @@ class EnquiryFormSubmissionProgrammesOrderable(Orderable):
         "enquire_to_study.EnquiryFormSubmission",
         related_name="enquiry_submission_programmes",
     )
-    programme = models.ForeignKey("programmes.ProgrammePage", on_delete=models.CASCADE,)
+    programme = models.ForeignKey(
+        "programmes.ProgrammePage",
+        on_delete=models.CASCADE,
+    )
 
     panels = [
         SnippetChooserPanel("programme"),
@@ -168,6 +171,8 @@ class EnquireToStudySettings(BaseSetting):
 
 @register_setting
 class EnquiryFormKeyDetails(BaseSetting):
-    content = RichTextField(features=["h3", "bold", "italic", "link"],)
+    content = RichTextField(
+        features=["h3", "bold", "italic", "link"],
+    )
 
     panels = [FieldPanel("content")]

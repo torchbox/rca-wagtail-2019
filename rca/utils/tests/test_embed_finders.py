@@ -56,5 +56,6 @@ class CustomOEmbedFinderTest(TestCase):
         finder = CustomOEmbedFinder()
         result = finder.find_embed("www.example.com")
         self.assertEqual(
-            result["html"], '<iframe src="www.example.com"></iframe>',
+            result["html"],
+            '<iframe src="www.example.com"></iframe>',
         )

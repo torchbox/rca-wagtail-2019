@@ -27,7 +27,9 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ("title",),},
+            options={
+                "ordering": ("title",),
+            },
             bases=("utils.sluggedtaxonomy",),
         ),
         migrations.AddField(

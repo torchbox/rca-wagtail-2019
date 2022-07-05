@@ -285,7 +285,8 @@ class ScholarshipEnquiryFormSubmissionScholarshipOrderable(Orderable):
         related_name="scholarship_submission_scholarships",
     )
     scholarship = models.ForeignKey(
-        "scholarships.Scholarship", on_delete=models.CASCADE,
+        "scholarships.Scholarship",
+        on_delete=models.CASCADE,
     )
 
     panels = [
@@ -299,7 +300,10 @@ class ScholarshipEnquiryFormSubmission(ClusterableModel):
     last_name = models.CharField(max_length=255)
     email = models.EmailField()
     rca_id_number = models.CharField(max_length=100)
-    programme = models.ForeignKey("programmes.ProgrammePage", on_delete=models.CASCADE,)
+    programme = models.ForeignKey(
+        "programmes.ProgrammePage",
+        on_delete=models.CASCADE,
+    )
     eligibility_criteria = models.ManyToManyField(
         ScholarshipEligibilityCriteria, blank=True
     )
