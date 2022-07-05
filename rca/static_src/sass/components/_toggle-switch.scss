@@ -1,21 +1,24 @@
 .toggle-switch {
     $root: &;
     position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    @include media-query(large) {
+        justify-content: flex-start;
+    }
 
     &__checkbox {
-        opacity: 0;
-        width: 0;
-        height: 0;
+        @include hidden();
 
         &:checked {
             + #{$root}__switch {
-                background-color: $color--tertiary;
-
                 &::before {
-                    transform: translateX(26px);
+                    transform: translateX(23px);
+                    background-color: $color--tertiary;
                 }
             }
         }
@@ -27,28 +30,76 @@
         }
     }
 
+    &__label {
+        @include underline-hover();
+        order: 1;
+        margin-right: ($grid * 0.5);
+        color: $color--dark-grey;
+
+        &:hover {
+            color: $color--black;
+        }
+    }
+
     &__switch {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: $color--light-grey;
-        transition: 0.4s;
-        border-radius: 34px;
+        position: relative;
+        flex-shrink: 0;
+        overflow: hidden;
+        order: 2;
+        width: 54px;
+        height: 30px;
+        background-color: $color--white-24;
+        border: 3px solid $color--dark-grey;
+        border-radius: 20px;
+        margin-right: $gutter;
+
+        @include media-query(large) {
+            margin-right: 0;
+        }
 
         &::before {
             position: absolute;
             cursor: pointer;
             content: '';
-            width: 26px;
-            height: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: $color--white;
-            transition: 0.4s;
+            width: 20px;
+            height: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: $color--light-grey;
+            transition: background-color $transition-cubic,
+                transform $transition-cubic;
             border-radius: 50%;
         }
     }
+
+    .categories-tablist & {
+        margin-bottom: $gutter;
+
+        @include media-query(large) {
+            position: relative;
+            top: -2px; // align with other filter categories
+            border-left: 1px solid $color--grid-line-dark;
+            padding-left: $gutter;
+            margin-right: $gutter;
+            margin-bottom: 0;
+        }
+
+        .filter-bar--stuck & {
+            border-color: $color--white-24;
+        }
+    }
+
+    .filter-bar--stuck & {
+        #{$root}__label {
+            color: $color--light-grey;
+        }
+    }
 }
+
+/* stylelint-disable selector-max-id */
+.app--event-listing {
+    #tab-upcomingpast {
+        display: none !important; // don't display toggle tab, as toggle implements this functionality
+    }
+}
+/* stylelint-enable selector-max-id */

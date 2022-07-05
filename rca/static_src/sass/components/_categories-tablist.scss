@@ -75,10 +75,6 @@
 
         &:not(:last-child) {
             margin-right: $gutter;
-
-            @include media-query(large) {
-                margin-right: $gutter * 1.5;
-            }
         }
 
         &[aria-selected='true'],
