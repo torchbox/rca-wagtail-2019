@@ -176,7 +176,7 @@
     }
 
     &__body {
-        margin: ($gutter / 2) 0 0;
+        margin: ($gutter * 0.5) 0 0;
         max-width: 270px;
 
         @include media-query(medium) {

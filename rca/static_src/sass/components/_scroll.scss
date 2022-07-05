@@ -6,7 +6,7 @@
     &__label {
         @include font-size(xxxs);
         display: none;
-        padding-bottom: ($gutter / 4);
+        padding-bottom: ($gutter * 0.25);
 
         @include media-query(medium) {
             display: block;

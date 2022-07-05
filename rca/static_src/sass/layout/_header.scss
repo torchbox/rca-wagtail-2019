@@ -360,8 +360,8 @@
     // Show when scrolling back up
     .headroom--pinned.headroom--not-top & {
         #{$root}__container {
-            padding-top: ($gutter / 4);
-            padding-bottom: ($gutter / 4);
+            padding-top: ($gutter * 0.25);
+            padding-bottom: ($gutter * 0.25);
         }
     }
 }

@@ -1,7 +1,7 @@
 .pagination {
     $root: &;
     // Space either side of pagination items
-    $spacing: ($gutter / 2);
+    $spacing: ($gutter * 0.5);
 
     &__container {
         display: flex;

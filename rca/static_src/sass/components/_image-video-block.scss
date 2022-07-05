@@ -86,7 +86,7 @@
         display: none;
         text-transform: uppercase;
         grid-column: 1 / span 2;
-        margin-bottom: ($gutter / 2);
+        margin-bottom: ($gutter * 0.5);
         letter-spacing: 0.05em;
 
         @include media-query(medium) {
@@ -111,7 +111,7 @@
         &--meta-heading {
             font-family: $font--secondary;
             font-weight: $weight--medium;
-            margin-bottom: ($gutter / 2);
+            margin-bottom: ($gutter * 0.5);
         }
 
         @include media-query(medium) {

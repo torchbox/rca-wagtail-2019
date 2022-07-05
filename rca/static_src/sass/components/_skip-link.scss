@@ -12,7 +12,7 @@
         left: 0;
         color: $color--black;
         background-color: $color--white;
-        padding: ($grid / 2) $grid;
+        padding: ($grid * 0.5) $grid;
         white-space: nowrap;
 
         &:focus {
