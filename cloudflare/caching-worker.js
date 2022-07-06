@@ -26,9 +26,42 @@ const STRIP_QUERYSTRING_KEYS = [
 const NEW_HOST = 'xxxxxx';
 const LEGACY_HOST = 'xxxxxx';
 
+const CACHABLE_HTTP_STATUS_CODES = [200, 203, 206, 300, 301, 410];
+
 addEventListener('fetch', (event) => {
     event.respondWith(handleRouting(event));
 });
+
+async function handleRouting(event) {
+    const cache = caches.default;
+    let request = stripIgnoredQuerystring(event.request)[0];
+
+    let response;
+
+    if (requestIsCachable(request)) {
+        // If the request is cacheable, check for it in the cache
+        response = await cache.match(request);
+    }
+
+    if (!response) {
+        const url = new URL(request.url);
+        response = await routeTo(NEW_HOST, request, url);
+        if (response.status === 404) {
+            // If we get a 404 from the new host, route to the legacy host
+            response = await routeTo(LEGACY_HOST, request, url);
+        }
+        if (CANONICAL_DOMAIN && url.hostname !== CANONICAL_DOMAIN) {
+            response = new Response(response.body, response);
+            response.headers.set('X-Robots-Tag', 'noindex');
+        }
+
+        if (!skipCache) {
+            event.waitUntil(cache.put(request, response.clone()));
+        }
+    }
+
+    return response;
+}
 
 /**
  * Convenience function to route requests to a particular host
@@ -53,52 +86,42 @@ function hasPrivateCookie(request) {
     return patterns.test(cookieString);
 }
 
-/**
- * Return a request with specified querystring keys stripped out
- */
 function stripIgnoredQuerystring(request) {
+    /**
+     * Given a Request, return a new Request with the ignored querystring keys stripped out,
+     * along with an object representing the stripped values.
+     */
     const url = new URL(request.url);
     const stripKeys = STRIP_QUERYSTRING_KEYS.filter((v) =>
         url.searchParams.has(v),
     );
 
-    if (stripKeys.length) {
-        stripKeys.forEach((v) => url.searchParams.delete(v));
+    let strippedParams = {};
 
-        return new Request(url, {
-            body: request.body,
-            headers: request.headers,
-            redirect: request.redirect,
-        });
+    if (stripKeys.length) {
+        stripKeys.reduce((acc, key) => {
+            acc[key] = url.searchParams.getAll(key);
+            url.searchParams.delete(key);
+            return acc;
+        }, strippedParams);
+
+        return [new Request(url, request), strippedParams];
     }
-    return request;
+    return [request, strippedParams];
 }
 
-async function handleRouting(event) {
-    let cache = caches.default;
-    let response;
-    let request = stripIgnoredQuerystring(event.request);
-    let url = new URL(request.url);
-    let skipCache = hasPrivateCookie(request);
+function requestIsCachable(request) {
+    /*
+     * Given a Request, determine if it should be cached.
+     * Currently the only factor here is whether a private cookie is present.
+     */
+    return !hasPrivateCookie(request);
+}
 
-    if (!skipCache) {
-        response = await cache.match(request);
-    }
-
-    if (!response) {
-        response = await routeTo(NEW_HOST, request, url);
-        if (response.status === 404) {
-            // If we get a 404 from the new host, route to the legacy host
-            response = await routeTo(LEGACY_HOST, request, url);
-        }
-        if (CANONICAL_DOMAIN && url.hostname !== CANONICAL_DOMAIN) {
-            response = new Response(response.body, response);
-            response.headers.set('X-Robots-Tag', 'noindex');
-        }
-
-        if (!skipCache) {
-            event.waitUntil(cache.put(request, response.clone()));
-        }
-    }
-    return response;
+function responseIsCachable(response) {
+    /*
+     * Given a Response, determine if it should be cached.
+     * Currently the only factor here is whether the status code is cachable.
+     */
+    return CACHABLE_HTTP_STATUS_CODES.includes(response.status);
 }
