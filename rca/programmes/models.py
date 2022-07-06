@@ -7,10 +7,13 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
+from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from rest_framework.fields import CharField as CharFieldSerializer
+from taggit.models import TaggedItemBase
 from wagtail.admin.edit_handlers import (
     FieldPanel,
+    HelpPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
@@ -185,6 +188,14 @@ class ProgramPageRelatedStaff(Orderable):
 
     def __str__(self):
         return self.name
+
+
+class ProgrammePageTag(TaggedItemBase):
+    content_object = ParentalKey(
+        "programmes.ProgrammePage",
+        on_delete=models.CASCADE,
+        related_name="tagged_programme_items",
+    )
 
 
 class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
@@ -445,6 +456,8 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             slug value should match the value of the slug on the Category page on the intranet",
     )
 
+    tags = ClusterTaggableManager(through=ProgrammePageTag, blank=True)
+
     content_panels = (
         BasePage.content_panels
         + [
@@ -593,6 +606,18 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         FieldPanel("mailchimp_group_name"),
     ]
     promote_panels = BasePage.promote_panels + [
+        MultiFieldPanel(
+            [
+                HelpPanel(
+                    content=(
+                        "Adding tags will allow users to search for the programme "
+                        "on the programmes listing page by tags"
+                    )
+                ),
+                FieldPanel("tags"),
+            ],
+            "Programme tags",
+        ),
         FieldPanel("intranet_slug"),
     ]
 
@@ -623,6 +648,18 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         index.RelatedFields(
             "subjects",
             [index.RelatedFields("subject", [index.SearchField("title")])],
+        ),
+        index.RelatedFields(
+            "tagged_programme_items",
+            [
+                index.RelatedFields(
+                    "tag",
+                    [
+                        index.SearchField("name", partial_match=True),
+                        index.AutocompleteField("name", partial_match=True),
+                    ],
+                )
+            ],
         ),
     ]
     api_fields = [
