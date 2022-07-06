@@ -19,7 +19,7 @@ from wagtail.admin.edit_handlers import (
     TabbedInterface,
 )
 from wagtail.core.blocks import RichTextBlock
-from wagtail.core.fields import StreamField
+from wagtail.core.fields import StreamBlock, StreamField
 from wagtail.core.models import Orderable, Page
 from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.images import get_image_model_string
@@ -32,6 +32,7 @@ from rca.utils.blocks import (
     AccordionBlockWithTitle,
     GalleryBlock,
     LinkBlock,
+    LinkedImageBlock,
     QuoteBlock,
 )
 from rca.utils.filter import TabStyleFilter
@@ -189,6 +190,13 @@ class ProjectPage(ContactFieldsMixin, BasePage):
     external_links = StreamField(
         [("link", LinkBlock())], blank=True, verbose_name="External Links"
     )
+    working_with_heading = models.CharField(blank=True, max_length=120)
+    working_with = StreamField(
+        StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9),
+        blank=True,
+        help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
+            Aim for logos that sit on either a white or transparent background.",
+    )
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
             [ImageChooserPanel("hero_image")],
@@ -211,6 +219,10 @@ class ProjectPage(ContactFieldsMixin, BasePage):
                 StreamFieldPanel("more_information"),
             ],
             heading=_("More information"),
+        ),
+        MultiFieldPanel(
+            [FieldPanel("working_with_heading"), StreamFieldPanel("working_with")],
+            heading="Collaborators",
         ),
         MultiFieldPanel(
             [
