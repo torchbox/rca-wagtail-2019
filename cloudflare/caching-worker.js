@@ -55,7 +55,7 @@ async function handleRouting(event) {
             response.headers.set('X-Robots-Tag', 'noindex');
         }
 
-        if (!skipCache) {
+        if (responseIsCachable(response)) {
             event.waitUntil(cache.put(request, response.clone()));
         }
     }
