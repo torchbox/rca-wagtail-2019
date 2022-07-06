@@ -19,10 +19,12 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.AlterModelOptions(
-            name="scholarshipfunding", options={"ordering": ("title",)},
+            name="scholarshipfunding",
+            options={"ordering": ("title",)},
         ),
         migrations.AlterModelOptions(
-            name="scholarshiplocation", options={"ordering": ("title",)},
+            name="scholarshiplocation",
+            options={"ordering": ("title",)},
         ),
         migrations.CreateModel(
             name="Scholarship",

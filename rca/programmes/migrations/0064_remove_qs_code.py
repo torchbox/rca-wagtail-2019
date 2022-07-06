@@ -10,5 +10,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="programmetype", name="qs_code",),
+        migrations.RemoveField(
+            model_name="programmetype",
+            name="qs_code",
+        ),
     ]

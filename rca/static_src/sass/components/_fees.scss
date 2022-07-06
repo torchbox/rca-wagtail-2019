@@ -37,7 +37,7 @@
         }
 
         &--title {
-            padding: $gutter 0 ($gutter / 2);
+            padding: $gutter 0 ($gutter * 0.5);
             grid-column: 1 / span 2;
 
             @include media-query(large) {

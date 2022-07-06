@@ -161,8 +161,7 @@ class CreateStudentFormView(FormView):
 
 
 class CustomLoginView(LoginView):
-    """Custom login view to redirect students to their profile page
-    """
+    """Custom login view to redirect students to their profile page"""
 
     template_name = "wagtailadmin/login.html"
 

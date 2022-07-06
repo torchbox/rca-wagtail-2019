@@ -40,10 +40,12 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("count", help="How many pages to create")
         parser.add_argument(
-            "parent_page_id", help="The ID of the parent event listing page",
+            "parent_page_id",
+            help="The ID of the parent event listing page",
         )
         parser.add_argument(
-            "date", help="'past' or 'future' event date",
+            "date",
+            help="'past' or 'future' event date",
         )
 
     def streamfield(self, fake):

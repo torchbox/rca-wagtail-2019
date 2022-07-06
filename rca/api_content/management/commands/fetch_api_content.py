@@ -8,7 +8,7 @@ from ...content import AlumniStoriesAPI, NewsEventsAPI
 
 
 class Command(BaseCommand):
-    """Fetch content from the legacy site and store in the cache """
+    """Fetch content from the legacy site and store in the cache"""
 
     def handle(self, *args, **options):
         for api in (AlumniStoriesAPI, NewsEventsAPI):

@@ -75,7 +75,7 @@
 
     &__author-course {
         @include font-size(xxs);
-        margin-top: ($gutter / 4);
+        margin-top: ($gutter * 0.25);
     }
 
     &__link {

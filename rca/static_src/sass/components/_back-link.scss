@@ -23,7 +23,7 @@
 
     &__text {
         display: none;
-        margin-left: ($gutter / 4);
+        margin-left: ($gutter * 0.25);
 
         @include media-query(medium) {
             display: block;

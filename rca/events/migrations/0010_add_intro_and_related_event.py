@@ -15,7 +15,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterModelOptions(
-            name="eventindexpage", options={"verbose_name": "Event Listing Page"},
+            name="eventindexpage",
+            options={"verbose_name": "Event Listing Page"},
         ),
         migrations.AddField(
             model_name="eventindexpage",
@@ -120,6 +121,9 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["sort_order"], "abstract": False,},
+            options={
+                "ordering": ["sort_order"],
+                "abstract": False,
+            },
         ),
     ]
