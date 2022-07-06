@@ -21,7 +21,7 @@ from wagtail.admin.edit_handlers import (
 from wagtail.api import APIField
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.core.blocks import CharBlock, StructBlock, URLBlock
-from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.fields import RichTextField, StreamBlock, StreamField
 from wagtail.core.models import Orderable, Site
 from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.embeds import embeds
@@ -41,6 +41,7 @@ from rca.utils.blocks import (
     FeeBlock,
     GalleryBlock,
     InfoBlock,
+    LinkedImageBlock,
     SnippetChooserBlock,
     StepBlock,
 )
@@ -347,6 +348,14 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     curriculum_video = models.URLField(blank=True)
     curriculum_text = models.TextField(blank=True, max_length=250)
 
+    working_with_heading = models.CharField(blank=True, max_length=120)
+    working_with = StreamField(
+        StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9),
+        blank=True,
+        help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
+            Aim for logos that sit on either a white or transparent background.",
+    )
+
     # Pathways
     pathway_blocks = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
@@ -543,6 +552,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         MultiFieldPanel(
             [StreamFieldPanel("what_you_will_cover_blocks")],
             heading="What you'll cover",
+        ),
+        MultiFieldPanel(
+            [FieldPanel("working_with_heading"), StreamFieldPanel("working_with")],
+            "Collaborators",
         ),
     ]
 
