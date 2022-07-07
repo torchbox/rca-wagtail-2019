@@ -22,7 +22,7 @@
             {% endif %}
         {% endfor %}
         {% if events %}
-            {% include "patterns/atoms/toggle-switch/toggle-switch.html" with label="Past events" %}
+            {% include "patterns/atoms/toggle-switch/toggle-switch.html" with label_one="Upcoming" label_two="Past" %}
         {% endif %}
         {% if reset %}
             <div class="categories-tablist__tab categories-tablist__tab--reset">
