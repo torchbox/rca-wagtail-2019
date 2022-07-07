@@ -11,6 +11,12 @@
         justify-content: flex-start;
     }
 
+    &:hover {
+        #{$root}__switch {
+            border-color: $color--black;
+        }
+    }
+
     &__checkbox {
         @include hidden();
 
@@ -18,7 +24,6 @@
             + #{$root}__switch {
                 &::before {
                     transform: translateX(23px);
-                    background-color: $color--tertiary;
                 }
             }
         }
@@ -31,13 +36,16 @@
     }
 
     &__label {
-        @include underline-hover();
         order: 1;
         margin-right: ($grid * 0.5);
         color: $color--dark-grey;
 
-        &:hover {
-            color: $color--black;
+        &--first {
+            order: 1;
+        }
+
+        &--last {
+            order: 3;
         }
     }
 
@@ -54,7 +62,11 @@
         margin-right: $gutter;
 
         @include media-query(large) {
-            margin-right: 0;
+            margin-right: ($gutter * 0.5);
+        }
+
+        &:hover {
+            border-color: $color--black;
         }
 
         &::before {
@@ -65,14 +77,14 @@
             height: 20px;
             left: 2px;
             bottom: 2px;
-            background-color: $color--light-grey;
-            transition: background-color $transition-cubic,
-                transform $transition-cubic;
+            background-color: $color--tertiary;
+            transition: transform $transition-cubic;
             border-radius: 50%;
         }
     }
 
     .categories-tablist & {
+        max-width: 213px;
         margin-bottom: $gutter;
 
         @include media-query(large) {
@@ -82,6 +94,7 @@
             padding-left: $gutter;
             margin-right: $gutter;
             margin-bottom: 0;
+            max-width: 100%;
         }
 
         .filter-bar--stuck & {

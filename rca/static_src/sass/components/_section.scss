@@ -439,6 +439,14 @@
             }
         }
 
+        &--fourth-col-span-five {
+            #{$root}__notch--opposite & {
+                @include media-query(large) {
+                    grid-column: 2 / span 4;
+                }
+            }
+        }
+
         &--fifth-col {
             @include media-query(large) {
                 grid-column: 1 / span 5;
