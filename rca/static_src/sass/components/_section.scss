@@ -439,7 +439,7 @@
             }
         }
 
-        &--fourth-col-span-five {
+        &--fourth-col-span-four {
             #{$root}__notch--opposite & {
                 @include media-query(large) {
                     grid-column: 2 / span 4;
