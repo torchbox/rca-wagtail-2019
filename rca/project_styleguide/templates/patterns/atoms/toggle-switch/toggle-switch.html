@@ -1,0 +1,7 @@
+{# should be remade using two radio elements now we have two labels - bandaid aria-label #}
+<label class="toggle-switch" data-toggle-switch aria-label="{{ aria_label }}">
+    <input type="checkbox" class="toggle-switch__checkbox">
+    <span class="toggle-switch__switch"></span>
+    <span class="toggle-switch__label toggle-switch__label--first">{{ label_one }}</span>
+    <span class="toggle-switch__label toggle-switch__label--last">{{ label_two }}</span>
+</label>
