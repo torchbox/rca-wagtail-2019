@@ -36,7 +36,7 @@
                 {% endif %}
             </div>
 
-            {% if page.past %}
+            {% if not page.show_booking_bar or page.past %}
             <div class="section__notch">
                 <div class="section__notch-fill section__notch-fill--third-col"></div>
             </div>
@@ -52,7 +52,7 @@
 
             <section class="section bg bg--light">
 
-                <div class="section__row {% if page.past %}section__row--first{% else %}section__row--first-small{% endif %} grid">
+                <div class="section__row {% if page.past %}section__row--first{% else %}section__row--first-small{% endif %} section__row--last grid">
 
                     <div class="layout__start-one layout__span-two layout__@large-span-one">
                         {% include "patterns/molecules/key-details/key-details--event.html" %}
@@ -139,7 +139,7 @@
             </section>
             {% endif %}
 
-            <section class="section bg bg--dark">
+            <section class="section bg bg--dark booking-bar-last-item">
                 {% if series_events %}
                     <div class="in-series section__row section__row--first {% if not related_pages.items %}section__row--last-large{% endif %}">
                         {% include "patterns/organisms/index-module/index-module.html" with items=series_events title="In the series" introduction=page.series.introduction %}
@@ -153,7 +153,7 @@
                 {% endif %}
 
                 {% if page.contact_model_image or page.contact_model_text or page.contact_model_email or page.contact_model_url or page.contact_model_form %}
-                    <div class="section__row section__row--first booking-bar-last-item">
+                    <div class="section__row section__row--first">
                         {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image %}
                     </div>
                 {% endif %}
