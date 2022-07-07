@@ -30,6 +30,8 @@
         display: block;
         width: 100%;
         height: auto;
+        max-height: 200px;
+        max-width: 200px;
     }
 
     &__heading {
