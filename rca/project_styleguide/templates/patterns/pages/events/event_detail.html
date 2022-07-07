@@ -36,7 +36,7 @@
                 {% endif %}
             </div>
 
-            {% if page.past %}
+            {% if not page.show_booking_bar or page.past %}
             <div class="section__notch">
                 <div class="section__notch-fill section__notch-fill--third-col"></div>
             </div>
@@ -52,7 +52,7 @@
 
             <section class="section bg bg--light">
 
-                <div class="section__row {% if page.past %}section__row--first{% else %}section__row--first-small{% endif %} grid">
+                <div class="section__row {% if page.past %}section__row--first{% else %}section__row--first-small{% endif %} section__row--last grid">
 
                     <div class="layout__start-one layout__span-two layout__@large-span-one">
                         {% include "patterns/molecules/key-details/key-details--event.html" %}
