@@ -84,6 +84,7 @@
     }
 
     .categories-tablist & {
+        max-width: 213px;
         margin-bottom: $gutter;
 
         @include media-query(large) {
@@ -93,6 +94,7 @@
             padding-left: $gutter;
             margin-right: $gutter;
             margin-bottom: 0;
+            max-width: 100%;
         }
 
         .filter-bar--stuck & {
