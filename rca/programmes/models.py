@@ -45,6 +45,7 @@ from rca.utils.blocks import (
     GalleryBlock,
     InfoBlock,
     LinkedImageBlock,
+    QuoteBlock,
     SnippetChooserBlock,
     StepBlock,
 )
@@ -381,6 +382,9 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         blank=True,
         verbose_name="Accordion blocks",
     )
+    quote_carousel = StreamField(
+        [("quote", QuoteBlock())], blank=True, verbose_name="Quote carousel"
+    )
 
     # Requirements
     requirements_text = RichTextField(blank=True)
@@ -570,6 +574,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             [FieldPanel("working_with_heading"), StreamFieldPanel("working_with")],
             "Collaborators",
         ),
+        StreamFieldPanel("quote_carousel"),
     ]
 
     programme_requirements_pannels = [
