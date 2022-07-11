@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (
     FieldPanel,
@@ -157,7 +158,19 @@ class HomePage(TapMixin, BasePage):
 
     use_api_for_alumni_stories = models.BooleanField(default=True)
     use_api_for_news_and_events = models.BooleanField(default=True)
-
+    news_and_events_link_text = models.TextField(
+        max_length=120,
+        blank=True,
+        help_text=_("The text do display for the 'View all news and events' link"),
+    )
+    news_and_events_link_target_url = models.URLField(
+        blank=True, help_text="Add a link to view all news and events"
+    )
+    news_and_events_title = models.TextField(
+        max_length=120,
+        blank=True,
+        help_text=_("The title do display above the news and events listing"),
+    )
     content_panels = (
         BasePage.content_panels
         + [
@@ -204,6 +217,20 @@ class HomePage(TapMixin, BasePage):
                 ],
                 heading="News, Events and Alumni Stories Content Listings",
             ),
+            MultiFieldPanel(
+                [
+                    HelpPanel(
+                        content=(
+                            """<p>The title, link and link text displayed as part of the news and events
+                            listing can be customised by adding overriding values here</p>"""
+                        )
+                    ),
+                    FieldPanel("news_and_events_title"),
+                    FieldPanel("news_and_events_link_text"),
+                    FieldPanel("news_and_events_link_target_url"),
+                ],
+                "News and Events",
+            ),
         ]
         + TapMixin.panels
     )
@@ -225,6 +252,13 @@ class HomePage(TapMixin, BasePage):
 
         if errors:
             raise ValidationError(errors)
+
+    @property
+    def news_view_all(self):
+        return {
+            "link": self.news_and_events_link_target_url,
+            "title": self.news_and_events_link_text,
+        }
 
     def _format_partnerships(self, partnerships_block):
         # The partnerships.slides field offers choice between a page

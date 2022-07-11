@@ -8,6 +8,7 @@ from modelcluster.fields import ParentalKey
 from phonenumber_field.modelfields import PhoneNumberField
 from wagtail.admin.edit_handlers import (
     FieldPanel,
+    HelpPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
@@ -264,6 +265,20 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
         verbose_name=_("Related content summary"),
     )
 
+    news_and_events_link_text = models.TextField(
+        max_length=120,
+        blank=True,
+        help_text=_("The text to display for the 'View all news and events' link"),
+    )
+    news_and_events_link_target_url = models.URLField(
+        blank=True, help_text="Add a link to view all news and events"
+    )
+    news_and_events_title = models.TextField(
+        max_length=120,
+        blank=True,
+        help_text=_("The title to display above the news and events listing"),
+    )
+
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
             [ImageChooserPanel("hero_image")],
@@ -291,12 +306,33 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
             heading=_("Related pages grid"),
         ),
         InlinePanel("featured_image", label=_("Featured content"), max_num=1),
-        FieldPanel("legacy_news_and_event_tags"),
+        MultiFieldPanel(
+            [
+                HelpPanel(
+                    content=(
+                        """<p>The title, link and link text displayed as part of the news and events
+                        listing can be customised by adding overriding values here</p>"""
+                    )
+                ),
+                FieldPanel("news_and_events_title"),
+                FieldPanel("news_and_events_link_text"),
+                FieldPanel("news_and_events_link_target_url"),
+                FieldPanel("legacy_news_and_event_tags"),
+            ],
+            "News and Events",
+        ),
         MultiFieldPanel(
             [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
             heading=_("Related page list"),
         ),
     ]
+
+    @property
+    def news_view_all(self):
+        return {
+            "link": self.news_and_events_link_target_url,
+            "title": self.news_and_events_link_text,
+        }
 
     def _format_projects_for_gallery(self, pages):
         """Internal method for formatting related projects to the correct
@@ -495,7 +531,21 @@ class ResearchLandingPage(LandingPage):
                 ],
                 heading=_("Featured projects"),
             ),
-            FieldPanel("legacy_news_and_event_tags"),
+            MultiFieldPanel(
+                [
+                    HelpPanel(
+                        content=(
+                            """<p>The title, link and link text displayed as part of the news and events
+                            listing can be customised by adding overriding values here</p>"""
+                        )
+                    ),
+                    FieldPanel("news_and_events_title"),
+                    FieldPanel("news_and_events_link_text"),
+                    FieldPanel("news_and_events_link_target_url"),
+                    FieldPanel("legacy_news_and_event_tags"),
+                ],
+                "News and Events",
+            ),
             MultiFieldPanel(
                 [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
                 heading=_("Related page list"),
@@ -561,7 +611,21 @@ class InnovationLandingPage(LandingPage):
                 [InlinePanel("featured_image", label=_("Featured image"), max_num=1)],
                 heading=_("Featured content - top"),
             ),
-            FieldPanel("legacy_news_and_event_tags"),
+            MultiFieldPanel(
+                [
+                    HelpPanel(
+                        content=(
+                            """<p>The title, link and link text displayed as part of the news and events
+                            listing can be customised by adding overriding values here</p>"""
+                        )
+                    ),
+                    FieldPanel("news_and_events_title"),
+                    FieldPanel("news_and_events_link_text"),
+                    FieldPanel("news_and_events_link_target_url"),
+                    FieldPanel("legacy_news_and_event_tags"),
+                ],
+                "News and Events",
+            ),
             MultiFieldPanel(
                 [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
                 heading=_("Related page list"),
@@ -1303,7 +1367,21 @@ class TapLandingPage(LandingPage):
             heading=_("Related pages grid"),
         ),
         InlinePanel("featured_image", label=_("Featured content"), max_num=1),
-        FieldPanel("legacy_news_and_event_tags"),
+        MultiFieldPanel(
+            [
+                HelpPanel(
+                    content=(
+                        """<p>The title, link and link text displayed as part of the news and events
+                        listing can be customised by adding overriding values here</p>"""
+                    )
+                ),
+                FieldPanel("news_and_events_title"),
+                FieldPanel("news_and_events_link_text"),
+                FieldPanel("news_and_events_link_target_url"),
+                FieldPanel("legacy_news_and_event_tags"),
+            ],
+            "News and Events",
+        ),
         MultiFieldPanel(
             [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
             heading=_("Related page list"),
