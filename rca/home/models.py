@@ -161,7 +161,7 @@ class HomePage(TapMixin, BasePage):
     news_and_events_link_text = models.TextField(
         max_length=120,
         blank=True,
-        help_text=_("The text do display for the 'View all news and events' link"),
+        help_text=_("The text to display for the 'View all news and events' link"),
     )
     news_and_events_link_target_url = models.URLField(
         blank=True, help_text="Add a link to view all news and events"
@@ -169,7 +169,7 @@ class HomePage(TapMixin, BasePage):
     news_and_events_title = models.TextField(
         max_length=120,
         blank=True,
-        help_text=_("The title do display above the news and events listing"),
+        help_text=_("The title to display above the news and events listing"),
     )
     content_panels = (
         BasePage.content_panels
