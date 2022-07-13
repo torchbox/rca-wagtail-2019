@@ -9,6 +9,7 @@ class PeekFullCarousel {
     constructor(node) {
         this.node = node;
         this.windowWidth = window.innerWidth;
+        this.tab = document.querySelector('[data-tab]');
 
         this.getMargins();
         this.createSlideshow();
@@ -33,6 +34,13 @@ class PeekFullCarousel {
                 this.getMargins();
                 this.updateSlideshowBreakpoint();
             }
+        });
+
+        // If the carousel is hidden in a tab, it needs to be rebuilt on tab click
+        this.tab.forEach((item) => {
+            item.addEventListener('click', () => {
+                this.updateSlideshowBreakpoint();
+            });
         });
     }
 
