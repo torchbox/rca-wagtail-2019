@@ -12,7 +12,6 @@ import Tabs from './components/tabs';
 import Carousel from './components/carousel';
 import PeekCarousel from './components/carousel-peek';
 import PeekFullCarousel from './components/carousel-full-peek';
-import LogoCarousel from './components/carousel-logo';
 import Slideshow from './components/slideshow';
 import VideoModal from './components/video-modal';
 import RelatedContent from './components/related-content';
@@ -80,12 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
         PeekFullCarousel.selector(),
     )) {
         new PeekFullCarousel(peekfullcarousel);
-    }
-
-    for (const logoCarousel of document.querySelectorAll(
-        LogoCarousel.selector(),
-    )) {
-        new LogoCarousel(logoCarousel);
     }
 
     for (const slideshow of document.querySelectorAll(Slideshow.selector())) {
