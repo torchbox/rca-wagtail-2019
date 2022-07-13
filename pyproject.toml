@@ -6,7 +6,7 @@ authors = ["Kevin Howbrook <kevin.howbrook@torchbox.com>"]
 
 [tool.poetry.dependencies]
 python = "~3.8"
-django = "~3.2.13"
+django = "~3.2.14"
 wagtail = "~3.0"
 psycopg2 = "~2.8"
 gunicorn = {version = "~20.0", optional = true}
@@ -24,7 +24,7 @@ django-basic-auth-ip-whitelist = "~0.3.4"
 wagtail-accessibility = "~0.2"
 wagtail-storages = "0.5.1rc1"
 coverage = "^5.4"
-wagtail-factories = "^2.0.1"
+wagtail-factories = "^2.1.0"
 wagtail-orderable = "^1.0.4"
 wagtail_redirect_importer = "^1.0.2"
 django-import-export = "^2.5.0"
