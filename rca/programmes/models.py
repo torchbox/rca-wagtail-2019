@@ -365,6 +365,13 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     quote_carousel = StreamField(
         [("quote", QuoteBlock())], blank=True, verbose_name="Quote carousel"
     )
+    quote_carousel_link = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
 
     # Requirements
     requirements_text = RichTextField(blank=True)
@@ -548,7 +555,13 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             [StreamFieldPanel("what_you_will_cover_blocks")],
             heading="What you'll cover",
         ),
-        StreamFieldPanel("quote_carousel"),
+        MultiFieldPanel(
+            [
+                StreamFieldPanel("quote_carousel"),
+                PageChooserPanel("quote_carousel_link"),
+            ],
+            "Quote carousel",
+        ),
     ]
 
     programme_requirements_pannels = [
