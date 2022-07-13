@@ -9,7 +9,7 @@ class PeekFullCarousel {
     constructor(node) {
         this.node = node;
         this.windowWidth = window.innerWidth;
-        this.tab = document.querySelector('[data-tab]');
+        this.tab = document.querySelectorAll('[data-tab]');
 
         this.getMargins();
         this.createSlideshow();
