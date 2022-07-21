@@ -390,14 +390,12 @@ class EditorialListingPage(ContactFieldsMixin, BasePage):
 
     def get_editor_picks(self):
         related_pages = []
-        pages = (
-            self.related_editorial_pages.all()
-            .prefetch_related("page__hero_image", "page__listing_image")
-            .filter(page__live=True)
+        pages = self.related_editorial_pages.all().prefetch_related(
+            "page__hero_image", "page__listing_image"
         )
         for value in pages:
             page = value.page
-            if page:
+            if page and page.live:
                 meta = None
                 school = page.related_schools.first()
                 if school:
