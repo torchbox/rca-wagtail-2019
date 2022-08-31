@@ -14,7 +14,7 @@ wagtail-django-recaptcha = "1.0"
 django-pattern-library = "~0.3"
 whitenoise = "~5.0"
 dj-database-url = "~0.5"
-sentry-sdk = "~1.0"
+sentry-sdk = "^1.9.6"
 django-redis = "~4.11"
 django-storages = { version ="~1.9", extras = ["boto3"] }
 django-referrer-policy = "~1.0"
@@ -50,8 +50,8 @@ wagtailmakeup = "^0.0.1"
 # Linters etc.
 black = "22.3.0"
 detect-secrets = "~0.14"
-flake8 = "3.8.3"
-isort = "4.3.18"
+flake8 = "4.0.1"
+isort = "5.7.0"
 pre-commit = "~2.11"
 
 # Documentation
