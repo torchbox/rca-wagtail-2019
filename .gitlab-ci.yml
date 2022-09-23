@@ -39,7 +39,7 @@ poetry:
   image: python:3.8
   stage: build
   variables:
-    POETRY_VERSION: 1.1.8
+    POETRY_VERSION: 1.1.15
   script:
     - pip install poetry==$POETRY_VERSION
     - python -m venv venv
