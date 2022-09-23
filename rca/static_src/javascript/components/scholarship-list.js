@@ -13,9 +13,9 @@ class ScholarshipList {
 
     // Get the active Scholarship select option
     getActiveOption() {
-        const activeOption =
-            this.programmeChooser.options[this.programmeChooser.selectedIndex]
-                .value;
+        const activeOption = this.programmeChooser.options[
+            this.programmeChooser.selectedIndex
+        ].value;
 
         this.updateJSONdata(activeOption);
     }
