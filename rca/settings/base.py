@@ -726,8 +726,8 @@ BIRDBATH_CHECKS = [
     "birdbath.checks.contrib.heroku.HerokuNotProductionCheck",
 ]
 BIRDBATH_PROCESSORS = [
-    "birdbath.processors.users.UserEmailAnonymiser",
-    "birdbath.processors.users.UserPasswordAnonymiser",
+    "rca.users.birdbath.StudentAccountAnonymiser",
+    "rca.users.birdbath.UserPasswordAnonymiser",
     "birdbath.processors.contrib.wagtail.SearchQueryCleaner",
     "birdbath.processors.contrib.wagtail.FormSubmissionCleaner",
     "rca.enquire_to_study.birdbath.EnquiryFormSubmissionDeleter",
@@ -735,7 +735,7 @@ BIRDBATH_PROCESSORS = [
 ]
 BIRDBATH_REQUIRED = env.get("BIRDBATH_REQUIRED", "true").lower() == "true"
 BIRDBATH_USER_ANONYMISER_EXCLUDE_SUPERUSERS = True
-BIRDBATH_USER_ANONYMISER_EXCLUDE_EMAIL_RE = r"(torchbox\.com|rca\.ac\.uk)$"
+BIRDBATH_USER_ANONYMISER_EXCLUDE_EMAIL_RE = r"(torchbox\.com)$"
 
 # Django Countries
 # https://pypi.org/project/django-countries
