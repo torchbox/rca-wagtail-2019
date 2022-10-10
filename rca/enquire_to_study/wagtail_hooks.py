@@ -38,6 +38,7 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
         "phone_number",
         "country_of_residence",
         "country_of_citizenship",
+        "city",
         "enquiry_reason",
         "start_date",
         "is_read_data_protection_policy",
@@ -50,6 +51,7 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
         "last_name",
         "email",
         "country_of_citizenship",
+        "city",
         "start_date",
         "get_programmes",
     )
