@@ -11,13 +11,12 @@ from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
-from wagtail.admin.panels import (
+from wagtail.admin.panels import (  # PageChooserPanel,
     FieldPanel,
     HelpPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
-    PageChooserPanel,
     TabbedInterface,
 )
 from wagtail.fields import RichTextField, StreamField
@@ -44,7 +43,14 @@ from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, SluggedTaxonomy
 
 from .admin_forms import StudentPageAdminForm
-from .utils import PerUserPageMixin, get_area_linked_filters
+from .utils import (
+    StudentPageInlinePanel,
+    StudentPagePromoteTab,
+    StudentPageSettingsTab,
+    get_area_linked_filters,
+)
+
+# PerUserTabbedInterface,
 
 STUDENT_PAGE_RICH_TEXT_FEATURES = features = ["bold", "italic", "link"]
 
@@ -271,7 +277,10 @@ class StaffPage(BasePage):
             heading=_("Related Students"),
         ),
         MultiFieldPanel(
-            [FieldPanel("more_information_title"), FieldPanel("more_information"),],
+            [
+                FieldPanel("more_information_title"),
+                FieldPanel("more_information"),
+            ],
             heading="More information",
         ),
         FieldPanel("related_links"),
@@ -668,7 +677,19 @@ class StudentPageSupervisor(models.Model):
             raise ValidationError(errors)
 
 
-class StudentPage(PerUserPageMixin, BasePage):
+def student_base_page_content_panels(content_panels):
+    for panel in content_panels:
+        if isinstance(panel, FieldPanel) and panel.field_name == "title":
+            """Developer note:
+            This will only loop over the top level panels which is OK currently
+            because there's only one field panel with the name `title` at the moment
+            which originates from the Wagtail Page model.
+            If BasePage.content_panels is implemented then this will need to be updated"""
+            panel.permission = "superuser"
+    return content_panels
+
+
+class StudentPage(BasePage):
     base_form_class = StudentPageAdminForm
     template = "patterns/pages/student/student_detail.html"
     parent_page_types = ["people.StudentIndexPage"]
@@ -753,86 +774,32 @@ class StudentPage(PerUserPageMixin, BasePage):
         index.SearchField("bio"),
     ]
 
-    basic_key_details_panels = [
-        InlinePanel("related_area_of_expertise", label="Areas of Expertise"),
-        InlinePanel("personal_links", label="Personal links", max_num=5),
-        FieldPanel("student_funding"),
-    ]
-    key_details_panels = [
-        InlinePanel("related_area_of_expertise", label="Areas of Expertise"),
-        InlinePanel(
-            "related_research_centre_pages", label=_("Related Research Centres ")
-        ),
-        InlinePanel("related_schools", label=_("Related Schools")),
-        InlinePanel("personal_links", label="Personal links", max_num=5),
-        FieldPanel("student_funding"),
-    ]
-    basic_content_panels = [
-        MultiFieldPanel([FieldPanel("profile_image")], heading="Details"),
-        FieldPanel("link_to_final_thesis"),
-        InlinePanel("related_supervisor", label="Supervisor information"),
-        MultiFieldPanel([FieldPanel("email")], heading="Contact information"),
-        FieldPanel("introduction"),
-        FieldPanel("bio"),
-        InlinePanel("gallery_slides", label="Gallery slide", max_num=5),
+    content_panels = student_base_page_content_panels(BasePage.content_panels) + [
+        FieldPanel("student_user_account", permission="superuser"),
+        FieldPanel("student_user_image_collection", permission="superuser"),
         MultiFieldPanel(
             [
-                FieldPanel("biography"),
-                FieldPanel("degrees"),
-                FieldPanel("experience"),
-                FieldPanel("awards"),
-                FieldPanel("funding"),
-                FieldPanel("exhibitions"),
-                FieldPanel("publications"),
-                FieldPanel("research_outputs"),
-                FieldPanel("conferences"),
-            ],
-            heading="More information",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("additional_information_title"),
-                FieldPanel("addition_information_content"),
-            ],
-            heading="Additional information",
-        ),
-        InlinePanel("relatedlinks", label="External links", max_num=5),
-    ]
-    basic_promote_panels = [
-        FieldPanel("slug"),
-    ]
-    superuser_basic_promote_panels = [
-        *BasePage.promote_panels,
-    ]
-    superuser_content_panels = [
-        *BasePage.content_panels,
-        FieldPanel("student_user_account"),
-        FieldPanel("student_user_image_collection"),
-        MultiFieldPanel(
-            [
-                FieldPanel("student_title"),
-                FieldPanel("first_name"),
-                FieldPanel("last_name"),
+                FieldPanel("student_title", permission="superuser"),
+                FieldPanel("first_name", permission="superuser"),
+                FieldPanel("last_name", permission="superuser"),
                 FieldPanel("profile_image"),
             ],
             heading="Details",
         ),
-        MultiFieldPanel([FieldPanel("email")], heading="Contact information"),
-        FieldPanel("programme"),
-        FieldPanel("degree_start_date"),
-        FieldPanel("degree_end_date"),
-        FieldPanel("degree_award"),
-        FieldPanel("degree_status"),
         FieldPanel("link_to_final_thesis"),
         InlinePanel("related_supervisor", label="Supervisor information"),
+        MultiFieldPanel([FieldPanel("email")], heading="Contact information"),
+        FieldPanel("programme", permission="superuser"),
+        FieldPanel("degree_start_date", permission="superuser"),
+        FieldPanel("degree_end_date", permission="superuser"),
+        FieldPanel("degree_award", permission="superuser"),
+        FieldPanel("degree_status", permission="superuser"),
         FieldPanel("introduction"),
         FieldPanel("bio"),
-        MultiFieldPanel(
-            [
-                InlinePanel(
-                    "related_project_pages", label=_("Project pages"), max_num=5
-                ),
-            ],
+        StudentPageInlinePanel(
+            "related_project_pages",
+            label=_("Project pages"),
+            max_num=5,
             heading=_("Research highlights gallery"),
         ),
         InlinePanel("gallery_slides", label="Gallery slide", max_num=5),
@@ -859,6 +826,28 @@ class StudentPage(PerUserPageMixin, BasePage):
         ),
         InlinePanel("relatedlinks", label="External links", max_num=5),
     ]
+
+    key_details_panels = [
+        InlinePanel("related_area_of_expertise", label="Areas of Expertise"),
+        StudentPageInlinePanel(
+            "related_research_centre_pages",
+            label=_("Related Research Centres "),
+        ),
+        StudentPageInlinePanel("related_schools", label=_("Related Schools")),
+        InlinePanel("personal_links", label="Personal links", max_num=5),
+        FieldPanel("student_funding"),
+    ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading="Content"),
+            ObjectList(key_details_panels, heading="Key details"),
+            StudentPagePromoteTab(BasePage.promote_panels, heading="Promote"),
+            StudentPageSettingsTab(
+                BasePage.settings_panels, heading="Settings"
+            ),  # needs to have no content for students
+        ]
+    )
 
     @property
     def name(self):
