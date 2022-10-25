@@ -1,4 +1,4 @@
-/* eslint-disable no-var, func-names, prefer-template */
+/* eslint-disable no-var, func-names */
 /* global $ */
 
 // prettier-ignore
