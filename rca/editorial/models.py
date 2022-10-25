@@ -192,7 +192,10 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         FieldPanel("quote_carousel"),
         FieldPanel("gallery"),
         MultiFieldPanel(
-            [FieldPanel("more_information_title"), FieldPanel("more_information"),],
+            [
+                FieldPanel("more_information_title"),
+                FieldPanel("more_information"),
+            ],
             heading="More information",
         ),
         InlinePanel(

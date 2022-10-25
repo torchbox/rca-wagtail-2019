@@ -224,7 +224,10 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         ),
     ]
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([FieldPanel("hero_image")], heading=_("Hero"),),
+        MultiFieldPanel(
+            [FieldPanel("hero_image")],
+            heading=_("Hero"),
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("introduction"),

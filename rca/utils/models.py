@@ -101,7 +101,11 @@ class LinkFields(models.Model):
 
     panels = [
         MultiFieldPanel(
-            [FieldPanel("link_page"), FieldPanel("link_url"), FieldPanel("link_text"),],
+            [
+                FieldPanel("link_page"),
+                FieldPanel("link_url"),
+                FieldPanel("link_text"),
+            ],
             "Link",
         )
     ]
@@ -234,7 +238,8 @@ class SocialFields(models.Model):
 
     promote_panels = [
         MultiFieldPanel(
-            [FieldPanel("social_image"), FieldPanel("social_text")], "Social networks",
+            [FieldPanel("social_image"), FieldPanel("social_text")],
+            "Social networks",
         )
     ]
 

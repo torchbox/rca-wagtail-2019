@@ -266,7 +266,10 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
     )
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([FieldPanel("hero_image")], heading=_("Hero"),),
+        MultiFieldPanel(
+            [FieldPanel("hero_image")],
+            heading=_("Hero"),
+        ),
         MultiFieldPanel(
             [FieldPanel("introduction"), FieldPanel("about_page")],
             heading=_("Introduction"),
@@ -476,7 +479,10 @@ class ResearchLandingPage(LandingPage):
     content_panels = (
         BasePage.content_panels
         + [
-            MultiFieldPanel([FieldPanel("hero_image")], heading=_("Hero"),),
+            MultiFieldPanel(
+                [FieldPanel("hero_image")],
+                heading=_("Hero"),
+            ),
             MultiFieldPanel(
                 [FieldPanel("introduction"), FieldPanel("about_page")],
                 heading=_("Introduction"),
@@ -544,7 +550,10 @@ class InnovationLandingPage(LandingPage):
     content_panels = (
         BasePage.content_panels
         + [
-            MultiFieldPanel([FieldPanel("hero_image")], heading=_("Hero"),),
+            MultiFieldPanel(
+                [FieldPanel("hero_image")],
+                heading=_("Hero"),
+            ),
             MultiFieldPanel(
                 [FieldPanel("introduction"), FieldPanel("about_page")],
                 heading=_("Introduction"),
@@ -699,7 +708,10 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         help_text=_("The text displayed for this section in the in-page navigation"),
     )
     cta_block = StreamField(
-        StreamBlock([("call_to_action", CallToActionBlock())], max_num=1,),
+        StreamBlock(
+            [("call_to_action", CallToActionBlock())],
+            max_num=1,
+        ),
         blank=True,
         use_json_field=True,
     )
@@ -941,7 +953,10 @@ class AlumniLandingPage(LandingPage):
     )
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([FieldPanel("hero_image")], heading=_("Hero"),),
+        MultiFieldPanel(
+            [FieldPanel("hero_image")],
+            heading=_("Hero"),
+        ),
         FieldPanel("introduction"),
         MultiFieldPanel(
             [
@@ -1141,7 +1156,10 @@ class DevelopmentLandingPage(LandingPage):
     )
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([FieldPanel("hero_image")], heading=_("Hero"),),
+        MultiFieldPanel(
+            [FieldPanel("hero_image")],
+            heading=_("Hero"),
+        ),
         FieldPanel("introduction"),
         MultiFieldPanel(
             [
@@ -1265,7 +1283,10 @@ class TapLandingPage(LandingPage):
         verbose_name = "Landing Page - TAP"
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([FieldPanel("hero_image")], heading=_("Hero"),),
+        MultiFieldPanel(
+            [FieldPanel("hero_image")],
+            heading=_("Hero"),
+        ),
         MultiFieldPanel(
             [FieldPanel("introduction"), FieldPanel("about_page")],
             heading=_("Introduction"),

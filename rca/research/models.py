@@ -180,7 +180,10 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
     )
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([FieldPanel("hero_image")], heading="Hero",),
+        MultiFieldPanel(
+            [FieldPanel("hero_image")],
+            heading="Hero",
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("introduction"),

@@ -204,7 +204,10 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         use_json_field=True,
     )
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([FieldPanel("hero_image")], heading=_("Hero"),),
+        MultiFieldPanel(
+            [FieldPanel("hero_image")],
+            heading=_("Hero"),
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("introduction"),
@@ -217,7 +220,10 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         FieldPanel("body"),
         FieldPanel("gallery"),
         MultiFieldPanel(
-            [FieldPanel("more_information_title"), FieldPanel("more_information"),],
+            [
+                FieldPanel("more_information_title"),
+                FieldPanel("more_information"),
+            ],
             heading=_("More information"),
         ),
         MultiFieldPanel(

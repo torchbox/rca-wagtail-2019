@@ -514,7 +514,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             heading="Staff",
         ),
         MultiFieldPanel(
-            [FieldPanel("facilities_snippet"), FieldPanel("facilities_gallery"),],
+            [
+                FieldPanel("facilities_snippet"),
+                FieldPanel("facilities_gallery"),
+            ],
             heading="Facilities",
         ),
         MultiFieldPanel([FieldPanel("notable_alumni_links")], heading="Alumni"),
@@ -541,7 +544,8 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ),
         MultiFieldPanel([FieldPanel("pathway_blocks")], heading="Pathways"),
         MultiFieldPanel(
-            [FieldPanel("what_you_will_cover_blocks")], heading="What you'll cover",
+            [FieldPanel("what_you_will_cover_blocks")],
+            heading="What you'll cover",
         ),
     ]
 
