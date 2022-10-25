@@ -1,3 +1,4 @@
+from bs4 import BeautifulSoup as bs4
 from django.contrib.auth.models import Group, Permission
 from django.test import TestCase
 
@@ -18,16 +19,18 @@ class TestStudentAdmin(TestCase):
         self.client.force_login(self.user)
         response = self.client.get("/admin/")
         self.assertEqual(response.status_code, 200)
-        self.assertContains(
-            response,
-            '<input type="text" id="menu-search-q" name="q" placeholder="Search" />',
-        )
+
+        soup = bs4(response.content, "html.parser")
+        sidebar = soup.find("aside")
+        self.assertIsNotNone(sidebar)
+        self.assertFalse("data-student-sidebar" in sidebar.attrs)
 
     def test_search_is_not_visible_for_students(self):
         self.client.force_login(self.student_user)
         response = self.client.get("/admin/")
         self.assertEqual(response.status_code, 200)
-        self.assertNotContains(
-            response,
-            '<input type="text" id="menu-search-q" name="q" placeholder="Search" />',
-        )
+
+        soup = bs4(response.content, "html.parser")
+        sidebar = soup.find("aside")
+        self.assertIsNotNone(sidebar)
+        self.assertTrue("data-student-sidebar" in sidebar.attrs)
