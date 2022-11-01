@@ -11,7 +11,7 @@ from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
-from wagtail.admin.panels import (  # PageChooserPanel,
+from wagtail.admin.panels import (
     FieldPanel,
     HelpPanel,
     InlinePanel,

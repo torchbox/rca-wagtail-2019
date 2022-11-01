@@ -2,8 +2,6 @@ from django.apps import apps
 from django.db.models import Q
 from wagtail.admin.panels import InlinePanel, ObjectList
 
-# from wagtail.utils.decorators import cached_classmethod
-
 
 def get_area_linked_filters(page):
     """For the expertise taxonomy thats listed out in key details,
