@@ -2,7 +2,7 @@
 
 import django.db.models.deletion
 import modelcluster.fields
-import wagtail.core.fields
+import wagtail.fields
 from django.db import migrations, models
 
 
@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="studentpage",
             name="student_funding",
-            field=wagtail.core.fields.RichTextField(blank=True),
+            field=wagtail.fields.RichTextField(blank=True),
         ),
         migrations.CreateModel(
             name="StudentPageSupervisor",

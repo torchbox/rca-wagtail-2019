@@ -1,11 +1,11 @@
 from django.utils.html import escape
+from wagtail import hooks
 from wagtail.contrib.modeladmin.options import (
     ModelAdmin,
     ModelAdminGroup,
     modeladmin_register,
 )
-from wagtail.core import hooks
-from wagtail.core.rich_text import LinkHandler
+from wagtail.rich_text import LinkHandler
 from wagtailorderable.modeladmin.mixins import OrderableMixin
 
 from rca.editorial.models import Author, EditorialType

@@ -1,0 +1,54 @@
+{% load i18n l10n wagtailadmin_tags %}
+
+{% comment "Always render the formset so the form can be saved" %}{% endcomment %}
+{{ self.formset.management_form }}
+
+{% comment "Hide the visibe form fields to non-superusers" %}{% endcomment %}
+{% if request.user.is_superuser %}
+
+    <ul class="multiple" id="id_{{ self.formset.prefix }}-FORMS">
+        {% if self.formset.non_form_errors %}
+            <li class="error-message">
+                {% for error in self.formset.non_form_errors %}
+                    <span>{{ error|escape }}</span>
+                {% endfor %}
+            </li>
+        {% endif %}
+
+        {% for child in self.children %}
+            {% include "wagtailadmin/panels/inline_panel_child.html" %}
+        {% endfor %}
+    </ul>
+
+    <script type="text/django-form-template" id="id_{{ self.formset.prefix }}-EMPTY_FORM_TEMPLATE">
+        {% escapescript %}
+            {% include "wagtailadmin/panels/inline_panel_child.html" with child=self.empty_child %}
+        {% endescapescript %}
+    </script>
+
+    <p class="add">
+        <button type="button" class="button bicolor button--icon" id="id_{{ self.formset.prefix }}-ADD">
+            {% icon name="plus" wrapped=1 %}
+            {% blocktrans trimmed with label=self.label|lower %}Add {{ label }}{% endblocktrans %}
+        </button>
+    </p>
+
+    <script>
+        (function() {
+            var panel = InlinePanel({
+                formsetPrefix: "id_{{ self.formset.prefix }}",
+                emptyChildFormPrefix: "{{ self.empty_child.form.prefix }}",
+                canOrder: {% if can_order %}true{% else %}false{% endif %},
+                maxForms: {{ self.formset.max_num|unlocalize }}
+            });
+
+            {% for child in self.children %}
+                panel.initChildControls("{{ child.form.prefix }}");
+            {% endfor %}
+            panel.setHasContent();
+            panel.updateMoveButtonDisabledStates();
+            panel.updateAddButtonState();
+        })();
+    </script>
+
+{% endif %}

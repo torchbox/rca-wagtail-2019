@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.db import models
 from wagtail.api import APIField
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
@@ -50,10 +49,3 @@ class Rendition(AbstractRendition):
 
     class Meta:
         unique_together = (("image", "filter_spec", "focal_point_key"),)
-
-    def full_url(self):
-        # patch for https://github.com/wagtail/wagtail/issues/6803
-        url = self.url
-        if url.startswith("/"):
-            url = settings.BASE_URL + url
-        return url

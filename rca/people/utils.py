@@ -1,7 +1,6 @@
 from django.apps import apps
 from django.db.models import Q
-from wagtail.admin.edit_handlers import ObjectList, TabbedInterface
-from wagtail.utils.decorators import cached_classmethod
+from wagtail.admin.panels import InlinePanel, ObjectList
 
 
 def get_area_linked_filters(page):
@@ -68,77 +67,61 @@ def get_student_research_projects(page):
     ).distinct()
 
 
-class PerUserContentPanels(ObjectList):
-    def _replace_children_with_per_user_config(self):
-        if self.request.user.is_student():
-            if self.classname == "content":
-                self.children = self.instance.basic_content_panels
-            if self.classname == "key_details":
-                self.children = self.instance.basic_key_details_panels
-            if self.classname == "promote":
-                self.children = self.instance.basic_promote_panels
-            if self.classname == "settings":
-                self.children = []
-        else:
-            if self.classname == "content":
-                self.children = self.instance.superuser_content_panels
-            if self.classname == "key_details":
-                self.children = self.instance.key_details_panels
+class StudentPageInlinePanel(InlinePanel):
+    # InlinePanel that only displays content to superusers
 
-        self.children = [
-            child.bind_to(
-                model=self.model,
-                instance=self.instance,
-                request=self.request,
-                form=self.form,
-            )
-            for child in self.children
-        ]
+    class BoundPanel(InlinePanel.BoundPanel):
+        def __init__(self, panel, instance, request, form):
+            super().__init__(panel, instance, request, form)
+            self.template_name = "admin/panels/student_page_inline_panel.html"
 
-    def on_instance_bound(self):
-        # replace list of children when both instance and request are available
-        if self.request:
-            self._replace_children_with_per_user_config()
-        else:
-            super().on_instance_bound()
-
-    def on_request_bound(self):
-        # replace list of children when both instance and request are available
-        if self.instance:
-            self._replace_children_with_per_user_config()
-        else:
-            super().on_request_bound()
+        def get_context_data(self, parent_context=None):
+            context = super().get_context_data(parent_context)
+            context["request"] = self.request
+            return context
 
 
-class PerUserPageMixin:
-    basic_content_panels = []
-    superuser_content_panels = []
+class StudentPagePromoteTab(ObjectList):
+    # ObjectList that only displays selected fields to Students
+    # As a side effect: If all fields are hidden, the panel is hidden for Students
 
-    @cached_classmethod
-    def get_edit_handler(cls):
-        tabs = []
+    class BoundPanel(ObjectList.BoundPanel):
+        def __init__(self, panel, instance, request, form):
+            super().__init__(panel, instance, request, form)
 
-        if cls.basic_content_panels and cls.superuser_content_panels:
-            tabs.append(PerUserContentPanels(heading="Content", classname="content"))
-        if cls.key_details_panels and cls.basic_key_details_panels:
-            tabs.append(
-                PerUserContentPanels(
-                    cls.settings_panels, heading="Key Details", classname="key_details"
-                )
-            )
-        if cls.promote_panels:
-            tabs.append(
-                PerUserContentPanels(
-                    cls.promote_panels, heading="Promote", classname="promote"
-                )
-            )
-        if cls.settings_panels:
-            tabs.append(
-                PerUserContentPanels(
-                    cls.settings_panels, heading="Settings", classname="settings"
-                )
-            )
+            allowed_student_fields = ["slug"]
+            permission = "superuser"
 
-        edit_handler = TabbedInterface(tabs, base_form_class=cls.base_form_class)
+            if not self.request.user.is_superuser:
 
-        return edit_handler.bind_to(model=cls)
+                children = self.panel.children  # multi field panels
+                for child in children:
+                    panels = child.children  # single field panels
+                    for panel in panels:
+                        if panel.field_name not in allowed_student_fields:
+                            panel.permission = permission
+
+
+class StudentPageSettingsTab(ObjectList):
+    # ObjectList that only displays selected fields to Students
+    # As a side effect: If all fields are hidden, the panel is hidden for Students
+
+    class BoundPanel(ObjectList.BoundPanel):
+        def __init__(self, panel, instance, request, form):
+            super().__init__(panel, instance, request, form)
+
+            permission = "superuser"
+
+            if not self.request.user.is_superuser:
+
+                for child in self.panel.children:
+                    if child.__class__.__name__ == "PublishingPanel":
+                        for field_row_panel in child.children:
+                            # Theres a FieldRowPanel inside the PublishingPanel
+                            for panel in field_row_panel.children:
+                                panel.permission = permission
+                    # the elif's below are not required, but are here for clarity
+                    elif child.__class__.__name__ == "PrivacyModalPanel":
+                        pass  # Do nothing so they are still visible
+                    elif child.__class__.__name__ == "CommentPanel":
+                        pass  # Do nothing so they are still visible

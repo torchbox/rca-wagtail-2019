@@ -2,8 +2,8 @@
 
 import django.db.models.deletion
 import modelcluster.fields
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 from django.db import migrations, models
 
 
@@ -61,28 +61,28 @@ class Migration(migrations.Migration):
                 ("title", models.CharField(max_length=125)),
                 (
                     "statistics",
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 "statistic",
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
                                         (
                                             "summary",
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 help_text="E.g.  1 in 3 of our graduates are business owners or independent professionals",
                                                 required=False,
                                             ),
                                         ),
                                         (
                                             "before",
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 required=False
                                             ),
                                         ),
                                         (
                                             "after",
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 help_text="E.g. '%'",
                                                 max_length=2,
                                                 required=False,
@@ -90,13 +90,13 @@ class Migration(migrations.Migration):
                                         ),
                                         (
                                             "number",
-                                            wagtail.core.blocks.IntegerBlock(
+                                            wagtail.blocks.IntegerBlock(
                                                 help_text="E.g. '33'", required=False
                                             ),
                                         ),
                                         (
                                             "meta",
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 help_text="Small title below the number, e.g 'Nationalities'",
                                                 required=False,
                                             ),

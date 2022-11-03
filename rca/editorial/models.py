@@ -5,19 +5,17 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils.text import slugify
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
     PageChooserPanel,
-    StreamFieldPanel,
     TabbedInterface,
 )
 from wagtail.api import APIField
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable, Page
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.fields import RichTextField, StreamField
+from wagtail.models import Orderable, Page
 from wagtail.search import index
 
 from rca.editorial import admin_forms
@@ -58,7 +56,7 @@ class RelatedEditorialPage(Orderable):
     source_page = ParentalKey(Page, related_name="related_editorialpages")
     page = models.ForeignKey("editorial.EditorialPage", on_delete=models.CASCADE)
 
-    panels = [PageChooserPanel("page")]
+    panels = [FieldPanel("page")]
 
 
 class EditorialPageRelatedProgramme(RelatedPage):
@@ -142,23 +140,31 @@ class EditorialPage(ContactFieldsMixin, BasePage):
     published_at = models.DateField()
     contact_email = models.EmailField(blank=True, max_length=254)
 
-    body = StreamField(EditorialPageBlock())
+    body = StreamField(EditorialPageBlock(), use_json_field=True)
     cta_block = StreamField(
         [("call_to_action", CallToActionBlock(label="text promo"))],
         blank=True,
         verbose_name="Text promo",
+        use_json_field=True,
     )
     quote_carousel = StreamField(
-        [("quote", QuoteBlock())], blank=True, verbose_name="Quote Carousel"
+        [("quote", QuoteBlock())],
+        blank=True,
+        verbose_name="Quote Carousel",
+        use_json_field=True,
     )
     gallery = StreamField(
-        [("slide", GalleryBlock())], blank=True, verbose_name="Gallery"
+        [("slide", GalleryBlock())],
+        blank=True,
+        verbose_name="Gallery",
+        use_json_field=True,
     )
     more_information_title = models.CharField(max_length=80, default="More information")
     more_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name="More information",
+        use_json_field=True,
     )
     download_assets_heading = models.CharField(
         blank=True,
@@ -174,23 +180,23 @@ class EditorialPage(ContactFieldsMixin, BasePage):
 
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
-        ImageChooserPanel("hero_image"),
+        FieldPanel("hero_image"),
         MultiFieldPanel(
             [
                 FieldPanel("video"),
                 FieldPanel("video_caption"),
-                ImageChooserPanel("introduction_image"),
+                FieldPanel("introduction_image"),
             ],
             heading="Introductory Video",
         ),
-        StreamFieldPanel("body"),
-        StreamFieldPanel("cta_block"),
-        StreamFieldPanel("quote_carousel"),
-        StreamFieldPanel("gallery"),
+        FieldPanel("body"),
+        FieldPanel("cta_block"),
+        FieldPanel("quote_carousel"),
+        FieldPanel("gallery"),
         MultiFieldPanel(
             [
                 FieldPanel("more_information_title"),
-                StreamFieldPanel("more_information"),
+                FieldPanel("more_information"),
             ],
             heading="More information",
         ),
@@ -202,10 +208,10 @@ class EditorialPage(ContactFieldsMixin, BasePage):
                 FieldPanel("contact_model_title"),
                 FieldPanel("contact_model_email"),
                 FieldPanel("contact_model_url"),
-                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_form"),
                 FieldPanel("contact_model_link_text"),
                 FieldPanel("contact_model_text"),
-                ImageChooserPanel("contact_model_image"),
+                FieldPanel("contact_model_image"),
             ],
             "Large Call To Action",
         ),
@@ -380,7 +386,7 @@ class EditorialListingRelatedEditorialPage(Orderable):
     source_page = ParentalKey(
         "EditorialListingPage", related_name="related_editorial_pages"
     )
-    panels = [PageChooserPanel("page")]
+    panels = [FieldPanel("page")]
 
 
 class EditorialListingPage(ContactFieldsMixin, BasePage):
@@ -409,10 +415,10 @@ class EditorialListingPage(ContactFieldsMixin, BasePage):
                 FieldPanel("contact_model_title"),
                 FieldPanel("contact_model_email"),
                 FieldPanel("contact_model_url"),
-                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_form"),
                 FieldPanel("contact_model_link_text"),
                 FieldPanel("contact_model_text"),
-                ImageChooserPanel("contact_model_image"),
+                FieldPanel("contact_model_image"),
             ],
             "Large Call To Action",
         ),
@@ -420,14 +426,12 @@ class EditorialListingPage(ContactFieldsMixin, BasePage):
 
     def get_editor_picks(self):
         related_pages = []
-        pages = (
-            self.related_editorial_pages.all()
-            .prefetch_related("page__hero_image", "page__listing_image")
-            .filter(page__live=True)
+        pages = self.related_editorial_pages.all().prefetch_related(
+            "page__hero_image", "page__listing_image"
         )
         for value in pages:
             page = value.page
-            if page:
+            if page and page.live:
                 meta = None
                 school = page.related_schools.first()
                 if school:

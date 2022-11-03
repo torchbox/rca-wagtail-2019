@@ -13,18 +13,16 @@ from django.utils.html import strip_tags
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     FieldRowPanel,
     InlinePanel,
     MultiFieldPanel,
     PageChooserPanel,
-    StreamFieldPanel,
 )
 from wagtail.api import APIField
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.fields import RichTextField, StreamField
+from wagtail.models import Orderable
 from wagtail.search import index
 
 from rca.events.utils import get_linked_taxonomy
@@ -59,7 +57,7 @@ class EventIndexPageRelatedEditorialPage(Orderable):
         related_name="+",
     )
     source_page = ParentalKey("EventIndexPage", related_name="related_event_pages")
-    panels = [PageChooserPanel("page")]
+    panels = [FieldPanel("page")]
 
 
 class EventIndexPage(ContactFieldsMixin, BasePage):
@@ -87,10 +85,10 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
                 FieldPanel("contact_model_title"),
                 FieldPanel("contact_model_email"),
                 FieldPanel("contact_model_url"),
-                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_form"),
                 FieldPanel("contact_model_link_text"),
                 FieldPanel("contact_model_text"),
-                ImageChooserPanel("contact_model_image"),
+                FieldPanel("contact_model_image"),
             ],
             "Large Call To Action",
         ),
@@ -98,14 +96,12 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
 
     def get_editor_picks(self):
         related_pages = []
-        pages = (
-            self.related_event_pages.all()
-            .prefetch_related("page__hero_image", "page__listing_image")
-            .filter(page__live=True)
+        pages = self.related_event_pages.all().prefetch_related(
+            "page__hero_image", "page__listing_image"
         )
         for value in pages:
             page = value.page
-            if page:
+            if page and page.live:
                 meta = page.event_type
                 if page.location:
                     description = f"{page.event_date_short}, {page.location}"
@@ -398,15 +394,19 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         related_name="events",
     )
     introduction = RichTextField()
-    body = StreamField(EventDetailPageBlock())
+    body = StreamField(EventDetailPageBlock(), use_json_field=True)
     speaker_heading = models.CharField(
         blank=True, max_length=120, verbose_name="Heading"
     )
     partners_heading = models.CharField(
         blank=True, max_length=120, verbose_name="Heading"
     )
-    partners = StreamField(PartnersBlock(required=False), blank=True)
-    call_to_action = StreamField(CallToAction(required=False), blank=True)
+    partners = StreamField(
+        PartnersBlock(required=False), blank=True, use_json_field=True
+    )
+    call_to_action = StreamField(
+        CallToAction(required=False), blank=True, use_json_field=True
+    )
     # booking bar
     show_booking_bar = models.BooleanField(default=False)
     manual_registration_url_link_text = models.CharField(
@@ -435,7 +435,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
     )
 
     content_panels = BasePage.content_panels + [
-        ImageChooserPanel("hero_image"),
+        FieldPanel("hero_image"),
         MultiFieldPanel(
             [
                 FieldRowPanel([FieldPanel("start_date"), FieldPanel("start_time")]),
@@ -473,16 +473,16 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         ),
         InlinePanel("related_schools", heading="Schools", label="School"),
         FieldPanel("introduction"),
-        StreamFieldPanel("body"),
+        FieldPanel("body"),
         MultiFieldPanel(
             [FieldPanel("speaker_heading"), InlinePanel("speakers")],
             heading=_("Event Speakers"),
         ),
         MultiFieldPanel(
-            [FieldPanel("partners_heading"), StreamFieldPanel("partners")],
+            [FieldPanel("partners_heading"), FieldPanel("partners")],
             heading="Partners",
         ),
-        StreamFieldPanel("call_to_action"),
+        FieldPanel("call_to_action"),
         InlinePanel(
             "related_pages", label="Page", heading="Also of interest", max_num=6
         ),
@@ -491,10 +491,10 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                 FieldPanel("contact_model_title"),
                 FieldPanel("contact_model_email"),
                 FieldPanel("contact_model_url"),
-                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_form"),
                 FieldPanel("contact_model_link_text"),
                 FieldPanel("contact_model_text"),
-                ImageChooserPanel("contact_model_image"),
+                FieldPanel("contact_model_image"),
             ],
             "Large Call To Action",
         ),
