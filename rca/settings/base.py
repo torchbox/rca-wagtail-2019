@@ -732,10 +732,11 @@ BIRDBATH_PROCESSORS = [
     "birdbath.processors.contrib.wagtail.FormSubmissionCleaner",
     "rca.enquire_to_study.birdbath.EnquiryFormSubmissionDeleter",
     "rca.scholarships.birdbath.ScholarshipEnquiryFormSubmissionDeleter",
+    "rca.users.birdbath.StudentAccountAnonymiser",
 ]
 BIRDBATH_REQUIRED = env.get("BIRDBATH_REQUIRED", "true").lower() == "true"
 BIRDBATH_USER_ANONYMISER_EXCLUDE_SUPERUSERS = True
-BIRDBATH_USER_ANONYMISER_EXCLUDE_EMAIL_RE = r"(torchbox\.com|rca\.ac\.uk)$"
+BIRDBATH_USER_ANONYMISER_EXCLUDE_EMAIL_RE = r"torchbox\.com$"
 
 # Django Countries
 # https://pypi.org/project/django-countries
