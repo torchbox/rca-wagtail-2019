@@ -1,4 +1,4 @@
-from wagtail.tests.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTests
 
 from rca.enquire_to_study.factories import StartDateFactory
 

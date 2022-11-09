@@ -2,8 +2,8 @@
 
 import django.db.models.deletion
 import modelcluster.fields
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 import wagtail.images.blocks
 from django.db import migrations, models
 
@@ -148,30 +148,30 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="staffpage",
             name="body",
-            field=wagtail.core.fields.RichTextField(blank=True),
+            field=wagtail.fields.RichTextField(blank=True),
         ),
         migrations.AddField(
             model_name="staffpage",
             name="gallery",
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
                     (
                         "slide",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
                                 (
                                     "title",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
                                 ("image", wagtail.images.blocks.ImageChooserBlock()),
                                 (
                                     "author",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
-                                ("link", wagtail.core.blocks.URLBlock(required=False)),
+                                ("link", wagtail.blocks.URLBlock(required=False)),
                                 (
                                     "course",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
                             ]
                         ),
@@ -184,29 +184,29 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="staffpage",
             name="more_information",
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
                     (
                         "accordion_block",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
                                 (
                                     "heading",
-                                    wagtail.core.blocks.CharBlock(
+                                    wagtail.blocks.CharBlock(
                                         help_text="A large heading diplayed next to the block",
                                         required=False,
                                     ),
                                 ),
                                 (
                                     "preview_text",
-                                    wagtail.core.blocks.CharBlock(
+                                    wagtail.blocks.CharBlock(
                                         help_text="The text to display when the accordion is collapsed",
                                         required=False,
                                     ),
                                 ),
                                 (
                                     "body",
-                                    wagtail.core.blocks.RichTextBlock(
+                                    wagtail.blocks.RichTextBlock(
                                         features=[
                                             "h2",
                                             "h3",
@@ -222,17 +222,17 @@ class Migration(migrations.Migration):
                                 ),
                                 (
                                     "link",
-                                    wagtail.core.blocks.StructBlock(
+                                    wagtail.blocks.StructBlock(
                                         [
                                             (
                                                 "title",
-                                                wagtail.core.blocks.CharBlock(
+                                                wagtail.blocks.CharBlock(
                                                     required=False
                                                 ),
                                             ),
                                             (
                                                 "url",
-                                                wagtail.core.blocks.URLBlock(
+                                                wagtail.blocks.URLBlock(
                                                     required=False
                                                 ),
                                             ),
@@ -257,17 +257,17 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="staffpage",
             name="related_links",
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
                     (
                         "link",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
                                 (
                                     "title",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
-                                ("url", wagtail.core.blocks.URLBlock(required=False)),
+                                ("url", wagtail.blocks.URLBlock(required=False)),
                             ]
                         ),
                     )
