@@ -6,6 +6,12 @@ from rca.users.factories import UserFactory
 
 
 class TestStudentAdmin(TestCase):
+    """
+    We make some changes to the admin interface if the user is a student.
+    This test is making sure the sitewide search is removed for sutdents,
+    editors and admins should still see the search.
+    """
+
     def setUp(self):
         self.user = UserFactory(is_superuser=True)
         student_group = Group.objects.get(name="Students")
