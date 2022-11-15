@@ -92,7 +92,7 @@ class StudentPagePromoteTab(ObjectList):
             allowed_student_fields = ["slug"]
             permission = "superuser"
 
-            if not self.request.user.is_superuser:
+            if self.request.user.is_student:
 
                 children = self.panel.children  # multi field panels
                 for child in children:
@@ -112,7 +112,7 @@ class StudentPageSettingsTab(ObjectList):
 
             permission = "superuser"
 
-            if not self.request.user.is_superuser:
+            if self.request.user.is_student:
 
                 for child in self.panel.children:
                     if child.__class__.__name__ == "PublishingPanel":
