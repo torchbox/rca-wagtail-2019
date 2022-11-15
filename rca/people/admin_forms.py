@@ -14,6 +14,7 @@ class StudentPageAdminForm(WagtailAdminPageForm):
             readonly_fields = [
                 "student_user_image_collection",
                 "student_user_account",
+                "title",
             ]
             for f in readonly_fields:
                 # Wrapped in a try except as when a student uses this form, these fields are hidden
