@@ -8,7 +8,7 @@ from rca.users.factories import UserFactory
 class TestStudentAdmin(TestCase):
     """
     We make some changes to the admin interface if the user is a student.
-    This test is making sure the sitewide search is removed for sutdents,
+    This test is making sure the admin search is removed for sutdents,
     editors and admins should still see the search.
     """
 
