@@ -9,26 +9,6 @@ class StudentPageAdminForm(WagtailAdminPageForm):
         super(StudentPageAdminForm, self).__init__(*args, **kwargs)
 
         user = kwargs.get("for_user")
-        user_level = None
-        """
-        'is_active', 'is_anonymous', 'is_authenticated', 'is_staff', 'is_student', 'is_superuser'
-        """
-        if user.is_superuser:
-            user_level = "superuser"
-        elif user.is_student():
-            user_level = "student"
-        else:
-            user_level = "locked"
-        # print("superuser", user.is_superuser)
-        # print("admin", user.is_student())
-        # print(user.__dir__())
-        # permission = None
-        # if user.is_student():
-        #     permission = "student"
-        # elif user.is_admin():
-        #     permission = "admin"
-        # self.is_student = user.is_student()
-        # print("is_student", self.is_student)
 
         # Don't allow changing the user account or image collection once set as they are tied to permissions
         if (
@@ -47,7 +27,7 @@ class StudentPageAdminForm(WagtailAdminPageForm):
                 except KeyError:
                     pass
 
-        if self.instance.title and self.instance.slug and not user_level == "student":
+        if self.instance.title and self.instance.slug and not user.is_student():
             readonly_fields = [
                 "title",
                 "slug",
@@ -56,25 +36,15 @@ class StudentPageAdminForm(WagtailAdminPageForm):
             for f in readonly_fields:
                 self.fields[f].widget.attrs["readonly"] = True
 
-        elif self.instance.title and self.instance.slug and user_level == "student":
+        elif self.instance.title and self.instance.slug and user.is_student():
             hidden_fields = [
                 "title",
                 "slug",
             ]
 
-            for tab in self.instance.edit_handler.children:
-                for panel in tab.children:
-                    if panel.__class__.__name__ == "FieldPanel":
-                        if panel.field_name in hidden_fields:
-                            panel.permission = "hidden"
-            #         if hasattr(panel, "field_name") and panel.field_name in hidden_fields:
-            #             panel.is_shown = False
-
-            # if panel.heading in hidden_fields:
-            #     panel.heading = None
-
             for f in hidden_fields:
                 self.fields[f].widget = forms.HiddenInput()
+                self.fields[f].class_name = "student-hidden"
 
     def clean(self):
         cleaned_data = super().clean()
@@ -110,3 +80,8 @@ class StudentPageAdminForm(WagtailAdminPageForm):
             )
 
         return cleaned_data
+
+    class Media:
+        js = [
+            "people/admin/js/student_edit_page.js",
+        ]
