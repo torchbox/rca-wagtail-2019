@@ -677,18 +677,6 @@ class StudentPageSupervisor(models.Model):
             raise ValidationError(errors)
 
 
-def student_base_page_content_panels(content_panels):
-    for panel in content_panels:
-        if isinstance(panel, FieldPanel) and panel.field_name == "title":
-            """Developer note:
-            This will only loop over the top level panels which is OK currently
-            because there's only one field panel with the name `title` at the moment
-            which originates from the Wagtail Page model.
-            If BasePage.content_panels is implemented then this will need to be updated"""
-            panel.permission = "superuser"
-    return content_panels
-
-
 class StudentPage(BasePage):
     base_form_class = StudentPageAdminForm
     template = "patterns/pages/student/student_detail.html"
@@ -774,7 +762,7 @@ class StudentPage(BasePage):
         index.SearchField("bio"),
     ]
 
-    content_panels = student_base_page_content_panels(BasePage.content_panels) + [
+    content_panels = BasePage.content_panels + [
         FieldPanel("student_user_account", permission="superuser"),
         FieldPanel("student_user_image_collection", permission="superuser"),
         MultiFieldPanel(
