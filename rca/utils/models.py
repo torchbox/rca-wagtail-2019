@@ -15,7 +15,7 @@ from taggit.models import ItemBase, TagBase
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel
 from wagtail.api import APIField
-from wagtail.contrib.settings.models import BaseSetting, register_setting
+from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Orderable, Page
 from wagtail.snippets.models import register_snippet
@@ -354,7 +354,7 @@ class CallToActionSnippet(models.Model):
 
 
 @register_setting
-class SocialMediaSettings(BaseSetting):
+class SocialMediaSettings(BaseSiteSetting):
     twitter_handle = models.CharField(
         max_length=255,
         blank=True,
@@ -389,7 +389,7 @@ class SocialMediaSettings(BaseSetting):
 
 
 @register_setting
-class SystemMessagesSettings(BaseSetting):
+class SystemMessagesSettings(BaseSiteSetting):
     class Meta:
         verbose_name = "system messages"
 
@@ -770,7 +770,7 @@ class FeeDisclaimerSnippet(models.Model):
 
 
 @register_setting
-class ProgrammeSettings(BaseSetting):
+class ProgrammeSettings(BaseSiteSetting):
     class Meta:
         verbose_name = "Programme settings"
 
@@ -817,7 +817,7 @@ class ResearchType(models.Model):
 
 
 @register_setting
-class SitewideAlertSetting(BaseSetting):
+class SitewideAlertSetting(BaseSiteSetting):
     class Meta:
         verbose_name = "Sitewide alert"
 
@@ -975,7 +975,7 @@ class TapWidgetSnippet(models.Model):
 
 
 @register_setting
-class SitewideTapSetting(BaseSetting):
+class SitewideTapSetting(BaseSiteSetting):
     class Meta:
         verbose_name = "Sitewide TAP settings"
 
