@@ -1,5 +1,5 @@
 from django.test import TestCase
-from wagtail.test.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTestCase
 
 from rca.editorial.factories import (
     AuthorFactory,
@@ -23,7 +23,7 @@ class TestEditorialFactories(TestCase):
         EditorialPageFactory(editorial_types=[EditorialPageTypePlacement(type=type)])
 
 
-class EditorialListingPageTests(WagtailPageTests):
+class EditorialListingPageTests(WagtailPageTestCase):
     def test_can_add_only_editorial_child_pages(self):
         self.assertCanNotCreateAt(EditorialListingPage, InformationPage)
         self.assertCanNotCreateAt(EditorialListingPage, IndexPage)

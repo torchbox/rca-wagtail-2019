@@ -1,5 +1,5 @@
 from django.test import TestCase
-from wagtail.test.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTestCase
 
 from rca.home.models import HomePage
 from rca.landingpages.factories import (
@@ -29,7 +29,7 @@ class TestLandingPageFactory(TestCase):
         DevelopmentLandingPageFactory()
 
 
-class TestEELandingPageRules(WagtailPageTests):
+class TestEELandingPageRules(WagtailPageTestCase):
     def setUp(self):
         self.home_page = HomePage.objects.first()
 
@@ -57,7 +57,7 @@ class TestEELandingPageRules(WagtailPageTests):
         self.assertFalse(EELandingPage.can_create_at(self.home_page))
 
 
-class TestAlumniLandingPageRules(WagtailPageTests):
+class TestAlumniLandingPageRules(WagtailPageTestCase):
     def setUp(self):
         self.home_page = HomePage.objects.first()
 
@@ -76,7 +76,7 @@ class TestAlumniLandingPageRules(WagtailPageTests):
         self.assertFalse(AlumniLandingPage.can_create_at(self.home_page))
 
 
-class TestDevelopmentLandingPageRules(WagtailPageTests):
+class TestDevelopmentLandingPageRules(WagtailPageTestCase):
     def setUp(self):
         self.home_page = HomePage.objects.first()
 
