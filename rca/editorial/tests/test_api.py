@@ -1,7 +1,7 @@
 import json
 
 import wagtail_factories
-from wagtail.test.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTestCase
 
 from rca.editorial.factories import (
     AuthorFactory,
@@ -21,7 +21,7 @@ from rca.schools.factories import SchoolPageFactory
 from rca.schools.models import RelatedSchoolPage
 
 
-class EditorialPageAPIResponseTest(WagtailPageTests):
+class EditorialPageAPIResponseTest(WagtailPageTestCase):
     """The RCA intranet import tool relies on the structure
     of this API response, so it's covered with a test to ensure
     that should the structure change, we are alerted about it as
@@ -171,7 +171,7 @@ class EditorialPageAPIResponseTest(WagtailPageTests):
         self.assertEqual(response.data["editorial_types"][0]["title"], "Alien news")
 
 
-class EditorialSerializerTests(WagtailPageTests):
+class EditorialSerializerTests(WagtailPageTestCase):
     def setUp(self):
         self.home_page = HomePage.objects.first()
         self.editorial_page = EditorialPageFactory(

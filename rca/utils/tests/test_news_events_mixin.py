@@ -5,7 +5,7 @@ import wagtail_factories
 from django.test import override_settings
 from faker import Faker
 from wagtail.images.tests.utils import Image, get_test_image_file
-from wagtail.test.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTestCase
 
 from rca.editorial.models import (
     EditorialPage,
@@ -31,7 +31,7 @@ def date_helper():
 
 
 @override_settings(USE_TZ=False)
-class NewsAndEventsMixinTest(WagtailPageTests):
+class NewsAndEventsMixinTest(WagtailPageTestCase):
     """
     There is a lot of page setup and handwaving here, however the main aim
     of these tests are to ensure data from internal relationships is being
