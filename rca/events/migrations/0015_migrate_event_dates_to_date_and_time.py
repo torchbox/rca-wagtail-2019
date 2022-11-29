@@ -41,7 +41,7 @@ def convert_revision_datetime_to_date_and_time(revision, model):
 
 
 def process(apps, func):
-    PageRevision = apps.get_model("wagtailcore", "PageRevision")
+    PageRevision = apps.get_model("wagtailcore", "Revision")
     EventDetailPage = apps.get_model("events", "EventDetailPage")
 
     page_ids = EventDetailPage.objects.values_list("id")

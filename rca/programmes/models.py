@@ -22,7 +22,7 @@ from wagtail.admin.panels import (
 )
 from wagtail.api import APIField
 from wagtail.blocks import CharBlock, StructBlock
-from wagtail.contrib.settings.models import BaseSetting, register_setting
+from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.embeds import embeds
 from wagtail.embeds.exceptions import EmbedException
 from wagtail.fields import RichTextField, StreamBlock, StreamField
@@ -918,7 +918,7 @@ class ProgrammeIndexPage(ContactFieldsMixin, BasePage):
 
 
 @register_setting
-class ProgrammePageGlobalFieldsSettings(BaseSetting):
+class ProgrammePageGlobalFieldsSettings(BaseSiteSetting):
     class Meta:
         verbose_name = "Programme Page Global Fields"
 
