@@ -74,6 +74,14 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
 
     get_country_of_citizenship.short_description = "Country of citizenship"
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+
+        return qs.select_related(
+            "enquiry_reason",
+            "start_date",
+        ).prefetch_related("enquiry_submission_programmes__programme")
+
     list_filter = (
         ("submission_date", DateTimeRangeFilter),
         "enquiry_submission_programmes__programme",
