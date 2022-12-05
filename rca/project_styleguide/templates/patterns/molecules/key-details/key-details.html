@@ -85,7 +85,7 @@
                 </ul>
             </div>
         {% endif %}
-        {% if page.application_deadline %}
+        {% if page.application_deadline or page.application_deadline_options %}
             <div class="key-details__section key-details__section--deadline">
                 {% if programme_page_global_fields.key_details_application_deadline_title %}
                     <h4 class="body body--two key-details__sub-heading">{{ programme_page_global_fields.key_details_application_deadline_title }}</h4>
@@ -94,8 +94,12 @@
                     {% if page.application_deadline_options == '1' %}
                         <li class="key-details__list-item">{{ page.get_application_deadline_options_display }}</li>
                     {% else %}
+                        {% if page.application_deadline %}
                         <li class="key-details__list-item">{{ page.application_deadline }}</li>
+                        {% endif %}
+                        {% if page.application_deadline_options %}
                         <li class="key-details__list-item">{{ page.get_application_deadline_options_display }}</li>
+                        {% endif %}
                     {% endif %}
                 </ul>
             </div>
