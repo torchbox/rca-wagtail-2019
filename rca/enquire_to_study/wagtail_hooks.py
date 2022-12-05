@@ -37,8 +37,9 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
         "last_name",
         "email",
         "phone_number",
-        "country_of_residence",
-        "country_of_citizenship",
+        "get_country_of_residence",
+        "city",
+        "get_country_of_citizenship",
         "enquiry_reason",
         "start_date",
         "is_read_data_protection_policy",
@@ -63,10 +64,21 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
 
     get_programmes.short_description = "Programmes"
 
+    def get_country_of_residence(self, obj):
+        return obj.country_of_residence.name
+
+    get_country_of_residence.short_description = "Country of residence"
+
+    def get_country_of_citizenship(self, obj):
+        return obj.country_of_citizenship.name
+
+    get_country_of_citizenship.short_description = "Country of citizenship"
+
     list_filter = (
         ("submission_date", DateTimeRangeFilter),
         "enquiry_submission_programmes__programme",
     )
+
     search_fields = ("first_name", "last_name", "email", "country_of_residence")
     permission_helper_class = EnquiryFormSubmissionPermissionHelper
 
