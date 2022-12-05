@@ -22,7 +22,7 @@ from wagtail.blocks import CharBlock, StructBlock, URLBlock
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.embeds import embeds
 from wagtail.embeds.exceptions import EmbedException
-from wagtail.fields import RichTextField, StreamField
+from wagtail.fields import RichTextField, StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.blocks import ImageChooserBlock
@@ -39,6 +39,7 @@ from rca.utils.blocks import (
     InfoBlock,
     SnippetChooserBlock,
     StepBlock,
+    RelatedPageListBlockPage,
 )
 from rca.utils.models import (
     BasePage,
@@ -180,6 +181,23 @@ class ProgramPageRelatedStaff(Orderable):
 
     def __str__(self):
         return self.name
+
+
+class ProgrammeStoriesBlock(models.Model):
+    source_page = ParentalKey("ProgrammePage", related_name="programme_stories")
+    title = models.CharField(max_length=125)
+    slides = StreamField(
+        StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1),
+        use_json_field=True,
+    )
+
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("slides"),
+    ]
+
+    def __str__(self):
+        return self.title
 
 
 class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
@@ -521,6 +539,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             heading="Facilities",
         ),
         MultiFieldPanel([FieldPanel("notable_alumni_links")], heading="Alumni"),
+        InlinePanel("programme_stories", label="Programme Stories", max_num=1),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_image"),
