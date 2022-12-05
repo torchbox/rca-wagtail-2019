@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -106,7 +107,7 @@ class GuidePage(TapMixin, ContactFieldsMixin, BasePage):
                     "title": page.listing_title if page.listing_title else page.title,
                     "image": page.listing_image,
                     "link": page.url,
-                    "description": introduction,
+                    "description": page.listing_summary or strip_tags(introduction),
                 }
             )
         return related_pages

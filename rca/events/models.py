@@ -602,7 +602,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                     "title": page.listing_title or page.title,
                     "link": page.url,
                     "image": page.listing_image or hero_image,
-                    "description": page.listing_summary or description,
+                    "description": page.listing_summary or strip_tags(description),
                     "meta": meta,
                 }
             )
@@ -715,7 +715,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                     "title": e.title,
                     "link": e.url,
                     "meta": "",  # TODO: on separate ticket
-                    "description": e.introduction,
+                    "description": e.listing_summary or strip_tags(e.introduction),
                     "image": e.listing_image if e.listing_image else e.hero_image,
                 }
                 for e in events
