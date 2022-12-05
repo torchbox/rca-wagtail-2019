@@ -37,10 +37,11 @@ from rca.utils.blocks import (
     FeeBlock,
     GalleryBlock,
     InfoBlock,
+    RelatedPageListBlockPage,
     SnippetChooserBlock,
     StepBlock,
-    RelatedPageListBlockPage,
 )
+from rca.utils.formatters import related_list_block_slideshow
 from rca.utils.models import (
     BasePage,
     ContactFieldsMixin,
@@ -686,6 +687,14 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     def get_schools(self):
         return self.related_schools_and_research_pages.select_related("page")
 
+    def get_programme_stories(self, programme_stories):
+        if not programme_stories:
+            return {}
+        return {
+            "title": programme_stories.title,
+            "slides": related_list_block_slideshow(programme_stories.slides),
+        }
+
     def clean(self):
         super().clean()
         errors = defaultdict(list)
@@ -760,6 +769,12 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
         # Schools
         context["programme_schools"] = self.get_schools()
+
+        # Stories
+        context["programme_stories"] = self.get_programme_stories(
+            self.programme_stories.first()
+        )
+
         if self.tap_widget:
             context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
         return context
