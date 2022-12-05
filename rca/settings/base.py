@@ -108,6 +108,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "wagtail_redirect_importer",
     "corsheaders",
+    "wagtail_rangefilter",
+    "rangefilter",
 ]
 
 # Middleware classes

@@ -2,6 +2,7 @@ from django.conf.urls import url
 from wagtail import hooks
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
+from wagtail_rangefilter.filters import DateTimeRangeFilter
 
 from rca.enquire_to_study.models import EnquiryFormSubmission
 
@@ -62,7 +63,10 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
 
     get_programmes.short_description = "Programmes"
 
-    list_filter = ("enquiry_submission_programmes__programme",)
+    list_filter = (
+        ("submission_date", DateTimeRangeFilter),
+        "enquiry_submission_programmes__programme",
+    )
     search_fields = ("first_name", "last_name", "email", "country_of_residence")
     permission_helper_class = EnquiryFormSubmissionPermissionHelper
 
