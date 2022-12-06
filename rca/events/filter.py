@@ -35,7 +35,7 @@ class PastOrFutureFilter:
             return queryset.filter(end_date__gte=TODAY).order_by("end_date")
         # Modify the queryset if no filters are passed in here and show only
         # upcoming dates.
-        queryset = queryset.filter(start_date__gte=TODAY).order_by("start_date")
+        queryset = queryset.filter(end_date__gte=TODAY).order_by("end_date")
         return queryset
 
     @property
