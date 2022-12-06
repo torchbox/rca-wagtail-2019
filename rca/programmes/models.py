@@ -715,10 +715,8 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             bits.append(str(self.degree_level))
         return " ".join(bits)
 
-    def get_school(self):
-        related = self.related_schools_and_research_pages.select_related("page").first()
-        if related:
-            return related.page
+    def get_schools(self):
+        return self.related_schools_and_research_pages.select_related("page")
 
     @property
     def listing_meta(self):
@@ -797,8 +795,8 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         programme_page_global_fields = ProgrammePageGlobalFieldsSettings.for_site(site)
         context["programme_page_global_fields"] = programme_page_global_fields
 
-        # School
-        context["programme_school"] = self.get_school()
+        # Schools
+        context["programme_schools"] = self.get_schools()
         if self.tap_widget:
             context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
         return context
