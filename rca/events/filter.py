@@ -32,7 +32,7 @@ class PastOrFutureFilter:
         if self.selected_value == PastFutureChoices.PAST:
             return queryset.filter(start_date__lt=TODAY)
         if self.selected_value == PastFutureChoices.FUTURE:
-            return queryset.filter(start_date__gte=TODAY).order_by("start_date")
+            return queryset.filter(end_date__gte=TODAY).order_by("end_date")
         # Modify the queryset if no filters are passed in here and show only
         # upcoming dates.
         queryset = queryset.filter(start_date__gte=TODAY).order_by("start_date")
