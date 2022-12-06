@@ -29,6 +29,16 @@
     </div>
     {% endif %}
 
+    {% if page.location_details %}
+    <div class="key-details__section">
+        <ul class="key-details__list">
+            <li class="key-details__list-item">
+                {{ page.location_details|richtext }}
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+
     <div class="key-details__section key-details__section--dean u-small-bp-only">
         <h3 class="body body--two key-details__sub-heading">Price</h3>
         <ul class="key-details__list">
