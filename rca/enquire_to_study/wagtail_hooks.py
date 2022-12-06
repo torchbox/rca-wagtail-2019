@@ -36,7 +36,8 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
         "last_name",
         "email",
         "phone_number",
-        "country_of_residence",
+        "get_country_of_residence",
+        "city",
         "country_of_citizenship",
         "enquiry_reason",
         "start_date",
@@ -61,6 +62,19 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
         )
 
     get_programmes.short_description = "Programmes"
+
+    def get_country_of_residence(self, obj):
+        return obj.country_of_residence.name
+
+    get_country_of_residence.short_description = "Country of residence"
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+
+        return qs.select_related(
+            "enquiry_reason",
+            "start_date",
+        ).prefetch_related("enquiry_submission_programmes__programme")
 
     list_filter = ("enquiry_submission_programmes__programme",)
     search_fields = ("first_name", "last_name", "email", "country_of_residence")
