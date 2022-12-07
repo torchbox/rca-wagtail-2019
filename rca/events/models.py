@@ -433,6 +433,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         on_delete=models.SET_NULL,
         related_name="events",
     )
+    location_details = RichTextField(blank=True)
 
     content_panels = BasePage.content_panels + [
         FieldPanel("hero_image"),
@@ -451,6 +452,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                 FieldPanel("event_cost"),
                 FieldPanel("availability"),
                 FieldPanel("location"),
+                FieldPanel("location_details"),
             ],
             heading="Event Booking",
         ),
