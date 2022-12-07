@@ -357,7 +357,7 @@ class EditorialPage(ContactFieldsMixin, BasePage):
                     "title": page.title,
                     "link": page.url,
                     "image": page.listing_image or page.hero_image,
-                    "description": page.introduction or page.listing_summary,
+                    "description": page.listing_summary or page.introduction,
                     "meta": meta,
                 }
             )
