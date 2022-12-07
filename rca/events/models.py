@@ -618,13 +618,14 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             meta = PAGE_META_MAPPING.get(page.__class__.__name__, "")
             hero_image = getattr(page, "hero_image", None)
             description = getattr(page, "introduction", "")
+            description = re.sub("<a.*?>|</a>", "", description)
 
             related_pages["items"].append(
                 {
                     "title": page.listing_title or page.title,
                     "link": page.url,
                     "image": page.listing_image or hero_image,
-                    "description": page.listing_summary or strip_tags(description),
+                    "description": page.listing_summary or description,
                     "meta": meta,
                 }
             )
@@ -737,7 +738,8 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                     "title": e.title,
                     "link": e.url,
                     "meta": "",  # TODO: on separate ticket
-                    "description": e.listing_summary or strip_tags(e.introduction),
+                    "description": e.listing_summary
+                    or re.sub("<a.*?>|</a>", "", e.introduction),
                     "image": e.listing_image if e.listing_image else e.hero_image,
                 }
                 for e in events
