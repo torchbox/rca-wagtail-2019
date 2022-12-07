@@ -25,7 +25,7 @@ from wagtail.blocks import CharBlock, StreamBlock, StructBlock, URLBlock
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.embeds import embeds
 from wagtail.embeds.exceptions import EmbedException
-from wagtail.fields import RichTextField, StreamField
+from wagtail.fields import RichTextField, StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.blocks import ImageChooserBlock
@@ -42,9 +42,11 @@ from rca.utils.blocks import (
     InfoBlock,
     LinkedImageBlock,
     QuoteBlock,
+    RelatedPageListBlockPage,
     SnippetChooserBlock,
     StepBlock,
 )
+from rca.utils.formatters import related_list_block_slideshow
 from rca.utils.models import (
     BasePage,
     ContactFieldsMixin,
@@ -193,6 +195,23 @@ class ProgrammePageTag(TaggedItemBase):
         on_delete=models.CASCADE,
         related_name="tagged_programme_items",
     )
+
+
+class ProgrammeStoriesBlock(models.Model):
+    source_page = ParentalKey("ProgrammePage", related_name="programme_stories")
+    title = models.CharField(max_length=125)
+    slides = StreamField(
+        StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1),
+        use_json_field=True,
+    )
+
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("slides"),
+    ]
+
+    def __str__(self):
+        return self.title
 
 
 class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
@@ -554,6 +573,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             heading="Facilities",
         ),
         MultiFieldPanel([FieldPanel("notable_alumni_links")], heading="Alumni"),
+        InlinePanel("programme_stories", label="Programme Stories", max_num=1),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_image"),
@@ -723,6 +743,14 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         # Returns a page 'type' value that's readable for listings,
         return "Programme"
 
+    def get_programme_stories(self, programme_stories):
+        if not programme_stories:
+            return {}
+        return {
+            "title": programme_stories.title,
+            "slides": related_list_block_slideshow(programme_stories.slides),
+        }
+
     def clean(self):
         super().clean()
         errors = defaultdict(list)
@@ -797,6 +825,12 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
         # Schools
         context["programme_schools"] = self.get_schools()
+
+        # Stories
+        context["programme_stories"] = self.get_programme_stories(
+            self.programme_stories.first()
+        )
+
         if self.tap_widget:
             context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
         return context
