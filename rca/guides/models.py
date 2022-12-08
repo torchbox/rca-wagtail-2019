@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
@@ -99,14 +101,14 @@ class GuidePage(TapMixin, ContactFieldsMixin, BasePage):
             if hasattr(page, "programme_description_subtitle"):
                 introduction = page.programme_description_subtitle
             if hasattr(page, "introduction"):
-                introduction = page.introduction
+                introduction = re.sub("<a.*?>|</a>", "", page.introduction)
             related_pages["items"].append(
                 {
                     "page": page,
                     "title": page.listing_title if page.listing_title else page.title,
                     "image": page.listing_image,
                     "link": page.url,
-                    "description": introduction,
+                    "description": page.listing_summary or introduction,
                 }
             )
         return related_pages

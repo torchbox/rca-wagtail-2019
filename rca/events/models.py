@@ -1,5 +1,6 @@
 import datetime
 import hashlib
+import re
 from urllib.parse import urlencode
 
 from django.core.exceptions import ValidationError
@@ -596,6 +597,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             meta = PAGE_META_MAPPING.get(page.__class__.__name__, "")
             hero_image = getattr(page, "hero_image", None)
             description = getattr(page, "introduction", "")
+            description = re.sub("<a.*?>|</a>", "", description)
 
             related_pages["items"].append(
                 {
@@ -715,7 +717,8 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                     "title": e.title,
                     "link": e.url,
                     "meta": "",  # TODO: on separate ticket
-                    "description": e.introduction,
+                    "description": e.listing_summary
+                    or re.sub("<a.*?>|</a>", "", e.introduction),
                     "image": e.listing_image if e.listing_image else e.hero_image,
                 }
                 for e in events
