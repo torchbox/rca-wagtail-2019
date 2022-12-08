@@ -71,8 +71,8 @@ class StudentPageInlinePanel(InlinePanel):
     # InlinePanel that only displays content to superusers
 
     class BoundPanel(InlinePanel.BoundPanel):
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
+        def __init__(self, panel, instance, request, form):
+            super().__init__(panel, instance, request, form)
             self.template_name = "admin/panels/student_page_inline_panel.html"
 
         def get_context_data(self, parent_context=None):
@@ -86,8 +86,8 @@ class StudentPagePromoteTab(ObjectList):
     # As a side effect: If all fields are hidden, the panel is hidden for Students
 
     class BoundPanel(ObjectList.BoundPanel):
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
+        def __init__(self, panel, instance, request, form):
+            super().__init__(panel, instance, request, form)
 
             allowed_student_fields = ["slug"]
             permission = "superuser"
@@ -107,8 +107,8 @@ class StudentPageSettingsTab(ObjectList):
     # As a side effect: If all fields are hidden, the panel is hidden for Students
 
     class BoundPanel(ObjectList.BoundPanel):
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
+        def __init__(self, panel, instance, request, form):
+            super().__init__(panel, instance, request, form)
 
             permission = "superuser"
 
