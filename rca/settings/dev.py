@@ -42,6 +42,7 @@ INSTALLED_APPS += ["django_extensions"]  # noqa
 # Disable forcing HTTPS locally since development server supports HTTP only.
 SECURE_SSL_REDIRECT = False
 
+
 # Adds Django Debug Toolbar, if preset
 try:
     import debug_toolbar  # noqa
