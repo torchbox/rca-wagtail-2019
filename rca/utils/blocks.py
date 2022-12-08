@@ -94,7 +94,7 @@ class LinkBlock(blocks.StructBlock):
             errors["title"] = ErrorList(["Please add title value to display."])
 
         if errors:
-            raise ValidationError("Validation error in LinkBlock", params=errors)
+            raise StructBlockValidationError(errors)
         return result
 
 
