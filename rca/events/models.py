@@ -621,6 +621,12 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         TIME_FORMAT = "fA"
         if self.start_time:
             start_time = time(self.start_time, TIME_FORMAT).lower()
+
+            # End time is optional so formatting is different if the
+            # event does not have an end time.
+            if not self.end_time:
+                return start_time
+
             end_time = time(self.end_time, TIME_FORMAT).lower()
             return f"{start_time} \u2013 {end_time}"
         return ""
@@ -691,8 +697,6 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             raise ValidationError(
                 {"show_booking_bar": "Please complete all booking fields."}
             )
-        if self.start_time and not self.end_time:
-            raise ValidationError({"end_time": "Please enter an end time."})
         if self.end_time and not self.start_time:
             raise ValidationError({"start_time": "Please enter a start time."})
         if (self.start_time and self.end_time) and (self.start_time >= self.end_time):
