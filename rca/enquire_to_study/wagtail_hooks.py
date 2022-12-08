@@ -39,7 +39,7 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
         "phone_number",
         "get_country_of_residence",
         "city",
-        "country_of_citizenship",
+        "get_country_of_citizenship",
         "enquiry_reason",
         "start_date",
         "is_read_data_protection_policy",
@@ -66,6 +66,9 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
 
     def get_country_of_residence(self, obj):
         return obj.country_of_residence.name
+
+    def get_country_of_citizenship(self, obj):
+        return obj.country_of_citizenship.name
 
     get_country_of_residence.short_description = "Country of residence"
 
