@@ -1,0 +1,21 @@
+.enquire-form {
+    &__key-details {
+        margin-bottom: ($gutter);
+
+        @include media-query(medium) {
+            margin-bottom: ($gutter * 2);
+        }
+    }
+
+    &__section {
+        padding-top: 0;
+
+        @include media-query(medium) {
+            padding-top: ($gutter * 18.25);
+        }
+
+        @include media-query(large) {
+            padding-top: ($gutter * 12.5);
+        }
+    }
+}

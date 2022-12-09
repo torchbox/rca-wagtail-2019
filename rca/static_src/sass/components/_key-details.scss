@@ -79,6 +79,14 @@
 
     &__heading {
         margin-bottom: ($gutter * 2);
+
+        .enquire-to-study & {
+            margin-bottom: ($gutter);
+
+            @include media-query(medium) {
+                margin-bottom: ($gutter * 2);
+            }
+        }
     }
 
     // Only used for medium breakpoint rejigged layout

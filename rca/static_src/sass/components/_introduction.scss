@@ -24,6 +24,14 @@
 
         &--no-margin {
             margin-bottom: 0;
+
+            .enquire-form & {
+                margin-bottom: $gutter;
+
+                @include media-query(large) {
+                    margin-bottom: 0;
+                }
+            }
         }
     }
 
