@@ -10,7 +10,7 @@
         padding-bottom: ($gutter * 3);
     }
 
-    .enquire-form & {
+    &--no-margin-for-mobile {
         padding-bottom: 0;
 
         @include media-query(medium) {
