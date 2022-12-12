@@ -74,7 +74,7 @@
 </section>
 
 
-{% if featured_work or news_and_events %}
+{% if featured_work or news_and_events or programme_stories  %}
     <section class="section section--end bg bg--dark">
 
         <div class="section__notch section__notch--top">
@@ -87,6 +87,15 @@
                     <h2 class="section__heading section__heading--primary heading heading--two">Standout projects</h2>
                 </div>
                 {% include "patterns/organisms/carousel/carousel--square.html" with carousel=featured_work.slides modifier='carousel--square' control_title="Editorial stories" datatag='data-peek-carousel' %}
+            </div>
+        {% endif %}
+
+        {% if programme_stories %}
+            <div class="section__row section__row--last schools__about--student-stories partnerships__carousel">
+                <div class="section__header grid">
+                    <h2 class="section__heading section__heading--primary heading heading--four">{{ programme_stories.title }}</h2>
+                </div>
+                {% include "patterns/organisms/carousel/carousel--square.html" with carousel=programme_stories.slides modifier='carousel--square' control_title="Programme stories" datatag='data-peek-carousel' %}
             </div>
         {% endif %}
 
