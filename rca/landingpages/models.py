@@ -35,9 +35,11 @@ from rca.utils.blocks import (
     LinkBlock,
     LinkedImageBlock,
     RelatedPageListBlock,
+    RelatedPageListBlockPage,
     SlideBlock,
     StatisticBlock,
 )
+from rca.utils.formatters import format_page_teasers
 from rca.utils.models import (
     BasePage,
     ContactFieldsMixin,
@@ -959,6 +961,20 @@ class AlumniLandingPageRelatedPageSlide(RelatedPage):
     panels = [FieldPanel("page")]
 
 
+class AlumniLandingPageTeaser(models.Model):
+    source_page = ParentalKey("AlumniLandingPage", related_name="page_teasers")
+    title = models.CharField(max_length=125)
+    summary = models.CharField(max_length=250, blank=True)
+    pages = StreamField(
+        StreamBlock([("Page", RelatedPageListBlockPage(max_num=6))], max_num=1),
+        use_json_field=True,
+    )
+    panels = [FieldPanel("title"), FieldPanel("summary"), FieldPanel("pages")]
+
+    def __str__(self):
+        return self.title
+
+
 class AlumniLandingPage(LandingPage):
     max_count = 1
     base_form_class = admin_forms.LandingPageAdminForm
@@ -1043,6 +1059,7 @@ class AlumniLandingPage(LandingPage):
             ],
             heading=_("Related pages grid"),
         ),
+        InlinePanel("page_teasers", max_num=1, label="Page teasers"),
         # latest
         FieldPanel("latest_intro"),
         MultiFieldPanel(
@@ -1143,6 +1160,7 @@ class AlumniLandingPage(LandingPage):
             self.alumni_slideshow_page.all()
         )
         context["page_teasers"] = self.get_related_pages(self.related_pages_grid)
+        context["new_page_teasers"] = format_page_teasers(self.page_teasers.first())
         context["tabs"] = self.anchor_nav()
         return context
 
