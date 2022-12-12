@@ -29,6 +29,18 @@
         }
     }
 
+    &--no-top-for-mobile {
+        padding-top: 0;
+
+        @include media-query(medium) {
+            padding-top: ($gutter * 18.25);
+        }
+
+        @include media-query(large) {
+            padding-top: ($gutter * 12.5);
+        }
+    }
+
     &--top-space-small {
         padding-top: ($gutter * 3.5);
 
