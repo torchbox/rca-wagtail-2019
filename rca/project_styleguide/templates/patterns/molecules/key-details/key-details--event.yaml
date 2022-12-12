@@ -3,6 +3,7 @@ context:
     event_time: 5pm – 8pm
     timezone: GMT +1
     location: Online
+    location_details: Dyson Gallery
     eligibility: Open to all
     type: Exhibition
     add_to_calendar: true
