@@ -1,4 +1,3 @@
-from django import forms
 from wagtail.admin.forms import WagtailAdminPageForm
 
 
@@ -43,7 +42,7 @@ class StudentPageAdminForm(WagtailAdminPageForm):
                 ]
 
                 for f in hidden_fields:
-                    self.fields[f].widget = forms.HiddenInput()
+                    self.fields[f].disabled = True
                     self.fields[f].class_name = "student-hidden"
 
     def clean(self):
