@@ -16,6 +16,8 @@ mkdocs serve
 
 The documentation will be available at: http://localhost:8001/
 
+You can view the documnetation live on [github pages](https://torchbox.github.io/rca-wagtail-2019/)
+
 ## Contributing
 
 1. Make changes on a new branch, including a broad category and the ticket number if relevant e.g. `feature/123-extra-squiggles`, `fix/newsletter-signup`.
