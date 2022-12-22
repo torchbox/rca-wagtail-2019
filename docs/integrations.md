@@ -1,4 +1,6 @@
-# Mailchimp
+# Integrations
+
+## Mailchimp
 
 We make use of Mailchimp's API to subscribe people as members when they submit a sign up form (rca.enquire_to_study.views.EnquireToStudyFormView).
 
@@ -6,11 +8,11 @@ There are two fields used to provide the enquire to study form with values we ca
 
 More details on the MailChimp client [here](https://github.com/mailchimp/mailchimp-marketing-python).
 
-## Developing
+### Developing
 
 If wanting to update the mailchimp integration, request access to the mailchimp account and ask which audience list to use. They have a `Test` list which may be worth using on staging, providing that the mailchimp sign up forms match the list you wish to use on production.
 
-### API keys & IDs
+#### API keys & IDs
 
 You can get the `MAILCHIMP_API_KEY` from their mailchimp account or from the heroku config.
 For info on finding the `MAILCHIMP_LIST_ID` read this [article](https://mailchimp.com/help/find-audience-id/).

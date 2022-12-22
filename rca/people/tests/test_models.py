@@ -2,7 +2,7 @@ from django.contrib.auth.models import Group, Permission
 from django.test import TestCase
 from django.urls import reverse
 from wagtail.models import Collection, GroupCollectionPermission, GroupPagePermission
-from wagtail.test.utils import WagtailPageTests, WagtailTestUtils
+from wagtail.test.utils import WagtailPageTestCase, WagtailTestUtils
 from wagtail.test.utils.form_data import inline_formset, rich_text
 from wagtail_factories import CollectionFactory
 
@@ -26,7 +26,7 @@ class TestStudentPageFactory(TestCase):
         StaffPageFactory()
 
 
-class TestStudentIndexPage(WagtailPageTests):
+class TestStudentIndexPage(WagtailPageTestCase):
     def setUp(self):
         self.home_page = HomePage.objects.first()
         self.user = self.login()
@@ -44,7 +44,7 @@ class TestStudentIndexPage(WagtailPageTests):
         self.assertFalse(StudentIndexPage.can_create_at(self.home_page))
 
 
-class TestStudentPage(WagtailPageTests):
+class TestStudentPage(WagtailPageTestCase):
     def setUp(self):
         super().setUp()
         self.home_page = HomePage.objects.first()

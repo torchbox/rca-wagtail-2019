@@ -11,40 +11,26 @@ See also our [incident process](https://intranet.torchbox.com/propositions/desig
 ## Support resources
 
 - Git repositories:
-  - [Project repository]()
-  - Include repositories for other dependencies relevant to the runbook
-- [Scout APM]()
+  - [Project repository](https://github.com/torchbox/rca-wagtail-2019)
 - Papertrail logs:
-  - [Production]()
-  - [Staging]()
-- [Sentry project]()
+  - [Production](https://my.papertrailapp.com/systems/rca-production/events)
+  - [Development](https://my.papertrailapp.com/systems/rca-staging/events) - note, we do not use staging at all - it's held as a UAT environment.
+  - [Development](https://my.papertrailapp.com/systems/rca-development/events)
+- [Sentry project](https://sentry.io/organizations/torchbox/issues/?project=1542908)
 - S3 buckets:
-  - `project-production`
-  - `buckup-project-staging`
-- ... Any other resources useful for troubleshooting the site ...
+  - `rca-media2.rca.ac.uk`
+  - `buckup-rca-staging`
+  - `buckup-rca-development`
 
-## Scenario X: [Description of overall scenario, e.g. 'Data rejected by AnnoyingService API']
+## Enquire to study form throwing 500s:
 
-### 1. [Put the most important/likely thing to check first, e.g. 'Is authentication failing?']
+### 1. Check the data
 
-- Description of what to check (e.g. 'Does the error response mention "invalid credentials"?')
-- Could involve multiple steps (e.g. 'Manually test the credentials with this example cURL command: ...')
+The enquire to study form has 2 integrations:
 
-**Action if there is an issue with [thing]**
+1. Form data from user outside UK is sent to 'QS'
+2. Form data from user inside UK is sent to Mailchimp
 
-- Description of what to do (e.g. 'Reset the credentials and update the environment variables X and Y with the new details')
-- Include technical steps (if fixable), who to raise the issue with (if externally-managed), any specific instructions for communicating with the client
+The programme values the user select on the form have 'qs_code` values in Wagtail. As do some of the taxonomies. These 'qs_codes' and to lookup data from the QS endpoint. Usually the form throws 500s if these values change on the QS side but aren't updated in Wagtail. You can view the QS endpoint and inspect what codes a course should have - the endpoint is set as an env var in heroku.
 
-### 2. [Next thing to check if first check wasn't the problem, e.g. 'Is the site posting malformed data?']
-
-...
-
-### 3. [Include as many checks as necessary to cover the possible explanations for the scenario]
-
-...
-
-## Scenario Y: [Another, separate scenario, e.g. 'Search not returning any highlighted results']
-
-...
-
-## Scenario Z: [Include as many different scenarios as necessary for known failure modes of the site]
+If it turns out a programme/course has the wrong QS code, update it in wagtail with the right one from the endpoint.

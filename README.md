@@ -16,6 +16,8 @@ mkdocs serve
 
 The documentation will be available at: http://localhost:8001/
 
+You can view the documnetation live on [github pages](https://torchbox.github.io/rca-wagtail-2019/)
+
 ## Contributing
 
 1. Make changes on a new branch, including a broad category and the ticket number if relevant e.g. `feature/123-extra-squiggles`, `fix/newsletter-signup`.
@@ -78,7 +80,7 @@ git clone https://github.com/torchbox/rca-wagtail-2019
 cd rca
 fab build
 fab start
-fab ssh
+fab sh
 ```
 
 Then within the SSH session:
@@ -119,7 +121,7 @@ There are two ways to run the frontend tooling:
 Python packages can be installed using `poetry` in the web container:
 
 ```
-fab ssh
+fab sh
 poetry add wagtail-guide
 ```
 
@@ -135,7 +137,7 @@ poetry install --no-root
 NPM packages can be installed via the web container:
 
 ```
-fab ssh
+fab sh
 npm add [your thing]
 ```
 
