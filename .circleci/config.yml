@@ -23,7 +23,6 @@ jobs:
           name: install python dependencies
           command: |
             curl -sSL https://install.python-poetry.org | POETRY_VERSION=1.1.15 python3 -
-            . $HOME/.poetry/env
             python -m venv venv
             . ./venv/bin/activate
             poetry install
