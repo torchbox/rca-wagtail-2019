@@ -22,8 +22,8 @@ jobs:
       - run:
           name: install python dependencies
           command: |
-            pip install --upgrade pip
-            pip install poetry==1.1.15
+            curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | POETRY_VERSION=1.1.8 python
+            . $HOME/.poetry/env
             python -m venv venv
             . ./venv/bin/activate
             poetry install
