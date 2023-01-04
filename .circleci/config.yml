@@ -110,10 +110,10 @@ jobs:
       - checkout
       - run:
           name: update packages
-          command: "apt-get update -y"
+          command: 'apt-get update -y'
       - run:
           name: install curl, jq
-          command: "apt-get install -y curl jq"
+          command: 'apt-get install -y curl jq'
       - run:
           name: Send POST request to FlightPath
           command: |
