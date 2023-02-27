@@ -1,7 +1,14 @@
 import factory
 import wagtail_factories
 
-from .models import Author, EditorialPage, EditorialType
+from .models import Author, EditorialListingPage, EditorialPage, EditorialType
+
+
+class EditorialListingPageFactory(wagtail_factories.PageFactory):
+    class Meta:
+        model = EditorialListingPage
+
+    title = factory.Faker("text", max_nb_chars=25)
 
 
 class EditorialTypeFactory(factory.django.DjangoModelFactory):
