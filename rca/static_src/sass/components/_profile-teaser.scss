@@ -62,7 +62,7 @@
         margin: 0;
 
         &--first {
-            margin-top: ($gutter / 4);
+            margin-top: ($gutter * 0.25);
         }
     }
 

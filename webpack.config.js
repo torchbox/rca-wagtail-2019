@@ -1,6 +1,7 @@
 const path = require('path');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
+const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssCustomProperties = require('postcss-custom-properties');
 const sass = require('sass');
@@ -22,6 +23,16 @@ const options = {
         new MiniCssExtractPlugin({
             filename: 'css/[name].css',
         }),
+        new CopyPlugin([
+            {
+                // Copy images to be referenced directly by Django to the "images" subfolder in static files.
+                // Ignore CSS background images as these are handled separately below
+                from: 'images',
+                context: path.resolve(`./${projectRoot}/static_src/`),
+                to: path.resolve(`./${projectRoot}/static_compiled/images`),
+                ignore: ['cssBackgrounds/*'],
+            },
+        ]),
     ],
     module: {
         rules: [
@@ -79,11 +90,69 @@ const options = {
   If a project requires internationalisation, then include `gettext` in base.html
     via the Django JSi18n helper, and uncomment it from the 'externals' object above.
 */
+const webpackConfig = (environment, argv) => {
+    const isProduction = argv.mode === 'production';
 
-if (process.env.NODE_ENV === 'development') {
-    // Create JS source maps in the dev mode
-    // See https://webpack.js.org/configuration/devtool/ for more options
-    options.devtool = 'inline-source-map';
-}
+    options.mode = isProduction ? 'production' : 'development';
 
-module.exports = options;
+    if (!isProduction) {
+        // https://webpack.js.org/configuration/stats/
+        const stats = {
+            // Tells stats whether to add the build date and the build time information.
+            builtAt: false,
+            // Add chunk information (setting this to `false` allows for a less verbose output)
+            chunks: false,
+            // Add the hash of the compilation
+            hash: false,
+            // `webpack --colors` equivalent
+            colors: true,
+            // Add information about the reasons why modules are included
+            reasons: false,
+            // Add webpack version information
+            version: false,
+            // Add built modules information
+            modules: false,
+            // Show performance hint when file size exceeds `performance.maxAssetSize`
+            performance: false,
+            // Add children information
+            children: false,
+            // Add asset Information.
+            assets: false,
+        };
+
+        options.stats = stats;
+
+        // Create JS source maps in the dev mode
+        // See https://webpack.js.org/configuration/devtool/ for more options
+        options.devtool = 'inline-source-map';
+
+        const PROXY_HOST = process.env.PROXY_HOST || '0.0.0.0';
+        const PROXY_PORT = process.env.PROXY_PORT || '8000';
+
+        // See https://webpack.js.org/configuration/dev-server/.
+        options.devServer = {
+            // Enable gzip compression for everything served.
+            compress: true,
+            // Shows a full-screen overlay in the browser when there are compiler errors.
+            overlay: true,
+            clientLogLevel: 'error',
+            contentBase: false,
+            // Write compiled files to disk. This makes live-reload work on both port 3000 and 8000.
+            writeToDisk: true,
+            host: '0.0.0.0',
+            allowedHosts: [],
+            port: 3000,
+            publicPath: '/static/',
+            index: '',
+            stats,
+            proxy: {
+                context: () => true,
+                target: `http://${PROXY_HOST}:${PROXY_PORT}`,
+            },
+        };
+    }
+
+    return options;
+};
+
+module.exports = webpackConfig;

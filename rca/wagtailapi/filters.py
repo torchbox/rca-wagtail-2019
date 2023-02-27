@@ -2,7 +2,7 @@ from django.conf import settings
 from django.core.exceptions import FieldDoesNotExist
 from rest_framework import filters
 from wagtail.api.v2.utils import BadRequestError
-from wagtail.core.models import Page
+from wagtail.models import Page
 from wagtail.search.backends import get_search_backend
 from wagtail.search.backends.base import FilterFieldError, OrderByFieldError
 
@@ -16,9 +16,9 @@ class DegreeLevelFilter(filters.BaseFilterBackend):
         pks = request.GET.getlist("project", [])
 
         if pks:
-            queryset = queryset.filter(degree_level__in=pks).order_by("title").live()
+            queryset = queryset.filter(degree_level__in=pks)
 
-        return queryset
+        return queryset.order_by("title").live()
 
 
 class SubjectsFilter(filters.BaseFilterBackend):

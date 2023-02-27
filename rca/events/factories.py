@@ -1,7 +1,14 @@
 import factory
 import wagtail_factories
 
-from .models import EventDetailPage, EventSeries, EventType
+from .models import (
+    EventAvailability,
+    EventDetailPage,
+    EventEligibility,
+    EventLocation,
+    EventSeries,
+    EventType,
+)
 
 
 class EventSeriesFactory(factory.django.DjangoModelFactory):
@@ -19,6 +26,18 @@ class EventTypeFactory(factory.django.DjangoModelFactory):
     title = factory.Faker("text", max_nb_chars=25)
 
 
+class EventLocationFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = EventLocation
+
+    title = factory.Faker("text", max_nb_chars=25)
+
+
+class EventEligibilityFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = EventEligibility
+
+
 class EventDetailPageFactory(wagtail_factories.PageFactory):
     class Meta:
         model = EventDetailPage
@@ -28,3 +47,12 @@ class EventDetailPageFactory(wagtail_factories.PageFactory):
     start_date = factory.Faker("date")
     end_date = factory.Faker("date")
     event_type = factory.SubFactory(EventTypeFactory)
+    eligibility = factory.SubFactory(EventEligibilityFactory)
+    location = factory.SubFactory(EventLocationFactory)
+
+
+class EventAvailabilityFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = EventAvailability
+
+    title = factory.Faker("text", max_nb_chars=25)

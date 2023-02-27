@@ -36,3 +36,5 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
+/database_dumps/

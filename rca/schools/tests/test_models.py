@@ -1,6 +1,6 @@
 import wagtail_factories
 from django.urls import reverse
-from wagtail.tests.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTests
 
 from rca.home.models import HomePage
 from rca.schools.factories import SchoolPageFactory

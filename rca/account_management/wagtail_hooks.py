@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.conf.urls import url
 from django.shortcuts import reverse
+from wagtail import hooks
 from wagtail.admin.menu import MenuItem
-from wagtail.core import hooks
 
 from .views import CreateStudentFormView
 
@@ -27,8 +27,8 @@ def register_student_menu_item():
     return MenuItem(
         "Student accounts",
         reverse("student_account_create"),
-        classnames="icon icon-user",
         order=10000,
+        icon_name="user",
     )
 
 

@@ -1,0 +1,86 @@
+version: '3.7'
+services:
+  web:
+    build:
+      context: .
+      args:
+        BUILD_ENV: dev
+        POETRY_INSTALL_ARGS: ''
+      target: dev
+    environment:
+      ALLOWED_HOSTS: 127.0.0.1,0.0.0.0,localhost
+      DATABASE_URL: postgres://rca:rca@db:5432/rca # pragma: allowlist secret
+      DJANGO_SETTINGS_MODULE: rca.settings.dev
+      MEDIA_DIR: /app/media/
+      RECAPTCHA_PRIVATE_KEY: UPDATE_THIS # pragma: allowlist secret
+      RECAPTCHA_PUBLIC_KEY: UPDATE_THIS
+      REDIS_URL: redis://redis
+      SECRET_KEY: local_dev_secret_key
+      SECURE_SSL_REDIRECT: 'false'
+      STATIC_DIR: /app/static/
+      STATIC_URL: /static/
+    command: tail -f /dev/null # do nothing forever - exec commands elsewhere
+    ports:
+      - 8000:8000 # runserver
+      - 8001:8001 # mkdocs serve
+      - 6900:6900 # pudb
+    volumes:
+      - ./.git:/app/.git:rw
+      - ./docs:/app/docs:rw
+      - ./media:/app/media:rw
+      - ./public:/app/public:rw
+      - ./docker:/app/docker:rw
+      - ./rca:/app/rca:rw
+      - ./README.md:/app/README.md:rw
+      - ./fabfile.py:/app/fabfile.py:rw
+      - ./.pre-commit-config.yaml:/app/.pre-commit-config.yaml:rw
+
+      # Docs config
+      - ./mkdocs.yml:/app/mkdocs.yml:rw
+
+      # Backend config
+      - ./manage.py:/app/manage.py:rw
+      - ./pyproject.toml:/app/pyproject.toml:rw
+      - ./poetry.lock:/app/poetry.lock:rw
+      - ./setup.cfg:/app/setup.cfg:rw
+
+      # Frontend config
+      - ./.babelrc.js:/home/node/.babelrc.js:rw
+      - ./.editorconfig:/app/.editorconfig:rw
+      - ./.eslintignore:/app/.eslintignore:rw
+      - ./.eslintrc.js:/app/.eslintrc.js:rw
+      - ./.prettierignore:/app/.prettierignore:rw
+      - ./.prettierrc.toml:/app/.prettierrc.toml:rw
+      - ./.stylelintignore:/app/.stylelintignore:rw
+      - ./.stylelintrc.js:/app/.stylelintrc.js:rw
+      - ./package-lock.json:/app/package-lock.json:rw
+      - ./package.json:/app/package.json:rw
+      - ./webpack.config.js:/app/webpack.config.js:rw
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:12.3
+    expose:
+      - 5432
+    environment:
+      POSTGRES_DB: rca
+      POSTGRES_USER: rca
+      POSTGRES_PASSWORD: rca # pragma: allowlist secret
+      PGDATABASE: rca
+      PGUSER: rca
+      PGPASSWORD: rca # pragma: allowlist secret
+      POSTGRES_HOST_AUTH_METHOD: trust
+    logging:
+      driver: none
+    volumes:
+      - .:/app:ro
+      - ./database_dumps:/database_dumps
+
+  redis:
+    image: redis:6
+    expose:
+      - 6379
+    logging:
+      driver: none

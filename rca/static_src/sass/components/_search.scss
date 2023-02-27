@@ -17,12 +17,17 @@
         appearance: none;
         border-radius: 0;
         width: 100%;
-        border-bottom: 1px solid $color--white;
-        padding: ($gutter / 2) ($gutter * 1.5) ($gutter / 2) ($gutter / 2);
+        border-bottom: 1px inset $color--white;
+        padding: ($gutter * 0.5) ($gutter * 1.5) ($gutter * 0.5) ($gutter * 0.5);
+        transition: border-width $transition-cubic,
+            border-color $transition-cubic;
 
+        /* stylelint-disable a11y/no-outline-none */
         &:focus {
             outline: 0;
+            border-bottom: 4px inset $color--tertiary;
         }
+        /* stylelint-enable a11y/no-outline-none */
     }
 
     &__button {
@@ -36,9 +41,11 @@
         font-family: $font--secondary;
         cursor: pointer;
 
+        /* stylelint-disable a11y/no-outline-none */
         &:focus {
             outline: 0;
         }
+        /* stylelint-enable a11y/no-outline-none */
 
         @include media-query(medium) {
             padding-top: 18px;

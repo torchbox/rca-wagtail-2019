@@ -1,0 +1,28 @@
+
+{% load wagtailimages_tags wagtailembeds_tags %}
+
+{% if slide.video_embed or slide.audio_embed %}
+    <div class="modal" id="slideshow-modal-{{ forloop.counter }}" aria-hidden="true">
+        <div class="modal__overlay bg bg--light" tabindex="-1">
+            {% include "patterns/atoms/grid-lines/grid-lines.html" %}
+            <div class="modal__header grid">
+                <button class="modal__close" aria-label="Close modal" data-micromodal-close>
+                    <span class="modal__close-label">Close</span>
+                    <svg width="14" height="14" class="modal__close-icon" aria-hidden="true"><use xlink:href="#close"></use></svg>
+                </button>
+            </div>
+            <div class="modal__container modal__container--above-grid grid" role="dialog" aria-modal="true" aria-labelledby="booking-details-title">
+                <div class="modal__content">
+                    <div style="padding-bottom: 56.25%" class="responsive-object">
+                        {% if slide.video_embed %}
+                            {% embed slide.video_embed.url %}
+                        {% endif %}
+                        {% if slide.audio_embed %}
+                            {% embed slide.audio_embed.url %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

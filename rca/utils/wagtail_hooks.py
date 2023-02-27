@@ -1,11 +1,11 @@
 from django.utils.html import escape
+from wagtail import hooks
 from wagtail.contrib.modeladmin.options import (
     ModelAdmin,
     ModelAdminGroup,
     modeladmin_register,
 )
-from wagtail.core import hooks
-from wagtail.core.rich_text import LinkHandler
+from wagtail.rich_text import LinkHandler
 from wagtailorderable.modeladmin.mixins import OrderableMixin
 
 from rca.editorial.models import Author, EditorialType
@@ -18,7 +18,14 @@ from rca.events.models import (
 )
 from rca.people.models import AreaOfExpertise, DegreeStatus, DegreeType, Directorate
 from rca.programmes.models import DegreeLevel, ProgrammeType, Subject
+from rca.scholarships.models import (
+    ScholarshipEligibilityCriteria,
+    ScholarshipFeeStatus,
+    ScholarshipFunding,
+    ScholarshipLocation,
+)
 from rca.utils.models import ResearchTheme, ResearchType, Sector
+from rca.utils.templatetags.util_tags import is_external
 
 
 class DegreeLevelModelAdmin(ModelAdmin):
@@ -111,6 +118,26 @@ class EditorialTypeModelAdmin(ModelAdmin):
     menu_icon = "tag"
 
 
+class ScholarshipEligibilityCriteriaModelAdmin(ModelAdmin):
+    model = ScholarshipEligibilityCriteria
+    menu_icon = "tag"
+
+
+class ScholarshipFeeStatusModelAdmin(ModelAdmin):
+    model = ScholarshipFeeStatus
+    menu_icon = "tag"
+
+
+class ScholarshipFundingModelAdmin(ModelAdmin):
+    model = ScholarshipFunding
+    menu_icon = "tag"
+
+
+class ScholarshipLocationModelAdmin(ModelAdmin):
+    model = ScholarshipLocation
+    menu_icon = "tag"
+
+
 class TaxonomiesModelAdminGroup(ModelAdminGroup):
     menu_label = "Taxonomies"
     items = (
@@ -131,6 +158,10 @@ class TaxonomiesModelAdminGroup(ModelAdminGroup):
         EventTypeModelAdmin,
         AuthorModelAdmin,
         EditorialTypeModelAdmin,
+        ScholarshipEligibilityCriteriaModelAdmin,
+        ScholarshipFeeStatusModelAdmin,
+        ScholarshipFundingModelAdmin,
+        ScholarshipLocationModelAdmin,
     )
     menu_icon = "tag"
 
@@ -144,7 +175,8 @@ class TargetBlankExternalLinkHandler(LinkHandler):
     @classmethod
     def expand_db_attributes(cls, attrs):
         href = attrs["href"]
-        return f'<a href="{escape(href)}" target="_blank">'
+        target = 'target="_blank"' if is_external(href) else ""
+        return f'<a href="{escape(href)}"{target}>'
 
 
 @hooks.register("register_rich_text_features")

@@ -2,13 +2,13 @@
     if this component has {{ item.tab_title }}, it'll use the tabs.js setup
     normal {{ item.title }} and is reserved for react programme finder component }}
 {% endcomment %}
-<nav class="categories-tablist {% if modifier %}categories-tablist--{{ modifier }}{% endif %} bg bg--light" aria-label="{{ item.aria_label|default:'Filter results' }}">
+<nav class="categories-tablist {% if modifier %}categories-tablist--{{ modifier }}{% endif %} bg {% if dark %}bg--dark{% else %}bg--light{% endif %}" aria-label="{{ item.aria_label|default:'Filter results' }}">
     <h2 class="body body--two categories-tablist__heading">{{ value.title }}</h2>
     <div class="categories-tablist__options" role="tablist">
         {% for item in value.items %}
             {% if item.queryset %}
                 <a id="{% if item.tab_title %}tab-{{ item.tab_title|slugify }}{% else %}{{ forloop.counter }}-tab{% endif %}" href="{% if item.tab_title %}#{{ item.tab_title|slugify }}{% else %}{{ item.href }}{% endif %}" class="categories-tablist__tab {% if item.selected %}categories-tablist__tab--selected{% endif %} {% if item.tab_title %}js-tab-item{% endif %} body body--one" role="tab" aria-selected="{% if item.selected %}true{% else %}false{% endif %}" aria-controls="{% if item.tab_title %}{{ item.tab_title|slugify }}{% else %}{{ item.title|slugify }}{% endif %}" {% if item.tab_title %}data-tab="{{ item.tab_title|slugify }}"{% endif %} data-project-category>
-                    {% if item.tab_title %}
+                    {% if item.tab_title and item.tab_title != "Upcoming/Past" %}
                         <div class="categories-tablist__tab-label">
                             {{ item.tab_title }}
                         </div>
@@ -21,6 +21,9 @@
                 </a>
             {% endif %}
         {% endfor %}
+        {% if events %}
+            {% include "patterns/atoms/toggle-switch/toggle-switch.html" with label_one="Upcoming" label_two="Past" aria_label="Toggle past or upcoming events" %}
+        {% endif %}
         {% if reset %}
             <div class="categories-tablist__tab categories-tablist__tab--reset">
                 {% include "patterns/atoms/reset/reset.html" with value=reset modifier="hidden" %}

@@ -2,7 +2,7 @@ version: 2
 jobs:
   test:
     docker:
-      - image: circleci/python:3.6-stretch-node
+      - image: circleci/python:3.8-buster-node
         environment:
           SECRET_KEY: testingsecretkey
           SECURE_SSL_REDIRECT: false
@@ -16,14 +16,20 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{checksum "poetry.lock"}}
       - run:
           name: install python dependencies
           command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            sudo apt-get install rsync
-            pip install -r requirements.txt
-            pip install -r requirements-dev.txt
+            curl -sSL https://install.python-poetry.org | POETRY_VERSION=1.1.15 python3 -
+            python -m venv venv
+            . ./venv/bin/activate
+            poetry install
+      - save_cache:
+          paths:
+            - ./venv
+          key: dependencies-{{checksum "poetry.lock"}}
       - run:
           name: install node dependencies
           command: |
@@ -49,23 +55,23 @@ jobs:
           command: |
             npm run build:prod
       - run:
-          name: Run Black
-          command: |
-            . venv/bin/activate
-            black --check --diff ./rca --exclude migrations/
-      - run:
           name: Run Django tests
           command: |
             . venv/bin/activate
             pip install coverage
             isort --recursive --check-only --diff ./rca
-            ./manage.py collectstatic --clear --noinput
+            ./manage.py collectstatic --verbosity 0 --noinput --clear
             ./manage.py makemigrations --check --noinput
             ./manage.py check
             coverage run ./manage.py test --settings=rca.settings.test
             coverage report
             coverage xml
             bash <(curl -s https://codecov.io/bash) -t $COVERAGE_TOKEN
+      - run:
+          name: Run Black
+          command: |
+            . venv/bin/activate
+            black --check --diff ./rca --exclude migrations/
   deploy_dev:
     docker:
       - image: buildpack-deps:trusty
@@ -96,7 +102,6 @@ jobs:
           command: |
             echo "Deploying to Heroku. To see progress, go to: https://dashboard.heroku.com/apps/$HEROKU_APP_NAME_PRODUCTION/activity"
             curl -sf -X POST -m 900 https://heroku-deploy.torchbox.com/$HEROKU_APP_NAME_PRODUCTION/$CIRCLE_SHA1?key=$DEPLOYMENT_KEY -d "Content-Length: 0"
-
 workflows:
   version: 2
   build-deploy:

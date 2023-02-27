@@ -46,6 +46,7 @@
         &::before {
             @include media-query(large) {
                 position: absolute;
+                z-index: -1; // don't overlap focus state of logo
                 left: 1px;
                 width: calc(
                     var(--margin-width, 290px) + 2px
@@ -114,7 +115,7 @@
     }
 
     .nav-open .app__navigation & {
-        @include z-index(headerLogo);
+        @include z-index(header-logo);
         position: relative;
     }
 }

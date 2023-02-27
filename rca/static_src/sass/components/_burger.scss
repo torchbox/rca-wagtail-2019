@@ -7,7 +7,7 @@
     &__toggle-label {
         @include font-size(xxxs);
         color: $color--white;
-        margin-left: ($gutter / 2);
+        margin-left: ($gutter * 0.5);
     }
 
     &__toggle-icon {
@@ -26,12 +26,12 @@
             margin-left: 0;
 
             @include media-query(medium) {
-                margin-left: ($gutter / 2);
+                margin-left: ($gutter * 0.5);
             }
         }
 
         #{$root}__toggle-icon {
-            margin-bottom: ($grid / 2);
+            margin-bottom: ($grid * 0.5);
 
             @include media-query(medium) {
                 margin-bottom: 0;
@@ -44,7 +44,7 @@
         flex-direction: row;
 
         #{$root}__toggle-label {
-            margin-left: ($gutter / 2);
+            margin-left: ($gutter * 0.5);
         }
 
         #{$root}__toggle-icon {

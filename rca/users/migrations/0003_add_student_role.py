@@ -11,7 +11,9 @@ def create_student_role(apps, schema_editor):
 
     # Create admin permission
     try:
-        admin_permission = Permission.objects.get(codename="access_admin",)
+        admin_permission = Permission.objects.get(
+            codename="access_admin",
+        )
     except Permission.DoesNotExist:
         pass
     else:

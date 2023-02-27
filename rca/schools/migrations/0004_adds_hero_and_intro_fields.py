@@ -2,8 +2,8 @@
 
 import django.db.models.deletion
 import modelcluster.fields
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 from django.db import migrations, models
 
 
@@ -17,22 +17,25 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="schoolpage", name="description",),
+        migrations.RemoveField(
+            model_name="schoolpage",
+            name="description",
+        ),
         migrations.AddField(
             model_name="schoolpage",
             name="get_in_touch",
-            field=wagtail.core.fields.RichTextField(blank=True),
+            field=wagtail.fields.RichTextField(blank=True),
         ),
         migrations.AddField(
             model_name="schoolpage",
             name="introduction",
-            field=wagtail.core.fields.RichTextField(default=""),
+            field=wagtail.fields.RichTextField(default=""),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name="schoolpage",
             name="location",
-            field=wagtail.core.fields.RichTextField(blank=True),
+            field=wagtail.fields.RichTextField(blank=True),
         ),
         migrations.AddField(
             model_name="schoolpage",
@@ -58,17 +61,17 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="schoolpage",
             name="social_links",
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
                     (
                         "Link",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
                                 (
                                     "title",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
-                                ("url", wagtail.core.blocks.URLBlock(required=False)),
+                                ("url", wagtail.blocks.URLBlock(required=False)),
                             ]
                         ),
                     )
@@ -109,7 +112,9 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"abstract": False,},
+            options={
+                "abstract": False,
+            },
         ),
         migrations.CreateModel(
             name="HeroItem",

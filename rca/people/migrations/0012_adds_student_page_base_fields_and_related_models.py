@@ -2,8 +2,8 @@
 
 import django.db.models.deletion
 import modelcluster.fields
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 from django.db import migrations, models
 
 
@@ -61,27 +61,27 @@ class Migration(migrations.Migration):
                 ("introduction", models.TextField(blank=True)),
                 (
                     "bio",
-                    wagtail.core.fields.RichTextField(
+                    wagtail.fields.RichTextField(
                         blank=True, help_text="Add a detail summary"
                     ),
                 ),
                 (
                     "social_links",
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 "Link",
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
                                         (
                                             "title",
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 required=False
                                             ),
                                         ),
                                         (
                                             "url",
-                                            wagtail.core.blocks.URLBlock(
+                                            wagtail.blocks.URLBlock(
                                                 required=False
                                             ),
                                         ),
@@ -132,7 +132,9 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"abstract": False,},
+            options={
+                "abstract": False,
+            },
             bases=("wagtailcore.page", models.Model),
         ),
         migrations.CreateModel(
@@ -245,7 +247,7 @@ class Migration(migrations.Migration):
                         max_length=255,
                     ),
                 ),
-                ("introduction", wagtail.core.fields.RichTextField()),
+                ("introduction", wagtail.fields.RichTextField()),
                 (
                     "listing_image",
                     models.ForeignKey(
@@ -268,7 +270,9 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"abstract": False,},
+            options={
+                "abstract": False,
+            },
             bases=("wagtailcore.page", models.Model),
         ),
     ]

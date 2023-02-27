@@ -6,19 +6,17 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from phonenumber_field.modelfields import PhoneNumberField
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
     PageChooserPanel,
-    StreamFieldPanel,
     TabbedInterface,
 )
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable, Page
+from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.models import Orderable, Page
 from wagtail.search import index
 
 from rca.utils.blocks import LinkBlock
@@ -34,7 +32,7 @@ class RelatedResearchCenterPage(Orderable):
     source_page = ParentalKey(Page, related_name="related_research_centre_pages")
     page = models.ForeignKey("research.ResearchCentrePage", on_delete=models.CASCADE)
 
-    panels = [PageChooserPanel("page")]
+    panels = [FieldPanel("page")]
 
 
 class ResearchCentrePageRelatedResearchSpaces(RelatedPage):
@@ -169,7 +167,10 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
         max_length=80,
     )
     related_links = StreamField(
-        [("link", LinkBlock())], blank=True, verbose_name="Related Links"
+        [("link", LinkBlock())],
+        blank=True,
+        verbose_name="Related Links",
+        use_json_field=True,
     )
     research_projects_link = models.URLField(
         blank=True,
@@ -187,13 +188,16 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
     ]
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading="Hero",),
+        MultiFieldPanel(
+            [FieldPanel("hero_image")],
+            heading="Hero",
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("introduction"),
-                ImageChooserPanel("introduction_image"),
+                FieldPanel("introduction_image"),
                 FieldPanel("about_page_url"),
-                PageChooserPanel("about_page"),
+                FieldPanel("about_page"),
                 FieldPanel("about_page_link_text"),
                 FieldPanel("video"),
                 FieldPanel("video_caption"),
@@ -233,7 +237,7 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
             heading="Research Centre Staff",
         ),
         FieldPanel("related_programmes_title"),
-        StreamFieldPanel("related_links"),
+        FieldPanel("related_links"),
         FieldPanel("legacy_news_and_event_tags"),
     ]
     key_details_panels = [

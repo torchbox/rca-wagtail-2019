@@ -12,9 +12,24 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="landingpage", name="contact_email",),
-        migrations.RemoveField(model_name="landingpage", name="contact_image",),
-        migrations.RemoveField(model_name="landingpage", name="contact_text",),
-        migrations.RemoveField(model_name="landingpage", name="contact_title",),
-        migrations.RemoveField(model_name="landingpage", name="contact_url",),
+        migrations.RemoveField(
+            model_name="landingpage",
+            name="contact_email",
+        ),
+        migrations.RemoveField(
+            model_name="landingpage",
+            name="contact_image",
+        ),
+        migrations.RemoveField(
+            model_name="landingpage",
+            name="contact_text",
+        ),
+        migrations.RemoveField(
+            model_name="landingpage",
+            name="contact_title",
+        ),
+        migrations.RemoveField(
+            model_name="landingpage",
+            name="contact_url",
+        ),
     ]

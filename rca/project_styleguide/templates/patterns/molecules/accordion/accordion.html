@@ -48,6 +48,13 @@
             {% if accordion.link_url and accordion.link_title %}
                 {% include "patterns/atoms/link-primary/link-primary--link.html" with href=accordion.link_url  text=accordion.link_title %}
             {% endif %}
+            {% if scholarship %}
+                {# Scholarship fields #}
+                <p><strong>Eligible Programmes: </strong>{{ accordion.eligible_programmes }}</p>
+                <p><strong>Funding Categories: </strong>{{ accordion.funding_categories }}</p>
+                <p><strong>Eligible fee status: </strong>{{ accordion.fee_statuses }}</p>
+                <p><strong>Value: </strong>{{ accordion.value }}</p>
+            {% endif %}
         </div>
     </div>
 </div>

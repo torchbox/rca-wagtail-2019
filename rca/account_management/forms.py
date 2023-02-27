@@ -1,13 +1,14 @@
 from django import forms
 from django.contrib.auth.forms import UsernameField
-from wagtail.core.models import Collection
+from wagtail.models import Collection
 
 from rca.users.models import User
 
 
 class StudentCreateForm(forms.ModelForm):
     username = UsernameField(
-        widget=forms.TextInput(attrs={"autofocus": True}), required=True,
+        widget=forms.TextInput(attrs={"autofocus": True}),
+        required=True,
     )
     first_name = forms.CharField(max_length=255, required=True)
     last_name = forms.CharField(max_length=255, required=True)

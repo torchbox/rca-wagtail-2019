@@ -1,22 +1,23 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from phonenumber_field.modelfields import PhoneNumberField
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
+    HelpPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
     PageChooserPanel,
-    StreamFieldPanel,
     TabbedInterface,
 )
-from wagtail.core.fields import RichTextField, StreamBlock, StreamField
+from wagtail.fields import RichTextField, StreamBlock, StreamField
 from wagtail.images import get_image_model_string
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.models import Orderable, Page
 from wagtail.search import index
 
 from rca.editorial.models import EditorialPage
@@ -34,15 +35,18 @@ from rca.utils.blocks import (
     LinkBlock,
     LinkedImageBlock,
     RelatedPageListBlock,
+    RelatedPageListBlockPage,
     SlideBlock,
     StatisticBlock,
 )
+from rca.utils.formatters import format_page_teasers
 from rca.utils.models import (
     BasePage,
     ContactFieldsMixin,
     LegacyNewsAndEventsMixin,
     LinkFields,
     RelatedPage,
+    TapMixin,
     get_listing_image,
 )
 
@@ -69,7 +73,7 @@ class FeaturedImage(LinkFields):
 
     panels = [
         FieldPanel("title"),
-        ImageChooserPanel("image"),
+        FieldPanel("image"),
         FieldPanel("subtitle"),
         FieldPanel("description"),
     ] + LinkFields.panels
@@ -94,7 +98,7 @@ class LandingPageStatsBlock(models.Model):
     title = models.CharField(
         max_length=125, help_text=_("Maximum length of 125 characters")
     )
-    statistics = StreamField([("statistic", StatisticBlock())])
+    statistics = StreamField([("statistic", StatisticBlock())], use_json_field=True)
     background_image = models.ForeignKey(
         get_image_model_string(),
         blank=True,
@@ -111,9 +115,9 @@ class LandingPageStatsBlock(models.Model):
     )
     panels = [
         FieldPanel("title"),
-        ImageChooserPanel("background_image"),
-        StreamFieldPanel("statistics"),
-        PageChooserPanel("page_link"),
+        FieldPanel("background_image"),
+        FieldPanel("statistics"),
+        FieldPanel("page_link"),
     ]
 
     def __str__(self):
@@ -132,14 +136,14 @@ class LandingPageRelatedPagegrid(RelatedPage):
     source_page = ParentalKey(
         "landingpages.LandingPage", related_name="related_pages_grid"
     )
-    panels = [PageChooserPanel("page")]
+    panels = [FieldPanel("page")]
 
 
 class LandingPageRelatedPageHighlights(RelatedPage):
     source_page = ParentalKey(
         "landingpages.LandingPage", related_name="related_pages_highlights"
     )
-    panels = [PageChooserPanel("page")]
+    panels = [FieldPanel("page")]
 
 
 class LandingPageRelatedPageSlide(RelatedPage):
@@ -156,15 +160,22 @@ class LandingPagePageSlideshowBlock(models.Model):
     summary = models.CharField(
         max_length=250, blank=True, help_text=_("Maximum length of 250 characters")
     )
-    slides = StreamField([("slide", SlideBlock())])
-    panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("slides")]
+    slides = StreamField([("slide", SlideBlock())], use_json_field=True)
+    panels = [FieldPanel("title"), FieldPanel("summary"), FieldPanel("slides")]
 
     def __str__(self):
         return self.title
 
 
-class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
-    """ Defines all the fields we will need for the other versions of landing pages
+class RelatedLandingPage(Orderable):
+    source_page = ParentalKey(Page, related_name="related_landing_pages")
+    page = models.ForeignKey("landingpages.LandingPage", on_delete=models.CASCADE)
+
+    panels = [FieldPanel("page")]
+
+
+class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
+    """Defines all the fields we will need for the other versions of landing pages
     visibility of some extra fields that aren't needed on certain models which inherit LandingPage
     are controlled at the content_panels level.
 
@@ -236,11 +247,14 @@ class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             "The title to be displayed above the page list blocks, maximum length of 80 characters"
         ),
     )
-    page_list = StreamField([("page_list", RelatedPageListBlock())], blank=True)
+    page_list = StreamField(
+        [("page_list", RelatedPageListBlock())], blank=True, use_json_field=True
+    )
     cta_block = StreamField(
         [("call_to_action", CallToActionBlock(label=_("text promo")))],
         blank=True,
         verbose_name=_("Text promo"),
+        use_json_field=True,
     )
     slideshow_title = models.CharField(
         max_length=125,
@@ -255,21 +269,38 @@ class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         verbose_name=_("Related content summary"),
     )
 
+    news_and_events_link_text = models.TextField(
+        max_length=120,
+        blank=True,
+        help_text=_("The text to display for the 'View all news and events' link"),
+    )
+    news_and_events_link_target_url = models.URLField(
+        blank=True, help_text="Add a link to view all news and events"
+    )
+    news_and_events_title = models.TextField(
+        max_length=120,
+        blank=True,
+        help_text=_("The title to display above the news and events listing"),
+    )
+
     search_fields = BasePage.search_fields + [
         index.SearchField("introduction"),
     ]
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
         MultiFieldPanel(
-            [FieldPanel("introduction"), PageChooserPanel("about_page")],
+            [FieldPanel("hero_image")],
+            heading=_("Hero"),
+        ),
+        MultiFieldPanel(
+            [FieldPanel("introduction"), FieldPanel("about_page")],
             heading=_("Introduction"),
         ),
         MultiFieldPanel(
             [
                 FieldPanel("highlights_title"),
                 InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
-                PageChooserPanel("highlights_page_link"),
+                FieldPanel("highlights_page_link"),
                 FieldPanel("highlights_page_link_title"),
             ],
             heading=_("Featured projects"),
@@ -283,12 +314,33 @@ class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             heading=_("Related pages grid"),
         ),
         InlinePanel("featured_image", label=_("Featured content"), max_num=1),
-        FieldPanel("legacy_news_and_event_tags"),
         MultiFieldPanel(
-            [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
+            [
+                HelpPanel(
+                    content=(
+                        """<p>The title, link and link text displayed as part of the news and events
+                        listing can be customised by adding overriding values here</p>"""
+                    )
+                ),
+                FieldPanel("news_and_events_title"),
+                FieldPanel("news_and_events_link_text"),
+                FieldPanel("news_and_events_link_target_url"),
+                FieldPanel("legacy_news_and_event_tags"),
+            ],
+            "News and Events",
+        ),
+        MultiFieldPanel(
+            [FieldPanel("page_list_title"), FieldPanel("page_list")],
             heading=_("Related page list"),
         ),
     ]
+
+    @property
+    def news_view_all(self):
+        return {
+            "link": self.news_and_events_link_target_url,
+            "title": self.news_and_events_link_text,
+        }
 
     def _format_projects_for_gallery(self, pages):
         """Internal method for formatting related projects to the correct
@@ -369,7 +421,7 @@ class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         return related_pages
 
     def get_page_list(self):
-        """ Formats the related items coming from streamfield blocks
+        """Formats the related items coming from streamfield blocks
         into a digestable list for the template"""
         items = []
         for block in self.page_list:
@@ -459,53 +511,77 @@ class LandingPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             "background_image"
         ).first()
         context["slideshow_block"] = self.slideshow_block.first()
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
         return context
 
 
 class ResearchLandingPage(LandingPage):
     template = "patterns/pages/landingpage/landing_page--research.html"
-    content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
-        MultiFieldPanel(
-            [FieldPanel("introduction"), PageChooserPanel("about_page")],
-            heading=_("Introduction"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("highlights_title"),
-                InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
-                PageChooserPanel("highlights_page_link"),
-                FieldPanel("highlights_page_link_title"),
-            ],
-            heading=_("Featured projects"),
-        ),
-        FieldPanel("legacy_news_and_event_tags"),
-        MultiFieldPanel(
-            [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
-            heading=_("Related page list"),
-        ),
-        InlinePanel("featured_image", label=_("Featured content"), max_num=1),
-        MultiFieldPanel(
-            [
-                FieldPanel("slideshow_title"),
-                FieldPanel("slideshow_summary"),
-                InlinePanel("slideshow_page", label=_("Page")),
-            ],
-            heading=_("Related content"),
-        ),
-        StreamFieldPanel("cta_block"),
-        MultiFieldPanel(
-            [
-                ImageChooserPanel("contact_model_image"),
-                FieldPanel("contact_model_title"),
-                FieldPanel("contact_model_text"),
-                FieldPanel("contact_model_email"),
-                FieldPanel("contact_model_url"),
-                PageChooserPanel("contact_model_form"),
-            ],
-            heading="Contact information",
-        ),
-    ]
+
+    content_panels = (
+        BasePage.content_panels
+        + [
+            MultiFieldPanel(
+                [FieldPanel("hero_image")],
+                heading=_("Hero"),
+            ),
+            MultiFieldPanel(
+                [FieldPanel("introduction"), FieldPanel("about_page")],
+                heading=_("Introduction"),
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("highlights_title"),
+                    InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
+                    FieldPanel("highlights_page_link"),
+                    FieldPanel("highlights_page_link_title"),
+                ],
+                heading=_("Featured projects"),
+            ),
+            MultiFieldPanel(
+                [
+                    HelpPanel(
+                        content=(
+                            """<p>The title, link and link text displayed as part of the news and events
+                            listing can be customised by adding overriding values here</p>"""
+                        )
+                    ),
+                    FieldPanel("news_and_events_title"),
+                    FieldPanel("news_and_events_link_text"),
+                    FieldPanel("news_and_events_link_target_url"),
+                    FieldPanel("legacy_news_and_event_tags"),
+                ],
+                "News and Events",
+            ),
+            MultiFieldPanel(
+                [FieldPanel("page_list_title"), FieldPanel("page_list")],
+                heading=_("Related page list"),
+            ),
+            InlinePanel("featured_image", label=_("Featured content"), max_num=1),
+            MultiFieldPanel(
+                [
+                    FieldPanel("slideshow_title"),
+                    FieldPanel("slideshow_summary"),
+                    InlinePanel("slideshow_page", label=_("Page")),
+                ],
+                heading=_("Related content"),
+            ),
+            FieldPanel("cta_block"),
+            MultiFieldPanel(
+                [
+                    FieldPanel("contact_model_image"),
+                    FieldPanel("contact_model_title"),
+                    FieldPanel("contact_model_text"),
+                    FieldPanel("contact_model_email"),
+                    FieldPanel("contact_model_url"),
+                    FieldPanel("contact_model_form"),
+                ],
+                heading="Contact information",
+            ),
+        ]
+        + TapMixin.panels
+    )
 
     class Meta:
         verbose_name = "Landing Page - Research"
@@ -516,6 +592,8 @@ class ResearchLandingPage(LandingPage):
         # reset the slideshow block so it can be re-populated as it's set in
         # the parent context for other slideshow formats.
         context["slideshow_block"] = []
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
         if self.slideshow_page.first():
             context["slideshow_block"] = self._format_slideshow_pages(
                 self.slideshow_page.all()
@@ -526,51 +604,72 @@ class ResearchLandingPage(LandingPage):
 class InnovationLandingPage(LandingPage):
     template = "patterns/pages/landingpage/landing_page--innovation.html"
 
-    content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
-        MultiFieldPanel(
-            [FieldPanel("introduction"), PageChooserPanel("about_page")],
-            heading=_("Introduction"),
-        ),
-        MultiFieldPanel(
-            [InlinePanel("featured_image", label=_("Featured image"), max_num=1)],
-            heading=_("Featured content - top"),
-        ),
-        FieldPanel("legacy_news_and_event_tags"),
-        MultiFieldPanel(
-            [FieldPanel("page_list_title"), StreamFieldPanel("page_list")],
-            heading=_("Related page list"),
-        ),
-        InlinePanel("stats_block", label="Statistics", max_num=1),
-        MultiFieldPanel(
-            [
-                FieldPanel("highlights_title"),
-                InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
-                PageChooserPanel("highlights_page_link"),
-                FieldPanel("highlights_page_link_title"),
-            ],
-            heading=_("Featured projects"),
-        ),
-        MultiFieldPanel(
-            [
-                InlinePanel(
-                    "featured_image_secondary", label=_("Featured image"), max_num=1
-                )
-            ],
-            heading=_("Featured content - bottom"),
-        ),
-        MultiFieldPanel(
-            [
-                ImageChooserPanel("contact_model_image"),
-                FieldPanel("contact_model_title"),
-                FieldPanel("contact_model_text"),
-                FieldPanel("contact_model_email"),
-                FieldPanel("contact_model_url"),
-                PageChooserPanel("contact_model_form"),
-            ],
-            heading="Contact information",
-        ),
-    ]
+    content_panels = (
+        BasePage.content_panels
+        + [
+            MultiFieldPanel(
+                [FieldPanel("hero_image")],
+                heading=_("Hero"),
+            ),
+            MultiFieldPanel(
+                [FieldPanel("introduction"), FieldPanel("about_page")],
+                heading=_("Introduction"),
+            ),
+            MultiFieldPanel(
+                [InlinePanel("featured_image", label=_("Featured image"), max_num=1)],
+                heading=_("Featured content - top"),
+            ),
+            MultiFieldPanel(
+                [
+                    HelpPanel(
+                        content=(
+                            """<p>The title, link and link text displayed as part of the news and events
+                            listing can be customised by adding overriding values here</p>"""
+                        )
+                    ),
+                    FieldPanel("news_and_events_title"),
+                    FieldPanel("news_and_events_link_text"),
+                    FieldPanel("news_and_events_link_target_url"),
+                    FieldPanel("legacy_news_and_event_tags"),
+                ],
+                "News and Events",
+            ),
+            MultiFieldPanel(
+                [FieldPanel("page_list_title"), FieldPanel("page_list")],
+                heading=_("Related page list"),
+            ),
+            InlinePanel("stats_block", label="Statistics", max_num=1),
+            MultiFieldPanel(
+                [
+                    FieldPanel("highlights_title"),
+                    InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
+                    FieldPanel("highlights_page_link"),
+                    FieldPanel("highlights_page_link_title"),
+                ],
+                heading=_("Featured projects"),
+            ),
+            MultiFieldPanel(
+                [
+                    InlinePanel(
+                        "featured_image_secondary", label=_("Featured image"), max_num=1
+                    )
+                ],
+                heading=_("Featured content - bottom"),
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("contact_model_image"),
+                    FieldPanel("contact_model_title"),
+                    FieldPanel("contact_model_text"),
+                    FieldPanel("contact_model_email"),
+                    FieldPanel("contact_model_url"),
+                    FieldPanel("contact_model_form"),
+                ],
+                heading="Contact information",
+            ),
+        ]
+        + TapMixin.panels
+    )
 
     class Meta:
         verbose_name = "Landing Page - Innovation"
@@ -579,15 +678,24 @@ class InnovationLandingPage(LandingPage):
         context = super().get_context(request, *args, **kwargs)
         context["featured_image_secondary"] = self.get_featured_image_secondary()
         context["page_list"] = self.get_page_list()
-
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
         return context
 
 
 class EnterpriseLandingPage(LandingPage):
     template = "patterns/pages/landingpage/landing_page--enterprise.html"
 
+    content_panels = LandingPage.content_panels + TapMixin.panels
+
     class Meta:
         verbose_name = "Landing Page - Enterprise"
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
+        return context
 
 
 class EELandingPageRelatedEditorialPage(RelatedPage):
@@ -617,12 +725,16 @@ class EELandingPage(ContactFieldsMixin, BasePage):
     max_count = 1
 
     news_link_text = models.TextField(
-        max_length=120, blank=False, help_text=_("The text do display for the link"),
+        max_length=120,
+        blank=False,
+        help_text=_("The text do display for the link"),
     )
     news_link_target_url = models.URLField(blank=False)
 
     events_link_text = models.TextField(
-        max_length=120, blank=False, help_text=_("The text do display for the link"),
+        max_length=120,
+        blank=False,
+        help_text=_("The text do display for the link"),
     )
     events_link_target_url = models.URLField(blank=False)
 
@@ -632,7 +744,9 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         help_text=_("Short text summary displayed with the 'Stories' title"),
     )
     stories_link_text = models.TextField(
-        max_length=120, blank=False, help_text=_("The text do display for the link"),
+        max_length=120,
+        blank=False,
+        help_text=_("The text do display for the link"),
     )
     stories_link_target_url = models.URLField(blank=False)
 
@@ -642,7 +756,9 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         help_text=_("Short text summary displayed with the 'Talks' title"),
     )
     talks_link_text = models.TextField(
-        max_length=120, blank=False, help_text=_("The text do display for the link"),
+        max_length=120,
+        blank=False,
+        help_text=_("The text do display for the link"),
     )
     talks_link_target_url = models.URLField(blank=False)
     talks_image = models.ForeignKey(
@@ -658,8 +774,17 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         help_text=_("The text displayed next to the video play button"),
     )
     video = models.URLField(blank=True)
+    cta_navigation_title = models.CharField(
+        max_length=80,
+        help_text=_("The text displayed for this section in the in-page navigation"),
+    )
     cta_block = StreamField(
-        StreamBlock([("call_to_action", CallToActionBlock())], max_num=1,), blank=True
+        StreamBlock(
+            [("call_to_action", CallToActionBlock())],
+            max_num=1,
+        ),
+        blank=True,
+        use_json_field=True,
     )
 
     class Meta:
@@ -696,7 +821,7 @@ class EELandingPage(ContactFieldsMixin, BasePage):
             EventDetailPage.objects.live()
             .filter(start_date__gte=timezone.now().date())
             .exclude(id=picked_event.id)
-            .order_by("-start_date")
+            .order_by("start_date")
             .prefetch_related("hero_image")[:3]
         )
         for item in latest_event_items:
@@ -722,19 +847,22 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         if self.cta_block:
             for block in self.cta_block:
                 return {
-                    "title": block.value["title"],
-                    "link": slugify(block.value["title"]),
+                    "title": self.cta_navigation_title,
+                    "link": slugify(self.cta_navigation_title),
                 }
 
     def anchor_nav(self):
-        """ Build list of data to be used as
-        in-page navigation """
+        """Build list of data to be used as
+        in-page navigation"""
         return [
             {"title": "News", "link": "news"},
             {"title": "Events", "link": "events"},
             {"title": "Stories", "link": "stories"},
             {"title": "Talks", "link": "talks"},
-            self.custom_anchor_heading_item(),
+            {
+                "title": self.cta_navigation_title,
+                "link": slugify(self.cta_navigation_title),
+            },
         ]
 
     content_panels = BasePage.content_panels + [
@@ -775,7 +903,7 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         MultiFieldPanel(
             [
                 FieldPanel("talks_summary_text"),
-                ImageChooserPanel("talks_image"),
+                FieldPanel("talks_image"),
                 FieldPanel("video_caption"),
                 FieldPanel("video"),
                 FieldPanel("talks_link_text"),
@@ -783,16 +911,19 @@ class EELandingPage(ContactFieldsMixin, BasePage):
             ],
             heading="Talks",
         ),
-        StreamFieldPanel("cta_block"),
+        MultiFieldPanel(
+            [FieldPanel("cta_navigation_title"), FieldPanel("cta_block")],
+            heading="CTA",
+        ),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_title"),
                 FieldPanel("contact_model_email"),
                 FieldPanel("contact_model_url"),
-                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_form"),
                 FieldPanel("contact_model_link_text"),
                 FieldPanel("contact_model_text"),
-                ImageChooserPanel("contact_model_image"),
+                FieldPanel("contact_model_image"),
             ],
             "Large Call To Action",
         ),
@@ -827,7 +958,21 @@ class AlumniLandingPageRelatedPageSlide(RelatedPage):
     source_page = ParentalKey(
         "landingpages.LandingPage", related_name="alumni_slideshow_page"
     )
-    panels = [PageChooserPanel("page")]
+    panels = [FieldPanel("page")]
+
+
+class AlumniLandingPageTeaser(models.Model):
+    source_page = ParentalKey("AlumniLandingPage", related_name="page_teasers")
+    title = models.CharField(max_length=125)
+    summary = models.CharField(max_length=250, blank=True)
+    pages = StreamField(
+        StreamBlock([("Page", RelatedPageListBlockPage(max_num=6))], max_num=1),
+        use_json_field=True,
+    )
+    panels = [FieldPanel("title"), FieldPanel("summary"), FieldPanel("pages")]
+
+    def __str__(self):
+        return self.title
 
 
 class AlumniLandingPage(LandingPage):
@@ -836,7 +981,7 @@ class AlumniLandingPage(LandingPage):
     template = "patterns/pages/alumni/alumni.html"
     location = RichTextField(blank=True, features=(["bold", "italic"]))
     social_links = StreamField(
-        StreamBlock([("Link", LinkBlock())], max_num=5), blank=True
+        StreamBlock([("Link", LinkBlock())], max_num=5), blank=True, use_json_field=True
     )
     contact_email = models.EmailField(blank=True, max_length=254)
     body = RichTextField(blank=True)
@@ -864,10 +1009,13 @@ class AlumniLandingPage(LandingPage):
         blank=True,
         help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
             Aim for logos that sit on either a white or transparent background.",
+        use_json_field=True,
     )
     # "latest"' section
     news_link_text = models.TextField(
-        max_length=120, blank=False, help_text=_("The text do display for the link"),
+        max_length=120,
+        blank=False,
+        help_text=_("The text do display for the link"),
     )
     news_link_target_url = models.URLField(blank=False)
     latest_intro = models.CharField(
@@ -880,21 +1028,26 @@ class AlumniLandingPage(LandingPage):
         [("link", InternalExternalLinkBlock())],
         blank=True,
         verbose_name="Additional Links",
+        use_json_field=True,
     )
     latest_cta_block = StreamField(
         [("call_to_action", CallToActionBlock(label=_("text promo")))],
         blank=True,
         verbose_name=_("Text promo"),
+        use_json_field=True,
     )
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+        MultiFieldPanel(
+            [FieldPanel("hero_image")],
+            heading=_("Hero"),
+        ),
         FieldPanel("introduction"),
         MultiFieldPanel(
             [
                 FieldPanel("video"),
                 FieldPanel("video_caption"),
-                ImageChooserPanel("video_preview_image"),
+                FieldPanel("video_preview_image"),
             ],
             heading="Video",
         ),
@@ -906,6 +1059,7 @@ class AlumniLandingPage(LandingPage):
             ],
             heading=_("Related pages grid"),
         ),
+        InlinePanel("page_teasers", max_num=1, label="Page teasers"),
         # latest
         FieldPanel("latest_intro"),
         MultiFieldPanel(
@@ -925,8 +1079,8 @@ class AlumniLandingPage(LandingPage):
             heading="Related Alumni Editorial 'story' pages",
             max_num=6,
         ),
-        StreamFieldPanel("additional_links"),
-        StreamFieldPanel("latest_cta_block"),
+        FieldPanel("additional_links"),
+        FieldPanel("latest_cta_block"),
         # Get involved
         MultiFieldPanel(
             [
@@ -936,20 +1090,20 @@ class AlumniLandingPage(LandingPage):
             heading=_("'Get invoved' slideshow"),
         ),
         MultiFieldPanel(
-            [FieldPanel("collaborators_heading"), StreamFieldPanel("collaborators")],
+            [FieldPanel("collaborators_heading"), FieldPanel("collaborators")],
             heading="Collaborators",
         ),
-        StreamFieldPanel("cta_block"),
+        FieldPanel("cta_block"),
         InlinePanel("stats_block", label="Statistics", max_num=1),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_title"),
                 FieldPanel("contact_model_email"),
                 FieldPanel("contact_model_url"),
-                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_form"),
                 FieldPanel("contact_model_link_text"),
                 FieldPanel("contact_model_text"),
-                ImageChooserPanel("contact_model_image"),
+                FieldPanel("contact_model_image"),
             ],
             "Contact information",
         ),
@@ -958,7 +1112,7 @@ class AlumniLandingPage(LandingPage):
         FieldPanel("location"),
         FieldPanel("contact_email"),
         MultiFieldPanel(
-            [StreamFieldPanel("social_links")], heading="Social media profile links"
+            [FieldPanel("social_links")], heading="Social media profile links"
         ),
     ]
     edit_handler = TabbedInterface(
@@ -983,8 +1137,8 @@ class AlumniLandingPage(LandingPage):
         return related_pages
 
     def anchor_nav(self):
-        """ Build list of data to be used as
-        in-page navigation """
+        """Build list of data to be used as
+        in-page navigation"""
         return [
             {"title": "Alumni benefits", "link": "alumni-benefits"},
             {"title": "Latest", "link": "latest"},
@@ -1006,8 +1160,23 @@ class AlumniLandingPage(LandingPage):
             self.alumni_slideshow_page.all()
         )
         context["page_teasers"] = self.get_related_pages(self.related_pages_grid)
+        context["new_page_teasers"] = format_page_teasers(self.page_teasers.first())
         context["tabs"] = self.anchor_nav()
         return context
+
+
+class DevelopmentLandingPageRelatedPage(RelatedPage):
+    source_page = ParentalKey(
+        "landingpages.DevelopmentLandingPage", related_name="related_help_pages"
+    )
+    panels = [FieldPanel("page")]
+
+
+class DevelopmentLandingPageRelatedEditorialPage(RelatedPage):
+    source_page = ParentalKey(
+        "landingpages.DevelopmentLandingPage", related_name="related_editorial_pages"
+    )
+    panels = [PageChooserPanel("page", ["editorial.EditorialPage"])]
 
 
 class DevelopmentLandingPage(LandingPage):
@@ -1026,7 +1195,7 @@ class DevelopmentLandingPage(LandingPage):
     )
     contact_email = models.EmailField(blank=True, max_length=254)
     social_links = StreamField(
-        StreamBlock([("Link", LinkBlock())], max_num=5), blank=True
+        StreamBlock([("Link", LinkBlock())], max_num=5), blank=True, use_json_field=True
     )
     video_caption = models.CharField(
         blank=True,
@@ -1042,28 +1211,93 @@ class DevelopmentLandingPage(LandingPage):
         related_name="+",
     )
     body = RichTextField(blank=True)
+    how_you_can_help_intro = models.CharField(
+        max_length=250,
+        blank=True,
+        help_text=_("Short text summary for the section"),
+    )
+    help_cta_block = StreamField(
+        [("call_to_action", CallToActionBlock(label=_("text promo")))],
+        blank=True,
+        verbose_name=_("Text promo"),
+        use_json_field=True,
+    )
+    # "Stories"' section
+    stories_link_text = models.TextField(
+        max_length=120,
+        blank=False,
+        help_text=_("The text do display for the link"),
+    )
+    stories_link_target_url = models.URLField(blank=False)
+    stories_intro = models.CharField(
+        max_length=250,
+        blank=True,
+        help_text=_("Optional short text summary for the 'Stories' section"),
+        verbose_name="Stories section summary",
+    )
+    stories_cta_block = StreamField(
+        [("call_to_action", CallToActionBlock(label=_("text promo")))],
+        blank=True,
+        verbose_name=_("Text promo"),
+        use_json_field=True,
+    )
 
     content_panels = BasePage.content_panels + [
-        MultiFieldPanel([ImageChooserPanel("hero_image")], heading=_("Hero"),),
+        MultiFieldPanel(
+            [FieldPanel("hero_image")],
+            heading=_("Hero"),
+        ),
         FieldPanel("introduction"),
         MultiFieldPanel(
             [
                 FieldPanel("video"),
                 FieldPanel("video_caption"),
-                ImageChooserPanel("video_preview_image"),
+                FieldPanel("video_preview_image"),
             ],
             heading="Video",
         ),
         FieldPanel("body"),
         MultiFieldPanel(
             [
+                FieldPanel("related_pages_text"),
+                InlinePanel("related_pages_grid", max_num=5, label=_("Related Pages")),
+            ],
+            heading=_("Related pages grid"),
+        ),
+        FieldPanel("cta_block"),
+        InlinePanel("stats_block", label="Statistics", max_num=1),
+        MultiFieldPanel(
+            [
+                FieldPanel("how_you_can_help_intro"),
+                InlinePanel("related_help_pages", label="Page", max_num=6),
+                FieldPanel("help_cta_block"),
+            ],
+            heading="How you can help",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("stories_intro"),
+                InlinePanel(
+                    "related_editorial_pages",
+                    heading="Related Editorial pages",
+                    label="Editorial page",
+                    max_num=3,
+                ),
+                FieldPanel("stories_link_text"),
+                FieldPanel("stories_link_target_url"),
+                FieldPanel("stories_cta_block"),
+            ],
+            heading="Success stories",
+        ),
+        MultiFieldPanel(
+            [
                 FieldPanel("contact_model_title"),
                 FieldPanel("contact_model_email"),
                 FieldPanel("contact_model_url"),
-                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_form"),
                 FieldPanel("contact_model_link_text"),
                 FieldPanel("contact_model_text"),
-                ImageChooserPanel("contact_model_image"),
+                FieldPanel("contact_model_image"),
             ],
             "Contact information",
         ),
@@ -1079,7 +1313,7 @@ class DevelopmentLandingPage(LandingPage):
             heading="Get in touch",
         ),
         MultiFieldPanel(
-            [StreamFieldPanel("social_links")], heading="Social media profile links"
+            [FieldPanel("social_links")], heading="Social media profile links"
         ),
     ]
     edit_handler = TabbedInterface(
@@ -1091,6 +1325,100 @@ class DevelopmentLandingPage(LandingPage):
         ]
     )
 
+    def get_related_editorial_pages(self, pages):
+        related_pages = []
+        for value in pages.select_related("page"):
+            if value.page and value.page.live:
+                page = value.page.specific
+                related_pages.append(news_teaser_formatter(page, True))
+        return related_pages
+
+    def anchor_nav(self):
+        """Build list of data to be used as
+        in-page navigation"""
+        return [
+            {"title": "The story", "link": "the-story"},
+            {"title": "How you can help", "link": "how-you-can-help"},
+            {"title": "Success stories", "link": "success-stories"},
+            {"title": "Contact", "link": "contact"},
+        ]
+
+    @property
+    def stories_view_all(self):
+        return {"link": self.stories_link_target_url, "title": self.stories_link_text}
+
+    def get_related_help_pages(self):
+        pages = self.related_help_pages.all().select_related("page")
+        return [editorial_teaser_formatter(page.page.specific) for page in pages]
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
+        context["tabs"] = self.anchor_nav()
+        context["page_teasers"] = self.get_related_pages(self.related_pages_grid)
+        context["help_pages"] = self.get_related_pages(self.related_help_pages)
+        context["stories"] = self.get_related_editorial_pages(
+            self.related_editorial_pages
+        )
+        return context
+
+
+class TapLandingPage(LandingPage):
+    template = "patterns/pages/landingpage/landing_page--tap.html"
+    tap_carousel = models.TextField(blank=True, verbose_name="Iframe Code")
+
+    class Meta:
+        verbose_name = "Landing Page - TAP"
+
+    content_panels = BasePage.content_panels + [
+        MultiFieldPanel(
+            [FieldPanel("hero_image")],
+            heading=_("Hero"),
+        ),
+        MultiFieldPanel(
+            [FieldPanel("introduction"), FieldPanel("about_page")],
+            heading=_("Introduction"),
+        ),
+        MultiFieldPanel([FieldPanel("tap_carousel")], heading="TAP Carousel"),
+        MultiFieldPanel(
+            [
+                FieldPanel("highlights_title"),
+                InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
+                FieldPanel("highlights_page_link"),
+                FieldPanel("highlights_page_link_title"),
+            ],
+            heading=_("Featured projects"),
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("related_pages_title"),
+                FieldPanel("related_pages_text"),
+                InlinePanel("related_pages_grid", max_num=8, label=_("Related Pages")),
+            ],
+            heading=_("Related pages grid"),
+        ),
+        InlinePanel("featured_image", label=_("Featured content"), max_num=1),
+        MultiFieldPanel(
+            [
+                HelpPanel(
+                    content=(
+                        """<p>The title, link and link text displayed as part of the news and events
+                        listing can be customised by adding overriding values here</p>"""
+                    )
+                ),
+                FieldPanel("news_and_events_title"),
+                FieldPanel("news_and_events_link_text"),
+                FieldPanel("news_and_events_link_target_url"),
+                FieldPanel("legacy_news_and_event_tags"),
+            ],
+            "News and Events",
+        ),
+        MultiFieldPanel(
+            [FieldPanel("page_list_title"), FieldPanel("page_list")],
+            heading=_("Related page list"),
+        ),
+    ]
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["tap_carousel"] = mark_safe(self.tap_carousel)
         return context

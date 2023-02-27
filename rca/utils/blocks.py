@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
-from wagtail.core import blocks
+from wagtail import blocks
+from wagtail.blocks.struct_block import StructBlockValidationError
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
@@ -93,7 +94,7 @@ class LinkBlock(blocks.StructBlock):
             errors["title"] = ErrorList(["Please add title value to display."])
 
         if errors:
-            raise ValidationError("Validation error in LinkBlock", params=errors)
+            raise StructBlockValidationError(errors)
         return result
 
 
@@ -103,6 +104,41 @@ class GalleryBlock(blocks.StructBlock):
     author = blocks.CharBlock(required=False)
     link = blocks.URLBlock(required=False)
     course = blocks.CharBlock(required=False)
+    document = DocumentChooserBlock(required=False, help_text="Maximum file size: 10MB")
+    video_embed = EmbedBlock(
+        help_text="Add a YouTube or Vimeo video URL", required=False
+    )
+    audio_embed = EmbedBlock(help_text="Add a Soundcloud URL", required=False)
+
+    def clean(self, value):
+        result = super().clean(value)
+        errors = {}
+
+        if bool(value.get("document")):
+            if value.get("document").file_size > 10000000:
+                errors["document"] = ErrorList(
+                    ["Please ensure your file is below 10MB"]
+                )
+
+        if bool(value.get("document")) and bool(value.get("video_embed")):
+            errors["document"] = ErrorList(
+                ["Multiple values are not supported for Document and Video."]
+            )
+
+        if bool(value.get("document")) and bool(value.get("audio_embed")):
+            errors["document"] = ErrorList(
+                ["Multiple values are not supported for Document and Audio."]
+            )
+
+        if bool(value.get("video_embed")) and bool(value.get("audio_embed")):
+            errors["video_embed"] = ErrorList(
+                ["Multiple values are not supported for Video and Audio."]
+            )
+
+        if errors:
+            raise StructBlockValidationError(errors)
+
+        return result
 
     class Meta:
         icon = "image"
@@ -252,6 +288,25 @@ class CallToActionBlock(blocks.StructBlock):
         return result
 
 
+class JWPLayerBlock(blocks.StructBlock):
+    title = blocks.CharBlock(
+        help_text="Optional title to identify the video. Not shown on the page.",
+        required=False,
+    )
+    video_url = blocks.URLBlock(
+        max_length=1000, help_text="The URL of the video to show."
+    )
+    poster_image = ImageChooserBlock(
+        help_text="The poster image to show as a placeholder for the video. "
+        "For best results use an image 1920x1080 pixels"
+    )
+
+    class Meta:
+        icon = "media"
+        label = "JW Video Player"
+        template = "patterns/molecules/streamfield/blocks/jw_player_block.html"
+
+
 # Main streamfield block to be inherited by Pages
 class StoryBlock(blocks.StreamBlock):
     heading = blocks.CharBlock(
@@ -268,6 +323,7 @@ class StoryBlock(blocks.StreamBlock):
         template="patterns/molecules/streamfield/blocks/call_to_action_block.html",
     )
     document = DocumentBlock()
+    jw_video = JWPLayerBlock()
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"
@@ -292,6 +348,7 @@ class GuideBlock(blocks.StreamBlock):
         label="Embed media",
         help_text="Add a URL from these providers: YouTube, Vimeo, SoundCloud, Twitter.",
     )
+    jw_video = JWPLayerBlock()
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"

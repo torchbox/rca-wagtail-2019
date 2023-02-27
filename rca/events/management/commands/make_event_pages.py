@@ -6,7 +6,7 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.core.management import BaseCommand
 from faker import Faker
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 from rca.events.models import (
     EventDetailPage,
@@ -40,10 +40,12 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("count", help="How many pages to create")
         parser.add_argument(
-            "parent_page_id", help="The ID of the parent event listing page",
+            "parent_page_id",
+            help="The ID of the parent event listing page",
         )
         parser.add_argument(
-            "date", help="'past' or 'future' event date",
+            "date",
+            help="'past' or 'future' event date",
         )
 
     def streamfield(self, fake):
@@ -51,7 +53,7 @@ class Command(BaseCommand):
         blocks = []
         for _ in range(random.randrange(3, 5)):
             heading = fake.sentence()[0:-1]
-            blocks.append({u"type": u"heading", u"value": heading})
+            blocks.append({"type": "heading", "value": heading})
             paragraphs = []
             for _ in range(random.randrange(2, 4)):
                 sentences = []
@@ -60,7 +62,7 @@ class Command(BaseCommand):
                     sentences.append(sentence)
                 paragraphs.append(" ".join(sentences))
             paragraph_block = "<p>" + "</p><p>".join(paragraphs) + "</p>"
-            blocks.append({u"type": u"paragraph", u"value": paragraph_block})
+            blocks.append({"type": "paragraph", "value": paragraph_block})
         return json.dumps(blocks)
 
     def handle(self, *args, **options):

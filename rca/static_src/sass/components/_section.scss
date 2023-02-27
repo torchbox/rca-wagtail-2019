@@ -29,6 +29,18 @@
         }
     }
 
+    &--no-top-for-mobile {
+        padding-top: 0;
+
+        @include media-query(medium) {
+            padding-top: ($gutter * 18.25);
+        }
+
+        @include media-query(large) {
+            padding-top: ($gutter * 12.5);
+        }
+    }
+
     &--top-space-small {
         padding-top: ($gutter * 3.5);
 
@@ -194,11 +206,13 @@
         }
 
         // Tab with different heading layout
+        /* stylelint-disable selector-max-id */
         #tab-panel-apply & {
             @include media-query(large) {
                 grid-column: 2 / span 1;
             }
         }
+        /* stylelint-enable selector-max-id */
 
         // Template specific alterations
         .app--short-course .programme-overview & {
@@ -437,6 +451,14 @@
             }
         }
 
+        &--fourth-col-span-four {
+            #{$root}__notch--opposite & {
+                @include media-query(large) {
+                    grid-column: 2 / span 4;
+                }
+            }
+        }
+
         &--fifth-col {
             @include media-query(large) {
                 grid-column: 1 / span 5;
@@ -501,11 +523,19 @@
             }
         }
 
-        &--first-extra-small {
-            padding-top: ($gutter / 4);
+        &--first-small-med-bp {
+            padding-top: ($gutter * 4);
 
             @include media-query(large) {
-                padding-top: ($gutter / 2);
+                padding-top: 0;
+            }
+        }
+
+        &--first-extra-small {
+            padding-top: ($gutter * 0.25);
+
+            @include media-query(large) {
+                padding-top: ($gutter * 0.5);
             }
         }
 
@@ -555,6 +585,16 @@
 
         @include media-query(large) {
             grid-column: 2 / span 1;
+        }
+    }
+
+    &__sticky-placeholder {
+        @include media-query(medium) {
+            height: ($gutter * 10);
+        }
+
+        @include media-query(large) {
+            height: $notch-height-large;
         }
     }
 

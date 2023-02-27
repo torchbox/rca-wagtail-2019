@@ -1,4 +1,4 @@
-from wagtail.core import blocks
+from wagtail import blocks
 
 from rca.utils import blocks as utils_blocks
 
@@ -13,6 +13,7 @@ class EventDetailPageBlock(blocks.StreamBlock):
     paragraph = blocks.RichTextBlock()
     quote = utils_blocks.QuoteBlock()
     embed = utils_blocks.EmbedBlock()
+    jw_video = utils_blocks.JWPLayerBlock()
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"

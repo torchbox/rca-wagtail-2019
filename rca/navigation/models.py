@@ -5,12 +5,12 @@ from django.core import validators
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.forms.utils import ErrorList
 from modelcluster.models import ClusterableModel
-from wagtail.admin.edit_handlers import StreamFieldPanel
+from wagtail import blocks
+from wagtail.admin.panels import FieldPanel
 from wagtail.api import APIField
 from wagtail.contrib.settings.models import BaseSetting, register_setting
-from wagtail.core import blocks
-from wagtail.core.fields import StreamField
-from wagtail.core.models import Page
+from wagtail.fields import StreamField
+from wagtail.models import Page
 
 
 def url_or_relative_url_validator(value):
@@ -42,7 +42,7 @@ class URLOrRelativeURLBLock(blocks.FieldBlock):
         max_length=None,
         min_length=None,
         validators=(),
-        **kwargs
+        **kwargs,
     ):
         self.field = URLOrRelativeURLFormField(
             required=required,
@@ -130,27 +130,34 @@ class PrimaryNavLink(blocks.StructBlock):
 class NavigationSettings(BaseSetting, ClusterableModel):
 
     primary_navigation = StreamField(
-        [("link", PrimaryNavLink())], blank=True, help_text="Main site navigation"
+        [("link", PrimaryNavLink())],
+        blank=True,
+        help_text="Main site navigation",
+        use_json_field=True,
     )
 
-    quick_links = StreamField([("link", QuickLinkBlock())], blank=True)
+    quick_links = StreamField(
+        [("link", QuickLinkBlock())], blank=True, use_json_field=True
+    )
 
     footer_navigation = StreamField(
         [("link", LinkBlock())],
         blank=True,
         help_text="Multiple columns of footer links with optional header.",
+        use_json_field=True,
     )
     footer_links = StreamField(
         [("link", LinkBlock())],
         blank=True,
         help_text="Single list of elements at the base of the page.",
+        use_json_field=True,
     )
 
     panels = [
-        StreamFieldPanel("quick_links"),
-        StreamFieldPanel("primary_navigation"),
-        StreamFieldPanel("footer_navigation"),
-        StreamFieldPanel("footer_links"),
+        FieldPanel("quick_links"),
+        FieldPanel("primary_navigation"),
+        FieldPanel("footer_navigation"),
+        FieldPanel("footer_links"),
     ]
 
     api_fields = [

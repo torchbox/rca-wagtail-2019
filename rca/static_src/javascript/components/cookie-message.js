@@ -29,9 +29,7 @@ class CookieWarning {
         }
     }
 
-    applyCookie(event) {
-        // prevent default link action
-        event.preventDefault();
+    applyCookie() {
         // Add classes
         this.messageContainer.classList.remove(this.activeClass);
         this.messageContainer.classList.add(this.inactiveClass);

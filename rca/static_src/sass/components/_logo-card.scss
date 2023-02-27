@@ -30,6 +30,8 @@
         display: block;
         width: 100%;
         height: auto;
+        max-height: 200px;
+        max-width: 200px;
     }
 
     &__heading {
@@ -39,7 +41,7 @@
         left: 0;
         right: 0;
         color: $color--black;
-        padding: ($gutter / 4) ($gutter / 2);
+        padding: ($gutter * 0.25) ($gutter * 0.5);
         font-size: map-get($small-font-sizes, xxxs);
 
         @include media-query(medium) {

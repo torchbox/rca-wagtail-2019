@@ -6,11 +6,15 @@
     margin-bottom: $gutter;
 
     &__item {
-        @include font-size(xxs);
         display: none;
+        font-size: map-get($small-font-sizes, xxs);
 
         @include media-query(medium) {
             display: block;
+        }
+
+        @include media-query(large) {
+            font-size: 16px; // One off for breadcrumb
         }
 
         &:first-child {
@@ -32,8 +36,8 @@
         &::after {
             display: inline-block;
             content: '/';
-            padding-left: ($gutter / 2);
-            margin-right: ($gutter / 2);
+            padding-left: ($gutter * 0.5);
+            margin-right: ($gutter * 0.5);
         }
     }
 

@@ -6,6 +6,10 @@
     app--guide no-hero
 {% endblock %}
 
+{% block tap_widget %}
+{% if settings.utils.SitewideTapSetting.show_widgets %}{{ tap_widget_code }}{% endif %}
+{% endblock %}
+
 {% block content %}
 
     <div class="page page--no-hero">
@@ -63,9 +67,9 @@
             </section>
             {% if page.further_information %}
                 <section class="section bg bg--dark">
-                <div class="section__row section__row--last">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.further_information course_type="short" title=page.further_information_title anchor_heading=True section_id=page.further_information_title|slugify %}
-                </div>
+                    <div class="section__row section__row--last">
+                            {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.further_information course_type="short" title=page.further_information_title anchor_heading=True section_id=page.further_information_title|slugify %}
+                    </div>
                 </section>
             {% endif %}
 
@@ -98,4 +102,30 @@
 
         </div>
     </div>
+
+    {% if page.social_image %}
+        {% image page.social_image fill-1200x1200 as social_img %}
+    {% endif %}
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://google.com/article"
+            },
+            "headline": "{{ page.title }}",
+            {% if page.social_image %}
+            "image": [
+              "{{ social_img.full_url }}"
+            ],
+            {% endif %}
+            "datePublished": "{{ page.published_at }}",
+            "dateModified": "{{ page.last_published_at }}",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Royal College of Art"
+            }
+          }
+    </script>
 {% endblock %}

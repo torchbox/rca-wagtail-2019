@@ -9,13 +9,7 @@
     }
 
     .hero-action-pane & {
-        .theme-light & {
-            color: $color--white;
-        }
-
-        .theme-dark & {
-            color: $color--black;
-        }
+        color: $color--black;
     }
 
     .title-area & {

@@ -1,4 +1,4 @@
-from wagtail.core import blocks
+from wagtail import blocks
 from wagtail.embeds.blocks import EmbedBlock
 
 from rca.utils import blocks as utils_blocks
@@ -22,6 +22,7 @@ class DonationPageBlock(blocks.StreamBlock):
         label="Embed media",
         help_text="Add a URL from these providers: YouTube, Vimeo, SoundCloud, Twitter.",
     )
+    jw_video = utils_blocks.JWPLayerBlock()
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"

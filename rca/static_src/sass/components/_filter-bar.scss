@@ -1,6 +1,6 @@
 .filter-bar {
-    @include z-index(sticky-nav-bar);
     $root: &;
+    @include z-index(sticky-nav-bar);
     position: sticky;
     top: 0;
     left: 0;
@@ -14,10 +14,10 @@
     &--small {
         border-width: 0 0 1px;
         border-style: solid;
-        padding: ($gutter / 2) $gutter;
+        padding: ($gutter * 0.5) $gutter;
 
         @include media-query(medium) {
-            padding: ($gutter / 2) ($gutter * 3);
+            padding: ($gutter * 0.5) ($gutter * 3);
         }
 
         @include media-query(large) {
@@ -31,6 +31,29 @@
 
         @include media-query(large) {
             display: block;
+        }
+    }
+
+    // Scholarship template doesn't show filter bar until a filter has been selected using a different component
+    &--no-results-large {
+        display: none;
+
+        .project-filters & {
+            @include media-query(large) {
+                display: block;
+            }
+        }
+    }
+
+    &--no-results-small {
+        display: none;
+
+        .project-filters & {
+            display: block;
+
+            @include media-query(large) {
+                display: none;
+            }
         }
     }
 
@@ -139,6 +162,12 @@
             width: 100%;
             height: calc(var(--vh, 1vh) * 100);
             background-color: $color--white;
+        }
+    }
+
+    .app--scholarship-listing & {
+        &--small {
+            margin-bottom: ($gutter * 2);
         }
     }
 

@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 from rca.people.models import StaffPage
 from rca.utils.models import LegacySiteTaggedPage
@@ -8,7 +8,7 @@ from ...content import AlumniStoriesAPI, NewsEventsAPI
 
 
 class Command(BaseCommand):
-    """Fetch content from the legacy site and store in the cache """
+    """Fetch content from the legacy site and store in the cache"""
 
     def handle(self, *args, **options):
         for api in (AlumniStoriesAPI, NewsEventsAPI):

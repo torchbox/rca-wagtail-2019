@@ -1,11 +1,22 @@
 import MicroModal from 'micromodal'; // es6 module
 
+// Stop videos by replacing their src
+const stopAllVideos = () => {
+    const iframes = document.querySelectorAll('iframe');
+    iframes.forEach((i) => {
+        const source = i.src;
+        i.src = '';
+        i.src = source;
+    });
+};
+
 MicroModal.init({
     onShow: () => {
         window.location.hash = 'modal-open';
     },
     onClose: () => {
-        window.location.hash = '';
+        window.history.replaceState(null, null, ' ');
+        stopAllVideos();
     },
     awaitOpenAnimation: false,
     awaitCloseAnimation: false,
@@ -29,11 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
         MicroModal.show(modalId);
     };
 
-    // check for a modal
+    // check for a modal hash, which allows us to auto-open the modal on page load
     if (
-        document.body.contains(
-            document.querySelector('[data-micromodal-trigger]'),
-        )
+        document.body.contains(document.querySelector('[data-micromodal-hash]'))
     ) {
         // check if the modal should be open on page load
         if (window.location.hash && window.location.hash === '#modal-open') {

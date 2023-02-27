@@ -1,28 +1,50 @@
+from django import forms
 from wagtail.admin.forms import WagtailAdminPageForm
 
 
 class StudentPageAdminForm(WagtailAdminPageForm):
-    """Validation for adding StudentPage
-    """
+    """Validation for adding StudentPage"""
 
     def __init__(self, *args, **kwargs):
         super(StudentPageAdminForm, self).__init__(*args, **kwargs)
-        # Don't allow changing the user account or image collection once set as they are tied to permissions
-        if (
-            self.instance.student_user_image_collection
-            and self.instance.student_user_account
-        ):
-            readonly_fields = [
-                "student_user_image_collection",
-                "student_user_account",
-            ]
-            for f in readonly_fields:
-                # Wrapped in a try except as when a student uses this form, these fields are hidden
-                # See rca.people.models.StudentPage.basic_content_panels and rca.people.utils.PerUserPageMixin
-                try:
-                    self.fields[f].widget.attrs["disabled"] = True
-                except KeyError:
-                    pass
+
+        user = kwargs.get("for_user")
+
+        if user:
+            # Don't allow changing the user account or image collection once set as they are tied to permissions
+            if (
+                self.instance.student_user_image_collection
+                and self.instance.student_user_account
+            ):
+                disabled_fields = [
+                    "student_user_image_collection",
+                    "student_user_account",
+                ]
+                for f in disabled_fields:
+                    # Wrapped in a try except as when a student uses this form, these fields are hidden
+                    # See rca.people.models.StudentPage.basic_content_panels and rca.people.utils.PerUserPageMixin
+                    try:
+                        self.fields[f].widget.attrs["disabled"] = True
+                    except KeyError:
+                        pass
+            if self.instance.title and self.instance.slug and not user.is_student():
+                readonly_fields = [
+                    "title",
+                    "slug",
+                ]
+
+                for f in readonly_fields:
+                    self.fields[f].widget.attrs["readonly"] = True
+
+            elif self.instance.title and self.instance.slug and user.is_student():
+                hidden_fields = [
+                    "title",
+                    "slug",
+                ]
+
+                for f in hidden_fields:
+                    self.fields[f].widget = forms.HiddenInput()
+                    self.fields[f].class_name = "student-hidden"
 
     def clean(self):
         cleaned_data = super().clean()
@@ -58,3 +80,8 @@ class StudentPageAdminForm(WagtailAdminPageForm):
             )
 
         return cleaned_data
+
+    class Media:
+        js = [
+            "people/admin/js/student_edit_page.js",
+        ]

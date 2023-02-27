@@ -52,7 +52,7 @@
     }
 
     &__link {
-        max-width: 165px !important; // sass-lint:disable-line no-important
+        max-width: 165px !important;
 
         @include media-query(medium) {
             align-self: flex-end;
@@ -61,7 +61,7 @@
         @include media-query(large) {
             margin-top: ($gutter * 10);
             justify-content: space-between;
-            max-width: 220px !important; // sass-lint:disable-line no-important
+            max-width: 220px !important;
         }
     }
 

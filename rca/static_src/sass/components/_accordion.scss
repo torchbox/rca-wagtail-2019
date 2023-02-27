@@ -112,16 +112,6 @@
         &::before {
             opacity: 1;
         }
-
-        .bg--light & {
-            background-color: $color--black;
-            color: $color--white;
-        }
-
-        .bg--dark & {
-            background-color: $color--white;
-            color: $color--black;
-        }
     }
 
     &__link {
@@ -224,7 +214,7 @@
     }
 
     &__preview-text {
-        margin: ($gutter / 2) 0 0;
+        margin: ($gutter * 0.5) 0 0;
         transition: color $transition;
         max-width: 65%;
         font-weight: $weight--normal;
@@ -351,6 +341,9 @@
         }
 
         &.is-open {
+            background-color: $color--white;
+            color: $color--black;
+
             #{$root}__preview-text {
                 color: $color--meta-lightbg;
             }
@@ -376,6 +369,9 @@
         }
 
         &.is-open {
+            background-color: $color--black;
+            color: $color--white;
+
             #{$root}__preview-text {
                 color: $color--meta-darkbg;
             }

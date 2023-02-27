@@ -3,17 +3,13 @@
         <div class="upcoming-dates__heading body body--two">Start date</div>
         <div class="upcoming-dates__heading body body--two">End date</div>
     </div>
-    <div class="upcoming-dates__content">
-        {% if page.get_manual_bookings %}
+    {% if page.get_manual_bookings %}
+        <div class="upcoming-dates__content">
             {% for item in page.get_manual_bookings %}
                 {% include 'patterns/molecules/upcoming-dates/date-row.html' with start_date=item.start_date end_date=item.end_date booking_link=item.booking_link register_interest_link=0 %}
             {% endfor %}
-        {% else %}
-            {% for item in access_planit_data %}
-                {% include 'patterns/molecules/upcoming-dates/date-row.html' with start_date=item.start_date end_date=item.end_date booking_link=item.book_now_url register_interest_link=page.application_form_url %}
-            {% endfor %}
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
 
     <div class="upcoming-dates__footer">
         {% if page.show_register_link %}

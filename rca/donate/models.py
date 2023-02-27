@@ -1,8 +1,8 @@
 from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
-from wagtail.core.fields import StreamField
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.fields import StreamField
 from wagtail.search import index
 
 from rca.utils.blocks import AccordionBlockWithTitle
@@ -15,12 +15,13 @@ class DonationFormPage(ContactFieldsMixin, BasePage):
     template = "patterns/pages/donate/donate.html"
 
     introduction = models.CharField(max_length=500, blank=True)
-    body = StreamField(DonationPageBlock())
+    body = StreamField(DonationPageBlock(), use_json_field=True)
     further_information_title = models.CharField(blank=True, max_length=120)
     further_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name=_("Further information"),
+        use_json_field=True,
     )
     form_id = models.CharField(
         max_length=255,
@@ -36,11 +37,11 @@ class DonationFormPage(ContactFieldsMixin, BasePage):
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
         FieldPanel("form_id"),
-        StreamFieldPanel("body"),
+        FieldPanel("body"),
         MultiFieldPanel(
             [
                 FieldPanel("further_information_title"),
-                StreamFieldPanel("further_information"),
+                FieldPanel("further_information"),
             ],
             heading=_("Further information"),
         ),
@@ -48,14 +49,14 @@ class DonationFormPage(ContactFieldsMixin, BasePage):
     ]
 
     def anchor_nav(self):
-        """ Build list of data to be used as
-        in-page navigation """
+        """Build list of data to be used as
+        in-page navigation"""
         items = []
         for i, block in enumerate(self.body):
             if block.block_type == "anchor_heading":
                 items.append({"title": block.value, "link": f"#{slugify(block.value)}"})
         if self.form_id:
-            items.append({"title": "Donate", "link": f"#bbox-root"})
+            items.append({"title": "Donate", "link": "#bbox-root"})
         if self.further_information_title:
             items.append(
                 {

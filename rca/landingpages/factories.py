@@ -30,6 +30,7 @@ class EELandingPageFactory(wagtail_factories.PageFactory):
     talks_link_text = factory.Faker("text", max_nb_chars=25)
     talks_link_target_url = "https://rca.ac.uk"
     talks_summary_text = factory.Faker("text", max_nb_chars=25)
+    cta_navigation_title = factory.Faker("text", max_nb_chars=25)
 
 
 class EnterpriseLandingPageFactory(wagtail_factories.PageFactory):
@@ -72,3 +73,7 @@ class ALumniLandingPageFactory(wagtail_factories.PageFactory):
 class DevelopmentLandingPageFactory(wagtail_factories.PageFactory):
     class Meta:
         model = DevelopmentLandingPage
+
+    title = factory.Faker("text", max_nb_chars=25)
+    stories_link_text = factory.Faker("text", max_nb_chars=25)
+    stories_link_target_url = "https://rca.ac.uk/news"

@@ -10,6 +10,18 @@
         padding-bottom: ($gutter * 3);
     }
 
+    &--no-margin-for-mobile {
+        padding-bottom: 0;
+
+        @include media-query(medium) {
+            padding-bottom: ($gutter * 4);
+        }
+
+        @include media-query(large) {
+            padding-bottom: ($gutter * 3);
+        }
+    }
+
     &--spaced {
         #{$root}__heading {
             margin-bottom: $gutter;
@@ -20,8 +32,19 @@
         }
     }
 
+    &--breadcrumb {
+        #{$root}__content {
+            // Ensure that the baseline of the breadcrumb aligns with the top of the notch
+            @include media-query(large) {
+                position: relative;
+                top: -17px;
+                margin-bottom: -17px;
+            }
+        }
+    }
+
     &__heading {
-        margin-bottom: ($gutter / 2);
+        margin-bottom: ($gutter * 0.5);
     }
 
     &__meta {
@@ -140,7 +163,7 @@
         // However there are viewports right after the "large" width where this would cause the text to overlap.
         // In those cases, we align the text with the bottom of the line instead, so there is no overlap.
         $xxxl-font: map-get($large-font-sizes, xxxl);
-        $heading-line-height: $xxxl-font * ($line-height-large / 100%);
+        $heading-line-height: calc($xxxl-font * ($line-height-large / 100%));
         $heading-line-2-bottom: $heading-line-height * 2;
         // We want the text to be aligned with the top of lowercase letters on the line, so need extra space.
         $heading-line-2-top: $heading-line-height * 1 + 23px;

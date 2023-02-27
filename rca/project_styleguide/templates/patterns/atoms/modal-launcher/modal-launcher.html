@@ -1,8 +1,8 @@
 
 {% if item.modal %}
-    <button data-micromodal-trigger="{{ item.modal }}" class="modal-launcher">
+    <button data-micromodal-trigger="{{ item.modal }}" data-micromodal-hash class="modal-launcher">
 {% else %}
-    <a href="{{ item.link }}" class="modal-launcher" target="_blank">
+    <a href="{{ item.link }}" class="modal-launcher" {% if not item.link_same_page %}target="_blank"{% endif %}>
 {% endif %}
     <span class="modal-launcher__container">
         <span class="modal-launcher__label" {% if modal_aria_label %}id="{{ modal_aria_label }}"{% endif %}>

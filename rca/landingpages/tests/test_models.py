@@ -1,5 +1,5 @@
 from django.test import TestCase
-from wagtail.tests.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTests
 
 from rca.home.models import HomePage
 from rca.landingpages.factories import (
@@ -50,6 +50,7 @@ class TestEELandingPageRules(WagtailPageTests):
                 talks_link_text="View more",
                 talks_link_target_url="https://rca.ac.uk",
                 talks_summary_text="These are the talks",
+                cta_navigation_title="Media centre",
             )
         )
         # A second EELandingPage should not be creatable
@@ -84,7 +85,11 @@ class TestDevelopmentLandingPageRules(WagtailPageTests):
 
     def test_singlet(self):
         self.home_page.add_child(
-            instance=DevelopmentLandingPage(title="Development Landing Page",)
+            instance=DevelopmentLandingPage(
+                title="Development Landing Page",
+                stories_link_text="View more",
+                stories_link_target_url="https://rca.ac.uk",
+            )
         )
         # A second DevelopmentLandingPage should not be creatable
         self.assertFalse(DevelopmentLandingPage.can_create_at(self.home_page))

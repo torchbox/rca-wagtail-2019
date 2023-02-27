@@ -13,10 +13,12 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RemoveField(
-            model_name="eventdetailpagerelatedschool", name="school",
+            model_name="eventdetailpagerelatedschool",
+            name="school",
         ),
         migrations.RemoveField(
-            model_name="eventdetailpagerelatedschool", name="source_page",
+            model_name="eventdetailpagerelatedschool",
+            name="source_page",
         ),
         migrations.AddField(
             model_name="eventseries",
@@ -33,6 +35,10 @@ class Migration(migrations.Migration):
                 to="events.eventdetailpage",
             ),
         ),
-        migrations.DeleteModel(name="EventDetailPageRelatedResearchCentre",),
-        migrations.DeleteModel(name="EventDetailPageRelatedSchool",),
+        migrations.DeleteModel(
+            name="EventDetailPageRelatedResearchCentre",
+        ),
+        migrations.DeleteModel(
+            name="EventDetailPageRelatedSchool",
+        ),
     ]

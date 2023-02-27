@@ -11,21 +11,19 @@
 
     {% include "patterns/molecules/hero/hero.html" with hero_image=page.hero_image modifier="medium" %}
 
-    <div class="page page--overlap" typeof="schema:Course">
-
-        <meta property="schema:provider" content="Royal College of Art" />
+    <div class="page page--overlap">
 
         <div class="page__notch grid">
             <div class="page__notch-block bg bg--dark"></div>
         </div>
 
         <header class="page__header bg bg--dark">
-            <div class="title-area grid">
+            <div class="title-area title-area--breadcrumb grid">
                 <div class="title-area__content">
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
-                    <h1 property="schema:name" class="title-area__heading heading heading--display-two" id="main-content">{{ page.title }}</h1>
+                    <h1 class="title-area__heading heading heading--display-two" id="main-content">{{ page.title }}</h1>
                 </div>
                 {% if page.hero_image_credit or page.hero_image %}
                     <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
@@ -45,7 +43,7 @@
 
                 <div class="section__row programme-overview">
                     <header class="section__header grid">
-                        <h2 class="section__heading section__heading--primary heading heading--five" property="schema:description">
+                        <h2 class="section__heading section__heading--primary heading heading--five">
                             {{ page.introduction }}
                         </h2>
                     </header>
@@ -167,4 +165,19 @@
 
         </div>
     </div>
+
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Course",
+          "name": "{{ page.title }}",
+          "description": "{{ page.introduction }}",
+          "provider": {
+            "@type": "Organization",
+            "name": "Royal College of Art",
+            "sameAs": "https://rca.ac.uk/"
+          }
+        }
+    </script>
+
 {% endblock %}

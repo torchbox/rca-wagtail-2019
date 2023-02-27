@@ -1,14 +1,12 @@
+import re
+
 from django.db import models
+from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import (
-    FieldPanel,
-    InlinePanel,
-    MultiFieldPanel,
-    StreamFieldPanel,
-)
-from wagtail.core.fields import StreamField
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.fields import StreamField
 from wagtail.search import index
 
 from rca.utils.blocks import AccordionBlockWithTitle, GuideBlock
@@ -17,6 +15,7 @@ from rca.utils.models import (
     ContactFieldsMixin,
     RelatedPage,
     RelatedStaffPageWithManualOptions,
+    TapMixin,
 )
 
 
@@ -28,16 +27,17 @@ class GuidePageRelatedPages(RelatedPage):
     source_page = ParentalKey("guides.GuidePage", related_name="related_pages")
 
 
-class GuidePage(ContactFieldsMixin, BasePage):
+class GuidePage(TapMixin, ContactFieldsMixin, BasePage):
     template = "patterns/pages/guide/guide.html"
 
     introduction = models.CharField(max_length=500, blank=True)
-    body = StreamField(GuideBlock())
+    body = StreamField(GuideBlock(), use_json_field=True)
     further_information_title = models.CharField(blank=True, max_length=120)
     further_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name=_("Further information"),
+        use_json_field=True,
     )
     related_pages_title = models.CharField(blank=True, max_length=120)
 
@@ -47,26 +47,32 @@ class GuidePage(ContactFieldsMixin, BasePage):
         index.SearchField("further_information"),
     ]
 
-    content_panels = BasePage.content_panels + [
-        FieldPanel("introduction"),
-        StreamFieldPanel("body"),
-        MultiFieldPanel([InlinePanel("related_staff")], heading=_("Related staff")),
-        MultiFieldPanel(
-            [
-                FieldPanel("further_information_title"),
-                StreamFieldPanel("further_information"),
-            ],
-            heading=_("Further information"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("related_pages_title"),
-                InlinePanel("related_pages", max_num=6),
-            ],
-            heading=_("Related pages"),
-        ),
-        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
-    ]
+    content_panels = (
+        BasePage.content_panels
+        + [
+            FieldPanel("introduction"),
+            FieldPanel("body"),
+            MultiFieldPanel([InlinePanel("related_staff")], heading=_("Related staff")),
+            MultiFieldPanel(
+                [
+                    FieldPanel("further_information_title"),
+                    FieldPanel("further_information"),
+                ],
+                heading=_("Further information"),
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("related_pages_title"),
+                    InlinePanel("related_pages", max_num=6),
+                ],
+                heading=_("Related pages"),
+            ),
+            MultiFieldPanel(
+                [*ContactFieldsMixin.panels], heading="Contact information"
+            ),
+        ]
+        + TapMixin.panels
+    )
 
     @property
     def listing_meta(self):
@@ -74,8 +80,8 @@ class GuidePage(ContactFieldsMixin, BasePage):
         return "Guide"
 
     def anchor_nav(self):
-        """ Build list of data to be used as
-        in-page navigation """
+        """Build list of data to be used as
+        in-page navigation"""
         items = []
         for i, block in enumerate(self.body):
             if block.block_type == "anchor_heading":
@@ -107,14 +113,14 @@ class GuidePage(ContactFieldsMixin, BasePage):
             if hasattr(page, "programme_description_subtitle"):
                 introduction = page.programme_description_subtitle
             if hasattr(page, "introduction"):
-                introduction = page.introduction
+                introduction = re.sub("<a.*?>|</a>", "", page.introduction)
             related_pages["items"].append(
                 {
                     "page": page,
                     "title": page.listing_title if page.listing_title else page.title,
                     "image": page.listing_image,
                     "link": page.url,
-                    "description": introduction,
+                    "description": page.listing_summary or introduction,
                 }
             )
         return related_pages
@@ -124,5 +130,7 @@ class GuidePage(ContactFieldsMixin, BasePage):
         context["anchor_nav"] = self.anchor_nav()
         context["related_staff"] = self.related_staff.all
         context["related_pages"] = self.get_related_pages()
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
 
         return context

@@ -1,4 +1,5 @@
 import '@babel/polyfill';
+import Alpine from 'alpinejs';
 
 import GridSizeVariables from './components/grid-size-variables';
 import HeaderDrawer from './components/header-drawer';
@@ -7,14 +8,13 @@ import BackLink from './components/back-link';
 import MobileSubMenu from './components/mobile-sub-menu';
 import CookieWarning from './components/cookie-message';
 import Accordion from './components/accordion';
+import Tabs from './components/tabs';
 import Carousel from './components/carousel';
 import PeekCarousel from './components/carousel-peek';
 import PeekFullCarousel from './components/carousel-full-peek';
-import LogoCarousel from './components/carousel-logo';
 import Slideshow from './components/slideshow';
 import VideoModal from './components/video-modal';
 import RelatedContent from './components/related-content';
-import Tabs from './components/tabs';
 import Sticky from './components/position-sticky-event';
 import ActualHeight from './components/actual-height';
 import ProjectFilters from './components/project-filters';
@@ -22,6 +22,8 @@ import AnchorNav from './components/anchor-nav';
 import SitewideAlert from './components/sitewide-alert';
 import FormFocus from './components/form-focus';
 import EmailShare from './components/email-share';
+import ScholarshipList from './components/scholarship-list';
+import EventToggleSwitch from './components/event-toggle-switch';
 import './components/sticky-header';
 import './components/lazyload-images';
 import './components/outdated-banner';
@@ -56,6 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
         new FormFocus(formFocus);
     }
 
+    for (const tabs of document.querySelectorAll(Tabs.selector())) {
+        new Tabs(tabs);
+    }
+
     for (const accordion of document.querySelectorAll(Accordion.selector())) {
         new Accordion(accordion);
     }
@@ -74,12 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
         PeekFullCarousel.selector(),
     )) {
         new PeekFullCarousel(peekfullcarousel);
-    }
-
-    for (const logoCarousel of document.querySelectorAll(
-        LogoCarousel.selector(),
-    )) {
-        new LogoCarousel(logoCarousel);
     }
 
     for (const slideshow of document.querySelectorAll(Slideshow.selector())) {
@@ -129,10 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         new ProjectFilters(projectfilters);
     }
 
-    for (const tabs of document.querySelectorAll(Tabs.selector())) {
-        new Tabs(tabs);
-    }
-
     for (const sticky of document.querySelectorAll(Sticky.selector())) {
         new Sticky(sticky);
     }
@@ -145,5 +141,18 @@ document.addEventListener('DOMContentLoaded', () => {
         new EmailShare(emailshare);
     }
 
+    for (const scholarshiplist of document.querySelectorAll(
+        ScholarshipList.selector(),
+    )) {
+        new ScholarshipList(scholarshiplist);
+    }
+
+    for (const eventtoggleswitch of document.querySelectorAll(
+        EventToggleSwitch.selector(),
+    )) {
+        new EventToggleSwitch(eventtoggleswitch);
+    }
+
     new ActualHeight();
+    Alpine.start();
 });

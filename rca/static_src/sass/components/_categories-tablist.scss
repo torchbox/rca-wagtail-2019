@@ -64,7 +64,7 @@
                 display: block;
                 position: absolute;
                 top: 0;
-                right: -($gutter / 4);
+                right: -($gutter * 0.25);
                 width: 6px;
                 height: 6px;
                 border-radius: 50%;
@@ -75,10 +75,6 @@
 
         &:not(:last-child) {
             margin-right: $gutter;
-
-            @include media-query(large) {
-                margin-right: $gutter * 1.5;
-            }
         }
 
         &[aria-selected='true'],
@@ -133,6 +129,8 @@
 
     // When project filters are open
     .project-filters & {
+        background-color: $color--white; // filter bar is always white
+
         &__tab {
             color: $color--meta-lightbg;
 
@@ -201,7 +199,7 @@
                         display: block;
                         position: absolute;
                         top: 0;
-                        right: -($gutter / 2);
+                        right: -($gutter * 0.5);
                         width: 6px;
                         height: 6px;
                         border-radius: 50%;
@@ -209,6 +207,76 @@
                         background-color: currentColor;
                     }
                 }
+            }
+        }
+    }
+
+    .app--scholarship-listing & {
+        padding-left: 0;
+        margin-bottom: ($gutter * 2);
+
+        // Colours are quite confusing for this component as it has many states, overriding for the scholarship listing
+        #{$root}__heading {
+            color: $color--light-grey;
+        }
+
+        #{$root}__tab {
+            color: $color--light-grey;
+
+            &--reset,
+            &--selected,
+            &[aria-selected='true'],
+            &:focus,
+            &:hover {
+                color: $color--white;
+            }
+        }
+    }
+
+    .app--scholarship-listing.project-filters & {
+        margin-bottom: 0;
+
+        #{$root}__options {
+            @include media-query(large) {
+                padding-left: ($gutter * 2);
+            }
+        }
+
+        // Overriding scholarship listing customisations when the filter takeover is active
+        #{$root}__heading {
+            color: $color--dark-grey;
+        }
+
+        #{$root}__tab {
+            color: $color--dark-grey;
+
+            &--reset,
+            &--selected,
+            &[aria-selected='true'],
+            &:focus,
+            &:hover {
+                color: $color--black;
+            }
+        }
+    }
+
+    .app--scholarship-listing.project-filters-mobile & {
+        background-color: $color--white;
+
+        // Overriding scholarship listing customisations when the filter takeover is active
+        #{$root}__heading {
+            color: $color--black;
+        }
+
+        #{$root}__tab {
+            color: $color--dark-grey;
+
+            &--reset,
+            &--selected,
+            &[aria-selected='true'],
+            &:focus,
+            &:hover {
+                color: $color--black;
             }
         }
     }

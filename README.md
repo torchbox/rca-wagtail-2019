@@ -41,16 +41,44 @@ Pre-commit will not run by default. To set it up, run `pre-commit install` insid
 
 # Setting up a local build
 
-This repository includes a Vagrantfile for running the project in a Debian VM and
-a fabfile for running common commands with Fabric.
+This repository includes `docker-compose` configuration for running the project in local Docker containers,
+and a fabfile for provisioning and managing this.
 
-To set up a new build:
+## Dependencies
+
+The following are required to run the local environment. The minimum versions specified are confirmed to be working:
+if you have older versions already installed they _may_ work, but are not guaranteed to do so.
+
+- [Docker](https://www.docker.com/), version 19.0.0 or up
+  - [Docker Desktop for Mac](https://hub.docker.com/editions/community/docker-ce-desktop-mac) installer
+  - [Docker Engine for Linux](https://hub.docker.com/search?q=&type=edition&offering=community&sort=updated_at&order=desc&operating_system=linux) installers
+- [Docker Compose](https://docs.docker.com/compose/), version 1.24.0 or up
+  - [Install instructions](https://docs.docker.com/compose/install/) (Linux-only: Compose is already installed for Mac users as part of Docker Desktop.)
+- [Fabric](https://www.fabfile.org/), version 2.4.0 or up
+  - [Install instructions](https://www.fabfile.org/installing.html)
+- Python, version 3.6.9 or up
+
+Note that on Mac OS, if you have an older version of fabric installed, you may need to uninstall the old one and then install the new version with pip3:
 
 ```bash
-git clone https://github.com/torchbox/rca-wagtail-2019.git
+pip uninstall fabric
+pip3 install fabric
+```
+
+You can manage different python versions by setting up `pyenv`: https://realpython.com/intro-to-pyenv/
+
+## Running the local build for the first time
+
+If you are using Docker Desktop, ensure the Resources:File Sharing settings allow the cloned directory to be mounted in the web container (avoiding `mounting` OCI runtime failures at the end of the build step).
+
+Starting a local build can be done by running:
+
+```bash
+git clone https://github.com/torchbox/rca-wagtail-2019
 cd rca
-vagrant up
-vagrant ssh
+fab build
+fab start
+fab sh
 ```
 
 Then within the SSH session:
@@ -62,18 +90,61 @@ dj createsuperuser
 djrun
 ```
 
-This will make the site available on the host machine at: http://127.0.0.1:8000/
+The site should be available on the host machine at: http://127.0.0.1:8000/
 
-# Front-end assets
+### Frontend tooling
 
-To build front-end assets you will additionally need to run the following commands:
+Here are the common commands:
 
 ```bash
+# Install front-end dependencies.
 npm install
+# Start the Webpack build in watch mode, without live-reload.
+npm run start
+# Start the Webpack server build on port 3000 only with live-reload.
+npm run start:reload
+# Do a one-off Webpack development build.
+npm run build
+# Do a one-off Webpack production build.
 npm run build:prod
 ```
 
-After any change to the CSS or Javascript you will need to run the build command again, either in the vm or on your host machine. See the [Front-end tooling docs](docs/front-end-tooling.md) for further details.
+There are two ways to run the frontend tooling:
+
+- In Docker. This is the default, most portable and secure, but much slower on macOS. use `fab ssh` to enter the container and run `npm run start:reload` live changes should be viewable on :3000
+- Or run npm commands from a terminal on your local machine. Create a .env file in the project root (see .env.example) with FRONTEND=local. fab start will no longer start a frontend container. Now, when running fab start, Docker won't attempt to bind to the ports needed for the frontend dev server, meaning they can be run locally. All the tooling still remains available in the container.
+
+## Installing python packages
+
+Python packages can be installed using `poetry` in the web container:
+
+```
+fab sh
+poetry add wagtail-guide
+```
+
+To reset installed dependencies back to how they are in the `poetry.lock` file:
+
+```
+fab sh
+poetry install --no-root
+```
+
+## Installing npm packages
+
+NPM packages can be installed via the web container:
+
+```
+fab sh
+npm add [your thing]
+```
+
+To reset installed dependencies back to how they are in the `poetry.lock` file:
+
+```
+fab sh
+poetry install --no-root
+```
 
 ## Deployment
 
@@ -129,7 +200,7 @@ Birdbath is on by default, set in settings/base.py and is turned off on live env
 
 ## Deployments
 
-Deployments to stage are automatically handled by CircleCI.
+Deployments to staging and dev sites are automatically handled by CircleCI. If for any reason deployment is not triggered, you can go to the [CircleCI admin page](https://app.circleci.com/pipelines/github/torchbox/rca-wagtail-2019?branch=dev) and manually trigger the pipeline for the branch.
 
 For production, CircleCI requires manual approval, this is done over at the [CircleCI Workflows for master](https://circleci.com/gh/torchbox/workflows/rca-wagtail-2019/tree/master). A job awaiting approval will show as 'pending'. Manual approval consists of clicking on the pending tasks and clicking 'approve'.
 

@@ -2,7 +2,8 @@ from django.db import models
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.mail import send_mail
+from wagtail.admin.panels import (
     FieldPanel,
     FieldRowPanel,
     InlinePanel,
@@ -10,9 +11,8 @@ from wagtail.admin.edit_handlers import (
     ObjectList,
     TabbedInterface,
 )
-from wagtail.admin.mail import send_mail
 from wagtail.contrib.forms.models import AbstractFormField
-from wagtail.core.fields import RichTextField
+from wagtail.fields import RichTextField
 from wagtail.search import index
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
 
@@ -21,7 +21,11 @@ from rca.utils.models import BasePage
 
 class FormField(AbstractFormField):
     page = ParentalKey("FormPage", related_name="form_fields")
-    help_text = RichTextField(blank=True, features=("link",), verbose_name="help text",)
+    help_text = RichTextField(
+        blank=True,
+        features=("link",),
+        verbose_name="help text",
+    )
 
 
 # Never cache form pages since they include CSRF tokens.
@@ -49,7 +53,8 @@ class FormPage(WagtailCaptchaEmailForm, BasePage):
         "'Email'.",
     )
     email_body_copy = models.TextField(
-        blank=True, help_text="Enter the text to include in the body of the email.",
+        blank=True,
+        help_text="Enter the text to include in the body of the email.",
     )
     key_details = RichTextField(blank=True, features=["bold", "italic", "link", "h3"])
 
@@ -107,7 +112,10 @@ class FormPage(WagtailCaptchaEmailForm, BasePage):
         address = form.cleaned_data.get("email")
         if address:
             send_mail(
-                self.subject, self.render_email(form), [address], self.from_address,
+                self.subject,
+                self.render_email(form),
+                [address],
+                self.from_address,
             )
 
     def render_email(self, form):

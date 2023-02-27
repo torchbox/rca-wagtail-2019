@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from django.conf import settings
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -11,27 +11,23 @@ from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     HelpPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
-    PageChooserPanel,
-    StreamFieldPanel,
     TabbedInterface,
 )
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import (
+from wagtail.fields import RichTextField, StreamField
+from wagtail.images import get_image_model_string
+from wagtail.models import (
     Collection,
     GroupCollectionPermission,
     GroupPagePermission,
     Orderable,
     Page,
-    Permission,
 )
-from wagtail.images import get_image_model_string
-from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
 from rca.api_content.content import CantPullFromRcaApi, pull_related_students
@@ -47,7 +43,14 @@ from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, SluggedTaxonomy
 
 from .admin_forms import StudentPageAdminForm
-from .utils import PerUserPageMixin, get_area_linked_filters
+from .utils import (
+    StudentPageInlinePanel,
+    StudentPagePromoteTab,
+    StudentPageSettingsTab,
+    get_area_linked_filters,
+)
+
+# PerUserTabbedInterface,
 
 STUDENT_PAGE_RICH_TEXT_FEATURES = features = ["bold", "italic", "link"]
 
@@ -67,6 +70,11 @@ class AreaOfExpertise(models.Model):
 class Directorate(models.Model):
     title = models.CharField(max_length=128)
     slug = models.SlugField(blank=True)
+    intranet_slug = models.SlugField(
+        blank=True,
+        help_text="In order to import events and news to the intranet and relate them to this taxonomy, this \
+            slug value should match the value of the slug on the Category page on the intranet",
+    )
 
     def __str__(self):
         return self.title
@@ -135,17 +143,37 @@ class StaffPageManualRelatedStudents(models.Model):
         on_delete=models.CASCADE,
         related_name="related_students_manual",
     )
-    first_name = models.CharField(max_length=255)
-    surname = models.CharField(max_length=255)
-    status = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=255, blank=True)
+    surname = models.CharField(max_length=255, blank=True)
+    status = models.CharField(max_length=255, blank=True)
     link = models.URLField(blank=True)
+    student_page = models.ForeignKey(
+        "people.StudentPage",
+        on_delete=models.CASCADE,
+        related_name="related_programme",
+        null=True,
+        blank=True,
+    )
 
     panels = [
         FieldPanel("first_name"),
         FieldPanel("surname"),
         FieldPanel("status"),
         FieldPanel("link"),
+        FieldPanel("student_page"),
     ]
+
+    def clean(self):
+        if self.student_page and any(
+            [self.first_name, self.surname, self.status, self.link]
+        ):
+            raise ValidationError(
+                {
+                    "student_page": ValidationError(
+                        "Please choose between a page or manually entered data"
+                    ),
+                }
+            )
 
 
 class StaffPage(BasePage):
@@ -177,16 +205,23 @@ class StaffPage(BasePage):
         ),
     )
     gallery = StreamField(
-        [("slide", GalleryBlock())], blank=True, verbose_name=_("Gallery")
+        [("slide", GalleryBlock())],
+        blank=True,
+        verbose_name=_("Gallery"),
+        use_json_field=True,
     )
     more_information_title = models.CharField(max_length=80, default="More information")
     more_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name=_("More information"),
+        use_json_field=True,
     )
     related_links = StreamField(
-        [("link", LinkBlock())], blank=True, verbose_name="Related Links"
+        [("link", LinkBlock())],
+        blank=True,
+        verbose_name="Related Links",
+        use_json_field=True,
     )
     legacy_staff_id = models.IntegerField(
         null=True,
@@ -221,7 +256,7 @@ class StaffPage(BasePage):
                 FieldPanel("staff_title"),
                 FieldPanel("first_name"),
                 FieldPanel("last_name"),
-                ImageChooserPanel("profile_image"),
+                FieldPanel("profile_image"),
             ],
             heading="Details",
         ),
@@ -238,7 +273,7 @@ class StaffPage(BasePage):
             ],
             heading=_("Research highlights gallery"),
         ),
-        StreamFieldPanel("gallery"),
+        FieldPanel("gallery"),
         MultiFieldPanel(
             [InlinePanel("related_students_manual"), FieldPanel("legacy_staff_id")],
             heading=_("Related Students"),
@@ -246,11 +281,11 @@ class StaffPage(BasePage):
         MultiFieldPanel(
             [
                 FieldPanel("more_information_title"),
-                StreamFieldPanel("more_information"),
+                FieldPanel("more_information"),
             ],
             heading="More information",
         ),
-        StreamFieldPanel("related_links"),
+        FieldPanel("related_links"),
     ]
 
     edit_handler = TabbedInterface(
@@ -278,12 +313,11 @@ class StaffPage(BasePage):
 
     def fetch_related_students(self):
         value = []
-        if self.legacy_staff_id:
-            try:
-                value = pull_related_students(self.legacy_staff_id)
-                cache.set(self.related_students_cache_key, value, None)
-            except CantPullFromRcaApi:
-                pass
+        try:
+            value = pull_related_students(self.legacy_staff_id)
+            cache.set(self.related_students_cache_key, value, None)
+        except CantPullFromRcaApi:
+            pass
         return value
 
     @cached_property
@@ -300,36 +334,70 @@ class StaffPage(BasePage):
         legacy_staff_id value has changed).
         """
         super().save(*args, **kwargs)
-        try:
-            self.fetch_related_students()
-        except CantPullFromRcaApi:
-            # Legacy API can be a bit unreliable, so don't
-            # break here. The management command can update
-            # the value next time it runs
-            pass
+        if self.legacy_staff_id:
+            # Don't run if there is no ID
+            try:
+                self.fetch_related_students()
+            except CantPullFromRcaApi:
+                # Legacy API can be a bit unreliable, so don't
+                # break here. The management command can update
+                # the value next time it runs
+                pass
+
+    def format_student_page(self, page):
+        student_page = page
+        image = getattr(student_page, "profile_image", None)
+        if image:
+            image = image.get_rendition("fill-60x60").url
+        return {
+            "first_name": student_page.first_name,
+            "surname": student_page.last_name,
+            "status": student_page.degree_status,
+            "link": student_page.url,
+            "image_url": image,
+        }
 
     def get_related_students(self):
-        """Returns a list containing legacy related students from the cached api
-        request and manual related students at the page level"""
+        """
+        Returns a list containing:
+        - legacy related students from the cached api
+        - request and manual related students at the page level
+        - Students which reference this page through
+        StudentPage.related_supervisor
+        """
         students = []
 
         # Format the api content
-        for student in self.legacy_related_students:
-            item = student
-            fullname = student["name"].split(" ")
-            item["first_name"] = fullname[0].title()
-            # In case we encounter tripple names
-            item["surname"] = " ".join(fullname[1:]).title()
+        if self.legacy_staff_id:
+            for student in self.legacy_related_students:
+                item = student
+                fullname = student["name"].split(" ")
+                item["first_name"] = fullname[0].title()
+                # In case we encounter tripple names
+                item["surname"] = " ".join(fullname[1:]).title()
+                students.append(item)
+
+        # Format students which reference this page through
+        # StudentPage.related_supervisor
+        students_with_related_supervisor = StudentPage.objects.filter(
+            related_supervisor__supervisor_page=self
+        ).live()
+        for student in students_with_related_supervisor:
+            item = self.format_student_page(student)
             students.append(item)
 
         # Format the students added at the page level
         for student in self.related_students_manual.all():
-            item = {
-                "first_name": student.first_name.title(),
-                "surname": student.surname.title(),
-                "status": student.status,
-                "link": student.link,
-            }
+            if student.student_page:
+                student_page = student.student_page.specific
+                item = self.format_student_page(student_page)
+            else:
+                item = {
+                    "first_name": student.first_name.title(),
+                    "surname": student.surname.title(),
+                    "status": student.status,
+                    "link": student.link,
+                }
 
             students.append(item)
 
@@ -516,7 +584,7 @@ class RelatedStudentPage(Orderable):
     source_page = ParentalKey(Page, related_name="related_student_pages")
     page = models.ForeignKey("people.StudentPage", on_delete=models.CASCADE)
 
-    panels = [PageChooserPanel("page")]
+    panels = [FieldPanel("page")]
 
 
 class StudentPageGallerySlide(Orderable):
@@ -530,7 +598,7 @@ class StudentPageGallerySlide(Orderable):
     )
     author = models.CharField(max_length=120)
 
-    panels = [ImageChooserPanel("image"), FieldPanel("title"), FieldPanel("author")]
+    panels = [FieldPanel("image"), FieldPanel("title"), FieldPanel("author")]
 
 
 class StudentPageSocialLinks(Orderable):
@@ -571,7 +639,11 @@ class StudentPageSupervisor(models.Model):
         related_name="related_supervisor",
     )
     supervisor_page = models.ForeignKey(
-        StaffPage, null=True, blank=True, on_delete=models.CASCADE, related_name="+",
+        StaffPage,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="+",
     )
 
     title = models.CharField(max_length=20, help_text="E.G, Dr, Mrs, etc", blank=True)
@@ -583,7 +655,7 @@ class StudentPageSupervisor(models.Model):
         HelpPanel(
             content="Choose an internal Staff page or manually enter information"
         ),
-        PageChooserPanel("supervisor_page"),
+        FieldPanel("supervisor_page"),
         FieldPanel("title"),
         FieldPanel("first_name"),
         FieldPanel("surname"),
@@ -612,7 +684,7 @@ class StudentPageSupervisor(models.Model):
             raise ValidationError(errors)
 
 
-class StudentPage(PerUserPageMixin, BasePage):
+class StudentPage(BasePage):
     base_form_class = StudentPageAdminForm
     template = "patterns/pages/student/student_detail.html"
     parent_page_types = ["people.StudentIndexPage"]
@@ -640,14 +712,21 @@ class StudentPage(PerUserPageMixin, BasePage):
     degree_start_date = models.DateField(blank=True, null=True)
     degree_end_date = models.DateField(blank=True, null=True)
     degree_award = models.CharField(
-        max_length=1, choices=(("1", "MPhil"), ("2", "PhD")), blank=True,
+        max_length=1,
+        choices=(("1", "MPhil"), ("2", "PhD")),
+        blank=True,
     )
     introduction = models.TextField(blank=True, verbose_name="Project title")
     bio = RichTextField(
-        blank=True, help_text="Add a detail summary", verbose_name="Abstract",
+        blank=True,
+        help_text="Add a detail summary",
+        verbose_name="Abstract",
     )
     programme = models.ForeignKey(
-        "programmes.ProgrammePage", on_delete=models.SET_NULL, null=True, blank=True,
+        "programmes.ProgrammePage",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
     )
 
     biography = RichTextField(blank=True, features=STUDENT_PAGE_RICH_TEXT_FEATURES)
@@ -699,85 +778,32 @@ class StudentPage(PerUserPageMixin, BasePage):
         index.SearchField("addition_information_content"),
     ]
 
-    basic_key_details_panels = [
-        InlinePanel("related_area_of_expertise", label="Areas of Expertise"),
-        InlinePanel("personal_links", label="Personal links", max_num=5),
-        FieldPanel("student_funding"),
-    ]
-    key_details_panels = [
-        InlinePanel("related_area_of_expertise", label="Areas of Expertise"),
-        InlinePanel(
-            "related_research_centre_pages", label=_("Related Research Centres ")
-        ),
-        InlinePanel("related_schools", label=_("Related Schools")),
-        InlinePanel("personal_links", label="Personal links", max_num=5),
-        FieldPanel("student_funding"),
-    ]
-    basic_content_panels = [
-        MultiFieldPanel([ImageChooserPanel("profile_image")], heading="Details"),
-        FieldPanel("link_to_final_thesis"),
-        InlinePanel("related_supervisor", label="Supervisor information"),
-        MultiFieldPanel([FieldPanel("email")], heading="Contact information"),
-        FieldPanel("introduction"),
-        FieldPanel("bio"),
-        InlinePanel("gallery_slides", label="Gallery slide", max_num=5),
+    content_panels = BasePage.content_panels + [
+        FieldPanel("student_user_account", permission="superuser"),
+        FieldPanel("student_user_image_collection", permission="superuser"),
         MultiFieldPanel(
             [
-                FieldPanel("biography"),
-                FieldPanel("degrees"),
-                FieldPanel("experience"),
-                FieldPanel("awards"),
-                FieldPanel("funding"),
-                FieldPanel("exhibitions"),
-                FieldPanel("publications"),
-                FieldPanel("research_outputs"),
-                FieldPanel("conferences"),
-            ],
-            heading="More information",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("additional_information_title"),
-                FieldPanel("addition_information_content"),
-            ],
-            heading="Additional information",
-        ),
-        InlinePanel("relatedlinks", label="External links", max_num=5),
-    ]
-    basic_promote_panels = [
-        FieldPanel("slug"),
-    ]
-    superuser_basic_promote_panels = [
-        *BasePage.promote_panels,
-    ]
-    superuser_content_panels = [
-        *BasePage.content_panels,
-        FieldPanel("student_user_account"),
-        FieldPanel("student_user_image_collection"),
-        MultiFieldPanel(
-            [
-                FieldPanel("student_title"),
-                FieldPanel("first_name"),
-                FieldPanel("last_name"),
-                ImageChooserPanel("profile_image"),
+                FieldPanel("student_title", permission="superuser"),
+                FieldPanel("first_name", permission="superuser"),
+                FieldPanel("last_name", permission="superuser"),
+                FieldPanel("profile_image"),
             ],
             heading="Details",
         ),
-        MultiFieldPanel([FieldPanel("email")], heading="Contact information"),
-        PageChooserPanel("programme"),
-        FieldPanel("degree_start_date"),
-        FieldPanel("degree_end_date"),
-        FieldPanel("degree_status"),
         FieldPanel("link_to_final_thesis"),
         InlinePanel("related_supervisor", label="Supervisor information"),
+        MultiFieldPanel([FieldPanel("email")], heading="Contact information"),
+        FieldPanel("programme", permission="superuser"),
+        FieldPanel("degree_start_date", permission="superuser"),
+        FieldPanel("degree_end_date", permission="superuser"),
+        FieldPanel("degree_award", permission="superuser"),
+        FieldPanel("degree_status", permission="superuser"),
         FieldPanel("introduction"),
         FieldPanel("bio"),
-        MultiFieldPanel(
-            [
-                InlinePanel(
-                    "related_project_pages", label=_("Project pages"), max_num=5
-                ),
-            ],
+        StudentPageInlinePanel(
+            "related_project_pages",
+            label=_("Project pages"),
+            max_num=5,
             heading=_("Research highlights gallery"),
         ),
         InlinePanel("gallery_slides", label="Gallery slide", max_num=5),
@@ -804,6 +830,28 @@ class StudentPage(PerUserPageMixin, BasePage):
         ),
         InlinePanel("relatedlinks", label="External links", max_num=5),
     ]
+
+    key_details_panels = [
+        InlinePanel("related_area_of_expertise", label="Areas of Expertise"),
+        StudentPageInlinePanel(
+            "related_research_centre_pages",
+            label=_("Related Research Centres "),
+        ),
+        StudentPageInlinePanel("related_schools", label=_("Related Schools")),
+        InlinePanel("personal_links", label="Personal links", max_num=5),
+        FieldPanel("student_funding"),
+    ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading="Content"),
+            ObjectList(key_details_panels, heading="Key details"),
+            StudentPagePromoteTab(BasePage.promote_panels, heading="Promote"),
+            StudentPageSettingsTab(
+                BasePage.settings_panels, heading="Settings"
+            ),  # needs to have no content for students
+        ]
+    )
 
     @property
     def listing_meta(self):

@@ -1,0 +1,118 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags util_tags static %}
+
+{% block body_class %}
+app--form no-hero
+{% endblock %}
+
+{% block html_class %}no-scroll-behavoir sticky-compensator{% endblock %}
+
+{% block content %}
+
+<div class="page page--no-hero">
+
+    <div class="page__header bg bg--dark">
+        {% if page.title %}
+        <div class="title-area title-area--guide grid">
+            <div class="title-area__content">
+                <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
+                    {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
+                </nav>
+                <h1 class="title-area__heading heading heading--display-two" id="main-content">
+                    {{ page.title }}
+                </h1>
+            </div>
+        </div>
+        {% endif %}
+       {% if page.introduction or form.errors %}
+        <div class="introduction grid">
+            {% if page.introduction %}
+                <div class="introduction__text {% if not form.errors %}introduction__text--no-margin{% endif %} heading heading--five layout__@large-start-three layout__span-two">
+                    {{ page.introduction|richtext }}
+                </div>
+            {% endif %}
+            {% if form.errors %}
+                <p class="introduction__errors introduction__text--no-margin heading heading--five layout__@large-start-three layout__span-two">
+                    There were some errors with your form. Please amend the fields highlighted below.
+                </p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="page__content">
+
+        <section class="section bg bg--dark">
+
+                <form id="scholarship-form" action="." method="post" class="form {% if form.errors %}form--errors{% endif %} grid layout " data-scholarships-url="{% url 'scholarships:ajax_load_scholarships' %}">
+                    <div class="layout__start-one layout__span-two layout__@large-span-one">
+                        {% include "patterns/molecules/key-details/key-details--form.html" with key_details=page.key_details %}
+                    </div>
+                    <div class="form__container layout__start-one layout__@large-start-two layout__span-two layout__@large-span-three">
+                        <div class="form__content section section--top-space-large">
+                            {% csrf_token %}
+
+                            <div class="section__row section__row--last-extra-small">
+                                <h2 class="form__heading heading heading--four">Your details</h2>
+
+                                {% for field in form %}
+
+                                    {% if field.name == "rca_id_number" %}
+                                        </div>
+                                        <div class="section__row section__row--last-extra-small">
+                                            <h2 class="form__heading heading heading--four">Scholarship choice(s)</h2>
+                                    {% elif field.name == "is_read_data_protection_policy" %}
+                                        </div>
+                                        <div class="section__row section__row--last-extra-small">
+                                            <h2 class="form__heading heading heading--four">Legal & newsletter</h2>
+                                    {% endif %}
+
+
+                                    {% with widget_type=field|widget_type field_type=field|field_type %}
+                                        <div class="form-item {% if field_type %}form-item--{{ field_type }}{% endif %} {% if widget_type %}form-item--{{ widget_type }}{% endif %} {% if field.errors %}form-item--has-content form-item--errors{% endif %} {% if field.help_text %}form-item--has-help-text{% endif %}" {% if widget_type == 'text_input' or field_type == 'email_field' or field_type == 'decimal_field' or field_type == 'url_field' or field_type == 'date_field' or field_type == 'date_time_field' %} data-focus data-focustype='input'{% endif %}{% if widget_type == 'textarea' %}data-focus data-focustype='textarea'{% endif %}>
+                                            <{% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}fieldset{% else %}div{% endif %} class="form-item__container">
+                                                {% if field.errors %}
+                                                    <div class="form-item__errors">
+                                                        {{ field.errors }}
+                                                    </div>
+                                                {% endif %}
+
+                                                {% if widget_type == 'checkbox_input' %}
+                                                    {{ field }}
+                                                    <label for="{{ field.id_for_label }}" class="form-item__label {% if field.field.required %}required{% endif %}">{{ field.label }} {% if field.field.required %} <span class="form-item__required">*</span>{% endif %}</label>
+                                                {% else %}
+                                                    <{% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}legend{% else %}label for="{{ field.id_for_label }}"{% endif %} class="form-item__label {% if field.field.required %}required{% endif %}">
+                                                        {% if field_type == 're_captcha_field' %}
+                                                            reCaptcha
+                                                        {% else %}
+                                                            {{ field.label }}
+                                                        {% endif %}
+                                                {% if field.field.required %}<span class="form-item__required">*</span>{% endif %}
+                                                    </{% if widget_type == 'checkbox_select_multiple' %}legend{% else %}label{% endif %}>
+                                                        {% if widget_type == 'checkbox_select_multiple' %}<div class="form-item__instruction">{{ field.help_text|richtext_force_external_links|default:'Select all that apply' }}</div>{% endif %}
+                                                    {% if widget_type == 'date_input' or widget_type == 'date_time_input' %}<div class="{{ widget_type }}">{% endif %}
+                                                    {{ field }}
+                                                    {% if widget_type == 'date_input' or widget_type == 'date_time_input' %}</div>{% endif %}
+                                                {% endif %}
+
+                                            </{% if widget_type == 'checkbox_select_multiple' or widget_type == 'radio_select' %}fieldset{% else %}div{% endif %} >
+                                            {% if field.help_text and widget_type != 'checkbox_select_multiple' and widget_type != 'radio_select' %}<div class="form-item__help">{{ field.help_text|richtext_force_external_links }}</div>{% endif %}
+                                        </div>
+                                    {% endwith %}
+
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="form__action">
+                            {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text=page.action_text|default:"Send your enquiry" button=True %}
+                        </div>
+                    </div>
+                </form>
+
+
+        </section>
+
+    </div>
+</div>
+
+{% endblock %}
