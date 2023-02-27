@@ -1,5 +1,5 @@
 from django.test import TestCase
-from wagtail.tests.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTests
 
 from rca.home.models import HomePage
 from rca.landingpages.factories import (

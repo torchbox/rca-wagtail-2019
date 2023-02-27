@@ -2,8 +2,8 @@ from django.conf import settings
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, StreamFieldPanel
-from wagtail.core.fields import StreamField
+from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.fields import StreamField
 from wagtail.search import index
 
 from rca.utils.blocks import StoryBlock
@@ -19,7 +19,7 @@ class InformationPage(BasePage):
     template = "patterns/pages/standardpages/information_page.html"
 
     introduction = models.TextField(blank=True)
-    body = StreamField(StoryBlock())
+    body = StreamField(StoryBlock(), use_json_field=True)
 
     search_fields = BasePage.search_fields + [
         index.SearchField("introduction"),
@@ -28,7 +28,7 @@ class InformationPage(BasePage):
 
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
-        StreamFieldPanel("body"),
+        FieldPanel("body"),
         InlinePanel("related_pages", label="Related pages"),
     ]
 

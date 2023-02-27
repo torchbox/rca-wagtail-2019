@@ -47,21 +47,6 @@
         }
     }
 
-    &__scroll {
-        position: fixed;
-        max-width: $site-width;
-        left: 0;
-        right: ($gutter * 2);
-        margin: 0 auto;
-        bottom: ($gutter * 2);
-        text-align: right;
-
-        @include media-query(medium) {
-            bottom: 50%;
-            right: ($gutter * 3);
-        }
-    }
-
     &__placeholder {
         height: 100vh; /* Fallback for browsers that do not support Custom Properties */
         height: calc(var(--vh, 1vh) * 100);

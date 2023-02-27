@@ -1,5 +1,6 @@
 import datetime
 import hashlib
+import re
 from urllib.parse import urlencode
 
 from django.core.exceptions import ValidationError
@@ -12,18 +13,16 @@ from django.utils.html import strip_tags
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     FieldRowPanel,
     InlinePanel,
     MultiFieldPanel,
     PageChooserPanel,
-    StreamFieldPanel,
 )
 from wagtail.api import APIField
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.fields import RichTextField, StreamField
+from wagtail.models import Orderable
 from wagtail.search import index
 
 from rca.events.utils import get_linked_taxonomy
@@ -58,7 +57,7 @@ class EventIndexPageRelatedEditorialPage(Orderable):
         related_name="+",
     )
     source_page = ParentalKey("EventIndexPage", related_name="related_event_pages")
-    panels = [PageChooserPanel("page")]
+    panels = [FieldPanel("page")]
 
 
 class EventIndexPage(ContactFieldsMixin, BasePage):
@@ -82,10 +81,10 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
                 FieldPanel("contact_model_title"),
                 FieldPanel("contact_model_email"),
                 FieldPanel("contact_model_url"),
-                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_form"),
                 FieldPanel("contact_model_link_text"),
                 FieldPanel("contact_model_text"),
-                ImageChooserPanel("contact_model_image"),
+                FieldPanel("contact_model_image"),
             ],
             "Large Call To Action",
         ),
@@ -93,14 +92,12 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
 
     def get_editor_picks(self):
         related_pages = []
-        pages = (
-            self.related_event_pages.all()
-            .prefetch_related("page__hero_image", "page__listing_image")
-            .filter(page__live=True)
+        pages = self.related_event_pages.all().prefetch_related(
+            "page__hero_image", "page__listing_image"
         )
         for value in pages:
             page = value.page
-            if page:
+            if page and page.live:
                 meta = page.event_type
                 if page.location:
                     description = f"{page.event_date_short}, {page.location}"
@@ -392,15 +389,19 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         related_name="events",
     )
     introduction = RichTextField()
-    body = StreamField(EventDetailPageBlock())
+    body = StreamField(EventDetailPageBlock(), use_json_field=True)
     speaker_heading = models.CharField(
         blank=True, max_length=120, verbose_name="Heading"
     )
     partners_heading = models.CharField(
         blank=True, max_length=120, verbose_name="Heading"
     )
-    partners = StreamField(PartnersBlock(required=False), blank=True)
-    call_to_action = StreamField(CallToAction(required=False), blank=True)
+    partners = StreamField(
+        PartnersBlock(required=False), blank=True, use_json_field=True
+    )
+    call_to_action = StreamField(
+        CallToAction(required=False), blank=True, use_json_field=True
+    )
     # booking bar
     show_booking_bar = models.BooleanField(default=False)
     manual_registration_url_link_text = models.CharField(
@@ -427,9 +428,10 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         on_delete=models.SET_NULL,
         related_name="events",
     )
+    location_details = RichTextField(blank=True)
 
     content_panels = BasePage.content_panels + [
-        ImageChooserPanel("hero_image"),
+        FieldPanel("hero_image"),
         MultiFieldPanel(
             [
                 FieldRowPanel([FieldPanel("start_date"), FieldPanel("start_time")]),
@@ -445,6 +447,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                 FieldPanel("event_cost"),
                 FieldPanel("availability"),
                 FieldPanel("location"),
+                FieldPanel("location_details"),
             ],
             heading="Event Booking",
         ),
@@ -467,16 +470,16 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         ),
         InlinePanel("related_schools", heading="Schools", label="School"),
         FieldPanel("introduction"),
-        StreamFieldPanel("body"),
+        FieldPanel("body"),
         MultiFieldPanel(
             [FieldPanel("speaker_heading"), InlinePanel("speakers")],
             heading=_("Event Speakers"),
         ),
         MultiFieldPanel(
-            [FieldPanel("partners_heading"), StreamFieldPanel("partners")],
+            [FieldPanel("partners_heading"), FieldPanel("partners")],
             heading="Partners",
         ),
-        StreamFieldPanel("call_to_action"),
+        FieldPanel("call_to_action"),
         InlinePanel(
             "related_pages", label="Page", heading="Also of interest", max_num=6
         ),
@@ -485,10 +488,10 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                 FieldPanel("contact_model_title"),
                 FieldPanel("contact_model_email"),
                 FieldPanel("contact_model_url"),
-                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_form"),
                 FieldPanel("contact_model_link_text"),
                 FieldPanel("contact_model_text"),
-                ImageChooserPanel("contact_model_image"),
+                FieldPanel("contact_model_image"),
             ],
             "Large Call To Action",
         ),
@@ -596,6 +599,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             meta = PAGE_META_MAPPING.get(page.__class__.__name__, "")
             hero_image = getattr(page, "hero_image", None)
             description = getattr(page, "introduction", "")
+            description = re.sub("<a.*?>|</a>", "", description)
 
             related_pages["items"].append(
                 {
@@ -619,6 +623,12 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         TIME_FORMAT = "fA"
         if self.start_time:
             start_time = time(self.start_time, TIME_FORMAT).lower()
+
+            # End time is optional so formatting is different if the
+            # event does not have an end time.
+            if not self.end_time:
+                return start_time
+
             end_time = time(self.end_time, TIME_FORMAT).lower()
             return f"{start_time} \u2013 {end_time}"
         return ""
@@ -689,8 +699,6 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             raise ValidationError(
                 {"show_booking_bar": "Please complete all booking fields."}
             )
-        if self.start_time and not self.end_time:
-            raise ValidationError({"end_time": "Please enter an end time."})
         if self.end_time and not self.start_time:
             raise ValidationError({"start_time": "Please enter a start time."})
         if (self.start_time and self.end_time) and (self.start_time >= self.end_time):
@@ -715,7 +723,8 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                     "title": e.title,
                     "link": e.url,
                     "meta": "",  # TODO: on separate ticket
-                    "description": e.introduction,
+                    "description": e.listing_summary
+                    or re.sub("<a.*?>|</a>", "", e.introduction),
                     "image": e.listing_image if e.listing_image else e.hero_image,
                 }
                 for e in events
@@ -746,13 +755,14 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         """
         Escapes special characters in long form text fields for ics records.
         """
-        string.replace('"', '\\"')
-        string.replace("\\", "\\\\")
-        string.replace(",", "\\,")
-        string.replace(":", "\\:")
-        string.replace(";", "\\;")
-        string.replace("\n", "\\n")
-        return string
+        if string:
+            string.replace('"', '\\"')
+            string.replace("\\", "\\\\")
+            string.replace(",", "\\,")
+            string.replace(":", "\\:")
+            string.replace(";", "\\;")
+            string.replace("\n", "\\n")
+        return string or ""
 
     def get_ics_record(self):
         # Begin event
@@ -769,9 +779,38 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         for day in range(days):
             # Get date
             date = self.start_date + datetime.timedelta(days=day)
+
+            # If no time provided, show this as an all day event
+            # Use datetime.time(0, 0, 0) as placeholder
+            start_time = self.start_time or datetime.time(0, 0, 0)
+            end_time = self.end_time or datetime.time(0, 0, 0)
+
             # Get times
-            start_datetime = datetime.datetime.combine(date, self.start_date.time())
-            end_datetime = datetime.datetime.combine(date, self.end_date.time())
+            start_datetime = datetime.datetime.combine(date, start_time)
+            end_datetime = datetime.datetime.combine(date, end_time)
+
+            schedule_info = []
+
+            # If no time provided, only return the date info
+            if not all([self.start_time, self.end_time]):
+                schedule_info.extend(
+                    [
+                        "DTSTART;TZID=Europe/London:"
+                        + start_datetime.strftime("%Y%m%d"),
+                        "DTEND;TZID=Europe/London:" + end_datetime.strftime("%Y%m%d"),
+                        "END:VEVENT",
+                    ]
+                )
+            else:
+                schedule_info.extend(
+                    [
+                        "DTSTART;TZID=Europe/London:"
+                        + start_datetime.strftime("%Y%m%dT%H%M%S"),
+                        "DTEND;TZID=Europe/London:"
+                        + end_datetime.strftime("%Y%m%dT%H%M%S"),
+                        "END:VEVENT",
+                    ]
+                )
 
             # Get a location
             location = getattr(self, "location", None)
@@ -793,13 +832,12 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                     "DESCRIPTION:"
                     + self.ics_escape_characters(strip_tags(self.introduction)),
                     "LOCATION:" + self.ics_escape_characters(location),
-                    "DTSTART;TZID=Europe/London:"
-                    + start_datetime.strftime("%Y%m%dT%H%M%S"),
-                    "DTEND;TZID=Europe/London:"
-                    + end_datetime.strftime("%Y%m%dT%H%M%S"),
-                    "END:VEVENT",
                 ]
             )
+
+            # append schedule information
+            ics_components.extend(schedule_info)
+
         # Finish event
         ics_components.extend(["END:VCALENDAR"])
 

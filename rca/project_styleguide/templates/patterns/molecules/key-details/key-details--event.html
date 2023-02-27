@@ -17,14 +17,21 @@
     </div>
     {% endif %}
 
-    {% if page.location %}
+    {% if page.location or page.location_details %}
     <div class="key-details__section key-details__section--location">
         <h3 class="body body--two key-details__sub-heading">Location</h3>
         {% if page.location == "Online" %}<meta property="schema:type" content="VirtualLocation" />{% endif %}
         <ul class="key-details__list">
+            {% if page.location %}
             <li class="key-details__list-item" property="schema:location">
                 {{ page.location }}
             </li>
+            {% endif %}
+            {% if page.location_details %}
+            <li class="key-details__list-item">
+                {{ page.location_details|richtext }}
+            </li>
+            {% endif %}
         </ul>
     </div>
     {% endif %}

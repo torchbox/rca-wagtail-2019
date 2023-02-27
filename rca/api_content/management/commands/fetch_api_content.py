@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 from rca.people.models import StaffPage
 from rca.utils.models import LegacySiteTaggedPage

@@ -109,7 +109,7 @@ def destroy(c):
 
 
 @task
-def ssh(c, service="web"):
+def sh(c, service="web"):
     """
     Run bash in a local container
     """
@@ -117,7 +117,7 @@ def ssh(c, service="web"):
 
 
 @task
-def ssh_root(c, service="web"):
+def sh_root(c, service="web"):
     """
     Run bash as root in the local web container
     """
@@ -127,7 +127,7 @@ def ssh_root(c, service="web"):
 @task
 def npm(c, command):
     print(
-        f"`fab npm …` has been removed, use `fab ssh and run `npm {command}` from inside the web container instead."
+        f"`fab npm …` has been removed, use `fab sh and run `npm {command}` from inside the web container instead."
     )
 
 

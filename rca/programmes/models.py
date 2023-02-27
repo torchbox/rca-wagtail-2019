@@ -9,29 +9,26 @@ from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from modelcluster.fields import ParentalKey
 from rest_framework.fields import CharField as CharFieldSerializer
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
     PageChooserPanel,
-    StreamFieldPanel,
     TabbedInterface,
 )
 from wagtail.api import APIField
+from wagtail.blocks import CharBlock, StructBlock, URLBlock
 from wagtail.contrib.settings.models import BaseSetting, register_setting
-from wagtail.core.blocks import CharBlock, StructBlock, URLBlock
-from wagtail.core.fields import RichTextField, StreamBlock, StreamField
-from wagtail.core.models import Orderable, Site
 from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.embeds import embeds
 from wagtail.embeds.exceptions import EmbedException
+from wagtail.fields import RichTextField, StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.blocks import ImageChooserBlock
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.models import Orderable, Site
 from wagtail.search import index
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtailorderable.models import Orderable as WagtailOrdable
 
 from rca.research.models import ResearchCentrePage
@@ -42,9 +39,11 @@ from rca.utils.blocks import (
     GalleryBlock,
     InfoBlock,
     LinkedImageBlock,
+    RelatedPageListBlockPage,
     SnippetChooserBlock,
     StepBlock,
 )
+from rca.utils.formatters import related_list_block_slideshow
 from rca.utils.models import (
     BasePage,
     ContactFieldsMixin,
@@ -127,8 +126,8 @@ class ProgrammePageFeeItem(Orderable):
     introduction = models.CharField(
         max_length=1000, help_text="Extra information about the fee items", blank=True
     )
-    row = StreamField([("row", FeeBlock())], blank=True)
-    panels = [FieldPanel("title"), FieldPanel("introduction"), StreamFieldPanel("row")]
+    row = StreamField([("row", FeeBlock())], blank=True, use_json_field=True)
+    panels = [FieldPanel("title"), FieldPanel("introduction"), FieldPanel("row")]
 
     def __str__(self):
         return self.title
@@ -176,7 +175,7 @@ class ProgramPageRelatedStaff(Orderable):
     link = models.URLField(blank=True)
     panels = [
         PageChooserPanel("page", page_type="people.StaffPage"),
-        ImageChooserPanel("image"),
+        FieldPanel("image"),
         FieldPanel("name"),
         FieldPanel("role"),
         FieldPanel("description"),
@@ -185,6 +184,23 @@ class ProgramPageRelatedStaff(Orderable):
 
     def __str__(self):
         return self.name
+
+
+class ProgrammeStoriesBlock(models.Model):
+    source_page = ParentalKey("ProgrammePage", related_name="programme_stories")
+    title = models.CharField(max_length=125)
+    slides = StreamField(
+        StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1),
+        use_json_field=True,
+    )
+
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("slides"),
+    ]
+
+    def __str__(self):
+        return self.title
 
 
 class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
@@ -292,7 +308,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     programme_description_copy = RichTextField(blank=True)
 
     programme_gallery = StreamField(
-        [("slide", GalleryBlock())], blank=True, verbose_name="Programme gallery"
+        [("slide", GalleryBlock())],
+        blank=True,
+        verbose_name="Programme gallery",
+        use_json_field=True,
     )
 
     # Staff
@@ -316,6 +335,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             )
         ],
         blank=True,
+        use_json_field=True,
     )
 
     notable_alumni_links = StreamField(
@@ -329,6 +349,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             )
         ],
         blank=True,
+        use_json_field=True,
     )
 
     # Programme Curriculumm
@@ -361,6 +382,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name="Accordion blocks",
+        use_json_field=True,
     )
     what_you_will_cover_blocks = StreamField(
         [
@@ -369,6 +391,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ],
         blank=True,
         verbose_name="Accordion blocks",
+        use_json_field=True,
     )
 
     # Requirements
@@ -380,6 +403,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ],
         blank=True,
         verbose_name="Accordion blocks",
+        use_json_field=True,
     )
 
     # fees
@@ -394,14 +418,14 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     scholarships_title = models.CharField(max_length=120)
     scholarships_information = models.CharField(max_length=250)
     scholarship_accordion_items = StreamField(
-        [("accordion", AccordionBlockWithTitle())], blank=True
+        [("accordion", AccordionBlockWithTitle())], blank=True, use_json_field=True
     )
     scholarship_information_blocks = StreamField(
-        [("information_block", InfoBlock())], blank=True
+        [("information_block", InfoBlock())], blank=True, use_json_field=True
     )
     # More information
     more_information_blocks = StreamField(
-        [("information_block", InfoBlock())], blank=True
+        [("information_block", InfoBlock())], blank=True, use_json_field=True
     )
 
     # Apply
@@ -426,6 +450,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             ("step_snippet", SnippetChooserBlock("utils.StepSnippet")),
         ],
         blank=True,
+        use_json_field=True,
     )
     qs_code = models.PositiveIntegerField(
         help_text="This code needs to match the name of the codeExternal value in QS, E.G 105",
@@ -457,10 +482,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             ),
             MultiFieldPanel(
                 [
-                    ImageChooserPanel("hero_image"),
+                    FieldPanel("hero_image"),
                     FieldPanel("hero_image_credit"),
                     FieldPanel("hero_video"),
-                    ImageChooserPanel("hero_video_preview_image"),
+                    FieldPanel("hero_video_preview_image"),
                 ],
                 heading="Hero",
             ),
@@ -494,23 +519,21 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             help_text="Optionally display information about the deadline",
         ),
         InlinePanel("career_opportunities", label="Career Opportunities"),
-        DocumentChooserPanel("programme_specification"),
+        FieldPanel("programme_specification"),
     ]
     programme_overview_pannels = [
         MultiFieldPanel(
             [
                 FieldPanel("programme_description_title"),
                 FieldPanel("programme_description_subtitle"),
-                ImageChooserPanel("programme_image"),
+                FieldPanel("programme_image"),
                 FieldPanel("programme_video_caption"),
                 FieldPanel("programme_video"),
                 FieldPanel("programme_description_copy"),
             ],
             heading="Programme Description",
         ),
-        MultiFieldPanel(
-            [StreamFieldPanel("programme_gallery")], heading="Programme gallery"
-        ),
+        MultiFieldPanel([FieldPanel("programme_gallery")], heading="Programme gallery"),
         MultiFieldPanel(
             [
                 InlinePanel("related_staff", max_num=2),
@@ -521,18 +544,19 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ),
         MultiFieldPanel(
             [
-                SnippetChooserPanel("facilities_snippet"),
-                StreamFieldPanel("facilities_gallery"),
+                FieldPanel("facilities_snippet"),
+                FieldPanel("facilities_gallery"),
             ],
             heading="Facilities",
         ),
-        MultiFieldPanel([StreamFieldPanel("notable_alumni_links")], heading="Alumni"),
+        MultiFieldPanel([FieldPanel("notable_alumni_links")], heading="Alumni"),
+        InlinePanel("programme_stories", label="Programme Stories", max_num=1),
         MultiFieldPanel(
             [
-                ImageChooserPanel("contact_model_image"),
+                FieldPanel("contact_model_image"),
                 FieldPanel("contact_model_url"),
                 FieldPanel("contact_model_email"),
-                PageChooserPanel("contact_model_form"),
+                FieldPanel("contact_model_form"),
             ],
             heading="Contact information",
         ),
@@ -540,7 +564,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     programme_curriculum_pannels = [
         MultiFieldPanel(
             [
-                ImageChooserPanel("curriculum_image"),
+                FieldPanel("curriculum_image"),
                 FieldPanel("curriculum_subtitle"),
                 FieldPanel("curriculum_video"),
                 FieldPanel("curriculum_video_caption"),
@@ -548,23 +572,23 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             ],
             heading="Curriculum introduction",
         ),
-        MultiFieldPanel([StreamFieldPanel("pathway_blocks")], heading="Pathways"),
+        MultiFieldPanel([FieldPanel("pathway_blocks")], heading="Pathways"),
         MultiFieldPanel(
-            [StreamFieldPanel("what_you_will_cover_blocks")],
+            [FieldPanel("what_you_will_cover_blocks")],
             heading="What you'll cover",
         ),
         MultiFieldPanel(
-            [FieldPanel("working_with_heading"), StreamFieldPanel("working_with")],
+            [FieldPanel("working_with_heading"), FieldPanel("working_with")],
             "Collaborators",
         ),
     ]
 
     programme_requirements_pannels = [
         FieldPanel("requirements_text"),
-        StreamFieldPanel("requirements_blocks"),
+        FieldPanel("requirements_blocks"),
     ]
     programme_fees_and_funding_panels = [
-        SnippetChooserPanel("fees_disclaimer"),
+        FieldPanel("fees_disclaimer"),
         MultiFieldPanel(
             [InlinePanel("fee_items", label="Fee items")], heading="For this program"
         ),
@@ -572,23 +596,21 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             [
                 FieldPanel("scholarships_title"),
                 FieldPanel("scholarships_information"),
-                StreamFieldPanel("scholarship_accordion_items"),
-                StreamFieldPanel("scholarship_information_blocks"),
+                FieldPanel("scholarship_accordion_items"),
+                FieldPanel("scholarship_information_blocks"),
             ],
             heading="Scholarships",
         ),
         MultiFieldPanel(
-            [StreamFieldPanel("more_information_blocks")], heading="More information"
+            [FieldPanel("more_information_blocks")], heading="More information"
         ),
     ]
     programme_apply_pannels = [
         MultiFieldPanel(
             [FieldPanel("disable_apply_tab")], heading="Apply tab settings"
         ),
-        MultiFieldPanel(
-            [ImageChooserPanel("apply_image")], heading="Introduction image"
-        ),
-        MultiFieldPanel([StreamFieldPanel("steps")], heading="Before you begin"),
+        MultiFieldPanel([FieldPanel("apply_image")], heading="Introduction image"),
+        MultiFieldPanel([FieldPanel("steps")], heading="Before you begin"),
         FieldPanel("qs_code"),
         FieldPanel("mailchimp_group_name"),
     ]
@@ -676,10 +698,16 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             bits.append(str(self.degree_level))
         return " ".join(bits)
 
-    def get_school(self):
-        related = self.related_schools_and_research_pages.select_related("page").first()
-        if related:
-            return related.page
+    def get_schools(self):
+        return self.related_schools_and_research_pages.select_related("page")
+
+    def get_programme_stories(self, programme_stories):
+        if not programme_stories:
+            return {}
+        return {
+            "title": programme_stories.title,
+            "slides": related_list_block_slideshow(programme_stories.slides),
+        }
 
     def clean(self):
         super().clean()
@@ -753,8 +781,14 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         programme_page_global_fields = ProgrammePageGlobalFieldsSettings.for_site(site)
         context["programme_page_global_fields"] = programme_page_global_fields
 
-        # School
-        context["programme_school"] = self.get_school()
+        # Schools
+        context["programme_schools"] = self.get_schools()
+
+        # Stories
+        context["programme_stories"] = self.get_programme_stories(
+            self.programme_stories.first()
+        )
+
         if self.tap_widget:
             context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
         return context

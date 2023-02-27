@@ -5,23 +5,20 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from rest_framework.fields import CharField as CharFieldSerializer
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
     PageChooserPanel,
-    StreamFieldPanel,
     TabbedInterface,
 )
 from wagtail.api import APIField
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable
+from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.images.api.fields import ImageRenditionField
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.models import Orderable
 from wagtail.search import index
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from rca.programmes.models import ProgrammeType
 from rca.utils.blocks import (
@@ -143,6 +140,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name=_("About the course"),
+        use_json_field=True,
     )
     frequently_asked_questions = models.ForeignKey(
         "utils.ShortCourseDetailSnippet",
@@ -176,7 +174,10 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
     introduction = models.CharField(max_length=500, blank=True)
 
     quote_carousel = StreamField(
-        [("quote", QuoteBlock())], blank=True, verbose_name=_("Quote carousel")
+        [("quote", QuoteBlock())],
+        blank=True,
+        verbose_name=_("Quote carousel"),
+        use_json_field=True,
     )
     staff_title = models.CharField(
         max_length=50,
@@ -184,10 +185,16 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         help_text="Heading to display above the short course team members, E.G Programme Team",
     )
     gallery = StreamField(
-        [("slide", GalleryBlock())], blank=True, verbose_name="Gallery"
+        [("slide", GalleryBlock())],
+        blank=True,
+        verbose_name="Gallery",
+        use_json_field=True,
     )
     external_links = StreamField(
-        [("link", LinkBlock())], blank=True, verbose_name="External Links"
+        [("link", LinkBlock())],
+        blank=True,
+        verbose_name="External Links",
+        use_json_field=True,
     )
     application_form_url = models.URLField(
         blank=True,
@@ -210,35 +217,35 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         MultiFieldPanel(
             [
                 FieldPanel("course_details_text"),
-                SnippetChooserPanel("frequently_asked_questions"),
-                SnippetChooserPanel("terms_and_conditions"),
+                FieldPanel("frequently_asked_questions"),
+                FieldPanel("terms_and_conditions"),
             ],
             heading="course details",
         ),
     ]
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
-            [ImageChooserPanel("hero_image")],
+            [FieldPanel("hero_image")],
             heading=_("Hero"),
         ),
         MultiFieldPanel(
             [
                 FieldPanel("introduction"),
-                ImageChooserPanel("introduction_image"),
+                FieldPanel("introduction_image"),
                 FieldPanel("video"),
                 FieldPanel("video_caption"),
                 FieldPanel("body"),
             ],
             heading=_("Course Introduction"),
         ),
-        StreamFieldPanel("about"),
+        FieldPanel("about"),
         FieldPanel("programme_type"),
-        StreamFieldPanel("quote_carousel"),
+        FieldPanel("quote_carousel"),
         MultiFieldPanel(
             [FieldPanel("staff_title"), InlinePanel("related_staff", label="Staff")],
             heading="Short course team",
         ),
-        StreamFieldPanel("gallery"),
+        FieldPanel("gallery"),
         MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
         MultiFieldPanel(
             [InlinePanel("related_programmes", label="Related programmes")],
@@ -253,7 +260,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
             ],
             heading=_("Related Schools and Research Centre pages"),
         ),
-        StreamFieldPanel("external_links"),
+        FieldPanel("external_links"),
     ]
     key_details_panels = [
         InlinePanel("fee_items", label="Fees"),
