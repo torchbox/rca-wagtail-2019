@@ -73,7 +73,8 @@ class EnquiryFormSubmission(ClusterableModel):
         related_name="+",
     )
     enquiry_questions = models.TextField(
-        help_text="Include any questions you'd like to ask here."
+        help_text="Include any questions you'd like to ask here.",
+        null=True
     )
     start_date = models.ForeignKey(
         "enquire_to_study.StartDate",
