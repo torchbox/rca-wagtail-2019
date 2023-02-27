@@ -18,6 +18,7 @@ from wagtail.admin.panels import (
     TabbedInterface,
 )
 from wagtail.blocks import RichTextBlock, StreamBlock
+from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.fields import StreamField
 from wagtail.images import get_image_model_string
 from wagtail.models import Orderable, Page

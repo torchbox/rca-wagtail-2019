@@ -23,6 +23,7 @@ from wagtail.admin.panels import (
 from wagtail.api import APIField
 from wagtail.blocks import CharBlock, StructBlock, URLBlock
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
+from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.embeds import embeds
 from wagtail.embeds.exceptions import EmbedException
 from wagtail.fields import RichTextField, StreamBlock, StreamField
@@ -212,6 +213,14 @@ class ProgrammeStoriesBlock(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class ProgrammePageTag(TaggedItemBase):
+    content_object = ParentalKey(
+        "programmes.ProgrammePage",
+        on_delete=models.CASCADE,
+        related_name="tagged_programme_items",
+    )
 
 
 class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
@@ -687,6 +696,18 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         index.RelatedFields(
             "subjects",
             [index.RelatedFields("subject", [index.SearchField("title")])],
+        ),
+        index.RelatedFields(
+            "tagged_programme_items",
+            [
+                index.RelatedFields(
+                    "tag",
+                    [
+                        index.SearchField("name", partial_match=True),
+                        index.AutocompleteField("name", partial_match=True),
+                    ],
+                )
+            ],
         ),
         index.RelatedFields(
             "tagged_programme_items",
