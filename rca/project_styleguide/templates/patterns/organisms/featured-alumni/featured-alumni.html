@@ -8,7 +8,12 @@
             <ul class="featured-alumni__list">
                 {% for link in alumni_links %}
                 {% if link.value.link %}
-                    <li><a target="_blank" href="{{ link.value.link }}">{{ link.value.name }}</a></li>
+                    <li>
+                        <a target="_blank" class="link link--tertiary link--link" href="{{ link.value.link }}">
+                            <span class="link__label">{{ link.value.name }}</span>
+                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                        </a>
+                    </li>
                 {% else %}
                     <li>{{ link.value.name }}</li>
                 {% endif %}
