@@ -3,10 +3,13 @@ from collections import defaultdict
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from rest_framework.fields import CharField as CharFieldSerializer
-from wagtail.admin.panels import (
+from taggit.models import TaggedItemBase
+from wagtail.admin.edit_handlers import (
     FieldPanel,
+    HelpPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
@@ -14,11 +17,12 @@ from wagtail.admin.panels import (
     TabbedInterface,
 )
 from wagtail.api import APIField
-from wagtail.fields import RichTextField, StreamField
+from wagtail.core.fields import RichTextField, StreamField
+from wagtail.core.models import Orderable
 from wagtail.images import get_image_model_string
 from wagtail.images.api.fields import ImageRenditionField
-from wagtail.models import Orderable
 from wagtail.search import index
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from rca.programmes.models import ProgrammeType
 from rca.utils.blocks import (
@@ -109,6 +113,14 @@ class ShortCourseManualDate(Orderable):
 
         if errors:
             raise ValidationError(errors)
+
+
+class ShortCoursePageTag(TaggedItemBase):
+    content_object = ParentalKey(
+        "shortcourses.ShortCoursePage",
+        on_delete=models.CASCADE,
+        related_name="tagged_short_course_items",
+    )
 
 
 class ShortCoursePage(ContactFieldsMixin, BasePage):
@@ -204,6 +216,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         blank=True,
         help_text="The register interest link shown in the modal",
     )
+    tags = ClusterTaggableManager(through=ShortCoursePageTag, blank=True)
 
     course_data_panels = [
         MultiFieldPanel(
@@ -268,13 +281,27 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         FieldPanel("show_register_link"),
         InlinePanel("subjects", label=_("Subjects")),
     ]
+    promote_panels = BasePage.promote_panels + [
+        MultiFieldPanel(
+            [
+                HelpPanel(
+                    content=(
+                        "Adding tags will allow users to search for the course "
+                        "on the programmes listing page by tags"
+                    )
+                ),
+                FieldPanel("tags"),
+            ],
+            "Short Course page tags",
+        ),
+    ]
 
     edit_handler = TabbedInterface(
         [
             ObjectList(content_panels, heading="Content"),
             ObjectList(key_details_panels, heading="Key details"),
             ObjectList(course_data_panels, heading="Course configuration"),
-            ObjectList(BasePage.promote_panels, heading="Promote"),
+            ObjectList(promote_panels, heading="Promote"),
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
@@ -297,6 +324,18 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
                     [
                         index.SearchField("title", partial_match=True),
                         index.AutocompleteField("title", partial_match=True),
+                    ],
+                )
+            ],
+        ),
+        index.RelatedFields(
+            "tagged_short_course_items",
+            [
+                index.RelatedFields(
+                    "tag",
+                    [
+                        index.SearchField("name", partial_match=True),
+                        index.AutocompleteField("name", partial_match=True),
                     ],
                 )
             ],
