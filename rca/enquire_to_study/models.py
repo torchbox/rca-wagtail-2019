@@ -3,7 +3,7 @@ from django_countries.fields import CountryField
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from phonenumber_field.modelfields import PhoneNumberField
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     FieldRowPanel,
     HelpPanel,
@@ -11,9 +11,8 @@ from wagtail.admin.edit_handlers import (
     MultiFieldPanel,
 )
 from wagtail.contrib.settings.models import BaseSetting, register_setting
-from wagtail.core.fields import RichTextField
-from wagtail.core.models import Orderable
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
+from wagtail.fields import RichTextField
+from wagtail.models import Orderable
 from wagtail.snippets.models import register_snippet
 
 
@@ -109,7 +108,7 @@ class EnquiryFormSubmission(ClusterableModel):
             [InlinePanel("enquiry_submission_programmes")], heading="Programmes"
         ),
         FieldPanel("start_date"),
-        SnippetChooserPanel("enquiry_reason", heading="What's your enquiry about?"),
+        FieldPanel("enquiry_reason", heading="What's your enquiry about?"),
         MultiFieldPanel(
             [
                 FieldPanel("is_read_data_protection_policy"),
@@ -131,7 +130,7 @@ class EnquiryFormSubmissionProgrammesOrderable(Orderable):
     )
 
     panels = [
-        SnippetChooserPanel("programme"),
+        FieldPanel("programme"),
     ]
 
 

@@ -2,8 +2,8 @@
 
 import django.db.models.deletion
 import modelcluster.fields
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 import wagtail.documents.blocks
 import wagtail.embeds.blocks
 import wagtail.images.blocks
@@ -23,44 +23,44 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="guidepage",
             name="body",
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
                     (
                         "heading",
-                        wagtail.core.blocks.CharBlock(
+                        wagtail.blocks.CharBlock(
                             classname="full title",
                             icon="title",
                             template="patterns/molecules/streamfield/blocks/heading_block.html",
                         ),
                     ),
-                    ("paragraph", wagtail.core.blocks.RichTextBlock()),
+                    ("paragraph", wagtail.blocks.RichTextBlock()),
                     (
                         "image",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
                                 ("image", wagtail.images.blocks.ImageChooserBlock()),
                                 (
                                     "caption",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
                             ]
                         ),
                     ),
                     (
                         "quote",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
                                 (
                                     "quote",
-                                    wagtail.core.blocks.CharBlock(classname="title"),
+                                    wagtail.blocks.CharBlock(classname="title"),
                                 ),
                                 (
                                     "author",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
                                 (
                                     "job_title",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
                             ]
                         ),
@@ -75,7 +75,7 @@ class Migration(migrations.Migration):
                     ),
                     (
                         "document",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
                                 (
                                     "document",
@@ -83,14 +83,14 @@ class Migration(migrations.Migration):
                                 ),
                                 (
                                     "title",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
                             ]
                         ),
                     ),
                     (
                         "anchor_heading",
-                        wagtail.core.blocks.CharBlock(
+                        wagtail.blocks.CharBlock(
                             classname="full title",
                             icon="title",
                             template="patterns/molecules/streamfield/blocks/anchor_heading_block.html",
@@ -130,29 +130,29 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="guidepage",
             name="further_information",
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
                     (
                         "accordion_block",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
                                 (
                                     "heading",
-                                    wagtail.core.blocks.CharBlock(
+                                    wagtail.blocks.CharBlock(
                                         help_text="A large heading diplayed next to the block",
                                         required=False,
                                     ),
                                 ),
                                 (
                                     "preview_text",
-                                    wagtail.core.blocks.CharBlock(
+                                    wagtail.blocks.CharBlock(
                                         help_text="The text to display when the accordion is collapsed",
                                         required=False,
                                     ),
                                 ),
                                 (
                                     "body",
-                                    wagtail.core.blocks.RichTextBlock(
+                                    wagtail.blocks.RichTextBlock(
                                         features=[
                                             "h2",
                                             "h3",
@@ -168,17 +168,17 @@ class Migration(migrations.Migration):
                                 ),
                                 (
                                     "link",
-                                    wagtail.core.blocks.StructBlock(
+                                    wagtail.blocks.StructBlock(
                                         [
                                             (
                                                 "title",
-                                                wagtail.core.blocks.CharBlock(
+                                                wagtail.blocks.CharBlock(
                                                     required=False
                                                 ),
                                             ),
                                             (
                                                 "url",
-                                                wagtail.core.blocks.URLBlock(
+                                                wagtail.blocks.URLBlock(
                                                     required=False
                                                 ),
                                             ),

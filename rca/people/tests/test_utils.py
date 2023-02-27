@@ -1,8 +1,8 @@
 from django.contrib.auth.models import Group, Permission
 from django.test import TestCase
 from django.urls import reverse
-from wagtail.core.models import GroupPagePermission
-from wagtail.tests.utils import WagtailTestUtils
+from wagtail.models import GroupPagePermission
+from wagtail.test.utils import WagtailTestUtils
 
 from rca.home.models import HomePage
 from rca.people.models import StudentIndexPage, StudentPage

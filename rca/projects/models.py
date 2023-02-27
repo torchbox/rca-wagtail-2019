@@ -9,21 +9,19 @@ from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
     PageChooserPanel,
-    StreamFieldPanel,
     TabbedInterface,
 )
-from wagtail.core.blocks import RichTextBlock
-from wagtail.core.fields import StreamField
-from wagtail.core.models import Orderable, Page
+from wagtail.blocks import RichTextBlock
 from wagtail.documents.edit_handlers import DocumentChooserPanel
+from wagtail.fields import StreamBlock, StreamField
 from wagtail.images import get_image_model_string
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.models import Orderable, Page
 
 from rca.people.models import AreaOfExpertise
 from rca.research.models import ResearchCentrePage
@@ -32,6 +30,7 @@ from rca.utils.blocks import (
     AccordionBlockWithTitle,
     GalleryBlock,
     LinkBlock,
+    LinkedImageBlock,
     QuoteBlock,
 )
 from rca.utils.filter import TabStyleFilter
@@ -68,7 +67,7 @@ class RelatedProjectPage(Orderable):
     source_page = ParentalKey(Page, related_name="related_project_pages")
     page = models.ForeignKey("projects.ProjectPage", on_delete=models.CASCADE)
 
-    panels = [PageChooserPanel("page")]
+    panels = [FieldPanel("page")]
 
 
 class ProjectPageExpertisePlacement(models.Model):
@@ -146,6 +145,7 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         ],
         blank=True,
         verbose_name=_("Body copy"),
+        use_json_field=True,
     )
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
@@ -169,48 +169,75 @@ class ProjectPage(ContactFieldsMixin, BasePage):
     )
 
     gallery = StreamField(
-        [("slide", GalleryBlock())], blank=True, verbose_name=_("Gallery")
+        [("slide", GalleryBlock())],
+        blank=True,
+        verbose_name=_("Gallery"),
+        use_json_field=True,
     )
     more_information_title = models.CharField(max_length=80, default="More information")
     more_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name=_("More information"),
+        use_json_field=True,
     )
     partners = StreamField(
-        [("link", LinkBlock())], blank=True, verbose_name=_("Links to partners")
+        [("link", LinkBlock())],
+        blank=True,
+        verbose_name=_("Links to partners"),
+        use_json_field=True,
     )
     funders = StreamField(
-        [("link", LinkBlock())], blank=True, verbose_name=_("Links to funders")
+        [("link", LinkBlock())],
+        blank=True,
+        verbose_name=_("Links to funders"),
+        use_json_field=True,
     )
     quote_carousel = StreamField(
-        [("quote", QuoteBlock())], blank=True, verbose_name=_("Quote carousel")
+        [("quote", QuoteBlock())],
+        blank=True,
+        verbose_name=_("Quote carousel"),
+        use_json_field=True,
     )
     external_links = StreamField(
-        [("link", LinkBlock())], blank=True, verbose_name="External Links"
+        [("link", LinkBlock())],
+        blank=True,
+        verbose_name="External Links",
+        use_json_field=True,
+    )
+    working_with_heading = models.CharField(blank=True, max_length=120)
+    working_with = StreamField(
+        StreamBlock([("Collaborator", LinkedImageBlock())], max_num=9),
+        blank=True,
+        help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
+            Aim for logos that sit on either a white or transparent background.",
     )
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
-            [ImageChooserPanel("hero_image")],
+            [FieldPanel("hero_image")],
             heading=_("Hero"),
         ),
         MultiFieldPanel(
             [
                 FieldPanel("introduction"),
-                ImageChooserPanel("introduction_image"),
+                FieldPanel("introduction_image"),
                 FieldPanel("video"),
                 FieldPanel("video_caption"),
             ],
             heading=_("Introduction"),
         ),
-        StreamFieldPanel("body"),
-        StreamFieldPanel("gallery"),
+        FieldPanel("body"),
+        FieldPanel("gallery"),
         MultiFieldPanel(
             [
                 FieldPanel("more_information_title"),
-                StreamFieldPanel("more_information"),
+                FieldPanel("more_information"),
             ],
             heading=_("More information"),
+        ),
+        MultiFieldPanel(
+            [FieldPanel("working_with_heading"), FieldPanel("working_with")],
+            heading="Collaborators",
         ),
         MultiFieldPanel(
             [
@@ -220,10 +247,10 @@ class ProjectPage(ContactFieldsMixin, BasePage):
             "Project team and staff",
         ),
         InlinePanel("related_student_pages", label="Project students"),
-        StreamFieldPanel("partners"),
-        StreamFieldPanel("funders"),
-        StreamFieldPanel("quote_carousel"),
-        StreamFieldPanel("external_links"),
+        FieldPanel("partners"),
+        FieldPanel("funders"),
+        FieldPanel("quote_carousel"),
+        FieldPanel("external_links"),
         MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
     ]
 
@@ -239,7 +266,7 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         FieldPanel("funding"),
         MultiFieldPanel(
             [
-                DocumentChooserPanel("specification_document"),
+                FieldPanel("specification_document"),
                 FieldPanel("specification_document_link_text"),
             ],
             heading="PDF download",
@@ -402,7 +429,7 @@ class ProjectPickerPage(BasePage):
 
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
-        PageChooserPanel("featured_project"),
+        FieldPanel("featured_project"),
     ]
 
     def get_active_filters(self, request):

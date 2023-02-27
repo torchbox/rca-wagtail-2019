@@ -78,7 +78,7 @@ git clone https://github.com/torchbox/rca-wagtail-2019
 cd rca
 fab build
 fab start
-fab ssh
+fab sh
 ```
 
 Then within the SSH session:
@@ -119,7 +119,7 @@ There are two ways to run the frontend tooling:
 Python packages can be installed using `poetry` in the web container:
 
 ```
-fab ssh
+fab sh
 poetry add wagtail-guide
 ```
 
@@ -135,7 +135,7 @@ poetry install --no-root
 NPM packages can be installed via the web container:
 
 ```
-fab ssh
+fab sh
 npm add [your thing]
 ```
 

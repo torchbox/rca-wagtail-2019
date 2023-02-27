@@ -75,10 +75,26 @@
         @include media-query(medium) {
             flex-basis: 100%;
         }
+
+        &--with-margins {
+            margin-bottom: ($gutter);
+
+            @include media-query(medium) {
+                margin-bottom: ($gutter * 2);
+            }
+        }
     }
 
     &__heading {
         margin-bottom: ($gutter * 2);
+
+        &--small-margin {
+            margin-bottom: ($gutter);
+
+            @include media-query(medium) {
+                margin-bottom: ($gutter * 2);
+            }
+        }
     }
 
     // Only used for medium breakpoint rejigged layout
