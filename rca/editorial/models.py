@@ -176,6 +176,11 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         help_text="The text displayed as the download link",
     )
 
+    show_in_index_page = models.BooleanField(
+        default=True,
+        help_text="Toggle to show/hide in the index page.",
+    )
+
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
         FieldPanel("hero_image"),
@@ -245,12 +250,15 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         ),
         FieldPanel("contact_email"),
     ]
+    promote_panels = BasePage.promote_panels + [
+        FieldPanel("show_in_index_page"),
+    ]
 
     edit_handler = TabbedInterface(
         [
             ObjectList(content_panels, heading="Content"),
             ObjectList(key_details_panels, heading="Key details"),
-            ObjectList(BasePage.promote_panels, heading="Promote"),
+            ObjectList(promote_panels, heading="Promote"),
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
