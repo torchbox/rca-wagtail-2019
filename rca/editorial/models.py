@@ -441,7 +441,12 @@ class EditorialListingPage(ContactFieldsMixin, BasePage):
         return extra_query_params
 
     def get_base_queryset(self):
-        return EditorialPage.objects.child_of(self).live().order_by("-published_at")
+        return (
+            EditorialPage.objects.exclude(show_in_index_page=False)
+            .child_of(self)
+            .live()
+            .order_by("-published_at")
+        )
 
     def modify_results(self, paginator_page, request):
         for obj in paginator_page.object_list:
