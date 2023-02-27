@@ -23,7 +23,6 @@ from wagtail.admin.panels import (
 from wagtail.api import APIField
 from wagtail.blocks import CharBlock, StructBlock, URLBlock
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
-from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.embeds import embeds
 from wagtail.embeds.exceptions import EmbedException
 from wagtail.fields import RichTextField, StreamBlock, StreamField
