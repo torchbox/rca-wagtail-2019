@@ -58,13 +58,6 @@
             width: 100%;
         }
     }
-
-    .booking-bar--no-modal & {
-        @include media-query(large) {
-            width: auto;
-        }
-    }
-
     .app--scholarship-listing & {
         @include media-query(large) {
             width: 100%;

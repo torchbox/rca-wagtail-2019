@@ -2,8 +2,8 @@
 
 import django.db.models.deletion
 import modelcluster.fields
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 import wagtail.images.blocks
 from django.db import migrations, models
 
@@ -29,11 +29,11 @@ class Migration(migrations.Migration):
                 ("summary", models.CharField(max_length=250)),
                 (
                     "slides",
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 "slide",
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
                                         (
                                             "image",
@@ -41,25 +41,25 @@ class Migration(migrations.Migration):
                                         ),
                                         (
                                             "title",
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 required=False
                                             ),
                                         ),
                                         (
                                             "type",
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 required=False
                                             ),
                                         ),
                                         (
                                             "summary",
-                                            wagtail.core.blocks.TextBlock(
+                                            wagtail.blocks.TextBlock(
                                                 required=False
                                             ),
                                         ),
                                         (
                                             "link",
-                                            wagtail.core.blocks.URLBlock(
+                                            wagtail.blocks.URLBlock(
                                                 required=False
                                             ),
                                         ),

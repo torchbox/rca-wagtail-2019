@@ -2,7 +2,7 @@ from .base import *  # noqa
 
 # SECRET_KEY is required by Django to start.
 SECRET_KEY = "fake_secret_key_to_run_tests"  # pragma: allowlist secret
-BASE_URL = "http://localhost:8000"
+WAGTAILADMIN_BASE_URL = "http://localhost:8000"
 
 # Silence RECAPTCHA
 RECAPTCHA_PUBLIC_KEY = "dummy-key-value"

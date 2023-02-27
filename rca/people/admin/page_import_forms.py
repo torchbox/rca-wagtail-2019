@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.admin.widgets import AutocompleteSelect
 from django.contrib.auth import get_user_model
 from import_export.forms import ConfirmImportForm, ImportForm
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 User = get_user_model()
 

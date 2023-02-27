@@ -243,9 +243,7 @@ class EnquireToStudyFormView(FormView):
                 "information about the courses you enquired about: \n"
             )
             for programme in form.cleaned_data["programmes"]:
-                email_content += (
-                    f"{programme.title} {settings.BASE_URL + programme.url} \n"
-                )
+                email_content += f"{programme.title} {settings.WAGTAILADMIN_BASE_URL + programme.url} \n"
 
         user_email = form.cleaned_data["email"]
         send_mail(

@@ -1,6 +1,6 @@
 from django.test import TestCase
 from wagtail.images.tests.utils import get_test_image_file
-from wagtail.tests.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTests
 
 from rca.home.models import HomePage
 from rca.images.models import CustomImage

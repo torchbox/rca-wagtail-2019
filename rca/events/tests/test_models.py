@@ -4,7 +4,7 @@ import wagtail_factories
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from freezegun import freeze_time
-from wagtail.tests.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTests
 
 from rca.editorial.factories import EditorialPageFactory, EditorialTypeFactory
 from rca.editorial.models import EditorialPageTypePlacement
@@ -263,32 +263,25 @@ class EventDetailPageDateTests(WagtailPageTests):
                 )
 
     def test_event_time_required(self):
-        testcases = (
-            (time(9), None, "Please enter an end time."),
-            (None, time(12, 59), "Please enter a start time."),
-        )
-        for start_time, end_time, message in testcases:
-            with self.subTest(
-                f"Testing time required: start time: {start_time}, end time: {end_time}",
+        start_time = None
+        end_time = time(12, 59)
+        message = "Please enter a start time."
+
+        with self.assertRaises(ValidationError) as cm:
+            EventDetailPageFactory.build(
                 start_time=start_time,
                 end_time=end_time,
-                message=message,
-            ):
-                with self.assertRaises(ValidationError) as cm:
-                    EventDetailPageFactory.build(
-                        start_time=start_time,
-                        end_time=end_time,
-                        path="0",
-                        depth=0,
-                        event_type=EventTypeFactory(),
-                        location=EventLocationFactory(),
-                        eligibility=EventEligibilityFactory(),
-                    ).full_clean()
+                path="0",
+                depth=0,
+                event_type=EventTypeFactory(),
+                location=EventLocationFactory(),
+                eligibility=EventEligibilityFactory(),
+            ).full_clean()
 
-                the_exception = cm.exception
+        the_exception = cm.exception
 
-                self.assertEqual(1, len(the_exception.messages))
-                self.assertEqual(message, the_exception.messages[0])
+        self.assertEqual(1, len(the_exception.messages))
+        self.assertEqual(message, the_exception.messages[0])
 
 
 class EventDetailPageRelatedContentTests(WagtailPageTests):

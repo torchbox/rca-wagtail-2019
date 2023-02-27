@@ -13,10 +13,10 @@
 
 {% block content %}
 
-<div class="page page--no-hero">
+<div class="page page--no-hero enquire-form">
 
     <div class="page__header bg bg--dark">
-        <div class="title-area title-area--guide grid">
+        <div class="title-area--no-margin-for-mobile title-area--guide grid">
             <div class="title-area__content">
                 <h1 class="title-area__heading heading heading--display-two" id="main-content">
                     Enquire to study
@@ -25,7 +25,7 @@
         </div>
 
         <div class="introduction grid">
-            <p class="introduction__text {% if not form.errors %}introduction__text--no-margin{% endif %} heading heading--five layout__@large-start-three layout__span-two">
+            <p class="introduction__text {% if not form.errors %}introduction__text--no-margin-for-desktop{% endif %} heading heading--five layout__@large-start-three layout__span-two">
                 We are very much looking forward to hearing more from you. The RCA offers a unique and life changing way of thinking about and approaching art and design study and practice. If you would like to find out more about studying at the RCA, please fill out your details below and we will be in touch.
             </p>
             {% if form.errors %}
@@ -44,8 +44,8 @@
                     {% if settings.enquire_to_study.EnquiryFormKeyDetails.content %}
                         <div class="layout__start-one layout__span-two layout__@large-span-one">
                             <div class="key-details">
-                                <div class="key-details__header">
-                                    <h2 class="heading heading--five key-details__heading">Key details</h2>
+                                <div class="key-details__header key-details__header--with-margins">
+                                    <h2 class="heading heading--five key-details__heading--small-margin">Key details</h2>
                                 </div>
                                 <div class="key-details__section key-details__section--location">
                                     <ul class="key-details__list">
@@ -58,7 +58,7 @@
                         </div>
                     {% endif %}
                     <div class="form__container layout__start-one layout__@large-start-two layout__span-two layout__@large-span-three">
-                        <div class="form__content section section--top-space-large">
+                        <div class="form__content section section--no-top-for-mobile">
                             {% csrf_token %}
 
                             {% for field in form %}

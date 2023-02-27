@@ -64,7 +64,9 @@ class EnquireToStudyForm(forms.Form):
         self.fields[
             "country_of_citizenship"
         ].label = "Which country are you a citizen of?"
-        self.fields["programmes"].label = "The programme(s) you're interested in"
+        self.fields[
+            "programmes"
+        ].label = "The preferred programme(s) you're interested in"
         self.fields["start_date"].label = "When do you plan to start your degree?"
         self.fields["enquiry_reason"].label = "What's your enquiry about?"
         self.fields["is_read_data_protection_policy"].label = mark_safe(
@@ -89,7 +91,7 @@ class EnquireToStudyForm(forms.Form):
         self.fields[
             "phone_number"
         ].help_text = "You must include your country code, e.g. +442075904444"
-        self.fields["programmes"].help_text = "Select up to 3 programmes"
+        self.fields["programmes"].help_text = "Select up to 2 programmes"
         self.fields[
             "enquiry_reason"
         ].help_text = (
@@ -100,10 +102,10 @@ class EnquireToStudyForm(forms.Form):
         cleaned_data = super().clean()
         if "programmes" in cleaned_data:
             programmes = cleaned_data["programmes"]
-            if len(programmes) > 3:
+            if len(programmes) > 2:
                 self.add_error(
                     "programmes",
-                    forms.ValidationError("Please only select up to 3 programmes."),
+                    forms.ValidationError("Please only select up to 2 programmes."),
                 )
         return cleaned_data
 
