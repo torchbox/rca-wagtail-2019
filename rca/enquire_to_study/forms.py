@@ -45,6 +45,12 @@ class EnquireToStudyForm(forms.Form):
         queryset=EnquiryReason.objects.all(), widget=forms.RadioSelect, empty_label=None
     )
 
+    enquiry_questions = forms.CharField(
+        label="Your questions",
+        help_text="Include any questions you'd like to ask here.",
+        required=False
+    )
+
     # Legal & newsletter
     is_read_data_protection_policy = forms.BooleanField()
     is_notification_opt_in = forms.BooleanField(required=False)

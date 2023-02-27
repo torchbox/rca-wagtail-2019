@@ -72,6 +72,9 @@ class EnquiryFormSubmission(ClusterableModel):
         on_delete=models.SET_NULL,
         related_name="+",
     )
+    enquiry_questions = models.TextField(
+        help_text="Include any questions you'd like to ask here."
+    )
     start_date = models.ForeignKey(
         "enquire_to_study.StartDate",
         null=True,
@@ -109,6 +112,7 @@ class EnquiryFormSubmission(ClusterableModel):
         ),
         FieldPanel("start_date"),
         FieldPanel("enquiry_reason", heading="What's your enquiry about?"),
+        FieldPanel("enquiry_questions", heading="Your questions"),
         MultiFieldPanel(
             [
                 FieldPanel("is_read_data_protection_policy"),

@@ -141,6 +141,7 @@ class EnquireToStudyFormView(FormView):
                 "MMERGE8": form_data["country_of_residence"],
                 "MMERGE9": form_data["city"],
                 "MMERGE10": form_data["enquiry_reason"].reason,
+                "MMERGE11": form_data["enquiry_questions"],
             },
             "interests": interests,
             "email_address": form_data["email"],
