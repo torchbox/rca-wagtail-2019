@@ -34,6 +34,7 @@ from wagtail.models import Orderable, Site
 from wagtail.search import index
 from wagtailorderable.models import Orderable as WagtailOrdable
 
+from rca.programmes.blocks import NotableAlumniBlock
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
@@ -350,15 +351,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     )
 
     notable_alumni_links = StreamField(
-        [
-            (
-                "Link_to_person",
-                StructBlock(
-                    [("name", CharBlock()), ("link", URLBlock(required=False))],
-                    icon="link",
-                ),
-            )
-        ],
+        [("Link_to_person", NotableAlumniBlock())],
         blank=True,
         use_json_field=True,
     )
