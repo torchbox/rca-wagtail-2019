@@ -1,6 +1,25 @@
 from django.forms.utils import ErrorList
-from wagtail.blocks.struct_block import StructBlockValidationError
 from wagtail import blocks
+from wagtail.blocks import StructValue
+from wagtail.blocks.struct_block import StructBlockValidationError
+
+
+class NotableAlumniLinkStructValue(StructValue):
+    def get_url(self):
+        if link := self.get("link"):
+            return link
+
+        if page := self.get("page"):
+            return page.specific.url
+
+        return ""
+
+    def is_external_link(self):
+        if self.get("link"):
+            return True
+
+        return False
+
 
 class NotableAlumniBlock(blocks.StructBlock):
     name = blocks.CharBlock()
@@ -22,3 +41,4 @@ class NotableAlumniBlock(blocks.StructBlock):
 
     class Meta:
         icon = "link"
+        value_class = NotableAlumniLinkStructValue
