@@ -32,6 +32,9 @@ class EnquireToStudyFormView(FormView):
     on the 'country_of_residence' value. For the moment only QS is receiving
     post data, Mailchimp is incoming.
 
+    Keys can be seen here:
+    https://qs-enrolment-solutions.screenstepslive.com/s/Help/m/enquiryapi/l/889815-application-endpoints#student-enquiry
+
     All form submissions will create a .models.EnquiryFormSubmission object.
     {
             "FirstName": "Kevin",
@@ -54,6 +57,7 @@ class EnquireToStudyFormView(FormView):
             }],
             "CountryOfCitizenship": "CAN",
             "CountryOfResidence": "CAN",
+            "Address": "|||City||", // We don't record address lines so we only enter the city.
             "LevelOfStudy": "postgraduate",
             "Course": "307-graduate-diploma-art-and-design,127-ma-curating-contemporary-art-exhibitions-and-programming"
         }
@@ -178,6 +182,7 @@ class EnquireToStudyFormView(FormView):
             "LastName": form_data["last_name"],
             "EmailAddress": form_data["email"],
             "MobileNumber": f"{form_data['phone_number'].country_code}||{form_data['phone_number'].national_number}",
+            "Address": f"|||{form_data['city']}||",
             "subscribedToDirectEmails": form_data["is_notification_opt_in"],
             "subscribedToDirectPhoneCalls": False,
             "subscribedToDirectSMS": False,
