@@ -83,7 +83,7 @@
                     margin-left: var(--grid-width);
                 }
 
-                &::after {
+                &[type="submit"]::after {
                     position: absolute;
                     right: 0;
                     top: 0;
