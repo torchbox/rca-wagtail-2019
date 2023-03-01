@@ -41,6 +41,12 @@ class GuidePage(TapMixin, ContactFieldsMixin, BasePage):
     )
     related_pages_title = models.CharField(blank=True, max_length=120)
 
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+        index.SearchField("body"),
+        index.SearchField("further_information"),
+    ]
+
     content_panels = (
         BasePage.content_panels
         + [
@@ -67,12 +73,6 @@ class GuidePage(TapMixin, ContactFieldsMixin, BasePage):
         ]
         + TapMixin.panels
     )
-
-    search_fields = BasePage.search_fields + [
-        index.SearchField("introduction"),
-        index.SearchField("body"),
-        index.SearchField("further_information"),
-    ]
 
     @property
     def listing_meta(self):

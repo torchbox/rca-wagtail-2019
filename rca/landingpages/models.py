@@ -283,6 +283,10 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
         help_text=_("The title to display above the news and events listing"),
     )
 
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+    ]
+
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
             [FieldPanel("hero_image")],

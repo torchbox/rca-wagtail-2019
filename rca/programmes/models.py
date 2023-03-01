@@ -701,18 +701,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
                 )
             ],
         ),
-        index.RelatedFields(
-            "tagged_programme_items",
-            [
-                index.RelatedFields(
-                    "tag",
-                    [
-                        index.SearchField("name", partial_match=True),
-                        index.AutocompleteField("name", partial_match=True),
-                    ],
-                )
-            ],
-        ),
     ]
     api_fields = [
         # Fields for filtering and display, shared with shortcourses.ShortCoursePage.
@@ -763,6 +751,11 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             "title": programme_stories.title,
             "slides": related_list_block_slideshow(programme_stories.slides),
         }
+
+    @property
+    def listing_meta(self):
+        # Returns a page 'type' value that's readable for listings,
+        return "Programme"
 
     def clean(self):
         super().clean()

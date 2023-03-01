@@ -272,28 +272,6 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         ]
     )
 
-    def author_as_string(self):
-        if self.author:
-            return self.author
-        else:
-            return ""
-
-    def related_programmes_api(self):
-        programmes = []
-        for related_page in self.related_programmes.all():
-            page = related_page.page.specific
-            programmes.append(
-                {
-                    "page": {
-                        "title": page.title,
-                        "id": page.id,
-                        "slug": page.slug,
-                        "intranet_slug": page.intranet_slug,
-                    },
-                }
-            )
-        return programmes
-
     api_fields = BasePage.api_fields + [
         APIField("hero_image"),
         APIField("introduction"),
@@ -345,6 +323,28 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         text = self.listing_summary or self.introduction
         text = re.sub("<[^<]+?>", "", text)
         return text
+
+    def author_as_string(self):
+        if self.author:
+            return self.author
+        else:
+            return ""
+
+    def related_programmes_api(self):
+        programmes = []
+        for related_page in self.related_programmes.all():
+            page = related_page.page.specific
+            programmes.append(
+                {
+                    "page": {
+                        "title": page.title,
+                        "id": page.id,
+                        "slug": page.slug,
+                        "intranet_slug": page.intranet_slug,
+                    },
+                }
+            )
+        return programmes
 
     def get_related_pages(self):
         related_pages = {"title": "Also of interest", "items": []}
