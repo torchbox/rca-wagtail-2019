@@ -602,15 +602,15 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             heading="What you'll cover",
         ),
         MultiFieldPanel(
-            [FieldPanel("working_with_heading"), FieldPanel("working_with")],
-            "Collaborators",
-        ),
-        MultiFieldPanel(
             [
                 FieldPanel("quote_carousel"),
                 PageChooserPanel("quote_carousel_link"),
             ],
             "Quote carousel",
+        ),
+        MultiFieldPanel(
+            [FieldPanel("working_with_heading"), FieldPanel("working_with")],
+            "Collaborators",
         ),
     ]
 
