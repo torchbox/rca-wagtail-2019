@@ -288,38 +288,41 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
     ]
 
     content_panels = (
-        BasePage.content_panels + [
-        MultiFieldPanel(
-            [FieldPanel("hero_image")],
-            heading=_("Hero"),
-        ),
-        MultiFieldPanel(
-            [FieldPanel("introduction"), FieldPanel("about_page")],
-            heading=_("Introduction"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("highlights_title"),
-                InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
-                FieldPanel("highlights_page_link"),
-                FieldPanel("highlights_page_link_title"),
-            ],
-            heading=_("Featured projects"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("related_pages_title"),
-                FieldPanel("related_pages_text"),
-                InlinePanel("related_pages_grid", max_num=8, label=_("Related Pages")),
-            ],
-            heading=_("Related pages grid"),
-        ),
-        InlinePanel("featured_image", label=_("Featured content"), max_num=1),
-        MultiFieldPanel(
-            [
-                HelpPanel(
-                    content=(
-                        """<p>The title, link and link text displayed as part of the news and events
+        BasePage.content_panels
+        + [
+            MultiFieldPanel(
+                [FieldPanel("hero_image")],
+                heading=_("Hero"),
+            ),
+            MultiFieldPanel(
+                [FieldPanel("introduction"), FieldPanel("about_page")],
+                heading=_("Introduction"),
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("highlights_title"),
+                    InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
+                    FieldPanel("highlights_page_link"),
+                    FieldPanel("highlights_page_link_title"),
+                ],
+                heading=_("Featured projects"),
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("related_pages_title"),
+                    FieldPanel("related_pages_text"),
+                    InlinePanel(
+                        "related_pages_grid", max_num=8, label=_("Related Pages")
+                    ),
+                ],
+                heading=_("Related pages grid"),
+            ),
+            InlinePanel("featured_image", label=_("Featured content"), max_num=1),
+            MultiFieldPanel(
+                [
+                    HelpPanel(
+                        content=(
+                            """<p>The title, link and link text displayed as part of the news and events
                         listing can be customised by adding overriding values here</p>"""
                         )
                     ),
