@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.test import TestCase
-from wagtail.core.rich_text import RichText
+from wagtail.rich_text import RichText
 
 from rca.utils.templatetags.util_tags import is_external, richtext_force_external_links
 
@@ -30,7 +30,7 @@ class IsExternalTestCase(TestCase):
     def test_all_internals(self):
         # all the internal domains with protocol should return false
         domains_with_protocol = [
-            settings.BASE_URL,
+            settings.WAGTAILADMIN_BASE_URL,
             "https://rca-production.herokuapp.com/monty",
             "https://rca-staging.herokuapp.com/python",
             "https://rca-development.herokuapp.com/and",

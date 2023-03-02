@@ -5,17 +5,11 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import (
-    FieldPanel,
-    HelpPanel,
-    InlinePanel,
-    MultiFieldPanel,
-    StreamFieldPanel,
-)
-from wagtail.core.fields import StreamBlock, StreamField
+from wagtail.admin.panels import FieldPanel, HelpPanel, InlinePanel, MultiFieldPanel
+from wagtail.fields import StreamBlock, StreamField
 from wagtail.images import get_image_model_string
-from wagtail.images.edit_handlers import ImageChooserPanel
 
 from rca.api_content.content import get_alumni_stories as get_api_alumni_stories
 from rca.api_content.content import get_news_and_events as get_api_news_and_events
@@ -71,7 +65,7 @@ class HomePageTransofmrationBlock(models.Model):
 
     panels = [
         FieldPanel("heading"),
-        ImageChooserPanel("image"),
+        FieldPanel("image"),
         FieldPanel("video"),
         FieldPanel("video_caption"),
         FieldPanel("sub_heading"),
@@ -98,9 +92,12 @@ class HomePagePartnershipBlock(models.Model):
     source_page = ParentalKey("HomePage", related_name="partnerships_block")
     title = models.CharField(max_length=125)
     summary = models.CharField(max_length=250)
-    slides = StreamField(StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1))
+    slides = StreamField(
+        StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1),
+        use_json_field=True,
+    )
 
-    panels = [FieldPanel("title"), FieldPanel("summary"), StreamFieldPanel("slides")]
+    panels = [FieldPanel("title"), FieldPanel("summary"), FieldPanel("slides")]
 
     def __str__(self):
         return self.title
@@ -109,7 +106,7 @@ class HomePagePartnershipBlock(models.Model):
 class HomePageStatsBlock(models.Model):
     source_page = ParentalKey("HomePage", related_name="stats_block")
     title = models.CharField(max_length=125)
-    statistics = StreamField([("statistic", StatisticBlock())])
+    statistics = StreamField([("statistic", StatisticBlock())], use_json_field=True)
     background_image = models.ForeignKey(
         get_image_model_string(),
         blank=True,
@@ -119,8 +116,8 @@ class HomePageStatsBlock(models.Model):
     )
     panels = [
         FieldPanel("title"),
-        ImageChooserPanel("background_image"),
-        StreamFieldPanel("statistics"),
+        FieldPanel("background_image"),
+        FieldPanel("statistics"),
     ]
 
     def __str__(self):
@@ -157,13 +154,25 @@ class HomePage(TapMixin, BasePage):
 
     use_api_for_alumni_stories = models.BooleanField(default=True)
     use_api_for_news_and_events = models.BooleanField(default=True)
-
+    news_and_events_link_text = models.TextField(
+        max_length=120,
+        blank=True,
+        help_text=_("The text to display for the 'View all news and events' link"),
+    )
+    news_and_events_link_target_url = models.URLField(
+        blank=True, help_text="Add a link to view all news and events"
+    )
+    news_and_events_title = models.TextField(
+        max_length=120,
+        blank=True,
+        help_text=_("The title to display above the news and events listing"),
+    )
     content_panels = (
         BasePage.content_panels
         + [
             MultiFieldPanel(
                 [
-                    ImageChooserPanel("hero_image"),
+                    FieldPanel("hero_image"),
                     FieldPanel("hero_image_credit"),
                     FieldPanel("hero_colour_option"),
                     FieldPanel("hero_cta_url"),
@@ -204,6 +213,20 @@ class HomePage(TapMixin, BasePage):
                 ],
                 heading="News, Events and Alumni Stories Content Listings",
             ),
+            MultiFieldPanel(
+                [
+                    HelpPanel(
+                        content=(
+                            """<p>The title, link and link text displayed as part of the news and events
+                            listing can be customised by adding overriding values here</p>"""
+                        )
+                    ),
+                    FieldPanel("news_and_events_title"),
+                    FieldPanel("news_and_events_link_text"),
+                    FieldPanel("news_and_events_link_target_url"),
+                ],
+                "News and Events",
+            ),
         ]
         + TapMixin.panels
     )
@@ -225,6 +248,13 @@ class HomePage(TapMixin, BasePage):
 
         if errors:
             raise ValidationError(errors)
+
+    @property
+    def news_view_all(self):
+        return {
+            "link": self.news_and_events_link_target_url,
+            "title": self.news_and_events_link_text,
+        }
 
     def _format_partnerships(self, partnerships_block):
         # The partnerships.slides field offers choice between a page

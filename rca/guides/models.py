@@ -1,15 +1,12 @@
+import re
+
 from django.db import models
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import (
-    FieldPanel,
-    InlinePanel,
-    MultiFieldPanel,
-    StreamFieldPanel,
-)
-from wagtail.core.fields import StreamField
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.fields import StreamField
 
 from rca.utils.blocks import AccordionBlockWithTitle, GuideBlock
 from rca.utils.models import (
@@ -33,12 +30,13 @@ class GuidePage(TapMixin, ContactFieldsMixin, BasePage):
     template = "patterns/pages/guide/guide.html"
 
     introduction = models.CharField(max_length=500, blank=True)
-    body = StreamField(GuideBlock())
+    body = StreamField(GuideBlock(), use_json_field=True)
     further_information_title = models.CharField(blank=True, max_length=120)
     further_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name=_("Further information"),
+        use_json_field=True,
     )
     related_pages_title = models.CharField(blank=True, max_length=120)
 
@@ -46,12 +44,12 @@ class GuidePage(TapMixin, ContactFieldsMixin, BasePage):
         BasePage.content_panels
         + [
             FieldPanel("introduction"),
-            StreamFieldPanel("body"),
+            FieldPanel("body"),
             MultiFieldPanel([InlinePanel("related_staff")], heading=_("Related staff")),
             MultiFieldPanel(
                 [
                     FieldPanel("further_information_title"),
-                    StreamFieldPanel("further_information"),
+                    FieldPanel("further_information"),
                 ],
                 heading=_("Further information"),
             ),
@@ -103,14 +101,14 @@ class GuidePage(TapMixin, ContactFieldsMixin, BasePage):
             if hasattr(page, "programme_description_subtitle"):
                 introduction = page.programme_description_subtitle
             if hasattr(page, "introduction"):
-                introduction = page.introduction
+                introduction = re.sub("<a.*?>|</a>", "", page.introduction)
             related_pages["items"].append(
                 {
                     "page": page,
                     "title": page.listing_title if page.listing_title else page.title,
                     "image": page.listing_image,
                     "link": page.url,
-                    "description": introduction,
+                    "description": page.listing_summary or introduction,
                 }
             )
         return related_pages

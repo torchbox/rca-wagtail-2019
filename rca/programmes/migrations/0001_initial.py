@@ -2,8 +2,8 @@
 
 import django.db.models.deletion
 import modelcluster.fields
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 import wagtail.documents.blocks
 import wagtail.embeds.blocks
 import wagtail.images.blocks
@@ -55,20 +55,20 @@ class Migration(migrations.Migration):
                 ("introduction", models.TextField(blank=True)),
                 (
                     "body",
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 "heading",
-                                wagtail.core.blocks.CharBlock(
+                                wagtail.blocks.CharBlock(
                                     classname="full title",
                                     icon="title",
                                     template="patterns/molecules/streamfield/blocks/heading_block.html",
                                 ),
                             ),
-                            ("paragraph", wagtail.core.blocks.RichTextBlock()),
+                            ("paragraph", wagtail.blocks.RichTextBlock()),
                             (
                                 "image",
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
                                         (
                                             "image",
@@ -76,7 +76,7 @@ class Migration(migrations.Migration):
                                         ),
                                         (
                                             "caption",
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 required=False
                                             ),
                                         ),
@@ -85,17 +85,17 @@ class Migration(migrations.Migration):
                             ),
                             (
                                 "quote",
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
                                         (
                                             "quote",
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 classname="title"
                                             ),
                                         ),
                                         (
                                             "attribution",
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 required=False
                                             ),
                                         ),
@@ -112,7 +112,7 @@ class Migration(migrations.Migration):
                             ),
                             (
                                 "document",
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
                                         (
                                             "document",
@@ -120,7 +120,7 @@ class Migration(migrations.Migration):
                                         ),
                                         (
                                             "title",
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 required=False
                                             ),
                                         ),

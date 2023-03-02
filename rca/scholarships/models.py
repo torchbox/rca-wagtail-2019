@@ -6,18 +6,16 @@ from django.utils.text import slugify
 from django.utils.translation import gettext as _
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     FieldRowPanel,
     InlinePanel,
     MultiFieldPanel,
     ObjectList,
-    StreamFieldPanel,
     TabbedInterface,
 )
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import Orderable
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
+from wagtail.fields import RichTextField, StreamField
+from wagtail.models import Orderable
 from wagtail.snippets.models import register_snippet
 
 from rca.programmes.models import ProgrammePage
@@ -93,7 +91,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
     template = "patterns/pages/scholarships/scholarships_listing_page.html"
     max_count = 1
     introduction = models.CharField(max_length=500, blank=True)
-    body = StreamField(ScholarshipsListingPageBlock())
+    body = StreamField(ScholarshipsListingPageBlock(), use_json_field=True)
 
     # Scholarship listing fields
     scholarship_listing_title = models.CharField(
@@ -109,13 +107,14 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         ],
         blank=True,
         verbose_name="Application Steps",
+        use_json_field=True,
     )
     characteristics_disclaimer = models.CharField(
         max_length=250,
         blank=True,
         help_text="A small disclaimer shown just above the scholarships listing.",
     )
-    lower_body = StreamField(ScholarshipsListingPageBlock())
+    lower_body = StreamField(ScholarshipsListingPageBlock(), use_json_field=True)
 
     # Scholarship form fields
     key_details = RichTextField(features=["h3", "bold", "italic", "link"], blank=True)
@@ -124,28 +123,29 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         [("call_to_action", CallToActionBlock(label="text promo"))],
         blank=True,
         verbose_name="Call to action",
+        use_json_field=True,
     )
 
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
-        StreamFieldPanel("body"),
+        FieldPanel("body"),
         MultiFieldPanel(
             [
                 FieldPanel("scholarship_listing_title"),
                 FieldPanel("scholarship_listing_sub_title"),
-                StreamFieldPanel("scholarship_application_steps"),
+                FieldPanel("scholarship_application_steps"),
                 FieldPanel("characteristics_disclaimer"),
             ],
             heading="Scholarship listing",
         ),
-        StreamFieldPanel("lower_body"),
+        FieldPanel("lower_body"),
         MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
     ]
 
     form_settings_pannels = [
         FieldPanel("key_details"),
         FieldPanel("form_introduction"),
-        StreamFieldPanel("cta_block"),
+        FieldPanel("cta_block"),
     ]
 
     edit_handler = TabbedInterface(
@@ -290,7 +290,7 @@ class ScholarshipEnquiryFormSubmissionScholarshipOrderable(Orderable):
     )
 
     panels = [
-        SnippetChooserPanel("scholarship"),
+        FieldPanel("scholarship"),
     ]
 
 

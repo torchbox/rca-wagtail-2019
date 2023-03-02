@@ -5,7 +5,7 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.core.management import BaseCommand
 from faker import Faker
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 from rca.editorial.models import (
     EditorialPage,

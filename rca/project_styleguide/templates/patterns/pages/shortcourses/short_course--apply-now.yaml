@@ -1,0 +1,123 @@
+context:
+  page:
+    course_details_text: '<p>Early bird offer until 10 March 2020. Booking closes 18 March 2020 or when fully booked.</p>'
+    terms_and_conditions:
+      body: '<p>Please be sure to read our <a href="http://facebook.com">Terms &amp; Conditions</a> before applying.</p>'
+    frequently_asked_questions:
+      body: '<p>For more information, please visit our <a href="https://google.com">FAQs</a> before applying.</p>'
+    breadcrumb:
+      - { label: 'Short courses', link: /short-courses/ }
+      - {
+          label: 'Executive education',
+          link: /short-courses/executive-education,
+        }
+    title: Design Thinking & Innovation
+    video_caption: Watch the course introduction
+    introduction_image: True
+    introduction: 'Understand the purpose of design thinking in promoting innovation and learn real-world applications and strategies for design thinking.'
+    body: '<p>At the RCA, we teach design thinking, training designers who go on to lead global brands worldwide as creative directors and CEOs. In contrast to standard, linear approaches that build on tested models, design thinking is creatively structured, analytic and responsive. It draws in diverse disciplines and multiple areas of expertise and exploration, starting with the core premise that everything is a design problem.</p><p>Through the application of this informed analysis within business-driven, public-facing and community-centred contexts, design thinking can produce innovation, which in turn enables brands to remain competitive in changing markets.</p>'
+    show_register_link: true
+    shortcourse_details_fees:
+      - { fee: '&pound;600 before 28 February 2020' }
+      - { fee: '&pound;900 after 29 February 2020' }
+    shortcourse_details_location:
+      - { location: 'Royal College of Art Kensington Gore' }
+    shortcourse_details_register_link: '#'
+    about:
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Before you apply: Application'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Before you apply: Portfolio'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Personal and organisational benefits'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'How you’ll learn'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'What you’ll learn'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Who should attend'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'Locations & facilities'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'The RCA approach to Design Thinking & Innovation'
+      - path:
+        value:
+          body: 'TBC'
+          heading: 'About the Design Museum'
+    programme_gallery:
+    video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
+    shortcourse_gallery:
+      - slide:
+        value:
+          title: 'Albertopolissss 550-metre pedestrian tunnel'
+          author: 'Chris Lawton'
+          link: 'http://www.torchbox.com'
+          course: 'Architecture'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel'
+          author: 'Nick Lee'
+          link: 'http://www.torchbox.com'
+          course: 'Design'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel'
+          author: 'Chris Lawton'
+          link: 'http://www.torchbox.com'
+          course: 'Architecture'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel'
+          author: 'Kevin Howbrook'
+          link: 'http://www.torchbox.com'
+          course: 'Design'
+    staff_link: false
+    contact_model_image: true
+    relatedcontent: true
+  related_staff:
+    - item
+    - item
+  partnerships_block:
+    slides:
+      - slide:
+        value:
+          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
+          author: 'Benjamin Glatz'
+          job_title: 'Digital Transformation Lead, Shell'
+      - slide:
+        value:
+          quote: 'We want people to come away from our executive education courses with achievable insights and a critical path to making change in their organisations and to their own individual working lives.'
+          author: 'Professor Jeremy Myerson'
+      - slide:
+        value:
+          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
+          author: 'Benjamin Glatz'
+          job_title: 'Digital Transformation Lead, Shell'
+  programme_page_global_fields:
+    contact_text: Get in touch if you’d like to find out more or have any questions about working with the RCA.
+    contact_title: Contact Us
+    related_content_title: More opportunities to study at the RCA
+  related_links:
+    - { text: 'Knowledge Exchange', href: '#' }
+    - { text: 'Custom Executive Education', href: '#' }
+    - { text: 'Innovation RCA', href: '#' }
+  booking_bar:
+    message: 'Next course starts 1 February 2022'
+    action: 'Apply now'
+    modal: false

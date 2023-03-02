@@ -12,7 +12,6 @@ import Tabs from './components/tabs';
 import Carousel from './components/carousel';
 import PeekCarousel from './components/carousel-peek';
 import PeekFullCarousel from './components/carousel-full-peek';
-import LogoCarousel from './components/carousel-logo';
 import Slideshow from './components/slideshow';
 import VideoModal from './components/video-modal';
 import RelatedContent from './components/related-content';
@@ -24,6 +23,7 @@ import SitewideAlert from './components/sitewide-alert';
 import FormFocus from './components/form-focus';
 import EmailShare from './components/email-share';
 import ScholarshipList from './components/scholarship-list';
+import EventToggleSwitch from './components/event-toggle-switch';
 import './components/sticky-header';
 import './components/lazyload-images';
 import './components/outdated-banner';
@@ -80,12 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
         PeekFullCarousel.selector(),
     )) {
         new PeekFullCarousel(peekfullcarousel);
-    }
-
-    for (const logoCarousel of document.querySelectorAll(
-        LogoCarousel.selector(),
-    )) {
-        new LogoCarousel(logoCarousel);
     }
 
     for (const slideshow of document.querySelectorAll(Slideshow.selector())) {
@@ -151,6 +145,12 @@ document.addEventListener('DOMContentLoaded', () => {
         ScholarshipList.selector(),
     )) {
         new ScholarshipList(scholarshiplist);
+    }
+
+    for (const eventtoggleswitch of document.querySelectorAll(
+        EventToggleSwitch.selector(),
+    )) {
+        new EventToggleSwitch(eventtoggleswitch);
     }
 
     new ActualHeight();

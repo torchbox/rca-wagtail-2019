@@ -2,57 +2,45 @@
 {% load wagtailadmin_tags wagtailcore_tags i18n %}
 
 {% block furniture %}
-    <aside class="nav-wrapper" data-nav-primary>
-        <div class="inner">
-            <a href="{% url 'wagtailadmin_home' %}" class="logo" aria-label="{% trans 'Dashboard' %}">
-                {% block branding_logo %}
-                    {# Mobile-only logo: #}
-                    <div class="wagtail-logo-container__mobile u-hidden@sm">
-                        <img class="wagtail-logo wagtail-logo__full" src="{% versioned_static 'wagtailadmin/images/wagtail-logo.svg' %}" alt="" width="80" />
-                    </div>
-
-                    {# Desktop logo (animated): #}
-                    {% include "wagtailadmin/shared/animated_logo.html" %}
-                {% endblock %}
-                <span class="u-hidden@sm">{% trans "Dashboard" %}</span>
-            </a>
-
-            {# If the user is a student we don't want them to be able to see the search bar #}
-            {% if not request.user.is_student %}
-                {% menu_search %}
-            {% endif %}
-            {% main_nav %}
-
-        </div>
-        <div class="explorer__wrapper" data-explorer-menu></div>
+    <template data-wagtail-sidebar-branding-logo>{% block branding_logo %}{% endblock %}</template>
+    {% sidebar_props %}
+    <aside
+        id="wagtail-sidebar"
+        class="sidebar-loading"
+        data-wagtail-sidebar
+        aria-label="{% trans 'Sidebar' %}"
+        {% if request.user.is_student %}data-student-sidebar{% endif %}
+        >
+        {% comment %}
+        This element will have the above data-student-sidebar attribute added if it's viewed by a none superuser User.
+        A wagtail_hook adds some global JS and CSS to manage it's visibility in rca/people/wagtail_hooks.py
+        {% endcomment %}
     </aside>
-
-    <main class="content-wrapper" role="main" id="main">
+    <main class="content-wrapper w-overflow-x-hidden" id="main">
         <div class="content">
             {# Always show messages div so it can be appended to by JS #}
-            <div class="messages">
+            <div class="messages" role="status">
                 {% if messages %}
                     <ul>
                         {% for message in messages %}
+                            {% message_level_tag message as level_tag %}
                             <li class="{% message_tags message %}">
-                              {% if message.level_tag == "error" %}
-                                {# There is no error icon, use warning icon instead #}
-                                {% icon name="warning" class_name="messages-icon" %}
-                              {% elif message.extra_tags == "lock" %}
-                                {% icon name="lock" class_name="messages-icon" %}
-                              {% elif message.extra_tags == "unlock" %}
-                                {% icon name="lock-open" class_name="messages-icon" %}
-                              {% else %}
-                                {% icon name=message.level_tag class_name="messages-icon" %}
-                              {% endif %}
-                              {{ message|safe }}
+                                {% if level_tag == "error" %}
+                                    {# There is no error icon, use warning icon instead #}
+                                    {% icon name="warning" class_name="messages-icon" %}
+                                {% elif message.extra_tags == "lock" %}
+                                    {% icon name="lock" class_name="messages-icon" %}
+                                {% elif message.extra_tags == "unlock" %}
+                                    {% icon name="lock-open" class_name="messages-icon" %}
+                                {% else %}
+                                    {% icon name=level_tag class_name="messages-icon" %}
+                                {% endif %}
+                                {{ message|safe }}
                             </li>
                         {% endfor %}
                     </ul>
                 {% endif %}
             </div>
-
-            <div id="nav-toggle" class="nav-toggle icon text-replace">{% trans "Menu" %}</div>
 
             {% block content %}{% endblock %}
         </div>

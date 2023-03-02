@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from wagtail.tests.utils import WagtailTestUtils
+from wagtail.test.utils import WagtailTestUtils
 from wagtail.users.views.users import get_user_edit_form
 
 from rca.users.forms import CustomUserEditForm
