@@ -10,12 +10,12 @@
             {% endfor %}
         </ul>
         <div class="carousel__controls-group grid" data-glide-el="controls" {% if control_title %}aria-controls="{{ control_title|slugify }}"{% endif %}>
-            <button class="carousel__button carousel__button--prev button" aria-label="Previous quote{% if control_title %} for {{ control_title }}{% endif %}" data-glide-dir="<">
+            <button class="carousel__button carousel__button--prev button" type="button" aria-label="Previous quote{% if control_title %} for {{ control_title }}{% endif %}" data-glide-dir="<">
                 <svg class="carousel__button-icon" width="46" height="46" aria-hidden="true">
                     <use xlink:href="#arrow-left" />
                 </svg>
             </button>
-            <button class="carousel__button carousel__button--next button" aria-label="Next quote{% if control_title %} for {{ control_title }}{% endif %}" data-glide-dir=">">
+            <button class="carousel__button carousel__button--next button" type="button" aria-label="Next quote{% if control_title %} for {{ control_title }}{% endif %}" data-glide-dir=">">
                 <svg class="carousel__button-icon" width="46" height="46" aria-hidden="true">
                     <use xlink:href="#arrow-right" />
                 </svg>
