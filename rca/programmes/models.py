@@ -21,9 +21,8 @@ from wagtail.admin.panels import (
     TabbedInterface,
 )
 from wagtail.api import APIField
-from wagtail.blocks import CharBlock, StructBlock, URLBlock
+from wagtail.blocks import CharBlock, StructBlock
 from wagtail.contrib.settings.models import BaseSetting, register_setting
-from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.embeds import embeds
 from wagtail.embeds.exceptions import EmbedException
 from wagtail.fields import RichTextField, StreamBlock, StreamField
@@ -34,6 +33,7 @@ from wagtail.models import Orderable, Site
 from wagtail.search import index
 from wagtailorderable.models import Orderable as WagtailOrdable
 
+from rca.programmes.blocks import NotableAlumniBlock
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
@@ -42,6 +42,7 @@ from rca.utils.blocks import (
     GalleryBlock,
     InfoBlock,
     LinkedImageBlock,
+    QuoteBlock,
     RelatedPageListBlockPage,
     SnippetChooserBlock,
     StepBlock,
@@ -350,15 +351,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     )
 
     notable_alumni_links = StreamField(
-        [
-            (
-                "Link_to_person",
-                StructBlock(
-                    [("name", CharBlock()), ("link", URLBlock(required=False))],
-                    icon="link",
-                ),
-            )
-        ],
+        [("Link_to_person", NotableAlumniBlock())],
         blank=True,
         use_json_field=True,
     )
@@ -403,6 +396,16 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         blank=True,
         verbose_name="Accordion blocks",
         use_json_field=True,
+    )
+    quote_carousel = StreamField(
+        [("quote", QuoteBlock())], blank=True, verbose_name="Quote carousel"
+    )
+    quote_carousel_link = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="+",
     )
 
     # Requirements
@@ -589,6 +592,13 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         MultiFieldPanel(
             [FieldPanel("what_you_will_cover_blocks")],
             heading="What you'll cover",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("quote_carousel"),
+                PageChooserPanel("quote_carousel_link"),
+            ],
+            "Quote carousel",
         ),
         MultiFieldPanel(
             [FieldPanel("working_with_heading"), FieldPanel("working_with")],

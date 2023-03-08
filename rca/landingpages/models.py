@@ -287,53 +287,59 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
         index.SearchField("introduction"),
     ]
 
-    content_panels = BasePage.content_panels + [
-        MultiFieldPanel(
-            [FieldPanel("hero_image")],
-            heading=_("Hero"),
-        ),
-        MultiFieldPanel(
-            [FieldPanel("introduction"), FieldPanel("about_page")],
-            heading=_("Introduction"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("highlights_title"),
-                InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
-                FieldPanel("highlights_page_link"),
-                FieldPanel("highlights_page_link_title"),
-            ],
-            heading=_("Featured projects"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("related_pages_title"),
-                FieldPanel("related_pages_text"),
-                InlinePanel("related_pages_grid", max_num=8, label=_("Related Pages")),
-            ],
-            heading=_("Related pages grid"),
-        ),
-        InlinePanel("featured_image", label=_("Featured content"), max_num=1),
-        MultiFieldPanel(
-            [
-                HelpPanel(
-                    content=(
-                        """<p>The title, link and link text displayed as part of the news and events
+    content_panels = (
+        BasePage.content_panels
+        + [
+            MultiFieldPanel(
+                [FieldPanel("hero_image")],
+                heading=_("Hero"),
+            ),
+            MultiFieldPanel(
+                [FieldPanel("introduction"), FieldPanel("about_page")],
+                heading=_("Introduction"),
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("highlights_title"),
+                    InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
+                    FieldPanel("highlights_page_link"),
+                    FieldPanel("highlights_page_link_title"),
+                ],
+                heading=_("Featured projects"),
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("related_pages_title"),
+                    FieldPanel("related_pages_text"),
+                    InlinePanel(
+                        "related_pages_grid", max_num=8, label=_("Related Pages")
+                    ),
+                ],
+                heading=_("Related pages grid"),
+            ),
+            InlinePanel("featured_image", label=_("Featured content"), max_num=1),
+            MultiFieldPanel(
+                [
+                    HelpPanel(
+                        content=(
+                            """<p>The title, link and link text displayed as part of the news and events
                         listing can be customised by adding overriding values here</p>"""
-                    )
-                ),
-                FieldPanel("news_and_events_title"),
-                FieldPanel("news_and_events_link_text"),
-                FieldPanel("news_and_events_link_target_url"),
-                FieldPanel("legacy_news_and_event_tags"),
-            ],
-            "News and Events",
-        ),
-        MultiFieldPanel(
-            [FieldPanel("page_list_title"), FieldPanel("page_list")],
-            heading=_("Related page list"),
-        ),
-    ]
+                        )
+                    ),
+                    FieldPanel("news_and_events_title"),
+                    FieldPanel("news_and_events_link_text"),
+                    FieldPanel("news_and_events_link_target_url"),
+                    FieldPanel("legacy_news_and_event_tags"),
+                ],
+                "News and Events",
+            ),
+            MultiFieldPanel(
+                [FieldPanel("page_list_title"), FieldPanel("page_list")],
+                heading=_("Related page list"),
+            ),
+        ]
+        + TapMixin.panels
+    )
 
     @property
     def news_view_all(self):
@@ -686,7 +692,7 @@ class InnovationLandingPage(LandingPage):
 class EnterpriseLandingPage(LandingPage):
     template = "patterns/pages/landingpage/landing_page--enterprise.html"
 
-    content_panels = LandingPage.content_panels + TapMixin.panels
+    content_panels = LandingPage.content_panels
 
     class Meta:
         verbose_name = "Landing Page - Enterprise"
@@ -1037,77 +1043,84 @@ class AlumniLandingPage(LandingPage):
         use_json_field=True,
     )
 
-    content_panels = BasePage.content_panels + [
-        MultiFieldPanel(
-            [FieldPanel("hero_image")],
-            heading=_("Hero"),
-        ),
-        FieldPanel("introduction"),
-        MultiFieldPanel(
-            [
-                FieldPanel("video"),
-                FieldPanel("video_caption"),
-                FieldPanel("video_preview_image"),
-            ],
-            heading="Video",
-        ),
-        FieldPanel("body"),
-        MultiFieldPanel(
-            [
-                FieldPanel("related_pages_text"),
-                InlinePanel("related_pages_grid", max_num=8, label=_("Related Pages")),
-            ],
-            heading=_("Related pages grid"),
-        ),
-        InlinePanel("page_teasers", max_num=1, label="Page teasers"),
-        # latest
-        FieldPanel("latest_intro"),
-        MultiFieldPanel(
-            [
-                InlinePanel(
-                    "related_editorial_pages",
-                    heading="Related Alumni Editorial 'news' pages",
-                    max_num=3,
-                ),
-                FieldPanel("news_link_target_url"),
-                FieldPanel("news_link_text"),
-            ],
-            heading="Related news",
-        ),
-        InlinePanel(
-            "related_editorial_pages_secondary",
-            heading="Related Alumni Editorial 'story' pages",
-            max_num=6,
-        ),
-        FieldPanel("additional_links"),
-        FieldPanel("latest_cta_block"),
-        # Get involved
-        MultiFieldPanel(
-            [
-                FieldPanel("slideshow_summary"),
-                InlinePanel("alumni_slideshow_page", label=_("Page")),
-            ],
-            heading=_("'Get invoved' slideshow"),
-        ),
-        MultiFieldPanel(
-            [FieldPanel("collaborators_heading"), FieldPanel("collaborators")],
-            heading="Collaborators",
-        ),
-        FieldPanel("cta_block"),
-        InlinePanel("stats_block", label="Statistics", max_num=1),
-        MultiFieldPanel(
-            [
-                FieldPanel("contact_model_title"),
-                FieldPanel("contact_model_email"),
-                FieldPanel("contact_model_url"),
-                FieldPanel("contact_model_form"),
-                FieldPanel("contact_model_link_text"),
-                FieldPanel("contact_model_text"),
-                FieldPanel("contact_model_image"),
-            ],
-            "Contact information",
-        ),
-    ]
+    content_panels = (
+        BasePage.content_panels
+        + [
+            MultiFieldPanel(
+                [FieldPanel("hero_image")],
+                heading=_("Hero"),
+            ),
+            FieldPanel("introduction"),
+            MultiFieldPanel(
+                [
+                    FieldPanel("video"),
+                    FieldPanel("video_caption"),
+                    FieldPanel("video_preview_image"),
+                ],
+                heading="Video",
+            ),
+            FieldPanel("body"),
+            MultiFieldPanel(
+                [
+                    FieldPanel("related_pages_text"),
+                    InlinePanel(
+                        "related_pages_grid", max_num=8, label=_("Related Pages")
+                    ),
+                ],
+                heading=_("Related pages grid"),
+            ),
+            InlinePanel("page_teasers", max_num=1, label="Page teasers"),
+            # latest
+            FieldPanel("latest_intro"),
+            MultiFieldPanel(
+                [
+                    InlinePanel(
+                        "related_editorial_pages",
+                        heading="Related Alumni Editorial 'news' pages",
+                        max_num=3,
+                    ),
+                    FieldPanel("news_link_target_url"),
+                    FieldPanel("news_link_text"),
+                ],
+                heading="Related news",
+            ),
+            InlinePanel(
+                "related_editorial_pages_secondary",
+                heading="Related Alumni Editorial 'story' pages",
+                max_num=6,
+            ),
+            FieldPanel("additional_links"),
+            FieldPanel("latest_cta_block"),
+            # Get involved
+            MultiFieldPanel(
+                [
+                    FieldPanel("slideshow_summary"),
+                    InlinePanel("alumni_slideshow_page", label=_("Page")),
+                ],
+                heading=_("'Get invoved' slideshow"),
+            ),
+            MultiFieldPanel(
+                [FieldPanel("collaborators_heading"), FieldPanel("collaborators")],
+                heading="Collaborators",
+            ),
+            FieldPanel("cta_block"),
+            InlinePanel("stats_block", label="Statistics", max_num=1),
+            MultiFieldPanel(
+                [
+                    FieldPanel("contact_model_title"),
+                    FieldPanel("contact_model_email"),
+                    FieldPanel("contact_model_url"),
+                    FieldPanel("contact_model_form"),
+                    FieldPanel("contact_model_link_text"),
+                    FieldPanel("contact_model_text"),
+                    FieldPanel("contact_model_image"),
+                ],
+                "Contact information",
+            ),
+        ]
+        + TapMixin.panels
+    )
+
     key_details_panels = [
         FieldPanel("location"),
         FieldPanel("contact_email"),
@@ -1115,6 +1128,7 @@ class AlumniLandingPage(LandingPage):
             [FieldPanel("social_links")], heading="Social media profile links"
         ),
     ]
+
     edit_handler = TabbedInterface(
         [
             ObjectList(content_panels, heading="Content"),
@@ -1242,66 +1256,73 @@ class DevelopmentLandingPage(LandingPage):
         use_json_field=True,
     )
 
-    content_panels = BasePage.content_panels + [
-        MultiFieldPanel(
-            [FieldPanel("hero_image")],
-            heading=_("Hero"),
-        ),
-        FieldPanel("introduction"),
-        MultiFieldPanel(
-            [
-                FieldPanel("video"),
-                FieldPanel("video_caption"),
-                FieldPanel("video_preview_image"),
-            ],
-            heading="Video",
-        ),
-        FieldPanel("body"),
-        MultiFieldPanel(
-            [
-                FieldPanel("related_pages_text"),
-                InlinePanel("related_pages_grid", max_num=5, label=_("Related Pages")),
-            ],
-            heading=_("Related pages grid"),
-        ),
-        FieldPanel("cta_block"),
-        InlinePanel("stats_block", label="Statistics", max_num=1),
-        MultiFieldPanel(
-            [
-                FieldPanel("how_you_can_help_intro"),
-                InlinePanel("related_help_pages", label="Page", max_num=6),
-                FieldPanel("help_cta_block"),
-            ],
-            heading="How you can help",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("stories_intro"),
-                InlinePanel(
-                    "related_editorial_pages",
-                    heading="Related Editorial pages",
-                    label="Editorial page",
-                    max_num=3,
-                ),
-                FieldPanel("stories_link_text"),
-                FieldPanel("stories_link_target_url"),
-                FieldPanel("stories_cta_block"),
-            ],
-            heading="Success stories",
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("contact_model_title"),
-                FieldPanel("contact_model_email"),
-                FieldPanel("contact_model_url"),
-                FieldPanel("contact_model_form"),
-                FieldPanel("contact_model_link_text"),
-                FieldPanel("contact_model_text"),
-                FieldPanel("contact_model_image"),
-            ],
-            "Contact information",
-        ),
-    ]
+    content_panels = (
+        BasePage.content_panels
+        + [
+            MultiFieldPanel(
+                [FieldPanel("hero_image")],
+                heading=_("Hero"),
+            ),
+            FieldPanel("introduction"),
+            MultiFieldPanel(
+                [
+                    FieldPanel("video"),
+                    FieldPanel("video_caption"),
+                    FieldPanel("video_preview_image"),
+                ],
+                heading="Video",
+            ),
+            FieldPanel("body"),
+            MultiFieldPanel(
+                [
+                    FieldPanel("related_pages_text"),
+                    InlinePanel(
+                        "related_pages_grid", max_num=5, label=_("Related Pages")
+                    ),
+                ],
+                heading=_("Related pages grid"),
+            ),
+            FieldPanel("cta_block"),
+            InlinePanel("stats_block", label="Statistics", max_num=1),
+            MultiFieldPanel(
+                [
+                    FieldPanel("how_you_can_help_intro"),
+                    InlinePanel("related_help_pages", label="Page", max_num=6),
+                    FieldPanel("help_cta_block"),
+                ],
+                heading="How you can help",
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("stories_intro"),
+                    InlinePanel(
+                        "related_editorial_pages",
+                        heading="Related Editorial pages",
+                        label="Editorial page",
+                        max_num=3,
+                    ),
+                    FieldPanel("stories_link_text"),
+                    FieldPanel("stories_link_target_url"),
+                    FieldPanel("stories_cta_block"),
+                ],
+                heading="Success stories",
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("contact_model_title"),
+                    FieldPanel("contact_model_email"),
+                    FieldPanel("contact_model_url"),
+                    FieldPanel("contact_model_form"),
+                    FieldPanel("contact_model_link_text"),
+                    FieldPanel("contact_model_text"),
+                    FieldPanel("contact_model_image"),
+                ],
+                "Contact information",
+            ),
+        ]
+        + TapMixin.panels
+    )
+
     key_details_panels = [
         FieldPanel("location"),
         MultiFieldPanel(
@@ -1316,6 +1337,7 @@ class DevelopmentLandingPage(LandingPage):
             [FieldPanel("social_links")], heading="Social media profile links"
         ),
     ]
+
     edit_handler = TabbedInterface(
         [
             ObjectList(content_panels, heading="Content"),
@@ -1369,54 +1391,60 @@ class TapLandingPage(LandingPage):
     class Meta:
         verbose_name = "Landing Page - TAP"
 
-    content_panels = BasePage.content_panels + [
-        MultiFieldPanel(
-            [FieldPanel("hero_image")],
-            heading=_("Hero"),
-        ),
-        MultiFieldPanel(
-            [FieldPanel("introduction"), FieldPanel("about_page")],
-            heading=_("Introduction"),
-        ),
-        MultiFieldPanel([FieldPanel("tap_carousel")], heading="TAP Carousel"),
-        MultiFieldPanel(
-            [
-                FieldPanel("highlights_title"),
-                InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
-                FieldPanel("highlights_page_link"),
-                FieldPanel("highlights_page_link_title"),
-            ],
-            heading=_("Featured projects"),
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("related_pages_title"),
-                FieldPanel("related_pages_text"),
-                InlinePanel("related_pages_grid", max_num=8, label=_("Related Pages")),
-            ],
-            heading=_("Related pages grid"),
-        ),
-        InlinePanel("featured_image", label=_("Featured content"), max_num=1),
-        MultiFieldPanel(
-            [
-                HelpPanel(
-                    content=(
-                        """<p>The title, link and link text displayed as part of the news and events
+    content_panels = (
+        BasePage.content_panels
+        + [
+            MultiFieldPanel(
+                [FieldPanel("hero_image")],
+                heading=_("Hero"),
+            ),
+            MultiFieldPanel(
+                [FieldPanel("introduction"), FieldPanel("about_page")],
+                heading=_("Introduction"),
+            ),
+            MultiFieldPanel([FieldPanel("tap_carousel")], heading="TAP Carousel"),
+            MultiFieldPanel(
+                [
+                    FieldPanel("highlights_title"),
+                    InlinePanel("related_pages_highlights", label=_("Page"), max_num=8),
+                    FieldPanel("highlights_page_link"),
+                    FieldPanel("highlights_page_link_title"),
+                ],
+                heading=_("Featured projects"),
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("related_pages_title"),
+                    FieldPanel("related_pages_text"),
+                    InlinePanel(
+                        "related_pages_grid", max_num=8, label=_("Related Pages")
+                    ),
+                ],
+                heading=_("Related pages grid"),
+            ),
+            InlinePanel("featured_image", label=_("Featured content"), max_num=1),
+            MultiFieldPanel(
+                [
+                    HelpPanel(
+                        content=(
+                            """<p>The title, link and link text displayed as part of the news and events
                         listing can be customised by adding overriding values here</p>"""
-                    )
-                ),
-                FieldPanel("news_and_events_title"),
-                FieldPanel("news_and_events_link_text"),
-                FieldPanel("news_and_events_link_target_url"),
-                FieldPanel("legacy_news_and_event_tags"),
-            ],
-            "News and Events",
-        ),
-        MultiFieldPanel(
-            [FieldPanel("page_list_title"), FieldPanel("page_list")],
-            heading=_("Related page list"),
-        ),
-    ]
+                        )
+                    ),
+                    FieldPanel("news_and_events_title"),
+                    FieldPanel("news_and_events_link_text"),
+                    FieldPanel("news_and_events_link_target_url"),
+                    FieldPanel("legacy_news_and_event_tags"),
+                ],
+                "News and Events",
+            ),
+            MultiFieldPanel(
+                [FieldPanel("page_list_title"), FieldPanel("page_list")],
+                heading=_("Related page list"),
+            ),
+        ]
+        + TapMixin.panels
+    )
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
