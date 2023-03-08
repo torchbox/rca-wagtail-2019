@@ -199,6 +199,9 @@ class EnquireToStudyFormView(FormView):
             ],
         }
 
+        if enquiry_questions := form_data["enquiry_questions"]:
+            data["Notes"] += f"; Enquiry questions: {enquiry_questions}"
+
         # USE IOC format to send data, eg CA (Canada) Should be CAN
         for k, v in IOC_TO_ISO.items():
             if v == form_data["country_of_citizenship"]:

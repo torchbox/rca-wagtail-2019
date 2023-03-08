@@ -48,7 +48,8 @@ class EnquireToStudyForm(forms.Form):
     enquiry_questions = forms.CharField(
         label="Your questions",
         help_text="Include any questions you'd like to ask here.",
-        required=False
+        required=False,
+        widget=forms.Textarea,
     )
 
     # Legal & newsletter
