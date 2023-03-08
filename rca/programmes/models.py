@@ -21,7 +21,7 @@ from wagtail.admin.panels import (
     TabbedInterface,
 )
 from wagtail.api import APIField
-from wagtail.blocks import CharBlock, StructBlock, URLBlock
+from wagtail.blocks import CharBlock, StructBlock
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.embeds import embeds
 from wagtail.embeds.exceptions import EmbedException
@@ -213,14 +213,6 @@ class ProgrammeStoriesBlock(models.Model):
 
     def __str__(self):
         return self.title
-
-
-class ProgrammePageTag(TaggedItemBase):
-    content_object = ParentalKey(
-        "programmes.ProgrammePage",
-        on_delete=models.CASCADE,
-        related_name="tagged_programme_items",
-    )
 
 
 class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
@@ -751,11 +743,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             "title": programme_stories.title,
             "slides": related_list_block_slideshow(programme_stories.slides),
         }
-
-    @property
-    def listing_meta(self):
-        # Returns a page 'type' value that's readable for listings,
-        return "Programme"
 
     def clean(self):
         super().clean()
