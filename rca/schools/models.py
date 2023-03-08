@@ -318,7 +318,16 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             slug value should match the category of the School Category on the \
             intranet",
     )
-    search_fields = BasePage.search_fields + [index.SearchField("introduction")]
+
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+        index.SearchField("body"),
+        index.SearchField("location"),
+        index.SearchField("research_projects_text"),
+        index.SearchField("related_programmes_summary"),
+        index.SearchField("related_short_courses_summary"),
+    ]
+
     api_fields = [APIField("introduction")]
 
     # Admin panel configuration
@@ -451,6 +460,11 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
+
+    @property
+    def listing_meta(self):
+        # Returns a page 'type' value that's readable for listings,
+        return "School"
 
     def get_hero_image(self):
         # Select a random image from the set of hero items added

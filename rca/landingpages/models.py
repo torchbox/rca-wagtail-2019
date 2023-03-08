@@ -18,6 +18,7 @@ from wagtail.admin.panels import (
 from wagtail.fields import RichTextField, StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.models import Orderable, Page
+from wagtail.search import index
 
 from rca.editorial.models import EditorialPage
 from rca.events.models import EventDetailPage
@@ -281,6 +282,10 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
         blank=True,
         help_text=_("The title to display above the news and events listing"),
     )
+
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+    ]
 
     content_panels = (
         BasePage.content_panels

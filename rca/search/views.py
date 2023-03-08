@@ -9,7 +9,7 @@ from rca.utils.cache import get_default_cache_control_kwargs
 
 
 def search(request):
-    search_query = request.GET.get("query", None)
+    search_query = request.GET.get("q", None)
     page = request.GET.get("page", 1)
 
     # Search
