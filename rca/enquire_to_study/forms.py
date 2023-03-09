@@ -46,8 +46,8 @@ class EnquireToStudyForm(forms.Form):
     )
 
     enquiry_questions = forms.CharField(
-        label="Your questions",
-        help_text="Include any questions you'd like to ask here.",
+        label="Your questions (optional)",
+        help_text="If you have a specific enquiry or question, please include it here.",
         required=False,
         widget=forms.Textarea,
     )

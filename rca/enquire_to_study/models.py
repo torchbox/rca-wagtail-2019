@@ -73,7 +73,8 @@ class EnquiryFormSubmission(ClusterableModel):
         related_name="+",
     )
     enquiry_questions = models.TextField(
-        help_text="Include any questions you'd like to ask here.",
+        help_text="If you have a specific enquiry or question, please include it here.",
+        max_length=1000,
         blank=True,
         null=True,
     )
