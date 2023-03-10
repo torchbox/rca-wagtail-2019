@@ -41,6 +41,7 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
         "city",
         "get_country_of_citizenship",
         "enquiry_reason",
+        "enquiry_questions",
         "start_date",
         "is_read_data_protection_policy",
         "is_notification_opt_in",

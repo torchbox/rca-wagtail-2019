@@ -28,6 +28,7 @@ class TestEnquireToStudyForm(TestCase):
             "programmes": [ProgrammePageFactory(qs_code=1, programme_type__pk=2).pk],
             "start_date": self.start_date.pk,
             "enquiry_reason": self.enquiry_reason.pk,
+            "enquiry_questions": "What is your name?",
             "is_read_data_protection_policy": True,
             "g-recaptcha-response": "PASSED",
         }

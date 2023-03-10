@@ -34,3 +34,4 @@ class EnquiryFormSubmissionFactory(factory.django.DjangoModelFactory):
     city = faker.city()
     is_read_data_protection_policy = True
     is_notification_opt_in = True
+    enquiry_questions = factory.Sequence(lambda n: "an example question-%d" % n)
