@@ -70,6 +70,10 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
 
     introduction = models.CharField(max_length=200, blank=True)
 
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+    ]
+
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
         MultiFieldPanel(
@@ -500,7 +504,23 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
     search_fields = BasePage.search_fields + [
         index.SearchField("introduction"),
         index.SearchField("body"),
+        index.RelatedFields("location", [index.SearchField("title")]),
     ]
+
+    def search_listing_summary(self):
+        """Method to return the summary without html
+
+        Returns:
+            string: text with html tags removed
+        """
+        text = self.listing_summary or self.introduction
+        text = re.sub("<[^<]+?>", "", text)
+        return text
+
+    @property
+    def listing_meta(self):
+        # Returns a page 'type' value that's readable for listings,
+        return "Event"
 
     # Methods for the API that the intranet imported uses
     def contact_email(self):

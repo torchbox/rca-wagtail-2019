@@ -174,7 +174,6 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         help_text="If selected, an automatic 'Register your interest' link "
         "will be visible in the key details section",
     )
-    course_details_text = RichTextField(blank=True)
     programme_type = models.ForeignKey(
         ProgrammeType,
         on_delete=models.SET_NULL,
@@ -307,26 +306,15 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
     )
 
     search_fields = BasePage.search_fields + [
-        index.SearchField("introduction", partial_match=True),
-        index.AutocompleteField("introduction", partial_match=True),
-        index.RelatedFields(
-            "programme_type",
-            [
-                index.SearchField("display_name", partial_match=True),
-                index.AutocompleteField("display_name", partial_match=True),
-            ],
-        ),
+        index.SearchField("introduction"),
+        index.SearchField("course_details_text"),
+        index.SearchField("body"),
+        index.SearchField("about"),
+        index.SearchField("location"),
+        index.RelatedFields("programme_type", [index.SearchField("display_name")]),
         index.RelatedFields(
             "subjects",
-            [
-                index.RelatedFields(
-                    "subject",
-                    [
-                        index.SearchField("title", partial_match=True),
-                        index.AutocompleteField("title", partial_match=True),
-                    ],
-                )
-            ],
+            [index.RelatedFields("subject", [index.SearchField("title")])],
         ),
         index.RelatedFields(
             "tagged_short_course_items",
@@ -353,6 +341,11 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
             serializer=ImageRenditionField("fill-580x580", source="hero_image"),
         ),
     ]
+
+    @property
+    def listing_meta(self):
+        # Returns a page 'type' value that's readable for listings,
+        return "Short course"
 
     @property
     def get_manual_bookings(self):

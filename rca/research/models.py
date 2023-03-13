@@ -17,6 +17,7 @@ from wagtail.admin.panels import (
 from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.models import Orderable, Page
+from wagtail.search import index
 
 from rca.utils.blocks import LinkBlock
 from rca.utils.models import (
@@ -179,6 +180,13 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
         ),
     )
 
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+        index.SearchField("centre_address"),
+        index.SearchField("centre_tel"),
+        index.SearchField("centre_email"),
+    ]
+
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
             [FieldPanel("hero_image")],
@@ -261,6 +269,11 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
+
+    @property
+    def listing_meta(self):
+        # Returns a page 'type' value that's readable for listings,
+        return "Research"
 
     def get_related_projects(self):
         child_projects = []
