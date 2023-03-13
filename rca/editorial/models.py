@@ -178,6 +178,11 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         help_text="The text displayed as the download link",
     )
 
+    show_in_index_page = models.BooleanField(
+        default=True,
+        help_text="Toggle to show/hide in the index page.",
+    )
+
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
         FieldPanel("hero_image"),
@@ -254,12 +259,15 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         ),
         FieldPanel("contact_email"),
     ]
+    promote_panels = BasePage.promote_panels + [
+        FieldPanel("show_in_index_page"),
+    ]
 
     edit_handler = TabbedInterface(
         [
             ObjectList(content_panels, heading="Content"),
             ObjectList(key_details_panels, heading="Key details"),
-            ObjectList(BasePage.promote_panels, heading="Promote"),
+            ObjectList(promote_panels, heading="Promote"),
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
@@ -463,7 +471,12 @@ class EditorialListingPage(ContactFieldsMixin, BasePage):
         return extra_query_params
 
     def get_base_queryset(self):
-        return EditorialPage.objects.child_of(self).live().order_by("-published_at")
+        return (
+            EditorialPage.objects.exclude(show_in_index_page=False)
+            .child_of(self)
+            .live()
+            .order_by("-published_at")
+        )
 
     def modify_results(self, paginator_page, request):
         for obj in paginator_page.object_list:
