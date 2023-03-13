@@ -1060,15 +1060,6 @@ class AlumniLandingPage(LandingPage):
                 heading="Video",
             ),
             FieldPanel("body"),
-            MultiFieldPanel(
-                [
-                    FieldPanel("related_pages_text"),
-                    InlinePanel(
-                        "related_pages_grid", max_num=8, label=_("Related Pages")
-                    ),
-                ],
-                heading=_("Related pages grid"),
-            ),
             InlinePanel("page_teasers", max_num=1, label="Page teasers"),
             # latest
             FieldPanel("latest_intro"),
@@ -1173,8 +1164,7 @@ class AlumniLandingPage(LandingPage):
         context["get_involved"] = self._format_slideshow_pages(
             self.alumni_slideshow_page.all()
         )
-        context["page_teasers"] = self.get_related_pages(self.related_pages_grid)
-        context["new_page_teasers"] = format_page_teasers(self.page_teasers.first())
+        context["page_teasers"] = format_page_teasers(self.page_teasers.first())
         context["tabs"] = self.anchor_nav()
         return context
 

@@ -76,31 +76,15 @@
                 {% if page_teasers %}
                 <div class="section__row section__row--last schools__about--teasers">
                     <div class="section__header section__header--bottom-space grid">
-                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ page_teasers.title|default:"Alumni Benefits" }}</h2>
-                        {% if  page.related_pages_text %}
+                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ page_teasers.title|default:"About us" }}</h2>
+                        {% if page_teasers.summary %}
                             <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page.related_pages_text }}
+                                {{ page_teasers.summary }}
                             </div>
                         {% endif %}
                     </div>
                     <div class="section__content grid">
-                        {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=page_teasers modifier="no-margin" %}
-                    </div>
-                </div>
-                {% endif %}
-
-                {% if new_page_teasers %}
-                <div class="section__row section__row--last schools__about--teasers">
-                    <div class="section__header section__header--bottom-space grid">
-                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ new_page_teasers.title|default:"About us" }}</h2>
-                        {% if new_page_teasers.summary %}
-                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ new_page_teasers.summary }}
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="section__content grid">
-                        {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=new_page_teasers.pages modifier="no-margin" %}
+                        {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=page_teasers.pages modifier="no-margin" %}
                     </div>
                 </div>
                 {% endif %}
