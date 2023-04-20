@@ -1,6 +1,6 @@
 from django.test import TestCase
 from wagtail.images.tests.utils import get_test_image_file
-from wagtail.test.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTestCase
 
 from rca.home.models import HomePage
 from rca.images.models import CustomImage
@@ -20,7 +20,7 @@ class TestProgrammePageFactories(TestCase):
         ProgrammeTypeFactory()
 
 
-class ProgrammePageTests(WagtailPageTests):
+class ProgrammePageTests(WagtailPageTestCase):
     def setUp(self):
         self.home_page = HomePage.objects.first()
         self.user = self.login()
