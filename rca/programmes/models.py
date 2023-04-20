@@ -744,6 +744,11 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             "slides": related_list_block_slideshow(programme_stories.slides),
         }
 
+    @property
+    def listing_meta(self):
+        # Returns a page 'type' value that's readable for listings,
+        return "Programme"
+
     def clean(self):
         super().clean()
         errors = defaultdict(list)
