@@ -26,7 +26,6 @@ wagtail-storages = "^1.0.0rc1"
 coverage = "^5.4"
 wagtail-factories = "^4.0.0"
 wagtail-orderable = "^1.1.0"
-wagtail_redirect_importer = "^1.0.2"
 django-import-export = "^2.5.0"
 django-phonenumber-field = {extras = ["phonenumbers"], version = "^5.2.0"}
 lxml = "^4.6.3"
