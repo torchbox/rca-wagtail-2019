@@ -379,6 +379,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         blank=True,
         help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
             Aim for logos that sit on either a white or transparent background.",
+        use_json_field=True,
     )
 
     # Pathways
@@ -398,7 +399,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         use_json_field=True,
     )
     quote_carousel = StreamField(
-        [("quote", QuoteBlock())], blank=True, verbose_name="Quote carousel"
+        [("quote", QuoteBlock())],
+        blank=True,
+        verbose_name="Quote carousel",
+        use_json_field=True,
     )
     quote_carousel_link = models.ForeignKey(
         "wagtailcore.Page",
