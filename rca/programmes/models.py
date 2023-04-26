@@ -596,7 +596,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         MultiFieldPanel(
             [
                 FieldPanel("quote_carousel"),
-                PageChooserPanel("quote_carousel_link"),
+                FieldPanel("quote_carousel_link"),
             ],
             "Quote carousel",
         ),
