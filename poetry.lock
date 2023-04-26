@@ -2687,20 +2687,6 @@ wagtail = ">=2.15"
 testing = ["coverage (>=6.4.4,<6.5.0)", "tox (>=3.26.0,<3.27.0)"]
 
 [[package]]
-name = "wagtail-redirect-importer"
-version = "1.0.2"
-description = "Lets you import redirects into Wagtail from different tabular data formats (like .csv, xls, xlsx)"
-optional = false
-python-versions = "*"
-files = [
-    {file = "wagtail_redirect_importer-1.0.2-py3-none-any.whl", hash = "sha256:435e411f0f2cca16758b042c35de3939c2d92168c040dace0ff87036bc8b3886"},
-    {file = "wagtail_redirect_importer-1.0.2.tar.gz", hash = "sha256:17b25749ac4ce82dfb85cb9dca562a00a0d0dbda05432a4213c0aa0a1f8974eb"},
-]
-
-[package.dependencies]
-tablib = {version = "*", extras = ["xls", "xlsx"]}
-
-[[package]]
 name = "wagtail-storages"
 version = "1.0.0rc1"
 description = "Use AWS S3 with private documents in Wagtail."
@@ -2905,4 +2891,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.8"
-content-hash = "b72921ef4a4e51d96bce4ef64606262b77c39e9ab581769de29c47bbd21b4abc"
+content-hash = "d86e232e7315cbf36cc48c778a4d6a5472ff86235d2c37c2d25cf532800dc0bf"
