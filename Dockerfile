@@ -19,15 +19,9 @@ RUN npm run build:prod
 # however weight a lot, approx. up to 1.5GiB per built image.
 FROM python:3.8 as production
 
-ARG POETRY_HOME=/opt/poetry
 ARG POETRY_INSTALL_ARGS="--no-dev"
-
-# IMPORTANT: Remember to review both of these when upgrading
-ARG POETRY_VERSION=1.1.15
-# To get this value locally:
-# $ wget https://raw.githubusercontent.com/python-poetry/poetry/1.1.8/get-poetry.py
-# $ sha1sum get-poetry.py
-ARG POETRY_INSTALLER_SHA=eedf0fe5a31e5bb899efa581cbe4df59af02ea5f
+# IMPORTANT: Remember to review .circleci/config.yml when upgrading
+ARG POETRY_VERSION=1.2.0
 
 # Install dependencies in a virtualenv
 ENV VIRTUAL_ENV=/venv
@@ -52,7 +46,7 @@ WORKDIR /app
 #    read by Gunicorn.
 #  * GUNICORN_CMD_ARGS - additional arguments to be passed to Gunicorn. This
 #    variable is read by Gunicorn
-ENV PATH=${POETRY_HOME}/bin:$VIRTUAL_ENV/bin:$PATH \
+ENV PATH=$VIRTUAL_ENV/bin:$PATH \
     POETRY_INSTALL_ARGS=${POETRY_INSTALL_ARGS} \
     PYTHONUNBUFFERED=1 \
     DJANGO_SETTINGS_MODULE=rca.settings.production \
@@ -68,16 +62,15 @@ ENV BUILD_ENV=${BUILD_ENV}
 # server (Gunicorn). This is read by Dokku only. Heroku will ignore this.
 EXPOSE 8000
 
-# Install poetry using the installer (keeps Poetry's dependencies isolated from the app's)
-# chown protects us against cases where files downloaded by poetry have invalid ownership
-# (see https://git.torchbox.com/internal/wagtail-kit/-/merge_requests/682)
-# chmod ensures poetry dependencies are accessible when packages are installed
-RUN wget https://raw.githubusercontent.com/python-poetry/poetry/${POETRY_VERSION}/get-poetry.py && \
-    echo "${POETRY_INSTALLER_SHA} get-poetry.py" | sha1sum -c - && \
-    python get-poetry.py && \
-    rm get-poetry.py && \
-    chown -R root:root ${POETRY_HOME} && \
-    chmod -R 0755 ${POETRY_HOME}
+RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    curl \
+    git \
+    && apt-get autoremove && rm -rf /var/lib/apt/lists/*
+
+# Install poetry at the system level
+RUN pip install --no-cache poetry==${POETRY_VERSION}
 
 # Don't use the root user as it's an anti-pattern and Heroku does not run
 # containers as root either.
@@ -87,7 +80,7 @@ USER rca
 # Install your app's Python requirements.
 RUN python -m venv $VIRTUAL_ENV
 COPY --chown=rca pyproject.toml poetry.lock ./
-RUN pip install --upgrade pip && poetry install ${POETRY_INSTALL_ARGS} --no-root --extras gunicorn
+RUN pip install --no-cache --upgrade pip && poetry install ${POETRY_INSTALL_ARGS} --no-root --extras gunicorn && rm -rf $HOME/.cache
 
 COPY --chown=rca --from=frontend ./rca/static_compiled ./rca/static_compiled
 
