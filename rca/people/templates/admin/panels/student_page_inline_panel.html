@@ -37,7 +37,7 @@ the fields must still exist in the template so it's part of the POSTed data.
 
     <script>
         (function() {
-            var panel = InlinePanel({
+            var panel = new InlinePanel({
                 formsetPrefix: "id_{{ self.formset.prefix }}",
                 emptyChildFormPrefix: "{{ self.empty_child.form.prefix }}",
                 canOrder: {% if can_order %}true{% else %}false{% endif %},

@@ -106,7 +106,6 @@ INSTALLED_APPS = [
     "pattern_library",
     "rca.project_styleguide.apps.ProjectStyleguideConfig",
     "rest_framework",
-    "wagtail_redirect_importer",
     "corsheaders",
     "wagtail_rangefilter",
     "rangefilter",
