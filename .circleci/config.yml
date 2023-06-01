@@ -22,10 +22,10 @@ jobs:
       - run:
           name: install python dependencies
           command: |
-            curl -sSL https://install.python-poetry.org | POETRY_VERSION=1.2.0 python3 -
+            curl -sSL https://install.python-poetry.org | POETRY_VERSION=1.5.0 python3 -
             python -m venv venv
             . ./venv/bin/activate
-            poetry install
+            poetry install --no-ansi
       - save_cache:
           paths:
             - ./venv
