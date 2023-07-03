@@ -6,7 +6,7 @@ authors = ["Kevin Howbrook <kevin.howbrook@torchbox.com>"]
 
 [tool.poetry.dependencies]
 python = "~3.8"
-django = "~3.2"
+django = "~3.2.20"
 wagtail = "~4.2"
 psycopg2 = "~2.8"
 gunicorn = {version = "~20.0", optional = true}
