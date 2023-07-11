@@ -817,8 +817,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
                 index.RelatedFields(
                     "tag",
                     [
-                        index.SearchField("name", partial_match=True),
-                        index.AutocompleteField("name", partial_match=True),
+                        index.AutocompleteField("name"),
                     ],
                 )
             ],
