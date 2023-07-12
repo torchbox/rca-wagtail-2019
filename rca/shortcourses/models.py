@@ -321,6 +321,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
                 index.RelatedFields(
                     "tag",
                     [
+                        index.SearchField("name"),
                         index.AutocompleteField("name"),
                     ],
                 )
