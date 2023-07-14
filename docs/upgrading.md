@@ -132,3 +132,18 @@ Last checked against Wagtail version: 5.0
 This is the path to the Django template which will be used to display the “password required” form when a user accesses a private page. For more details, see the [Private pages](https://docs.wagtail.org/en/stable/advanced_topics/privacy.html#private-pages) documentation.
 
 PASSWORD_REQUIRED_TEMPLATE = "patterns/pages/wagtail/password_required.html"
+
+---
+
+## Forked Wagtail package dependencies
+
+As much as possible, we want to use the official releases available on PyPI for the Wagtail package dependencies whenever possible.
+
+However, in certain situations where critical fixes and upgrades are pending approval, merging, or release, we have implemented a temporary solution by forking the package repositories, tagging the commits, and using those in the pyproject file.
+
+The following packages are forked at the time of the latest upgrade:
+
+- wagtail-django-recaptcha
+- wagtail-storages
+
+Please note that it is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as it becomes available. This ensures that we maintain compatibility with the official releases and benefit from any subsequent updates and improvements provided by the original package maintainers.

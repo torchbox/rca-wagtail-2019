@@ -2720,8 +2720,8 @@ testing = ["black (==22.3.0)", "coverage (==5.0.3)", "factory_boy (==2.12.0)", "
 
 [package.source]
 type = "git"
-url = "https://github.com/torchbox/wagtail-storages"
-reference = "main"
+url = "https://github.com/torchbox-forks/wagtail-storages"
+reference = "v1.0.1rc1"
 resolved_reference = "d59d638aeaa413ee367f9b62f64451f5e306606d"
 
 [[package]]
@@ -2915,4 +2915,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.8"
-content-hash = "d86e232e7315cbf36cc48c778a4d6a5472ff86235d2c37c2d25cf532800dc0bf"
+content-hash = "918321bc7a92717aa47ca43b8a0eff75132c8ab256147aa353f906c27631a909"
