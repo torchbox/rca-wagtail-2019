@@ -20,7 +20,7 @@ Expected behaviour after submitting the form:
 
 - A student account is created
 - A student page is created and linked to the new user account
-- An email is sent to the student inviting them to reset there password.
+- An email is sent to the student inviting them to reset their password.
 
 ### 1.2 Student Accounts
 
@@ -33,9 +33,9 @@ Given in 1 (above) a student account is created, the student is able to sign in 
 How to test:
 
 - Sign in as admin and searh for 'students', this will show you a student page.
-- Editing the student page as admin you shouldn't be able to edit the ' Student user account' or ' Student user image collection' fields.
-- Next, sing in as a student to edit your own student page.
-- Student shouldn't see the Wagtail search in the sidebar, or any page, images etc menu links. It's all removed aside from 'help'
+- Editing the student page as admin, you shouldn't be able to edit the ' Student user account' or ' Student user image collection' fields.
+- Next, sign in as a student to edit your own student page.
+- Students shouldn't see the Wagtail search in the sidebar, or any page, images etc menu links. It's all removed aside from 'help'
 - you should see a reduced amount of fields compared to signing in as admin.
 - The fields shown to superuser vs student roles can be seen [here](https://github.com/torchbox/rca-wagtail-2019/blob/master/rca/people/models.py#L765) in rca.people.models.StudentPage.content_panels
 
@@ -50,7 +50,7 @@ When submitted the form will geneate a submission object at `admin/enquire_to_st
 How to test:
 
 - Fill out and submit the form as a user from the UK (integrates to Mailchimp)
-- Fill out and submit the form as a user from outise the UK (integrates to QS)
+- Fill out and submit the form as a user from outside the UK (integrates to QS)
 - Confirm that the submission object is created in the admin view
 - Confirm you can delete the submission(s) invidually and by bulk
 
@@ -105,3 +105,30 @@ Additionally there are some Custom Panels which help to add the `permission` par
 - [StudentPageInlinePanel](https://github.com/torchbox/rca-wagtail-2019/blob/7e5bb3c9201d8a7b7fa6e0288d4bee0ba1c79f52/rca/people/utils.py#L72)
 - [StudentPagePromoteTab](https://github.com/torchbox/rca-wagtail-2019/blob/7e5bb3c9201d8a7b7fa6e0288d4bee0ba1c79f52/rca/people/utils.py#L86)
 - [StudentPageSettingsTab](https://github.com/torchbox/rca-wagtail-2019/blob/7e5bb3c9201d8a7b7fa6e0288d4bee0ba1c79f52/rca/people/utils.py#L107)
+
+use_json_field argument added to StreamField (created new migration files)
+
+---
+
+#### Wagtail v4 Upgrade notes
+
+Removed wagtail_redirect_importer (as it's now part of wagtail since 2.10)
+
+---
+
+## Overridden core Wagtail templates
+
+The following templates are overridden in the project and should be checked for changes when upgrading Wagtail:
+
+Last checked against Wagtail version: 5.0
+
+- rca/account_management/templates/wagtailadmin/base.html
+- rca/users/templates/wagtailusers/users/list.html
+
+---
+
+## Frontend authentication
+
+This is the path to the Django template which will be used to display the “password required” form when a user accesses a private page. For more details, see the [Private pages](https://docs.wagtail.org/en/stable/advanced_topics/privacy.html#private-pages) documentation.
+
+PASSWORD_REQUIRED_TEMPLATE = "patterns/pages/wagtail/password_required.html"
