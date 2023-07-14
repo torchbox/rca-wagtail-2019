@@ -116,6 +116,18 @@ Removed wagtail_redirect_importer (as it's now part of wagtail since 2.10)
 
 ---
 
+#### Wagtail v5 Upgrade notes
+
+Added index.AutocompleteField entries for the relevant fields on the model’s search_fields definition, as the old SearchField("some_field", partial_match=True) format is no longer supported.
+
+Changes to header CSS classes in ModelAdmin templates
+
+wagtailsearch.Query has moved to wagtail.contrib.search_promotions
+
+status classes are now w-status
+
+---
+
 ## Overridden core Wagtail templates
 
 The following templates are overridden in the project and should be checked for changes when upgrading Wagtail:
