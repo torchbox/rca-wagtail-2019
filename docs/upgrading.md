@@ -106,56 +106,56 @@ Additionally there are some Custom Panels which help to add the `permission` par
 - [StudentPagePromoteTab](https://github.com/torchbox/rca-wagtail-2019/blob/7e5bb3c9201d8a7b7fa6e0288d4bee0ba1c79f52/rca/people/utils.py#L86)
 - [StudentPageSettingsTab](https://github.com/torchbox/rca-wagtail-2019/blob/7e5bb3c9201d8a7b7fa6e0288d4bee0ba1c79f52/rca/people/utils.py#L107)
 
-use_json_field argument added to StreamField (created new migration files)
+`use_json_field` argument added to `StreamField` (creates new migration files)
 
 ---
 
 #### Wagtail v4 Upgrade notes
 
-Removed wagtail_redirect_importer (as it's now part of wagtail since 2.10)
+- Removed `wagtail_redirect_importer` as it's now part of Wagtail since version `2.10`
 
 ---
 
 #### Wagtail v5 Upgrade notes
 
-Added index.AutocompleteField entries for the relevant fields on the model’s search_fields definition, as the old SearchField("some_field", partial_match=True) format is no longer supported.
-
-Changes to header CSS classes in ModelAdmin templates
-
-wagtailsearch.Query has moved to wagtail.contrib.search_promotions
-
-status classes are now w-status
+- Added `index.AutocompleteField` entries for the relevant fields on the model’s `search_fields` definition, as the old `SearchField("some_field", partial_match=True)` format is no longer supported.
+- Changes to header CSS classes in `ModelAdmin` templates
+- `wagtailsearch.Query` has been moved to `wagtail.contrib.search_promotions`
+- `status` classes are now `w-status`
 
 ---
 
 ## Overridden core Wagtail templates
 
-The following templates are overridden in the project and should be checked for changes when upgrading Wagtail:
+The following templates are overridden and should be checked for changes when upgrading Wagtail:
 
 Last checked against Wagtail version: 5.0
 
-- rca/account_management/templates/wagtailadmin/base.html
-- rca/users/templates/wagtailusers/users/list.html
+- `rca/account_management/templates/wagtailadmin/base.html`
+- `rca/users/templates/wagtailusers/users/list.html`
 
 ---
 
 ## Frontend authentication
 
-This is the path to the Django template which will be used to display the “password required” form when a user accesses a private page. For more details, see the [Private pages](https://docs.wagtail.org/en/stable/advanced_topics/privacy.html#private-pages) documentation.
+This is the path to the Django template which is used to display the “password required” form when a user accesses a private page. For more details, see Wagtail's [Private pages](https://docs.wagtail.org/en/stable/advanced_topics/privacy.html#private-pages) documentation.
 
+```python
 PASSWORD_REQUIRED_TEMPLATE = "patterns/pages/wagtail/password_required.html"
+```
 
 ---
 
 ## Forked Wagtail package dependencies
 
-As much as possible, we want to use the official releases available on PyPI for the Wagtail package dependencies whenever possible.
+As much as possible, we want to use the official releases available on PyPI for the Wagtail package dependencies.
 
-However, in certain situations where critical fixes and upgrades are pending approval, merging, or release, we have implemented a temporary solution by forking the package repositories, tagging the commits, and using those in the pyproject file.
+However, in certain situations, critical fixes and upgrades may be pending approval, merging, or release.
+A temporary solution is to fork the package dependency, tag the working branch, and use the tag in the pyproject file.
 
-The following packages are forked at the time of the latest upgrade:
+The following packages are forked at the time of the latest upgrade (Wagtail 5.0):
 
-- wagtail-django-recaptcha
-- wagtail-storages
+- `wagtail-django-recaptcha`
+- `wagtail-storages`
 
 Please note that it is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as it becomes available. This ensures that we maintain compatibility with the official releases and benefit from any subsequent updates and improvements provided by the original package maintainers.
