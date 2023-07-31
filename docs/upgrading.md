@@ -2,6 +2,25 @@
 
 This document describes aspects of the system which should be given particular attention when upgrading Wagtail or its dependencies.
 
+## Forked Wagtail package dependencies
+
+As much as possible, we want to use the official releases available on PyPI for the Wagtail package dependencies.
+
+However, in certain situations, critical fixes and upgrades may be pending approval, merging, or release.
+A temporary solution is to fork the package dependency, tag the working branch, and use the tag in the pyproject file.
+
+**The following packages are forked at the time of the latest upgrade (Wagtail 5.0):**
+
+### wagtail-django-recaptcha
+
+- Forked release current used: <https://github.com/torchbox-forks/wagtail-django-recaptcha/tree/2.0.0>
+
+- Original release: <https://pypi.org/project/wagtail-django-recaptcha>
+
+It is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as it becomes available.
+
+This ensures that we maintain compatibility with the official releases and benefit from any subsequent updates and improvements provided by the original package maintainers.
+
 ## Critical paths
 
 The following areas of functionality are critical paths for the site which don't have full automated tests and should be checked manually.
@@ -143,19 +162,3 @@ This is the path to the Django template which is used to display the “password
 ```python
 PASSWORD_REQUIRED_TEMPLATE = "patterns/pages/wagtail/password_required.html"
 ```
-
----
-
-## Forked Wagtail package dependencies
-
-As much as possible, we want to use the official releases available on PyPI for the Wagtail package dependencies.
-
-However, in certain situations, critical fixes and upgrades may be pending approval, merging, or release.
-A temporary solution is to fork the package dependency, tag the working branch, and use the tag in the pyproject file.
-
-The following packages are forked at the time of the latest upgrade (Wagtail 5.0):
-
-- `wagtail-django-recaptcha`
-- `wagtail-storages`
-
-Please note that it is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as it becomes available. This ensures that we maintain compatibility with the official releases and benefit from any subsequent updates and improvements provided by the original package maintainers.

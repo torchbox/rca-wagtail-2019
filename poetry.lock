@@ -2647,8 +2647,8 @@ testing = ["coverage (>=6.5.0,<6.6)", "flake8 (>=5.0.4,<5.1)", "isort (>=5.10.1)
 [package.source]
 type = "git"
 url = "https://github.com/torchbox-forks/wagtail-django-recaptcha"
-reference = "support/wagtail-50"
-resolved_reference = "2c0e63e6bcb9a6cf0661781d1c6bc6a2ff2b1014"
+reference = "2.0.0"
+resolved_reference = "35975f98176af5d5a2515ec0e9de116e33a37fda"
 
 [[package]]
 name = "wagtail-factories"
@@ -2704,25 +2704,21 @@ testing = ["coverage (>=6.4.4,<6.5.0)", "tox (>=3.26.0,<3.27.0)"]
 
 [[package]]
 name = "wagtail-storages"
-version = "1.0.0rc1"
+version = "1.0.0"
 description = "Use AWS S3 with private documents in Wagtail."
 optional = false
 python-versions = ">=3.8"
-files = []
-develop = false
+files = [
+    {file = "wagtail-storages-1.0.0.tar.gz", hash = "sha256:cffbb1314131c6898ad4ec583c34db5845e2654bae0fa8b7d3b9e6529f023132"},
+    {file = "wagtail_storages-1.0.0-py3-none-any.whl", hash = "sha256:8056af5feaa66b837180652954eb471d61086cb5e10d67a58fc5129903535b5a"},
+]
 
 [package.dependencies]
 django-storages = {version = "<2", extras = ["boto3"]}
 Wagtail = ">=4.1"
 
 [package.extras]
-testing = ["black (==22.3.0)", "coverage (==5.0.3)", "factory_boy (==2.12.0)", "flake8", "isort", "moto (==3.1.8)"]
-
-[package.source]
-type = "git"
-url = "https://github.com/torchbox-forks/wagtail-storages"
-reference = "v1.0.1rc1"
-resolved_reference = "d59d638aeaa413ee367f9b62f64451f5e306606d"
+testing = ["black (==22.3.0)", "coverage (==5.0.3)", "factory-boy (==2.12.0)", "flake8", "isort", "moto (==3.1.8)"]
 
 [[package]]
 name = "wagtailmakeup"
@@ -2915,4 +2911,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.8"
-content-hash = "918321bc7a92717aa47ca43b8a0eff75132c8ab256147aa353f906c27631a909"
+content-hash = "68a5a64242743170f8a56a11f8cee71a33fe18d391e3fc4110c6edc705b0f876"
