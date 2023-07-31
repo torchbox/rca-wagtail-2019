@@ -10,7 +10,7 @@ django = "~3.2.20"
 wagtail = "~5.0"
 psycopg2 = "~2.8"
 gunicorn = {version = "~20.0", optional = true}
-wagtail-django-recaptcha = {git = "https://github.com/torchbox-forks/wagtail-django-recaptcha", tag = "v1.2rc1"}
+wagtail-django-recaptcha = {git = "https://github.com/torchbox-forks/wagtail-django-recaptcha", rev = "2.0.0"}
 django-pattern-library = "~0.3"
 whitenoise = "~5.0"
 dj-database-url = "~0.5"
@@ -22,7 +22,7 @@ django-csp = "~3.6"
 scout-apm = "~2.18"
 django-basic-auth-ip-whitelist = "~0.3.4"
 wagtail-accessibility = "^0.2.1"
-wagtail-storages = {git = "https://github.com/torchbox-forks/wagtail-storages", tag = "v1.0.1rc1"}
+wagtail-storages = "^1.0.0"
 coverage = "^5.4"
 wagtail-factories = "^4.1.0"
 wagtail-orderable = "^1.2.0"
