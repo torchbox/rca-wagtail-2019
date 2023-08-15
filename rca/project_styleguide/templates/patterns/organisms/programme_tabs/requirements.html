@@ -10,6 +10,9 @@
             <div class="programme-overview__body">
                 <p class="introduction">{{ programme_page_global_fields.requirements_introduction }}</p>
                 {{ page.requirements_text|richtext }}
+                {% if page.requirements_video and page.requirements_video_preview_image %}
+                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.requirements_video image=page.requirements_video_preview_image caption=page.requirements_video_caption video=page.requirements_video out_of_grid="true" heading=false has_meta=false subheading=false copy=false %}
+                {% endif %}
             </div>
         </div>
         {% if page.requirements_blocks %}
