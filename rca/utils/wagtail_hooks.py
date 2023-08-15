@@ -17,7 +17,12 @@ from rca.events.models import (
     EventType,
 )
 from rca.people.models import AreaOfExpertise, DegreeStatus, DegreeType, Directorate
-from rca.programmes.models import DegreeLevel, ProgrammeType, Subject
+from rca.programmes.models import (
+    DegreeLevel,
+    ProgrammeStudyMode,
+    ProgrammeType,
+    Subject,
+)
 from rca.scholarships.models import (
     ScholarshipEligibilityCriteria,
     ScholarshipFeeStatus,
@@ -40,6 +45,11 @@ class AuthorModelAdmin(ModelAdmin):
 
 class SubjectModelAdmin(ModelAdmin):
     model = Subject
+    menu_icon = "tag"
+
+
+class ProgrammeStudyModeModelAdmin(ModelAdmin):
+    model = ProgrammeStudyMode
     menu_icon = "tag"
 
 
@@ -143,6 +153,7 @@ class TaxonomiesModelAdminGroup(ModelAdminGroup):
     items = (
         DegreeLevelModelAdmin,
         ProgrammeTypeModelAdmin,
+        ProgrammeStudyModeModelAdmin,
         SubjectModelAdmin,
         ResearchTypeModelAdmin,
         AreaOfExpertiseModelAdmin,
