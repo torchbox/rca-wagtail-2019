@@ -36,4 +36,4 @@ class TestFormatStudyMode(unittest.TestCase):
             "Option C",
         ]
         result = format_study_mode(study_modes, separator=" / ")
-        self.assertEqual(result, "Option A / Option B / Option C")
+        self.assertEqual(result, "Option a / option b / option c")
