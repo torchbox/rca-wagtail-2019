@@ -414,6 +414,19 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
     # Requirements
     requirements_text = RichTextField(blank=True)
+    requirements_video = models.URLField(blank=True)
+    requirements_video_caption = models.CharField(
+        blank=True,
+        max_length=80,
+        help_text="The text dipsplayed next to the video play button",
+    )
+    requirements_video_preview_image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
     requirements_blocks = StreamField(
         [
             ("accordion_block", AccordionBlockWithTitle()),
@@ -612,6 +625,14 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
     programme_requirements_pannels = [
         FieldPanel("requirements_text"),
+        MultiFieldPanel(
+            [
+                FieldPanel("requirements_video"),
+                FieldPanel("requirements_video_caption"),
+                FieldPanel("requirements_video_preview_image"),
+            ],
+            heading="Video",
+        ),
         FieldPanel("requirements_blocks"),
     ]
     programme_fees_and_funding_panels = [
@@ -785,6 +806,14 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         if not self.search_description:
             errors["search_description"].append(
                 "Please add a search description for the page."
+            )
+        if self.requirements_video and not self.requirements_video_preview_image:
+            errors["requirements_video_preview_image"].append(
+                "Please add a preview image for the video."
+            )
+        if self.requirements_video_preview_image and not self.requirements_video:
+            errors["requirements_video"].append(
+                "Please add a video for the preview image."
             )
         if errors:
             raise ValidationError(errors)

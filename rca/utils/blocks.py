@@ -31,7 +31,6 @@ class SlideBlock(blocks.StructBlock):
 
 
 class StatisticBlock(blocks.StructBlock):
-
     summary = blocks.CharBlock(
         required=False,
         help_text="E.g.  1 in 3 of our graduates are business owners or independent professionals",
@@ -190,7 +189,7 @@ class AccordionBlockWithTitle(blocks.StructBlock):
     )
     body = blocks.RichTextBlock(
         help_text="The content shown when the accordion expanded",
-        features=["h2", "h3", "bold", "italic", "image", "ul", "ol", "link"],
+        features=["h2", "h3", "bold", "italic", "image", "embed", "ul", "ol", "link"],
     )
     link = LinkBlock(
         help_text="An optional link to display below the expanded content",
