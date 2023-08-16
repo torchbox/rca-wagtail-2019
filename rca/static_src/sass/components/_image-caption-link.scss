@@ -107,6 +107,10 @@
         }
     }
 
+    .programme-overview__video & {
+        margin-bottom: 0;
+    }
+
     .bg--dark & {
         #{$root}__caption {
             border-right: 1px solid $color--grid-line-light;
