@@ -8,11 +8,12 @@
     {% else %}
         <div class="image-caption-link__container">
     {% endif %}
+        {% if image %}
+            {% image image fill-80x37 as image_small %}
+            {% image image fill-900x415 as image_large %}
 
-        {% image image fill-80x37 as image_small %}
-        {% image image fill-900x415 as image_large %}
-
-        {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=900 height=415 image_large=image_large classList='image-caption-link__image' %}
+            {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=900 height=415 image_large=image_large classList='image-caption-link__image' %}
+        {% endif %}
         {% if modal %}
             <svg width="24" height="24" class="image-caption-link__image-icon" aria-hidden="true"><use xlink:href="#play-icon"></use></svg>
 
