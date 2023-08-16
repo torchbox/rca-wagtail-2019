@@ -4,7 +4,7 @@ from itertools import chain
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.db import models
+from django.db import models, transaction
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
@@ -35,6 +35,7 @@ from wagtail.search import index
 from wagtailorderable.models import Orderable as WagtailOrdable
 
 from rca.programmes.blocks import NotableAlumniBlock
+from rca.programmes.utils import format_study_mode
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
@@ -48,7 +49,7 @@ from rca.utils.blocks import (
     SnippetChooserBlock,
     StepBlock,
 )
-from rca.utils.formatters import format_study_mode, related_list_block_slideshow
+from rca.utils.formatters import related_list_block_slideshow
 from rca.utils.models import (
     BasePage,
     ContactFieldsMixin,
@@ -208,15 +209,33 @@ class ProgrammeStoriesBlock(models.Model):
         return self.title
 
 
+class ProgrammeStudyModeManager(models.Manager):
+    def create(self, **kwargs):
+        if self.count() >= 2:
+            raise ValueError("Only up to two instances are allowed.")
+        with transaction.atomic(using=self.db, savepoint=False):
+            return super().create(**kwargs)
+
+
 class ProgrammeStudyMode(models.Model):
     """
     For instance, full-time, part-time, etc.
     """
 
+    objects = ProgrammeStudyModeManager()
+
     title = models.CharField(max_length=128)
+    slug = models.SlugField(blank=True)
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if self.pk is None and ProgrammeStudyMode.objects.count() >= 2:
+            raise ValueError("Only up to two instances are allowed.")
+
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
 
 class ProgrammeStudyModeProgrammePage(models.Model):

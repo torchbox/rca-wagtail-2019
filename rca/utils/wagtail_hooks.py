@@ -5,6 +5,7 @@ from wagtail.contrib.modeladmin.options import (
     ModelAdminGroup,
     modeladmin_register,
 )
+from wagtail.contrib.modeladmin.views import IndexView
 from wagtail.rich_text import LinkHandler
 from wagtailorderable.modeladmin.mixins import OrderableMixin
 
@@ -48,8 +49,21 @@ class SubjectModelAdmin(ModelAdmin):
     menu_icon = "tag"
 
 
+class ProgrammeStudyModeIndexView(IndexView):
+    """
+    Hide the "Add" button if there are >= 2 instances.
+    """
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if ProgrammeStudyMode.objects.count() >= 2:
+            context.update({"user_can_create": False})
+        return context
+
+
 class ProgrammeStudyModeModelAdmin(ModelAdmin):
     model = ProgrammeStudyMode
+    index_view_class = ProgrammeStudyModeIndexView
     menu_icon = "tag"
 
 
