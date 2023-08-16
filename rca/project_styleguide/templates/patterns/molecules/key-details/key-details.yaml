@@ -21,8 +21,7 @@ context:
     programme_details_time: '2'
     programme_details_time_suffix: 'year programme'
     get_programme_details_time_suffix_display: 'year programme'
-    programme_details_duration: 'Full-time study'
-    get_programme_details_duration_display: 'Full time study'
+    study_mode: 'Full-time study'
   programme_page_global_fields:
     key_details_programme_details_title: Programme details
     key_details_next_open_day_title: Next open days
