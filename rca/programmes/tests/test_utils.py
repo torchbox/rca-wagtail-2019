@@ -1,6 +1,6 @@
 import unittest
 
-from rca.utils.formatters import format_study_mode
+from rca.programmes.utils import format_study_mode
 
 
 class TestFormatStudyMode(unittest.TestCase):
