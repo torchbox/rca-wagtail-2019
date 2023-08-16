@@ -4,7 +4,8 @@ from itertools import chain
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.db import models
+from django.db import models, transaction
+from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -34,6 +35,7 @@ from wagtail.search import index
 from wagtailorderable.models import Orderable as WagtailOrdable
 
 from rca.programmes.blocks import NotableAlumniBlock
+from rca.programmes.utils import format_study_mode
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
@@ -207,6 +209,55 @@ class ProgrammeStoriesBlock(models.Model):
         return self.title
 
 
+class ProgrammeStudyModeManager(models.Manager):
+    def create(self, **kwargs):
+        if self.count() >= 2:
+            raise ValueError("Only up to two instances are allowed.")
+        with transaction.atomic(using=self.db, savepoint=False):
+            return super().create(**kwargs)
+
+
+class ProgrammeStudyMode(models.Model):
+    """
+    For instance, full-time, part-time, etc.
+    """
+
+    objects = ProgrammeStudyModeManager()
+
+    title = models.CharField(max_length=128)
+    slug = models.SlugField(blank=True)
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if self.pk is None and ProgrammeStudyMode.objects.count() >= 2:
+            raise ValueError("Only up to two instances are allowed.")
+
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+
+class ProgrammeStudyModeProgrammePage(models.Model):
+    page = ParentalKey("programmes.ProgrammePage", related_name="programme_study_modes")
+    programme_study_mode = models.ForeignKey(
+        "programmes.ProgrammeStudyMode",
+        on_delete=models.CASCADE,
+    )
+    panels = [FieldPanel("programme_study_mode")]
+
+    def __str__(self):
+        return self.programme_study_mode.title
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["page", "programme_study_mode"],
+                name="unique_programme_study_mode_per_programme_page",
+            )
+        ]
+
+
 class ProgrammePageTag(TaggedItemBase):
     content_object = ParentalKey(
         "programmes.ProgrammePage",
@@ -268,15 +319,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             ("1", "year programme"),
             ("2", "month programme"),
             ("3", "week programme"),
-        ),
-        blank=True,
-    )
-    programme_details_duration = models.CharField(
-        max_length=1,
-        choices=(
-            ("1", "Full-time study"),
-            ("2", "Full-time study with part-time option"),
-            ("3", "Part-time study"),
         ),
         blank=True,
     )
@@ -536,7 +578,12 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
                 FieldPanel("programme_details_credits_suffix"),
                 FieldPanel("programme_details_time"),
                 FieldPanel("programme_details_time_suffix"),
-                FieldPanel("programme_details_duration"),
+                InlinePanel(
+                    "programme_study_modes",
+                    heading="Programme study mode",
+                    label="Study mode",
+                    max_num=2,
+                ),
             ],
             heading="Details",
         ),
@@ -742,6 +789,18 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     @property
     def introduction(self):
         return self.programme_description_subtitle
+
+    @cached_property
+    def study_mode(self):
+        study_modes = self.programme_study_modes.values_list(
+            "programme_study_mode__title", flat=True
+        )
+        if not study_modes:
+            return None
+        if len(study_modes) == 1:
+            return study_modes[0]
+
+        return format_study_mode(study_modes)
 
     def get_admin_display_title(self):
         bits = [self.draft_title]
