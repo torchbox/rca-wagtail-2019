@@ -1053,20 +1053,6 @@ class ProgrammePageGlobalFieldsSettings(BaseSiteSetting):
             "individuals who have shaped and continue to shape the world."
         ),
     )
-    alumni_cta_link = models.ForeignKey(
-        "wagtailcore.Page",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-        verbose_name="Page link",
-    )
-    alumni_cta_text = models.CharField(
-        max_length=255,
-        blank=True,
-        verbose_name="Custom link text",
-        help_text="Leave blank to use the page's own title",
-    )
     contact_title = models.CharField(max_length=255, default="Ask a question")
     contact_text = models.CharField(
         max_length=255,
@@ -1122,8 +1108,6 @@ class ProgrammePageGlobalFieldsSettings(BaseSiteSetting):
         MultiFieldPanel(
             [
                 FieldPanel("alumni_summary_text"),
-                FieldPanel("alumni_cta_link"),
-                FieldPanel("alumni_cta_text"),
                 FieldPanel("contact_title"),
                 FieldPanel("contact_text"),
             ],
