@@ -24,7 +24,7 @@ class ProgrammeToggleSwitch {
             this.checkbox.checked = true;
         }
 
-        if (this.isPartTime === 'false' || !this.isPartTime) {
+        if (this.isPartTime === false || !this.isPartTime) {
             this.checkbox.checked = false;
         }
     }
