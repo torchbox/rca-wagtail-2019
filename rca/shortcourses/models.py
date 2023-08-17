@@ -342,19 +342,6 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
     ]
 
     @property
-    def programme_study_modes(self):
-        """
-        This is used by the StudyModeFilter filter in the Wagtail API.
-        See rca/wagtailapi/filters.py.
-
-        It's here because don't have a programme_study_mode field
-        on this model, but we want to always include short courses
-        regardless of the study mode filter option.
-        """
-
-        pass
-
-    @property
     def listing_meta(self):
         # Returns a page 'type' value that's readable for listings,
         return "Short course"

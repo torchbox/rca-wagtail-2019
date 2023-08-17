@@ -26,7 +26,7 @@ class PagesAPIViewSet(views.PagesAPIViewSet):
 
     known_query_parameters = views.PagesAPIViewSet.known_query_parameters.union(
         [
-            "programme_study_modes",
+            "part-time",
         ]
     )
 

@@ -752,6 +752,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             [index.RelatedFields("subject", [index.SearchField("title")])],
         ),
         index.RelatedFields(
+            "programme_study_modes",
+            [index.RelatedFields("programme_study_mode", [index.SearchField("title")])],
+        ),
+        index.RelatedFields(
             "tagged_programme_items",
             [
                 index.RelatedFields(
@@ -975,16 +979,6 @@ class ProgrammeIndexPage(ContactFieldsMixin, BasePage):
             for i in Subject.objects.all().order_by("title")
         ]
 
-        programme_study_modes = [
-            {
-                "title": i.title,
-                "id": i.id,
-                "description": "",
-                "slug": i.slug,
-            }
-            for i in ProgrammeStudyMode.objects.all()
-        ]
-
         schools_and_research_pages = []
 
         schools_and_research_pages_queryset = chain(
@@ -1010,11 +1004,6 @@ class ProgrammeIndexPage(ContactFieldsMixin, BasePage):
                 "id": "related_schools_and_research_pages",
                 "title": "Schools & centres",
                 "items": schools_and_research_pages,
-            },
-            {
-                "id": "programme_study_modes",
-                "title": "Study mode",
-                "items": programme_study_modes,
             },
         ]
 
