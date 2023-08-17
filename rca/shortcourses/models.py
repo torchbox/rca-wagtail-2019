@@ -22,7 +22,6 @@ from wagtail.core.models import Orderable
 from wagtail.images import get_image_model_string
 from wagtail.images.api.fields import ImageRenditionField
 from wagtail.search import index
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
 
 from rca.programmes.models import ProgrammeType
 from rca.utils.blocks import (
@@ -341,6 +340,19 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
             serializer=ImageRenditionField("fill-580x580", source="hero_image"),
         ),
     ]
+
+    @property
+    def programme_study_modes(self):
+        """
+        This is used by the StudyModeFilter filter in the Wagtail API.
+        See rca/wagtailapi/filters.py.
+
+        It's here because don't have a programme_study_mode field
+        on this model, but we want to always include short courses
+        regardless of the study mode filter option.
+        """
+
+        pass
 
     @property
     def listing_meta(self):

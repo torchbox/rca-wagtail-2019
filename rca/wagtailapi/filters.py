@@ -6,6 +6,9 @@ from wagtail.models import Page
 from wagtail.search.backends import get_search_backend
 from wagtail.search.backends.base import FilterFieldError, OrderByFieldError
 
+from rca.programmes.models import ProgrammeStudyMode
+from rca.shortcourses.models import ShortCoursePage
+
 
 class DegreeLevelFilter(filters.BaseFilterBackend):
     """
@@ -64,6 +67,43 @@ class RelatedSchoolsFilter(filters.BaseFilterBackend):
                 )
             return queryset
         except FieldDoesNotExist:
+            return queryset
+
+
+class StudyModeFilter(filters.BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        try:
+            queryset.model._meta.get_field("programme_study_modes")
+            study_mode_ids = request.GET.get("programme_study_modes")
+
+            if study_mode_ids:
+                # Get the programme study modes we are applying as a filter as a queryset
+                filter_study_mode_qs = ProgrammeStudyMode.objects.filter(
+                    id=study_mode_ids
+                )
+                # Create a queryset to return which contains pages that have filter_study_mode_qs
+                # as a relationship
+                queryset = (
+                    queryset.model.objects.filter(
+                        programme_study_modes__programme_study_mode_id__in=filter_study_mode_qs.values_list(
+                            "pk", flat=True
+                        )
+                    )
+                    .order_by("title")
+                    .live()
+                )
+            return queryset
+        except FieldDoesNotExist:
+            try:
+                study_modes_attr = getattr(
+                    queryset.model, "programme_study_modes", None
+                )
+                if study_modes_attr:
+                    # add all live ShortCoursePages to the current queryset
+                    queryset = queryset | ShortCoursePage.objects.live()
+            except AttributeError:
+                pass
+
             return queryset
 
 

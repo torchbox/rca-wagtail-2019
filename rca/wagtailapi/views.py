@@ -10,7 +10,6 @@ from .serializers import RCAImageSerializer, RCAPageSerializer
 
 
 class PagesAPIViewSet(views.PagesAPIViewSet):
-
     base_serializer_class = RCAPageSerializer
 
     filter_backends = [
@@ -21,8 +20,15 @@ class PagesAPIViewSet(views.PagesAPIViewSet):
         DescendantOfFilter,
         filters.RelatedSchoolsFilter,
         filters.SubjectsFilter,
+        filters.StudyModeFilter,
         filters.SearchFilter,
     ]
+
+    known_query_parameters = views.PagesAPIViewSet.known_query_parameters.union(
+        [
+            "programme_study_modes",
+        ]
+    )
 
     meta_fields = views.PagesAPIViewSet.meta_fields + [
         "children",
