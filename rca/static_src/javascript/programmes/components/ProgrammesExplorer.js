@@ -1,13 +1,14 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-use';
+import React from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { useLocation } from 'react-use';
 
 import { programmeCategories } from '../programmes.types';
 
-import SearchForm from './SearchForm';
-import ProgrammesResults from './ProgrammesResults/ProgrammesResults';
 import ProgrammesCategories from './ProgrammesCategories/ProgrammesCategories';
+import ProgrammesResults from './ProgrammesResults/ProgrammesResults';
+import SearchForm from './SearchForm';
+import ToggleSwitch from './StudyModeToggleSwitch';
 
 /**
  * Programmes and short courses listing, with a search form, filters, and a results view.
@@ -28,6 +29,12 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
     return (
         <>
             <SearchForm searchQuery={searchQuery} label={searchLabel} />
+            {/* Study mode toggler placeholder */}
+            <ToggleSwitch
+                ariaLabel="Programme study mode"
+                labelOne="Full-time"
+                labelTwo="Part-time"
+            />
             <TransitionGroup className="explorer-transitions">
                 {showCategories ? (
                     <CSSTransition
