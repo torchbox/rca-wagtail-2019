@@ -17,6 +17,14 @@
         @include media-query(large) {
             grid-column: 3 / span 2;
         }
+
+        &--video {
+            margin-bottom: $gutter;
+
+            @include media-query(large) {
+                margin-bottom: ($gutter * 3.5);
+            }
+        }
     }
 
     &__description {
