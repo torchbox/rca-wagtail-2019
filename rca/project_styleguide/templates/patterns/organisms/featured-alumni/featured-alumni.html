@@ -3,12 +3,6 @@
         <h2 class="featured-alumni__heading heading heading--four">{{ title }}</h2>
         <div class="featured-alumni__introduction">
             <p class="introduction">{{ introduction }}</p>
-            {% if alumni_snippet.link_url %}
-                <a href="{{ alumni_snippet.link_url }}" class="facilities__view-all facilities__view-all--medium body body--one link link--primary link--link">
-                    <span class="link__label">{{ alumni_snippet.link_title }}</span>
-                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                </a>
-            {% endif %}
         </div>
         <div class="featured-alumni__body">
             <ul class="featured-alumni__list">
