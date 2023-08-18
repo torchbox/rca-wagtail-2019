@@ -71,19 +71,23 @@
                 </ul>
             </div>
         {% endif %}
-        {% if page.next_open_day_date %}
+        {% if page.next_open_day_date or page.link_to_open_days %}
             <div class="key-details__section key-details__section--open-days">
                 {% if programme_page_global_fields.key_details_next_open_day_title %}
                     <h4 class="body body--two key-details__sub-heading">{{ programme_page_global_fields.key_details_next_open_day_title }}</h4>
                 {% endif %}
                 <ul class="key-details__list">
-                    <li class="key-details__list-item">{{ page.next_open_day_date }}</li>
-                    <li class="key-details__list-item">
-                        <a class="key-details__link link link--secondary link--link" href="{{ page.link_to_open_days }}">
-                            <span class="link__label">{{ programme_page_global_fields.key_details_book_or_view_all_open_days_link_title }}</span>
-                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                        </a>
-                    </li>
+                    {% if page.next_open_day_date %}
+                        <li class="key-details__list-item">{{ page.next_open_day_date }}</li>
+                    {% endif %}
+                    {% if page.link_to_open_days %}
+                        <li class="key-details__list-item">
+                            <a class="key-details__link link link--secondary link--link" href="{{ page.link_to_open_days }}">
+                                <span class="link__label">{{ programme_page_global_fields.key_details_book_or_view_all_open_days_link_title }}</span>
+                                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                            </a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         {% endif %}
