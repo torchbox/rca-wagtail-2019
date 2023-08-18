@@ -192,14 +192,6 @@ class ProgramPageRelatedStaff(Orderable):
         return self.name
 
 
-class ProgrammePageTag(TaggedItemBase):
-    content_object = ParentalKey(
-        "programmes.ProgrammePage",
-        on_delete=models.CASCADE,
-        related_name="tagged_programme_items",
-    )
-
-
 class ProgrammeStoriesBlock(models.Model):
     source_page = ParentalKey("ProgrammePage", related_name="programme_stories")
     title = models.CharField(max_length=125)
@@ -264,6 +256,46 @@ class ProgrammeStudyModeProgrammePage(models.Model):
                 name="unique_programme_study_mode_per_programme_page",
             )
         ]
+
+
+class ProgrammeLocation(models.Model):
+    title = models.CharField(max_length=128)
+    slug = models.SlugField(blank=True)
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+
+class ProgrammeLocationProgrammePage(models.Model):
+    page = ParentalKey("programmes.ProgrammePage", related_name="programme_locations")
+    programme_location = models.ForeignKey(
+        "programmes.programmeLocation",
+        on_delete=models.CASCADE,
+    )
+    panels = [FieldPanel("programme_location")]
+
+    def __str__(self):
+        return self.programme_location.title
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["page", "programme_location"],
+                name="unique_programme_location_per_programme_page",
+            )
+        ]
+
+
+class ProgrammePageTag(TaggedItemBase):
+    content_object = ParentalKey(
+        "programmes.ProgrammePage",
+        on_delete=models.CASCADE,
+        related_name="tagged_programme_items",
+    )
 
 
 class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
@@ -591,6 +623,11 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             ],
             heading="Details",
         ),
+        InlinePanel(
+            "programme_locations",
+            heading="Programme locations",
+            label="Location",
+        ),
         FieldPanel("next_open_day_date"),
         FieldPanel("link_to_open_days"),
         FieldPanel("application_deadline"),
@@ -748,6 +785,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         index.SearchField("scholarship_information_blocks"),
         index.SearchField("more_information_blocks", boost=2),
         index.RelatedFields("programme_type", [index.SearchField("display_name")]),
+        index.RelatedFields(
+            "programme_locations",
+            [index.RelatedFields("programme_location", [index.SearchField("title")])],
+        ),
         index.RelatedFields("degree_level", [index.SearchField("title")]),
         index.RelatedFields(
             "subjects",
@@ -805,6 +846,12 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             return study_modes[0]
 
         return format_study_mode(study_modes)
+
+    @cached_property
+    def campus_locations(self):
+        return self.programme_locations.values_list(
+            "programme_location__title", flat=True
+        ).order_by("programme_location__title")
 
     def get_admin_display_title(self):
         bits = [self.draft_title]
