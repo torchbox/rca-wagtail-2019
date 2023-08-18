@@ -20,6 +20,7 @@ from rca.events.models import (
 from rca.people.models import AreaOfExpertise, DegreeStatus, DegreeType, Directorate
 from rca.programmes.models import (
     DegreeLevel,
+    ProgrammeLocation,
     ProgrammeStudyMode,
     ProgrammeType,
     Subject,
@@ -71,6 +72,11 @@ class ProgrammeTypeModelAdmin(OrderableMixin, ModelAdmin):
     model = ProgrammeType
     menu_icon = "tag"
     ordering = ["sort_order"]
+
+
+class ProgrammeLocationModelAdmin(ModelAdmin):
+    model = ProgrammeLocation
+    menu_icon = "tag"
 
 
 class ResearchTypeModelAdmin(ModelAdmin):
@@ -168,6 +174,7 @@ class TaxonomiesModelAdminGroup(ModelAdminGroup):
         DegreeLevelModelAdmin,
         ProgrammeTypeModelAdmin,
         ProgrammeStudyModeModelAdmin,
+        ProgrammeLocationModelAdmin,
         SubjectModelAdmin,
         ResearchTypeModelAdmin,
         AreaOfExpertiseModelAdmin,
