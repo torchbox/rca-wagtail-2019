@@ -896,7 +896,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         staff = []
         for item in (
             StaffPage.objects.filter(roles__programme=self).live().order_by("last_name")
-        ):
+        ).distinct():
             staff.append({"page": item})
         return staff
 
