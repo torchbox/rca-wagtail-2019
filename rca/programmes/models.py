@@ -401,6 +401,12 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     )
 
     # Staff
+    staff_title = models.CharField(
+        blank=True,
+        max_length=120,
+        default="Staff",
+        verbose_name="Programme staff title",
+    )
     staff_link = models.URLField(blank=True)
     staff_link_text = models.CharField(
         max_length=125, blank=True, help_text="E.g. 'See all programme staff'"
@@ -653,7 +659,12 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         MultiFieldPanel([FieldPanel("programme_gallery")], heading="Programme gallery"),
         MultiFieldPanel(
             [
-                InlinePanel("related_staff", max_num=2),
+                FieldPanel("staff_title"),
+                HelpPanel(
+                    content="By default, related staff will be automatically listed. This \
+                can be overriden by adding staff pages here."
+                ),
+                InlinePanel("related_staff"),
                 FieldPanel("staff_link"),
                 FieldPanel("staff_link_text"),
             ],
@@ -875,6 +886,29 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             "slides": related_list_block_slideshow(programme_stories.slides),
         }
 
+    def get_related_staff(self):
+        """Method to return a related staff.
+        The default behaviour should be to find related staff via the relationship
+        StaffPage.roles. This also needs to offer the option to
+        manually add related staff to the programme page, this helps solve issues
+        of custom ordering that's needed with large (>25) staff items.
+        """
+
+        from rca.people.models import StaffPage
+
+        related_staff = self.related_staff.select_related("image")
+        if related_staff:
+            return related_staff
+
+        # For any automatially related staff, adjust the list so we don't have
+        # to make edits to the template shared by other page models.
+        staff = []
+        for item in (
+            StaffPage.objects.filter(roles__programme=self).live().order_by("last_name")
+        ).distinct():
+            staff.append({"page": item})
+        return staff
+
     def clean(self):
         super().clean()
         errors = defaultdict(list)
@@ -930,7 +964,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
                 ],
             }
         ]
-        context["related_staff"] = self.related_staff.select_related("image")
+        context["related_staff"] = self.get_related_staff()
 
         # If one of the slides in the the programme_gallery contains author information
         # we need to set a modifier
