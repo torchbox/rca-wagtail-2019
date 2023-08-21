@@ -424,11 +424,11 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     staff_panels = [
         FieldPanel("staff_title"),
         FieldPanel("staff_summary"),
-        InlinePanel("related_staff", label="Related staff"),
         HelpPanel(
             content="By default, related staff will be automatically listed. This \
                 can be overriden by adding staff pages here."
         ),
+        InlinePanel("related_staff", label="Related staff"),
         MultiFieldPanel(
             [FieldPanel("staff_link_text"), FieldPanel("staff_link")],
             heading="View more staff link",
