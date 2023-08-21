@@ -237,6 +237,8 @@ class StaffPage(BasePage):
         index.SearchField("introduction"),
         index.SearchField("first_name"),
         index.SearchField("last_name"),
+        index.SearchField("body"),
+        index.SearchField("more_information"),
     ]
 
     key_details_panels = [
@@ -294,6 +296,11 @@ class StaffPage(BasePage):
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
+
+    @property
+    def listing_meta(self):
+        # Returns a page 'type' value that's readable for listings,
+        return "Staff"
 
     @property
     def name(self):
@@ -760,6 +767,15 @@ class StudentPage(BasePage):
         index.SearchField("first_name"),
         index.SearchField("last_name"),
         index.SearchField("bio"),
+        index.SearchField("biography"),
+        index.SearchField("degrees"),
+        index.SearchField("experience"),
+        index.SearchField("awards"),
+        index.SearchField("funding"),
+        index.SearchField("exhibitions"),
+        index.SearchField("publications"),
+        index.SearchField("research_outputs"),
+        index.SearchField("addition_information_content"),
     ]
 
     content_panels = BasePage.content_panels + [
@@ -836,6 +852,11 @@ class StudentPage(BasePage):
             ),  # needs to have no content for students
         ]
     )
+
+    @property
+    def listing_meta(self):
+        # Returns a page 'type' value that's readable for listings,
+        return "Student"
 
     @property
     def name(self):

@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from wagtail.api import APIField
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
+from wagtail.search import index
 
 
 class CustomImage(AbstractImage):
@@ -34,6 +35,11 @@ class CustomImage(AbstractImage):
         APIField("focal_point_y"),
         APIField("focal_point_width"),
         APIField("focal_point_height"),
+    ]
+
+    search_fields = AbstractImage.search_fields + [
+        index.SearchField("creator"),
+        index.SearchField("photographer"),
     ]
 
 

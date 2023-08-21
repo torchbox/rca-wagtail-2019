@@ -2,7 +2,7 @@ import json
 from datetime import date, time
 
 import wagtail_factories
-from wagtail.test.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTestCase
 
 from rca.events.factories import (
     EventAvailabilityFactory,
@@ -25,7 +25,7 @@ from rca.schools.factories import SchoolPageFactory
 from rca.schools.models import RelatedSchoolPage
 
 
-class EventAPIResponseTest(WagtailPageTests):
+class EventAPIResponseTest(WagtailPageTestCase):
     """The RCA intranet import tool relies on the structure
     of this API response, so it's covered with a test to ensure
     that should the structure change, we are alerted about it as
@@ -229,7 +229,7 @@ class EventAPIResponseTest(WagtailPageTests):
         self.assertEqual(response.data["event_cost"], "$100")
 
 
-class EventSerializerTests(WagtailPageTests):
+class EventSerializerTests(WagtailPageTestCase):
     def setUp(self):
         self.home_page = HomePage.objects.first()
         self.event_page = EventDetailPageFactory(

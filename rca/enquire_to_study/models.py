@@ -10,7 +10,7 @@ from wagtail.admin.panels import (
     InlinePanel,
     MultiFieldPanel,
 )
-from wagtail.contrib.settings.models import BaseSetting, register_setting
+from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import RichTextField
 from wagtail.models import Orderable
 from wagtail.snippets.models import register_snippet
@@ -142,7 +142,7 @@ class EnquiryFormSubmissionProgrammesOrderable(Orderable):
 
 
 @register_setting
-class EnquireToStudySettings(BaseSetting):
+class EnquireToStudySettings(BaseSiteSetting):
     class Meta:
         verbose_name = "Enquire to study settings"
 
@@ -176,7 +176,7 @@ class EnquireToStudySettings(BaseSetting):
 
 
 @register_setting
-class EnquiryFormKeyDetails(BaseSetting):
+class EnquiryFormKeyDetails(BaseSiteSetting):
     content = RichTextField(
         features=["h3", "bold", "italic", "link"],
     )

@@ -4,7 +4,7 @@ import wagtail_factories
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from freezegun import freeze_time
-from wagtail.test.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTestCase
 
 from rca.editorial.factories import EditorialPageFactory, EditorialTypeFactory
 from rca.editorial.models import EditorialPageTypePlacement
@@ -45,7 +45,7 @@ class TestEventDetailPageFactories(TestCase):
         EventEligibility()
 
 
-class EventDetailPageTests(WagtailPageTests):
+class EventDetailPageTests(WagtailPageTestCase):
     def test_can_create_under_event_index_page(self):
         self.assertCanCreateAt(EventIndexPage, EventDetailPage)
 
@@ -123,7 +123,7 @@ class EventDetailPageTests(WagtailPageTests):
         )
 
 
-class EventDetailPageDateTests(WagtailPageTests):
+class EventDetailPageDateTests(WagtailPageTestCase):
     """
     Tests for the return values of the event_date_short method
     """
@@ -284,7 +284,7 @@ class EventDetailPageDateTests(WagtailPageTests):
         self.assertEqual(message, the_exception.messages[0])
 
 
-class EventDetailPageRelatedContentTests(WagtailPageTests):
+class EventDetailPageRelatedContentTests(WagtailPageTestCase):
     """
     Test the values returned from the EventDetailPage.get_related_pages method
     """

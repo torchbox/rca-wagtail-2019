@@ -1,5 +1,5 @@
 from django.test import TestCase
-from wagtail.test.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTestCase
 
 from rca.home.models import HomePage
 from rca.scholarships.factories import (
@@ -30,7 +30,7 @@ class TestScholarshipsListingPageFactory(TestCase):
         ScholarshipsListingPageFactory()
 
 
-class TestScholarshipsListingPageRules(WagtailPageTests):
+class TestScholarshipsListingPageRules(WagtailPageTestCase):
     def test_can_create(self):
         self.assertCanCreateAt(HomePage, ScholarshipsListingPage)
 
