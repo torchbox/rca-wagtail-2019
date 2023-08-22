@@ -6,16 +6,77 @@ This document describes aspects of the system which should be given particular a
 
 The following areas of functionality are critical paths for the site which don't have full automated tests and should be checked manually.
 
-(If this information is managed in a separate document, a link here will suffice.)
+### 1. Account Management
 
-### 1. [Summary of critical path, e.g. 'Donations']
+App https://github.com/torchbox/rca-wagtail-2019/tree/master/rca/account_management
 
-[Description of the overall functionality covered]
+The account management app provides the functionality for administrators to create student accounts.
+Most of this IS covered by unit tests, however it's still worth doing a test over the UI.
 
-- Step-by-step instructions for what to test and what the expected behaviour is
-- Include details for edge cases as well as the general case
-- Break this into separate subsections if there's a lot to cover
-- Don't include anything which is already covered by automated testing, unless it's a prerequisite for a manual test
+- First go to admin > settings > collections, you will need to create a new collection for a test user.
+- Then go to `admin/student/create`, fill in the details and assign the collection, make sure 'create student page' is true.
+
+Expected behaviour after submitting the form:
+
+- A student account is created
+- A student page is created and linked to the new user account
+- An email is sent to the student inviting them to reset there password.
+
+### 1.2 Student Accounts
+
+App https://github.com/torchbox/rca-wagtail-2019/tree/master/rca/people
+
+Most of the custom logic for students is covered by tests, but again it's worth testing the UI for any changes between wagtail versions.
+
+Given in 1 (above) a student account is created, the student is able to sign in and edit their own page. There are a number of fields that we don't want the student to be able to edit. E.G title, collection, page link. There are also fields that we don't want anyone to be able to edit.
+
+How to test:
+
+- Sign in as admin and searh for 'students', this will show you a student page.
+- Editing the student page as admin you shouldn't be able to edit the ' Student user account' or ' Student user image collection' fields.
+- Next, sing in as a student to edit your own student page.
+- Student shouldn't see the Wagtail search in the sidebar, or any page, images etc menu links. It's all removed aside from 'help'
+- you should see a reduced amount of fields compared to signing in as admin.
+- The fields shown to superuser vs student roles can be seen [here](https://github.com/torchbox/rca-wagtail-2019/blob/master/rca/people/models.py#L765) in rca.people.models.StudentPage.content_panels
+
+### 2. Enquire to study form
+
+URL: https://www.rca.ac.uk/enquire-to-study/
+App: https://github.com/torchbox/rca-wagtail-2019/tree/master/rca/enquire_to_study
+
+Whilst there are unit tests for this form, it has 2 integrations so important to test this form.
+When submitted the form will geneate a submission object at `admin/enquire_to_study/enquiryformsubmission/`.
+
+How to test:
+
+- Fill out and submit the form as a user from the UK (integrates to Mailchimp)
+- Fill out and submit the form as a user from outise the UK (integrates to QS)
+- Confirm that the submission object is created in the admin view
+- Confirm you can delete the submission(s) invidually and by bulk
+
+### 3. Scholarship
+
+URL: https://www.rca.ac.uk/study/application-process/funding-your-studies/rca-scholarships-and-awards/express-interest/
+App: https://github.com/torchbox/rca-wagtail-2019/tree/master/rca/scholarships
+
+Scholarships are added as snippets `admin/snippets/scholarships/scholarship/` and are rendered as choices on the form. After submitting the form, a submission object should be created in the admin at `admin/scholarships/scholarshipenquiryformsubmission/`
+
+How to test:
+
+- Fill out the form
+- Confirm a submission is created at `admin/scholarships/scholarshipenquiryformsubmission/`
+- Confirm you can delete the submission object individually and by bulk.
+
+### 4. Import to intranet
+
+The RCA intranet supports importing certain page types to the intranet from the main site. This is done by reading the pages API endpoint. Testing this can be a little trick, but rca-inforca-staging can be used to test it, as that staging site has the env var `RCA_CONTENT_API_URL` to read from the rca-develompoent site.
+
+How to test:
+
+- Pick/edit/create an Event Or Editorial page on the rca-development site (rca-development.herokuapp.com)
+- Head to the intranet staging site importer at https://rca-inforca-staging.herokuapp.com/admin/content_importer/
+- Click to import content, you should be offered a search showing you pages from the rca-development site.
+- Import the content and make sure it's all gone smooth and fields are populated.
 
 ## Other considerations
 
@@ -26,7 +87,9 @@ As well as testing the critical paths, these areas of functionality should be ch
 1. The site has custom code to show/hide fields and panels depending on if a StudentPage is viewed by an admin (superuser) or a Student (none superuser).
 2. The site has custom code to show/hide sidebar elements depending on if a Student is viewing the editor vs an admin (superuser).
 
-#### Wagtail v3 Upgrade
+---
+
+#### Wagtail v3 Upgrade notes
 
 When the site was upgraded to Wagtail v3 the original issue at v2.15 & v2.16 noted above was fixed.
 

@@ -22,6 +22,7 @@ from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.fields import StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.models import Orderable, Page
+from wagtail.search import index
 
 from rca.people.models import AreaOfExpertise
 from rca.research.models import ResearchCentrePage
@@ -212,6 +213,13 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
             Aim for logos that sit on either a white or transparent background.",
     )
+
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+        index.SearchField("body"),
+        index.SearchField("more_information"),
+    ]
+
     content_panels = BasePage.content_panels + [
         MultiFieldPanel(
             [FieldPanel("hero_image")],
@@ -281,6 +289,11 @@ class ProjectPage(ContactFieldsMixin, BasePage):
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
+
+    @property
+    def listing_meta(self):
+        # Returns a page 'type' value that's readable for listings,
+        return "Project"
 
     def get_related_projects(self):
         """
@@ -426,6 +439,10 @@ class ProjectPickerPage(BasePage):
         null=True,
         blank=True,
     )
+
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+    ]
 
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),

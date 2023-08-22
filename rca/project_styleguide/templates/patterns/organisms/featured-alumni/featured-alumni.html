@@ -7,11 +7,16 @@
         <div class="featured-alumni__body">
             <ul class="featured-alumni__list">
                 {% for link in alumni_links %}
-                {% if link.value.link %}
-                    <li><a target="_blank" href="{{ link.value.link }}">{{ link.value.name }}</a></li>
-                {% else %}
-                    <li>{{ link.value.name }}</li>
-                {% endif %}
+                    {% if link.value.get_url %}
+                        <li>
+                            <a {% if link.value.is_external_link %}target="_blank"{% endif %} class="link link--link {% if link.value.is_external_link %}link--external{% else %}link--tertiary{% endif %}" href="{{ link.value.get_url }}">
+                                <span class="link__label">{{ link.value.name }}</span>
+                                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow{% if link.value.is_external_link %}-external{% endif %}"></use></svg>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li>{{ link.value.name }}</li>
+                    {% endif %}
                 {% endfor %}
             </ul>
         </div>

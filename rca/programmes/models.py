@@ -21,9 +21,8 @@ from wagtail.admin.panels import (
     TabbedInterface,
 )
 from wagtail.api import APIField
-from wagtail.blocks import CharBlock, StructBlock, URLBlock
-from wagtail.contrib.settings.models import BaseSetting, register_setting
-from wagtail.documents.edit_handlers import DocumentChooserPanel
+from wagtail.blocks import CharBlock, StructBlock
+from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.embeds import embeds
 from wagtail.embeds.exceptions import EmbedException
 from wagtail.fields import RichTextField, StreamBlock, StreamField
@@ -34,6 +33,7 @@ from wagtail.models import Orderable, Site
 from wagtail.search import index
 from wagtailorderable.models import Orderable as WagtailOrdable
 
+from rca.programmes.blocks import NotableAlumniBlock
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
@@ -42,6 +42,7 @@ from rca.utils.blocks import (
     GalleryBlock,
     InfoBlock,
     LinkedImageBlock,
+    QuoteBlock,
     RelatedPageListBlockPage,
     SnippetChooserBlock,
     StepBlock,
@@ -350,15 +351,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     )
 
     notable_alumni_links = StreamField(
-        [
-            (
-                "Link_to_person",
-                StructBlock(
-                    [("name", CharBlock()), ("link", URLBlock(required=False))],
-                    icon="link",
-                ),
-            )
-        ],
+        [("Link_to_person", NotableAlumniBlock())],
         blank=True,
         use_json_field=True,
     )
@@ -403,6 +396,16 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         blank=True,
         verbose_name="Accordion blocks",
         use_json_field=True,
+    )
+    quote_carousel = StreamField(
+        [("quote", QuoteBlock())], blank=True, verbose_name="Quote carousel"
+    )
+    quote_carousel_link = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="+",
     )
 
     # Requirements
@@ -591,6 +594,13 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             heading="What you'll cover",
         ),
         MultiFieldPanel(
+            [
+                FieldPanel("quote_carousel"),
+                PageChooserPanel("quote_carousel_link"),
+            ],
+            "Quote carousel",
+        ),
+        MultiFieldPanel(
             [FieldPanel("working_with_heading"), FieldPanel("working_with")],
             "Collaborators",
         ),
@@ -658,35 +668,18 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     )
 
     search_fields = BasePage.search_fields + [
-        index.SearchField("programme_description_subtitle", partial_match=True),
-        index.AutocompleteField("programme_description_subtitle", partial_match=True),
-        index.SearchField("pathway_blocks", partial_match=True),
-        index.AutocompleteField("pathway_blocks", partial_match=True),
-        index.RelatedFields(
-            "programme_type",
-            [
-                index.SearchField("display_name", partial_match=True),
-                index.AutocompleteField("display_name", partial_match=True),
-            ],
-        ),
-        index.RelatedFields(
-            "degree_level",
-            [
-                index.SearchField("title", partial_match=True),
-                index.AutocompleteField("title", partial_match=True),
-            ],
-        ),
+        index.SearchField("programme_description_copy", boost=2),
+        index.SearchField("pathway_blocks", boost=2),
+        index.SearchField("what_you_will_cover_blocks", boost=2),
+        index.SearchField("requirements_text"),
+        index.SearchField("requirements_blocks"),
+        index.SearchField("scholarship_information_blocks"),
+        index.SearchField("more_information_blocks", boost=2),
+        index.RelatedFields("programme_type", [index.SearchField("display_name")]),
+        index.RelatedFields("degree_level", [index.SearchField("title")]),
         index.RelatedFields(
             "subjects",
-            [
-                index.RelatedFields(
-                    "subject",
-                    [
-                        index.SearchField("title", partial_match=True),
-                        index.AutocompleteField("title", partial_match=True),
-                    ],
-                )
-            ],
+            [index.RelatedFields("subject", [index.SearchField("title")])],
         ),
         index.RelatedFields(
             "tagged_programme_items",
@@ -745,6 +738,11 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             "title": programme_stories.title,
             "slides": related_list_block_slideshow(programme_stories.slides),
         }
+
+    @property
+    def listing_meta(self):
+        # Returns a page 'type' value that's readable for listings,
+        return "Programme"
 
     def clean(self):
         super().clean()
@@ -920,7 +918,7 @@ class ProgrammeIndexPage(ContactFieldsMixin, BasePage):
 
 
 @register_setting
-class ProgrammePageGlobalFieldsSettings(BaseSetting):
+class ProgrammePageGlobalFieldsSettings(BaseSiteSetting):
     class Meta:
         verbose_name = "Programme Page Global Fields"
 

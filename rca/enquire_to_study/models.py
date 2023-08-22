@@ -10,7 +10,7 @@ from wagtail.admin.panels import (
     InlinePanel,
     MultiFieldPanel,
 )
-from wagtail.contrib.settings.models import BaseSetting, register_setting
+from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import RichTextField
 from wagtail.models import Orderable
 from wagtail.snippets.models import register_snippet
@@ -72,6 +72,12 @@ class EnquiryFormSubmission(ClusterableModel):
         on_delete=models.SET_NULL,
         related_name="+",
     )
+    enquiry_questions = models.TextField(
+        help_text="If you have a specific enquiry or question, please include it here.",
+        max_length=1000,
+        blank=True,
+        null=True,
+    )
     start_date = models.ForeignKey(
         "enquire_to_study.StartDate",
         null=True,
@@ -109,6 +115,7 @@ class EnquiryFormSubmission(ClusterableModel):
         ),
         FieldPanel("start_date"),
         FieldPanel("enquiry_reason", heading="What's your enquiry about?"),
+        FieldPanel("enquiry_questions", heading="Your questions"),
         MultiFieldPanel(
             [
                 FieldPanel("is_read_data_protection_policy"),
@@ -135,7 +142,7 @@ class EnquiryFormSubmissionProgrammesOrderable(Orderable):
 
 
 @register_setting
-class EnquireToStudySettings(BaseSetting):
+class EnquireToStudySettings(BaseSiteSetting):
     class Meta:
         verbose_name = "Enquire to study settings"
 
@@ -169,7 +176,7 @@ class EnquireToStudySettings(BaseSetting):
 
 
 @register_setting
-class EnquiryFormKeyDetails(BaseSetting):
+class EnquiryFormKeyDetails(BaseSiteSetting):
     content = RichTextField(
         features=["h3", "bold", "italic", "link"],
     )

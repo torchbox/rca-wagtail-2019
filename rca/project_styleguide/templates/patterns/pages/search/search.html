@@ -14,7 +14,7 @@
                 <div class="title-area__content">
                     <h1 class="title-area__heading heading heading--display-two" id="main-content">Search results</h1>
 
-                    <form action="{% url 'search' %}" method="get" role="search">
+                    <form action="/search" method="get" role="search" class="search">
                         {% include "patterns/molecules/search/search--inline.html" with item=search_form search_query=search_query %}
                     </form>
                 </div>
@@ -36,13 +36,13 @@
 
                 <div class="search-list section__row">
 
-                    {% comment %}{% get_search_promotions search_query as search_picks %}{% endcomment %}
+                    {% get_search_promotions search_query as search_picks %}
 
                     {% if search_picks %}
                         <ul class="search-list__results search-list__results--pick">
                             {% for pick in search_picks %}
                                 <li class="search-list__item--pick">
-                                    {% include "patterns/molecules/search-result/search-result.html" with result=pick.specific search_pick=True %}
+                                    {% include "patterns/molecules/search-result/search-result.html" with result=pick.page search_pick=True %}
                                 </li>
                             {% endfor %}
                         </ul>

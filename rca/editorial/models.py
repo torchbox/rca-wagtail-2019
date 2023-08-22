@@ -1,3 +1,4 @@
+import re
 from urllib.parse import urlencode
 
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -15,6 +16,7 @@ from wagtail.admin.panels import (
 from wagtail.api import APIField
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Orderable, Page
+from wagtail.search import index
 
 from rca.editorial import admin_forms
 from rca.editorial.utils import get_linked_taxonomy
@@ -176,6 +178,11 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         help_text="The text displayed as the download link",
     )
 
+    show_in_index_page = models.BooleanField(
+        default=True,
+        help_text="Toggle to show/hide in the index page.",
+    )
+
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
         FieldPanel("hero_image"),
@@ -215,6 +222,13 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         ),
     ]
 
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+        index.SearchField("body"),
+        index.RelatedFields("author", [index.SearchField("name")]),
+        index.SearchField("more_information"),
+    ]
+
     key_details_panels = [
         FieldPanel("published_at"),
         MultiFieldPanel(
@@ -245,37 +259,18 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         ),
         FieldPanel("contact_email"),
     ]
+    promote_panels = BasePage.promote_panels + [
+        FieldPanel("show_in_index_page"),
+    ]
 
     edit_handler = TabbedInterface(
         [
             ObjectList(content_panels, heading="Content"),
             ObjectList(key_details_panels, heading="Key details"),
-            ObjectList(BasePage.promote_panels, heading="Promote"),
+            ObjectList(promote_panels, heading="Promote"),
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
-
-    def author_as_string(self):
-        if self.author:
-            return self.author
-        else:
-            return ""
-
-    def related_programmes_api(self):
-        programmes = []
-        for related_page in self.related_programmes.all():
-            page = related_page.page.specific
-            programmes.append(
-                {
-                    "page": {
-                        "title": page.title,
-                        "id": page.id,
-                        "slug": page.slug,
-                        "intranet_slug": page.intranet_slug,
-                    },
-                }
-            )
-        return programmes
 
     api_fields = BasePage.api_fields + [
         APIField("hero_image"),
@@ -311,6 +306,45 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         APIField("author_as_string", serializer=RelatedAuthorSerializer()),
         "related_programmes_api",
     ]
+
+    @property
+    def listing_meta(self):
+        # Returns a page 'type' value that's readable for listings,
+        editorial_type = self.editorial_types.first()
+        if editorial_type:
+            return editorial_type.type
+
+    def search_listing_summary(self):
+        """Method to return the summary without html
+
+        Returns:
+            string: text with html tags removed
+        """
+        text = self.listing_summary or self.introduction
+        text = re.sub("<[^<]+?>", "", text)
+        return text
+
+    def author_as_string(self):
+        if self.author:
+            return self.author
+        else:
+            return ""
+
+    def related_programmes_api(self):
+        programmes = []
+        for related_page in self.related_programmes.all():
+            page = related_page.page.specific
+            programmes.append(
+                {
+                    "page": {
+                        "title": page.title,
+                        "id": page.id,
+                        "slug": page.slug,
+                        "intranet_slug": page.intranet_slug,
+                    },
+                }
+            )
+        return programmes
 
     def get_related_pages(self):
         related_pages = {"title": "Also of interest", "items": []}
@@ -369,6 +403,10 @@ class EditorialListingPage(ContactFieldsMixin, BasePage):
     subpage_types = ["editorial.EditorialPage"]
 
     introduction = models.CharField(max_length=200, blank=True)
+
+    search_fields = BasePage.search_fields + [
+        index.SearchField("introduction"),
+    ]
 
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
@@ -433,7 +471,12 @@ class EditorialListingPage(ContactFieldsMixin, BasePage):
         return extra_query_params
 
     def get_base_queryset(self):
-        return EditorialPage.objects.child_of(self).live().order_by("-published_at")
+        return (
+            EditorialPage.objects.exclude(show_in_index_page=False)
+            .child_of(self)
+            .live()
+            .order_by("-published_at")
+        )
 
     def modify_results(self, paginator_page, request):
         for obj in paginator_page.object_list:

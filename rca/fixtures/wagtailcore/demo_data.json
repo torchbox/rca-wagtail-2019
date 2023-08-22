@@ -123,10 +123,10 @@
     }
   },
   {
-    "model": "wagtailcore.pagerevision",
+    "model": "wagtailcore.revision",
     "pk": 1,
     "fields": {
-      "page": 4,
+      "object_id": 4,
       "submitted_for_moderation": false,
       "created_at": "2019-08-12T11:15:17.705Z",
       "user": ["kevin"],
@@ -135,10 +135,10 @@
     }
   },
   {
-    "model": "wagtailcore.pagerevision",
+    "model": "wagtailcore.revision",
     "pk": 2,
     "fields": {
-      "page": 4,
+      "object_id": 4,
       "submitted_for_moderation": false,
       "created_at": "2019-08-12T11:15:20.952Z",
       "user": ["kevin"],
@@ -147,10 +147,10 @@
     }
   },
   {
-    "model": "wagtailcore.pagerevision",
+    "model": "wagtailcore.revision",
     "pk": 3,
     "fields": {
-      "page": 5,
+      "object_id": 5,
       "submitted_for_moderation": false,
       "created_at": "2019-08-12T11:15:58.269Z",
       "user": ["kevin"],
@@ -159,7 +159,7 @@
     }
   },
   {
-    "model": "wagtailcore.pagerevision",
+    "model": "wagtailcore.revision",
     "pk": 4,
     "fields": {
       "page": 5,
@@ -171,7 +171,7 @@
     }
   },
   {
-    "model": "wagtailcore.pagerevision",
+    "model": "wagtailcore.revision",
     "pk": 5,
     "fields": {
       "page": 5,
@@ -183,10 +183,10 @@
     }
   },
   {
-    "model": "wagtailcore.pagerevision",
+    "model": "wagtailcore.revision",
     "pk": 6,
     "fields": {
-      "page": 5,
+      "object_id": 5,
       "submitted_for_moderation": false,
       "created_at": "2019-08-12T11:44:09.547Z",
       "user": ["kevin"],
@@ -195,10 +195,10 @@
     }
   },
   {
-    "model": "wagtailcore.pagerevision",
+    "model": "wagtailcore.revision",
     "pk": 7,
     "fields": {
-      "page": 5,
+      "object_id": 5,
       "submitted_for_moderation": false,
       "created_at": "2019-08-12T13:55:09.300Z",
       "user": ["kevin"],
