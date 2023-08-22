@@ -8,7 +8,6 @@ import { programmeCategories } from '../programmes.types';
 import ProgrammesCategories from './ProgrammesCategories/ProgrammesCategories';
 import ProgrammesResults from './ProgrammesResults/ProgrammesResults';
 import SearchForm from './SearchForm';
-import ToggleSwitch from './StudyModeToggleSwitch';
 
 /**
  * Programmes and short courses listing, with a search form, filters, and a results view.
@@ -22,6 +21,7 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
     const activeValue = filterValue.split('-')[0];
     const hasActiveCategoryFilter = !!activeValue;
     const searchQuery = params.get('search') || '';
+    const activeLength = params.get('part-time') || '';
     const hasActiveSearch = !!searchQuery;
     const showCategories = !hasActiveCategoryFilter && !hasActiveSearch;
     const showResults = hasActiveCategoryFilter || hasActiveSearch;
@@ -29,12 +29,6 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
     return (
         <>
             <SearchForm searchQuery={searchQuery} label={searchLabel} />
-            {/* Study mode toggler placeholder */}
-            <ToggleSwitch
-                ariaLabel="Programme study mode"
-                labelOne="Full-time"
-                labelTwo="Part-time"
-            />
             <TransitionGroup className="explorer-transitions">
                 {showCategories ? (
                     <CSSTransition
@@ -48,6 +42,7 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
                         <ProgrammesCategories
                             categories={categories}
                             activeCategory={activeCategory}
+                            activeLength={activeLength}
                         />
                     </CSSTransition>
                 ) : null}
@@ -65,6 +60,7 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
                             activeCategory={activeCategory}
                             activeValue={activeValue}
                             searchQuery={searchQuery}
+                            activeLength={activeLength}
                         />
                     </CSSTransition>
                 ) : null}

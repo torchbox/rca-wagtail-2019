@@ -10,22 +10,33 @@ export const getIndexURL = () => {
     params.delete('search');
     params.delete('category');
     params.delete('value');
+    params.delete('part-time');
     return getURL(params);
 };
 
-export const getCategoryURL = (category) => {
+export const getCategoryURL = (category, activeLength) => {
     const params = getParams();
     params.delete('search');
     params.set('category', category);
     params.delete('value');
+    if (activeLength === 'true') {
+        params.set('part-time', 'true');
+    } else {
+        params.delete('part-time');
+    }
     return getURL(params);
 };
 
-export const getCategoryItemURL = (category, item, slug) => {
+export const getCategoryItemURL = (category, item, slug, activeLength) => {
     const params = getParams();
     params.delete('search');
     params.set('category', category);
     params.set('value', `${item}-${slug}`);
+    if (activeLength === 'true') {
+        params.set('part-time', 'true');
+    } else {
+        params.delete('part-time');
+    }
     return getURL(params);
 };
 
@@ -33,7 +44,19 @@ export const getSearchURL = (search) => {
     const params = getParams();
     params.delete('category');
     params.delete('value');
+    params.delete('part-time');
     params.set('search', search);
+    return getURL(params);
+};
+
+export const getCourseLengthURL = (isPartTime) => {
+    const params = getParams();
+    params.delete('search');
+    if (isPartTime === 'true') {
+        params.set('part-time', 'true');
+    } else {
+        params.delete('part-time');
+    }
     return getURL(params);
 };
 

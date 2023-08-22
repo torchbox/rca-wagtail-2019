@@ -9,9 +9,9 @@ import { getCategoryItemURL, pushState } from '../../programmes.routes';
 /**
  * A single instance from a category, leading to a filtered view of matching programmes.
  */
-const CategoryItem = ({ category, parentId }) => {
+const CategoryItem = ({ category, parentId, activeLength }) => {
     const { id, title, description, slug } = category;
-    const href = getCategoryItemURL(parentId, id, slug);
+    const href = getCategoryItemURL(parentId, id, slug, activeLength);
 
     return (
         <div className="category-item__wrapper grid">
@@ -40,6 +40,7 @@ const CategoryItem = ({ category, parentId }) => {
 CategoryItem.propTypes = {
     category: programmeCategoryItemShape.isRequired,
     parentId: PropTypes.string.isRequired,
+    activeLength: PropTypes.bool.isRequired,
 };
 
 export default CategoryItem;

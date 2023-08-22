@@ -8,7 +8,7 @@ import { getCategoryURL, pushState } from '../../programmes.routes';
  * A list of tabs, one per category. The active tab is underlined.
  * Tabs can be moved through with the arrow keys.
  */
-const CategoriesTablist = ({ categories, activeCategory }) => {
+const CategoriesTablist = ({ categories, activeCategory, activeLength }) => {
     return (
         <nav
             className="categories-tablist categories-tablist--above-grid bg bg--light"
@@ -19,7 +19,7 @@ const CategoriesTablist = ({ categories, activeCategory }) => {
             </h2>
             <div role="tablist">
                 {categories.map((c) => {
-                    const href = getCategoryURL(c.id);
+                    const href = getCategoryURL(c.id, activeLength);
 
                     return (
                         <a
@@ -66,6 +66,7 @@ const CategoriesTablist = ({ categories, activeCategory }) => {
 CategoriesTablist.propTypes = {
     categories: programmeCategories.isRequired,
     activeCategory: PropTypes.string.isRequired,
+    activeLength: PropTypes.bool.isRequired,
 };
 
 export default CategoriesTablist;
