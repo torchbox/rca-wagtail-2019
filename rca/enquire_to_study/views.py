@@ -141,6 +141,7 @@ class EnquireToStudyFormView(FormView):
                 "MMERGE8": form_data["country_of_residence"],
                 "MMERGE9": form_data["city"],
                 "MMERGE10": form_data["enquiry_reason"].reason,
+                "MMERGE11": form_data["enquiry_questions"],
             },
             "interests": interests,
             "email_address": form_data["email"],
@@ -197,6 +198,9 @@ class EnquireToStudyFormView(FormView):
                 }
             ],
         }
+
+        if enquiry_questions := form_data["enquiry_questions"]:
+            data["Notes"] += f"; Enquiry questions: {enquiry_questions}"
 
         # USE IOC format to send data, eg CA (Canada) Should be CAN
         for k, v in IOC_TO_ISO.items():
