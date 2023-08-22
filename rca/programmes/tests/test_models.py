@@ -9,7 +9,7 @@ from rca.programmes.factories import (
     ProgrammePageFactory,
     ProgrammeTypeFactory,
 )
-from rca.programmes.models import ProgrammeIndexPage, ProgrammePage
+from rca.programmes.models import ProgrammeIndexPage, ProgrammePage, ProgrammeStudyMode
 from rca.standardpages.models import IndexPage, InformationPage
 
 
@@ -53,3 +53,20 @@ class ProgrammePageTests(WagtailPageTestCase):
         )
         # A second programme index page should not be creatable
         self.assertFalse(ProgrammeIndexPage.can_create_at(self.home_page))
+
+
+class TestProgrammeStudyMode(TestCase):
+    def test_cannot_create_more_than_two_instances(self):
+        """
+        We already have two ProgrammeStudyMode instances created
+        as part of a data migration. Attempting to create a third
+        should raise a ValueError.
+        """
+        self.assertEqual(ProgrammeStudyMode.objects.count(), 2)
+
+        with self.assertRaises(ValueError):
+            ProgrammeStudyMode.objects.create(title="Online")
+
+        with self.assertRaises(ValueError):
+            mode = ProgrammeStudyMode(title="Hybrid")
+            mode.save()

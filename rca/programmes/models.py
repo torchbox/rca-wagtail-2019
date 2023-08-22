@@ -4,7 +4,8 @@ from itertools import chain
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.db import models
+from django.db import models, transaction
+from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -34,6 +35,7 @@ from wagtail.search import index
 from wagtailorderable.models import Orderable as WagtailOrdable
 
 from rca.programmes.blocks import NotableAlumniBlock
+from rca.programmes.utils import format_study_mode
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
@@ -207,6 +209,87 @@ class ProgrammeStoriesBlock(models.Model):
         return self.title
 
 
+class ProgrammeStudyModeManager(models.Manager):
+    def create(self, **kwargs):
+        if self.count() >= 2:
+            raise ValueError("Only up to two instances are allowed.")
+        with transaction.atomic(using=self.db, savepoint=False):
+            return super().create(**kwargs)
+
+
+class ProgrammeStudyMode(models.Model):
+    """
+    For instance, full-time, part-time, etc.
+    """
+
+    objects = ProgrammeStudyModeManager()
+
+    title = models.CharField(max_length=128)
+    slug = models.SlugField(blank=True)
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if self.pk is None and ProgrammeStudyMode.objects.count() >= 2:
+            raise ValueError("Only up to two instances are allowed.")
+
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+
+class ProgrammeStudyModeProgrammePage(models.Model):
+    page = ParentalKey("programmes.ProgrammePage", related_name="programme_study_modes")
+    programme_study_mode = models.ForeignKey(
+        "programmes.ProgrammeStudyMode",
+        on_delete=models.CASCADE,
+    )
+    panels = [FieldPanel("programme_study_mode")]
+
+    def __str__(self):
+        return self.programme_study_mode.title
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["page", "programme_study_mode"],
+                name="unique_programme_study_mode_per_programme_page",
+            )
+        ]
+
+
+class ProgrammeLocation(models.Model):
+    title = models.CharField(max_length=128)
+    slug = models.SlugField(blank=True)
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+
+class ProgrammeLocationProgrammePage(models.Model):
+    page = ParentalKey("programmes.ProgrammePage", related_name="programme_locations")
+    programme_location = models.ForeignKey(
+        "programmes.programmeLocation",
+        on_delete=models.CASCADE,
+    )
+    panels = [FieldPanel("programme_location")]
+
+    def __str__(self):
+        return self.programme_location.title
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["page", "programme_location"],
+                name="unique_programme_location_per_programme_page",
+            )
+        ]
+
+
 class ProgrammePageTag(TaggedItemBase):
     content_object = ParentalKey(
         "programmes.ProgrammePage",
@@ -271,15 +354,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ),
         blank=True,
     )
-    programme_details_duration = models.CharField(
-        max_length=1,
-        choices=(
-            ("1", "Full-time study"),
-            ("2", "Full-time study with part-time option"),
-            ("3", "Part-time study"),
-        ),
-        blank=True,
-    )
 
     next_open_day_date = models.DateField(blank=True, null=True)
     link_to_open_days = models.URLField(blank=True)
@@ -327,6 +401,12 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     )
 
     # Staff
+    staff_title = models.CharField(
+        blank=True,
+        max_length=120,
+        default="Staff",
+        verbose_name="Programme staff title",
+    )
     staff_link = models.URLField(blank=True)
     staff_link_text = models.CharField(
         max_length=125, blank=True, help_text="E.g. 'See all programme staff'"
@@ -410,6 +490,19 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
     # Requirements
     requirements_text = RichTextField(blank=True)
+    requirements_video = models.URLField(blank=True)
+    requirements_video_caption = models.CharField(
+        blank=True,
+        max_length=80,
+        help_text="The text dipsplayed next to the video play button",
+    )
+    requirements_video_preview_image = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
     requirements_blocks = StreamField(
         [
             ("accordion_block", AccordionBlockWithTitle()),
@@ -523,9 +616,19 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
                 FieldPanel("programme_details_credits_suffix"),
                 FieldPanel("programme_details_time"),
                 FieldPanel("programme_details_time_suffix"),
-                FieldPanel("programme_details_duration"),
+                InlinePanel(
+                    "programme_study_modes",
+                    heading="Programme study mode",
+                    label="Study mode",
+                    max_num=2,
+                ),
             ],
             heading="Details",
+        ),
+        InlinePanel(
+            "programme_locations",
+            heading="Programme locations",
+            label="Location",
         ),
         FieldPanel("next_open_day_date"),
         FieldPanel("link_to_open_days"),
@@ -552,7 +655,12 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         MultiFieldPanel([FieldPanel("programme_gallery")], heading="Programme gallery"),
         MultiFieldPanel(
             [
-                InlinePanel("related_staff", max_num=2),
+                FieldPanel("staff_title"),
+                HelpPanel(
+                    content="By default, related staff will be automatically listed. This \
+                can be overriden by adding staff pages here."
+                ),
+                InlinePanel("related_staff"),
                 FieldPanel("staff_link"),
                 FieldPanel("staff_link_text"),
             ],
@@ -608,6 +716,14 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
     programme_requirements_pannels = [
         FieldPanel("requirements_text"),
+        MultiFieldPanel(
+            [
+                FieldPanel("requirements_video"),
+                FieldPanel("requirements_video_caption"),
+                FieldPanel("requirements_video_preview_image"),
+            ],
+            heading="Video",
+        ),
         FieldPanel("requirements_blocks"),
     ]
     programme_fees_and_funding_panels = [
@@ -676,6 +792,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         index.SearchField("scholarship_information_blocks"),
         index.SearchField("more_information_blocks", boost=2),
         index.RelatedFields("programme_type", [index.SearchField("display_name")]),
+        index.RelatedFields(
+            "programme_locations",
+            [index.RelatedFields("programme_location", [index.SearchField("title")])],
+        ),
         index.RelatedFields("degree_level", [index.SearchField("title")]),
         index.RelatedFields(
             "subjects",
@@ -722,6 +842,24 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     def introduction(self):
         return self.programme_description_subtitle
 
+    @cached_property
+    def study_mode(self):
+        study_modes = self.programme_study_modes.values_list(
+            "programme_study_mode__title", flat=True
+        )
+        if not study_modes:
+            return None
+        if len(study_modes) == 1:
+            return study_modes[0]
+
+        return format_study_mode(study_modes)
+
+    @cached_property
+    def campus_locations(self):
+        return self.programme_locations.values_list(
+            "programme_location__title", flat=True
+        ).order_by("programme_location__title")
+
     def get_admin_display_title(self):
         bits = [self.draft_title]
         if self.degree_level:
@@ -738,6 +876,29 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             "title": programme_stories.title,
             "slides": related_list_block_slideshow(programme_stories.slides),
         }
+
+    def get_related_staff(self):
+        """Method to return a related staff.
+        The default behaviour should be to find related staff via the relationship
+        StaffPage.roles. This also needs to offer the option to
+        manually add related staff to the programme page, this helps solve issues
+        of custom ordering that's needed with large (>25) staff items.
+        """
+
+        from rca.people.models import StaffPage
+
+        related_staff = self.related_staff.select_related("image")
+        if related_staff:
+            return related_staff
+
+        # For any automatially related staff, adjust the list so we don't have
+        # to make edits to the template shared by other page models.
+        staff = []
+        for item in (
+            StaffPage.objects.filter(roles__programme=self).live().order_by("last_name")
+        ).distinct():
+            staff.append({"page": item})
+        return staff
 
     @property
     def listing_meta(self):
@@ -777,6 +938,14 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             errors["search_description"].append(
                 "Please add a search description for the page."
             )
+        if self.requirements_video and not self.requirements_video_preview_image:
+            errors["requirements_video_preview_image"].append(
+                "Please add a preview image for the video."
+            )
+        if self.requirements_video_preview_image and not self.requirements_video:
+            errors["requirements_video"].append(
+                "Please add a video for the preview image."
+            )
         if errors:
             raise ValidationError(errors)
 
@@ -791,7 +960,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
                 ],
             }
         ]
-        context["related_staff"] = self.related_staff.select_related("image")
+        context["related_staff"] = self.get_related_staff()
 
         # If one of the slides in the the programme_gallery contains author information
         # we need to set a modifier
@@ -961,6 +1130,20 @@ class ProgrammePageGlobalFieldsSettings(BaseSiteSetting):
             "individuals who have shaped and continue to shape the world."
         ),
     )
+    alumni_cta_link = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name="Page link",
+    )
+    alumni_cta_text = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name="Custom link text",
+        help_text="Leave blank to use the page's own title",
+    )
     contact_title = models.CharField(max_length=255, default="Ask a question")
     contact_text = models.CharField(
         max_length=255,
@@ -1016,6 +1199,8 @@ class ProgrammePageGlobalFieldsSettings(BaseSiteSetting):
         MultiFieldPanel(
             [
                 FieldPanel("alumni_summary_text"),
+                FieldPanel("alumni_cta_link"),
+                FieldPanel("alumni_cta_text"),
                 FieldPanel("contact_title"),
                 FieldPanel("contact_text"),
             ],

@@ -1,8 +1,16 @@
+{% load wagtailcore_tags %}
+
 {% if alumni_links %}
     <div class="section__row section__row--last grid featured-alumni">
         <h2 class="featured-alumni__heading heading heading--four">{{ title }}</h2>
         <div class="featured-alumni__introduction">
             <p class="introduction">{{ introduction }}</p>
+            {% if alumni_cta_link %}
+                <a href="{% pageurl alumni_cta_link %}" class="facilities__view-all facilities__view-all--medium body body--one link link--primary link--link">
+                    <span class="link__label">{% firstof alumni_cta_text alumni_cta_link.title %}</span>
+                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                </a>
+            {% endif %}
         </div>
         <div class="featured-alumni__body">
             <ul class="featured-alumni__list">

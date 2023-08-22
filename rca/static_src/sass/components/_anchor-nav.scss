@@ -17,16 +17,29 @@
 
     &__heading {
         display: none;
+
         @include media-query(large) {
-            display: block;
+            display: inline-flex;
+            align-items: center;
             opacity: 0.7;
             margin-bottom: ($gutter * 1.5);
         }
+    }
+
+    &__heading-label {
+        margin-right: 10px;
     }
 
     &__items {
         @include media-query(large) {
             padding-right: $gutter;
         }
+    }
+
+    &__heading-icon {
+        transform: rotate(90deg) translateZ(0);
+        fill: $color--white-65;
+        width: 15px;
+        height: auto;
     }
 }
