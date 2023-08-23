@@ -28,10 +28,12 @@
     }
 
     &__heading {
+        font-size: map-get($small-font-sizes, xxxs);
         color: $color--dark-grey;
         margin-bottom: $gutter * 0.5;
 
         @include media-query(medium) {
+            font-size: map-get($medium-font-sizes, xxs);
             margin-bottom: $gutter * 0.75;
         }
     }
@@ -43,8 +45,26 @@
     }
 
     &__tabs {
+        position: relative;
+        padding-top: 12px;
+
         @include media-query(large) {
             margin-right: $gutter;
+            padding-top: unset;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -20px;
+            height: 1px;
+            width: 11px;
+            background-color: $color--black-12;
+
+            @include media-query(large) {
+                content: none;
+            }
         }
     }
 

@@ -543,6 +543,10 @@
                 background-color: $color--black;
             }
         }
+
+        .programmes-categories & {
+            margin-bottom: -1px; // prevent background from leaking through
+        }
     }
 
     &__row {
