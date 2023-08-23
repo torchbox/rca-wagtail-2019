@@ -1,37 +1,38 @@
 import '@babel/polyfill';
 import Alpine from 'alpinejs';
 
+import Accordion from './components/accordion';
+import ActualHeight from './components/actual-height';
+import AnchorNav from './components/anchor-nav';
+import BackLink from './components/back-link';
+import Carousel from './components/carousel';
+import PeekFullCarousel from './components/carousel-full-peek';
+import PeekCarousel from './components/carousel-peek';
+import CookieWarning from './components/cookie-message';
+import EmailShare from './components/email-share';
+import EventToggleSwitch from './components/event-toggle-switch';
+import FormFocus from './components/form-focus';
 import GridSizeVariables from './components/grid-size-variables';
 import HeaderDrawer from './components/header-drawer';
-import SubMenu from './components/submenu';
-import BackLink from './components/back-link';
-import MobileSubMenu from './components/mobile-sub-menu';
-import CookieWarning from './components/cookie-message';
-import Accordion from './components/accordion';
-import Tabs from './components/tabs';
-import Carousel from './components/carousel';
-import PeekCarousel from './components/carousel-peek';
-import PeekFullCarousel from './components/carousel-full-peek';
-import Slideshow from './components/slideshow';
-import VideoModal from './components/video-modal';
-import RelatedContent from './components/related-content';
-import Sticky from './components/position-sticky-event';
-import ActualHeight from './components/actual-height';
-import ProjectFilters from './components/project-filters';
-import AnchorNav from './components/anchor-nav';
-import SitewideAlert from './components/sitewide-alert';
-import FormFocus from './components/form-focus';
-import EmailShare from './components/email-share';
-import ScholarshipList from './components/scholarship-list';
-import EventToggleSwitch from './components/event-toggle-switch';
-import './components/sticky-header';
-import './components/lazyload-images';
-import './components/outdated-banner';
 import './components/home-menu';
-import './components/stats-block';
-import './components/parallax';
+import './components/lazyload-images';
+import MobileSubMenu from './components/mobile-sub-menu';
 import './components/modal';
+import './components/outdated-banner';
+import './components/parallax';
+import Sticky from './components/position-sticky-event';
+import ProgrammeToggleSwitch from './components/programme-toggle-switch';
+import ProjectFilters from './components/project-filters';
+import RelatedContent from './components/related-content';
+import ScholarshipList from './components/scholarship-list';
+import SitewideAlert from './components/sitewide-alert';
+import Slideshow from './components/slideshow';
+import './components/stats-block';
+import './components/sticky-header';
 import './components/sticky-point';
+import SubMenu from './components/submenu';
+import Tabs from './components/tabs';
+import VideoModal from './components/video-modal';
 
 import '../sass/main.scss';
 
@@ -151,6 +152,12 @@ document.addEventListener('DOMContentLoaded', () => {
         EventToggleSwitch.selector(),
     )) {
         new EventToggleSwitch(eventtoggleswitch);
+    }
+
+    for (const studymodetoggleswitch of document.querySelectorAll(
+        ProgrammeToggleSwitch.selector(),
+    )) {
+        new ProgrammeToggleSwitch(studymodetoggleswitch);
     }
 
     new ActualHeight();

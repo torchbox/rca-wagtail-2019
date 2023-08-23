@@ -1,13 +1,13 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-use';
+import React from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { useLocation } from 'react-use';
 
 import { programmeCategories } from '../programmes.types';
 
-import SearchForm from './SearchForm';
-import ProgrammesResults from './ProgrammesResults/ProgrammesResults';
 import ProgrammesCategories from './ProgrammesCategories/ProgrammesCategories';
+import ProgrammesResults from './ProgrammesResults/ProgrammesResults';
+import SearchForm from './SearchForm';
 
 /**
  * Programmes and short courses listing, with a search form, filters, and a results view.
@@ -21,6 +21,7 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
     const activeValue = filterValue.split('-')[0];
     const hasActiveCategoryFilter = !!activeValue;
     const searchQuery = params.get('search') || '';
+    const activeLength = params.get('part-time') || '';
     const hasActiveSearch = !!searchQuery;
     const showCategories = !hasActiveCategoryFilter && !hasActiveSearch;
     const showResults = hasActiveCategoryFilter || hasActiveSearch;
@@ -41,6 +42,7 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
                         <ProgrammesCategories
                             categories={categories}
                             activeCategory={activeCategory}
+                            activeLength={activeLength}
                         />
                     </CSSTransition>
                 ) : null}
@@ -58,6 +60,7 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
                             activeCategory={activeCategory}
                             activeValue={activeValue}
                             searchQuery={searchQuery}
+                            activeLength={activeLength}
                         />
                     </CSSTransition>
                 ) : null}

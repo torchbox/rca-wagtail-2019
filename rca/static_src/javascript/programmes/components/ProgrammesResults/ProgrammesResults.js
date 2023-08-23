@@ -59,13 +59,14 @@ const ProgrammesResults = ({
     activeCategory,
     activeValue,
     searchQuery,
+    activeLength,
 }) => {
     const [activeProgramme, setActiveProgramme] = useState(null);
     const hasActiveFilter = activeCategory && activeValue;
     const theme = hasActiveFilter ? 'light' : 'dark';
 
     useEffect(() => {
-        if (hasActiveFilter) {
+        if (hasActiveFilter || activeLength) {
             startSearch(null, { [activeCategory]: activeValue });
             const mount = document.querySelector(
                 '[data-mount-programmes-explorer]',
@@ -83,6 +84,7 @@ const ProgrammesResults = ({
         activeCategory,
         activeValue,
         searchQuery,
+        activeLength,
     ]);
 
     return (
@@ -95,9 +97,12 @@ const ProgrammesResults = ({
                                 type="button"
                                 className="button programmes-results__back body body--one"
                                 onClick={() => {
-                                    if (hasActiveFilter) {
+                                    if (hasActiveFilter || activeLength) {
                                         pushState(
-                                            getCategoryURL(activeCategory),
+                                            getCategoryURL(
+                                                activeCategory,
+                                                activeLength,
+                                            ),
                                         );
                                     } else {
                                         window.history.back();
@@ -195,11 +200,13 @@ ProgrammesResults.propTypes = {
     activeCategory: PropTypes.string.isRequired,
     activeValue: PropTypes.string,
     searchQuery: PropTypes.string,
+    activeLength: PropTypes.bool,
 };
 
 ProgrammesResults.defaultProps = {
     searchQuery: null,
     activeValue: null,
+    activeLength: null,
 };
 
 const mapStateToProps = ({ programmes }) => {

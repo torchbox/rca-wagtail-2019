@@ -37,12 +37,14 @@ export const getWagtailAPIQueryString = ({
     type,
     fields,
     limit,
+    partTime,
 }) => {
     const parameters = {
-        type: type || null,
-        limit: limit || null,
-        fields: fields.join(',') || null,
-        search: search || null,
+        'type': type || null,
+        'part-time': partTime !== undefined ? partTime : 'false',
+        'limit': limit || null,
+        'fields': fields.join(',') || null,
+        'search': search || null,
         ...filters,
     };
     Object.keys(parameters).forEach((param) => {
@@ -64,6 +66,11 @@ let abortGetProgrammes = new AbortController();
  * Or both!
  */
 export const getProgrammes = ({ query, filters = {} }) => {
+    // Check the window for a part-time query param and apply that.
+    const urlParams = new URLSearchParams(window.location.search);
+    const partTimeParam = urlParams.get('part-time');
+    const partTime = partTimeParam === 'true';
+
     // Abort the previous controller if any, and create a new one.
     abortGetProgrammes.abort();
     abortGetProgrammes = new AbortController();
@@ -71,6 +78,7 @@ export const getProgrammes = ({ query, filters = {} }) => {
     const requests = listedPageTypes.map(({ type, fields }) => {
         const queryString = getWagtailAPIQueryString({
             search: query,
+            partTime, // Pass the partTime value to the query string generator.
             filters,
             type,
             fields,

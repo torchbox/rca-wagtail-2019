@@ -6,6 +6,8 @@ from wagtail.models import Page
 from wagtail.search.backends import get_search_backend
 from wagtail.search.backends.base import FilterFieldError, OrderByFieldError
 
+from rca.programmes.models import ProgrammeStudyMode
+
 
 class DegreeLevelFilter(filters.BaseFilterBackend):
     """
@@ -57,6 +59,49 @@ class RelatedSchoolsFilter(filters.BaseFilterBackend):
                     queryset.model.objects.filter(
                         related_schools_and_research_pages__page_id__in=filter_page_qs.values_list(
                             "pk", flat=True
+                        )
+                    )
+                    .order_by("title")
+                    .live()
+                )
+            return queryset
+        except FieldDoesNotExist:
+            return queryset
+
+
+class StudyModeFilter(filters.BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        try:
+            queryset.model._meta.get_field("programme_study_modes")
+            part_time = request.GET.get("part-time", False)
+
+            if str(part_time).lower() == "true":
+                # Get the programme study modes we are applying as a filter as a queryset
+                filter_study_mode_qs = ProgrammeStudyMode.objects.filter(
+                    title__icontains="part"
+                )
+                # Create a queryset to return which contains pages that have filter_study_mode_qs
+                # as a relationship
+                queryset = (
+                    queryset.filter(
+                        programme_study_modes__programme_study_mode__title__in=filter_study_mode_qs.values_list(
+                            "title", flat=True
+                        )
+                    )
+                    .order_by("title")
+                    .live()
+                )
+            else:
+                # Get the programme study modes we are applying as a filter as a queryset
+                filter_study_mode_qs = ProgrammeStudyMode.objects.filter(
+                    title__icontains="full"
+                )
+                # Create a queryset to return which contains pages that have filter_study_mode_qs
+                # as a relationship
+                queryset = (
+                    queryset.filter(
+                        programme_study_modes__programme_study_mode__title__in=filter_study_mode_qs.values_list(
+                            "title", flat=True
                         )
                     )
                     .order_by("title")

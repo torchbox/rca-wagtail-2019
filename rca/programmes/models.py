@@ -246,6 +246,8 @@ class ProgrammeStudyModeProgrammePage(models.Model):
     )
     panels = [FieldPanel("programme_study_mode")]
 
+    api_fields = [APIField("programme_study_mode")]
+
     def __str__(self):
         return self.programme_study_mode.title
 
@@ -806,6 +808,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             [index.RelatedFields("subject", [index.SearchField("title")])],
         ),
         index.RelatedFields(
+            "programme_study_modes",
+            [index.RelatedFields("programme_study_mode", [index.SearchField("title")])],
+        ),
+        index.RelatedFields(
             "tagged_programme_items",
             [
                 index.RelatedFields(
@@ -831,6 +837,8 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             name="hero_image_square",
             serializer=ImageRenditionField("fill-580x580", source="hero_image"),
         ),
+        # Additional field(s) for filtering, specific to programmes.
+        APIField("programme_study_modes"),
         # Displayed fields, specific to programmes.
         APIField("degree_level", serializer=degree_level_serializer()),
         APIField("pathway_blocks"),
