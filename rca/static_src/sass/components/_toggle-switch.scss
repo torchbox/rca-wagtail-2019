@@ -133,7 +133,7 @@
         }
 
         #{$root}__switch {
-            margin-right: ($gutter / 2);
+            margin-right: ($gutter * 0.5);
 
             @include media-query(large) {
                 margin-right: $gutter;
