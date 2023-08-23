@@ -5,7 +5,6 @@ import { programmeCategories } from '../../programmes.types';
 
 import CategoriesTablist from './CategoriesTablist';
 import CategoriesPanels from './CategoriesPanels';
-import ToggleSwitch from '../StudyModeToggleSwitch';
 
 /**
  * Filter-based navigation to programmes, displayed as tabs.
@@ -14,16 +13,12 @@ import ToggleSwitch from '../StudyModeToggleSwitch';
 const ProgrammesCategories = ({ categories, activeCategory, activeLength }) => {
     return (
         <div className="programmes-categories">
-            <div className="section bg bg--dark">
+            <div className="section section--above-grid bg bg--dark">
                 <div className="section__notch section__notch--opposite">
-                    <div className="section__notch-fill section__notch-fill--content-height section__notch-fill--first-col section__notch-fill--second-col@medium">
+                    <div className="section__notch-fill section__notch-fill--content-height section__notch-fill--third-col section__notch-fill--third-col-span-four">
                         <CategoriesTablist
                             categories={categories}
                             activeCategory={activeCategory}
-                            activeLength={activeLength}
-                        />
-                        <ToggleSwitch
-                            ariaLabel="Programme study mode"
                             activeLength={activeLength}
                         />
                     </div>

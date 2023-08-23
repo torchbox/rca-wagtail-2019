@@ -25,13 +25,17 @@ const ToggleSwitch = ({ ariaLabel, activeLength }) => {
             />
             <span className="toggle-switch__switch" />
             <span
-                className="toggle-switch__label toggle-switch__label--first"
+                className={`toggle-switch__label toggle-switch__label--first${
+                    !isPartTime ? ' toggle-switch__label--selected' : ''
+                }`}
                 data-label="full-time"
             >
                 Full-time
             </span>
             <span
-                className="toggle-switch__label toggle-switch__label--last"
+                className={`toggle-switch__label toggle-switch__label--last${
+                    isPartTime ? ' toggle-switch__label--selected' : ''
+                }`}
                 data-label="part-time"
             >
                 Part-time

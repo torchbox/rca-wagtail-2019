@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { programmeCategories } from '../../programmes.types';
 import { getCategoryURL, pushState } from '../../programmes.routes';
+import ToggleSwitch from '../StudyModeToggleSwitch';
 
 /**
  * A list of tabs, one per category. The active tab is underlined.
@@ -11,53 +12,62 @@ import { getCategoryURL, pushState } from '../../programmes.routes';
 const CategoriesTablist = ({ categories, activeCategory, activeLength }) => {
     return (
         <nav
-            className="categories-tablist categories-tablist--above-grid bg bg--light"
+            className="categories-tablist categories-tablist--mob-no-padding-x"
             aria-label="Filter programmes"
         >
             <h2 className="body body--two categories-tablist__heading">
                 Explore by
             </h2>
-            <div role="tablist">
-                {categories.map((c) => {
-                    const href = getCategoryURL(c.id, activeLength);
+            <div className="categories-tablist__list">
+                <div className="categories-tablist__tabs" role="tablist">
+                    {categories.map((c) => {
+                        const href = getCategoryURL(c.id, activeLength);
 
-                    return (
-                        <a
-                            key={c.id}
-                            id={`${c.id}-tab`}
-                            href={href}
-                            className="categories-tablist__tab body body--one"
-                            role="tab"
-                            aria-selected={c.id === activeCategory}
-                            aria-controls={c.id}
-                            onClick={pushState.bind(null, href)}
-                            onKeyDown={(e) => {
-                                const isArrowLeft = e.keyCode === 37;
-                                const isArrowRight = e.keyCode === 39;
+                        return (
+                            <a
+                                key={c.id}
+                                id={`${c.id}-tab`}
+                                href={href}
+                                className="categories-tablist__tab body body--one"
+                                role="tab"
+                                aria-selected={c.id === activeCategory}
+                                aria-controls={c.id}
+                                onClick={pushState.bind(null, href)}
+                                onKeyDown={(e) => {
+                                    const isArrowLeft = e.keyCode === 37;
+                                    const isArrowRight = e.keyCode === 39;
 
-                                if (isArrowLeft && e.target.previousSibling) {
-                                    pushState(
-                                        e.target.previousSibling.getAttribute(
-                                            'href',
-                                        ),
-                                    );
-                                    e.target.previousSibling.focus();
-                                }
+                                    if (
+                                        isArrowLeft &&
+                                        e.target.previousSibling
+                                    ) {
+                                        pushState(
+                                            e.target.previousSibling.getAttribute(
+                                                'href',
+                                            ),
+                                        );
+                                        e.target.previousSibling.focus();
+                                    }
 
-                                if (isArrowRight && e.target.nextSibling) {
-                                    pushState(
-                                        e.target.nextSibling.getAttribute(
-                                            'href',
-                                        ),
-                                    );
-                                    e.target.nextSibling.focus();
-                                }
-                            }}
-                        >
-                            {c.title}
-                        </a>
-                    );
-                })}
+                                    if (isArrowRight && e.target.nextSibling) {
+                                        pushState(
+                                            e.target.nextSibling.getAttribute(
+                                                'href',
+                                            ),
+                                        );
+                                        e.target.nextSibling.focus();
+                                    }
+                                }}
+                            >
+                                {c.title}
+                            </a>
+                        );
+                    })}
+                </div>
+                <ToggleSwitch
+                    ariaLabel="Programme study mode"
+                    activeLength={activeLength}
+                />
             </div>
         </nav>
     );

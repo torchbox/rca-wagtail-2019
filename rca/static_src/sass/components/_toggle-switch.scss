@@ -47,6 +47,10 @@
         &--last {
             order: 3;
         }
+
+        &--selected {
+            color: $color--black;
+        }
     }
 
     &__switch {
@@ -84,7 +88,7 @@
     }
 
     .categories-tablist & {
-        max-width: 213px;
+        max-width: 250px;
         margin-bottom: $gutter;
 
         @include media-query(large) {
@@ -99,6 +103,15 @@
 
         .filter-bar--stuck & {
             border-color: $color--white-24;
+        }
+    }
+
+    .programmes-categories & {
+        margin-top: $gutter;
+        margin-bottom: 0;
+
+        @include media-query(large) {
+            margin-top: unset;
         }
     }
 

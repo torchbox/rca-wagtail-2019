@@ -413,6 +413,11 @@
                     right: calc((var(--margin-width) * -1)); // Make negative
                     width: calc(var(--margin-width));
 
+                    .programmes-categories & {
+                        background-color: $color--lighter-grey;
+                        width: 300%;
+                    }
+
                     @include media-query(large) {
                         right: calc(
                             (var(--margin-width) + var(--outer-grid-width)) * -1
@@ -420,7 +425,24 @@
                         width: calc(
                             var(--margin-width) + var(--outer-grid-width)
                         );
+
+                        .programmes-categories & {
+                            background-color: $color--white;
+                            width: calc(
+                                var(--margin-width) + var(--outer-grid-width)
+                            );
+                        }
                     }
+                }
+            }
+        }
+
+        &--third-col-span-four {
+            #{$root}__notch--opposite & {
+                grid-column: 1 / span 12;
+
+                @include media-query(large) {
+                    grid-column: 3 / span 4;
                 }
             }
         }
