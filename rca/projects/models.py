@@ -18,7 +18,6 @@ from wagtail.admin.panels import (
     TabbedInterface,
 )
 from wagtail.blocks import RichTextBlock
-from wagtail.documents.edit_handlers import DocumentChooserPanel
 from wagtail.fields import StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.models import Orderable, Page
@@ -212,6 +211,7 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         blank=True,
         help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
             Aim for logos that sit on either a white or transparent background.",
+        use_json_field=True,
     )
 
     search_fields = BasePage.search_fields + [
