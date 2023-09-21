@@ -108,14 +108,17 @@ FROM production as dev
 # Swap user, so the following tasks can be run as root
 USER root
 
-# Install node (Keep the version in sync with the node container above)
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && apt-get install -y nodejs
-
 # Install `psql`, useful for `manage.py dbshell`
 RUN apt-get install -y postgresql-client
 
 # Restore user
 USER rca
+
+# Install nvm and node/npm
+ARG NVM_VERSION=0.39.5
+COPY --chown=rca .nvmrc ./
+RUN curl https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash \
+    && bash --login -c "nvm install --no-progress && nvm alias default $(nvm run --silent --version)"
 
 # Pull in the node modules for the frontend
 COPY --chown=rca --from=frontend ./node_modules ./node_modules
