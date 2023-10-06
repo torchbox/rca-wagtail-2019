@@ -109,7 +109,9 @@ FROM production as dev
 USER root
 
 # Install `psql`, useful for `manage.py dbshell`
-RUN apt-get install -y postgresql-client
+RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
+    postgresql-client \
+    && apt-get autoremove && rm -rf /var/lib/apt/lists/*
 
 # Restore user
 USER rca
