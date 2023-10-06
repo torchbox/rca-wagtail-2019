@@ -12,6 +12,9 @@
         {% if request.in_preview_panel %}
             <base target="_blank">
         {% endif %}
+        {% if SEO_NOINDEX %}
+            <meta name="robots" content="noindex" />
+        {% endif %}
 
         {% block extra_css %}{% endblock %}
 
