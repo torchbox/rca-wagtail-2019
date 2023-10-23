@@ -1,5 +1,5 @@
 {% load wagtailcore_tags %}
-<div class="accordion {% if modifier %}accordion--{{ modifier }}{% endif %} {% if accordion.preview_text %}accordion--with-preview{% endif %}" data-accordion>
+<div class="accordion {% if modifier %}accordion--{{ modifier }}{% endif %} {% if accordion.preview_text %}accordion--with-preview{% endif %}" role="tablist" data-accordion>
     <a
         href="#"
         role="tab"
@@ -11,16 +11,16 @@
         tabindex="0"
         id="question-{{ accordion_id }}-{{ forloop.counter }}"
     >
-        <h5 class="accordion__heading heading heading--five">{{ accordion.heading }}</h5>
+        <{% if heading_override %}{{ heading_override }}{% else %}h5{% endif %} class="accordion__heading heading heading--five">{{ accordion.heading }}</{% if heading_override %}{{ heading_override }}{% else %}h5{% endif %}>
 
         <div class="accordion__meta">
             {% if accordion.preview_text %}
                 <p class="accordion__preview-text body body--one">{{ accordion.preview_text }}</p>
             {% endif %}
-            <svg width="18px" height="18px" class="accordion__icon accordion__icon--plus" aria-hidden="true">
+            <svg width="18" height="18" class="accordion__icon accordion__icon--plus" aria-hidden="true">
                 <use xlink:href="#plus"></use>
             </svg>
-            <svg width="18px" height="18px" class="accordion__icon accordion__icon--minus" aria-hidden="true">
+            <svg width="18" height="18" class="accordion__icon accordion__icon--minus" aria-hidden="true">
                 <use xlink:href="#minus"></use>
             </svg>
         </div>
@@ -47,6 +47,13 @@
             {# Accordion can also use a snippet which has different link fields #}
             {% if accordion.link_url and accordion.link_title %}
                 {% include "patterns/atoms/link-primary/link-primary--link.html" with href=accordion.link_url  text=accordion.link_title %}
+            {% endif %}
+            {% if scholarship %}
+                {# Scholarship fields #}
+                <p><strong>Eligible Programmes: </strong>{{ accordion.eligible_programmes }}</p>
+                <p><strong>Funding Categories: </strong>{{ accordion.funding_categories }}</p>
+                <p><strong>Eligible fee status: </strong>{{ accordion.fee_statuses }}</p>
+                <p><strong>Value: </strong>{{ accordion.value }}</p>
             {% endif %}
         </div>
     </div>

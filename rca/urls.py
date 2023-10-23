@@ -2,25 +2,37 @@ from django.apps import apps
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
+from django.views.decorators.cache import never_cache
 from django.views.decorators.vary import vary_on_headers
 from django.views.generic import TemplateView
+from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.contrib.sitemaps.views import sitemap
-from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.utils.urlpatterns import decorate_urlpatterns
 
+from rca.account_management.views import CustomLoginView
+from rca.search import views as search_views
 from rca.utils.cache import get_default_cache_control_decorator
 from rca.wagtailapi.api import api_router
 
+WAGTAIL_FRONTEND_LOGIN_TEMPLATE = getattr(
+    settings, "WAGTAIL_FRONTEND_LOGIN_TEMPLATE", "wagtailcore/login.html"
+)
 # Private URLs are not meant to be cached.
 private_urlpatterns = [
+    path("admin/login/", CustomLoginView.as_view(), name="wagtailcore_login"),
+    path("admin/_util/login/", CustomLoginView.as_view(), name="wagtailcore_login"),
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents2/", include(wagtaildocs_urls)),
     # Don’t use generic cache control for API endpoints.
     path("api/v3/", api_router.urls),
     path("enquire-to-study/", include("rca.enquire_to_study.urls")),
+    path(
+        "study/application-process/funding-your-studies/rca-scholarships-and-awards/express-interest/",
+        include("rca.scholarships.urls"),
+    ),
 ]
 
 
@@ -64,6 +76,8 @@ if getattr(settings, "PATTERN_LIBRARY_ENABLED", False) and apps.is_installed(
 
 # Set public URLs to use the "default" cache settings.
 urlpatterns = decorate_urlpatterns(urlpatterns, get_default_cache_control_decorator())
+# Set private URLs to never cache
+private_urlpatterns = decorate_urlpatterns(private_urlpatterns, never_cache)
 
 # Set vary header to instruct cache to serve different version on different
 # cookies, different request method (e.g. AJAX) and different protocol
@@ -82,7 +96,8 @@ urlpatterns = (
     + [
         # Add Wagtail URLs at the end.
         # Wagtail cache-control is set on the page models's serve methods.
-        path("", include(wagtail_urls))
+        path("search/", search_views.search, name="search"),
+        path("", include(wagtail_urls)),
     ]
 )
 

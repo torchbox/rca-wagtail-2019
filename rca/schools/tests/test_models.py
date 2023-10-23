@@ -1,17 +1,17 @@
 import wagtail_factories
 from django.urls import reverse
-from wagtail.tests.utils import WagtailPageTests
+from wagtail.test.utils import WagtailPageTestCase
 
 from rca.home.models import HomePage
 from rca.schools.factories import SchoolPageFactory
 
 
-class TestSchoolPageFactory(WagtailPageTests):
+class TestSchoolPageFactory(WagtailPageTestCase):
     def test_factories(self):
         SchoolPageFactory(introduction_image=wagtail_factories.ImageFactory())
 
 
-class TestSchoolPage(WagtailPageTests):
+class TestSchoolPage(WagtailPageTestCase):
     def setUp(self):
         self.home_page = HomePage.objects.first()
         self.school_page = SchoolPageFactory(

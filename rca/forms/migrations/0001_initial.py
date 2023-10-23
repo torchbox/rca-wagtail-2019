@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 import django.db.models.deletion
 import modelcluster.fields
-import wagtail.core.fields
+import wagtail.fields
 
 
 class Migration(migrations.Migration):
@@ -149,7 +149,7 @@ class Migration(migrations.Migration):
                 ("introduction", models.TextField(blank=True)),
                 (
                     "thank_you_text",
-                    wagtail.core.fields.RichTextField(
+                    wagtail.fields.RichTextField(
                         blank=True,
                         help_text="Text displayed to the user on successful submission of the form",
                     ),

@@ -11,17 +11,17 @@
         </div>
         {% if page.contact_model_email %}
             <a href="mailto:{{ page.contact_model_email }}" class="contact__link link link--primary link--link body body--two" target="_blank" rel="noopener">
-            <span class="link__label">Email us at<br>{{ page.contact_model_email }}</span>
-            <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+            <span class="link__label">{% firstof page.contact_model_link_text 'Email us at' %}<br>{{ page.contact_model_email }}</span>
+            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
             </a>
         {% elif page.contact_model_form %}
             <a href="{% pageurl page.contact_model_form %}" class="contact__link link link--primary link--link body body--two">
-            <span class="link__label">{{ page.contact_model_form }}</span>
-            <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+            <span class="link__label">{% firstof page.contact_model_link_text page.contact_model_form %}</span>
+            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
             </a>
         {% else %}
-            <a href="{{ page.contact_model_url }}" class="contact__link link link--secondary link--link body body--two" rel="noopener">
-            <span class="link__label">Register your interest with us here</span>
+            <a href="{{ page.contact_model_url }}" class="contact__link link link--primary link--link body body--two" rel="noopener">
+            <span class="link__label">{% firstof page.contact_model_link_text 'Register your interest with us here' %}</span>
             <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
             </a>
         {% endif %}

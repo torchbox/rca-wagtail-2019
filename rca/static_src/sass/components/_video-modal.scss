@@ -9,12 +9,14 @@
     background-color: $color--black-80;
     opacity: 0;
     pointer-events: none;
-    transition: opacity $transition;
+    visibility: hidden;
+    transition: visibility 0s, opacity $transition, transform $transition;
 
     &.is-open {
         opacity: 1;
         pointer-events: auto;
         cursor: default;
+        visibility: visible;
     }
 
     &__container {

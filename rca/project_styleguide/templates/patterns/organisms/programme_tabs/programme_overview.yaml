@@ -66,3 +66,56 @@ context:
         link: '#',
         link_text: 'Read more',
       }
+  featured_work:
+    slides:
+      - slide:
+        value:
+          meta: 'Project'
+          title: 'Postproduction - The Future of Retail'
+          summary: 'Exploring the future of physical retail space in relation to British Land’s masterplan for Canada Water.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'Burberry'
+          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'Designing the imposible for NASA'
+          summary: 'Creating world class experiences that started at the RCA'
+          link: '#'
+          person: false
+          image: True
+  programme_stories:
+    title: Programme stories section
+    slides:
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'RCA x CERN'
+          summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Research'
+          title: 'Burberry'
+          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'Designing the imposible for NASA'
+          summary: 'Creating world class experiences that started at the RCA'
+          link: '#'
+          person: false
+          image: True

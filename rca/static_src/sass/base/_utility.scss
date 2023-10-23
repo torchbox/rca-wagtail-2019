@@ -30,4 +30,16 @@
             display: block;
         }
     }
+
+    &-pos-rel {
+        position: relative;
+    }
+
+    &-paragraph-emulator {
+        margin-bottom: $gutter; // useful for when p tags need richtext tags inside them div.u-paragraph-emulator
+    }
+
+    &-offset-outline {
+        outline-offset: -2px; // Used to ensure links with overflow hidden still show the outline when tabbing
+    }
 }

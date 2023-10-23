@@ -32,6 +32,9 @@ class EnquireToStudyFormView(FormView):
     on the 'country_of_residence' value. For the moment only QS is receiving
     post data, Mailchimp is incoming.
 
+    Keys can be seen here:
+    https://qs-enrolment-solutions.screenstepslive.com/s/Help/m/enquiryapi/l/889815-application-endpoints#student-enquiry
+
     All form submissions will create a .models.EnquiryFormSubmission object.
     {
             "FirstName": "Kevin",
@@ -54,6 +57,7 @@ class EnquireToStudyFormView(FormView):
             }],
             "CountryOfCitizenship": "CAN",
             "CountryOfResidence": "CAN",
+            "Address": "|||City||", // We don't record address lines so we only enter the city.
             "LevelOfStudy": "postgraduate",
             "Course": "307-graduate-diploma-art-and-design,127-ma-curating-contemporary-art-exhibitions-and-programming"
         }
@@ -140,8 +144,8 @@ class EnquireToStudyFormView(FormView):
                 },
                 "MMERGE8": form_data["country_of_residence"],
                 "MMERGE9": form_data["city"],
-                "MMERGE11": form_data["programme_type"].display_name,
                 "MMERGE10": form_data["enquiry_reason"].reason,
+                "MMERGE11": form_data["enquiry_questions"],
             },
             "interests": interests,
             "email_address": form_data["email"],
@@ -171,9 +175,7 @@ class EnquireToStudyFormView(FormView):
         ).json()
 
     def post_qs(self, form_data):
-        # Get data from QS student enquiry endpoint for matching up selected
-        # programmes and programme types
-        qs_level_studies = self.get_qs_data(query="levelofstudies")
+        # Get data from QS student enquiry endpoint for matching up selected programmes
         qs_courses = self.get_qs_data(query="courses")
 
         data = {
@@ -181,6 +183,7 @@ class EnquireToStudyFormView(FormView):
             "LastName": form_data["last_name"],
             "EmailAddress": form_data["email"],
             "MobileNumber": f"{form_data['phone_number'].country_code}||{form_data['phone_number'].national_number}",
+            "Address": f"|||{form_data['city']}||",
             "subscribedToDirectEmails": form_data["is_notification_opt_in"],
             "subscribedToDirectPhoneCalls": False,
             "subscribedToDirectSMS": False,
@@ -201,6 +204,9 @@ class EnquireToStudyFormView(FormView):
             ],
         }
 
+        if enquiry_questions := form_data["enquiry_questions"]:
+            data["Notes"] += f"; Enquiry questions: {enquiry_questions}"
+
         # USE IOC format to send data, eg CA (Canada) Should be CAN
         for k, v in IOC_TO_ISO.items():
             if v == form_data["country_of_citizenship"]:
@@ -208,7 +214,6 @@ class EnquireToStudyFormView(FormView):
             if v == form_data["country_of_residence"]:
                 data["CountryOfResidence"] = k
 
-        selected_level_of_study_list = []
         selected_course_list = []
         for programme in form_data["programmes"]:
             course_code = next(
@@ -225,35 +230,7 @@ class EnquireToStudyFormView(FormView):
 
             if course_code not in selected_course_list:
                 selected_course_list.append(course_code)
-            level_of_study_code = next(
-                (
-                    level
-                    for level in qs_level_studies
-                    if level["code"] == programme.programme_type.qs_code
-                ),
-                None,
-            )
 
-            programme_type = form_data["programme_type"]
-            level_of_study_code = next(
-                (
-                    level
-                    for level in qs_level_studies
-                    if level["code"] == programme_type.qs_code
-                ),
-                None,
-            )
-            if not level_of_study_code:
-                raise ValueError(
-                    f"{programme_type.display_name} not found in QS Level of study list"
-                )
-
-            level_of_study_code = level_of_study_code["code"]
-
-            if level_of_study_code not in selected_level_of_study_list:
-                selected_level_of_study_list.append(level_of_study_code)
-
-        data["LevelOfStudy"] = ",".join(selected_level_of_study_list)
         data["Course"] = ",".join(selected_course_list)
         response = requests.post(
             f"{settings.QS_API_ENDPOINT}/studentEnquiries",
@@ -275,9 +252,7 @@ class EnquireToStudyFormView(FormView):
                 "information about the courses you enquired about: \n"
             )
             for programme in form.cleaned_data["programmes"]:
-                email_content += (
-                    f"{programme.title} {settings.BASE_URL + programme.url} \n"
-                )
+                email_content += f"{programme.title} {settings.WAGTAILADMIN_BASE_URL + programme.url} \n"
 
         user_email = form.cleaned_data["email"]
         send_mail(

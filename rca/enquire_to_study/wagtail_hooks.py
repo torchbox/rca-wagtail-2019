@@ -1,7 +1,8 @@
 from django.conf.urls import url
+from wagtail import hooks
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
-from wagtail.core import hooks
+from wagtail_rangefilter.filters import DateTimeRangeFilter
 
 from rca.enquire_to_study.models import EnquiryFormSubmission
 
@@ -36,14 +37,15 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
         "last_name",
         "email",
         "phone_number",
-        "country_of_residence",
-        "country_of_citizenship",
+        "get_country_of_residence",
+        "city",
+        "get_country_of_citizenship",
         "enquiry_reason",
+        "enquiry_questions",
         "start_date",
         "is_read_data_protection_policy",
         "is_notification_opt_in",
         "get_programmes",
-        "get_programme_types",
     )
     list_display = (
         "submission_date",
@@ -63,15 +65,27 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
 
     get_programmes.short_description = "Programmes"
 
-    def get_programme_types(self, obj):
-        return ", ".join(
-            str(item.programme_type)
-            for item in obj.enquiry_submission_programme_types.all()
-        )
+    def get_country_of_residence(self, obj):
+        return obj.country_of_residence.name
 
-    get_programme_types.short_description = "Programme types"
+    def get_country_of_citizenship(self, obj):
+        return obj.country_of_citizenship.name
 
-    list_filter = ("enquiry_submission_programmes__programme",)
+    get_country_of_residence.short_description = "Country of residence"
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+
+        return qs.select_related(
+            "enquiry_reason",
+            "start_date",
+        ).prefetch_related("enquiry_submission_programmes__programme")
+
+    list_filter = (
+        ("submission_date", DateTimeRangeFilter),
+        "enquiry_submission_programmes__programme",
+    )
+
     search_fields = ("first_name", "last_name", "email", "country_of_residence")
     permission_helper_class = EnquiryFormSubmissionPermissionHelper
 

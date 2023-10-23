@@ -3,8 +3,8 @@
 import django.db.models.deletion
 import modelcluster.fields
 import phonenumber_field.modelfields
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 from django.db import migrations, models
 
 
@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="researchcentrepage",
             name="centre_address",
-            field=wagtail.core.fields.RichTextField(blank=True),
+            field=wagtail.fields.RichTextField(blank=True),
         ),
         migrations.AddField(
             model_name="researchcentrepage",
@@ -129,17 +129,17 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="researchcentrepage",
             name="related_links",
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
                     (
                         "link",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
                                 (
                                     "title",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
-                                ("url", wagtail.core.blocks.URLBlock(required=False)),
+                                ("url", wagtail.blocks.URLBlock(required=False)),
                             ]
                         ),
                     )

@@ -120,16 +120,3 @@ context:
     message: 'Bookings not yet open'
     action: 'Register your interest for upcoming dates'
     modal: false
-  access_planit_data:
-    - {
-        'start_date': !!timestamp '2020-05-13 2:00:00',
-        'end_date': !!timestamp '2020-05-15 3:00:00',
-      }
-    - {
-        'start_date': !!timestamp '2020-06-20 2:00:00',
-        'end_date': !!timestamp '2020-06-22 2:00:00',
-      }
-    - {
-        'start_date': !!timestamp '2020-11-01 2:00:00',
-        'end_date': !!timestamp '2020-11-05 2:00:00',
-      }

@@ -1,6 +1,6 @@
 <div class="slideshow glide {{ modifier }}" data-slideshow data-slidetotal="{{ slideshow|length }}">
     <div data-glide-el="track" class="slideshow__container glide__track">
-        <ul class="slideshow__slides glide__slides" aria-live="polite">
+        <ul class="slideshow__slides glide__slides" aria-live="polite" {% if control_title %}id="{{ control_title|slugify }}"{% endif %}>
             {% for slide in slideshow %}
                 <li class="slideshow__item glide__slide">
                     {% include 'patterns/molecules/slide/slide.html' with slide=slide.value %}
@@ -9,22 +9,30 @@
         </ul>
     </div>
     <div class="slideshow__controls grid">
-        <div class="slideshow__bullet-container" data-glide-el="controls[nav]">
+        <div class="slideshow__bullet-container" data-glide-el="controls[nav]" {% if control_title %}aria-controls="{{ control_title|slugify }}"{% endif %}>
             {% for slide in slideshow %}
                 <button class="slideshow__bullet" data-glide-dir="={{ forloop.counter }}" aria-label="Slide {{ forloop.counter }}"></button>
             {% endfor %}
         </div>
-        <div class="slideshow__controls-group" data-glide-el="controls">
-            <button class="slideshow__button slideshow__button--prev button" aria-label="Previous image" data-glide-dir="<">
-                <svg class="slideshow__button-icon" width="46" height="46">
+        <div class="slideshow__controls-group" data-glide-el="controls" {% if control_title %}aria-controls="{{ control_title|slugify }}"{% endif %}>
+            <button class="slideshow__button slideshow__button--prev button" aria-label="Previous image{% if control_title %} for {{ control_title }}{% endif %}" data-glide-dir="<">
+                <svg class="slideshow__button-icon" width="46" height="46" aria-hidden="true">
                     <use xlink:href="#arrow-left" />
                 </svg>
             </button>
-            <button class="slideshow__button slideshow__button--next button" aria-label="Next image" data-glide-dir=">">
-                <svg class="slideshow__button-icon" width="46" height="46">
+            <button class="slideshow__button slideshow__button--next button" aria-label="Next image{% if control_title %} for {{ control_title }}{% endif %}" data-glide-dir=">">
+                <svg class="slideshow__button-icon" width="46" height="46" aria-hidden="true">
                     <use xlink:href="#arrow-right" />
                 </svg>
             </button>
         </div>
     </div>
 </div>
+
+<div class="slideshow-modals">
+    {% for slide in slideshow %}
+        {% include 'patterns/molecules/slide-modal/slide-modal.html' with slide=slide.value %}
+    {% endfor %}
+</div>
+
+

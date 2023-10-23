@@ -1,0 +1,6 @@
+# A custom compose file for $FRONTEND=docker, which also binds frontend ports
+version: '3.7'
+services:
+  web:
+    ports:
+      - 3000:3000 # browser-sync

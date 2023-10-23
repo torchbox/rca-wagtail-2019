@@ -1,7 +1,7 @@
 <div class="upcoming-dates__row">
-    <div class="upcoming-dates__row-item upcoming-dates__row-item--mobile" aria-hidden="true">{{ start_date|date:'d F Y' }} {% if end_date %}to {{ end_date|date:'d F Y' }}{% endif %}</div>
-    <div class="upcoming-dates__row-item upcoming-dates__start-date">{{ start_date|date:'d F Y' }}</div>
-    <div class="upcoming-dates__row-item upcoming-dates__end-date">{{ end_date|date:'d F Y' }}</div>
+    <div class="upcoming-dates__row-item upcoming-dates__row-item--mobile" aria-hidden="true">{{ start_date|date:'j F Y' }} {% if end_date %}to {{ end_date|date:'j F Y' }}{% endif %}</div>
+    <div class="upcoming-dates__row-item upcoming-dates__start-date">{{ start_date|date:'j F Y' }}</div>
+    <div class="upcoming-dates__row-item upcoming-dates__end-date">{{ end_date|date:'j F Y' }}</div>
     <div class="upcoming-dates__row-item upcoming-dates__action">
         {% if register_interest_link %}
             <a href="{{ register_interest_link }}" class="link link--tertiary link--link link--external" target="_blank">

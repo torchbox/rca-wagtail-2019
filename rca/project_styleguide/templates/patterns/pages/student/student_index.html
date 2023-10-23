@@ -30,11 +30,9 @@
                     <nav class="title-area__breadcrumb layout__span-two layout__@large-span-three" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" with breadcrumb=page.breadcrumb %}
                     </nav>
-                    {% if page.title %}
-                        <div class="title-area__heading layout__span-two layout__start-one layout__@large-span-one">
-                            <h1 class="heading heading--display-two">{{ page.title }}</h1>
-                        </div>
-                    {% endif %}
+                    <div class="title-area__heading layout__span-two layout__start-one layout__@large-span-one">
+                        <h1 class="heading heading--display-two" id="main-content">{{ page.title }}</h1>
+                    </div>
                     {% if page.introduction %}
                         <div class="title-area__introduction layout__span-one layout__start-two layout__@large-start-three">{{ page.introduction|richtext }}</div>
                     {% endif %}
@@ -42,9 +40,9 @@
             </div>
         </header>
 
-        <form class="page__content js-detect-sticking js-tabs" method="GET" URL="#results">
+        <form class="page__content js-detect-sticking js-tabs" method="get" action="#results">
 
-            <section class="section section--opposite-notch bg bg--dark filter-bar filter-bar--large" data-filter-bar>
+            <nav class="section section--opposite-notch bg bg--dark filter-bar filter-bar--large" data-filter-bar>
                 <div class="section__notch section__notch--opposite">
 
                     <div class="section__notch-fill section__notch-fill--content-height section__notch-fill--fourth-col">
@@ -64,16 +62,16 @@
                     </div>
 
                 </div>
-            </section>
+            </nav>
 
-            <section class="filter-bar filter-bar--small bg bg--light" data-filter-bar-small>
+            <nav class="filter-bar filter-bar--small bg bg--light" data-filter-bar-small>
                 <a class="filter-bar__link body body--two" href="#filters-active" data-filter-launcher>
                     <span class="filter-bar__label">Filters</span>
                     <svg width="12" height="8" class="filter-bar__icon" aria-hidden="true">
                         <use xlink:href="#arrow"></use>
                     </svg>
                 </a>
-            </section>
+            </nav>
 
             <div class="filter-takeover bg bg--light">
                 <div class="filter-takeover__container">
@@ -89,11 +87,11 @@
 
                 {% if results %}
                     <div class="section__row section__row--first-small section__row--last-small grid">
-                        <div class="results-total heading heading--four layout__start-one layout__span-two layout__@large-start-two">
+                        <h2 class="results-total heading heading--four layout__start-one layout__span-two layout__@large-start-two">
                             <span class="results-total__anchor" id="results"></span>
                             <span class="results-total__type">Results</span>
                             <span class="results-total__number">{{ result_count }}</span>
-                        </div>
+                        </h2>
                     </div>
                 {% endif %}
 

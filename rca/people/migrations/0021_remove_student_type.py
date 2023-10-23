@@ -10,7 +10,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="studenttype", name="sluggedtaxonomy_ptr",),
-        migrations.DeleteModel(name="StudentPageStudentTypePlacement",),
-        migrations.DeleteModel(name="StudentType",),
+        migrations.RemoveField(
+            model_name="studenttype",
+            name="sluggedtaxonomy_ptr",
+        ),
+        migrations.DeleteModel(
+            name="StudentPageStudentTypePlacement",
+        ),
+        migrations.DeleteModel(
+            name="StudentType",
+        ),
     ]

@@ -54,7 +54,12 @@
         @include font-size(xxs);
 
         li {
-            margin-bottom: ($gutter / 4);
+            margin-bottom: ($gutter * 0.3);
+
+            .link {
+                font-family: unset;
+                font-weight: 400;
+            }
         }
     }
 

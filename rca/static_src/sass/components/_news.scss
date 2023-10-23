@@ -56,8 +56,21 @@
                 &:first-child {
                     border-top: 1px solid $color--grid-line-light;
 
-                    @include media-query(large) {
+                    @include media-query(medium) {
                         border-top: 0;
+                    }
+
+                    @include media-query(large) {
+                        border-bottom: 1px solid $color--grid-line-light;
+                    }
+                }
+            }
+        }
+
+        &--single-feature {
+            .card {
+                &:nth-child(2) {
+                    @include media-query(large) {
                         border-bottom: 1px solid $color--grid-line-light;
                     }
                 }
@@ -71,8 +84,21 @@
                 &:first-child {
                     border-top: 1px solid $color--grid-line-dark;
 
-                    @include media-query(large) {
+                    @include media-query(medium) {
                         border-top: 0;
+                    }
+
+                    @include media-query(large) {
+                        border-bottom: 1px solid $color--grid-line-dark;
+                    }
+                }
+            }
+        }
+
+        &--single-feature {
+            .card {
+                &:nth-child(2) {
+                    @include media-query(large) {
                         border-bottom: 1px solid $color--grid-line-dark;
                     }
                 }

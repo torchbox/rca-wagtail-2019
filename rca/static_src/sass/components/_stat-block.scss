@@ -140,6 +140,7 @@
         line-height: 81px;
         font-family: $font--secondary;
         font-weight: $weight--medium;
+        margin-bottom: 0;
 
         @include media-query(medium) {
             font-size: 100px;
@@ -175,7 +176,7 @@
     }
 
     &__body {
-        margin: ($gutter / 2) 0 0;
+        margin: ($gutter * 0.5) 0 0;
         max-width: 270px;
 
         @include media-query(medium) {

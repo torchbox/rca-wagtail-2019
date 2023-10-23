@@ -5,11 +5,17 @@
 
 {% block header_class %}theme-{{ hero_colour }}{% endblock %}
 
+{% block tap_widget %}
+{% if settings.utils.SitewideTapSetting.show_widgets %}{{ tap_widget_code }}{% endif %}
+{% endblock %}
+
 {% block content %}
 
     {% include "patterns/molecules/hero/hero--home.html" with modifier="home" scrolldown=true %}
 
     <div class="page page--overlay" id="content">
+
+        <span id="main-content"></span>
 
         {% include "patterns/atoms/grid-lines/grid-lines.html" %}
         {% include "patterns/molecules/hero-action-pane/hero-action-pane.html" %}
@@ -24,7 +30,7 @@
                         {% if page.strapline_cta_url and page.strapline_cta_text %}
                             <a href="{{ page.strapline_cta_url }}" class="proposition-statement__link link link--primary link--link link--book">
                                 <span class="link__label">{{ page.strapline_cta_text }}</span>
-                                <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+                                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                             </a>
                         {% endif %}
                     </div>
@@ -37,7 +43,7 @@
             {% endif %}
             {% if transformation_block %}
                     <section class="section section--top-space bg bg--light">
-                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=transformation_block.video heading=transformation_block.heading subheading=transformation_block.sub_heading image=transformation_block.image has_meta=True meta_heading=transformation_block.page_title meta_copy=transformation_block.page_summary href=transformation_block.page_link_url caption=transformation_block.video_caption video=transformation_block.video %}
+                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=transformation_block.video heading=transformation_block.heading subheading=transformation_block.sub_heading image=transformation_block.image has_meta=True meta_heading=transformation_block.page_title meta_copy=transformation_block.page_summary href=transformation_block.page_link_url caption=transformation_block.video_caption video=transformation_block.video read_more_text=transformation_block.read_more_link_text %}
                         {% comment %}
                             <div class="section__notch">
                                 <div class="section__notch-fill section__notch-fill--third-col"></div>
@@ -56,7 +62,7 @@
                         </div>
 
                         <div class="alumni-stories__carousel grid">
-                            {% include "patterns/organisms/carousel/carousel_api_content.html" with carousel=alumni_stories modifier='carousel' datatag='data-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel_api_content.html" with carousel=alumni_stories modifier='carousel' control_title="Alumni Stories" datatag='data-carousel' %}
                         </div>
                     </div>
 
@@ -75,7 +81,7 @@
                             <p class="partnerships__introduction">{{ partnerships_block.summary }}</p>
                         </div>
                         <div class="partnerships__carousel">
-                            {% include "patterns/organisms/carousel/carousel--square.html" with carousel=partnerships_block.slides modifier='carousel--square' datatag='data-peek-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel--square.html" with carousel=partnerships_block.slides modifier='carousel--square' control_title="Partnership carousel" datatag='data-peek-carousel' %}
                         </div>
 
                     </div>

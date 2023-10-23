@@ -96,7 +96,7 @@
 
         .app__navigation & {
             margin-top: 39px;
-            opacity: $transition-opacity;
+            opacity: 0.7;
 
             @include media-query(medium) {
                 margin-top: 4px;
@@ -128,7 +128,7 @@
         }
 
         .app__navigation & {
-            opacity: $transition-opacity;
+            opacity: 0.7;
         }
 
         .search-active & {
@@ -231,6 +231,10 @@
             }
         }
 
+        &--inline {
+            display: inline; // used to be spans, now divs
+        }
+
         &--level-zero {
             position: relative;
 
@@ -287,11 +291,10 @@
                 }
 
                 > nav {
-                    // sass-lint:disable-block no-vendor-prefixes
                     height: 500px;
                     overflow: scroll;
                     // hide scrollbars as per clients request
-                    scrollbar-width: none; // sass-lint:disable-line no-misspelled-properties
+                    scrollbar-width: none;
 
                     &::-webkit-scrollbar {
                         display: none;
@@ -353,8 +356,8 @@
     // Show when scrolling back up
     .headroom--pinned.headroom--not-top & {
         #{$root}__container {
-            padding-top: ($gutter / 4);
-            padding-bottom: ($gutter / 4);
+            padding-top: ($gutter * 0.25);
+            padding-bottom: ($gutter * 0.25);
         }
     }
 }

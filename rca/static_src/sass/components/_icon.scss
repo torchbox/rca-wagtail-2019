@@ -7,10 +7,4 @@
     &:hover {
         fill: darken($color--primary, 20%);
     }
-
-    &--footer-social {
-        @include media-query(tablet-portrait) {
-            margin-right: 10px;
-        }
-    }
 }

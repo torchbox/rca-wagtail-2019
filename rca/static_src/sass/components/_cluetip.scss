@@ -1,0 +1,53 @@
+// Skinning of Blackbaud modal on the donation template
+/* stylelint-disable selector-max-id -- third party system */
+#cluetip {
+    #cluetip-outer {
+        padding: $gutter;
+    }
+
+    #cluetip-title {
+        @include font-size(s);
+        font-family: $font--secondary;
+        line-height: $line-height-large;
+        font-weight: $weight--medium;
+        margin-bottom: $gutter;
+        width: 80%;
+
+        #cluetip-close {
+            float: none;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+
+    #cluetip-inner {
+        p {
+            margin: 0 0 $gutter !important;
+            padding: 0 !important;
+        }
+
+        h2 {
+            @include font-size(xs);
+            font-family: $font--secondary;
+            line-height: $line-height-large;
+            font-weight: $weight--medium;
+            margin-bottom: $gutter;
+        }
+
+        #divBBSecure {
+            img {
+                display: none; // Hide Blackbaud logo, seems OTT
+            }
+        }
+
+        #divCSCWhatsThis {
+            .taLeft {
+                div {
+                    margin: 0 !important;
+                }
+            }
+        }
+    }
+}
+/* stylelint-enable selector-max-id */

@@ -6,7 +6,7 @@
     &__label {
         @include font-size(xxxs);
         display: none;
-        padding-bottom: ($gutter / 4);
+        padding-bottom: ($gutter * 0.25);
 
         @include media-query(medium) {
             display: block;
@@ -15,6 +15,7 @@
 
     &__icon {
         stroke: currentColor;
+        /* stylelint-disable-next-line scale-unlimited/declaration-strict-value */
         fill: none;
         width: 19px;
         height: 18px;

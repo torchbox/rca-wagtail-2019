@@ -10,21 +10,6 @@
         border-top: 1px solid $color--grid-line-light;
     }
 
-    &--no-modal {
-        #{$root}__message {
-            @include media-query(large) {
-                grid-column: 2 / span 1;
-            }
-        }
-
-        #{$root}__action {
-            @include media-query(large) {
-                grid-column: 3 / span 2;
-                justify-content: flex-end;
-            }
-        }
-    }
-
     &__container {
         align-items: center;
     }
@@ -35,7 +20,7 @@
         grid-column: 1 / span 1;
         padding-top: ($gutter);
         padding-bottom: ($gutter);
-        padding-right: ($gutter / 2);
+        padding-right: ($gutter * 0.5);
 
         @include media-query(medium) {
             display: block;
@@ -73,7 +58,7 @@
     }
 
     // Place on last item on the page, to compensate for transform on actual item
-    &__last-item {
+    &-last-item {
         margin-bottom: -$booking-bar-height-small;
         padding-bottom: ($gutter * 2);
 
@@ -84,6 +69,38 @@
 
         @include media-query(large) {
             margin-bottom: -$booking-bar-height-large;
+        }
+    }
+
+    /* Template specific */
+    .app--event-detail &,
+    .app--scholarship-listing & {
+        &--no-modal {
+            #{$root}__message {
+                @include media-query(large) {
+                    grid-column: 2 / span 2;
+                }
+            }
+
+            #{$root}__action {
+                @include media-query(large) {
+                    grid-column: 4 / span 1;
+                }
+            }
+        }
+
+        &-last-item {
+            @include media-query(large) {
+                padding-bottom: ($gutter * 8);
+            }
+        }
+    }
+
+    .app--scholarship-listing & {
+        &-last-item {
+            @include media-query(large) {
+                padding-bottom: ($gutter * 13.5);
+            }
         }
     }
 }

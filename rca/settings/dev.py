@@ -15,11 +15,11 @@ ALLOWED_HOSTS = ["*"]
 
 
 # Allow requests from the local IPs to see more debug information.
-INTERNAL_IPS = ("127.0.0.1", "10.0.2.2")
+INTERNAL_IPS = ("127.0.0.1", "10.0.2.2", "0.0.0.0")
 
 
 # This is only to test Wagtail emails.
-BASE_URL = "http://localhost:8000"
+WAGTAILADMIN_BASE_URL = "http://localhost:8000"
 
 
 # Display sent emails in the console while developing locally.

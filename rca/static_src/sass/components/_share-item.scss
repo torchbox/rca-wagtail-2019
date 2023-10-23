@@ -1,0 +1,60 @@
+.share-item {
+    $root: &;
+    flex-basis: 50%;
+    max-width: 50%;
+    min-width: 50%;
+    margin-bottom: ($gutter * 0.75);
+
+    @include media-query(large) {
+        flex-basis: 100%;
+        max-width: 100%;
+        min-width: 100%;
+    }
+
+    &__link {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        @include media-query(large) {
+            padding-left: 10px;
+        }
+
+        &:hover,
+        &:focus {
+            #{$root}__icon {
+                opacity: 1;
+            }
+        }
+    }
+
+    &__icon {
+        opacity: 0.5;
+        transition: opacity $transition-cubic;
+        max-width: 18px;
+        max-height: 18px;
+        margin-right: ($gutter * 0.75);
+    }
+
+    .bg--dark & {
+        #{$root}__link {
+            color: $color--white;
+        }
+
+        #{$root}__icon {
+            fill: $color--white;
+            color: $color--white; // so currentColour matches the fill for awkward svgs
+        }
+    }
+
+    .bg--light & {
+        #{$root}__link {
+            color: $color--black;
+        }
+
+        #{$root}__icon {
+            fill: $color--black;
+            color: $color--black; // so currentColour matches the fill for awkward svgs
+        }
+    }
+}

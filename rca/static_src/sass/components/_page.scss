@@ -33,7 +33,9 @@
         @include media-query(large) {
             // add black spacer in to prevent 'white bar' appearing above filters just before sticking
             .app--staff-listing &,
-            .app--project-listing & {
+            .app--project-listing &,
+            .app--editorial-listing &,
+            .app--event-listing & {
                 position: relative;
 
                 &::before {

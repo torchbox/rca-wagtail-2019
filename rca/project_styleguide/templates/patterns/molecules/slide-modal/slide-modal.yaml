@@ -1,0 +1,19 @@
+context:
+  slide:
+    title: 'This is a slide title'
+    link: 'http://www.whatshouldireadnext.com'
+    author: 'Nick Lee'
+    course: 'Design'
+
+tags:
+  image:
+    slide.image fill-100x71 as image_small:
+      target_var: image_small
+      raw:
+        url: '//placekitten.com/100/71'
+    slide.image fill-829x585 as image_large:
+      target_var: image_large
+      raw:
+        url: '//placekitten.com/829/585'
+        width: '829'
+        height: '585'

@@ -2,14 +2,14 @@ from django.conf import settings
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.template.response import TemplateResponse
 from django.utils.cache import add_never_cache_headers, patch_cache_control
-from wagtail.core.models import Page
-from wagtail.search.models import Query
+from wagtail.contrib.search_promotions.models import Query
+from wagtail.models import Page
 
 from rca.utils.cache import get_default_cache_control_kwargs
 
 
 def search(request):
-    search_query = request.GET.get("query", None)
+    search_query = request.GET.get("q", None)
     page = request.GET.get("page", 1)
 
     # Search
@@ -34,7 +34,11 @@ def search(request):
     response = TemplateResponse(
         request,
         "patterns/pages/search/search.html",
-        {"search_query": search_query, "search_results": search_results},
+        {
+            "search_query": search_query,
+            "search_results": search_results,
+            "SEO_NOINDEX": True,
+        },
     )
     # Instruct FE cache to not cache when the search query is present.
     # It's so hits get added to the database and results include newly

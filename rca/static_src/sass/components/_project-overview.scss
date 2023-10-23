@@ -1,7 +1,7 @@
 .project-overview {
     $root: &;
 
-    &--school {
+    &--condensed {
         #{$root}__media {
             @include media-query(large) {
                 padding-top: 0;

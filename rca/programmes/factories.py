@@ -20,7 +20,6 @@ class ProgrammeTypeFactory(factory.django.DjangoModelFactory):
 
     display_name = factory.Faker("text", max_nb_chars=25)
     description = factory.Faker("text", max_nb_chars=250)
-    pk = 1
 
 
 class ProgrammePageFactory(wagtail_factories.PageFactory):

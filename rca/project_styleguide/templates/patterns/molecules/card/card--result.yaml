@@ -1,0 +1,20 @@
+context:
+  item:
+    type: 'Talk'
+    title: 'Extending the Potential for the Digitally Printed Ceramic Surface'
+    date: !!timestamp '2020-12-13 2:00:00'
+    image: true
+    link: '#'
+
+tags:
+  image:
+    item.image fill-80x58 as image_small:
+      target_var: image_small
+      raw:
+        url: '//placekitten.com/80/58'
+    item.image fill-392x284 as image_large:
+      target_var: image_large
+      raw:
+        url: '//placekitten.com/392/284'
+        width: '392'
+        height: '284'

@@ -26,6 +26,7 @@
     }
 
     &__link {
+        display: block;
         position: relative;
 
         &:active,
@@ -71,7 +72,7 @@
         }
 
         #{$root}__caption-text {
-            margin-bottom: -($gutter / 2);
+            margin-bottom: -($gutter * 0.5);
             flex: 1;
             max-width: 60%;
 
@@ -82,7 +83,7 @@
     }
 
     &__caption-icon {
-        margin-right: ($gutter / 2);
+        margin-right: ($gutter * 0.5);
     }
 
     &__image-icon {
@@ -104,6 +105,10 @@
         @include media-query(large) {
             margin-bottom: ($gutter * 5);
         }
+    }
+
+    .programme-overview__video & {
+        margin-bottom: 0;
     }
 
     .bg--dark & {

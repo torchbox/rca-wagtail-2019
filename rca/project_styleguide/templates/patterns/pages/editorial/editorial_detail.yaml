@@ -1,0 +1,141 @@
+context:
+  hero_image: true
+  page:
+    title: Peter Russell-Clarke appointed as Chair of RCA USA Board of Trustees
+    published_at: !!timestamp '2020-05-13 2:00:00'
+    last_published_at: !!timestamp '2020-05-13 2:00:00'
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: News & Events
+      - is_root: false
+        depth: 3
+        title: News
+    introduction: 'The Royal College of Art USA Inc. (RCA USA) welcomes renowned Apple designer Peter Russell-Clarke as its incoming Chair and President.'
+    introduction_image: true
+    author: Royal College of Art
+    video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
+    video_caption: Watch the course introduction
+    body:
+      - dummy
+    quote_carousel:
+      - slide:
+        value:
+          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
+          author: 'Benjamin Glatz'
+          job_title: 'Digital Transformation Lead, Shell'
+      - slide:
+        value:
+          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
+          author: 'Benjamin Glatz'
+          job_title: 'Digital Transformation Lead, Shell'
+      - slide:
+        value:
+          quote: 'We want people to come away from our executive education courses with achievable insights and a critical path to making change in their organisations and to their own individual working lives.'
+          author: 'Professor Jeremy Myerson'
+    gallery:
+      - slide:
+        value:
+          title: 'Albertopolissss 550-metre pedestrian tunnel'
+          author: 'Chris Lawton'
+          link: 'http://www.torchbox.com'
+          course: 'Architecture'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel'
+          author: 'Nick Lee'
+          link: 'http://www.torchbox.com'
+          course: 'Design'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel'
+          author: 'Chris Lawton'
+          link: 'http://www.torchbox.com'
+          course: 'Architecture'
+      - slide:
+        value:
+          title: 'Albertopolis 550-metre pedestrian tunnel'
+          author: 'Kevin Howbrook'
+          link: 'http://www.torchbox.com'
+          course: 'Design'
+    more_information_title: Accordion title
+    more_information:
+      - accordion:
+        value:
+          heading: First Year
+          preview_text:
+          body: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
+          introduction: The RCA provides a unique environment for postgraduate art and design students to reflect upon their own practice, and to engage with students from their own and other disciplines
+          link:
+            title: 'Find out more'
+            url: '#'
+      - accordion:
+        value:
+          heading: Second Year
+          preview_text:
+          body: These categories are loose and extend to other genres and approaches, and all students are expected and encouraged to innovate, experiment and take inspiration and influence from the other pathways, alongside the core Programme offer and the wider School.
+          link:
+            title: 'Find out more'
+            url: '#'
+    cta_block:
+      - block:
+        value:
+          title: Interested in design as a catalyst for change?
+          description: In addition to the research themes, the School of Architecture created the Laboratory for Design & Machine Learning to conduct research into new interdisciplinary forms of designing, evaluation, and policymaking.
+          action: MA Design Products
+          link: '#'
+    contact: true
+    contact_model_image: true
+  related_pages:
+    title: Also of interest
+    items:
+      - {
+          title: 'Innovation RCA',
+          link: '#',
+          meta: Staff,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Consultancy & knowledge exchange',
+          link: '#',
+          meta: News,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Custom executive education',
+          link: '#',
+          meta: Event,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Custom executive education',
+          link: '#',
+          meta: Research,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+
+tags:
+  include_block:
+    block:
+      template_name: 'patterns/_pattern_library_only/streamfield/editorial_streamfield.html'
+  image:
+    hero_image fill-320x285 as image_small:
+      target_var: image_small
+      raw:
+        url: '//placekitten.com/320/285'
+    hero_image fill-768x530 as image_medium:
+      target_var: image_medium
+      raw:
+        url: '//placekitten.com/768/530'
+    hero_image fill-1440x530 as image_large:
+      target_var: image_large
+      raw:
+        url: '//placekitten.com/1440/530'

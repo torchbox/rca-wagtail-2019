@@ -49,7 +49,7 @@
                 </h3>
             </header>
             <div class="section__content">
-                {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.programme_gallery modifier=programme_slideshow_modifier %}
+                {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.programme_gallery control_title="Programme gallery" modifier=programme_slideshow_modifier %}
             </div>
         {% endif %}
     </div>
@@ -63,22 +63,44 @@
 <section class="section section--end bg bg--light">
     {% if related_staff %}
         <div class="section__row section__row--first section__row--last">
-            {% include "patterns/organisms/people-module/people-module.html" with title="Staff" people=related_staff %}
+            {% include "patterns/organisms/people-module/people-module.html" with people=related_staff title=page.staff_title %}
         </div>
     {% endif %}
 
     {% include "patterns/organisms/facilities/facilities.html" with title='Facilities' slideshow=page.facilities_gallery  %}
 
-    {% include "patterns/organisms/featured-alumni/featured-alumni.html" with title="Our alumni" introduction=programme_page_global_fields.alumni_summary_text alumni_links=page.notable_alumni_links %}
+    {% include "patterns/organisms/featured-alumni/featured-alumni.html" with title="Our alumni" introduction=programme_page_global_fields.alumni_summary_text alumni_links=page.notable_alumni_links alumni_cta_link=programme_page_global_fields.alumni_cta_link alumni_cta_text=programme_page_global_fields.alumni_cta_text %}
 
 </section>
 
-{% comment %}
+
+{% if featured_work or news_and_events or programme_stories  %}
     <section class="section section--end bg bg--dark">
-        {% if news_and_events %}
-            <div class="section__notch section__notch--top">
-                <div class="section__notch-fill section__notch-fill--third-col"></div>
+
+        <div class="section__notch section__notch--top">
+            <div class="section__notch-fill section__notch-fill--third-col"></div>
+        </div>
+
+        {% if featured_work %}
+            <div class="section__row section__row--first-small section__row--last schools__about--student-stories partnerships__carousel">
+                <div class="section__header grid">
+                    <h2 class="section__heading section__heading--primary heading heading--two">Standout projects</h2>
+                </div>
+                {% include "patterns/organisms/carousel/carousel--square.html" with carousel=featured_work.slides modifier='carousel--square' control_title="Editorial stories" datatag='data-peek-carousel' %}
             </div>
+        {% endif %}
+
+        {% if programme_stories %}
+            <div class="section__row section__row--last schools__about--student-stories partnerships__carousel">
+                <div class="section__header grid">
+                    <h2 class="section__heading section__heading--primary heading heading--four">{{ programme_stories.title }}</h2>
+                </div>
+                {% include "patterns/organisms/carousel/carousel--square.html" with carousel=programme_stories.slides modifier='carousel--square' control_title="Programme stories" datatag='data-peek-carousel' %}
+            </div>
+        {% endif %}
+
+        {% comment %}
+        {% if news_and_events %}
             <div class="section__row">
                 <header class="section__header grid">
                     <h3 class="section__heading section__heading--primary heading heading--two">What&#39;s happening at the RCA</h3>
@@ -88,11 +110,8 @@
                 </div>
             </div>
         {% endif %}
-    </section>
+        {% endcomment %}
 
-    <section class="section bg bg--light">
-        <div class="section__notch section__notch--top">
-            <div class="section__notch-fill section__notch-fill--third-col"></div>
-        </div>
     </section>
-{% endcomment %}
+{% endif %}
+

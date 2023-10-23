@@ -17,14 +17,12 @@
         </div>
 
         <header class="page__header bg bg--dark">
-            <div class="title-area title-area--research-centre grid">
+            <div class="title-area title-area--breadcrumb title-area--research-centre grid">
                 <div class="title-area__content">
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
                         {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
                     </nav>
-                    {% if page.title %}
-                        <h1 class="title-area__heading heading heading--display-two">{{ page.title }}</h1>
-                    {% endif %}
+                    <h1 class="title-area__heading heading heading--display-two" id="main-content">{{ page.title }}</h1>
                 </div>
                 {% if page.hero_image_credit or page.hero_image %}
                     <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
@@ -43,9 +41,9 @@
                         <div class="research-centre-overview__content">
                             <div class="research-centre-overview__body">
                                 {% if page.introduction %}
-                                    <h2 class="research-centre-overview__heading section__heading heading heading--five">
+                                    <div class="research-centre-overview__heading section__heading heading heading--five">
                                         {{ page.introduction|linebreaks }}
-                                    </h2>
+                                    </div>
                                 {% endif %}
                                 {% if about_page  %}
                                     <a href="{{ about_page  }}" class="link link--tertiary link--link">
@@ -87,7 +85,7 @@
                             </h2>
                         </div>
                         <div class="section__content grid">
-                            {% include "patterns/organisms/carousel/carousel.html" with carousel=projects modifier='carousel carousel--no-margin' datatag='data-carousel' %}
+                            {% include "patterns/organisms/carousel/carousel.html" with carousel=projects modifier='carousel carousel--no-margin' control_title="Related projects carousel" datatag='data-carousel' %}
                             <div class="section__action">
                             {% if page.research_projects_link %}
                                 <a class="link link--primary link--link body body--two" href="{{ page.research_projects_link }}">
@@ -171,7 +169,7 @@
                                 <h2 class="partnerships__heading heading heading--two">{{ research_news.title }}</h2>
                             </div>
                             <div class="partnerships__carousel">
-                                {% include "patterns/organisms/carousel/carousel--square.html" with carousel=research_news.slides modifier='carousel--square' datatag='data-peek-carousel' %}
+                                {% include "patterns/organisms/carousel/carousel--square.html" with carousel=research_news.slides modifier='carousel--square' control_title="Research news carousel" datatag='data-peek-carousel' %}
                             </div>
                         </div>
                     </div>

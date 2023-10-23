@@ -14,6 +14,15 @@
         display: block;
         padding-top: ($gutter * 1.5);
         margin-bottom: ($gutter * 2);
+        border-top-width: 1px;
+        border-top-style: solid;
+    }
+
+    &--no-border {
+        @include media-query(large) {
+            padding-top: 0;
+            border-top: 0;
+        }
     }
 
     &--short {
@@ -30,10 +39,22 @@
         }
     }
 
+    &--tight {
+        #{$root}__list {
+            margin-bottom: $gutter;
+        }
+    }
+
+    &--event {
+        @include media-query(large) {
+            margin-top: -($gutter * 3.25);
+        }
+    }
+
     &--centre {
         #{$root}__meta {
             // Allow for mobile link underline above it
-            margin-top: ($gutter / 4);
+            margin-top: ($gutter * 0.25);
 
             @include media-query(large) {
                 margin-top: 0;
@@ -41,14 +62,39 @@
         }
     }
 
+    // Make this content secondary on small viewports
+    &--small-secondary {
+        order: 2;
+
+        @include media-query(medium) {
+            order: initial;
+        }
+    }
+
     &__header {
         @include media-query(medium) {
             flex-basis: 100%;
+        }
+
+        &--with-margins {
+            margin-bottom: ($gutter);
+
+            @include media-query(medium) {
+                margin-bottom: ($gutter * 2);
+            }
         }
     }
 
     &__heading {
         margin-bottom: ($gutter * 2);
+
+        &--small-margin {
+            margin-bottom: ($gutter);
+
+            @include media-query(medium) {
+                margin-bottom: ($gutter * 2);
+            }
+        }
     }
 
     // Only used for medium breakpoint rejigged layout
@@ -106,7 +152,7 @@
     }
 
     &__sub-heading {
-        margin-bottom: ($gutter / 2);
+        margin-bottom: ($gutter * 0.5);
     }
 
     &__list {
@@ -119,7 +165,7 @@
     }
 
     &__list-item {
-        margin-bottom: ($gutter / 2.25);
+        margin-bottom: calc($gutter / 2.25);
 
         &--tight {
             line-height: $line-height-tight;
@@ -129,12 +175,12 @@
     &__link {
         @include font-size(xxs);
         margin-right: $gutter;
-        max-width: 100% !important; // sass-lint:disable-line no-important
+        max-width: 100% !important;
     }
 
     .bg--dark & {
         @include media-query(large) {
-            border-top: 1px solid $color--grid-line-light;
+            border-top-color: $color--grid-line-light;
         }
 
         #{$root}__sub-heading,
@@ -146,7 +192,7 @@
 
     .bg--light & {
         @include media-query(large) {
-            border-top: 1px solid $color--grid-line-dark;
+            border-top-color: $color--grid-line-dark;
         }
 
         #{$root}__sub-heading,

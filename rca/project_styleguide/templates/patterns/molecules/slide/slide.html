@@ -8,15 +8,53 @@
     {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=829 height=585 image_large=image_large classList='slide__image' %}
 
     <div class="slide__meta">
-        {% if slide.title %}
-            <h2 class="slide__heading">{{ slide.title }}</h2>
+        {% if slide.document or slide.video_embed or slide.audio_embed %}
+            <div class="slide__type">
+
+                {% if slide.document or slide.video_embed or slide.audio_embed %}
+                    {% if slide.document %}
+                        <a class="slide__action" href="{{ slide.document.url }}" download="{% firstof slide.document.title slide.title %}">
+                    {% else %}
+                        <button class="slide__action" data-micromodal-trigger="slideshow-modal-{{ forloop.counter }}" aria-label="Play {{ slide.title }}">
+                    {% endif %}
+                {% endif %}
+
+                    {% if slide.document %}
+                        {% with file_size=slide.document.file_size|filesizeformat file_extension=slide.document.file_extension|upper %}
+                            <svg width="24" height="24" class="slide__type-icon" aria-hidden="true"><use xlink:href="#download-file"></use></svg>
+                            <span class="slide__type-label">Download <br>{{ file_extension }} ({{ file_size }})</span>
+                        {% endwith %}
+                    {% endif %}
+                    {% if slide.video_embed %}
+                        <svg width="24" height="24" class="slide__type-icon" aria-hidden="true"><use xlink:href="#play-icon"></use></svg>
+                        <span class="slide__type-label">Play<br> video</span>
+                    {% endif%}
+                    {% if slide.audio_embed %}
+                        <svg width="24" height="24" class="slide__type-icon" aria-hidden="true"><use xlink:href="#audio"></use></svg>
+                        <span class="slide__type-label">Play<br> audio</span>
+                    {% endif %}
+
+                {% if slide.document or slide.video_embed or slide.audio_embed %}
+                    {% if slide.document %}
+                        </a>
+                    {% else %}
+                        </button>
+                    {% endif %}
+                {% endif %}
+
+            </div>
         {% endif %}
+
+        {% if slide.title %}
+            <p class="slide__heading">{{ slide.title }}</p>
+        {% endif %}
+
         {% if slide.author %}
             <div class="slide__author-info">
                 {% if slide.link %}
                     <a class="slide__link" href="{{ slide.link }}">
                 {% endif %}
-                    <h3 class="slide__author">{{ slide.author }}</h3>
+                    <p class="slide__author">{{ slide.author }}</p>
                 {% if slide.link %}
                     </a>
                 {% endif %}
@@ -24,4 +62,7 @@
             </div>
         {% endif %}
     </div>
+
+
+
 </div>

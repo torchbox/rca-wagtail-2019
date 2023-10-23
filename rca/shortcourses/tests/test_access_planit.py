@@ -119,7 +119,7 @@ class AccessPlanitXMLTest(TestCase):
         self.query = query.urlencode()
 
     def test_xml_fetch(self):
-        """ Test the XML fetch responds. """
+        """Test the XML fetch responds."""
         with self.settings(
             ACCESS_PLANIT_XML_BASE_URL="https://rca.accessplanit.com/accessplansandbox/services/WebIntegration.asmx/"
             "GetCoursesPackage?"
@@ -130,7 +130,7 @@ class AccessPlanitXMLTest(TestCase):
             self.assertEqual(response.status_code, 200)
 
     def test_xml_fetch_no_venue(self):
-        """ Prove that you must pass blank values as parameters"""
+        """Prove that you must pass blank values as parameters"""
         with self.settings(
             ACCESS_PLANIT_XML_BASE_URL="https://rca.accessplanit.com/accessplansandbox/services/WebIntegration.asmx/"
             "GetCoursesPackage?"
@@ -152,7 +152,7 @@ class AccessPlanitXMLTest(TestCase):
 
     @mock.patch("rca.shortcourses.access_planit.requests.get")
     def test_data_if_timeout(self, mock_get):
-        """ If a timeout is caught the xml_data should be None"""
+        """If a timeout is caught the xml_data should be None"""
         logging.disable(logging.CRITICAL)
         mock_get.side_effect = Timeout
         data = AccessPlanitXML(course_id=1)
@@ -169,10 +169,10 @@ class AccessPlanitXMLTest(TestCase):
         mock.Mock(return_value=True),
     )
     def test_cached_data_if_timeout(self, mock_get, mocked_fetch_data_from_xml):
-        """ Test getting stale cache data with a Timeout failure to get data"""
+        """Test getting stale cache data with a Timeout failure to get data"""
         logging.disable(logging.CRITICAL)
         ShortCoursePage.objects.create(
-            title=f"Short course 1",
+            title="Short course 1",
             path="1",
             depth="001",
             access_planit_course_id=1,
@@ -182,7 +182,7 @@ class AccessPlanitXMLTest(TestCase):
         )
         # Generate the mocked xml data
         AccessPlanitXML(course_id=1).get_data()
-        cache_key = f"short_course_1"
+        cache_key = "short_course_1"
         self.assertEqual(cache.get(cache_key), self.expected_data)
         # Add a timeout for the new data request
         mock_get.side_effect = Timeout
@@ -192,13 +192,13 @@ class AccessPlanitXMLTest(TestCase):
         self.assertEqual(cache.get(cache_key), self.expected_data)
 
     def test_required_course_id(self):
-        """ The access_planit_course_id is a required field, however if access_planit_course_id
+        """The access_planit_course_id is a required field, however if access_planit_course_id
         is made non-required we want some tests to fail, as it will have unwanted effects,
         the validation on the model should be able to cast the course value to an integer"""
 
         with self.assertRaises(TypeError):
             ShortCoursePage.objects.create(
-                title=f"Short course should not save",
+                title="Short course should not save",
                 path=100,
                 depth="001",
                 programme_type_id=1,
@@ -207,7 +207,7 @@ class AccessPlanitXMLTest(TestCase):
             )
         with self.assertRaises(TypeError):
             ShortCoursePage.objects.create(
-                title=f"Short course should not save",
+                title="Short course should not save",
                 path=100,
                 depth="001",
                 access_planit_course_id="course id cannot be a string",
@@ -218,7 +218,7 @@ class AccessPlanitXMLTest(TestCase):
         mock.Mock(return_value=True),
     )
     def test_management_command_fetch_data(self):
-        """ Test that xml with no dates doesn't go in the cache """
+        """Test that xml with no dates doesn't go in the cache"""
         for i in range(5):
             ShortCoursePage.objects.create(
                 title=f"Short course {i}",
@@ -236,7 +236,7 @@ class AccessPlanitXMLTest(TestCase):
             self.assertEqual(cache.get(cache_key), None)
 
     def test_cache_data_for_non_valid_course_id(self):
-        """ Technically, you can add any integer as a course ID and some will
+        """Technically, you can add any integer as a course ID and some will
         not fetch data"""
         data = AccessPlanitXML(course_id=1).get_data()
         self.assertEqual(data, None)
@@ -252,7 +252,7 @@ class AccessPlanitXMLTest(TestCase):
     def test_management_command_fetch_with_example_data(
         self, mocked_fetch_data_from_xml
     ):
-        """ Test that the example xml goes in the cache as expected """
+        """Test that the example xml goes in the cache as expected"""
         for i in range(1, 5):
             ShortCoursePage.objects.create(
                 title=f"Short course {i}",
@@ -305,8 +305,8 @@ class AccessPlanitXMLTest(TestCase):
         mock.Mock(return_value=True),
     )
     def test_page_renders_good_xml(self, mocked_fetch_data_from_xml):
-        """ Test that the example xml file is passed through the parser and is set
-        in cache, and when retrieved is what we expect """
+        """Test that the example xml file is passed through the parser and is set
+        in cache, and when retrieved is what we expect"""
         home_page = HomePage.objects.first()
         short_course_page = ShortCoursePage(
             title="Short course title",
@@ -351,7 +351,7 @@ class AccessPlanitCourseCheckerTest(TestCase):
         self.query = query.urlencode()
 
     def test_xml_fetch(self):
-        """ Test the XML fetch responds. """
+        """Test the XML fetch responds."""
         with self.settings(
             ACCESS_PLANIT_XML_COURSE_URL="https://rca.accessplanit.com/accessplansandbox/services/WebIntegration.asmx/"
             "GetCourses?"
@@ -367,7 +367,7 @@ class AccessPlanitCourseCheckerTest(TestCase):
 
     @mock.patch("rca.shortcourses.access_planit.requests.get")
     def test_exception_if_timeout(self, mock_get):
-        """ If a timeout is caught then throw an exception that's handled as a validation error"""
+        """If a timeout is caught then throw an exception that's handled as a validation error"""
         logging.disable(logging.CRITICAL)
         mock_get.side_effect = Timeout
 
@@ -379,7 +379,7 @@ class AccessPlanitCourseCheckerTest(TestCase):
         # Model form throws a validation error on timeout
         with self.assertRaises(ValidationError):
             ShortCoursePage.objects.create(
-                title=f"Short course 1",
+                title="Short course 1",
                 path="1",
                 depth="001",
                 access_planit_course_id=1,
@@ -395,7 +395,7 @@ class AccessPlanitCourseCheckerTest(TestCase):
     def test_page_accepts_valid_course(self, mocked_fetch_valid_course_data):
         # No error should be thrown by this call
         ShortCoursePage.objects.create(
-            title=f"Short course 1",
+            title="Short course 1",
             path="1",
             depth="001",
             access_planit_course_id=1,
@@ -411,7 +411,7 @@ class AccessPlanitCourseCheckerTest(TestCase):
     def test_page_rejects_invalid_couse(self, mocked_fetch_invalid_course_data):
         with self.assertRaises(ValidationError):
             ShortCoursePage.objects.create(
-                title=f"Short course 1",
+                title="Short course 1",
                 path="1",
                 depth="001",
                 access_planit_course_id=1,

@@ -266,7 +266,8 @@
 
     // Components that use font size under 18px (orange doesn't pass on bg--light)
     .text-teaser &,
-    .contact & {
+    .contact &,
+    .news & {
         .bg--light & {
             &#{$root}--primary {
                 color: $color--black;
@@ -279,10 +280,9 @@
         margin-top: ($gutter * 1.5);
     }
 
-    .key-details--staff .key-details__list-item &,
-    .key-details--student .key-details__list-item & {
+    .key-details & {
         &#{$root}--tertiary {
-            // Make sure multi line lines hover only shown on last line of link
+            // Make sure multi line lines hover show under the whole link
             display: inline;
         }
     }

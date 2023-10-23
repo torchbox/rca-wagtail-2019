@@ -1,0 +1,10 @@
+context:
+  page:
+    title: Thanks for your interest
+    introduction: Maecenas faucibus mollis interdum. Etiam porta sem malesuada magna mollis euismod. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Nulla vitae elit libero, a pharetra augue.
+    teasers: False
+  cta:
+    title: More about RCA
+    description: Thanks for your enquiry, now why not read more about the Royal College of Art…
+    action: RCA Homepage
+    link: '#'

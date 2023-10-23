@@ -4,8 +4,8 @@ from bs4 import BeautifulSoup
 from django import template
 from django.conf import settings
 from django.template.loader import render_to_string
-from wagtail.core.rich_text import RichText, expand_db_html
-from wagtail.core.utils import camelcase_to_underscore
+from wagtail.coreutils import camelcase_to_underscore
+from wagtail.rich_text import RichText, expand_db_html
 
 from rca.utils.models import SocialMediaSettings
 
@@ -72,7 +72,7 @@ def social_media_links(context):
 
 
 default_domains = [
-    settings.BASE_URL,
+    settings.WAGTAILADMIN_BASE_URL,
     "rca-production.herokuapp.com",
     "rca-staging.herokuapp.com",
     "rca-development.herokuapp.com",
@@ -109,11 +109,12 @@ def is_external(*args):
         return False
 
     # Pattern library links are all '#' which will be internal.
-    if link != "#":
-        if urlparse(link).hostname not in default_domains:
-            return True
-
-    return False
+    # '/' links that come from page.url values
+    return (
+        link != "#"
+        and link[0] != "/"
+        and urlparse(link).hostname not in default_domains
+    )
 
 
 @register.filter

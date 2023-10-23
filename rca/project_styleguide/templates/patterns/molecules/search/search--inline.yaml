@@ -1,0 +1,6 @@
+context:
+  item:
+    label: Inline search
+    id: inline-search
+    placeholder: Enter search term
+  search_query: False

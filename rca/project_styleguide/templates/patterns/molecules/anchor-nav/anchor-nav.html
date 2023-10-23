@@ -1,5 +1,12 @@
   <div class="anchor-nav" data-anchor-nav>
-    <h2 class="anchor-nav__heading">On this page</h2>
+    <h2 class="anchor-nav__heading">
+        <div class="anchor-nav__heading-label">
+            Jump to
+        </div>
+        <svg width="12" height="8" class="anchor-nav__heading-icon" aria-hidden="true">
+            <use xlink:href="#arrow"></use>
+        </svg>
+    </h2>
     <nav class="anchor-nav__nav-container">
       <ul class="anchor-nav__items">
         {% for item in anchor_nav %}

@@ -1,0 +1,230 @@
+context:
+  page:
+    get_ancestors:
+      - is_root: false
+        depth: 2
+        title: News & Events
+    title: Events
+    introduction: false
+    contact: true
+    contact_model_image: true
+    contact_model_text: Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+  filters:
+    title: Filter by
+    arial_label: Filter results
+    items:
+      - tab_title: Type
+        filter_name: type
+        queryset: true
+        options:
+          - { title: Lecture, id: '2-1', active: false }
+          - { title: Exhibition, id: '2-2', active: false }
+          - { title: Workshop, id: '2-3', active: false }
+          - { title: Open Day, id: '2-4', active: false }
+          - { title: Webinar, id: '2-5', active: false }
+          - { title: Symposium, id: '2-6', active: false }
+          - { title: Film screening, id: '2-7', active: false }
+          - { title: Live stream, id: '2-8', active: false }
+      - tab_title: Location
+        filter_name: type
+        queryset: true
+        options:
+          - { title: Battersea, id: '4-1', active: false }
+          - { title: Kensington, id: '4-2', active: false }
+          - { title: White City, id: '4-3', active: false }
+          - { title: Online, id: '4-4', active: false }
+          - { title: Other, id: '4-5', active: false }
+      - tab_title: Who can attend
+        filter_name: who-can-attend
+        queryset: true
+        options:
+          - { title: RCA only, id: '5-1', active: false }
+          - { title: Alumni, id: '5-2', active: false }
+          - { title: Public, id: '5-3', active: false }
+          - { title: Applicants, id: '5-4', active: false }
+      - tab_title: Programmme
+        filter_name: programme
+        queryset: true
+        options:
+          - { title: 3D modelling & visualisation, id: '3-1', active: false }
+          - { title: Art & curating, id: '3-2', active: false }
+          - { title: Creative industries, id: '3-3', active: false }
+          - { title: Critical practice, id: '3-4', active: false }
+          - { title: Culture & communication, id: '3-5', active: false }
+          - { title: Digital futures, id: '3-6', active: false }
+          - { title: Emerging technologies, id: '3-7', active: false }
+          - { title: Engineering design, id: '3-8', active: false }
+          - { title: Future cities, id: '3-9', active: false }
+          - { title: Healthcare, ageing, wellbeing, id: '3-10', active: false }
+          - { title: Inclusive design, id: '3-11', active: false }
+          - { title: Intelligent mobility, id: '3-12', active: false }
+          - { title: Manufacturing future, id: '3-13', active: false }
+          - { title: New materials, id: '3-14', active: false }
+          - { title: Risk, resilience, security and infrastructure, id: '3-15' }
+          - { title: Robotics & AI, id: '3-16', active: false }
+          - { title: Service & UX design, id: '3-17', active: false }
+          - { title: Sustainable society, id: '3-18', active: false }
+      - tab_title: School or Centre
+        filter_name: school_or_centre
+        queryset: true
+        options:
+          - { title: 3D modelling & visualisation, id: '1-1', active: false }
+          - { title: Art & curating, id: '1-2', active: false }
+          - { title: Creative industries, id: '1-3', active: false }
+          - { title: Critical practice, id: '1-4', active: false }
+          - { title: Culture & communication, id: '1-5', active: false }
+          - { title: Digital futures, id: '1-6', active: false }
+          - { title: Emerging technologies, id: '1-7', active: false }
+          - { title: Engineering design, id: '1-8', active: false }
+          - { title: Future cities, id: '1-9', active: false }
+      - tab_title: Series
+        filter_name: series
+        queryset: true
+        options:
+          - { title: Series one, id: '6-1', active: false }
+          - { title: Series two, id: '6-2', active: false }
+  show_picks: true
+  featured_editorial:
+    - slide:
+      title: 'Lorem ipsum dolor sit'
+      description: '1 - 31 May, Online'
+      image: true
+      meta: Exhibition
+      link: '#'
+    - slide:
+      title: 'Lorem ipsum dolor sit'
+      description: '1 - 31 May, Online'
+      image: true
+      meta: Exhibition
+      link: '#'
+    - slide:
+      title: 'Lorem ipsum dolor sit'
+      description: '1 - 31 May, Online'
+      image: true
+      meta: Exhibition
+      link: '#'
+  results:
+    - {
+        type: 'Exhibition',
+        title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+        date: false,
+        start_date: !!timestamp '2021-07-15 2:00:00',
+        end_date: !!timestamp '2021-08-01 2:00:00',
+        location: Online,
+        image: true,
+        link: '#',
+      }
+    - {
+        type: 'Open day',
+        title: 'Marked (Working Title)',
+        date: false,
+        start_date: !!timestamp '2021-07-15 2:00:00',
+        end_date: !!timestamp '2021-08-01 2:00:00',
+        location: Online,
+        image: true,
+        link: '#',
+      }
+    - {
+        type: 'Webinar',
+        title: 'Design for Safety – Protecting Lives from the Start',
+        date: false,
+        start_date: !!timestamp '2021-07-15 2:00:00',
+        end_date: !!timestamp '2021-08-01 2:00:00',
+        location: Online,
+        image: true,
+        link: '#',
+      }
+    - {
+        type: 'Symposium',
+        title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+        date: false,
+        start_date: !!timestamp '2021-07-15 2:00:00',
+        end_date: !!timestamp '2021-08-01 2:00:00',
+        location: Online,
+        image: true,
+        link: '#',
+      }
+    - {
+        type: 'Exhibition',
+        title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+        date: false,
+        start_date: !!timestamp '2021-07-15 2:00:00',
+        end_date: !!timestamp '2021-08-01 2:00:00',
+        location: Online,
+        image: true,
+        link: '#',
+      }
+    - {
+        type: 'Live Stream',
+        title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+        date: false,
+        start_date: !!timestamp '2021-07-15 2:00:00',
+        end_date: !!timestamp '2021-08-01 2:00:00',
+        location: Online,
+        image: true,
+        link: '#',
+      }
+    - {
+        type: 'Workshop',
+        title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+        date: false,
+        start_date: !!timestamp '2021-07-15 2:00:00',
+        end_date: !!timestamp '2021-08-01 2:00:00',
+        location: Online,
+        image: true,
+        link: '#',
+      }
+    - {
+        type: 'Exhibiton',
+        title: 'Marked (Working Title)',
+        date: false,
+        start_date: !!timestamp '2021-07-15 2:00:00',
+        end_date: !!timestamp '2021-08-01 2:00:00',
+        location: Online,
+        image: true,
+        link: '#',
+      }
+    - {
+        type: 'Webinar',
+        title: 'Design for Safety – Protecting Lives from the Start',
+        date: false,
+        start_date: !!timestamp '2021-07-15 2:00:00',
+        end_date: !!timestamp '2021-08-01 2:00:00',
+        location: Online,
+        image: true,
+        link: '#',
+      }
+    - {
+        type: 'Lecture',
+        title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+        date: false,
+        start_date: !!timestamp '2021-07-15 2:00:00',
+        end_date: !!timestamp '2021-08-01 2:00:00',
+        location: Online,
+        image: true,
+        link: '#',
+      }
+    - {
+        type: 'Workshop',
+        title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+        date: false,
+        start_date: !!timestamp '2021-07-15 2:00:00',
+        end_date: !!timestamp '2021-08-01 2:00:00',
+        location: Online,
+        image: true,
+        link: '#',
+      }
+    - {
+        type: 'Open day',
+        title: 'Extending the Potential for the Digitally Printed Ceramic Surface',
+        date: false,
+        start_date: !!timestamp '2021-07-15 2:00:00',
+        end_date: !!timestamp '2021-08-01 2:00:00',
+        location: Online,
+        image: true,
+        link: '#',
+      }
+  result_count: 12
+
+tags:
+  get_all_active_filters: false

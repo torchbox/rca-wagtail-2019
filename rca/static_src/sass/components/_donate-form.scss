@@ -1,0 +1,315 @@
+// Skinning of Blackbaud form on the donation template
+/* stylelint-disable selector-max-id -- skinning third party classes */
+.donate-form {
+    label {
+        .bg--dark & {
+            color: $color--white;
+        }
+    }
+
+    // Prevent side padding on parent
+    #bboxdonation_BBEmbeddedForm {
+        padding-left: 0;
+        padding-right: 0;
+
+        // Prevent side margin on form container
+        .BBFormFieldContainer {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .BBFormSection {
+            max-width: 100%;
+            margin-right: 0;
+            margin-left: 0;
+            margin-bottom: ($gutter * 2);
+        }
+
+        // Use RCA colours on selected states
+        .BBFormRadioLabelGivingLevelSelected {
+            background-color: $color--tertiary;
+            border-color: $color--tertiary;
+
+            .BBFormRadioDescriptionOther {
+                visibility: visible;
+                width: auto;
+                float: none;
+            }
+
+            .BBFormGiftOtherAmount {
+                display: inline;
+                font-size: 1em;
+                margin: 0;
+                width: auto;
+            }
+        }
+
+        .BBFormSummaryTotal {
+            padding: 0;
+        }
+
+        // Use RCA style for main button
+        .BBFormSubmitbutton {
+            @include font-size(s);
+            background-color: $color--black;
+            border-top: 4px solid $color--tertiary;
+            color: $color--white;
+            border-radius: 0;
+            box-shadow: none;
+            text-align: left;
+            padding: 10px 0 0;
+            width: 100%;
+            max-width: 300px;
+
+            @include media-query(large) {
+                padding: 20px 0 0;
+                border-top: 8px solid $color--tertiary;
+                width: calc(var(--grid-width) * 2); // Two columns
+                max-width: 100%;
+            }
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        .BBFormButtonRow {
+            .BBFormFieldContainer {
+                position: relative;
+                max-width: 300px;
+
+                @include media-query(large) {
+                    max-width: calc(var(--grid-width) * 2); // Two columns
+                    margin-left: var(--grid-width);
+                }
+
+                &::after {
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    display: block;
+                    content: url("data:image/svg+xml,%3Csvg width='15' height='14' viewBox='0 0 15 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.07224 13.7992L12.1132 3.75828L12.1132 8.84945L14.0931 8.84945V0.364171H5.60777L5.60777 2.34407L10.6989 2.34407L0.658024 12.385L2.07224 13.7992Z' fill='white'/%3E%3C/svg%3E%0A");
+                    height: 40px;
+                    background-color: $color--tertiary;
+                    padding-top: 13px;
+                    padding-left: 13px;
+
+                    @include media-query(large) {
+                        width: 80px;
+                        height: 80px;
+                        padding-top: 33px;
+                        padding-left: 28px;
+                        content: url("data:image/svg+xml,%3Csvg width='19' height='19' viewBox='0 0 19 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.42867 18.4283L15.8166 5.04038L15.8166 11.8286L18.4564 11.8286V0.514899H7.14272V3.15476H13.9309L0.543056 16.5427L2.42867 18.4283Z' fill='white'/%3E%3C/svg%3E%0A");
+                    }
+                }
+            }
+        }
+
+        // Ditch rounded corners on inputs
+        .BBFormTextbox,
+        .BBFormSelectList,
+        .BBFormTextArea {
+            border-radius: 0;
+
+            &:not(:focus) {
+                opacity: 1;
+            }
+        }
+
+        .BBFormSectionHeading {
+            @include font-size(l);
+            padding-left: 0;
+            padding-right: 0;
+            border-bottom: 0;
+        }
+
+        // Comments
+        .BBDFormSectionComments {
+            .BBFormFieldContainer,
+            .BBFormTextArea,
+            .BBFormFieldLabel {
+                margin-left: 0;
+            }
+
+            .BBFormFieldLabel {
+                text-align: left;
+
+                @include media-query(large) {
+                    text-align: right;
+                }
+            }
+        }
+
+        .BBFormFieldLabel {
+            width: 100%;
+            text-align: left;
+
+            @include media-query(large) {
+                width: var(--grid-width);
+                margin-left: 0;
+                text-align: right;
+            }
+        }
+
+        .BBFieldExpiration {
+            .BBFormFieldLabel {
+                margin-left: 0;
+                padding-right: 10px;
+            }
+        }
+
+        // Labels that are hidden visually
+        .BBAccessibilityOnly {
+            width: 0;
+        }
+
+        .BBFormFieldContainerRequired label::after {
+            @include font-size(xxs);
+            content: '*';
+            color: $color--tertiary;
+            font-weight: bold;
+            margin-left: 0.3em;
+            vertical-align: middle;
+        }
+
+        #bboxdonation_billing_fldAnonymous,
+        #bboxdonation_payment_divProcessedByBlackbaud {
+            @include media-query(large) {
+                margin-left: var(--grid-width);
+            }
+        }
+
+        // Positioning fix to ensure expiration dates are aligned to grid line
+        #bboxdonation_payment_cboMonth {
+            @include media-query(large) {
+                margin-left: 10px;
+            }
+        }
+
+        #bboxdonation_gift_rdlstGivingLevels {
+            margin-bottom: ($gutter * 2);
+        }
+
+        .BBLinkSecureInfo {
+            margin-left: 0;
+            border-bottom: 0 !important;
+        }
+
+        .BBFormFieldUKGiftAidTermsLabel {
+            @include font-size(xxs);
+            line-height: 1.2;
+            font-style: normal;
+        }
+
+        .BBFieldSecurityCode {
+            clear: both;
+
+            .BBFormFieldLabel {
+                margin-left: 0;
+            }
+        }
+
+        /* Other amount customisation */
+
+        .BBFormRadioLabelGivingLevelOther {
+            display: flex;
+            align-items: center;
+        }
+
+        .BBFormRadioDescriptionOther {
+            position: static;
+            margin-right: 5px;
+        }
+
+        .BBFormGiftOtherAmount {
+            max-height: 36px; // Stop this misaligning other fields
+        }
+
+        // Name
+        #bboxdonation_billing_lblFullName {
+            display: none;
+        }
+
+        #divName {
+            margin-bottom: ($gutter * 2);
+            overflow: hidden; // Joys of floats
+        }
+
+        // Showing hidden labels
+        #bboxdonation_billing_lblTitle,
+        #bboxdonation_billing_lblFirstName,
+        #bboxdonation_billing_lblLastName {
+            position: static;
+            left: auto;
+            top: auto;
+            height: auto;
+            width: 100%;
+            text-align: left;
+            clear: both;
+            padding-right: 10px;
+
+            @include media-query(large) {
+                width: var(--grid-width);
+                margin-left: 0;
+                text-align: right;
+            }
+        }
+
+        // Formatting three name inputs/selects
+        #bboxdonation_billing_ddTitle,
+        #bboxdonation_billing_txtFirstName,
+        #bboxdonation_billing_txtLastName {
+            float: left;
+            width: 100%;
+            margin-bottom: 10px;
+
+            @include media-query(medium) {
+                max-width: 350px;
+            }
+        }
+
+        // Validation
+        .BBFormErrorBlock {
+            background-color: transparent;
+            border-radius: 0;
+            border-color: $color--red;
+            padding-top: $gutter;
+
+            ul {
+                margin-top: $gutter;
+            }
+        }
+
+        .BBFormErrorItem {
+            @include font-size(s);
+            color: $color--white;
+        }
+
+        li.BBFormErrorItem {
+            @include font-size(xxs);
+        }
+
+        .BBFormClientErrorItem {
+            color: $color--white;
+        }
+
+        // Thanks screen
+        .bboxdonation_divThanks {
+            p {
+                @include font-size(m);
+                font-family: $font--secondary;
+                line-height: $line-height-large;
+                margin-bottom: ($gutter * 2);
+            }
+        }
+
+        #bboxdonation_billing_lblPhone {
+            padding-right: 22px; // so it aligns with the other items that have required asterisks
+
+            &::after {
+                content: none; // this is an optional field, but flagged as required by blackbaud, nice!
+            }
+        }
+    }
+}
+/* stylelint-enable selector-max-id */

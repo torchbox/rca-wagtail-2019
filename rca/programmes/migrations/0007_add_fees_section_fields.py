@@ -2,8 +2,8 @@
 
 import django.db.models.deletion
 import modelcluster.fields
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 from django.db import migrations, models
 
 
@@ -15,27 +15,27 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="programmepage",
             name="more_information_blocks",
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
                     (
                         "information_block",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
-                                ("title", wagtail.core.blocks.CharBlock()),
-                                ("text", wagtail.core.blocks.RichTextBlock()),
+                                ("title", wagtail.blocks.CharBlock()),
+                                ("text", wagtail.blocks.RichTextBlock()),
                                 (
                                     "link",
-                                    wagtail.core.blocks.StructBlock(
+                                    wagtail.blocks.StructBlock(
                                         [
                                             (
                                                 "title",
-                                                wagtail.core.blocks.CharBlock(
+                                                wagtail.blocks.CharBlock(
                                                     required=False
                                                 ),
                                             ),
                                             (
                                                 "url",
-                                                wagtail.core.blocks.URLBlock(
+                                                wagtail.blocks.URLBlock(
                                                     required=False
                                                 ),
                                             ),
@@ -52,29 +52,29 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="programmepage",
             name="scholarship_accordion_items",
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
                     (
                         "accodrion",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
                                 (
                                     "heading",
-                                    wagtail.core.blocks.CharBlock(
+                                    wagtail.blocks.CharBlock(
                                         help_text="A large heading diplayed next to the block",
                                         required=False,
                                     ),
                                 ),
                                 (
                                     "preview_text",
-                                    wagtail.core.blocks.CharBlock(
+                                    wagtail.blocks.CharBlock(
                                         help_text="The text to display when the accordion is collapsed",
                                         required=False,
                                     ),
                                 ),
                                 (
                                     "body",
-                                    wagtail.core.blocks.RichTextBlock(
+                                    wagtail.blocks.RichTextBlock(
                                         features=[
                                             "h2",
                                             "h3",
@@ -87,17 +87,17 @@ class Migration(migrations.Migration):
                                 ),
                                 (
                                     "link",
-                                    wagtail.core.blocks.StructBlock(
+                                    wagtail.blocks.StructBlock(
                                         [
                                             (
                                                 "title",
-                                                wagtail.core.blocks.CharBlock(
+                                                wagtail.blocks.CharBlock(
                                                     required=False
                                                 ),
                                             ),
                                             (
                                                 "url",
-                                                wagtail.core.blocks.URLBlock(
+                                                wagtail.blocks.URLBlock(
                                                     required=False
                                                 ),
                                             ),
@@ -116,27 +116,27 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="programmepage",
             name="scholarship_information_blocks",
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
                     (
                         "information_block",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
-                                ("title", wagtail.core.blocks.CharBlock()),
-                                ("text", wagtail.core.blocks.RichTextBlock()),
+                                ("title", wagtail.blocks.CharBlock()),
+                                ("text", wagtail.blocks.RichTextBlock()),
                                 (
                                     "link",
-                                    wagtail.core.blocks.StructBlock(
+                                    wagtail.blocks.StructBlock(
                                         [
                                             (
                                                 "title",
-                                                wagtail.core.blocks.CharBlock(
+                                                wagtail.blocks.CharBlock(
                                                     required=False
                                                 ),
                                             ),
                                             (
                                                 "url",
-                                                wagtail.core.blocks.URLBlock(
+                                                wagtail.blocks.URLBlock(
                                                     required=False
                                                 ),
                                             ),
@@ -190,28 +190,28 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "row",
-                    wagtail.core.fields.StreamField(
+                    wagtail.fields.StreamField(
                         [
                             (
                                 "row",
-                                wagtail.core.blocks.StructBlock(
+                                wagtail.blocks.StructBlock(
                                     [
                                         (
                                             "location",
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 help_text="e.g. Home and EU",
                                                 max_length=120,
                                             ),
                                         ),
                                         (
                                             "subsidised",
-                                            wagtail.core.blocks.BooleanBlock(
+                                            wagtail.blocks.BooleanBlock(
                                                 required=False
                                             ),
                                         ),
                                         (
                                             "per_year_cost",
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 help_text="e.g. £14,200 per year",
                                                 max_length=120,
                                                 required=False,
@@ -219,7 +219,7 @@ class Migration(migrations.Migration):
                                         ),
                                         (
                                             "total_cost",
-                                            wagtail.core.blocks.CharBlock(
+                                            wagtail.blocks.CharBlock(
                                                 help_text="e.g. £28,400 total fee",
                                                 max_length=120,
                                                 required=False,

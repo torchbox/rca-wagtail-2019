@@ -1,0 +1,26 @@
+.share {
+    margin-bottom: ($gutter * 2);
+
+    // Make sure this is the 3rd thing on mobile screens
+    &--small-tertiary {
+        order: 3;
+
+        @include media-query(medium) {
+            order: initial;
+        }
+    }
+
+    &__heading {
+        margin-bottom: $gutter;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        @include media-query(large) {
+            flex-direction: column;
+        }
+    }
+}

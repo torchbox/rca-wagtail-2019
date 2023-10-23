@@ -1,0 +1,8 @@
+context:
+  search_form:
+    label: Search
+    id: site-search
+    placeholder: Search for something else?
+  search_query: Architecture
+  search_picks: False
+  search_results: False

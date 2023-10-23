@@ -1,0 +1,39 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<div class="card card--result{% if not item.type %} card--notch-space{% endif %}{% if item.image %} card--image{% endif %}{% if modifier %} card--{{ modifier }}{% endif %}">
+    {% if item.image %}
+        {% image item.image fill-80x58 as image_small %}
+        {% image item.image fill-392x284 as image_large %}
+    {% endif %}
+    <{% if item.link %}a href="{{ item.link }}"{% else %}div{% endif %} class="card__container {% if item.link %}u-offset-outline{% endif %}">
+        {% if item.link %}<div class="card__image-container">{% endif %}
+            {% if item.image %}{% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=392 height=284 image_large=image_large classList='card__image' %}{% endif %}
+        {% if item.link %}</div>{% endif %}
+        <div class="card__content-container">
+            <div class="card__content">
+                {% if item.type %}
+                    <div class="card__meta card__school">{{ item.type }}</div>
+                {% endif %}
+                <h3 class="card__heading">
+                    {% if item.link %}<span class="card__heading-link">{% endif %}
+                        {{ item.title }}
+                    {% if item.link %}</span>{% endif %}
+                </h3>
+                {% if item.date or item.start_date or item.short_date %}
+                    <div class="card__description">
+                        <span class="card__year">
+                            {% if item.short_date %}
+                                {{ item.short_date }}
+                            {% elif item.start_date %}
+                                {{ item.start_date|date:'j F' }}
+                                {% if item.end_date %}– {{ item.end_date|date:'j F' }}{% endif %}{% if item.location %},{% endif %}
+                            {% else %}
+                                {{ item.date|date:'j F Y' }}{% if item.location %},{% endif %}
+                            {% endif %}
+                        </span>
+                        {% if item.location and not item.short_date %}<span class="card__location">{{ item.location }}</span>{% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </{% if item.link %}a{% else %}div{% endif %}>
+</div>

@@ -1,24 +1,30 @@
 context:
   modifier: 'slideshow--author-info'
+  control_title: 'Slideshow'
   slideshow:
     - slide:
       value:
         title: 'Albertopolis 550-metre pedestrian tunnel '
         author: 'Nick Lee'
-        link: 'http://www.torchbox.com'
         course: 'Design'
+        document:
+          url: 'http://test.com'
+          file_size: '2899800'
+          file_extension: pdf
     - slide:
       value:
         title: 'Albertopolis 550-metre pedestrian tunnel '
         author: 'Chris Lawton'
-        link: 'http://www.torchbox.com'
         course: 'Architecture'
+        video_embed:
+          url: https://www.youtube.com/watch?v=glIIF-kBXf0
     - slide:
       value:
         title: 'Albertopolis 550-metre pedestrian tunnel '
         author: 'Nick Lee'
-        link: 'http://www.torchbox.com'
         course: 'Design'
+        audio_embed:
+          url: https://soundcloud.com/threestripesuk/substance-three-stripes-bootleg
     - slide:
       value:
         title: 'Albertopolis 550-metre pedestrian tunnel '

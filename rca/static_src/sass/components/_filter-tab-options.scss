@@ -152,7 +152,7 @@
     &__button {
         background-color: transparent;
         border: 0;
-        padding: ($gutter / 2) 0 0;
+        padding: ($gutter * 0.5) 0 0;
         font-family: $font--secondary;
         cursor: pointer;
         margin-left: auto;
@@ -211,25 +211,9 @@
         }
     }
 
-    // Fix confusing  focus state on anchors
+    // These only display on a light background
     .bg--light &,
     .bg--dark & {
-        &__link {
-            &:focus {
-                &::after {
-                    width: 0;
-                }
-            }
-
-            &.selected {
-                &::after {
-                    width: 100%;
-                }
-            }
-        }
-    }
-
-    .bg--light & {
         &__link,
         &__clear-link {
             color: $color--black;
@@ -243,27 +227,23 @@
             }
         }
 
-        &__footer {
-            border-color: $color--grid-line-dark;
-        }
-    }
-
-    .bg--dark & {
-        &__link,
-        &__clear-link {
-            color: $color--white;
-
+        // Fix confusing focus state on anchors
+        &__link {
             &:focus {
-                color: $color--meta-darkbg;
+                &::after {
+                    width: 0;
+                }
             }
 
             &.selected {
-                color: $color--white;
+                &::after {
+                    width: 100%;
+                }
             }
         }
 
         &__footer {
-            border-color: $color--grid-line-light;
+            border-color: $color--grid-line-dark;
         }
     }
 
@@ -274,7 +254,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            padding: ($gutter / 2) $gutter;
+            padding: ($gutter * 0.5) $gutter;
             border-color: $color--grid-line-dark;
         }
 

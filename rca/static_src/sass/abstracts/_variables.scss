@@ -1,4 +1,3 @@
-// sass-lint:disable-block indentation
 // --------------------------------- Colors -------------------------------------
 
 $color--black: #000;
@@ -7,6 +6,8 @@ $color--orange: #ff5d1c;
 $color--light-grey: #bbb;
 $color--dark-grey: #676767;
 $color--red: #f00;
+$color--red-light: #fb2424; // to pass contrast on dark grey bg
+$color--blue: #009bde;
 
 $color--white-12: rgba($color--white, 0.12);
 $color--white-24: rgba($color--white, 0.24);
@@ -36,15 +37,18 @@ $color--grid-line-dark: $color--black-12;
 $color--meta-darkbg: $color--light-grey;
 $color--meta-lightbg: $color--dark-grey;
 
+$color--focus: $color--blue;
+
 // --------------------------------- Fonts --------------------------------------
 
-$font--primary: 'Benton Sans Old', 'Helvetica Neue', Arial, Helvetica,
-    Sans-Serif; // Benton Sans Regular
-$font--secondary: 'Benton Sans Medium', 'Helvetica Neue', Arial, Helvetica,
-    Sans-Serif;
+$font--primary: 'Benton Sans Old', 'Helvetica Neue', arial, helvetica,
+    sans-serif; // Benton Sans Regular
+$font--secondary: 'Benton Sans Medium', 'Helvetica Neue', arial, helvetica,
+    sans-serif;
 
 // Font weights
 // Now handled by font family due to limitations of third party font service
+$weight--bold: 500;
 $weight--medium: 500;
 $weight--normal: 500;
 
@@ -106,7 +110,7 @@ $z-index: (
     base: 10,
     overlap: 20,
     free30: 30,
-    headerLogo: 40,
+    header-logo: 40,
     under-gridlines: 45,
     gridlines: 50,
     above-gridlines: 60,

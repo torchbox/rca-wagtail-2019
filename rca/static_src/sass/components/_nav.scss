@@ -23,7 +23,6 @@
     }
 
     &--subnav {
-        // sass-lint:disable-block no-vendor-prefixes
         position: relative;
         height: 100%;
         display: none;
@@ -31,9 +30,8 @@
         overflow-y: scroll;
         margin-bottom: 0;
         padding-bottom: $gradient-height;
-
         // hide scrollbars as per clients request
-        scrollbar-width: none; // sass-lint:disable-line no-misspelled-properties
+        scrollbar-width: none;
 
         &::-webkit-scrollbar {
             display: none;

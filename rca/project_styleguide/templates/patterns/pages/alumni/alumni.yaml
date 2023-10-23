@@ -1,0 +1,260 @@
+context:
+  page:
+    title: AlumniRCA
+    get_ancestors:
+      - is_root: false
+        title: Home
+    introduction: 'A distinguished community of practising artists and designers'
+    hero_image:
+      title: Synaputral Decadence is the flavour of the distant future
+      creator: Jianjin Lee Chen
+      photographer: Sekiro Yamananka
+    video_preview_image: true
+    location: '<p>Development & Alumni Relations Office<br>Kensington Gore<br>London<br>SW7 2EU</p>'
+    social_links:
+      - link:
+        value:
+          title: Twitter
+          href: http://www.facebook.com
+      - link:
+        value:
+          title: Linkedin
+          href: http://www.linkedin.com
+      - link:
+        value:
+          title: Facebook
+          href: http://www.facebook.com
+      - link:
+        value:
+          title: Instagram
+          href: http://www.facebook.com
+    cta_block:
+      - block:
+        value:
+          title: Make a donation
+          description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
+          action: Give to GenerationRCA
+          link: '#'
+    related_pages_text: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper.
+    contact_email: alumni@rca.ac.uk
+    contact_model_text: Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa
+    video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
+    video_caption: What it’s like to be an RCA Alumni
+    body: With more than 20,000 RCA alumni all over the world, our graduates form a unique international network of artists, designers, creators and innovators. Each year, alumni continue to participate in College life through the alumni relations programme, which offers a range of events, communications and exclusive benefits.
+    latest_title: Latest
+    get_involved_title: Get involved
+    get_involved_intro: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo.
+    contact: true
+    contact_image: true
+    collaborators_heading: Mentor & intern providers
+    collaborators:
+      - slide:
+        value:
+          link:
+            title: 'Red bull'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 2'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 3'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 4'
+            url: '#'
+          image: true
+    external_links_heading: Also of interest
+    additional_links:
+      - item:
+        value: { text: '"A" magazine', href: '/alumni/a-magazine' }
+      - item:
+        value: { text: 'Update your details ', href: '/alumni/update-details' }
+      - item:
+        value: { text: 'Alumni news', href: '/alumni/news' }
+      - item:
+        value: { text: 'Alumni events', href: '/alumni/events' }
+    latest_cta_block:
+      - block:
+        value:
+          title: Tell us about your experience
+          description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
+          action: Contact the Alumni team
+          link: '#'
+    slideshow_summary: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta.
+  get_involved:
+    slides:
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'RCA x CERN'
+          summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Research'
+          title: 'Burberry'
+          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'Designing the imposible for NASA'
+          summary: 'Creating world class experiences that started at the RCA'
+          link: '#'
+          person: false
+          image: True
+  related_editorial_news:
+    - item:
+      type: 'News'
+      title: 'Designs for Real Life'
+      description: '6 July 2019 — 4 August 2019'
+      link: '#'
+      image: //placekitten.com/556/425
+      person: false
+    - item:
+      type: 'Tech'
+      title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
+      description: '23 November 2019'
+      link: '#'
+      image: false
+      person: false
+    - item:
+      type: 'News'
+      title: 'Show 2018: School of Architecture: Making Space for the Future'
+      description: '23 November 2019'
+      link: '#'
+      image: //placekitten.com/251/142
+      person: false
+  news_view_all:
+    title: See all alumni news
+  page_teasers:
+    title: Alumni benefits
+    intro: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    pages:
+      - {
+          title: 'Exclusive events',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Termly newsletter',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Alumni volunteering',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+  stats_block:
+    title: false
+    statistics:
+      - stat:
+        value:
+          number: 70
+          summary: Number of countries our students come from
+      - stat:
+        value:
+          after: '%'
+          number: 33
+          summary: of students who go on to work in practice'
+      - stat:
+        value:
+          number: 70
+          summary: Number of countries our students come from
+      - stat:
+        value:
+          after: '%'
+          number: 33
+          summary: of students who go on to work in practice'
+  editorial_stories:
+    slides:
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'RCA x CERN'
+          summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Research'
+          title: 'Burberry'
+          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'Designing the imposible for NASA'
+          summary: 'Creating world class experiences that started at the RCA'
+          link: '#'
+          person: false
+          image: True
+  instagram_feed:
+    handle: rca.architecture
+    slides:
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'RCA x CERN'
+          summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Research'
+          title: 'Burberry'
+          summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
+          link: '#'
+          person: false
+          image: True
+      - slide:
+        value:
+          meta: 'Student project'
+          title: 'Designing the imposible for NASA'
+          summary: 'Creating world class experiences that started at the RCA'
+          link: '#'
+          person: false
+          image: True
+  tabs:
+    - tab:
+      title: Alumni benefits
+    - tab:
+      title: Latest
+    - tab:
+      title: Get involved
+    - tab:
+      title: Stay connected
+
+tags:
+  pageurl:
+    ancestor_page:
+      raw: '#'
+  slugurl:
+    "'home'":
+      raw: '#'

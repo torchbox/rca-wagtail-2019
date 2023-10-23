@@ -5,8 +5,6 @@ import os
 import sys
 
 import dj_database_url
-import raven
-from raven.exceptions import InvalidGitRepository
 
 env = os.environ.copy()
 
@@ -53,6 +51,8 @@ INSTALLED_APPS = [
     # first - http://help.apm.scoutapp.com/#django.
     "scout_apm.django",
     "rca.documents",
+    "rca.editorial",
+    "rca.events",
     "rca.forms",
     "rca.home",
     "rca.images",
@@ -70,10 +70,12 @@ INSTALLED_APPS = [
     "rca.landingpages",
     "rca.people",
     "rca.enquire_to_study",
+    "rca.account_management",
+    "rca.donate",
+    "rca.scholarships",
     "birdbath",
     "django_countries",
     "wagtail.contrib.modeladmin",
-    "wagtail.contrib.postgres_search",
     "wagtail.contrib.settings",
     "wagtail.contrib.search_promotions",
     "wagtail.contrib.forms",
@@ -87,7 +89,7 @@ INSTALLED_APPS = [
     "wagtail.search",
     "wagtail.admin",
     "wagtail.contrib.legacy.richtext",
-    "wagtail.core",
+    "wagtail",
     "wagtailorderable",
     "import_export",
     "modelcluster",
@@ -104,7 +106,9 @@ INSTALLED_APPS = [
     "pattern_library",
     "rca.project_styleguide.apps.ProjectStyleguideConfig",
     "rest_framework",
-    "wagtail_redirect_importer",
+    "corsheaders",
+    "wagtail_rangefilter",
+    "rangefilter",
 ]
 
 # Middleware classes
@@ -189,9 +193,7 @@ else:
 # Search
 # https://docs.wagtail.io/en/latest/topics/search/backends.html
 
-WAGTAILSEARCH_BACKENDS = {
-    "default": {"BACKEND": "wagtail.contrib.postgres_search.backend"}
-}
+WAGTAILSEARCH_BACKENDS = {"default": {"BACKEND": "wagtail.search.backends.database"}}
 
 
 # Password validation
@@ -337,11 +339,6 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "verbose",
         },
-        # Send logs with level of at least ERROR to Sentry.
-        "sentry": {
-            "level": "ERROR",
-            "class": "raven.contrib.django.raven_compat.handlers.SentryHandler",
-        },
     },
     "formatters": {
         "verbose": {
@@ -349,19 +346,15 @@ LOGGING = {
         }
     },
     "loggers": {
-        "rca": {"handlers": ["console", "sentry"], "level": "INFO", "propagate": False},
-        "wagtail": {
-            "handlers": ["console", "sentry"],
-            "level": "INFO",
-            "propagate": False,
-        },
+        "rca": {"handlers": ["console"], "level": "INFO", "propagate": False},
+        "wagtail": {"handlers": ["console"], "level": "INFO", "propagate": False},
         "django.request": {
-            "handlers": ["console", "sentry"],
+            "handlers": ["console"],
             "level": "WARNING",
             "propagate": False,
         },
         "django.security": {
-            "handlers": ["console", "sentry"],
+            "handlers": ["console"],
             "level": "WARNING",
             "propagate": False,
         },
@@ -414,53 +407,47 @@ if "SERVER_EMAIL" in env:
     SERVER_EMAIL = DEFAULT_FROM_EMAIL = env["SERVER_EMAIL"]
 
 
-# Raven (Sentry) configuration.
+# Sentry configuration.
 # See instructions on the intranet:
 # https://intranet.torchbox.com/delivering-projects/tech/starting-new-project/#sentry
+is_in_shell = len(sys.argv) > 1 and sys.argv[1] in ["shell", "shell_plus"]
 
-if "SENTRY_DSN" in env:
-    INSTALLED_APPS.append("raven.contrib.django.raven_compat")
+if "SENTRY_DSN" in env and not is_in_shell:
 
-    RAVEN_CONFIG = {"dsn": env["SENTRY_DSN"], "tags": {}}
+    import sentry_sdk
+    from sentry_sdk.integrations.django import DjangoIntegration
+    from sentry_sdk.utils import get_default_release
 
-    # Specifying the programming language as a tag can be useful when
-    # e.g. JavaScript error logging is enabled within the same project,
-    # so that errors can be filtered by the programming language too.
-    # The 'lang' tag is just an arbitrarily chosen one; any other tags can be used as well.
-    # It has to be overridden in JavaScript: Raven.setTagsContext({lang: 'javascript'});
-    RAVEN_CONFIG["tags"]["lang"] = "python"
-
-    # Prevent logging errors from the django shell.
-    # Errors from other management commands will be still logged.
-    if len(sys.argv) > 1 and sys.argv[1] in ["shell", "shell_plus"]:
-        RAVEN_CONFIG["ignore_exceptions"] = ["*"]
+    sentry_kwargs = {
+        "dsn": env["SENTRY_DSN"],
+        "integrations": [DjangoIntegration()],
+    }
 
     # There's a chooser to toggle between environments at the top right corner on sentry.io
     # Values are typically 'staging' or 'production' but can be set to anything else if needed.
-    # dokku config:set rca SENTRY_ENVIRONMENT=staging
+    # dokku config:set gosh SENTRY_ENVIRONMENT=staging
     # heroku config:set SENTRY_ENVIRONMENT=production
     if "SENTRY_ENVIRONMENT" in env:
-        RAVEN_CONFIG["environment"] = env["SENTRY_ENVIRONMENT"]
+        sentry_kwargs.update({"environment": env["SENTRY_ENVIRONMENT"]})
 
-    # We first assume that the Git repository is present and we can detect the
-    # commit hash from it.
-    try:
-        RAVEN_CONFIG["release"] = raven.fetch_git_sha(BASE_DIR)
-    except InvalidGitRepository:
+    release = get_default_release()
+    if release is None:
         try:
             # But if it's not, we assume that the commit hash is available in
             # the GIT_REV environment variable. It's a default environment
             # variable used on Dokku:
             # http://dokku.viewdocs.io/dokku/deployment/methods/git/#configuring-the-git_rev-environment-variable
-            RAVEN_CONFIG["release"] = env["GIT_REV"]
+            release = env["GIT_REV"]
         except KeyError:
             try:
                 # Assume this is a Heroku-hosted app with the "runtime-dyno-metadata" lab enabled
-                RAVEN_CONFIG["release"] = env["HEROKU_RELEASE_VERSION"]
+                release = env["HEROKU_RELEASE_VERSION"]
             except KeyError:
                 # If there's no commit hash, we do not set a specific release.
-                pass
+                release = None
 
+    sentry_kwargs.update({"release": release})
+    sentry_sdk.init(**sentry_kwargs)
 
 # Front-end cache
 # This configuration is used to allow purging pages from cache when they are
@@ -640,6 +627,7 @@ if env.get("BASIC_AUTH_ENABLED", "false").lower().strip() == "true":
     # the one passed in X-Forwarded-For. This is because all requests are proxied through
     # the old site and we want to prevent direct access
     BASIC_AUTH_GET_CLIENT_IP_FUNCTION = "rca.utils.clientip.get_client_real_ip"
+    BASIC_AUTH_WHITELISTED_PATHS = ["/api"]
 
 AUTH_USER_MODEL = "users.User"
 
@@ -660,7 +648,7 @@ WAGTAILEMBEDS_FINDERS = [
 # This is used by Wagtail's email notifications for constructing absolute
 # URLs. Please set to the domain that users will access the admin site.
 if "PRIMARY_HOST" in env:
-    BASE_URL = "https://{}".format(env["PRIMARY_HOST"])
+    WAGTAILADMIN_BASE_URL = "https://{}".format(env["PRIMARY_HOST"])
 
 # Custom image model
 # https://docs.wagtail.io/en/stable/advanced_topics/images/custom_image_model.html
@@ -725,23 +713,11 @@ except TypeError:
 API_CONTENT_BASE_URL = env.get("API_CONTENT_BASE_URL", "https://rca.ac.uk")
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
-# Access planit details, for fetching xml data on the shourt course pages.
-try:
-    ACCESS_PLANIT_XML_FEED_TIMEOUT = int(env.get("ACCESS_PLANIT_XML_FEED_TIMEOUT"))
-except TypeError:
-    ACCESS_PLANIT_XML_FEED_TIMEOUT = 60 * 60 * 15
-
-ACCESS_PLANIT_XML_BASE_URL = env.get("ACCESS_PLANIT_XML_BASE_URL", None)
-ACCESS_PLANIT_XML_COURSE_URL = env.get("ACCESS_PLANIT_XML_COURSE_URL", None)
-ACCESS_PLANIT_SCHOOL_ID = env.get("ACCESS_PLANIT_SCHOOL_ID")
-ACCESS_PLANIT_REGISTER_INTEREST_BASE = env.get(
-    "ACCESS_PLANIT_REGISTER_INTEREST_BASE", None
-)
 CACHE_CONTROL_STALE_IF_ERROR = env.get("CACHE_CONTROL_STALE_IF_ERROR", None)
 
 CSRF_TRUSTED_ORIGINS = ["www.rca.ac.uk"]
 
-# Enable / Disable logging exceptions for api fetches from the old site and access planit.
+# Enable / Disable logging exceptions for api fetches from the old site.
 API_FETCH_LOGGING = env.get("API_FETCH_LOGGING", False)
 
 # Birdbath
@@ -777,3 +753,31 @@ MAILCHIMP_LIST_ID = env.get("MAILCHIMP_LIST_ID", None)
 MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID = env.get(
     "MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID", None
 )
+
+PASSWORD_RESET_TIMEOUT_DAYS = 5
+
+WAGTAIL_USER_EDIT_FORM = "rca.users.forms.CustomUserEditForm"
+
+pixel_limit = env.get("WAGTAILIMAGES_MAX_IMAGE_PIXELS")
+WAGTAILIMAGES_MAX_IMAGE_PIXELS = int(pixel_limit) if pixel_limit else 10000000
+
+ALLOW_EDITORIAL_PAGE_GENERATION = (
+    env.get("ALLOW_EDITORIAL_PAGE_GENERATION", "false").lower() == "true"
+)
+ALLOW_EVENT_PAGE_GENERATION = (
+    env.get("ALLOW_EVENT_PAGE_GENERATION", "false").lower() == "true"
+)
+
+# CORS settings
+if "CORS_ALLOWED_ORIGINS" in env:
+    CORS_ALLOWED_ORIGINS = env["CORS_ALLOWED_ORIGINS"].split(",")
+    MIDDLEWARE.insert(0, "corsheaders.middleware.CorsMiddleware")
+
+CORS_ALLOWED_ORIGIN_REGEXES = r"^/api/.*$"
+CORS_ALLOW_METHODS = ["GET", "OPTIONS"]
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
+# v2.16 WAGTAIL_SLIM_SIDEBAR https://docs.wagtail.org/en/latest/releases/2.16.html
+# To avoid the following issue https://github.com/torchbox/rca-wagtail-2019/pull/866
+WAGTAIL_SLIM_SIDEBAR = False

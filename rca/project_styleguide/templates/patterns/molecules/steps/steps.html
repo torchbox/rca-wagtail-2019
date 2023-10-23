@@ -1,4 +1,4 @@
-<div class="steps grid">
+<div class="steps grid {% if modifier %}steps--{{ modifier }}{% endif %}">
     <h4 class="steps__heading heading heading--five">{{ title }}</h4>
     <div class="steps__content">
         {% for step in steps %}
@@ -10,14 +10,14 @@
                         {% if step.link.url and step.link.title %}
                             <a class="step-item__link link link--secondary link--link" href="{{ step.link.url }}">
                                 <span class="link__label">{{ step.link.title }}</span>
-                                <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+                                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                             </a>
                         {% endif %}
                         {# Some steps are snippets and have a different link declaration #}
                         {% if step.link_url and step.link_title %}
                             <a class="step-item__link link link--secondary link--link" href="{{ step.link_url }}">
                                 <span class="link__label">{{ step.link_title }}</span>
-                                <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+                                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                             </a>
                         {% endif %}
 
@@ -25,6 +25,12 @@
                 </div>
             {% endwith %}
         {% endfor %}
-        {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with link=programme_page_global_fields.apply_cta_link text=programme_page_global_fields.apply_cta_text %}
+        {% if scholarships %}
+            {% if not results %}
+                {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text="Select a programme" not_blank=True link="#programme" %}
+            {% endif %}
+        {% else %}
+            {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with link=programme_page_global_fields.apply_cta_link text=programme_page_global_fields.apply_cta_text %}
+        {% endif %}
     </div>
 </div>

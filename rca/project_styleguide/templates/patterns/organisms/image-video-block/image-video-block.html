@@ -16,7 +16,9 @@
     {% if not out_of_grid %}
         <div class="section__row grid">
     {% endif %}
-        {% include "patterns/molecules/image-caption-link/image-caption-link.html" with caption=caption modal=modal %}
+        {% if image or video %}
+            {% include "patterns/molecules/image-caption-link/image-caption-link.html" with caption=caption modal=modal %}
+        {% endif %}
     {% if not out_of_grid %}
         </div>
     {% endif %}
@@ -39,10 +41,16 @@
                         <p class="image-video-block__copy image-video-block__copy--meta-copy body body--one">{{ meta_copy }}</p>
                     {% endif %}
                     {% if href %}
-                        <a href="{{ href }}" class="body body--two link link--tertiary link--link" aria-label="Read more {% if meta_heading %}about {{ meta_heading }}{% endif %}">
+                        {% if transformation_block.read_more_link_text %}
+                            <a href="{{ href }}" class="body body--two link link--tertiary link--link" aria-label="{{ transformation_block.read_more_link_text }}">
+                            <span class="link__label">{{ transformation_block.read_more_link_text }}</span>
+                        {% else %}
+                            <a href="{{ href }}" class="body body--two link link--tertiary link--link" aria-label="Read more {% if meta_heading %}about {{ meta_heading }}{% endif %}">
                             <span class="link__label">Read more</span>
-                            <svg width="12" height="8" class="link__icon"><use xlink:href="#arrow"></use></svg>
+                        {% endif %}
+                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                         </a>
+
                     {% endif %}
                 </div>
             {% else %}

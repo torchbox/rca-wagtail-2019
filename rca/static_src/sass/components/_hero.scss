@@ -3,11 +3,18 @@
     overflow: hidden;
 
     &--medium {
-        max-height: 780px;
+        max-height: 290px;
+
+        @include media-query(medium) {
+            max-height: 536px;
+        }
+
+        @include media-query(large) {
+            max-height: 780px;
+        }
     }
 
     &--home {
-        // sass-lint:disable-block no-duplicate-properties
         @include z-index(base);
         position: fixed;
         left: 0;
@@ -26,12 +33,13 @@
 
     &__image {
         width: 100%;
-        height: 100%;
+        height: 100vh;
         object-fit: cover;
         min-height: 340px;
 
         @include media-query(medium) {
             min-height: 450px;
+            height: 100%;
         }
 
         @include media-query(large) {
@@ -39,23 +47,7 @@
         }
     }
 
-    &__scroll {
-        position: fixed;
-        max-width: $site-width;
-        left: 0;
-        right: ($gutter * 2);
-        margin: 0 auto;
-        bottom: ($gutter * 2);
-        text-align: right;
-
-        @include media-query(medium) {
-            bottom: 50%;
-            right: ($gutter * 3);
-        }
-    }
-
     &__placeholder {
-        // sass-lint:disable-block no-duplicate-properties
         height: 100vh; /* Fallback for browsers that do not support Custom Properties */
         height: calc(var(--vh, 1vh) * 100);
         pointer-events: none;

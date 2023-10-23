@@ -42,7 +42,7 @@
         flex-wrap: nowrap;
         flex-direction: row;
         grid-column: 1 / span 2;
-        padding: ($gutter / 2) $gutter;
+        padding: ($gutter * 0.5) $gutter;
         overflow-x: auto;
 
         @include media-query(medium) {

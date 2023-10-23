@@ -30,7 +30,7 @@ def format_first_paragraph(input_text, tag):
 
 
 def ranged_date_format(date, date_to):
-    """ Method to format dates that have 'to' and 'from' values """
+    """Method to format dates that have 'to' and 'from' values"""
     date = datetime.strptime(date, "%Y-%m-%d")
     date_to = datetime.strptime(date_to, "%Y-%m-%d")
 
@@ -103,8 +103,7 @@ def parse_items_to_list(data, type):
 
         if "social_image" in data and data["social_image"]:
             social_image = data["social_image"]["meta"]["detail_url"]
-            social_image = requests.get(url=social_image, timeout=10)
-            social_image = social_image.json()
+            social_image = fetch_data(url=social_image)
             if "url" in social_image["rca2019_feed_image"]:
                 social_image_url = social_image["rca2019_feed_image"]["url"]
                 social_image_small_url = social_image["rca2019_feed_image_small"]["url"]

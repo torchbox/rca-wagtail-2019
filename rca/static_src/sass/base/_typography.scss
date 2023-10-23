@@ -3,18 +3,17 @@
 \*------------------------------------*/
 
 html {
-    font-size: (map-get($small-font-sizes, xs) / 16px) * 100%;
+    font-size: calc((map-get($small-font-sizes, xs) / 16px) * 100%);
+    line-height: 1.4;
+    color: $color--primary;
 
     @include media-query(medium) {
-        font-size: (map-get($medium-font-sizes, xs) / 16px) * 100%;
+        font-size: calc((map-get($medium-font-sizes, xs) / 16px) * 100%);
     }
 
     @include media-query(large) {
-        font-size: (map-get($large-font-sizes, xs) / 16px) * 100%;
+        font-size: calc((map-get($large-font-sizes, xs) / 16px) * 100%);
     }
-
-    line-height: 1.4;
-    color: $color--primary;
 }
 
 h1,
@@ -49,4 +48,9 @@ small {
 
 p {
     margin: 0 0 $gutter;
+}
+
+b {
+    font-family: $font--secondary;
+    font-weight: $weight--bold;
 }

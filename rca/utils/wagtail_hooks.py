@@ -1,15 +1,36 @@
 from django.utils.html import escape
+from wagtail import hooks
 from wagtail.contrib.modeladmin.options import (
     ModelAdmin,
     ModelAdminGroup,
     modeladmin_register,
 )
-from wagtail.core import hooks
-from wagtail.core.rich_text import LinkHandler
+from wagtail.contrib.modeladmin.views import IndexView
+from wagtail.rich_text import LinkHandler
 from wagtailorderable.modeladmin.mixins import OrderableMixin
 
+from rca.editorial.models import Author, EditorialType
+from rca.events.models import (
+    EventAvailability,
+    EventEligibility,
+    EventLocation,
+    EventSeries,
+    EventType,
+)
 from rca.people.models import AreaOfExpertise, DegreeStatus, DegreeType, Directorate
-from rca.programmes.models import DegreeLevel, ProgrammeType, Subject
+from rca.programmes.models import (
+    DegreeLevel,
+    ProgrammeLocation,
+    ProgrammeStudyMode,
+    ProgrammeType,
+    Subject,
+)
+from rca.scholarships.models import (
+    ScholarshipEligibilityCriteria,
+    ScholarshipFeeStatus,
+    ScholarshipFunding,
+    ScholarshipLocation,
+)
 from rca.utils.models import ResearchTheme, ResearchType, Sector
 from rca.utils.templatetags.util_tags import is_external
 
@@ -19,8 +40,31 @@ class DegreeLevelModelAdmin(ModelAdmin):
     menu_icon = "tag"
 
 
+class AuthorModelAdmin(ModelAdmin):
+    model = Author
+    menu_icon = "tag"
+
+
 class SubjectModelAdmin(ModelAdmin):
     model = Subject
+    menu_icon = "tag"
+
+
+class ProgrammeStudyModeIndexView(IndexView):
+    """
+    Hide the "Add" button if there are >= 2 instances.
+    """
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if ProgrammeStudyMode.objects.count() >= 2:
+            context.update({"user_can_create": False})
+        return context
+
+
+class ProgrammeStudyModeModelAdmin(ModelAdmin):
+    model = ProgrammeStudyMode
+    index_view_class = ProgrammeStudyModeIndexView
     menu_icon = "tag"
 
 
@@ -28,6 +72,11 @@ class ProgrammeTypeModelAdmin(OrderableMixin, ModelAdmin):
     model = ProgrammeType
     menu_icon = "tag"
     ordering = ["sort_order"]
+
+
+class ProgrammeLocationModelAdmin(ModelAdmin):
+    model = ProgrammeLocation
+    menu_icon = "tag"
 
 
 class ResearchTypeModelAdmin(ModelAdmin):
@@ -65,11 +114,67 @@ class DirectorateModelAdmin(ModelAdmin):
     menu_icon = "tag"
 
 
+class EventAvailabilityModelAdmin(ModelAdmin):
+    model = EventAvailability
+    menu_icon = "tag"
+    menu_label = "Event Availability"
+
+
+class EventEligibilityModelAdmin(ModelAdmin):
+    model = EventEligibility
+    menu_icon = "tag"
+    menu_label = "Event Eligibility"
+
+
+class EventLocationModelAdmin(ModelAdmin):
+    model = EventLocation
+    menu_icon = "tag"
+    menu_label = "Event Locations"
+
+
+class EventSeriesModelAdmin(ModelAdmin):
+    model = EventSeries
+    menu_icon = "tag"
+    menu_label = "Event Series"
+
+
+class EventTypeModelAdmin(ModelAdmin):
+    model = EventType
+    menu_icon = "tag"
+
+
+class EditorialTypeModelAdmin(ModelAdmin):
+    model = EditorialType
+    menu_icon = "tag"
+
+
+class ScholarshipEligibilityCriteriaModelAdmin(ModelAdmin):
+    model = ScholarshipEligibilityCriteria
+    menu_icon = "tag"
+
+
+class ScholarshipFeeStatusModelAdmin(ModelAdmin):
+    model = ScholarshipFeeStatus
+    menu_icon = "tag"
+
+
+class ScholarshipFundingModelAdmin(ModelAdmin):
+    model = ScholarshipFunding
+    menu_icon = "tag"
+
+
+class ScholarshipLocationModelAdmin(ModelAdmin):
+    model = ScholarshipLocation
+    menu_icon = "tag"
+
+
 class TaxonomiesModelAdminGroup(ModelAdminGroup):
     menu_label = "Taxonomies"
     items = (
         DegreeLevelModelAdmin,
         ProgrammeTypeModelAdmin,
+        ProgrammeStudyModeModelAdmin,
+        ProgrammeLocationModelAdmin,
         SubjectModelAdmin,
         ResearchTypeModelAdmin,
         AreaOfExpertiseModelAdmin,
@@ -79,6 +184,17 @@ class TaxonomiesModelAdminGroup(ModelAdminGroup):
         DirectorateModelAdmin,
         DegreeTypeModelAdmin,
         DegreeStatusModelAdmin,
+        EventAvailabilityModelAdmin,
+        EventEligibilityModelAdmin,
+        EventLocationModelAdmin,
+        EventSeriesModelAdmin,
+        EventTypeModelAdmin,
+        AuthorModelAdmin,
+        EditorialTypeModelAdmin,
+        ScholarshipEligibilityCriteriaModelAdmin,
+        ScholarshipFeeStatusModelAdmin,
+        ScholarshipFundingModelAdmin,
+        ScholarshipLocationModelAdmin,
     )
     menu_icon = "tag"
 

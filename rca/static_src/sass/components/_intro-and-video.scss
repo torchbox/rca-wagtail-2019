@@ -1,0 +1,10 @@
+.intro-and-video {
+    // Make this content the first content on small viewports
+    &--small-primary {
+        order: 1;
+
+        @include media-query(medium) {
+            order: initial;
+        }
+    }
+}

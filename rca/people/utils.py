@@ -1,5 +1,6 @@
 from django.apps import apps
 from django.db.models import Q
+from wagtail.admin.panels import InlinePanel, ObjectList
 
 
 def get_area_linked_filters(page):
@@ -64,3 +65,63 @@ def get_student_research_projects(page):
     ).exclude(pk__in=related_project_page_ids).order_by(
         "-first_published_at"
     ).distinct()
+
+
+class StudentPageInlinePanel(InlinePanel):
+    # InlinePanel that only displays content to superusers
+
+    class BoundPanel(InlinePanel.BoundPanel):
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
+            self.template_name = "admin/panels/student_page_inline_panel.html"
+
+        def get_context_data(self, parent_context=None):
+            context = super().get_context_data(parent_context)
+            context["request"] = self.request
+            return context
+
+
+class StudentPagePromoteTab(ObjectList):
+    # ObjectList that only displays selected fields to Students
+    # As a side effect: If all fields are hidden, the panel is hidden for Students
+
+    class BoundPanel(ObjectList.BoundPanel):
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
+
+            allowed_student_fields = ["slug"]
+            permission = "superuser"
+
+            if self.request.user.is_student:
+
+                children = self.panel.children  # multi field panels
+                for child in children:
+                    panels = child.children  # single field panels
+                    for panel in panels:
+                        if panel.field_name not in allowed_student_fields:
+                            panel.permission = permission
+
+
+class StudentPageSettingsTab(ObjectList):
+    # ObjectList that only displays selected fields to Students
+    # As a side effect: If all fields are hidden, the panel is hidden for Students
+
+    class BoundPanel(ObjectList.BoundPanel):
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
+
+            permission = "superuser"
+
+            if self.request.user.is_student:
+
+                for child in self.panel.children:
+                    if child.__class__.__name__ == "PublishingPanel":
+                        for field_row_panel in child.children:
+                            # Theres a FieldRowPanel inside the PublishingPanel
+                            for panel in field_row_panel.children:
+                                panel.permission = permission
+                    # the elif's below are not required, but are here for clarity
+                    elif child.__class__.__name__ == "PrivacyModalPanel":
+                        pass  # Do nothing so they are still visible
+                    elif child.__class__.__name__ == "CommentPanel":
+                        pass  # Do nothing so they are still visible

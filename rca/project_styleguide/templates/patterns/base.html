@@ -7,9 +7,14 @@
         <title>{% block title_prefix %}{% if request.site and page.pk == request.site.root_page.pk and request.site.site_name %}{{ request.site.site_name }} | {% endif %}{% endblock %}{% block title %}{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}{% endblock %}{% block title_suffix %}{% if request.site and page.pk != request.site.root_page.pk and request.site.site_name %} | {{ request.site.site_name }}{% endif %}{% endblock %}</title>
         <meta name="description" content="{% if page.search_description %}{{ page.search_description }}{% else %}{{ page.listing_summary }}{% endif %}" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
         <link rel="stylesheet" type="text/css" href="//cloud.typenetwork.com/projects/4846/fontface.css" />
         <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+        {% if request.in_preview_panel %}
+            <base target="_blank">
+        {% endif %}
+        {% if SEO_NOINDEX %}
+            <meta name="robots" content="noindex" />
+        {% endif %}
 
         {% block extra_css %}{% endblock %}
 
@@ -42,12 +47,12 @@
 
         <nav class="app__navigation" data-nav-container>
             {% include "patterns/atoms/grid-lines/grid-lines.html" %}
-            <section class="header__menus">
+            <div class="header__menus">
                 {% primarynav %}
-            </section>
+            </div>
         </nav>
 
-        <main class="app__content" id="main-content">
+        <main class="app__content">
 
             {% include "patterns/atoms/grid-lines/grid-lines.html" with data_tag_left="data-left-edge" data_tag_center="data-grid-center" %}
 
@@ -69,7 +74,9 @@
             {% include "patterns/molecules/cookie-message/cookie-message.html" %}
         </div>
 
-        <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
         {% block extra_js %}{% endblock %}
+        {% block tap_widget %}
+        {% endblock %}
     </body>
 </html>

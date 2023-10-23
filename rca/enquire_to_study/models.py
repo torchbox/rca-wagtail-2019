@@ -3,17 +3,16 @@ from django_countries.fields import CountryField
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from phonenumber_field.modelfields import PhoneNumberField
-from wagtail.admin.edit_handlers import (
+from wagtail.admin.panels import (
     FieldPanel,
     FieldRowPanel,
     HelpPanel,
     InlinePanel,
     MultiFieldPanel,
 )
-from wagtail.contrib.settings.models import BaseSetting, register_setting
-from wagtail.core.fields import RichTextField
-from wagtail.core.models import Orderable
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
+from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
+from wagtail.fields import RichTextField
+from wagtail.models import Orderable
 from wagtail.snippets.models import register_snippet
 
 
@@ -41,7 +40,10 @@ class StartDate(models.Model):
     )
     mailchimp_label = models.CharField(
         max_length=255,
-        help_text="This value needs to match the options specified in the 'Intended year of study' field within mailchimps sign-up form , E.G 2021/22",
+        help_text=(
+            "This value needs to match the options specified in the 'Intended year of study' "
+            "field within mailchimps sign-up form , E.G 2021/22"
+        ),
         blank=True,
         null=True,
     )
@@ -69,6 +71,12 @@ class EnquiryFormSubmission(ClusterableModel):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
+    )
+    enquiry_questions = models.TextField(
+        help_text="If you have a specific enquiry or question, please include it here.",
+        max_length=1000,
+        blank=True,
+        null=True,
     )
     start_date = models.ForeignKey(
         "enquire_to_study.StartDate",
@@ -103,14 +111,11 @@ class EnquiryFormSubmission(ClusterableModel):
             heading="Country of residence & citizenship",
         ),
         MultiFieldPanel(
-            [InlinePanel("enquiry_submission_programme_types")],
-            heading="Programmes Types",
-        ),
-        MultiFieldPanel(
             [InlinePanel("enquiry_submission_programmes")], heading="Programmes"
         ),
         FieldPanel("start_date"),
-        SnippetChooserPanel("enquiry_reason", heading="What's your enquiry about?"),
+        FieldPanel("enquiry_reason", heading="What's your enquiry about?"),
+        FieldPanel("enquiry_questions", heading="Your questions"),
         MultiFieldPanel(
             [
                 FieldPanel("is_read_data_protection_policy"),
@@ -121,34 +126,23 @@ class EnquiryFormSubmission(ClusterableModel):
     ]
 
 
-class EnquiryFormSubmissionProgrammeTypesOrderable(Orderable):
-    enquiry_submission = ParentalKey(
-        "enquire_to_study.EnquiryFormSubmission",
-        related_name="enquiry_submission_programme_types",
-    )
-    programme_type = models.ForeignKey(
-        "programmes.ProgrammeType", on_delete=models.CASCADE,
-    )
-
-    panels = [
-        SnippetChooserPanel("programme_type"),
-    ]
-
-
 class EnquiryFormSubmissionProgrammesOrderable(Orderable):
     enquiry_submission = ParentalKey(
         "enquire_to_study.EnquiryFormSubmission",
         related_name="enquiry_submission_programmes",
     )
-    programme = models.ForeignKey("programmes.ProgrammePage", on_delete=models.CASCADE,)
+    programme = models.ForeignKey(
+        "programmes.ProgrammePage",
+        on_delete=models.CASCADE,
+    )
 
     panels = [
-        SnippetChooserPanel("programme"),
+        FieldPanel("programme"),
     ]
 
 
 @register_setting
-class EnquireToStudySettings(BaseSetting):
+class EnquireToStudySettings(BaseSiteSetting):
     class Meta:
         verbose_name = "Enquire to study settings"
 
@@ -182,7 +176,9 @@ class EnquireToStudySettings(BaseSetting):
 
 
 @register_setting
-class EnquiryFormKeyDetails(BaseSetting):
-    content = RichTextField(features=["h3", "bold", "italic", "link"],)
+class EnquiryFormKeyDetails(BaseSiteSetting):
+    content = RichTextField(
+        features=["h3", "bold", "italic", "link"],
+    )
 
     panels = [FieldPanel("content")]

@@ -1,0 +1,235 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% get_settings %}
+
+{% block body_class %}
+    app--alumni
+{% endblock %}
+
+{% block content %}
+
+    {% include "patterns/molecules/hero/hero.html" with hero_image=page.hero_image modifier="medium" %}
+
+    <div class="page page--overlap">
+
+        <div class="page__notch grid">
+            <div class="page__notch-block bg bg--dark"></div>
+        </div>
+
+        <header class="page__header bg bg--dark">
+            <div class="title-area title-area--landing-page grid">
+                <div class="title-area__content">
+                    <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
+                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
+                    </nav>
+                    <h1 class="title-area__heading heading heading--display-two" id="main-content">{{ page.title }}</h1>
+                </div>
+                {% if page.hero_image_credit or page.hero_image %}
+                    <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
+                        {% include 'patterns/atoms/image-info/image-info.html' with credit=page.hero_image_credit item=page.hero_image %}
+                    </div>
+                {% endif %}
+            </div>
+            {% if page.introduction %}
+                <div class="introduction introduction--indented grid">
+                    <div class="introduction__container">
+                        <div class="section__heading heading heading--five">
+                            {{ page.introduction }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <section class="section bg bg--dark">
+
+                <div class="section__row section__row--last project-overview project-overview--condensed">
+                    <div class="section__content grid">
+                        <div class="project-overview__content layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                            <div class="project-overview__media">
+                                {% if page.video_preview_image %}
+                                    {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=True curriculum=False heading=False has_meta=False copy=False subheading=False image=page.video_preview_image caption=page.video_caption video=page.video modifier="small-bottom-margin image-video-block--no-padding" %}
+                                {% endif %}
+                            </div>
+                            <div class="project-overview__streamfield project-overview__streamfield--bottom-margin">
+                                <div class="streamfield rich-text ">
+                                    {{ page.body|richtext }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-overview__key-details layout__start-one layout__span-two layout__@large-span-one">
+                            {% include "patterns/molecules/key-details/key-details--alumni.html" %}
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </header>
+
+        <div class="page__content u-pos-rel">
+
+            {% include "patterns/molecules/jump-nav/jump-nav.html" with modifier="bg bg--dark" sticky=True item=tabs %}
+
+            {# Benefits #}
+            <section class="schools__about section section--start bg bg--dark anchor-heading" id="alumni-benefits">
+
+                {% if page_teasers %}
+                <div class="section__row section__row--last schools__about--teasers">
+                    <div class="section__header section__header--bottom-space grid">
+                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ page_teasers.title|default:"About us" }}</h2>
+                        {% if page_teasers.summary %}
+                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
+                                {{ page_teasers.summary }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=page_teasers.pages modifier="no-margin" %}
+                    </div>
+                </div>
+                {% endif %}
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+
+            </section>
+
+            {# Latest #}
+            <section class="section section--start bg bg--light anchor-heading" id="latest">
+
+                <div class="section__row section__row--last-small">
+                    <div class="section__header grid">
+                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ page.latest_title|default:"Latest" }}</h2>
+                        {% if page.latest_intro %}
+                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
+                                {{ page.latest_intro|richtext }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if related_editorial_news %}
+                <div class="section__row section__row--last">
+                    <div class="section__content grid">
+                        {% include "patterns/organisms/news/news_api_content.html" with news=related_editorial_news news_view_all=page.news_view_all %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if editorial_stories %}
+                <div class="section__row section__row--last schools__about--student-stories partnerships__carousel">
+                    <div class="section__header grid">
+                        <h2 class="section__heading section__heading--primary heading heading--four">My GenerationRCA</h2>
+                    </div>
+                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=editorial_stories.slides modifier='carousel--square' control_title="Editorial stories" datatag='data-peek-carousel' %}
+                </div>
+                {% endif %}
+
+                {% comment %}
+                    {% if instagram_feed %}
+                    <div class="section__row {% if about_links or about_cta %}section__row--last-small{% else %}section__row--last-large{% endif %} schools__about--instagram">
+                        <div class="section__header grid">
+                            <h2 class="section__heading section__heading--secondary body body--one">Latest instagram updates</h2>
+                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
+                                <a href="{{ photo.href }}" class="link link--tertiary link--link link--external" target="_blank">
+                                    <span class="link__label">Follow us at {{ instagram_feed.handle }}</span>
+                                    <svg width="11" height="13" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="section__content">
+                            {% include "patterns/molecules/instagram-feed/instagram-feed.html" with modifier="@small-top-margin" %}
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endcomment %}
+
+                {% if page.additional_links %}
+                <div class="section__row">
+                    {% include "patterns/organisms/related-links/related-links.html" with related_links=page.additional_links title=page.external_links_heading modifier="padding-small" %}
+                </div>
+                {% endif %}
+
+                {% if page.latest_cta_block %}
+                    <div class="section__row section__row--last-large">
+                        {% for block in page.latest_cta_block %}
+                            {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+
+                {% if not stats_block %}
+                <div class="section__notch">
+                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                </div>
+                {% endif %}
+
+            </section>
+
+            {% if stats_block %}
+                {% include "patterns/organisms/stat-block/stat-block.html" with modifier="light-to-dark" %}
+            {% endif %}
+
+            {# Get involved #}
+            {% if not stats_block %}<span class="schools__anchor-compensator anchor-heading" id="get-involved"></span>{% endif %}
+            <section class="schools__programmes section section--start bg bg--dark {% if stats_block %}section--start anchor-heading {% else %}section--top-space-small {% endif %}" {% if stats_block %}id="get-involved"{% endif %}>
+
+                <div class="section__row section__row--last-small">
+                    <div class="section__header grid">
+                        <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">{{ page.get_involved_title|default:"Get involved" }}</h2>
+                        {% if page.slideshow_summary %}
+                            <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
+                                {{ page.slideshow_summary }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if get_involved.slides %}
+                <div class="section__row section__row--last schools__about--student-stories partnerships__carousel">
+                    {% include "patterns/organisms/carousel/carousel--square.html" with carousel=get_involved.slides modifier='carousel--square' control_title="Get involved carousel" datatag='data-peek-carousel' %}
+                </div>
+                {% endif %}
+
+                {% if page.collaborators %}
+                <div class="section__row section__row--last schools__about--logos">
+                    <div class="section__header grid">
+                        <h2 class="section__heading section__heading--secondary heading heading--five">{% firstof page.collaborators_heading "Organisations we've worked with" %}</h2>
+                    </div>
+                    <div class="section__content">
+                        <div class="u-small-and-medium-bp-only">
+                            {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=page.collaborators  control_title="Collaborator small carousel" per_slide=2 %}
+                        </div>
+                        <div class="u-large-bp-only">
+                            {% include "patterns/organisms/logo-carousel/logo-carousel.html" with carousel=page.collaborators  control_title="Collaborator large carousel" per_slide=3 %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if page.cta_block %}
+                    <div class="section__row section__row--last-large">
+                        {% for block in page.cta_block %}
+                            {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=block.value %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+            </section>
+
+            {# Contact #}
+            <section class="section bg bg--dark">
+                <div class="section__notch section__notch--small-med-only">
+                    <div class="section__notch-fill section__notch-fill--second-col"></div>
+                </div>
+                <div class="contact-anchor anchor-heading" id="stay-connected" ></div>
+                <div class="section__row section__row--first">
+                    {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image %}
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+{% endblock %}

@@ -2,8 +2,8 @@
 
 import django.db.models.deletion
 import modelcluster.fields
-import wagtail.core.blocks
-import wagtail.core.fields
+import wagtail.blocks
+import wagtail.fields
 import wagtail.images.blocks
 from django.db import migrations, models
 
@@ -47,17 +47,17 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="shortcoursepage",
             name="external_links",
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
                     (
                         "link",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
                                 (
                                     "title",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
-                                ("url", wagtail.core.blocks.URLBlock(required=False)),
+                                ("url", wagtail.blocks.URLBlock(required=False)),
                             ]
                         ),
                     )
@@ -69,25 +69,25 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="shortcoursepage",
             name="gallery",
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
                     (
                         "slide",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
                                 (
                                     "title",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
                                 ("image", wagtail.images.blocks.ImageChooserBlock()),
                                 (
                                     "author",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
-                                ("link", wagtail.core.blocks.URLBlock(required=False)),
+                                ("link", wagtail.blocks.URLBlock(required=False)),
                                 (
                                     "course",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
                             ]
                         ),
@@ -100,7 +100,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="shortcoursepage",
             name="location",
-            field=wagtail.core.fields.RichTextField(blank=True),
+            field=wagtail.fields.RichTextField(blank=True),
         ),
         migrations.AddField(
             model_name="shortcoursepage",
@@ -115,23 +115,23 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="shortcoursepage",
             name="quote_carousel",
-            field=wagtail.core.fields.StreamField(
+            field=wagtail.fields.StreamField(
                 [
                     (
                         "quote",
-                        wagtail.core.blocks.StructBlock(
+                        wagtail.blocks.StructBlock(
                             [
                                 (
                                     "quote",
-                                    wagtail.core.blocks.CharBlock(classname="title"),
+                                    wagtail.blocks.CharBlock(classname="title"),
                                 ),
                                 (
                                     "author",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
                                 (
                                     "job_title",
-                                    wagtail.core.blocks.CharBlock(required=False),
+                                    wagtail.blocks.CharBlock(required=False),
                                 ),
                             ]
                         ),

@@ -9,9 +9,8 @@ from rca.enquire_to_study.forms import EnquireToStudyForm
 from rca.enquire_to_study.models import (
     EnquiryFormSubmission,
     EnquiryFormSubmissionProgrammesOrderable,
-    EnquiryFormSubmissionProgrammeTypesOrderable,
 )
-from rca.programmes.factories import ProgrammePageFactory, ProgrammeTypeFactory
+from rca.programmes.factories import ProgrammePageFactory
 
 
 class TestEnquireToStudyForm(TestCase):
@@ -26,10 +25,10 @@ class TestEnquireToStudyForm(TestCase):
             "country_of_residence": "GB",
             "city": "Bristol",
             "country_of_citizenship": "GB",
-            "programme_type": ProgrammeTypeFactory(qs_code="test").pk,
             "programmes": [ProgrammePageFactory(qs_code=1, programme_type__pk=2).pk],
             "start_date": self.start_date.pk,
             "enquiry_reason": self.enquiry_reason.pk,
+            "enquiry_questions": "What is your name?",
             "is_read_data_protection_policy": True,
             "g-recaptcha-response": "PASSED",
         }
@@ -62,10 +61,6 @@ class TestEnquireToStudyForm(TestCase):
         )
         self.assertEqual(self.form_data["city"], submission.city)
         self.assertEqual(
-            self.form_data["programme_type"],
-            submission.enquiry_submission_programme_types.first().programme_type.id,
-        )
-        self.assertEqual(
             self.form_data["programmes"][0],
             submission.enquiry_submission_programmes.first().programme.id,
         )
@@ -78,24 +73,15 @@ class TestEnquireToStudyForm(TestCase):
 
     @patch("captcha.fields.client.submit")
     def test_submissions_data(self, mocked_submit):
-        # Test the submission created has programmes, programme_types
+        # Test the submission created has programmes
         mocked_submit.return_value = RecaptchaResponse(is_valid=True)
         form = EnquireToStudyForm(data=self.form_data)
         form.is_valid()
         form.save()
         submission = EnquiryFormSubmission.objects.first()
-        programme_types_orderable = (
-            EnquiryFormSubmissionProgrammeTypesOrderable.objects.first()
-        )
         programmes_orderable = EnquiryFormSubmissionProgrammesOrderable.objects.first()
 
-        self.assertEqual(programme_types_orderable.enquiry_submission, submission)
         self.assertEqual(programmes_orderable.enquiry_submission, submission)
-
-        self.assertEqual(
-            programme_types_orderable.programme_type.pk,
-            self.form_data["programme_type"],
-        )
         self.assertEqual(
             programmes_orderable.programme.pk, self.form_data["programmes"][0]
         )
@@ -108,10 +94,3 @@ class TestEnquireToStudyForm(TestCase):
         form = EnquireToStudyForm(data=self.form_data)
         self.assertFalse(form.is_valid())
         self.assertRaises(IntegrityError, form.save)
-
-    # TODO
-    # Test that programme types without a QS code don't end up as options in the form
-    # Test that programmes without a QS code don't end up as options in the form
-    # Test QS post sends correct data.
-    # Test QS response?.
-    # Test the form validation for programmes and programme types

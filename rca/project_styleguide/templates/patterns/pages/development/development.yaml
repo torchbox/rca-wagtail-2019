@@ -1,0 +1,171 @@
+context:
+  page:
+    title: GenerationRCA
+    get_ancestors:
+      - is_root: false
+        title: Home
+    introduction: '<p>Secure the future of the RCA: a vision rooted in our historic identity</p>'
+    video_preview_image: true
+    location: '<p>Development & Alumni Relations Office<br>Kensington Gore<br>London<br>SW7 2EU.</p>'
+    social_links:
+      - link:
+        value:
+          title: Twitter
+          href: http://www.facebook.com
+      - link:
+        value:
+          title: Linkedin
+          href: http://www.linkedin.com
+      - link:
+        value:
+          title: Facebook
+          href: http://www.facebook.com
+      - link:
+        value:
+          title: Instagram
+          href: http://www.facebook.com
+    contact_email: development@rca.ac.uk
+    contact_tel: (0)20 7590 4112
+    contact_model_text: Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa
+    hero_image:
+      title: Synaputral Decadence is the flavour of the distant future
+      creator: Jianjin Lee Chen
+      photographer: Sekiro Yamananka
+    video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
+    video_caption: What it’s like to be an RCA Alumni
+    body: With more than 20,000 RCA alumni all over the world, our graduates form a unique international network of artists, designers, creators and innovators. Each year, alumni continue to participate in College life through the alumni relations programme, which offers a range of events, communications and exclusive benefits.
+    how_you_can_help_title: How you can help
+    how_you_can_help_intro: Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+    help_cta_block:
+      - block:
+        value:
+          title: Our world class facilities
+          description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
+          action: Help us continue to offer these facilities
+          link: '#'
+    stories_title: Success stories
+    stories_intro: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo.
+    contact: true
+    contact_image: true
+    stories_cta_block:
+      - block:
+        value:
+          title: Our world class facilities
+          description: Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.
+          action: Help us continue to offer these facilities
+          link: '#'
+    cta:
+      title: Make a donation
+      text: Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa…
+      action: Donate now
+    related_pages_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eros magna, rhoncus vitae leo condimentum, luctus hendrerit justo. Curabitur iaculis purus ac pellentesque tempor.
+    stories_view_all:
+      title: See all alumni news
+  stories:
+    - item:
+      type: 'News'
+      title: 'Designs for Real Life'
+      description: '6 July 2019 — 4 August 2019'
+      link: '#'
+      image: //placekitten.com/556/425
+      person: false
+    - item:
+      type: 'Tech'
+      title: 'Redefining Boundaries: Architecture Work-in-progress 2019'
+      description: '23 November 2019'
+      link: '#'
+      image: false
+      person: false
+    - item:
+      type: 'News'
+      title: 'Show 2018: School of Architecture: Making Space for the Future'
+      description: '23 November 2019'
+      link: '#'
+      image: //placekitten.com/251/142
+      person: false
+  stories_view_all:
+    title: See all Development news
+  help_pages:
+    - slide:
+      title: 'Make a Donation'
+      description: 'By supporting GenerationRCA, your generosity will open a new chapter for the Royal College of Art. You will enable the College to move into an exciting and vital new era.'
+      image: true
+      link: '#'
+      meta: Support
+    - slide:
+      title: 'Lorem ipsum dolor sit'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      image: true
+      link: '#'
+      meta: Support
+    - slide:
+      title: 'Lorem ipsum dolor sit'
+      description: 'How innovative and disruptive technologies can address the world’s most intractable challenges'
+      image: true
+      link: '#'
+      meta: Support
+  page_teasers:
+    title: The story
+    pages:
+      - {
+          title: 'People',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Places',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+      - {
+          title: 'Projects',
+          link: '#',
+          meta: false,
+          person: false,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+          image: true,
+        }
+  stats_block:
+    title: false
+    statistics:
+      - stat:
+        value:
+          number: 70
+          summary: Number of countries our students come from
+      - stat:
+        value:
+          after: '%'
+          number: 33
+          summary: of students who go on to work in practice'
+      - stat:
+        value:
+          number: 70
+          summary: Number of countries our students come from
+      - stat:
+        value:
+          after: '%'
+          number: 33
+          summary: of students who go on to work in practice'
+  tabs:
+    - tab:
+      title: The story
+    - tab:
+      title: How you can help
+    - tab:
+      title: Success stories
+    - tab:
+      title: Contact
+
+tags:
+  pageurl:
+    ancestor_page:
+      raw: '#'
+  slugurl:
+    "'home'":
+      raw: '#'

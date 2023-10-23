@@ -44,3 +44,50 @@ context:
           link:
             title: 'Find out more'
             url: '#'
+    working_with_heading: The opportunity to work with…
+    working_with:
+      - slide:
+        value:
+          link:
+            title: 'Red bull'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 2'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 3'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 4'
+            url: '#'
+          image: true
+      - slide:
+        value:
+          link:
+            title: 'Red bull 5'
+            url: '#'
+          image: true
+    quote_carousel:
+      - slide:
+        value:
+          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
+          author: 'Benjamin Glatz'
+          job_title: 'Digital Transformation Lead, Shell'
+      - slide:
+        value:
+          quote: 'Highly relevant for anyone looking for more effective ways to solve innovation challenges. The main takeaways were the power of visualisation & importance of empathy and research.'
+          author: 'Benjamin Glatz'
+          job_title: 'Digital Transformation Lead, Shell'
+      - slide:
+        value:
+          quote: 'We want people to come away from our executive education courses with achievable insights and a critical path to making change in their organisations and to their own individual working lives.'
+          author: 'Professor Jeremy Myerson'
+    quote_carousel_link: '#'

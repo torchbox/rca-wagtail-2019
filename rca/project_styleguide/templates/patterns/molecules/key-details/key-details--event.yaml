@@ -1,0 +1,39 @@
+context:
+  page:
+    event_time: 5pm – 8pm
+    timezone: GMT +1
+    location: Online
+    location_details: Dyson Gallery
+    eligibility: Open to all
+    type: Exhibition
+    add_to_calendar: true
+    price: false
+    series:
+      title: Talks
+      items:
+        - {
+            title: 'Innovation RCA',
+            link: '#',
+            meta: Exhibition,
+            person: false,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+            image: true,
+          }
+        - {
+            title: 'Consultancy & knowledge exchange',
+            link: '#',
+            meta: Lecture,
+            person: false,
+            description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in accumsan massa.',
+            image: true,
+          }
+  taxonomy_tags:
+    - item:
+      title: School of Design
+      href: '#'
+  series_event: True
+
+tags:
+  pageurl:
+    page.school_dean:
+      raw: '#'
