@@ -18,7 +18,7 @@
         <header class="w-header w-header--hasform">
             {% block breadcrumb %}{% endblock %}
             <div class="row">
-                <div class="left header-left">
+                <div class="left">
                     <div class="col">
                         {% block h1 %}
                             <h1 class="w-header__title">
@@ -32,7 +32,7 @@
                     {% block search %}{% search_form %}{% endblock %}
                 </div>
                 {% block header_extra %}
-                    <div class="right header-right">
+                    <div class="right">
                         {% if view.list_export or user_can_create %}
                             <div class="actionbutton">
                                 {% if user_can_create %}

@@ -494,13 +494,13 @@ files = [
 
 [[package]]
 name = "django"
-version = "3.2.20"
+version = "3.2.21"
 description = "A high-level Python Web framework that encourages rapid development and clean, pragmatic design."
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "Django-3.2.20-py3-none-any.whl", hash = "sha256:a477ab326ae7d8807dc25c186b951ab8c7648a3a23f9497763c37307a2b5ef87"},
-    {file = "Django-3.2.20.tar.gz", hash = "sha256:dec2a116787b8e14962014bf78e120bba454135108e1af9e9b91ade7b2964c40"},
+    {file = "Django-3.2.21-py3-none-any.whl", hash = "sha256:d31b06c58aa2cd73998ca5966bc3001243d3c4e77ee2d0c479bced124765fd99"},
+    {file = "Django-3.2.21.tar.gz", hash = "sha256:a5de4c484e7b7418e6d3e52a5b8794f0e6b9f9e4ce3c037018cf1c489fa87f3c"},
 ]
 
 [package.dependencies]
@@ -924,6 +924,17 @@ files = [
 [package.extras]
 docs = ["furo (>=2022.9.29)", "sphinx (>=5.3)", "sphinx-autodoc-typehints (>=1.19.5)"]
 testing = ["covdefaults (>=2.2.2)", "coverage (>=6.5)", "pytest (>=7.2)", "pytest-cov (>=4)", "pytest-timeout (>=2.1)"]
+
+[[package]]
+name = "filetype"
+version = "1.2.0"
+description = "Infer file type and MIME type of any file/buffer. No external dependencies."
+optional = false
+python-versions = "*"
+files = [
+    {file = "filetype-1.2.0-py2.py3-none-any.whl", hash = "sha256:7ce71b6880181241cf7ac8697a2f1eb6a8bd9b429f7ad6d27b8db9ba5f1c2d25"},
+    {file = "filetype-1.2.0.tar.gz", hash = "sha256:66b56cd6474bf41d8c54660347d37afcc3f7d1970648de365c102ef77548aadb"},
+]
 
 [[package]]
 name = "flake8"
@@ -2168,26 +2179,28 @@ wrapt = ">=1.10,<2.0"
 
 [[package]]
 name = "sentry-sdk"
-version = "1.24.0"
+version = "1.31.0"
 description = "Python client for Sentry (https://sentry.io)"
 optional = false
 python-versions = "*"
 files = [
-    {file = "sentry-sdk-1.24.0.tar.gz", hash = "sha256:0bbcecda9f51936904c1030e7fef0fe693e633888f02a14d1cb68646a50e83b3"},
-    {file = "sentry_sdk-1.24.0-py2.py3-none-any.whl", hash = "sha256:56d6d9d194c898d853a7c1dd99bed92ce82334ee1282292c15bcc967ff1a49b5"},
+    {file = "sentry-sdk-1.31.0.tar.gz", hash = "sha256:6de2e88304873484207fed836388e422aeff000609b104c802749fd89d56ba5b"},
+    {file = "sentry_sdk-1.31.0-py2.py3-none-any.whl", hash = "sha256:64a7141005fb775b9db298a30de93e3b83e0ddd1232dc6f36eb38aebc1553291"},
 ]
 
 [package.dependencies]
 certifi = "*"
-urllib3 = {version = ">=1.26.11,<2.0.0", markers = "python_version >= \"3.6\""}
+urllib3 = {version = ">=1.26.11", markers = "python_version >= \"3.6\""}
 
 [package.extras]
 aiohttp = ["aiohttp (>=3.5)"]
 arq = ["arq (>=0.23)"]
+asyncpg = ["asyncpg (>=0.23)"]
 beam = ["apache-beam (>=2.12)"]
 bottle = ["bottle (>=0.12.13)"]
 celery = ["celery (>=3)"]
 chalice = ["chalice (>=1.16.0)"]
+clickhouse-driver = ["clickhouse-driver (>=0.2.0)"]
 django = ["django (>=1.8)"]
 falcon = ["falcon (>=1.4)"]
 fastapi = ["fastapi (>=0.79.0)"]
@@ -2197,6 +2210,7 @@ httpx = ["httpx (>=0.16.0)"]
 huey = ["huey (>=2)"]
 loguru = ["loguru (>=0.5)"]
 opentelemetry = ["opentelemetry-distro (>=0.35b0)"]
+opentelemetry-experimental = ["opentelemetry-distro (>=0.40b0,<1.0)", "opentelemetry-instrumentation-aiohttp-client (>=0.40b0,<1.0)", "opentelemetry-instrumentation-django (>=0.40b0,<1.0)", "opentelemetry-instrumentation-fastapi (>=0.40b0,<1.0)", "opentelemetry-instrumentation-flask (>=0.40b0,<1.0)", "opentelemetry-instrumentation-requests (>=0.40b0,<1.0)", "opentelemetry-instrumentation-sqlite3 (>=0.40b0,<1.0)", "opentelemetry-instrumentation-urllib (>=0.40b0,<1.0)"]
 pure-eval = ["asttokens", "executing", "pure-eval"]
 pymongo = ["pymongo (>=3.1)"]
 pyspark = ["pyspark (>=2.4.4)"]
@@ -2572,19 +2586,19 @@ testing = ["coverage (>=6.2)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7
 
 [[package]]
 name = "wagtail"
-version = "4.2.4"
+version = "5.0.2"
 description = "A Django content management system."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "wagtail-4.2.4-py3-none-any.whl", hash = "sha256:93e8d39a14a44099ca620e46613a3a2319b1d10c622dc7f0ff8658807b18190c"},
-    {file = "wagtail-4.2.4.tar.gz", hash = "sha256:4bf146194e1725cd4305bf1998f507d46f587e207d609bc2ec73a6c5cce04410"},
+    {file = "wagtail-5.0.2-py3-none-any.whl", hash = "sha256:3a31ecced7b433a93c237a3cb6ca628506fa7ec147671555b9fc56e77dbd05bb"},
+    {file = "wagtail-5.0.2.tar.gz", hash = "sha256:debd21df87a5db3445d65ffde12ef14e306a24f5ad490150bed556f0c8ead2bb"},
 ]
 
 [package.dependencies]
 anyascii = ">=0.1.5"
 beautifulsoup4 = ">=4.8,<4.12"
-Django = ">=3.2,<4.2"
+Django = ">=3.2,<4.3"
 django-filter = ">=2.2,<23"
 django-modelcluster = ">=6.0,<7.0"
 django-permissionedforms = ">=0.1,<1.0"
@@ -2598,11 +2612,11 @@ openpyxl = ">=3.0.10,<4.0"
 Pillow = ">=4.0.0,<10.0.0"
 requests = ">=2.11.1,<3.0"
 telepath = ">=0.1.1,<1"
-Willow = ">=1.4,<1.5"
+Willow = ">=1.5,<1.6"
 
 [package.extras]
 docs = ["Sphinx (>=1.5.2)", "myst-parser (==0.18.1)", "pyenchant (>=3.1.1,<4)", "sphinx-autobuild (>=0.6.0)", "sphinx-copybutton (>=0.5,<1.0)", "sphinx-wagtail-theme (==6.0.0)", "sphinxcontrib-spelling (>=5.4.0,<6)"]
-testing = ["Jinja2 (>=3.0,<3.2)", "azure-mgmt-cdn (>=12.0,<13.0)", "azure-mgmt-frontdoor (>=1.0,<1.1)", "black (==22.3.0)", "boto3 (>=1.16,<1.17)", "coverage (>=3.7.0)", "curlylint (==0.13.1)", "django-pattern-library (>=0.7,<0.8)", "djhtml (==1.4.13)", "doc8 (==0.8.1)", "elasticsearch (>=5.0,<6.0)", "flake8 (>=3.6.0)", "flake8-assertive (==2.0.0)", "flake8-blind-except (==0.1.1)", "flake8-comprehensions (==3.8.0)", "flake8-print (==5.0.0)", "freezegun (>=0.3.8)", "isort (==5.6.4)", "polib (>=1.1,<2.0)", "python-dateutil (>=2.7)", "pytz (>=2014.7)", "semgrep (==1.3.0)", "wagtail-factories (>=4.0,<5)"]
+testing = ["Jinja2 (>=3.0,<3.2)", "azure-mgmt-cdn (>=12.0,<13.0)", "azure-mgmt-frontdoor (>=1.0,<1.1)", "black (==22.3.0)", "boto3 (>=1.16,<1.17)", "coverage (>=3.7.0)", "curlylint (==0.13.1)", "django-pattern-library (>=0.7,<0.8)", "djhtml (==1.5.2)", "doc8 (==0.8.1)", "elasticsearch (>=5.0,<6.0)", "factory-boy (>=3.2)", "flake8 (>=3.6.0)", "flake8-assertive (==2.0.0)", "flake8-blind-except (==0.1.1)", "flake8-comprehensions (==3.8.0)", "flake8-print (==5.0.0)", "freezegun (>=0.3.8)", "isort (==5.6.4)", "polib (>=1.1,<2.0)", "python-dateutil (>=2.7)", "pytz (>=2014.7)", "semgrep (==1.3.0)"]
 
 [[package]]
 name = "wagtail-accessibility"
@@ -2624,15 +2638,20 @@ version = "1.0"
 description = "A simple recaptcha field for Wagtail Form Pages."
 optional = false
 python-versions = "*"
-files = [
-    {file = "wagtail-django-recaptcha-1.0.tar.gz", hash = "sha256:fc177e75da966e9db1dfd9a566c40d30567518d9280b5db4fec4d50a8c853154"},
-]
+files = []
+develop = false
 
 [package.dependencies]
 django-recaptcha = "*"
 
 [package.extras]
-testing = ["coverage (>=4.1.0,<4.2)", "flake8 (>=3.2.0,<3.3)", "isort (==4.2.5)", "tox (>=2.3.1,<2.4)", "wagtail (==2.0)"]
+testing = ["coverage (>=6.5.0,<6.6)", "flake8 (>=5.0.4,<5.1)", "isort (>=5.10.1)", "tox (>=3.26.0,<3.27)", "wagtail (>=4.1)"]
+
+[package.source]
+type = "git"
+url = "https://github.com/torchbox-forks/wagtail-django-recaptcha"
+reference = "2.0.0"
+resolved_reference = "35975f98176af5d5a2515ec0e9de116e33a37fda"
 
 [[package]]
 name = "wagtail-factories"
@@ -2655,17 +2674,17 @@ test = ["coverage (==6.0)", "flake8 (==4.0.0)", "flake8-blind-except (==0.1.1)",
 
 [[package]]
 name = "wagtail-orderable"
-version = "1.1.0"
+version = "1.2.0"
 description = "Orderable support for Wagtail"
 optional = false
 python-versions = "*"
 files = [
-    {file = "wagtail-orderable-1.1.0.tar.gz", hash = "sha256:7e4486098caf788d752913a070f54ea0657c3d5c0f584ec8e42756f03ac75c2f"},
-    {file = "wagtail_orderable-1.1.0-py3-none-any.whl", hash = "sha256:957c87fd1186d726475c5292252327c395a94d2e3f0f34617a1c87f00c3d748a"},
+    {file = "wagtail-orderable-1.2.0.tar.gz", hash = "sha256:3355f91d09cd711960a03d83d2783d35b38735da6cd51fc9ab28fdbf635da050"},
+    {file = "wagtail_orderable-1.2.0-py3-none-any.whl", hash = "sha256:b1b951013630cfb6ab13b189a51cfcc78faa668f6b3bd8811359b331e2666763"},
 ]
 
 [package.dependencies]
-wagtail = ">=2.15"
+wagtail = ">=4.1"
 
 [[package]]
 name = "wagtail-rangefilter"
@@ -2688,18 +2707,18 @@ testing = ["coverage (>=6.4.4,<6.5.0)", "tox (>=3.26.0,<3.27.0)"]
 
 [[package]]
 name = "wagtail-storages"
-version = "1.0.0rc1"
+version = "1.0.0"
 description = "Use AWS S3 with private documents in Wagtail."
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.8"
 files = [
-    {file = "wagtail-storages-1.0.0rc1.tar.gz", hash = "sha256:d1d5bfe82ed53321ae88428ce2c0a7eee8f4feab1fcfb520175ba981edb31013"},
-    {file = "wagtail_storages-1.0.0rc1-py3-none-any.whl", hash = "sha256:9b5a3a6b4e201fbf0880225245820482b1ca44d357cf02988a5ca7123b25a66a"},
+    {file = "wagtail-storages-1.0.0.tar.gz", hash = "sha256:cffbb1314131c6898ad4ec583c34db5845e2654bae0fa8b7d3b9e6529f023132"},
+    {file = "wagtail_storages-1.0.0-py3-none-any.whl", hash = "sha256:8056af5feaa66b837180652954eb471d61086cb5e10d67a58fc5129903535b5a"},
 ]
 
 [package.dependencies]
 django-storages = {version = "<2", extras = ["boto3"]}
-Wagtail = ">=2.15,<5.0"
+Wagtail = ">=4.1"
 
 [package.extras]
 testing = ["black (==22.3.0)", "coverage (==5.0.3)", "factory-boy (==2.12.0)", "flake8", "isort", "moto (==3.1.8)"]
@@ -2758,17 +2777,21 @@ brotli = ["Brotli"]
 
 [[package]]
 name = "willow"
-version = "1.4.1"
+version = "1.5.1"
 description = "A Python image library that sits on top of Pillow, Wand and OpenCV"
 optional = false
-python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*"
+python-versions = ">=3.7"
 files = [
-    {file = "Willow-1.4.1-py2.py3-none-any.whl", hash = "sha256:fc4042696d090e75aef922fa1ed26d483c764f005b36cf523cf7c34e69d5dd7a"},
-    {file = "Willow-1.4.1.tar.gz", hash = "sha256:0df8ff528531e00b48d40bf72ed81beac1dc82f2d42e5bbed4aff0218bef8c0d"},
+    {file = "Willow-1.5.1-py3-none-any.whl", hash = "sha256:ffb95732d4729d1a3478407f697b623467d6ebd1da77e0d44c1016bc69825711"},
+    {file = "Willow-1.5.1.tar.gz", hash = "sha256:b7a4909110133fdb1e2287592e0673cc255e0286e1cd53427ee68df1c9220c4c"},
 ]
 
+[package.dependencies]
+defusedxml = ">=0.7,<1.0"
+filetype = ">=1.0.10,<1.1.0 || >1.1.0"
+
 [package.extras]
-testing = ["Pillow (>=6.0.0,<10.0.0)", "Wand (>=0.6,<1.0)", "mock (>=3.0,<4.0)"]
+testing = ["Pillow (>=9.1.0,<11.0.0)", "Wand (>=0.6,<1.0)", "mock (>=3.0,<4.0)", "pillow-heif (>=0.7.0,<1.0.0)"]
 
 [[package]]
 name = "wrapt"
@@ -2796,6 +2819,16 @@ files = [
     {file = "wrapt-1.14.1-cp310-cp310-musllinux_1_1_x86_64.whl", hash = "sha256:8ad85f7f4e20964db4daadcab70b47ab05c7c1cf2a7c1e51087bfaa83831854c"},
     {file = "wrapt-1.14.1-cp310-cp310-win32.whl", hash = "sha256:a9a52172be0b5aae932bef82a79ec0a0ce87288c7d132946d645eba03f0ad8a8"},
     {file = "wrapt-1.14.1-cp310-cp310-win_amd64.whl", hash = "sha256:6d323e1554b3d22cfc03cd3243b5bb815a51f5249fdcbb86fda4bf62bab9e164"},
+    {file = "wrapt-1.14.1-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:ecee4132c6cd2ce5308e21672015ddfed1ff975ad0ac8d27168ea82e71413f55"},
+    {file = "wrapt-1.14.1-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:2020f391008ef874c6d9e208b24f28e31bcb85ccff4f335f15a3251d222b92d9"},
+    {file = "wrapt-1.14.1-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:2feecf86e1f7a86517cab34ae6c2f081fd2d0dac860cb0c0ded96d799d20b335"},
+    {file = "wrapt-1.14.1-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:240b1686f38ae665d1b15475966fe0472f78e71b1b4903c143a842659c8e4cb9"},
+    {file = "wrapt-1.14.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a9008dad07d71f68487c91e96579c8567c98ca4c3881b9b113bc7b33e9fd78b8"},
+    {file = "wrapt-1.14.1-cp311-cp311-musllinux_1_1_aarch64.whl", hash = "sha256:6447e9f3ba72f8e2b985a1da758767698efa72723d5b59accefd716e9e8272bf"},
+    {file = "wrapt-1.14.1-cp311-cp311-musllinux_1_1_i686.whl", hash = "sha256:acae32e13a4153809db37405f5eba5bac5fbe2e2ba61ab227926a22901051c0a"},
+    {file = "wrapt-1.14.1-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:49ef582b7a1152ae2766557f0550a9fcbf7bbd76f43fbdc94dd3bf07cc7168be"},
+    {file = "wrapt-1.14.1-cp311-cp311-win32.whl", hash = "sha256:358fe87cc899c6bb0ddc185bf3dbfa4ba646f05b1b0b9b5a27c2cb92c2cea204"},
+    {file = "wrapt-1.14.1-cp311-cp311-win_amd64.whl", hash = "sha256:26046cd03936ae745a502abf44dac702a5e6880b2b01c29aea8ddf3353b68224"},
     {file = "wrapt-1.14.1-cp35-cp35m-manylinux1_i686.whl", hash = "sha256:43ca3bbbe97af00f49efb06e352eae40434ca9d915906f77def219b88e85d907"},
     {file = "wrapt-1.14.1-cp35-cp35m-manylinux1_x86_64.whl", hash = "sha256:6b1a564e6cb69922c7fe3a678b9f9a3c54e72b469875aa8018f18b4d1dd1adf3"},
     {file = "wrapt-1.14.1-cp35-cp35m-manylinux2010_i686.whl", hash = "sha256:00b6d4ea20a906c0ca56d84f93065b398ab74b927a7a3dbd470f6fc503f95dc3"},
@@ -2891,4 +2924,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.8"
-content-hash = "09d37199dc28d2f25d308713188dd1f9a4f7c13c5f8daa56733e60b2b831fc88"
+content-hash = "b8c8b2752e425f119ad3554ca503a55eabfdc73bd92904c972d1029a7c765cd9"

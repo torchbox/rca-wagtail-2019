@@ -150,6 +150,7 @@ def psql(c, command=None):
     subprocess.run(cmd_list)
 
 
+@task
 def delete_docker_database(c, local_database_name=LOCAL_DATABASE_NAME):
     dexec(
         "dropdb --if-exists --host db --username={project_name} {database_name}".format(
@@ -163,6 +164,9 @@ def delete_docker_database(c, local_database_name=LOCAL_DATABASE_NAME):
         ),
         "db",
     )
+    # Create extension schema, for error-free restores from Heroku backups
+    # (see https://devcenter.heroku.com/changelog-items/2446)
+    psql(c, "CREATE SCHEMA heroku_ext;")
 
 
 @task
