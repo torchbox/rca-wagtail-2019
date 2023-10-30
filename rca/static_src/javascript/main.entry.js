@@ -8,7 +8,6 @@ import BackLink from './components/back-link';
 import Carousel from './components/carousel';
 import PeekFullCarousel from './components/carousel-full-peek';
 import PeekCarousel from './components/carousel-peek';
-import CookieWarning from './components/cookie-message';
 import EmailShare from './components/email-share';
 import EventToggleSwitch from './components/event-toggle-switch';
 import FormFocus from './components/form-focus';
@@ -45,9 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
     )) {
         new GridSizeVariables(gridVariables);
     }
-
-    const cookie = document.querySelector(CookieWarning.selector());
-    new CookieWarning(cookie);
 
     for (const sitewideAlert of document.querySelectorAll(
         SitewideAlert.selector(),
