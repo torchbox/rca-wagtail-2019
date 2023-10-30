@@ -6,7 +6,6 @@ import HeaderDrawer from './components/header-drawer';
 import SubMenu from './components/submenu';
 import BackLink from './components/back-link';
 import MobileSubMenu from './components/mobile-sub-menu';
-import CookieWarning from './components/cookie-message';
 import Accordion from './components/accordion';
 import Tabs from './components/tabs';
 import Carousel from './components/carousel';
@@ -44,9 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
     )) {
         new GridSizeVariables(gridVariables);
     }
-
-    const cookie = document.querySelector(CookieWarning.selector());
-    new CookieWarning(cookie);
 
     for (const sitewideAlert of document.querySelectorAll(
         SitewideAlert.selector(),
