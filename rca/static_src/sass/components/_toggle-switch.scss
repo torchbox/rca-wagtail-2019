@@ -47,6 +47,10 @@
         &--last {
             order: 3;
         }
+
+        &--selected {
+            color: $color--black;
+        }
     }
 
     &__switch {
@@ -84,7 +88,7 @@
     }
 
     .categories-tablist & {
-        max-width: 213px;
+        max-width: 250px;
         margin-bottom: $gutter;
 
         @include media-query(large) {
@@ -99,6 +103,41 @@
 
         .filter-bar--stuck & {
             border-color: $color--white-24;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -20px;
+            height: 1px;
+            width: 11px;
+            background-color: $color--black-12;
+
+            @include media-query(large) {
+                content: none;
+            }
+        }
+    }
+
+    .programmes-categories & {
+        justify-content: flex-start;
+        margin-top: 13px;
+        margin-bottom: 0;
+        padding-top: 10px;
+
+        @include media-query(large) {
+            justify-content: space-between;
+            margin-top: unset;
+            padding-top: unset;
+        }
+
+        #{$root}__switch {
+            margin-right: ($gutter * 0.5);
+
+            @include media-query(large) {
+                margin-right: $gutter;
+            }
         }
     }
 

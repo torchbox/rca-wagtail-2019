@@ -7,10 +7,11 @@ describe('getWagtailAPIQueryString', () => {
         type: '',
         fields: [],
         limit: null,
+        partTime: undefined,
     };
 
     it('empty', () => {
-        expect(getWagtailAPIQueryString(empty)).toBe('');
+        expect(getWagtailAPIQueryString(empty)).toBe('?part-time=false');
     });
 
     it('all options', () => {
@@ -21,9 +22,10 @@ describe('getWagtailAPIQueryString', () => {
                 search: 'test',
                 fields: ['test', 'title'],
                 filters: { promoted: true, price: 15 },
+                partTime: 'true',
             }),
         ).toBe(
-            '?type=core.TestPage&limit=50&fields=test%2Ctitle&search=test&promoted=true&price=15',
+            '?type=core.TestPage&part-time=true&limit=50&fields=test%2Ctitle&search=test&promoted=true&price=15',
         );
     });
 });

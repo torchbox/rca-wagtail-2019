@@ -1,0 +1,6 @@
+.programmes-categories {
+    @include z-index(modal);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: -1px;
+}

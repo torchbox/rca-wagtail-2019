@@ -4,8 +4,15 @@ import CategoriesPanels from './CategoriesPanels';
 
 describe('CategoriesPanels', () => {
     it('empty', () => {
-        expect(shallow(<CategoriesPanels categories={[]} activeCategory="" />))
-            .toMatchInlineSnapshot(`
+        expect(
+            shallow(
+                <CategoriesPanels
+                    categories={[]}
+                    activeCategory=""
+                    activeLength={false}
+                />,
+            ),
+        ).toMatchInlineSnapshot(`
             <div
               className="categories-panels bg bg--light"
             />
@@ -30,6 +37,7 @@ describe('CategoriesPanels', () => {
                     },
                 ]}
                 activeCategory="test"
+                activeLength={false}
             />,
         );
         expect(wrapper.find('#test').prop('aria-expanded')).toBe(true);
