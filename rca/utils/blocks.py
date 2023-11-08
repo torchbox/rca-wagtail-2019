@@ -354,9 +354,7 @@ class GuideBlock(blocks.StreamBlock):
         help_text="Add a URL from these providers: YouTube, Vimeo, SoundCloud, Twitter.",
     )
     jw_video = JWPLayerBlock()
-    cookie_snippet_block = CookieSnippetBlock(
-        "utils.CookieButtonSnippet"
-    )
+    cookie_snippet_block = CookieSnippetBlock("utils.CookieButtonSnippet")
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"
