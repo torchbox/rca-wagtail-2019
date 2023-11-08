@@ -13,7 +13,7 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import ItemBase, TagBase
 from wagtail import blocks
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, PageChooserPanel, HelpPanel
 from wagtail.api import APIField
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import RichTextField, StreamField
@@ -988,3 +988,26 @@ class SitewideTapSetting(BaseSiteSetting):
     )
 
     panels = [FieldPanel("show_carousels"), FieldPanel("show_widgets")]
+
+
+@register_snippet
+class CookieButtonSnippet(models.Model):
+
+    title = models.CharField(max_length=255)
+    panels = [
+        FieldPanel("title", help_text="Required for internal purposes only"),
+        HelpPanel(
+            content=(
+                "Only 1 snippet of this type can be created.<br>"
+                "Use this snippet to place a button on the page that will "
+                "allow the user to edit their cookie settings."
+            )
+        ),
+    ]
+
+    def __str__(self):
+        return self.title
+
+    def clean(self):
+        if CookieButtonSnippet.objects.exists():
+            raise ValidationError({'title': ['Only one instance of CookieButtonSnippet is allowed.']})
