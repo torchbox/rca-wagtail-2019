@@ -306,6 +306,12 @@ class JWPLayerBlock(blocks.StructBlock):
         template = "patterns/molecules/streamfield/blocks/jw_player_block.html"
 
 
+class CookieSnippetBlock(SnippetChooserBlock):
+    class Meta:
+        icon = "snippet"
+        template = "patterns/molecules/streamfield/blocks/cookie_snippet_block.html"
+
+
 # Main streamfield block to be inherited by Pages
 class StoryBlock(blocks.StreamBlock):
     heading = blocks.CharBlock(
@@ -348,6 +354,7 @@ class GuideBlock(blocks.StreamBlock):
         help_text="Add a URL from these providers: YouTube, Vimeo, SoundCloud, Twitter.",
     )
     jw_video = JWPLayerBlock()
+    cookie_snippet_block = CookieSnippetBlock("utils.CookieButtonSnippet")
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"
