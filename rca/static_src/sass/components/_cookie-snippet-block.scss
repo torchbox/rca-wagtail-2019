@@ -8,7 +8,7 @@
         border-radius: 5px;
         padding: 7px 24px;
         &:hover {
-            background-color: $color--tertiary;
+            background-color: $color--tertiary !important;
             opacity: 0.8;
             border: none !important;
         }
