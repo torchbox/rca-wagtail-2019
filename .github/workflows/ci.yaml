@@ -12,3 +12,4 @@ jobs:
       run: |
         npm install
         npm build prod
+        npm run lint:css
