@@ -11,5 +11,5 @@ jobs:
       - name: Install npm dependencies
         run: |
           npm install
-          npm build prod
+          npm build:prod
           npm run lint:css
