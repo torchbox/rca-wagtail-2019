@@ -1,7 +1,7 @@
 name: CI
 on: [push]
 jobs:
-  test:
+  test-npm:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,3 +20,18 @@ jobs:
         run: npm run test
       - name: Compile static files
         run: npm run build:prod
+  test-python:
+    runs-on: ubuntu-latest
+    env:
+      SECRET_KEY: testingsecretkey
+      SECURE_SSL_REDIRECT: false
+      ALLOWED_HOSTS: localhost
+      DATABASE_URL: postgres://postgres:postgres@localhost/postgres
+      BIRDBATH_REQUIRED: false
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
