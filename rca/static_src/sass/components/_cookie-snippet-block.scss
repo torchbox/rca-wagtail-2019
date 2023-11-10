@@ -3,12 +3,14 @@
     .ot-sdk-show-settings {
         transition: opacity $transition;
         background-color: $color--tertiary;
-        border: none;
-        color: $color--white;
+        border: none !important;
+        color: $color--white !important;
         border-radius: 5px;
         padding: 7px 24px;
         &:hover {
+            background-color: $color--tertiary;
             opacity: 0.8;
+            border: none !important;
         }
     }
 }
