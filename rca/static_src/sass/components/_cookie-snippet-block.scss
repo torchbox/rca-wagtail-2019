@@ -1,3 +1,14 @@
 .cookie_snippet_block {
     margin-bottom: $gutter;
+    .ot-sdk-show-settings {
+        transition: opacity $transition;
+        background-color: $color--tertiary;
+        border: none;
+        color: $color--white;
+        border-radius: 5px;
+        padding: 7px 24px;
+        &:hover {
+            opacity: 0.8;
+        }
+    }
 }
