@@ -39,4 +39,4 @@ jobs:
         with:
           poetry-version: 1.5.0
       - name: Install Poetry
-      - run: poetry install --no-ansi
+        run: poetry install --no-ansi
