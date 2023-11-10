@@ -9,7 +9,14 @@ jobs:
         with:
           node-version: '16'
       - name: Install npm dependencies
-        run: |
-          npm install
-          npm run build:prod
-          npm run lint:css
+        run: npm install
+      - name: CSS linting
+        run: npm run lint:css
+      - name: JS linting
+        run: npm run lint:js
+      - name: Prettier
+        run: npm run format
+      - name: JS tests
+        run: npm run test
+      - name: Compile static files
+        run: npm run build:prod
