@@ -49,7 +49,7 @@ jobs:
       - name: black
         run: black --check --diff ./rca fabfile.py --exclude migrations/
       - name: collectstatic
-        run python manage.py collectstatic --verbosity 0 --noinput --clear
+        run: python manage.py collectstatic --verbosity 0 --noinput --clear
       - name: System checks
         run: python manage.py check
       - name: Missing migrations
