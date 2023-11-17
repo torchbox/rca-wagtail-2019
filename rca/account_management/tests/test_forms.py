@@ -111,7 +111,11 @@ class TestStudentAccountCreationForm(TestCase):
         # Check the group and permissions were created
         group = Group.objects.get(name=f"Student: {student_user.username}")
         page_permission = GroupPagePermission.objects.filter(
-            group=group, page=student_page, permission_type="edit"
+            group=group,
+            page=student_page,
+            permission=Permission.objects.get(
+                content_type__app_label="wagtailcore", codename="change_page"
+            ),
         )
         edit_collection_permission = GroupCollectionPermission.objects.get(
             group=group,
