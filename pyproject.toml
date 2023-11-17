@@ -36,6 +36,7 @@ mailchimp-marketing = "^3.0.69"
 freezegun = "^1.1.0"
 django-cors-headers = "^3.10.1"
 wagtail-rangefilter = "^0.1.1"
+wagtail-modeladmin = "^1.0.0"
 
 [tool.poetry.extras]
 gunicorn = ["gunicorn"]
