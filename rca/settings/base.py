@@ -75,7 +75,6 @@ INSTALLED_APPS = [
     "rca.scholarships",
     "birdbath",
     "django_countries",
-    "wagtail.contrib.modeladmin",
     "wagtail.contrib.settings",
     "wagtail.contrib.search_promotions",
     "wagtail.contrib.forms",
@@ -109,6 +108,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "wagtail_rangefilter",
     "rangefilter",
+    "wagtail_modeladmin",
 ]
 
 # Middleware classes
