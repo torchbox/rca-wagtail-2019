@@ -1051,6 +1051,30 @@ class StickyCTAMixin(models.Model):
     class Meta:
         abstract = True
 
+    def full_clean(self, *args, **kwargs):
+        super().full_clean(*args, **kwargs)
+
+        errors = defaultdict(list)
+        if self.sticky_cta_page and self.sticky_cta_link_url:
+            message = "You must specify a page or link url. You can't use both."
+            errors["sticky_cta_link_url"].append(message),
+            errors["sticky_cta_page"].append(message),
+
+        if bool(self.sticky_cta_link_url) != bool(self.sticky_cta_link_text):
+            errors["sticky_cta_link_text"].append(
+                "You must specify link text, if you use the link url field."
+            )
+
+        if self.sticky_cta_page or self.sticky_cta_link_url:
+            # Either page or link URL is specified, so description is required
+            if not self.sticky_cta_description:
+                errors["sticky_cta_description"].append(
+                    "You must specify a description for the sticky CTA"
+                )
+
+        if errors:
+            raise ValidationError(errors)
+
     def get_sticky_cta(self):
         link = self.sticky_cta_link_url
         action = self.sticky_cta_link_text

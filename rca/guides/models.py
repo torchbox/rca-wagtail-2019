@@ -1,6 +1,5 @@
 import re
 
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
@@ -131,35 +130,6 @@ class GuidePage(TapMixin, ContactFieldsMixin, StickyCTAMixin, BasePage):
     def has_sticky_cta(self):
         data = self.get_sticky_cta()
         return all(data.get(key) for key in ["message", "action", "link"])
-
-    def clean(self, *args, **kwargs):
-        super().clean(*args, **kwargs)
-
-        if self.sticky_cta_page and self.sticky_cta_link_url:
-            message = "You must specify a page or link url. You can't use both."
-            raise ValidationError(
-                {
-                    "sticky_cta_link_url": ValidationError(message),
-                    "sticky_cta_page": ValidationError(message),
-                }
-            )
-
-        if bool(self.sticky_cta_link_url) != bool(self.sticky_cta_link_text):
-            raise ValidationError(
-                {
-                    "sticky_cta_link_text": ValidationError(
-                        "You must specify link text, if you use the link url field."
-                    )
-                }
-            )
-
-        if self.sticky_cta_page or self.sticky_cta_link_url:
-            # Either page or link URL is specified, so description is required
-            if not self.sticky_cta_description:
-                message = "You must specify a description for the sticky CTA"
-                raise ValidationError(
-                    {"sticky_cta_description": ValidationError(message)}
-                )
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
