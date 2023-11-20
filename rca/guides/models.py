@@ -15,6 +15,7 @@ from rca.utils.models import (
     ContactFieldsMixin,
     RelatedPage,
     RelatedStaffPageWithManualOptions,
+    StickyCTAMixin,
     TapMixin,
 )
 
@@ -27,7 +28,7 @@ class GuidePageRelatedPages(RelatedPage):
     source_page = ParentalKey("guides.GuidePage", related_name="related_pages")
 
 
-class GuidePage(TapMixin, ContactFieldsMixin, BasePage):
+class GuidePage(TapMixin, ContactFieldsMixin, StickyCTAMixin, BasePage):
     template = "patterns/pages/guide/guide.html"
 
     introduction = models.CharField(max_length=500, blank=True)
@@ -72,6 +73,7 @@ class GuidePage(TapMixin, ContactFieldsMixin, BasePage):
             ),
         ]
         + TapMixin.panels
+        + [StickyCTAMixin.panels]
     )
 
     @property
@@ -125,11 +127,17 @@ class GuidePage(TapMixin, ContactFieldsMixin, BasePage):
             )
         return related_pages
 
+    def has_sticky_cta(self):
+        data = self.get_sticky_cta()
+        return all(data.get(key) for key in ["message", "action", "link"])
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["anchor_nav"] = self.anchor_nav()
         context["related_staff"] = self.related_staff.all
         context["related_pages"] = self.get_related_pages()
+        if self.has_sticky_cta():
+            context["sticky_cta"] = self.get_sticky_cta()
         if self.tap_widget:
             context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
 

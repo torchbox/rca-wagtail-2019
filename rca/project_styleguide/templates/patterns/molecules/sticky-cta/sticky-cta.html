@@ -1,0 +1,16 @@
+{% comment %}
+This template is a slightly modified copy of `patterns/molecules/booking-bar/booking-bar.html`,
+hence the `booking-bar*` classes.
+{% endcomment %}
+
+<div class="booking-bar {% if modifier %}booking-bar--{{ modifier }} {% endif %}{% if not item.modal %}booking-bar--no-modal{% endif %} bg bg--dark ">
+    {% include "patterns/atoms/grid-lines/grid-lines.html" %}
+    <div class="booking-bar__container grid">
+        <div class="booking-bar__message">
+            {{ item.message|linebreaksbr  }}
+        </div>
+        <div class="booking-bar__action">
+            {% include "patterns/atoms/modal-launcher/modal-launcher.html" with modal_aria_label=modal_aria_label %}
+        </div>
+    </div>
+</div>

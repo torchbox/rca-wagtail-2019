@@ -44,7 +44,11 @@
             </div>
         </header>
 
-        <div class="page__content">
+        {% if sticky_cta %}
+            {% include "patterns/molecules/sticky-cta/sticky-cta.html" with item=sticky_cta modal=sticky_cta.modal modal_aria_label="call-to-action-title" %}
+        {% endif %}
+
+        <div class="page__content js-sticky-point js-sticky-point--bottom">
 
             <section class="section bg bg--light">
 
@@ -66,7 +70,7 @@
 
             </section>
             {% if page.further_information %}
-                <section class="section bg bg--dark">
+                <section class="section bg bg--dark booking-bar-last-item">
                     <div class="section__row section__row--last">
                             {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.further_information course_type="short" title=page.further_information_title anchor_heading=True section_id=page.further_information_title|slugify %}
                     </div>
@@ -74,7 +78,7 @@
             {% endif %}
 
             {% if related_pages.items %}
-                <section class="section bg bg--dark">
+                <section class="section bg bg--dark booking-bar-last-item">
                     <div class="section__row section__row--first section__row--last-large">
                         {% include "patterns/organisms/index-module/index-module.html" with items=related_pages.items title=related_pages.title id=page.related_pages_title anchor_heading=True %}
                     </div>
@@ -93,7 +97,7 @@
                     </div>
                 </section>
 
-                <section class="section bg bg--dark">
+                <section class="section bg bg--dark booking-bar-last-item">
                     <div class="section__notch section__notch--large-only">
                         <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
