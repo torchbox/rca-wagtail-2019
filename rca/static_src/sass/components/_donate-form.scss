@@ -94,6 +94,7 @@
                     padding-top: 13px;
                     padding-left: 13px;
                     padding-right: 13px;
+                    margin-top: 33px;
 
                     @include media-query(large) {
                         width: 80px;
@@ -250,6 +251,7 @@
         #reCAPTCHADisclosure {
             p {
                 color: $color--white;
+                padding-right: 20%;
             }
 
             &::after {
