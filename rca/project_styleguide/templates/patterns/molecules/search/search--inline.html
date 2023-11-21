@@ -1,6 +1,11 @@
 <div class="search search--inline">
     <label class="search__label" for="{{ item.id }}">{{ item.label }}</label>
-    <input class="search__input input" id="{{ item.id }}" type="search" placeholder="{{ item.placeholder }}" value="" name="q">
+    <div class="search__magnifying">
+        <svg aria-hidden="true">
+            <use xlink:href="#magnifying-glass"></use>
+        </svg>
+    </div>    
+    <input class="search__input search__input--with-left-icon input" id="{{ item.id }}" type="search" placeholder="{{ item.placeholder }}" value="" name="q">
     <button class="search__button button" type="submit" aria-label="Search">
         <svg class="search__icon" aria-hidden="true">
             <use xlink:href="#arrow"></use>

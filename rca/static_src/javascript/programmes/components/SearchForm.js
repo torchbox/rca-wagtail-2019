@@ -47,8 +47,11 @@ const SearchForm = ({ searchQuery, label, startSearch, clear, isLoaded }) => {
                     >
                         {label}
                     </label>
+                    <div className="search__magnifying">
+                        <Icon name="magnifying-glass" />
+                    </div>
                     <input
-                        className="search__input input"
+                        className="search__input search__input--with-left-icon input"
                         id="programmes-search-input"
                         type="search"
                         placeholder={label}
@@ -68,7 +71,7 @@ const SearchForm = ({ searchQuery, label, startSearch, clear, isLoaded }) => {
                             }
                         }}
                     />
-                    {showClearButton ? (
+                    {showClearButton && (
                         <button
                             className="search__button button body body--two"
                             type="button"
@@ -79,14 +82,6 @@ const SearchForm = ({ searchQuery, label, startSearch, clear, isLoaded }) => {
                             }}
                         >
                             Clear
-                        </button>
-                    ) : (
-                        <button
-                            className="search__button button"
-                            type="submit"
-                            aria-label="Search"
-                        >
-                            <Icon name="arrow" className="search__icon" />
                         </button>
                     )}
                 </div>
