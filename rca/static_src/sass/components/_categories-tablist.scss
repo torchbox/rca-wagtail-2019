@@ -10,12 +10,8 @@
         padding-bottom: $gutter;
     }
 
-    &--mob-no-padding-x {
+    &--no-padding-x {
         padding: $gutter 0;
-
-        @include media-query(large) {
-            padding: $gutter $gutter * 1.5;
-        }
     }
 
     &--large {

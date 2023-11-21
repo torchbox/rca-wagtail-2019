@@ -12,7 +12,7 @@ import ToggleSwitch from '../StudyModeToggleSwitch';
 const CategoriesTablist = ({ categories, activeCategory, activeLength }) => {
     return (
         <nav
-            className="categories-tablist categories-tablist--mob-no-padding-x"
+            className="categories-tablist categories-tablist--no-padding-x"
             aria-label="Filter programmes"
         >
             <h2 className="body body--two categories-tablist__heading">

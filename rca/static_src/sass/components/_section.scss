@@ -464,6 +464,12 @@
             }
         }
 
+        &--third-col-two-span-four {
+            @include media-query(large) {
+                grid-column: 2 / span 3;
+            }
+        }
+
         &--fourth-col {
             @include media-query(large) {
                 grid-column: 1 / span 4;
