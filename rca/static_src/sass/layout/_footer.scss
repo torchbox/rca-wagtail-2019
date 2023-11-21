@@ -46,19 +46,21 @@
     &__social-links {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
         align-items: flex-end;
         width: 100%;
         grid-column-start: 1;
         grid-column-end: 3;
+        flex-wrap: wrap;
+        row-gap: $gutter;
 
         @include media-query(medium) {
-            justify-content: flex-start;
-            width: auto;
+            grid-column-end: 2;
         }
 
         @include media-query(large) {
             grid-column-start: 2;
+            justify-content: space-between;
+            flex-wrap: nowrap;
         }
     }
 
