@@ -1,0 +1,4 @@
+Submission ID: {{ enquiry_submission.id }}
+{% for key, value in cleaned_data.items %}
+{{ key|capfirst }}: {{ value|safe }}
+{% endfor %}

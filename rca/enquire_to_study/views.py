@@ -8,6 +8,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.db.models import Q
 from django.shortcuts import redirect, reverse
+from django.template.loader import render_to_string
 from django.template.response import TemplateResponse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
@@ -262,6 +263,26 @@ class EnquireToStudyFormView(FormView):
             [user_email],
             fail_silently=False,
         )
+    
+    def send_internal_email_notification(self, form, enquiry_submission):
+        name = f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}"
+
+        ctx = {
+            "cleaned_data": form.cleaned_data,
+            "enquiry_submission": enquiry_submission
+        }
+
+        message = render_to_string(
+            "patterns/emails/enquire_to_study.txt", ctx
+        )
+
+        send_mail(
+            f"Enquiry to Study - {name}",
+            message,
+            settings.RCA_DNR_EMAIL,
+            settings.ENQUIRE_TO_STUDY_DESTINATION_EMAILS,
+            fail_silently=False,
+        )
 
     def set_session_data(self, form_data, enquiry_submission):
         # Sets form data into session variable for analytics.
@@ -280,9 +301,9 @@ class EnquireToStudyFormView(FormView):
 
     def form_valid(self, form):
         country_of_residence = form.cleaned_data["country_of_residence"]
-        if country_of_residence in ["GB", "IE"]:
+        if country_of_residence in ["GB", "IE"] and settings.MAILCHIMP_API_KEY:
             self.post_mailchimp(form.cleaned_data)
-        else:
+        elif settings.QS_API_PASSWORD:
             self.post_qs(form.cleaned_data)
 
         enquiry_submission = form.save()
@@ -292,6 +313,13 @@ class EnquireToStudyFormView(FormView):
 
         if settings.RCA_DNR_EMAIL:
             self.send_user_email_notification(form)
+
+            if (
+                settings.ENQUIRE_TO_STUDY_DESTINATION_EMAILS
+                and country_of_residence in ["GB", "IE"]
+                and form.cleaned_data["enquiry_questions"]
+            ):
+                self.send_internal_email_notification(form, enquiry_submission)
 
         return super().form_valid(form)
 

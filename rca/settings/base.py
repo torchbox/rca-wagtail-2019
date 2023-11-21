@@ -779,3 +779,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 # v2.16 WAGTAIL_SLIM_SIDEBAR https://docs.wagtail.org/en/latest/releases/2.16.html
 # To avoid the following issue https://github.com/torchbox/rca-wagtail-2019/pull/866
 WAGTAIL_SLIM_SIDEBAR = False
+
+
+ENQUIRE_TO_STUDY_DESTINATION_EMAILS = env.get("ENQUIRE_TO_STUDY_DESTINATION_EMAILS", [])
