@@ -75,8 +75,8 @@ def social_media_links(context):
     )
     tiktok = {"url": tiktok_url, "type": "tiktok", "label": "TikTok"}
     pinterest_url = (
-        "https://pinterest.com/%s" % settings["utils"]["SocialMediaSettings"].youtube
-        if settings["utils"]["SocialMediaSettings"].youtube
+        "https://pinterest.com/%s" % settings["utils"]["SocialMediaSettings"].pinterest
+        if settings["utils"]["SocialMediaSettings"].pinterest
         else False
     )
     pinterest = {
