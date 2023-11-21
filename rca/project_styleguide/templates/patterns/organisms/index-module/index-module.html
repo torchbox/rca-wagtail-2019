@@ -6,7 +6,7 @@
         <div class="index-module__content">
             {% if introduction %}<p class="index-module__introduction body body--one">{{ introduction|striptags }}</p>{% endif %}
             {% for item in items %}
-                {% include "patterns/molecules/card/card.html" with modifier="simple" card=item %}
+                {% include "patterns/molecules/card/card.html" with modifier="simple" card=item link_style="with-arrow" %}
             {% endfor %}
         </div>
     </div>
