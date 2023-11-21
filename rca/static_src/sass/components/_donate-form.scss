@@ -93,6 +93,7 @@
                     background-color: $color--tertiary;
                     padding-top: 13px;
                     padding-left: 13px;
+                    padding-right: 13px;
 
                     @include media-query(large) {
                         width: 80px;
@@ -197,6 +198,7 @@
 
         .BBFormFieldUKGiftAidTermsLabel {
             @include font-size(xxs);
+            color: $color--white;
             line-height: 1.2;
             font-style: normal;
         }
@@ -233,6 +235,26 @@
         #divName {
             margin-bottom: ($gutter * 2);
             overflow: hidden; // Joys of floats
+        }
+
+        #DC_ValidOther {
+            @include media-query(large) {
+                display: flex;
+
+                :last-child {
+                    margin-left: calc($gutter / 2);
+                }
+            }
+        }
+
+        #reCAPTCHADisclosure {
+            p {
+                color: $color--white;
+            }
+
+            &::after {
+                display: none;
+            }
         }
 
         // Showing hidden labels

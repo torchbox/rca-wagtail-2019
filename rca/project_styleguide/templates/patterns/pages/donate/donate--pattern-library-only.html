@@ -1,0 +1,2298 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% get_settings %}
+
+{% block extra_css %}
+  <style>
+    {# The script injects its own style so we copy paste it here. #}
+    .BBFormContainer .BBFormFieldLabel.BBFormFieldLabelGiftType {
+      display:none;
+    }
+    .BBFormContainer label.BBFormFieldLabelGivingLevel {
+      display:none;
+    }
+    .BBFormContainer .BBFormRadioItem {
+      clear:none;
+      vertical-align:top;
+      display:inline-block;
+      float:none;
+      margin-bottom:6px;
+      margin-right:6px;
+    }
+    .BBFormContainer .BBFormRadioDescription {
+      display:block;
+      padding-top:2px;
+      padding-bottom:2px;
+      font-size:.7em;
+    }
+    .BBFormContainer .BBFormRadioAmountNoButtonCaption {
+      position:relative;
+      top:-15px;
+    }
+    .BBFormContainer .BBFormRadioGivingLevel {
+      position:absolute;
+      left:-9999px;
+    }
+    .BBFormContainer .BBFormRadioGivingLevel {
+      position:absolute;
+      left:-9999px;
+    }
+    .BBFormContainer .BBFormRadioLabelGivingLevel {
+      font-size:1.8em;
+      min-width:90px;
+      transition:.4s ease all;
+      border:1px solid #666;
+      border-radius:6px 6px 6px 6px;
+      cursor:pointer;
+      display:block;
+      float:left;
+      padding:12px;
+      text-align:center;
+      line-height:1em;
+    }
+    .BBFormContainer .BBFormRadioLabelGivingLevelSelected {
+      color:#fff;
+      background:#06C;
+      border:1px solid #06C;
+    }
+    .BBFormContainer .BBFormRadioLabelGivingLevelNotSelected {
+      color:#666 !important;
+      background:#fff;
+    }
+    .BBFormContainer .BBFormRadioLabelGivingLevelNotSelected:hover {
+      background:#F0F0F0;
+    }
+    .BBFormContainer .BBFormRadioLabelGivingLevelOther .BBFormRadioDescription {
+      display:block;
+      text-align:center;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBFormRadioLabelGivingLevel {
+      FONT-SIZE:1.6em;
+      min-width:70px;
+      padding:14px 10px!;
+    }
+    .BBFormContainer .BBFormRadioLabelGivingLevelOther {
+      min-width:100px;
+    }
+    .BBFormContainer .BBFormRadioDescriptionOtherSubtitle {
+      visibility:hidden;
+    }
+    .BBFormContainer .BBFormRadioLabelGivingLevelOther span {
+      position:relative;
+      top:-15px;
+    }
+    .BBFormContainer .BBFormRadioLabelGivingLevelOther span:first-child {
+      position:relative;
+      top:0;
+    }
+    .BBFormContainer .BBFormGiftOtherAmount {
+      display:none;
+    }
+    .BBFormContainer .BBFormRadioLabelGivingLevelOther .BBFormGiftOtherAmount:focus {
+      outline:none;
+    }
+    .BBFormContainer .BBFormRadioLabelGivingLevelSelected .BBFormGiftOtherAmount {
+      display:inline;
+      font-size:.7em;
+      margin:1px 0 -10px 0;
+      width:70px;
+    }
+    .BBFormContainer .BBFormRadioLabelGivingLevelSelected .BBFormRadioDescriptionOtherSubtitle {
+      visibility:visible;
+    }
+    .BBFormContainer .BBFormRadioLabelGivingLevelSelected .BBFormRadioDescriptionOther {
+      visibility:hidden;
+      width:1px;
+      margin-right:-1px;
+      text-overflow:clip;
+      white-space:nowrap;
+      overflow:hidden;
+      float:left;
+    }
+    @media(max-width:600px) {
+      .BBFormContainer .BBFormFieldContainerGivingLevels {
+        margin-top:20px;
+      }
+      .BBFormContainer .BBFormRadioLabelGivingLevelSelected .BBFormGiftOtherAmount {
+        margin-top:-2px;
+      }
+      .BBFormContainer .BBFormRadioLabelGivingLevelOther.BBFormRadioLabelGivingLevelSelected span:first-child {
+        margin-bottom:3px;
+      }
+      .BBFormContainer .BBFormRadioLabelGivingLevel {
+        FONT-SIZE:1.6em;
+        min-width:70px;
+        padding:14px 10px;
+      }
+    }
+    #mongo-form {
+      line-height:normal;
+    }
+    #mongo-form img {
+      width:auto;
+      height:auto;
+    }
+    #mongo-form * {
+      -moz-box-sizing:border-box;
+      -webkit-box-sizing:border-box;
+      box-sizing:border-box;
+    }
+    .BBFormContainer {
+      font-size:1em;
+      margin:0 auto 0 auto;
+      border-radius:.5em .5em .5em .5em / 1em 1em 1em 1em;
+      padding:10px;
+      min-width:250px;
+      BORDER-BOTTOM:1px;
+      BORDER-LEFT:1px;
+      BORDER-TOP:1px;
+      BORDER-RIGHT:1px;
+      line-height:normal;
+      -moz-box-sizing:border-box;
+      -webkit-box-sizing:border-box;
+      box-sizing:border-box;
+    }
+    .BBFormContainer * {
+      line-height:normal;
+      -moz-box-sizing:border-box;
+      -webkit-box-sizing:border-box;
+      box-sizing:border-box;
+    }
+    .BBFormContainer .BBFormSection {
+      margin:8px 2px;
+      max-width:700px;
+    }
+    .BBFormContainer .BBFormSectionHeading {
+      padding:10px 10px 10px 14px;
+      margin:12px 0 12px 0;
+      text-align:left;
+      font-size:18px;
+      font-weight:normal;
+      BORDER-BOTTOM:1px #ccc solid;
+      BORDER-LEFT:1px;
+      BORDER-TOP:1px;
+      BORDER-RIGHT:1px;
+    }
+    .BBFormContainer .BBFormSubSectionHeading {
+      text-align:left;
+      font-size:16px;
+      font-weight:normal;
+      color:#333;
+    }
+    .BBFormContainer .BBFormSection fieldset,
+    .BBFormContainer .BBFormSection fieldset legend {
+      position:inherit;
+      border:medium none;
+      padding:0;
+      margin:0;
+      width:100%;
+      line-height:normal;
+    }
+    .BBFormContainer label,
+    .BBFormContainer input,
+    .BBFormContainer select,
+    .BBFormContainer textarea {
+      margin:0;
+      float:none;
+      display:inline-block;
+      vertical-align:baseline;
+    }
+    .BBFormContainer input::-moz-focus-inner {
+      border:0;
+      padding:0;
+    }
+    .BBFormSection fieldset legend {
+      margin-bottom:12px;
+    }
+    .BBFormContainer .BBFormFieldContainer {
+      padding:0;
+      margin:10px 15px;
+      COLOR:#000;
+      clear:both;
+      text-align:left;
+    }
+    .BBFormContainer .BBFormIndivFields {
+      margin-top:10px;
+    }
+    .BBFormContainer .BBFormFieldContainer:after {
+      clear:both;
+    }
+    .BBFormContainer .BBFormTextbox,
+    .BBFormContainer .BBFormSelectList,
+    .BBFormContainer .BBFormTextArea,
+    .BBFormContainer .BBFormChecklist {
+      width:100%;
+      max-width:350px;
+      margin:0;
+    }
+    .BBFormContainer .BBFormPledgeSection {
+      margin-top:30px;
+    }
+    .BBFormContainer .BBFormFieldLabelPledge {
+      float:left;
+      text-align:left;
+      display:block;
+      margin:0;
+      padding-right:10px;
+      white-space:normal!important;
+      line-height:30px;
+    }
+    .BBFormContainer .BBFormPledgeTermPeriod {
+      margin-left:4px;
+    }
+    .BBFormContainer .BBFormTextbox,
+    .BBFormContainer .BBFormTextArea {
+      padding-left:5px;
+      display:inline;
+      font-family:inherit;
+      float:none;
+    }
+    .BBFormContainer .BBFormSelectList {
+      border:1px solid #C4D1D8;
+      margin:0;
+      padding:2px;
+      font-family:inherit;
+      display:inline;
+    }
+    .BBFormContainer .BBFormSelectList.GhostText:not(:focus) {
+      color:#666;
+    }
+    .BBFormContainer .BBFormSelectListWrapper {
+      position:relative;
+      margin:0;
+      padding:0;
+    }
+    .BBFormContainer .BBFormSelectListWrapper .BBFormSelectList {
+      text-indent:.01px;
+      text-overflow:"";
+      -webkit-appearance:none;
+    }
+    .BBFormContainer .BBFormSelectListWrapper select.BBFormSelectList::-ms-expand {
+      display:none;
+    }
+    .BBFormContainer .BBFormSelectListWrapper:after {
+      content:"\25BC";
+      font-size:11px!important;
+      color:#666;
+      right:6px;
+      top:2px;
+      position:absolute;
+      pointer-events:none;
+    }
+    .BBFormContainer .BBTwoFields .BBFormSelectListWrapper:after,
+    .BBFormContainer .BBThreeFields .BBFormSelectListWrapper:after {
+      right:10px;
+    }
+    .BBFormContainer .BBExpirationCSC .BBFormSelectListWrapper:after {
+      right:2px\0;
+    }
+    .BBFormContainer .BBFormCurrency {
+      max-width:150px;
+    }
+    .BBFormContainer .BBFormSelectListWrapper:before {
+      content:'';
+      right:6px;
+      top:-2px;
+      width:22px;
+      height:22px;
+      background:#fff;
+      position:absolute;
+      pointer-events:none;
+      display:block;
+    }
+    .BBFormContainer .BBFormChecklist {
+      max-height:100px;
+      overflow:auto;
+      border:1px solid #ccc;
+    }
+    .BBFormContainer .BBFormChecklistItem {
+      padding:4px 4px 0 4px;
+    }
+    .BBFormContainer .BBFormChecklistCheck {
+      margin-right:4px;
+    }
+    .BBFormContainer .BBFormTextArea {
+      height:45px;
+      resize:none;
+      overflow:auto;
+      padding:5px;
+      font-size:inherit;
+      font-family:inherit;
+    }
+    .BBFormContainer .BBThreeFields .BBFormTextbox {
+      width:42%;
+      max-width:121px;
+      margin-right:5px;
+    }
+    .BBFormContainer .BBTwoFields .BBFormTextbox,
+    .BBFormContainer .BBTwoFields .BBFormSelectList {
+      width:50%;
+      max-width:171px;
+      margin-right:4px;
+    }
+    .BBFormContainer .BBThreeFields .BBFormSelectList {
+      width:20%;
+      max-width:90px;
+      margin-right:4px;
+    }
+    .BBFormContainer .BBCCreditType .BBFormFieldLabel {
+      visibility:hidden;
+    }
+    .BBFormContainer .BBCCreditType img {
+      display:inline;
+    }
+    .BBFormContainer .BBFormFieldContainer .BBCCreditType {
+      display:inline-block;
+      margin:0;
+    }
+    .BBFormContainer .BBCCreditType {
+      margin-top:-4px;
+      clear:both;
+    }
+    .BBFormContainer .BBFieldExpiration .BBFormSelectList,
+    .BBFormContainer .BBFieldExpiration .BBFormTextbox {
+      width:90px;
+    }
+    .BBFormContainer .BBFieldExpiration,
+    .BBFormContainer .BBFieldSecurityCode {
+      float:left;
+      margin-top:0;
+      margin-bottom:15px;
+      clear:none;
+    }
+    .BBFormContainer .BBFieldExpiration {
+      min-width:350px;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBFieldExpiration {
+      min-width:0;
+      margin-top:10px\0;
+    }
+    .BBFormContainer .BBFieldSecurityCode {
+      min-width:150px;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBFieldSecurityCode {
+      min-width:0;
+    }
+    .BBFormContainer .BBFieldSecurityCode .BBFormFieldLabel {
+      width:60px;
+      margin-left:-15px;
+    }
+    .BBFormContainer .BBFieldSecurityCode .BBFormTextbox {
+      margin-top:0;
+    }
+    .BBFormContainer .BBFieldExpiration .BBFormFieldLabel {
+      padding-right:20px;
+      margin-left:10px;
+      margin-right:-10px;
+    }
+    .BBFormContainer .BBAnonymous {
+      margin-top:20px;
+    }
+    .BBFormContainer .BBDFormSectionComments,
+    .BBFormContainer .BBDFormSectionComments .BBFormFieldContainer {
+      margin-top:0;
+    }
+    .BBFormContainer .BBDFormSectionComments .BBFormFieldLabel {
+      width:100%;
+      text-align:left;
+    }
+    .BBFormContainer .BBDFormSectionComments .BBFormFieldContainer {
+      margin-left:15px;
+    }
+    .BBFormContainer .BBDFormSectionComments .BBFormFieldLabel {
+      margin-left:161px;
+      line-height:normal;
+    }
+    .BBFormContainer .BBFieldAdditionalAmount .BBFormTextbox,
+    .BBFormContainer .BBFormGiftOtherAmount {
+      width:50%;
+      max-width:171px;
+    }
+    .BBFormContainer input#bboxdonation_gift_txtOtherAmountButtons.BBFormGiftOtherAmount {
+      color:#000;
+      opacity:1;
+    }
+    .BBFormContainer .BBFormFieldUKGiftAidLabel {
+      margin:0;
+      width:auto;
+      padding-right:10px;
+      float:left;
+      white-space:normal!important;
+      text-align:right;
+      line-height:12px;
+    }
+    .BBFormContainer .BBFormFieldUKGiftAidTermsLabel {
+      width:auto;
+      min-width:64px;
+      margin:12px 0 0 0;
+      font-size:.8em;
+      font-style:italic;
+      text-align:left;
+      line-height:1em;
+    }
+    .BBFormContainer .BBDFormSectionComments .BBFormTextArea {
+      margin-left:161px;
+      height:60px;
+    }
+    .BBFormContainer .BBFormProgressContainer {
+      display:inline-block;
+      vertical-align:baseline;
+      color:#666;
+      width:100%;
+    }
+    .BBFormContainer .BBFormProgressContainer .BBFormFieldContainer {
+      color:#666;
+      font-size:1em;
+    }
+    .BBFormContainer .BBFormProgress-Header {
+      margin-bottom:12px;
+    }
+    .BBFormContainer .BBFormProgress-Amount {
+      color:#333;
+      font-size:1.8em;
+    }
+    .BBFormContainer .BBFormProgress-Header-Raised,
+    .BBFormContainer .BBFormProgress-Header-Goal {
+      float:left;
+      display:inline-block;
+      white-space:nowrap;
+      margin:0;
+      width:50%;
+    }
+    .BBFormContainer .BBFormProgress-Header-Goal {
+      float:right;
+      text-align:right;
+    }
+    .BBFormContainer .BBFormProgress-Amount {
+      margin-bottom:12px;
+    }
+    .BBFormContainer .BBFormProgressBar-Summary {
+      clear:both;
+    }
+    .BBFormContainer .BBFormProgress-Title,
+    .BBFormContainer .BBFormProgress-Amount {
+      display:block;
+      width:100%;
+    }
+    .BBFormContainer .BBFormProgress-Title {
+      font-size:1.1em;
+      ;
+    }
+    .BBFormContainer .BBFormProgressBar-Summary {
+      height:16px;
+      margin-bottom:2px;
+      overflow:hidden;
+      background-color:#EEE;
+      border-radius:8px;
+      -webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,.1);
+      box-shadow:inset 0 1px 2px rgba(0,0,0,.1);
+    }
+    .BBFormContainer .BBFormProgress-Bar {
+      float:left;
+      width:0;
+      height:100%;
+      line-height:16px;
+      background-color:#06C;
+    }
+    .BBFormContainer .BBFormProgress-Bar-New {
+      opacity:.3;
+      transition:all .4s ease 0s;
+    }
+    .BBFormContainer .BBFormProgress-Footer {
+      margin-top:2px;
+    }
+    .BBFormContainer .BBFormProgress-Footer-Number {
+      width:33%;
+      float:left;
+      text-align:left;
+      margin:0;
+    }
+    .BBFormContainer .BBFormProgress-Footer-Middle {
+      text-align:center;
+    }
+    .BBFormContainer .BBFormProgress-Footer-End {
+      text-align:right;
+    }
+    @media(max-width:600px) {
+      .BBFormContainer .BBFormProgress-Footer-Number {
+        width:50%;
+      }
+      .BBFormContainer .BBFormProgress-Footer-Middle {
+        display:none;
+      }
+    }
+    .BBFormContainer .BBFormTextbox,
+    .BBFormContainer .BBFormSelectList,
+    .BBFormContainer .BBFormTextArea {
+      -moz-transition:all .5s ease-in-out 0s;
+      border-radius:4px;
+      border-shadow:0 0 3px #ccc inset;
+      background-color:#FFF;
+      border:1px solid #CCC;
+      line-height:1.2em;
+      min-height:30px;
+      FONT-SIZE:1em;
+    }
+    .BBFormContainer .BBFormTextbox:focus,
+    .BBFormContainer .BBFormTextArea:focus,
+    .BBFormContainer .BBFormTextArea:focus,
+    .BBFormContainer .BBselectMenuUnselected:focus {
+      box-shadow:0 0 6px #CCC;
+      background-color:#FFF;
+      color:initial;
+    }
+    .BBFormContainer .BBFormTextbox:not(:focus),
+    .BBFormContainer .BBFormTextArea:not(:focus),
+    .BBFormContainer .BBFormSelectList:not(:focus) {
+      opacity:.8;
+    }
+    .BBFormContainer .BBFormButtonRow {
+      margin-top:15px;
+      margin-bottom:25px;
+    }
+    .BBFormContainer .BBFormSubmitbutton {
+      background-color:#00B200;
+      border:0 solid #00B200;
+      box-shadow:1px 1px 1px #CCC;
+      border-radius:8px;
+      color:#fff;
+      cursor:pointer;
+      font-size:1.4em;
+      padding:15px 30px;
+      font-weight:bold;
+      margin-left:0;
+      height:auto;
+    }
+    .BBFormContainer .BBFormSubmitbutton:hover {
+      opacity:.85;
+    }
+    .BBFormContainer .BBFormSummaryTotal {
+      font-size:1.4em;
+      padding:15px 15px 15px 0;
+      font-weight:bold;
+    }
+    .BBFormContainer .BBFormFieldLabel_Help {
+      font-style:italic;
+      color:#666;
+      padding-left:5px;
+      line-height:30px;
+    }
+    .BBFormContainer .BBFormTable {
+      margin:10px 10px 10px 14px;
+      background-color:#fff;
+      width:370px;
+    }
+    .BBFormContainer .BBFormTableHeader {
+      color:#333;
+      BORDER-BOTTOM:1px #D0D0D0 solid;
+      font-weight:bold;
+      font-size:.9em;
+    }
+    .BBFormContainer .BBFormTableHeaderCell {
+      float:left;
+      padding-top:5px;
+      padding-bottom:5px;
+    }
+    .BBFormContainer .BBFormTableRow {
+      margin-top:6px;
+      margin-bottom:6px;
+    }
+    .BBFormContainer .BBFormTableRowCell {
+      float:left;
+      padding:4px 6px;
+    }
+    .BBFormContainer .BBTableRowCellFinePrint {
+      font-size:.8em;
+    }
+    .BBFormContainer .BBFormPriceDescription {
+      font-size:.9em;
+      padding-bottom:18px;
+    }
+    .BBFormContainer .BBFormTableFooter {
+      BORDER-top:1px #D0D0D0 solid;
+      padding-top:8px;
+      padding-bottom:4px;
+      font-size:1.2em;
+      font-weight:bold;
+    }
+    .BBFormContainer .BBFormTitle {
+      font-size:1.5em;
+      font-weight:normal;
+    }
+    .BBFormContainer .BBFormSubTitle {
+      font-size:14px;
+      font-weight:normal;
+    }
+    .BBFormContainer .BBFormErrorBlock {
+      background-color:#FFEE9B;
+      color:#000;
+      border:1px solid #B45F41;
+      padding:10px;
+      max-width:700px;
+      margin-bottom:10px;
+      border-radius:5px;
+    }
+    .BBFormContainer .BBFormErrorBlock.BBFormInlineError {
+      padding:10px 0;
+    }
+    .BBFormContainer .BBFormErrorBlock.BBFormInlineError.BBFieldSecurityCode,
+    .BBFormContainer .BBFormErrorBlock.BBFormInlineError.BBFormFieldContainerGivingLevels {
+      padding:10px;
+    }
+    .BBFormContainer .BBFormErrorBlock.BBFormInlineError.BBFieldExpiration {
+      padding:10px 10px 10px 0;
+    }
+    .BBFormContainer .BBFormErrorItem {
+      padding:5px 5px 2px 5px;
+      margin-left:18px;
+    }
+    .BBFormContainer .BBFormInlineErrorItem {
+      margin-left:157px;
+    }
+    .BBFormContainer .BBFormErrorNoMargin .BBFormInlineErrorItem {
+      margin:0;
+    }
+    .BBFormContainer .BBFieldSecurityCode .BBFormInlineErrorItem {
+      margin-left:43px;
+    }
+    .BBFormContainer .BBFormInlineErrorItem {
+      font-style:italic;
+    }
+    .BBFormContainer .BBFormClientErrorItem {
+      margin-left:18px;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBFormErrorBlock {
+      padding-left:10px;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBFormInlineErrorItem {
+      margin-left:0;
+      padding-left:0;
+    }
+    .BBFormContainer .BBClearFix {
+      clear:both;
+    }
+    .BBFormContainer .BBAddGiftTotal {
+      white-space:nowrap;
+    }
+    .BBFormContainer input::-webkit-input-placeholder,
+    .BBFormContainer .selectMenuUnselected {
+      color:#999;
+    }
+    .BBFormContainer input:-webkit-input-placeholder {
+      color:#999;
+    }
+    .BBFormContainer .BBselectMenuUnselected,
+    .BBFormContainer .BBFormFieldContainer .BBselectMenuUnselected {
+      color:#999;
+    }
+    .BBFormContainer input:-moz-placeholder {
+      color:#999;
+    }
+    .BBFormContainer textarea::-webkit-input-placeholder {
+      color:#999;
+    }
+    .BBFormContainer textarea:-moz-placeholder {
+      color:#999;
+    }
+    .BBFormContainer #mongo-css-ready {
+      color:#797979;
+    }
+    .BBFormContainer .BBFloatClear {
+      clear:both;
+      height:0;
+      line-height:0;
+      overflow:hidden;
+    }
+    .cluetip-BBForm {
+      z-index:9999!important;
+      border:1px solid darkGray;
+      font-size:.8em;
+      padding:6px;
+      background:white;
+      box-shadow:0 0 20px #a9a9a9;
+    }
+    #cluetip-title #cluetip-close {
+      float:right;
+      position:relative;
+      font-weight:normal;
+    }
+    #cluetip-title {
+      margin:3px 0 6px 0;
+      font-size:16px;
+      line-height:30px;
+    }
+    .cluetip-BBForm h2 {
+      font-size:16px;
+    }
+    #cluetip-close,
+    .cluetip-BBForm p,
+    .cluetip-BBForm td {
+      font-size:14px;
+    }
+    .cluetip-BBForm td {
+      vertical-align:middle;
+      padding:2px;
+    }
+    #cluetip-outer {
+      padding:2px 4px 6px 4px;
+    }
+    .BBFormContainer .BBFormNZAccountNumber1 {
+      width:30px!important;
+    }
+    .BBFormContainer .BBFormNZAccountNumber2 {
+      width:50px!important;
+    }
+    .BBFormContainer .BBFormNZAccountNumber3 {
+      width:80px!important;
+    }
+    .BBFormContainer .BBFormNZAccountNumber4 {
+      width:40px!important;
+    }
+    .BBFormContainer .BBFormSortCodeTextbox {
+      width:40px!important;
+    }
+    .BBFormContainer .BBFormPaymentChoice {
+      margin-bottom:10px;
+    }
+    .BBFormContainer .BBFormFieldContainerPaymentMethods {
+      display:table-cell;
+    }
+    .BBFormContainer .BBFormPaymentChoice .BBFormFieldContainer {
+      margin-bottom:4px;
+    }
+    .BBFormContainer .BBFormFieldContainer.BBFormPaymentRadioOptions,
+    .BBFormContainer .BBFormFieldContainer.BBFormGiftRadioOptions {
+      display:inline-block;
+    }
+    .BBFormContainer .BBFormPaymentRadioOptions {
+      margin:3px 6px 0 0;
+    }
+    .BBFormContainer .BBFormGiftRadioOptions {
+      margin:0 6px 0 0;
+    }
+    .BBFormContainer .BBFormPaymentRadioOptions .BBFormFieldLabelEdit,
+    .BBFormContainer .BBFormGiftRadioOptions .BBFormFieldLabelEdit {
+      transition:.4s ease all;
+      border-radius:6px;
+      cursor:pointer;
+      float:left;
+      padding:3px 14px;
+      width:auto;
+      text-align:center;
+      min-width:90px;
+    }
+    .BBFormContainer .BBFormRadioPaymentNotSelected,
+    .BBFormContainer .BBFormRadioGiftNotSelected {
+      color:#666;
+      border:1px solid #666;
+    }
+    .BBFormContainer .BBFormRadioPaymentNotSelected:hover,
+    .BBFormContainer .BBFormRadioGiftNotSelected:hover {
+      background:#F0F0F0;
+    }
+    .BBFormContainer .BBFormRadioPaymentSelected,
+    .BBFormContainer .BBFormRadioGiftSelected {
+      color:#fff;
+      background:#06C;
+      border:1px solid #06C;
+    }
+    .BBFormContainer .BBFormPaymentChoice input[type="radio"],
+    .BBFormContainer .BBFormGiftChoice input[type="radio"] {
+      position:absolute;
+      left:-9999px;
+    }
+    .BBFormContainer .BBLinkSecureInfo {
+      margin-left:160px;
+    }
+    .BBFormContainer .BBFormFieldLabel {
+      display:block;
+      margin:0;
+      width:160px;
+      padding-right:10px;
+      float:left;
+      white-space:normal!important;
+      text-align:right;
+      line-height:30px;
+    }
+    .BBFormContainer .BBFormFieldValueLabel {
+      line-height:30px;
+    }
+    .BBFormContainer .BBFormServiceUserNumberLabel {
+      width:180px;
+    }
+    .BBFormContainer .BBFormCheckboxLabel {
+      float:none;
+      display:inline;
+      text-align:left;
+      width:210px;
+    }
+    .BBFormContainer .BBShowHandheld,
+    .BBFormContainer .BBAccessibilityOnly,
+    .BBFormContainer label.BBAccessibilityOnly {
+      position:absolute;
+      left:-10000px;
+      top:auto;
+      width:1px;
+      height:1px;
+      overflow:hidden;
+      margin:0;
+      padding:0;
+      display:inline;
+    }
+    .BBFormContainer input.BBFormCheckbox.BBSVGSupport {
+      opacity:0;
+      margin:0;
+    }
+    .BBFormContainer .BBFormFieldContainer.BBSVGSupport {
+      padding-right:30px;
+    }
+    .BBFormContainer .BBFormFieldLabel.BBSVGSupport {
+      padding:0 32px 0 4px;
+      line-height:25px;
+      position:relative;
+      left:29px;
+    }
+    .BBFormContainer .BBFormCheckbox svg {
+      margin-left:-51px;
+      vertical-align:middle;
+      margin-right:10px;
+      margin-top:-3px;
+    }
+    .BBFormContainer .BBCheckboxChecked .BBSVGCheckboxTick {
+      stroke:#06C;
+    }
+    .BBFormContainer .BBSVGCheckboxShadow {
+      stroke:none;
+    }
+    .BBFormContainer .BBFormCheckbox:hover .BBSVGCheckboxShadow,
+    .BBFormContainer .BBSVGCheckbox:hover .BBSVGCheckboxShadow {
+      stroke:#000;
+    }
+    .BBFormContainer .BBCardImage {
+      display:inline;
+    }
+    .BBFormContainer .BBCardImage,
+    .BBFormContainer .hasTooltip img {
+      margin:0;
+      border:0;
+      box-shadow:none;
+    }
+    .BBFormContainer .BBFormTextbox.BBFormOtherDesignation {
+      margin-left:160px;
+    }
+    @-moz-document url-prefix() {
+      .BBFormContainer .BBFormSelectList {
+        padding-top:3.5px;
+        padding-bottom:3.5px;
+      }
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBFormFieldLabel {
+      width:100%;
+      max-width:none;
+      text-align:left;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBExpirationCSC .BBFormFieldLabel {
+      left:0;
+      min-width:240px;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBDFormSectionComments .BBFormFieldContainer {
+      margin:10px 15px;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBCCreditType .BBFormFieldLabel {
+      display:none;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBFieldExpiration .BBFormFieldLabel {
+      margin-left:15px;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBExpirationCSC .BBFormFieldLabel {
+      margin-left:0;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBFormSelectListWrapper:after {
+      right:8px;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBTwoFields .BBFormSelectListWrapper:after,
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBThreeFields .BBFormSelectListWrapper:after {
+      right:12px;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBExpirationCSC .BBFormFieldContainer {
+      margin-right:-15px;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBFormButtonRow {
+      text-align:left;
+      margin-top:0;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBFormSummaryTotal {
+      padding:15px 15px 15px 0;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBCCreditType {
+      margin-bottom:-10px\0;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBCardImageContainer {
+      margin-left:0;
+      margin-bottom:10px\0;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBFormTextbox.BBFormOtherDesignation {
+      margin-left:0;
+    }
+    .BBFormContainer .BBFormTextbox,
+    .BBFormContainer .BBFormSelectList,
+    .BBFormContainer .BBFormTextArea {
+      padding:4px\0;
+    }
+    .BBFormContainer .BBFormSelectList {
+      padding:6px 4px \;
+    }
+    .BBFormContainer .BBExpirationCSC .BBFormTextbox {
+      padding-right:0\0;
+    }
+    .BBFormContainer .BBFieldExpiration .BBFormFieldLabel {
+      padding-right:4px\0;
+      margin-right:-9px\0;
+    }
+    .BBFormContainer .BBFieldExpiration {
+      margin-left:14px\0;
+    }
+    .BBFormContainer .BBExpirationCSC .BBFormFieldLabel {
+      margin-left:0\0;
+    }
+    .BBFormContainer .BBExpirationCSC .BBFormSelectList {
+      margin-left:11px\0;
+      margin-right:-6px\0;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBExpirationCSC .BBFormSelectList {
+      margin-left:0\0;
+      margin-right:0\0;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBFormErrorBlock.BBFormInlineError.BBFieldExpiration {
+      padding:10px;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBFormSubmitbutton {
+      text-align:center;
+      display:block;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBFormSummaryTotal {
+      text-align:left;
+      display:block;
+      padding:10px 10px 10px 0;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBLinkSecureInfo {
+      margin-left:0;
+    }
+    @media(max-width:600px) {
+      .BBFormContainer .BBFormTextbox,
+      .BBFormContainer .BBFormSelectList,
+      .BBFormContainer .BBFormTextArea,
+      .BBFormContainer .BBFormFieldLabel,
+      .BBFormContainer .BBThreeFields .BBFormSelectList,
+      .BBFormContainer .BBThreeFields .BBFormTextbox,
+      .BBFormContainer .BBTwoFields .BBFormTextbox,
+      .BBFormContainer .BBDFormSectionComments .BBFormFieldLabel,
+      .BBFormContainer .BBDFormSectionComments .BBFormTextArea {
+        width:100%;
+        max-width:none;
+        text-align:left;
+      }
+      .BBFormContainer .BBFormTextbox,
+      .BBFormContainer .BBFormSelectList,
+      .BBFormContainer .BBFormTextArea,
+      .BBFormContainer .BBThreeFields .BBFormSelectList,
+      .BBFormContainer .BBThreeFields .BBFormTextbox,
+      .BBFormContainer .BBTwoFields .BBFormTextbox,
+      .BBFormContainer .BBDFormSectionComments .BBFormTextArea {
+        line-height:34px;
+        line-height:30px\0;
+        min-height:38px;
+      }
+      .BBFormContainer .BBFormTextbox,
+      .BBFormContainer .BBFormTextArea,
+      .BBFormContainer .BBThreeFields .BBFormTextbox,
+      .BBFormContainer .BBTwoFields .BBFormTextbox,
+      .BBFormContainer .BBDFormSectionComments .BBFormTextArea,
+      .BBFormContainer .BBFormSelectListWrapper .BBFormSelectList {
+        text-indent:4px;
+        padding-left:2px;
+      }
+      .BBFormContainer .BBFormSelectList,
+      .BBFormContainer .BBThreeFields .BBFormSelectList {
+        line-height:32px;
+      }
+      .BBFormContainer .BBFormIndivFields .BBTwoFields .BBFormTextbox:last-child {
+        margin-top:10px;
+      }
+      .BBFormContainer .BBFormIndivFields .BBTwoFields .BBFormTextbox:last-of-type {
+        margin-top:10px;
+      }
+      .BBFormContainer .BBThreeFields .BBFormSelectList,
+      .BBFormContainer .BBThreeFields .BBFormTextbox {
+        margin-bottom:10px;
+      }
+      .BBFormContainer .BBFormFieldTributeInfo .BBFormTextbox {
+        margin-left:0;
+      }
+      .BBFormContainer .BBFormTextbox.BBFormOtherDesignation {
+        margin-left:0;
+      }
+      .BBFormContainer .BBCCreditType .BBFormFieldLabel {
+        display:none;
+      }
+      .BBFormContainer .ShowHandheld,
+      .BBFormContainer .BBThreeFields .BBFormFieldContainer {
+        display:block;
+      }
+      .BBFormContainer .BBExpirationCSC .BBFormFieldLabel,
+      .BBFormContainer .BBDFormSectionComments .BBFormFieldLabel {
+        left:0;
+        margin-left:0;
+      }
+      .BBFormContainer .BBDFormSectionComments .BBFormTextArea {
+        margin-left:0;
+      }
+      .BBFormContainer .BBExpirationCSC .BBFormSelectListWrapper:after {
+        right:10px;
+      }
+      .BBFormContainer .BBFormFieldLabel {
+        text-align:left;
+      }
+      .BBFormContainer .BBThreeFields .BBFormSelectList,
+      .BBFormContainer .BBFieldBillingStateZip .BBFormTextbox {
+        width:42%;
+      }
+      .BBFormContainer .BBLinkSecureInfo {
+        margin-left:0;
+      }
+      .BBFormContainer .BBExpirationCSC,
+      .BBFormContainer .BBExpirationCSC .BBFormFieldContainer {
+        width:100%;
+      }
+      .BBFormContainer .BBExpirationCSC .BBFormSelectList {
+        width:42%;
+        margin-right:4px;
+        margin-left:0;
+      }
+      .BBFormContainer .BBFieldExpiration,
+      .BBFormContainer .BBFieldSecurityCode {
+        margin:0 15px 10px 15px;
+        min-width:0;
+      }
+      .BBFormContainer .BBFieldExpiration {
+        margin-bottom:15px;
+      }
+      .BBFormContainer .BBFieldSecurityCode .BBFormFieldLabel {
+        width:100%;
+      }
+      .BBFormContainer .BBFormButtonRow {
+        text-align:center;
+        margin-top:0;
+      }
+      .BBFormContainer .BBFormSubmitbutton,
+      .BBFormContainer .BBFormSummaryTotal {
+        width:100%;
+        text-align:center;
+        display:block;
+      }
+      .BBFormContainer .BBFormSummaryTotal {
+        padding:10px 10px 10px 0;
+      }
+      .BBFormContainer .BBCardImageContainer {
+        margin-left:0;
+        margin-bottom:10px\0;
+      }
+      .BBFormContainer .BBFormErrorBlock.BBFormInlineError {
+        padding:10px;
+      }
+      .BBFormContainer .BBFormInlineErrorItem {
+        margin-left:0;
+      }
+      .BBFormContainer .BBFieldSecurityCode .BBFormInlineErrorItem {
+        margin-left:0;
+      }
+      .BBFormContainer .BBFormErrorBlock.BBFormInlineError.BBFieldExpiration {
+        padding:10px;
+      }
+      @-moz-document url-prefix() {
+        .BBFormContainer .BBFieldExpiration .BBFormTextbox {
+          margin-left:0;
+        }
+        .BBFormContainer .BBFormSelectListWrapper .BBFormSelectList {
+          text-indent:.01px;
+        }
+        .BBFormContainer .BBFormSelectList {
+          padding-top:7.5px;
+          padding-bottom:7.5px;
+        }
+      }
+    }
+    .BBFormContainer #bbox_reCAPTCHA {
+      margin-left:160px;
+    }
+    .BBFormContainer #reCAPTCHADisclosure {
+      font-size:.8em;
+      ;
+      line-height:1em;
+      margin-left:175px;
+      text-align:left;
+    }
+    .BBFormContainer .BBFormFieldRecurrenceInfo {
+      padding-left:28px;
+      margin-top:6px;
+      font-style:italic;
+      font-size:.9em;
+    }
+    .BBFormContainer .BBFormFieldRecurrenceInfo .BBFormSelectList {
+      width:auto;
+    }
+    .BBFormContainer .BBFormFieldRecurrenceInfo .BBRecurrenceFieldContainer {
+      margin:10px 0;
+    }
+    .BBFormContainer .BBFormFieldPledgeInfo {
+      margin-top:18px;
+      font-style:italic;
+      font-size:.9em;
+    }
+    .BBFormContainer .BBTributeAcknowledge {
+      margin-top:15px;
+    }
+    .BBFormContainer .BBFormFieldTributeInfo .BBFormSelectList {
+      width:100%;
+      max-width:300px;
+    }
+    .BBFormContainer .BBFormFieldTributeInfo .BBFormTextbox {
+      margin-top:-4px;
+      width:100%;
+      max-width:300px;
+      margin-left:160px;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBFormFieldTributeInfo .BBFormTextbox {
+      margin-left:0;
+    }
+    .BBFormContainer .BBDFormSectionDesignationInfo .BBFormTextbox {
+      margin-top:10px;
+    }
+    .BBFormContainer.BBFormWidthNarrow-Less600 .BBDFormSectionDesignationInfo span {
+      display:none;
+    }
+    @media(max-width:600px) {
+      .BBFormContainer .BBFormFieldTributeInfo .BBFormTextbox {
+        margin-left:0;
+      }
+      .BBFormContainer .BBDFormSectionComments .BBFormFieldContainer {
+        margin-left:15px;
+      }
+      .BBFormContainer .BBDFormSectionDesignationInfo span {
+        display:none;
+      }
+      .BBFormContainer #bbox_reCAPTCHA {
+        margin-left:0;
+      }
+      .BBFormContainer #reCAPTCHADisclosure {
+        font-size:.8em;
+        line-height:1em;
+        margin-left:15px;
+        text-align:left;
+        width:240px;
+        word-break:break-word;
+      }
+    }
+    .BBFormContainer .BBFormConfirmationBoxWrapper {
+      background:rgba(0,0,0,.6);
+      cursor:wait;
+      display:none;
+      height:100%;
+      left:0;
+      overflow-y:auto;
+      position:fixed;
+      top:0;
+      width:100%;
+    }
+    body.BBFormStopBackgroundScroll {
+      overflow:hidden;
+      position:fixed;
+    }
+    .BBFormContainer .BBFormDDConfirmationBox {
+      box-shadow:0 20px 80px 5px rgba(0,0,0,.85);
+      background-color:white;
+      cursor:default;
+      display:block;
+      margin:50px auto auto auto;
+      max-width:700px;
+      padding:20px;
+      position:relative;
+      text-align:left;
+    }
+    .BBFormContainer .BBFormDDConfirmationBox .BBFormFieldContainer {
+      margin-bottom:0;
+      margin-top:0;
+    }
+    .BBFormContainer .BBFormDDConfirmationBox .BBFormBoxActionButtons {
+      margin:0;
+    }
+    .BBFormContainer .BBFormDDConfirmationBox .BBFormBoxHeader {
+      font-size:18px;
+      font-weight:bold;
+    }
+    .BBFormContainer .BBFormDDConfirmationBox .BBFormBoxContent {
+      border:2px solid #d6d6d6;
+      margin:20px 0;
+      padding:10px;
+    }
+    .BBFormContainer .BBFormDDConfirmationBox .BBFormBackbutton {
+      background:none;
+      border:none;
+      box-shadow:none;
+      color:#2f6bc7;
+      font-weight:normal;
+      outline:none;
+    }
+    .BBFormContainer .BBFormDDConfirmationBox .BBFormBackbutton:hover {
+      text-decoration:underline;
+    }
+    .BBFormContainer .BBFormDDConfirmationBox .BBFormFieldLabel {
+      font-weight:bold;
+      width:200px;
+    }
+    .BBFormContainer .BBFormUKConfirmationCheckContainer.BBFormErrorBlock.BBFormInlineError {
+      padding-left:15px;
+      padding-right:15px;
+    }
+    @media(max-width:700px) {
+      .BBFormContainer .BBFormDDConfirmationBox {
+        width:auto;
+        margin:1px 1px auto 1px;
+      }
+    }
+    @media(max-width:600px) {
+      .BBFormContainer .BBFormDDConfirmationBox .BBFormFieldLabel {
+        width:100%;
+      }
+    }
+  </style>
+{% endblock %}
+
+
+{% block body_class %}
+  app--guide no-hero
+{% endblock %}
+
+{% block content %}
+  <div class="page page--no-hero">
+
+    <header class="page__header bg bg--dark">
+      <div class="title-area title-area--guide grid">
+        <div class="title-area__content">
+          <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
+            {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
+          </nav>
+          <h1 class="title-area__heading heading heading--display-two" id="main-content">
+            {{ page.title }}
+          </h1>
+          <div class="title-area__meta">
+            Last updated {{ page.last_published_at|date:'j F Y' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="introduction introduction--indented grid">
+        {% if anchor_nav or page.contact_model_image %}
+          {% include "patterns/molecules/anchor-nav/anchor-nav.html" with anchor_nav=anchor_nav show_contact_block=page.contact_model_image  %}
+        {% endif %}
+        <div class="introduction__container">
+          {% if page.introduction %}
+            <h2 class="introduction__text section__heading heading heading--five">
+              {{ page.introduction }}
+            </h2>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="page__content">
+
+    <section class="section bg bg--light">
+
+      <div class="section__notch">
+        <div class="section__notch-fill section__notch-fill--second-col"></div>
+      </div>
+
+      <div class="section__row {% if not related_staff %}section__row--last{% endif %} section__row--first grid">
+        <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+          {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body guide_page=True %}
+        </div>
+      </div>
+
+    </section>
+    <section class="section bg bg--dark">
+      <div class="section__row section__row--last section__row--first grid">
+        <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+          <div class="donate-form anchor-heading" id="bbox-root" data-scrollama-index="0"><div id="bbox-msg-wrapper" style="display: none;"><img src="https://bbox.blackbaudhosting.com/webforms/images/ajax_loader_border2.gif" style="vertical-align:middle;" alt="Loading Page"><span id="bbox-msg" style="padding:10px;"></span></div><form id="mongo-form"><div id="bboxdonation_BBEmbeddedForm" class="BBFormContainer" data-bbox-part-id="6f6975f1-a557-49e4-8cb4-f4025ac890fa">
+            <div id="bboxdonation_divForm">
+
+              <div id="divClientError" class="BBFormErrorBlock" style="display: none"></div>
+
+              <div class="BBFormSection BBDFormSectionGiftInfo">
+                <fieldset>
+                  <legend>
+                    <div class="BBFormSectionHeading">
+                      <label id="bboxdonation_gift_lblHeadingDonation" class="BBFormFieldLabelEdit">Donation</label>
+
+                    </div>
+                  </legend>
+
+
+
+                  <div id="bboxdonation_gift_fldAmountWithLevels" class="BBFormFieldContainer BBFormFieldContainerGivingLevels BBFormErrorNoMargin" data-style="Narrow_Buttons">
+                    <span id="bboxdonation_gift_lblGivingLevels" class="BBFormFieldLabelGivingLevel BBFormFieldLabel BBFormFieldLabelEdit" style="display:none;">Gift amount:</span>
+                    <div id="bboxdonation_gift_rdlstGivingLevels" class="BBFormRadioList"><div class="BBFormRadioItem BBFormRadioGivingLevelItem" tabindex="0"><div class="BBFormRadioButtonContainer"><input value="1000" name="bboxdonation$gift$GivingLevel" type="radio" id="bboxdonation_gift_rdGivingLevel1" class="BBFormRadioButton BBFormRadioGivingLevel"><label for="bboxdonation_gift_rdGivingLevel1" class="BBFormRadioLabel BBFormRadioLabelGivingLevel BBFormRadioLabelGivingLevelNotSelected"><span class="BBFormRadioAmount">£1,000</span></label></div></div><div class="BBFormRadioItem BBFormRadioGivingLevelItem" tabindex="0"><div class="BBFormRadioButtonContainer"><input value="100" name="bboxdonation$gift$GivingLevel" type="radio" id="bboxdonation_gift_rdGivingLevel2" checked="checked" class="BBFormRadioButton BBFormRadioGivingLevel BBFormRadioGivingLevelSelected"><label for="bboxdonation_gift_rdGivingLevel2" class="BBFormRadioLabel BBFormRadioLabelGivingLevel BBFormRadioLabelGivingLevelSelected"><span class="BBFormRadioAmount">£100</span></label></div></div><div class="BBFormRadioItem BBFormRadioGivingLevelItem" tabindex="0"><div class="BBFormRadioButtonContainer"><input value="50" name="bboxdonation$gift$GivingLevel" type="radio" id="bboxdonation_gift_rdGivingLevel3" class="BBFormRadioButton BBFormRadioGivingLevel"><label for="bboxdonation_gift_rdGivingLevel3" class="BBFormRadioLabel BBFormRadioLabelGivingLevel BBFormRadioLabelGivingLevelNotSelected"><span class="BBFormRadioAmount">£50</span></label></div></div><div class="BBFormRadioItem BBFormRadioGivingLevelItem" tabindex="0"><div class="BBFormRadioButtonContainer"><input value="25" name="bboxdonation$gift$GivingLevel" type="radio" id="bboxdonation_gift_rdGivingLevel4" class="BBFormRadioButton BBFormRadioGivingLevel"><label for="bboxdonation_gift_rdGivingLevel4" class="BBFormRadioLabel BBFormRadioLabelGivingLevel BBFormRadioLabelGivingLevelNotSelected"><span class="BBFormRadioAmount">£25</span></label></div></div><div class="BBFormRadioItem BBFormRadioGivingLevelItem" tabindex="0"><div class="BBFormRadioButtonContainer"><input value="rdGivingLevel5" name="bboxdonation$gift$GivingLevel" type="radio" id="bboxdonation_gift_rdGivingLevel5" data-min-payment="1" title="Other gift amount" class="BBFormRadioButton BBFormRadioGivingLevel BBFormRadioGivingLevelOther"><label for="bboxdonation_gift_rdGivingLevel5" title="Other gift amount" aria-labelledby="bboxdonation_gift_rdGivingLevel5" class="BBFormRadioLabel BBFormRadioLabelGivingLevel BBFormRadioLabelGivingLevelNotSelected BBFormRadioLabelGivingLevelOther"><span class="BBFormRadioDescriptionOther">Other</span><input name="bboxdonation$gift$txtOtherAmountButtons" type="text" id="bboxdonation_gift_txtOtherAmountButtons" class="BBFormTextbox BBFormGiftOtherAmount BBFormCurrency" placeholder="£" data-culture="en-GB" aria-labelledby="bboxdonation_gift_rdGivingLevel5" title="Other gift amount"></label></div></div></div>
+                    <div class="BBClearFix">
+                    </div>
+                  </div>
+
+
+
+                  <div id="bboxdonation_gift_fldPledgeAmountWhenNoLevels" class="BBFormFieldContainer BBFormNoLevels BBFormPledgeFields" style="display: none;">
+                    <label for="bboxdonation_gift_txtAmountPledge" id="bboxdonation_gift_lblAmountPledge" class="BBFormFieldLabel BBFormFieldLabelAmount BBFormFieldLabelEdit">Amount:</label>
+                    <input name="bboxdonation$gift$txtAmountPledge" type="text" id="bboxdonation_gift_txtAmountPledge" class="BBFormTextbox BBFormCurrency" required="required" placeholder="£" data-culture="en-GB" data-min-payment="10.0000">
+                  </div>
+
+
+
+                  <div id="bboxdonation_gift_fldUKGiftAid" class="BBFormFieldContainer">
+                    <input name="bboxdonation$gift$chkUKGiftAid" type="checkbox" id="bboxdonation_gift_chkUKGiftAid">
+                    <label for="bboxdonation_gift_chkUKGiftAid" id="bboxdonation_gift_lblUKGiftAid" class="BBFormFieldUKGiftAidLabel BBFormCheckbox BBFormCheckboxLabel BBFormFieldLabelEdit">Please reclaim Gift Aid taxes on my donations. This includes all donations for this year and the previous four years, plus any future donations unless I notify you otherwise.</label>
+                    <a href="http://www.hmrc.gov.uk/individuals/giving/gift-aid.htm" rel="noopener noreferrer" target="_blank">What is Gift Aid?</a>
+                    <br>
+                    <div aria-labelledby="bboxdonation_gift_chkUKGiftAid">
+                      <span id="bboxdonation_gift_lblUKGiftAidTerms" class="BBFormFieldUKGiftAidTermsLabel BBFormFieldLabelEdit">I confirm I have paid or will pay an amount of Income Tax and/or Capital Gains Tax for each tax year (6 April to 5 April) that is at least equal to the amount of tax that all the charities or Community Amateur Sports Clubs (CASCs) that I donate to will reclaim on my gifts for that tax year. I understand that other taxes such as VAT and Council Tax do not qualify. I understand the charity will reclaim 25p of tax on every £1 that I give or have given in the last four tax years.</span>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <input name="bboxdonation$gift$hdnGivingLevelButtonsEnabled" type="hidden" id="bboxdonation_gift_hdnGivingLevelButtonsEnabled" class="hdnGivingLevelButtonsEnabled" value="true">
+              <input name="bboxdonation$gift$hdnPledgeDuration" type="hidden" id="bboxdonation_gift_hdnPledgeDuration" class="hdnPledgeDuration">
+              <input name="bboxdonation$gift$hdnPledgePayment" type="hidden" id="bboxdonation_gift_hdnPledgePayment" class="hdnPledgePayment">
+              <input name="bboxdonation$gift$hdnGiftButtonsStyle" type="hidden" id="bboxdonation_gift_hdnGiftButtonsStyle" class="hdnGiftButtonsStyle"><div id="bboxdonation_designation_divSection" class="BBFormSection BBDFormSectionDesignationInfo" style="display:none;">
+                <fieldset>
+                  <legend>
+                    <div class="BBFormSectionHeading">
+                      <label id="bboxdonation_designation_lblHeadingDesignation" class="BBFormFieldLabelEdit">Designation</label>
+                    </div>
+                  </legend>
+                  <div class="BBFormFieldContainer">
+                    <label for="bboxdonation_designation_ddDesignations" id="bboxdonation_designation_lblDesignation" class="BBFormFieldLabel BBFormFieldLabelEdit">Designation:</label>
+                    <select name="bboxdonation$designation$ddDesignations" id="bboxdonation_designation_ddDesignations" class="BBFormSelectList">
+                      <option value="304">GenerationRCA Fund</option>
+                    </select>
+                    <label for="bboxdonation_designation_txtOtherDesignation" id="bboxdonation_designation_lblOtherDesignation" style="display: none;">other Designation:</label>
+                    <input name="bboxdonation$designation$txtOtherDesignation" type="text" id="bboxdonation_designation_txtOtherDesignation" class="BBFormTextbox BBFormOtherDesignation" placeholder="other designation (optional)" style="display: none;">
+                  </div>
+                  <div class="BBFormFieldContainer BBFormOtherDesignationContatiner" style="display: none;">
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="BBFormSection BBDFormSectionComments">
+                <fieldset>
+                  <legend></legend>
+
+                  <div id="bboxdonation_comment_fldComments" class="BBFormFieldContainer">
+                    <label for="bboxdonation_comment_txtComments" id="bboxdonation_comment_lblComments" class="BBFormFieldLabel BBFormFieldLabelEdit">Comments:</label>
+                    <textarea name="bboxdonation$comment$txtComments" id="bboxdonation_comment_txtComments" class="BBFormTextArea" rows="2" cols="30" maxlength="255" placeholder="optional"></textarea>
+                  </div>
+                </fieldset>
+              </div><div id="bboxdonation_billing_divBillingSection" class="BBFormSection BBDFormSectionBillingInfo BBFormAddressBlock" data-section="Billing">
+                <fieldset>
+                  <legend>
+                    <div id="bboxdonation_billing_divBillingHeader" class="BBFormSectionHeading">
+                      <label id="bboxdonation_billing_lblHeadingContact" class="BBFormFieldLabelEdit">Billing Address</label>
+                    </div>
+                  </legend>
+
+
+
+                  <div id="fldOrgInfo" class="BBFormOrgFields" style="display: none;">
+                    <div class="BBFormFieldContainer BBFormFieldContainerRequired">
+                      <label for="bboxdonation_billing_txtOrgName" id="bboxdonation_billing_lblOrgName" class="BBFormFieldLabel BBFormFieldLabelEdit ">Organization name:</label>
+                      <input name="bboxdonation$billing$txtOrgName" type="text" id="bboxdonation_billing_txtOrgName" class="BBFormTextbox" required="required" data-billing-field="orgname" maxlength="60">
+                    </div>
+                  </div>
+
+                  <div id="fldIndivInfo" class="BBFormIndivFields">
+                    <div id="divName" class="BBFormFieldContainer BBFormFieldContainerRequired  BBThreeFields">
+
+                      <span id="bboxdonation_billing_lblFullName" class="BBFormFieldLabel BBFormFieldLabelEdit">Name:</span>
+
+                      <label for="bboxdonation_billing_ddTitle" id="bboxdonation_billing_lblTitle" class="BBFormFieldLabel BBFormFieldLabelEdit BBAccessibilityOnly">Title:</label>
+                      <select name="bboxdonation$billing$ddTitle" id="bboxdonation_billing_ddTitle" class="BBFormSelectList GhostText" data-billing-field="title" required="required">
+                        <option selected="selected" value="0" default="default">title</option>
+                        <option value="Baron">Baron</option>
+                        <option value="Baroness">Baroness</option>
+                        <option value="Councillor">Councillor</option>
+                        <option value="Count">Count</option>
+                        <option value="Countess">Countess</option>
+                        <option value="Dame">Dame</option>
+                        <option value="Dr">Dr</option>
+                        <option value="Duchess of">Duchess of</option>
+                        <option value="Earl">Earl</option>
+                        <option value="Father">Father</option>
+                        <option value="Frau">Frau</option>
+                        <option value="Herr">Herr</option>
+                        <option value="HRH">HRH</option>
+                        <option value="Judge">Judge</option>
+                        <option value="Justice">Justice</option>
+                        <option value="Lady">Lady</option>
+                        <option value="Lieutenant">Lieutenant</option>
+                        <option value="Lord">Lord</option>
+                        <option value="Madam">Madam</option>
+                        <option value="Madame">Madame</option>
+                        <option value="Miss">Miss</option>
+                        <option value="Monsieur">Monsieur</option>
+                        <option value="Mr">Mr</option>
+                        <option value="Mrs">Mrs</option>
+                        <option value="Ms">Ms</option>
+                        <option value="Prince">Prince</option>
+                        <option value="Princess">Princess</option>
+                        <option value="Professor">Professor</option>
+                        <option value="Rabbi">Rabbi</option>
+                        <option value="Senor">Senor</option>
+                        <option value="Sheikh">Sheikh</option>
+                        <option value="Sheikha">Sheikha</option>
+                        <option value="Signor">Signor</option>
+                        <option value="Signora">Signora</option>
+                        <option value="Sir">Sir</option>
+                        <option value="The Hon">The Hon</option>
+                        <option value="The Honourable">The Honourable</option>
+                        <option value="The Reverend">The Reverend</option>
+                        <option value="The Rt Hon">The Rt Hon</option>
+                        <option value="Viscount">Viscount</option>
+                      </select>
+
+                      <label for="bboxdonation_billing_txtFirstName" id="bboxdonation_billing_lblFirstName" class="BBFormFieldLabel BBFormFieldLabelEdit BBAccessibilityOnly">First name:</label>
+                      <input name="bboxdonation$billing$txtFirstName" type="text" id="bboxdonation_billing_txtFirstName" class="BBFormTextbox" data-billing-field="firstname" maxlength="50" required="required" placeholder="first name">
+
+                      <label for="bboxdonation_billing_txtLastName" id="bboxdonation_billing_lblLastName" class="BBFormFieldLabel BBFormFieldLabelEdit BBAccessibilityOnly">Last name:</label>
+                      <input name="bboxdonation$billing$txtLastName" type="text" id="bboxdonation_billing_txtLastName" class="BBFormTextbox" data-billing-field="lastname" maxlength="100" required="required" placeholder="last name">
+                    </div>
+                  </div>
+
+                  <div id="bboxdonation_billing_divEmail" class="BBFormFieldContainer BBFormFieldContainerRequired BBFormBillingEmail">
+                    <label for="bboxdonation_billing_txtEmail" id="bboxdonation_billing_lblEmail" class="BBFormFieldLabel BBFormFieldLabelEdit">Email:</label>
+                    <input name="bboxdonation$billing$txtEmail" type="email" id="bboxdonation_billing_txtEmail" class="BBFormTextbox" data-billing-field="email" required="required">
+                  </div>
+
+                  <div id="bboxdonation_billing_divPhone" class="BBFormFieldContainer BBFormBillingPhone BBFormFieldContainerRequired">
+                    <label for="bboxdonation_billing_txtPhone" id="bboxdonation_billing_lblPhone" class="BBFormFieldLabel BBFormFieldLabelEdit">Phone:</label>
+                    <input name="bboxdonation$billing$txtPhone" type="tel" id="bboxdonation_billing_txtPhone" class="BBFormTextbox" data-billing-field="phone" placeholder="optional">
+                  </div>
+
+
+                  <div class="BBFormAddress">
+                    <div class="BBFormFieldContainer BBFormFieldContainerRequired">
+                      <label for="bboxdonation_billing_billingAddress_ddCountry" id="bboxdonation_billing_billingAddress_lblCountry" class="BBFormFieldLabel BBFormFieldLabelEdit">Country:</label>
+                      <select name="bboxdonation$billing$billingAddress$ddCountry" id="bboxdonation_billing_billingAddress_ddCountry" class="BBFormSelectList BBFormCountryDropDown" required="required">
+                        <option value="Albania" data-country-format="2" data-short-text="AL">Albania</option>
+                        <option value="Argentina" data-country-format="2" data-short-text="AR">Argentina</option>
+                        <option value="Australia" data-country-format="4" data-short-text="AU">Australia</option>
+                        <option value="Austria" data-country-format="2" data-short-text="AT">Austria</option>
+                        <option value="Azerbaijan" data-country-format="2" data-short-text="AZ">Azerbaijan</option>
+                        <option value="Bangladesh" data-country-format="2" data-short-text="BD">Bangladesh</option>
+                        <option value="Barbados" data-country-format="2" data-short-text="BB">Barbados</option>
+                        <option value="Belgium" data-country-format="2" data-short-text="BE">Belgium</option>
+                        <option value="Bermuda" data-country-format="2" data-short-text="BM">Bermuda</option>
+                        <option value="Brazil" data-country-format="2" data-short-text="BR">Brazil</option>
+                        <option value="Bulgaria" data-country-format="2" data-short-text="BG">Bulgaria</option>
+                        <option value="Canada" data-country-format="3" data-short-text="CA">Canada</option>
+                        <option value="Chile" data-country-format="2" data-short-text="CL">Chile</option>
+                        <option value="China" data-country-format="2" data-short-text="CN">China</option>
+                        <option value="Colombia" data-country-format="2" data-short-text="CO">Colombia</option>
+                        <option value="Costa Rica" data-country-format="2" data-short-text="CR">Costa Rica</option>
+                        <option value="Croatia" data-country-format="2" data-short-text="HR">Croatia</option>
+                        <option value="Cuba" data-country-format="2" data-short-text="CU">Cuba</option>
+                        <option value="Cyprus" data-country-format="2" data-short-text="CY">Cyprus</option>
+                        <option value="Czech Republic" data-country-format="2" data-short-text="CZ">Czech Republic</option>
+                        <option value="Denmark" data-country-format="2" data-short-text="DK">Denmark</option>
+                        <option value="Egypt" data-country-format="2" data-short-text="EG">Egypt</option>
+                        <option value="Estonia" data-country-format="2" data-short-text="EE">Estonia</option>
+                        <option value="Finland" data-country-format="2" data-short-text="FI">Finland</option>
+                        <option value="France" data-country-format="2" data-short-text="FR">France</option>
+                        <option value="Germany" data-country-format="2" data-short-text="DE">Germany</option>
+                        <option value="Ghana" data-country-format="2" data-short-text="GH">Ghana</option>
+                        <option value="Greece" data-country-format="2" data-short-text="GR">Greece</option>
+                        <option value="Greenland" data-country-format="2" data-short-text="GL">Greenland</option>
+                        <option value="Hong Kong" data-country-format="2" data-short-text="HK">Hong Kong</option>
+                        <option value="Hungary" data-country-format="2" data-short-text="HU">Hungary</option>
+                        <option value="Iceland" data-country-format="2" data-short-text="IS">Iceland</option>
+                        <option value="India" data-country-format="2" data-short-text="IN">India</option>
+                        <option value="Indonesia" data-country-format="2" data-short-text="ID">Indonesia</option>
+                        <option value="Iran" data-country-format="2" data-short-text="IR">Iran</option>
+                        <option value="Ireland" data-country-format="2" data-short-text="IE">Ireland</option>
+                        <option value="Israel" data-country-format="2" data-short-text="IL">Israel</option>
+                        <option value="Italy" data-country-format="2" data-short-text="IT">Italy</option>
+                        <option value="Japan" data-country-format="2" data-short-text="JP">Japan</option>
+                        <option value="Jordan" data-country-format="2" data-short-text="JO">Jordan</option>
+                        <option value="Kazakhstan" data-country-format="2" data-short-text="KZ">Kazakhstan</option>
+                        <option value="Kenya" data-country-format="2" data-short-text="KE">Kenya</option>
+                        <option value="Korea" data-country-format="2" data-short-text="KR">Korea</option>
+                        <option value="Kuwait" data-country-format="2" data-short-text="KW">Kuwait</option>
+                        <option value="Latvia" data-country-format="2" data-short-text="LV">Latvia</option>
+                        <option value="Lebanon" data-country-format="2" data-short-text="LB">Lebanon</option>
+                        <option value="Lithuania" data-country-format="2" data-short-text="LT">Lithuania</option>
+                        <option value="Luxembourg" data-country-format="2" data-short-text="LU">Luxembourg</option>
+                        <option value="Malaysia" data-country-format="2" data-short-text="MY">Malaysia</option>
+                        <option value="Malta" data-country-format="2" data-short-text="MT">Malta</option>
+                        <option value="Mexico" data-country-format="2" data-short-text="MX">Mexico</option>
+                        <option value="Monaco" data-country-format="2" data-short-text="MC">Monaco</option>
+                        <option value="Morocco" data-country-format="2" data-short-text="MA">Morocco</option>
+                        <option value="Nepal" data-country-format="2" data-short-text="NP">Nepal</option>
+                        <option value="Netherlands" data-country-format="2" data-short-text="NL">Netherlands</option>
+                        <option value="New Zealand" data-country-format="5" data-short-text="NZ">New Zealand</option>
+                        <option value="Norway" data-country-format="2" data-short-text="NO">Norway</option>
+                        <option value="Oman" data-country-format="2" data-short-text="OM">Oman</option>
+                        <option value="Pakistan" data-country-format="2" data-short-text="PK">Pakistan</option>
+                        <option value="Peru" data-country-format="2" data-short-text="PE">Peru</option>
+                        <option value="Philippines" data-country-format="2" data-short-text="PH">Philippines</option>
+                        <option value="Poland" data-country-format="2" data-short-text="PL">Poland</option>
+                        <option value="Portugal" data-country-format="2" data-short-text="PT">Portugal</option>
+                        <option value="Puerto Rico" data-country-format="2" data-short-text="PR">Puerto Rico</option>
+                        <option value="Qatar" data-country-format="2" data-short-text="QA">Qatar</option>
+                        <option value="Romania" data-country-format="2" data-short-text="RO">Romania</option>
+                        <option value="Saudi Arabia" data-country-format="2" data-short-text="SA">Saudi Arabia</option>
+                        <option value="Serbia" data-country-format="2" data-short-text="RS">Serbia</option>
+                        <option value="Seychelles" data-country-format="2" data-short-text="SC">Seychelles</option>
+                        <option value="Singapore" data-country-format="2" data-short-text="SG">Singapore</option>
+                        <option value="Slovakia" data-country-format="2" data-short-text="SK">Slovakia</option>
+                        <option value="Slovenia" data-country-format="2" data-short-text="SI">Slovenia</option>
+                        <option value="South Africa" data-country-format="2" data-short-text="ZA">South Africa</option>
+                        <option value="South Korea" data-country-format="2" data-short-text="KR">South Korea</option>
+                        <option value="Spain" data-country-format="2" data-short-text="ES">Spain</option>
+                        <option value="Sudan" data-country-format="2" data-short-text="SD">Sudan</option>
+                        <option value="Sweden" data-country-format="2" data-short-text="SE">Sweden</option>
+                        <option value="Switzerland" data-country-format="2" data-short-text="CH">Switzerland</option>
+                        <option value="Thailand" data-country-format="2" data-short-text="TH">Thailand</option>
+                        <option value="Turkey" data-country-format="2" data-short-text="TR">Turkey</option>
+                        <option value="Ukraine" data-country-format="2" data-short-text="UA">Ukraine</option>
+                        <option value="United Arab Emirates" data-country-format="2" data-short-text="AE">United Arab Emirates</option>
+                        <option selected="selected" value="United Kingdom" data-country-format="2" data-short-text="GB">United Kingdom</option>
+                        <option value="USA" data-country-format="1" data-short-text="US">USA</option>
+                      </select>
+                    </div>
+
+
+                    <div class="BBFormFieldContainer BBFormFieldContainerRequired">
+                      <label for="bboxdonation_billing_billingAddress_txtAddress" id="bboxdonation_billing_billingAddress_lblAddress" class="BBFormFieldLabel BBFormFieldLabelEdit">Address:</label>
+                      <textarea name="bboxdonation$billing$billingAddress$txtAddress" id="bboxdonation_billing_billingAddress_txtAddress" class="BBFormTextArea" rows="2" cols="30" required="required" data-country-field="address" maxlength="150"></textarea>
+                    </div>
+
+
+                    <div class="BBFormFieldContainer BBFormFieldContainerRequired" data-country-format-for="1" style="display: none;">
+                      <label for="bboxdonation_billing_billingAddress_txtCity" id="bboxdonation_billing_billingAddress_lblCity" class="BBFormFieldLabel BBFormFieldLabelEdit">City:</label>
+                      <input name="bboxdonation$billing$billingAddress$txtCity" type="text" id="bboxdonation_billing_billingAddress_txtCity" class="BBFormTextbox" data-country-field="city" data-country-sync="1" required="required" maxlength="50">
+                    </div>
+
+                    <div class="BBTwoFields BBFieldBillingStateZip">
+                      <div class="BBFormFieldContainer BBFormFieldContainerRequired" data-country-format-for="1" style="display: none;">
+                        <label for="bboxdonation_billing_billingAddress_ddState" id="bboxdonation_billing_billingAddress_lblStateZip" class="BBFormFieldLabel BBFormFieldLabelEdit">State &amp; zip:</label>
+
+                        <div aria-describedby="bboxdonation_billing_billingAddress_ddState">
+                          <span id="bboxdonation_billing_billingAddress_lblState" class="BBFormFieldLabel BBFormFieldLabelEdit BBAccessibilityOnly">State:</span>
+                        </div>
+                        <select name="bboxdonation$billing$billingAddress$ddState" id="bboxdonation_billing_billingAddress_ddState" class="BBFormSelectList GhostText" data-country-sync="1" data-country-field="state" required="required">
+                          <option selected="selected" value="" default="default">state</option>
+                          <option value="AL">AL</option>
+                          <option value="AK">AK</option>
+                          <option value="AB">AB</option>
+                          <option value="AS">AS</option>
+                          <option value="AZ">AZ</option>
+                          <option value="AR">AR</option>
+                          <option value="ACT">ACT</option>
+                          <option value="BC">BC</option>
+                          <option value="CA">CA</option>
+                          <option value="CO">CO</option>
+                          <option value="CT">CT</option>
+                          <option value="DE">DE</option>
+                          <option value="DC">DC</option>
+                          <option value="FM">FM</option>
+                          <option value="FL">FL</option>
+                          <option value="GA">GA</option>
+                          <option value="GU">GU</option>
+                          <option value="HI">HI</option>
+                          <option value="ID">ID</option>
+                          <option value="IL">IL</option>
+                          <option value="IN">IN</option>
+                          <option value="IA">IA</option>
+                          <option value="KS">KS</option>
+                          <option value="KY">KY</option>
+                          <option value="LA">LA</option>
+                          <option value="ME">ME</option>
+                          <option value="MB">MB</option>
+                          <option value="MH">MH</option>
+                          <option value="MD">MD</option>
+                          <option value="MA">MA</option>
+                          <option value="MI">MI</option>
+                          <option value="MN">MN</option>
+                          <option value="MS">MS</option>
+                          <option value="MO">MO</option>
+                          <option value="MT">MT</option>
+                          <option value="NE">NE</option>
+                          <option value="NV">NV</option>
+                          <option value="NB">NB</option>
+                          <option value="NH">NH</option>
+                          <option value="NJ">NJ</option>
+                          <option value="NM">NM</option>
+                          <option value="NSW">NSW</option>
+                          <option value="NY">NY</option>
+                          <option value="NL">NL</option>
+                          <option value="NC">NC</option>
+                          <option value="ND">ND</option>
+                          <option value="MP">MP</option>
+                          <option value="NT">NT</option>
+                          <option value="NS">NS</option>
+                          <option value="NU">NU</option>
+                          <option value="OH">OH</option>
+                          <option value="OK">OK</option>
+                          <option value="ON">ON</option>
+                          <option value="OR">OR</option>
+                          <option value="PW">PW</option>
+                          <option value="PA">PA</option>
+                          <option value="PE">PE</option>
+                          <option value="PR">PR</option>
+                          <option value="QC">QC</option>
+                          <option value="QLD">QLD</option>
+                          <option value="RI">RI</option>
+                          <option value="SK">SK</option>
+                          <option value="SA">SA</option>
+                          <option value="SC">SC</option>
+                          <option value="SD">SD</option>
+                          <option value="TAS">TAS</option>
+                          <option value="TN">TN</option>
+                          <option value="TX">TX</option>
+                          <option value="UT">UT</option>
+                          <option value="VT">VT</option>
+                          <option value="VIC">VIC</option>
+                          <option value="VI">VI</option>
+                          <option value="VA">VA</option>
+                          <option value="WA">WA</option>
+                          <option value="WV">WV</option>
+                          <option value="WI">WI</option>
+                          <option value="WY">WY</option>
+                        </select>
+
+                        <label for="bboxdonation_billing_billingAddress_txtZip" id="bboxdonation_billing_billingAddress_lblZip" class="BBFormFieldLabel BBFormFieldLabelEdit BBAccessibilityOnly">Zip:</label>
+                        <input name="bboxdonation$billing$billingAddress$txtZip" type="tel" id="bboxdonation_billing_billingAddress_txtZip" class="BBFormTextbox" data-country-field="postcode" data-country-sync="1" required="required" maxlength="12" placeholder="zip">
+                      </div>
+                    </div>
+
+
+                    <div class="BBTwoFields BBFieldBillingStateZip">
+                      <div class="BBFormFieldContainer BBFormFieldContainerRequired" data-country-format-for="2">
+                        <label for="bboxdonation_billing_billingAddress_txtUKCity" id="bboxdonation_billing_billingAddress_lblUKCityCounty" class="BBFormFieldLabel BBFormFieldLabelEdit">City &amp; county:</label>
+
+                        <div aria-describedby="bboxdonation_billing_billingAddress_txtUKCity">
+                          <span id="bboxdonation_billing_billingAddress_lblUKCity" class="BBFormFieldLabel BBFormFieldLabelEdit BBAccessibilityOnly">City:</span>
+                        </div>
+                        <input name="bboxdonation$billing$billingAddress$txtUKCity" type="text" id="bboxdonation_billing_billingAddress_txtUKCity" class="BBFormTextbox" data-country-field="city" data-country-sync="1" required="required" maxlength="50" placeholder="city">
+
+                        <label for="bboxdonation_billing_billingAddress_ddUKCounty" id="bboxdonation_billing_billingAddress_lblUKCounty" class="BBFormFieldLabel BBFormFieldLabelEdit BBAccessibilityOnly">County:</label>
+                        <select name="bboxdonation$billing$billingAddress$ddUKCounty" id="bboxdonation_billing_billingAddress_ddUKCounty" class="BBFormSelectList GhostText" data-country-field="county">
+                          <option selected="selected" value="" default="default">county (optional)</option>
+                          <option value="Aberdeenshire">Aberdeenshire</option>
+                          <option value="Angus">Angus</option>
+                          <option value="Avon">Avon</option>
+                          <option value="Ayrshire">Ayrshire</option>
+                          <option value="Banffshire">Banffshire</option>
+                          <option value="Bedfordshire">Bedfordshire</option>
+                          <option value="Berkshire">Berkshire</option>
+                          <option value="Berwickshire">Berwickshire</option>
+                          <option value="Buckinghamshire">Buckinghamshire</option>
+                          <option value="Cambridgeshire">Cambridgeshire</option>
+                          <option value="Cheshire">Cheshire</option>
+                          <option value="Clackmannanshire">Clackmannanshire</option>
+                          <option value="Cleveland">Cleveland</option>
+                          <option value="Clwyd">Clwyd</option>
+                          <option value="Cornwall">Cornwall</option>
+                          <option value="County Antrim">County Antrim</option>
+                          <option value="County Armagh">County Armagh</option>
+                          <option value="County Cork">County Cork</option>
+                          <option value="County Donegal">County Donegal</option>
+                          <option value="County Down">County Down</option>
+                          <option value="County Dublin">County Dublin</option>
+                          <option value="County Durham">County Durham</option>
+                          <option value="County Kildare">County Kildare</option>
+                          <option value="County Kilkenny">County Kilkenny</option>
+                          <option value="County Meath">County Meath</option>
+                          <option value="County Tyrone">County Tyrone</option>
+                          <option value="County Wicklow">County Wicklow</option>
+                          <option value="Cumbria">Cumbria</option>
+                          <option value="Derbyshire">Derbyshire</option>
+                          <option value="Devon">Devon</option>
+                          <option value="Dorchester">Dorchester</option>
+                          <option value="Dorset">Dorset</option>
+                          <option value="Dumfriesshire">Dumfriesshire</option>
+                          <option value="Dunbartonshire">Dunbartonshire</option>
+                          <option value="Durham">Durham</option>
+                          <option value="Dyfed">Dyfed</option>
+                          <option value="East Kilbride">East Kilbride</option>
+                          <option value="East Lothian">East Lothian</option>
+                          <option value="East Midlands">East Midlands</option>
+                          <option value="East Sussex">East Sussex</option>
+                          <option value="East Yorkshire">East Yorkshire</option>
+                          <option value="Essex">Essex</option>
+                          <option value="Fife">Fife</option>
+                          <option value="Gloucestershire">Gloucestershire</option>
+                          <option value="Guernsey">Guernsey</option>
+                          <option value="Gwent">Gwent</option>
+                          <option value="Gwynedd">Gwynedd</option>
+                          <option value="Hampshire">Hampshire</option>
+                          <option value="Herefordshire">Herefordshire</option>
+                          <option value="Hertfordshire">Hertfordshire</option>
+                          <option value="Humberside">Humberside</option>
+                          <option value="Invernesshire">Invernesshire</option>
+                          <option value="Isle of Man">Isle of Man</option>
+                          <option value="Isle of Wight">Isle of Wight</option>
+                          <option value="Jersey">Jersey</option>
+                          <option value="Kent">Kent</option>
+                          <option value="Kinross-Shire">Kinross-Shire</option>
+                          <option value="Lanarkshire">Lanarkshire</option>
+                          <option value="Lancashire">Lancashire</option>
+                          <option value="Leicestershire">Leicestershire</option>
+                          <option value="Lincolnshire">Lincolnshire</option>
+                          <option value="Merseyside">Merseyside</option>
+                          <option value="Mid Glamorgan">Mid Glamorgan</option>
+                          <option value="Middlesex">Middlesex</option>
+                          <option value="Midlothian">Midlothian</option>
+                          <option value="Morayshire">Morayshire</option>
+                          <option value="Norfolk">Norfolk</option>
+                          <option value="North Humberside">North Humberside</option>
+                          <option value="North Lincolnshire">North Lincolnshire</option>
+                          <option value="North Somerset">North Somerset</option>
+                          <option value="North Yorkshire">North Yorkshire</option>
+                          <option value="Northamptonshire">Northamptonshire</option>
+                          <option value="Northumberland">Northumberland</option>
+                          <option value="Nottinghamshire">Nottinghamshire</option>
+                          <option value="Oxfordshire">Oxfordshire</option>
+                          <option value="Pembrokeshire">Pembrokeshire</option>
+                          <option value="Perthshire">Perthshire</option>
+                          <option value="Powys">Powys</option>
+                          <option value="Renfrewshire">Renfrewshire</option>
+                          <option value="Roxburghshire">Roxburghshire</option>
+                          <option value="Rutland">Rutland</option>
+                          <option value="Shropshire">Shropshire</option>
+                          <option value="Somerset">Somerset</option>
+                          <option value="South Glamorgan">South Glamorgan</option>
+                          <option value="South Humberside">South Humberside</option>
+                          <option value="South Yorkshire">South Yorkshire</option>
+                          <option value="Staffordshire">Staffordshire</option>
+                          <option value="Stirling">Stirling</option>
+                          <option value="Strathclyde">Strathclyde</option>
+                          <option value="Suffolk">Suffolk</option>
+                          <option value="Surrey">Surrey</option>
+                          <option value="Sussex">Sussex</option>
+                          <option value="Sutherland">Sutherland</option>
+                          <option value="Tyne and Wear">Tyne and Wear</option>
+                          <option value="Warwickshire">Warwickshire</option>
+                          <option value="West Glamorgan">West Glamorgan</option>
+                          <option value="West Lothian">West Lothian</option>
+                          <option value="West Midlands">West Midlands</option>
+                          <option value="West Sussex">West Sussex</option>
+                          <option value="West Yorkshire">West Yorkshire</option>
+                          <option value="Wiltshire">Wiltshire</option>
+                          <option value="Worcestershire">Worcestershire</option>
+                          <option value="Yorkshire">Yorkshire</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="BBFormFieldContainer BBFormFieldContainerRequired" data-country-format-for="2">
+                      <label for="bboxdonation_billing_billingAddress_txtUKPostCode" id="bboxdonation_billing_billingAddress_lblUKPostCode" class="BBFormFieldLabel BBFormFieldLabelEdit">Postcode:</label>
+                      <input name="bboxdonation$billing$billingAddress$txtUKPostCode" type="text" id="bboxdonation_billing_billingAddress_txtUKPostCode" class="BBFormTextbox" data-country-field="postcode" data-country-sync="1" required="required" maxlength="12">
+                    </div>
+
+
+                    <div class="BBFormFieldContainer BBFormFieldContainerRequired" data-country-format-for="3" style="display: none;">
+                      <label for="bboxdonation_billing_billingAddress_txtCACity" id="bboxdonation_billing_billingAddress_lblCACity" class="BBFormFieldLabel BBFormFieldLabelEdit">City:</label>
+                      <input name="bboxdonation$billing$billingAddress$txtCACity" type="text" id="bboxdonation_billing_billingAddress_txtCACity" class="BBFormTextbox" data-country-field="city" data-country-sync="1" required="required" maxlength="50">
+                    </div>
+
+                    <div class="BBTwoFields BBFieldBillingStateZip">
+                      <div class="BBFormFieldContainer BBFormFieldContainerRequired" data-country-format-for="3" style="display: none;">
+
+                        <label for="bboxdonation_billing_billingAddress_ddCAProvince" id="bboxdonation_billing_billingAddress_lblCAProvincePostCode" class="BBFormFieldLabel BBFormFieldLabelEdit">Province &amp; postal:</label>
+
+                        <div aria-describedby="bboxdonation_billing_billingAddress_ddCAProvince">
+                          <span id="bboxdonation_billing_billingAddress_lblCAProvince" class="BBFormFieldLabel BBFormFieldLabelEdit BBAccessibilityOnly">Province:</span>
+                        </div>
+                        <select name="bboxdonation$billing$billingAddress$ddCAProvince" id="bboxdonation_billing_billingAddress_ddCAProvince" class="BBFormSelectList GhostText" data-country-sync="1" data-country-field="state" required="required">
+                          <option selected="selected" value="" default="default">province</option>
+                          <option value="AL">AL</option>
+                          <option value="AK">AK</option>
+                          <option value="AB">AB</option>
+                          <option value="AS">AS</option>
+                          <option value="AZ">AZ</option>
+                          <option value="AR">AR</option>
+                          <option value="ACT">ACT</option>
+                          <option value="BC">BC</option>
+                          <option value="CA">CA</option>
+                          <option value="CO">CO</option>
+                          <option value="CT">CT</option>
+                          <option value="DE">DE</option>
+                          <option value="DC">DC</option>
+                          <option value="FM">FM</option>
+                          <option value="FL">FL</option>
+                          <option value="GA">GA</option>
+                          <option value="GU">GU</option>
+                          <option value="HI">HI</option>
+                          <option value="ID">ID</option>
+                          <option value="IL">IL</option>
+                          <option value="IN">IN</option>
+                          <option value="IA">IA</option>
+                          <option value="KS">KS</option>
+                          <option value="KY">KY</option>
+                          <option value="LA">LA</option>
+                          <option value="ME">ME</option>
+                          <option value="MB">MB</option>
+                          <option value="MH">MH</option>
+                          <option value="MD">MD</option>
+                          <option value="MA">MA</option>
+                          <option value="MI">MI</option>
+                          <option value="MN">MN</option>
+                          <option value="MS">MS</option>
+                          <option value="MO">MO</option>
+                          <option value="MT">MT</option>
+                          <option value="NE">NE</option>
+                          <option value="NV">NV</option>
+                          <option value="NB">NB</option>
+                          <option value="NH">NH</option>
+                          <option value="NJ">NJ</option>
+                          <option value="NM">NM</option>
+                          <option value="NSW">NSW</option>
+                          <option value="NY">NY</option>
+                          <option value="NL">NL</option>
+                          <option value="NC">NC</option>
+                          <option value="ND">ND</option>
+                          <option value="MP">MP</option>
+                          <option value="NT">NT</option>
+                          <option value="NS">NS</option>
+                          <option value="NU">NU</option>
+                          <option value="OH">OH</option>
+                          <option value="OK">OK</option>
+                          <option value="ON">ON</option>
+                          <option value="OR">OR</option>
+                          <option value="PW">PW</option>
+                          <option value="PA">PA</option>
+                          <option value="PE">PE</option>
+                          <option value="PR">PR</option>
+                          <option value="QC">QC</option>
+                          <option value="QLD">QLD</option>
+                          <option value="RI">RI</option>
+                          <option value="SK">SK</option>
+                          <option value="SA">SA</option>
+                          <option value="SC">SC</option>
+                          <option value="SD">SD</option>
+                          <option value="TAS">TAS</option>
+                          <option value="TN">TN</option>
+                          <option value="TX">TX</option>
+                          <option value="UT">UT</option>
+                          <option value="VT">VT</option>
+                          <option value="VIC">VIC</option>
+                          <option value="VI">VI</option>
+                          <option value="VA">VA</option>
+                          <option value="WA">WA</option>
+                          <option value="WV">WV</option>
+                          <option value="WI">WI</option>
+                          <option value="WY">WY</option>
+                        </select>
+
+                        <label for="bboxdonation_billing_billingAddress_txtCAPostCode" id="bboxdonation_billing_billingAddress_lblCAPostCode" class="BBFormFieldLabel BBFormFieldLabelEdit BBAccessibilityOnly">Postal code:</label>
+                        <input name="bboxdonation$billing$billingAddress$txtCAPostCode" type="text" id="bboxdonation_billing_billingAddress_txtCAPostCode" class="BBFormTextbox" required="required" data-country-sync="1" data-country-field="postcode" maxlength="12" placeholder="postal code">
+                      </div>
+                    </div>
+
+
+                    <div class="BBFormFieldContainer BBFormFieldContainerRequired" data-country-format-for="4" style="display: none;">
+                      <label for="bboxdonation_billing_billingAddress_txtAUCity" id="bboxdonation_billing_billingAddress_lblAUCity" class="BBFormFieldLabel BBFormFieldLabelEdit">Suburb:</label>
+                      <input name="bboxdonation$billing$billingAddress$txtAUCity" type="text" id="bboxdonation_billing_billingAddress_txtAUCity" class="BBFormTextbox" data-country-sync="1" data-country-field="city" required="required" maxlength="50">
+                    </div>
+
+                    <div class="BBTwoFields BBFieldBillingStateZip">
+                      <div class="BBFormFieldContainer BBFormFieldContainerRequired" data-country-format-for="4" style="display: none;">
+                        <label for="bboxdonation_billing_billingAddress_ddAUState" id="bboxdonation_billing_billingAddress_lblAUStatePostCode" class="BBFormFieldLabel BBFormFieldLabelEdit">State &amp; postcode:</label>
+
+                        <div aria-describedby="bboxdonation_billing_billingAddress_ddAUState">
+                          <span id="bboxdonation_billing_billingAddress_lblAUState" class="BBFormFieldLabel BBFormFieldLabelEdit BBAccessibilityOnly">State:</span>
+                        </div>
+                        <select name="bboxdonation$billing$billingAddress$ddAUState" id="bboxdonation_billing_billingAddress_ddAUState" class="BBFormSelectList GhostText" data-country-sync="1" data-country-field="state" required="required">
+                          <option selected="selected" value="" default="default">state</option>
+                          <option value="AL">AL</option>
+                          <option value="AK">AK</option>
+                          <option value="AB">AB</option>
+                          <option value="AS">AS</option>
+                          <option value="AZ">AZ</option>
+                          <option value="AR">AR</option>
+                          <option value="ACT">ACT</option>
+                          <option value="BC">BC</option>
+                          <option value="CA">CA</option>
+                          <option value="CO">CO</option>
+                          <option value="CT">CT</option>
+                          <option value="DE">DE</option>
+                          <option value="DC">DC</option>
+                          <option value="FM">FM</option>
+                          <option value="FL">FL</option>
+                          <option value="GA">GA</option>
+                          <option value="GU">GU</option>
+                          <option value="HI">HI</option>
+                          <option value="ID">ID</option>
+                          <option value="IL">IL</option>
+                          <option value="IN">IN</option>
+                          <option value="IA">IA</option>
+                          <option value="KS">KS</option>
+                          <option value="KY">KY</option>
+                          <option value="LA">LA</option>
+                          <option value="ME">ME</option>
+                          <option value="MB">MB</option>
+                          <option value="MH">MH</option>
+                          <option value="MD">MD</option>
+                          <option value="MA">MA</option>
+                          <option value="MI">MI</option>
+                          <option value="MN">MN</option>
+                          <option value="MS">MS</option>
+                          <option value="MO">MO</option>
+                          <option value="MT">MT</option>
+                          <option value="NE">NE</option>
+                          <option value="NV">NV</option>
+                          <option value="NB">NB</option>
+                          <option value="NH">NH</option>
+                          <option value="NJ">NJ</option>
+                          <option value="NM">NM</option>
+                          <option value="NSW">NSW</option>
+                          <option value="NY">NY</option>
+                          <option value="NL">NL</option>
+                          <option value="NC">NC</option>
+                          <option value="ND">ND</option>
+                          <option value="MP">MP</option>
+                          <option value="NT">NT</option>
+                          <option value="NS">NS</option>
+                          <option value="NU">NU</option>
+                          <option value="OH">OH</option>
+                          <option value="OK">OK</option>
+                          <option value="ON">ON</option>
+                          <option value="OR">OR</option>
+                          <option value="PW">PW</option>
+                          <option value="PA">PA</option>
+                          <option value="PE">PE</option>
+                          <option value="PR">PR</option>
+                          <option value="QC">QC</option>
+                          <option value="QLD">QLD</option>
+                          <option value="RI">RI</option>
+                          <option value="SK">SK</option>
+                          <option value="SA">SA</option>
+                          <option value="SC">SC</option>
+                          <option value="SD">SD</option>
+                          <option value="TAS">TAS</option>
+                          <option value="TN">TN</option>
+                          <option value="TX">TX</option>
+                          <option value="UT">UT</option>
+                          <option value="VT">VT</option>
+                          <option value="VIC">VIC</option>
+                          <option value="VI">VI</option>
+                          <option value="VA">VA</option>
+                          <option value="WA">WA</option>
+                          <option value="WV">WV</option>
+                          <option value="WI">WI</option>
+                          <option value="WY">WY</option>
+                        </select>
+
+                        <label for="bboxdonation_billing_billingAddress_txtAUPostCode" id="bboxdonation_billing_billingAddress_lblAUPostCode" class="BBFormFieldLabel BBFormFieldLabelEdit BBAccessibilityOnly">Postcode:</label>
+                        <input name="bboxdonation$billing$billingAddress$txtAUPostCode" type="tel" id="bboxdonation_billing_billingAddress_txtAUPostCode" class="BBFormTextbox" required="required" data-country-sync="1" data-country-field="postcode" maxlength="12" placeholder="postcode">
+                      </div>
+                    </div>
+
+
+                    <div class="BBFormFieldContainer BBFormFieldContainerRequired" data-country-format-for="5" style="display: none;">
+                      <label for="bboxdonation_billing_billingAddress_ddNZSuburb" id="bboxdonation_billing_billingAddress_lblNZSuburb" class="BBFormFieldLabel BBFormFieldLabelEdit">Suburb:</label>
+                      <select name="bboxdonation$billing$billingAddress$ddNZSuburb" id="bboxdonation_billing_billingAddress_ddNZSuburb" class="BBFormSelectList GhostText" required="required" data-country-field="nzsuburb">
+                        <option selected="selected" value="" default="default">suburb</option>
+                        <option value="Pleasant Point">Pleasant Point</option>
+                      </select>
+                    </div>
+
+                    <div class="BBTwoFields BBFieldBillingStateZip">
+                      <div class="BBFormFieldContainer BBFormFieldContainerRequired" data-country-format-for="5" style="display: none;">
+                        <label for="bboxdonation_billing_billingAddress_ddNZCity" id="bboxdonation_billing_billingAddress_lblNZCityPostCode" class="BBFormFieldLabel BBFormFieldLabelEdit">City &amp; post code:</label>
+
+                        <div aria-describedby="bboxdonation_billing_billingAddress_ddNZCity">
+                          <span id="bboxdonation_billing_billingAddress_lblNZCity" class="BBFormFieldLabel BBFormFieldLabelEdit BBAccessibilityOnly">City:</span>
+                        </div>
+                        <select name="bboxdonation$billing$billingAddress$ddNZCity" id="bboxdonation_billing_billingAddress_ddNZCity" class="BBFormSelectList GhostText" required="required" data-country-field="nzcity">
+                          <option selected="selected" value="" default="default">city</option>
+                          <option value="AUCKLAND">AUCKLAND</option>
+                          <option value="CHRISTCHURCH">CHRISTCHURCH</option>
+                          <option value="DUNEDIN">DUNEDIN</option>
+                          <option value="WELLINGTON">WELLINGTON</option>
+                        </select>
+
+                        <label for="bboxdonation_billing_billingAddress_txtNZPostCode" id="bboxdonation_billing_billingAddress_lblNZPostCode" class="BBFormFieldLabel BBFormFieldLabelEdit BBAccessibilityOnly">Post code:</label>
+                        <input name="bboxdonation$billing$billingAddress$txtNZPostCode" type="tel" id="bboxdonation_billing_billingAddress_txtNZPostCode" class="BBFormTextbox" required="required" data-country-sync="1" data-country-field="postcode" maxlength="12" placeholder="post code">
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div id="bboxdonation_billing_fldAnonymous" class="BBFormFieldContainer">
+                    <input name="bboxdonation$billing$chkAnonymous" type="checkbox" id="bboxdonation_billing_chkAnonymous">
+                    <label for="bboxdonation_billing_chkAnonymous" id="bboxdonation_billing_lblAnonymous" class="BBFormFieldLabel BBFormCheckbox BBFormCheckboxLabel BBFormFieldLabelEdit">I would like this gift to remain anonymous</label>
+                  </div>
+
+                </fieldset>
+              </div>
+
+              <div class="BBFormSection BBDFormSectionPaymentInfo">
+                <fieldset>
+                  <legend>
+                    <div id="bboxdonation_payment_divHeadingPayment" class="BBFormSectionHeading">
+                      <label id="bboxdonation_payment_lblHeadingPayment" class="BBFormFieldLabelEdit">Payment details</label>
+                    </div>
+                  </legend>
+
+
+
+                  <div id="bboxdonation_payment_BBFormCCDetails" class="BBFormCreditCardDetails">
+
+                    <div id="bboxdonation_payment_divProcessedByBlackbaud" class="BBFormFieldContainer ">
+
+
+                      <a id="bboxsecure" class="BBLinkSecureInfo hasTooltip" href="#bbsecure" rel="https://bbox.blackbaudhosting.com/webforms/components/custom.ashx?handler=blackbaud.appfx.mongo.parts.getcontenthandler&amp;c=secure&amp;callback=?" title="Learn more about how your credit card information will be protected by Blackbaud" tabindex="0" style="text-decoration: none; border-bottom: 1px dashed;">Payment Processed by Blackbaud</a>
+                    </div>
+                    <div class="BBFormFieldContainer BBFormFieldContainerRequired">
+                      <label for="bboxdonation_payment_txtCardholder" id="bboxdonation_payment_lblCardHoldersName" class="BBFormFieldLabel BBFormFieldLabelEdit ">Cardholder's name:</label>
+                      <input name="bboxdonation$payment$txtCardholder" type="text" id="bboxdonation_payment_txtCardholder" class="BBFormTextbox" maxlength="60" required="required">
+                    </div>
+                    <div id="DCCreditNumber" class="BBFormFieldContainer BBFormFieldContainerRequired">
+                      <label for="bboxdonation_payment_txtCardNumber" id="bboxdonation_payment_lblCCNumber" class="BBFormFieldLabel BBFormFieldLabelEdit ">Credit card number:</label>
+                      <input name="bboxdonation$payment$txtCardNumber" type="tel" id="bboxdonation_payment_txtCardNumber" class="BBFormTextbox BBCardNumber" autocomplete="off" maxlength="20" required="required">
+                    </div>
+                    <div id="DCCreditType" class="BBFormFieldContainer BBFormFieldContainerRequired BBCCreditType">
+                      <label for="bboxdonation_payment_cboCardType" id="bboxdonation_payment_lblCCType" class="BBFormFieldLabel BBFormFieldLabelEdit" style="visibility: hidden;">Card type:</label>
+                      <div class="BBFormFieldContainer BBFormFieldContainerRequired BBCCreditType">
+                        <select name="bboxdonation$payment$cboCardType" id="bboxdonation_payment_cboCardType" class="BBFormSelectList" required="required" style="display: none;">
+                          <option value="<Please Select>">&lt;Please Select&gt;</option>
+                          <option value="5963a708-fc7f-48af-952f-16d574c4b833">Visa</option>
+                          <option value="c4a56513-9fdb-44c5-9b19-e617f2596107">American Express</option>
+                          <option value="12c6cbd6-4b35-4e2d-9222-f9acb37181c7">Diners Club</option>
+                          <option value="bf0ed898-ab0c-4374-9cef-1e66b09e816d">Discover</option>
+                          <option value="0c016b00-2180-4b80-affb-05f0854033d0">JCB</option>
+                          <option value="2319d342-d766-49b8-a72e-d384faee4562">Maestro</option>
+                          <option value="b34832f7-8a95-47fa-9c43-bc8682562ea5">MasterCard</option>
+                        </select>
+                        <div id="bboxdonation_payment_divCardTypes">
+
+                          <div class="BBCardImageContainer">
+
+                            <img id="bboxdonation_payment_lvwCardTypes_imgCardImage_0" class="BBCardImage" data-card-type="visa" alt="visa" data-card-type-id="5963a708-fc7f-48af-952f-16d574c4b833" src="https://bbox.blackbaudhosting.com/webforms/images/cards/visa_normal.png">
+
+                            <img id="bboxdonation_payment_lvwCardTypes_imgCardImage_1" class="BBCardImage" data-card-type="amex" alt="amex" data-card-type-id="c4a56513-9fdb-44c5-9b19-e617f2596107" src="https://bbox.blackbaudhosting.com/webforms/images/cards/amex_normal.png">
+
+                            <img id="bboxdonation_payment_lvwCardTypes_imgCardImage_2" class="BBCardImage" data-card-type="diners" alt="diners" data-card-type-id="12c6cbd6-4b35-4e2d-9222-f9acb37181c7" src="https://bbox.blackbaudhosting.com/webforms/images/cards/diners_normal.png">
+
+                            <img id="bboxdonation_payment_lvwCardTypes_imgCardImage_3" class="BBCardImage" data-card-type="discover" alt="discover" data-card-type-id="bf0ed898-ab0c-4374-9cef-1e66b09e816d" src="https://bbox.blackbaudhosting.com/webforms/images/cards/discover_normal.png">
+
+                            <img id="bboxdonation_payment_lvwCardTypes_imgCardImage_4" class="BBCardImage" data-card-type="jcb" alt="jcb" data-card-type-id="0c016b00-2180-4b80-affb-05f0854033d0" src="https://bbox.blackbaudhosting.com/webforms/images/cards/jcb_normal.png">
+
+                            <img id="bboxdonation_payment_lvwCardTypes_imgCardImage_5" class="BBCardImage" data-card-type="maestro" alt="maestro" data-card-type-id="2319d342-d766-49b8-a72e-d384faee4562" src="https://bbox.blackbaudhosting.com/webforms/images/cards/maestro_normal.png">
+
+                            <img id="bboxdonation_payment_lvwCardTypes_imgCardImage_6" class="BBCardImage" data-card-type="mastercard" alt="mastercard" data-card-type-id="b34832f7-8a95-47fa-9c43-bc8682562ea5" src="https://bbox.blackbaudhosting.com/webforms/images/cards/mastercard_normal.png">
+
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="BBExpirationCSC">
+                      <div id="DC_ValidOther" class="BBFormFieldContainer BBFormFieldContainerRequired BBFieldExpiration">
+                        <label for="bboxdonation_payment_cboMonth" id="bboxdonation_payment_lblExpiryLbl" class="BBFormFieldLabel BBFormFieldLabelEdit">Card expiration:</label>
+
+                        <div aria-describedby="bboxdonation_payment_cboMonth">
+                          <span id="bboxdonation_payment_lblMonth" class="BBFormFieldLabel BBAccessibilityOnly">Month:</span>
+                        </div>
+                        <select name="bboxdonation$payment$cboMonth" id="bboxdonation_payment_cboMonth" class="BBFormSelectList GhostText" required="required">
+                          <option value="" default="default">month</option>
+                          <option value="1">01</option>
+                          <option value="2">02</option>
+                          <option value="3">03</option>
+                          <option value="4">04</option>
+                          <option value="5">05</option>
+                          <option value="6">06</option>
+                          <option value="7">07</option>
+                          <option value="8">08</option>
+                          <option value="9">09</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
+                        </select>
+
+                        <label for="bboxdonation_payment_cboYear" id="bboxdonation_payment_lblYear" class="BBFormFieldLabel BBAccessibilityOnly">Year:</label>
+                        <select name="bboxdonation$payment$cboYear" id="bboxdonation_payment_cboYear" class="BBFormSelectList GhostText" required="required">
+                          <option value="" default="default">year</option>
+                          <option value="2023">2023</option>
+                          <option value="2024">2024</option>
+                          <option value="2025">2025</option>
+                          <option value="2026">2026</option>
+                          <option value="2027">2027</option>
+                          <option value="2028">2028</option>
+                          <option value="2029">2029</option>
+                          <option value="2030">2030</option>
+                          <option value="2031">2031</option>
+                          <option value="2032">2032</option>
+                          <option value="2033">2033</option>
+                          <option value="2034">2034</option>
+                          <option value="2035">2035</option>
+                          <option value="2036">2036</option>
+                          <option value="2037">2037</option>
+                        </select>
+                      </div>
+                      <div id="DCCreditSecurityCode" class="BBFormFieldContainer BBFormFieldContainerRequired BBFieldSecurityCode">
+                        <label for="bboxdonation_payment_txtCSC" id="bboxdonation_payment_lblSecCode" class="BBFormFieldLabel BBFormFieldLabelEdit">CSC:</label>
+                        <input name="bboxdonation$payment$txtCSC" type="password" id="bboxdonation_payment_txtCSC" inputmode="numeric" autocomplete="off" class="BBFormTextbox DonationCaptureTextboxNarrow" maxlength="4" style="width: 60px;" required="required">
+                        <a id="cscWhatsThis" href="#csc" rel="https://bbox.blackbaudhosting.com/webforms/components/custom.ashx?handler=blackbaud.appfx.mongo.parts.getcontenthandler&amp;c=csc&amp;callback=?" title="What are Card Security Codes?" tabindex="-1" style="text-decoration: none;" class="hasTooltip">
+                          <img style="display: inline; border: 0;" alt="Help" src="https://bbox.blackbaudhosting.com/webforms/images/bboxhelp.png"></a>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div id="bboxdonation_payment_BBFormConfirmationBoxWrapper" class="BBFormConfirmationBoxWrapper" style="display: none;">
+                    <div id="bboxdonation_payment_BBFormDDConfirmationBox" class="BBFormDDConfirmationBox">
+                      <div class="BBFormBoxHeader">Is the information you entered to set up the Direct Debit Instruction correct?</div>
+                      <div class="BBFormBoxContent">
+                        <div class="BBFormFieldContainer BBFormFieldContainerRequired">
+                          <label for="DDAccountHolder" id="lblDDAccountHolder" class="BBFormFieldLabel">
+                            Account holder:
+                          </label>
+                          <span id="bboxdonation_payment_DDAccountHolder" class="BBFormFieldValueLabel"></span>
+                          <br>
+                        </div>
+                        <div class="BBFormFieldContainer BBFormFieldContainerRequired">
+                          <label for="DDSortCode" id="lblDDSortCode" class="BBFormFieldLabel">
+                            Sort Code:
+                          </label>
+                          <span id="bboxdonation_payment_DDSortCode" class="BBFormFieldValueLabel"></span>
+                          <br>
+                        </div>
+                        <div class="BBFormFieldContainer BBFormFieldContainerRequired">
+                          <label for="DDAccountNumber" id="lblDDAccountNumber" class="BBFormFieldLabel">
+                            Account number:
+                          </label>
+                          <span id="bboxdonation_payment_DDAccountNumber" class="BBFormFieldValueLabel"></span>
+                          <br>
+                        </div>
+                        <div class="BBFormFieldContainer BBFormFieldContainerRequired">
+                          <label for="DDDebitAmount" id="lblDDDebitAmount" class="BBFormFieldLabel">
+                            Amount to be debited:
+                          </label>
+                          <span id="bboxdonation_payment_DDDebitAmount" class="BBFormFieldValueLabel"></span>
+                          <br>
+                        </div>
+                        <div class="BBFormFieldContainer BBFormFieldContainerRequired">
+                          <label for="DDFrequency" id="lblDDFrequency" class="BBFormFieldLabel">
+                            Collection frequency:
+                          </label>
+                          <span id="bboxdonation_payment_DDFrequency" class="BBFormFieldValueLabel"></span>
+                          <br>
+                        </div>
+                        <div class="BBFormFieldContainer BBFormFieldContainerRequired">
+                          <label for="DDDateOfFirstGift" id="lblDDDateOfFirstGift" class="BBFormFieldLabel">
+                            Date of first gift:
+                          </label>
+                          <span id="bboxdonation_payment_DDDateOfFirstGift" class="BBFormFieldValueLabel"></span>
+                          <br>
+                        </div>
+                      </div>
+                      <div class="BBFormFieldContainer BBFormBoxActionButtons">
+                        <input name="bboxdonation$payment$btnDonateNow" type="button" id="bboxdonation_payment_btnDonateNow" class="BBFormSubmitbutton BBFormSubmitbuttonEdit" value="Yes, donate now">
+                        <input name="bboxdonation$payment$btnBackToForm" type="button" id="bboxdonation_payment_btnBackToForm" class="BBFormSubmitbutton BBFormBackbutton" value="Back to form">
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <input name="bboxdonation$payment$hdnMerchantAccountId" type="hidden" id="bboxdonation_payment_hdnMerchantAccountId" class="hdnMerchantAccountId" value="d5be891d-befe-406d-a069-d39329d5e8fb">
+
+
+
+
+              <div id="reCAPTCHASection" class="BBFormSection"><div class="BBFormFieldContainer"><div id="bbox_reCAPTCHA"><div class="grecaptcha-badge" data-style="bottomright" style="width: 256px; height: 60px; display: block; transition: right 0.3s ease 0s; position: fixed; bottom: 14px; right: -186px; box-shadow: gray 0px 0px 5px; border-radius: 2px; overflow: hidden;"><div class="grecaptcha-logo"><iframe title="reCAPTCHA" width="256" height="60" role="presentation" name="a-np8wyhaf8oc" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation" src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LdkFJMUAAAAAB1v49N1aaMoEPH85Qvfib4VqlNH&amp;co=aHR0cHM6Ly93d3cucmNhLmFjLnVrOjQ0Mw..&amp;hl=en&amp;v=-QbJqHfGOUB8nuVRLvzFLVed&amp;size=invisible&amp;cb=x7dh2g31y63n"></iframe></div><div class="grecaptcha-error"></div><textarea id="g-recaptcha-response-100000" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;" aria-hidden="true" aria-label="do not use" aria-readonly="true"></textarea></div><iframe style="display: none;"></iframe></div></div></div><div class="BBFormSection BBFormButtonRow">
+                <div class="BBFormFieldContainer">
+                  <div id="bboxdonation_divMasterCardWarning" class="divMasterCardWarningInfo" style="display:none;">
+                  </div>
+
+
+                  <label class="BBFormFieldLabel BBFormSummaryTotal" style="visibility: hidden;">
+                    <span class="BBTinyAmount">FormField</span>
+                  </label>
+                  <input name="bboxdonation$btnSubmit" type="submit" id="bboxdonation_btnSubmit" class="BBFormSubmitbutton BBFormSubmitbuttonEdit" value="Donate" style="display:inline;">
+                  <input name="bboxdonation$btnSecurePayment" type="button" id="bboxdonation_btnSecurePayment" class="BBFormSubmitbutton" value="Secure Payment" style="display:none;">
+                  <input name="bboxdonation$btnContinue" type="button" id="bboxdonation_btnContinue" class="BBFormSubmitbutton BBFormSubmitbuttonEdit" value="Continue" style="display: none;">
+                </div>
+                <div id="reCAPTCHADisclosure" class="BBFormFieldContainer">
+                  <p>This webpage is secured by <a href="https://www.google.com/intl/en/policies/terms/" target="_blank">reCAPTCHA</a>. View the <a href="https://www.google.com/intl/en/policies/privacy/" target="_blank">privacy policy</a> for more information.
+                  </p>
+                </div>
+              </div>
+
+
+            </div>
+
+          </div>
+
+
+            <input name="bboxdonation$hdnJsonFieldProps" type="hidden" id="bboxdonation_hdnJsonFieldProps" class="hdnJsonFieldProps">
+            <input name="bboxdonation$hdnMongoInstanceID" type="hidden" id="bboxdonation_hdnMongoInstanceID">
+            <input name="bboxdonation$hdnMetaTag" type="hidden" id="bboxdonation_hdnMetaTag" class="hdnMetaTag" value="1">
+            <input name="bboxdonation$hdnEmailInfo" type="hidden" id="bboxdonation_hdnEmailInfo" class="hdnEmailInfo" value="{}">
+            <input name="bboxdonation$hdnHideDirectDebitForOneTimeGift" type="hidden" id="bboxdonation_hdnHideDirectDebitForOneTimeGift">
+            <input name="bboxdonation$hdnDateTimeOffset" type="hidden" id="bboxdonation_hdnDateTimeOffset" value="480">
+            <input name="bboxdonation$hdnReCAPTCHASettings" type="hidden" id="bboxdonation_hdnReCAPTCHASettings" value="{&quot;isEnabled&quot;:true,&quot;sitekey&quot;:&quot;6LdkFJMUAAAAAB1v49N1aaMoEPH85Qvfib4VqlNH&quot;,&quot;isAlwaysVisible&quot;:false}">
+            <input name="bboxdonation$hdnMixpanelToken" type="hidden" id="bboxdonation_hdnMixpanelToken" class="hdnMixpanelToken">
+            <input name="bboxdonation$hdnBBCheckoutPublicKey" type="hidden" id="bboxdonation_hdnBBCheckoutPublicKey" class="hdnBBCheckoutPublicKey">
+            <input name="bboxdonation$hdnBBCheckoutTransactionID" type="hidden" id="bboxdonation_hdnBBCheckoutTransactionID" class="hdnBBCheckoutTransactionID">
+            <input name="bboxdonation$hdnBBCheckoutCardToken" type="hidden" id="bboxdonation_hdnBBCheckoutCardToken" class="hdnBBCheckoutCardToken">
+            <input name="bboxdonation$hdnBBCheckoutProcessNow" type="hidden" id="bboxdonation_hdnBBCheckoutProcessNow" class="hdnBBCheckoutProcessNow">
+            <input name="bboxdonation$hdnSecurePaymentClicked" type="hidden" id="bboxdonation_hdnSecurePaymentClicked" class="hdnSecurePaymentClicked">
+            <input name="bboxdonation$hdnBBCheckoutAmount" type="hidden" id="bboxdonation_hdnBBCheckoutAmount" class="hdnBBCheckoutAmount">
+            <input name="bboxdonation$hdnBBShowDirectDebitConfirmationBox" type="hidden" id="bboxdonation_hdnBBShowDirectDebitConfirmationBox" class="hdnBBShowDirectDebitConfirmationBox" value="1">
+            <input name="bboxdonation$hdnDonorCoverEnabled" type="hidden" id="bboxdonation_hdnDonorCoverEnabled" class="hdnDonorCoverEnabled" value="0">
+            <input name="bboxdonation$hdnAuthorizedAmount" type="hidden" id="bboxdonation_hdnAuthorizedAmount" class="hdnAuthorizedAmount" value="0">
+            <input name="bboxdonation$hdnDonorCoveredAmount" type="hidden" id="bboxdonation_hdnDonorCoveredAmount" class="hdnDonorCoveredAmount" value="0">
+            <input name="bboxdonation$hdnDonorCovered" type="hidden" id="bboxdonation_hdnDonorCovered" class="hdnDonorCovered" value="0">
+            <input id="hdnFormType" type="hidden" value="donation"><input name="instanceId" id="instanceId" type="hidden" value="4d75d593-8ebb-4640-a069-70f8bf9b9761"><input name="partId" id="partId" type="hidden" value="6f6975f1-a557-49e4-8cb4-f4025ac890fa"><input name="srcUrl" id="srcUrl" type="hidden" value="https://www.rca.ac.uk/generationrca/make-a-gift-uk-and-rest-of-the-world/"></form></div>
+        </div>
+      </div>
+    </section>
+    {% if page.further_information %}
+      <section class="section bg bg--dark">
+        <div class="section__row section__row--last">
+          {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.further_information course_type="short" title=page.further_information_title anchor_heading=True section_id=page.further_information_title|slugify modifier="accordion-block--no-margin" %}
+        </div>
+      </section>
+    {% endif %}
+
+
+    {% if page.contact_model_image or page.contact_model_text or page.contact_model_email or page.contact_model_url or page.contact_model_form %}
+      <section class="section bg bg--light">
+        <div class="contact-anchor anchor-heading" id="contact"></div>
+        <div class="section__row section__row--first">
+          {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image anchor_heading=True %}
+        </div>
+      </section>
+
+      <section class="section bg bg--dark">
+        <div class="section__notch section__notch--large-only">
+          <div class="section__notch-fill section__notch-fill--third-col"></div>
+        </div>
+      </section>
+    {% endif %}
+
+  </div>
+  </div>
+{% endblock %}
