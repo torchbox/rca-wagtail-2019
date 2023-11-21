@@ -1,26 +1,28 @@
-from unittest.mock import patch
 from datetime import timedelta
 from http import HTTPStatus
+from unittest.mock import patch
 
 from captcha.client import RecaptchaResponse
-from wagtail.test.utils import WagtailPageTestCase
-from django.core import mail
-from django.contrib.sessions.middleware import SessionMiddleware
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
-from django.test import RequestFactory, TestCase
+from django.contrib.sessions.middleware import SessionMiddleware
+from django.core import mail
+from django.test import RequestFactory, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
-from django.test import override_settings
 from wagtail.models import Site
+from wagtail.test.utils import WagtailPageTestCase
 
-from rca.enquire_to_study.factories import EnquiryFormSubmissionFactory
-from rca.enquire_to_study.models import EnquiryFormSubmission, EnquireToStudySettings
+from rca.enquire_to_study.factories import (
+    EnquiryFormSubmissionFactory,
+    EnquiryReasonFactory,
+    StartDateFactory,
+)
+from rca.enquire_to_study.forms import EnquireToStudyForm
+from rca.enquire_to_study.models import EnquireToStudySettings, EnquiryFormSubmission
 from rca.enquire_to_study.views import EnquireToStudyFormView
 from rca.enquire_to_study.wagtail_hooks import EnquiryFormSubmissionAdmin
-from rca.enquire_to_study.factories import EnquiryReasonFactory, StartDateFactory
 from rca.programmes.factories import ProgrammePageFactory
-from rca.enquire_to_study.forms import EnquireToStudyForm
 
 
 class EnquireToStudyFormViewTest(TestCase):
@@ -38,7 +40,7 @@ class EnquireToStudyFormViewTest(TestCase):
         context = view.get_context_data()
         self.assertIn("form", context)
 
-    
+
 @override_settings(
     RCA_DNR_EMAIL="test@example.com",
     ENQUIRE_TO_STUDY_DESTINATION_EMAILS=["test2@example.com"],
@@ -79,7 +81,9 @@ class EnquireToStudyFormViewInternalEmailsTest(WagtailPageTestCase):
         self.view.setup(request)
 
     @patch("captcha.fields.client.submit")
-    def test_email_is_sent_internally_when_gb_or_ie_and_has_questions(self, mocked_submit):
+    def test_email_is_sent_internally_when_gb_or_ie_and_has_questions(
+        self, mocked_submit
+    ):
         mocked_submit.return_value = RecaptchaResponse(is_valid=True)
 
         form = EnquireToStudyForm(data=self.form_data)
@@ -90,10 +94,9 @@ class EnquireToStudyFormViewInternalEmailsTest(WagtailPageTestCase):
         self.assertEqual(1, len(mail.outbox))
         email = mail.outbox[0]
 
-        # Check 
         self.assertIn(f"Submission ID: {str(submission.id)}", email.body)
-        self.assertIn(f"First_name: {self.form_data['first_name']}", email.body)
-        self.assertIn(f"Last_name: {self.form_data['last_name']}", email.body)
+        self.assertIn(f"First name: {self.form_data['first_name']}", email.body)
+        self.assertIn(f"Last name: {self.form_data['last_name']}", email.body)
         self.assertEqual(["test2@example.com"], email.to)
 
     @patch("captcha.fields.client.submit")

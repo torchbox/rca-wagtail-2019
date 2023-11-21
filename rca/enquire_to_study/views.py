@@ -263,22 +263,27 @@ class EnquireToStudyFormView(FormView):
             [user_email],
             fail_silently=False,
         )
-    
+
     def send_internal_email_notification(self, form, enquiry_submission):
-        name = f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}"
-
-        ctx = {
-            "cleaned_data": form.cleaned_data,
-            "enquiry_submission": enquiry_submission
-        }
-
-        message = render_to_string(
-            "patterns/emails/enquire_to_study.txt", ctx
+        # Prettify the form labels so we don't render them with `_` e.g. `first_name: John`.
+        answers = dict(
+            [
+                (key.replace("_", " ").capitalize(), value)
+                for key, value in form.cleaned_data.items()
+            ]
         )
+
+        # Transform programmes into titles since it's going to be a QuerySet.
+        answers["Programmes"] = ", ".join([p.title for p in answers["Programmes"]])
+
+        name = f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}"
 
         send_mail(
             f"Enquiry to Study - {name}",
-            message,
+            render_to_string(
+                "patterns/emails/enquire_to_study.txt",
+                {"answers": answers, "enquiry_submission": enquiry_submission},
+            ),
             settings.RCA_DNR_EMAIL,
             settings.ENQUIRE_TO_STUDY_DESTINATION_EMAILS,
             fail_silently=False,
