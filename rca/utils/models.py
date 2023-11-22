@@ -761,8 +761,9 @@ class AccordionSnippet(index.Indexed, OptionalLink):
 
     search_fields = [
         index.SearchField("heading"),
-        index.SearchField("preview_text"),
-        index.SearchField("body"),
+        index.AutocompleteField("heading"),
+        index.AutocompleteField("preview_text"),
+        index.AutocompleteField("body"),
     ]
 
 
