@@ -79,6 +79,16 @@
         }
     }
 
+    &--social {
+        color: $color--black;
+
+        &:hover,
+        &:active,
+        &:focus {
+            color: $color--black;
+        }
+    }
+
     &--down {
         #{$root}__icon {
             transform: rotate(90deg) translate3d(0, 0, 0);
@@ -138,6 +148,20 @@
             &:focus {
                 #{$root}__icon {
                     transform: translate3d(2px, -2px, 0);
+                }
+            }
+        }
+
+        &#{$root}--social {
+            #{$root}__icon {
+                transform: rotate(-45deg) translate3d(0, 0, 0);
+            }
+
+            &:hover,
+            &:active,
+            &:focus {
+                #{$root}__icon {
+                    transform: rotate(-45deg) translate3d(5px, 0, 0);
                 }
             }
         }
@@ -253,7 +277,8 @@
 
     .bg--dark & {
         &#{$root}--secondary,
-        &#{$root}--tertiary {
+        &#{$root}--tertiary,
+        &#{$root}--social {
             color: $color--white;
 
             &:hover,

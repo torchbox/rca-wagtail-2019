@@ -133,6 +133,18 @@
             }
         }
 
+        &--social {
+            margin-top: ($gutter * 2);
+
+            @include media-query(medium) {
+                order: 6;
+                flex-grow: 0;
+                flex-shrink: 1;
+                margin-top: 0;
+                margin-bottom: ($gutter * 3);
+            }
+        }
+
         &--action {
             max-width: 230px;
 
