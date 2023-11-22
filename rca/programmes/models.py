@@ -51,6 +51,7 @@ from rca.utils.blocks import (
 )
 from rca.utils.formatters import related_list_block_slideshow
 from rca.utils.models import (
+    AccordionSnippet,
     BasePage,
     ContactFieldsMixin,
     ProgrammeSettings,
@@ -792,9 +793,17 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     search_fields = BasePage.search_fields + [
         index.SearchField("programme_description_copy", boost=2),
         index.SearchField("pathway_blocks", boost=2),
-        index.SearchField("what_you_will_cover_blocks", boost=2),
+        index.SearchField(
+            "what_you_will_cover_blocks", boost=2
+        ),  # only works for 'accordion_block' type
+        # we need the following for 'accordion_snippet' type
+        index.SearchField("get_what_you_will_cover_blocks_accordion_snippet"),
         index.SearchField("requirements_text"),
-        index.SearchField("requirements_blocks"),
+        index.SearchField(
+            "requirements_blocks"
+        ),  # only works for 'accordion_block' type
+        # we need the following for 'accordion_snippet' type
+        index.SearchField("get_requirements_blocks_accordion_snippet"),
         index.SearchField("scholarship_information_blocks"),
         index.SearchField("more_information_blocks", boost=2),
         index.RelatedFields("programme_type", [index.SearchField("display_name")]),
@@ -916,6 +925,54 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     def listing_meta(self):
         # Returns a page 'type' value that's readable for listings,
         return "Programme"
+
+    def get_what_you_will_cover_blocks_accordion_snippet(self):
+        """
+        We cannot directly index the accordion_snippet block in the what_you_will_cover_blocks
+        StreamField. We therefore have to do this manually.
+
+        Ref: https://docs.wagtail.org/en/stable/topics/search/indexing.html#indexing-callables-and-other-attributes
+        """
+
+        if not self.what_you_will_cover_blocks:
+            return None
+
+        data = self.what_you_will_cover_blocks.get_prep_value()
+        accordion_snippet_values = [
+            item["value"] for item in data if item["type"] == "accordion_snippet"
+        ]
+
+        if not accordion_snippet_values:
+            return None
+
+        accordion_snippet_content = AccordionSnippet.objects.filter(
+            pk__in=accordion_snippet_values
+        ).values_list("heading", "preview_text", "body")
+        return "\n".join(list(chain(*accordion_snippet_content)))
+
+    def get_requirements_blocks_accordion_snippet(self):
+        """
+        We cannot directly index the accordion_snippet block in the requirements_blocks
+        StreamField. We therefore have to do this manually.
+
+        Ref: https://docs.wagtail.org/en/stable/topics/search/indexing.html#indexing-callables-and-other-attributes
+        """
+
+        if not self.requirements_blocks:
+            return None
+
+        data = self.requirements_blocks.get_prep_value()
+        accordion_snippet_values = [
+            item["value"] for item in data if item["type"] == "accordion_snippet"
+        ]
+
+        if not accordion_snippet_values:
+            return None
+
+        accordion_snippet_content = AccordionSnippet.objects.filter(
+            pk__in=accordion_snippet_values
+        ).values_list("heading", "preview_text", "body")
+        return "\n".join(list(chain(*accordion_snippet_content)))
 
     def clean(self):
         super().clean()
