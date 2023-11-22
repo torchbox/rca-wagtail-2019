@@ -1,7 +1,7 @@
 <div class="staggered-cards {% if modifier %}staggered-cards--{{ modifier }}{% endif %}">
     <div class="staggered-cards__container">
         {% for item in staggered_cards %}
-            {% include "patterns/molecules/card/card.html" with modifier="simple" %}
+            {% include "patterns/molecules/card/card.html" with modifier="simple" link_style="with-arrow" %}
         {% endfor %}
     </div>
 </div>

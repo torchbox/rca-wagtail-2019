@@ -16,9 +16,18 @@
                     <div class="card__meta">{{ item.meta }}</div>
                 {% endif %}
                 <h3 class="card__heading">
-                    {% if item.link %}<span class="card__heading-link">{% endif %}
-                        {{ item.title }}
-                    {% if item.link %}</span>{% endif %}
+                    {% if item.link %}
+                         <span class="card__heading-link">
+                             {{ item.title }}
+                             {% if link_style  == "with-arrow" %}
+                             <svg class="card__heading-link-icon" width="12" height="8" aria-hidden="true">
+                                 <use xlink:href="#arrow"></use>
+                             </svg>
+                             {% endif %}
+                         </span>
+                     {% else %}
+                         {{ item.title }}
+                    {% endif %}
                 </h3>
                 {% if item.description %}
                     <div class="card__description">{{ item.description|safe }}</div>
