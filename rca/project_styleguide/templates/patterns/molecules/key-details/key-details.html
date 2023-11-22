@@ -142,5 +142,20 @@
                 </a>
             </div>
         {% endif %}
+        {% if social_media_links %}
+            <div class="key-details__section key-details__section--social">
+                <h4 class="body body--two key-details__sub-heading">{% firstof page.social_media_links_title "Follow this programme" %}</h4>
+                <ul class="key-details__list">
+                    {% for item in social_media_links %}
+                        <li class="key-details__list-item">
+                            <a class="key-details__link link link--social link--link" href="{{ item.link_url }}">
+                                <span class="link__label">{{ item.link_text }}</span>
+                                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     {% endif %}
 </div>
