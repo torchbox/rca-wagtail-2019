@@ -14,8 +14,11 @@ const ProgrammesCategories = ({ categories, activeCategory, activeLength }) => {
     return (
         <div className="programmes-categories">
             <div className="section section--above-grid bg bg--dark">
-                <div className="section__notch section__notch--opposite">
-                    <div className="section__notch-fill section__notch-fill--content-height section__notch-fill--third-col section__notch-fill--third-col-span-four">
+                <div className="section__notch">
+                    <div
+                        className="section__notch-fill section__notch-fill--content-height section__notch-fill--third-col
+                    section__notch-fill--third-col-two-span-four"
+                    >
                         <CategoriesTablist
                             categories={categories}
                             activeCategory={activeCategory}
