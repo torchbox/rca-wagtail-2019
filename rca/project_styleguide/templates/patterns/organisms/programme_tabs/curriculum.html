@@ -39,10 +39,15 @@
         {% if page.quote_carousel_link %}
             <div class="section__row section__row--last-small grid">
                 <div class="layout__@medium-start-one layout__@large-start-two layout__span-one">
-                    <a class="link link--secondary link--link" href="{% pageurl page.quote_carousel_link %}">
-                        <span class="link__label">Browse our students' experiences</span>
-                        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                    </a>
+                    {% for block in page.quote_carousel_link %} {#  max_num=1 so we only have 1 item #}
+                        {% if block.value.page %}
+                            {% pageurl block.value.page as quote_carousel_link %}
+                        {% endif %}
+                        <a class="link link--secondary link--link" href="{% firstof quote_carousel_link block.value.url %}">
+                            <span class="link__label">{% firstof block.value.title block.value.page.title %}</span>
+                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                        </a>
+                    {% endfor %}
                 </div>
             </div>
         {% endif %}
