@@ -310,6 +310,12 @@
         font-family: $font--secondary;
     }
 
+    &__heading-link-icon {
+        transform: rotate(-45deg) translate(0, 0);
+        fill: currentColor;
+        margin-top: 8px;
+    }
+
     &__description {
         @include media-query(medium) {
             margin-bottom: $gutter;
@@ -773,6 +779,10 @@
                 background-color: transparent;
             }
         }
+
+        #{$root}__heading-link-icon {
+            fill: $color--white;
+        }
     }
 
     .bg--light & {
@@ -801,6 +811,10 @@
 
         #{$root}__meta {
             color: $color--black;
+        }
+
+        #{$root}__heading-link-icon {
+            fill: $color--black;
         }
 
         &--simple {
