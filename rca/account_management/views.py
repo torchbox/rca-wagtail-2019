@@ -131,7 +131,8 @@ class CreateStudentFormView(FormView):
                 {
                     "finish_registration_url": password_reset_url,
                     "user": student_user,
-                    "PASSWORD_RESET_TIMEOUT_DAYS": settings.PASSWORD_RESET_TIMEOUT_DAYS,
+                    "PASSWORD_RESET_TIMEOUT_DAYS": settings.PASSWORD_RESET_TIMEOUT
+                    // (24 * 60 * 60),
                 },
             )
             try:

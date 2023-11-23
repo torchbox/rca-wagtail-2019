@@ -413,7 +413,6 @@ if "SERVER_EMAIL" in env:
 is_in_shell = len(sys.argv) > 1 and sys.argv[1] in ["shell", "shell_plus"]
 
 if "SENTRY_DSN" in env and not is_in_shell:
-
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
     from sentry_sdk.utils import get_default_release
@@ -752,7 +751,8 @@ MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID = env.get(
     "MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID", None
 )
 
-PASSWORD_RESET_TIMEOUT_DAYS = 5
+# https://docs.djangoproject.com/en/3.2/ref/settings/#password-reset-timeout
+PASSWORD_RESET_TIMEOUT = 60 * 60 * 24 * 90  # 90 days, in seconds, default is 3 days
 
 WAGTAIL_USER_EDIT_FORM = "rca.users.forms.CustomUserEditForm"
 
