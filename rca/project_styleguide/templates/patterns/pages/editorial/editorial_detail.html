@@ -82,7 +82,11 @@
 
         </header>
 
-        <div class="page__content">
+        {% if sticky_cta %}
+            {% include "patterns/molecules/sticky-cta/sticky-cta.html" with item=sticky_cta modal=sticky_cta.modal modal_aria_label="call-to-action-title" %}
+        {% endif %}
+
+        <div class="page__content js-sticky-point js-sticky-point--bottom">
 
             <section class="section bg bg--light">
 
@@ -143,7 +147,7 @@
 
             </section>
 
-            <section class="section bg bg--dark">
+            <section class="section bg bg--dark booking-bar-last-item">
 
                 {% if related_pages.items %}
                     <div class="section__row section__row--first section__row--last-large">
