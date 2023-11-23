@@ -28,6 +28,10 @@
             border-bottom: 4px inset $color--tertiary;
         }
         /* stylelint-enable a11y/no-outline-none */
+
+        &--with-left-icon {
+            padding-left: ($gutter * 1.5);
+        }
     }
 
     &__button {
@@ -57,6 +61,28 @@
         fill: currentColor;
         width: 12px;
         height: 8px;
+    }
+
+    &__magnifying {
+        height: 46px;
+        position: absolute;
+        left: 0;
+        padding-top: 12px;
+
+        @include media-query(medium) {
+            padding-top: 10px;
+        }
+
+        svg {
+            fill: $color--white;
+            width: 16px;
+            height: 16px;
+
+            @include media-query(medium) {
+                width: 23px;
+                height: 23px;
+            }
+        }
     }
 
     &__count {
