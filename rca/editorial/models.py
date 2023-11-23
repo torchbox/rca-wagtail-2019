@@ -35,7 +35,7 @@ from rca.utils.blocks import (
     QuoteBlock,
 )
 from rca.utils.filter import TabStyleFilter
-from rca.utils.models import BasePage, ContactFieldsMixin, RelatedPage
+from rca.utils.models import BasePage, ContactFieldsMixin, RelatedPage, StickyCTAMixin
 
 from .blocks import EditorialPageBlock
 from .serializers import (
@@ -101,7 +101,7 @@ class EditorialPageDirectorate(models.Model):
     panels = [FieldPanel("directorate")]
 
 
-class EditorialPage(ContactFieldsMixin, BasePage):
+class EditorialPage(ContactFieldsMixin, StickyCTAMixin, BasePage):
     base_form_class = admin_forms.EditorialPageAdminForm
     template = "patterns/pages/editorial/editorial_detail.html"
     introduction = RichTextField(
@@ -183,44 +183,48 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         help_text="Toggle to show/hide in the index page.",
     )
 
-    content_panels = BasePage.content_panels + [
-        FieldPanel("introduction"),
-        FieldPanel("hero_image"),
-        MultiFieldPanel(
-            [
-                FieldPanel("video"),
-                FieldPanel("video_caption"),
-                FieldPanel("introduction_image"),
-            ],
-            heading="Introductory Video",
-        ),
-        FieldPanel("body"),
-        FieldPanel("cta_block"),
-        FieldPanel("quote_carousel"),
-        FieldPanel("gallery"),
-        MultiFieldPanel(
-            [
-                FieldPanel("more_information_title"),
-                FieldPanel("more_information"),
-            ],
-            heading="More information",
-        ),
-        InlinePanel(
-            "related_editorialpages", label="Related Editorial Pages", max_num=6
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel("contact_model_title"),
-                FieldPanel("contact_model_email"),
-                FieldPanel("contact_model_url"),
-                FieldPanel("contact_model_form"),
-                FieldPanel("contact_model_link_text"),
-                FieldPanel("contact_model_text"),
-                FieldPanel("contact_model_image"),
-            ],
-            "Large Call To Action",
-        ),
-    ]
+    content_panels = (
+        BasePage.content_panels
+        + [
+            FieldPanel("introduction"),
+            FieldPanel("hero_image"),
+            MultiFieldPanel(
+                [
+                    FieldPanel("video"),
+                    FieldPanel("video_caption"),
+                    FieldPanel("introduction_image"),
+                ],
+                heading="Introductory Video",
+            ),
+            FieldPanel("body"),
+            FieldPanel("cta_block"),
+            FieldPanel("quote_carousel"),
+            FieldPanel("gallery"),
+            MultiFieldPanel(
+                [
+                    FieldPanel("more_information_title"),
+                    FieldPanel("more_information"),
+                ],
+                heading="More information",
+            ),
+            InlinePanel(
+                "related_editorialpages", label="Related Editorial Pages", max_num=6
+            ),
+            MultiFieldPanel(
+                [
+                    FieldPanel("contact_model_title"),
+                    FieldPanel("contact_model_email"),
+                    FieldPanel("contact_model_url"),
+                    FieldPanel("contact_model_form"),
+                    FieldPanel("contact_model_link_text"),
+                    FieldPanel("contact_model_text"),
+                    FieldPanel("contact_model_image"),
+                ],
+                "Large Call To Action",
+            ),
+        ]
+        + [StickyCTAMixin.panels]
+    )
 
     search_fields = BasePage.search_fields + [
         index.SearchField("introduction"),
@@ -371,6 +375,10 @@ class EditorialPage(ContactFieldsMixin, BasePage):
             )
         return related_pages
 
+    def has_sticky_cta(self):
+        data = self.get_sticky_cta()
+        return all(data.get(key) for key in ["message", "action", "link"])
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["related_pages"] = self.get_related_pages()
@@ -379,6 +387,8 @@ class EditorialPage(ContactFieldsMixin, BasePage):
         # and applied as filters on the parent listing page
         context["taxonomy_tags"] = get_linked_taxonomy(self, request)
         context["hero_image"] = self.hero_image
+        if self.has_sticky_cta():
+            context["sticky_cta"] = self.get_sticky_cta()
 
         return context
 
