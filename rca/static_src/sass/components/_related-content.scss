@@ -183,7 +183,19 @@
 
     &__link {
         font-family: $font--primary;
-        display: inline;
+        display: inline-flex;
+        align-items: center;
+
+        #{$root}__icon {
+            display: none;
+
+            @include media-query(medium) {
+                display: block;
+                margin-left: 4px;
+                flex-shrink: 0;
+                transform: rotate(-45deg) translate3d(0, 0, 0);
+            }
+        }
     }
 
     &__copy {
@@ -292,6 +304,10 @@
             color: $color--dark-grey;
         }
 
+        #{$root}__icon {
+            fill: $color--black;
+        }
+
         &--large {
             #{$root}__copy {
                 border-top: 0;
@@ -331,6 +347,10 @@
 
         #{$root}__degree {
             color: $color--light-grey;
+        }
+
+        #{$root}__icon {
+            fill: $color--white;
         }
 
         &--large {
