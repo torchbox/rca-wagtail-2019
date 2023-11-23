@@ -65,7 +65,7 @@ class EnquireToStudyFormView(FormView):
     """
 
     form_class = EnquireToStudyForm
-    success_url = "/enquire-to-study/thanks"
+    success_url = "/register-your-interest/thanks"
     template_name = "patterns/pages/enquire_to_study/enquire_form_page.html"
 
     @method_decorator(csrf_exempt)

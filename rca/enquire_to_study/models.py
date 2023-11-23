@@ -144,7 +144,7 @@ class EnquiryFormSubmissionProgrammesOrderable(Orderable):
 @register_setting
 class EnquireToStudySettings(BaseSiteSetting):
     class Meta:
-        verbose_name = "Enquire to study settings"
+        verbose_name = "Register your interest settings"
 
     email_submission_notifations = models.BooleanField(
         default=True,
@@ -163,7 +163,7 @@ class EnquireToStudySettings(BaseSiteSetting):
                     content=(
                         "Use the following fields to specify the contents of the "
                         "submission notification users will receive after submitting "
-                        "the enquire to study form"
+                        "the register your interest form"
                     )
                 ),
                 FieldPanel("email_submission_notifations"),

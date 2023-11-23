@@ -34,7 +34,7 @@ class TestEnquireToStudyForm(TestCase):
         }
 
     def test_form_responds_to_path(self):
-        response = self.client.get("/enquire-to-study/")
+        response = self.client.get("/register-your-interest/")
         self.assertEqual(response.status_code, 200)
 
     @patch("captcha.fields.client.submit")
