@@ -1,6 +1,11 @@
+import re
+
 from django.contrib.auth.models import Group, Permission
-from django.test import TestCase
+from django.core import mail
+from django.test import TestCase, override_settings
 from django.urls import reverse
+from django.utils import timezone
+from freezegun import freeze_time
 from wagtail.models import Collection, GroupCollectionPermission, GroupPagePermission
 from wagtail_factories import CollectionFactory
 
@@ -13,7 +18,6 @@ from rca.users.models import User
 
 
 class TestStudentAccountCreationForm(TestCase):
-
     view_name = "student_account_create"
 
     def setUp(self):
@@ -123,3 +127,48 @@ class TestStudentAccountCreationForm(TestCase):
         self.assertTrue(page_permission)
         self.assertTrue(edit_collection_permission)
         self.assertTrue(choose_collection_permission)
+
+    @override_settings(PASSWORD_RESET_TIMEOUT=60 * 60 * 24 * 30)
+    def test_email_sent_with_correct_days(self):
+        self.client.force_login(self.user)
+        form_data = self.form_data
+        form_data["create_student_page"] = True
+        self.client.post(reverse(self.view_name), data=form_data)
+
+        self.assertEqual(len(mail.outbox), 1)
+
+        # Check that the email body contains the correct number of days
+        expected_days = "30 days"
+        self.assertIn(
+            f"Note that this link will expire in {expected_days}.", mail.outbox[0].body
+        )
+
+    @override_settings(PASSWORD_RESET_TIMEOUT=60 * 60 * 24 * 30)
+    def test_password_reset_link_expires_after_correct_days(self):
+        self.client.force_login(self.user)
+        form_data = self.form_data
+        form_data["create_student_page"] = True
+        self.client.post(reverse(self.view_name), data=self.form_data)
+
+        email_body = mail.outbox[0].body
+        # get the password reset link from the email body
+        url_pattern = re.compile(r"https?://\S+")
+        matches = url_pattern.findall(email_body)
+        # the assumption is that there's only one link in the email body
+        password_reset_link = matches[0]
+        print(password_reset_link)
+
+        self.client.logout()
+        error_message = b"Invalid password reset link"
+
+        # Check that the password reset link is valid
+        future_date = timezone.now() + timezone.timedelta(days=25)
+        with freeze_time(lambda: future_date):
+            response = self.client.get(password_reset_link)
+            self.assertNotIn(error_message, response.content)
+
+        # Check that the password reset link is invalid after the timeout period
+        future_date = timezone.now() + timezone.timedelta(days=31)
+        with freeze_time(lambda: future_date):
+            response = self.client.get(password_reset_link)
+            self.assertIn(error_message, response.content)
