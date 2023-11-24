@@ -279,7 +279,7 @@ class EnquireToStudyFormView(FormView):
         name = f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}"
 
         send_mail(
-            f"Enquiry to Study - {name}",
+            f"Enquire to Study - {name}",
             render_to_string(
                 "patterns/emails/enquire_to_study.txt",
                 {"answers": answers, "enquiry_submission": enquiry_submission},
