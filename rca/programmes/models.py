@@ -193,6 +193,26 @@ class ProgramPageRelatedStaff(Orderable):
         return self.name
 
 
+class ProgramPageSocialMediaLinks(Orderable):
+    source_page = ParentalKey(
+        "programmes.ProgrammePage", related_name="social_media_links"
+    )
+    link_url = models.URLField(
+        verbose_name="Link URL",
+    )
+    link_text = models.CharField(
+        max_length=100,
+    )
+
+    panels = [
+        FieldPanel("link_url"),
+        FieldPanel("link_text"),
+    ]
+
+    def __str__(self):
+        return f"{self.link_text} » {self.link_url}"
+
+
 class ProgrammeStoriesBlock(models.Model):
     source_page = ParentalKey("ProgrammePage", related_name="programme_stories")
     title = models.CharField(max_length=125)
@@ -582,6 +602,12 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         help_text="In order to import events and news to the intranet and relate them to this programme, this \
             slug value should match the value of the slug on the Category page on the intranet",
     )
+    social_media_links_title = models.CharField(
+        verbose_name="Title",
+        blank=True,
+        max_length=120,
+        help_text="The title of the social media links section",
+    )
 
     tags = ClusterTaggableManager(through=ProgrammePageTag, blank=True)
 
@@ -645,6 +671,18 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ),
         InlinePanel("career_opportunities", label="Career Opportunities"),
         FieldPanel("programme_specification"),
+        MultiFieldPanel(
+            [
+                FieldPanel("social_media_links_title"),
+                InlinePanel(
+                    "social_media_links",
+                    heading="Links",
+                    label="Link",
+                    max_num=5,
+                ),
+            ],
+            heading="Social media links",
+        ),
     ]
     programme_overview_pannels = [
         MultiFieldPanel(
@@ -961,6 +999,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         if errors:
             raise ValidationError(errors)
 
+    @property
+    def has_social_media_links(self):
+        return self.social_media_links.exists()
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["related_sections"] = [
@@ -1007,6 +1049,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
         if self.tap_widget:
             context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
+
+        if self.has_social_media_links:
+            context["social_media_links"] = self.social_media_links.all()
+
         return context
 
 
