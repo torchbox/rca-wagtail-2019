@@ -380,6 +380,23 @@ class SocialMediaSettings(BaseSiteSetting):
     linkedin_url = models.URLField(
         blank=True, help_text="Your full Linked in page url."
     )
+    tiktok = models.CharField(
+        max_length=255,
+        default="royalcollegeofart",
+        blank=True,
+        help_text="Your TikTok handle without the @, e.g. royalcollegeofart",
+    )
+    pinterest = models.CharField(
+        max_length=255,
+        default="royalcollegeofart",
+        blank=True,
+        help_text="Your Pinterest handle without the @, e.g. royalcollegeofart",
+    )
+    wechat_url = models.URLField(
+        default="https://weixin.qq.com/r/uROQiFHEEwxsrRXr90ar",
+        blank=True,
+        help_text="Your full WeChat page url.",
+    )
     default_sharing_text = models.CharField(
         max_length=255,
         blank=True,

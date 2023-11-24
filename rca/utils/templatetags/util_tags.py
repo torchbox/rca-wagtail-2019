@@ -68,7 +68,28 @@ def social_media_links(context):
         "type": "linkedin",
         "label": "Linkedin",
     }
-    return [twitter, facebook, instagram, youtube, linkedin]
+    tiktok_url = (
+        "https://tiktok.com/@%s" % settings["utils"]["SocialMediaSettings"].tiktok
+        if settings["utils"]["SocialMediaSettings"].tiktok
+        else False
+    )
+    tiktok = {"url": tiktok_url, "type": "tiktok", "label": "TikTok"}
+    pinterest_url = (
+        "https://pinterest.com/%s" % settings["utils"]["SocialMediaSettings"].pinterest
+        if settings["utils"]["SocialMediaSettings"].pinterest
+        else False
+    )
+    pinterest = {
+        "url": pinterest_url,
+        "type": "pinterest",
+        "label": "Pinterest",
+    }
+    wechat = {
+        "url": settings["utils"]["SocialMediaSettings"].wechat_url,
+        "type": "wechat",
+        "label": "WeChat",
+    }
+    return [twitter, facebook, instagram, youtube, linkedin, tiktok, pinterest, wechat]
 
 
 default_domains = [
