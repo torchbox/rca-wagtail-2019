@@ -413,7 +413,6 @@ if "SERVER_EMAIL" in env:
 is_in_shell = len(sys.argv) > 1 and sys.argv[1] in ["shell", "shell_plus"]
 
 if "SENTRY_DSN" in env and not is_in_shell:
-
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
     from sentry_sdk.utils import get_default_release
@@ -781,4 +780,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 WAGTAIL_SLIM_SIDEBAR = False
 
 
-ENQUIRE_TO_STUDY_DESTINATION_EMAILS = env.get("ENQUIRE_TO_STUDY_DESTINATION_EMAILS", [])
+if "ENQUIRE_TO_STUDY_DESTINATION_EMAILS" in env:
+    ENQUIRE_TO_STUDY_DESTINATION_EMAILS = env.get(
+        "ENQUIRE_TO_STUDY_DESTINATION_EMAILS"
+    ).split(",")
