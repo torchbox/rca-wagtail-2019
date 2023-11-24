@@ -35,7 +35,7 @@ from wagtail.search import index
 from wagtailorderable.models import Orderable as WagtailOrdable
 
 from rca.programmes.blocks import NotableAlumniBlock
-from rca.programmes.utils import format_study_mode
+from rca.programmes.utils import format_study_mode, get_accordion_snippet_content
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
@@ -51,7 +51,6 @@ from rca.utils.blocks import (
 )
 from rca.utils.formatters import related_list_block_slideshow
 from rca.utils.models import (
-    AccordionSnippet,
     BasePage,
     ContactFieldsMixin,
     ProgrammeSettings,
@@ -793,16 +792,16 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     search_fields = BasePage.search_fields + [
         index.SearchField("programme_description_copy", boost=2),
         index.SearchField("pathway_blocks", boost=2),
-        index.SearchField(
-            "what_you_will_cover_blocks", boost=2
-        ),  # only works for 'accordion_block' type
-        # we need the following for 'accordion_snippet' type
+        # indexing 'what_you_will_cover_blocks' only works for content in the 'accordion_block' block
+        index.SearchField("what_you_will_cover_blocks", boost=2),
+        # for content in the 'accordion_snippet' block, we index a custom function
+        # https://docs.wagtail.org/en/v5.1.3/topics/search/indexing.html#indexing-callables-and-other-attributes
         index.SearchField("get_what_you_will_cover_blocks_accordion_snippet"),
         index.SearchField("requirements_text"),
-        index.SearchField(
-            "requirements_blocks"
-        ),  # only works for 'accordion_block' type
-        # we need the following for 'accordion_snippet' type
+        # indexing 'requirements_blocks' only works for content in the 'accordion_block' block
+        index.SearchField("requirements_blocks"),
+        # for content in the 'accordion_snippet' block, we index a custom function
+        # https://docs.wagtail.org/en/v5.1.3/topics/search/indexing.html#indexing-callables-and-other-attributes
         index.SearchField("get_requirements_blocks_accordion_snippet"),
         index.SearchField("scholarship_information_blocks"),
         index.SearchField("more_information_blocks", boost=2),
@@ -934,21 +933,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         Ref: https://docs.wagtail.org/en/stable/topics/search/indexing.html#indexing-callables-and-other-attributes
         """
 
-        if not self.what_you_will_cover_blocks:
-            return None
-
-        data = self.what_you_will_cover_blocks.get_prep_value()
-        accordion_snippet_values = [
-            item["value"] for item in data if item["type"] == "accordion_snippet"
-        ]
-
-        if not accordion_snippet_values:
-            return None
-
-        accordion_snippet_content = AccordionSnippet.objects.filter(
-            pk__in=accordion_snippet_values
-        ).values_list("heading", "preview_text", "body")
-        return "\n".join(list(chain(*accordion_snippet_content)))
+        return get_accordion_snippet_content(self.what_you_will_cover_blocks)
 
     def get_requirements_blocks_accordion_snippet(self):
         """
@@ -958,21 +943,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         Ref: https://docs.wagtail.org/en/stable/topics/search/indexing.html#indexing-callables-and-other-attributes
         """
 
-        if not self.requirements_blocks:
-            return None
-
-        data = self.requirements_blocks.get_prep_value()
-        accordion_snippet_values = [
-            item["value"] for item in data if item["type"] == "accordion_snippet"
-        ]
-
-        if not accordion_snippet_values:
-            return None
-
-        accordion_snippet_content = AccordionSnippet.objects.filter(
-            pk__in=accordion_snippet_values
-        ).values_list("heading", "preview_text", "body")
-        return "\n".join(list(chain(*accordion_snippet_content)))
+        return get_accordion_snippet_content(self.requirements_blocks)
 
     def clean(self):
         super().clean()
