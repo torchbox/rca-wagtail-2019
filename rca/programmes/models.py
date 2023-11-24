@@ -34,6 +34,7 @@ from wagtail.models import Orderable, Site
 from wagtail.search import index
 from wagtailorderable.models import Orderable as WagtailOrdable
 
+from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
 from rca.programmes.blocks import NotableAlumniBlock
 from rca.programmes.utils import format_study_mode
 from rca.research.models import ResearchCentrePage
@@ -486,12 +487,11 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         verbose_name="Quote carousel",
         use_json_field=True,
     )
-    quote_carousel_link = models.ForeignKey(
-        "wagtailcore.Page",
-        null=True,
+    quote_carousel_link = StreamField(
+        [("link", InternalExternalLinkBlock())],
         blank=True,
-        on_delete=models.CASCADE,
-        related_name="+",
+        max_num=1,
+        use_json_field=True,
     )
 
     # Requirements
