@@ -183,19 +183,30 @@
 
     &__link {
         font-family: $font--primary;
-        display: inline-flex;
-        align-items: center;
+        display: inline-block;
+        color: $color--black;
 
         #{$root}__icon {
             display: none;
 
             @include media-query(medium) {
-                display: block;
+                display: inline;
                 margin-left: 4px;
-                flex-shrink: 0;
                 transform: rotate(-45deg) translate3d(0, 0, 0);
             }
         }
+
+        &:hover,
+        &:focus {
+            #{$root}__link-text {
+                @include underline-hover-target-reset();
+                color: inherit;
+            }
+        }
+    }
+
+    &__link-text {
+        @include underline-hover-target();
     }
 
     &__copy {
