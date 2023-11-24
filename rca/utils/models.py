@@ -23,6 +23,7 @@ from wagtail.api import APIField
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Orderable, Page
+from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 
 from rca.api_content.content import CantPullFromRcaApi, pull_tagged_news_and_events
@@ -745,7 +746,7 @@ class StepSnippet(OptionalLink):
 
 
 @register_snippet
-class AccordionSnippet(OptionalLink):
+class AccordionSnippet(index.Indexed, OptionalLink):
     heading = models.CharField(
         help_text="A large heading diplayed next to the block",
         blank=True,
@@ -774,6 +775,13 @@ class AccordionSnippet(OptionalLink):
         FieldPanel("preview_text"),
         FieldPanel("body"),
     ] + OptionalLink.panels
+
+    search_fields = [
+        index.SearchField("heading"),
+        index.AutocompleteField("heading"),
+        index.AutocompleteField("preview_text"),
+        index.AutocompleteField("body"),
+    ]
 
 
 @register_snippet

@@ -36,7 +36,7 @@ from wagtailorderable.models import Orderable as WagtailOrdable
 
 from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
 from rca.programmes.blocks import NotableAlumniBlock
-from rca.programmes.utils import format_study_mode
+from rca.programmes.utils import format_study_mode, get_accordion_snippet_content
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
@@ -830,9 +830,17 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     search_fields = BasePage.search_fields + [
         index.SearchField("programme_description_copy", boost=2),
         index.SearchField("pathway_blocks", boost=2),
+        # indexing 'what_you_will_cover_blocks' only works for content in the 'accordion_block' block
         index.SearchField("what_you_will_cover_blocks", boost=2),
+        # for content in the 'accordion_snippet' block, we index a custom function
+        # https://docs.wagtail.org/en/v5.1.3/topics/search/indexing.html#indexing-callables-and-other-attributes
+        index.SearchField("get_what_you_will_cover_blocks_accordion_snippet"),
         index.SearchField("requirements_text"),
+        # indexing 'requirements_blocks' only works for content in the 'accordion_block' block
         index.SearchField("requirements_blocks"),
+        # for content in the 'accordion_snippet' block, we index a custom function
+        # https://docs.wagtail.org/en/v5.1.3/topics/search/indexing.html#indexing-callables-and-other-attributes
+        index.SearchField("get_requirements_blocks_accordion_snippet"),
         index.SearchField("scholarship_information_blocks"),
         index.SearchField("more_information_blocks", boost=2),
         index.RelatedFields("programme_type", [index.SearchField("display_name")]),
@@ -954,6 +962,26 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ).distinct():
             staff.append({"page": item})
         return staff
+
+    def get_what_you_will_cover_blocks_accordion_snippet(self):
+        """
+        We cannot directly index the accordion_snippet block in the what_you_will_cover_blocks
+        StreamField. We therefore have to do this manually.
+
+        Ref: https://docs.wagtail.org/en/stable/topics/search/indexing.html#indexing-callables-and-other-attributes
+        """
+
+        return get_accordion_snippet_content(self.what_you_will_cover_blocks)
+
+    def get_requirements_blocks_accordion_snippet(self):
+        """
+        We cannot directly index the accordion_snippet block in the requirements_blocks
+        StreamField. We therefore have to do this manually.
+
+        Ref: https://docs.wagtail.org/en/stable/topics/search/indexing.html#indexing-callables-and-other-attributes
+        """
+
+        return get_accordion_snippet_content(self.requirements_blocks)
 
     def clean(self):
         super().clean()
