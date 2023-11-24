@@ -841,6 +841,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         # for content in the 'accordion_snippet' block, we index a custom function
         # https://docs.wagtail.org/en/v5.1.3/topics/search/indexing.html#indexing-callables-and-other-attributes
         index.SearchField("get_requirements_blocks_accordion_snippet"),
+        index.SearchField("scholarship_accordion_items"),
         index.SearchField("scholarship_information_blocks"),
         index.SearchField("more_information_blocks", boost=2),
         index.RelatedFields("programme_type", [index.SearchField("display_name")]),
