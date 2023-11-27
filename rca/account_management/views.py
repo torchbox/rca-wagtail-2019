@@ -139,7 +139,7 @@ class CreateStudentFormView(FormView):
                 user_notification_sent = send_mail(
                     email_subject,
                     email_body,
-                    "do-not-reply@rca.ac.uk",
+                    settings.RCA_DNR_EMAIL,
                     [student_user.email],
                 )
             except SMTPException:
