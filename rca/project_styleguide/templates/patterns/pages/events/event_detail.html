@@ -3,7 +3,7 @@
 {% get_settings %}
 
 {% block body_class %}
-    app--event-detail
+    app--event-detail sticky-bar
 {% endblock %}
 
 {% block content %}
@@ -20,7 +20,11 @@
             </div>
         {% endif %}
 
-        <header class="page__header bg bg--dark">
+        {% if page.show_booking_bar and not page.past %}
+            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=booking_bar %}
+        {% endif %}
+
+        <header class="page__header bg bg--dark{% if page.show_booking_bar and not page.past %} page__header--with-sticky-cta{% endif %}">
             <div class="title-area title-area--breadcrumb title-area--event grid">
                 <div class="title-area__content">
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
@@ -43,10 +47,6 @@
             {% endif %}
 
         </header>
-
-        {% if page.show_booking_bar and not page.past %}
-            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=booking_bar %}
-        {% endif %}
 
         <div class="page__content js-sticky-point js-sticky-point--bottom">
 
