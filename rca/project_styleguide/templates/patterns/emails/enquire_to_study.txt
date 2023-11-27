@@ -1,0 +1,4 @@
+Submission ID: {{ enquiry_submission.id }}
+{% for label, answer in answers.items %}
+{{ label }}: {{ answer|safe }}
+{% endfor %}

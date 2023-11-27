@@ -413,7 +413,6 @@ if "SERVER_EMAIL" in env:
 is_in_shell = len(sys.argv) > 1 and sys.argv[1] in ["shell", "shell_plus"]
 
 if "SENTRY_DSN" in env and not is_in_shell:
-
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
     from sentry_sdk.utils import get_default_release
@@ -779,3 +778,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 # v2.16 WAGTAIL_SLIM_SIDEBAR https://docs.wagtail.org/en/latest/releases/2.16.html
 # To avoid the following issue https://github.com/torchbox/rca-wagtail-2019/pull/866
 WAGTAIL_SLIM_SIDEBAR = False
+
+
+if "ENQUIRE_TO_STUDY_DESTINATION_EMAILS" in env:
+    ENQUIRE_TO_STUDY_DESTINATION_EMAILS = env.get(
+        "ENQUIRE_TO_STUDY_DESTINATION_EMAILS"
+    ).split(",")
