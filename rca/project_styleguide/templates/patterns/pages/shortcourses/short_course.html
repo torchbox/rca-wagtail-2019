@@ -3,7 +3,7 @@
 {% get_settings %}
 
 {% block body_class %}
-    app--short-course
+    app--short-course sticky-bar
 {% endblock %}
 
 {% block content %}
@@ -17,7 +17,11 @@
             <div class="page__notch-block bg bg--dark"></div>
         </div>
 
-        <header class="page__header bg bg--dark">
+        {% if booking_bar %}
+            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=booking_bar modal=booking_bar.modal modal_aria_label="booking-details-title" %}
+        {% endif %}
+
+        <header class="page__header bg bg--dark{% if booking_bar %} page__header--with-sticky-cta{% endif %}">
             <div class="title-area title-area--breadcrumb grid">
                 <div class="title-area__content">
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
@@ -32,10 +36,6 @@
                 {% endif %}
             </div>
         </header>
-
-        {% if booking_bar %}
-            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=booking_bar modal=booking_bar.modal modal_aria_label="booking-details-title" %}
-        {% endif %}
 
         <div class="page__content js-sticky-point js-sticky-point--bottom">
 

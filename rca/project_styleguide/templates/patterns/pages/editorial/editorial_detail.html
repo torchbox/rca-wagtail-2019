@@ -3,7 +3,7 @@
 {% get_settings %}
 
 {% block body_class %}
-    app--editorial
+    app--editorial sticky-bar
 {% endblock %}
 
 {% block content %}
@@ -19,7 +19,11 @@
             </div>
         {% endif %}
 
-        <header class="page__header bg bg--dark">
+        {% if sticky_cta %}
+            {% include "patterns/molecules/sticky-cta/sticky-cta.html" with item=sticky_cta modal=sticky_cta.modal modal_aria_label="call-to-action-title" %}
+        {% endif %}
+
+        <header class="page__header bg bg--dark{% if sticky_cta %} page__header--with-sticky-cta{% endif %}">
             <div class="title-area title-area--breadcrumb grid">
                 <div class="title-area__content">
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
@@ -82,11 +86,7 @@
 
         </header>
 
-        {% if sticky_cta %}
-            {% include "patterns/molecules/sticky-cta/sticky-cta.html" with item=sticky_cta modal=sticky_cta.modal modal_aria_label="call-to-action-title" %}
-        {% endif %}
-
-        <div class="page__content js-sticky-point js-sticky-point--bottom">
+        <div class="page__content js-sticky-point js-sticky-point--top">
 
             <section class="section bg bg--light">
 

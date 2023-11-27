@@ -26,6 +26,7 @@ context:
       - Kensington
       - Battersea
       - White City
+    social_media_links_title: 'We are social'
   programme_page_global_fields:
     key_details_programme_details_title: Programme details
     key_details_next_open_day_title: Next open days
@@ -37,6 +38,13 @@ context:
         title: School of Architecture
     - page:
         title: School of Design
+  social_media_links:
+    - link_url: 'https://mastodon.social/@livingcities'
+      link_text: 'Mastodon'
+    - link_url: 'https://www.threads.net/@royalcollegeofart'
+      link_text: 'Threads'
+    - link_url: 'https://www.reddit.com/r/urbandesign/'
+      link_text: 'Reddit'
 
 tags:
   pageurl:
