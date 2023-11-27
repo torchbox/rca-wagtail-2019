@@ -364,6 +364,10 @@
             fill: $color--white;
         }
 
+        #{$root}__link {
+            color: $color--white;
+        }
+
         &--large {
             #{$root}__copy {
                 border-top: 0;
