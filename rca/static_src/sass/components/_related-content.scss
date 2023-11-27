@@ -191,7 +191,7 @@
 
             @include media-query(medium) {
                 display: inline;
-                margin-left: 4px;
+                margin-top: 8px;
                 transform: rotate(-45deg) translate3d(0, 0, 0);
             }
         }
