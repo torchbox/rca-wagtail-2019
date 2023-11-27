@@ -33,17 +33,16 @@
                     </div>
                 </div>
             </div>
-                <div class="introduction introduction--indented grid">
-                    {% if anchor_nav or page.contact_model_image %}
-                        {% include "patterns/molecules/anchor-nav/anchor-nav.html" with anchor_nav=anchor_nav show_contact_block=page.contact_model_image  %}
-                    {% endif %}
-                    <div class="introduction__container">
+            <div class="introduction introduction--indented grid">
+                {% if anchor_nav or page.contact_model_image %}
+                    {% include "patterns/molecules/anchor-nav/anchor-nav.html" with anchor_nav=anchor_nav show_contact_block=page.contact_model_image  %}
+                {% endif %}
+                <div class="introduction__container">
                     {% if page.introduction %}
                         <h2 class="introduction__text section__heading heading heading--five">
                             {{ page.introduction }}
                         </h2>
                     {% endif %}
-                    </div>
                 </div>
             </div>
         </header>
