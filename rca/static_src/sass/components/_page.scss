@@ -65,6 +65,14 @@
                 padding-top: ($gutter * 12);
             }
         }
+
+        &--with-sticky-cta {
+            margin-top: -50px;
+
+            @include media-query(medium) {
+                margin-top: -91px;
+            }
+        }
     }
 
     &__notch-block {
