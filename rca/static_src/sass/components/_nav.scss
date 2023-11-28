@@ -108,6 +108,30 @@
         @include media-query(medium) {
             display: block;
         }
+
+        #{$root}__link-text {
+            @include underline-hover-target();
+
+            &::after {
+                display: none;
+            }
+        }
+
+        #{$root}__link {
+            display: inline-block;
+
+            &:hover,
+            &:focus {
+                #{$root}__link-text {
+                    @include underline-hover-target-reset();
+                }
+            }
+        }
+
+        #{$root}__link-icon {
+            margin-top: 7px;
+            margin-left: -4px;
+        }
     }
 
     &--standout-mobile {

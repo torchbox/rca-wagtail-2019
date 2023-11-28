@@ -60,7 +60,7 @@ How to test:
 
 ### 2. Enquire to study form
 
-URL: https://www.rca.ac.uk/enquire-to-study/
+URL: https://www.rca.ac.uk/register-your-interest/
 App: https://github.com/torchbox/rca-wagtail-2019/tree/master/rca/enquire_to_study
 
 Whilst there are unit tests for this form, it has 2 integrations so important to test this form.
