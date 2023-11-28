@@ -20,12 +20,13 @@
                             <p class="related-content__title body body--one">
                                 <a
                                     href="#"
-                                    class="related-content__link link link--tertiary"
+                                    class="related-content__link"
                                     data-related-title
                                     data-target-image="{{ forloop.counter }}"
                                     data-parent-group={{ forloop.parentloop.counter }}
                                 >
-                                    {{ related_item.title }}
+                                    <span class="related-content__link-text">{{ related_item.title }}</span>
+                                    <svg width="12" height="8" class="related-content__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                 </a>
                             </p>
                             <p class="related-content__degree body body--two">{{ related_item.degree }}</p>

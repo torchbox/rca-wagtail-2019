@@ -183,7 +183,30 @@
 
     &__link {
         font-family: $font--primary;
-        display: inline;
+        display: inline-block;
+        color: $color--black;
+
+        #{$root}__icon {
+            display: none;
+
+            @include media-query(medium) {
+                display: inline;
+                margin-top: 8px;
+                transform: rotate(-45deg) translate3d(0, 0, 0);
+            }
+        }
+
+        &:hover,
+        &:focus {
+            #{$root}__link-text {
+                @include underline-hover-target-reset();
+                color: inherit;
+            }
+        }
+    }
+
+    &__link-text {
+        @include underline-hover-target();
     }
 
     &__copy {
@@ -292,6 +315,10 @@
             color: $color--dark-grey;
         }
 
+        #{$root}__icon {
+            fill: $color--black;
+        }
+
         &--large {
             #{$root}__copy {
                 border-top: 0;
@@ -331,6 +358,14 @@
 
         #{$root}__degree {
             color: $color--light-grey;
+        }
+
+        #{$root}__icon {
+            fill: $color--white;
+        }
+
+        #{$root}__link {
+            color: $color--white;
         }
 
         &--large {
