@@ -3,7 +3,7 @@
     overflow: hidden;
 
     &--medium {
-        max-height: 290px;
+        max-height: 340px;
 
         @include media-query(medium) {
             max-height: 536px;
@@ -33,13 +33,12 @@
 
     &__image {
         width: 100%;
-        height: 100vh;
+        height: 100%;
         object-fit: cover;
-        min-height: 340px;
+        min-height: 290px;
 
         @include media-query(medium) {
             min-height: 450px;
-            height: 100%;
         }
 
         @include media-query(large) {
