@@ -3,11 +3,9 @@
 {% comment "Always render the formset so the form can be saved" %}{% endcomment %}
 {{ self.formset.management_form }}
 
-{% comment %} 
-Hide the visible form fields to non-superusers. We only want to toggle the visibility since
-the fields must still exist in the template so it's part of the POSTed data.
-{% endcomment %}
-<div {% if not request.user.is_superuser %}style="display: none;"{% endif %}>
+{% comment "Hide the visibe form fields to non-superusers" %}{% endcomment %}
+{% if request.user.is_superuser %}
+
     <ul class="multiple" id="id_{{ self.formset.prefix }}-FORMS">
         {% if self.formset.non_form_errors %}
             <li class="error-message">
@@ -52,4 +50,5 @@ the fields must still exist in the template so it's part of the POSTed data.
             panel.updateAddButtonState();
         })();
     </script>
-</div>
+
+{% endif %}
