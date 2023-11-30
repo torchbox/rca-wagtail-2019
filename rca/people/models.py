@@ -973,7 +973,11 @@ class StudentPage(BasePage):
 
             # Create new add GroupPagePermission
             GroupPagePermission.objects.create(
-                group=specific_student_group, page=self, permission_type="edit"
+                group=specific_student_group,
+                page=self,
+                permission=Permission.objects.get(
+                    content_type__app_label="wagtailcore", codename="change_page"
+                ),
             )
 
             # Create new GroupCollectionPermission for Profile Images collection
