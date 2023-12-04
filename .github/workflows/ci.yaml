@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: '16'
       - name: this is a test
-        run: echo ${{ github.sha }}
+        run: echo ${{ secrets.HEROKU_APP_PRODUCTION }}
       - name: Install npm dependencies
         run: npm install
       - name: CSS linting
