@@ -1,0 +1,23 @@
+name: production_deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_production:
+    runs-on: ubuntu-latest
+    needs: [test]
+
+    env:
+      DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY_PRODUCTION }}
+      HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME_PRODUCTION }}
+      SHA: ${{ github.sha }}
+
+    steps:
+      - name: 'deploy master to heroku'
+      - uses: actions/checkout@v4
+      - run: |
+          echo "Deploying to Heroku. To see progress, go to: https://dashboard.heroku.com/apps/$r/activity"
+          curl -sf -X POST -m 900 https://heroku-deploy.torchbox.com/$HEROKU_APP_NAME/$SHA?key=$DEPLOYMENT_KEY -d "Content-Length: 0"
