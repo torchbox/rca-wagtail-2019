@@ -12,8 +12,7 @@ jobs:
       ALLOWED_HOSTS: localhost
       DATABASE_URL: postgres://postgres:postgres@localhost/postgres
       BIRDBATH_REQUIRED: false
-
-      HEROKU_APP: ${{ secrets.HEROKU_APP_PRODUCTION }}
+      HEROKU_APP: ${{ secrets.HEROKU_APP_NAME_PRODUCTION }}
 
     services:
       postgres:
