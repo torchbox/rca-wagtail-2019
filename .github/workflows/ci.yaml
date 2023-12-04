@@ -13,6 +13,8 @@ jobs:
       DATABASE_URL: postgres://postgres:postgres@localhost/postgres
       BIRDBATH_REQUIRED: false
 
+      HEROKU_APP: ${{ secrets.HEROKU_APP_PRODUCTION }}
+
     services:
       postgres:
         image: postgres:12.3
@@ -30,7 +32,7 @@ jobs:
         with:
           node-version: '16'
       - name: this is a test
-        run: echo ${{ secrets.HEROKU_APP_PRODUCTION }}
+        run: echo $HEROKU_APP
       - name: Install npm dependencies
         run: npm install
       - name: CSS linting
