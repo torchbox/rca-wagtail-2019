@@ -3,7 +3,7 @@ name: production_deployment
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy_production:
@@ -19,5 +19,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: 'deploy master to heroku'
         run: |
-          echo "Deploying to Heroku. To see progress, go to: https://dashboard.heroku.com/apps/$r/activity"
+          echo "Deploying to Heroku. To see progress, go to: https://dashboard.heroku.com/apps/$HEROKU_APP_NAME/activity"
           curl -sf -X POST -m 900 https://heroku-deploy.torchbox.com/$HEROKU_APP_NAME/$SHA?key=$DEPLOYMENT_KEY -d "Content-Length: 0"
