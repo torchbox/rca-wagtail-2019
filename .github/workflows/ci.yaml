@@ -12,8 +12,20 @@ jobs:
   deploy:
     if: contains(github.ref, 'master')
     needs: [lint, test]
-    # uses: ./.github/workflows/deploy-production.yaml
-    runs-on: ubuntu-latest
-    steps:
-      - name: test-job
-        run: echo 'hello'
+    uses: ./.github/workflows/deploy-production.yaml
+
+  deploy:
+    if: contains(github.ref, 'dev')
+    needs: [lint, test]
+    uses: ./.github/workflows/deploy-dev.yaml
+
+  deploy:
+    if: contains(github.ref, 'staging')
+    needs: [lint, test]
+    uses: ./.github/workflows/deploy-staging.yaml
+
+  # this is to test a deployment script
+  deploy:
+    if: contains(github.ref, 'chore/github-actions')
+    needs: [lint, test]
+    uses: ./.github/workflows/deploy-dev.yaml
