@@ -9,23 +9,23 @@ jobs:
   test:
     uses: ./.github/workflows/test.yaml
 
-  deploy:
+  deploy_production:
     if: contains(github.ref, 'master')
     needs: [lint, test]
     uses: ./.github/workflows/deploy-production.yaml
 
-  deploy:
+  deploy_dev:
     if: contains(github.ref, 'dev')
     needs: [lint, test]
     uses: ./.github/workflows/deploy-dev.yaml
 
-  deploy:
+  deploy_staging:
     if: contains(github.ref, 'staging')
     needs: [lint, test]
     uses: ./.github/workflows/deploy-staging.yaml
 
   # this is to test a deployment script
-  deploy:
+  deploy_test:
     if: contains(github.ref, 'chore/github-actions')
     needs: [lint, test]
     uses: ./.github/workflows/deploy-dev.yaml
