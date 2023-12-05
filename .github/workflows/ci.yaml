@@ -12,4 +12,7 @@ jobs:
   deploy:
     if: contains(github.ref, 'master')
     needs: [lint, test]
-    uses: ./.github/workflows/deploy-production.yaml
+    # uses: ./.github/workflows/deploy-production.yaml
+    steps:
+      name: test-job:
+      run: echo: 'hello'
