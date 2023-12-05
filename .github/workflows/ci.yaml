@@ -13,6 +13,7 @@ jobs:
     if: contains(github.ref, 'master')
     needs: [lint, test]
     # uses: ./.github/workflows/deploy-production.yaml
+    runs-on: ubuntu-latest
     steps:
       - name: test-job
         run: echo 'hello'
