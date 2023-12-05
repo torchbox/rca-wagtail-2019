@@ -7,7 +7,6 @@ jobs:
     uses: ./.github/workflows/lint.yaml
 
   test:
-    needs: [lint]
     uses: ./.github/workflows/test.yaml
 # name: CI
 # on: push
