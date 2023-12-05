@@ -1,9 +1,6 @@
 name: production_deployment
 
-on:
-  push:
-    branches:
-      - master
+on: workflow_call
 
 jobs:
   deploy_production:
