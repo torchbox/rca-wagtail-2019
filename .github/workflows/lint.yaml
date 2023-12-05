@@ -1,0 +1,33 @@
+name: lint
+
+on:
+  workflow_call
+
+jobs:
+  lint-front-end:
+    runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - uses: actions/setup-node@v3
+          with:
+            node-version: '16'
+        - name: Install npm dependencies
+          run: npm install
+        - name: CSS linting
+          run: npm run lint:css
+        - name: JS linting
+          run: npm run lint:js
+        - name: Prettier
+          run: npm run format
+        - name: JS tests
+          run: npm run test
+
+  lint-python:
+    runs-on: ubuntu-latest
+      steps:
+        # - name: Flake8
+        #   run: flake8 ./rca fabfile.py
+        - name: isort
+          run: isort --check-only --diff ./rca fabfile.py
+        - name: black
+          run: black --check --diff ./rca fabfile.py --exclude migrations/
