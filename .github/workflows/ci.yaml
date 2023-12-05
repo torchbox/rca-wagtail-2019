@@ -8,3 +8,8 @@ jobs:
 
   test:
     uses: ./.github/workflows/test.yaml
+
+  deploy:
+    if: contains(github.ref, 'master')
+    needs: [lint, test]
+    uses: ./.github/workflows/deploy-production.yaml
