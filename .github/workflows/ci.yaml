@@ -14,5 +14,5 @@ jobs:
     needs: [lint, test]
     # uses: ./.github/workflows/deploy-production.yaml
     steps:
-      name: test-job:
-      run: echo: 'hello'
+      - name: test-job:
+        run: echo: 'hello'
