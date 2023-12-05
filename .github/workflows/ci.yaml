@@ -29,8 +29,4 @@ jobs:
     if: contains(github.ref, 'chore/github-actions')
     #needs: [lint, test]
     uses: ./.github/workflows/deploy-dev.yaml
-    with:
-      test-input: 'test'
-    secrets:
-      DEPLOYMENT_KEY_DEV: ${{ secrets.DEPLOYMENT_KEY_DEV }}
-      HEROKU_APP_NAME_DEV: ${{ secrets.HEROKU_APP_NAME_DEV }}
+    secrets: inherit

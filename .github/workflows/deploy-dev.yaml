@@ -1,16 +1,6 @@
 name: dev_deployment
 
-on:
-  workflow_call:
-    inputs:
-      test-input:
-        required: true
-        type: string
-    secrets:
-      DEPLOYMENT_KEY_DEV:
-        required: true
-      HEROKU_APP_NAME_DEV:
-        required: true
+on: workflow_call
 
 jobs:
   deploy_dev:
