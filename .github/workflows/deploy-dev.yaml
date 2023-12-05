@@ -3,7 +3,9 @@ name: dev_deployment
 on:
   workflow_call:
     inputs:
-      test: string
+      test-input:
+        required: true
+        type: string
     secrets:
       token:
         required: true
