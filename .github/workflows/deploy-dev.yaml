@@ -1,9 +1,10 @@
 name: dev_deployment
 
-on: workflow_call:
-  secrets:
-    token:
-      required: true
+on:
+  workflow_call:
+    secrets:
+      token:
+        required: true
 
 jobs:
   deploy_dev:
