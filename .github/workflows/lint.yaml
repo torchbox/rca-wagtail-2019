@@ -24,6 +24,17 @@ jobs:
   lint-python:
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+      - uses: Gr1N/setup-poetry@v8
+        with:
+          poetry-version: 1.5.0
+      - name: Install Poetry
+        run: |
+          poetry config virtualenvs.create false &&
+          poetry install
       # - name: Flake8
       #   run: flake8 ./rca fabfile.py
       - name: isort
