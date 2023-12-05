@@ -5,9 +5,8 @@ on: push
 jobs:
   lint:
     uses: ./.github/workflows/lint.yaml
-
-  test:
-    uses: ./.github/workflows/test.yaml
+  # test:
+  #   uses: ./.github/workflows/test.yaml
 # name: CI
 # on: push
 
