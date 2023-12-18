@@ -36,8 +36,8 @@ jobs:
         run: |
           poetry config virtualenvs.create false &&
           poetry install
-      # - name: Flake8
-      #   run: flake8 ./rca fabfile.py
+      - name: Flake8
+        run: flake8 ./rca fabfile.py
       - name: isort
         run: isort --check-only --diff ./rca fabfile.py
       - name: black
