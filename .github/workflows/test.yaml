@@ -55,7 +55,6 @@ jobs:
         run: python manage.py test --settings=rca.settings.test
       - name: Coverage
         run: |
-          coverage run ./manage.py test --settings=rca.settings.test
           coverage report
           coverage xml
           bash <(curl -s https://codecov.io/bash) -t $COVERAGE_TOKEN
