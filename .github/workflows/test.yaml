@@ -55,6 +55,6 @@ jobs:
         run: python manage.py test --settings=rca.settings.test
       - name: Coverage
         uses: actions/python-django-coverage-gitHub-action@0.9
-          with:
-            django-app: 'rca'
-            minimum-coverage: '86'
+        with:
+          django-app: 'rca'
+          minimum-coverage: '86'
