@@ -237,7 +237,7 @@ USE_TZ = True
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Place static files that need a specific URL (such as robots.txt and favicon.ico) in the "public" folder
-WHITENOISE_ROOT = (os.path.join(BASE_DIR, "public"),)
+WHITENOISE_ROOT = os.path.join(BASE_DIR, "public")
 
 
 # This is where Django will look for static files outside the directories of
