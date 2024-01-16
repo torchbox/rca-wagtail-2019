@@ -9,7 +9,7 @@ jobs:
           ALLOWED_HOSTS: localhost
           DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
           BIRDBATH_REQUIRED: false
-      - image: circleci/postgres:11.5
+      - image: circleci/postgres:12.3
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
