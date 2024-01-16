@@ -787,4 +787,7 @@ if "ENQUIRE_TO_STUDY_DESTINATION_EMAILS" in env:
     ).split(",")
 
 
-WAGTAILADMIN_BASE_URL = "http://localhost:8000"
+# Silenced system checks
+SILENCED_SYSTEM_CHECKS = [
+    "templates.E003",  # Warns if two templatetags have the same name
+]
