@@ -622,13 +622,13 @@ six = ">=1.2"
 
 [[package]]
 name = "django-filter"
-version = "22.1"
+version = "23.5"
 description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "django-filter-22.1.tar.gz", hash = "sha256:ed473b76e84f7e83b2511bb2050c3efb36d135207d0128dfe3ae4b36e3594ba5"},
-    {file = "django_filter-22.1-py3-none-any.whl", hash = "sha256:ed429e34760127e3520a67f415bec4c905d4649fbe45d0d6da37e6ff5e0287eb"},
+    {file = "django-filter-23.5.tar.gz", hash = "sha256:67583aa43b91fe8c49f74a832d95f4d8442be628fd4c6d65e9f811f5153a4e5c"},
+    {file = "django_filter-23.5-py3-none-any.whl", hash = "sha256:99122a201d83860aef4fe77758b69dda913e874cc5e0eaa50a86b0b18d708400"},
 ]
 
 [package.dependencies]
@@ -652,21 +652,21 @@ tablib = {version = ">=3.0.0", extras = ["html", "ods", "xls", "xlsx", "yaml"]}
 
 [[package]]
 name = "django-modelcluster"
-version = "6.0"
+version = "6.2.1"
 description = "Django extension to allow working with 'clusters' of models as a single unit, independently of the database"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "django-modelcluster-6.0.tar.gz", hash = "sha256:cdcffef5baf5d3759ee04c5b60ffaf1a0c95fc0f265e762f3ddfadde3394e5db"},
-    {file = "django_modelcluster-6.0-py2.py3-none-any.whl", hash = "sha256:4ae46f86c43702020f24f212222eef0a2588df937bbb523a5447da247b5fb130"},
+    {file = "django-modelcluster-6.2.1.tar.gz", hash = "sha256:3f53d47e1af7aec5e238724be16bbebdac9c518e4788b31429e773dcd8e8ea49"},
+    {file = "django_modelcluster-6.2.1-py2.py3-none-any.whl", hash = "sha256:725c005de22191165b690ea05588b1c702ac34b1e9cd8a8b26fadc2a35fcd337"},
 ]
 
 [package.dependencies]
-django = ">=2.2"
-pytz = ">=2015.2"
+django = ">=3.2"
+pytz = ">=2022.4"
 
 [package.extras]
-taggit = ["django-taggit (>=0.20)"]
+taggit = ["django-taggit (>=3.1)"]
 
 [[package]]
 name = "django-pattern-library"
@@ -2652,21 +2652,21 @@ testing = ["coverage (>=6.2)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7
 
 [[package]]
 name = "wagtail"
-version = "5.1.3"
+version = "5.2.2"
 description = "A Django content management system."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "wagtail-5.1.3-py3-none-any.whl", hash = "sha256:f4a6cc2adc40f687d8fb62fed2d4fc0804941dfa45b4624887f260dc6cf6b9f2"},
-    {file = "wagtail-5.1.3.tar.gz", hash = "sha256:45fac794e4c20c7e75b018069d7f9761f25faa3619ef30df24013ca24abf9a74"},
+    {file = "wagtail-5.2.2-py3-none-any.whl", hash = "sha256:b469a1b3cb3ab3e0c6a2c6f56b4a7890427609c0c12ca32322e26ab534547211"},
+    {file = "wagtail-5.2.2.tar.gz", hash = "sha256:48e4c29b72b0e53eb47a3178d6b0f2c699aa284d3f3a2abfd2f04f578f44b55a"},
 ]
 
 [package.dependencies]
 anyascii = ">=0.1.5"
 beautifulsoup4 = ">=4.8,<4.12"
-Django = ">=3.2,<4.3"
-django-filter = ">=2.2,<24"
-django-modelcluster = ">=6.0,<7.0"
+Django = ">=3.2,<5.1"
+django-filter = ">=23.3,<24"
+django-modelcluster = ">=6.1,<7.0"
 django-permissionedforms = ">=0.1,<1.0"
 django-taggit = ">=2.0,<5.0"
 django-treebeard = ">=4.5.1,<5.0"
@@ -2682,7 +2682,7 @@ Willow = {version = ">=1.6.2,<1.7", extras = ["heif"]}
 
 [package.extras]
 docs = ["Sphinx (>=1.5.2)", "myst-parser (==0.18.1)", "pyenchant (>=3.1.1,<4)", "sphinx-autobuild (>=0.6.0)", "sphinx-copybutton (>=0.5,<1.0)", "sphinx-wagtail-theme (==6.1.1)", "sphinxcontrib-spelling (>=5.4.0,<6)"]
-testing = ["Jinja2 (>=3.0,<3.2)", "azure-mgmt-cdn (>=12.0,<13.0)", "azure-mgmt-frontdoor (>=1.0,<1.1)", "black (==22.3.0)", "boto3 (>=1.16,<1.17)", "coverage (>=3.7.0)", "curlylint (==0.13.1)", "django-pattern-library (>=0.7,<0.8)", "djhtml (==1.5.2)", "doc8 (==0.8.1)", "factory-boy (>=3.2)", "freezegun (>=0.3.8)", "polib (>=1.1,<2.0)", "python-dateutil (>=2.7)", "pytz (>=2014.7)", "ruff (==0.0.272)", "semgrep (==1.3.0)"]
+testing = ["Jinja2 (>=3.0,<3.2)", "azure-mgmt-cdn (>=12.0,<13.0)", "azure-mgmt-frontdoor (>=1.0,<1.1)", "black (==22.3.0)", "boto3 (>=1.28,<2)", "coverage (>=3.7.0)", "curlylint (==0.13.1)", "django-pattern-library (>=0.7,<0.8)", "djhtml (==1.5.2)", "doc8 (==0.8.1)", "factory-boy (>=3.2)", "freezegun (>=0.3.8)", "polib (>=1.1,<2.0)", "python-dateutil (>=2.7)", "pytz (>=2014.7)", "ruff (==0.0.290)", "semgrep (==1.40.0)", "tblib (>=2.0,<3.0)"]
 
 [[package]]
 name = "wagtail-accessibility"
@@ -3011,4 +3011,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.8"
-content-hash = "297ee3bb6e6b2a2787e79a39788211c2c4ddc7af284c87ab89136088149b0feb"
+content-hash = "845441cc148f7ce00b7275e5706969d192b4bd723e63367abb3f1e7ac7751675"
