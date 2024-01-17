@@ -41,7 +41,7 @@ wagtail-modeladmin = "^1.0.0"
 [tool.poetry.extras]
 gunicorn = ["gunicorn"]
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 Werkzeug = "~2.0.3"
 django-extensions = "~2.2"
 fabric = "~2.5"
