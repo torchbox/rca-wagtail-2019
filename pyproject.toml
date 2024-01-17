@@ -14,7 +14,7 @@ wagtail-django-recaptcha = {git = "https://github.com/torchbox-forks/wagtail-dja
 django-pattern-library = "~1.1.0"
 whitenoise = "~5.0"
 dj-database-url = "~0.5"
-sentry-sdk = "^1.21.0"
+sentry-sdk = "^1.39.2"
 django-redis = "~4.11"
 django-storages = { version ="~1.9", extras = ["boto3"] }
 django-referrer-policy = "~1.0"
