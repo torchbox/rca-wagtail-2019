@@ -722,13 +722,13 @@ phonenumberslite = ["phonenumberslite (>=7.0.2)"]
 
 [[package]]
 name = "django-recaptcha"
-version = "3.0.0"
+version = "4.0.0"
 description = "Django recaptcha form field/widget app."
 optional = false
 python-versions = "*"
 files = [
-    {file = "django-recaptcha-3.0.0.tar.gz", hash = "sha256:253197051288923cae675d7eff91b619e3775311292a5dbaf27a8a55ffebc670"},
-    {file = "django_recaptcha-3.0.0-py3-none-any.whl", hash = "sha256:1aed69fd6ac8fd9e99e52665392ae6748f8b6339ace656fad779fe0c6c915a52"},
+    {file = "django-recaptcha-4.0.0.tar.gz", hash = "sha256:5316438f97700c431d65351470d1255047e3f2cd9af0f2f13592b637dad9213e"},
+    {file = "django_recaptcha-4.0.0-py3-none-any.whl", hash = "sha256:0d912d5c7c009df4e47accd25029133d47a74342dbd2a8edc2877b6bffa971a3"},
 ]
 
 [package.dependencies]
@@ -2754,7 +2754,7 @@ test = ["coverage (==6.0)", "pytest (==6.2.5)", "pytest-cov (==3.0.0)", "pytest-
 
 [[package]]
 name = "wagtail-django-recaptcha"
-version = "1.0"
+version = "2.0"
 description = "A simple recaptcha field for Wagtail Form Pages."
 optional = false
 python-versions = "*"
@@ -2762,7 +2762,7 @@ files = []
 develop = false
 
 [package.dependencies]
-django-recaptcha = "*"
+django-recaptcha = ">=4"
 
 [package.extras]
 testing = ["coverage (>=6.5.0,<6.6)", "flake8 (>=5.0.4,<5.1)", "isort (>=5.10.1)", "tox (>=3.26.0,<3.27)", "wagtail (>=4.1)"]
@@ -2770,8 +2770,8 @@ testing = ["coverage (>=6.5.0,<6.6)", "flake8 (>=5.0.4,<5.1)", "isort (>=5.10.1)
 [package.source]
 type = "git"
 url = "https://github.com/torchbox-forks/wagtail-django-recaptcha"
-reference = "2.0.0"
-resolved_reference = "35975f98176af5d5a2515ec0e9de116e33a37fda"
+reference = "2.1.1+tbx"
+resolved_reference = "c23696f5c55824a8abd86e13f13da4a90d437d75"
 
 [[package]]
 name = "wagtail-factories"
@@ -3070,4 +3070,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.8"
-content-hash = "4488272118a9088d6be52e53c62198d9499d6260758f67f3d8aeec995c027674"
+content-hash = "abdf1c0c9bcf175c59b7c85f07a2241f1b49f241b57e9f5b3974778771be1f61"
