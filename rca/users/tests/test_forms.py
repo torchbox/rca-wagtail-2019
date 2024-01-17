@@ -44,5 +44,5 @@ class TestUserEditView(TestCase, WagtailTestUtils):
         self.assertContains(
             response,
             '<input type="text" name="username" value="testuser" maxlength="150"'
-            ' readonly required id="id_username">',
+            ' readonly aria-describedby="id_username-helptext" required id="id_username">',
         )
