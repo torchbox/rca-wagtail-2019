@@ -93,7 +93,7 @@ INSTALLED_APPS = [
     "import_export",
     "modelcluster",
     "taggit",
-    "captcha",
+    "django_recaptcha",
     "wagtailcaptcha",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -785,3 +785,6 @@ if "ENQUIRE_TO_STUDY_DESTINATION_EMAILS" in env:
     ENQUIRE_TO_STUDY_DESTINATION_EMAILS = env.get(
         "ENQUIRE_TO_STUDY_DESTINATION_EMAILS"
     ).split(",")
+
+
+WAGTAILADMIN_BASE_URL = "http://localhost:8000"
