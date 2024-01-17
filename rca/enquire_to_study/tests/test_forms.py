@@ -1,8 +1,8 @@
 from unittest.mock import patch
 
-from captcha.client import RecaptchaResponse
 from django.db import IntegrityError
 from django.test import TestCase
+from django_recaptcha.client import RecaptchaResponse
 
 from rca.enquire_to_study.factories import EnquiryReasonFactory, StartDateFactory
 from rca.enquire_to_study.forms import EnquireToStudyForm
@@ -37,14 +37,14 @@ class TestEnquireToStudyForm(TestCase):
         response = self.client.get("/register-your-interest/")
         self.assertEqual(response.status_code, 200)
 
-    @patch("captcha.fields.client.submit")
+    @patch("django_recaptcha.fields.client.submit")
     def test_valid_form(self, mocked_submit):
         mocked_submit.return_value = RecaptchaResponse(is_valid=True)
         form = EnquireToStudyForm(data=self.form_data)
         form.is_valid()
         self.assertTrue(form.is_valid())
 
-    @patch("captcha.fields.client.submit")
+    @patch("django_recaptcha.fields.client.submit")
     def test_form_save(self, mocked_submit):
         # Test form save creates submission
         mocked_submit.return_value = RecaptchaResponse(is_valid=True)
@@ -71,7 +71,7 @@ class TestEnquireToStudyForm(TestCase):
             submission.is_read_data_protection_policy,
         )
 
-    @patch("captcha.fields.client.submit")
+    @patch("django_recaptcha.fields.client.submit")
     def test_submissions_data(self, mocked_submit):
         # Test the submission created has programmes
         mocked_submit.return_value = RecaptchaResponse(is_valid=True)
@@ -86,7 +86,7 @@ class TestEnquireToStudyForm(TestCase):
             programmes_orderable.programme.pk, self.form_data["programmes"][0]
         )
 
-    @patch("captcha.fields.client.submit")
+    @patch("django_recaptcha.fields.client.submit")
     def test_is_read_data_protection_policy_false(self, mocked_submit):
         # Test form errors with is_read_data_protection_policy false
         mocked_submit.return_value = RecaptchaResponse(is_valid=True)
