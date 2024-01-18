@@ -33,7 +33,9 @@ class TestPerRequestEditHandler(TestCase, WagtailTestUtils):
         GroupPagePermission.objects.create(
             group=self.student_group,
             page=self.student_index,
-            permission_type="edit",
+            permission=Permission.objects.get(
+                content_type__app_label="wagtailcore", codename="change_page"
+            ),
         )
         self.student_index.add_child(
             instance=StudentPage(

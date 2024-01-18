@@ -117,9 +117,12 @@ class StudentPageSettingsTab(ObjectList):
                 for child in self.panel.children:
                     if child.__class__.__name__ == "PublishingPanel":
                         for field_row_panel in child.children:
-                            # Theres a FieldRowPanel inside the PublishingPanel
-                            for panel in field_row_panel.children:
-                                panel.permission = permission
+                            if field_row_panel.__class__.__name__ == "FieldRowPanel":
+                                # Theres a FieldRowPanel inside the PublishingPanel
+                                field_row_panel.permission = permission
+                                # Since Wagtail 5.1, a FieldRowPanel would have no children here
+                                # The bugfix here: https://docs.wagtail.org/en/stable/releases/5.1.1.html#bug-fixes
+                                # seems to be when it was changed.
                     # the elif's below are not required, but are here for clarity
                     elif child.__class__.__name__ == "PrivacyModalPanel":
                         pass  # Do nothing so they are still visible
