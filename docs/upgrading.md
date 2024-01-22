@@ -2,24 +2,24 @@
 
 This document describes aspects of the system which should be given particular attention when upgrading Wagtail or its dependencies.
 
-## Forked Wagtail package dependencies
+## Wagtail package dependencies
 
-As much as possible, we want to use the official releases available on PyPI for the Wagtail package dependencies.
+We are maintaining our own forks of Wagtail packages at: <https://github.com/torchbox-forks>.
 
-However, in certain situations, critical fixes and upgrades may be pending approval, merging, or release.
-A temporary solution is to fork the package dependency, tag the working branch, and use the tag in the pyproject file.
+The enables any team member to propose a change to a package, we can all work directly on the work branch and submit it to the original author for consideration.
 
-**The following packages are forked at the time of the latest upgrade (Wagtail 5.0):**
+- [How we work on forked packages (intranet article).](https://intranet.torchbox.com/torchbox-teams/tech-team/working-with-3rd-party-packages/#forking-repositories)
+- [Where we manage forked packages (Monday board).](https://torchbox.monday.com/boards/1124794299)
 
-### wagtail-django-recaptcha
+As much as possible, we want to use the official releases available on PyPI for the Wagtail package dependencies. A temporary solution is to fork the package dependency, tag the working branch, and use the tag in the pyproject file.
 
-- Forked release current used: <https://github.com/torchbox-forks/wagtail-django-recaptcha/tree/2.0.0>
+### Check these packages for updates
 
-- Original release: <https://pypi.org/project/wagtail-django-recaptcha>
+**Last tested for wagtail 5.2 upgrade** Comments in the pyproject.toml file may have more detailed information.
 
-It is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as it becomes available.
+- wagtail-django-recaptcha
 
-This ensures that we maintain compatibility with the official releases and benefit from any subsequent updates and improvements provided by the original package maintainers.
+It is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as they become available.
 
 ## Critical paths
 
@@ -148,7 +148,7 @@ Additionally there are some Custom Panels which help to add the `permission` par
 
 The following templates are overridden and should be checked for changes when upgrading Wagtail:
 
-Last checked against Wagtail version: 5.0
+Last checked against Wagtail version: 5.2
 
 - `rca/account_management/templates/wagtailadmin/base.html`
 - `rca/users/templates/wagtailusers/users/list.html`

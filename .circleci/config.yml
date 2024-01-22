@@ -9,10 +9,11 @@ jobs:
           ALLOWED_HOSTS: localhost
           DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
           BIRDBATH_REQUIRED: false
-      - image: circleci/postgres:11.5
+      - image: circleci/postgres:12.3
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
+          POSTGRES_HOST_AUTH_METHOD: trust
     working_directory: ~/repo
     steps:
       - checkout
@@ -22,7 +23,7 @@ jobs:
       - run:
           name: install python dependencies
           command: |
-            curl -sSL https://install.python-poetry.org | POETRY_VERSION=1.5.0 python3 -
+            curl -sSL https://install.python-poetry.org | POETRY_VERSION=1.7.1 python3 -
             python -m venv venv
             . ./venv/bin/activate
             poetry install --no-ansi

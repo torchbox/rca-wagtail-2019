@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import re_path
 from wagtail import hooks
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
@@ -95,7 +95,7 @@ modeladmin_register(EnquiryFormSubmissionAdmin)
 @hooks.register("register_admin_urls")
 def register_admin_urls():
     return [
-        url(
+        re_path(
             r"^enquire_to_study/delete",
             enquire_to_study_delete,
             name="enquiretostudy_delete",

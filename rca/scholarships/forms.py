@@ -1,8 +1,8 @@
-from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV2Checkbox
 from django import forms
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV2Checkbox
 
 from rca.programmes.models import ProgrammePage
 
