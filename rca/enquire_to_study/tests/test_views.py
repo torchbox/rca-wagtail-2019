@@ -2,7 +2,6 @@ from datetime import timedelta
 from http import HTTPStatus
 from unittest.mock import patch
 
-from captcha.client import RecaptchaResponse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
 from django.contrib.sessions.middleware import SessionMiddleware
@@ -10,6 +9,7 @@ from django.core import mail
 from django.test import RequestFactory, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
+from django_recaptcha.client import RecaptchaResponse
 from wagtail.models import Site
 from wagtail.test.utils import WagtailPageTestCase
 
@@ -80,7 +80,7 @@ class EnquireToStudyFormViewInternalEmailsTest(WagtailPageTestCase):
         self.view = EnquireToStudyFormView()
         self.view.setup(request)
 
-    @patch("captcha.fields.client.submit")
+    @patch("django_recaptcha.fields.client.submit")
     def test_email_is_sent_internally_when_gb_or_ie_and_has_questions(
         self, mocked_submit
     ):
@@ -99,7 +99,7 @@ class EnquireToStudyFormViewInternalEmailsTest(WagtailPageTestCase):
         self.assertIn(f"Last name: {self.form_data['last_name']}", email.body)
         self.assertEqual(["test2@example.com"], email.to)
 
-    @patch("captcha.fields.client.submit")
+    @patch("django_recaptcha.fields.client.submit")
     def test_email_is_not_sent_internally_if_not_in_gb_or_ie(self, mocked_submit):
         mocked_submit.return_value = RecaptchaResponse(is_valid=True)
 
@@ -113,7 +113,7 @@ class EnquireToStudyFormViewInternalEmailsTest(WagtailPageTestCase):
         self.view.form_valid(form)
         self.assertEqual(0, len(mail.outbox))
 
-    @patch("captcha.fields.client.submit")
+    @patch("django_recaptcha.fields.client.submit")
     def test_email_is_not_sent_if_no_enquiry_questions(self, mocked_submit):
         mocked_submit.return_value = RecaptchaResponse(is_valid=True)
 

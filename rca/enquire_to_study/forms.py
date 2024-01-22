@@ -1,8 +1,8 @@
-from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV2Checkbox
 from django import forms
 from django.utils.safestring import mark_safe
 from django_countries.fields import CountryField
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV2Checkbox
 from phonenumber_field.formfields import PhoneNumberField
 
 from rca.enquire_to_study.models import (

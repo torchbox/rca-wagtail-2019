@@ -622,13 +622,13 @@ six = ">=1.2"
 
 [[package]]
 name = "django-filter"
-version = "22.1"
+version = "23.5"
 description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "django-filter-22.1.tar.gz", hash = "sha256:ed473b76e84f7e83b2511bb2050c3efb36d135207d0128dfe3ae4b36e3594ba5"},
-    {file = "django_filter-22.1-py3-none-any.whl", hash = "sha256:ed429e34760127e3520a67f415bec4c905d4649fbe45d0d6da37e6ff5e0287eb"},
+    {file = "django-filter-23.5.tar.gz", hash = "sha256:67583aa43b91fe8c49f74a832d95f4d8442be628fd4c6d65e9f811f5153a4e5c"},
+    {file = "django_filter-23.5-py3-none-any.whl", hash = "sha256:99122a201d83860aef4fe77758b69dda913e874cc5e0eaa50a86b0b18d708400"},
 ]
 
 [package.dependencies]
@@ -652,21 +652,21 @@ tablib = {version = ">=3.0.0", extras = ["html", "ods", "xls", "xlsx", "yaml"]}
 
 [[package]]
 name = "django-modelcluster"
-version = "6.0"
+version = "6.2.1"
 description = "Django extension to allow working with 'clusters' of models as a single unit, independently of the database"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "django-modelcluster-6.0.tar.gz", hash = "sha256:cdcffef5baf5d3759ee04c5b60ffaf1a0c95fc0f265e762f3ddfadde3394e5db"},
-    {file = "django_modelcluster-6.0-py2.py3-none-any.whl", hash = "sha256:4ae46f86c43702020f24f212222eef0a2588df937bbb523a5447da247b5fb130"},
+    {file = "django-modelcluster-6.2.1.tar.gz", hash = "sha256:3f53d47e1af7aec5e238724be16bbebdac9c518e4788b31429e773dcd8e8ea49"},
+    {file = "django_modelcluster-6.2.1-py2.py3-none-any.whl", hash = "sha256:725c005de22191165b690ea05588b1c702ac34b1e9cd8a8b26fadc2a35fcd337"},
 ]
 
 [package.dependencies]
-django = ">=2.2"
-pytz = ">=2015.2"
+django = ">=3.2"
+pytz = ">=2022.4"
 
 [package.extras]
-taggit = ["django-taggit (>=0.20)"]
+taggit = ["django-taggit (>=3.1)"]
 
 [[package]]
 name = "django-pattern-library"
@@ -722,13 +722,13 @@ phonenumberslite = ["phonenumberslite (>=7.0.2)"]
 
 [[package]]
 name = "django-recaptcha"
-version = "3.0.0"
+version = "4.0.0"
 description = "Django recaptcha form field/widget app."
 optional = false
 python-versions = "*"
 files = [
-    {file = "django-recaptcha-3.0.0.tar.gz", hash = "sha256:253197051288923cae675d7eff91b619e3775311292a5dbaf27a8a55ffebc670"},
-    {file = "django_recaptcha-3.0.0-py3-none-any.whl", hash = "sha256:1aed69fd6ac8fd9e99e52665392ae6748f8b6339ace656fad779fe0c6c915a52"},
+    {file = "django-recaptcha-4.0.0.tar.gz", hash = "sha256:5316438f97700c431d65351470d1255047e3f2cd9af0f2f13592b637dad9213e"},
+    {file = "django_recaptcha-4.0.0-py3-none-any.whl", hash = "sha256:0d912d5c7c009df4e47accd25029133d47a74342dbd2a8edc2877b6bffa971a3"},
 ]
 
 [package.dependencies]
@@ -1567,6 +1567,22 @@ files = [
 setuptools = "*"
 
 [[package]]
+name = "oauthlib"
+version = "3.2.2"
+description = "A generic, spec-compliant, thorough implementation of the OAuth request-signing logic"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "oauthlib-3.2.2-py3-none-any.whl", hash = "sha256:8139f29aac13e25d502680e9e19963e83f16838d48a0d71c287fe40e7067fbca"},
+    {file = "oauthlib-3.2.2.tar.gz", hash = "sha256:9859c40929662bec5d64f34d01c99e093149682a3f38915dc0655d5a633dd918"},
+]
+
+[package.extras]
+rsa = ["cryptography (>=3.0.0)"]
+signals = ["blinker (>=1.4.0)"]
+signedtoken = ["cryptography (>=3.0.0)", "pyjwt (>=2.0.0,<3)"]
+
+[[package]]
 name = "odfpy"
 version = "1.4.1"
 description = "Python API and tools to manipulate OpenDocument files"
@@ -1985,6 +2001,23 @@ files = [
 six = ">=1.5"
 
 [[package]]
+name = "python-unsplash"
+version = "1.2.5"
+description = "A Python client for the Unsplash API."
+optional = false
+python-versions = "*"
+files = [
+    {file = "python-unsplash-1.2.5.tar.gz", hash = "sha256:fa2100e157134700c59f074fb244d646fa2eac0c551aa060fd582e9ee88b3ad6"},
+    {file = "python_unsplash-1.2.5-py2.py3-none-any.whl", hash = "sha256:82adc837d5c4c9ea756fa23833058b13e868a88191c9b4ea3afc194f3c163d9c"},
+]
+
+[package.dependencies]
+oauthlib = ">=2.0.1"
+requests = ">=2.31.0"
+requests-oauthlib = ">=0.7.0"
+six = ">=1.12.0"
+
+[[package]]
 name = "pytz"
 version = "2022.6"
 description = "World timezone definitions, modern and historical"
@@ -2150,24 +2183,42 @@ files = [
 
 [[package]]
 name = "requests"
-version = "2.28.1"
+version = "2.31.0"
 description = "Python HTTP for Humans."
 optional = false
-python-versions = ">=3.7, <4"
+python-versions = ">=3.7"
 files = [
-    {file = "requests-2.28.1-py3-none-any.whl", hash = "sha256:8fefa2a1a1365bf5520aac41836fbee479da67864514bdb821f31ce07ce65349"},
-    {file = "requests-2.28.1.tar.gz", hash = "sha256:7c5599b102feddaa661c826c56ab4fee28bfd17f5abca1ebbe3e7f19d7c97983"},
+    {file = "requests-2.31.0-py3-none-any.whl", hash = "sha256:58cd2187c01e70e6e26505bca751777aa9f2ee0b7f4300988b709f44e013003f"},
+    {file = "requests-2.31.0.tar.gz", hash = "sha256:942c5a758f98d790eaed1a29cb6eefc7ffb0d1cf7af05c3d2791656dbd6ad1e1"},
 ]
 
 [package.dependencies]
 certifi = ">=2017.4.17"
-charset-normalizer = ">=2,<3"
+charset-normalizer = ">=2,<4"
 idna = ">=2.5,<4"
-urllib3 = ">=1.21.1,<1.27"
+urllib3 = ">=1.21.1,<3"
 
 [package.extras]
 socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
+
+[[package]]
+name = "requests-oauthlib"
+version = "1.3.1"
+description = "OAuthlib authentication support for Requests."
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+files = [
+    {file = "requests-oauthlib-1.3.1.tar.gz", hash = "sha256:75beac4a47881eeb94d5ea5d6ad31ef88856affe2332b9aafb52c6452ccf0d7a"},
+    {file = "requests_oauthlib-1.3.1-py2.py3-none-any.whl", hash = "sha256:2577c501a2fb8d05a304c09d090d6e47c306fef15809d102b327cf8364bddab5"},
+]
+
+[package.dependencies]
+oauthlib = ">=3.0.0"
+requests = ">=2.0.0"
+
+[package.extras]
+rsa = ["oauthlib[signedtoken] (>=3.0.0)"]
 
 [[package]]
 name = "s3transfer"
@@ -2245,13 +2296,13 @@ wrapt = ">=1.10,<2.0"
 
 [[package]]
 name = "sentry-sdk"
-version = "1.31.0"
+version = "1.39.2"
 description = "Python client for Sentry (https://sentry.io)"
 optional = false
 python-versions = "*"
 files = [
-    {file = "sentry-sdk-1.31.0.tar.gz", hash = "sha256:6de2e88304873484207fed836388e422aeff000609b104c802749fd89d56ba5b"},
-    {file = "sentry_sdk-1.31.0-py2.py3-none-any.whl", hash = "sha256:64a7141005fb775b9db298a30de93e3b83e0ddd1232dc6f36eb38aebc1553291"},
+    {file = "sentry-sdk-1.39.2.tar.gz", hash = "sha256:24c83b0b41c887d33328a9166f5950dc37ad58f01c9f2fbff6b87a6f1094170c"},
+    {file = "sentry_sdk-1.39.2-py2.py3-none-any.whl", hash = "sha256:acaf597b30258fc7663063b291aa99e58f3096e91fe1e6634f4b79f9c1943e8e"},
 ]
 
 [package.dependencies]
@@ -2277,7 +2328,7 @@ huey = ["huey (>=2)"]
 loguru = ["loguru (>=0.5)"]
 opentelemetry = ["opentelemetry-distro (>=0.35b0)"]
 opentelemetry-experimental = ["opentelemetry-distro (>=0.40b0,<1.0)", "opentelemetry-instrumentation-aiohttp-client (>=0.40b0,<1.0)", "opentelemetry-instrumentation-django (>=0.40b0,<1.0)", "opentelemetry-instrumentation-fastapi (>=0.40b0,<1.0)", "opentelemetry-instrumentation-flask (>=0.40b0,<1.0)", "opentelemetry-instrumentation-requests (>=0.40b0,<1.0)", "opentelemetry-instrumentation-sqlite3 (>=0.40b0,<1.0)", "opentelemetry-instrumentation-urllib (>=0.40b0,<1.0)"]
-pure-eval = ["asttokens", "executing", "pure-eval"]
+pure-eval = ["asttokens", "executing", "pure_eval"]
 pymongo = ["pymongo (>=3.1)"]
 pyspark = ["pyspark (>=2.4.4)"]
 quart = ["blinker (>=1.1)", "quart (>=0.16.1)"]
@@ -2652,21 +2703,21 @@ testing = ["coverage (>=6.2)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7
 
 [[package]]
 name = "wagtail"
-version = "5.1.3"
+version = "5.2.2"
 description = "A Django content management system."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "wagtail-5.1.3-py3-none-any.whl", hash = "sha256:f4a6cc2adc40f687d8fb62fed2d4fc0804941dfa45b4624887f260dc6cf6b9f2"},
-    {file = "wagtail-5.1.3.tar.gz", hash = "sha256:45fac794e4c20c7e75b018069d7f9761f25faa3619ef30df24013ca24abf9a74"},
+    {file = "wagtail-5.2.2-py3-none-any.whl", hash = "sha256:b469a1b3cb3ab3e0c6a2c6f56b4a7890427609c0c12ca32322e26ab534547211"},
+    {file = "wagtail-5.2.2.tar.gz", hash = "sha256:48e4c29b72b0e53eb47a3178d6b0f2c699aa284d3f3a2abfd2f04f578f44b55a"},
 ]
 
 [package.dependencies]
 anyascii = ">=0.1.5"
 beautifulsoup4 = ">=4.8,<4.12"
-Django = ">=3.2,<4.3"
-django-filter = ">=2.2,<24"
-django-modelcluster = ">=6.0,<7.0"
+Django = ">=3.2,<5.1"
+django-filter = ">=23.3,<24"
+django-modelcluster = ">=6.1,<7.0"
 django-permissionedforms = ">=0.1,<1.0"
 django-taggit = ">=2.0,<5.0"
 django-treebeard = ">=4.5.1,<5.0"
@@ -2682,25 +2733,28 @@ Willow = {version = ">=1.6.2,<1.7", extras = ["heif"]}
 
 [package.extras]
 docs = ["Sphinx (>=1.5.2)", "myst-parser (==0.18.1)", "pyenchant (>=3.1.1,<4)", "sphinx-autobuild (>=0.6.0)", "sphinx-copybutton (>=0.5,<1.0)", "sphinx-wagtail-theme (==6.1.1)", "sphinxcontrib-spelling (>=5.4.0,<6)"]
-testing = ["Jinja2 (>=3.0,<3.2)", "azure-mgmt-cdn (>=12.0,<13.0)", "azure-mgmt-frontdoor (>=1.0,<1.1)", "black (==22.3.0)", "boto3 (>=1.16,<1.17)", "coverage (>=3.7.0)", "curlylint (==0.13.1)", "django-pattern-library (>=0.7,<0.8)", "djhtml (==1.5.2)", "doc8 (==0.8.1)", "factory-boy (>=3.2)", "freezegun (>=0.3.8)", "polib (>=1.1,<2.0)", "python-dateutil (>=2.7)", "pytz (>=2014.7)", "ruff (==0.0.272)", "semgrep (==1.3.0)"]
+testing = ["Jinja2 (>=3.0,<3.2)", "azure-mgmt-cdn (>=12.0,<13.0)", "azure-mgmt-frontdoor (>=1.0,<1.1)", "black (==22.3.0)", "boto3 (>=1.28,<2)", "coverage (>=3.7.0)", "curlylint (==0.13.1)", "django-pattern-library (>=0.7,<0.8)", "djhtml (==1.5.2)", "doc8 (==0.8.1)", "factory-boy (>=3.2)", "freezegun (>=0.3.8)", "polib (>=1.1,<2.0)", "python-dateutil (>=2.7)", "pytz (>=2014.7)", "ruff (==0.0.290)", "semgrep (==1.40.0)", "tblib (>=2.0,<3.0)"]
 
 [[package]]
 name = "wagtail-accessibility"
-version = "0.2.1"
-description = "A plugin to assist with accessibility when developing in Wagtail."
+version = "2.0.0"
+description = "Accessibility content checks for Wagtail websites"
 optional = false
 python-versions = "*"
 files = [
-    {file = "wagtail-accessibility-0.2.1.tar.gz", hash = "sha256:70a246bfa3bc85751317633353491c2f2432bd4ed54968f89ad1406d9e4d0190"},
-    {file = "wagtail_accessibility-0.2.1-py3-none-any.whl", hash = "sha256:c69679a420c2699be3b9fe2aea90b7c62cd3952402c396f470cfc2d2f7fa11c5"},
+    {file = "wagtail-accessibility-2.0.0.tar.gz", hash = "sha256:b425feb5feb51df3530670759f9312cc0ac01c6db3824eb07cb099bf3999f8a3"},
+    {file = "wagtail_accessibility-2.0.0-py3-none-any.whl", hash = "sha256:36b16a85a7a4447e97715078701ffabcbfd730287896ad644b4658eb028c0517"},
 ]
 
 [package.dependencies]
-wagtail = ">=1.0"
+wagtail = ">=4.1"
+
+[package.extras]
+test = ["coverage (==6.0)", "pytest (==6.2.5)", "pytest-cov (==3.0.0)", "pytest-django (==4.5.0)", "pytest-pythonpath (==0.7.3)"]
 
 [[package]]
 name = "wagtail-django-recaptcha"
-version = "1.0"
+version = "2.0"
 description = "A simple recaptcha field for Wagtail Form Pages."
 optional = false
 python-versions = "*"
@@ -2708,7 +2762,7 @@ files = []
 develop = false
 
 [package.dependencies]
-django-recaptcha = "*"
+django-recaptcha = ">=4"
 
 [package.extras]
 testing = ["coverage (>=6.5.0,<6.6)", "flake8 (>=5.0.4,<5.1)", "isort (>=5.10.1)", "tox (>=3.26.0,<3.27)", "wagtail (>=4.1)"]
@@ -2716,8 +2770,8 @@ testing = ["coverage (>=6.5.0,<6.6)", "flake8 (>=5.0.4,<5.1)", "isort (>=5.10.1)
 [package.source]
 type = "git"
 url = "https://github.com/torchbox-forks/wagtail-django-recaptcha"
-reference = "2.0.0"
-resolved_reference = "35975f98176af5d5a2515ec0e9de116e33a37fda"
+reference = "2.1.1+tbx"
+resolved_reference = "c23696f5c55824a8abd86e13f13da4a90d437d75"
 
 [[package]]
 name = "wagtail-factories"
@@ -2772,19 +2826,19 @@ wagtail = ">=4.1"
 
 [[package]]
 name = "wagtail-rangefilter"
-version = "0.1.1"
+version = "0.2.0"
 description = "Integrates django-admin-rangefilter into Wagtail's ModelAdmin"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "wagtail-rangefilter-0.1.1.tar.gz", hash = "sha256:f3ed5efd9d0a0242be656a79f8f316150346088fd3288bac5ee2c60247d3ef4b"},
-    {file = "wagtail_rangefilter-0.1.1-py3-none-any.whl", hash = "sha256:80f6abb4b21f25965e48639bc92472d64e75244469a5527e88ec80e715017f25"},
+    {file = "wagtail-rangefilter-0.2.0.tar.gz", hash = "sha256:15c38cca46bfb2c980a97a9a86da39b63aeffc7255f23b4d98acfd451b4499a8"},
+    {file = "wagtail_rangefilter-0.2.0-py3-none-any.whl", hash = "sha256:bcb21ab13bbe7962b9f0e45f9af7945f53b5abbd4d5fab6d4919040bbe7e308a"},
 ]
 
 [package.dependencies]
 Django = ">=3.2"
 django-admin-rangefilter = "*"
-wagtail = ">=2.15"
+wagtail = ">=4.1"
 
 [package.extras]
 testing = ["coverage (>=6.4.4,<6.5.0)", "tox (>=3.26.0,<3.27.0)"]
@@ -2809,16 +2863,21 @@ testing = ["black (==22.3.0)", "coverage (==5.0.3)", "factory-boy (==2.12.0)", "
 
 [[package]]
 name = "wagtailmakeup"
-version = "0.0.1"
+version = "1.0.1"
 description = "Wagtail Makeup"
 optional = false
-python-versions = "*"
+python-versions = ">=3.7"
 files = [
-    {file = "wagtailmakeup-0.0.1-py3-none-any.whl", hash = "sha256:6b7d2b0a38a99f9d1c3685e1676e6b6a31dd4834689f6a38065e586281eb9e28"},
+    {file = "wagtailmakeup-1.0.1-py3-none-any.whl", hash = "sha256:7a65a34a4d56de0065afca10fe7dbfeb68dc535ef2f4e5b733cf3f675dfbe23d"},
+    {file = "wagtailmakeup-1.0.1.tar.gz", hash = "sha256:c2b1d30debc27e060d8b91e27e74081c4761a03f91e46a40fb74a7e68aad88fd"},
 ]
 
 [package.dependencies]
-wagtail = ">=2.4"
+python-unsplash = ">=1.1.0"
+wagtail = ">=4.1"
+
+[package.extras]
+testing = ["coverage (>=4.5)"]
 
 [[package]]
 name = "webencodings"
@@ -3011,4 +3070,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.8"
-content-hash = "297ee3bb6e6b2a2787e79a39788211c2c4ddc7af284c87ab89136088149b0feb"
+content-hash = "8cf00edc88b4312efca82fc74dda81c1f25c89908cfb785f3e95454171b55eba"
