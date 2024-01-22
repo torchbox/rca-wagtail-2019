@@ -93,7 +93,6 @@ def social_media_links(context):
 
 
 default_domains = [
-    settings.WAGTAILADMIN_BASE_URL,
     "rca-production.herokuapp.com",
     "rca-staging.herokuapp.com",
     "rca-development.herokuapp.com",
@@ -105,6 +104,9 @@ default_domains = [
     "rca-verdant-production.herokuapp.com",
     "beta.rca.ac.uk",
 ]
+
+if hasattr(settings, "WAGTAILADMIN_BASE_URL"):
+    default_domains.append(settings.WAGTAILADMIN_BASE_URL)
 
 
 @register.simple_tag(name="is_external")
