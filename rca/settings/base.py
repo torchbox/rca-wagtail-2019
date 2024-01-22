@@ -785,9 +785,3 @@ if "ENQUIRE_TO_STUDY_DESTINATION_EMAILS" in env:
     ENQUIRE_TO_STUDY_DESTINATION_EMAILS = env.get(
         "ENQUIRE_TO_STUDY_DESTINATION_EMAILS"
     ).split(",")
-
-
-# Silenced system checks
-SILENCED_SYSTEM_CHECKS = [
-    "templates.E003",  # Warns if two templatetags have the same name
-]
