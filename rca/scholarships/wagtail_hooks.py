@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import re_path
 from wagtail import hooks
 from wagtail.contrib.modeladmin.helpers import PermissionHelper
 from wagtail.contrib.modeladmin.options import (
@@ -76,7 +76,7 @@ modeladmin_register(ScholarshipAdminGroup)
 @hooks.register("register_admin_urls")
 def register_admin_urls():
     return [
-        url(
+        re_path(
             r"^scholarships/delete",
             scholarships_delete,
             name="scholarships_delete",

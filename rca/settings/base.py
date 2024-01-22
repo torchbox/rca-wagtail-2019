@@ -237,7 +237,7 @@ USE_TZ = True
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Place static files that need a specific URL (such as robots.txt and favicon.ico) in the "public" folder
-WHITENOISE_ROOT = (os.path.join(BASE_DIR, "public"),)
+WHITENOISE_ROOT = os.path.join(BASE_DIR, "public")
 
 
 # This is where Django will look for static files outside the directories of
@@ -714,7 +714,7 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
 CACHE_CONTROL_STALE_IF_ERROR = env.get("CACHE_CONTROL_STALE_IF_ERROR", None)
 
-CSRF_TRUSTED_ORIGINS = ["www.rca.ac.uk"]
+CSRF_TRUSTED_ORIGINS = ["https://www.rca.ac.uk/"]
 
 # Enable / Disable logging exceptions for api fetches from the old site.
 API_FETCH_LOGGING = env.get("API_FETCH_LOGGING", False)
@@ -785,6 +785,3 @@ if "ENQUIRE_TO_STUDY_DESTINATION_EMAILS" in env:
     ENQUIRE_TO_STUDY_DESTINATION_EMAILS = env.get(
         "ENQUIRE_TO_STUDY_DESTINATION_EMAILS"
     ).split(",")
-
-
-WAGTAILADMIN_BASE_URL = "http://localhost:8000"

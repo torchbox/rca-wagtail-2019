@@ -96,7 +96,7 @@ test_python:
   stage: test
   services:
     # Make sure this matches the Postgres version you run on your servers.
-    - postgres:9.6
+    - postgres:12.3
   dependencies:
     - static
   variables:
@@ -167,7 +167,6 @@ test_js:
         password $HEROKU_TOKEN
       EOF
     - chmod 600 ~/.netrc
-
     # Add Heroku's Git remote using Heroku CLI.
     - heroku git:remote --app $HEROKU_APP --remote heroku
   script:
@@ -223,7 +222,6 @@ deploy_production:
         password $HEROKU_TOKEN
       EOF
     - chmod 600 ~/.netrc
-
     # Add Heroku's Git remote using Heroku CLI.
     - heroku git:remote --app $HEROKU_APP --remote heroku-production
   script:

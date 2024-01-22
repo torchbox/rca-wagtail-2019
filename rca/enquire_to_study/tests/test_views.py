@@ -74,7 +74,7 @@ class EnquireToStudyFormViewInternalEmailsTest(WagtailPageTestCase):
         request = RequestFactory().get(
             reverse("enquire_to_study:enquire_to_study_form")
         )
-        middleware = SessionMiddleware()
+        middleware = SessionMiddleware(request)
         middleware.process_request(request)
         request.session.save()
         self.view = EnquireToStudyFormView()
