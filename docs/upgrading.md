@@ -148,7 +148,7 @@ Additionally there are some Custom Panels which help to add the `permission` par
 
 The following templates are overridden and should be checked for changes when upgrading Wagtail:
 
-Last checked against Wagtail version: 5.0
+Last checked against Wagtail version: 5.2
 
 - `rca/account_management/templates/wagtailadmin/base.html`
 - `rca/users/templates/wagtailusers/users/list.html`
