@@ -283,6 +283,36 @@ class EventDetailPageDateTests(WagtailPageTestCase):
         self.assertEqual(1, len(the_exception.messages))
         self.assertEqual(message, the_exception.messages[0])
 
+    def test_event_date_validation(self):
+        start_date = date(2024, 2, 1)
+        end_date = date(2024, 1, 1)
+        with self.subTest(
+            f"Testing date validation: start date: {start_date}, end date: {end_date}",
+            start_date=start_date,
+            end_date=end_date,
+        ):
+            with self.assertRaises(ValidationError) as cm:
+                EventDetailPageFactory.build(
+                    start_date=start_date,
+                    end_date=end_date,
+                    path="0",
+                    depth=0,
+                    event_type=EventTypeFactory(),
+                    location=EventLocationFactory(),
+                    eligibility=EventEligibilityFactory(),
+                ).full_clean()
+
+            the_exception = cm.exception
+            self.assertEqual(2, len(the_exception.messages))
+            self.assertEqual(
+                "The start date must come before the end date.",
+                the_exception.messages[0],
+            )
+            self.assertEqual(
+                "The end date must come after the start date.",
+                the_exception.messages[1],
+            )
+
 
 class EventDetailPageRelatedContentTests(WagtailPageTestCase):
     """
