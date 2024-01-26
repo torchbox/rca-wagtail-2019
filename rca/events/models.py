@@ -741,6 +741,13 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             raise ValidationError(
                 {"end_time": "The end time must come after the start time."}
             )
+        if self.end_date < self.start_date:
+            raise ValidationError(
+                {
+                    "start_date": "The start date must come before the end date.",
+                    "end_date": "The end date must come after the start date.",
+                }
+            )
 
     def get_series_events(self):
         today = datetime.date.today()
