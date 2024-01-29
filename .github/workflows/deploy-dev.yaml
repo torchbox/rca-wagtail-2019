@@ -1,0 +1,19 @@
+name: dev_deployment
+
+on: workflow_call
+
+jobs:
+  deploy_dev:
+    runs-on: ubuntu-latest
+
+    env:
+      DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY_DEV }}
+      HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME_DEV }}
+      SHA: ${{ github.sha }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: 'deploy dev to heroku'
+        run: |
+          echo "Deploying to Heroku. To see progress, go to: https://dashboard.heroku.com/apps/$HEROKU_APP_NAME/activity"
+          curl -sf -X POST -m 900 https://heroku-deploy.torchbox.com/$HEROKU_APP_NAME/$SHA?key=$DEPLOYMENT_KEY -d "Content-Length: 0"
