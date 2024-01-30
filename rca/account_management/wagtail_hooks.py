@@ -1,6 +1,6 @@
 from django.conf import settings
-from django.conf.urls import url
 from django.shortcuts import reverse
+from django.urls import re_path
 from wagtail import hooks
 from wagtail.admin.menu import MenuItem
 
@@ -14,7 +14,7 @@ WAGTAIL_FRONTEND_LOGIN_TEMPLATE = getattr(
 @hooks.register("register_admin_urls")
 def register_admin_urls():
     return [
-        url(
+        re_path(
             r"^student/create",
             CreateStudentFormView.as_view(),
             name="student_account_create",
