@@ -7,7 +7,6 @@ class SubMenu {
         this.node = node;
         this.navLinks = document.querySelectorAll('[data-menu-id]');
         this.visibleClass = 'is-visible';
-        this.activeClass = 'is-active';
         this.fadeIconClass = 'fade-icon';
         this.bindEventListeners();
     }
@@ -89,29 +88,18 @@ class SubMenu {
         // ensure grandchild drawers are hidden
         this.removeClass(grandChildDrawer, this.visibleClass);
 
-        // deactivate all sibling links
-        const siblingLinks = `[data-nav-level="${itemLevel}"]`;
-        this.removeClass(siblingLinks, this.activeClass);
-
         // deactivate all child links
         const childLinks = `[data-nav-level="${itemLevel + 1}"]`;
-        this.removeClass(childLinks, this.activeClass);
 
         // deactive child <li>'s and remove fade icon class
-        this.removeClassFromParent(childLinks, this.activeClass);
         this.removeClassFromParent(childLinks, this.fadeIconClass);
 
         // deactive parent <li>'s and add fade icon class
         const siblingLinkElements = `[data-nav-level="${itemLevel}"]`;
-        this.removeClassFromParent(siblingLinkElements, this.activeClass);
         this.addClassToParent(siblingLinkElements, this.fadeIconClass);
-
-        // activate my link
-        navItem.classList.add(this.activeClass);
 
         // activate parent <li> and remove fade icon class
         const parentItem = navItem.parentElement;
-        parentItem.classList.add(this.activeClass);
         parentItem.classList.remove(this.fadeIconClass);
 
         // find <a> with same id in previous menu and activate

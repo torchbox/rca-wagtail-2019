@@ -311,9 +311,11 @@
         &--level-two {
             @include z-index(nav);
             transform: translate3d(100%, 0, 0);
+            opacity: 0;
 
             &.is-visible {
                 transform: translate3d(0, 0, 0);
+                opacity: 1;
 
                 // keep level three attached to level two
                 // to prevent overlapping
@@ -333,7 +335,13 @@
 
         // level three closed styles
         &--level-three {
+            @include z-index(nav);
             transform: translate3d(100%, 0, 0);
+            opacity: 0;
+
+            &.is-visible {
+                opacity: 1;
+            }
 
             @include media-query(large) {
                 padding-top: $grid * 6.25;
