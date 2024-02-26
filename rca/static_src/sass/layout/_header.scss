@@ -224,6 +224,7 @@
 
             @include media-query(large) {
                 padding-top: 0;
+                top: 58px;
             }
 
             .menu-active & {
@@ -317,32 +318,16 @@
                 // keep level three attached to level two
                 // to prevent overlapping
                 + #{$root}__inner--level-three {
-                    @include media-query(large) {
-                        z-index: 40;
-                        transform: translate3d(100%, 0, 0);
-                    }
-
                     // level three open styles
                     &.is-visible {
                         @include z-index(nav);
                         transform: translate3d(0, 0, 0);
-
-                        @include media-query(large) {
-                            z-index: 40;
-                            transform: translate3d(200%, 0, 0);
-                        }
                     }
                 }
             }
 
             @include media-query(large) {
-                z-index: 50;
-                transform: translate3d(0, 0, 0);
-
-                &:hover,
-                &.is-visible {
-                    transform: translate3d(100%, 0, 0);
-                }
+                padding-top: $grid * 6.25;
             }
         }
 
@@ -351,8 +336,7 @@
             transform: translate3d(100%, 0, 0);
 
             @include media-query(large) {
-                transform: translate3d(0, 0, 0);
-                z-index: 50;
+                padding-top: $grid * 6.25;
             }
         }
     }
