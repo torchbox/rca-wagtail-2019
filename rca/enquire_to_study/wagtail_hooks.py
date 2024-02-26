@@ -59,8 +59,7 @@ class EnquiryFormSubmissionAdmin(ModelAdmin):
 
     def get_programmes(self, obj):
         return ", ".join(
-            str(item.programme.title)
-            for item in obj.enquiry_submission_programmes.all()
+            str(item.programme) for item in obj.enquiry_submission_programmes.all()
         )
 
     get_programmes.short_description = "Programmes"
