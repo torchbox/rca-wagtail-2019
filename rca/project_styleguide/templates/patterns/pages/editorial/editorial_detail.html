@@ -156,7 +156,7 @@
                 {% endif %}
 
                 {% if page.contact_model_image or page.contact_model_text or page.contact_model_email or page.contact_model_url or page.contact_model_form %}
-                    <div class="section__row section__row--first">
+                    <div class="section__row section__row--first{% if not hero_image %} section--extra-margin-bottom{% endif %}">
                         {% include "patterns/organisms/contact/contact.html" with heading=page.contact_model_title text=page.contact_model_text image=page.contact_model_image %}
                     </div>
                 {% endif %}
