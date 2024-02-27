@@ -50,7 +50,6 @@
         }
 
         @include media-query(large) {
-            padding-top: 182px;
             max-height: $sub-nav-height--large;
 
             .headroom--pinned.headroom--not-top & {
@@ -141,19 +140,6 @@
     }
 
     &__item {
-        &.is-active {
-            @include media-query(large) {
-                #{$root}__link {
-                    span {
-                        &::after {
-                            width: 100%;
-                            left: 0;
-                        }
-                    }
-                }
-            }
-        }
-
         &--breadcrumb {
             width: auto;
             padding: 0;
@@ -198,6 +184,7 @@
         align-items: center;
         padding: $gutter 5px $gutter 0;
         color: $color--white;
+        font-family: $font--primary;
 
         span {
             pointer-events: none;
@@ -220,8 +207,7 @@
                 }
             }
 
-            &:hover,
-            &.is-active {
+            &:hover {
                 span {
                     &::after {
                         width: 100%;
@@ -258,31 +244,31 @@
         &--standout {
             color: $color--tertiary;
         }
+
+        &--bold {
+            font-family: $font--secondary;
+        }
+
+        &--with-links {
+            &:hover {
+                #{$root}__icon {
+                    opacity: 1;
+                }
+            }
+        }
     }
 
     &__icon {
         pointer-events: none;
         fill: $color--white;
-        padding: 12px;
+        padding: 0 12px;
         width: 40px;
-        height: 40px;
+        height: 100%;
         transition: fill $transition, opacity $transition;
-
-        .is-active & {
-            opacity: 1;
-        }
+        opacity: 0.3;
 
         .fade-icon & {
             opacity: 0.3;
-        }
-    }
-
-    &__icon-container {
-        &:hover {
-            #{$root}__icon {
-                opacity: 1;
-                fill: $color--tertiary;
-            }
         }
     }
 }
