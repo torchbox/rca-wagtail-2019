@@ -430,6 +430,9 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         default="Staff",
         verbose_name="Programme staff title",
     )
+    staff_summary = models.CharField(
+        blank=True, max_length=500, verbose_name="Related staff summary text"
+    )
     staff_link = models.URLField(blank=True)
     staff_link_text = models.CharField(
         max_length=125, blank=True, help_text="E.g. 'See all programme staff'"
@@ -700,6 +703,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         MultiFieldPanel(
             [
                 FieldPanel("staff_title"),
+                FieldPanel("staff_summary"),
                 HelpPanel(
                     content="By default, related staff will be automatically listed. This \
                 can be overriden by adding staff pages here."
