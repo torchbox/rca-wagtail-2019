@@ -27,6 +27,16 @@
         @include underline-hover-target-reset();
     }
 
+    &--highlight {
+        // Highlighted butons will stay orange both in dark and light bg.
+        color: $color--orange !important;
+
+        &:hover,
+        &.active {
+            color: $color--orange !important;
+        }
+    }
+
     .bg--dark & {
         color: $color--meta-darkbg;
 

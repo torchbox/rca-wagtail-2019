@@ -3,7 +3,15 @@
         <div class="tab-nav__container" aria-label="Tabs" role="tablist">
             {% for tab in tabs %}
                 {% with tab.title|slugify as tab_title_slug %}
-                <a id="tab-{{ tab_title_slug }}" class="tab-item js-tab-item {% if forloop.counter == 1 %}active{% endif %}" href="#{{ tab_title_slug }}" role="tab" aria-controls="{{ tab_title_slug }}" data-tab="{{ tab_title_slug }}" {% if forloop.counter == 1 %}aria-selected="true"{% endif %}>{{ tab.title }}</a>
+                    {% comment %}
+                        We add `tab-item--highlight` for the "Apply" tab. The whole element is repeated
+                        just so it won't be too hard to read with all the `{{ }}`.
+                    {% endcomment %}
+                    {% if tab.title == "Apply" %}
+                        <a id="tab-{{ tab_title_slug }}" class="tab-item tab-item--highlight js-tab-item {% if forloop.counter == 1 %}active{% endif %}" href="#{{ tab_title_slug }}" role="tab" aria-controls="{{ tab_title_slug }}" data-tab="{{ tab_title_slug }}" {% if forloop.counter == 1 %}aria-selected="true"{% endif %}>{{ tab.title }}</a>
+                    {% else %}
+                        <a id="tab-{{ tab_title_slug }}" class="tab-item js-tab-item {% if forloop.counter == 1 %}active{% endif %}" href="#{{ tab_title_slug }}" role="tab" aria-controls="{{ tab_title_slug }}" data-tab="{{ tab_title_slug }}" {% if forloop.counter == 1 %}aria-selected="true"{% endif %}>{{ tab.title }}</a>
+                    {% endif %}
                 {% endwith %}
             {% endfor %}
             {% if ask_question %}
