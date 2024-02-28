@@ -12,9 +12,13 @@
             {% if title %}
                 <div class="people-module__header">
                     <h2 class="heading heading--four people-module__heading {% if anchor_heading %}anchor-heading{% endif %}" {% if anchor_heading %}id="staff"{% endif %}>{{ title }}</h2>
+                    {% if summary %}
+                        <div class="people-module__summary">
+                            {{ summary }}
+                        </div>
+                    {% endif %}
                 </div>
             {% endif %}
-
         {% if people|length > 17 %}
         </div>
         <div class="people-module__container">

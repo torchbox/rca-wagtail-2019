@@ -63,7 +63,7 @@
 <section class="section section--end bg bg--light">
     {% if related_staff %}
         <div class="section__row section__row--first section__row--last">
-            {% include "patterns/organisms/people-module/people-module.html" with people=related_staff title=page.staff_title %}
+            {% include "patterns/organisms/people-module/people-module.html" with people=related_staff title=page.staff_title summary=page.staff_summary %}
         </div>
     {% endif %}
 
