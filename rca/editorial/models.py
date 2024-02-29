@@ -26,6 +26,7 @@ from rca.events.serializers import (
 )
 from rca.people.filter import SchoolCentreDirectorateFilter
 from rca.people.models import Directorate
+from rca.programmes.filter import ProgrammeStyleFilter
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
@@ -538,7 +539,7 @@ class EditorialListingPage(ContactFieldsMixin, BasePage):
                 filter_by="editorial_types__type__slug__in",
                 option_value_field="slug",
             ),
-            TabStyleFilter(
+            ProgrammeStyleFilter(
                 "Programme",
                 queryset=(
                     ProgrammePage.objects.filter(
