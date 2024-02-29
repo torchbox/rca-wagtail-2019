@@ -380,6 +380,12 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
     next_open_day_date = models.DateField(blank=True, null=True)
     link_to_open_days = models.URLField(blank=True)
+    book_or_view_all_open_days_link_title = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name="Book open days title",
+        default="Book or view all open days",
+    )
     application_deadline = models.DateField(blank=True, null=True)
     application_deadline_options = models.CharField(
         max_length=1,
@@ -667,6 +673,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ),
         FieldPanel("next_open_day_date"),
         FieldPanel("link_to_open_days"),
+        FieldPanel("book_or_view_all_open_days_link_title"),
         FieldPanel("application_deadline"),
         FieldPanel(
             "application_deadline_options",
@@ -1029,6 +1036,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             errors["requirements_video"].append(
                 "Please add a video for the preview image."
             )
+        if self.link_to_open_days and not self.book_or_view_all_open_days_link_title:
+            errors["book_or_view_all_open_days_link_title"].append(
+                "Please specify the 'Book open days title' for the link to open days."
+            )
         if errors:
             raise ValidationError(errors)
 
@@ -1193,11 +1204,6 @@ class ProgrammePageGlobalFieldsSettings(BaseSiteSetting):
     key_details_next_open_day_title = models.CharField(
         max_length=255, verbose_name="Next open days title", default="Next open day"
     )
-    key_details_book_or_view_all_open_days_link_title = models.CharField(
-        max_length=255,
-        verbose_name="Book open days title",
-        default="Book or view all open days",
-    )
     key_details_application_deadline_title = models.CharField(
         max_length=255,
         verbose_name="Application deadline title",
@@ -1280,7 +1286,6 @@ class ProgrammePageGlobalFieldsSettings(BaseSiteSetting):
         MultiFieldPanel(
             [
                 FieldPanel("key_details_next_open_day_title"),
-                FieldPanel("key_details_book_or_view_all_open_days_link_title"),
                 FieldPanel("key_details_application_deadline_title"),
                 FieldPanel("key_details_career_opportunities_title"),
                 FieldPanel("key_details_pathways_information_link_title"),

@@ -4,6 +4,7 @@ context:
     degree_level: 'MA'
     next_open_day_date: '25 June 2019'
     link_to_open_days: '#'
+    book_or_view_all_open_days_link_title: Book or view all open days
     application_deadline: '14 June 2019'
     application_deadline_options: '1'
     get_application_deadline_options_display: 'Still accepting applications'
@@ -30,7 +31,6 @@ context:
   programme_page_global_fields:
     key_details_programme_details_title: Programme details
     key_details_next_open_day_title: Next open days
-    key_details_book_or_view_all_open_days_link_title: Book or view all open days
     key_details_application_deadline_title: Application deadline
     key_details_career_opportunities_title: Career opportunities
   programme_schools:
