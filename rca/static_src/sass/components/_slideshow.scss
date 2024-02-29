@@ -32,7 +32,7 @@
         pointer-events: auto; // ensure prev/next buttons are clickable
         grid-column: 1 / -1;
         margin: 0 auto;
-        
+
         @include media-query(large) {
             @include z-index(overlap);
             grid-column: 5;
