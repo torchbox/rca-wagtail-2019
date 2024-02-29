@@ -1032,6 +1032,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             errors["requirements_video"].append(
                 "Please add a video for the preview image."
             )
+        if self.link_to_open_days and not self.book_or_view_all_open_days_link_title:
+            errors["book_or_view_all_open_days_link_title"].append(
+                "Please specify the 'Book open days title' for the link to open days."
+            )
         if errors:
             raise ValidationError(errors)
 
