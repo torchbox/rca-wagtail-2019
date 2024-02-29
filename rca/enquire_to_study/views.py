@@ -273,8 +273,8 @@ class EnquireToStudyFormView(FormView):
             ]
         )
 
-        # Transform programmes into titles since it's going to be a QuerySet.
-        answers["Programmes"] = ", ".join([p.title for p in answers["Programmes"]])
+        # Transform programmes into their string representation since it's going to be a QuerySet.
+        answers["Programmes"] = ", ".join([str(p) for p in answers["Programmes"]])
 
         name = f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}"
 
