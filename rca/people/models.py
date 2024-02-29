@@ -34,8 +34,8 @@ from rca.api_content.content import CantPullFromRcaApi, pull_related_students
 from rca.people.filter import SchoolCentreDirectorateFilter
 from rca.people.formatters import format_research_highlights
 from rca.people.utils import get_staff_research_projects, get_student_research_projects
-from rca.programmes.models import ProgrammePage
 from rca.programmes.filter import ProgrammeStyleFilter
+from rca.programmes.models import ProgrammePage
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.users.models import User
@@ -525,7 +525,6 @@ class StaffIndexPage(BasePage):
                     )
                 ),
                 filter_by="roles__programme__slug__in",
-                option_label_field="",
                 option_value_field="slug",
             ),
             TabStyleFilter(

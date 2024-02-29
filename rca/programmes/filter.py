@@ -1,5 +1,6 @@
 from rca.utils.filter import TabStyleFilter
 
+
 class ProgrammeStyleFilter(TabStyleFilter):
     """
     Custom TabStyleFilter class for ProgrammePages since we want to display the
@@ -7,7 +8,10 @@ class ProgrammeStyleFilter(TabStyleFilter):
     """
 
     def __iter__(self):
-        values = [(programme.slug, str(programme)) for programme in self.queryset.order_by("slug")]
+        values = [
+            (getattr(programme, self.option_value_field), str(programme))
+            for programme in self.queryset.order_by(self.option_value_field)
+        ]
 
         for value, label in values:
             yield dict(
