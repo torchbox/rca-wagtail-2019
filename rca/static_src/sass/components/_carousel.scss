@@ -42,6 +42,16 @@
                 left: 0;
                 right: 0;
             }
+
+            &--mobile {
+                display: block;
+                grid-column: 1 / -1;
+                margin: 0 auto;
+
+                @include media-query(large) {
+                    display: none;
+                }
+            }
         }
 
         #{$root}__button {
@@ -222,6 +232,31 @@
 
         @include media-query(large) {
             display: block;
+        }
+    }
+
+    &__mobile-controls-group {
+        display: flex;
+        justify-content: center;
+        gap: $gutter;
+        pointer-events: auto; // ensure prev/next buttons are clickable
+        margin-top: $gutter;
+
+        @include media-query(large) {
+            display: none;
+        }
+
+        &:first-child {
+            margin-right: $gutter;
+        }
+
+        #{$root}__button {
+            position: initial;
+
+            &.glide__arrow--disabled {
+                opacity: 0.3;
+                pointer-events: none;
+            }
         }
     }
 
