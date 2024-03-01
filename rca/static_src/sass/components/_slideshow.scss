@@ -19,6 +19,8 @@
     }
 
     &__controls {
+        grid-row-gap: $gutter;
+
         @include media-query(large) {
             position: relative;
             top: -$meta-height;
@@ -27,13 +29,14 @@
     }
 
     &__controls-group {
-        display: none;
-        grid-column: 5;
         pointer-events: auto; // ensure prev/next buttons are clickable
+        grid-column: 1 / -1;
+        margin: 0 auto;
 
         @include media-query(large) {
             @include z-index(overlap);
-            display: block;
+            grid-column: 5;
+            margin: unset;
 
             &::after {
                 @include z-index(under);
