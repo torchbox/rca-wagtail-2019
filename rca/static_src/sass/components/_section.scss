@@ -149,6 +149,26 @@
         }
     }
 
+    &--extra-margin-bottom {
+        @include media-query(medium) {
+            margin-bottom: $notch-height-medium;
+        }
+
+        @include media-query(large) {
+            margin-bottom: $notch-height-large;
+        }
+    }
+
+    &--extra-padding-bottom {
+        @include media-query(medium) {
+            padding-bottom: $notch-height-medium;
+        }
+
+        @include media-query(large) {
+            padding-bottom: $notch-height-large;
+        }
+    }
+
     &__header {
         &--bottom-space {
             margin-bottom: ($gutter * 2);

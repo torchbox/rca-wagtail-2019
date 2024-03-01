@@ -103,4 +103,12 @@
             }
         }
     }
+
+    .app--editorial & {
+        &-last-item {
+            @include media-query(large) {
+                margin-bottom: -($gutter * 13.5);
+            }
+        }
+    }
 }
