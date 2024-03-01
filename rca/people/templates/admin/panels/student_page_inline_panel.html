@@ -1,7 +1,17 @@
 {% comment %}
-This template is essentially the same as
+NOTE: This template is a modified version of the default Wagtail admin template for inline panels:
 https://github.com/wagtail/wagtail/blob/stable/5.2.x/wagtail/admin/templates/wagtailadmin/panels/inline_panel.html
-with the exception that the form fields are only displayed to superusers.
+
+The purpose of the modifications is to prevent non-superusers from making changes to the inline panels.
+
+Modifications:
+1. conditionally use custom template for child elements (admin/panels/student_page_inline_panel_child.html)
+2. conditionally remove the "Add" button to prevent addition of new child elements
+3. conditionally remove the "Actions" dropdown menu to prevent editing of child elements
+
+TODO: Once InlinePanels have read-only / permissions support, then we can
+remove this template and the inline panel child template and work with the defaults.
+See https://github.com/wagtail/wagtail/issues/8684 for more details on support for permissions in InlinePanels.
 {% endcomment %}
 
 {% load i18n l10n wagtailadmin_tags %}
@@ -9,38 +19,43 @@ with the exception that the form fields are only displayed to superusers.
 {% comment "Always render the formset so the form can be saved" %}{% endcomment %}
 {{ self.formset.management_form }}
 
-{% comment "Hide the visibe form fields to non-superusers" %}{% endcomment %}
-{% if request.user.is_superuser %}
-
-    {% if self.formset.non_form_errors %}
-        <div class="error-message">
-            {% for error in self.formset.non_form_errors %}
-                <span>{{ error|escape }}</span>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    {% if self.help_text %}
-        {% help_block status="info" %}{{ self.help_text }}{% endhelp_block %}
-    {% endif %}
-
-    <div id="id_{{ self.formset.prefix }}-FORMS">
-        {% comment %}
-
-        Child elements of this div will become orderable elements. Do not place additional
-        "furniture" elements here unless you intend them to be part of the child ordering.
-
-        {% endcomment %}
-
-        {% for child in self.children %}
-            {% include "wagtailadmin/panels/inline_panel_child.html" %}
+{% if self.formset.non_form_errors %}
+    <div class="error-message">
+        {% for error in self.formset.non_form_errors %}
+            <span>{{ error|escape }}</span>
         {% endfor %}
     </div>
+{% endif %}
 
-    <template id="id_{{ self.formset.prefix }}-EMPTY_FORM_TEMPLATE">
-        {% include "wagtailadmin/panels/inline_panel_child.html" with child=self.empty_child %}
-    </template>
+{% if self.help_text %}
+    {% help_block status="info" %}{{ self.help_text }}{% endhelp_block %}
+{% endif %}
 
+<div id="id_{{ self.formset.prefix }}-FORMS">
+    {% comment %}
+
+    Child elements of this div will become orderable elements. Do not place additional
+    "furniture" elements here unless you intend them to be part of the child ordering.
+
+    {% endcomment %}
+
+    {% for child in self.children %}
+        {# Begin: Modification № 1 #}
+        {% if request.user.is_superuser %}
+            {% include "wagtailadmin/panels/inline_panel_child.html" %}
+        {% else %}
+            {% include "admin/panels/student_page_inline_panel_child.html" with can_order=False can_delete=False %}
+        {% endif %}
+        {# End: Modification № 1 #}
+    {% endfor %}
+</div>
+
+<template id="id_{{ self.formset.prefix }}-EMPTY_FORM_TEMPLATE">
+    {% include "wagtailadmin/panels/inline_panel_child.html" with child=self.empty_child %}
+</template>
+
+{# Begin: Modification № 2 #}
+{% if request.user.is_superuser %}
     {# Align with guiding line of the preceding child panel. #}
     <div class="w-mb-4 -w-ml-4">
         {% block add_button %}
@@ -49,18 +64,32 @@ with the exception that the form fields are only displayed to superusers.
             </button>
         {% endblock %}
     </div>
-
-    {% block js_init %}
-        <script>
-            (function() {
-                var panel = new InlinePanel({
-                    formsetPrefix: "id_{{ self.formset.prefix }}",
-                    emptyChildFormPrefix: "{{ self.empty_child.form.prefix }}",
-                    canOrder: {% if can_order %}true{% else %}false{% endif %},
-                    maxForms: {{ self.formset.max_num|unlocalize }}
-                });
-            })();
-        </script>
-    {% endblock %}
-
 {% endif %}
+{# End: Modification № 2 #}
+
+{% block js_init %}
+    <script>
+        (function() {
+            var panel = new InlinePanel({
+                formsetPrefix: "id_{{ self.formset.prefix }}",
+                emptyChildFormPrefix: "{{ self.empty_child.form.prefix }}",
+                canOrder: {% if can_order %}true{% else %}false{% endif %},
+                maxForms: {{ self.formset.max_num|unlocalize }}
+            });
+            {# Begin: Modification № 3 #}
+            {% if not request.user.is_superuser %}
+            {% comment "remove the actions dropdown button to prevent editing" %}
+                https://docs.wagtail.org/en/v5.2.3/reference/pages/panels.html#javascript-dom-events
+            {% endcomment %}
+            document.addEventListener('w-formset:ready', function() {
+                var dropdownDiv = document.querySelector('[data-controller="w-dropdown"]');
+                if (dropdownDiv) {
+                    dropdownDiv.remove();
+                }
+            });
+            {% endif %}
+            {# End: Modification № 3 #}
+        })();
+    </script>
+{% endblock %}
+

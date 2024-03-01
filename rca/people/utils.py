@@ -68,7 +68,9 @@ def get_student_research_projects(page):
 
 
 class StudentPageInlinePanel(InlinePanel):
-    # InlinePanel that only displays content to superusers
+    """
+    InlinePanel that prevents non-superusers from making changes to the content
+    """
 
     class BoundPanel(InlinePanel.BoundPanel):
         def __init__(self, **kwargs):
