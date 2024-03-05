@@ -82,7 +82,7 @@ class StudentPageInlinePanel(InlinePanel):
             # Collapse the panel for non-superusers
 
             if not self.request.user.is_superuser and "collapsed" not in panel_class:
-                self.panel.classname = "collapsed"
+                self.panel.classname += " collapsed"
             elif self.request.user.is_superuser and "collapsed" in panel_class:
                 self.panel.classname = panel_class.replace("collapsed", "")
 
