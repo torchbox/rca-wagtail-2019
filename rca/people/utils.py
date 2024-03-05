@@ -77,6 +77,15 @@ class StudentPageInlinePanel(InlinePanel):
             super().__init__(**kwargs)
             self.template_name = "admin/panels/student_page_inline_panel.html"
 
+            panel_class = self.panel.classname
+
+            # Collapse the panel for non-superusers
+
+            if not self.request.user.is_superuser and "collapsed" not in panel_class:
+                self.panel.classname = "collapsed"
+            elif self.request.user.is_superuser and "collapsed" in panel_class:
+                self.panel.classname = panel_class.replace("collapsed", "")
+
         def get_context_data(self, parent_context=None):
             context = super().get_context_data(parent_context)
             context["request"] = self.request
