@@ -121,7 +121,9 @@ Wagtail 3 introduced a new [FieldPanel `permission` parameter](https://docs.wagt
 
 Additionally there are some Custom Panels which help to add the `permission` parameter to child FieldPanels and control panel visibility in general.
 
-- [StudentPageInlinePanel](https://github.com/torchbox/rca-wagtail-2019/blob/7e5bb3c9201d8a7b7fa6e0288d4bee0ba1c79f52/rca/people/utils.py#L72)
+- [StudentPageInlinePanel](https://github.com/torchbox/rca-wagtail-2019/blob/7e5bb3c9201d8a7b7fa6e0288d4bee0ba1c79f52/rca/people/utils.py#L72), including the custom templates at the following locations:
+  - `rca/people/templates/admin/panels/student_page_inline_panel.html`
+  - `rca/people/templates/admin/panels/student_page_inline_panel_child.html`
 - [StudentPagePromoteTab](https://github.com/torchbox/rca-wagtail-2019/blob/7e5bb3c9201d8a7b7fa6e0288d4bee0ba1c79f52/rca/people/utils.py#L86)
 - [StudentPageSettingsTab](https://github.com/torchbox/rca-wagtail-2019/blob/7e5bb3c9201d8a7b7fa6e0288d4bee0ba1c79f52/rca/people/utils.py#L107)
 
