@@ -12,7 +12,10 @@
             {% endif %}
         {% endwith %}
         {% if pick.description or result.listing_summary or result.search_description or result.introduction %}
-        <p class="search-result__summary layout__@large-start-four layout__span-two body body--one">{% firstof result.search_listing_summary pick.description result.listing_summary result.search_description result.introduction %}</p>
+        {# Firstof autoescapes variable values so we need to disable it to render special characters "'" properly. #}
+        {% autoescape off %}
+        <div class="search-result__summary layout__@large-start-four layout__span-two body body--one">{% firstof result.search_listing_summary pick.description result.listing_summary result.search_description result.introduction|richtext %}</div>
+        {% endautoescape %}
         {% endif %}
         <svg class="search-result__icon" aria-hidden="true">
             <use xlink:href="#arrow-right-filled"></use>
