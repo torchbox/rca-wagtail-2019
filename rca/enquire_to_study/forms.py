@@ -23,7 +23,7 @@ class EnquireToStudyForm(forms.Form):
 
     # Country of residence & citizenship
     country_of_residence = CountryField().formfield()
-    city = forms.CharField(max_length=255, label="City or town of residence")
+    city = forms.CharField(max_length=20, label="City or town of residence")
     country_of_citizenship = CountryField().formfield()
 
     # Study details
@@ -94,6 +94,9 @@ class EnquireToStudyForm(forms.Form):
             "</span>"
         )
 
+        # Disable browser autocomplete for city field
+        self.fields["city"].widget.attrs.update({"autocomplete": "off"})
+
         # Help Text
         self.fields[
             "phone_number"
@@ -104,6 +107,7 @@ class EnquireToStudyForm(forms.Form):
         ].help_text = (
             "This will help ensure the correct department receives your enquiry"
         )
+        self.fields["city"].help_text = "e.g. London, Mumbai, New York"
 
     def clean(self):
         cleaned_data = super().clean()
