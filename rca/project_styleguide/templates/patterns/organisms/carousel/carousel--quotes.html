@@ -9,6 +9,8 @@
                 {% endwith %}
             {% endfor %}
         </ul>
+
+        {# Desktop next/previous buttons #}
         <div class="carousel__controls-group grid" data-glide-el="controls" {% if control_title %}aria-controls="{{ control_title|slugify }}"{% endif %}>
             <button class="carousel__button carousel__button--prev button" type="button" aria-label="Previous quote{% if control_title %} for {{ control_title }}{% endif %}" data-glide-dir="<">
                 <svg class="carousel__button-icon" width="46" height="46" aria-hidden="true">
@@ -22,6 +24,7 @@
             </button>
         </div>
     </div>
+
     <div class="carousel__controls">
         <div class="carousel__bullet-container" data-glide-el="controls[nav]" {% if control_title %}aria-controls="{{ control_title|slugify }}"{% endif %}>
             {% for slide in carousel %}
@@ -29,6 +32,20 @@
                     <button class="carousel__bullet" data-glide-dir="={{ forloop.counter }}" aria-label="Slide {{ forloop.counter }}"></button>
                 {% endwith %}
             {% endfor %}
+        </div>
+
+        {# Mobile next/previous buttons #}
+        <div class="carousel__mobile-controls-group" data-glide-el="controls" {% if control_title %}aria-controls="{{ control_title|slugify }}"{% endif %}>
+            <button class="carousel__button carousel__button--prev button" aria-label="Previous image{% if control_title %} for {{ control_title }}{% endif %}" data-glide-dir="<">
+                <svg class="carousel__button-icon" width="46" height="46" aria-hidden="true">
+                    <use xlink:href="#arrow-left" />
+                </svg>
+            </button>
+            <button class="carousel__button carousel__button--next button" aria-label="Next image{% if control_title %} for {{ control_title }}{% endif %}" data-glide-dir=">">
+                <svg class="carousel__button-icon" width="46" height="46" aria-hidden="true">
+                    <use xlink:href="#arrow-right" />
+                </svg>
+            </button>
         </div>
     </div>
 </div>
