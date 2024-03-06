@@ -1,0 +1,42 @@
+{% comment %}
+NOTE: This template is a modified version of the default Wagtail admin template for inline panel children:
+https://github.com/wagtail/wagtail/blob/stable/5.2.x/wagtail/admin/templates/wagtailadmin/panels/inline_panel_child.html
+
+Modification(s):
+- add `{% if can_delete %}` around the delete button to prevent it being shown when the user doesn't have permission to delete
+
+TODO: Once InlinePanels have read-only / permissions support, then we can
+remove this template and its parent and work with the defaults.
+See https://github.com/wagtail/wagtail/issues/8684 for more details on support for permissions in InlinePanels.
+{% endcomment %}
+
+{% load i18n wagtailadmin_tags %}
+
+{% fragment as id %}inline_child_{{ child.form.prefix }}{% endfragment %}
+{% fragment as panel_id %}{{ id }}-panel{% endfragment %}
+<div data-inline-panel-child id="{{ id }}" data-contentpath-disabled>
+    {% fragment as header_controls %}
+        {% if can_order %}
+            <button type="button" class="button button--icon text-replace white" data-inline-panel-child-move-up title="{% trans 'Move up' %}">{% icon name="arrow-up" %}</button>
+            <button type="button" class="button button--icon text-replace white" data-inline-panel-child-move-down title="{% trans 'Move down' %}">{% icon name="arrow-down" %}</button>
+        {% endif %}
+        {% if can_delete %}
+            <button type="button" class="button button--icon text-replace white" id="{{ child.form.DELETE.id_for_label }}-button" title="{% trans 'Delete' %}">{% icon name="bin" %}</button>
+        {% endif %}
+    {% endfragment %}
+    {% fragment as heading %}
+        {{ self.label }}<span data-inline-panel-child-count></span>
+    {% endfragment %}
+    {% panel id=panel_id heading=heading heading_size="label" heading_level="3" header_controls=header_controls %}
+        {% if child.form.non_field_errors %}
+            <ul>
+                {% for error in child.form.non_field_errors %}
+                    <li class="error-message">
+                        <span>{{ error|escape }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {{ child.render_form_content }}
+    {% endpanel %}
+</div>
