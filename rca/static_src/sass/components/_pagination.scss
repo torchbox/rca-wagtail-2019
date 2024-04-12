@@ -17,7 +17,7 @@
         &--current {
             #{$root}__link {
                 @include underline-hover-target-reset();
-                font-family: $font--secondary;
+                font-weight: $weight--bold;
             }
         }
     }
@@ -31,7 +31,6 @@
         @include underline-hover();
         background-size: 0% 2px;
         display: block;
-        font-family: $font--primary;
         transition: color $transition-cubic;
 
         &::after {

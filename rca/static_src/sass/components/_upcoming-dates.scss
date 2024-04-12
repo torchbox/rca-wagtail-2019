@@ -10,7 +10,7 @@
     }
 
     &__heading {
-        font-family: $font--secondary;
+        font-weight: $weight--bold;
 
         @include media-query(large) {
             max-width: 40%;

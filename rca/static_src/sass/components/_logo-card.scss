@@ -52,7 +52,7 @@
             right: 10px;
             bottom: 10px;
             left: 10px;
-            font-family: $font--secondary;
+            font-weight: $weight--bold;
             font-size: map-get($large-font-sizes, xxs);
             transform: translate3d(0, 100%, 0);
             opacity: 0;

@@ -14,12 +14,12 @@
     }
 
     &__heading {
-        font-family: $font--secondary;
+        font-weight: $weight--bold;
         margin-bottom: ($gutter * 2);
     }
 
     &__category-heading {
-        font-family: $font--secondary;
+        font-weight: $weight--bold;
     }
 
     &__heading-options {
@@ -65,13 +65,12 @@
     &__link {
         @include underline-hover();
         position: relative;
-        font-family: $font--primary;
         cursor: pointer;
 
         &.selected {
             @include underline-hover-target();
             @include underline-hover-target-reset();
-            font-family: $font--secondary;
+            font-weight: $weight--bold;
         }
     }
 
@@ -91,7 +90,7 @@
     &__clear-link {
         @include underline-hover();
         position: relative;
-        font-family: $font--secondary;
+        font-weight: $weight--bold;
         opacity: 1;
         transition: opacity $transition-cubic;
 
@@ -153,7 +152,7 @@
         background-color: transparent;
         border: 0;
         padding: ($gutter * 0.5) 0 0;
-        font-family: $font--secondary;
+        font-weight: $weight--bold;
         cursor: pointer;
         margin-left: auto;
     }
@@ -274,7 +273,7 @@
             &.selected {
                 @include underline-hover-target();
                 @include underline-hover-target-reset();
-                font-family: $font--secondary;
+                font-weight: $weight--bold;
             }
         }
 

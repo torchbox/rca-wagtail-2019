@@ -8,7 +8,6 @@
     grid-template-columns: 1fr;
     padding-top: $gutter;
     color: inherit;
-    font-family: $font--primary;
 
     // Bottom border, done with a pseudo element rather than a border,
     // so it can overflow to the right and leave some space for people to scroll

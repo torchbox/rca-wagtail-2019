@@ -96,7 +96,7 @@ test_python:
   stage: test
   services:
     # Make sure this matches the Postgres version you run on your servers.
-    - postgres:12.3
+    - postgres:15
   dependencies:
     - static
   variables:

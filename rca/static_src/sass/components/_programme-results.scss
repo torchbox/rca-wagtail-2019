@@ -41,7 +41,7 @@
         padding: 0;
         // Add padding so the outline looks good on focus/active.
         padding-left: 5px;
-        font-family: $font--secondary;
+        font-weight: $weight--bold;
         color: inherit;
 
         &[type='button'] {
