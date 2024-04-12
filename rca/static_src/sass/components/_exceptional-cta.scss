@@ -3,8 +3,7 @@
     @include font-size(s);
     display: block;
     position: relative;
-    font-family: $font--secondary;
-    font-weight: $weight--medium;
+    font-weight: $weight--bold;
     margin-top: ($gutter * 3);
     border: 0;
     border-top: 4px solid $color--tertiary;

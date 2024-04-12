@@ -72,7 +72,6 @@
     &__tab {
         position: relative;
         color: $color--dark-grey;
-        font-family: $font--primary;
         outline-width: initial;
         transition: color $transition;
 
@@ -88,7 +87,7 @@
 
         &--selected {
             color: $color--black;
-            font-family: $font--secondary;
+            font-weight: $weight--bold;
 
             @include media-query(large) {
                 @include underline-hover-target();
@@ -197,7 +196,7 @@
 
         &__heading {
             @include font-size(s);
-            font-family: $font--secondary;
+            font-weight: $weight--bold;
             margin-bottom: ($gutter * 1.5);
             color: $color--black;
         }
@@ -228,7 +227,7 @@
                     @include underline-hover-target-reset();
                     position: relative;
                     color: $color--black;
-                    font-family: $font--secondary;
+                    font-weight: $weight--bold;
 
                     &::before {
                         content: '';

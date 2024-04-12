@@ -27,7 +27,6 @@ h6 {
 }
 
 blockquote {
-    font-family: $font--primary;
     font-style: normal;
     font-weight: inherit;
     text-transform: inherit;
@@ -36,7 +35,6 @@ blockquote {
 }
 
 cite {
-    font-family: $font--primary;
     font-style: normal;
     font-weight: inherit;
     text-transform: inherit;
@@ -51,6 +49,5 @@ p {
 }
 
 b {
-    font-family: $font--secondary;
     font-weight: $weight--bold;
 }

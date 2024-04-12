@@ -138,8 +138,7 @@
     &__number {
         font-size: 80px;
         line-height: 81px;
-        font-family: $font--secondary;
-        font-weight: $weight--medium;
+        font-weight: $weight--bold;
         margin-bottom: 0;
 
         @include media-query(medium) {
@@ -171,8 +170,7 @@
 
     &__meta {
         margin-bottom: 0;
-        font-family: $font--secondary;
-        font-weight: $weight--medium;
+        font-weight: $weight--bold;
     }
 
     &__body {

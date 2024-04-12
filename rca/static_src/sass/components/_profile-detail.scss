@@ -48,7 +48,6 @@
     }
 
     &__body {
-        font-family: $font--primary;
         margin-bottom: ($gutter * 0.5);
 
         @include media-query(medium) {
@@ -167,7 +166,7 @@
 
         #{$root}__heading {
             @include font-size(xxs);
-            font-family: $font--secondary;
+            font-weight: $weight--bold;
             margin-bottom: 0;
         }
 
