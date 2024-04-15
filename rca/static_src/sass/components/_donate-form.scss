@@ -321,7 +321,7 @@
         .bboxdonation_divThanks {
             p {
                 @include font-size(m);
-                font-family: $font--secondary;
+                font-weight: $weight--bold;
                 line-height: $line-height-large;
                 margin-bottom: ($gutter * 2);
             }

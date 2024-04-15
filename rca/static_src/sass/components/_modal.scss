@@ -52,7 +52,7 @@
 
     &__close-label {
         display: none;
-        font-family: $font--secondary;
+        font-weight: $weight--bold;
         margin-right: ($gutter * 0.25);
         pointer-events: none;
 

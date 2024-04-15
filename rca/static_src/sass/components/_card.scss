@@ -88,8 +88,7 @@
 
         #{$root}__heading {
             @include font-size(xs);
-            font-family: $font--secondary;
-            font-weight: $weight--medium;
+            font-weight: $weight--bold;
         }
 
         #{$root}__description {
@@ -237,7 +236,6 @@
     &__container {
         display: flex;
         flex-direction: column;
-        font-family: $font--primary;
 
         &:hover,
         &:focus {
@@ -300,14 +298,14 @@
         line-height: $line-height-large;
 
         #{$root}__link & {
-            font-family: $font--secondary;
+            font-weight: $weight--bold;
         }
     }
 
     &__heading-link {
         @include underline-hover-target();
         position: relative;
-        font-family: $font--secondary;
+        font-weight: $weight--bold;
     }
 
     &__heading-link-icon {

@@ -7,9 +7,8 @@
 
     #cluetip-title {
         @include font-size(s);
-        font-family: $font--secondary;
         line-height: $line-height-large;
-        font-weight: $weight--medium;
+        font-weight: $weight--bold;
         margin-bottom: $gutter;
         width: 80%;
 
@@ -29,9 +28,8 @@
 
         h2 {
             @include font-size(xs);
-            font-family: $font--secondary;
             line-height: $line-height-large;
-            font-weight: $weight--medium;
+            font-weight: $weight--bold;
             margin-bottom: $gutter;
         }
 

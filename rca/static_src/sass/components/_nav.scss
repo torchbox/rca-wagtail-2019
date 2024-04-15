@@ -184,7 +184,6 @@
         align-items: center;
         padding: $gutter 5px $gutter 0;
         color: $color--white;
-        font-family: $font--primary;
 
         span {
             pointer-events: none;
@@ -246,7 +245,7 @@
         }
 
         &--bold {
-            font-family: $font--secondary;
+            font-weight: $weight--bold;
         }
 
         &--with-links {

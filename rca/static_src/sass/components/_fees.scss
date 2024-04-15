@@ -49,8 +49,7 @@
 
     &__heading {
         display: inline;
-        font-family: $font--secondary;
-        font-weight: $weight--medium;
+        font-weight: $weight--bold;
         max-width: 190px;
 
         @include media-query(large) {

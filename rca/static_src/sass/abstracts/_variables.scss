@@ -40,18 +40,55 @@ $color--meta-lightbg: $color--dark-grey;
 
 $color--focus: $color--blue;
 
+// --------------------------------- Font faces -------------------------------------
+
+/* source-sans-3-latin-400-normal */
+@font-face {
+    font-family: 'Source Sans 3';
+    font-style: normal;
+    font-display: block;
+    font-weight: 400;
+    src: url(https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-400-normal.woff2)
+        format('woff2');
+}
+
+/* source-sans-3-latin-500-normal */
+@font-face {
+    font-family: 'Source Sans 3';
+    font-style: normal;
+    font-display: block;
+    font-weight: 500;
+    src: url(https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-500-normal.woff2)
+        format('woff2');
+}
+
+/* source-sans-3-latin-400-italic */
+@font-face {
+    font-family: 'Source Sans 3';
+    font-style: italic;
+    font-display: block;
+    font-weight: 400;
+    src: url(https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-400-italic.woff2)
+        format('woff2');
+}
+
+/* source-sans-3-latin-500-italic */
+@font-face {
+    font-family: 'Source Sans 3';
+    font-style: italic;
+    font-display: block;
+    font-weight: 500;
+    src: url(https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-500-italic.woff2)
+        format('woff2');
+}
+
 // --------------------------------- Fonts --------------------------------------
 
-$font--primary: 'Benton Sans Old', 'Helvetica Neue', arial, helvetica,
-    sans-serif; // Benton Sans Regular
-$font--secondary: 'Benton Sans Medium', 'Helvetica Neue', arial, helvetica,
-    sans-serif;
+$font--primary: 'Source Sans 3', sans-serif;
 
 // Font weights
-// Now handled by font family due to limitations of third party font service
 $weight--bold: 500;
-$weight--medium: 500;
-$weight--normal: 500;
+$weight--normal: 400;
 
 // Line heights
 $line-height-large: 122%;
