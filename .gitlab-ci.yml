@@ -53,7 +53,7 @@ isort:
     # Remember to update a version in requirements-dev.txt
     - pip install isort==4.3.15
   script:
-    - isort --check-only --diff --recursive rca
+    - isort --check-only --diff rca
 
 lint_js:
   image: node:12-alpine

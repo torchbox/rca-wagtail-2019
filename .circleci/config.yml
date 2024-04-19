@@ -60,7 +60,7 @@ jobs:
           command: |
             . venv/bin/activate
             pip install coverage
-            isort --recursive --check-only --diff ./rca
+            isort --check-only --diff ./rca --skip-glob '**/migrations/*'
             ./manage.py collectstatic --verbosity 0 --noinput --clear
             ./manage.py makemigrations --check --noinput
             ./manage.py check
