@@ -94,7 +94,6 @@ class HomePagePartnershipBlock(models.Model):
     summary = models.CharField(max_length=250)
     slides = StreamField(
         StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1),
-        use_json_field=True,
     )
 
     panels = [FieldPanel("title"), FieldPanel("summary"), FieldPanel("slides")]
@@ -106,7 +105,7 @@ class HomePagePartnershipBlock(models.Model):
 class HomePageStatsBlock(models.Model):
     source_page = ParentalKey("HomePage", related_name="stats_block")
     title = models.CharField(max_length=125)
-    statistics = StreamField([("statistic", StatisticBlock())], use_json_field=True)
+    statistics = StreamField([("statistic", StatisticBlock())])
     background_image = models.ForeignKey(
         get_image_model_string(),
         blank=True,

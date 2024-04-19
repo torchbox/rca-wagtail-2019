@@ -133,24 +133,19 @@ class NavigationSettings(BaseSiteSetting, ClusterableModel):
         [("link", PrimaryNavLink())],
         blank=True,
         help_text="Main site navigation",
-        use_json_field=True,
     )
 
-    quick_links = StreamField(
-        [("link", QuickLinkBlock())], blank=True, use_json_field=True
-    )
+    quick_links = StreamField([("link", QuickLinkBlock())], blank=True)
 
     footer_navigation = StreamField(
         [("link", LinkBlock())],
         blank=True,
         help_text="Multiple columns of footer links with optional header.",
-        use_json_field=True,
     )
     footer_links = StreamField(
         [("link", LinkBlock())],
         blank=True,
         help_text="Single list of elements at the base of the page.",
-        use_json_field=True,
     )
 
     panels = [

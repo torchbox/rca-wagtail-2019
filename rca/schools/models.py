@@ -81,7 +81,6 @@ class SchoolPageTeaser(models.Model):
     summary = models.CharField(max_length=250, blank=True)
     pages = StreamField(
         StreamBlock([("Page", RelatedPageListBlockPage(max_num=6))], max_num=1),
-        use_json_field=True,
     )
     panels = [FieldPanel("title"), FieldPanel("summary"), FieldPanel("pages")]
 
@@ -93,9 +92,7 @@ class SchoolPageStatsBlock(models.Model):
     source_page = ParentalKey("SchoolPage", related_name="stats_block")
     title = models.CharField(max_length=125)
     # statistics = StreamField([("statistic", StatisticBlock(max_num=1))])
-    statistics = StreamField(
-        StreamBlock([("statistic", StatisticBlock())], max_num=5), use_json_field=True
-    )
+    statistics = StreamField(StreamBlock([("statistic", StatisticBlock())], max_num=5))
     background_image = models.ForeignKey(
         get_image_model_string(),
         blank=True,
@@ -118,7 +115,6 @@ class SchoolPageStudentResearch(LinkFields):
     title = models.CharField(max_length=125)
     slides = StreamField(
         StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1),
-        use_json_field=True,
     )
 
     panels = [
@@ -167,7 +163,6 @@ class StudentPageStudentStories(models.Model):
     title = models.CharField(max_length=125)
     slides = StreamField(
         StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1),
-        use_json_field=True,
     )
 
     panels = [FieldPanel("title"), FieldPanel("slides")]
@@ -211,7 +206,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
     get_in_touch = RichTextField(blank=True, features=["link"])
     # Social Links
     social_links = StreamField(
-        StreamBlock([("Link", LinkBlock())], max_num=5), blank=True, use_json_field=True
+        StreamBlock([("Link", LinkBlock())], max_num=5), blank=True
     )
     news_and_events_heading = models.CharField(blank=True, max_length=120)
     collaborators_heading = models.CharField(blank=True, max_length=120)
@@ -220,13 +215,11 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         blank=True,
         help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
             Aim for logos that sit on either a white or transparent background.",
-        use_json_field=True,
     )
     about_external_links = StreamField(
         [("link", InternalExternalLinkBlock())],
         blank=True,
         verbose_name="External links",
-        use_json_field=True,
     )
     about_cta_block = StreamField(
         StreamBlock(
@@ -234,23 +227,19 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         ),
         verbose_name="CTA",
         blank=True,
-        use_json_field=True,
     )
 
     research_projects_title = models.CharField(max_length=125, default="Our Research")
     research_projects_text = RichTextField(blank=True, features=["link"])
     external_links_heading = models.CharField(max_length=125, blank=True)
 
-    external_links = StreamField(
-        [("link", InternalExternalLinkBlock())], blank=True, use_json_field=True
-    )
+    external_links = StreamField([("link", InternalExternalLinkBlock())], blank=True)
     research_cta_block = StreamField(
         StreamBlock(
             [("call_to_action", CallToActionBlock(label=_("text promo")))],
             max_num=1,
         ),
         blank=True,
-        use_json_field=True,
     )
     research_collaborators_heading = models.CharField(blank=True, max_length=120)
     research_collaborators = StreamField(
@@ -258,7 +247,6 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         blank=True,
         help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
             Aim for logos that sit on either a white or transparent background.",
-        use_json_field=True,
     )
     related_programmes_title = models.CharField(blank=True, max_length=120)
     related_programmes_summary = models.CharField(blank=True, max_length=500)
@@ -271,7 +259,6 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         [("link", InternalExternalLinkBlock())],
         blank=True,
         verbose_name="Links",
-        use_json_field=True,
     )
     programmes_cta_block = StreamField(
         StreamBlock(
@@ -280,7 +267,6 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             verbose_name="Call to action",
         ),
         blank=True,
-        use_json_field=True,
     )
 
     # Staff
@@ -294,7 +280,6 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         [("link", InternalExternalLinkBlock())],
         blank=True,
         verbose_name="Links",
-        use_json_field=True,
     )
     staff_external_links_heading = models.CharField(
         max_length=125, blank=True, verbose_name="Related staff links heading"
@@ -306,7 +291,6 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             verbose_name="Call to action",
         ),
         blank=True,
-        use_json_field=True,
     )
     staff_link = models.URLField(blank=True)
     staff_link_text = models.CharField(
