@@ -415,9 +415,11 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
                         "title": page.title,
                         "link": page.url,
                         "image": get_listing_image(page),
-                        "description": page.introduction
-                        if hasattr(page, "introduction")
-                        else page.listing_summary,
+                        "description": (
+                            page.introduction
+                            if hasattr(page, "introduction")
+                            else page.listing_summary
+                        ),
                         "meta": meta,
                     }
                 )
