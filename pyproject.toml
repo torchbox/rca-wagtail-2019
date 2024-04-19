@@ -10,7 +10,7 @@ django = "~4.2"
 wagtail = "~5.2"
 psycopg2 = "~2.9"
 gunicorn = {version = "~20.0", optional = true}
-wagtail-django-recaptcha = {git = "https://github.com/torchbox-forks/wagtail-django-recaptcha", rev = "2.1.1+tbx"}
+wagtail-django-recaptcha = "^2.1.1"
 django-pattern-library = "~1.1.0"
 whitenoise = "~6.6"
 dj-database-url = "~2.1"
@@ -22,7 +22,7 @@ django-csp = "~3.7"
 scout-apm = "~3.1"
 django-basic-auth-ip-whitelist = "~0.5"
 wagtail-accessibility = "^2.0.0"
-wagtail-storages = "^1.0.0"
+wagtail-storages = "^1.1.0"
 coverage = "^5.4"
 wagtail-factories = "^4.1.0"
 wagtail-orderable = "^1.2.0"
@@ -35,8 +35,8 @@ django-countries = "^7.5.1"
 mailchimp-marketing = "^3.0.69"
 freezegun = "^1.1.0"
 django-cors-headers = "^4.3.1"
-wagtail-rangefilter = "^0.2.0"
-wagtail-modeladmin = "^1.0.0"
+wagtail-rangefilter = "^0.2.1"
+wagtail-modeladmin = "^2.0.0"
 
 [tool.poetry.extras]
 gunicorn = ["gunicorn"]
@@ -46,7 +46,7 @@ Werkzeug = "~2.0.3"
 django-extensions = "~3.2"
 fabric = "~2.5"
 stellar = "~0.4"
-wagtailmakeup = "^1.0.1"
+wagtailmakeup = "^1.1.0"
 
 # Linters etc.
 black = "22.3.0"
