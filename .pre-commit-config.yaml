@@ -44,3 +44,8 @@ repos:
         additional_dependencies:
           - stylelint@13.13.1
           - stylelint-config-torchbox@1.0.0
+  - repo: https://github.com/adamchainz/django-upgrade
+    rev: 1.16.0
+    hooks:
+      - id: django-upgrade
+        args: [--target-version, '4.2'] # Replace with Django version

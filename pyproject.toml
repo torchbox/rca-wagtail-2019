@@ -60,6 +60,7 @@ mkdocs = "~1.1"
 mkdocs-material = "~7.1"
 pymdown-extensions = "~8.1"
 honcho = "^1.0.1"
+django-upgrade = "^1.16.0"
 
 [build-system]
 requires = ["poetry>=1,<2"]

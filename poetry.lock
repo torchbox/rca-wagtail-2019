@@ -859,6 +859,20 @@ files = [
 Django = ">=2.2"
 
 [[package]]
+name = "django-upgrade"
+version = "1.16.0"
+description = "Automatically upgrade your Django project code."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "django-upgrade-1.16.0.tar.gz", hash = "sha256:7e473e8ecf234a531448d4a0c1c772746fa831fc762eae3d7578f13f6d847370"},
+    {file = "django_upgrade-1.16.0-py3-none-any.whl", hash = "sha256:605708b130368ee6dd304df00253f184a7c2f00d1c2dd5d4dac41a31307a2a14"},
+]
+
+[package.dependencies]
+tokenize-rt = ">=4.1"
+
+[[package]]
 name = "djangorestframework"
 version = "3.14.0"
 description = "Web APIs for Django, made easy."
@@ -2643,6 +2657,17 @@ files = [
 ]
 
 [[package]]
+name = "tokenize-rt"
+version = "5.2.0"
+description = "A wrapper around the stdlib `tokenize` which roundtrips."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "tokenize_rt-5.2.0-py2.py3-none-any.whl", hash = "sha256:b79d41a65cfec71285433511b50271b05da3584a1da144a0752e9c621a285289"},
+    {file = "tokenize_rt-5.2.0.tar.gz", hash = "sha256:9fe80f8a5c1edad2d3ede0f37481cc0cc1538a2f442c9c2f9e4feacd2792d054"},
+]
+
+[[package]]
 name = "toml"
 version = "0.10.2"
 description = "Python Library for Tom's Obvious, Minimal Language"
@@ -3127,4 +3152,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.8"
-content-hash = "c6feb49b3e1975ab5e2db97f3d8b06b6f639dadf159cd178805c73d9fadba547"
+content-hash = "86b4a8cc4547938157351adb6d1e45e91b88b59d9b40530afb22669b9d443dcc"
