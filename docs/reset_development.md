@@ -5,27 +5,23 @@ Steps for resetting the `dev` git branch, and deploying it with a cloned/anonymi
 ### Pre-flight checks
 
 1. Is this okay with the client, and other developers?
-2. Is there any test content on staging that may need to be recreated, or be a reason to delay?
-3. What branches are currently merged to staging?
+2. Is there any test content on `dev` that may need to be recreated, or be a reason to delay?
+3. What branches are currently merged to dev?
 
    ```bash
-   $ git branch -a --merged origin/staging > branches_on_staging.txt
+   $ git branch -a --merged origin/dev > branches_on_dev.txt
    $ git branch -a --merged origin/master > branches_on_master.txt
-   $ diff branches_on_{master,staging}.txt
+   $ diff branches_on_{master,dev}.txt
    ```
 
    Take note if any of the above are stale, not needing to be recreated.
 
-   or use this tool [https://git.torchbox.com/alex.bridge/misc-utils](https://git.torchbox.com/alex.bridge/misc-utils)
-
-4. Are there any user accounts on staging only, which will need to be recreated? Check with the client, and record them.
-5. Make a copy of the staging site `Wagtail Site records` urls and site names.
+4. Are there any user accounts on dev only, which will need to be recreated? Check with the client, and record them.
+5. Make a copy of the staging dev `Wagtail Site records` urls and site names.
 6. Take a backup of staging
    ```bash
-   $ heroku pg:backups:capture -a [app-staging-name]
+   $ heroku pg:backups:capture -a rca-development
    ```
-
-A CI/CD Job is available to copy the production database to the development environment. **Do make sure to follow the above pre-flight checks before using the job!** It will copy across the database as well as the media files.
 
 ### Git
 
@@ -48,6 +44,15 @@ A CI/CD Job is available to copy the production database to the development envi
    ```
    You may need to create merge migrations here depending on the type of work you need to merge.
 
+## Database
+
+1. To copy the production database over to dev, run the management command `./manage.py copy_db_to_dev` from the Heroku console on dev
+   This is a destructive action. Proofread it thoroughly.
+2. To copy media across as well as data, you can use the optional argument `--media` with the above command
+3. By default, a backup of the staging database is created before the database is copied. If you don't want this behaviour, you can set the optional argument `--backup` to false.
+4. By default, a snapshot of the production base is taken before the database is copied. If you don't want this behaviour, you can se the option agrument `--snapshot` to false.
+5. Flightpath will anonymise the database for you at the end of the copy process.
+
 ### Cleanup
 
 1. Check the staging site loads
@@ -56,6 +61,6 @@ A CI/CD Job is available to copy the production database to the development envi
 ### Comms
 
 1. Inform the client of the changes, e.g.
-   > All user accounts have been copied across, so your old staging password will no longer work. Log in with your production password (and then change it), or use the 'forgot password' feature.
+   > All user accounts have been copied across, so your old dev password will no longer work. Log in with your production password (and then change it), or use the 'forgot password' feature.
    > Any test content has been reset. This is probably the biggest inconvenience. Sorry.
-   > I have deleted the personally-identifying data from form submissions **and anywhere else relevant**. If there's any more on production (there shouldn't be) then please let me know and I'll remove it from staging.
+   > I have deleted the personally-identifying data from form submissions **and anywhere else relevant**. If there's any more on production (there shouldn't be) then please let me know and I'll remove it from dev.
