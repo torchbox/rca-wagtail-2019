@@ -753,6 +753,11 @@ BIRDBATH_REQUIRED = env.get("BIRDBATH_REQUIRED", "true").lower() == "true"
 BIRDBATH_USER_ANONYMISER_EXCLUDE_SUPERUSERS = True
 BIRDBATH_USER_ANONYMISER_EXCLUDE_EMAIL_RE = r"torchbox\.com$"
 
+# Flightpath command settings
+FLIGHTPATH_AUTH_KEY = os.environ.get("FLIGHTPATH_AUTH_KEY", None)
+FLIGHTPATH_SOURCE_KEY = os.environ.get("FLIGHTPATH_SOURCE_KEY", None)
+FLIGHTPATH_DESTINATION_KEY = os.environ.get("FLIGHTPATH_DESTINATION_KEY", None)
+
 # Django Countries
 # https://pypi.org/project/django-countries
 COUNTRIES_FIRST = ["GB", "IE"]
