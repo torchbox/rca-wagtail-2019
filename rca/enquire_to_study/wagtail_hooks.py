@@ -1,7 +1,7 @@
 from django.urls import re_path
 from wagtail import hooks
-from wagtail.contrib.modeladmin.helpers import PermissionHelper
-from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
+from wagtail_modeladmin.helpers import PermissionHelper
+from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail_rangefilter.filters import DateTimeRangeFilter
 
 from rca.enquire_to_study.models import EnquiryFormSubmission

@@ -91,7 +91,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
     template = "patterns/pages/scholarships/scholarships_listing_page.html"
     max_count = 1
     introduction = models.CharField(max_length=500, blank=True)
-    body = StreamField(ScholarshipsListingPageBlock(), use_json_field=True)
+    body = StreamField(ScholarshipsListingPageBlock())
 
     # Scholarship listing fields
     scholarship_listing_title = models.CharField(
@@ -107,14 +107,13 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         ],
         blank=True,
         verbose_name="Application Steps",
-        use_json_field=True,
     )
     characteristics_disclaimer = models.CharField(
         max_length=250,
         blank=True,
         help_text="A small disclaimer shown just above the scholarships listing.",
     )
-    lower_body = StreamField(ScholarshipsListingPageBlock(), use_json_field=True)
+    lower_body = StreamField(ScholarshipsListingPageBlock())
 
     # Scholarship form fields
     key_details = RichTextField(features=["h3", "bold", "italic", "link"], blank=True)
@@ -123,7 +122,6 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         [("call_to_action", CallToActionBlock(label="text promo"))],
         blank=True,
         verbose_name="Call to action",
-        use_json_field=True,
     )
 
     content_panels = BasePage.content_panels + [

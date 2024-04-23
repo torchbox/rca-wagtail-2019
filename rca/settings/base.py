@@ -1,6 +1,7 @@
 """
 Django settings for rca project.
 """
+
 import os
 import sys
 
@@ -218,7 +219,6 @@ TIME_ZONE = "Europe/London"
 
 USE_I18N = True
 
-USE_L10N = True
 
 USE_TZ = True
 
@@ -233,8 +233,13 @@ USE_TZ = True
 # The static files with this backend are generated when you run
 # "django-admin collectstatic".
 # http://whitenoise.evans.io/en/stable/#quickstart-for-django-apps
-# https://docs.djangoproject.com/en/stable/ref/settings/#staticfiles-storage
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# https://docs.djangoproject.com/en/stable/ref/settings/#std-setting-STORAGES
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    },
+}
 
 # Place static files that need a specific URL (such as robots.txt and favicon.ico) in the "public" folder
 WHITENOISE_ROOT = os.path.join(BASE_DIR, "public")
@@ -295,8 +300,8 @@ if "AWS_STORAGE_BUCKET_NAME" in env:
     # Add django-storages to the installed apps
     INSTALLED_APPS.append("storages")
 
-    # https://docs.djangoproject.com/en/stable/ref/settings/#default-file-storage
-    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+    # https://docs.djangoproject.com/en/stable/ref/settings/#std-setting-STORAGES
+    STORAGES["default"]["BACKEND"] = "storages.backends.s3boto3.S3Boto3Storage"
 
     AWS_STORAGE_BUCKET_NAME = env["AWS_STORAGE_BUCKET_NAME"]
 
@@ -487,6 +492,9 @@ CACHE_CONTROL_STALE_WHILE_REVALIDATE = int(
     env.get("CACHE_CONTROL_STALE_WHILE_REVALIDATE", 30)
 )
 
+# Required to get e.g. wagtail-sharing working on Heroku and probably many other platforms.
+# https://docs.djangoproject.com/en/stable/ref/settings/#use-x-forwarded-port
+USE_X_FORWARDED_PORT = env.get("USE_X_FORWARDED_PORT", "true").lower().strip() == "true"
 
 # Security configuration
 # This configuration is required to achieve good security rating.
@@ -794,3 +802,7 @@ if "ENQUIRE_TO_STUDY_DESTINATION_EMAILS" in env:
     ENQUIRE_TO_STUDY_DESTINATION_EMAILS = env.get(
         "ENQUIRE_TO_STUDY_DESTINATION_EMAILS"
     ).split(",")
+
+
+# Allow popups to open (can be from Paypal or other 3rd-party applications):
+SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"

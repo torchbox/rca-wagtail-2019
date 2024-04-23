@@ -322,7 +322,6 @@ class CallToActionSnippet(models.Model):
             max_num=1,
         ),
         blank=True,
-        use_json_field=True,
     )
 
     panels = [

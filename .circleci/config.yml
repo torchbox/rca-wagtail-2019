@@ -23,7 +23,7 @@ jobs:
       - run:
           name: install python dependencies
           command: |
-            curl -sSL https://install.python-poetry.org | POETRY_VERSION=1.7.1 python3 -
+            curl -sSL https://install.python-poetry.org | POETRY_VERSION=1.8.2 python3 -
             python -m venv venv
             . ./venv/bin/activate
             poetry install --no-ansi
@@ -60,7 +60,7 @@ jobs:
           command: |
             . venv/bin/activate
             pip install coverage
-            isort --recursive --check-only --diff ./rca
+            isort --check-only --diff ./rca --skip-glob '**/migrations/*'
             ./manage.py collectstatic --verbosity 0 --noinput --clear
             ./manage.py makemigrations --check --noinput
             ./manage.py check
