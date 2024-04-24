@@ -2,7 +2,7 @@ version: 2
 jobs:
   test:
     docker:
-      - image: circleci/python:3.8-buster-node
+      - image: circleci/python:3.11-buster-node
         environment:
           SECRET_KEY: testingsecretkey
           SECURE_SSL_REDIRECT: false
