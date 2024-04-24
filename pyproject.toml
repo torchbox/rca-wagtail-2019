@@ -5,7 +5,7 @@ description = ""
 authors = ["Kevin Howbrook <kevin.howbrook@torchbox.com>"]
 
 [tool.poetry.dependencies]
-python = "~3.8"
+python = "~3.11"
 django = "~4.2"
 wagtail = "~5.2"
 psycopg2 = "~2.9"
