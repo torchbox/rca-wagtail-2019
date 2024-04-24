@@ -2,7 +2,7 @@ version: 2
 jobs:
   test:
     docker:
-      - image: circleci/python:3.11-buster-node
+      - image: cimg/python:3.11.8-node # Updated Python version to 3.11.0
         environment:
           SECRET_KEY: testingsecretkey
           SECURE_SSL_REDIRECT: false
@@ -24,7 +24,7 @@ jobs:
           name: install python dependencies
           command: |
             curl -sSL https://install.python-poetry.org | POETRY_VERSION=1.7.1 python3 -
-            python -m venv venv
+            python3 -m venv venv  # Updated to use python3 explicitly
             . ./venv/bin/activate
             poetry install --no-ansi
       - save_cache:
