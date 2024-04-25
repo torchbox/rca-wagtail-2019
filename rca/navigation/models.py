@@ -70,11 +70,8 @@ class LinkBlock(blocks.StructBlock):
     # Add a page url for the page object
     def get_api_representation(self, value, context=None):
         value = {
-                    name:
-                    self.child_blocks[name].get_api_representation(
-                        val, context=context
-                    )
-                for name, val in value.items()
+            name: self.child_blocks[name].get_api_representation(val, context=context)
+            for name, val in value.items()
         }
 
         if value["page"] and not value["url"]:
@@ -124,7 +121,6 @@ class PrimaryNavLink(blocks.StructBlock):
 
 @register_setting(icon="list-ul")
 class NavigationSettings(BaseSiteSetting, ClusterableModel):
-
     primary_navigation = StreamField(
         [("link", PrimaryNavLink())],
         blank=True,

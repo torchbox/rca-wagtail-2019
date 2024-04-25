@@ -267,8 +267,8 @@ class EnquireToStudyFormView(FormView):
     def send_internal_email_notification(self, form, enquiry_submission):
         # Prettify the form labels so we don't render them with `_` e.g. `first_name: John`.
         answers = {
-                key.replace("_", " ").capitalize(): value
-                for key, value in form.cleaned_data.items()
+            key.replace("_", " ").capitalize(): value
+            for key, value in form.cleaned_data.items()
         }
 
         # Transform programmes into their string representation since it's going to be a QuerySet.
