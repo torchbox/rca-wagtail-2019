@@ -65,7 +65,7 @@ class AreaOfExpertise(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        super(AreaOfExpertise, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 class Directorate(models.Model):
@@ -82,7 +82,7 @@ class Directorate(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        super(Directorate, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 class StaffRole(Orderable):
@@ -954,7 +954,7 @@ class StudentPage(BasePage):
         """On saving the student page, make sure the student_user_account
         has a group created with the necessary permissions
         """
-        super(StudentPage, self).save()
+        super().save()
 
         if self.student_user_image_collection and self.student_user_account:
 

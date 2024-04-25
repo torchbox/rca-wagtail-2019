@@ -44,3 +44,7 @@ repos:
         additional_dependencies:
           - stylelint@13.13.1
           - stylelint-config-torchbox@1.0.0
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.15.2
+    hooks:
+      - id: pyupgrade

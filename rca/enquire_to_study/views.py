@@ -266,12 +266,10 @@ class EnquireToStudyFormView(FormView):
 
     def send_internal_email_notification(self, form, enquiry_submission):
         # Prettify the form labels so we don't render them with `_` e.g. `first_name: John`.
-        answers = dict(
-            [
-                (key.replace("_", " ").capitalize(), value)
+        answers = {
+                key.replace("_", " ").capitalize(): value
                 for key, value in form.cleaned_data.items()
-            ]
-        )
+        }
 
         # Transform programmes into their string representation since it's going to be a QuerySet.
         answers["Programmes"] = ", ".join([str(p) for p in answers["Programmes"]])
@@ -333,7 +331,7 @@ class EnquireToStudyFormThanksView(TemplateView):
     template_name = "patterns/pages/enquire_to_study/enquire_form_thanks.html"
 
     def get_context_data(self, **kwargs):
-        context = super(EnquireToStudyFormThanksView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         # If there is a session variable containing form post data send this,
         # through to the thanks template.
