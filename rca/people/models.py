@@ -424,7 +424,7 @@ class StaffPage(BasePage):
         # Create a dictionary of values re-using keys so we can group by both
         # the programmes and the custom programmes.
         regrouped = {}
-        for (key, value, link) in items:
+        for key, value, link in items:
             if key not in regrouped:
                 regrouped[key] = {"label": key, "items": [value], "link": link}
             else:

@@ -300,9 +300,9 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
                         "title": page.title,
                         "link": page.url,
                         "image": page.listing_image,
-                        "description": page.introduction
-                        if hasattr(page, "introduction")
-                        else None,
+                        "description": (
+                            page.introduction if hasattr(page, "introduction") else None
+                        ),
                     }
                 )
         return research_spaces
@@ -343,12 +343,16 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
                         "value": {
                             "title": page.title,
                             "link": page.url,
-                            "image": page.hero_image
-                            if hasattr(page, "hero_image")
-                            else page.listing_image,
-                            "summary": page.introduction
-                            if hasattr(page, "introduction")
-                            else page.listing_summary,
+                            "image": (
+                                page.hero_image
+                                if hasattr(page, "hero_image")
+                                else page.listing_image
+                            ),
+                            "summary": (
+                                page.introduction
+                                if hasattr(page, "introduction")
+                                else page.listing_summary
+                            ),
                             "type": page_type,
                         }
                     }
