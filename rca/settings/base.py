@@ -1,6 +1,7 @@
 """
 Django settings for rca project.
 """
+
 import os
 import sys
 

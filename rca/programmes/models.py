@@ -80,7 +80,7 @@ class Subject(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        super(Subject, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 def degree_level_serializer(*args, **kwargs):

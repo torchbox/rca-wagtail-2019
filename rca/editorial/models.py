@@ -74,7 +74,7 @@ class EditorialType(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        super(EditorialType, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     panels = [FieldPanel("title")]
 

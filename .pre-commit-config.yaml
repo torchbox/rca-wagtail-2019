@@ -1,6 +1,6 @@
 default_language_version:
   node: 18.4.0
-  python: python3.8
+  python: python3.11
 repos:
   - repo: https://github.com/python/black
     rev: 22.3.0
@@ -44,3 +44,7 @@ repos:
         additional_dependencies:
           - stylelint@13.13.1
           - stylelint-config-torchbox@1.0.0
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.15.2
+    hooks:
+      - id: pyupgrade

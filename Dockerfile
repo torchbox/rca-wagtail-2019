@@ -17,10 +17,10 @@ RUN npm run build:prod
 # ones becase they use a different C compiler. Debian images also come with
 # all useful packages required for image manipulation out of the box. They
 # however weight a lot, approx. up to 1.5GiB per built image.
-FROM python:3.8 as production
+FROM python:3.11 as production
 
 ARG POETRY_INSTALL_ARGS="--no-dev"
-# IMPORTANT: Remember to review .circleci/config.yml when upgrading
+# IMPORTANT: Remember to review .github/workflows/lint.yaml and .github/workflows/test.yaml files when upgrading
 ARG POETRY_VERSION=1.7.1
 
 # Install dependencies in a virtualenv
@@ -36,8 +36,8 @@ WORKDIR /app
 #  * PATH - Make sure that Poetry is on the PATH, along with our venv
 #  * PYTHONUNBUFFERED - This is useful so Python does not hold any messages
 #    from being output.
-#    https://docs.python.org/3.8/using/cmdline.html#envvar-PYTHONUNBUFFERED
-#    https://docs.python.org/3.8/using/cmdline.html#cmdoption-u
+#    https://docs.python.org/3.11/using/cmdline.html#envvar-PYTHONUNBUFFERED
+#    https://docs.python.org/3.11/using/cmdline.html#cmdoption-u
 #  * DJANGO_SETTINGS_MODULE - default settings used in the container.
 #  * PORT - default port used. Please match with EXPOSE so it works on Dokku.
 #    Heroku will ignore EXPOSE and only set PORT variable. PORT variable is

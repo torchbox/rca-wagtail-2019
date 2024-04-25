@@ -6,7 +6,7 @@ class StudentPageAdminForm(WagtailAdminPageForm):
     """Validation for adding StudentPage"""
 
     def __init__(self, *args, **kwargs):
-        super(StudentPageAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         user = kwargs.get("for_user")
 
@@ -56,9 +56,9 @@ class StudentPageAdminForm(WagtailAdminPageForm):
             and instance.student_user_image_collection
             and instance.student_user_account
         ):
-            cleaned_data[
-                "student_user_image_collection"
-            ] = instance.student_user_image_collection
+            cleaned_data["student_user_image_collection"] = (
+                instance.student_user_image_collection
+            )
             cleaned_data["student_user_account"] = instance.student_user_account
 
         student_user_image_collection = cleaned_data.get(

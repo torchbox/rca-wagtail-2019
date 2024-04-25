@@ -532,9 +532,9 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             {
                 "date_from": self.start_date.strftime("%Y-%m-%d"),
                 "date_to": self.end_date.strftime("%Y-%m-%d"),
-                "time_from": self.start_time.strftime("%H:%M:%S")
-                if self.start_time
-                else "",
+                "time_from": (
+                    self.start_time.strftime("%H:%M:%S") if self.start_time else ""
+                ),
                 "time_to": self.end_time.strftime("%H:%M:%S") if self.end_time else "",
             }
         ]
