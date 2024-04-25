@@ -60,6 +60,7 @@ mkdocs = "~1.1"
 mkdocs-material = "~7.1"
 pymdown-extensions = "~8.1"
 honcho = "^1.0.1"
+pyupgrade = "^3.15.2"
 
 [build-system]
 requires = ["poetry>=1,<2"]
