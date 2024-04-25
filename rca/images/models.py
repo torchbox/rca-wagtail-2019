@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.db import models
 from wagtail.api import APIField
 from wagtail.images.models import AbstractImage, AbstractRendition, Image
