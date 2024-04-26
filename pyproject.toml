@@ -55,9 +55,9 @@ isort = "4.3.18"
 pre-commit = "~2.11"
 
 # Documentation
-mkdocs = "~1.1"
-mkdocs-material = "~7.1"
-pymdown-extensions = "~8.1"
+mkdocs = "~1.6"
+mkdocs-material = "~9.5"
+pymdown-extensions = "~10.8"
 honcho = "^1.0.1"
 
 [build-system]
