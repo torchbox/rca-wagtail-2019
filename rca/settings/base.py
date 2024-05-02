@@ -722,7 +722,10 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
 CACHE_CONTROL_STALE_IF_ERROR = env.get("CACHE_CONTROL_STALE_IF_ERROR", None)
 
-CSRF_TRUSTED_ORIGINS = ["https://www.rca.ac.uk/"]
+if "CSRF_TRUSTED_ORIGINS" in env:
+    CSRF_TRUSTED_ORIGINS = env["CSRF_TRUSTED_ORIGINS"].split(",")
+else:
+    CSRF_TRUSTED_ORIGINS = ["https://www.rca.ac.uk/"]
 
 # Enable / Disable logging exceptions for api fetches from the old site.
 API_FETCH_LOGGING = env.get("API_FETCH_LOGGING", False)
