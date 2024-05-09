@@ -15,9 +15,7 @@ As much as possible, we want to use the official releases available on PyPI for 
 
 ### Check these packages for updates
 
-**Last tested for wagtail 5.2 upgrade** Comments in the pyproject.toml file may have more detailed information.
-
-- wagtail-django-recaptcha
+**Last tested for wagtail 6.0 upgrade** Comments in the pyproject.toml file may have more detailed information.
 
 It is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as they become available.
 
@@ -146,11 +144,17 @@ Additionally there are some Custom Panels which help to add the `permission` par
 
 ---
 
+#### Wagtail v6 Upgrade notes
+
+- `StreamField` no longer requires `use_json_field=True`
+
+---
+
 ## Overridden core Wagtail templates
 
 The following templates are overridden and should be checked for changes when upgrading Wagtail:
 
-Last checked against Wagtail version: 5.2
+Last checked against Wagtail version: 6.0
 
 - `rca/account_management/templates/wagtailadmin/base.html`
 - `rca/users/templates/wagtailusers/users/list.html`

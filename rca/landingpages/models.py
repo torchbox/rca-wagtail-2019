@@ -98,7 +98,7 @@ class LandingPageStatsBlock(models.Model):
     title = models.CharField(
         max_length=125, help_text=_("Maximum length of 125 characters")
     )
-    statistics = StreamField([("statistic", StatisticBlock())], use_json_field=True)
+    statistics = StreamField([("statistic", StatisticBlock())])
     background_image = models.ForeignKey(
         get_image_model_string(),
         blank=True,
@@ -160,7 +160,7 @@ class LandingPagePageSlideshowBlock(models.Model):
     summary = models.CharField(
         max_length=250, blank=True, help_text=_("Maximum length of 250 characters")
     )
-    slides = StreamField([("slide", SlideBlock())], use_json_field=True)
+    slides = StreamField([("slide", SlideBlock())])
     panels = [FieldPanel("title"), FieldPanel("summary"), FieldPanel("slides")]
 
     def __str__(self):
@@ -247,14 +247,11 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
             "The title to be displayed above the page list blocks, maximum length of 80 characters"
         ),
     )
-    page_list = StreamField(
-        [("page_list", RelatedPageListBlock())], blank=True, use_json_field=True
-    )
+    page_list = StreamField([("page_list", RelatedPageListBlock())], blank=True)
     cta_block = StreamField(
         [("call_to_action", CallToActionBlock(label=_("text promo")))],
         blank=True,
         verbose_name=_("Text promo"),
-        use_json_field=True,
     )
     slideshow_title = models.CharField(
         max_length=125,
@@ -418,9 +415,11 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
                         "title": page.title,
                         "link": page.url,
                         "image": get_listing_image(page),
-                        "description": page.introduction
-                        if hasattr(page, "introduction")
-                        else page.listing_summary,
+                        "description": (
+                            page.introduction
+                            if hasattr(page, "introduction")
+                            else page.listing_summary
+                        ),
                         "meta": meta,
                     }
                 )
@@ -790,7 +789,6 @@ class EELandingPage(ContactFieldsMixin, BasePage):
             max_num=1,
         ),
         blank=True,
-        use_json_field=True,
     )
 
     class Meta:
@@ -973,7 +971,6 @@ class AlumniLandingPageTeaser(models.Model):
     summary = models.CharField(max_length=250, blank=True)
     pages = StreamField(
         StreamBlock([("Page", RelatedPageListBlockPage(max_num=6))], max_num=1),
-        use_json_field=True,
     )
     panels = [FieldPanel("title"), FieldPanel("summary"), FieldPanel("pages")]
 
@@ -987,7 +984,7 @@ class AlumniLandingPage(LandingPage):
     template = "patterns/pages/alumni/alumni.html"
     location = RichTextField(blank=True, features=(["bold", "italic"]))
     social_links = StreamField(
-        StreamBlock([("Link", LinkBlock())], max_num=5), blank=True, use_json_field=True
+        StreamBlock([("Link", LinkBlock())], max_num=5), blank=True
     )
     contact_email = models.EmailField(blank=True, max_length=254)
     body = RichTextField(blank=True)
@@ -1015,7 +1012,6 @@ class AlumniLandingPage(LandingPage):
         blank=True,
         help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
             Aim for logos that sit on either a white or transparent background.",
-        use_json_field=True,
     )
     # "latest"' section
     news_link_text = models.TextField(
@@ -1034,13 +1030,11 @@ class AlumniLandingPage(LandingPage):
         [("link", InternalExternalLinkBlock())],
         blank=True,
         verbose_name="Additional Links",
-        use_json_field=True,
     )
     latest_cta_block = StreamField(
         [("call_to_action", CallToActionBlock(label=_("text promo")))],
         blank=True,
         verbose_name=_("Text promo"),
-        use_json_field=True,
     )
 
     content_panels = (
@@ -1199,7 +1193,7 @@ class DevelopmentLandingPage(LandingPage):
     )
     contact_email = models.EmailField(blank=True, max_length=254)
     social_links = StreamField(
-        StreamBlock([("Link", LinkBlock())], max_num=5), blank=True, use_json_field=True
+        StreamBlock([("Link", LinkBlock())], max_num=5), blank=True
     )
     video_caption = models.CharField(
         blank=True,
@@ -1224,7 +1218,6 @@ class DevelopmentLandingPage(LandingPage):
         [("call_to_action", CallToActionBlock(label=_("text promo")))],
         blank=True,
         verbose_name=_("Text promo"),
-        use_json_field=True,
     )
     # "Stories"' section
     stories_link_text = models.TextField(
@@ -1243,7 +1236,6 @@ class DevelopmentLandingPage(LandingPage):
         [("call_to_action", CallToActionBlock(label=_("text promo")))],
         blank=True,
         verbose_name=_("Text promo"),
-        use_json_field=True,
     )
 
     content_panels = (

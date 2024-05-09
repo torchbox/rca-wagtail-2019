@@ -133,7 +133,7 @@ class ProgrammePageFeeItem(Orderable):
     introduction = models.CharField(
         max_length=1000, help_text="Extra information about the fee items", blank=True
     )
-    row = StreamField([("row", FeeBlock())], blank=True, use_json_field=True)
+    row = StreamField([("row", FeeBlock())], blank=True)
     panels = [FieldPanel("title"), FieldPanel("introduction"), FieldPanel("row")]
 
     def __str__(self):
@@ -218,7 +218,6 @@ class ProgrammeStoriesBlock(models.Model):
     title = models.CharField(max_length=125)
     slides = StreamField(
         StreamBlock([("Page", RelatedPageListBlockPage())], max_num=1),
-        use_json_field=True,
     )
 
     panels = [
@@ -426,7 +425,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         [("slide", GalleryBlock())],
         blank=True,
         verbose_name="Programme gallery",
-        use_json_field=True,
     )
 
     # Staff
@@ -459,13 +457,11 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             )
         ],
         blank=True,
-        use_json_field=True,
     )
 
     notable_alumni_links = StreamField(
         [("Link_to_person", NotableAlumniBlock())],
         blank=True,
-        use_json_field=True,
     )
 
     # Programme Curriculumm
@@ -491,7 +487,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         blank=True,
         help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
             Aim for logos that sit on either a white or transparent background.",
-        use_json_field=True,
     )
 
     # Pathways
@@ -499,7 +494,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name="Accordion blocks",
-        use_json_field=True,
     )
     what_you_will_cover_blocks = StreamField(
         [
@@ -508,19 +502,16 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ],
         blank=True,
         verbose_name="Accordion blocks",
-        use_json_field=True,
     )
     quote_carousel = StreamField(
         [("quote", QuoteBlock())],
         blank=True,
         verbose_name="Quote carousel",
-        use_json_field=True,
     )
     quote_carousel_link = StreamField(
         [("link", InternalExternalLinkBlock())],
         blank=True,
         max_num=1,
-        use_json_field=True,
     )
 
     # Requirements
@@ -545,7 +536,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ],
         blank=True,
         verbose_name="Accordion blocks",
-        use_json_field=True,
     )
 
     # fees
@@ -560,14 +550,14 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     scholarships_title = models.CharField(max_length=120)
     scholarships_information = models.CharField(max_length=250)
     scholarship_accordion_items = StreamField(
-        [("accordion", AccordionBlockWithTitle())], blank=True, use_json_field=True
+        [("accordion", AccordionBlockWithTitle())], blank=True
     )
     scholarship_information_blocks = StreamField(
-        [("information_block", InfoBlock())], blank=True, use_json_field=True
+        [("information_block", InfoBlock())], blank=True
     )
     # More information
     more_information_blocks = StreamField(
-        [("information_block", InfoBlock())], blank=True, use_json_field=True
+        [("information_block", InfoBlock())], blank=True
     )
 
     # Apply
@@ -592,7 +582,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             ("step_snippet", SnippetChooserBlock("utils.StepSnippet")),
         ],
         blank=True,
-        use_json_field=True,
     )
     qs_code = models.PositiveIntegerField(
         help_text="This code needs to match the name of the codeExternal value in QS, E.G 105",

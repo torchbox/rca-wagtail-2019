@@ -21,7 +21,7 @@ FROM python:3.8 as production
 
 ARG POETRY_INSTALL_ARGS="--no-dev"
 # IMPORTANT: Remember to review .circleci/config.yml when upgrading
-ARG POETRY_VERSION=1.7.1
+ARG POETRY_VERSION=1.8.2
 
 # Install dependencies in a virtualenv
 ENV VIRTUAL_ENV=/venv

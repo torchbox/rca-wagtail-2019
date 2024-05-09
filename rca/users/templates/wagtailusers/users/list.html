@@ -1,6 +1,6 @@
 {% load i18n wagtailusers_tags wagtailadmin_tags %}
 
-{# Override of https://github.com/wagtail/wagtail/blob/v5.2.2/wagtail/users/templates/wagtailusers/users/list.html to add custom columns #}
+{# Override of https://github.com/wagtail/wagtail/blob/v6.0.2/wagtail/users/templates/wagtailusers/users/list.html to add custom columns #}
 
 <table class="listing">
     <thead>
@@ -40,7 +40,7 @@
                 <td class="title" valign="top">
                     <div class="title-wrapper">
                         {% avatar user=user size="small" %}
-                        <a href="{% url 'wagtailusers_users:edit' user.pk %}">{{ user|user_display_name }}</a>
+                        <a id="{{ title_id }}" href="{% url 'wagtailusers_users:edit' user.pk %}">{{ user|user_display_name }}</a>
                     </div>
                     <ul class="actions">
                         {% user_listing_buttons user %}

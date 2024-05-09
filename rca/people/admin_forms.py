@@ -56,9 +56,9 @@ class StudentPageAdminForm(WagtailAdminPageForm):
             and instance.student_user_image_collection
             and instance.student_user_account
         ):
-            cleaned_data[
-                "student_user_image_collection"
-            ] = instance.student_user_image_collection
+            cleaned_data["student_user_image_collection"] = (
+                instance.student_user_image_collection
+            )
             cleaned_data["student_user_account"] = instance.student_user_account
 
         student_user_image_collection = cleaned_data.get(

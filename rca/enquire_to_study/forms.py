@@ -68,12 +68,12 @@ class EnquireToStudyForm(forms.Form):
         self.fields["country_of_citizenship"].initial = ("GB", "United Kingdom")
 
         # Labels
-        self.fields[
-            "country_of_citizenship"
-        ].label = "Which country are you a citizen of?"
-        self.fields[
-            "programmes"
-        ].label = "The preferred programme(s) you're interested in"
+        self.fields["country_of_citizenship"].label = (
+            "Which country are you a citizen of?"
+        )
+        self.fields["programmes"].label = (
+            "The preferred programme(s) you're interested in"
+        )
         self.fields["start_date"].label = "When do you plan to start your degree?"
         self.fields["enquiry_reason"].label = "What's your enquiry about?"
         self.fields["is_read_data_protection_policy"].label = mark_safe(
@@ -98,13 +98,11 @@ class EnquireToStudyForm(forms.Form):
         self.fields["city"].widget.attrs.update({"autocomplete": "off"})
 
         # Help Text
-        self.fields[
-            "phone_number"
-        ].help_text = "You must include your country code, e.g. +442075904444"
+        self.fields["phone_number"].help_text = (
+            "You must include your country code, e.g. +442075904444"
+        )
         self.fields["programmes"].help_text = "Select up to 2 programmes"
-        self.fields[
-            "enquiry_reason"
-        ].help_text = (
+        self.fields["enquiry_reason"].help_text = (
             "This will help ensure the correct department receives your enquiry"
         )
         self.fields["city"].help_text = "e.g. London, Mumbai, New York"
