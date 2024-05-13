@@ -504,21 +504,6 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         index.RelatedFields("location", [index.SearchField("title")]),
     ]
 
-    def search_listing_summary(self):
-        """Method to return the summary without html
-
-        Returns:
-            string: text with html tags removed
-        """
-        text = self.listing_summary or self.introduction
-        text = re.sub("<[^<]+?>", "", text)
-        return text
-
-    @property
-    def listing_meta(self):
-        # Returns a page 'type' value that's readable for listings,
-        return "Event"
-
     # Methods for the API that the intranet imported uses
     def contact_email(self):
         # Used for the intranet importer which is expecting these to be FKs
