@@ -1,4 +1,4 @@
-[![CircleCI prod](https://circleci.com/gh/torchbox/rca-wagtail-2019/tree/master.svg?style=shield)](https://circleci.com/gh/torchbox/rca-wagtail-2019/tree/master)
+[![Github actions workflows](https://github.com/torchbox/rca-wagtail-2019/actions)](https://github.com/torchbox/rca-wagtail-2019/actions)
 [![codecov](https://codecov.io/gh/torchbox/rca-wagtail-2019/branch/master/graph/badge.svg?token=GBDM9H1A2X)](https://codecov.io/gh/torchbox/rca-wagtail-2019)
 [![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
@@ -25,7 +25,7 @@ You can view the documnetation live on [github pages](https://torchbox.github.io
 3. Make merge requests at e.g. https://github.com/torchbox/rca-wagtail-2019, no trailing slash/merge_requests/new, setting the 'Source branch' to your feature branch and the 'Target branch' to `master`. Select 'Compare branches and continue'.
 4. Edit details as necessary.
 
-Gitlab has built-in CI tests. These can be configured by editing `.gitlab-ci.yml`. By default these are run on all pushes and merge requests.
+Github has built-in CI tests using github actions. These can be configured by editing the files in the `.github/workflows` folder. By default these are run on all pushes and merge requests.
 
 If you need to preview work on `staging`, this can be merged and deployed manually without making a merge request. You can still make the merge request as above, but add a note to say that this is on `staging`, and not yet ready to be merged to `master`.
 
@@ -195,9 +195,7 @@ Birdbath is on by default and will run after `fab pull-production-data` si run.
 
 ## Deployments
 
-Deployments to staging and dev sites are automatically handled by CircleCI. If for any reason deployment is not triggered, you can go to the [CircleCI admin page](https://app.circleci.com/pipelines/github/torchbox/rca-wagtail-2019?branch=dev) and manually trigger the pipeline for the branch.
-
-For production, CircleCI requires manual approval, this is done over at the [CircleCI Workflows for master](https://circleci.com/gh/torchbox/workflows/rca-wagtail-2019/tree/master). A job awaiting approval will show as 'pending'. Manual approval consists of clicking on the pending tasks and clicking 'approve'.
+Deployments to staging, dev and master sites are automatically handled by github actions.
 
 ## Connect to the shell
 
