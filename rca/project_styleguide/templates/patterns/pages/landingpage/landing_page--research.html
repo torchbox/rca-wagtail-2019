@@ -100,16 +100,19 @@
 
             {% if featured_image %}
                 <section class="section bg bg--dark">
-                    <div class="section__row section__row--first section__row--last">
+                    <div class="section__row section__row--first{% if slideshow_block or page.cta_block %} section__row--last{% endif %}">
                         {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=featured_image.title meta_heading=featured_image.subtitle meta_copy=featured_image.description href=featured_image.get_link_url image=featured_image.image modifier="tight-heading" %}
                     </div>
+
+                    {% if slideshow_block or page.cta_block or page.news %}
                     <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
+                    {% endif %}
                 </section>
             {% endif %}
 
-            {% if slideshow_block or page.text_teaser %}
+            {% if slideshow_block or page.cta_block or page.news %}
                 <section class="section bg bg--light">
                     {% if slideshow_block %}
                         <div class="section__row section__row--first section__row--last">
@@ -142,7 +145,6 @@
                             <div class="section__notch-fill section__notch-fill--second-col"></div>
                         </div>
                     {% endif %}
-
                 </section>
             {% endif %}
 
@@ -189,9 +191,6 @@
                     </div>
                 </section>
             {% endif %}
-
-
         </div>
-
     </div>
 {% endblock %}
