@@ -8,7 +8,7 @@ Deployments are automatically handled by github actions.
 
 | Environment                        | Branch    | URL                           | Heroku            |
 | ---------------------------------- | --------- | ----------------------------- | ----------------- |
-| Production                         | `master`  | https://rca.ac.uk             | `rca-production`  |
+| Production                         | `master`  | rca.ac.uk                     | `rca-production`  |
 | Staging (considered out of action) | `staging` | rca-staging.herokuapp.com     | `rca-staging`     |
 | Development                        | `dev`     | rca-development.herokuapp.com | `rca-development` |
 
