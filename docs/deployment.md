@@ -2,13 +2,15 @@
 
 The VM comes preinstalled with Fabric, Heroku CLI and AWS CLI.
 
+Deployments are automatically handled by github actions.
+
 ## Deployed environments
 
-| Environment                        | Branch    | URL                                        | Heroku                 |
-| ---------------------------------- | --------- | ------------------------------------------ | ---------------------- |
-| Production                         | `master`  | e.g. https://chi.org                       | e.g. `chi-production`  |
-| Staging (considered out of action) | `staging` | e.g. https://chi.staging.torchbox.com      | e.g. `chi-staging`     |
-| Development                        | `dev`     | e.g. https://chi-development.herokuapp.com | e.g. `chi-development` |
+| Environment                        | Branch    | URL                           | Heroku            |
+| ---------------------------------- | --------- | ----------------------------- | ----------------- |
+| Production                         | `master`  | https://rca.ac.uk             | `rca-production`  |
+| Staging (considered out of action) | `staging` | rca-staging.herokuapp.com     | `rca-staging`     |
+| Development                        | `dev`     | rca-development.herokuapp.com | `rca-development` |
 
 ## Login to Heroku
 
