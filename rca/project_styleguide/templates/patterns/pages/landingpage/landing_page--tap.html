@@ -112,10 +112,11 @@
                         </div>
                     </div>
 
+                    {% if featured_image %}
                     <div class="section__notch section__notch--opposite">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
-
+                    {% endif %}
                 </section>
             {% endif %}
 
@@ -125,9 +126,11 @@
                         {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=featured_image.title meta_heading=featured_image.subtitle meta_copy=featured_image.description href=featured_image.get_link_url image=featured_image.image modifier="tight-heading" %}
                     </div>
 
+                    {% if page_list %}
                     <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
+                    {% endif %}
                 </section>
             {% endif %}
 
