@@ -137,10 +137,11 @@
                         {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page_list title=page.page_list_title modifier="after-action related-content--meta-new-line" %}
                     </div>
 
+                    {% if page.news or page.legacy_news_and_events %}
                     <div class="section__notch section__notch--opposite">
                         <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
-
+                    {% endif %}
                 </section>
             {% endif %}
 
