@@ -300,7 +300,12 @@ class ProjectPage(ContactFieldsMixin, BasePage):
             List -- of filtered and formatted ProjectPages
         """
 
-        all_projects = ProjectPage.objects.live().public().not_page(self)
+        all_projects = (
+            ProjectPage.objects.live()
+            .public()
+            .not_page(self)
+            .order_by("-first_published_at")
+        )
 
         schools = self.related_school_pages.values_list("page_id")
         projects = all_projects.filter(
