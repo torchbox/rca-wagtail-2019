@@ -552,6 +552,8 @@ class EditorialListingPage(ContactFieldsMixin, BasePage):
         for f in filters:
             queryset = f.apply(queryset, request.GET)
 
+        queryset = queryset.distinct()
+
         # Paginate filtered queryset
         per_page = 12
 
