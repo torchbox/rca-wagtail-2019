@@ -20,6 +20,7 @@ RUN npm run build:prod
 FROM python:3.8 as production
 
 ARG POETRY_INSTALL_ARGS="--no-dev"
+
 # IMPORTANT: Remember to review .circleci/config.yml when upgrading
 ARG POETRY_VERSION=1.8.2
 
