@@ -1,12 +1,12 @@
 {% load wagtailcore_tags %}
 <div class="key-details {% if course_type == 'short' %}key-details--short{% endif %}">
     <div class="key-details__header">
-        <h3 class="heading heading--five key-details__heading">Key details</h3>
+        <h4 class="heading heading--five key-details__heading">Key details</h4>
     </div>
     {% if course_type == 'short' %}
         {% if shortcourse_details_fees %}
             <div class="key-details__section key-details__section--fees">
-                <h4 class="body body--two key-details__sub-heading">Fees</h4>
+                <h5 class="body body--two key-details__sub-heading">Fees</h5>
                 <ul class="key-details__list">
                     {% for item in shortcourse_details_fees %}
                     <li class="key-details__list-item">
@@ -18,7 +18,7 @@
         {% endif %}
         {% if page.location %}
             <div class="key-details__section key-details__section--location">
-                <h4 class="body body--two key-details__sub-heading">Location</h4>
+                <h5 class="body body--two key-details__sub-heading">Location</h5>
                 <ul class="key-details__list">
                     <li class="key-details__list-item">
                         {{ page.location|richtext }}
@@ -38,7 +38,7 @@
         {% if page.programme_details_credits or page.programme_details_time or page.study_mode %}
             <div class="key-details__section key-details__section--details">
                 {% if programme_page_global_fields.key_details_programme_details_title %}
-                    <h4 class="body body--two key-details__sub-heading">{{ programme_page_global_fields.key_details_programme_details_title }}</h4>
+                    <h5 class="body body--two key-details__sub-heading">{{ programme_page_global_fields.key_details_programme_details_title }}</h5>
                 {% endif %}
                 <ul class="key-details__list">
                     {% if page.programme_details_credits and page.programme_details_credits_suffix %}
@@ -61,7 +61,7 @@
         {% endif %}
         {% if programme_schools %}
             <div class="key-details__section key-details__section--school">
-                <h4 class="body body--two key-details__sub-heading">School or Centre</h4>
+                <h5 class="body body--two key-details__sub-heading">School or Centre</h5>
                 <ul class="key-details__list">
                     {% for school in programme_schools %}
                     <li class="key-details__list-item">
@@ -73,7 +73,7 @@
         {% endif %}
         {% if page.campus_locations %}
             <div class="key-details__section key-details__section--school">
-                <h4 class="body body--two key-details__sub-heading">Location</h4>
+                <h5 class="body body--two key-details__sub-heading">Location</h5>
                 <ul class="key-details__list">
                     {% for location in page.campus_locations %}
                     <li class="key-details__list-item">
@@ -86,7 +86,7 @@
         {% if page.next_open_day_date or page.link_to_open_days %}
             <div class="key-details__section key-details__section--open-days">
                 {% if programme_page_global_fields.key_details_next_open_day_title %}
-                    <h4 class="body body--two key-details__sub-heading">{{ programme_page_global_fields.key_details_next_open_day_title }}</h4>
+                    <h5 class="body body--two key-details__sub-heading">{{ programme_page_global_fields.key_details_next_open_day_title }}</h5>
                 {% endif %}
                 <ul class="key-details__list">
                     {% if page.next_open_day_date %}
@@ -106,7 +106,7 @@
         {% if page.application_deadline or page.application_deadline_options %}
             <div class="key-details__section key-details__section--deadline">
                 {% if programme_page_global_fields.key_details_application_deadline_title %}
-                    <h4 class="body body--two key-details__sub-heading">{{ programme_page_global_fields.key_details_application_deadline_title }}</h4>
+                    <h5 class="body body--two key-details__sub-heading">{{ programme_page_global_fields.key_details_application_deadline_title }}</h5>
                 {% endif %}
                 <ul class="key-details__list">
                     {% if page.application_deadline_options == '1' %}
@@ -125,7 +125,7 @@
         {% if page.career_opportunities.all %}
             <div class="key-details__section key-details__section--career">
                 {% if programme_page_global_fields.key_details_career_opportunities_title %}
-                    <h4 class="body body--two key-details__sub-heading">{{ programme_page_global_fields.key_details_career_opportunities_title }}</h4>
+                    <h5 class="body body--two key-details__sub-heading">{{ programme_page_global_fields.key_details_career_opportunities_title }}</h5>
                 {% endif %}
                 <ul class="key-details__list">
                 {% for detail in page.career_opportunities.all %}
@@ -144,7 +144,7 @@
         {% endif %}
         {% if social_media_links %}
             <div class="key-details__section key-details__section--social">
-                <h4 class="body body--two key-details__sub-heading">{% firstof page.social_media_links_title "Follow this programme" %}</h4>
+                <h5 class="body body--two key-details__sub-heading">{% firstof page.social_media_links_title "Follow this programme" %}</h5>
                 <ul class="key-details__list">
                     {% for item in social_media_links %}
                         <li class="key-details__list-item">
