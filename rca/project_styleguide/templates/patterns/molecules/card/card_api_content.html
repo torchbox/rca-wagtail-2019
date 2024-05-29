@@ -10,11 +10,11 @@
         <div class="card__content-container">
             <div class="card__content">
                 <div class="card__meta">{{ item.type }}</div>
-                <h3 class="card__heading">
+                <h4 class="card__heading">
                     {% if item.link %}<span class="card__heading-link">{% endif %}
                         {{ item.title }}
                     {% if item.link %}</span>{% endif %}
-                </h3>
+                </h4>
                 <div class="card__description">{% firstof item.formatted_date item.description|richtext %}</div>
             </div>
         </div>
