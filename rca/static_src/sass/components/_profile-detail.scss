@@ -165,13 +165,13 @@
         }
 
         #{$root}__heading {
-            @include font-size(xxs);
+            @include font-size(xs);
             font-weight: $weight--bold;
             margin-bottom: 0;
         }
 
         #{$root}__job-title {
-            @include font-size(xxxs);
+            @include font-size(xs);
             margin-bottom: 0;
         }
 

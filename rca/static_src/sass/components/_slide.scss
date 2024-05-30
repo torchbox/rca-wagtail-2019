@@ -74,7 +74,7 @@
     }
 
     &__author-course {
-        @include font-size(xxs);
+        @include font-size(xs);
         margin-top: ($gutter * 0.25);
     }
 
@@ -83,7 +83,7 @@
     }
 
     &__type {
-        @include font-size(xxxs);
+        @include font-size(xs);
         position: absolute;
         top: -20px;
         right: 0;

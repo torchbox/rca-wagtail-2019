@@ -4,10 +4,10 @@
     }
 
     &--two {
-        @include font-size(xxs);
+        @include font-size(xs);
     }
 
     &--support {
-        @include font-size(xxxs);
+        @include font-size(xs);
     }
 }

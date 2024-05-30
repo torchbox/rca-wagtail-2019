@@ -20,7 +20,7 @@
     }
 
     &__description {
-        @include font-size(xxxs);
+        @include font-size(xs);
         flex-basis: 100%;
         max-width: 100%;
         min-width: 100%;
@@ -30,7 +30,7 @@
 
     &--desc {
         #{$root}__label {
-            @include font-size(xxs); // match header
+            @include font-size(xs); // match header
         }
     }
 
@@ -49,7 +49,7 @@
         }
 
         #{$root}__label {
-            @include font-size(xxxs);
+            @include font-size(xs);
         }
     }
 
