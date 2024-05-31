@@ -52,7 +52,6 @@
         </header>
 
         <div class="page__content landing-page">
-
             {% if related_pages_highlights %}
                 <section class="landing-page__top section section--start bg bg--dark">
 
@@ -80,20 +79,15 @@
                     <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
-
-                </section>
-
-            {% else %}
-                <section class="landing-page__top bg bg--dark">
-
-                    <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--third-col"></div>
-                    </div>
-
                 </section>
             {% endif %}
 
             {% if related_pages %}
+                <section class="landing-page__top bg bg--dark">
+                    <div class="section__notch">
+                        <div class="section__notch-fill section__notch-fill--third-col"></div>
+                    </div>
+                </section>
                 <section class="landing-page__middle section section--start bg bg--light">
 
                     <div class="section__row research-spaces">
@@ -129,9 +123,11 @@
                         {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=featured_image.title meta_heading=featured_image.subtitle meta_copy=featured_image.description href=featured_image.get_link_url link_text=featured_image.get_link_text image=featured_image.image modifier="tight-heading" %}
                     </div>
 
+                    {% if page_list %}
                     <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
+                    {% endif %}
                 </section>
             {% endif %}
 
@@ -141,10 +137,11 @@
                         {% include "patterns/molecules/relatedcontent/relatedprogrammes.html" with related_sections=page_list title=page.page_list_title modifier="after-action related-content--meta-new-line" %}
                     </div>
 
+                    {% if page.news or page.legacy_news_and_events %}
                     <div class="section__notch section__notch--opposite">
                         <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
-
+                    {% endif %}
                 </section>
             {% endif %}
 
@@ -173,8 +170,6 @@
                     </div>
                 </section>
             {% endif %}
-
         </div>
-
     </div>
 {% endblock %}

@@ -149,13 +149,15 @@
                         </div>
                     </div>
 
+                    {% if slideshow_block or page.cta_block %}
                      <div class="section__notch section__notch--opposite">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
+                    {% endif %}
 
                 </section>
             {% endif %}
-            {% if slideshow_block or page.text_teaser %}
+            {% if slideshow_block or page.cta_block %}
                 <section class="section bg bg--light">
 
                     {% if slideshow_block %}
