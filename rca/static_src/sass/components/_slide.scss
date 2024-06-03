@@ -111,6 +111,10 @@
         &:focus {
             text-decoration: underline;
         }
+
+        &--embed {
+            text-transform: none;
+        }
     }
 
     &__type-icon {
