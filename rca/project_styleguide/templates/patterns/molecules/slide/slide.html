@@ -15,7 +15,7 @@
                     {% if slide.document %}
                         <a class="slide__action" href="{{ slide.document.url }}" download="{% firstof slide.document.title slide.title %}">
                     {% else %}
-                        <button class="slide__action" data-micromodal-trigger="slideshow-modal-{{ forloop.counter }}" aria-label="{% if slide.embed_play_button %}{{ slide.embed_play_button }}{% else %}Play {{ slide.title }}{% endif %}">
+                        <button class="slide__action slide__action--embed" data-micromodal-trigger="slideshow-modal-{{ forloop.counter }}" aria-label="{% if slide.embed_play_button %}{{ slide.embed_play_button }}{% else %}Play {{ slide.title }}{% endif %}">
                     {% endif %}
                 {% endif %}
 
@@ -37,7 +37,7 @@
                             {% if slide.embed_play_button_label %}
                                 {{ slide.embed_play_button_label|linebreaksbr }}
                             {% else %}
-                                Play<br> {{ slide.title }}
+                                Play {{ slide.title }}
                             {% endif %}
                         </span>
                     {% endif %}
