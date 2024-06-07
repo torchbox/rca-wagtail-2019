@@ -75,7 +75,7 @@
     }
 
     &__credit {
-        @include font-size(xxxs);
+        @include font-size(xs);
         grid-column-start: 1;
         grid-column-end: 3;
 

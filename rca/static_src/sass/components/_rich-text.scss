@@ -95,10 +95,6 @@
 
     .accordion & {
         @include font-size(xs);
-
-        @include media-query(large) {
-            font-size: map-get($medium-font-sizes, xs);
-        }
     }
 
     .app--project-detail & {

@@ -172,7 +172,7 @@
     }
 
     &__list {
-        @include font-size(xxs);
+        @include font-size(xs);
         margin-bottom: ($gutter * 2);
 
         @include media-query(large) {
@@ -189,7 +189,7 @@
     }
 
     &__link {
-        @include font-size(xxs);
+        @include font-size(xs);
         margin-right: $gutter;
         max-width: 100% !important;
     }

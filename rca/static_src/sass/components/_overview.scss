@@ -33,7 +33,7 @@
     }
 
     &__item-action {
-        @include font-size(xxs);
+        @include font-size(xs);
         padding-top: $gutter;
     }
 

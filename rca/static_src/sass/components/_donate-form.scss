@@ -166,7 +166,7 @@
         }
 
         .BBFormFieldContainerRequired label::after {
-            @include font-size(xxs);
+            @include font-size(xs);
             content: '*';
             color: $color--tertiary;
             font-weight: bold;
@@ -198,7 +198,7 @@
         }
 
         .BBFormFieldUKGiftAidTermsLabel {
-            @include font-size(xxs);
+            @include font-size(xs);
             color: $color--white;
             line-height: 1.2;
             font-style: normal;
@@ -310,7 +310,7 @@
         }
 
         li.BBFormErrorItem {
-            @include font-size(xxs);
+            @include font-size(xs);
         }
 
         .BBFormClientErrorItem {

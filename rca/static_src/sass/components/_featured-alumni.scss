@@ -31,7 +31,7 @@
     }
 
     &__body {
-        @include font-size(xxs);
+        @include font-size(xs);
         grid-column: 1 / span 2;
         margin-bottom: ($gutter * 2); // Added for API module removal
         // margin-bottom: ($gutter * 3); // Removed for API module removal
@@ -51,7 +51,7 @@
     }
 
     &__list {
-        @include font-size(xxs);
+        @include font-size(xs);
 
         li {
             margin-bottom: ($gutter * 0.3);
