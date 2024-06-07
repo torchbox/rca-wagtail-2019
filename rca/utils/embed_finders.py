@@ -41,10 +41,13 @@ class WixEmbedFinder(EmbedFinder):
         title = title_tag.string if title_tag else None
 
         return {
-            "title": title,
+            # Title does not support None.
+            "title": title if title else "",
             "provider_name": "Wix",
-            "type": "video",  # Adjust according to the type of content (photo, video, rich, etc.)
+            "type": "video",
             "html": '<iframe src="{url}" frameborder="0" allowfullscreen title={title}></iframe>'.format(
                 url=url, title=title
             ),
+            "width": 800,
+            "height": 600,
         }
