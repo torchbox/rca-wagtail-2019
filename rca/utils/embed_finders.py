@@ -38,7 +38,7 @@ class WixEmbedFinder(EmbedFinder):
         soup = BeautifulSoup(response.content, "html.parser")
 
         title_tag = soup.find("title")
-        title = title_tag.string if title_tag else "No title found"
+        title = title_tag.string if title_tag else None
 
         return {
             "title": title,
