@@ -649,6 +649,7 @@ WAGTAILEMBEDS_RESPONSIVE_HTML = True
 
 WAGTAILEMBEDS_FINDERS = [
     {"class": "rca.utils.embed_finders.CustomOEmbedFinder"},
+    {"class": "rca.utils.embed_finders.WixEmbedFinder"},
 ]
 
 
