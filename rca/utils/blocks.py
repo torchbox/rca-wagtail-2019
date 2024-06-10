@@ -49,6 +49,10 @@ class StatisticBlock(blocks.StructBlock):
 class ImageBlock(blocks.StructBlock):
     image = ImageChooserBlock()
     caption = blocks.CharBlock(required=False)
+    decorative = blocks.BooleanBlock(
+        required=False,
+        help_text="Toggle to make image decorative so they can be ignored by assistive technologies.",
+    )
 
     class Meta:
         icon = "image"
