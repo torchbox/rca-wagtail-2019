@@ -102,7 +102,7 @@ class LinkBlock(blocks.StructBlock):
 
 
 class GalleryBlock(blocks.StructBlock):
-    title = blocks.CharBlock(required=False)
+    title = blocks.CharBlock()
     image = ImageChooserBlock()
     author = blocks.CharBlock(required=False)
     link = blocks.URLBlock(required=False)
@@ -112,6 +112,10 @@ class GalleryBlock(blocks.StructBlock):
         help_text="Add a YouTube or Vimeo video URL", required=False
     )
     audio_embed = EmbedBlock(help_text="Add a Soundcloud URL", required=False)
+    embed_play_button_label = blocks.TextBlock(
+        required=False,
+        help_text="The label for the embed play button. If left blank, it will default to 'Play + title'.",
+    )
 
     def clean(self, value):
         result = super().clean(value)

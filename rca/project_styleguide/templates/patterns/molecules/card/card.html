@@ -15,7 +15,7 @@
                 {% if item.meta %}
                     <div class="card__meta">{{ item.meta }}</div>
                 {% endif %}
-                <h3 class="card__heading">
+                <h4 class="card__heading">
                     {% if item.link %}
                         <span class="card__heading-link">
                             {{ item.title }}
@@ -28,7 +28,7 @@
                     {% else %}
                         {{ item.title }}
                     {% endif %}
-                </h3>
+                </h4>
                 {% if item.description %}
                     <div class="card__description">{{ item.description|safe }}</div>
                 {% endif %}

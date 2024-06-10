@@ -24,12 +24,12 @@
     }
 
     &__heading {
-        font-size: map-get($small-font-sizes, xxxs);
+        @include font-size(xs);
+
         color: $color--dark-grey;
         margin-bottom: $gutter * 0.5;
 
         @include media-query(medium) {
-            font-size: map-get($medium-font-sizes, xxs);
             margin-bottom: $gutter * 0.75;
         }
     }

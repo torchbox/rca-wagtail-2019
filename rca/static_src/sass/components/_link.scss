@@ -301,7 +301,7 @@
     }
 
     .accordion & {
-        @include font-size(xxs);
+        @include font-size(xs);
         margin-top: ($gutter * 1.5);
     }
 
