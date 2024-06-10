@@ -178,7 +178,7 @@
     }
 
     &__link {
-        font-size: map-get($small-font-sizes, xs);
+        @include font-size(xs);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -216,10 +216,6 @@
             }
         }
 
-        @include media-query(medium) {
-            font-size: map-get($large-font-sizes, xs);
-        }
-
         &--breadcrumb {
             color: $color--primary;
 
@@ -230,7 +226,7 @@
         }
 
         &--base {
-            font-size: map-get($small-font-sizes, xs);
+            @include font-size(xs);
             padding: 0;
             margin-bottom: $gutter;
             justify-content: flex-start;

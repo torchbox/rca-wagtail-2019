@@ -6,8 +6,8 @@
     margin-bottom: $gutter;
 
     &__item {
+        @include font-size(xs);
         display: none;
-        font-size: map-get($small-font-sizes, xxs);
 
         @include media-query(medium) {
             display: block;
