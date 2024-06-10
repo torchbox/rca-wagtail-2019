@@ -67,7 +67,7 @@
     }
 
     &__pathways-heading {
-        @include font-size(xxxs);
+        @include font-size(xs);
         margin-top: $gutter;
         margin-bottom: 0;
 
@@ -81,6 +81,6 @@
     }
 
     &__pathways-text {
-        @include font-size(xxxs);
+        @include font-size(xs);
     }
 }

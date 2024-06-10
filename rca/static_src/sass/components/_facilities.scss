@@ -36,7 +36,7 @@
     }
 
     &__body {
-        @include font-size(xxs);
+        @include font-size(xs);
         grid-column: 1 / span 2;
 
         @include media-query(medium) {

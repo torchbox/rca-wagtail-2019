@@ -59,9 +59,9 @@
                     <div class="section__row section__row--last-large research-highlights">
                         {% if page.highlights_title %}
                             <div class="section__header grid">
-                                <h2 class="section__heading section__heading--primary heading heading--four">
+                                <h3 class="section__heading section__heading--primary heading heading--four">
                                     {{ page.highlights_title }}
-                                </h2>
+                                </h3>
                             </div>
                         {% endif %}
                         <div class="section__content grid">
@@ -101,7 +101,7 @@
             {% if featured_image %}
                 <section class="section bg bg--dark">
                     <div class="section__row section__row--first section__row--last">
-                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=featured_image.title meta_heading=featured_image.subtitle meta_copy=featured_image.description href=featured_image.get_link_url image=featured_image.image modifier="tight-heading" %}
+                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=false curriculum=false subheading=false has_meta=True heading=featured_image.title meta_heading=featured_image.subtitle meta_copy=featured_image.description href=featured_image.get_link_url link_text=featured_image.get_link_text image=featured_image.image modifier="tight-heading" %}
                     </div>
                     <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>

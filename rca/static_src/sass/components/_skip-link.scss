@@ -5,7 +5,7 @@
     left: 0;
 
     &__link {
-        @include font-size(xxxs);
+        @include font-size(xs);
         display: block;
         position: absolute;
         top: -200px;

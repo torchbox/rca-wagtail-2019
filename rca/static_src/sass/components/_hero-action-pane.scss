@@ -139,7 +139,7 @@
     }
 
     &__cta-sub-heading {
-        @include font-size(xxxs);
+        @include font-size(xs);
         color: currentColor;
         padding-right: ($gutter * 0.5);
     }
