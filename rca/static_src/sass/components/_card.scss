@@ -92,7 +92,7 @@
         }
 
         #{$root}__description {
-            @include font-size(xxs);
+            @include font-size(xs);
         }
     }
 
@@ -143,7 +143,7 @@
         }
 
         #{$root}__school {
-            @include font-size(xxxs);
+            @include font-size(xs);
             padding-right: 50%;
 
             @include media-query(large) {
@@ -152,11 +152,11 @@
         }
 
         #{$root}__year {
-            @include font-size(xxs);
+            @include font-size(xs);
         }
 
         #{$root}__location {
-            @include font-size(xxs);
+            @include font-size(xs);
         }
     }
 
@@ -202,7 +202,7 @@
         }
 
         #{$root}__school {
-            @include font-size(xxxs);
+            @include font-size(xs);
             padding-right: 50%;
 
             @include media-query(large) {
@@ -211,7 +211,7 @@
         }
 
         #{$root}__year {
-            @include font-size(xxs);
+            @include font-size(xs);
         }
 
         #{$root}__description {
@@ -287,7 +287,7 @@
     }
 
     &__meta {
-        font-size: map-get($small-font-sizes, xxxs);
+        @include font-size(xs);
         text-transform: uppercase;
         margin-bottom: ($gutter * 0.25);
     }
@@ -346,19 +346,19 @@
     }
 
     &__person-meta {
-        @include font-size(xxxs);
+        @include font-size(xs);
 
         @include media-query(medium) {
-            @include font-size(xxs);
+            @include font-size(xs);
             margin-bottom: ($gutter * 0.25);
         }
     }
 
     &__person-title {
-        @include font-size(xxxs);
+        @include font-size(xs);
 
         @include media-query(medium) {
-            @include font-size(xxs);
+            @include font-size(xs);
         }
     }
 
@@ -441,15 +441,15 @@
         }
 
         #{$root}__meta {
-            @include font-size(xxxs);
+            @include font-size(xs);
 
             @include media-query(medium) {
-                @include font-size(xxs);
+                @include font-size(xs);
             }
         }
 
         #{$root}__description {
-            @include font-size(xxs);
+            @include font-size(xs);
 
             @include media-query(medium) {
                 @include font-size(xs);
@@ -457,7 +457,7 @@
         }
 
         #{$root}__heading {
-            font-size: map-get($medium-font-sizes, xs);
+            @include font-size(xs);
 
             @include media-query(medium) {
                 @include font-size(s);
@@ -491,11 +491,7 @@
         }
 
         #{$root}__heading {
-            font-size: map-get($medium-font-sizes, xs);
-
-            @include media-query(medium) {
-                @include font-size(xs);
-            }
+            @include font-size(xs);
         }
 
         #{$root}__content {
@@ -508,11 +504,11 @@
         }
 
         #{$root}__meta {
-            @include font-size(xxxs);
+            @include font-size(xs);
         }
 
         #{$root}__description {
-            @include font-size(xxs);
+            @include font-size(xs);
         }
 
         &#{$root}--image {
