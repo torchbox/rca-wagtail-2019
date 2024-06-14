@@ -166,5 +166,5 @@ Last checked against Wagtail version: 6.0
 This is the path to the Django template which is used to display the “password required” form when a user accesses a private page. For more details, see Wagtail's [Private pages](https://docs.wagtail.org/en/stable/advanced_topics/privacy.html#private-pages) documentation.
 
 ```python
-PASSWORD_REQUIRED_TEMPLATE = "patterns/pages/wagtail/password_required.html"
+WAGTAIL_PASSWORD_REQUIRED_TEMPLATE = "patterns/pages/wagtail/password_required.html"
 ```
