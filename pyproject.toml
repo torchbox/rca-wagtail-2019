@@ -7,7 +7,7 @@ authors = ["Kevin Howbrook <kevin.howbrook@torchbox.com>"]
 [tool.poetry.dependencies]
 python = "~3.8"
 django = "~4.2"
-wagtail = "~6.0"
+wagtail = "~6.1"
 psycopg2 = "~2.9"
 gunicorn = {version = "~22.0", optional = true}
 wagtail-django-recaptcha = "^2.1.1"
@@ -31,6 +31,8 @@ django-phonenumber-field = {extras = ["phonenumbers"], version = "^7.3.0"}
 lxml = "^5.2.1"
 django-birdbath = "^2.0.0"
 tblib = "^3.0.0"
+beautifulsoup4 = "^4.12.3"
+html5lib = "^1.1"
 django-countries = "^7.6.1"
 mailchimp-marketing = "^3.0.80"
 freezegun = "^1.4.0"
