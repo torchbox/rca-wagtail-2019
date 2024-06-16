@@ -86,7 +86,7 @@ How to test:
 
 ### 4. Import to intranet
 
-The RCA intranet supports importing certain page types to the intranet from the main site. This is done by reading the pages API endpoint. Testing this can be a little trick, but rca-inforca-staging can be used to test it, as that staging site has the env var `RCA_CONTENT_API_URL` to read from the rca-develompoent site.
+The RCA intranet supports importing certain page types to the intranet from the main site. This is done by reading the pages API endpoint. Testing this can be a little tricky, but rca-inforca-staging can be used to test it, as that staging site has the env var `RCA_CONTENT_API_URL` to read from the rca-develompoent site.
 
 How to test:
 
