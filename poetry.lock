@@ -917,13 +917,13 @@ Django = ">=2.2"
 
 [[package]]
 name = "django-upgrade"
-version = "1.16.0"
+version = "1.18.0"
 description = "Automatically upgrade your Django project code."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "django-upgrade-1.16.0.tar.gz", hash = "sha256:7e473e8ecf234a531448d4a0c1c772746fa831fc762eae3d7578f13f6d847370"},
-    {file = "django_upgrade-1.16.0-py3-none-any.whl", hash = "sha256:605708b130368ee6dd304df00253f184a7c2f00d1c2dd5d4dac41a31307a2a14"},
+    {file = "django_upgrade-1.18.0-py3-none-any.whl", hash = "sha256:bae6a466bb9dd63dd7e23b665499b84499b2661348f06b371b88d2e609aa0df9"},
+    {file = "django_upgrade-1.18.0.tar.gz", hash = "sha256:ae2a2de13e7804773201aef6af2245fa5d503b0a7c88b85b12cf1fdb84197065"},
 ]
 
 [package.dependencies]
