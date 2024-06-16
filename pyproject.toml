@@ -44,6 +44,7 @@ mailchimp-marketing = "^3.0.80"
 scout-apm = "~3.1"
 sentry-sdk = "^1.45.0"
 tblib = "^3.0.0"
+urllib3 = "<2"
 whitenoise = "~6.6"
 
 [tool.poetry.extras]
