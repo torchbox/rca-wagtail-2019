@@ -679,7 +679,7 @@ WAGTAILADMIN_RICH_TEXT_EDITORS = {
 WAGTAILDOCS_DOCUMENT_MODEL = "documents.CustomDocument"
 
 
-PASSWORD_REQUIRED_TEMPLATE = "patterns/pages/wagtail/password_required.html"
+WAGTAIL_PASSWORD_REQUIRED_TEMPLATE = "patterns/pages/wagtail/password_required.html"
 
 
 # Default size of the pagination used on the front-end.
