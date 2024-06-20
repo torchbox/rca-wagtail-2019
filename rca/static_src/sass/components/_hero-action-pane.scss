@@ -34,7 +34,7 @@
         grid-column: 3 / span 4;
         display: none;
         background-color: $color--white;
-        padding: ($gutter * 3) 0;
+        padding: ($gutter * 2) 0;
 
         @include media-query(large) {
             @include z-index(sticky-nav-bar);
