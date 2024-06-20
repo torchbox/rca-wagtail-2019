@@ -86,7 +86,7 @@ How to test:
 
 ### 4. Import to intranet
 
-The RCA intranet supports importing certain page types to the intranet from the main site. This is done by reading the pages API endpoint. Testing this can be a little trick, but rca-inforca-staging can be used to test it, as that staging site has the env var `RCA_CONTENT_API_URL` to read from the rca-develompoent site.
+The RCA intranet supports importing certain page types to the intranet from the main site. This is done by reading the pages API endpoint. Testing this can be a little tricky, but rca-inforca-staging can be used to test it, as that staging site has the env var `RCA_CONTENT_API_URL` to read from the rca-develompoent site.
 
 How to test:
 
@@ -154,10 +154,25 @@ Additionally there are some Custom Panels which help to add the `permission` par
 
 The following templates are overridden and should be checked for changes when upgrading Wagtail:
 
-Last checked against Wagtail version: 6.0
+Last checked against Wagtail version: 6.1
 
 - `rca/account_management/templates/wagtailadmin/base.html`
-- `rca/users/templates/wagtailusers/users/list.html`
+- ~~`rca/users/templates/wagtailusers/users/list.html`~~ This template was deleted in 2645c204425b8fa3409a110f46b2822a1953fe49 because as of Wagtail 6.1, [it's no longer used](https://github.com/wagtail/wagtail/commit/7b1644eb37b6b6cf7800276acf9abef5254fc096). Please note that the `user_listing_buttons` template tag was used in this template, and it has since been [deprecated](https://docs.wagtail.org/en/latest/releases/6.1.html#deprecation-of-user-listing-buttons-template-tag).
+
+!!! warning "Technical Debt - to be addressed in Wagtail 6.2"
+
+    The deleted `rca/users/templates/wagtailusers/users/list.html` template did two things:
+
+    1.  altered the "Admin" (now called "Access level") column to show "Yes" if `user.is_superuser`.
+        The default behaviour is to show "Admin" if `user.is_superuser`.
+    2.  added a "Groups" column after the preceding column, whose contents are `{{user.group_links|join:", "}}`
+
+    Retaining the above functionality in Wagtail 6.1 is not a trivial task.
+    There's currently an [open PR](https://github.com/wagtail/wagtail/pull/11952) which
+    seeks to solve this problem, and it may be ready in the 6.2 release.
+
+    **Action**: When upgrading to Wagtail 6.2, look out for the above change, and restore
+    the feature to the way it was before the 6.1 upgrade.
 
 ---
 
@@ -166,5 +181,5 @@ Last checked against Wagtail version: 6.0
 This is the path to the Django template which is used to display the “password required” form when a user accesses a private page. For more details, see Wagtail's [Private pages](https://docs.wagtail.org/en/stable/advanced_topics/privacy.html#private-pages) documentation.
 
 ```python
-PASSWORD_REQUIRED_TEMPLATE = "patterns/pages/wagtail/password_required.html"
+WAGTAIL_PASSWORD_REQUIRED_TEMPLATE = "patterns/pages/wagtail/password_required.html"
 ```
