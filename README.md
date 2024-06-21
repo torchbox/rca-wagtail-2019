@@ -191,7 +191,7 @@ fab pull-production-images
 
 [Django birdbath](https://pypi.org/project/django-birdbath/) is being used to anonymise data locally.
 
-Birdbath is on by default and will run after `fab pull-production-data` si run.
+Birdbath is on by default and will run after `fab pull-production-data` is run.
 
 ## Deployments
 
