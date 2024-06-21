@@ -1,4 +1,4 @@
-{% load i18n wagtailusers_tags wagtailadmin_tags %}
+{% load i18n l10n wagtailusers_tags wagtailadmin_tags %}
 
 {# Override of https://github.com/wagtail/wagtail/blob/v6.0.2/wagtail/users/templates/wagtailusers/users/list.html to add custom columns #}
 
@@ -37,6 +37,8 @@
     <tbody>
         {% for user in users %}
             <tr>
+                {% fragment as title_id %}user_{{ user.pk|unlocalize|admin_urlquote }}_title{% endfragment %}
+                {% include "wagtailadmin/bulk_actions/listing_checkbox_cell.html" with obj_type="user" instance=user aria_describedby=title_id only %}
                 <td class="title" valign="top">
                     <div class="title-wrapper">
                         {% avatar user=user size="small" %}
