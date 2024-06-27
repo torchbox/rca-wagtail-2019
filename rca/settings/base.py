@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     "rca.account_management",
     "rca.donate",
     "rca.scholarships",
+    "rca.reports",
     "birdbath",
     "django_countries",
     "wagtail.contrib.settings",
