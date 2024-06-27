@@ -652,6 +652,9 @@ WAGTAILEMBEDS_FINDERS = [
     {"class": "rca.utils.embed_finders.WixEmbedFinder"},
 ]
 
+# This project uses it's own customised version
+WAGTAIL_AGING_PAGES_ENABLED = False
+
 
 # This is used by Wagtail's email notifications for constructing absolute
 # URLs. Please set to the domain that users will access the admin site.
