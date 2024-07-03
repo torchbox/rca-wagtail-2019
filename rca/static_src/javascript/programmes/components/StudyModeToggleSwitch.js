@@ -15,15 +15,13 @@ const ToggleSwitch = ({ ariaLabel, activeLength }) => {
     };
 
     return (
-        // eslint-disable-next-line jsx-a11y/label-has-associated-control
-        <label className="toggle-switch" aria-label={ariaLabel}>
+        <div className="toggle-switch" aria-label={ariaLabel}>
             <input
                 type="checkbox"
                 className="toggle-switch__checkbox"
-                checked={isPartTime}
+                checked={!isPartTime}
                 onChange={handleToggle}
             />
-            <span className="toggle-switch__switch" />
             <span
                 className={`toggle-switch__label toggle-switch__label--first${
                     !isPartTime ? ' toggle-switch__label--selected' : ''
@@ -32,6 +30,12 @@ const ToggleSwitch = ({ ariaLabel, activeLength }) => {
             >
                 Full-time
             </span>
+            <input
+                type="checkbox"
+                className="toggle-switch__checkbox"
+                checked={isPartTime}
+                onChange={handleToggle}
+            />
             <span
                 className={`toggle-switch__label toggle-switch__label--last${
                     isPartTime ? ' toggle-switch__label--selected' : ''
@@ -40,7 +44,7 @@ const ToggleSwitch = ({ ariaLabel, activeLength }) => {
             >
                 Part-time
             </span>
-        </label>
+        </div>
     );
 };
 
