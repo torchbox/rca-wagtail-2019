@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { programmeCategories } from '../../programmes.types';
 import { getCategoryURL, pushState } from '../../programmes.routes';
-import ToggleSwitch from '../StudyModeToggleSwitch';
+import ModeCheckbox from '../StudyModeCheckbox';
 
 /**
  * A list of tabs, one per category. The active tab is underlined.
@@ -64,7 +64,7 @@ const CategoriesTablist = ({ categories, activeCategory, activeLength }) => {
                         );
                     })}
                 </div>
-                <ToggleSwitch
+                <ModeCheckbox
                     ariaLabel="Programme study mode"
                     activeLength={activeLength}
                 />
