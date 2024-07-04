@@ -80,6 +80,13 @@ class StudyModeFilter(filters.BaseFilterBackend):
             full_time = request.GET.get("full-time", False)
             part_time = request.GET.get("part-time", False)
 
+            print("ARGS", request.GET, "=----=")
+
+            print("==========")
+            print(full_time)
+            print(part_time)
+            print("==========")
+
             study_mode_query = []
 
             if str(full_time).lower() == "true":
@@ -87,6 +94,8 @@ class StudyModeFilter(filters.BaseFilterBackend):
 
             if str(part_time).lower() == "true":
                 study_mode_query.append(Q(title__icontains="part"))
+
+            print("MODES", study_mode_query)
 
             if study_mode_query:
                 # Reduce queries to be OR'd

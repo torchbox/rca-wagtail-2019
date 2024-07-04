@@ -59,14 +59,15 @@ const ProgrammesResults = ({
     activeCategory,
     activeValue,
     searchQuery,
-    activeLength,
+    isFullTime,
+    isPartTime,
 }) => {
     const [activeProgramme, setActiveProgramme] = useState(null);
     const hasActiveFilter = activeCategory && activeValue;
     const theme = hasActiveFilter ? 'light' : 'dark';
 
     useEffect(() => {
-        if (hasActiveFilter || activeLength) {
+        if (hasActiveFilter || isFullTime || isPartTime) {
             startSearch(null, { [activeCategory]: activeValue });
             const mount = document.querySelector(
                 '[data-mount-programmes-explorer]',
@@ -84,7 +85,8 @@ const ProgrammesResults = ({
         activeCategory,
         activeValue,
         searchQuery,
-        activeLength,
+        isFullTime,
+        isPartTime,
     ]);
 
     return (
@@ -97,13 +99,21 @@ const ProgrammesResults = ({
                                 type="button"
                                 className="button programmes-results__back body body--one"
                                 onClick={() => {
-                                    if (hasActiveFilter || activeLength) {
-                                        pushState(
-                                            getCategoryURL(
-                                                activeCategory,
-                                                activeLength,
-                                            ),
+                                    if (
+                                        hasActiveFilter ||
+                                        isFullTime ||
+                                        isPartTime
+                                    ) {
+                                        const href = getCategoryURL(
+                                            activeCategory,
+                                            isFullTime,
+                                            isPartTime,
                                         );
+                                        console.log(
+                                            'ProgrammesResults: getCategoryURL:',
+                                            href,
+                                        );
+                                        pushState(href);
                                     } else {
                                         window.history.back();
                                     }
@@ -200,13 +210,15 @@ ProgrammesResults.propTypes = {
     activeCategory: PropTypes.string.isRequired,
     activeValue: PropTypes.string,
     searchQuery: PropTypes.string,
-    activeLength: PropTypes.bool,
+    isFullTime: PropTypes.bool,
+    isPartTime: PropTypes.bool,
 };
 
 ProgrammesResults.defaultProps = {
     searchQuery: null,
     activeValue: null,
-    activeLength: null,
+    isFullTime: null,
+    isPartTime: null,
 };
 
 const mapStateToProps = ({ programmes }) => {

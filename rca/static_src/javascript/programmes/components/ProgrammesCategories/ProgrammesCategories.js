@@ -10,7 +10,12 @@ import CategoriesPanels from './CategoriesPanels';
  * Filter-based navigation to programmes, displayed as tabs.
  * If one of the categories is active, the corresponding tab is displayed.
  */
-const ProgrammesCategories = ({ categories, activeCategory, activeLength }) => {
+const ProgrammesCategories = ({
+    categories,
+    activeCategory,
+    isFullTime,
+    isPartTime,
+}) => {
     return (
         <div className="programmes-categories">
             <div className="section section--above-grid bg bg--dark">
@@ -22,7 +27,8 @@ const ProgrammesCategories = ({ categories, activeCategory, activeLength }) => {
                         <CategoriesTablist
                             categories={categories}
                             activeCategory={activeCategory}
-                            activeLength={activeLength}
+                            isFullTime={isFullTime}
+                            isPartTime={isPartTime}
                         />
                     </div>
                 </div>
@@ -30,7 +36,8 @@ const ProgrammesCategories = ({ categories, activeCategory, activeLength }) => {
             <CategoriesPanels
                 categories={categories}
                 activeCategory={activeCategory}
-                activeLength={activeLength}
+                isFullTime={isFullTime}
+                isPartTime={isPartTime}
             />
         </div>
     );
@@ -39,7 +46,8 @@ const ProgrammesCategories = ({ categories, activeCategory, activeLength }) => {
 ProgrammesCategories.propTypes = {
     categories: programmeCategories.isRequired,
     activeCategory: PropTypes.string.isRequired,
-    activeLength: PropTypes.bool.isRequired,
+    isFullTime: PropTypes.bool.isRequired,
+    isPartTime: PropTypes.bool.isRequired,
 };
 
 export default ProgrammesCategories;

@@ -10,7 +10,12 @@ import CategoryItem from './CategoryItem';
  * All tabs are rendered to the DOM so screen readers’ ARIA markup
  * is correct.
  */
-const CategoriesPanels = ({ categories, activeCategory, activeLength }) => {
+const CategoriesPanels = ({
+    categories,
+    activeCategory,
+    isFullTime,
+    isPartTime,
+}) => {
     return (
         <div className="categories-panels bg bg--light">
             {categories.map((c) => (
@@ -27,7 +32,8 @@ const CategoriesPanels = ({ categories, activeCategory, activeLength }) => {
                             key={item.id}
                             category={item}
                             parentId={c.id}
-                            activeLength={activeLength}
+                            isFullTime={isFullTime}
+                            isPartTime={isPartTime}
                         />
                     ))}
                 </div>
@@ -39,7 +45,8 @@ const CategoriesPanels = ({ categories, activeCategory, activeLength }) => {
 CategoriesPanels.propTypes = {
     categories: programmeCategories.isRequired,
     activeCategory: PropTypes.string.isRequired,
-    activeLength: PropTypes.bool.isRequired,
+    isFullTime: PropTypes.bool.isRequired,
+    isPartTime: PropTypes.bool.isRequired,
 };
 
 export default CategoriesPanels;

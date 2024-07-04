@@ -21,10 +21,13 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
     const activeValue = filterValue.split('-')[0];
     const hasActiveCategoryFilter = !!activeValue;
     const searchQuery = params.get('search') || '';
-    const activeLength = params.get('part-time') || '';
+    const isFullTime = params.get('full-time') || '';
+    const isPartTime = params.get('part-time') || '';
     const hasActiveSearch = !!searchQuery;
     const showCategories = !hasActiveCategoryFilter && !hasActiveSearch;
     const showResults = hasActiveCategoryFilter || hasActiveSearch;
+
+    console.log('ProgrammesExplorer', isFullTime);
 
     return (
         <>
@@ -42,7 +45,8 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
                         <ProgrammesCategories
                             categories={categories}
                             activeCategory={activeCategory}
-                            activeLength={activeLength}
+                            isFullTime={isFullTime}
+                            isPartTime={isPartTime}
                         />
                     </CSSTransition>
                 ) : null}
@@ -60,7 +64,8 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
                             activeCategory={activeCategory}
                             activeValue={activeValue}
                             searchQuery={searchQuery}
-                            activeLength={activeLength}
+                            isFullTime={isFullTime}
+                            isPartTime={isPartTime}
                         />
                     </CSSTransition>
                 ) : null}

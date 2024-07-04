@@ -10,16 +10,22 @@ export const getIndexURL = () => {
     params.delete('search');
     params.delete('category');
     params.delete('value');
+    params.delete('full-time');
     params.delete('part-time');
     return getURL(params);
 };
 
-export const getCategoryURL = (category, activeLength) => {
+export const getCategoryURL = (category, isFullTime, isPartTime) => {
     const params = getParams();
     params.delete('search');
     params.set('category', category);
     params.delete('value');
-    if (activeLength === 'true') {
+    if (isFullTime === 'true') {
+        params.set('full-time', 'true');
+    } else {
+        params.delete('full-time');
+    }
+    if (isPartTime === 'true') {
         params.set('part-time', 'true');
     } else {
         params.delete('part-time');
@@ -27,12 +33,23 @@ export const getCategoryURL = (category, activeLength) => {
     return getURL(params);
 };
 
-export const getCategoryItemURL = (category, item, slug, activeLength) => {
+export const getCategoryItemURL = (
+    category,
+    item,
+    slug,
+    isFullTime,
+    isPartTime,
+) => {
     const params = getParams();
     params.delete('search');
     params.set('category', category);
     params.set('value', `${item}-${slug}`);
-    if (activeLength === 'true') {
+    if (isFullTime === 'true') {
+        params.set('full-time', 'true');
+    } else {
+        params.delete('full-time');
+    }
+    if (isPartTime === 'true') {
         params.set('part-time', 'true');
     } else {
         params.delete('part-time');
@@ -44,6 +61,7 @@ export const getSearchURL = (search) => {
     const params = getParams();
     params.delete('category');
     params.delete('value');
+    params.delete('full-time');
     params.delete('part-time');
     params.set('search', search);
     return getURL(params);

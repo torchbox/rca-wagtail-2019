@@ -9,7 +9,12 @@ import ModeCheckbox from '../StudyModeCheckbox';
  * A list of tabs, one per category. The active tab is underlined.
  * Tabs can be moved through with the arrow keys.
  */
-const CategoriesTablist = ({ categories, activeCategory, activeLength }) => {
+const CategoriesTablist = ({
+    categories,
+    activeCategory,
+    isFullTime,
+    isPartTime,
+}) => {
     return (
         <nav
             className="categories-tablist categories-tablist--no-padding-x"
@@ -21,7 +26,13 @@ const CategoriesTablist = ({ categories, activeCategory, activeLength }) => {
             <div className="categories-tablist__list">
                 <div className="categories-tablist__tabs" role="tablist">
                     {categories.map((c) => {
-                        const href = getCategoryURL(c.id, activeLength);
+                        const href = getCategoryURL(
+                            c.id,
+                            isFullTime,
+                            isPartTime,
+                        );
+
+                        console.log('CategoriesTablist: getCategoryUrl:', href);
 
                         return (
                             <a
@@ -66,7 +77,8 @@ const CategoriesTablist = ({ categories, activeCategory, activeLength }) => {
                 </div>
                 <ModeCheckbox
                     ariaLabel="Programme study mode"
-                    activeLength={activeLength}
+                    isFullTime={isFullTime}
+                    isPartTime={isPartTime}
                 />
             </div>
         </nav>
@@ -76,7 +88,8 @@ const CategoriesTablist = ({ categories, activeCategory, activeLength }) => {
 CategoriesTablist.propTypes = {
     categories: programmeCategories.isRequired,
     activeCategory: PropTypes.string.isRequired,
-    activeLength: PropTypes.bool.isRequired,
+    isFullTime: PropTypes.bool.isRequired,
+    isPartTime: PropTypes.bool.isRequired,
 };
 
 export default CategoriesTablist;
