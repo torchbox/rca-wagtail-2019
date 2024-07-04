@@ -109,10 +109,6 @@ const ProgrammesResults = ({
                                             isFullTime,
                                             isPartTime,
                                         );
-                                        console.log(
-                                            'ProgrammesResults: getCategoryURL:',
-                                            href,
-                                        );
                                         pushState(href);
                                     } else {
                                         window.history.back();

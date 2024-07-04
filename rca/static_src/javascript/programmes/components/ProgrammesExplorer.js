@@ -27,8 +27,6 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
     const showCategories = !hasActiveCategoryFilter && !hasActiveSearch;
     const showResults = hasActiveCategoryFilter || hasActiveSearch;
 
-    console.log('ProgrammesExplorer', isFullTime);
-
     return (
         <>
             <SearchForm searchQuery={searchQuery} label={searchLabel} />

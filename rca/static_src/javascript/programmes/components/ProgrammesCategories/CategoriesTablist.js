@@ -32,8 +32,6 @@ const CategoriesTablist = ({
                             isPartTime,
                         );
 
-                        console.log('CategoriesTablist: getCategoryUrl:', href);
-
                         return (
                             <a
                                 key={c.id}

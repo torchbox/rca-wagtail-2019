@@ -18,13 +18,6 @@ const ModeCheckbox = ({ ariaLabel, isFullTime, isPartTime }) => {
 
     return (
         <div className="mode-checkbox" aria-label={ariaLabel}>
-            <input
-                type="checkbox"
-                className="mode-checkbox__checkbox"
-                id="is-full-time"
-                checked={_isFullTime}
-                onChange={() => setIsFullTime(!_isFullTime)}
-            />
             <label
                 htmlFor="is-full-time"
                 className={`mode-checkbox__label${
@@ -32,15 +25,15 @@ const ModeCheckbox = ({ ariaLabel, isFullTime, isPartTime }) => {
                 }`}
                 data-label="full-time"
             >
+                <input
+                    type="checkbox"
+                    className="mode-checkbox__checkbox"
+                    id="is-full-time"
+                    checked={_isFullTime}
+                    onChange={() => setIsFullTime(!_isFullTime)}
+                />
                 Full-time
             </label>
-            <input
-                type="checkbox"
-                className="mode-checkbox__checkbox"
-                id="is-part-time"
-                checked={_isPartTime}
-                onChange={() => setIsPartTime(!_isPartTime)}
-            />
             <label
                 htmlFor="is-part-time"
                 className={`mode-checkbox__label${
@@ -48,6 +41,13 @@ const ModeCheckbox = ({ ariaLabel, isFullTime, isPartTime }) => {
                 }`}
                 data-label="part-time"
             >
+                <input
+                    type="checkbox"
+                    className="mode-checkbox__checkbox"
+                    id="is-part-time"
+                    checked={_isPartTime}
+                    onChange={() => setIsPartTime(!_isPartTime)}
+                />
                 Part-time
             </label>
         </div>

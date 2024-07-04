@@ -9,7 +9,7 @@ describe('CategoriesPanels', () => {
                 <CategoriesPanels
                     categories={[]}
                     activeCategory=""
-                    isFullTime={true}
+                    isFullTime
                     isPartTime={false}
                 />,
             ),
@@ -38,7 +38,7 @@ describe('CategoriesPanels', () => {
                     },
                 ]}
                 activeCategory="test"
-                isFullTime={true}
+                isFullTime
                 isPartTime={false}
             />,
         );

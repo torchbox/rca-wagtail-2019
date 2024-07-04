@@ -34,6 +34,9 @@
     }
 
     &__label {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         margin-right: ($grid * 1.5);
         color: $color--dark-grey;
 
