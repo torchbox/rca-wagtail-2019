@@ -8,12 +8,10 @@ const ModeCheckbox = ({ ariaLabel, activeLength }) => {
     const [isPartTime, setIsPartTime] = useState(false);
 
     useEffect(() => {
-        console.log('Full-time');
-    }, [isFullTime]);
-
-    useEffect(() => {
-        console.log('Part-time');
-    }, [isPartTime]);
+        // Update the URL with the new Part-time value
+        const url = getCourseLengthURL(String(isFullTime), String(isPartTime));
+        pushState(url);
+    }, [isFullTime, isPartTime]);
 
     return (
         <div className="mode-checkbox" aria-label={ariaLabel}>
