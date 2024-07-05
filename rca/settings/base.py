@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     "rca.account_management",
     "rca.donate",
     "rca.scholarships",
+    "rca.reports",
     "birdbath",
     "django_countries",
     "wagtail.contrib.settings",
@@ -651,6 +652,9 @@ WAGTAILEMBEDS_FINDERS = [
     {"class": "rca.utils.embed_finders.CustomOEmbedFinder"},
     {"class": "rca.utils.embed_finders.WixEmbedFinder"},
 ]
+
+# This project uses it's own customised version
+WAGTAIL_AGING_PAGES_ENABLED = False
 
 
 # This is used by Wagtail's email notifications for constructing absolute
