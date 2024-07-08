@@ -1,0 +1,157 @@
+.toggle-switch {
+    $root: &;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    @include media-query(large) {
+        justify-content: flex-start;
+    }
+
+    &:hover {
+        #{$root}__switch {
+            border-color: $color--black;
+        }
+    }
+
+    &__checkbox {
+        @include hidden();
+
+        &:checked {
+            + #{$root}__switch {
+                &::before {
+                    transform: translateX(23px);
+                }
+            }
+        }
+
+        &:focus {
+            + #{$root}__switch {
+                box-shadow: 0 0 1px $color--tertiary;
+            }
+        }
+    }
+
+    &__label {
+        order: 1;
+        margin-right: ($grid * 0.5);
+        color: $color--dark-grey;
+
+        &--first {
+            order: 1;
+        }
+
+        &--last {
+            order: 3;
+        }
+
+        &--selected {
+            color: $color--black;
+        }
+    }
+
+    &__switch {
+        position: relative;
+        flex-shrink: 0;
+        overflow: hidden;
+        order: 2;
+        width: 54px;
+        height: 30px;
+        background-color: $color--white-24;
+        border: 3px solid $color--dark-grey;
+        border-radius: 20px;
+        margin-right: $gutter;
+
+        @include media-query(large) {
+            margin-right: ($gutter * 0.5);
+        }
+
+        &:hover {
+            border-color: $color--black;
+        }
+
+        &::before {
+            position: absolute;
+            cursor: pointer;
+            content: '';
+            width: 20px;
+            height: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: $color--tertiary;
+            transition: transform $transition-cubic;
+            border-radius: 50%;
+        }
+    }
+
+    .categories-tablist & {
+        max-width: 250px;
+        margin-bottom: $gutter;
+
+        @include media-query(large) {
+            position: relative;
+            top: -2px; // align with other filter categories
+            border-left: 1px solid $color--grid-line-dark;
+            padding-left: $gutter;
+            margin-right: $gutter;
+            margin-bottom: 0;
+            max-width: 100%;
+        }
+
+        .filter-bar--stuck & {
+            border-color: $color--white-24;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -20px;
+            height: 1px;
+            width: 11px;
+            background-color: $color--black-12;
+
+            @include media-query(large) {
+                content: none;
+            }
+        }
+    }
+
+    .programmes-categories & {
+        justify-content: flex-start;
+        margin-top: 13px;
+        margin-bottom: 0;
+        padding-top: 10px;
+
+        @include media-query(large) {
+            justify-content: space-between;
+            margin-top: unset;
+            padding-top: unset;
+        }
+
+        #{$root}__switch {
+            margin-right: ($gutter * 0.5);
+
+            @include media-query(large) {
+                margin-right: $gutter;
+            }
+        }
+    }
+
+    .filter-bar--stuck & {
+        #{$root}__label {
+            color: $color--light-grey;
+        }
+    }
+}
+
+/* stylelint-disable selector-max-id */
+.app--event-listing {
+    #tab-upcomingpast {
+        display: none !important; // don't display toggle tab, as toggle implements this functionality
+    }
+}
+/* stylelint-enable selector-max-id */
