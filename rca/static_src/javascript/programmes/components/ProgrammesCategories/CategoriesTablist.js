@@ -96,4 +96,8 @@ CategoriesTablist.propTypes = {
     hideInactive: PropTypes.bool,
 };
 
+CategoriesTablist.defaultProps = {
+    hideInactive: false,
+};
+
 export default CategoriesTablist;
