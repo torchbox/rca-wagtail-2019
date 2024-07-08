@@ -11,6 +11,7 @@ import { searchProgrammes } from '../../programmes.slice';
 import Icon from '../Icon/Icon';
 import ProgrammeTeaser from './ProgrammeTeaser';
 import { pushState, getCategoryURL } from '../../programmes.routes';
+import CategoriesTablist from '../ProgrammesCategories/CategoriesTablist';
 
 const getResultsStatus = (
     isLoading,
@@ -91,6 +92,21 @@ const ProgrammesResults = ({
 
     return (
         <>
+            <div className="section section--above-grid bg bg--dark">
+                <div className="section__notch">
+                    <div
+                        className="section__notch-fill section__notch-fill--content-height section__notch-fill--third-col
+                    section__notch-fill--third-col-two-span-four"
+                    >
+                        <CategoriesTablist
+                            categories={categories}
+                            activeCategory={activeCategory}
+                            isFullTime={isFullTime}
+                            isPartTime={isPartTime}
+                        />
+                    </div>
+                </div>
+            </div>
             <div className={`programmes-results bg bg--${theme} section`}>
                 <div className="grid">
                     <div className="programmes-results__actions">

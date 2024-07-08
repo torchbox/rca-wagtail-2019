@@ -34,7 +34,7 @@ const CategoriesTablist = ({
 
                         return (
                             <a
-                                key={c.id}
+                                key={`category-${c.id}`}
                                 id={`${c.id}-tab`}
                                 href={href}
                                 className="categories-tablist__tab body body--one"

@@ -22,8 +22,8 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
     const hasActiveCategoryFilter = !!activeValue;
     const searchQuery = params.get('search') || '';
     // Make it true by default
-    const isFullTime = !!params.get('full-time') || true;
-    const isPartTime = !!params.get('part-time') || true;
+    const isFullTime = params.get('full-time') || 'true';
+    const isPartTime = params.get('part-time') || 'true';
     const hasActiveSearch = !!searchQuery;
     const showCategories = !hasActiveCategoryFilter && !hasActiveSearch;
     const showResults = hasActiveCategoryFilter || hasActiveSearch;
