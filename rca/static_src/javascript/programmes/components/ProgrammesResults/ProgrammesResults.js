@@ -103,6 +103,7 @@ const ProgrammesResults = ({
                             activeCategory={activeCategory}
                             isFullTime={isFullTime}
                             isPartTime={isPartTime}
+                            hideInactive
                         />
                     </div>
                 </div>

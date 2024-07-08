@@ -14,6 +14,7 @@ const CategoriesTablist = ({
     activeCategory,
     isFullTime,
     isPartTime,
+    hideInactive,
 }) => {
     return (
         <nav
@@ -37,7 +38,11 @@ const CategoriesTablist = ({
                                 key={`category-${c.id}`}
                                 id={`${c.id}-tab`}
                                 href={href}
-                                className="categories-tablist__tab body body--one"
+                                className={`categories-tablist__tab body body--one${
+                                    hideInactive &&
+                                    c.id !== activeCategory &&
+                                    ' categories-tablist__tab--inactive'
+                                }`}
                                 role="tab"
                                 aria-selected={c.id === activeCategory}
                                 aria-controls={c.id}
@@ -88,6 +93,7 @@ CategoriesTablist.propTypes = {
     activeCategory: PropTypes.string.isRequired,
     isFullTime: PropTypes.bool.isRequired,
     isPartTime: PropTypes.bool.isRequired,
+    hideInactive: PropTypes.bool,
 };
 
 export default CategoriesTablist;

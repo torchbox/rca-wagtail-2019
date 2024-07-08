@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useLocation } from 'react-use';
 

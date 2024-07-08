@@ -119,6 +119,11 @@
             position: relative;
             color: $color--black;
         }
+
+        &--inactive {
+            opacity: 0;
+            pointer-events: none;
+        }
     }
 
     &__tab-label,
