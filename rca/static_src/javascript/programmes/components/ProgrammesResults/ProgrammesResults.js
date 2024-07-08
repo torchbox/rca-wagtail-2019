@@ -122,8 +122,8 @@ const ProgrammesResults = ({
                                     ) {
                                         const href = getCategoryURL(
                                             activeCategory,
-                                            isFullTime,
-                                            isPartTime,
+                                            String(isFullTime),
+                                            String(isPartTime),
                                         );
                                         pushState(href);
                                     } else {
@@ -229,8 +229,8 @@ ProgrammesResults.propTypes = {
 ProgrammesResults.defaultProps = {
     searchQuery: null,
     activeValue: null,
-    isFullTime: null,
-    isPartTime: null,
+    isFullTime: true,
+    isPartTime: true,
 };
 
 const mapStateToProps = ({ programmes }) => {

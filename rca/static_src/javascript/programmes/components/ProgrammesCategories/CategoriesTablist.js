@@ -28,8 +28,8 @@ const CategoriesTablist = ({
                     {categories.map((c) => {
                         const href = getCategoryURL(
                             c.id,
-                            isFullTime,
-                            isPartTime,
+                            String(isFullTime),
+                            String(isPartTime),
                         );
 
                         return (

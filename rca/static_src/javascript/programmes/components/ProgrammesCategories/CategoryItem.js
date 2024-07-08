@@ -11,7 +11,13 @@ import { getCategoryItemURL, pushState } from '../../programmes.routes';
  */
 const CategoryItem = ({ category, parentId, isFullTime, isPartTime }) => {
     const { id, title, description, slug } = category;
-    const href = getCategoryItemURL(parentId, id, slug, isFullTime, isPartTime);
+    const href = getCategoryItemURL(
+        parentId,
+        id,
+        slug,
+        String(isFullTime),
+        String(isPartTime),
+    );
 
     return (
         <div className="category-item__wrapper grid">
