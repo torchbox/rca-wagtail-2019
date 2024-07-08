@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useLocation } from 'react-use';
 
@@ -21,12 +21,17 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
     const activeValue = filterValue.split('-')[0];
     const hasActiveCategoryFilter = !!activeValue;
     const searchQuery = params.get('search') || '';
-    // Make it true by default
-    const isFullTime = params.get('full-time') || '';
-    const isPartTime = params.get('part-time') || '';
     const hasActiveSearch = !!searchQuery;
     const showCategories = !hasActiveCategoryFilter && !hasActiveSearch;
     const showResults = hasActiveCategoryFilter || hasActiveSearch;
+
+    const [isFullTime, setIsFullTime] = useState('true')
+    const [isPartTime, setIsPartTime] = useState('true')
+
+    useEffect(() => {
+        setIsFullTime(params.get('full-time') || 'false')
+        setIsPartTime(params.get('part-time') || 'false')
+    }, [params])
 
     return (
         <>
