@@ -1,9 +1,25 @@
 .mode-checkbox {
     $root: &;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-content: space-between;
+    justify-items: center;
+    flex-grow: 1;
+
+    &__formset {
+        display: flex;
+        flex-direction: row;
+    }
+
+    &__error {
+        color: $color--red;
+        margin-bottom: 10px;
+
+        @include media-query(large) {
+            position: absolute;
+            bottom: 1.5em;
+        }
+    }
 
     &__checkbox {
         position: relative;
@@ -30,6 +46,10 @@
                 background-color: $color--tertiary;
                 opacity: 1;
             }
+        }
+
+        &--error {
+            border: 3px solid $color--red;
         }
     }
 
