@@ -18,7 +18,6 @@
 
 .mode-checkbox {
     $root: &;
-    @include grid-layout();
     display: grid;
     grid-column: 1 / span 2;
     grid-template-columns: 1fr;
@@ -126,7 +125,6 @@
         }
     }
 
-    .section__notch &,
     .programmes-categories & {
         justify-content: flex-start;
         margin-top: 13px;
