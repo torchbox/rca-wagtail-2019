@@ -1,10 +1,42 @@
+.mode-checkbox__panel {
+    background-color: $color--white;
+    border-top: 3px solid $color--grid-line-dark;
+    border-bottom: 1px solid $color--grid-line-dark;
+}
+
+.mode-checkbox__wrapper {
+    display: block;
+
+    .grid {
+        display: block;
+
+        @include media-query(large) {
+            display: grid;
+        }
+    }
+}
+
 .mode-checkbox {
     $root: &;
-    display: flex;
-    flex-direction: column;
-    align-content: space-between;
-    justify-items: center;
-    flex-grow: 1;
+    @include grid-layout();
+    display: grid;
+    grid-column: 1 / span 2;
+    grid-template-columns: 1fr;
+    padding-top: $gutter;
+    color: inherit;
+
+    @include media-query(medium) {
+        grid-template-columns: 2fr 3fr;
+        padding-top: $gutter * 2.5;
+    }
+
+    @include media-query(large) {
+        grid-template-columns: 1fr 1fr;
+        grid-column: 2 / span 4;
+        padding-top: $gutter * 1.5;
+        // Keep the left border aligned with the grid lines.
+        margin-left: -1px;
+    }
 
     &__formset {
         display: flex;
@@ -14,11 +46,8 @@
     &__error {
         color: $color--red;
         margin-bottom: 10px;
-
-        @include media-query(large) {
-            position: absolute;
-            bottom: 1.5em;
-        }
+        position: absolute;
+        bottom: 2.5em;
     }
 
     &__checkbox {
@@ -101,13 +130,11 @@
     .programmes-categories & {
         justify-content: flex-start;
         margin-top: 13px;
-        margin-bottom: 0;
-        padding-top: 10px;
+        margin-bottom: 9px;
+        padding: 10px 0;
 
         @include media-query(large) {
             justify-content: space-between;
-            margin-top: unset;
-            padding-top: unset;
         }
 
         #{$root}__switch {

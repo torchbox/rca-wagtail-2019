@@ -5,6 +5,7 @@ import { programmeCategories } from '../../programmes.types';
 
 import CategoriesTablist from './CategoriesTablist';
 import CategoriesPanels from './CategoriesPanels';
+import ModeCheckbox from '../StudyModeCheckbox';
 
 /**
  * Filter-based navigation to programmes, displayed as tabs.
@@ -33,6 +34,11 @@ const ProgrammesCategories = ({
                     </div>
                 </div>
             </div>
+            <ModeCheckbox
+                ariaLabel="Programme study mode"
+                isFullTime={isFullTime}
+                isPartTime={isPartTime}
+            />
             <CategoriesPanels
                 categories={categories}
                 activeCategory={activeCategory}
