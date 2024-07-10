@@ -46,9 +46,9 @@
     }
 
     &__heading {
-        display: none;
         @include font-size(xs);
 
+        display: none;
         color: $color--dark-grey;
 
         @include media-query(large) {
