@@ -21,63 +21,49 @@ const ModeCheckbox = ({ ariaLabel, isFullTime, isPartTime }) => {
     }, [_isFullTime, _isPartTime]);
 
     return (
-        <div className="mode-checkbox__panel">
-            <div className="mode-checkbox__wrapper">
-                <div className="grid">
-                    <div className="mode-checkbox" aria-label={ariaLabel}>
-                        {showError && (
-                            <div className="mode-checkbox__error">
-                                You must select at least one mode of study.
-                            </div>
-                        )}
-                        <div className="mode-checkbox__formset">
-                            <label
-                                htmlFor="is-full-time"
-                                className={`mode-checkbox__label${
-                                    _isFullTime
-                                        ? ' mode-checkbox__label--selected'
-                                        : ''
-                                }`}
-                                data-label="full-time"
-                            >
-                                <input
-                                    type="checkbox"
-                                    className={`mode-checkbox__checkbox${
-                                        showError
-                                            ? ' mode-checkbox__checkbox--error'
-                                            : ''
-                                    }`}
-                                    id="is-full-time"
-                                    checked={_isFullTime}
-                                    onChange={() => setIsFullTime(!_isFullTime)}
-                                />
-                                Full-time
-                            </label>
-                            <label
-                                htmlFor="is-part-time"
-                                className={`mode-checkbox__label${
-                                    _isPartTime
-                                        ? ' mode-checkbox__label--selected'
-                                        : ''
-                                }`}
-                                data-label="part-time"
-                            >
-                                <input
-                                    type="checkbox"
-                                    className={`mode-checkbox__checkbox${
-                                        showError
-                                            ? ' mode-checkbox__checkbox--error'
-                                            : ''
-                                    }`}
-                                    id="is-part-time"
-                                    checked={_isPartTime}
-                                    onChange={() => setIsPartTime(!_isPartTime)}
-                                />
-                                Part-time
-                            </label>
-                        </div>
-                    </div>
+        <div className="mode-checkbox" aria-label={ariaLabel}>
+            {showError && (
+                <div className="mode-checkbox__error">
+                    You must select at least one mode of study.
                 </div>
+            )}
+            <div className="mode-checkbox__formset">
+                <label
+                    htmlFor="is-full-time"
+                    className={`mode-checkbox__label${
+                        _isFullTime ? ' mode-checkbox__label--selected' : ''
+                    }`}
+                    data-label="full-time"
+                >
+                    <input
+                        type="checkbox"
+                        className={`mode-checkbox__checkbox${
+                            showError ? ' mode-checkbox__checkbox--error' : ''
+                        }`}
+                        id="is-full-time"
+                        checked={_isFullTime}
+                        onChange={() => setIsFullTime(!_isFullTime)}
+                    />
+                    Full-time
+                </label>
+                <label
+                    htmlFor="is-part-time"
+                    className={`mode-checkbox__label${
+                        _isPartTime ? ' mode-checkbox__label--selected' : ''
+                    }`}
+                    data-label="part-time"
+                >
+                    <input
+                        type="checkbox"
+                        className={`mode-checkbox__checkbox${
+                            showError ? ' mode-checkbox__checkbox--error' : ''
+                        }`}
+                        id="is-part-time"
+                        checked={_isPartTime}
+                        onChange={() => setIsPartTime(!_isPartTime)}
+                    />
+                    Part-time
+                </label>
             </div>
         </div>
     );

@@ -34,11 +34,15 @@ const ProgrammesCategories = ({
                     </div>
                 </div>
             </div>
-            <ModeCheckbox
-                ariaLabel="Programme study mode"
-                isFullTime={isFullTime}
-                isPartTime={isPartTime}
-            />
+            <div className="section section--above-grid bg bg--light">
+                <div className="section__notch">
+                    <ModeCheckbox
+                        ariaLabel="Programme study mode"
+                        isFullTime={isFullTime}
+                        isPartTime={isPartTime}
+                    />
+                </div>
+            </div>
             <CategoriesPanels
                 categories={categories}
                 activeCategory={activeCategory}
