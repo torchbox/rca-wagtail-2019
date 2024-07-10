@@ -43,24 +43,41 @@
     }
 
     a {
-        @include underline-hover();
+        text-decoration: underline;
+        transition: $transition color, $transition text-decoration;
         position: relative;
 
         .bg--dark & {
             color: $color--white;
+
+            &:hover {
+                color: $color--orange;
+            }
         }
 
         .bg--light & {
             color: $color--black;
+
+            &:hover {
+                color: $color--orange;
+            }
         }
 
         // Accordion needs to be inverted (bg changes when they open)
         .bg--dark .accordion__content & {
             color: $color--black;
+
+            &:hover {
+                color: $color--orange;
+            }
         }
 
         .bg--light .accordion__content & {
             color: $color--white;
+
+            &:hover {
+                color: $color--orange;
+            }
         }
 
         // Links in forms should always show underline
