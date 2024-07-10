@@ -12,6 +12,7 @@ import Icon from '../Icon/Icon';
 import ProgrammeTeaser from './ProgrammeTeaser';
 import { pushState, getCategoryURL } from '../../programmes.routes';
 import ModeCheckbox from '../StudyModeCheckbox';
+import { useStudyMode } from '../../context/StudyModeContext';
 
 const getResultsStatus = (
     isLoading,
@@ -60,15 +61,14 @@ const ProgrammesResults = ({
     activeCategory,
     activeValue,
     searchQuery,
-    isFullTime,
-    isPartTime,
 }) => {
     const [activeProgramme, setActiveProgramme] = useState(null);
     const hasActiveFilter = activeCategory && activeValue;
     const theme = hasActiveFilter ? 'light' : 'dark';
+    const { isFullTime, isPartTime } = useStudyMode();
 
     useEffect(() => {
-        if (hasActiveFilter || isFullTime || isPartTime) {
+        if (hasActiveFilter || !!isFullTime || !!isPartTime) {
             startSearch(null, { [activeCategory]: activeValue });
             const mount = document.querySelector(
                 '[data-mount-programmes-explorer]',
@@ -103,13 +103,13 @@ const ProgrammesResults = ({
                                     onClick={() => {
                                         if (
                                             hasActiveFilter ||
-                                            isFullTime ||
-                                            isPartTime
+                                            !!isFullTime ||
+                                            !!isPartTime
                                         ) {
                                             const href = getCategoryURL(
                                                 activeCategory,
-                                                String(isFullTime),
-                                                String(isPartTime),
+                                                isFullTime,
+                                                isPartTime,
                                             );
                                             pushState(href);
                                         } else {
@@ -161,52 +161,6 @@ const ProgrammesResults = ({
                 </div>
             </div>
             <div className={`programmes-results bg bg--${theme} section`}>
-                {/* <div className="grid">
-                    <div className="programmes-results__actions">
-                        {hasActiveFilter ? (
-                            <button
-                                type="button"
-                                className="button programmes-results__back body body--one"
-                                onClick={() => {
-                                    if (
-                                        hasActiveFilter ||
-                                        isFullTime ||
-                                        isPartTime
-                                    ) {
-                                        const href = getCategoryURL(
-                                            activeCategory,
-                                            String(isFullTime),
-                                            String(isPartTime),
-                                        );
-                                        pushState(href);
-                                    } else {
-                                        window.history.back();
-                                    }
-                                }}
-                            >
-                                <Icon
-                                    name="arrow"
-                                    className="programmes-results__back-icon"
-                                />
-                                <span className="programmes-results__back-text">
-                                    Back
-                                </span>
-                            </button>
-                        ) : null}
-                    </div>
-                    <p
-                        className="heading heading--five programmes-results__status"
-                        role="alert"
-                    >
-                        {getResultsStatus(
-                            isLoading,
-                            categories,
-                            activeCategory,
-                            activeValue,
-                            programmes.length,
-                        )}
-                    </p>
-                </div> */}
                 {programmes.length === 0 ? null : (
                     <div className="grid">
                         <div className="programmes-results__list">

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { programmeCategories } from '../../programmes.types';
 import { getCategoryURL, pushState } from '../../programmes.routes';
-import ModeCheckbox from '../StudyModeCheckbox';
 import { useStudyMode } from '../../context/StudyModeContext';
 
 /**
