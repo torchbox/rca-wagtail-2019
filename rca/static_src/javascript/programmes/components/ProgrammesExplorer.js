@@ -8,6 +8,7 @@ import { programmeCategories } from '../programmes.types';
 import ProgrammesCategories from './ProgrammesCategories/ProgrammesCategories';
 import ProgrammesResults from './ProgrammesResults/ProgrammesResults';
 import SearchForm from './SearchForm';
+import { StudyModeContext } from '../context/StudyModeContext';
 
 /**
  * Programmes and short courses listing, with a search form, filters, and a results view.
@@ -25,16 +26,28 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
     const showCategories = !hasActiveCategoryFilter && !hasActiveSearch;
     const showResults = hasActiveCategoryFilter || hasActiveSearch;
 
-    const [isFullTime, setIsFullTime] = useState('true')
-    const [isPartTime, setIsPartTime] = useState('true')
+    const [isFullTime, setIsFullTime] = useState(params.get('full-time') || '');
+    const [isPartTime, setIsPartTime] = useState(params.get('part-time') || '');
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
-        setIsFullTime(params.get('full-time') || 'false')
-        setIsPartTime(params.get('part-time') || 'false')
-    }, [params])
+        // Only do this on initial load
+        if (isFullTime === '' && isPartTime === '') {
+            setIsFullTime('true');
+            setIsPartTime('true');
+        }
+    }, []);
 
     return (
-        <>
+        <StudyModeContext.Provider
+            value={{
+                params,
+                isFullTime,
+                setIsFullTime,
+                isPartTime,
+                setIsPartTime,
+            }}
+        >
             <SearchForm searchQuery={searchQuery} label={searchLabel} />
             <TransitionGroup className="explorer-transitions">
                 {showCategories ? (
@@ -74,7 +87,7 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
                     </CSSTransition>
                 ) : null}
             </TransitionGroup>
-        </>
+        </StudyModeContext.Provider>
     );
 };
 

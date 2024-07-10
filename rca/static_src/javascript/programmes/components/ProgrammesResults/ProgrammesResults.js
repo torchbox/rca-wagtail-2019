@@ -157,11 +157,7 @@ const ProgrammesResults = ({
             </div>
             <div className="section section--above-grid bg bg--light">
                 <div className="section__notch">
-                    <ModeCheckbox
-                        ariaLabel="Programme study mode"
-                        isFullTime={isFullTime}
-                        isPartTime={isPartTime}
-                    />
+                    <ModeCheckbox ariaLabel="Programme study mode" />
                 </div>
             </div>
             <div className={`programmes-results bg bg--${theme} section`}>
@@ -279,15 +275,11 @@ ProgrammesResults.propTypes = {
     activeCategory: PropTypes.string.isRequired,
     activeValue: PropTypes.string,
     searchQuery: PropTypes.string,
-    isFullTime: PropTypes.bool,
-    isPartTime: PropTypes.bool,
 };
 
 ProgrammesResults.defaultProps = {
     searchQuery: null,
     activeValue: null,
-    isFullTime: true,
-    isPartTime: true,
 };
 
 const mapStateToProps = ({ programmes }) => {

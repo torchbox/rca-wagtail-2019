@@ -4,18 +4,14 @@ import PropTypes from 'prop-types';
 import { programmeCategories } from '../../programmes.types';
 import { getCategoryURL, pushState } from '../../programmes.routes';
 import ModeCheckbox from '../StudyModeCheckbox';
+import { useStudyMode } from '../../context/StudyModeContext';
 
 /**
  * A list of tabs, one per category. The active tab is underlined.
  * Tabs can be moved through with the arrow keys.
  */
-const CategoriesTablist = ({
-    categories,
-    activeCategory,
-    isFullTime,
-    isPartTime,
-    hideInactive,
-}) => {
+const CategoriesTablist = ({ categories, activeCategory, hideInactive }) => {
+    const { isFullTime, isPartTime } = useStudyMode();
     return (
         <nav
             className="categories-tablist categories-tablist--no-padding-x"
@@ -86,8 +82,6 @@ const CategoriesTablist = ({
 CategoriesTablist.propTypes = {
     categories: programmeCategories.isRequired,
     activeCategory: PropTypes.string.isRequired,
-    isFullTime: PropTypes.bool.isRequired,
-    isPartTime: PropTypes.bool.isRequired,
     hideInactive: PropTypes.bool,
 };
 

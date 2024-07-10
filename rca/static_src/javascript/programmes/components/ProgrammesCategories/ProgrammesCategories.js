@@ -11,12 +11,7 @@ import ModeCheckbox from '../StudyModeCheckbox';
  * Filter-based navigation to programmes, displayed as tabs.
  * If one of the categories is active, the corresponding tab is displayed.
  */
-const ProgrammesCategories = ({
-    categories,
-    activeCategory,
-    isFullTime,
-    isPartTime,
-}) => {
+const ProgrammesCategories = ({ categories, activeCategory }) => {
     return (
         <div className="programmes-categories">
             <div className="section section--above-grid bg bg--dark">
@@ -28,26 +23,18 @@ const ProgrammesCategories = ({
                         <CategoriesTablist
                             categories={categories}
                             activeCategory={activeCategory}
-                            isFullTime={isFullTime}
-                            isPartTime={isPartTime}
                         />
                     </div>
                 </div>
             </div>
             <div className="section section--above-grid bg bg--light">
                 <div className="section__notch">
-                    <ModeCheckbox
-                        ariaLabel="Programme study mode"
-                        isFullTime={isFullTime}
-                        isPartTime={isPartTime}
-                    />
+                    <ModeCheckbox ariaLabel="Programme study mode" />
                 </div>
             </div>
             <CategoriesPanels
                 categories={categories}
                 activeCategory={activeCategory}
-                isFullTime={isFullTime}
-                isPartTime={isPartTime}
             />
         </div>
     );
@@ -56,8 +43,6 @@ const ProgrammesCategories = ({
 ProgrammesCategories.propTypes = {
     categories: programmeCategories.isRequired,
     activeCategory: PropTypes.string.isRequired,
-    isFullTime: PropTypes.bool.isRequired,
-    isPartTime: PropTypes.bool.isRequired,
 };
 
 export default ProgrammesCategories;
