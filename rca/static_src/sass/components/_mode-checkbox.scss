@@ -112,7 +112,8 @@
         }
     }
 
-    .programmes-categories & {
+    .programmes-categories &,
+    .programmes-results__wrapper & {
         justify-content: flex-start;
         margin-top: 13px;
         margin-bottom: 9px;
