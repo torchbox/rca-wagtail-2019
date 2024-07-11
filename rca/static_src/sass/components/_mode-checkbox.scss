@@ -83,35 +83,6 @@
         }
     }
 
-    .categories-tablist & {
-        margin-bottom: $gutter;
-
-        @include media-query(large) {
-            position: relative;
-            top: -2px; // align with other filter categories
-            margin-bottom: 0;
-            max-width: 100%;
-        }
-
-        .filter-bar--stuck & {
-            border-color: $color--white-24;
-        }
-
-        &::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -20px;
-            height: 1px;
-            width: 11px;
-            background-color: $color--black-12;
-
-            @include media-query(large) {
-                content: none;
-            }
-        }
-    }
-
     .programmes-categories &,
     .programmes-results__wrapper & {
         justify-content: flex-start;

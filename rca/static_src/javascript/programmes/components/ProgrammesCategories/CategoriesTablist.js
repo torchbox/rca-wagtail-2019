@@ -9,7 +9,7 @@ import { useStudyMode } from '../../context/StudyModeContext';
  * A list of tabs, one per category. The active tab is underlined.
  * Tabs can be moved through with the arrow keys.
  */
-const CategoriesTablist = ({ categories, activeCategory, hideInactive }) => {
+const CategoriesTablist = ({ categories, activeCategory }) => {
     const { isFullTime, isPartTime } = useStudyMode();
     return (
         <nav
@@ -33,11 +33,7 @@ const CategoriesTablist = ({ categories, activeCategory, hideInactive }) => {
                                 key={`category-${c.id}`}
                                 id={`${c.id}-tab`}
                                 href={href}
-                                className={`categories-tablist__tab body body--one${
-                                    hideInactive &&
-                                    c.id !== activeCategory &&
-                                    ' categories-tablist__tab--inactive'
-                                }`}
+                                className="categories-tablist__tab body body--one"
                                 role="tab"
                                 aria-selected={c.id === activeCategory}
                                 aria-controls={c.id}
@@ -81,11 +77,6 @@ const CategoriesTablist = ({ categories, activeCategory, hideInactive }) => {
 CategoriesTablist.propTypes = {
     categories: programmeCategories.isRequired,
     activeCategory: PropTypes.string.isRequired,
-    hideInactive: PropTypes.bool,
-};
-
-CategoriesTablist.defaultProps = {
-    hideInactive: false,
 };
 
 export default CategoriesTablist;
