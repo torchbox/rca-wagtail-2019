@@ -67,7 +67,7 @@
 
     .footer & {
         #{$root}__image {
-            width: 92px;
+            max-width: 100%;
 
             @include media-query(medium) {
                 width: 230px;

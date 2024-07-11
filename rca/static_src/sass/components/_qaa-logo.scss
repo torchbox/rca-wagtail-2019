@@ -1,0 +1,11 @@
+.qaa-logo {
+    &__image {
+        width: 56px;
+        height: 64px;
+
+        @include media-query(medium) {
+            width: 87px;
+            height: 97px;
+        }
+    }
+}

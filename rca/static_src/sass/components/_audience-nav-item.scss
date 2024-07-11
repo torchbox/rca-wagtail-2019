@@ -69,12 +69,23 @@
     }
 
     .footer & {
+        margin-bottom: $gutter;
+
+        @include media-query(large) {
+            margin-bottom: 0;
+        }
+
         #{$root}__link {
             color: $color--white;
         }
 
         #{$root}__icon {
             fill: $color--white;
+            display: none;
+
+            @include media-query(large) {
+                display: block;
+            }
         }
 
         #{$root}__label {
