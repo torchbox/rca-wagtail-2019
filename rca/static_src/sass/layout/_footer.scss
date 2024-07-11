@@ -36,9 +36,10 @@
     }
 
     &__action {
-        grid-column-start: 2;
+        display: none;
 
         @include media-query(large) {
+            display: block;
             grid-column-start: 4;
         }
     }
@@ -103,6 +104,15 @@
 
         .hidden {
             @include hidden();
+        }
+    }
+
+    &__qaa-logo {
+        display: flex;
+        justify-content: center;
+
+        @include media-query(large) {
+            justify-content: flex-start;
         }
     }
 }
