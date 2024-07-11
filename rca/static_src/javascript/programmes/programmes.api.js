@@ -79,6 +79,10 @@ export const getProgrammes = ({ query, filters = {} }) => {
     abortGetProgrammes.abort();
     abortGetProgrammes = new AbortController();
 
+    if (!fullTime && !partTime) {
+        return Promise.resolve([]);
+    }
+
     const requests = listedPageTypes.map(({ type, fields }) => {
         const queryString = getWagtailAPIQueryString({
             search: query,

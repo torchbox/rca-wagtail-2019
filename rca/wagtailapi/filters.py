@@ -108,6 +108,9 @@ class StudyModeFilter(filters.BaseFilterBackend):
                     .order_by("title")
                     .live()
                 )
+            else:
+                # Return no queryset
+                return queryset.none()
 
             return queryset
         except FieldDoesNotExist:
