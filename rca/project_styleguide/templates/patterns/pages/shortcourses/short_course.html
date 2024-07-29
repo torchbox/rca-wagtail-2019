@@ -28,10 +28,10 @@
         {% endcomment %}
         <header class="page__header bg bg--dark
         {% if booking_bar %}
-            {% if booking_bar.action == 'Book now' %}
-                page__header--with-sticky-cta
-            {% else %}
+            {% if booking_bar.message == 'Bookings not yet open' %}
                 page__header--with-sticky-cta-tall
+            {% else %}
+                page__header--with-sticky-cta
             {% endif %}
         {% endif %}
         ">
