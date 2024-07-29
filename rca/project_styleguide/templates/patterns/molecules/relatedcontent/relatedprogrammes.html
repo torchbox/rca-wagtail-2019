@@ -42,7 +42,7 @@
                             {% if related_item.degree_level %}
                                 <p class="related-content__degree body body--two" property="schema:EducationalCredentialAwarded">{{ related_item.degree_level }}</p>
                             {% elif related_item.programme_type %}
-                                <p class="related-content__degree body body--two">{{ related_item.programme_type }}</p>
+                                <p class="related-content__degree body body--two">{{ related_item.booking_summary|default:related_item.programme_type }}</p>
                             {% elif related_item.meta %}
                                 <p class="related-content__degree body body--two">{{ related_item.meta }}</p>
                             {% elif related_item.get_verbose_name == 'Guide page' %}

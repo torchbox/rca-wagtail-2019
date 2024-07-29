@@ -413,3 +413,13 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
             "image"
         ).prefetch_related("page")
         return context
+
+    @property
+    def booking_summary(self):
+        booking_bar = self._format_booking_bar()
+
+        # If there's no date, the message would say "Bookings are not yet open"
+        if booking_date := booking_bar.get("date"):
+            return booking_date.strftime("%d %B %Y")
+
+        return booking_bar["message"]
