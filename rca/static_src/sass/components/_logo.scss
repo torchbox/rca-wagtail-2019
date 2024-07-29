@@ -3,7 +3,6 @@
     $custom-breakpoint-min: 1023px;
     $custom-breakpoint-max: 1220px;
     display: block;
-    transition: opacity $transition;
 
     &:hover,
     &:focus,
@@ -17,6 +16,7 @@
         height: auto;
         fill: $color--white;
         transform-origin: left;
+        transition: opacity $transition;
     }
 
     .header &,
@@ -67,7 +67,7 @@
 
     .footer & {
         #{$root}__image {
-            width: 92px;
+            max-width: 100%;
 
             @include media-query(medium) {
                 width: 230px;
