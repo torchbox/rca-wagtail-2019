@@ -21,7 +21,20 @@
             {% include "patterns/molecules/booking-bar/booking-bar.html" with item=booking_bar modal=booking_bar.modal modal_aria_label="booking-details-title" %}
         {% endif %}
 
-        <header class="page__header bg bg--dark{% if booking_bar %} page__header--with-sticky-cta{% endif %}">
+        {% comment %}
+        Text hits two lines when 'book now' is swapped out.
+        This modifier makes sure the layout doesn't break when
+        that's the case
+        {% endcomment %}
+        <header class="page__header bg bg--dark
+        {% if booking_bar %}
+            {% if booking_bar.action == 'Book now' %}
+                page__header--with-sticky-cta
+            {% else %}
+                page__header--with-sticky-cta-tall
+            {% endif %}
+        {% endif %}
+        ">
             <div class="title-area title-area--breadcrumb grid">
                 <div class="title-area__content">
                     <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
