@@ -2,7 +2,7 @@ from wagtail import blocks
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.snippets.blocks import SnippetChooserBlock
 
-from .content import DocumentBlock, ImageBlock, QuoteBlock
+from .content import DocumentBlock, ImageBlock, QuoteBlock, TableBlock
 from .embeds import CookieSnippetBlock, JWPLayerBlock
 
 __all__ = [
@@ -52,6 +52,7 @@ class GuideBlock(blocks.StreamBlock):
         label="Embed media",
         help_text="Add a URL from these providers: YouTube, Vimeo, SoundCloud, Twitter.",
     )
+    table = TableBlock()
     jw_video = JWPLayerBlock()
     cookie_snippet_block = CookieSnippetBlock("utils.CookieButtonSnippet")
 
