@@ -85,7 +85,7 @@ class GuidePage(TapMixin, ContactFieldsMixin, StickyCTAMixin, BasePage):
         return "Guide"
 
     @cached_property
-    def shorthand_story_embed(self):
+    def shorthand_embed_code(self):
         if self.shorthand_story_url:
             return f'<script src="{self.shorthand_story_url.rstrip("/")}/embed.js"></script>'
         return ""
