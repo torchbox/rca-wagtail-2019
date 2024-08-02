@@ -146,6 +146,17 @@ class EnquireToStudySettings(BaseSiteSetting):
     class Meta:
         verbose_name = "Register your interest settings"
 
+    intro_text = RichTextField(
+        features=["bold", "italic", "link"],
+        default=(
+            "<p>We are very much looking forward to hearing more from you. "
+            "The RCA offers a unique and life changing way of thinking about "
+            "and approaching art and design study and practice. If you would "
+            "like to find out more about studying at the RCA, please fill out "
+            "your details below and we will be in touch. Fields marked * are "
+            "required.</p>"
+        ),
+    )
     email_submission_notifations = models.BooleanField(
         default=True,
         help_text=(
@@ -157,6 +168,12 @@ class EnquireToStudySettings(BaseSiteSetting):
     email_content = models.TextField()
 
     panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("intro_text"),
+            ],
+            "Content settings",
+        ),
         MultiFieldPanel(
             [
                 HelpPanel(
@@ -171,7 +188,7 @@ class EnquireToStudySettings(BaseSiteSetting):
                 FieldPanel("email_content"),
             ],
             "Email notification settings",
-        )
+        ),
     ]
 
 
