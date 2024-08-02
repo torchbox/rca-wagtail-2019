@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
 from wagtail import blocks
 from wagtail.blocks.struct_block import StructBlockValidationError
+from wagtail.contrib.typed_table_block.blocks import TypedTableBlock
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
@@ -23,6 +24,7 @@ __all__ = [
     "RelatedPageListBlockPage",
     "RelatedPageListBlock",
     "CallToActionBlock",
+    "TableBlock",
 ]
 
 
@@ -311,3 +313,19 @@ class CallToActionBlock(blocks.StructBlock):
                 "Validation error in CallToActionBlock", params=errors
             )
         return result
+
+
+class TableBlock(blocks.StructBlock):
+    table = TypedTableBlock([
+        ('text', blocks.RichTextBlock(features=['bold', 'italic', 'link'])),
+    ])
+    first_row_is_header = blocks.BooleanBlock(
+        label="The first row columns are headers", required=False, default=True
+    )
+    first_col_is_header = blocks.BooleanBlock(
+        label="The first column of each row is a header", required=False, default=False
+    )
+
+    class Meta:
+        icon = "table"
+        template = "patterns/molecules/streamfield/blocks/table_block.html"
