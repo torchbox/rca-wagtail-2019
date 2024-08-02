@@ -316,9 +316,11 @@ class CallToActionBlock(blocks.StructBlock):
 
 
 class TableBlock(blocks.StructBlock):
-    table = TypedTableBlock([
-        ('text', blocks.RichTextBlock(features=['bold', 'italic', 'link'])),
-    ])
+    table = TypedTableBlock(
+        [
+            ("text", blocks.RichTextBlock(features=["bold", "italic", "link"])),
+        ]
+    )
     first_row_is_header = blocks.BooleanBlock(
         label="The first row columns are headers", required=False, default=True
     )
