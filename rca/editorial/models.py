@@ -179,6 +179,14 @@ class EditorialPage(ContactFieldsMixin, StickyCTAMixin, BasePage):
         default=True,
         help_text="Toggle to show/hide in the index page.",
     )
+    show_on_home_page = models.BooleanField(
+        default=True,
+        help_text="Toggle to show/hide in the listing on the home page.",
+    )
+    show_on_landing_page = models.BooleanField(
+        default=True,
+        help_text="Toggle to show/hide in the listing on the landing page.",
+    )
 
     content_panels = (
         BasePage.content_panels
@@ -262,6 +270,8 @@ class EditorialPage(ContactFieldsMixin, StickyCTAMixin, BasePage):
     ]
     promote_panels = BasePage.promote_panels + [
         FieldPanel("show_in_index_page"),
+        FieldPanel("show_on_home_page"),
+        FieldPanel("show_on_landing_page"),
     ]
 
     edit_handler = TabbedInterface(
