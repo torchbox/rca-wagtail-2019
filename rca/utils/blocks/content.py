@@ -5,7 +5,25 @@ from wagtail.blocks.struct_block import StructBlockValidationError
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
-from wagtail.snippets.blocks import SnippetChooserBlock
+
+__all__ = [
+    "FeeBlock",
+    "SlideBlock",
+    "StatisticBlock",
+    "ImageBlock",
+    "DocumentBlock",
+    "QuoteBlock",
+    "LinkBlock",
+    "GalleryBlock",
+    "LinkedImageBlock",
+    "InfoBlock",
+    "StepBlock",
+    "AccordionBlockWithTitle",
+    "CustomTeaserBlock",
+    "RelatedPageListBlockPage",
+    "RelatedPageListBlock",
+    "CallToActionBlock",
+]
 
 
 class FeeBlock(blocks.StructBlock):
@@ -293,76 +311,3 @@ class CallToActionBlock(blocks.StructBlock):
                 "Validation error in CallToActionBlock", params=errors
             )
         return result
-
-
-class JWPLayerBlock(blocks.StructBlock):
-    title = blocks.CharBlock(
-        help_text="Optional title to identify the video. Not shown on the page.",
-        required=False,
-    )
-    video_url = blocks.URLBlock(
-        max_length=1000, help_text="The URL of the video to show."
-    )
-    poster_image = ImageChooserBlock(
-        help_text="The poster image to show as a placeholder for the video. "
-        "For best results use an image 1920x1080 pixels"
-    )
-
-    class Meta:
-        icon = "media"
-        label = "JW Video Player"
-        template = "patterns/molecules/streamfield/blocks/jw_player_block.html"
-
-
-class CookieSnippetBlock(SnippetChooserBlock):
-    class Meta:
-        icon = "snippet"
-        template = "patterns/molecules/streamfield/blocks/cookie_snippet_block.html"
-
-
-# Main streamfield block to be inherited by Pages
-class StoryBlock(blocks.StreamBlock):
-    heading = blocks.CharBlock(
-        form_classname="full title",
-        icon="title",
-        template="patterns/molecules/streamfield/blocks/heading_block.html",
-    )
-    paragraph = blocks.RichTextBlock()
-    image = ImageBlock()
-    quote = QuoteBlock()
-    embed = EmbedBlock()
-    call_to_action = SnippetChooserBlock(
-        "utils.CallToActionSnippet",
-        template="patterns/molecules/streamfield/blocks/call_to_action_block.html",
-    )
-    document = DocumentBlock()
-    jw_video = JWPLayerBlock()
-
-    class Meta:
-        template = "patterns/molecules/streamfield/stream_block.html"
-
-
-# Specific streamfield for the guide pages
-class GuideBlock(blocks.StreamBlock):
-    anchor_heading = blocks.CharBlock(
-        form_classname="full title",
-        icon="title",
-        template="patterns/molecules/streamfield/blocks/anchor_heading_block.html",
-    )
-    heading = blocks.CharBlock(
-        form_classname="full title",
-        icon="title",
-        template="patterns/molecules/streamfield/blocks/heading_block.html",
-    )
-    paragraph = blocks.RichTextBlock()
-    image = ImageBlock()
-    quote = QuoteBlock()
-    embed = EmbedBlock(
-        label="Embed media",
-        help_text="Add a URL from these providers: YouTube, Vimeo, SoundCloud, Twitter.",
-    )
-    jw_video = JWPLayerBlock()
-    cookie_snippet_block = CookieSnippetBlock("utils.CookieButtonSnippet")
-
-    class Meta:
-        template = "patterns/molecules/streamfield/stream_block.html"

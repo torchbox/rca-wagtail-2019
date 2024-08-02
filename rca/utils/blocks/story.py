@@ -1,0 +1,59 @@
+from wagtail import blocks
+from wagtail.embeds.blocks import EmbedBlock
+from wagtail.snippets.blocks import SnippetChooserBlock
+
+from .content import DocumentBlock, ImageBlock, QuoteBlock
+from .embeds import CookieSnippetBlock, JWPLayerBlock
+
+__all__ = [
+    "StoryBlock",
+    "GuideBlock",
+]
+
+
+# Main streamfield block to be inherited by Pages
+class StoryBlock(blocks.StreamBlock):
+    heading = blocks.CharBlock(
+        form_classname="full title",
+        icon="title",
+        template="patterns/molecules/streamfield/blocks/heading_block.html",
+    )
+    paragraph = blocks.RichTextBlock()
+    image = ImageBlock()
+    quote = QuoteBlock()
+    embed = EmbedBlock()
+    call_to_action = SnippetChooserBlock(
+        "utils.CallToActionSnippet",
+        template="patterns/molecules/streamfield/blocks/call_to_action_block.html",
+    )
+    document = DocumentBlock()
+    jw_video = JWPLayerBlock()
+
+    class Meta:
+        template = "patterns/molecules/streamfield/stream_block.html"
+
+
+# Specific streamfield for the guide pages
+class GuideBlock(blocks.StreamBlock):
+    anchor_heading = blocks.CharBlock(
+        form_classname="full title",
+        icon="title",
+        template="patterns/molecules/streamfield/blocks/anchor_heading_block.html",
+    )
+    heading = blocks.CharBlock(
+        form_classname="full title",
+        icon="title",
+        template="patterns/molecules/streamfield/blocks/heading_block.html",
+    )
+    paragraph = blocks.RichTextBlock()
+    image = ImageBlock()
+    quote = QuoteBlock()
+    embed = EmbedBlock(
+        label="Embed media",
+        help_text="Add a URL from these providers: YouTube, Vimeo, SoundCloud, Twitter.",
+    )
+    jw_video = JWPLayerBlock()
+    cookie_snippet_block = CookieSnippetBlock("utils.CookieButtonSnippet")
+
+    class Meta:
+        template = "patterns/molecules/streamfield/stream_block.html"
