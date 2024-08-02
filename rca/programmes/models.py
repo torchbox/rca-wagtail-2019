@@ -32,6 +32,7 @@ from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Orderable, Site
 from wagtail.search import index
+from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtailorderable.models import Orderable as WagtailOrdable
 
 from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
@@ -47,7 +48,6 @@ from rca.utils.blocks import (
     LinkedImageBlock,
     QuoteBlock,
     RelatedPageListBlockPage,
-    SnippetChooserBlock,
     StepBlock,
 )
 from rca.utils.formatters import related_list_block_slideshow

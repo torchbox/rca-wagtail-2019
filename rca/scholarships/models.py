@@ -16,10 +16,11 @@ from wagtail.admin.panels import (
 )
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Orderable
+from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
 
 from rca.programmes.models import ProgrammePage
-from rca.utils.blocks import CallToActionBlock, SnippetChooserBlock, StepBlock
+from rca.utils.blocks import CallToActionBlock, StepBlock
 from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, ContactFieldsMixin, SluggedTaxonomy
 
