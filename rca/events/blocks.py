@@ -1,10 +1,12 @@
 from wagtail import blocks
+from wagtail.embeds.blocks import EmbedBlock
+from wagtail.images.blocks import ImageChooserBlock
 
 from rca.utils import blocks as utils_blocks
 
 
 class EventDetailPageBlock(blocks.StreamBlock):
-    image = utils_blocks.ImageChooserBlock()
+    image = ImageChooserBlock()
     heading = blocks.CharBlock(
         form_classname="full title",
         icon="title",
@@ -12,7 +14,7 @@ class EventDetailPageBlock(blocks.StreamBlock):
     )
     paragraph = blocks.RichTextBlock()
     quote = utils_blocks.QuoteBlock()
-    embed = utils_blocks.EmbedBlock()
+    embed = EmbedBlock()
     jw_video = utils_blocks.JWPLayerBlock()
 
     class Meta:

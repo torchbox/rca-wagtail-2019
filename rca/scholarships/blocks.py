@@ -1,5 +1,6 @@
 from wagtail import blocks
 from wagtail.embeds.blocks import EmbedBlock
+from wagtail.images.blocks import ImageChooserBlock
 
 from rca.utils import blocks as utils_blocks
 
@@ -16,7 +17,7 @@ class ScholarshipsListingPageBlock(blocks.StreamBlock):
         template="patterns/molecules/streamfield/blocks/heading_block.html",
     )
     paragraph = blocks.RichTextBlock()
-    image = utils_blocks.ImageChooserBlock()
+    image = ImageChooserBlock()
     quote = utils_blocks.QuoteBlock()
     embed = EmbedBlock()
 
