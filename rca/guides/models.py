@@ -1,6 +1,7 @@
 import re
 
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -18,6 +19,7 @@ from rca.utils.models import (
     StickyCTAMixin,
     TapMixin,
 )
+from rca.utils.shorthand import extract_shorthand_story_text
 
 
 class GuidePageStaff(RelatedStaffPageWithManualOptions):
@@ -32,7 +34,8 @@ class GuidePage(TapMixin, ContactFieldsMixin, StickyCTAMixin, BasePage):
     template = "patterns/pages/guide/guide.html"
 
     introduction = models.CharField(max_length=500, blank=True)
-    body = StreamField(GuideBlock())
+    body = StreamField(GuideBlock(), blank=True)
+    shorthand_story_url = models.URLField(blank=True)
     further_information_title = models.CharField(blank=True, max_length=120)
     further_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
@@ -44,6 +47,7 @@ class GuidePage(TapMixin, ContactFieldsMixin, StickyCTAMixin, BasePage):
     search_fields = BasePage.search_fields + [
         index.SearchField("introduction"),
         index.SearchField("body"),
+        index.SearchField("shorthand_story_text"),
         index.SearchField("further_information"),
     ]
 
@@ -79,6 +83,18 @@ class GuidePage(TapMixin, ContactFieldsMixin, StickyCTAMixin, BasePage):
     def listing_meta(self):
         # Returns a page 'type' value that's readable for listings,
         return "Guide"
+
+    @cached_property
+    def shorthand_story_embed(self):
+        if self.shorthand_story_url:
+            return f'<script src="{self.shorthand_story_url.rstrip("/")}/embed.js"></script>'
+        return ""
+
+    @cached_property
+    def shorthand_story_text(self):
+        if url := self.shorthand_story_url:
+            return extract_shorthand_story_text(url)
+        return ""
 
     def anchor_nav(self):
         """Build list of data to be used as
