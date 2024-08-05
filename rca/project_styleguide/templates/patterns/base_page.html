@@ -60,6 +60,9 @@
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ GOOGLE_TAG_MANAGER_ID|urlencode }}"
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     {% endif %}
+    {% if page.has_vepple_panorama %}
+        <script async src="https://rv-vepple-embed.web.app/vepple-embed.umd.js"></script>
+    {% endif %}
 {% endblock body_top %}
 
 

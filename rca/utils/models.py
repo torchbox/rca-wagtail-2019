@@ -444,6 +444,15 @@ class BasePage(SocialFields, ListingFields, Page):
         APIField("listing_summary"),
     ]
 
+    def has_vepple_panorama(self):
+        """
+        Used by `base_page.html` to conditionally import generic Vepple embed JS into
+        the head. Will be overridden on page types that support using
+        `rca.utils.blocks.VeppleEmbedBlock` in `StreamField` content, and return `True`
+        if one is detected in the field's `body` value.
+        """
+        return False
+
 
 class LegacySiteTag(TagBase):
     class Meta:
