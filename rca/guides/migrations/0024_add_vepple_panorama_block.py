@@ -148,7 +148,7 @@ class Migration(migrations.Migration):
                                     "post_id",
                                     wagtail.blocks.IntegerBlock(
                                         help_text='NOTE: This is the number from the <code>post="X"</code> part of the embed code provided by Vepple. Wagtail only needs this ID, and will generate the rest of the embed code for you.',
-                                        label="Vepple Post ID",
+                                        label="Post ID",
                                     ),
                                 )
                             ]
