@@ -45,7 +45,8 @@ class VepplePanoramaBlock(blocks.StructBlock):
     )
 
     class Meta:
-        icon = "code"
+        icon = "view"
+        label = "Vepple panorama"
         template = "patterns/molecules/streamfield/blocks/vepple_panorama_block.html"
 
     def get_context(self, value, parent_context=None):
