@@ -322,7 +322,7 @@ class TableBlock(blocks.StructBlock):
         ]
     )
     first_row_is_header = blocks.BooleanBlock(
-        label="The first row columns are headers", required=False, default=True
+        label="The first row of columns are headers", required=False, default=True
     )
     first_col_is_header = blocks.BooleanBlock(
         label="The first column of each row is a header", required=False, default=False

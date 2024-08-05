@@ -98,7 +98,7 @@ class Migration(migrations.Migration):
                                     "first_row_is_header",
                                     wagtail.blocks.BooleanBlock(
                                         default=True,
-                                        label="The first row columns are headers",
+                                        label="The first row of columns are headers",
                                         required=False,
                                     ),
                                 ),
