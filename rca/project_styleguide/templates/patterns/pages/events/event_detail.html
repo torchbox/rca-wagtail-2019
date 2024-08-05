@@ -166,31 +166,28 @@
     {% image hero_image fill-1440x530 as image_large %}
     <script type="application/ld+json">
         {
-            "@context": "https://schema.org",
-            "@type": "Event",
-            "name": "{{ page.title }}",
-            "startDate": "{{ page.event_startDate|date:'c' }}",
-            "endDate": "{{ page.event_endDate|date:'c' }}",
-            "eventStatus": "https://schema.org/EventScheduled",
-            "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
-            "location": {
-              {% if page.location == "Online" %}
-                "@type": "VirtualLocation",
-                "url": "{{ page.full_url }}"
-              {% else %}
-                "@type": "Place",
-                "name": "{{ page.location }}"
-                "streetAddress": "{{ page.location }}"
-              {% endif %}
-              },
-            "image": "{{ image_large.url }}",
-            "description": "{{ page.introduction|striptags }}",
-            "organizer": {
-              "@type": "Organization",
-              "name": "Royal College of Art",
-              "url": "https://rca.ac.uk"
-            }
-
+          "@context": "https://schema.org",
+          "@type": "Event",
+          "name": "{{ page.title }}",
+          "startDate": "{{ page.event_startDate|date:'c' }}",
+          "endDate": "{{ page.event_endDate|date:'c' }}",
+          "eventStatus": "https://schema.org/EventScheduled",
+          "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+          "location": {
+          {% if page.location == "Online" %}
+            "@type": "VirtualLocation",
+            "url": "{{ page.full_url }}"
+          {% else %}
+            "@type": "Place",
+            "name": "{{ page.location }}"
+          {% endif %}
+          },
+          "image": "{{ image_large.url }}",
+          "description": "{{ page.introduction|striptags }}",
+          "organizer": {
+            "@type": "Organization",
+            "name": "Royal College of Art",
+            "url": "https://rca.ac.uk"
           }
         }
     </script>
