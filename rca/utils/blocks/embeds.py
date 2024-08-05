@@ -1,3 +1,4 @@
+from django.conf import settings
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.snippets.blocks import SnippetChooserBlock
@@ -31,3 +32,23 @@ class CookieSnippetBlock(SnippetChooserBlock):
     class Meta:
         icon = "snippet"
         template = "patterns/molecules/streamfield/blocks/cookie_snippet_block.html"
+
+
+class VepplePanoramaBlock(blocks.StructBlock):
+    post_id = blocks.IntegerBlock(
+        label="Vepple Post ID",
+        help_text=(
+            'NOTE: This is the value from the <code>post="X"</code> part of the embed code '
+            "provided by Vepple. Wagtail only needs this ID, and will generate the rest of "
+            "the embed code for you."
+        ),
+    )
+
+    class Meta:
+        icon = "code"
+        template = "patterns/molecules/streamfield/blocks/vepple_panorama_block.html"
+
+    def get_context(self, value, parent_context=None):
+        context = super().get_context(value, parent_context=parent_context)
+        context["vepple_api_url"] = settings.VEPPLE_API_URL
+        return context
