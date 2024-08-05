@@ -25,9 +25,9 @@
         </div>
 
         <div class="introduction grid">
-            <p class="introduction__text {% if not form.errors %}introduction__text--no-margin-for-desktop{% endif %} heading heading--five layout__@large-start-three layout__span-two">
-                We are very much looking forward to hearing more from you. The RCA offers a unique and life changing way of thinking about and approaching art and design study and practice. If you would like to find out more about studying at the RCA, please fill out your details below and we will be in touch.
-            </p>
+            <div class="introduction__text {% if not form.errors %}introduction__text--no-margin-for-desktop{% endif %} heading heading--five layout__@large-start-three layout__span-two">
+                {{ settings.enquire_to_study.EnquireToStudySettings.intro_text|richtext }}
+            </div>
             {% if form.errors %}
                 <p class="introduction__errors introduction__text--no-margin heading heading--five layout__@large-start-three layout__span-two">
                     There were some errors with your form. Please amend the fields highlighted below.
