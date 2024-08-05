@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             name="intro_text",
             field=wagtail.fields.RichTextField(
                 default=(
-                    "<p>We are very much looking forward to hearing more from you. The RCA offers a unique and life changing way of thinking about and approaching art and design study and practice. If you would like to find out more about studying at the RCA, please fill out your details below and we will be in touch. Fields marked * are required.</p>",
+                    "<p>We are very much looking forward to hearing more from you. The RCA offers a unique and life changing way of thinking about and approaching art and design study and practice. If you would like to find out more about studying at the RCA, please fill out your details below and we will be in touch. Fields marked * are required.</p>"
                 )
             ),
         ),
