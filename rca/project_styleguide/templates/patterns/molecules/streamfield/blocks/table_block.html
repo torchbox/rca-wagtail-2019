@@ -1,0 +1,41 @@
+{% load wagtailcore_tags %}
+<div class="streamfield__table">
+    <table>
+        {% if value.table.caption %}
+            <caption>{{ value.table.caption }}</caption>
+        {% endif %}
+        {% if value.first_row_is_header %}
+            <thead>
+                <tr>
+                    {% for col in value.table.columns %}
+                        <th scope="col">{{ col.heading }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+        {% endif %}
+        <tbody>
+            {% if not value.first_row_is_header %}
+                <tr>
+                    {% for col in value.table.columns %}
+                        {% if value.first_col_is_header and forloop.first %}
+                            <th scope="row">{{ col.heading }}</th>
+                        {% else %}
+                            <td>{{ col.heading }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endif %}
+            {% for row in value.table.rows %}
+                <tr>
+                    {% for block in row %}
+                        {% if value.first_col_is_header and forloop.first %}
+                            <th scope="row">{% include_block block %}</th>
+                        {% else %}
+                            <td>{% include_block block %}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

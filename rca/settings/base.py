@@ -90,6 +90,7 @@ INSTALLED_APPS = [
     "wagtail.search",
     "wagtail.admin",
     "wagtail.contrib.legacy.richtext",
+    "wagtail.contrib.typed_table_block",
     "wagtail",
     "wagtailorderable",
     "import_export",
