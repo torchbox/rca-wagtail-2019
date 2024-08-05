@@ -804,6 +804,7 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         # Get 3 more items
         latest_news_items = (
             EditorialPage.objects.live()
+            .filter(show_on_landing_page=True)
             .order_by("-published_at")
             .exclude(id=picked_news.id)
             .prefetch_related("hero_image", "editorial_types")[:3]

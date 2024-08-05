@@ -368,6 +368,7 @@ class HomePage(TapMixin, BasePage):
         news = (
             EditorialPage.objects.filter(editorial_types__type__slug="news")
             .live()
+            .filter(show_on_home_page=True)
             .order_by("-published_at")[:NEWS_ITEMS]
         )
         news_and_events_content = list(chain(news, event))
