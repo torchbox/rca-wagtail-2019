@@ -2160,6 +2160,20 @@ files = [
 ]
 
 [[package]]
+name = "pyupgrade"
+version = "3.17.0"
+description = "A tool to automatically upgrade syntax for newer versions."
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "pyupgrade-3.17.0-py2.py3-none-any.whl", hash = "sha256:cbc8f67a61d3f4e7ca9c2ef57b9aae67f023d3780ce30c99fccec78401723754"},
+    {file = "pyupgrade-3.17.0.tar.gz", hash = "sha256:d5dd1dcaf9a016c31508bb9d3d09fd335d736578092f91df52bb26ac30c37919"},
+]
+
+[package.dependencies]
+tokenize-rt = ">=5.2.0"
+
+[[package]]
 name = "pyyaml"
 version = "6.0.1"
 description = "YAML parser and emitter for Python"
@@ -3236,4 +3250,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.11"
-content-hash = "e321d93e316ee2cdb337e5c2946a07fa36a1e509631fc818aff6b1a3b62f42ee"
+content-hash = "a253ad8e23263aab1b548aee2b350d0f9ebdf8def2ad1b05fe848f67ca8e2948"

@@ -47,11 +47,11 @@ class SchoolCentreDirectorateFilter(TabStyleFilter):
     def get_deprefixed_value_set(self, prefix):
         if not self.querydict:
             return set()
-        return set(
+        return {
             val[len(prefix) :]  # noqa (flake8 and black fighting)
             for val in self.querydict.getlist(self.name)
             if val.startswith(prefix)
-        )
+        }
 
     @cached_property
     def selected_school_values(self):
