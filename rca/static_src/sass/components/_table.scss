@@ -89,7 +89,9 @@
             text-align: left;
         }
 
-        td {
+        /* stylelint-disable-next-line selector-max-type */
+        td,
+        tr th {
             vertical-align: top;
         }
 
