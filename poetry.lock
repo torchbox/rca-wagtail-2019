@@ -880,13 +880,13 @@ Django = ">=2.2"
 
 [[package]]
 name = "django-upgrade"
-version = "1.18.0"
+version = "1.20.0"
 description = "Automatically upgrade your Django project code."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "django_upgrade-1.18.0-py3-none-any.whl", hash = "sha256:bae6a466bb9dd63dd7e23b665499b84499b2661348f06b371b88d2e609aa0df9"},
-    {file = "django_upgrade-1.18.0.tar.gz", hash = "sha256:ae2a2de13e7804773201aef6af2245fa5d503b0a7c88b85b12cf1fdb84197065"},
+    {file = "django_upgrade-1.20.0-py3-none-any.whl", hash = "sha256:938afa1a531399a12904eb71ffacad0c997ddbe0c45ec38bc0883a1cdcfd99ef"},
+    {file = "django_upgrade-1.20.0.tar.gz", hash = "sha256:47aa2133972b600a8d935bab8d58d69b2e426bfc985d4c4f4c2fefecd754dd88"},
 ]
 
 [package.dependencies]
@@ -2774,13 +2774,13 @@ files = [
 
 [[package]]
 name = "tokenize-rt"
-version = "5.2.0"
+version = "6.0.0"
 description = "A wrapper around the stdlib `tokenize` which roundtrips."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "tokenize_rt-5.2.0-py2.py3-none-any.whl", hash = "sha256:b79d41a65cfec71285433511b50271b05da3584a1da144a0752e9c621a285289"},
-    {file = "tokenize_rt-5.2.0.tar.gz", hash = "sha256:9fe80f8a5c1edad2d3ede0f37481cc0cc1538a2f442c9c2f9e4feacd2792d054"},
+    {file = "tokenize_rt-6.0.0-py2.py3-none-any.whl", hash = "sha256:d4ff7ded2873512938b4f8cbb98c9b07118f01d30ac585a30d7a88353ca36d22"},
+    {file = "tokenize_rt-6.0.0.tar.gz", hash = "sha256:b9711bdfc51210211137499b5e355d3de5ec88a85d2025c520cbb921b5194367"},
 ]
 
 [[package]]
@@ -3236,4 +3236,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.11"
-content-hash = "c674b41b898d83815a013a72a3cd7d87102434149a3f54b24d335c5b281a0bf3"
+content-hash = "e321d93e316ee2cdb337e5c2946a07fa36a1e509631fc818aff6b1a3b62f42ee"
