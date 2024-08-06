@@ -19,7 +19,7 @@ from rca.utils.models import (
     StickyCTAMixin,
     TapMixin,
 )
-from rca.utils.shorthand import extract_shorthand_story_text
+from rca.utils.shorthand import extract_shorthand_story_text, validate_shorthand_url
 
 
 class GuidePageStaff(RelatedStaffPageWithManualOptions):
@@ -35,7 +35,9 @@ class GuidePage(TapMixin, ContactFieldsMixin, StickyCTAMixin, BasePage):
 
     introduction = models.CharField(max_length=500, blank=True)
     body = StreamField(GuideBlock(), blank=True)
-    shorthand_story_url = models.URLField(blank=True)
+    shorthand_story_url = models.URLField(
+        blank=True, validators=[validate_shorthand_url]
+    )
     further_information_title = models.CharField(blank=True, max_length=120)
     further_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],

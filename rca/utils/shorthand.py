@@ -1,12 +1,32 @@
 import shutil
 import tempfile
+from urllib.parse import urlsplit
 
 import requests
 from django.conf import settings
+from django.core.exceptions import ValidationError
 
 
 class ShorthandStoryURLNotRecognised(ValueError):
     pass
+
+
+def validate_shorthand_url(value):
+    try:
+        url = urlsplit(value)
+    except ValueError as e:
+        raise ValidationError(
+            "%(value)s is not a valid URL",
+            params={"value": value},
+        ) from e
+    if url.hostname not in settings.SHORTHAND_VALID_HOSTNAMES:
+        raise ValidationError(
+            (
+                "%(value)s is not a supported Shorthand project. Speak to your website manager "
+                "if you'd like to embed stories from here."
+            ),
+            params={"value": url.hostname},
+        ) from None
 
 
 def get_api_response(path, stream=False):
