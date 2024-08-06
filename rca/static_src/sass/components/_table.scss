@@ -1,0 +1,96 @@
+.table {
+    @include z-index(above-gridlines);
+    position: relative;
+    width: 100%;
+    overflow-x: scroll;
+    margin: ($gutter * 2) 0;
+
+    @include media-query(medium) {
+        margin: ($gutter * 3) 0;
+        overflow-x: initial;
+    }
+
+    &__hint {
+        @include z-index(above-gridlines);
+        position: absolute;
+        right: 0;
+        top: 0;
+        display: flex;
+        height: 100%;
+        justify-content: flex-end;
+        align-items: center;
+        background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0) -50%,
+            $color--white 100%
+        );
+        opacity: 1;
+        transition: opacity 0.25s ease;
+        width: 300px;
+
+        .is-scrolling & {
+            opacity: 0;
+        }
+
+        @include media-query(medium) {
+            display: none;
+        }
+    }
+
+    // Button to scroll right
+    &__hint-button {
+        background: $color--black;
+        color: $color--white;
+        border: 0;
+        padding: 7px 10px;
+
+        &:hover {
+            opacity: 0.7;
+        }
+
+        @include media-query(medium) {
+            display: none;
+        }
+    }
+
+    &__sr-hint {
+        @include hidden();
+    }
+
+    caption {
+        margin-bottom: $gutter;
+        text-align: left;
+
+        @include media-query(medium) {
+            text-align: center;
+        }
+    }
+
+    table {
+        background: $color--white;
+        border: 1px solid $color--grid-line-dark;
+        min-width: 600px;
+        border-collapse: collapse;
+
+        @include media-query(large) {
+            border-left: 0;
+        }
+
+        th,
+        td {
+            padding: 8px;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        td {
+            vertical-align: top;
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
