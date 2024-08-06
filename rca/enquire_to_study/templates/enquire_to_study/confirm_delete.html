@@ -1,44 +1,49 @@
-{% extends "wagtailadmin/base.html" %}
-{% load wagtailadmin_tags i18n %}
+{% extends "modeladmin/index.html" %}
+{% load i18n modeladmin_tags %}
+
+{% block titletag %}{{ view.get_meta_title }}{% endblock %}
+
 {% block content %}
+
     {% block header %}
-        <header class="nice-padding hasform">
-            <div class="row header-title">
+        <header class="w-header">
+            <div class="row">
                 <div class="left">
                     <div class="col">
-                        <h1>Delete all Enquiry Form Submissions older than 7 days?</h1>
+                        <h1 class="w-header__title" id="header-title">
+                            <svg class="icon icon-bin w-header__glyph" aria-hidden="true"><use href="#icon-bin"></use></svg>
+                            Delete <span class="w-header__subtitle">All Enquiry Form Submissions older than 7 days?</span>
+                        </h1>
                     </div>
                 </div>
             </div>
         </header>
     {% endblock %}
 
-    {% trans "Delete " as delete_str %}
-    <div class="nice-padding">
-        {% if count_delete_submissions %}
-
-            <p class="help-block help-warning">
-                You are about to delete {{ count_delete_submissions }} enquiry submission{{ count_delete_submissions|pluralize }}. By continuing, you will delete all enquiries submitted more than 7 days ago. This action cannot be undone.
-            </p>
-
-            <form action="{{ submit_url }}" method="POST">
-                {% csrf_token %}
-                <input type="submit" value="{% trans 'Yes, delete' %}" class="button serious" />
-                <a href="{{ index_url }}" class="button button-secondary">{% trans "No, don't delete" %}</a>
-            </form>
-
-        {% elif count_all_submissions %}
-
-            <p class="help-block help-warning">
-                There are currently no submissions older than 7 days to delete.
-            </p>
-
-        {% else %}
-
-            <p class="help-block help-warning">
-                There are currently no submissions to delete.
-            </p>
-
-        {% endif %}
-    </div>
+    {% block content_main %}
+        {% trans "Delete " as delete_str %}
+        <div class="nice-padding">
+            {% if protected_error %}
+                <h2>{% blocktrans trimmed with view.verbose_name|capfirst as model_name %}{{ model_name }} could not be deleted{% endblocktrans %}</h2>
+                <p>{% blocktrans trimmed with instance as instance_name %}'{{ instance_name }}' is currently referenced by other objects, and cannot be deleted without jeopardising data integrity. To delete it successfully, first remove references from the following objects, then try again:{% endblocktrans %}</p>
+                <ul>
+                    {% for obj in linked_objects %}<li><b>{{ obj|get_content_type_for_obj|title }}:</b> {{ obj }}</li>{% endfor %}
+                </ul>
+                <p><a href="{{ view.index_url }}" class="button">{% trans 'Go back to listing' %}</a></p>
+            {% else %}
+                {% if count_delete_submissions %}
+                    <p class="help-block help-warning">You are about to delete {{ count_delete_submissions }} enquiry submission{{ count_delete_submissions|pluralize }}. By continuing, you will delete all enquiries submitted more than 7 days ago. This action cannot be undone.</p>
+                    <form action="{{ submit_url }}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="{% trans 'Yes, delete' %}" class="button serious" />
+                        <a href="{{ index_url }}" class="button button-secondary">{% trans "No, don't delete" %}</a>
+                    </form>
+                {% elif count_all_submissions %}
+                    <p class="help-block help-warning">There are currently no submissions older than 7 days to delete.</p>
+                {% else %}
+                    <p class="help-block help-warning">There are currently no submissions to delete.</p>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endblock %}
 {% endblock %}

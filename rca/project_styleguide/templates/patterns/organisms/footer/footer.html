@@ -14,6 +14,10 @@
                 {% footernav %}
             </nav>
 
+            <div class="footer__qaa-logo">
+                {% include 'patterns/atoms/qaa-logo/qaa-logo.html' %}
+            </div>
+
         </div>
 
         <div class="footer__mid grid">
@@ -25,8 +29,7 @@
                         <li class="social-item social-item--{{ link.type }}">
                             <a class="social-item__link" href="{{ link.url }}" aria-label="{{ link.label }}">
                                 <svg class="social-item__icon" width="24" height="24">
-                                    <use xlink:href="#{{ link.type }}">
-                                    </use>
+                                    <use xlink:href="#{{ link.type }}"></use>
                                 </svg>
                             </a>
                         </li>
@@ -36,6 +39,9 @@
         </div>
         <div class="footer__lower grid">
             <nav class="footer__links" aria-label="Footer navigation">
+                <div class="u-small-and-medium-bp-only">
+                    {% footernav %}
+                </div>
                 {% footerlinks %}
             </nav>
             <div class="footer__credit">

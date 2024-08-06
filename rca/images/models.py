@@ -5,7 +5,7 @@ from wagtail.search import index
 
 
 class CustomImage(AbstractImage):
-    alt = models.CharField(max_length=255, blank=True)
+    alt = models.CharField(max_length=255)
     creator = models.CharField(max_length=255, blank=True)
     year = models.CharField(max_length=4, blank=True)
     medium = models.CharField(max_length=255, blank=True)

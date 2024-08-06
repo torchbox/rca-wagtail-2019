@@ -40,7 +40,7 @@
                 </div>
             {% endif %}
             {% if item.role or staff_page %}
-                <h4 class="profile-detail__job-title body body--one" property="schema:jobTitle">{% firstof item.role staff_page.roles.first.role %}</h4>
+                <p class="profile-detail__job-title body body--one" property="schema:jobTitle">{% firstof item.role staff_page.roles.first.role %}</p>
             {% endif %}
         </div>
         <div class="profile-detail__more">

@@ -39,9 +39,9 @@
                 {% endif %}
                 <div class="introduction__container">
                     {% if page.introduction %}
-                        <h2 class="introduction__text section__heading heading heading--five">
+                        <p class="introduction__text section__heading heading heading--five">
                             {{ page.introduction }}
-                        </h2>
+                        </p>
                     {% endif %}
                 </div>
             </div>
@@ -69,7 +69,7 @@
 
             </section>
 
-            <section class="section bg bg--dark booking-bar-last-item">
+            <section class="section bg bg--dark{% if page.further_information %} booking-bar-last-item{% endif %}">
                 <div class="section__notch section__notch--large-only">
                     <div class="section__notch-fill section__notch-fill--third-col"></div>
                 </div>
@@ -78,7 +78,7 @@
             {% if page.further_information %}
                 <section class="section bg bg--dark booking-bar-last-item">
                     <div class="section__row section__row--last">
-                            {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.further_information course_type="short" title=page.further_information_title anchor_heading=True section_id=page.further_information_title|slugify %}
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.further_information course_type="short" title=page.further_information_title anchor_heading=True section_id=page.further_information_title|slugify %}
                     </div>
                 </section>
             {% endif %}

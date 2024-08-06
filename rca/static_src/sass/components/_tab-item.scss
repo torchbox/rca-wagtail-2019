@@ -1,6 +1,6 @@
 .tab-item {
     $root: &;
-    @include font-size(xxs);
+    @include font-size(xs);
     @include underline-hover();
 
     margin-right: ($gutter * 1.5);

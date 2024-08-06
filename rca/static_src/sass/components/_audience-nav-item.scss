@@ -20,7 +20,7 @@
     }
 
     &__description {
-        @include font-size(xxxs);
+        @include font-size(xs);
         flex-basis: 100%;
         max-width: 100%;
         min-width: 100%;
@@ -30,7 +30,7 @@
 
     &--desc {
         #{$root}__label {
-            @include font-size(xxs); // match header
+            @include font-size(xs); // match header
         }
     }
 
@@ -49,7 +49,7 @@
         }
 
         #{$root}__label {
-            @include font-size(xxxs);
+            @include font-size(xs);
         }
     }
 
@@ -69,12 +69,23 @@
     }
 
     .footer & {
+        margin-bottom: $gutter;
+
+        @include media-query(large) {
+            margin-bottom: 0;
+        }
+
         #{$root}__link {
             color: $color--white;
         }
 
         #{$root}__icon {
             fill: $color--white;
+            display: none;
+
+            @include media-query(large) {
+                display: block;
+            }
         }
 
         #{$root}__label {

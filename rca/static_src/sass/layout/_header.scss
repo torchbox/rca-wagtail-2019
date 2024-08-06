@@ -59,10 +59,6 @@
         cursor: pointer;
         transition: opacity $transition;
 
-        @include media-query(medium) {
-            margin-top: 4px;
-        }
-
         .headroom--pinned.headroom--not-top & {
             @include media-query(medium) {
                 margin-top: 0;

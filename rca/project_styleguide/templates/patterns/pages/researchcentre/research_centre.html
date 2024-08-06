@@ -67,9 +67,9 @@
                 {% if research_spaces %}
                     <div class="section__row research-spaces">
                         <div class="section__header grid">
-                            <h2 class="section__heading heading heading--four">
+                            <h3 class="section__heading heading heading--four">
                                 Research spaces
-                            </h2>
+                            </h3>
                         </div>
                         <div class="section__content grid">
                             {% include "patterns/organisms/staggered-cards/staggered-cards.html" with staggered_cards=research_spaces %}
@@ -80,9 +80,9 @@
                 {% if projects %}
                     <div class="section__row section__row--last-large research-highlights">
                         <div class="section__header grid">
-                            <h2 class="section__heading section__heading--primary heading heading--four">
+                            <h3 class="section__heading section__heading--primary heading heading--four">
                                 {% firstof page.highlights_title 'Research highlights' %}
-                            </h2>
+                            </h3>
                         </div>
                         <div class="section__content grid">
                             {% include "patterns/organisms/carousel/carousel.html" with carousel=projects modifier='carousel carousel--no-margin' control_title="Related projects carousel" datatag='data-carousel' %}

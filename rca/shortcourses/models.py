@@ -151,7 +151,6 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name=_("About the course"),
-        use_json_field=True,
     )
     frequently_asked_questions = models.ForeignKey(
         "utils.ShortCourseDetailSnippet",
@@ -187,7 +186,6 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         [("quote", QuoteBlock())],
         blank=True,
         verbose_name=_("Quote carousel"),
-        use_json_field=True,
     )
     staff_title = models.CharField(
         max_length=50,
@@ -198,13 +196,11 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         [("slide", GalleryBlock())],
         blank=True,
         verbose_name="Gallery",
-        use_json_field=True,
     )
     external_links = StreamField(
         [("link", LinkBlock())],
         blank=True,
         verbose_name="External Links",
-        use_json_field=True,
     )
     application_form_url = models.URLField(
         blank=True,
@@ -417,3 +413,13 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
             "image"
         ).prefetch_related("page")
         return context
+
+    @property
+    def booking_summary(self):
+        booking_bar = self._format_booking_bar()
+
+        # If there's no date, the message would say "Bookings are not yet open"
+        if booking_date := booking_bar.get("date"):
+            return booking_date.strftime("%d %B %Y")
+
+        return booking_bar["message"]

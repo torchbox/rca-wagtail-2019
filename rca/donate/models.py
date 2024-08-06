@@ -15,13 +15,12 @@ class DonationFormPage(ContactFieldsMixin, BasePage):
     template = "patterns/pages/donate/donate.html"
 
     introduction = models.CharField(max_length=500, blank=True)
-    body = StreamField(DonationPageBlock(), use_json_field=True)
+    body = StreamField(DonationPageBlock())
     further_information_title = models.CharField(blank=True, max_length=120)
     further_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name=_("Further information"),
-        use_json_field=True,
     )
     form_id = models.CharField(
         max_length=255,

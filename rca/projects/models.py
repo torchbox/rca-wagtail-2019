@@ -145,7 +145,6 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         ],
         blank=True,
         verbose_name=_("Body copy"),
-        use_json_field=True,
     )
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
@@ -172,38 +171,32 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         [("slide", GalleryBlock())],
         blank=True,
         verbose_name=_("Gallery"),
-        use_json_field=True,
     )
     more_information_title = models.CharField(max_length=80, default="More information")
     more_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name=_("More information"),
-        use_json_field=True,
     )
     partners = StreamField(
         [("link", LinkBlock())],
         blank=True,
         verbose_name=_("Links to partners"),
-        use_json_field=True,
     )
     funders = StreamField(
         [("link", LinkBlock())],
         blank=True,
         verbose_name=_("Links to funders"),
-        use_json_field=True,
     )
     quote_carousel = StreamField(
         [("quote", QuoteBlock())],
         blank=True,
         verbose_name=_("Quote carousel"),
-        use_json_field=True,
     )
     external_links = StreamField(
         [("link", LinkBlock())],
         blank=True,
         verbose_name="External Links",
-        use_json_field=True,
     )
     working_with_heading = models.CharField(blank=True, max_length=120)
     working_with = StreamField(
@@ -211,7 +204,6 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         blank=True,
         help_text="You can add up to 9 collaborators. Minimum 200 x 200 pixels. \
             Aim for logos that sit on either a white or transparent background.",
-        use_json_field=True,
     )
 
     search_fields = BasePage.search_fields + [
@@ -307,7 +299,12 @@ class ProjectPage(ContactFieldsMixin, BasePage):
             List -- of filtered and formatted ProjectPages
         """
 
-        all_projects = ProjectPage.objects.live().public().not_page(self)
+        all_projects = (
+            ProjectPage.objects.live()
+            .public()
+            .not_page(self)
+            .order_by("-first_published_at")
+        )
 
         schools = self.related_school_pages.values_list("page_id")
         projects = all_projects.filter(

@@ -209,20 +209,17 @@ class StaffPage(BasePage):
         [("slide", GalleryBlock())],
         blank=True,
         verbose_name=_("Gallery"),
-        use_json_field=True,
     )
     more_information_title = models.CharField(max_length=80, default="More information")
     more_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name=_("More information"),
-        use_json_field=True,
     )
     related_links = StreamField(
         [("link", LinkBlock())],
         blank=True,
         verbose_name="Related Links",
-        use_json_field=True,
     )
     legacy_staff_id = models.IntegerField(
         null=True,

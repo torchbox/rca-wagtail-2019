@@ -20,4 +20,6 @@ PASSWORD_HASHERS = [
 ]
 BIRDBATH_REQUIRED = False
 CAPTCHA_TEST_MODE = True
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+STORAGES["staticfiles"][  # noqa
+    "BACKEND"
+] = "django.contrib.staticfiles.storage.StaticFilesStorage"

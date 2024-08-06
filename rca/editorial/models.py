@@ -141,31 +141,27 @@ class EditorialPage(ContactFieldsMixin, StickyCTAMixin, BasePage):
     published_at = models.DateField()
     contact_email = models.EmailField(blank=True, max_length=254)
 
-    body = StreamField(EditorialPageBlock(), use_json_field=True)
+    body = StreamField(EditorialPageBlock())
     cta_block = StreamField(
         [("call_to_action", CallToActionBlock(label="text promo"))],
         blank=True,
         verbose_name="Text promo",
-        use_json_field=True,
     )
     quote_carousel = StreamField(
         [("quote", QuoteBlock())],
         blank=True,
         verbose_name="Quote Carousel",
-        use_json_field=True,
     )
     gallery = StreamField(
         [("slide", GalleryBlock())],
         blank=True,
         verbose_name="Gallery",
-        use_json_field=True,
     )
     more_information_title = models.CharField(max_length=80, default="More information")
     more_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
         blank=True,
         verbose_name="More information",
-        use_json_field=True,
     )
     download_assets_heading = models.CharField(
         blank=True,
@@ -555,6 +551,8 @@ class EditorialListingPage(ContactFieldsMixin, BasePage):
         # Apply filters
         for f in filters:
             queryset = f.apply(queryset, request.GET)
+
+        queryset = queryset.distinct()
 
         # Paginate filtered queryset
         per_page = 12

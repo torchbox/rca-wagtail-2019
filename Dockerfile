@@ -20,8 +20,9 @@ RUN npm run build:prod
 FROM python:3.11 as production
 
 ARG POETRY_INSTALL_ARGS="--no-dev"
-# IMPORTANT: Remember to review .github/workflows/lint.yaml and .github/workflows/test.yaml files when upgrading
-ARG POETRY_VERSION=1.7.1
+
+# IMPORTANT: Remember to review .circleci/config.yml when upgrading
+ARG POETRY_VERSION=1.8.2
 
 # Install dependencies in a virtualenv
 ENV VIRTUAL_ENV=/venv

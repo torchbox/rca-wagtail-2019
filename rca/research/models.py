@@ -170,7 +170,6 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
         [("link", LinkBlock())],
         blank=True,
         verbose_name="Related Links",
-        use_json_field=True,
     )
     research_projects_link = models.URLField(
         blank=True,

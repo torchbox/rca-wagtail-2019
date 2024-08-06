@@ -5,7 +5,7 @@
     align-items: center;
 
     &__toggle-label {
-        @include font-size(xxxs);
+        @include font-size(xs);
         color: $color--white;
         margin-left: ($gutter * 0.5);
     }

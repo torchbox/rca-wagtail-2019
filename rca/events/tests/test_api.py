@@ -272,7 +272,7 @@ class EventSerializerTests(WagtailPageTestCase):
         directorate.delete()
 
         # Assert there are no related directorates
-        self.assertQuerysetEqual(self.event_page.related_directorates.all(), [])
+        self.assertQuerySetEqual(self.event_page.related_directorates.all(), [])
         response = self.client.get(f"/api/v3/pages/{self.event_page.id}/")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["related_directorates"], [])

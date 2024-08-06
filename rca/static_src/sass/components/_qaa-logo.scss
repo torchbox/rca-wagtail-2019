@@ -1,0 +1,20 @@
+.qaa-logo {
+    color: $color--white;
+    transition: opacity $transition;
+
+    &:hover,
+    &:focus,
+    &:active {
+        opacity: 0.7;
+    }
+
+    &__image {
+        width: 56px;
+        height: 64px;
+
+        @include media-query(medium) {
+            width: 87px;
+            height: 97px;
+        }
+    }
+}

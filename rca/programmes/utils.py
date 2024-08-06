@@ -72,7 +72,6 @@ def get_accordion_snippet_content(stream_field):
             ],
             blank=True,
             verbose_name="Accordion blocks",
-            use_json_field=True,
         )
         ```
 

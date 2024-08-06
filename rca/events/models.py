@@ -393,19 +393,15 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         related_name="events",
     )
     introduction = RichTextField()
-    body = StreamField(EventDetailPageBlock(), use_json_field=True)
+    body = StreamField(EventDetailPageBlock())
     speaker_heading = models.CharField(
         blank=True, max_length=120, verbose_name="Heading"
     )
     partners_heading = models.CharField(
         blank=True, max_length=120, verbose_name="Heading"
     )
-    partners = StreamField(
-        PartnersBlock(required=False), blank=True, use_json_field=True
-    )
-    call_to_action = StreamField(
-        CallToAction(required=False), blank=True, use_json_field=True
-    )
+    partners = StreamField(PartnersBlock(required=False), blank=True)
+    call_to_action = StreamField(CallToAction(required=False), blank=True)
     # booking bar
     show_booking_bar = models.BooleanField(default=False)
     manual_registration_url_link_text = models.CharField(
