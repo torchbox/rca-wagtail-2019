@@ -7,6 +7,10 @@ class TableHint {
         this.node = node;
         this.button = node.querySelector('[data-table-hint-button]');
         this.bindEvents();
+
+        this.prefersReducedMotion =
+            window.matchMedia(`(prefers-reduced-motion: reduce)`).matches ===
+            true;
     }
 
     bindEvents() {
@@ -21,7 +25,7 @@ class TableHint {
             this.node.scroll({
                 top: 0,
                 left: 500,
-                behavior: 'smooth',
+                behavior: this.prefersReducedMotion ? 'auto' : 'smooth',
             });
         });
     }

@@ -28,6 +28,10 @@
         transition: opacity 0.25s ease;
         width: 300px;
 
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
+
         .is-scrolling & {
             opacity: 0;
         }
