@@ -1,9 +1,9 @@
 from urllib.parse import urljoin, urlparse, urlsplit, urlunsplit
 
 from django import forms
-from django.db import models
 from django.core import validators
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.db import models
 from django.forms.utils import ErrorList
 from modelcluster.models import ClusterableModel
 from wagtail import blocks
