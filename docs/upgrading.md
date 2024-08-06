@@ -139,3 +139,69 @@ This is the path to the Django template which is used to display the “password
 ```python
 WAGTAIL_PASSWORD_REQUIRED_TEMPLATE = "patterns/pages/wagtail/password_required.html"
 ```
+
+## Python version upgrade
+
+We don't generally upgrade python versions until a new LTS/Major version is released and has been stable for a while. We prefer to be running a more stable version of python.
+
+If you are upgrading python, you should check the following python version references are updated:
+
+- The `python` key in the `tool.poetry.dependencies` section of the `pyproject.toml` file.
+- The `python` key in the pre-commit configuration file `.pre-commit-config.yaml`.
+- The `python` image tag in the `Dockerfile`/s.
+- Any references to the python version in documentation.
+- Any references to the python version in the CI configuration file `gitlab-ci.yaml`.
+
+### Pyupgrade tool
+
+If you are upgrading python. There is a development tool available to help with modernising the codebase. This is installed as part of the poetry development dependencies.
+
+To run the tool, use the following command:
+
+```bash
+git ls-files -z -- '*.py' | xargs -0 pyupgrade [python-version-arg]
+```
+
+Where `[python-version-arg]` is the version of python you are upgrading to.
+
+To view the available version arguments, use the following command:
+
+```bash
+pyupgrade --help
+```
+
+### Pre-commit + Pyupgrade
+
+The pyupgrade tool is run as a step in the pre-commit configuration. This will help you to use the modern syntax as you work on the codebase.
+
+You can manually run the pre-commit checks on `*.py` files using the following command:
+
+```bash
+git ls-files -z -- '*.py' | xargs -0 | pre-commit run --files
+```
+
+## Django upgrades
+
+If you are upgrading Django. There is a development tool available to help with modernising the codebase. This is installed as part of the poetry development dependencies.
+
+### Django upgrade tool
+
+If you are upgrading django. There is a development tool available to help with modernising the codebase. This is installed as part of the poetry development dependencies.
+
+To run the tool, use the following command:
+
+```bash
+git ls-files -z -- '*.py' | xargs -0 django-upgrade --target-version [django-version-arg]
+```
+
+Where `[django-version-arg]` is the version of Django you are upgrading to.
+
+### Pre-commit + django-upgrade
+
+The django-upgrade tool is run as a step in the pre-commit configuration. This will help you to use the modern syntax as you work on the codebase.
+
+You can manually run the pre-commit checks on `*.py` files using the following command:
+
+```bash
+git ls-files -z -- '*.py' | xargs -0 | pre-commit run --files
+```
