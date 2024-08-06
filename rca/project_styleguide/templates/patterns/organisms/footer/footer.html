@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags navigation_tags util_tags %}
+{% load cache static wagtailcore_tags navigation_tags util_tags %}
 
 <div class="footer">
 
@@ -11,7 +11,9 @@
             </div>
 
             <nav class="footer__action" aria-label="Tertiary">
-                {% footernav %}
+                {% cache 3600 "footernav" settings.navigation.NavigationSettings.last_updated_at %}
+                    {% footernav %}
+                {% endcache %}
             </nav>
 
             <div class="footer__qaa-logo">
@@ -40,9 +42,13 @@
         <div class="footer__lower grid">
             <nav class="footer__links" aria-label="Footer navigation">
                 <div class="u-small-and-medium-bp-only">
-                    {% footernav %}
+                    {% cache 3600 "footernav" settings.navigation.NavigationSettings.last_updated_at %}
+                        {% footernav %}
+                    {% endcache %}
                 </div>
-                {% footerlinks %}
+                {% cache 3600 "footerlinks" settings.navigation.NavigationSettings.last_updated_at %}
+                    {% footerlinks %}
+                {% endcache %}
             </nav>
             <div class="footer__credit">
                 <p class="footer__credit-item" itemscope itemtype="http://schema.org/EducationalOrganization">
