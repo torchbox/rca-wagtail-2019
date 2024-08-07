@@ -18,6 +18,7 @@
 
         .section__notch-fill--first-col {
             padding-top: 20px;
+
             @include media-query(large) {
                 display: flex;
                 flex-direction: column-reverse;
