@@ -96,7 +96,7 @@ def extract_shorthand_story_text(story_id: str):
     # Extract text from index.html
     text = ""
     try:
-        with open(temp_dir + '/index.html') as html:
+        with open(temp_dir + "/index.html") as html:
             text += text_from_html(html.read())
     except OSError:
         pass
@@ -112,11 +112,14 @@ class ShorthandContentMixin(models.Model):
         blank=True,
         validators=[validate_shorthand_url],
         verbose_name="Shorthand story URL",
-        help_text="Set this to use a Shorthand story for content instead of the fields below. The value should look something like: https://royal-college-of-art.shorthandstories.com/unique-story-path/",
+        help_text=(
+            "Set this to use a Shorthand story for content instead of the fields below. The value should look something like 'https://royal-college-of-art.shorthandstories.com/unique-story-path/', and the 'Published URL' must be manually set to the same value under 'Settings > Publishing'."
+        ),
     )
     shorthand_story_id = models.CharField(
-        max_length=15, unique=True, null=True, editable=False
+        max_length=15, null=True, editable=False
     )
+    shorthand_story_text = models.TextField(editable=False)
 
     class Meta:
         abstract = True
@@ -125,7 +128,9 @@ class ShorthandContentMixin(models.Model):
         super().full_clean(*args, **kwargs)
         if self.shorthand_story_url:
             try:
-                self.shorthand_story_id = get_shorthand_story_id(self.shorthand_story_url)
+                self.shorthand_story_id = get_shorthand_story_id(
+                    self.shorthand_story_url
+                )
             except ShorthandStoryURLNotRecognised as e:
                 raise ValidationError(
                     {
@@ -138,17 +143,15 @@ class ShorthandContentMixin(models.Model):
                         )
                     }
                 ) from e
+            self.shorthand_story_text = extract_shorthand_story_text(
+                self.shorthand_story_id
+            )
         else:
             self.shorthand_story_id = None
+            self.shorthand_story_text = ""
 
     @cached_property
     def shorthand_embed_code(self):
         if self.shorthand_story_url:
             return f'<script src="{self.shorthand_story_url}/embed.js"></script>'
-        return ""
-
-    @cached_property
-    def shorthand_story_text(self):
-        if self.shorthand_story_id:
-            return extract_shorthand_story_text(self.shorthand_story_id)
         return ""
