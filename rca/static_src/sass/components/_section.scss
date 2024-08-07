@@ -80,6 +80,11 @@
     &--above-grid {
         @include z-index(above-gridlines);
         position: relative;
+
+        // Make sure that grid lines can't be seen underneath the programme finder toggles
+        .programmes-results__wrapper & {
+            @include z-index(above-header-gridlines);
+        }
     }
 
     &--stat-block {
