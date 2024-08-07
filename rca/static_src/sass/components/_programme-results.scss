@@ -30,8 +30,12 @@
     }
 
     &__status {
-        font-size: map-get($medium-font-sizes, s);
+        font-size: map-get($small-font-sizes, s);
         margin-bottom: $gutter * 1.5;
+
+        @include media-query(medium) {
+            font-size: map-get($medium-font-sizes, s);
+        }
 
         .bg--dark & {
             color: $color--black;
