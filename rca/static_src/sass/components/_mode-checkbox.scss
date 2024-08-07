@@ -107,11 +107,3 @@
         }
     }
 }
-
-/* stylelint-disable selector-max-id */
-.app--event-listing {
-    #tab-upcomingpast {
-        display: none !important; // don't display toggle tab, as toggle implements this functionality
-    }
-}
-/* stylelint-enable selector-max-id */
