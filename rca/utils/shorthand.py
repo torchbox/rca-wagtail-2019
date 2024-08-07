@@ -1,4 +1,4 @@
-import shutil
+import zipfile
 import tempfile
 from urllib.parse import urlsplit
 
@@ -7,6 +7,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
+from wagtail.utils.text import text_from_html
 
 
 class ShorthandStoryURLNotRecognised(ValueError):
@@ -80,24 +81,30 @@ def get_shorthand_story_zip(story_id: str):
     return f
 
 
-def extract_shorthand_story_text(story_url: str):
-    if story_id := get_story_id_from_url(story_url):
+def extract_shorthand_story_text(story_id: str):
+    # Download the zip file from shorthand
+    file = get_shorthand_story_zip(story_id)
 
-        # Download the zip file from shorthand
-        file = get_shorthand_story_zip(story_id)
+    # Unzip to temporary directory
+    temp_dir = tempfile.mkdtemp()
+    with zipfile.ZipFile(file) as zip:
+        zip.extractall(temp_dir)
 
-        # Unzip to temporary directory
-        temp_dir = tempfile.mkdtemp()
-        shutil.unpack_archive(file.name, temp_dir)
+    # Delete zip file
+    del file
 
-        # TODO: Extract text from HTML
+    # Extract text from index.html
+    text = ""
+    try:
+        with open(temp_dir + '/index.html') as html:
+            text += text_from_html(html.read())
+    except OSError:
+        pass
 
-        # TODO: Cleanup
-        del file
-        del temp_dir
+    # Cleanup
+    del temp_dir
 
-        return ""
-    return ""
+    return text
 
 
 class ShorthandContentMixin(models.Model):
