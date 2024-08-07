@@ -33,7 +33,7 @@ def validate_shorthand_url(value):
         extra = url.path.split("/")[-1]
         raise ValidationError(
             (
-                "The URL should end with a forwards slash ('/'). Please remove the '%(extra)s' "
+                "The URL should end with a forward slash ('/'). Please remove the '%(extra)s' "
                 "from the end."
             ),
             params={"extra": extra},
