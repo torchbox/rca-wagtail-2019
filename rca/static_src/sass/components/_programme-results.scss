@@ -29,13 +29,8 @@
     }
 
     &__status {
-        grid-column: 1 / span 2;
         font-size: map-get($medium-font-sizes, s);
         margin-bottom: $gutter * 1.5;
-
-        @include media-query(large) {
-            grid-column: 2 / span 2;
-        }
 
         .bg--dark & {
             color: $color--black;
