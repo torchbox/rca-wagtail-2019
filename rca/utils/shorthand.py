@@ -52,7 +52,7 @@ def get_api_response(path, stream=False):
     return response
 
 
-def get_shorthand_story_id(page_url: str):
+def get_shorthand_story_id(story_url: str):
     """
     As per the [Shorthand docs](https://support.shorthand.com/en/articles/62), uses the
     `GET v2/stories/` endpoint to find the ID of the story that matches the page URL,
@@ -60,10 +60,10 @@ def get_shorthand_story_id(page_url: str):
     """
     response = get_api_response("stories")
     for story in response.json():
-        if story["url"] == page_url:
+        if story["url"] == story_url:
             return story["id"]
     raise ShorthandStoryURLNotRecognised(
-        page_url + " cannot be matched to a Shorthand story"
+        story_url + " cannot be matched to a Shorthand story"
     )
 
 
@@ -124,17 +124,16 @@ class ShorthandContentMixin(models.Model):
     def full_clean(self, *args, **kwargs):
         super().full_clean(*args, **kwargs)
         if self.shorthand_story_url:
-            full_url = self.full_url
             try:
-                self.shorthand_story_id = get_shorthand_story_id(full_url)
+                self.shorthand_story_id = get_shorthand_story_id(self.shorthand_story_url)
             except ShorthandStoryURLNotRecognised as e:
                 raise ValidationError(
                     {
                         "shorthand_story_url": ValidationError(
                             (
                                 "Wagtail cannot find a Shorthand story with the 'Published URL' "
-                                f"value set to this page's URL ({full_url}). Update this via the "
-                                "'Settings' panel for the story in Shorthand, then try again."
+                                f"value set to {self.shorthand_story_url}). Please update this "
+                                "via the 'Settings' panel for the story, then try again."
                             )
                         )
                     }
@@ -145,7 +144,7 @@ class ShorthandContentMixin(models.Model):
     @cached_property
     def shorthand_embed_code(self):
         if self.shorthand_story_url:
-            return f'<script src="{self.shorthand_story_url.rstrip("/")}/embed.js"></script>'
+            return f'<script src="{self.shorthand_story_url}/embed.js"></script>'
         return ""
 
     @cached_property
