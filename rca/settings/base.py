@@ -831,7 +831,11 @@ VEPPLE_API_URL = env.get("VEPPLE_API_URL", "https://api.derby.rvhosted.com")
 # See: https://support.shorthand.com/en/articles/62
 SHORTHAND_API_DOMAIN = env.get("SHORTHAND_API_DOMAIN", "api.shorthand.com")
 SHORTHAND_API_TOKEN = env.get("SHORTHAND_API_TOKEN", "")
-SHORTHAND_VALID_PROJECT_HOSTNAMES = tuple(
+SHORTHAND_VALID_HOSTNAMES = tuple(
     host.strip()
-    for host in env.get("SHORTHAND_VALID_PROJECT_HOSTNAMES", "").strip(" ,").split(",")
+    for host in env.get(
+        "SHORTHAND_VALID_HOSTNAMES", "royal-college-of-art.shorthandstories.com"
+    )
+    .strip(" ,")
+    .split(",")
 )

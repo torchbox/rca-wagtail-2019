@@ -5,6 +5,8 @@ from urllib.parse import urlsplit
 import requests
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.db import models
+from django.utils.functional import cached_property
 
 
 class ShorthandStoryURLNotRecognised(ValueError):
@@ -27,6 +29,15 @@ def validate_shorthand_url(value):
             ),
             params={"value": url.hostname},
         ) from None
+    if not url.path.endswith("/"):
+        extra = url.path.split("/")[-1]
+        raise ValidationError(
+            (
+                "The URL should end with a forwards slash ('/'). Please remove the '%(extra)s' "
+                "from the end."
+            ),
+            params={"extra": extra},
+        )
 
 
 def get_api_response(path, stream=False):
@@ -87,3 +98,27 @@ def extract_shorthand_story_text(story_url: str):
 
         return ""
     return ""
+
+
+class ShorthandContentMixin(models.Model):
+    shorthand_story_url = models.URLField(
+        blank=True,
+        validators=[validate_shorthand_url],
+        verbose_name="Shorthand story URL",
+        help_text="Set this to use a Shorthand story for content instead of the fields below. The value should look something like: https://royal-college-of-art.shorthandstories.com/unique-story-path/",
+    )
+
+    class Meta:
+        abstract = True
+
+    @cached_property
+    def shorthand_embed_code(self):
+        if self.shorthand_story_url:
+            return f'<script src="{self.shorthand_story_url.rstrip("/")}/embed.js"></script>'
+        return ""
+
+    @cached_property
+    def shorthand_story_text(self):
+        if url := self.shorthand_story_url:
+            return extract_shorthand_story_text(url)
+        return ""

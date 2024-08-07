@@ -1,7 +1,6 @@
 import re
 
 from django.db import models
-from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -19,7 +18,7 @@ from rca.utils.models import (
     StickyCTAMixin,
     TapMixin,
 )
-from rca.utils.shorthand import extract_shorthand_story_text, validate_shorthand_url
+from rca.utils.shorthand import ShorthandContentMixin
 
 
 class GuidePageStaff(RelatedStaffPageWithManualOptions):
@@ -30,14 +29,13 @@ class GuidePageRelatedPages(RelatedPage):
     source_page = ParentalKey("guides.GuidePage", related_name="related_pages")
 
 
-class GuidePage(TapMixin, ContactFieldsMixin, StickyCTAMixin, BasePage):
+class GuidePage(
+    ShorthandContentMixin, TapMixin, ContactFieldsMixin, StickyCTAMixin, BasePage
+):
     template = "patterns/pages/guide/guide.html"
 
     introduction = models.CharField(max_length=500, blank=True)
     body = StreamField(GuideBlock(), blank=True)
-    shorthand_story_url = models.URLField(
-        blank=True, validators=[validate_shorthand_url]
-    )
     further_information_title = models.CharField(blank=True, max_length=120)
     further_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
@@ -56,6 +54,7 @@ class GuidePage(TapMixin, ContactFieldsMixin, StickyCTAMixin, BasePage):
     content_panels = (
         BasePage.content_panels
         + [
+            FieldPanel("shorthand_story_url"),
             FieldPanel("introduction"),
             FieldPanel("body"),
             MultiFieldPanel([InlinePanel("related_staff")], heading=_("Related staff")),
@@ -85,18 +84,6 @@ class GuidePage(TapMixin, ContactFieldsMixin, StickyCTAMixin, BasePage):
     def listing_meta(self):
         # Returns a page 'type' value that's readable for listings,
         return "Guide"
-
-    @cached_property
-    def shorthand_embed_code(self):
-        if self.shorthand_story_url:
-            return f'<script src="{self.shorthand_story_url.rstrip("/")}/embed.js"></script>'
-        return ""
-
-    @cached_property
-    def shorthand_story_text(self):
-        if url := self.shorthand_story_url:
-            return extract_shorthand_story_text(url)
-        return ""
 
     def anchor_nav(self):
         """Build list of data to be used as

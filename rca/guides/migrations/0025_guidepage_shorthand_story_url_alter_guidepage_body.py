@@ -19,7 +19,15 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="guidepage",
             name="shorthand_story_url",
-            field=models.URLField(blank=True),
+            field=models.URLField(
+                blank=True,
+                verbose_name="Shorthand story URL",
+                help_text=(
+                    "Set this to use a Shorthand story for content instead of the fields below. "
+                    "The value should look something like: "
+                    "https://royal-college-of-art.shorthandstories.com/unique-story-path/"
+                ),
+            ),
         ),
         migrations.AlterField(
             model_name="guidepage",
