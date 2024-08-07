@@ -5,8 +5,12 @@ import { getCourseLengthURL, pushState } from '../programmes.routes';
 import { useStudyMode } from '../context/StudyModeContext';
 
 const ModeCheckbox = ({ ariaLabel }) => {
-    const { isFullTime, setIsFullTime, isPartTime, setIsPartTime } =
-        useStudyMode();
+    const {
+        isFullTime,
+        setIsFullTime,
+        isPartTime,
+        setIsPartTime,
+    } = useStudyMode();
     const [showError, setShowError] = useState(false);
 
     useEffect(() => {
