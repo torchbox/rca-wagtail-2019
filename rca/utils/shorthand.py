@@ -51,18 +51,18 @@ def get_api_response(path, stream=False):
     return response
 
 
-def get_story_id_from_url(story_url: str):
+def get_shorthand_story_id(page_url: str):
     """
     As per the [Shorthand docs](https://support.shorthand.com/en/articles/62), uses the
-    `GET v2/stories/` endpoint to find the ID of the story that matches the provided URL
-    and returns it.
+    `GET v2/stories/` endpoint to find the ID of the story that matches the page URL,
+    (which must be set on the Shorthand side).
     """
     response = get_api_response("stories")
     for story in response.json():
-        if story["url"] == story_url:
+        if story["url"] == page_url:
             return story["id"]
     raise ShorthandStoryURLNotRecognised(
-        story_url + " cannot be matched to a Shorthand story"
+        page_url + " cannot be matched to a Shorthand story"
     )
 
 
@@ -107,9 +107,33 @@ class ShorthandContentMixin(models.Model):
         verbose_name="Shorthand story URL",
         help_text="Set this to use a Shorthand story for content instead of the fields below. The value should look something like: https://royal-college-of-art.shorthandstories.com/unique-story-path/",
     )
+    shorthand_story_id = models.CharField(
+        max_length=15, unique=True, null=True, editable=False
+    )
 
     class Meta:
         abstract = True
+
+    def full_clean(self, *args, **kwargs):
+        super().full_clean(*args, **kwargs)
+        if self.shorthand_story_url:
+            full_url = self.full_url
+            try:
+                self.shorthand_story_id = get_shorthand_story_id(full_url)
+            except ShorthandStoryURLNotRecognised as e:
+                raise ValidationError(
+                    {
+                        "shorthand_story_url": ValidationError(
+                            (
+                                "Wagtail cannot find a Shorthand story with the 'Published URL' "
+                                f"value set to this page's URL ({full_url}). Update this via the "
+                                "'Settings' panel for the story in Shorthand, then try again."
+                            )
+                        )
+                    }
+                ) from e
+        else:
+            self.shorthand_story_id = None
 
     @cached_property
     def shorthand_embed_code(self):
@@ -119,6 +143,6 @@ class ShorthandContentMixin(models.Model):
 
     @cached_property
     def shorthand_story_text(self):
-        if url := self.shorthand_story_url:
-            return extract_shorthand_story_text(url)
+        if self.shorthand_story_id:
+            return extract_shorthand_story_text(self.shorthand_story_id)
         return ""
