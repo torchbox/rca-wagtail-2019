@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block title %}
-    Thanks
+    Thank you for your enquiry
 {% endblock %}
 
 
@@ -18,12 +18,10 @@
             <div class="title-area title-area--guide grid">
                 <div class="title-area__content">
                     <h1 class="title-area__heading heading heading--display-two" id="main-content">
-                        Thank you for your enquiry. We’re excited that you’re thinking of joining us.
+                        {{ settings.enquire_to_study.EnquireToStudySettings.thank_you_heading }}
                     </h1>
-                    <div class="title-area__introduction introduction layout__@large-start-three layout__span-two">
-                        <p class="introduction__text heading heading--five">
-                            Your enquiry has been passed to the relevant team and we'll be in touch soon with more information about your programme(s) of interest.
-                        </p>
+                    <div class="title-area__introduction introduction layout__@large-start-three layout__span-two introduction__text heading heading-five">
+                        {{ settings.enquire_to_study.EnquireToStudySettings.thank_you_text|richtext }}
                     </div>
                 </div>
             </div>
