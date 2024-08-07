@@ -143,9 +143,10 @@ class GuidePage(
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["anchor_nav"] = self.anchor_nav()
-        context["related_staff"] = self.related_staff.all
-        context["related_pages"] = self.get_related_pages()
+        if not self.shorthand_embed_code:
+            context["anchor_nav"] = self.anchor_nav()
+            context["related_staff"] = self.related_staff.all
+            context["related_pages"] = self.get_related_pages()
         if self.has_sticky_cta():
             context["sticky_cta"] = self.get_sticky_cta()
         if self.tap_widget:
