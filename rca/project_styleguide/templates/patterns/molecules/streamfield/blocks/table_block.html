@@ -1,5 +1,11 @@
 {% load wagtailcore_tags %}
-<div class="streamfield__table">
+<div class="streamfield__table table" data-table-hint>
+    <div class="table__hint">
+        {# Note this is not hidden from screen readers - see discussion at https://stackoverflow.com/questions/74835059/hide-irrelevant-focusable-elements-from-screen-reader #}
+        <button type="button" class="button table__hint-button" data-table-hint-button>
+            See more <span class="table__sr-hint">(Scrolls horizontally)</span>
+        </button>
+    </div>
     <table>
         {% if value.table.caption %}
             <caption>{{ value.table.caption }}</caption>

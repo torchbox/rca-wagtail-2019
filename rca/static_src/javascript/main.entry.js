@@ -26,6 +26,7 @@ import RelatedContent from './components/related-content';
 import ScholarshipList from './components/scholarship-list';
 import SitewideAlert from './components/sitewide-alert';
 import Slideshow from './components/slideshow';
+import TableHint from './components/table-hint';
 import './components/stats-block';
 import './components/sticky-header';
 import './components/sticky-point';
@@ -154,6 +155,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ProgrammeToggleSwitch.selector(),
     )) {
         new ProgrammeToggleSwitch(studymodetoggleswitch);
+    }
+
+    for (const tablehint of document.querySelectorAll(TableHint.selector())) {
+        new TableHint(tablehint);
     }
 
     new ActualHeight();
