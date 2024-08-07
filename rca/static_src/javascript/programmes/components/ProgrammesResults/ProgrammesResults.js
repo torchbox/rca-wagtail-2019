@@ -155,7 +155,7 @@ const ProgrammesResults = ({
                     </div>
                 </div>
             </div>
-            <div className="section section--above-grid bg bg--light">
+            <div className="section section--above-grid section--programme-toggles bg bg--light">
                 <div className="section__notch">
                     <ModeCheckbox ariaLabel="Programme study mode" />
                 </div>

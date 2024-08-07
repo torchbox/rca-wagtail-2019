@@ -169,6 +169,14 @@
         }
     }
 
+    &--programme-toggles {
+        border-bottom: 1px solid $color--grid-line-dark;
+
+        @include media-query(large) {
+            border-top: 1px solid $color--grid-line-dark;
+        }
+    }
+
     &__header {
         &--bottom-space {
             margin-bottom: ($gutter * 2);
