@@ -19,7 +19,12 @@ const ModeCheckbox = ({ ariaLabel }) => {
     }, [isFullTime, isPartTime]);
 
     return (
-        <div className="mode-checkbox" aria-label={ariaLabel}>
+        <div
+            className={`mode-checkbox ${
+                showError ? 'mode-checkbox--error' : ''
+            }`}
+            aria-label={ariaLabel}
+        >
             {showError && (
                 <div className="mode-checkbox__error">
                     You must select at least one mode of study.

@@ -7,7 +7,6 @@
     color: inherit;
 
     @include media-query(medium) {
-        grid-template-columns: 2fr 3fr;
         padding-top: $gutter * 2.5;
     }
 
@@ -19,6 +18,12 @@
         margin-left: -1px;
     }
 
+    &--error {
+        display: flex;
+        flex-direction: column;
+        padding-top: 0;
+    }
+
     &__formset {
         display: flex;
         flex-direction: row;
@@ -27,16 +32,6 @@
     &__error {
         color: $color--red;
         margin-bottom: 10px;
-        position: absolute;
-        bottom: 30px;
-
-        @include media-query(medium) {
-            bottom: 40px;
-        }
-
-        @include media-query(large) {
-            bottom: 35px;
-        }
     }
 
     &__checkbox {
@@ -80,6 +75,10 @@
 
         &--selected {
             color: $color--black;
+        }
+
+        &:hover {
+            cursor: pointer;
         }
     }
 
