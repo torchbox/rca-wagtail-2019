@@ -24,8 +24,8 @@ def validate_shorthand_url(value):
     if url.hostname not in settings.SHORTHAND_VALID_HOSTNAMES:
         raise ValidationError(
             (
-                "%(value)s is not a supported Shorthand project. Speak to your website manager "
-                "if you'd like to embed stories from here."
+                "%(value)s is not a supported Shorthand hostname. Speak to your website manager "
+                "if you'd like to embed stories from here (it needs to be enabled in Heroku)."
             ),
             params={"value": url.hostname},
         ) from None
