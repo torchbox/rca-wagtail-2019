@@ -146,6 +146,10 @@ class EnquireToStudySettings(BaseSiteSetting):
     class Meta:
         verbose_name = "Register your interest settings"
 
+    intro_heading = models.CharField(
+        max_length=120,
+        default="Register your interest",
+    )
     intro_text = RichTextField(
         features=["bold", "italic", "link"],
         default=(
@@ -155,6 +159,21 @@ class EnquireToStudySettings(BaseSiteSetting):
             "like to find out more about studying at the RCA, please fill out "
             "your details below and we will be in touch. Fields marked * are "
             "required.</p>"
+        ),
+    )
+    thank_you_heading = models.CharField(
+        max_length=120,
+        default=(
+            "Thank you for your enquiry. We're excited that you're thinking of "
+            "joining us."
+        ),
+    )
+    thank_you_text = RichTextField(
+        features=["bold", "italic", "link"],
+        default=(
+            "<p>Your enquiry has been passed to the relevant team and we'll be "
+            "in touch soon with more information about your programme(s) of "
+            "interest.</p>"
         ),
     )
     email_submission_notifations = models.BooleanField(
@@ -170,7 +189,10 @@ class EnquireToStudySettings(BaseSiteSetting):
     panels = [
         MultiFieldPanel(
             [
+                FieldPanel("intro_heading"),
                 FieldPanel("intro_text"),
+                FieldPanel("thank_you_heading"),
+                FieldPanel("thank_you_text"),
             ],
             "Content settings",
         ),
