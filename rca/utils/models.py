@@ -453,6 +453,14 @@ class BasePage(SocialFields, ListingFields, Page):
         """
         return False
 
+    @property
+    def meta_title(self):
+        return self.seo_title.strip() or self.title
+
+    @property
+    def meta_description(self):
+        return self.search_description.strip() or self.listing_summary
+
 
 class LegacySiteTag(TagBase):
     class Meta:
