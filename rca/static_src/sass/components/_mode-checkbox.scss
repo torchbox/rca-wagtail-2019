@@ -1,0 +1,109 @@
+.mode-checkbox {
+    $root: &;
+    display: grid;
+    grid-column: 1 / span 2;
+    grid-template-columns: 1fr;
+    padding-top: $gutter;
+    color: inherit;
+
+    @include media-query(medium) {
+        padding-top: $gutter * 2.5;
+    }
+
+    @include media-query(large) {
+        grid-template-columns: 1fr 1fr;
+        grid-column: 2 / span 4;
+        padding-top: $gutter * 1.5;
+        // Keep the left border aligned with the grid lines.
+        margin-left: -1px;
+    }
+
+    &--error {
+        display: flex;
+        flex-direction: column;
+        padding-top: 0;
+    }
+
+    &__formset {
+        display: flex;
+        flex-direction: row;
+    }
+
+    &__error {
+        color: $color--red;
+        margin-bottom: 10px;
+    }
+
+    &__checkbox {
+        position: relative;
+        appearance: none;
+        width: 29px;
+        height: 29px;
+        min-width: 29px;
+        max-width: 29px;
+        border: 3px solid $color--dark-grey;
+        margin-right: 15px;
+        cursor: pointer;
+        transition: border-color $transition-cubic, opacity $transition-cubic;
+
+        &:checked {
+            border-color: rgba($color--dark-grey, 0.3);
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 3px;
+                left: 3px;
+                width: 17px;
+                height: 17px;
+                background-color: $color--tertiary;
+                opacity: 1;
+            }
+        }
+
+        &--error {
+            border: 3px solid $color--red;
+        }
+    }
+
+    &__label {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-right: ($grid * 1.5);
+        color: $color--dark-grey;
+
+        &--selected {
+            color: $color--black;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .programmes-categories &,
+    .programmes-results__wrapper & {
+        justify-content: flex-start;
+        margin-bottom: 9px;
+        padding: 20px 0 10px;
+
+        @include media-query(large) {
+            justify-content: space-between;
+        }
+
+        #{$root}__switch {
+            margin-right: ($gutter * 0.5);
+
+            @include media-query(large) {
+                margin-right: $gutter;
+            }
+        }
+    }
+
+    .filter-bar--stuck & {
+        #{$root}__label {
+            color: $color--light-grey;
+        }
+    }
+}

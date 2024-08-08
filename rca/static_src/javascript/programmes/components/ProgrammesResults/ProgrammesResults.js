@@ -11,6 +11,8 @@ import { searchProgrammes } from '../../programmes.slice';
 import Icon from '../Icon/Icon';
 import ProgrammeTeaser from './ProgrammeTeaser';
 import { pushState, getCategoryURL } from '../../programmes.routes';
+import ModeCheckbox from '../StudyModeCheckbox';
+import { useStudyMode } from '../../context/StudyModeContext';
 
 const getResultsStatus = (
     isLoading,
@@ -59,14 +61,14 @@ const ProgrammesResults = ({
     activeCategory,
     activeValue,
     searchQuery,
-    activeLength,
 }) => {
     const [activeProgramme, setActiveProgramme] = useState(null);
     const hasActiveFilter = activeCategory && activeValue;
     const theme = hasActiveFilter ? 'light' : 'dark';
+    const { isFullTime, isPartTime } = useStudyMode();
 
     useEffect(() => {
-        if (hasActiveFilter || activeLength) {
+        if (hasActiveFilter || !!isFullTime || !!isPartTime) {
             startSearch(null, { [activeCategory]: activeValue });
             const mount = document.querySelector(
                 '[data-mount-programmes-explorer]',
@@ -84,54 +86,81 @@ const ProgrammesResults = ({
         activeCategory,
         activeValue,
         searchQuery,
-        activeLength,
+        isFullTime,
+        isPartTime,
     ]);
 
     return (
-        <>
-            <div className={`programmes-results bg bg--${theme} section`}>
-                <div className="grid">
-                    <div className="programmes-results__actions">
-                        {hasActiveFilter ? (
-                            <button
-                                type="button"
-                                className="button programmes-results__back body body--one"
-                                onClick={() => {
-                                    if (hasActiveFilter || activeLength) {
-                                        pushState(
-                                            getCategoryURL(
+        <div className="programmes-results__wrapper">
+            <div className="section section--above-grid bg bg--dark">
+                <div className="section__notch">
+                    <div className="section__notch-fill section__notch-fill--content-height section__notch-fill--first-col">
+                        <div className="programmes-results__actions">
+                            {hasActiveFilter ? (
+                                <button
+                                    type="button"
+                                    className="button programmes-results__back body body--one"
+                                    onClick={() => {
+                                        if (
+                                            hasActiveFilter ||
+                                            !!isFullTime ||
+                                            !!isPartTime
+                                        ) {
+                                            const href = getCategoryURL(
                                                 activeCategory,
-                                                activeLength,
-                                            ),
-                                        );
-                                    } else {
-                                        window.history.back();
-                                    }
+                                                isFullTime,
+                                                isPartTime,
+                                            );
+                                            pushState(href);
+                                        } else {
+                                            window.history.back();
+                                        }
+                                    }}
+                                >
+                                    <Icon
+                                        name="arrow"
+                                        className="programmes-results__back-icon"
+                                    />
+                                    <span className="programmes-results__back-text">
+                                        Back
+                                    </span>
+                                </button>
+                            ) : null}
+                        </div>
+                    </div>
+                    <div
+                        className="section__notch-fill section__notch-fill--content-height section__notch-fill--third-col
+                    section__notch-fill--third-col-two-span-four"
+                    >
+                        <nav>
+                            <h2 className="body body--two programmes-results__heading">
+                                Exploring by
+                            </h2>
+                            <p
+                                className="heading heading--five programmes-results__status"
+                                role="alert"
+                                style={{
+                                    marginBottom: 0,
                                 }}
                             >
-                                <Icon
-                                    name="arrow"
-                                    className="programmes-results__back-icon"
-                                />
-                                <span className="programmes-results__back-text">
-                                    Back
-                                </span>
-                            </button>
-                        ) : null}
+                                {getResultsStatus(
+                                    isLoading,
+                                    categories,
+                                    activeCategory,
+                                    activeValue,
+                                    programmes.length,
+                                )}
+                            </p>
+                        </nav>
                     </div>
-                    <p
-                        className="heading heading--five programmes-results__status"
-                        role="alert"
-                    >
-                        {getResultsStatus(
-                            isLoading,
-                            categories,
-                            activeCategory,
-                            activeValue,
-                            programmes.length,
-                        )}
-                    </p>
                 </div>
+            </div>
+            <div className="section section--above-grid section--programme-toggles bg bg--light">
+                <div className="section__notch">
+                    <ModeCheckbox ariaLabel="Programme study mode" />
+                </div>
+            </div>
+            <div className={`programmes-results bg bg--${theme} section`}>
                 {programmes.length === 0 ? null : (
                     <div className="grid">
                         <div className="programmes-results__list">
@@ -188,7 +217,7 @@ const ProgrammesResults = ({
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 
@@ -200,13 +229,11 @@ ProgrammesResults.propTypes = {
     activeCategory: PropTypes.string.isRequired,
     activeValue: PropTypes.string,
     searchQuery: PropTypes.string,
-    activeLength: PropTypes.bool,
 };
 
 ProgrammesResults.defaultProps = {
     searchQuery: null,
     activeValue: null,
-    activeLength: null,
 };
 
 const mapStateToProps = ({ programmes }) => {
