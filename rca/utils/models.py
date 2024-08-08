@@ -841,7 +841,7 @@ class ResearchType(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        super(ResearchType, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 @register_setting
@@ -875,7 +875,7 @@ class SluggedTaxonomy(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        super(SluggedTaxonomy, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 class ResearchTheme(SluggedTaxonomy):
