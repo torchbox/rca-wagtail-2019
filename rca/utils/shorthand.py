@@ -1,5 +1,5 @@
-import zipfile
 import tempfile
+import zipfile
 from urllib.parse import urlsplit
 
 import requests
@@ -116,12 +116,14 @@ class ShorthandContentMixin(models.Model):
         validators=[validate_shorthand_url],
         verbose_name="Shorthand story URL",
         help_text=(
-            "Set this to use a Shorthand story for content instead of the fields below. The value should look something like 'https://royal-college-of-art.shorthandstories.com/unique-story-path/', and the 'Published URL' must be manually set to the same value under 'Settings > Publishing'."
+            "Set this to use a Shorthand story for content instead of the fields below. "
+            "The value should look something like "
+            "'https://royal-college-of-art.shorthandstories.com/unique-story-path/', "
+            "and the 'Published URL' must be manually set to the same value under "
+            "'Settings > Publishing'."
         ),
     )
-    shorthand_story_id = models.CharField(
-        max_length=15, null=True, editable=False
-    )
+    shorthand_story_id = models.CharField(max_length=15, null=True, editable=False)
     shorthand_story_text = models.TextField(editable=False)
 
     search_fields = BasePage.search_fields + [
