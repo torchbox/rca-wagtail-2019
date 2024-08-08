@@ -17,12 +17,37 @@
 
         {% block extra_css %}{% endblock %}
 
+        {% if GOOGLE_TAG_MANAGER_ID %}
+            {# To enable GTM code you need to specify GOOGLE_TAG_MANAGER_ID in Heroku settings #}
+            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','{{ GOOGLE_TAG_MANAGER_ID|escapejs }}');</script>
+        {% endif %}
+
+        {# favicons #}
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static "images/apple-touch-icon.png" %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static "images/favicon-32x32.png" %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static "images/favicon-16x16.png" %}">
+        <link rel="manifest" href="{% static "images/site.webmanifest" %}">
+        <link rel="mask-icon" href="{% static "images/safari-pinned-tab.svg" %}" color="#000000">
+        <link rel="shortcut icon" href="{% static "images/favicon.ico" %}">
+        <meta name="msapplication-TileColor" content="#000000">
+        <meta name="msapplication-config" content="{% static "images/browserconfig.xml" %}">
+        <meta name="theme-color" content="#000000">
         {% block meta_tags %}{% endblock %}
 
     </head>
 
     <body class="app {% block body_class %}app--{{ page.get_verbose_name|slugify }}{% endblock %} {% block header_class %}{% endblock %}" prefix="schema: https://schema.org/">
 
+        {% if GOOGLE_TAG_MANAGER_ID %}
+            {# To enable GTM code you need to specify GOOGLE_TAG_MANAGER_ID in Django settings #}
+            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ GOOGLE_TAG_MANAGER_ID|urlencode }}"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        {% endif %}
+        
         {% block body_top %}{% endblock %}
 
         {% include "patterns/atoms/skip-link/skip-link.html" %}
