@@ -31,7 +31,7 @@ const ModeCheckbox = ({ ariaLabel }) => {
         >
             {showError && (
                 <div className="mode-checkbox__error">
-                    You must select at least one mode of study.
+                    Please select a full-time or part-time option.
                 </div>
             )}
             <div className="mode-checkbox__formset">
