@@ -9,7 +9,8 @@ describe('CategoriesPanels', () => {
                 <CategoriesPanels
                     categories={[]}
                     activeCategory=""
-                    activeLength={false}
+                    isFullTime
+                    isPartTime={false}
                 />,
             ),
         ).toMatchInlineSnapshot(`
@@ -37,7 +38,8 @@ describe('CategoriesPanels', () => {
                     },
                 ]}
                 activeCategory="test"
-                activeLength={false}
+                isFullTime
+                isPartTime={false}
             />,
         );
         expect(wrapper.find('#test').prop('aria-expanded')).toBe(true);

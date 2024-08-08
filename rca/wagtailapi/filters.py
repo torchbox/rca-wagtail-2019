@@ -1,5 +1,9 @@
+from functools import reduce
+from operator import or_
+
 from django.conf import settings
 from django.core.exceptions import FieldDoesNotExist
+from django.db.models import Q
 from rest_framework import filters
 from wagtail.api.v2.utils import BadRequestError
 from wagtail.models import Page
@@ -73,13 +77,26 @@ class StudyModeFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
         try:
             queryset.model._meta.get_field("programme_study_modes")
+            full_time = request.GET.get("full-time", False)
             part_time = request.GET.get("part-time", False)
 
+            study_mode_query = []
+
+            if str(full_time).lower() == "true":
+                study_mode_query.append(Q(title__icontains="full"))
+
             if str(part_time).lower() == "true":
+                study_mode_query.append(Q(title__icontains="part"))
+
+            if study_mode_query:
+                # Reduce queries to be OR'd
+                study_mode_query = reduce(or_, study_mode_query)
+
                 # Get the programme study modes we are applying as a filter as a queryset
                 filter_study_mode_qs = ProgrammeStudyMode.objects.filter(
-                    title__icontains="part"
+                    study_mode_query
                 )
+
                 # Create a queryset to return which contains pages that have filter_study_mode_qs
                 # as a relationship
                 queryset = (
@@ -92,21 +109,9 @@ class StudyModeFilter(filters.BaseFilterBackend):
                     .live()
                 )
             else:
-                # Get the programme study modes we are applying as a filter as a queryset
-                filter_study_mode_qs = ProgrammeStudyMode.objects.filter(
-                    title__icontains="full"
-                )
-                # Create a queryset to return which contains pages that have filter_study_mode_qs
-                # as a relationship
-                queryset = (
-                    queryset.filter(
-                        programme_study_modes__programme_study_mode__title__in=filter_study_mode_qs.values_list(
-                            "title", flat=True
-                        )
-                    )
-                    .order_by("title")
-                    .live()
-                )
+                # Return no queryset
+                return queryset.none()
+
             return queryset
         except FieldDoesNotExist:
             return queryset
