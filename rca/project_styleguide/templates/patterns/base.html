@@ -8,7 +8,6 @@
         <meta name="description" content="{% if page.search_description %}{{ page.search_description }}{% else %}{{ page.listing_summary }}{% endif %}" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-        <link rel="canonical" href="{{ CANONICAL_HOST }}">
         {% if request.in_preview_panel %}
             <base target="_blank">
         {% endif %}
