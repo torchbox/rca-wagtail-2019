@@ -20,13 +20,15 @@ from mailchimp_marketing import Client
 from mailchimp_marketing.api_client import ApiClientError
 from wagtail.admin import messages
 
+from rca.utils.views import MetaTitleMixin
+
 from .forms import EnquireToStudyForm
 from .models import EnquireToStudySettings, EnquiryFormSubmission
 
 logger = logging.getLogger(__name__)
 
 
-class EnquireToStudyFormView(FormView):
+class EnquireToStudyFormView(MetaTitleMixin, FormView):
     """Custom form with integrations to Mailchimp and QS
 
     On form submission, the post data is sent to different services depending
@@ -65,6 +67,7 @@ class EnquireToStudyFormView(FormView):
 
     """
 
+    meta_title = "Register your interest"
     form_class = EnquireToStudyForm
     success_url = "/register-your-interest/thanks"
     template_name = "patterns/pages/enquire_to_study/enquire_form_page.html"
@@ -329,11 +332,12 @@ class EnquireToStudyFormView(FormView):
         return super().form_valid(form)
 
 
-class EnquireToStudyFormThanksView(TemplateView):
+class EnquireToStudyFormThanksView(MetaTitleMixin, TemplateView):
+    meta_title = "Thank you for your enquiry"
     template_name = "patterns/pages/enquire_to_study/enquire_form_thanks.html"
 
     def get_context_data(self, **kwargs):
-        context = super(EnquireToStudyFormThanksView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         # If there is a session variable containing form post data send this,
         # through to the thanks template.
