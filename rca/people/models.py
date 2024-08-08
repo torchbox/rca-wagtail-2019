@@ -295,6 +295,17 @@ class StaffPage(BasePage):
         ]
     )
 
+    @cached_property
+    def meta_title(self):
+        bits = []
+        if title := self.staff_title.strip():
+            bits.append(title)
+        if first_name := self.first_name.strip():
+            bits.append(first_name)
+        if last_name := self.last_name.strip():
+            bits.append(last_name)
+        return " ".join(bits)
+
     @property
     def listing_meta(self):
         # Returns a page 'type' value that's readable for listings,
@@ -850,6 +861,17 @@ class StudentPage(BasePage):
             ),  # needs to have no content for students
         ]
     )
+
+    @cached_property
+    def meta_title(self):
+        bits = []
+        if title := self.student_title.strip():
+            bits.append(title)
+        if first_name := self.first_name.strip():
+            bits.append(first_name)
+        if last_name := self.last_name.strip():
+            bits.append(last_name)
+        return " ".join(bits)
 
     @property
     def listing_meta(self):
