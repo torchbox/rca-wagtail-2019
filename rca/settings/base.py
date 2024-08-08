@@ -820,3 +820,9 @@ if "ENQUIRE_TO_STUDY_DESTINATION_EMAILS" in env:
 
 # Allow popups to open (can be from Paypal or other 3rd-party applications):
 SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
+
+# Vepple
+# NOTE: Unsure if this will ever need to change per environment. The default value is
+# from a screenshot example on the following developer article:
+# https://support.vepple.co.uk/hc/en-gb/articles/6726351038097-How-to-create-an-Embeddable-Widget
+VEPPLE_API_URL = env.get("VEPPLE_API_URL", "https://api.derby.rvhosted.com")
