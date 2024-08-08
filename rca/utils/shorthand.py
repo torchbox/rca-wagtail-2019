@@ -155,3 +155,27 @@ class ShorthandContentMixin(models.Model):
         if self.shorthand_story_url:
             return f'<script src="{self.shorthand_story_url}/embed.js"></script>'
         return ""
+
+    def with_content_json(self, content_json):
+        """
+        Overrides `Page.with_content_json()` to retain saved values for
+        auto-managed fields between revisions.
+        """
+        obj = super().with_content_json(content_json)
+        obj.shorthand_story_id = self.shorthand_story_id
+        obj.shorthand_story_text = self.shorthand_story_text
+        return obj
+
+    def serializable_data(self):
+        """
+        Overrides `Page.serializable_data()` to keep auto-managed field values
+        out of revisions.
+
+        NOTE: Similar overrides to `get_content_json()` should prevent values
+        from revisions being used for these fields; this is more a complementary
+        change to avoid storing redundant data.
+        """
+        data = super().serializable_data()
+        for field_name in ("shorthand_story_id", "shorthand_story_text"):
+            data.pop(field_name, None)
+        return data
