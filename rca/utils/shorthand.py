@@ -7,7 +7,10 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
+from wagtail.search import index
 from wagtail.utils.text import text_from_html
+
+from rca.utils.models import BasePage
 
 
 class ShorthandStoryURLNotRecognised(ValueError):
@@ -120,6 +123,11 @@ class ShorthandContentMixin(models.Model):
         max_length=15, null=True, editable=False
     )
     shorthand_story_text = models.TextField(editable=False)
+
+    search_fields = BasePage.search_fields + [
+        index.SearchField("shorthand_story_text"),
+        index.AutocompleteField("shorthand_story_text"),
+    ]
 
     class Meta:
         abstract = True

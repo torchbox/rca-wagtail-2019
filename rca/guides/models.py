@@ -44,10 +44,10 @@ class GuidePage(
     )
     related_pages_title = models.CharField(blank=True, max_length=120)
 
-    search_fields = BasePage.search_fields + [
+    search_fields = ShorthandContentMixin.search_fields + [
         index.SearchField("introduction"),
+        index.AutocompleteField("introduction"),
         index.SearchField("body"),
-        index.SearchField("shorthand_story_text"),
         index.SearchField("further_information"),
     ]
 
