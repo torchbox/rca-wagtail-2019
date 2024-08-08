@@ -28,6 +28,7 @@ from wagtail.snippets.models import register_snippet
 
 from rca.api_content.content import CantPullFromRcaApi, pull_tagged_news_and_events
 from rca.utils.cache import get_default_cache_control_decorator
+from rca.utils.forms import RCAPageAdminForm
 
 LIGHT_TEXT_ON_DARK_IMAGE = 1
 DARK_TEXT_ON_LIGHT_IMAGE = 2
@@ -429,6 +430,7 @@ class SystemMessagesSettings(BaseSiteSetting):
 # Apply default cache headers on this page model's serve method.
 @method_decorator(get_default_cache_control_decorator(), name="serve")
 class BasePage(SocialFields, ListingFields, Page):
+    base_form_class = RCAPageAdminForm
     show_in_menus_default = True
 
     class Meta:
@@ -443,6 +445,14 @@ class BasePage(SocialFields, ListingFields, Page):
         APIField("listing_title"),
         APIField("listing_summary"),
     ]
+
+    @property
+    def meta_title(self):
+        return self.seo_title.strip() or self.title
+
+    @property
+    def meta_description(self):
+        return self.search_description.strip() or self.listing_summary
 
 
 class LegacySiteTag(TagBase):

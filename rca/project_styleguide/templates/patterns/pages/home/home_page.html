@@ -1,6 +1,8 @@
 {% extends "patterns/base_page.html" %}
 {% load wagtailcore_tags wagtailimages_tags static %}
 
+{% block titletag %}{{ request.site.site_name }} | {{ page.meta_title }}{% endblock %}
+
 {% block body_class %}app--homepage{% endblock %}
 
 {% block header_class %}theme-{{ hero_colour }}{% endblock %}

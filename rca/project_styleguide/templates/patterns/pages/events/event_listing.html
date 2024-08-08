@@ -6,21 +6,6 @@
     app--event-listing no-hero
 {% endblock %}
 
-{% block title %}
-    {% if page.seo_title %}
-        {{ page.seo_title }}
-    {% else %}
-        {{ page.title }}
-    {% endif %}
-    {% if filters %}
-        {% get_all_active_filters filters as active_filters %}
-        {% if active_filters %}
-            – {{ active_filters }}
-        {% endif %}
-    {% endif %}
-    – Page {{ results.number }} of {{ results.paginator.num_pages }}
-{% endblock %}
-
 {% block content %}
 
     <div class="page page--no-hero">

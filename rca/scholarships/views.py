@@ -12,6 +12,7 @@ from django.views.generic.edit import CreateView
 from wagtail.admin import messages
 
 from rca.programmes.models import ProgrammePage
+from rca.utils.views import MetaTitleMixin
 
 from .forms import ScholarshipSubmissionForm
 from .models import (
@@ -83,7 +84,8 @@ def load_scholarships(request):
     )
 
 
-class ScholarshipEnquiryFormView(CreateView):
+class ScholarshipEnquiryFormView(MetaTitleMixin, CreateView):
+    meta_title = "Express your interest in a Scholarship"
     template_name = "patterns/pages/scholarships/scholarship_form_page.html"
     form_class = ScholarshipSubmissionForm
     success_url = reverse_lazy("scholarships:scholarship_enquiry_form_thanks")
@@ -113,7 +115,8 @@ class ScholarshipEnquiryFormView(CreateView):
         return kwargs
 
 
-class ScholarshipEnquiryFormThanksView(TemplateView):
+class ScholarshipEnquiryFormThanksView(MetaTitleMixin, TemplateView):
+    meta_title = "Thank for your interest"
     template_name = "patterns/pages/scholarships/scholarship_form_thanks.html"
 
     def get_context_data(self, **kwargs):
