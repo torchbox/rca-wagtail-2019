@@ -1,5 +1,5 @@
 .table {
-    @include z-index(abover-header-gridlines);
+    @include z-index(above-header-gridlines);
     position: relative;
     width: 100%;
     overflow-x: scroll;
@@ -16,7 +16,7 @@
     }
 
     &__hint {
-        @include z-index(abover-header-gridlines);
+        @include z-index(above-header-gridlines);
         position: absolute;
         right: 0;
         top: 0;
