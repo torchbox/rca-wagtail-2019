@@ -1,9 +1,14 @@
 .table {
-    @include z-index(above-gridlines);
+    @include z-index(abover-header-gridlines);
     position: relative;
     width: 100%;
     overflow-x: scroll;
     margin: ($gutter * 2) 0;
+    background-color: $color--white;
+
+    @include media-query(medium) {
+        background-color: transparent;
+    }
 
     @include media-query(medium) {
         margin: ($gutter * 3) 0;
@@ -11,7 +16,7 @@
     }
 
     &__hint {
-        @include z-index(above-gridlines);
+        @include z-index(abover-header-gridlines);
         position: absolute;
         right: 0;
         top: 0;
