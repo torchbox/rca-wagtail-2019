@@ -156,7 +156,6 @@ class HomePage(TapMixin, BasePage):
     strapline_cta_url = models.URLField(blank=True)
     strapline_cta_text = models.CharField(max_length=125, blank=True)
 
-    use_api_for_alumni_stories = models.BooleanField(default=True)
     use_api_for_news_and_events = models.BooleanField(default=True)
     news_and_events_link_text = models.TextField(
         max_length=120,
@@ -217,7 +216,6 @@ class HomePage(TapMixin, BasePage):
                         </ul>"""
                         )
                     ),
-                    FieldPanel("use_api_for_alumni_stories"),
                     FieldPanel("use_api_for_news_and_events"),
                 ],
                 heading="News, Events and Alumni Stories Content Listings",
