@@ -10,6 +10,7 @@ from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, HelpPanel, InlinePanel, MultiFieldPanel
 from wagtail.fields import StreamBlock, StreamField
 from wagtail.images import get_image_model_string
+from wagtail.models import Orderable
 
 from rca.api_content.content import get_alumni_stories as get_api_alumni_stories
 from rca.api_content.content import get_news_and_events as get_api_news_and_events
@@ -123,6 +124,11 @@ class HomePageStatsBlock(models.Model):
         return self.title
 
 
+class HomePageFeaturedAlumniStory(Orderable):
+    source_page = ParentalKey("HomePage", related_name="featured_alumni_stories")
+    story = models.ForeignKey("editorial.EditorialPage", on_delete=models.CASCADE)
+
+
 class HomePage(TapMixin, BasePage):
     template = "patterns/pages/home/home_page.html"
 
@@ -187,6 +193,11 @@ class HomePage(TapMixin, BasePage):
                     FieldPanel("strapline_cta_text"),
                 ],
                 heading="Strapline",
+            ),
+            InlinePanel(
+                "featured_alumni_stories",
+                label="Story",
+                heading="Featured Alumni stories",
             ),
             InlinePanel(
                 "transformation_blocks", label="Transformation block", max_num=1
