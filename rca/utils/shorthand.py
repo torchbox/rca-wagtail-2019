@@ -191,7 +191,7 @@ class ShorthandContentMixin(models.Model):
     @cached_property
     def shorthand_embed_code(self):
         if self.shorthand_story_url:
-            return f'<script src="{self.shorthand_story_url}/embed.js"></script>'
+            return f'<script src="{self.shorthand_story_url}embed.js"></script>'
         return ""
 
     def with_content_json(self, content_json):
