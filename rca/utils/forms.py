@@ -11,8 +11,8 @@ class RCAPageAdminForm(WagtailAdminPageForm):
             seo_title_field.max_length = 80
             seo_title_field.help_text = mark_safe(
                 "This is displayed as the clickable headline of the search snippet on search engine results pages "
-                "(SERPs). It's important for UX, SEO and social shares. The text '| Royal College of Art' is added by "
-                "default and is included in the total character count. <strong>Recommended length: 50–60 "
+                "(SERPs). It's important for UX, SEO and social shares. The text '| Royal College of Art' is "
+                "appended automatically and should not be repeated here. <strong>Recommended length: 50–60 "
                 "characters</strong>."
             )
 
