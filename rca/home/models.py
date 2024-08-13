@@ -393,9 +393,9 @@ class HomePage(TapMixin, BasePage):
                 editorial_meta_label="Alumni story",
                 long_description=True,
             )
-            for item in self.featured_alumni_stories.select_related(
-                "story", "story__listing_image"
-            ).prefetch_related("story__listing_image__renditions")
+            for item in self.featured_alumni_stories.filter(story__live=True)
+            .select_related("story", "story__listing_image")
+            .prefetch_related("story__listing_image__renditions")
         ]
 
     def get_context(self, request, *args, **kwargs):
