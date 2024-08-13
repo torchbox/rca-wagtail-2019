@@ -12,7 +12,6 @@ from wagtail.fields import StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.models import Orderable
 
-from rca.api_content.content import get_alumni_stories as get_api_alumni_stories
 from rca.api_content.content import get_news_and_events as get_api_news_and_events
 from rca.editorial.models import EditorialPage
 from rca.events.models import EventDetailPage
@@ -390,18 +389,15 @@ class HomePage(TapMixin, BasePage):
         ]
 
     def get_alumni_stories(self):
-        if self.use_api_for_alumni_stories:
-            return get_api_alumni_stories()
-        pages_queryset = (
-            EditorialPage.objects.filter(editorial_types__type__slug="alumni-story")
-            .live()
-            .order_by("-published_at")[:3]
-        )
         return [
             self.related_news_events_formatter(
-                page, editorial_meta_label="Alumni story", long_description=True
+                item.story,
+                editorial_meta_label="Alumni story",
+                long_description=True,
             )
-            for page in pages_queryset
+            for item in self.featured_alumni_stories.select_related(
+                "story", "story__listing_image"
+            ).prefetch_related("story__listing_image__renditions")
         ]
 
     def get_context(self, request, *args, **kwargs):
