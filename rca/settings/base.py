@@ -826,3 +826,16 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
 # from a screenshot example on the following developer article:
 # https://support.vepple.co.uk/hc/en-gb/articles/6726351038097-How-to-create-an-Embeddable-Widget
 VEPPLE_API_URL = env.get("VEPPLE_API_URL", "https://api.derby.rvhosted.com")
+
+# Shorthand
+# See: https://support.shorthand.com/en/articles/62
+SHORTHAND_API_DOMAIN = env.get("SHORTHAND_API_DOMAIN", "api.shorthand.com")
+SHORTHAND_API_TOKEN = env.get("SHORTHAND_API_TOKEN", "")
+SHORTHAND_VALID_HOSTNAMES = tuple(
+    host.strip()
+    for host in env.get(
+        "SHORTHAND_VALID_HOSTNAMES", "royal-college-of-art.shorthandstories.com"
+    )
+    .strip(" ,")
+    .split(",")
+)

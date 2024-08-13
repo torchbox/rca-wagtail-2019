@@ -80,11 +80,6 @@
     &--above-grid {
         @include z-index(above-gridlines);
         position: relative;
-
-        // Make sure that grid lines can't be seen underneath the programme finder toggles
-        .programmes-results__wrapper & {
-            @include z-index(above-header-gridlines);
-        }
     }
 
     &--stat-block {
@@ -174,14 +169,6 @@
         }
     }
 
-    &--programme-toggles {
-        border-bottom: 1px solid $color--grid-line-dark;
-
-        @include media-query(large) {
-            border-top: 1px solid $color--grid-line-dark;
-        }
-    }
-
     &__header {
         &--bottom-space {
             margin-bottom: ($gutter * 2);
@@ -256,13 +243,7 @@
     }
 
     &__notch {
-        padding: 0 20px;
-        background-color: $color--white;
-
-        @include media-query(medium) {
-            @include grid-layout();
-            background-color: transparent;
-        }
+        @include grid-layout();
 
         &--top {
             margin-bottom: ($gutter * 4);

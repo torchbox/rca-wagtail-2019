@@ -1,14 +1,9 @@
 .table {
-    @include z-index(above-header-gridlines);
+    @include z-index(above-gridlines);
     position: relative;
     width: 100%;
     overflow-x: scroll;
     margin: ($gutter * 2) 0;
-    background-color: $color--white;
-
-    @include media-query(medium) {
-        background-color: transparent;
-    }
 
     @include media-query(medium) {
         margin: ($gutter * 3) 0;
@@ -16,7 +11,7 @@
     }
 
     &__hint {
-        @include z-index(above-header-gridlines);
+        @include z-index(above-gridlines);
         position: absolute;
         right: 0;
         top: 0;
@@ -69,9 +64,15 @@
     caption {
         margin-bottom: $gutter;
         text-align: left;
+
+        @include media-query(medium) {
+            text-align: center;
+        }
     }
 
     table {
+        background: $color--white;
+        border: 1px solid $color--grid-line-dark;
         min-width: 600px;
         border-collapse: collapse;
 
@@ -81,7 +82,7 @@
 
         th,
         td {
-            padding: 8px 8px 8px 0;
+            padding: 8px;
         }
 
         th {

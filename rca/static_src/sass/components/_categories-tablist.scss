@@ -37,7 +37,6 @@
     &__list {
         @include media-query(large) {
             display: flex;
-            flex-direction: column;
         }
     }
 

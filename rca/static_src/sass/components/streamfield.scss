@@ -37,15 +37,4 @@
             margin-bottom: ($gutter * 1.5);
         }
     }
-
-    .app--guide & {
-        // Match spacing of anchor headings on guide pages
-        &__heading {
-            padding-top: ($gutter * 3.5);
-
-            @include media-query(large) {
-                padding-top: ($gutter * 6);
-            }
-        }
-    }
 }

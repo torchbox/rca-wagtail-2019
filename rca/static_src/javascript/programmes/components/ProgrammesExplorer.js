@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useLocation } from 'react-use';
 
@@ -8,7 +8,6 @@ import { programmeCategories } from '../programmes.types';
 import ProgrammesCategories from './ProgrammesCategories/ProgrammesCategories';
 import ProgrammesResults from './ProgrammesResults/ProgrammesResults';
 import SearchForm from './SearchForm';
-import { StudyModeContext } from '../context/StudyModeContext';
 
 /**
  * Programmes and short courses listing, with a search form, filters, and a results view.
@@ -22,32 +21,13 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
     const activeValue = filterValue.split('-')[0];
     const hasActiveCategoryFilter = !!activeValue;
     const searchQuery = params.get('search') || '';
+    const activeLength = params.get('part-time') || '';
     const hasActiveSearch = !!searchQuery;
     const showCategories = !hasActiveCategoryFilter && !hasActiveSearch;
     const showResults = hasActiveCategoryFilter || hasActiveSearch;
 
-    const [isFullTime, setIsFullTime] = useState(params.get('full-time') || '');
-    const [isPartTime, setIsPartTime] = useState(params.get('part-time') || '');
-
-    /* eslint-disable react-hooks/exhaustive-deps */
-    useEffect(() => {
-        // Only do this on initial load
-        if (isFullTime === '' && isPartTime === '') {
-            setIsFullTime('true');
-            setIsPartTime('true');
-        }
-    }, []);
-
     return (
-        <StudyModeContext.Provider
-            value={{
-                params,
-                isFullTime,
-                setIsFullTime,
-                isPartTime,
-                setIsPartTime,
-            }}
-        >
+        <>
             <SearchForm searchQuery={searchQuery} label={searchLabel} />
             <TransitionGroup className="explorer-transitions">
                 {showCategories ? (
@@ -62,8 +42,7 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
                         <ProgrammesCategories
                             categories={categories}
                             activeCategory={activeCategory}
-                            isFullTime={isFullTime === 'true'}
-                            isPartTime={isPartTime === 'true'}
+                            activeLength={activeLength}
                         />
                     </CSSTransition>
                 ) : null}
@@ -81,13 +60,12 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
                             activeCategory={activeCategory}
                             activeValue={activeValue}
                             searchQuery={searchQuery}
-                            isFullTime={isFullTime === 'true'}
-                            isPartTime={isPartTime === 'true'}
+                            activeLength={activeLength}
                         />
                     </CSSTransition>
                 ) : null}
             </TransitionGroup>
-        </StudyModeContext.Provider>
+        </>
     );
 };
 
