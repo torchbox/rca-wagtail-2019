@@ -12,6 +12,12 @@ from rca.utils.models import SocialMediaSettings
 register = template.Library()
 
 
+@register.simple_tag(takes_context=True)
+def get_canonical_url(context):
+    request = context["request"]
+    return request.build_absolute_uri(request.path)
+
+
 # Social text
 @register.filter(name="social_text")
 def social_text(page, site):
