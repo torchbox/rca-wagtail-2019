@@ -37,10 +37,12 @@ export const getWagtailAPIQueryString = ({
     type,
     fields,
     limit,
+    fullTime,
     partTime,
 }) => {
     const parameters = {
         'type': type || null,
+        'full-time': fullTime !== undefined ? fullTime : 'false',
         'part-time': partTime !== undefined ? partTime : 'false',
         'limit': limit || null,
         'fields': fields.join(',') || null,
@@ -68,17 +70,25 @@ let abortGetProgrammes = new AbortController();
 export const getProgrammes = ({ query, filters = {} }) => {
     // Check the window for a part-time query param and apply that.
     const urlParams = new URLSearchParams(window.location.search);
+    const fullTimeParam = urlParams.get('full-time');
     const partTimeParam = urlParams.get('part-time');
+    const fullTime = fullTimeParam === 'true';
     const partTime = partTimeParam === 'true';
 
     // Abort the previous controller if any, and create a new one.
     abortGetProgrammes.abort();
     abortGetProgrammes = new AbortController();
 
+    if (!fullTime && !partTime) {
+        return Promise.resolve([]);
+    }
+
     const requests = listedPageTypes.map(({ type, fields }) => {
         const queryString = getWagtailAPIQueryString({
             search: query,
-            partTime, // Pass the partTime value to the query string generator.
+            // Pass the fullTime and partTime values to the query string generator.
+            fullTime,
+            partTime,
             filters,
             type,
             fields,

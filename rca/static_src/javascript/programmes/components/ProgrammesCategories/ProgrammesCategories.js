@@ -5,12 +5,13 @@ import { programmeCategories } from '../../programmes.types';
 
 import CategoriesTablist from './CategoriesTablist';
 import CategoriesPanels from './CategoriesPanels';
+import ModeCheckbox from '../StudyModeCheckbox';
 
 /**
  * Filter-based navigation to programmes, displayed as tabs.
  * If one of the categories is active, the corresponding tab is displayed.
  */
-const ProgrammesCategories = ({ categories, activeCategory, activeLength }) => {
+const ProgrammesCategories = ({ categories, activeCategory }) => {
     return (
         <div className="programmes-categories">
             <div className="section section--above-grid bg bg--dark">
@@ -22,15 +23,18 @@ const ProgrammesCategories = ({ categories, activeCategory, activeLength }) => {
                         <CategoriesTablist
                             categories={categories}
                             activeCategory={activeCategory}
-                            activeLength={activeLength}
                         />
                     </div>
+                </div>
+            </div>
+            <div className="section section--above-grid section--programme-toggles bg bg--light">
+                <div className="section__notch">
+                    <ModeCheckbox ariaLabel="Programme study mode" />
                 </div>
             </div>
             <CategoriesPanels
                 categories={categories}
                 activeCategory={activeCategory}
-                activeLength={activeLength}
             />
         </div>
     );
@@ -39,7 +43,6 @@ const ProgrammesCategories = ({ categories, activeCategory, activeLength }) => {
 ProgrammesCategories.propTypes = {
     categories: programmeCategories.isRequired,
     activeCategory: PropTypes.string.isRequired,
-    activeLength: PropTypes.bool.isRequired,
 };
 
 export default ProgrammesCategories;
