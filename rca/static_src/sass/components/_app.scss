@@ -103,4 +103,13 @@
         clip-path: inset(-0.5px 0 0 0);
         backface-visibility: hidden;
     }
+
+    // Make sure the header and navigation are above the shorthand embed
+    // which has a 3rd party z-index of 200
+    &--shorthand-embed {
+        #{$root}__navigation,
+        #{$root}__header {
+            @include z-index(above-shorthand-embed);
+        }
+    }
 }
