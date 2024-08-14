@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 
 import { programmeCategories } from '../../programmes.types';
 import { getCategoryURL, pushState } from '../../programmes.routes';
-import ToggleSwitch from '../StudyModeToggleSwitch';
+import { useStudyMode } from '../../context/StudyModeContext';
 
 /**
  * A list of tabs, one per category. The active tab is underlined.
  * Tabs can be moved through with the arrow keys.
  */
-const CategoriesTablist = ({ categories, activeCategory, activeLength }) => {
+const CategoriesTablist = ({ categories, activeCategory }) => {
+    const { isFullTime, isPartTime } = useStudyMode();
     return (
         <nav
             className="categories-tablist categories-tablist--no-padding-x"
@@ -21,11 +22,15 @@ const CategoriesTablist = ({ categories, activeCategory, activeLength }) => {
             <div className="categories-tablist__list">
                 <div className="categories-tablist__tabs" role="tablist">
                     {categories.map((c) => {
-                        const href = getCategoryURL(c.id, activeLength);
+                        const href = getCategoryURL(
+                            c.id,
+                            String(isFullTime),
+                            String(isPartTime),
+                        );
 
                         return (
                             <a
-                                key={c.id}
+                                key={`category-${c.id}`}
                                 id={`${c.id}-tab`}
                                 href={href}
                                 className="categories-tablist__tab body body--one"
@@ -64,10 +69,6 @@ const CategoriesTablist = ({ categories, activeCategory, activeLength }) => {
                         );
                     })}
                 </div>
-                <ToggleSwitch
-                    ariaLabel="Programme study mode"
-                    activeLength={activeLength}
-                />
             </div>
         </nav>
     );
@@ -76,7 +77,6 @@ const CategoriesTablist = ({ categories, activeCategory, activeLength }) => {
 CategoriesTablist.propTypes = {
     categories: programmeCategories.isRequired,
     activeCategory: PropTypes.string.isRequired,
-    activeLength: PropTypes.bool.isRequired,
 };
 
 export default CategoriesTablist;
