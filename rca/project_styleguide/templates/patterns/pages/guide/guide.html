@@ -3,7 +3,7 @@
 {% get_settings %}
 
 {% block body_class %}
-    app--guide no-hero sticky-bar
+    app--guide no-hero sticky-bar{% if page.shorthand_embed_code %} app--shorthand-embed{% endif %}
 {% endblock %}
 
 {% block tap_widget %}
@@ -119,7 +119,7 @@
             {% endif %}
         </div>
     </div>
-   
+
 
     {% if page.social_image %}
         {% image page.social_image fill-1200x1200 as social_img %}
