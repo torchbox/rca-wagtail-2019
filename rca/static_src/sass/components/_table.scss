@@ -69,15 +69,9 @@
     caption {
         margin-bottom: $gutter;
         text-align: left;
-
-        @include media-query(medium) {
-            text-align: center;
-        }
     }
 
     table {
-        background: $color--white;
-        border: 1px solid $color--grid-line-dark;
         min-width: 600px;
         border-collapse: collapse;
 
@@ -87,7 +81,7 @@
 
         th,
         td {
-            padding: 8px;
+            padding: 8px 8px 8px 0;
         }
 
         th {
