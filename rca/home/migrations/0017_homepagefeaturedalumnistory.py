@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("editorial", "0022_wagtail_3_upgrade"),
-        ("home", "0014_merge_20230227_0237"),
+        ("home", "0016_merge_20230227_0350"),
     ]
 
     operations = [

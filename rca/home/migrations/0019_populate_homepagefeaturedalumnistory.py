@@ -27,7 +27,7 @@ def migrate_backwards(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("home", "0016_remove_homepage_use_api_for_alumni_stories"),
+        ("home", "0018_remove_homepage_use_api_for_alumni_stories"),
     ]
 
     operations = [migrations.RunPython(migrate_forwards, migrate_backwards)]
