@@ -36,6 +36,12 @@
     <meta property="og:site_name" content="{{ settings.utils.SocialMediaSettings.site_name }}" />
 {% endblock meta_tags %}
 
+{% block body_top %}
+    {% if page.has_vepple_panorama %}
+        <script async src="https://rv-vepple-embed.web.app/vepple-embed.umd.js"></script>
+    {% endif %}
+{% endblock body_top %}
+
 {% block header %}
 
     {% include 'patterns/organisms/header/header.html' %}
