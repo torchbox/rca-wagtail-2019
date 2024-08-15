@@ -135,4 +135,11 @@
             }
         }
     }
+
+    // Hide the grid lines on the guide page when a shorthand embed is present
+    .app--shorthand-embed & {
+        &__lines {
+            display: none;
+        }
+    }
 }

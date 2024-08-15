@@ -806,3 +806,16 @@ if "ENQUIRE_TO_STUDY_DESTINATION_EMAILS" in env:
 
 # Allow popups to open (can be from Paypal or other 3rd-party applications):
 SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
+
+# Shorthand
+# See: https://support.shorthand.com/en/articles/62
+SHORTHAND_API_DOMAIN = env.get("SHORTHAND_API_DOMAIN", "api.shorthand.com")
+SHORTHAND_API_TOKEN = env.get("SHORTHAND_API_TOKEN", "")
+SHORTHAND_VALID_HOSTNAMES = tuple(
+    host.strip()
+    for host in env.get(
+        "SHORTHAND_VALID_HOSTNAMES", "royal-college-of-art.shorthandstories.com"
+    )
+    .strip(" ,")
+    .split(",")
+)

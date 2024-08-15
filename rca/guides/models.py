@@ -18,6 +18,7 @@ from rca.utils.models import (
     StickyCTAMixin,
     TapMixin,
 )
+from rca.utils.shorthand import ShorthandContentMixin
 
 
 class GuidePageStaff(RelatedStaffPageWithManualOptions):
@@ -28,11 +29,13 @@ class GuidePageRelatedPages(RelatedPage):
     source_page = ParentalKey("guides.GuidePage", related_name="related_pages")
 
 
-class GuidePage(TapMixin, ContactFieldsMixin, StickyCTAMixin, BasePage):
+class GuidePage(
+    ShorthandContentMixin, TapMixin, ContactFieldsMixin, StickyCTAMixin, BasePage
+):
     template = "patterns/pages/guide/guide.html"
 
     introduction = models.CharField(max_length=500, blank=True)
-    body = StreamField(GuideBlock())
+    body = StreamField(GuideBlock(), blank=True)
     further_information_title = models.CharField(blank=True, max_length=120)
     further_information = StreamField(
         [("accordion_block", AccordionBlockWithTitle())],
@@ -41,8 +44,9 @@ class GuidePage(TapMixin, ContactFieldsMixin, StickyCTAMixin, BasePage):
     )
     related_pages_title = models.CharField(blank=True, max_length=120)
 
-    search_fields = BasePage.search_fields + [
+    search_fields = ShorthandContentMixin.search_fields + [
         index.SearchField("introduction"),
+        index.AutocompleteField("introduction"),
         index.SearchField("body"),
         index.SearchField("further_information"),
     ]
@@ -50,6 +54,7 @@ class GuidePage(TapMixin, ContactFieldsMixin, StickyCTAMixin, BasePage):
     content_panels = (
         BasePage.content_panels
         + [
+            FieldPanel("shorthand_story_url"),
             FieldPanel("introduction"),
             FieldPanel("body"),
             MultiFieldPanel([InlinePanel("related_staff")], heading=_("Related staff")),
@@ -132,9 +137,10 @@ class GuidePage(TapMixin, ContactFieldsMixin, StickyCTAMixin, BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["anchor_nav"] = self.anchor_nav()
-        context["related_staff"] = self.related_staff.all
-        context["related_pages"] = self.get_related_pages()
+        if not self.shorthand_embed_code:
+            context["anchor_nav"] = self.anchor_nav()
+            context["related_staff"] = self.related_staff.all
+            context["related_pages"] = self.get_related_pages()
         if self.has_sticky_cta():
             context["sticky_cta"] = self.get_sticky_cta()
         if self.tap_widget:
