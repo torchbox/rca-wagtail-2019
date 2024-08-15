@@ -193,12 +193,12 @@ class HomePage(TapMixin, BasePage):
                 heading="Strapline",
             ),
             InlinePanel(
+                "transformation_blocks", label="Transformation block", max_num=1
+            ),
+            InlinePanel(
                 "featured_alumni_stories",
                 label="Story",
                 heading="Featured Alumni stories",
-            ),
-            InlinePanel(
-                "transformation_blocks", label="Transformation block", max_num=1
             ),
             InlinePanel("partnerships_block", label="Partnerships", max_num=1),
             InlinePanel("stats_block", label="Statistics", max_num=1),
