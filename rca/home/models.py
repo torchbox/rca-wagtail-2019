@@ -10,8 +10,8 @@ from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, HelpPanel, InlinePanel, MultiFieldPanel
 from wagtail.fields import StreamBlock, StreamField
 from wagtail.images import get_image_model_string
+from wagtail.models import Orderable
 
-from rca.api_content.content import get_alumni_stories as get_api_alumni_stories
 from rca.api_content.content import get_news_and_events as get_api_news_and_events
 from rca.editorial.models import EditorialPage
 from rca.events.models import EventDetailPage
@@ -123,6 +123,11 @@ class HomePageStatsBlock(models.Model):
         return self.title
 
 
+class HomePageFeaturedAlumniStory(Orderable):
+    source_page = ParentalKey("HomePage", related_name="featured_alumni_stories")
+    story = models.ForeignKey("editorial.EditorialPage", on_delete=models.CASCADE)
+
+
 class HomePage(TapMixin, BasePage):
     template = "patterns/pages/home/home_page.html"
 
@@ -151,7 +156,6 @@ class HomePage(TapMixin, BasePage):
     strapline_cta_url = models.URLField(blank=True)
     strapline_cta_text = models.CharField(max_length=125, blank=True)
 
-    use_api_for_alumni_stories = models.BooleanField(default=True)
     use_api_for_news_and_events = models.BooleanField(default=True)
     news_and_events_link_text = models.TextField(
         max_length=120,
@@ -191,6 +195,11 @@ class HomePage(TapMixin, BasePage):
             InlinePanel(
                 "transformation_blocks", label="Transformation block", max_num=1
             ),
+            InlinePanel(
+                "featured_alumni_stories",
+                label="Story",
+                heading="Featured Alumni stories",
+            ),
             InlinePanel("partnerships_block", label="Partnerships", max_num=1),
             InlinePanel("stats_block", label="Statistics", max_num=1),
             MultiFieldPanel(
@@ -207,7 +216,6 @@ class HomePage(TapMixin, BasePage):
                         </ul>"""
                         )
                     ),
-                    FieldPanel("use_api_for_alumni_stories"),
                     FieldPanel("use_api_for_news_and_events"),
                 ],
                 heading="News, Events and Alumni Stories Content Listings",
@@ -379,18 +387,15 @@ class HomePage(TapMixin, BasePage):
         ]
 
     def get_alumni_stories(self):
-        if self.use_api_for_alumni_stories:
-            return get_api_alumni_stories()
-        pages_queryset = (
-            EditorialPage.objects.filter(editorial_types__type__slug="alumni-story")
-            .live()
-            .order_by("-published_at")[:3]
-        )
         return [
             self.related_news_events_formatter(
-                page, editorial_meta_label="Alumni story", long_description=True
+                item.story,
+                editorial_meta_label="Alumni story",
+                long_description=True,
             )
-            for page in pages_queryset
+            for item in self.featured_alumni_stories.filter(story__live=True)
+            .select_related("story", "story__listing_image")
+            .prefetch_related("story__listing_image__renditions")
         ]
 
     def get_context(self, request, *args, **kwargs):
