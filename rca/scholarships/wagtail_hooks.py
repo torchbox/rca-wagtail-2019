@@ -8,17 +8,8 @@ from rca.scholarships.views import scholarships_delete
 
 
 class ScholarshipEnquiryFormSubmissionPermissionHelper(PermissionHelper):
-    def user_can_list(self, user):
-        return user.is_superuser
-
     def user_can_create(self, user):
         return False
-
-    def user_can_edit_obj(self, user, obj):
-        return user.is_superuser
-
-    def user_can_delete_obj(self, user, obj):
-        return user.is_superuser
 
 
 class ScholarshipEnquiryFormSubmissionAdmin(ModelAdmin):
