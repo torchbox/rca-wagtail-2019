@@ -392,15 +392,15 @@ class EditorialPage(
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["related_pages"] = self.get_related_pages()
-
-        # Link taxonomy/page relations to a parent page so they can be clicked
-        # and applied as filters on the parent listing page
-        context["taxonomy_tags"] = get_linked_taxonomy(self, request)
         context["hero_image"] = self.hero_image
-        if self.has_sticky_cta():
-            context["sticky_cta"] = self.get_sticky_cta()
 
+        if not self.shorthand_embed_code:
+            # Link taxonomy/page relations to a parent page so they can be clicked
+            # and applied as filters on the parent listing page
+            context["taxonomy_tags"] = get_linked_taxonomy(self, request)
+            if self.has_sticky_cta():
+                context["sticky_cta"] = self.get_sticky_cta()
+            context["related_pages"] = self.get_related_pages()
         return context
 
 
