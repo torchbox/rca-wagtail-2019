@@ -3,7 +3,7 @@
 {% get_settings %}
 
 {% block body_class %}
-    app--editorial sticky-bar
+    app--editorial sticky-bar{% if page.shorthand_embed_code %} app--shorthand-embed{% endif %}
 {% endblock %}
 
 {% block content %}
