@@ -1,4 +1,4 @@
-from utils.management.commands._base_copy_command import BaseCopyDatabaseCommand
+from rca.utils.management.commands._base_copy_command import BaseCopyDatabaseCommand
 
 
 class Command(BaseCopyDatabaseCommand):
