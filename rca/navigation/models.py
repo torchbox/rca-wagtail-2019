@@ -70,17 +70,10 @@ class LinkBlock(blocks.StructBlock):
 
     # Add a page url for the page object
     def get_api_representation(self, value, context=None):
-        value = dict(
-            [
-                (
-                    name,
-                    self.child_blocks[name].get_api_representation(
-                        val, context=context
-                    ),
-                )
-                for name, val in value.items()
-            ]
-        )
+        value = {
+            name: self.child_blocks[name].get_api_representation(val, context=context)
+            for name, val in value.items()
+        }
 
         if value["page"] and not value["url"]:
             # Stale cache data could store a deleted page ID, so try the get

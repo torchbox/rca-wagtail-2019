@@ -106,50 +106,6 @@ As well as testing the critical paths, these areas of functionality should be ch
 
 ---
 
-#### Wagtail v3 Upgrade notes
-
-When the site was upgraded to Wagtail v3 the original issue at v2.15 & v2.16 noted above was fixed.
-
-Wagtail 3 introduced a lot of Javascript generated editor template "furniture" such as the admin side bar. To accommodate hiding the search input for Student accounts the following has been implemented.
-
-- New wagtail_hooks [global_admin_css](https://github.com/torchbox/rca-wagtail-2019/blob/7e5bb3c9201d8a7b7fa6e0288d4bee0ba1c79f52/rca/people/wagtail_hooks.py#L21) and [global_admin_js](https://github.com/torchbox/rca-wagtail-2019/blob/7e5bb3c9201d8a7b7fa6e0288d4bee0ba1c79f52/rca/people/wagtail_hooks.py#L13)
-- Wagtail [Base.html](https://github.com/torchbox/rca-wagtail-2019/blob/support/wagtail-3.0-upgrade/rca/account_management/templates/wagtailadmin/base.html) override. Specifically [here](https://github.com/torchbox/rca-wagtail-2019/blob/7e5bb3c9201d8a7b7fa6e0288d4bee0ba1c79f52/rca/account_management/templates/wagtailadmin/base.html#L12) Which adds a new data-attribute for the hooks above to operate on.
-
-Wagtail 3 introduced a new [FieldPanel `permission` parameter](https://docs.wagtail.org/en/stable/reference/pages/panels.html#wagtail.admin.panels.FieldPanel.permission) which has been use on many fields of the [StudentPage](https://github.com/torchbox/rca-wagtail-2019/blob/support/wagtail-3.0-upgrade/rca/people/models.py#L777) content_panels.
-
-Additionally there are some Custom Panels which help to add the `permission` parameter to child FieldPanels and control panel visibility in general.
-
-- [StudentPageInlinePanel](https://github.com/torchbox/rca-wagtail-2019/blob/7e5bb3c9201d8a7b7fa6e0288d4bee0ba1c79f52/rca/people/utils.py#L72), including the custom templates at the following locations:
-  - `rca/people/templates/admin/panels/student_page_inline_panel.html`
-  - `rca/people/templates/admin/panels/student_page_inline_panel_child.html`
-- [StudentPagePromoteTab](https://github.com/torchbox/rca-wagtail-2019/blob/7e5bb3c9201d8a7b7fa6e0288d4bee0ba1c79f52/rca/people/utils.py#L86)
-- [StudentPageSettingsTab](https://github.com/torchbox/rca-wagtail-2019/blob/7e5bb3c9201d8a7b7fa6e0288d4bee0ba1c79f52/rca/people/utils.py#L107)
-
-`use_json_field` argument added to `StreamField` (creates new migration files)
-
----
-
-#### Wagtail v4 Upgrade notes
-
-- Removed `wagtail_redirect_importer` as it's now part of Wagtail since version `2.10`
-
----
-
-#### Wagtail v5 Upgrade notes
-
-- Added `index.AutocompleteField` entries for the relevant fields on the model’s `search_fields` definition, as the old `SearchField("some_field", partial_match=True)` format is no longer supported.
-- Changes to header CSS classes in `ModelAdmin` templates
-- `wagtailsearch.Query` has been moved to `wagtail.contrib.search_promotions`
-- `status` classes are now `w-status`
-
----
-
-#### Wagtail v6 Upgrade notes
-
-- `StreamField` no longer requires `use_json_field=True`
-
----
-
 ## Overridden core Wagtail templates
 
 The following templates are overridden and should be checked for changes when upgrading Wagtail:
@@ -182,4 +138,70 @@ This is the path to the Django template which is used to display the “password
 
 ```python
 WAGTAIL_PASSWORD_REQUIRED_TEMPLATE = "patterns/pages/wagtail/password_required.html"
+```
+
+## Python version upgrade
+
+We don't generally upgrade python versions until a new LTS/Major version is released and has been stable for a while. We prefer to be running a more stable version of python.
+
+If you are upgrading python, you should check the following python version references are updated:
+
+- The `python` key in the `tool.poetry.dependencies` section of the `pyproject.toml` file.
+- The `python` key in the pre-commit configuration file `.pre-commit-config.yaml`.
+- The `python` image tag in the `Dockerfile`/s.
+- Any references to the python version in documentation.
+- Any references to the python version in the CI configuration file `gitlab-ci.yaml`.
+
+### Pyupgrade tool
+
+If you are upgrading python. There is a development tool available to help with modernising the codebase. This is installed as part of the poetry development dependencies.
+
+To run the tool, use the following command:
+
+```bash
+git ls-files -z -- '*.py' | xargs -0 pyupgrade [python-version-arg]
+```
+
+Where `[python-version-arg]` is the version of python you are upgrading to.
+
+To view the available version arguments, use the following command:
+
+```bash
+pyupgrade --help
+```
+
+### Pre-commit + Pyupgrade
+
+The pyupgrade tool is run as a step in the pre-commit configuration. This will help you to use the modern syntax as you work on the codebase.
+
+You can manually run the pre-commit checks on `*.py` files using the following command:
+
+```bash
+git ls-files -z -- '*.py' | xargs -0 | pre-commit run --files
+```
+
+## Django upgrades
+
+If you are upgrading Django. There is a development tool available to help with modernising the codebase. This is installed as part of the poetry development dependencies.
+
+### Django upgrade tool
+
+If you are upgrading django. There is a development tool available to help with modernising the codebase. This is installed as part of the poetry development dependencies.
+
+To run the tool, use the following command:
+
+```bash
+git ls-files -z -- '*.py' | xargs -0 django-upgrade --target-version [django-version-arg]
+```
+
+Where `[django-version-arg]` is the version of Django you are upgrading to.
+
+### Pre-commit + django-upgrade
+
+The django-upgrade tool is run as a step in the pre-commit configuration. This will help you to use the modern syntax as you work on the codebase.
+
+You can manually run the pre-commit checks on `*.py` files using the following command:
+
+```bash
+git ls-files -z -- '*.py' | xargs -0 | pre-commit run --files
 ```
