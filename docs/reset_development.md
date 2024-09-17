@@ -48,9 +48,9 @@ Steps for resetting the `dev` git branch, and deploying it with a cloned/anonymi
 
 1. To copy the production database over to dev, run the management command `./manage.py copy_db_to_dev` from the Heroku console on dev
    This is a destructive action. Proofread it thoroughly.
-2. To copy media across as well as data, you can use the optional argument `--media` with the above command
-3. By default, a backup of the staging database is created before the database is copied. If you don't want this behaviour, you can set the optional argument `--backup` to false.
-4. By default, a snapshot of the production base is taken before the database is copied. If you don't want this behaviour, you can se the option agrument `--snapshot` to false.
+2. To copy media across as well as data, you can use the optional argument `--media` with the above command, using a value of 1, e.g. `--media=1`
+3. By default, a backup of the staging database is created before the database is copied. If you don't want this behaviour, you can set the optional argument `--backup` with a value of 0, e.g. `--backup=0`
+4. By default, a snapshot of the production base is taken before the database is copied. If you don't want this behaviour, you can se the option agrument `--snapshot` with a value of 0, e.g. `--snapshot=0`
 5. Flightpath will anonymise the database for you at the end of the copy process.
 
 ### Cleanup
