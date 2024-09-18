@@ -1,0 +1,4 @@
+context:
+  value:
+    url: 'www.example.com'
+    title: Some example title

@@ -6,6 +6,7 @@ from wagtail.contrib.typed_table_block.blocks import TypedTableBlock
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
+
 from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
 
 __all__ = [
