@@ -34,6 +34,9 @@
     {% endif %}
     <meta property="og:description" content="{{ page|social_text:request.site }}" />
     <meta property="og:site_name" content="{{ settings.utils.SocialMediaSettings.site_name }}" />
+    {% if page.has_vepple_panorama %}
+        <script async type="module" src="https://rv-vepple-tour.web.app/vepple-tour.min.js"></script>
+    {% endif %}
 {% endblock meta_tags %}
 
 {% block body_top %}
