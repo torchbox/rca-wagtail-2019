@@ -2,7 +2,7 @@ from wagtail import blocks
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.snippets.blocks import SnippetChooserBlock
 
-from .content import DocumentBlock, ImageBlock, QuoteBlock, TableBlock
+from .content import CTALinkBlock, DocumentBlock, ImageBlock, QuoteBlock, TableBlock
 from .embeds import CookieSnippetBlock, JWPLayerBlock
 
 __all__ = [
@@ -55,6 +55,7 @@ class GuideBlock(blocks.StreamBlock):
     table = TableBlock()
     jw_video = JWPLayerBlock()
     cookie_snippet_block = CookieSnippetBlock("utils.CookieButtonSnippet")
+    cta_link = CTALinkBlock()
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"
