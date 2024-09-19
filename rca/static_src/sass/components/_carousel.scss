@@ -231,6 +231,8 @@
         display: none;
 
         @include media-query(large) {
+            @include z-index(modal-controls);
+
             display: block;
         }
     }
