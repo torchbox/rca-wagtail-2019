@@ -37,6 +37,7 @@ from rca.utils.blocks import (
 )
 from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, ContactFieldsMixin, RelatedPage, StickyCTAMixin
+from rca.utils.shorthand import ShorthandContentMixin
 
 from .blocks import EditorialPageBlock
 from .serializers import (
@@ -102,7 +103,9 @@ class EditorialPageDirectorate(models.Model):
     panels = [FieldPanel("directorate")]
 
 
-class EditorialPage(ContactFieldsMixin, StickyCTAMixin, BasePage):
+class EditorialPage(
+    ShorthandContentMixin, ContactFieldsMixin, StickyCTAMixin, BasePage
+):
     base_form_class = admin_forms.EditorialPageAdminForm
     template = "patterns/pages/editorial/editorial_detail.html"
     introduction = RichTextField(
@@ -141,7 +144,7 @@ class EditorialPage(ContactFieldsMixin, StickyCTAMixin, BasePage):
     published_at = models.DateField()
     contact_email = models.EmailField(blank=True, max_length=254)
 
-    body = StreamField(EditorialPageBlock())
+    body = StreamField(EditorialPageBlock(), blank=True)
     cta_block = StreamField(
         [("call_to_action", CallToActionBlock(label="text promo"))],
         blank=True,
@@ -192,6 +195,7 @@ class EditorialPage(ContactFieldsMixin, StickyCTAMixin, BasePage):
         BasePage.content_panels
         + [
             FieldPanel("introduction"),
+            FieldPanel("shorthand_story_url"),
             FieldPanel("hero_image"),
             MultiFieldPanel(
                 [
@@ -388,15 +392,15 @@ class EditorialPage(ContactFieldsMixin, StickyCTAMixin, BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["related_pages"] = self.get_related_pages()
-
-        # Link taxonomy/page relations to a parent page so they can be clicked
-        # and applied as filters on the parent listing page
-        context["taxonomy_tags"] = get_linked_taxonomy(self, request)
         context["hero_image"] = self.hero_image
-        if self.has_sticky_cta():
-            context["sticky_cta"] = self.get_sticky_cta()
 
+        if not self.shorthand_embed_code:
+            # Link taxonomy/page relations to a parent page so they can be clicked
+            # and applied as filters on the parent listing page
+            context["taxonomy_tags"] = get_linked_taxonomy(self, request)
+            if self.has_sticky_cta():
+                context["sticky_cta"] = self.get_sticky_cta()
+            context["related_pages"] = self.get_related_pages()
         return context
 
 

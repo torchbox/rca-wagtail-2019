@@ -54,8 +54,8 @@ class GuidePage(
     content_panels = (
         BasePage.content_panels
         + [
-            FieldPanel("shorthand_story_url"),
             FieldPanel("introduction"),
+            FieldPanel("shorthand_story_url"),
             FieldPanel("body"),
             MultiFieldPanel([InlinePanel("related_staff")], heading=_("Related staff")),
             MultiFieldPanel(
