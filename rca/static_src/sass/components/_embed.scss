@@ -11,4 +11,9 @@
         @include z-index(above-gridlines);
         position: relative;
     }
+
+    &--vepple {
+        height: 500px;
+        margin-bottom: $gutter;
+    }
 }
