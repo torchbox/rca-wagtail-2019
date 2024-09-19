@@ -820,7 +820,4 @@ SHORTHAND_VALID_HOSTNAMES = tuple(
     .split(",")
 )
 # Vepple
-# NOTE: Unsure if this will ever need to change per environment. The default value is
-# from a screenshot example on the following developer article:
-# https://support.vepple.co.uk/hc/en-gb/articles/6726351038097-How-to-create-an-Embeddable-Widget
-VEPPLE_API_URL = env.get("VEPPLE_API_URL", "https://api.derby.rvhosted.com")
+VEPPLE_API_URL = env.get("VEPPLE_API_URL", "https://editor.rca.rvhosted.com")
