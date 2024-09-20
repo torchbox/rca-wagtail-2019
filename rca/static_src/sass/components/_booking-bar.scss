@@ -111,4 +111,23 @@
             }
         }
     }
+
+    .app--short-course & {
+        &-last-item {
+            margin-bottom: -($gutter * 3.8);
+
+            // One off custom breakpoint between small and medium
+            @media only screen and (max-width: 598px) and (min-width: 418px) {
+                margin-bottom: -($gutter * 2.6);
+            }
+
+            @include media-query(medium) {
+                margin-bottom: -($gutter * 9.6);
+            }
+
+            @include media-query(large) {
+                margin-bottom: -($gutter * 10.85);
+            }
+        }
+    }
 }
