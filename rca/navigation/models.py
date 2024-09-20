@@ -61,7 +61,7 @@ class URLOrRelativeURLBLock(blocks.FieldBlock):
 class LinkBlock(blocks.StructBlock):
     # URL block uses the URLOrRelativeURLBLock so it can accpet relative URLs
     # E.G, /schools/
-    url = URLOrRelativeURLBLock(required=False)
+    url = URLOrRelativeURLBLock(required=False, label="URL")
     page = blocks.PageChooserBlock(required=False)
     title = blocks.CharBlock(
         help_text="Leave blank to use the page's own title, required if using a URL",
