@@ -1,0 +1,17 @@
+{% load wagtailcore_tags %}
+
+{% if value.page %}
+    <a class="link link--primary link--link link--block" href="{% pageurl value.page %}">
+        <span class="link__label link__label--tight">
+            {% firstof value.title value.page.title %}
+        </span>
+        <svg class="link__icon" width="12" height="8" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+    </a>
+{% else %}
+    <a class="link link--primary link--link link--external link--block" href="{{ value.url }}" target="_blank">
+        <span class="link__label link__label--tight">
+            {{ value.title }}
+        </span>
+        <svg class="link__icon" width="12" height="8" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
+    </a>
+{% endif %}
