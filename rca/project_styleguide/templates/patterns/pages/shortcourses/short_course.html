@@ -8,11 +8,9 @@
 
 {% block content %}
 
-
     {% include "patterns/molecules/hero/hero.html" with hero_image=page.hero_image modifier="medium" %}
 
     <div class="page page--overlap">
-
         <div class="page__notch grid">
             <div class="page__notch-block bg bg--dark"></div>
         </div>
@@ -51,9 +49,7 @@
         </header>
 
         <div class="page__content js-sticky-point js-sticky-point--bottom">
-
             <section class="section section--start bg bg--dark">
-
                 <div class="section__row programme-overview">
                     <header class="section__header grid">
                         <h2 class="section__heading section__heading--primary heading heading--five">
@@ -84,32 +80,26 @@
                 <div class="section__notch">
                     <div class="section__notch-fill section__notch-fill--third-col"></div>
                 </div>
-
             </section>
 
             <section class="section bg bg--light">
-
                 {% if page.quote_carousel %}
                     <div class="section__row section__row--first">
                         {% include "patterns/organisms/carousel/carousel--quotes.html" with carousel=page.quote_carousel modifier='carousel--square carousel--quotes' control_title="Quote carousel" datatag='data-peek-carousel' %}
                     </div>
                 {% endif %}
-
                 {% if related_staff %}
                     <div class="section__row section__row--last">
                         {% include "patterns/organisms/people-module/people-module.html" with title=page.staff_title people=related_staff %}
                     </div>
                 {% endif %}
-
             </section>
 
             {% if page.gallery %}
                 <section class="section bg bg--dark">
-
                     <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
-
                     <div class="section__row section__row--first section__row--last">
                         <header class="section__header grid">
                             <h3 class="section__heading section__heading--secondary heading heading--four">
@@ -120,7 +110,6 @@
                             {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.gallery control_title="gallery" modifier='slideshow--author-info' %}
                         </div>
                     </div>
-
                 </section>
             {% endif %}
 
@@ -132,7 +121,6 @@
                     </div>
                 </section>
             {% endif %}
-
 
             {% if page.related_programmes %}
                 <section class="section bg bg--dark {% if not related_links %}section--end{% endif %}">
@@ -149,6 +137,7 @@
                     {% endif %}
                 </section>
             {% endif %}
+
             {% if page.external_links %}
                 <section class="section section--top-space bg bg--light booking-bar-last-item">
                     {% include "patterns/organisms/related-links/related-links.html" with related_links=page.external_links title="Related pages" %}
@@ -156,26 +145,25 @@
             {% endif %}
 
             {% if booking_bar %}
-            <div class="page__modals">
-                <div class="modal" id="booking-details" aria-hidden="true">
-                    <div class="modal__overlay bg bg--light" tabindex="-1">
-                        {% include "patterns/atoms/grid-lines/grid-lines.html" %}
-                        <div class="modal__header grid">
-                            <button class="modal__close" aria-label="Close modal" data-micromodal-close>
-                                <span class="modal__close-label">Close</span>
-                                <svg width="14" height="14" class="modal__close-icon" aria-hidden="true"><use xlink:href="#close"></use></svg>
-                            </button>
-                        </div>
-                        <div class="modal__container grid" role="dialog" aria-modal="true" aria-labelledby="booking-details-title">
-                            <div class="modal__content">
-                                {% include "patterns/molecules/short-course-details/short-course-details.html" %}
+                <div class="page__modals">
+                    <div class="modal" id="booking-details" aria-hidden="true">
+                        <div class="modal__overlay bg bg--light" tabindex="-1">
+                            {% include "patterns/atoms/grid-lines/grid-lines.html" %}
+                            <div class="modal__header grid">
+                                <button class="modal__close" aria-label="Close modal" data-micromodal-close>
+                                    <span class="modal__close-label">Close</span>
+                                    <svg width="14" height="14" class="modal__close-icon" aria-hidden="true"><use xlink:href="#close"></use></svg>
+                                </button>
+                            </div>
+                            <div class="modal__container grid" role="dialog" aria-modal="true" aria-labelledby="booking-details-title">
+                                <div class="modal__content">
+                                    {% include "patterns/molecules/short-course-details/short-course-details.html" %}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endif %}
-
+            {% endif %}
         </div>
     </div>
 
@@ -192,5 +180,4 @@
           }
         }
     </script>
-
 {% endblock %}
