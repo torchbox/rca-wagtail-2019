@@ -7,6 +7,8 @@ from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 
+from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
+
 __all__ = [
     "FeeBlock",
     "SlideBlock",
@@ -25,6 +27,7 @@ __all__ = [
     "RelatedPageListBlock",
     "CallToActionBlock",
     "TableBlock",
+    "CTALinkBlock",
 ]
 
 
@@ -331,3 +334,10 @@ class TableBlock(blocks.StructBlock):
     class Meta:
         icon = "table"
         template = "patterns/molecules/streamfield/blocks/table_block.html"
+
+
+class CTALinkBlock(InternalExternalLinkBlock):
+    class Meta:
+        icon = "link"
+        template = "patterns/molecules/streamfield/blocks/cta_link_block.html"
+        label = "CTA link"

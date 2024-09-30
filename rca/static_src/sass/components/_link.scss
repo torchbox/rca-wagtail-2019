@@ -242,6 +242,19 @@
         max-width: 170px;
     }
 
+    &--block {
+        color: $color--tertiary !important;
+        display: block;
+        margin-bottom: $gutter;
+        width: fit-content;
+
+        &:hover,
+        &:active,
+        &:focus {
+            color: $color--tertiary !important;
+        }
+    }
+
     &__icon {
         position: relative;
         flex-basis: 12px;

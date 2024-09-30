@@ -135,6 +135,12 @@ class GuidePage(
         data = self.get_sticky_cta()
         return all(data.get(key) for key in ["message", "action", "link"])
 
+    def has_vepple_panorama(self):
+        for value in self.body.raw_data:
+            if value["type"] == "vepple_panorama":
+                return True
+        return False
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         if not self.shorthand_embed_code:

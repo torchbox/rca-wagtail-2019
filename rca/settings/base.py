@@ -819,3 +819,5 @@ SHORTHAND_VALID_HOSTNAMES = tuple(
     .strip(" ,")
     .split(",")
 )
+# Vepple
+VEPPLE_API_URL = env.get("VEPPLE_API_URL", "https://editor.rca.rvhosted.com")
