@@ -51,25 +51,25 @@ whitenoise = "~6.6"
 gunicorn = ["gunicorn"]
 
 [tool.poetry.group.dev.dependencies]
-Werkzeug = "~3.0.2"
+Werkzeug = "~3.0.4"
 django-extensions = "~3.2"
 fabric = "~3.2"
 stellar = "~0.4"
 wagtailmakeup = "^1.1.0"
 
 # Linters etc.
-black = "24.4.0"
-detect-secrets = "~1.4"
+black = "^24.8.0"
+detect-secrets = "~1.5"
 flake8 = "5.0.4"
 isort = "5.13.2"
 pre-commit = "~3.5"
 
 # Documentation
-mkdocs = "~1.5"
+mkdocs = "~1.6"
 mkdocs-material = "~9.5"
-pymdown-extensions = "~10.8"
+pymdown-extensions = "~10.11"
 honcho = "^1.1.0"
-django-upgrade = "^1.16.0"
+django-upgrade = "^1.21.0"
 
 [build-system]
 requires = ["poetry>=1,<2"]
