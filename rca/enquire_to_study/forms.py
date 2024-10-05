@@ -60,7 +60,7 @@ class EnquireToStudyForm(forms.Form):
     captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox)
 
     def __init__(self, *args, **kwargs):
-        super(EnquireToStudyForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         # Placeholder
 
         # Set initial values

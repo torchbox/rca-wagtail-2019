@@ -6,7 +6,7 @@ class StudentPageAdminForm(WagtailAdminPageForm):
     """Validation for adding StudentPage"""
 
     def __init__(self, *args, **kwargs):
-        super(StudentPageAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         user = kwargs.get("for_user")
 
