@@ -20,3 +20,4 @@ nav:
       - 'Content relationship via API': 'implementation-specs/content-relationships.md'
       - 'Support runbook': 'support-runbook.md'
       - 'Upgrading guidelines': 'upgrading.md'
+      - 'Anonymising data': 'anonymised-data.md'
