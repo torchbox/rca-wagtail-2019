@@ -83,7 +83,7 @@ INSTALLED_APPS = [
     "wagtail.contrib.redirects",
     "wagtail.embeds",
     "wagtail.sites",
-    "wagtail.users",
+    "rca.users.apps.UsersConfig",
     "wagtail.snippets",
     "wagtail.documents",
     "wagtail.images",
@@ -770,8 +770,6 @@ MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID = env.get(
 
 # https://docs.djangoproject.com/en/3.2/ref/settings/#password-reset-timeout
 PASSWORD_RESET_TIMEOUT = 60 * 60 * 24 * 90  # 90 days, in seconds, default is 3 days
-
-WAGTAIL_USER_EDIT_FORM = "rca.users.forms.CustomUserEditForm"
 
 pixel_limit = env.get("WAGTAILIMAGES_MAX_IMAGE_PIXELS")
 WAGTAILIMAGES_MAX_IMAGE_PIXELS = int(pixel_limit) if pixel_limit else 10000000

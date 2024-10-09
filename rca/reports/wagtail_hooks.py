@@ -8,11 +8,19 @@ from .views import AgingPagesReportView
 
 @hooks.register("register_admin_urls")
 def register_custom_aging_pages_report():
+    """
+    See ./views.py AgingPagesReportView() for more information on the customisation here.
+    """
     return [
         path(
             "reports/rca-aging-pages/",
             AgingPagesReportView.as_view(),
             name="rca_aging_pages_report",
+        ),
+        path(
+            "reports/rca-aging-pages/results/",
+            AgingPagesReportView.as_view(results_only=True),
+            name="rca_aging_pages_report_results",
         ),
     ]
 

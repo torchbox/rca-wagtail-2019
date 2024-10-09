@@ -1,14 +1,14 @@
 from django.test import TestCase
 from django.urls import reverse
 from wagtail.test.utils import WagtailTestUtils
-from wagtail.users.views.users import get_user_edit_form
 
 from rca.users.forms import CustomUserEditForm
+from rca.users.viewsets import UserViewSet
 
 
 class TestUserFormHelpers(TestCase):
     def test_get_user_edit_form_with_default_form(self):
-        user_form = get_user_edit_form()
+        user_form = UserViewSet().get_form_class(for_update=True)
         self.assertIs(user_form, CustomUserEditForm)
 
 
@@ -43,6 +43,6 @@ class TestUserEditView(TestCase, WagtailTestUtils):
         self.assertTemplateUsed(response, "wagtailusers/users/edit.html")
         self.assertContains(
             response,
-            '<input type="text" name="username" value="testuser" maxlength="150"'
-            ' readonly aria-describedby="id_username-helptext" required id="id_username">',
+            '<input type="text" name="username" value="testuser" readonly maxlength="150"'
+            ' aria-describedby="id_username-helptext" required id="id_username">',
         )

@@ -25,7 +25,9 @@ class TestAgingPagesView(WagtailTestUtils, TestCase):
     def test_simple(self):
         response = self.get()
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "wagtailadmin/reports/aging_pages.html")
+        self.assertTemplateUsed(
+            response, "wagtailadmin/reports/aging_pages_results.html"
+        )
 
     def test_displays_only_published_pages(self):
         response = self.get()
