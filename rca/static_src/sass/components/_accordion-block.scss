@@ -32,6 +32,14 @@
         margin-top: 0;
     }
 
+    &--streamfield {
+        overflow: unset;
+
+        .link--primary {
+            color: $color--orange !important;
+        }
+    }
+
     &__heading {
         grid-column: 1 / span 2;
         margin-bottom: $gutter;
