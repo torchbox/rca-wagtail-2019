@@ -35,6 +35,7 @@
     &--streamfield {
         overflow: unset;
 
+        // Currently, background will always be black when used as a streamfield
         .link--primary {
             color: $color--orange !important;
         }
