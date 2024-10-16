@@ -179,6 +179,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         null=True,
         related_name="+",
     )
+    dates = RichTextField(blank=True, features=["link"])
     location = RichTextField(blank=True, features=["link"])
     introduction = models.CharField(max_length=500, blank=True)
 
@@ -271,6 +272,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
     ]
     key_details_panels = [
         InlinePanel("fee_items", label="Fees"),
+        FieldPanel("dates"),
         FieldPanel("location"),
         FieldPanel("show_register_link"),
         InlinePanel("subjects", label=_("Subjects")),

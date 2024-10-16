@@ -16,6 +16,16 @@
                 </ul>
             </div>
         {% endif %}
+        {% if page.dates %}
+        <div class="key-details__section key-details__section--dates">
+            <h5 class="body body--two key-details__sub-heading">Dates</h5>
+            <ul class="key-details__list">
+                <li class="key-details__list-item">
+                    {{ page.dates|richtext }}
+                </li>
+            </ul>
+        </div>
+        {% endif %}
         {% if page.location %}
             <div class="key-details__section key-details__section--location">
                 <h5 class="body body--two key-details__sub-heading">Location</h5>
