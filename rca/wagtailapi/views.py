@@ -21,6 +21,7 @@ class PagesAPIViewSet(views.PagesAPIViewSet):
         filters.RelatedSchoolsFilter,
         filters.SubjectsFilter,
         filters.StudyModeFilter,
+        filters.DistinctFilter,
         filters.SearchFilter,
     ]
 
