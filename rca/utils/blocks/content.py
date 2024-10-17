@@ -22,6 +22,7 @@ __all__ = [
     "InfoBlock",
     "StepBlock",
     "AccordionBlockWithTitle",
+    "AccordionBlock",
     "CustomTeaserBlock",
     "RelatedPageListBlockPage",
     "RelatedPageListBlock",
@@ -246,6 +247,15 @@ class AccordionBlockWithTitle(blocks.StructBlock):
                 "Validation error in AccordionBlockWithTitle", params=errors
             )
         return result
+
+
+class AccordionBlock(blocks.StructBlock):
+    heading = blocks.CharBlock()
+    items = blocks.ListBlock(AccordionBlockWithTitle())
+
+    class Meta:
+        icon = "list-ul"
+        template = "patterns/molecules/streamfield/blocks/accordion_block.html"
 
 
 class CustomTeaserBlock(blocks.StructBlock):
