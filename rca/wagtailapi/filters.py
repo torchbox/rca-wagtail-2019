@@ -162,3 +162,8 @@ class SearchFilter(filters.SearchFilter):
                 )
 
         return queryset
+
+
+class DistinctFilter(filters.BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        return queryset.distinct()
