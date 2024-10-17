@@ -1,7 +1,10 @@
+from django import forms
 from wagtail.users.forms import UserEditForm
 
 
 class CustomUserEditForm(UserEditForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["username"].widget.attrs["readonly"] = True
+
+    class Meta(UserEditForm.Meta):
+        widgets = {
+            "username": forms.TextInput(attrs={"readonly": True}),
+        }
