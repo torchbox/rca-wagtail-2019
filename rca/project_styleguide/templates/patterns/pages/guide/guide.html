@@ -70,7 +70,7 @@
 
                     {% if related_staff %}
                         <div class="section__row section__row--first section__row--last">
-                            {% include "patterns/organisms/people-module/people-module.html" with people=related_staff title="Staff" anchor_heading=True %}
+                            {% include "patterns/organisms/people-module/people-module.html" with people=related_staff title=page.related_staff_title anchor_heading=True %}
                         </div>
                     {% endif %}
 
