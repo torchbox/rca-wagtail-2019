@@ -32,6 +32,15 @@
         margin-top: 0;
     }
 
+    &--streamfield {
+        overflow: unset;
+
+        // Currently, background will always be black when used as a streamfield
+        .link--primary {
+            color: $color--orange !important;
+        }
+    }
+
     &__heading {
         grid-column: 1 / span 2;
         margin-bottom: $gutter;

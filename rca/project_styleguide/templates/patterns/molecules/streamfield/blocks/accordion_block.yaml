@@ -1,0 +1,22 @@
+context:
+  value:
+    heading: Unpredictable Knowledge Expander
+    items: 
+      - heading: Pixel Artistry
+        preview_text: Diving into a pixelated universe, reshaping the boundaries of digital canvases
+        body: The realm of creations defies conventional borders, blending ancient techniques with digital frontiers. Learners embark on quests of discovery, drawing essence from a spectrum of disciplines, intertwining cutting-edge practices with traditional roots across the expansive corridors of our academy.
+        link:
+          url: '#'
+          title: 'Explore the Pixels'
+      - heading: Culinary Magic
+        preview_text: Stirring the pot of traditional and futuristic culinary arts
+        body: Our gastronomic journey knows no bounds, melding the forgotten alchemy of ancient recipes with the science of tomorrow's flavors. Aspiring chefs and food architects unite under our banner, forging paths that dazzle taste buds and challenge the essence of dining, all within the nurturing grounds of our community.
+        link:
+          url: '#'
+          title: 'Uncover the Secrets'
+      - heading: Echoes of Music
+        preview_text: Composing the future, resonating through the echoes of time
+        body: Our musical odyssey is a tapestry of sounds, embracing the silent whispers of the past and the roaring anthems of tomorrow. Participants are the maestros of their journey, orchestrating harmonies that bridge worlds, encouraged by our collective to explore, innovate, and redefine the symphony of life.
+        link:
+          url: '#'
+          title: 'Orchestrate Your Journey'
