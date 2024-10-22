@@ -8,6 +8,10 @@
     display: flex;
     pointer-events: none;
 
+    &:focus {
+        outline: 2px solid $color--focus;
+    }
+
     @include media-query(medium) {
         margin-top: ($gutter * 3.25);
     }
@@ -31,7 +35,7 @@
             }
         }
 
-        &:hover {
+        &:hover, &:focus {
             span {
                 &::after {
                     width: 100%;

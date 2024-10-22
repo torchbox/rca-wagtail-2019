@@ -43,6 +43,10 @@
         top: 20px;
         right: 20px;
 
+        &:focus {
+            outline: 2px solid $color--focus;
+        }
+
         .is-open & {
             pointer-events: all;
         }
