@@ -1,5 +1,3 @@
-from __future__ import absolute_import, unicode_literals
-
 from collections import OrderedDict
 
 from rest_framework.fields import Field
@@ -137,7 +135,7 @@ class ImageRenditionField(Field):
 
     def __init__(self, filter_spec, *args, **kwargs):
         self.filter_spec = filter_spec
-        super(ImageRenditionField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def get_attribute(self, instance):
         return instance
