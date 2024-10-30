@@ -11,7 +11,16 @@ class AgingPagesReportView(OriginalAgingPagesView):
     """
     A customised version of Wagtail's built-in report, which includes
     page's full URL as a column when the data is exported.
+
+    Note: There are no template overrides here, as the only change is to
+    the data that is passed be exported and not the data that is displayed in the view.
+    The url routing is important here, as the custom view is registered
+    in the ./wagtail_hooks.py file and the index_results_url_name is required
+    so that this view class is used for the report data.
     """
+
+    index_url_name = "rca_aging_pages_report"
+    index_results_url_name = "rca_aging_pages_report_results"
 
     list_export = [
         "title",
