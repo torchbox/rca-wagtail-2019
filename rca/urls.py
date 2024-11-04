@@ -37,7 +37,10 @@ private_urlpatterns = [
 
 
 # Public URLs that are meant to be cached.
-urlpatterns = [path("sitemap.xml", sitemap)]
+urlpatterns = [
+    path("sitemap.xml", sitemap),
+    path("", include("social_django.urls", namespace="social")),
+]
 
 
 if settings.DEBUG:

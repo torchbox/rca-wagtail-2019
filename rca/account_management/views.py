@@ -164,7 +164,7 @@ class CreateStudentFormView(FormView):
 class CustomLoginView(LoginView):
     """Custom login view to redirect students to their profile page"""
 
-    template_name = "wagtailadmin/login.html"
+    template_name = "patterns/pages/auth/login.html"
 
     def get_success_url(self):
         """Override the success URL if the user meets the following:
