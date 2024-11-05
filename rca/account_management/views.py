@@ -5,9 +5,9 @@ from django.conf import settings
 from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
+from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_exempt
@@ -197,10 +197,13 @@ class CustomLogoutView(LogoutView):
     """Check if user is signed in via SSO. If yes, redirect them to a confirmation logout page."""
 
     def dispatch(self, request, *args, **kwargs):
-        if self.request.session.get('_auth_user_backend', '') == 'social_core.backends.azuread_tenant.AzureADTenantOAuth2':
+        if (
+            self.request.session.get("_auth_user_backend", "")
+            == "social_core.backends.azuread_tenant.AzureADTenantOAuth2"
+        ):
             # redirect to `sso_logout_confirmation`
-            return redirect('sso_logout_confirmation')
-        
+            return redirect("sso_logout_confirmation")
+
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -208,12 +211,15 @@ class SSOLogoutConfirmationView(LogoutView):
     template_name = "patterns/pages/auth/logout_confirmation.html"
 
     def dispatch(self, request, *args, **kwargs):
-        if self.request.session.get('_auth_user_backend', '') == 'social_core.backends.azuread_tenant.AzureADTenantOAuth2':
+        if (
+            self.request.session.get("_auth_user_backend", "")
+            == "social_core.backends.azuread_tenant.AzureADTenantOAuth2"
+        ):
             # If the request is a POST, log out the user
-            if request.method == 'POST':
+            if request.method == "POST":
                 return super().dispatch(request, *args, **kwargs)
 
             # If the request is GET, render the confirmation page
             return render(request, self.template_name)
-        
+
         return super().dispatch(request, *args, **kwargs)

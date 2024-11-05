@@ -11,7 +11,11 @@ from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.utils.urlpatterns import decorate_urlpatterns
 
-from rca.account_management.views import CustomLoginView, CustomLogoutView, SSOLogoutConfirmationView
+from rca.account_management.views import (
+    CustomLoginView,
+    CustomLogoutView,
+    SSOLogoutConfirmationView,
+)
 from rca.search import views as search_views
 from rca.utils.cache import get_default_cache_control_decorator
 from rca.wagtailapi.api import api_router
@@ -24,7 +28,9 @@ private_urlpatterns = [
     path("admin/login/", CustomLoginView.as_view(), name="wagtailcore_login"),
     path("admin/_util/login/", CustomLoginView.as_view(), name="wagtailcore_login"),
     path("admin/logout/", CustomLogoutView.as_view(), name="wagtailcore_logout"),
-    path("logout/", SSOLogoutConfirmationView.as_view(), name="sso_logout_confirmation"),
+    path(
+        "logout/", SSOLogoutConfirmationView.as_view(), name="sso_logout_confirmation"
+    ),
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents2/", include(wagtaildocs_urls)),
