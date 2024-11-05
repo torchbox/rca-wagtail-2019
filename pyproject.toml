@@ -47,6 +47,7 @@ sentry-sdk = "^2.15.0"
 tblib = "^3.0.0"
 urllib3 = "<2"
 whitenoise = "~6.7"
+social-auth-app-django = "^5.4.2"
 
 [tool.poetry.extras]
 gunicorn = ["gunicorn"]

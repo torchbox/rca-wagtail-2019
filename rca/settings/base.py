@@ -112,6 +112,7 @@ INSTALLED_APPS = [
     "wagtail_rangefilter",
     "rangefilter",
     "wagtail_modeladmin",
+    "social_django",
 ]
 
 # Middleware classes
@@ -150,6 +151,9 @@ TEMPLATES = [
                 # This is a custom context processor that lets us add custom
                 # global variables to all the templates.
                 "rca.utils.context_processors.global_vars",
+                # Social auth context_processors
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
             ],
             "builtins": ["pattern_library.loader_tags"],
         },
@@ -858,3 +862,35 @@ SHORTHAND_VALID_HOSTNAMES = tuple(
 )
 # Vepple
 VEPPLE_API_URL = env.get("VEPPLE_API_URL", "https://editor.rca.rvhosted.com")
+
+# Azure AD (SSO)
+AUTHENTICATION_BACKENDS = [
+    "social_core.backends.azuread_tenant.AzureADTenantOAuth2",
+    "django.contrib.auth.backends.ModelBackend",
+]
+
+# Social Auth (SSO)
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = env.get(
+    "SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY", None
+)
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = env.get(
+    "SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET", None
+)
+SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = env.get(
+    "SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID", None
+)
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ["username", "first_name", "last_name", "email"]
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+SOCIAL_AUTH_USER_MODEL = "users.User"
+SOCIAL_AUTH_PIPELINE = (
+    "social_core.pipeline.social_auth.social_details",
+    "social_core.pipeline.social_auth.social_uid",
+    "social_core.pipeline.social_auth.auth_allowed",
+    "social_core.pipeline.social_auth.social_user",
+    "social_core.pipeline.social_auth.associate_by_email",
+    "social_core.pipeline.user.create_user",
+    "social_core.pipeline.social_auth.associate_user",
+    "social_core.pipeline.social_auth.load_extra_data",
+    "social_core.pipeline.user.user_details",
+    "rca.utils.pipeline.make_sso_users_editors",
+)
