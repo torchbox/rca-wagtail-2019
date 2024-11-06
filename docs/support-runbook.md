@@ -22,6 +22,12 @@ See also our [incident process](https://intranet.torchbox.com/propositions/desig
   - `buckup-rca-staging`
   - `buckup-rca-development`
 
+## SSO
+
+SSO has been added using `social-auth-app-django`. This handles logging in and creating of the necessary user -- see `SOCIAL_AUTH_PIPELINE` in `rca.settings.base`.
+
+The Azure environment is handled by RCA. If we need to update keys or redirect URLs, we'll need to contact RCA.
+
 ## Enquire to study form throwing 500s:
 
 ### 1. Check the data
