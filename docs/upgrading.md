@@ -104,6 +104,15 @@ As well as testing the critical paths, these areas of functionality should be ch
 1. The site has custom code to show/hide fields and panels depending on if a StudentPage is viewed by an admin (superuser) or a Student (none superuser).
 2. The site has custom code to show/hide sidebar elements depending on if a Student is viewing the editor vs an admin (superuser).
 
+### Users who logged in via SSO automatically gets 'Editor' permissions.
+
+1. When users log in via SSO, they are automatically made editors. This is done via `rca.utils.pipeline.make_sso_users_editors` and added to the `SOCIAL_AUTH_PIPELINE`. RCA will manually elevate permissiosn if necessary. 
+
+### Users who logged in via SSO is redirected to a logout confirmation when they logout.
+
+1. The site overrides the `/admin/logout/` endpoint to redirect users who logged in to `/logout/`. This is a confirmation screen that users will still need to manually log out of their SSO accounts. This is done with `rca.account_management.views.CustomLogoutView` and `rca.account_management.views.SSOLogoutConfirmationView`.
+2. Users who did not log in via SSO should be able to log out without seeing any confirmation screen.
+
 ---
 
 ## Overridden core Wagtail templates
@@ -113,6 +122,7 @@ The following templates are overridden and should be checked for changes when up
 Last checked against Wagtail version: 6.1
 
 - `rca/account_management/templates/wagtailadmin/base.html`
+- `rca/project_styleguide/templates/patterns/pages/auth/login.html` - This was overridden to add the "Sign in with single sign-on" button to the login template.
 - ~~`rca/users/templates/wagtailusers/users/list.html`~~ This template was deleted in 2645c204425b8fa3409a110f46b2822a1953fe49 because as of Wagtail 6.1, [it's no longer used](https://github.com/wagtail/wagtail/commit/7b1644eb37b6b6cf7800276acf9abef5254fc096). Please note that the `user_listing_buttons` template tag was used in this template, and it has since been [deprecated](https://docs.wagtail.org/en/latest/releases/6.1.html#deprecation-of-user-listing-buttons-template-tag).
 
 !!! warning "Technical Debt - to be addressed in Wagtail 6.2"
