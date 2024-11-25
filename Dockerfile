@@ -118,7 +118,7 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
 USER rca
 
 # Install nvm and node/npm
-ARG NVM_VERSION=0.39.5
+ARG NVM_VERSION=0.40.1
 COPY --chown=rca .nvmrc ./
 RUN curl https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash \
     && bash --login -c "nvm install --no-progress && nvm alias default $(nvm run --silent --version)"
