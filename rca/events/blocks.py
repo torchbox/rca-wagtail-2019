@@ -16,6 +16,7 @@ class EventDetailPageBlock(blocks.StreamBlock):
     quote = utils_blocks.QuoteBlock()
     embed = EmbedBlock()
     jw_video = utils_blocks.JWPLayerBlock()
+    cta_link = utils_blocks.CTALinkBlock()
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"

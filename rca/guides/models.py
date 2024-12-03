@@ -42,6 +42,7 @@ class GuidePage(
         blank=True,
         verbose_name=_("Further information"),
     )
+    related_staff_title = models.CharField(blank=True, max_length=120, default="Staff")
     related_pages_title = models.CharField(blank=True, max_length=120)
 
     search_fields = ShorthandContentMixin.search_fields + [
@@ -57,7 +58,10 @@ class GuidePage(
             FieldPanel("introduction"),
             FieldPanel("shorthand_story_url"),
             FieldPanel("body"),
-            MultiFieldPanel([InlinePanel("related_staff")], heading=_("Related staff")),
+            MultiFieldPanel(
+                [FieldPanel("related_staff_title"), InlinePanel("related_staff")],
+                heading=_("Related staff"),
+            ),
             MultiFieldPanel(
                 [
                     FieldPanel("further_information_title"),
@@ -93,7 +97,7 @@ class GuidePage(
             if block.block_type == "anchor_heading":
                 items.append({"title": block.value, "link": f"#{slugify(block.value)}"})
         if self.related_staff.first():
-            items.append({"title": "Staff", "link": "#staff"})
+            items.append({"title": self.related_staff_title, "link": "#staff"})
         if self.further_information_title:
             items.append(
                 {
@@ -134,6 +138,12 @@ class GuidePage(
     def has_sticky_cta(self):
         data = self.get_sticky_cta()
         return all(data.get(key) for key in ["message", "action", "link"])
+
+    def has_vepple_panorama(self):
+        for value in self.body.raw_data:
+            if value["type"] == "vepple_panorama":
+                return True
+        return False
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)

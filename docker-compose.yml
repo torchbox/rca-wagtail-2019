@@ -18,6 +18,7 @@ services:
       SECURE_SSL_REDIRECT: 'false'
       STATIC_DIR: /app/static/
       STATIC_URL: /static/
+      HEROKU_APP_NAME: local # this stops Birdbath's HerokuNotProductionCheck complaining
     command: tail -f /dev/null # do nothing forever - exec commands elsewhere
     ports:
       - 8000:8000 # runserver
@@ -78,7 +79,7 @@ services:
       - ./database_dumps:/database_dumps
 
   redis:
-    image: redis:6
+    image: redis:7.2
     expose:
       - 6379
     logging:

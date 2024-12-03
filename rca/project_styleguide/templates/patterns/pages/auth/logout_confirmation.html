@@ -1,0 +1,38 @@
+{% extends "wagtailadmin/admin_base.html" %}
+{% load i18n wagtailadmin_tags %}
+{% block titletag %}{% trans "Log out" %}{% endblock %}
+{% block bodyclass %}login{% endblock %}
+
+{% block furniture %}
+    <main class="content-wrapper" id="main">
+        <h1>{% block branding_login %}{% trans "Logout from Wagtail" %}{% endblock %}</h1>
+
+        <form class="login-form" action="{% url 'sso_logout_confirmation' %}" method="post" novalidate>
+            {% block login_form %}
+                {% csrf_token %}
+
+                <div class="messages">
+                    <p>
+                        You have signed in using Single Sign-On (SSO). Logging out here will only end your session for this application. To completely sign out, make sure to log out from your SSO provider as well.
+                    </p>
+                </div>
+
+                <button type="submit" class="button button-longrunning">
+                    {% trans 'Log out' %}
+                </button>
+                
+                <br /><br />
+
+                <button type="button" class="button" onclick="window.history.back();">
+                    {% trans 'Cancel' %}
+                </button>
+            {% endblock %}
+        </form>
+        
+        {% block branding_logo %}
+            <div class="login-logo">
+                {% include "wagtailadmin/logo.html" with wordmark="True" %}
+            </div>
+        {% endblock %}
+    </main>
+{% endblock %}

@@ -7,6 +7,8 @@ from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 
+from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
+
 __all__ = [
     "FeeBlock",
     "SlideBlock",
@@ -20,11 +22,13 @@ __all__ = [
     "InfoBlock",
     "StepBlock",
     "AccordionBlockWithTitle",
+    "AccordionBlock",
     "CustomTeaserBlock",
     "RelatedPageListBlockPage",
     "RelatedPageListBlock",
     "CallToActionBlock",
     "TableBlock",
+    "CTALinkBlock",
 ]
 
 
@@ -245,6 +249,15 @@ class AccordionBlockWithTitle(blocks.StructBlock):
         return result
 
 
+class AccordionBlock(blocks.StructBlock):
+    heading = blocks.CharBlock()
+    items = blocks.ListBlock(AccordionBlockWithTitle())
+
+    class Meta:
+        icon = "list-ul"
+        template = "patterns/molecules/streamfield/blocks/accordion_block.html"
+
+
 class CustomTeaserBlock(blocks.StructBlock):
     title = blocks.CharBlock(required=False)
     meta = blocks.CharBlock(
@@ -331,3 +344,10 @@ class TableBlock(blocks.StructBlock):
     class Meta:
         icon = "table"
         template = "patterns/molecules/streamfield/blocks/table_block.html"
+
+
+class CTALinkBlock(InternalExternalLinkBlock):
+    class Meta:
+        icon = "link"
+        template = "patterns/molecules/streamfield/blocks/cta_link_block.html"
+        label = "CTA link"

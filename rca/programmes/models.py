@@ -80,7 +80,7 @@ class Subject(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        super(Subject, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 def degree_level_serializer(*args, **kwargs):
@@ -870,6 +870,8 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
                 )
             ],
         ),
+        # Combination of title + degree level.
+        index.AutocompleteField("full_title", boost=2),
     ]
     api_fields = [
         # Fields for filtering and display, shared with shortcourses.ShortCoursePage.
@@ -896,6 +898,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         if self.degree_level:
             bits.append(str(self.degree_level))
         return " ".join(bits)
+
+    @property
+    def full_title(self):
+        return f"{self.title} {self.degree_level.title}"
 
     @property
     def introduction(self):

@@ -61,7 +61,7 @@ class URLOrRelativeURLBLock(blocks.FieldBlock):
 class LinkBlock(blocks.StructBlock):
     # URL block uses the URLOrRelativeURLBLock so it can accpet relative URLs
     # E.G, /schools/
-    url = URLOrRelativeURLBLock(required=False)
+    url = URLOrRelativeURLBLock(required=False, label="URL")
     page = blocks.PageChooserBlock(required=False)
     title = blocks.CharBlock(
         help_text="Leave blank to use the page's own title, required if using a URL",
@@ -70,17 +70,10 @@ class LinkBlock(blocks.StructBlock):
 
     # Add a page url for the page object
     def get_api_representation(self, value, context=None):
-        value = dict(
-            [
-                (
-                    name,
-                    self.child_blocks[name].get_api_representation(
-                        val, context=context
-                    ),
-                )
-                for name, val in value.items()
-            ]
-        )
+        value = {
+            name: self.child_blocks[name].get_api_representation(val, context=context)
+            for name, val in value.items()
+        }
 
         if value["page"] and not value["url"]:
             # Stale cache data could store a deleted page ID, so try the get

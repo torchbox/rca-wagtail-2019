@@ -454,6 +454,15 @@ class BasePage(SocialFields, ListingFields, Page):
     def meta_description(self):
         return self.search_description.strip() or self.listing_summary
 
+    def has_vepple_panorama(self):
+        """
+        Used by `base_page.html` to conditionally import generic Vepple embed JS into
+        the head. Will be overridden on page types that support using
+        `rca.utils.blocks.VeppleEmbedBlock` in `StreamField` content, and return `True`
+        if one is detected in the field's `body` value.
+        """
+        return False
+
 
 class LegacySiteTag(TagBase):
     class Meta:
@@ -851,7 +860,7 @@ class ResearchType(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        super(ResearchType, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 @register_setting
@@ -885,7 +894,7 @@ class SluggedTaxonomy(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        super(SluggedTaxonomy, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 class ResearchTheme(SluggedTaxonomy):

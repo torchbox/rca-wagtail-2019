@@ -5,7 +5,7 @@ description = ""
 authors = ["Kevin Howbrook <kevin.howbrook@torchbox.com>"]
 
 [tool.poetry.dependencies]
-python = "~3.8"
+python = "~3.11"
 django = "~4.2"
 wagtail = "~6.2"
 psycopg2 = "~2.9"
@@ -47,6 +47,7 @@ sentry-sdk = "^2.15.0"
 tblib = "^3.0.0"
 urllib3 = "<2"
 whitenoise = "~6.7"
+social-auth-app-django = "^5.4.2"
 
 [tool.poetry.extras]
 gunicorn = ["gunicorn"]
@@ -71,6 +72,7 @@ mkdocs-material = "~9.5"
 pymdown-extensions = "~10.11"
 honcho = "^1.1.0"
 django-upgrade = "^1.21.0"
+pyupgrade = "^3.17.0"
 
 [build-system]
 requires = ["poetry>=1,<2"]
