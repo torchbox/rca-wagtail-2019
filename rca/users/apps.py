@@ -1,6 +1,5 @@
-from django.apps import AppConfig
+from wagtail.users.apps import WagtailUsersAppConfig
 
 
-class UsersConfig(AppConfig):
-    name = "rca.users"
-    label = "users"
+class UsersConfig(WagtailUsersAppConfig):
+    user_viewset = "rca.users.viewsets.UserViewSet"
