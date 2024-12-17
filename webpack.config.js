@@ -1,9 +1,6 @@
 const path = require('path');
-const autoprefixer = require('autoprefixer');
-const cssnano = require('cssnano');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const postcssCustomProperties = require('postcss-custom-properties');
 const sass = require('sass');
 
 const projectRoot = 'rca';
@@ -18,21 +15,26 @@ const options = {
         path: path.resolve(`./${projectRoot}/static_compiled/`),
         // based on entry name, e.g. main.js
         filename: 'js/[name].js', // based on entry name, e.g. main.js
+        clean: true,
     },
     plugins: [
         new MiniCssExtractPlugin({
             filename: 'css/[name].css',
         }),
-        new CopyPlugin([
-            {
-                // Copy images to be referenced directly by Django to the "images" subfolder in static files.
-                // Ignore CSS background images as these are handled separately below
-                from: 'images',
-                context: path.resolve(`./${projectRoot}/static_src/`),
-                to: path.resolve(`./${projectRoot}/static_compiled/images`),
-                ignore: ['cssBackgrounds/*'],
-            },
-        ]),
+        new CopyPlugin({
+            patterns: [
+                {
+                    // Copy images to be referenced directly by Django to the "images" subfolder in static files.
+                    // Ignore CSS background images as these are handled separately below
+                    from: 'images',
+                    context: path.resolve(`./${projectRoot}/static_src/`),
+                    to: path.resolve(`./${projectRoot}/static_compiled/images`),
+                    globOptions: {
+                        ignore: ['cssBackgrounds/*'],
+                    },
+                },
+            ],
+        }),
     ],
     module: {
         rules: [
@@ -59,21 +61,23 @@ const options = {
                         loader: 'postcss-loader',
                         options: {
                             sourceMap: true,
-                            plugins: () => [
-                                autoprefixer(),
-                                postcssCustomProperties(),
-                                cssnano({
-                                    preset: 'default',
-                                }),
-                            ],
+                            postcssOptions: {
+                                plugins: [
+                                    'autoprefixer',
+                                    'postcss-custom-properties',
+                                    ['cssnano', { preset: 'default' }],
+                                ],
+                            },
                         },
                     },
                     {
                         loader: 'sass-loader',
                         options: {
                             sourceMap: true,
-                            outputStyle: 'compressed',
                             implementation: sass,
+                            sassOptions: {
+                                style: 'compressed',
+                            },
                         },
                     },
                 ],
@@ -133,22 +137,29 @@ const webpackConfig = (environment, argv) => {
         options.devServer = {
             // Enable gzip compression for everything served.
             compress: true,
-            // Shows a full-screen overlay in the browser when there are compiler errors.
-            overlay: true,
-            clientLogLevel: 'error',
-            contentBase: false,
-            // Write compiled files to disk. This makes live-reload work on both port 3000 and 8000.
-            writeToDisk: true,
+            static: false,
             host: '0.0.0.0',
-            allowedHosts: [],
+            // When set to 'auto' this option always allows localhost, host, and client.webSocketURL.hostname
+            allowedHosts: 'auto',
             port: 3000,
-            publicPath: '/static/',
-            index: '',
-            stats,
-            proxy: {
-                context: () => true,
-                target: `http://${PROXY_HOST}:${PROXY_PORT}`,
+            client: {
+                // Shows a full-screen overlay in the browser when there are compiler errors.
+                overlay: true,
+                logging: 'error',
             },
+            devMiddleware: {
+                index: true,
+                publicPath: '/static/',
+                // Write compiled files to disk. This makes live-reload work on both port 3000 and 8000.
+                writeToDisk: true,
+                stats,
+            },
+            proxy: [
+                {
+                    context: () => true,
+                    target: `http://${PROXY_HOST}:${PROXY_PORT}`,
+                },
+            ],
         };
     }
 
