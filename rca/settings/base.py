@@ -125,6 +125,7 @@ MIDDLEWARE = [
     # SecurityMiddleware.
     # http://whitenoise.evans.io/en/stable/#quickstart-for-django-apps
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "xff.middleware.XForwardedForMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -394,6 +395,7 @@ LOGGING = {
             "level": "WARNING",
             "propagate": False,
         },
+        "xff": {"handlers": ["console"], "level": "WARNING", "propagate": False},
     },
 }
 
@@ -666,6 +668,10 @@ if env.get("BASIC_AUTH_ENABLED", "false").lower().strip() == "true":
     # the old site and we want to prevent direct access
     BASIC_AUTH_GET_CLIENT_IP_FUNCTION = "rca.utils.clientip.get_client_real_ip"
     BASIC_AUTH_WHITELISTED_PATHS = ["/api"]
+
+# django-xff (https://github.com/ferrix/xff/?tab=readme-ov-file#configuration)
+# --------------------------------------------------------------------------------------
+XFF_TRUSTED_PROXY_DEPTH = int(env.get("XFF_TRUSTED_PROXY_DEPTH", 1))
 
 AUTH_USER_MODEL = "users.User"
 

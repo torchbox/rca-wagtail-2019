@@ -12,7 +12,7 @@ psycopg2 = "~2.9"
 gunicorn = {version = "~23.0", optional = true}
 
 # Django packages
-django-basic-auth-ip-whitelist = "~0.5"
+django-basic-auth-ip-whitelist = "~0.6"
 django-birdbath = "^2.0.1"
 django-cors-headers = "^4.6.0"
 django-countries = "^7.6.1"
@@ -48,6 +48,7 @@ tblib = "^3.0.0"
 urllib3 = "^2.3.0"
 whitenoise = "^6.8.2"
 social-auth-app-django = "^5.4.2"
+django-xff = "^1.4.0"
 
 [tool.poetry.extras]
 gunicorn = ["gunicorn"]
