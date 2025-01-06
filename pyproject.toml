@@ -30,10 +30,10 @@ dj-database-url = "~2.2"
 wagtail-accessibility = "^2.0.0"
 wagtail-django-recaptcha = "^2.1.1"
 wagtail-factories = "^4.1.0"
-wagtail-modeladmin = "^2.0.0"
+wagtail-modeladmin = "^2.1.0"
 wagtail-orderable = "^1.2.0"
 wagtail-rangefilter = "^0.2.1"
-wagtail-storages = "^1.1.0"
+wagtail-storages = "^2.0"
 
 # Various
 beautifulsoup4 = "^4.12.3"
