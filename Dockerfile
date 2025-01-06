@@ -22,7 +22,7 @@ FROM python:3.11-bookworm as production
 ARG POETRY_INSTALL_ARGS="--no-dev"
 
 # IMPORTANT: Remember to review .circleci/config.yml when upgrading
-ARG POETRY_VERSION=1.8.3
+ARG POETRY_VERSION=1.8.5
 
 # Install dependencies in a virtualenv
 ENV VIRTUAL_ENV=/venv
