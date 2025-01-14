@@ -1,32 +1,16 @@
 .hero-action-pane {
     $root: &;
-    $hero-action-pane-height-small: 190px;
-    $hero-action-pane-height-medium: 160px;
-    $hero-image-credit-height: 40px;
     $hero-action-pane-overlap: 80px;
-    $hero-action-pane-height-large: (
-        $hero-action-pane-height-medium + $hero-image-credit-height
-    );
-    @include z-index(under);
+    @include z-index(under-gridlines);
     position: relative;
     pointer-events: none;
-    height: $hero-action-pane-height-small;
-    top: -$hero-action-pane-height-small;
-    margin-bottom: -$hero-action-pane-height-small;
-    overflow: hidden;
 
     @include media-query(medium) {
-        height: $hero-action-pane-height-medium;
-        top: -$hero-action-pane-height-medium;
-        margin-bottom: -$hero-action-pane-height-medium;
         pointer-events: auto;
     }
 
     @include media-query(large) {
-        padding-top: $hero-image-credit-height;
-        height: $hero-action-pane-height-large;
-        top: -$hero-action-pane-height-large;
-        margin-bottom: -$hero-action-pane-height-large;
+        margin-top: -150px;
     }
 
     &__links {
@@ -39,7 +23,7 @@
         @include media-query(large) {
             @include z-index(sticky-nav-bar);
             display: grid;
-            max-height: $hero-action-pane-height-medium;
+            align-self: flex-end;
             grid-template-columns: 1fr 1fr 27.5%;
         }
 
@@ -48,7 +32,7 @@
             position: absolute;
             display: block;
             width: ($gutter * 4);
-            height: $hero-action-pane-height-medium;
+            height: 100%;
             transform: translate3d(-$hero-action-pane-overlap, 0, 0);
             background-color: $color--white;
         }
@@ -57,8 +41,9 @@
             content: '';
             position: absolute;
             display: block;
-            width: 100%;
-            height: $hero-action-pane-height-medium;
+            width: ($gutter * 4);
+            right: 0;
+            height: 100%;
             transform: translate3d(
                 99%,
                 0,
@@ -71,10 +56,11 @@
     &__cta {
         grid-column: 1;
         padding-bottom: ($gutter * 1.75);
+        position: absolute;
+        bottom: 0;
 
         @include media-query(large) {
-            padding-bottom: 0;
-            padding-top: ($gutter);
+            padding: ($gutter) 0;
         }
 
         // Custom breakpoint to target mobile only to prevent rellax doing its thing
@@ -166,16 +152,15 @@
         @include media-query(large) {
             @include z-index(above-gridlines);
             position: absolute;
-            top: 0;
+            top: -40px;
             width: 40px;
-            left: -$hero-action-pane-overlap; // align with white block below
-            height: $hero-image-credit-height;
+            left: -($gutter * 4);
+            height: 40px;
             display: flex;
             flex-direction: row;
             align-items: center;
             justify-content: flex-start;
             background-color: $color--black;
-            grid-column: 3 / span 3;
             border: 0;
             padding: 0;
             margin: 0;
