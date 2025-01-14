@@ -485,7 +485,14 @@ class ProjectPickerPage(BasePage):
         return projects_formatted
 
     def get_base_queryset(self):
-        return ProjectPage.objects.child_of(self).live().order_by("title")
+        # Projects with an empty `end_date` shows first.
+        # This is followed by projects with an end date, with most recent date first.
+        # If two projects have the same end date, it's based on the last published date.
+        return (
+            ProjectPage.objects.child_of(self)
+            .live()
+            .order_by(models.F("end_date").desc(nulls_first=True), "-last_published_at")
+        )
 
     def modify_results(self, paginator_page, request):
         for obj in paginator_page.object_list:
