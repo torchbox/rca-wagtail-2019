@@ -9,7 +9,13 @@
         pointer-events: auto;
     }
 
-    @include media-query(large) {
+    // Between 1024px and 1122px
+    @media only screen and (min-width: 1024px) and (max-width: 1122px) {
+        margin-top: -190px;
+    }
+
+    // Over 1122px
+    @media only screen and (min-width: 1122px) {
         margin-top: -150px;
     }
 
@@ -20,7 +26,7 @@
         background-color: $color--white;
         padding: ($gutter * 2) 0;
 
-        @include media-query(large) {
+        @media only screen and (min-width: 1024px) {
             @include z-index(sticky-nav-bar);
             display: grid;
             align-self: flex-end;
