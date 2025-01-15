@@ -4,6 +4,7 @@
     @include z-index(under-gridlines);
     position: relative;
     pointer-events: none;
+    overflow-x: clip;
 
     @include media-query(medium) {
         pointer-events: auto;
@@ -11,7 +12,7 @@
 
     // Between 1024px and 1122px
     @media only screen and (min-width: 1024px) and (max-width: 1122px) {
-        margin-top: -190px;
+        margin-top: -200px;
     }
 
     // Over 1122px
