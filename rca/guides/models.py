@@ -37,19 +37,11 @@ class GuidePage(
 
     introduction = models.CharField(max_length=500, blank=True)
     body = StreamField(GuideBlock(), blank=True)
-    further_information_title = models.CharField(blank=True, max_length=120)
-    further_information = StreamField(
-        [("accordion_block", AccordionBlockWithTitle())],
-        blank=True,
-        verbose_name=_("Further information"),
-    )
-
     further_information_block = StreamField(
         [("accordion", AccordionBlock())],
         blank=True,
         verbose_name=_("Further information block"),
     )
-
     related_staff_title = models.CharField(blank=True, max_length=120, default="Staff")
     related_pages_title = models.CharField(blank=True, max_length=120)
 
@@ -72,8 +64,6 @@ class GuidePage(
             ),
             MultiFieldPanel(
                 [
-                    FieldPanel("further_information_title"),
-                    FieldPanel("further_information"),
                     FieldPanel("further_information_block"),
                 ],
                 heading=_("Further information"),
