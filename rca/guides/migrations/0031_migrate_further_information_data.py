@@ -14,11 +14,11 @@ def migrate_further_information_to_block(apps, schema_editor):
         # Create an empty list to hold the StreamField data
         new_stream_data = []
 
-        # If there's a further_information_title and/or further_information, add them to the new block
+        # If there's a further_information_title and/or further_information, add them to the new block.
         if page.further_information_title or page.further_information:
-            accordion_data = []
 
-            # Add each item from `further_information` StreamField to `AccordionBlockWithTitle`
+            # Add accordion items from `further_information` StreamField
+            accordion_data = []
             for item in page.further_information:
                 accordion_data.append({
                     'heading': item.value.get('heading', ''),
@@ -30,7 +30,7 @@ def migrate_further_information_to_block(apps, schema_editor):
                     },
                 })
 
-            # Add the title as the `AccordionBlock` heading
+            # Add the heading and set the accordion items
             accordion_block = {
                 'type': 'accordion',
                 'value': {
@@ -39,7 +39,7 @@ def migrate_further_information_to_block(apps, schema_editor):
                 },
             }
             
-            # Append the new block data to the StreamField
+            # Append the new block data to the StreamField 
             new_stream_data.append(accordion_block)
 
             # Assign the new StreamField value to `further_information_block`

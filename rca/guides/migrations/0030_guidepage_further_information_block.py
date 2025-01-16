@@ -82,7 +82,6 @@ class Migration(migrations.Migration):
                         {},
                     ),
                 },
-                verbose_name="Further information block",
             ),
         ),
     ]

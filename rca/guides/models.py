@@ -9,7 +9,7 @@ from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.fields import StreamField
 from wagtail.search import index
 
-from rca.utils.blocks import AccordionBlockWithTitle, GuideBlock
+from rca.utils.blocks import GuideBlock
 from rca.utils.blocks.content import AccordionBlock
 from rca.utils.models import (
     BasePage,
@@ -40,7 +40,6 @@ class GuidePage(
     further_information_block = StreamField(
         [("accordion", AccordionBlock())],
         blank=True,
-        verbose_name=_("Further information block"),
     )
     related_staff_title = models.CharField(blank=True, max_length=120, default="Staff")
     related_pages_title = models.CharField(blank=True, max_length=120)
