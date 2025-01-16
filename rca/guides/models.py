@@ -107,13 +107,14 @@ class GuidePage(
                 items.append({"title": block.value, "link": f"#{slugify(block.value)}"})
         if self.related_staff.first():
             items.append({"title": self.related_staff_title, "link": "#staff"})
-        if self.further_information_title:
-            items.append(
-                {
-                    "title": self.further_information_title,
-                    "link": f"#{slugify(self.further_information_title)}",
-                }
-            )
+        if self.further_information_block:
+            for block in self.further_information_block:
+                items.append(
+                    {
+                        "title": block.value.get("heading"),
+                        "link": f"#{slugify(block.value.get('heading'))}",
+                    }
+                )
         if self.related_pages_title:
             items.append(
                 {
