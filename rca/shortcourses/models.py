@@ -23,7 +23,6 @@ from wagtail.images.api.fields import ImageRenditionField
 from wagtail.models import Orderable
 from wagtail.search import index
 
-from rca.programmes.models import ProgrammeType
 from rca.utils.blocks import (
     AccordionBlockWithTitle,
     GalleryBlock,
