@@ -332,8 +332,6 @@ class ProgrammePageTag(TaggedItemBase):
     )
 
 
-
-
 class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     parent_page_types = ["ProgrammeIndexPage"]
     subpage_types = ["guides.GuidePage"]
@@ -860,7 +858,14 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         index.SearchField("scholarship_accordion_items"),
         index.SearchField("scholarship_information_blocks"),
         index.SearchField("more_information_blocks", boost=2),
-        index.RelatedFields("programme_type", [index.SearchField("display_name")]),
+        index.RelatedFields(
+            "programme_types",
+            [
+                index.RelatedFields(
+                    "programme_type", [index.SearchField("display_name")]
+                )
+            ],
+        ),
         index.RelatedFields(
             "programme_locations",
             [index.RelatedFields("programme_location", [index.SearchField("title")])],
@@ -892,7 +897,8 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     api_fields = [
         # Fields for filtering and display, shared with shortcourses.ShortCoursePage.
         APIField("subjects"),
-        APIField("programme_type"),
+        # APIField("programme_type"),
+        APIField("programme_types"),
         APIField("related_schools_and_research_pages"),
         APIField(
             "summary",
@@ -1185,7 +1191,7 @@ class ProgrammeIndexPage(ContactFieldsMixin, BasePage):
 
         filters = [
             {"id": "subjects", "title": "Subject", "items": subjects},
-            {"id": "programme_type", "title": "Type", "items": programme_types},
+            {"id": "programme_types", "title": "Type", "items": programme_types},
             {
                 "id": "related_schools_and_research_pages",
                 "title": "Schools & centres",

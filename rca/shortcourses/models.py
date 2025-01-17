@@ -84,7 +84,9 @@ class ShortCourseSubjectPlacement(models.Model):
 class ShortCourseProgrammeType(models.Model):
     page = ParentalKey("ShortCoursePage", related_name="programme_types")
     programme_type = models.ForeignKey(
-        "programmes.ProgrammeType", on_delete=models.CASCADE, related_name="short_course"
+        "programmes.ProgrammeType",
+        on_delete=models.CASCADE,
+        related_name="short_course",
     )
     panels = [FieldPanel("programme_type")]
 
@@ -317,7 +319,10 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         index.SearchField("body"),
         index.SearchField("about"),
         index.SearchField("location"),
-        index.RelatedFields("programme_type", [index.SearchField("display_name")]),
+        index.RelatedFields(
+            "programme_types",
+            [index.RelatedFields("subject", [index.SearchField("display_name")])],
+        ),
         index.RelatedFields(
             "subjects",
             [index.RelatedFields("subject", [index.SearchField("title")])],
@@ -339,7 +344,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
     api_fields = [
         # Fields for filtering and display, shared with programmes.ProgrammePage.
         APIField("subjects"),
-        APIField("programme_type"),
+        APIField("programme_types"),
         APIField("related_schools_and_research_pages"),
         APIField("summary", serializer=CharFieldSerializer(source="introduction")),
         APIField(
