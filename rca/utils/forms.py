@@ -24,3 +24,18 @@ class RCAPageAdminForm(WagtailAdminPageForm):
                 "content users can expect to find on the page. <strong>Recommended length: 50 to 160 "
                 "characters</strong>."
             )
+
+        # Listing Image field configuration
+        if listing_image_field := self.fields.get("listing_image"):
+            listing_image_field.required = True
+            listing_image_field.help_text = "This image is required for listings."
+
+        # Social Image field configuration
+        if social_image_field := self.fields.get("social_image"):
+            social_image_field.required = True
+            social_image_field.help_text = "You must specify a social image."
+
+        # Social Text field configuration
+        if social_text_field := self.fields.get("social_text"):
+            social_text_field.required = True
+            social_text_field.help_text = "You must specify a social text."
