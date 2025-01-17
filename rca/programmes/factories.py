@@ -2,7 +2,12 @@ import factory
 import wagtail_factories
 from faker import Factory as FakerFactory
 
-from .models import DegreeLevel, ProgrammePage, ProgrammeType, ProgrammePageProgrammeType
+from .models import (
+    DegreeLevel,
+    ProgrammePage,
+    ProgrammeType,
+    ProgrammePageProgrammeType,
+)
 
 faker = FakerFactory.create()
 

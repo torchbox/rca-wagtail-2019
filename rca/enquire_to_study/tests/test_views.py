@@ -22,7 +22,11 @@ from rca.enquire_to_study.forms import EnquireToStudyForm
 from rca.enquire_to_study.models import EnquireToStudySettings, EnquiryFormSubmission
 from rca.enquire_to_study.views import EnquireToStudyFormView
 from rca.enquire_to_study.wagtail_hooks import EnquiryFormSubmissionAdmin
-from rca.programmes.factories import ProgrammePageFactory, ProgrammePageProgrammeTypeFactory, ProgrammeTypeFactory
+from rca.programmes.factories import (
+    ProgrammePageFactory,
+    ProgrammePageProgrammeTypeFactory,
+    ProgrammeTypeFactory,
+)
 
 
 class EnquireToStudyFormViewTest(TestCase):
@@ -56,8 +60,7 @@ class EnquireToStudyFormViewInternalEmailsTest(WagtailPageTestCase):
         )
         page = ProgrammePageFactory(qs_code=1)
         ProgrammePageProgrammeTypeFactory(
-            page=page,
-            programme_type=ProgrammeTypeFactory()
+            page=page, programme_type=ProgrammeTypeFactory()
         )
 
         self.form_data = {

@@ -10,7 +10,11 @@ from rca.enquire_to_study.models import (
     EnquiryFormSubmission,
     EnquiryFormSubmissionProgrammesOrderable,
 )
-from rca.programmes.factories import ProgrammePageFactory, ProgrammeTypeFactory, ProgrammePageProgrammeTypeFactory
+from rca.programmes.factories import (
+    ProgrammePageFactory,
+    ProgrammePageProgrammeTypeFactory,
+    ProgrammeTypeFactory,
+)
 
 
 class TestEnquireToStudyForm(TestCase):
@@ -19,8 +23,7 @@ class TestEnquireToStudyForm(TestCase):
         self.enquiry_reason = EnquiryReasonFactory()
         page = ProgrammePageFactory(qs_code=1)
         ProgrammePageProgrammeTypeFactory(
-            page=page,
-            programme_type=ProgrammeTypeFactory()
+            page=page, programme_type=ProgrammeTypeFactory()
         )
         self.form_data = {
             "first_name": "Monty",
