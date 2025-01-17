@@ -113,6 +113,18 @@ class ProgrammeType(WagtailOrdable):
         return slugify(self.display_name)
 
 
+class ProgrammePageProgrammeType(models.Model):
+    page = ParentalKey("programmes.ProgrammePage", related_name="programme_types")
+    programme_type = models.ForeignKey(
+        "programmes.ProgrammeType",
+        on_delete=models.CASCADE,
+    )
+    panels = [FieldPanel("programme_type")]
+
+    def __str__(self):
+        return self.programme_type.title
+
+
 class ProgrammePageRelatedSchoolsAndResearchPages(RelatedPage):
     source_page = ParentalKey(
         "ProgrammePage", related_name="related_schools_and_research_pages"
@@ -320,16 +332,6 @@ class ProgrammePageTag(TaggedItemBase):
     )
 
 
-class ProgrammePageProgrammeType(models.Model):
-    page = ParentalKey("programmes.ProgrammePage", related_name="programme_types")
-    programme_type = models.ForeignKey(
-        "programmes.ProgrammeType",
-        on_delete=models.CASCADE,
-    )
-    panels = [FieldPanel("programme_type")]
-
-    def __str__(self):
-        return self.programme_type.title
 
 
 class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):

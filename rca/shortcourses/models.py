@@ -81,6 +81,14 @@ class ShortCourseSubjectPlacement(models.Model):
     panels = [FieldPanel("subject")]
 
 
+class ShortCourseProgrammeType(models.Model):
+    page = ParentalKey("ShortCoursePage", related_name="programme_types")
+    programme_type = models.ForeignKey(
+        "programmes.ProgrammeType", on_delete=models.CASCADE, related_name="short_course"
+    )
+    panels = [FieldPanel("programme_type")]
+
+
 class ShortCourseManualDate(Orderable):
     start_date = models.DateField(null=True)
     end_date = models.DateField(null=True)
@@ -248,6 +256,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         ),
         FieldPanel("about"),
         FieldPanel("programme_type"),
+        InlinePanel("programme_types", label="Programme types"),
         FieldPanel("quote_carousel"),
         MultiFieldPanel(
             [FieldPanel("staff_title"), InlinePanel("related_staff", label="Staff")],
