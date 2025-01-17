@@ -342,15 +342,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     degree_level = models.ForeignKey(
         DegreeLevel, on_delete=models.SET_NULL, blank=False, null=True, related_name="+"
     )
-    # TODO: Remove this once we've confirmed that programme type
-    # has been migrated properly to the programmepageprogrammetype model.
-    programme_type = models.ForeignKey(
-        ProgrammeType,
-        on_delete=models.SET_NULL,
-        blank=False,
-        null=True,
-        related_name="+",
-    )
     hero_image = models.ForeignKey(
         "images.CustomImage",
         null=True,
@@ -629,10 +620,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             # Taxonomy, relationships etc
             FieldPanel("degree_level"),
             InlinePanel("subjects", label="Subjects"),
-            FieldPanel(
-                "programme_type",
-                help_text="Used to show content related to this programme page",
-            ),
             InlinePanel("programme_types", label="Programme Types"),
             MultiFieldPanel(
                 [
@@ -898,7 +885,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     api_fields = [
         # Fields for filtering and display, shared with shortcourses.ShortCoursePage.
         APIField("subjects"),
-        # APIField("programme_type"),
         APIField("programme_types"),
         APIField("related_schools_and_research_pages"),
         APIField(

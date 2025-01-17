@@ -182,15 +182,6 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         help_text="If selected, an automatic 'Register your interest' link "
         "will be visible in the key details section",
     )
-    # TODO: Remove this once we've confirmed that programme type
-    # has been migrated properly to the shortcourseprogramtype model.
-    programme_type = models.ForeignKey(
-        ProgrammeType,
-        on_delete=models.SET_NULL,
-        blank=False,
-        null=True,
-        related_name="+",
-    )
     dates = RichTextField(blank=True, features=["link"])
     location = RichTextField(blank=True, features=["link"])
     introduction = models.CharField(max_length=500, blank=True)
@@ -259,7 +250,6 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
             heading=_("Course Introduction"),
         ),
         FieldPanel("about"),
-        FieldPanel("programme_type"),
         InlinePanel("programme_types", label="Programme types"),
         FieldPanel("quote_carousel"),
         MultiFieldPanel(
@@ -323,7 +313,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         index.SearchField("location"),
         index.RelatedFields(
             "programme_types",
-            [index.RelatedFields("subject", [index.SearchField("display_name")])],
+            [index.RelatedFields("programme_type", [index.SearchField("display_name")])],
         ),
         index.RelatedFields(
             "subjects",

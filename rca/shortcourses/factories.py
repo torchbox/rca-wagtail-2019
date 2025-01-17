@@ -11,7 +11,6 @@ class ShortCoursePageFactory(wagtail_factories.PageFactory):
         model = ShortCoursePage
 
     title = factory.Faker("text", max_nb_chars=25)
-    programme_type = factory.SubFactory(ProgrammeTypeFactory)
     show_register_link = False
 
 
