@@ -3,7 +3,7 @@ import wagtail_factories
 
 from rca.programmes.factories import ProgrammeTypeFactory
 
-from .models import ShortCoursePage
+from .models import ShortCoursePage, ShortCourseProgrammeType
 
 
 class ShortCoursePageFactory(wagtail_factories.PageFactory):
@@ -13,3 +13,11 @@ class ShortCoursePageFactory(wagtail_factories.PageFactory):
     title = factory.Faker("text", max_nb_chars=25)
     programme_type = factory.SubFactory(ProgrammeTypeFactory)
     show_register_link = False
+
+
+class ShortCourseProgrammeTypeFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = ShortCourseProgrammeType
+
+    page = factory.SubFactory(ShortCoursePageFactory)
+    programme_type = factory.SubFactory(ProgrammeTypeFactory)

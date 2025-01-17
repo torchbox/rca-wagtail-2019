@@ -182,6 +182,8 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         help_text="If selected, an automatic 'Register your interest' link "
         "will be visible in the key details section",
     )
+    # TODO: Remove this once we've confirmed that programme type
+    # has been migrated properly to the shortcourseprogramtype model.
     programme_type = models.ForeignKey(
         ProgrammeType,
         on_delete=models.SET_NULL,

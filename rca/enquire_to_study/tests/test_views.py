@@ -22,7 +22,7 @@ from rca.enquire_to_study.forms import EnquireToStudyForm
 from rca.enquire_to_study.models import EnquireToStudySettings, EnquiryFormSubmission
 from rca.enquire_to_study.views import EnquireToStudyFormView
 from rca.enquire_to_study.wagtail_hooks import EnquiryFormSubmissionAdmin
-from rca.programmes.factories import ProgrammePageFactory
+from rca.programmes.factories import ProgrammePageFactory, ProgrammePageProgrammeTypeFactory, ProgrammeTypeFactory
 
 
 class EnquireToStudyFormViewTest(TestCase):
@@ -54,6 +54,11 @@ class EnquireToStudyFormViewInternalEmailsTest(WagtailPageTestCase):
             email_content="Test email content",
             site_id=Site.objects.get().pk,
         )
+        page = ProgrammePageFactory(qs_code=1)
+        ProgrammePageProgrammeTypeFactory(
+            page=page,
+            programme_type=ProgrammeTypeFactory()
+        )
 
         self.form_data = {
             "first_name": "Monty",
@@ -63,7 +68,7 @@ class EnquireToStudyFormViewInternalEmailsTest(WagtailPageTestCase):
             "country_of_residence": "GB",
             "city": "Bristol",
             "country_of_citizenship": "GB",
-            "programmes": [ProgrammePageFactory(qs_code=1, programme_type__pk=2).pk],
+            "programmes": [page.pk],
             "start_date": StartDateFactory(qs_code="test-code").pk,
             "enquiry_reason": EnquiryReasonFactory().pk,
             "enquiry_questions": "What is your name?",

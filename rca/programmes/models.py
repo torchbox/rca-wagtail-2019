@@ -342,7 +342,8 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     degree_level = models.ForeignKey(
         DegreeLevel, on_delete=models.SET_NULL, blank=False, null=True, related_name="+"
     )
-    # TODO: Remove this field once confirmed that everything has been migrated properly.
+    # TODO: Remove this once we've confirmed that programme type
+    # has been migrated properly to the programmepageprogrammetype model.
     programme_type = models.ForeignKey(
         ProgrammeType,
         on_delete=models.SET_NULL,

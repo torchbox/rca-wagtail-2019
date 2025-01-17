@@ -2,7 +2,7 @@ import factory
 import wagtail_factories
 from faker import Factory as FakerFactory
 
-from .models import DegreeLevel, ProgrammePage, ProgrammeType
+from .models import DegreeLevel, ProgrammePage, ProgrammeType, ProgrammePageProgrammeType
 
 faker = FakerFactory.create()
 
@@ -31,4 +31,12 @@ class ProgrammePageFactory(wagtail_factories.PageFactory):
     scholarships_information = factory.Faker("text", max_nb_chars=100)
     search_description = factory.Faker("text", max_nb_chars=25)
     degree_level = factory.SubFactory(DegreeLevelFactory)
+    programme_type = factory.SubFactory(ProgrammeTypeFactory)
+
+
+class ProgrammePageProgrammeTypeFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = ProgrammePageProgrammeType
+
+    page = factory.SubFactory(ProgrammePageFactory)
     programme_type = factory.SubFactory(ProgrammeTypeFactory)
