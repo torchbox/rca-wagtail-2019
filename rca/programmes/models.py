@@ -320,6 +320,18 @@ class ProgrammePageTag(TaggedItemBase):
     )
 
 
+class ProgrammePageProgrammeType(models.Model):
+    page = ParentalKey("programmes.ProgrammePage", related_name="programme_types")
+    programme_type = models.ForeignKey(
+        "programmes.ProgrammeType",
+        on_delete=models.CASCADE,
+    )
+    panels = [FieldPanel("programme_type")]
+
+    def __str__(self):
+        return self.programme_type.title
+
+
 class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     parent_page_types = ["ProgrammeIndexPage"]
     subpage_types = ["guides.GuidePage"]
@@ -330,6 +342,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     degree_level = models.ForeignKey(
         DegreeLevel, on_delete=models.SET_NULL, blank=False, null=True, related_name="+"
     )
+    # TODO: Remove this field once confirmed that everything has been migrated properly.
     programme_type = models.ForeignKey(
         ProgrammeType,
         on_delete=models.SET_NULL,
@@ -619,6 +632,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
                 "programme_type",
                 help_text="Used to show content related to this programme page",
             ),
+            InlinePanel("programme_types", label="Programme Types"),
             MultiFieldPanel(
                 [
                     FieldPanel("hero_image"),
