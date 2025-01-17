@@ -5,8 +5,8 @@ from faker import Factory as FakerFactory
 from .models import (
     DegreeLevel,
     ProgrammePage,
-    ProgrammeType,
     ProgrammePageProgrammeType,
+    ProgrammeType,
 )
 
 faker = FakerFactory.create()

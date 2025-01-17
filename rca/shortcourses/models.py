@@ -312,7 +312,11 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         index.SearchField("location"),
         index.RelatedFields(
             "programme_types",
-            [index.RelatedFields("programme_type", [index.SearchField("display_name")])],
+            [
+                index.RelatedFields(
+                    "programme_type", [index.SearchField("display_name")]
+                )
+            ],
         ),
         index.RelatedFields(
             "subjects",
