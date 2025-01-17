@@ -9,7 +9,8 @@ from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.fields import StreamField
 from wagtail.search import index
 
-from rca.utils.blocks import AccordionBlockWithTitle, GuideBlock
+from rca.utils.blocks import GuideBlock
+from rca.utils.blocks.content import AccordionBlock
 from rca.utils.models import (
     BasePage,
     ContactFieldsMixin,
@@ -36,11 +37,9 @@ class GuidePage(
 
     introduction = models.CharField(max_length=500, blank=True)
     body = StreamField(GuideBlock(), blank=True)
-    further_information_title = models.CharField(blank=True, max_length=120)
-    further_information = StreamField(
-        [("accordion_block", AccordionBlockWithTitle())],
+    further_information_block = StreamField(
+        [("accordion", AccordionBlock())],
         blank=True,
-        verbose_name=_("Further information"),
     )
     related_staff_title = models.CharField(blank=True, max_length=120, default="Staff")
     related_pages_title = models.CharField(blank=True, max_length=120)
@@ -64,8 +63,7 @@ class GuidePage(
             ),
             MultiFieldPanel(
                 [
-                    FieldPanel("further_information_title"),
-                    FieldPanel("further_information"),
+                    FieldPanel("further_information_block"),
                 ],
                 heading=_("Further information"),
             ),
@@ -98,13 +96,14 @@ class GuidePage(
                 items.append({"title": block.value, "link": f"#{slugify(block.value)}"})
         if self.related_staff.first():
             items.append({"title": self.related_staff_title, "link": "#staff"})
-        if self.further_information_title:
-            items.append(
-                {
-                    "title": self.further_information_title,
-                    "link": f"#{slugify(self.further_information_title)}",
-                }
-            )
+        if self.further_information_block:
+            for block in self.further_information_block:
+                items.append(
+                    {
+                        "title": block.value.get("heading"),
+                        "link": f"#{slugify(block.value.get('heading'))}",
+                    }
+                )
         if self.related_pages_title:
             items.append(
                 {
