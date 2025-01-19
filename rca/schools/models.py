@@ -557,7 +557,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         ).first()
         if short_course_type:
             return (
-                f"{self.get_programme_index_link()}?category=programme_type&"
+                f"{self.get_programme_index_link()}?category=programme_types&"
                 f"value={short_course_type.id}-{slugify(short_course_type.display_name)}"
             )
 

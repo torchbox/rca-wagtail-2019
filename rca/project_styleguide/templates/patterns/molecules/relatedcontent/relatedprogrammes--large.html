@@ -26,7 +26,17 @@
                                     <svg width="12" height="8" class="related-content__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                 </a>
                             </h3>
-                            <p class="related-content__degree body body--one" property="schema:EducationalCredentialAwarded">{% firstof related_item.degree_level related_item.programme_type %}</p>
+                            {% with programme_types=related_item.programme_types.all %}
+                                {% if related_item.degree_levels %}
+                                    <p class="related-content__degree body body--one" property="schema:EducationalCredentialAwarded">{{ related_item.degree_level }}</p>
+                                {% else %}
+                                    <p class="related-content__degree body body--one" property="schema:EducationalCredentialAwarded">
+                                        {% for item in programme_types %}
+                                            {{ item.programme_type.display_name }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </p>
+                                {% endif %}
+                            {% endwith %}
                         </div>
                         <p class="related-content__copy body body--one" property="schema:description">
                             {% firstof related_item.programme_description_subtitle related_item.introduction related_item.listing_summary %}

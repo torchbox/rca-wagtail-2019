@@ -44,7 +44,6 @@ class TestBookingBarLogic(TestCase):
         self.short_course_page = ShortCoursePage(
             title="Short course title",
             slug="short-course",
-            programme_type_id=1,
             contact_model_url="https://rca.ac.uk",
             contact_model_text="Read more",
             show_register_link=0,
