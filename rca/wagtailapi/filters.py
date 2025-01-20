@@ -43,6 +43,26 @@ class SubjectsFilter(filters.BaseFilterBackend):
             return queryset
 
 
+class ProgrammeTypesFilter(filters.BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        try:
+            queryset.model._meta.get_field("programme_types")
+            programme_type_ids = [
+                int(id) for id in request.GET.getlist("programme_types", [])
+            ]
+            if programme_type_ids:
+                queryset = (
+                    queryset.model.objects.filter(
+                        programme_types__programme_type_id__in=programme_type_ids
+                    )
+                    .order_by("title")
+                    .live()
+                )
+            return queryset
+        except FieldDoesNotExist:
+            return queryset
+
+
 class RelatedSchoolsFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
         try:

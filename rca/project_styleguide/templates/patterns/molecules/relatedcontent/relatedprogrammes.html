@@ -39,15 +39,25 @@
                                     <svg width="12" height="8" class="related-content__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                                 </a>
                             </h3>
-                            {% if related_item.degree_level %}
-                                <p class="related-content__degree body body--two" property="schema:EducationalCredentialAwarded">{{ related_item.degree_level }}</p>
-                            {% elif related_item.programme_type %}
-                                <p class="related-content__degree body body--two">{{ related_item.booking_summary|default:related_item.programme_type }}</p>
-                            {% elif related_item.meta %}
-                                <p class="related-content__degree body body--two">{{ related_item.meta }}</p>
-                            {% elif related_item.get_verbose_name == 'Guide page' %}
-                                <p class="related-content__degree body body--two">Guide</p>
-                            {% endif %}
+                            {% with programme_types=related_item.programme_types.all %}
+                                {% if related_item.degree_level %}
+                                    <p class="related-content__degree body body--two" property="schema:EducationalCredentialAwarded">{{ related_item.degree_level }}</p>
+                                {% elif programme_types %}
+                                    {% if related_item.booking_summary %}
+                                        <p class="related-content__degree body body--two">{{ related_item.booking_summary }}</p>
+                                    {% else %}
+                                        <p class="related-content__degree body body--two">
+                                            {% for item in programme_types %}
+                                                {{ item.programme_type.display_name }}{% if not forloop.last %}, {% endif %}
+                                            {% endfor %}
+                                        </p>
+                                    {% endif %}
+                                {% elif related_item.meta %}
+                                    <p class="related-content__degree body body--two">{{ related_item.meta }}</p>
+                                {% elif related_item.get_verbose_name == 'Guide page' %}
+                                    <p class="related-content__degree body body--two">Guide</p>
+                                {% endif %}
+                            {% endwith %}
                         </div>
                         <p class="related-content__copy body body--two" property="schema:description">
                             {% firstof related_item.programme_description_subtitle related_item.introduction|default:''|striptags related_item.listing_summary %}

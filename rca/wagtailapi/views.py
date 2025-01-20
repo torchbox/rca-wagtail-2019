@@ -20,6 +20,7 @@ class PagesAPIViewSet(views.PagesAPIViewSet):
         DescendantOfFilter,
         filters.RelatedSchoolsFilter,
         filters.SubjectsFilter,
+        filters.ProgrammeTypesFilter,
         filters.StudyModeFilter,
         filters.DistinctFilter,
         filters.SearchFilter,

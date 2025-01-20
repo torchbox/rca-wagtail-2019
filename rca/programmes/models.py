@@ -113,6 +113,18 @@ class ProgrammeType(WagtailOrdable):
         return slugify(self.display_name)
 
 
+class ProgrammePageProgrammeType(models.Model):
+    page = ParentalKey("programmes.ProgrammePage", related_name="programme_types")
+    programme_type = models.ForeignKey(
+        "programmes.ProgrammeType",
+        on_delete=models.CASCADE,
+    )
+    panels = [FieldPanel("programme_type")]
+
+    def __str__(self):
+        return self.programme_type.title
+
+
 class ProgrammePageRelatedSchoolsAndResearchPages(RelatedPage):
     source_page = ParentalKey(
         "ProgrammePage", related_name="related_schools_and_research_pages"
@@ -329,13 +341,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     # Content
     degree_level = models.ForeignKey(
         DegreeLevel, on_delete=models.SET_NULL, blank=False, null=True, related_name="+"
-    )
-    programme_type = models.ForeignKey(
-        ProgrammeType,
-        on_delete=models.SET_NULL,
-        blank=False,
-        null=True,
-        related_name="+",
     )
     hero_image = models.ForeignKey(
         "images.CustomImage",
@@ -615,10 +620,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             # Taxonomy, relationships etc
             FieldPanel("degree_level"),
             InlinePanel("subjects", label="Subjects"),
-            FieldPanel(
-                "programme_type",
-                help_text="Used to show content related to this programme page",
-            ),
+            InlinePanel("programme_types", label="Programme Types"),
             MultiFieldPanel(
                 [
                     FieldPanel("hero_image"),
@@ -844,7 +846,14 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         index.SearchField("scholarship_accordion_items"),
         index.SearchField("scholarship_information_blocks"),
         index.SearchField("more_information_blocks", boost=2),
-        index.RelatedFields("programme_type", [index.SearchField("display_name")]),
+        index.RelatedFields(
+            "programme_types",
+            [
+                index.RelatedFields(
+                    "programme_type", [index.SearchField("display_name")]
+                )
+            ],
+        ),
         index.RelatedFields(
             "programme_locations",
             [index.RelatedFields("programme_location", [index.SearchField("title")])],
@@ -876,7 +885,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     api_fields = [
         # Fields for filtering and display, shared with shortcourses.ShortCoursePage.
         APIField("subjects"),
-        APIField("programme_type"),
+        APIField("programme_types"),
         APIField("related_schools_and_research_pages"),
         APIField(
             "summary",
@@ -1169,7 +1178,7 @@ class ProgrammeIndexPage(ContactFieldsMixin, BasePage):
 
         filters = [
             {"id": "subjects", "title": "Subject", "items": subjects},
-            {"id": "programme_type", "title": "Type", "items": programme_types},
+            {"id": "programme_types", "title": "Type", "items": programme_types},
             {
                 "id": "related_schools_and_research_pages",
                 "title": "Schools & centres",
