@@ -23,7 +23,6 @@ from wagtail.images.api.fields import ImageRenditionField
 from wagtail.models import Orderable
 from wagtail.search import index
 
-from rca.programmes.models import ProgrammeType
 from rca.utils.blocks import (
     AccordionBlockWithTitle,
     GalleryBlock,
@@ -79,6 +78,16 @@ class ShortCourseSubjectPlacement(models.Model):
         "programmes.Subject", on_delete=models.CASCADE, related_name="short_course"
     )
     panels = [FieldPanel("subject")]
+
+
+class ShortCourseProgrammeType(models.Model):
+    page = ParentalKey("ShortCoursePage", related_name="programme_types")
+    programme_type = models.ForeignKey(
+        "programmes.ProgrammeType",
+        on_delete=models.CASCADE,
+        related_name="short_course",
+    )
+    panels = [FieldPanel("programme_type")]
 
 
 class ShortCourseManualDate(Orderable):
@@ -172,13 +181,6 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         help_text="If selected, an automatic 'Register your interest' link "
         "will be visible in the key details section",
     )
-    programme_type = models.ForeignKey(
-        ProgrammeType,
-        on_delete=models.SET_NULL,
-        blank=False,
-        null=True,
-        related_name="+",
-    )
     dates = RichTextField(blank=True, features=["link"])
     location = RichTextField(blank=True, features=["link"])
     introduction = models.CharField(max_length=500, blank=True)
@@ -247,7 +249,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
             heading=_("Course Introduction"),
         ),
         FieldPanel("about"),
-        FieldPanel("programme_type"),
+        InlinePanel("programme_types", label="Programme types"),
         FieldPanel("quote_carousel"),
         MultiFieldPanel(
             [FieldPanel("staff_title"), InlinePanel("related_staff", label="Staff")],
@@ -308,7 +310,14 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         index.SearchField("body"),
         index.SearchField("about"),
         index.SearchField("location"),
-        index.RelatedFields("programme_type", [index.SearchField("display_name")]),
+        index.RelatedFields(
+            "programme_types",
+            [
+                index.RelatedFields(
+                    "programme_type", [index.SearchField("display_name")]
+                )
+            ],
+        ),
         index.RelatedFields(
             "subjects",
             [index.RelatedFields("subject", [index.SearchField("title")])],
@@ -330,7 +339,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
     api_fields = [
         # Fields for filtering and display, shared with programmes.ProgrammePage.
         APIField("subjects"),
-        APIField("programme_type"),
+        APIField("programme_types"),
         APIField("related_schools_and_research_pages"),
         APIField("summary", serializer=CharFieldSerializer(source="introduction")),
         APIField(
