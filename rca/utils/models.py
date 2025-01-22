@@ -655,14 +655,14 @@ class LegacyNewsAndEventsMixin(models.Model):
 
     def refetch_legacy_news_and_events(self):
         """
-        Fetches the related news and events for this page from
-        the legacy site. The result is cached to reduce real-time
-        calls to the legacy API.
+        Method which used to fetch related news and events from
+        the legacy site. This site is now defunct, so this method
+        is no longer expected to return anything.
+
+        TODO: remove this and other references in the codebase to
+              it or to the legacy news and events content
         """
-        tags = self.legacy_news_and_event_tags.all().values_list("name", flat=True)
-        value = pull_tagged_news_and_events(*tags)
-        cache.set(self.legacy_news_cache_key, value, None)
-        return value
+        return []
 
     @cached_property
     def legacy_news_and_events(self):
