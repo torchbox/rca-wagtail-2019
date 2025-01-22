@@ -26,7 +26,7 @@ from wagtail.models import Orderable, Page
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 
-from rca.api_content.content import CantPullFromRcaApi, pull_tagged_news_and_events
+from rca.api_content.content import CantPullFromRcaApi
 from rca.utils.cache import get_default_cache_control_decorator
 from rca.utils.forms import RCAPageAdminForm
 
