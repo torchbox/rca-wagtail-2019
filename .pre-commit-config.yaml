@@ -1,5 +1,5 @@
 default_language_version:
-  node: 18.4.0
+  node: system
   python: python3.11
 repos:
   - repo: https://github.com/python/black
