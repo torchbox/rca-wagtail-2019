@@ -810,13 +810,6 @@ QS_API_ENDPOINT = env.get("QS_API_ENDPOINT", None)
 QS_API_USERNAME = env.get("QS_API_USERNAME", None)
 QS_API_PASSWORD = env.get("QS_API_PASSWORD", None)
 
-# MAILCHIMP CREDENTIALS
-MAILCHIMP_API_KEY = env.get("MAILCHIMP_API_KEY", None)
-MAILCHIMP_LIST_ID = env.get("MAILCHIMP_LIST_ID", None)
-MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID = env.get(
-    "MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID", None
-)
-
 # https://docs.djangoproject.com/en/3.2/ref/settings/#password-reset-timeout
 PASSWORD_RESET_TIMEOUT = 60 * 60 * 24 * 90  # 90 days, in seconds, default is 3 days
 

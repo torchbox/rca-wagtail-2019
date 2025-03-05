@@ -32,11 +32,6 @@ The Azure environment is handled by RCA. If we need to update keys or redirect U
 
 ### 1. Check the data
 
-The enquire to study form has 2 integrations:
-
-1. Form data from user outside UK is sent to 'QS'
-2. Form data from user inside UK is sent to Mailchimp
-
 The programme values the user select on the form have 'qs_code` values in Wagtail. As do some of the taxonomies. These 'qs_codes' and to lookup data from the QS endpoint. Usually the form throws 500s if these values change on the QS side but aren't updated in Wagtail. You can view the QS endpoint and inspect what codes a course should have - the endpoint is set as an env var in heroku.
 
 If it turns out a programme/course has the wrong QS code, update it in wagtail with the right one from the endpoint.

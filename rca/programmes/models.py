@@ -594,12 +594,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         null=True,
     )
 
-    mailchimp_group_name = models.CharField(
-        max_length=255,
-        help_text="This must match a group name under the category 'Programme of interest' E.G 'MA Animation'",
-        blank=True,
-        null=True,
-    )
     intranet_slug = models.SlugField(
         blank=True,
         help_text="In order to import events and news to the intranet and relate them to this programme, this \
@@ -797,7 +791,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         MultiFieldPanel([FieldPanel("apply_image")], heading="Introduction image"),
         MultiFieldPanel([FieldPanel("steps")], heading="Before you begin"),
         FieldPanel("qs_code"),
-        FieldPanel("mailchimp_group_name"),
     ]
     promote_panels = BasePage.promote_panels + [
         MultiFieldPanel(
