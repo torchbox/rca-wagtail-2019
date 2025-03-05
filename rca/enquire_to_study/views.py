@@ -16,8 +16,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
 from django_countries import countries
 from django_countries.ioc_data import IOC_TO_ISO
-from mailchimp_marketing import Client
-from mailchimp_marketing.api_client import ApiClientError
 from wagtail.admin import messages
 
 from rca.utils.views import MetaTitleMixin
@@ -29,11 +27,7 @@ logger = logging.getLogger(__name__)
 
 
 class EnquireToStudyFormView(MetaTitleMixin, FormView):
-    """Custom form with integrations to Mailchimp and QS
-
-    On form submission, the post data is sent to different services depending
-    on the 'country_of_residence' value. For the moment only QS is receiving
-    post data, Mailchimp is incoming.
+    """Custom form with integrations to QS
 
     Keys can be seen here:
     https://qs-enrolment-solutions.screenstepslive.com/s/Help/m/enquiryapi/l/889815-application-endpoints#student-enquiry
@@ -75,102 +69,6 @@ class EnquireToStudyFormView(MetaTitleMixin, FormView):
     @method_decorator(csrf_exempt)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
-
-    def get_mailchimp_interests_and_map_to_programmes(self, mailchimp, programmes):
-        try:
-            response = mailchimp.lists.list_interest_category_interests(
-                settings.MAILCHIMP_LIST_ID,
-                settings.MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID,
-                count=500,
-            )
-            mailchimp_interest_ids = {}
-            mapped_user_interests = {}
-            try:
-                for interest in response["interests"]:
-                    mailchimp_interest_ids.update({interest["name"]: interest["id"]})
-            except ValueError:
-                return {}
-            for program in programmes:
-                if program.mailchimp_group_name:
-                    try:
-                        interest_id = mailchimp_interest_ids[
-                            program.mailchimp_group_name
-                        ]
-                        mapped_user_interests.update({interest_id: True})
-                    except KeyError:
-                        logger.warning(
-                            f"Mailchimp: Unable to map mailchimp_group_name for program page {program} - {program.id}"
-                        )
-                        pass
-            return mapped_user_interests
-        except ApiClientError as error:
-            logger.exception(error.text)
-            return {}
-
-    def post_mailchimp(self, form_data):
-        mailchimp = Client()
-        mailchimp.set_config(
-            {
-                "api_key": settings.MAILCHIMP_API_KEY,
-                "server": settings.MAILCHIMP_API_KEY.split("-")[-1],
-            }
-        )
-
-        interests = {}
-        if (
-            form_data["programmes"]
-            and settings.MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID
-        ):
-            interests = self.get_mailchimp_interests_and_map_to_programmes(
-                mailchimp, form_data["programmes"]
-            )
-        elif not settings.MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID:
-            logger.warning(
-                "Mailchimp: Set MAILCHIMP_PROGRAMMES_INTEREST_CATEGORY_ID to assign users to groups"
-            )
-
-        country = dict(countries)[form_data["country_of_residence"]]
-
-        member_info = {
-            "merge_fields": {
-                "FNAME": form_data["first_name"],
-                "LNAME": form_data["last_name"],
-                "PHONE": str(form_data["phone_number"]),
-                "MMERGE6": form_data["start_date"].mailchimp_label or "",
-                "MMERGE7": form_data["country_of_citizenship"],
-                "ADDRESS": {
-                    "addr1": "N/A",
-                    "addr2": "N/A",
-                    "city": form_data["city"],
-                    "state": "N/A",
-                    "zip": "N/A",
-                    "country": country,
-                },
-                "MMERGE8": form_data["country_of_residence"],
-                "MMERGE9": form_data["city"],
-                "MMERGE10": form_data["enquiry_reason"].reason,
-                "MMERGE11": form_data["enquiry_questions"],
-            },
-            "interests": interests,
-            "email_address": form_data["email"],
-            "status": "subscribed",
-        }
-
-        try:
-            return mailchimp.lists.add_list_member(
-                settings.MAILCHIMP_LIST_ID, member_info
-            )
-        except ApiClientError as error:
-            try:
-                error_json = json.loads(error.text)
-                if error_json["title"] and error_json["title"] == "Member Exists":
-                    logger.info("Mailchimp: User tried to re-register to signup form")
-                    return
-            except ValueError:
-                logger.warning("Mailchimp: failed to decode error message")
-                return
-            logger.exception(error.text)
-            return
 
     def get_qs_data(self, query):
         return requests.get(
@@ -307,9 +205,8 @@ class EnquireToStudyFormView(MetaTitleMixin, FormView):
 
     def form_valid(self, form):
         country_of_residence = form.cleaned_data["country_of_residence"]
-        if country_of_residence in ["GB", "IE"] and settings.MAILCHIMP_API_KEY:
-            self.post_mailchimp(form.cleaned_data)
-        elif settings.QS_API_PASSWORD:
+
+        if settings.QS_API_PASSWORD:
             self.post_qs(form.cleaned_data)
 
         enquiry_submission = form.save()
