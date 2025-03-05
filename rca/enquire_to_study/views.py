@@ -1,4 +1,3 @@
-import json
 import logging
 from datetime import timedelta
 
@@ -14,7 +13,6 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
-from django_countries import countries
 from django_countries.ioc_data import IOC_TO_ISO
 from wagtail.admin import messages
 
