@@ -59,18 +59,18 @@ stellar = "~0.4"
 wagtailmakeup = "^1.1.0"
 
 # Linters etc.
-black = "^24.10.0"
+black = "^25.1.0"
 detect-secrets = "~1.5"
-flake8 = "7.1.1"
-isort = "5.13.2"
-pre-commit = "~4.0"
+flake8 = "7.2.0"
+isort = "6.0.1"
+pre-commit = "~4.2"
 
 # Documentation
 mkdocs = "~1.6"
-mkdocs-material = "~9.5"
-pymdown-extensions = "~10.13"
+mkdocs-material = "~9.6"
+pymdown-extensions = "~10.14"
 honcho = "^2.0.0"
-django-upgrade = "^1.22.2"
+django-upgrade = "^1.24.0"
 pyupgrade = "^3.19.1"
 
 [build-system]
