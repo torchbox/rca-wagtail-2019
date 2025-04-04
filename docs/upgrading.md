@@ -106,7 +106,7 @@ As well as testing the critical paths, these areas of functionality should be ch
 
 ### Users who logged in via SSO automatically gets 'Editor' permissions.
 
-1. When users log in via SSO, they are automatically made editors. This is done via `rca.utils.pipeline.make_sso_users_editors` and added to the `SOCIAL_AUTH_PIPELINE`. RCA will manually elevate permissiosn if necessary. 
+1. When users log in via SSO, they are automatically made editors. This is done via `rca.utils.pipeline.make_sso_users_editors` and added to the `SOCIAL_AUTH_PIPELINE`. RCA will manually elevate permissiosn if necessary.
 
 ### Users who logged in via SSO is redirected to a logout confirmation when they logout.
 
@@ -119,26 +119,10 @@ As well as testing the critical paths, these areas of functionality should be ch
 
 The following templates are overridden and should be checked for changes when upgrading Wagtail:
 
-Last checked against Wagtail version: 6.1
+Last checked against Wagtail version: 6.4
 
 - `rca/account_management/templates/wagtailadmin/base.html`
 - `rca/project_styleguide/templates/patterns/pages/auth/login.html` - This was overridden to add the "Sign in with single sign-on" button to the login template.
-- ~~`rca/users/templates/wagtailusers/users/list.html`~~ This template was deleted in 2645c204425b8fa3409a110f46b2822a1953fe49 because as of Wagtail 6.1, [it's no longer used](https://github.com/wagtail/wagtail/commit/7b1644eb37b6b6cf7800276acf9abef5254fc096). Please note that the `user_listing_buttons` template tag was used in this template, and it has since been [deprecated](https://docs.wagtail.org/en/latest/releases/6.1.html#deprecation-of-user-listing-buttons-template-tag).
-
-!!! warning "Technical Debt - to be addressed in Wagtail 6.2"
-
-    The deleted `rca/users/templates/wagtailusers/users/list.html` template did two things:
-
-    1.  altered the "Admin" (now called "Access level") column to show "Yes" if `user.is_superuser`.
-        The default behaviour is to show "Admin" if `user.is_superuser`.
-    2.  added a "Groups" column after the preceding column, whose contents are `{{user.group_links|join:", "}}`
-
-    Retaining the above functionality in Wagtail 6.1 is not a trivial task.
-    There's currently an [open PR](https://github.com/wagtail/wagtail/pull/11952) which
-    seeks to solve this problem, and it may be ready in the 6.2 release.
-
-    **Action**: When upgrading to Wagtail 6.2, look out for the above change, and restore
-    the feature to the way it was before the 6.1 upgrade.
 
 ---
 
