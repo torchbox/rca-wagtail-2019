@@ -594,9 +594,9 @@ if "CSP_DEFAULT_SRC" in env:
 
 
 # Referrer-policy header settings.
-# https://django-referrer-policy.readthedocs.io/en/1.0/
+# https://docs.djangoproject.com/en/stable/ref/middleware/#referrer-policy
 
-REFERRER_POLICY = env.get(
+SECURE_REFERRER_POLICY = env.get(
     "SECURE_REFERRER_POLICY", "no-referrer-when-downgrade"
 ).strip()
 

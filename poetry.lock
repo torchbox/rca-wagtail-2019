@@ -820,19 +820,6 @@ redis = ">=3,<4.0.0 || >4.0.0,<4.0.1 || >4.0.1"
 hiredis = ["redis[hiredis] (>=3,!=4.0.0,!=4.0.1)"]
 
 [[package]]
-name = "django-referrer-policy"
-version = "1.0"
-description = "Referrer-Policy header implementation for Django."
-optional = false
-python-versions = "*"
-files = [
-    {file = "django-referrer-policy-1.0.tar.gz", hash = "sha256:09e134324fa08c10efc12244a4bae7aee5defa7d332b92c603b09258c854615a"},
-]
-
-[package.dependencies]
-Django = ">=1.11"
-
-[[package]]
 name = "django-storages"
 version = "1.14.4"
 description = "Support for many storage backends in Django"
@@ -3362,4 +3349,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.11"
-content-hash = "2ff2e0169ea08677012fbe2db2e831790c68b8b8ae668257e79fefbf9fc8a0c3"
+content-hash = "61a017a003c0f7fe660ca9f40f6ef9dba3abb0ba59fd9b6dd15f8d7b27562b22"
