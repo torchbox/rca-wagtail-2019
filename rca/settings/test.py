@@ -23,3 +23,12 @@ CAPTCHA_TEST_MODE = True
 STORAGES["staticfiles"][  # noqa
     "BACKEND"
 ] = "django.contrib.staticfiles.storage.StaticFilesStorage"
+
+# Resolve tasks immediately
+# https://docs.wagtail.org/en/stable/releases/6.4.html#background-tasks-run-at-end-of-current-transaction
+TASKS = {
+    "default": {
+        "BACKEND": "django_tasks.backends.immediate.ImmediateBackend",
+        "ENQUEUE_ON_COMMIT": False,
+    }
+}
