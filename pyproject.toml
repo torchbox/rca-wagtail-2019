@@ -39,7 +39,7 @@ beautifulsoup4 = "^4.13.3"
 coverage = "^7.8.0"
 freezegun = "^1.5.1"
 html5lib = "^1.1"
-lxml = "^5.3.1"
+lxml = "^5.3.2"
 scout-apm = "~3.2"  # Not upgrading as scout-apm (3.3.0) depends on urllib3 (>=2.2.0,<2.3.0)
 sentry-sdk = "^2.25.1"
 tblib = "^3.1.0"
