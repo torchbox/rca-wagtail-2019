@@ -169,7 +169,7 @@ class TestBookingBarLogic(TestCase):
         response = self.client.get("/short-course/")
         self.assertContains(
             response,
-            f"Book from \xA3{self.short_course_page.manual_bookings.first().cost}",
+            f"Book from \xa3{self.short_course_page.manual_bookings.first().cost}",
         )
         self.assertContains(response, "Next course starts 1 October 2020")
 
