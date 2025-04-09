@@ -160,11 +160,9 @@ class ShorthandContentMixin(models.Model):
             raise ValidationError(
                 {
                     "shorthand_story_url": ValidationError(
-                        (
-                            "Wagtail cannot find a Shorthand story with the 'Published URL' "
-                            f"value set to {self.shorthand_story_url}). Please update this "
-                            "via the 'Settings' panel for the story, then try again."
-                        )
+                        "Wagtail cannot find a Shorthand story with the 'Published URL' "
+                        f"value set to {self.shorthand_story_url}). Please update this "
+                        "via the 'Settings' panel for the story, then try again."
                     )
                 }
             ) from e

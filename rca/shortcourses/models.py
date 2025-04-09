@@ -377,7 +377,7 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
             booking_bar["message"] = "Next course starts"
             booking_bar["date"] = manual_booking.start_date
             booking_bar["action"] = (
-                f"Book from \xA3{manual_booking.cost}"
+                f"Book from \xa3{manual_booking.cost}"
                 if manual_booking.cost
                 else "Book now"
             )

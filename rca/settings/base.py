@@ -594,9 +594,9 @@ if "CSP_DEFAULT_SRC" in env:
 
 
 # Referrer-policy header settings.
-# https://django-referrer-policy.readthedocs.io/en/1.0/
+# https://docs.djangoproject.com/en/stable/ref/middleware/#referrer-policy
 
-REFERRER_POLICY = env.get(
+SECURE_REFERRER_POLICY = env.get(
     "SECURE_REFERRER_POLICY", "no-referrer-when-downgrade"
 ).strip()
 
@@ -759,7 +759,10 @@ except TypeError:
 
 # The API url to pull content from for the homepage, see rca.api_content.content
 API_CONTENT_BASE_URL = env.get("API_CONTENT_BASE_URL", "https://rca.ac.uk")
-DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
+
+# Specifies the maximum number of fields allowed in a form submission.
+# https://docs.wagtail.org/en/latest/releases/6.4.html#data-upload-max-number-fields-update
+DATA_UPLOAD_MAX_NUMBER_FIELDS = int(env.get("DATA_UPLOAD_MAX_NUMBER_FIELDS", 10_000))
 
 CACHE_CONTROL_STALE_IF_ERROR = env.get("CACHE_CONTROL_STALE_IF_ERROR", None)
 
