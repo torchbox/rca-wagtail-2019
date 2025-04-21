@@ -349,6 +349,14 @@ class EventDetailPageRelatedPages(RelatedPage):
     ]
 
 
+class EventDetailPageEventType(Orderable):
+    source_page = ParentalKey("events.EventDetailPage", related_name="event_types")
+    event_type = models.ForeignKey("events.EventType", on_delete=models.CASCADE)
+    panels = [FieldPanel("event_type")]
+
+    api_fields = ["event_type"]
+
+
 class EventDetailPage(ContactFieldsMixin, BasePage):
     base_form_class = EventAdminForm
     parent_page_types = ["EventIndexPage"]
@@ -376,12 +384,6 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
     series = models.ForeignKey(
         EventSeries,
         blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name="events",
-    )
-    event_type = models.ForeignKey(
-        EventType,
         null=True,
         on_delete=models.SET_NULL,
         related_name="events",
@@ -452,7 +454,15 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             heading="Event Booking",
         ),
         MultiFieldPanel(
-            [FieldPanel("event_type"), FieldPanel("series"), FieldPanel("eligibility")],
+            [
+                InlinePanel(
+                    "event_types",
+                    heading="Event types",
+                    label="Event type",
+                ),
+                FieldPanel("series"),
+                FieldPanel("eligibility"),
+            ],
             heading="Event Taxonomy",
         ),
         InlinePanel(
