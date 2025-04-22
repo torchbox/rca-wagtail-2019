@@ -19,7 +19,13 @@ def news_teaser_formatter(item, return_image=False):
 
 
 def event_teaser_formatter(item, return_image=False):
-    item_as_dict = {"type": item.event_type or ""}
+    item_as_dict = {
+        "type": ", ".join(
+            [edp_et.event_type.title for edp_et in item.event_types.prefetch_related("event_type")]
+        )
+        if item.event_types.exists()
+        else ""
+    }
     listing_image = get_listing_image(item)
     if return_image and listing_image:
         item_as_dict["image"] = listing_image.get_rendition("fill-878x472").url

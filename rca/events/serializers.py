@@ -39,11 +39,11 @@ class RelatedSchoolSerializer(Field):
 class EventTypesSerializer(Field):
     def to_representation(self, value):
         event_types = []
-        for event_type in value.all():
+        for et in value.all():
             event_types.append(
                 {
-                    "id": event_type.id,
-                    "title": event_type.title,
+                    "id": et.event_type.id,
+                    "title": et.event_type.title,
                 }
             ),
 

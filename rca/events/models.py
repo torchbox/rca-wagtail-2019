@@ -104,7 +104,10 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
             page = value.page
             if page and page.live:
                 meta = ", ".join(
-                    [edp_et.event_type.title for edp_et in page.event_types.all()]
+                    [
+                        edp_et.event_type.title
+                        for edp_et in page.event_types.prefetch_related("event_type")
+                    ]
                 )
                 if page.location:
                     description = f"{page.event_date_short}, {page.location}"
@@ -466,6 +469,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                     "event_types",
                     heading="Event types",
                     label="Event type",
+                    min_num=1,
                 ),
                 FieldPanel("series"),
                 FieldPanel("eligibility"),

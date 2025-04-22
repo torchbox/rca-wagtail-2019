@@ -58,34 +58,29 @@ class EventDetailPageTests(WagtailPageTestCase):
     def test_get_series_events(self):
         home_page = HomePage.objects.first()
         series = EventSeriesFactory()
-        event_type = EventTypeFactory()
         event1 = EventDetailPageFactory(
             parent=home_page,
             start_date=date(2021, 1, 4),
             end_date=date(2021, 1, 5),
             series=series,
-            event_type=event_type,
         )
         event2 = EventDetailPageFactory(
             parent=home_page,
             start_date=date(2021, 1, 6),
             end_date=date(2021, 1, 7),
             series=series,
-            event_type=event_type,
         )
         event3 = EventDetailPageFactory(
             parent=home_page,
             start_date=date(2021, 1, 8),
             end_date=date(2021, 1, 9),
             series=series,
-            event_type=event_type,
         )
         event4 = EventDetailPageFactory(
             parent=home_page,
             start_date=date(2021, 1, 1),
             end_date=date(2021, 1, 2),
             series=series,
-            event_type=event_type,
         )
         # different series, should not show
         EventDetailPageFactory(
@@ -93,7 +88,6 @@ class EventDetailPageTests(WagtailPageTestCase):
             start_date=date(2021, 1, 6),
             end_date=date(2021, 1, 7),
             series=EventSeriesFactory(),
-            event_type=event_type,
         )
         self.assertEqual(
             [
@@ -137,7 +131,6 @@ class EventDetailPageDateTests(WagtailPageTestCase):
             start_date=date(2021, 1, 6),
             end_date=date(2021, 1, 6),
             series=EventSeriesFactory(),
-            event_type=EventTypeFactory(),
             location=EventLocationFactory(),
             eligibility=EventEligibilityFactory(),
         )
@@ -149,7 +142,6 @@ class EventDetailPageDateTests(WagtailPageTestCase):
             start_date=date(2021, 1, 6),
             end_date=date(2021, 1, 9),
             series=EventSeriesFactory(),
-            event_type=EventTypeFactory(),
             location=EventLocationFactory(),
             eligibility=EventEligibilityFactory(),
         )
@@ -161,7 +153,6 @@ class EventDetailPageDateTests(WagtailPageTestCase):
             start_date=date(2021, 1, 6),
             end_date=date(2021, 2, 9),
             series=EventSeriesFactory(),
-            event_type=EventTypeFactory(),
             location=EventLocationFactory(),
             eligibility=EventEligibilityFactory(),
         )
@@ -175,7 +166,6 @@ class EventDetailPageDateTests(WagtailPageTestCase):
             start_date=date(2021, 12, 29),
             end_date=date(2022, 1, 1),
             series=EventSeriesFactory(),
-            event_type=EventTypeFactory(),
             location=EventLocationFactory(),
             eligibility=EventEligibilityFactory(),
         )
@@ -250,7 +240,6 @@ class EventDetailPageDateTests(WagtailPageTestCase):
                         end_time=end_time,
                         path="0",
                         depth=0,
-                        event_type=EventTypeFactory(),
                         location=EventLocationFactory(),
                         eligibility=EventEligibilityFactory(),
                     ).full_clean()
@@ -273,7 +262,6 @@ class EventDetailPageDateTests(WagtailPageTestCase):
                 end_time=end_time,
                 path="0",
                 depth=0,
-                event_type=EventTypeFactory(),
                 location=EventLocationFactory(),
                 eligibility=EventEligibilityFactory(),
             ).full_clean()
@@ -297,7 +285,6 @@ class EventDetailPageDateTests(WagtailPageTestCase):
                     end_date=end_date,
                     path="0",
                     depth=0,
-                    event_type=EventTypeFactory(),
                     location=EventLocationFactory(),
                     eligibility=EventEligibilityFactory(),
                 ).full_clean()

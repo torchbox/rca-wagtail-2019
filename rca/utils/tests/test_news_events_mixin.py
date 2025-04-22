@@ -13,7 +13,7 @@ from rca.editorial.models import (
     EditorialType,
 )
 from rca.events.factories import EventEligibilityFactory, EventLocationFactory
-from rca.events.models import EventDetailPage, EventType
+from rca.events.models import EventDetailPage, EventType, EventDetailPageEventType
 from rca.home.models import HomePage
 from rca.landingpages.models import RelatedLandingPage, ResearchLandingPage
 from rca.research.models import RelatedResearchCenterPage, ResearchCentrePage
@@ -92,7 +92,6 @@ class NewsAndEventsMixinTest(WagtailPageTestCase):
             title="The event page",
             introduction=fake.sentence(),
             hero_image=wagtail_factories.ImageFactory(),
-            event_type=self.event_type,
             start_date=dates["start_date"],
             end_date=dates["end_date"],
             related_schools=[RelatedSchoolPage(page=self.school_page)],
@@ -104,6 +103,10 @@ class NewsAndEventsMixinTest(WagtailPageTestCase):
             eligibility=EventEligibilityFactory(),
         )
         self.home_page.add_child(instance=self.event_detail_page)
+        EventDetailPageEventType.objects.create(
+            source_page=self.event_detail_page,
+            event_type=self.event_type,
+        )
 
     def test_schools_page_related_editorial(self):
         self.assertIn(
