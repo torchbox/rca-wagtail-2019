@@ -43,6 +43,7 @@ from .filter import PastOrFutureFilter
 from .forms import EventAdminForm
 from .serializers import (
     EventTaxonomySerializer,
+    EventTypesSerializer,
     RelatedDirectoratesSerializer,
     RelatedSchoolSerializer,
 )
@@ -102,7 +103,9 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
         for value in pages:
             page = value.page
             if page and page.live:
-                meta = page.event_type
+                meta = ", ".join(
+                    [edp_et.event_type.title for edp_et in page.event_types.all()]
+                )
                 if page.location:
                     description = f"{page.event_date_short}, {page.location}"
                 else:
@@ -133,8 +136,10 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
             obj.image = obj.listing_image or obj.hero_image
             obj.short_date = date
             obj.title = obj.listing_title or obj.title
-            if obj.event_type:
-                obj.type = obj.event_type
+            if obj.event_types.exists():
+                obj.type = ", ".join(
+                    [edp_et.event_type.title for edp_et in obj.event_types.all()]
+                )
 
     def get_active_filters(self, request):
         return {
@@ -182,10 +187,12 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
                 "Type",
                 queryset=(
                     EventType.objects.filter(
-                        id__in=base_queryset.values_list("event_type_id", flat=True)
+                        id__in=base_queryset.values_list(
+                            "event_types__event_type_id", flat=True
+                        )
                     )
                 ),
-                filter_by="event_type__slug__in",  # Filter by slug here
+                filter_by="event_types__event_type__slug__in",  # Filter by slug here
                 option_value_field="slug",
             ),
             TabStyleFilter(
@@ -574,7 +581,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         APIField("event_cost"),
         APIField("availability", serializer=EventTaxonomySerializer()),
         APIField("location", serializer=EventTaxonomySerializer()),
-        APIField("event_type", serializer=EventTaxonomySerializer()),
+        APIField("event_types", serializer=EventTypesSerializer()),
         APIField("series", serializer=EventTaxonomySerializer()),
         APIField("eligibility", serializer=EventTaxonomySerializer()),
         APIField("related_directorates", serializer=RelatedDirectoratesSerializer()),
