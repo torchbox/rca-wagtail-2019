@@ -170,6 +170,18 @@ class HomePage(TapMixin, BasePage):
         blank=True,
         help_text=_("The title to display above the news and events listing"),
     )
+    featured_event = models.ForeignKey(
+        "events.EventDetailPage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text=_(
+            "The featured event to display. "
+            "If none is selected, this defaults to the next upcoming event. "
+            "If the selected event is in the past, this defaults to the next upcoming event."
+        ),
+    )
     content_panels = (
         BasePage.content_panels
         + [
@@ -231,6 +243,7 @@ class HomePage(TapMixin, BasePage):
                     FieldPanel("news_and_events_title"),
                     FieldPanel("news_and_events_link_text"),
                     FieldPanel("news_and_events_link_target_url"),
+                    FieldPanel("featured_event"),
                 ],
                 "News and Events",
             ),
