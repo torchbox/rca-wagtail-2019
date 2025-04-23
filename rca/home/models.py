@@ -179,7 +179,7 @@ class HomePage(TapMixin, BasePage):
         help_text=_(
             "The featured event to display. "
             "If none is selected, this defaults to the next upcoming event. "
-            "If the selected event is in the past, this defaults to the next upcoming event."
+            "If the selected event's end date is in the past, this defaults to the next upcoming event."
         ),
     )
     content_panels = (
