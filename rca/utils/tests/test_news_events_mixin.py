@@ -13,7 +13,7 @@ from rca.editorial.models import (
     EditorialType,
 )
 from rca.events.factories import EventEligibilityFactory, EventLocationFactory
-from rca.events.models import EventDetailPage, EventType, EventDetailPageEventType
+from rca.events.models import EventDetailPage, EventDetailPageEventType, EventType
 from rca.home.models import HomePage
 from rca.landingpages.models import RelatedLandingPage, ResearchLandingPage
 from rca.research.models import RelatedResearchCenterPage, ResearchCentrePage

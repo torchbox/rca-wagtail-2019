@@ -12,11 +12,10 @@ from rca.events.factories import (
     EventTypeFactory,
 )
 from rca.events.models import (
+    EventDetailPageEventType,
     EventDetailPageRelatedDirectorate,
     EventDetailPageRelatedPages,
     EventDetailPageSpeaker,
-    EventType,
-    EventDetailPageEventType,
 )
 from rca.home.models import HomePage
 from rca.people.factories import DirectorateFactory, StaffPageFactory

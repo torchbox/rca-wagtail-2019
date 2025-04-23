@@ -15,7 +15,6 @@ from rca.events.factories import (
     EventEligibilityFactory,
     EventLocationFactory,
     EventSeriesFactory,
-    EventTypeFactory,
 )
 from rca.events.models import (
     EventDetailPage,
