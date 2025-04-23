@@ -390,12 +390,15 @@ class HomePage(TapMixin, BasePage):
         return [
             self.related_news_events_formatter(
                 item.story,
-                editorial_meta_label="Alumni story",
+                editorial_meta_label=item.story.listing_meta,
                 long_description=True,
             )
             for item in self.featured_alumni_stories.filter(story__live=True)
             .select_related("story", "story__listing_image")
-            .prefetch_related("story__listing_image__renditions")
+            .prefetch_related(
+                "story__listing_image__renditions",
+                "story__editorial_types__type",
+            )
         ]
 
     def get_context(self, request, *args, **kwargs):
