@@ -396,6 +396,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         choices=(
             ("1", "Applications closed. Please check back soon."),
             ("2", "Still accepting applications"),
+            ("3", "Applications closed."),
         ),
         blank=True,
     )

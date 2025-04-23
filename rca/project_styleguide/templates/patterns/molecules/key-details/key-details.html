@@ -119,7 +119,7 @@
                     <h5 class="body body--two key-details__sub-heading">{{ programme_page_global_fields.key_details_application_deadline_title }}</h5>
                 {% endif %}
                 <ul class="key-details__list">
-                    {% if page.application_deadline_options == '1' %}
+                    {% if page.application_deadline_options == '1' or page.application_deadline_options == '3' %}
                         <li class="key-details__list-item">{{ page.get_application_deadline_options_display }}</li>
                     {% else %}
                         {% if page.application_deadline %}
