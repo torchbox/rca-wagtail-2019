@@ -291,13 +291,22 @@
     .bg--dark & {
         &#{$root}--secondary,
         &#{$root}--tertiary,
-        &#{$root}--social {
+        &#{$root}--social,
+        &#{$root}--external {
             color: $color--white;
 
             &:hover,
             &:active,
             &:focus {
                 color: $color--white;
+            }
+        }
+
+        &#{$root}--external {
+            &:hover,
+            &:active,
+            &:focus {
+                color: $color--tertiary;
             }
         }
     }
