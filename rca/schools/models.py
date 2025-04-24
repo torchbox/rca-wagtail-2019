@@ -337,7 +337,7 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             [FieldPanel("next_open_day_date"), FieldPanel("link_to_open_days")],
             heading="Next open day",
         ),
-        FieldPanel("location"),
+        FieldPanel("location", heading="Current location"),
         FieldPanel("get_in_touch"),
         FieldPanel("social_links"),
     ]
