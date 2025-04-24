@@ -390,7 +390,7 @@ class HomePage(TapMixin, BasePage):
         return [
             self.related_news_events_formatter(
                 item.story,
-                editorial_meta_label=item.story.listing_meta,
+                editorial_meta_label=item.story.listing_meta or "Alumni stories",
                 long_description=True,
             )
             for item in self.featured_alumni_stories.filter(story__live=True)
