@@ -3,8 +3,19 @@
     overflow: hidden;
 
     &--medium {
+        &::before {
+            @include z-index(under);
+            content: '';
+            background-color: $color--black;
+            height: 130px;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+
         margin-top: 120px; // height of header
-        max-height: 170px; 
+        max-height: 170px;
 
         @include media-query(medium) {
             margin-top: 130px;
