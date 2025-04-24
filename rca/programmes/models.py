@@ -394,8 +394,9 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     application_deadline_options = models.CharField(
         max_length=1,
         choices=(
-            ("1", "Applications closed. Please check back soon."),
+            ("1", "Applications closed, please check back soon"),
             ("2", "Still accepting applications"),
+            ("3", "Applications closed"),
         ),
         blank=True,
     )
