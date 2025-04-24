@@ -48,7 +48,7 @@
         {% endif %}
 
         {% if page.research_profile_url %}
-            {% include 'patterns/atoms/link-primary/link-primary--external.html' with href=page.research_profile_url text="Research Profile" %}
+            {% include 'patterns/atoms/link-primary/link-primary--external.html' with href=page.research_profile_url text="Research Profile" open_in_new_tab=True %}
         {% endif %}
     </div>
 {% endif %}
