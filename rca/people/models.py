@@ -181,6 +181,7 @@ class StaffPage(BasePage):
     template = "patterns/pages/staff/staff_detail.html"
     parent_page_types = ["people.StaffIndexPage"]
 
+    research_profile_url = models.URLField(blank=True)
     staff_title = models.CharField(
         max_length=255, help_text=_("E.G Dr, Professor"), blank=True
     )
@@ -246,6 +247,7 @@ class StaffPage(BasePage):
         InlinePanel("related_schools", label=_("Related Schools")),
         InlinePanel("related_area_of_expertise", label=_("Areas of Expertise")),
         InlinePanel("related_directorates", label=_("Directorate")),
+        FieldPanel("research_profile_url", heading=_("Research profile URL")),
     ]
 
     content_panels = BasePage.content_panels + [
