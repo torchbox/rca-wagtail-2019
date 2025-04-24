@@ -3,14 +3,17 @@
     overflow: hidden;
 
     &--medium {
-        max-height: 340px;
+        margin-top: 120px; // height of header
+        max-height: 220px; 
 
         @include media-query(medium) {
-            max-height: 536px;
+            margin-top: 130px;
+            max-height: 406px;
         }
 
         @include media-query(large) {
-            max-height: 780px;
+            margin-top: 90px;
+            max-height: 690px;
         }
     }
 
