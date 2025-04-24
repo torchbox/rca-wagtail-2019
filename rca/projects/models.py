@@ -485,11 +485,7 @@ class ProjectPickerPage(BasePage):
         return projects_formatted
 
     def get_base_queryset(self):
-        return (
-            ProjectPage.objects.child_of(self)
-            .live()
-            .order_by("-first_published_at")
-        )
+        return ProjectPage.objects.child_of(self).live().order_by("-first_published_at")
 
     def modify_results(self, paginator_page, request):
         for obj in paginator_page.object_list:
