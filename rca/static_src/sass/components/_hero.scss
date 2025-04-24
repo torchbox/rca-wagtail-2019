@@ -4,16 +4,16 @@
 
     &--medium {
         margin-top: 120px; // height of header
-        max-height: 220px; 
+        max-height: 170px; 
 
         @include media-query(medium) {
             margin-top: 130px;
-            max-height: 406px;
+            max-height: 320px;
         }
 
         @include media-query(large) {
             margin-top: 90px;
-            max-height: 690px;
+            max-height: 613px;
         }
     }
 
