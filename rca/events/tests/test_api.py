@@ -12,10 +12,10 @@ from rca.events.factories import (
     EventTypeFactory,
 )
 from rca.events.models import (
+    EventDetailPageEventType,
     EventDetailPageRelatedDirectorate,
     EventDetailPageRelatedPages,
     EventDetailPageSpeaker,
-    EventType,
 )
 from rca.home.models import HomePage
 from rca.people.factories import DirectorateFactory, StaffPageFactory
@@ -33,6 +33,7 @@ class EventAPIResponseTest(WagtailPageTestCase):
 
     def setUp(self):
         # Created models for FK relationships
+        self.event_type = EventTypeFactory(title="party")
         self.directorate = DirectorateFactory(title="ufos", intranet_slug="u-f-o-s")
         self.programme_one = ProgrammePageFactory(
             title="How to draw Aliens", intranet_slug="htd-aliens"
@@ -57,7 +58,6 @@ class EventAPIResponseTest(WagtailPageTestCase):
         self.home_page = HomePage.objects.first()
         self.event_page = EventDetailPageFactory(
             parent=self.home_page,
-            event_type=EventTypeFactory(title="party"),
             introduction="Welcome, to the introduction",
             start_date=date(2021, 1, 6),
             end_date=date(2021, 1, 6),
@@ -91,6 +91,13 @@ class EventAPIResponseTest(WagtailPageTestCase):
                 ]
             ),
         )
+
+        self.event_page.event_types = [
+            EventDetailPageEventType(
+                source_page=self.event_page,
+                event_type=self.event_type,
+            )
+        ]
 
         self.event_page.related_directorates = [
             EventDetailPageRelatedDirectorate(
@@ -160,7 +167,9 @@ class EventAPIResponseTest(WagtailPageTestCase):
             response.data["related_directorates"],
             [{"title": "ufos", "id": self.directorate.id, "intranet_slug": "u-f-o-s"}],
         )
-        self.assertEqual(response.data["event_type"]["title"], "party")
+        self.assertEqual(
+            response.data["event_types"], [{"id": self.event_type.id, "title": "party"}]
+        )
         self.assertEqual(
             response.data["related_programmes"],
             [
@@ -232,9 +241,12 @@ class EventAPIResponseTest(WagtailPageTestCase):
 class EventSerializerTests(WagtailPageTestCase):
     def setUp(self):
         self.home_page = HomePage.objects.first()
+        event_type = EventTypeFactory()
         self.event_page = EventDetailPageFactory(
             parent=self.home_page,
-            event_type=EventTypeFactory(),
+        )
+        EventDetailPageEventType.objects.create(
+            event_type=event_type, source_page=self.event_page
         )
 
     def test_api_response_for_event(self):
@@ -242,12 +254,12 @@ class EventSerializerTests(WagtailPageTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_api_response_for_event_with_null_type(self):
-        event_type = EventType.objects.get(id=self.event_page.event_type.id)
-        event_type.delete()
+        for et in self.event_page.event_types.all():
+            et.event_type.delete()
         self.event_page.refresh_from_db()
         response = self.client.get(f"/api/v3/pages/{self.event_page.id}/")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data["event_type"], None)
+        self.assertEqual(response.data["event_types"], [])
 
     def test_api_response_for_event_with_null_directorate(self):
         # Add a directorate that relates to the page
