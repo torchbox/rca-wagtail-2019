@@ -23,8 +23,9 @@
         }
 
         @include media-query(large) {
-            margin-top: 90px;
-            max-height: 571px;
+            margin-top: 95px;
+            margin-bottom: -90px;
+            max-height: 775px;
         }
     }
 
