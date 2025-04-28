@@ -34,3 +34,17 @@ class RelatedSchoolSerializer(Field):
                 }
             ),
         return schools
+
+
+class EventTypesSerializer(Field):
+    def to_representation(self, value):
+        event_types = []
+        for et in value.all():
+            event_types.append(
+                {
+                    "id": et.event_type.id,
+                    "title": et.event_type.title,
+                }
+            ),
+
+        return event_types

@@ -43,6 +43,7 @@ from .filter import PastOrFutureFilter
 from .forms import EventAdminForm
 from .serializers import (
     EventTaxonomySerializer,
+    EventTypesSerializer,
     RelatedDirectoratesSerializer,
     RelatedSchoolSerializer,
 )
@@ -102,7 +103,12 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
         for value in pages:
             page = value.page
             if page and page.live:
-                meta = page.event_type
+                meta = ", ".join(
+                    [
+                        edp_et.event_type.title
+                        for edp_et in page.event_types.prefetch_related("event_type")
+                    ]
+                )
                 if page.location:
                     description = f"{page.event_date_short}, {page.location}"
                 else:
@@ -133,8 +139,10 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
             obj.image = obj.listing_image or obj.hero_image
             obj.short_date = date
             obj.title = obj.listing_title or obj.title
-            if obj.event_type:
-                obj.type = obj.event_type
+            if obj.event_types.exists():
+                obj.type = ", ".join(
+                    [edp_et.event_type.title for edp_et in obj.event_types.all()]
+                )
 
     def get_active_filters(self, request):
         return {
@@ -182,10 +190,12 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
                 "Type",
                 queryset=(
                     EventType.objects.filter(
-                        id__in=base_queryset.values_list("event_type_id", flat=True)
+                        id__in=base_queryset.values_list(
+                            "event_types__event_type_id", flat=True
+                        )
                     )
                 ),
-                filter_by="event_type__slug__in",  # Filter by slug here
+                filter_by="event_types__event_type__slug__in",  # Filter by slug here
                 option_value_field="slug",
             ),
             TabStyleFilter(
@@ -349,6 +359,14 @@ class EventDetailPageRelatedPages(RelatedPage):
     ]
 
 
+class EventDetailPageEventType(Orderable):
+    source_page = ParentalKey("events.EventDetailPage", related_name="event_types")
+    event_type = models.ForeignKey("events.EventType", on_delete=models.CASCADE)
+    panels = [FieldPanel("event_type")]
+
+    api_fields = ["event_type"]
+
+
 class EventDetailPage(ContactFieldsMixin, BasePage):
     base_form_class = EventAdminForm
     parent_page_types = ["EventIndexPage"]
@@ -376,12 +394,6 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
     series = models.ForeignKey(
         EventSeries,
         blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name="events",
-    )
-    event_type = models.ForeignKey(
-        EventType,
         null=True,
         on_delete=models.SET_NULL,
         related_name="events",
@@ -452,7 +464,16 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             heading="Event Booking",
         ),
         MultiFieldPanel(
-            [FieldPanel("event_type"), FieldPanel("series"), FieldPanel("eligibility")],
+            [
+                InlinePanel(
+                    "event_types",
+                    heading="Event types",
+                    label="Event type",
+                    min_num=1,
+                ),
+                FieldPanel("series"),
+                FieldPanel("eligibility"),
+            ],
             heading="Event Taxonomy",
         ),
         InlinePanel(
@@ -564,7 +585,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         APIField("event_cost"),
         APIField("availability", serializer=EventTaxonomySerializer()),
         APIField("location", serializer=EventTaxonomySerializer()),
-        APIField("event_type", serializer=EventTaxonomySerializer()),
+        APIField("event_types", serializer=EventTypesSerializer()),
         APIField("series", serializer=EventTaxonomySerializer()),
         APIField("eligibility", serializer=EventTaxonomySerializer()),
         APIField("related_directorates", serializer=RelatedDirectoratesSerializer()),
