@@ -5,6 +5,7 @@
     $root: &;
     border-bottom: 1px solid $color--grid-line-light;
     overflow: hidden;
+    transition: transform $transition;
 
     @include media-query(medium) {
         border-top: 1px solid $color--grid-line-light;
@@ -55,6 +56,20 @@
         left: 0;
         width: 100%;
         transform: translate3d(0, -100%, 0);
+    }
+
+    .app--programme-page.sticky-bar & {
+        $tab-height-large: 60px;
+        @include z-index(footer);
+        top: 0;
+        transform: translate3d(0, $tab-height-large, 0);
+    }
+
+    .headroom--pinned.headroom--not-top.app--programme-page.sticky-bar & {
+        $tab-height-large: 60px;
+        $header-height-large: 80px;
+        $total-height-large: $tab-height-large + $header-height-large;
+        transform: translate3d(0, $total-height-large, 0);
     }
 
     // Place on last item on the page, to compensate for transform on actual item
