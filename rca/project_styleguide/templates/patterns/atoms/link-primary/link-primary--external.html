@@ -1,5 +1,5 @@
 {% if href and text %}
-    <a class="link link--primary link--link link--external" href="{{ href }}">
+    <a class="link link--primary link--link link--external" href="{{ href }}"{% if open_in_new_tab %} target="_blank" rel="noopener noreferrer"{% endif %}>
         <span class="link__label">{{ text }}</span>
         <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow-external"></use></svg>
     </a>
