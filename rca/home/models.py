@@ -170,6 +170,18 @@ class HomePage(TapMixin, BasePage):
         blank=True,
         help_text=_("The title to display above the news and events listing"),
     )
+    featured_event = models.ForeignKey(
+        "events.EventDetailPage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text=_(
+            "The featured event to display. "
+            "If none is selected, this defaults to the next upcoming event. "
+            "If the selected event's end date is in the past, this defaults to the next upcoming event."
+        ),
+    )
     content_panels = (
         BasePage.content_panels
         + [
@@ -231,6 +243,7 @@ class HomePage(TapMixin, BasePage):
                     FieldPanel("news_and_events_title"),
                     FieldPanel("news_and_events_link_text"),
                     FieldPanel("news_and_events_link_target_url"),
+                    FieldPanel("featured_event"),
                 ],
                 "News and Events",
             ),
@@ -362,12 +375,18 @@ class HomePage(TapMixin, BasePage):
         if self.use_api_for_news_and_events:
             return get_api_news_and_events()
 
-        # Try and find an upcoming event
-        event = (
-            EventDetailPage.objects.live()
-            .filter(start_date__gte=timezone.now().date())
-            .order_by("start_date")[:1]
-        )
+        event = None
+        # Check if there is a featured event and make sure that the featured event
+        # has not expired.
+        if self.featured_event and self.featured_event.end_date > timezone.now().date():
+            event = [self.featured_event]
+        # Try and find an upcoming event if there is no featured event.
+        else:
+            event = (
+                EventDetailPage.objects.live()
+                .filter(start_date__gte=timezone.now().date())
+                .order_by("start_date")[:1]
+            )
 
         # If there is an event, we'll show 2 news items and 1 event
         NEWS_ITEMS = 2 if event else 3
