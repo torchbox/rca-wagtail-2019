@@ -1,9 +1,13 @@
 {% load static wagtailcore_tags wagtailsearchpromotions_tags wagtailimages_tags %}
 
 <div class="search-result">
+{% if pick.external_link_url %}
+    <a class="search-result__link grid" href="{{ pick.external_link_url }}">
+{% else %}
     <a class="search-result__link grid" href="{% pageurl result %}">
+{% endif %}
         <div class="search-result__header layout__@large-start-two layout__@large-span-one">
-            <h3 class="search-result__heading heading heading--five">{% firstof result.listing_title result.title %}</h3>
+            <h3 class="search-result__heading heading heading--five">{% firstof pick.external_link_text result.listing_title result.title %}</h3>
             {% if search_pick %}<div class="search-result__editor-pick body body--support">Recommended result</div>{% endif %}
         </div>
         {% with meta=result.specific.listing_meta %}
