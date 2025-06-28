@@ -33,7 +33,11 @@
             </div>
         </header>
 
-        <div class="page__content">
+        {% if booking_bar %}
+            {% include "patterns/molecules/booking-bar/booking-bar.html" with item=booking_bar modal=booking_bar.modal modal_aria_label="booking-details-title" %}
+        {% endif %}
+
+        <div class="page__content {% if booking_bar %}js-sticky-point js-sticky-point--top{% endif %}">
 
             <div class="tabs js-tabs" data-tab-hash>
 
@@ -75,6 +79,28 @@
                 </section>
 
             </div>
+
+            {% if booking_bar %}
+            <div class="page__modals">
+                <div class="modal" id="booking-details" aria-hidden="true">
+                    <div class="modal__overlay bg bg--light" tabindex="-1">
+                        {% include "patterns/atoms/grid-lines/grid-lines.html" %}
+                        <div class="modal__header grid">
+                            <button class="modal__close" aria-label="Close modal" data-micromodal-close>
+                                <span class="modal__close-label">Close</span>
+                                <svg width="14" height="14" class="modal__close-icon" aria-hidden="true"><use xlink:href="#close"></use></svg>
+                            </button>
+                        </div>
+                        <div class="modal__container grid" role="dialog" aria-modal="true" aria-labelledby="booking-details-title">
+                            <div class="modal__content">
+                                Content TBC
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
         </div>
     </div>
 
