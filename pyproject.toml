@@ -61,17 +61,17 @@ wagtailmakeup = "^1.1.0"
 # Linters etc.
 black = "^25.1.0"
 detect-secrets = "~1.5"
-flake8 = "7.2.0"
+flake8 = "7.3.0"
 isort = "6.0.1"
 pre-commit = "~4.2"
 
 # Documentation
 mkdocs = "~1.6"
 mkdocs-material = "~9.6"
-pymdown-extensions = "~10.14"
+pymdown-extensions = "~10.16"
 honcho = "^2.0.0"
-django-upgrade = "^1.24.0"
-pyupgrade = "^3.19.1"
+django-upgrade = "^1.25.0"
+pyupgrade = "^3.20.0"
 
 [build-system]
 requires = ["poetry>=1,<2"]
