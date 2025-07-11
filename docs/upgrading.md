@@ -15,7 +15,7 @@ As much as possible, we want to use the official releases available on PyPI for 
 
 ### Check these packages for updates
 
-**Last tested for wagtail 6.0 upgrade** Comments in the pyproject.toml file may have more detailed information.
+**Last tested for wagtail 7.0 upgrade** Comments in the pyproject.toml file may have more detailed information.
 
 It is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as they become available.
 
