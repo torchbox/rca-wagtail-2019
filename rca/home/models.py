@@ -450,10 +450,55 @@ class HomePage(TapMixin, BasePage):
             )
         ]
 
+    def get_processed_body(self):
+        # Processes the body streamfield to determine when and what notches are displayed.
+        processed_body = []
+        num_blocks = len(self.body)
+
+        for i, block in enumerate(self.body):
+            processed_section = {
+                "block": block,
+            }
+
+            previous_block = self.body[i - 1] if i > 0 else None
+            next_block = self.body[i + 1] if (i + 1) < num_blocks else None
+
+            is_last_block = next_block is None
+            next_is_stats = next_block and next_block.block_type == "statistics"
+            backgrounds_match = next_block and next_block.value.get(
+                "background_color"
+            ) == block.value.get("background_color")
+
+            # Don't display a notch in this section if:
+            # - This is the last block in the body.
+            # - The next block is a statistics block.
+            # - The next block has the same background color as the current block.
+            processed_section["should_display_notch"] = not (
+                is_last_block or next_is_stats or backgrounds_match
+            )
+
+            # If the block is a statistics block, we need to check the previous and next block's
+            # background color to determine the background color for the notch.
+            if block.block_type == "statistics":
+                if previous_block and previous_block.block_type == "body_section":
+                    processed_section["previous_block_bg"] = previous_block.value.get(
+                        "background_color"
+                    )
+
+                if next_block and next_block.block_type == "body_section":
+                    processed_section["next_block_bg"] = next_block.value.get(
+                        "background_color"
+                    )
+
+            processed_body.append(processed_section)
+
+        return processed_body
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
-        # If the body is empty, we will use the legacy body fields to populate.
+        # If the `body` streamfield is empty, the home page will use data from the legacy
+        # home page fields.
         if not self.body:
             context["transformation_block"] = self.transformation_blocks.select_related(
                 "image"
@@ -473,45 +518,7 @@ class HomePage(TapMixin, BasePage):
             if self.tap_widget:
                 context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
         else:
-            processed_body = []
-
-            for i, block in enumerate(self.body):
-                processed_section = {
-                    "block": block,
-                }
-
-                should_display_notch = True
-                # If it's the last item, don't display notch.
-                if i == len(self.body) - 1:
-                    should_display_notch = False
-                # If the next block is a statistics block, don't display the notch.
-                elif i + 1 < len(self.body):
-                    if self.body[i+1].block_type == 'statistics':
-                        should_display_notch = False
-                    # If the next block has the same background color as the current block,
-                    # don't display the notch.
-                    elif self.body[i+1].value.get('background_color') == block.value.get('background_color'):
-                        should_display_notch = False
-
-                processed_section["should_display_notch"] = should_display_notch
-
-                # If the block is a statistics block, we need to check the previous and next block's 
-                # background color to determine if we need to override the notch.
-                if block.block_type == 'statistics':
-                    previous_block = self.body[i - 1] if i > 0 else None
-                    next_block = self.body[i + 1] if i + 1 < len(self.body) else None   
-                    if previous_block and previous_block.block_type == 'body_section':
-                        processed_section["previous_block_bg"] = (
-                            previous_block.value.get("background_color")
-                        )
-                    if next_block and next_block.block_type == 'body_section':
-                        processed_section["next_block_bg"] = (
-                            next_block.value.get("background_color")
-                        )
-
-                processed_body.append(processed_section)
-            
-            context["processed_body"] = processed_body
+            context["processed_body"] = self.get_processed_body()
 
         context["hero_colour"] = LIGHT_HERO
 
