@@ -148,9 +148,12 @@ class NewsEventsBlock(blocks.StructBlock):
         else:
             # If no featured event is selected or the selected event has ended,
             # get the next upcoming event.
-            event = EventDetailPage.objects.filter(
-                end_date__gte=timezone.now().date()
-            ).order_by("start_date")[:1]
+            try:
+                event = EventDetailPage.objects.filter(
+                    end_date__gte=timezone.now().date()
+                ).order_by("start_date")[:1]
+            except EventDetailPage.DoesNotExist:
+                event = None
 
         # If there is an event, we'll show 2 news items and 1 event.
         NEWS_ITEMS = 2 if event else 3
@@ -159,6 +162,7 @@ class NewsEventsBlock(blocks.StructBlock):
             EditorialPage.objects.filter(editorial_types__type__slug="news")
             .live()
             .filter(show_on_home_page=True)
+            .select_related("listing_image")
             .order_by("-published_at")[:NEWS_ITEMS]
         )
         news_and_events = list(chain(news, event))

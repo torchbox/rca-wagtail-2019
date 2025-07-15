@@ -166,6 +166,7 @@ class HomePage(TapMixin, BasePage):
     )
 
     # --- Legacy Body Fields --- #
+    # These will be removed once we confirm that the `body` streamfield is being used.
     strapline = models.CharField(max_length=125)
     strapline_cta_url = models.URLField(blank=True)
     strapline_cta_text = models.CharField(max_length=125, blank=True)
