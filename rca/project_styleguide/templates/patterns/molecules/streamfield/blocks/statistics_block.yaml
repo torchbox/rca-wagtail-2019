@@ -1,0 +1,20 @@
+context:
+  stats_block:
+    title: Learnings that last a lifetime
+    statistics:
+      - stat:
+        value:
+          after: '%'
+          number: 33
+          meta:
+          body: 1 in 3 of our graduates are business owners or independent professionals.
+      - stat:
+        value:
+          number: 73
+          meta: Nationalities
+          body: Our students come from all sections of the globe
+      - stat:
+        value:
+          after: st
+          number: 1
+          body: We're the top rated art & design university in the world

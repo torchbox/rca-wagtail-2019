@@ -16,7 +16,7 @@ class StraplineBlock(blocks.StructBlock):
     cta_text = blocks.CharBlock(required=False, label="Call to action text")
 
     class Meta:
-        template = "patterns/organisms/strapline/strapline_block.html"
+        template = "patterns/molecules/streamfield/blocks/strapline_block.html"
         icon = "title"
         label = "Strapline"
 
@@ -55,7 +55,7 @@ class TransformationBlock(blocks.StructBlock):
     )
 
     class Meta:
-        template = "patterns/organisms/transformation/transformation_block.html"
+        template = "patterns/molecules/streamfield/blocks/transformation_block.html"
         label = "Transformation Block"
 
 
@@ -69,7 +69,7 @@ class FeaturedAlumniStoriesBlock(blocks.StructBlock):
     )
 
     class Meta:
-        template = "patterns/organisms/featured_alumni_stories/featured_alumni_stories_block.html"
+        template = "patterns/molecules/streamfield/blocks/featured_alumni_stories_block.html"
         icon = "user"
         label = "Featured Alumni Stories"
 
@@ -92,7 +92,7 @@ class PartnershipsBlock(blocks.StructBlock):
     slides = RelatedPageListBlockPage()
 
     class Meta:
-        template = "patterns/organisms/partnerships/partnerships_block.html"
+        template = "patterns/molecules/streamfield/blocks/partnerships_block.html"
         icon = "group"
         label = "Partnerships"
 
@@ -129,7 +129,7 @@ class NewsEventsBlock(blocks.StructBlock):
     )
 
     class Meta:
-        template = "patterns/organisms/news_events/news_events_block.html"
+        template = "patterns/molecules/streamfield/blocks/news_events_block.html"
         icon = "doc-full-inverse"
         label = "News and Events"
 
@@ -197,7 +197,7 @@ class StatisticsBlock(blocks.StructBlock):
     )
 
     class Meta:
-        template = "patterns/organisms/statistics/statistics_block.html"
+        template = "patterns/molecules/streamfield/blocks/statistics_block.html"
         icon = "user"
         label = "Statistics"
 

@@ -1,0 +1,10 @@
+<div class="section__container">
+    <header class="section__header grid">
+        <h3 class="section__heading section__heading--primary heading heading--two">
+            {% firstof page.news_and_events_title 'What&#39;s happening at the RCA'%}
+        </h3>
+    </header>
+    <div class="section__content grid">
+        {% include "patterns/organisms/news/news_api_content.html" with news=news_and_events %}
+    </div>
+</div>
