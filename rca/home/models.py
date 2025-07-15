@@ -204,9 +204,9 @@ class HomePage(TapMixin, BasePage):
                     FieldPanel("hero_image"),
                     FieldPanel("hero_image_credit"),
                     FieldPanel("hero_colour_option"),
-                    FieldPanel("hero_cta_url"),
-                    FieldPanel("hero_cta_text"),
-                    FieldPanel("hero_cta_sub_text"),
+                    FieldPanel("hero_cta_url", heading="Hero CTA URL"),
+                    FieldPanel("hero_cta_text", heading="Hero CTA Text"),
+                    FieldPanel("hero_cta_sub_text", heading="Hero CTA Sub Text"),
                 ],
                 heading="Hero",
             ),
@@ -469,9 +469,51 @@ class HomePage(TapMixin, BasePage):
             # TODO Work in if checks for pulling api content here
             context["news_and_events"] = self.get_news_and_events()
             context["alumni_stories"] = self.get_alumni_stories()
-            context["hero_colour"] = LIGHT_HERO
+
             if self.tap_widget:
                 context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
+        else:
+            processed_body = []
+
+            for i, block in enumerate(self.body):
+                processed_section = {
+                    "block": block,
+                }
+
+                should_display_notch = True
+                # If it's the last item, don't display notch.
+                if i == len(self.body) - 1:
+                    should_display_notch = False
+                # If the next block is a statistics block, don't display the notch.
+                elif i + 1 < len(self.body):
+                    if self.body[i+1].block_type == 'statistics':
+                        should_display_notch = False
+                    # If the next block has the same background color as the current block,
+                    # don't display the notch.
+                    elif self.body[i+1].value.get('background_color') == block.value.get('background_color'):
+                        should_display_notch = False
+
+                processed_section["should_display_notch"] = should_display_notch
+
+                # If the block is a statistics block, we need to check the previous and next block's 
+                # background color to determine if we need to override the notch.
+                if block.block_type == 'statistics':
+                    previous_block = self.body[i - 1] if i > 0 else None
+                    next_block = self.body[i + 1] if i + 1 < len(self.body) else None   
+                    if previous_block and previous_block.block_type == 'body_section':
+                        processed_section["previous_block_bg"] = (
+                            previous_block.value.get("background_color")
+                        )
+                    if next_block and next_block.block_type == 'body_section':
+                        processed_section["next_block_bg"] = (
+                            next_block.value.get("background_color")
+                        )
+
+                processed_body.append(processed_section)
+            
+            context["processed_body"] = processed_body
+
+        context["hero_colour"] = LIGHT_HERO
 
         if (
             hasattr(self, "hero_colour_option")

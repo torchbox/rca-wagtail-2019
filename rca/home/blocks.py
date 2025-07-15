@@ -197,17 +197,8 @@ class StatisticsBlock(blocks.StructBlock):
     )
 
     class Meta:
-        template = "patterns/molecules/streamfield/blocks/statistics_block.html"
         icon = "user"
         label = "Statistics"
-
-    def get_context(self, value, parent_context=None):
-        context = super().get_context(value, parent_context)
-
-        # The shared template for statistics block expects a 'stats_block'.
-        context["stats_block"] = value
-
-        return context
 
 
 class HomePageBodyBlock(blocks.StreamBlock):
