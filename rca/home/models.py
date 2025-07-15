@@ -7,7 +7,14 @@ from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
-from wagtail.admin.panels import FieldPanel, HelpPanel, InlinePanel, MultiFieldPanel
+from wagtail.admin.panels import (
+    FieldPanel,
+    HelpPanel,
+    InlinePanel,
+    MultiFieldPanel,
+    ObjectList,
+    TabbedInterface,
+)
 from wagtail.fields import StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.models import Orderable
@@ -196,6 +203,12 @@ class HomePage(TapMixin, BasePage):
                 ],
                 heading="Hero",
             ),
+        ]
+        + TapMixin.panels
+    )
+
+    old_body_fields_content_panels = (
+        [
             MultiFieldPanel(
                 [
                     FieldPanel("strapline"),
@@ -249,6 +262,13 @@ class HomePage(TapMixin, BasePage):
             ),
         ]
         + TapMixin.panels
+    )
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading="Content"),
+            ObjectList(old_body_fields_content_panels, heading="Content (Legacy)"),
+        ]
     )
 
     def clean(self):
