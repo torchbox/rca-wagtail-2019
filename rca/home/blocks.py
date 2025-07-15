@@ -69,7 +69,9 @@ class FeaturedAlumniStoriesBlock(blocks.StructBlock):
     )
 
     class Meta:
-        template = "patterns/molecules/streamfield/blocks/featured_alumni_stories_block.html"
+        template = (
+            "patterns/molecules/streamfield/blocks/featured_alumni_stories_block.html"
+        )
         icon = "user"
         label = "Featured Alumni Stories"
 

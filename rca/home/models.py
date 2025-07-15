@@ -22,6 +22,7 @@ from wagtail.models import Orderable
 from rca.api_content.content import get_news_and_events as get_api_news_and_events
 from rca.editorial.models import EditorialPage
 from rca.events.models import EventDetailPage
+from rca.home.blocks import HomePageBodyBlock
 from rca.utils.blocks import RelatedPageListBlockPage, StatisticBlock
 from rca.utils.models import (
     DARK_HERO,
@@ -32,7 +33,6 @@ from rca.utils.models import (
     TapMixin,
     get_listing_image,
 )
-from rca.home.blocks import HomePageBodyBlock
 
 
 class HomePageTransofmrationBlock(models.Model):

@@ -1,6 +1,4 @@
-from rca.utils.models import (
-    get_listing_image,
-)
+from rca.utils.models import get_listing_image
 
 
 def related_news_events_formatter(
