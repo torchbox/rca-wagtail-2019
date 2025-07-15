@@ -32,6 +32,7 @@ from rca.utils.models import (
     TapMixin,
     get_listing_image,
 )
+from rca.home.blocks import HomePageBodyBlock
 
 
 class HomePageTransofmrationBlock(models.Model):
@@ -159,6 +160,12 @@ class HomePage(TapMixin, BasePage):
     hero_cta_text = models.CharField(max_length=125, blank=True)
     hero_cta_sub_text = models.CharField(max_length=125, blank=True)
 
+    body = StreamField(
+        HomePageBodyBlock(),
+        blank=True,
+    )
+
+    # --- Legacy Body Fields --- #
     strapline = models.CharField(max_length=125)
     strapline_cta_url = models.URLField(blank=True)
     strapline_cta_text = models.CharField(max_length=125, blank=True)
@@ -203,6 +210,7 @@ class HomePage(TapMixin, BasePage):
                 ],
                 heading="Hero",
             ),
+            FieldPanel("body"),
         ]
         + TapMixin.panels
     )
@@ -268,6 +276,8 @@ class HomePage(TapMixin, BasePage):
         [
             ObjectList(content_panels, heading="Content"),
             ObjectList(old_body_fields_content_panels, heading="Content (Legacy)"),
+            ObjectList(BasePage.promote_panels, heading="Promote"),
+            ObjectList(BasePage.settings_panels, heading="Settings"),
         ]
     )
 
@@ -442,23 +452,26 @@ class HomePage(TapMixin, BasePage):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["transformation_block"] = self.transformation_blocks.select_related(
-            "image"
-        ).first()
-        context["partnerships_block"] = self._format_partnerships(
-            self.partnerships_block.first()
-        )
 
-        context["stats_block"] = self.stats_block.select_related(
-            "background_image"
-        ).first()
+        # If the body is empty, we will use the legacy body fields to populate.
+        if not self.body:
+            context["transformation_block"] = self.transformation_blocks.select_related(
+                "image"
+            ).first()
+            context["partnerships_block"] = self._format_partnerships(
+                self.partnerships_block.first()
+            )
 
-        # TODO Work in if checks for pulling api content here
-        context["news_and_events"] = self.get_news_and_events()
-        context["alumni_stories"] = self.get_alumni_stories()
-        context["hero_colour"] = LIGHT_HERO
-        if self.tap_widget:
-            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
+            context["stats_block"] = self.stats_block.select_related(
+                "background_image"
+            ).first()
+
+            # TODO Work in if checks for pulling api content here
+            context["news_and_events"] = self.get_news_and_events()
+            context["alumni_stories"] = self.get_alumni_stories()
+            context["hero_colour"] = LIGHT_HERO
+            if self.tap_widget:
+                context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
 
         if (
             hasattr(self, "hero_colour_option")
