@@ -15,7 +15,7 @@ from wagtail.admin.panels import (
     ObjectList,
     TabbedInterface,
 )
-from wagtail.fields import StreamBlock, StreamField
+from wagtail.fields import StreamBlock
 from wagtail.images import get_image_model_string
 from wagtail.models import Orderable
 
@@ -24,6 +24,7 @@ from rca.editorial.models import EditorialPage
 from rca.events.models import EventDetailPage
 from rca.home.blocks import HomePageBodyBlock
 from rca.utils.blocks import RelatedPageListBlockPage, StatisticBlock
+from rca.utils.fields import StreamField
 from rca.utils.models import (
     DARK_HERO,
     DARK_TEXT_ON_LIGHT_IMAGE,
