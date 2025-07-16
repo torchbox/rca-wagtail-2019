@@ -1,0 +1,38 @@
+context:
+  value:
+    title: Working with the best
+    summary: We work with a selection of the world's most innovative organisations.
+  slides:
+    - slide:
+      value:
+        meta: 'Student project'
+        title: 'RCA x CERN'
+        summary: 'Exploring how science, technology and design can propose solutions for international sustainability challenges.'
+        link: '#'
+        person: false
+        image: True
+    - slide:
+      value:
+        meta: 'Research'
+        title: 'Burberry'
+        summary: 'Promote a design-led disruptive research environment to develop new approaches to innovation in materials and applications.'
+        link: '#'
+        person: false
+        image: True
+    - slide:
+      value:
+        meta: 'Student project'
+        title: 'Designing the imposible for NASA'
+        summary: 'Creating world class experiences that started at the RCA'
+        link: '#'
+        person: false
+        image: True
+
+tags:
+  image:
+    item.image fill-80x80 as image_small:
+      target_var: image_small
+      raw: '//placekitten.com/80/80'
+    item.image fill-554x554 as image_large:
+      target_var: image_large
+      raw: '//placekitten.com/554/554'

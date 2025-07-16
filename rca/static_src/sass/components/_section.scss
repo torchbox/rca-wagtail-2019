@@ -303,6 +303,14 @@
                         background-color: $color--black; // Changed from black to white for API module removal
                     }
                 }
+
+                #{$root}__notch-fill--light {
+                    background-color: $color--white; // Changed from black to white for API module removal
+
+                    &::before {
+                        background-color: $color--white; // Changed from black to white for API module removal
+                    }
+                }
             }
 
             &:last-child {
@@ -311,6 +319,14 @@
 
                     &::before {
                         background-color: $color--white; // Changed from white to black for API module removal
+                    }
+                }
+
+                #{$root}__notch-fill--dark {
+                    background-color: $color--black; // Changed from black to white for API module removal
+
+                    &::before {
+                        background-color: $color--black; // Changed from black to white for API module removal
                     }
                 }
             }
