@@ -66,14 +66,26 @@
     }
 
     &__image-container {
-        display: none;
+        grid-column: 1 / span 2;
+        order: -1;
+        margin-bottom: ($gutter * 2);
+
+        @include media-query(large) {
+            grid-column: auto;
+            order: 0;
+            margin-bottom: 0;
+        }
 
         #{$root}__image {
             @include z-index(above-gridlines);
-            position: absolute;
-            height: calc(100% + 140px);
-            bottom: 0;
+            height: 250px;
             object-fit: cover;
+
+            @include media-query(large) {
+                bottom: 0;
+                height: calc(100% + 140px);
+                position: absolute;
+            }
         }
 
         @include media-query(large) {
