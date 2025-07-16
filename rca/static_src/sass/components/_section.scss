@@ -154,6 +154,18 @@
         }
     }
 
+    &--top-margin {
+        margin-top: ($gutter * 2.5);
+
+        @include media-query(medium) {
+            margin-top: ($gutter * 3);
+        }
+
+        @include media-query(large) {
+            margin-top: ($gutter * 7);
+        }
+    }
+
     &--extra-margin-bottom {
         @include media-query(medium) {
             margin-bottom: $notch-height-medium;

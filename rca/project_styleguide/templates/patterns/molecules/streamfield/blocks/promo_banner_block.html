@@ -1,0 +1,33 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% image value.image fill-80x84 as image_small %}
+{% image value.image fill-580x607 as image_large %}
+
+<section class="section section--top-margin bg bg--{{ value.background_color }}">
+    <div class="section__notch section__notch--small-med-only">
+        <div class="section__notch-fill section__notch-fill--second-col"></div>
+    </div>
+    <div class="promo-banner">
+        <div class="grid">
+            <div class="promo-banner__intro">
+                <h2 class="promo-banner__heading heading heading--one">{{ value.title }}</h2>
+                <p class="promo-banner__text heading heading--five">{{ value.strapline }}</p>
+            </div>
+            
+            <a href="{{ value.cta_url }}" class="promo-banner__link link link--primary link--link body body--two" rel="noopener">
+                <span class="link__label">{{ value.cta_text }}</span>
+                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+            </a>
+
+            <div class="promo-banner__image-container">
+                {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=580 height=607 image_large=image_large classList='promo-banner__image' %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section bg bg--{% if value.background_color == "dark" %}light{% else %}dark{% endif %}">
+    <div class="section__notch">
+        <div class="section__notch-fill section__notch-fill--third-col"></div>
+    </div>
+</section>

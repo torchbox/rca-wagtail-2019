@@ -175,19 +175,6 @@ class NewsEventsBlock(blocks.StructBlock):
         return context
 
 
-class PromoBannerBlock(blocks.StructBlock):
-    title = blocks.CharBlock()
-    strapline = blocks.CharBlock()
-    cta_url = blocks.URLBlock(label="Call to action URL")
-    cta_text = blocks.CharBlock(label="Call to action text")
-    image = ImageChooserBlock()
-
-    class Meta:
-        template = "patterns/molecules/streamfield/blocks/promo_banner_block.html"
-        icon = "image"
-        label = "Promo Banner"
-
-
 class BodySectionBlock(blocks.StructBlock):
     background_color = blocks.ChoiceBlock(
         choices=[("light", "Light"), ("dark", "Dark")],
@@ -201,7 +188,6 @@ class BodySectionBlock(blocks.StructBlock):
             ("featured_alumni_stories", FeaturedAlumniStoriesBlock()),
             ("partnerships", PartnershipsBlock()),
             ("news_events", NewsEventsBlock()),
-            ("promo_banner", PromoBannerBlock()),
         ],
         required=True,
         help_text="Add content to this section",
@@ -221,6 +207,25 @@ class StatisticsBlock(blocks.StructBlock):
         label = "Statistics"
 
 
+class PromoBannerBlock(blocks.StructBlock):
+    background_color = blocks.ChoiceBlock(
+        choices=[("light", "Light"), ("dark", "Dark")],
+        default="light",
+        help_text="Select the background color for this promo banner",
+    )
+    title = blocks.CharBlock()
+    strapline = blocks.CharBlock()
+    cta_url = blocks.URLBlock(label="Call to action URL")
+    cta_text = blocks.CharBlock(label="Call to action text")
+    image = ImageChooserBlock()
+
+    class Meta:
+        template = "patterns/molecules/streamfield/blocks/promo_banner_block.html"
+        icon = "image"
+        label = "Promo Banner"
+
+
 class HomePageBodyBlock(blocks.StreamBlock):
     body_section = BodySectionBlock()
+    promo_banner = PromoBannerBlock()
     statistics = StatisticsBlock()
