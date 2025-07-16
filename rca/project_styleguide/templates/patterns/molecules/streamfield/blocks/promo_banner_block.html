@@ -14,8 +14,8 @@
                 <p class="promo-banner__text heading heading--five">{{ value.strapline }}</p>
             </div>
             
-            <a href="{{ value.cta_url }}" class="promo-banner__link link link--primary link--link body body--two" rel="noopener">
-                <span class="link__label">{{ value.cta_text }}</span>
+            <a href="{% firstof value.cta.url value.cta.page.url %}" class="promo-banner__link link link--primary link--link body body--two" rel="noopener">
+                <span class="link__label">{% firstof value.cta.title value.cta.page.title %}</span>
                 <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
             </a>
 

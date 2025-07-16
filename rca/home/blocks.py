@@ -8,6 +8,7 @@ from rca.editorial.models import EditorialPage
 from rca.events.models import EventDetailPage
 from rca.home.utils import partnerships_slides_formatter, related_news_events_formatter
 from rca.utils.blocks import RelatedPageListBlockPage, StatisticBlock
+from rca.navigation.models import LinkBlock
 
 
 class StraplineBlock(blocks.StructBlock):
@@ -213,11 +214,10 @@ class PromoBannerBlock(blocks.StructBlock):
         default="light",
         help_text="Select the background color for this promo banner",
     )
+    image = ImageChooserBlock()
     title = blocks.CharBlock()
     strapline = blocks.CharBlock()
-    cta_url = blocks.URLBlock(label="Call to action URL")
-    cta_text = blocks.CharBlock(label="Call to action text")
-    image = ImageChooserBlock()
+    cta = LinkBlock(label="Call to Action")
 
     class Meta:
         template = "patterns/molecules/streamfield/blocks/promo_banner_block.html"
