@@ -1,0 +1,16 @@
+context:
+  caption: Watch inside our architecture studios
+  video: True
+
+tags:
+  image:
+    image fill-80x37 as image_small:
+      target_var: image_small
+      raw:
+        url: '//placekitten.com/80/37'
+    image fill-900x415 as image_large:
+      target_var: image_large
+      raw:
+        url: '//placekitten.com/900/415'
+        width: '900'
+        height: '415'
