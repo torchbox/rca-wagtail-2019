@@ -466,7 +466,10 @@ class HomePage(TapMixin, BasePage):
             next_block = self.body[i + 1] if (i + 1) < num_blocks else None
 
             is_last_block = next_block is None
-            next_is_stats = next_block and next_block.block_type in ["statistics", "promo_banner"]
+            next_is_stats = next_block and next_block.block_type in [
+                "statistics",
+                "promo_banner",
+            ]
             backgrounds_match = next_block and next_block.value.get(
                 "background_color"
             ) == block.value.get("background_color")

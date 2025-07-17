@@ -7,8 +7,8 @@ from wagtail.images.blocks import ImageChooserBlock
 from rca.editorial.models import EditorialPage
 from rca.events.models import EventDetailPage
 from rca.home.utils import partnerships_slides_formatter, related_news_events_formatter
-from rca.utils.blocks import RelatedPageListBlockPage, StatisticBlock
 from rca.navigation.models import LinkBlock
+from rca.utils.blocks import RelatedPageListBlockPage, StatisticBlock
 
 
 class StraplineBlock(blocks.StructBlock):
