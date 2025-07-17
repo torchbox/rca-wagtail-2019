@@ -1,7 +1,7 @@
 .promo-banner {
     $root: &;
     position: relative; // allow absolute positioning of image to bottom of component
-    padding-top: $gutter * 3;
+    padding-top: ($gutter * 3);
     padding-bottom: ($gutter * 4);
 
     @include media-query(medium) {
@@ -52,8 +52,6 @@
     }
 
     &__link {
-        max-width: 165px !important;
-
         @include media-query(medium) {
             align-self: flex-end;
         }
@@ -61,7 +59,6 @@
         @include media-query(large) {
             margin-top: ($gutter * 12);
             justify-content: space-between;
-            max-width: 220px !important;
         }
     }
 
