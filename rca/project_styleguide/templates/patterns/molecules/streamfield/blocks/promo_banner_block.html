@@ -3,11 +3,8 @@
 {% image value.image fill-80x84 as image_small %}
 {% image value.image fill-580x607 as image_large %}
 
-<section class="section section--top-margin bg bg--{{ value.background_color }}">
-    <div class="section__notch section__notch--small-med-only">
-        <div class="section__notch-fill section__notch-fill--second-col"></div>
-    </div>
-    <div class="promo-banner">
+<section class="section section--top-space bg bg--{% if value.background_color == "dark" %}light{% else %}dark{% endif %}">
+    <div class="promo-banner bg bg--{{ value.background_color }}">
         <div class="grid">
             <div class="promo-banner__intro">
                 <h2 class="promo-banner__heading heading heading--one">{{ value.title }}</h2>

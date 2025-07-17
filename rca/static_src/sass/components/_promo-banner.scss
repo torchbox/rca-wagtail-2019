@@ -93,13 +93,13 @@
         }
     }
 
-    .bg--dark & {
+    &.bg--dark {
         #{$root}__text {
             color: $color--meta-darkbg;
         }
     }
 
-    .bg--light & {
+    &.bg--light {
         #{$root}__text {
             color: $color--meta-lightbg;
         }
