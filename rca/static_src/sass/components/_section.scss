@@ -864,4 +864,10 @@
             }
         }
     }
+
+    &--transparent {
+        #{$root}__notch {
+            background-color: transparent;
+        }
+    }
 }
