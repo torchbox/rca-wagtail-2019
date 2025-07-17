@@ -6,10 +6,6 @@
         margin-bottom: ($gutter * 3);
     }
 
-    @include media-query(large) {
-        margin-bottom: ($gutter * 4);
-    }
-
     &__container {
         grid-column: 1 / span 2;
 
