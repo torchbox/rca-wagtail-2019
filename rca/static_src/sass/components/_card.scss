@@ -262,6 +262,13 @@
         display: block;
         width: 100%;
         height: auto;
+
+        .app--programme-page & {
+            @include media-query(large) {
+                max-height: 460px;
+                object-fit: cover;
+            }
+        }
     }
 
     &__content {
@@ -315,6 +322,18 @@
     }
 
     &__description {
+        .app--programme-page & {
+            /* stylelint-disable */
+            // Line clamp isn't supported in all browsers so we have
+            // to declare it this way.
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            /* stylelint-enable */
+        }
+
         @include media-query(medium) {
             margin-bottom: $gutter;
         }
