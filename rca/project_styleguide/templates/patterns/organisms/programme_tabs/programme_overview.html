@@ -42,7 +42,14 @@
     {% endcomment %}
 
     <div class="section__row">
-        {% if page.programme_gallery %}
+        {% if page.programme_gallery or programme_stories and page.should_display_stories_above_gallery %}
+            {% if programme_stories and page.should_display_stories_above_gallery %}
+                <div class="section--top-space section__header grid">
+                    <h2 class="section__heading section__heading--primary heading heading--four">{{ programme_stories.title }}</h2>
+                </div>
+                {% include "patterns/organisms/carousel/carousel--square.html" with carousel=programme_stories.slides modifier='carousel--square' control_title="Programme stories" datatag='data-peek-carousel' %}
+            {% endif %}
+
             <header class="section__header grid">
                 <h3 class="section__heading section__heading--secondary heading heading--four">
                     Gallery
@@ -74,7 +81,7 @@
 </section>
 
 
-{% if featured_work or news_and_events or programme_stories  %}
+{% if featured_work or news_and_events or programme_stories and not page.should_display_stories_above_gallery %}
     <section class="section section--end bg bg--dark">
 
         <div class="section__notch section__notch--top">
@@ -90,7 +97,7 @@
             </div>
         {% endif %}
 
-        {% if programme_stories %}
+        {% if programme_stories and not page.should_display_stories_above_gallery %}
             <div class="section__row section__row--last schools__about--student-stories partnerships__carousel">
                 <div class="section__header grid">
                     <h2 class="section__heading section__heading--primary heading heading--four">{{ programme_stories.title }}</h2>
