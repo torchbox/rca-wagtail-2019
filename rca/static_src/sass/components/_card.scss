@@ -263,7 +263,7 @@
         width: 100%;
         height: auto;
 
-        .app--programme-page & {
+        .app--programme-page .carousel & {
             @include media-query(large) {
                 max-height: 460px;
                 object-fit: cover;
@@ -322,7 +322,7 @@
     }
 
     &__description {
-        .app--programme-page & {
+        .app--programme-page .carousel & {
             /* stylelint-disable */
             // Line clamp isn't supported in all browsers so we have
             // to declare it this way.
