@@ -3,7 +3,8 @@
 {% image value.image fill-80x84 as image_small %}
 {% image value.image fill-580x607 as image_large %}
 
-<section class="section section--top-space bg bg--{% if value.background_color == "dark" %}light{% else %}dark{% endif %}">
+{# Match the background color of the previous section if it exists, otherwise use the value's background color #}
+<section class="section section--top-space bg bg--{% if previous_section_bg %}{{ previous_section_bg }}{% elif value.background_color == "dark" %}light{% else %}dark{% endif %}">
     <div class="promo-banner bg bg--{{ value.background_color }}">
         <div class="grid">
             <div class="promo-banner__intro">
@@ -25,8 +26,9 @@
     </div>
 </section>
 
-<section class="section bg bg--{% if value.background_color == "dark" %}light{% else %}dark{% endif %}">
+ <section class="section bg bg--{% if next_section_bg %}{{ next_section_bg }}{% elif value.background_color == "dark" %}light{% else %}dark{% endif %}">
     <div class="section__notch">
-        <div class="section__notch-fill section__notch-fill--third-col"></div>
+        {# If the next section background color is the same as the value's background color, we don't want to show a notch so we have to fill it in. #}
+        <div class="section__notch-fill section__notch-fill--third-col {% if value.background_color == next_section_bg %} section__notch-fill--{{ next_section_bg }}{% endif %}"></div>
     </div>
 </section>
