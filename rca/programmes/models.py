@@ -433,6 +433,13 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         verbose_name="Programme gallery",
     )
 
+    should_display_stories_above_gallery = models.BooleanField(
+        default=False,
+        help_text=(
+            "Checking this will display the programme stories above the programme gallery"
+        ),
+    )
+
     # Staff
     staff_title = models.CharField(
         blank=True,
@@ -716,6 +723,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ),
         MultiFieldPanel([FieldPanel("notable_alumni_links")], heading="Alumni"),
         InlinePanel("programme_stories", label="Programme Stories", max_num=1),
+        FieldPanel("should_display_stories_above_gallery"),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_image"),
