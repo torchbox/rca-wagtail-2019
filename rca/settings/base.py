@@ -703,6 +703,10 @@ if "PRIMARY_HOST" in env:
 WAGTAILIMAGES_IMAGE_MODEL = "images.CustomImage"
 WAGTAILIMAGES_FEATURE_DETECTION_ENABLED = False
 
+# Custom image form with rights confirmation checkbox
+# https://docs.wagtail.org/en/stable/reference/settings.html#wagtailimages-image-form-base
+WAGTAILIMAGES_IMAGE_FORM_BASE = "rca.images.forms.RCAImageForm"
+
 # Rich text settings to remove unneeded features
 # We normally don't want editors to use the images
 # in the rich text editor, for example.
