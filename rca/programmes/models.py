@@ -455,6 +455,15 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         on_delete=models.SET_NULL,
         related_name="+",
     )
+    vepple_post_id = models.IntegerField(
+        blank=True,
+        null=True,
+        help_text=(
+            'NOTE: This is the number from the <code>post="X"</code> part of the embed code '
+            "provided by Vepple. Wagtail only needs this ID, and will generate the rest of "
+            "the embed code for you."
+        ),
+    )
     facilities_gallery = StreamField(
         [
             (
@@ -710,6 +719,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         MultiFieldPanel(
             [
                 FieldPanel("facilities_snippet"),
+                FieldPanel("vepple_post_id", heading="Vepple post ID"),
                 FieldPanel("facilities_gallery"),
             ],
             heading="Facilities",
@@ -1044,6 +1054,12 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     @property
     def has_social_media_links(self):
         return self.social_media_links.exists()
+    
+    def has_vepple_panorama(self):
+        if self.vepple_post_id:
+            return True
+        
+        return False
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -1088,6 +1104,9 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         context["programme_stories"] = self.get_programme_stories(
             self.programme_stories.first()
         )
+
+        if self.vepple_post_id:
+            context["vepple_api_url"] = settings.VEPPLE_API_URL
 
         if self.tap_widget:
             context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
