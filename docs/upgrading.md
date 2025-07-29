@@ -123,6 +123,7 @@ Last checked against Wagtail version: 6.4
 
 - `rca/account_management/templates/wagtailadmin/base.html`
 - `rca/project_styleguide/templates/patterns/pages/auth/login.html` - This was overridden to add the "Sign in with single sign-on" button to the login template.
+- `rca/images/forms.py` - default wagtail image upload form extended to provide copyright aknowledgement checkbox.
 
 ---
 

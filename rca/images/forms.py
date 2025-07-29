@@ -11,10 +11,3 @@ class RCAImageForm(BaseImageForm):
         required=True,
         widget=forms.CheckboxInput(attrs={"class": "checkbox-input"}),
     )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Move the rights_confirmed field to the end of the form
-        if "rights_confirmed" in self.fields:
-            rights_field = self.fields.pop("rights_confirmed")
-            self.fields["rights_confirmed"] = rights_field
