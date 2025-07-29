@@ -1054,11 +1054,11 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     @property
     def has_social_media_links(self):
         return self.social_media_links.exists()
-    
+
     def has_vepple_panorama(self):
         if self.vepple_post_id:
             return True
-        
+
         return False
 
     def get_context(self, request, *args, **kwargs):
