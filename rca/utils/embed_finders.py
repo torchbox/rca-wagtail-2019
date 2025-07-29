@@ -7,7 +7,22 @@ from wagtail.embeds.finders.oembed import OEmbedFinder
 
 
 class CustomOEmbedFinder(OEmbedFinder):
-    """OEmbed finder to set video iframe titles."""
+    """OEmbed finder to set video iframe titles and handle additional providers."""
+
+    def __init__(self, **options):
+        # Add TikTok as an additional provider
+        additional_providers = [
+            {
+                "endpoint": "https://www.tiktok.com/oembed",
+                "urls": [
+                    r"^https?://(?:www\.)?tiktok\.com/@[\w.-]+/video/\d+.*$",
+                    r"^https?://vm\.tiktok\.com/[\w-]+/?$",
+                    r"^https?://(?:www\.)?tiktok\.com/t/[\w-]+/?$",
+                ],
+            }
+        ]
+
+        super().__init__(providers=additional_providers, **options)
 
     def find_embed(self, url, max_width=None):
         embed = super().find_embed(url, max_width)
@@ -15,13 +30,12 @@ class CustomOEmbedFinder(OEmbedFinder):
             soup = BeautifulSoup(embed["html"], "html.parser")
             iframe = soup.find("iframe")
 
-            # a11y: set iframe title
-            try:
-                iframe.attrs["title"] = embed["title"]
-            except KeyError:
-                pass
+            if iframe:
+                # a11y: set iframe title
+                if "title" in embed:
+                    iframe.attrs["title"] = embed["title"]
 
-            embed["html"] = str(soup)
+                embed["html"] = str(soup)
 
         return embed
 

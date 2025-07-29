@@ -1,0 +1,91 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<section class="section section--start section--end bg bg--dark">
+    <header class="section__header grid">
+        <h2 class="section__heading section__heading--primary heading heading--two">Experience</h2>
+    </header>
+    <div class="section__content">
+        
+        {% if page.experience_introduction or page.experience_cta_link %}
+            <div class="overview grid">
+                {% if page.experience_introduction %}
+                    <div class="overview__item">
+                        <div class="overview__introduction introduction">
+                            {{ page.experience_introduction }}
+                        </div>
+                    </div>
+                {% endif %}
+                
+                {% if page.experience_cta_link %}
+                    <div class="overview__item">
+                        <div class="overview__item-action">
+                            {% for block in page.experience_cta_link %}
+                                {% include_block block %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if page.experience_content %}
+            {% for block in page.experience_content %}
+                {% if block.block_type == "social_embeds" %}
+                    <div class="section__row grid">
+                        <div class="results layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                            {% for embed_block in block.value %}
+                                <div class="results__item layout__span-two layout__@medium-span-one" style="margin-right: 0.5rem;">
+                                    <div class="embed-container">
+                                        {% include_block embed_block %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            
+            <div class="section__row grid">
+                <div class="results layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                    {% for block in page.experience_content %}
+                        {% if block.block_type == "story" %}
+                            <div class="results__item layout__span-two layout__@medium-span-one" style="margin-right: 0.5rem;">
+                                {% if block.value.image %}
+                                    {% image block.value.image fill-400x300 as story_image %}
+                                    <img src="{{ story_image.url }}" alt="{{ block.value.title }}" style="width: 100%; height: auto;">
+                                {% endif %}
+                                {% if block.value.page %}
+                                    <h4 class="heading heading--five" style="margin: 1rem 0 0.5rem 0;">
+                                        <a href="{{ block.value.page.url }}" style="text-decoration: underline; color: inherit;">{{ block.value.title }}</a>
+                                    </h4>
+                                {% else %}
+                                    <h4 class="heading heading--five" style="margin: 1rem 0 0.5rem 0;">{{ block.value.title }}</h4>
+                                {% endif %}
+                                {% if block.value.content_type %}
+                                    <p style="margin: 0; opacity: 0.8;">{{ block.value.content_type }}</p>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+
+/* Specific handling for TikTok blockquotes */
+.embed-container blockquote.tiktok-embed {
+    min-width: auto !important;
+    margin: 0 !important;
+    zoom: 0.88; 
+}
+
+</style>
+
+<section class="section bg bg--light">
+    <div class="section__notch section__notch--top">
+        <div class="section__notch-fill section__notch-fill--third-col"></div>
+    </div>
+</section> 

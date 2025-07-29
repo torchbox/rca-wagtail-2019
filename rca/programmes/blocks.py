@@ -2,6 +2,7 @@ from django.forms.utils import ErrorList
 from wagtail import blocks
 from wagtail.blocks import StructValue
 from wagtail.blocks.struct_block import StructBlockValidationError
+from wagtail.images.blocks import ImageChooserBlock
 
 
 class NotableAlumniLinkStructValue(StructValue):
@@ -42,3 +43,16 @@ class NotableAlumniBlock(blocks.StructBlock):
     class Meta:
         icon = "link"
         value_class = NotableAlumniLinkStructValue
+
+
+class ExperienceStoryBlock(blocks.StructBlock):
+    title = blocks.CharBlock(max_length=255, help_text="The title of the story")
+    image = ImageChooserBlock(help_text="Featured image for the story")
+    content_type = blocks.CharBlock(
+        max_length=100, help_text="e.g. 'Article', 'News', 'Feature'"
+    )
+    page = blocks.PageChooserBlock(help_text="Link to the full story page")
+
+    class Meta:
+        icon = "doc-full"
+        label = "Story"

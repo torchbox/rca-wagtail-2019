@@ -1,0 +1,31 @@
+context:
+  page:
+    experience_introduction: 'Discover the vibrant community and creative opportunities that surround our programme through social media and inspiring stories from our students and alumni.'
+    experience_cta_link:
+      - type: 'link'
+        value:
+          title: 'Follow our journey'
+          link: '#'
+    experience_content:
+      - type: 'social_embeds'
+        value:
+          - type: 'embed'
+            value: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+          - type: 'embed'
+            value: 'https://www.instagram.com/p/sample/'
+          - type: 'embed'
+            value: 'https://twitter.com/sample/status/123456789'
+      - type: 'story'
+        value:
+          title: 'Student Spotlight: Creative Innovation in Action'
+          content_type: 'Feature Story'
+          image: 'https://via.placeholder.com/400x300'
+          page:
+            url: '/editorial/student-spotlight/'
+      - type: 'story'
+        value:
+          title: 'Alumni Success: From RCA to Industry Leader'
+          content_type: 'Alumni Feature'
+          image: 'https://via.placeholder.com/400x300'
+          page:
+            url: '/editorial/alumni-success/'
