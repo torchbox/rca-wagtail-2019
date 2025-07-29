@@ -1056,6 +1056,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         return self.social_media_links.exists()
 
     def has_vepple_panorama(self):
+        # Insert the script (in `base_page.html`) to load the Vepple panorama, if we have one.
         if self.vepple_post_id:
             return True
 
