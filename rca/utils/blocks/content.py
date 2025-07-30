@@ -213,7 +213,6 @@ class ImageVideoGalleryBlock(blocks.StructBlock):
         template = "patterns/molecules/streamfield/blocks/image_video_gallery_block.html"
 
 
-
 class LinkedImageBlock(blocks.StructBlock):
     image = ImageChooserBlock()
     link = LinkBlock()
