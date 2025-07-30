@@ -1,5 +1,5 @@
 .anchor-nav {
-    @include z-index(header-logo);
+    @include z-index(sticky-nav-bar);
     display: none;
 
     @include media-query(large) {
