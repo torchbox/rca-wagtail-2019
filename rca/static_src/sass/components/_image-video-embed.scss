@@ -51,6 +51,15 @@
                 }
             }
         }
+
+        // When it's used in a slideshow
+        .glide__slide & {
+            pointer-events: none;
+        }
+
+        .glide__slide--active & {
+            pointer-events: all;
+        }
     }
 
     &__play-icon {

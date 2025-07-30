@@ -1,6 +1,27 @@
 .slide {
     $root: &;
 
+    // When used as a block, the slideshow must be on top of whatever's
+    // on the sidebar.
+    .slideshow--block & {
+        .bg--dark & {
+            background-color: $color--black;
+        }
+
+        .bg--light & {
+            background-color: $color--white;
+        }
+    }
+
+    &__overlay {
+        opacity: $transition-opacity;
+        transition: opacity $transition;
+
+        .glide__slide--active & {
+            opacity: 1;
+        }
+    }
+
     &--author {
         #{$root}__meta {
             @include media-query(medium) {
@@ -133,6 +154,27 @@
 
     &__type-label {
         text-align: left;
+    }
+
+    &__play-icon {
+        @include z-index(above-gridlines);
+        position: absolute;
+        left: 50%;
+        top: 40%;
+        transform: translate3d(-50%, -50%, 0);
+        pointer-events: none;
+        height: 50px;
+        width: 50px;
+
+        path:nth-child(2) {
+            fill-opacity: 0;
+        }
+
+        @include media-query(medium) {
+            height: 80px;
+            top: 45%;
+            width: 80px;
+        }
     }
 
     .glide__slide--active & {

@@ -1,76 +1,107 @@
 {% load wagtailimages_tags %}
 
 <div class="slide {% if slide.author %}slide--author{% endif %}" data-slide>
+    {% comment %}
+        The alternative design only supports the video embed and the image. For the video embed,
+        instead of the play button being on the bottom right, it's in the center as an icon. The caption
+        is then at the bottom of the image instead of beside the play button.
+    {% endcomment %}
+    {% if not alternative_design %}
+        <div class="slide__overlay">
+            {% image slide.image fill-100x71 as image_small %}
+            {% image slide.image fill-829x585 as image_large %}
 
-    {% image slide.image fill-100x71 as image_small %}
-    {% image slide.image fill-829x585 as image_large %}
-
-    {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=829 height=585 image_large=image_large classList='slide__image' %}
-
-    <div class="slide__meta">
-        {% if slide.document or slide.video_embed or slide.audio_embed %}
-            <div class="slide__type">
-
+            {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=829 height=585 image_large=image_large classList='slide__image' %}
+            <div class="slide__meta">
                 {% if slide.document or slide.video_embed or slide.audio_embed %}
-                    {% if slide.document %}
-                        <a class="slide__action" href="{{ slide.document.url }}" download="{% firstof slide.document.title slide.title %}">
-                    {% else %}
-                        <button class="slide__action slide__action--embed" data-micromodal-trigger="slideshow-modal-{{ forloop.counter }}" aria-label="{% if slide.embed_play_button %}{{ slide.embed_play_button }}{% else %}Play {{ slide.title }}{% endif %}">
-                    {% endif %}
+                    <div class="slide__type">
+
+                        {% if slide.document or slide.video_embed or slide.audio_embed %}
+                            {% if slide.document %}
+                                <a class="slide__action" href="{{ slide.document.url }}" download="{% firstof slide.document.title slide.title %}">
+                            {% else %}
+                                <button class="slide__action slide__action--embed" data-micromodal-trigger="slideshow-modal-{{ forloop.counter }}" aria-label="{% if slide.embed_play_button %}{{ slide.embed_play_button }}{% else %}Play {{ slide.title }}{% endif %}">
+                            {% endif %}
+                        {% endif %}
+
+                            {% if slide.document %}
+                                {% with file_size=slide.document.file_size|filesizeformat file_extension=slide.document.file_extension|upper %}
+                                    <svg width="24" height="24" class="slide__type-icon" aria-hidden="true"><use xlink:href="#download-file"></use></svg>
+                                    <span class="slide__type-label">Download <br>{{ file_extension }} ({{ file_size }})</span>
+                                {% endwith %}
+                            {% endif %}
+                            {% if slide.video_embed or slide.audio_embed %}
+                                <svg width="24" height="24" class="slide__type-icon" aria-hidden="true">
+                                    {% if slide.video_embed %}
+                                        <use xlink:href="#play-icon"></use>
+                                    {% else %}
+                                        <use xlink:href="#audio"></use>
+                                    {% endif %}
+                                </svg>
+                                <span class="slide__type-label">
+                                    {% if slide.embed_play_button_label %}
+                                        {{ slide.embed_play_button_label|linebreaksbr }}
+                                    {% else %}
+                                        Play {{ slide.title }}
+                                    {% endif %}
+                                </span>
+                            {% endif %}
+
+                        {% if slide.document or slide.video_embed or slide.audio_embed %}
+                            {% if slide.document %}
+                                </a>
+                            {% else %}
+                                </button>
+                            {% endif %}
+                        {% endif %}
+
+                    </div>
                 {% endif %}
 
-                    {% if slide.document %}
-                        {% with file_size=slide.document.file_size|filesizeformat file_extension=slide.document.file_extension|upper %}
-                            <svg width="24" height="24" class="slide__type-icon" aria-hidden="true"><use xlink:href="#download-file"></use></svg>
-                            <span class="slide__type-label">Download <br>{{ file_extension }} ({{ file_size }})</span>
-                        {% endwith %}
-                    {% endif %}
-                    {% if slide.video_embed or slide.audio_embed %}
-                        <svg width="24" height="24" class="slide__type-icon" aria-hidden="true">
-                            {% if slide.video_embed %}
-                                <use xlink:href="#play-icon"></use>
-                            {% else %}
-                                <use xlink:href="#audio"></use>
-                            {% endif %}
-                        </svg>
-                        <span class="slide__type-label">
-                            {% if slide.embed_play_button_label %}
-                                {{ slide.embed_play_button_label|linebreaksbr }}
-                            {% else %}
-                                Play {{ slide.title }}
-                            {% endif %}
-                        </span>
-                    {% endif %}
+                {% if slide.title %}
+                    <p class="slide__heading">{{ slide.title }}</p>
+                {% endif %}
 
-                {% if slide.document or slide.video_embed or slide.audio_embed %}
-                    {% if slide.document %}
+                {% if slide.author %}
+                    <div class="slide__author-info">
+                        {% if slide.link %}
+                            <a class="slide__link" href="{{ slide.link }}">
+                        {% endif %}
+                            <p class="slide__author">{{ slide.author }}</p>
+                        {% if slide.link %}
+                            </a>
+                        {% endif %}
+                        <p class="slide__author-course">{{ slide.course }}</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <div class="slide__overlay">
+            <div class="image-video-embed">
+                <div class="image-video-embed__container">
+                    {% image slide.image fill-100x71 as image_small %}
+                    {% image slide.image fill-829x585 as image_large %}
+
+                    {% if slide.video_embed %}
+                        <a data-micromodal-trigger="slideshow-modal-{{ forloop.counter }}" class="image-video-embed__link" aria-label="Play {{ slide.embed_play_button_label }}" tabindex="0">
+
+                            {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=900 height=415 image_large=image_large classList='image-video-embed__image' %}
+                        
+                            <svg class="image-video-embed__play-icon" aria-hidden="true" width="87" height="87" viewBox="0 0 90 85">
+                                <path d="M43.5 0C19.575 0 0 19.575 0 43.5C0 67.425 19.575 87 43.5 87C67.425 87 87 67.425 87 43.5C87 19.575 67.425 0 43.5 0ZM34.8 63.075V23.925L60.9 43.5L34.8 63.075Z" fill="white"/>
+                                <path d="M34.8 23.925V63.075L60.9 43.5L34.8 23.925Z" fill="#FF5D1C"/>
+                            </svg>
+                        
+                            {% if slide.embed_play_button_label %}
+                                <p class="image-video-embed__caption">{{ slide.embed_play_button_label }}</p>
+                            {% endif %}
                         </a>
                     {% else %}
-                        </button>
+                        {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=900 height=415 image_large=image_large classList='image-video-embed__image' %}
                     {% endif %}
-                {% endif %}
-
+                </div>
             </div>
-        {% endif %}
-
-        {% if slide.title %}
-            <p class="slide__heading">{{ slide.title }}</p>
-        {% endif %}
-
-        {% if slide.author %}
-            <div class="slide__author-info">
-                {% if slide.link %}
-                    <a class="slide__link" href="{{ slide.link }}">
-                {% endif %}
-                    <p class="slide__author">{{ slide.author }}</p>
-                {% if slide.link %}
-                    </a>
-                {% endif %}
-                <p class="slide__author-course">{{ slide.course }}</p>
-            </div>
-        {% endif %}
-    </div>
-
-
-
+        </div>
+    {% endif %}
 </div>
