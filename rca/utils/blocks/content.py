@@ -214,7 +214,6 @@ class ImageVideoGalleryBlock(blocks.StructBlock):
 
 
 
-
 class LinkedImageBlock(blocks.StructBlock):
     image = ImageChooserBlock()
     link = LinkBlock()
