@@ -207,6 +207,7 @@ class StatisticsBlock(blocks.StructBlock):
         icon = "user"
         label = "Statistics"
 
+from wagtailmedia.blocks import VideoChooserBlock
 
 class PromoBannerBlock(blocks.StructBlock):
     background_color = blocks.ChoiceBlock(
@@ -214,7 +215,8 @@ class PromoBannerBlock(blocks.StructBlock):
         default="light",
         help_text="Select the background color for this promo banner",
     )
-    image = ImageChooserBlock()
+    image = ImageChooserBlock(required=False)
+    video = VideoChooserBlock(required=False)
     title = blocks.CharBlock()
     strapline = blocks.CharBlock()
     cta = LinkBlock(label="Call to Action")
