@@ -192,10 +192,10 @@ class ImageVideoBlock(blocks.StructBlock):
 
     def clean(self, value):
         cleaned_data = super().clean(value)
-        if cleaned_data.get("video_embed") and not cleaned_data.get("embed_play_button_label"):
-            raise ValidationError(
-                "Caption is required when a video link is provided."
-            )
+        if cleaned_data.get("video_embed") and not cleaned_data.get(
+            "embed_play_button_label"
+        ):
+            raise ValidationError("Caption is required when a video link is provided.")
 
         return cleaned_data
 
@@ -210,7 +210,9 @@ class ImageVideoGalleryBlock(blocks.StructBlock):
 
     class Meta:
         icon = "image"
-        template = "patterns/molecules/streamfield/blocks/image_video_gallery_block.html"
+        template = (
+            "patterns/molecules/streamfield/blocks/image_video_gallery_block.html"
+        )
 
 
 class LinkedImageBlock(blocks.StructBlock):
