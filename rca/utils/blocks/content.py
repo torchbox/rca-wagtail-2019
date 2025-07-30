@@ -186,6 +186,8 @@ class ImageVideoBlock(blocks.StructBlock):
         max_length=80,
         required=False,
         help_text="The text displayed below the video.",
+        # This is named `embed_play_button_label` to be consistent with `GalleryBlock`.
+        label="Caption",
     )
 
     def clean(self, value):
