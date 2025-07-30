@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.postgres.search import TrigramSimilarity
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.template.response import TemplateResponse
 from django.utils.cache import add_never_cache_headers, patch_cache_control
@@ -6,6 +7,9 @@ from wagtail.contrib.search_promotions.models import Query
 from wagtail.models import Page
 
 from rca.utils.cache import get_default_cache_control_kwargs
+
+# Similarity threshold for trigram search (0.0 to 1.0)
+SIMILARITY_THRESHOLD = 0.1
 
 
 def search(request):
@@ -19,6 +23,17 @@ def search(request):
 
         # Record hit
         query.add_hit()
+
+        # If no results found, try trigram similarity search
+        if not search_results:
+            search_results = (
+                Page.objects.live()
+                .annotate(
+                    similarity=TrigramSimilarity("title", search_query),
+                )
+                .filter(similarity__gt=SIMILARITY_THRESHOLD)
+                .order_by("-similarity")
+            )
     else:
         search_results = Page.objects.none()
 
