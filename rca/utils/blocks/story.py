@@ -1,16 +1,16 @@
 from wagtail import blocks
 from wagtail.embeds.blocks import EmbedBlock
-from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.images.blocks import ImageChooserBlock
+from wagtail.snippets.blocks import SnippetChooserBlock
 
 from .content import (
     AccordionBlock,
     CTALinkBlock,
     DocumentBlock,
     ImageBlock,
+    ImageVideoGalleryBlock,
     QuoteBlock,
     TableBlock,
-    ImageVideoGalleryBlock,
 )
 from .embeds import CookieSnippetBlock, JWPLayerBlock, VepplePanoramaBlock
 
