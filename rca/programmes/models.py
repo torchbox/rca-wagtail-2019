@@ -310,7 +310,8 @@ class ProgrammeLocationProgrammePage(models.Model):
         "programmes.programmeLocation",
         on_delete=models.CASCADE,
     )
-    panels = [FieldPanel("programme_location")]
+    programme_location_url = models.URLField(blank=True)
+    panels = [FieldPanel("programme_location"), FieldPanel("programme_location_url")]
 
     def __str__(self):
         return self.programme_location.title
@@ -932,8 +933,8 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
     @cached_property
     def campus_locations(self):
-        return self.programme_locations.values_list(
-            "programme_location__title", flat=True
+        return self.programme_locations.values(
+            "programme_location__title", "programme_location_url"
         ).order_by("programme_location__title")
 
     def get_admin_display_title(self):
