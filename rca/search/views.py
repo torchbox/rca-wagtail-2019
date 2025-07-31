@@ -25,6 +25,8 @@ def search(request):
         query.add_hit()
 
         # If no results found, try trigram similarity search
+        # We can only filter by title, since that's the only field we have
+        # common to all page types.
         if not search_results:
             search_results = (
                 Page.objects.live()
