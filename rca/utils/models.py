@@ -398,6 +398,11 @@ class SocialMediaSettings(BaseSiteSetting):
         blank=True,
         help_text="Your full WeChat page url.",
     )
+    little_red_book_handle = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text="Your Little Red Book handle without the @, e.g. royalcollegeofart",
+    )
     default_sharing_text = models.CharField(
         max_length=255,
         blank=True,
