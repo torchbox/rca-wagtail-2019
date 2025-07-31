@@ -7,15 +7,24 @@ from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
-from wagtail.admin.panels import FieldPanel, HelpPanel, InlinePanel, MultiFieldPanel
-from wagtail.fields import StreamBlock, StreamField
+from wagtail.admin.panels import (
+    FieldPanel,
+    HelpPanel,
+    InlinePanel,
+    MultiFieldPanel,
+    ObjectList,
+    TabbedInterface,
+)
+from wagtail.fields import StreamBlock
 from wagtail.images import get_image_model_string
 from wagtail.models import Orderable
 
 from rca.api_content.content import get_news_and_events as get_api_news_and_events
 from rca.editorial.models import EditorialPage
 from rca.events.models import EventDetailPage
+from rca.home.blocks import HomePageBodyBlock
 from rca.utils.blocks import RelatedPageListBlockPage, StatisticBlock
+from rca.utils.fields import StreamField
 from rca.utils.models import (
     DARK_HERO,
     DARK_TEXT_ON_LIGHT_IMAGE,
@@ -152,6 +161,13 @@ class HomePage(TapMixin, BasePage):
     hero_cta_text = models.CharField(max_length=125, blank=True)
     hero_cta_sub_text = models.CharField(max_length=125, blank=True)
 
+    body = StreamField(
+        HomePageBodyBlock(),
+        blank=True,
+    )
+
+    # --- Legacy Body Fields --- #
+    # These will be removed once we confirm that the `body` streamfield is being used.
     strapline = models.CharField(max_length=125)
     strapline_cta_url = models.URLField(blank=True)
     strapline_cta_text = models.CharField(max_length=125, blank=True)
@@ -190,12 +206,19 @@ class HomePage(TapMixin, BasePage):
                     FieldPanel("hero_image"),
                     FieldPanel("hero_image_credit"),
                     FieldPanel("hero_colour_option"),
-                    FieldPanel("hero_cta_url"),
-                    FieldPanel("hero_cta_text"),
-                    FieldPanel("hero_cta_sub_text"),
+                    FieldPanel("hero_cta_url", heading="Hero CTA URL"),
+                    FieldPanel("hero_cta_text", heading="Hero CTA Text"),
+                    FieldPanel("hero_cta_sub_text", heading="Hero CTA Sub Text"),
                 ],
                 heading="Hero",
             ),
+            FieldPanel("body"),
+        ]
+        + TapMixin.panels
+    )
+
+    old_body_fields_content_panels = (
+        [
             MultiFieldPanel(
                 [
                     FieldPanel("strapline"),
@@ -249,6 +272,15 @@ class HomePage(TapMixin, BasePage):
             ),
         ]
         + TapMixin.panels
+    )
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading="Content"),
+            ObjectList(old_body_fields_content_panels, heading="Content (Legacy)"),
+            ObjectList(BasePage.promote_panels, heading="Promote"),
+            ObjectList(BasePage.settings_panels, heading="Settings"),
+        ]
     )
 
     def clean(self):
@@ -420,25 +452,81 @@ class HomePage(TapMixin, BasePage):
             )
         ]
 
+    def get_processed_body(self):
+        # Processes the body streamfield to determine when and what notches are displayed.
+        processed_body = []
+        num_blocks = len(self.body)
+
+        for i, block in enumerate(self.body):
+            processed_section = {
+                "block": block,
+            }
+
+            previous_block = self.body[i - 1] if i > 0 else None
+            next_block = self.body[i + 1] if (i + 1) < num_blocks else None
+
+            is_last_block = next_block is None
+            next_is_stats = next_block and next_block.block_type in [
+                "statistics",
+                "promo_banner",
+            ]
+            backgrounds_match = next_block and next_block.value.get(
+                "background_color"
+            ) == block.value.get("background_color")
+
+            # Don't display a notch in this section if:
+            # - This is the last block in the body.
+            # - The next block is a statistics block.
+            # - The next block has the same background color as the current block.
+            processed_section["should_display_notch"] = not (
+                is_last_block or next_is_stats or backgrounds_match
+            )
+
+            # If the block is a statistics or a promo banner block, we need to check the
+            # previous and next block's background color to determine the background colors
+            # for the notch.
+            if block.block_type in ["statistics", "promo_banner"]:
+                if previous_block and previous_block.block_type == "body_section":
+                    processed_section["previous_block_bg"] = previous_block.value.get(
+                        "background_color"
+                    )
+
+                if next_block and next_block.block_type == "body_section":
+                    processed_section["next_block_bg"] = next_block.value.get(
+                        "background_color"
+                    )
+
+            processed_body.append(processed_section)
+
+        return processed_body
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        context["transformation_block"] = self.transformation_blocks.select_related(
-            "image"
-        ).first()
-        context["partnerships_block"] = self._format_partnerships(
-            self.partnerships_block.first()
-        )
 
-        context["stats_block"] = self.stats_block.select_related(
-            "background_image"
-        ).first()
+        # If the `body` streamfield is empty, the home page will use data from the legacy
+        # home page fields.
+        if not self.body:
+            context["transformation_block"] = self.transformation_blocks.select_related(
+                "image"
+            ).first()
+            context["partnerships_block"] = self._format_partnerships(
+                self.partnerships_block.first()
+            )
 
-        # TODO Work in if checks for pulling api content here
-        context["news_and_events"] = self.get_news_and_events()
-        context["alumni_stories"] = self.get_alumni_stories()
+            context["stats_block"] = self.stats_block.select_related(
+                "background_image"
+            ).first()
+
+            # TODO Work in if checks for pulling api content here
+            context["news_and_events"] = self.get_news_and_events()
+            context["alumni_stories"] = self.get_alumni_stories()
+
+            if self.tap_widget:
+                context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
+        else:
+            context["processed_body"] = self.get_processed_body()
+
         context["hero_colour"] = LIGHT_HERO
-        if self.tap_widget:
-            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
 
         if (
             hasattr(self, "hero_colour_option")

@@ -1,0 +1,47 @@
+context:
+  stories:
+    - slide:
+      meta: 'Alumni Story'
+      title: 'A place with a real focus on making'
+      description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
+      image: true
+      link: '#'
+      person:
+        image: true
+        title: 'Holly Hendry'
+    - slide:
+      meta: 'Alumni Story'
+      title: 'A place with a real focus on making'
+      description: 'Since graduating from the RCA, Holly Hendry’s site-responsive sculptures and installations have been exhibited at galleries in London, Liverpool, Manchester, Copenhagen and Berlin. '
+      image: true
+      link: '#'
+      person:
+        image: true
+        title: 'Holly Hendry'
+    - slide:
+      meta: 'Alumni Story'
+      title: 'Designing the imposible for NASA'
+      description: 'Creating world class experiences that started at the RCA'
+      image: true
+      link: '#'
+      person:
+        image: true
+        title: 'Nelly Ben Hayoun'
+    - slide:
+      meta: 'Alumni Story'
+      title: 'Designing the imposible for NASA'
+      description: 'Creating world class experiences that started at the RCA'
+      image: true
+      link: '#'
+      person:
+        image: true
+        title: 'Nelly Ben Hayoun'
+    - slide:
+      meta: 'Alumni Story'
+      title: 'Designing the imposible for NASA'
+      description: 'Creating world class experiences that started at the RCA'
+      image: true
+      link: '#'
+      person:
+        image: true
+        title: 'Nelly Ben Hayoun'

@@ -1,0 +1,9 @@
+<div class="partnerships partnerships--block">
+    <div class="partnerships__header grid">
+        <h2 class="partnerships__heading heading heading--one">{{ value.title }}</h2>
+        <p class="partnerships__introduction">{{ value.summary }}</p>
+    </div>
+    <div class="partnerships__carousel">
+        {% include "patterns/organisms/carousel/carousel--square.html" with carousel=slides modifier='carousel--square' control_title="Partnership carousel" datatag='data-peek-carousel' %}
+    </div>
+</div>
