@@ -30,45 +30,44 @@
 
         {% if page.experience_content %}
             {% for block in page.experience_content %}
-                {% if block.block_type == "social_embeds" %}
+                {% if block.block_type == "social_embeds" or block.block_type == "story" %}
+                    <div class="section__header grid">
+                        <h3 class="section__heading section__heading--secondary heading heading--three">{{ block.value.title }}</h3>
+                    </div>
                     <div class="section__row grid">
                         <div class="results layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                            {% for embed_block in block.value %}
-                                <div class="results__item layout__span-two layout__@medium-span-one" style="margin-right: 0.5rem;">
-                                    <div class="embed-container">
-                                        {% include_block embed_block %}
+                            {% if block.block_type == "social_embeds" %}
+                                {% for individual_embed in block.value.embeds %}
+                                    <div class="results__item layout__span-two layout__@medium-span-one social-embeds__item">
+                                        <div class="embed-container social-embeds__container">
+                                            {{ individual_embed.embed.html|safe }}
+                                            <div class="social-embeds__caption">
+                                                <h4 class="heading heading--five social-embeds__heading">
+                                                    <a href="#" class="social-embeds__link">{{ individual_embed.caption }}</a>
+                                                </h4>
+                                                <p class="social-embeds__source">
+                                                    From {{ individual_embed.embed_source }}
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            {% endfor %}
+                                {% endfor %}
+                            {% elif block.block_type == "story" %}
+                                {% for story in block.value.stories %}
+                                    <div class="results__item layout__span-two layout__@medium-span-one story-sections__item">
+                                        {% image story.image fill-400x300 as story_image %}
+                                        <img src="{{ story_image.url }}" alt="{{ story.value.title }}" class="story-sections__image">
+                                        <h4 class="heading heading--five story-sections__heading">
+                                            <a href="{{ story.value.page.url }}" class="story-sections__link">{{ story.title }}</a>
+                                        </h4>
+                                        <p class="story-sections__content-type">{{ story.content_type }}</p>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
                 {% endif %}
             {% endfor %}
-            
-            <div class="section__row grid">
-                <div class="results layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                    {% for block in page.experience_content %}
-                        {% if block.block_type == "story" %}
-                            <div class="results__item layout__span-two layout__@medium-span-one" style="margin-right: 0.5rem;">
-                                {% if block.value.image %}
-                                    {% image block.value.image fill-400x300 as story_image %}
-                                    <img src="{{ story_image.url }}" alt="{{ block.value.title }}" style="width: 100%; height: auto;">
-                                {% endif %}
-                                {% if block.value.page %}
-                                    <h4 class="heading heading--five" style="margin: 1rem 0 0.5rem 0;">
-                                        <a href="{{ block.value.page.url }}" style="text-decoration: underline; color: inherit;">{{ block.value.title }}</a>
-                                    </h4>
-                                {% else %}
-                                    <h4 class="heading heading--five" style="margin: 1rem 0 0.5rem 0;">{{ block.value.title }}</h4>
-                                {% endif %}
-                                {% if block.value.content_type %}
-                                    <p style="margin: 0; opacity: 0.8;">{{ block.value.content_type }}</p>
-                                {% endif %}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
         {% endif %}
     </div>
 </section>

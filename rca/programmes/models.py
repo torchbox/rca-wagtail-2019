@@ -25,7 +25,6 @@ from wagtail.api import APIField
 from wagtail.blocks import CharBlock, StructBlock
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.embeds import embeds
-from wagtail.embeds.blocks import EmbedBlock
 from wagtail.embeds.exceptions import EmbedException
 from wagtail.fields import RichTextField, StreamBlock, StreamField
 from wagtail.images import get_image_model_string
@@ -37,7 +36,11 @@ from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtailorderable.models import Orderable as WagtailOrdable
 
 from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
-from rca.programmes.blocks import ExperienceStoryBlock, NotableAlumniBlock
+from rca.programmes.blocks import (
+    ExperienceStoriesBlock,
+    NotableAlumniBlock,
+    SocialEmbedBlock,
+)
 from rca.programmes.utils import format_study_mode, get_accordion_snippet_content
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
@@ -617,8 +620,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     )
 
     # Experience
-    experience_introduction = models.CharField(
-        max_length=500,
+    experience_introduction = models.TextField(
         blank=True,
         help_text="Introductory text for the Experience section",
     )
@@ -630,17 +632,12 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     )
     experience_content = StreamField(
         [
-            (
-                "social_embeds",
-                StreamBlock(
-                    [("embed", EmbedBlock())], max_num=12, label="Social Embeds"
-                ),
-            ),
-            ("story", ExperienceStoryBlock()),
+            ("social_embeds", SocialEmbedBlock()),
+            ("story", ExperienceStoriesBlock()),
         ],
         blank=True,
         verbose_name="Experience Content",
-        help_text="Add social embeds (max 12 per block) or editorial page stories",
+        help_text="Add social embeds or editorial page stories",
     )
 
     tags = ClusterTaggableManager(through=ProgrammePageTag, blank=True)

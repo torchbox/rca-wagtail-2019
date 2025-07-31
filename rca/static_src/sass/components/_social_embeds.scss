@@ -1,0 +1,27 @@
+.social-embeds {
+    &__container {
+        margin-bottom: 4rem;
+    }
+
+    &__caption {
+        margin-top: 1rem;
+    }
+
+    &__item {
+        margin-right: 0.5rem;
+    }
+
+    &__heading {
+        margin: 0 0 0.5rem 0;
+    }
+
+    &__link {
+        text-decoration: underline;
+        color: inherit;
+    }
+
+    &__source {
+        margin: 0;
+        opacity: 0.8;
+    }
+}

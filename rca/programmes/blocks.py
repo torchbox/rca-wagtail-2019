@@ -2,6 +2,7 @@ from django.forms.utils import ErrorList
 from wagtail import blocks
 from wagtail.blocks import StructValue
 from wagtail.blocks.struct_block import StructBlockValidationError
+from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 
 
@@ -46,13 +47,66 @@ class NotableAlumniBlock(blocks.StructBlock):
 
 
 class ExperienceStoryBlock(blocks.StructBlock):
-    title = blocks.CharBlock(max_length=255, help_text="The title of the story")
-    image = ImageChooserBlock(help_text="Featured image for the story")
-    content_type = blocks.CharBlock(
-        max_length=100, help_text="e.g. 'Article', 'News', 'Feature'"
+    title = blocks.CharBlock(
+        max_length=255, help_text="The title of the story", required=True
     )
-    page = blocks.PageChooserBlock(help_text="Link to the full story page")
+    image = ImageChooserBlock(help_text="Featured image for the story", required=True)
+    content_type = blocks.CharBlock(
+        max_length=100, help_text="e.g. 'Article', 'News', 'Feature'", required=True
+    )
+    page = blocks.PageChooserBlock(
+        help_text="Link to the full story page", required=True
+    )
 
     class Meta:
         icon = "doc-full"
         label = "Story"
+
+
+class ExperienceStoriesBlock(blocks.StructBlock):
+    title = blocks.CharBlock(
+        max_length=255, help_text="The title of the stories", required=False
+    )
+    stories = blocks.ListBlock(
+        ExperienceStoryBlock(), help_text="The stories", min_num=1
+    )
+
+    class Meta:
+        icon = "doc-full"
+        label = "Stories"
+
+
+class IndividualEmbedBlock(blocks.StructBlock):
+    """A single embed with its own caption and source."""
+
+    embed = EmbedBlock(help_text="The embed URL", required=True)
+    caption = blocks.CharBlock(
+        max_length=255, help_text="The caption for this embed", required=True
+    )
+    embed_source = blocks.CharBlock(
+        max_length=100,
+        help_text="The source of this embed (e.g., YouTube, TikTok, Vimeo)",
+        required=True,
+    )
+
+    class Meta:
+        icon = "media"
+        label = "Individual Embed"
+
+
+class SocialEmbedBlock(blocks.StructBlock):
+    title = blocks.CharBlock(
+        max_length=255,
+        help_text="The title of the social embeds section",
+        required=True,
+    )
+    embeds = blocks.ListBlock(
+        IndividualEmbedBlock(),
+        help_text="The embeds with captions",
+        min_num=1,
+        max_num=12,
+    )
+
+    class Meta:
+        icon = "code"
+        label = "Social Embed"

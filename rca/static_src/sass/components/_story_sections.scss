@@ -1,0 +1,25 @@
+.story-sections {
+    &__item {
+        margin-bottom: 4rem;
+        margin-right: 0.5rem;
+    }
+
+    &__image {
+        width: 100%;
+        height: auto;
+    }
+
+    &__heading {
+        margin: 1rem 0 0.5rem 0;
+    }
+
+    &__link {
+        text-decoration: underline;
+        color: inherit;
+    }
+
+    &__content-type {
+        margin: 0;
+        opacity: 0.8;
+    }
+}

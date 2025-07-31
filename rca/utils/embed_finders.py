@@ -11,11 +11,13 @@ class InstagramOEmbedFinder(EmbedFinder):
     """Embed finder support for Instagram using simple iframe approach."""
 
     def accept(self, url):
-        return re.match(r"^https?://(?:www\.)?instagram\.com/(?:p|tv|reel)/.+$", url)
+        return re.match(
+            r"^https?://(?:www\.)?instagram\.com/(?:[^/]+/)?(?:p|tv|reel)/.+$", url
+        )
 
     def find_embed(self, url, max_width=None):
-        # Extract the post ID from the URL
-        match = re.search(r"instagram\.com/(?:p|tv|reel)/([^/?]+)", url)
+        # Extract the post ID from the URL - support both with and without username
+        match = re.search(r"instagram\.com/(?:[^/]+/)?(?:p|tv|reel)/([^/?]+)", url)
         if not match:
             raise EmbedNotFoundException
 
@@ -34,7 +36,7 @@ class InstagramOEmbedFinder(EmbedFinder):
 
 
 class CustomOEmbedFinder(OEmbedFinder):
-    """OEmbed finder to set video iframe titles and handle additional providers."""
+    """OEmbed finder to set video iframe titles."""
 
     def __init__(self, **options):
         # Add TikTok as an additional provider
@@ -57,12 +59,13 @@ class CustomOEmbedFinder(OEmbedFinder):
             soup = BeautifulSoup(embed["html"], "html.parser")
             iframe = soup.find("iframe")
 
-            if iframe:
-                # a11y: set iframe title
-                if "title" in embed:
-                    iframe.attrs["title"] = embed["title"]
+            # a11y: set iframe title
+            try:
+                iframe.attrs["title"] = embed["title"]
+            except KeyError:
+                pass
 
-                embed["html"] = str(soup)
+            embed["html"] = str(soup)
 
         return embed
 
