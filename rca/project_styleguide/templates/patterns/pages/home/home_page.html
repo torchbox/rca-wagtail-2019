@@ -27,8 +27,12 @@
             {% if page.body %}
                 {% for item in processed_body %}
                     {% with section=item.block %}
-                        {# This is a body section block. #}
-                        {% if section.value.background_color %}
+                        {% if section.block_type == "statistics" %}
+                            {% include "patterns/organisms/stat-block/stat-block.html" with modifier="transparent" stats_block=section.value top_notch_bg=item.previous_block_bg bottom_notch_bg=item.next_block_bg %} 
+                        {% elif section.block_type == "promo_banner" %}
+                            {% include_block section with previous_section_bg=item.previous_block_bg next_section_bg=item.next_block_bg %}
+                        {% else %}
+                            {# This is a body section block. #}
                             <section class="section section--top-space bg bg--{{ section.value.background_color }}">
                                 {% for block in section.value.content %}
                                     {% include_block block %}
@@ -40,9 +44,6 @@
                                     </div>
                                 {% endif %}
                             </section>
-                        {% else %}
-                            {# This is a statistics block. #}
-                            {% include "patterns/organisms/stat-block/stat-block.html" with modifier="transparent" stats_block=section.value top_notch_bg=item.previous_block_bg bottom_notch_bg=item.next_block_bg %} 
                         {% endif %}
                     {% endwith %}
                 {% endfor %}

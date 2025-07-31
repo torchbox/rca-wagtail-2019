@@ -1,0 +1,34 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% image value.image fill-80x84 as image_small %}
+{% image value.image fill-580x607 as image_large %}
+
+{# Match the background color of the previous section if it exists, otherwise use the value's background color #}
+<section class="section section--top-space bg bg--{% if previous_section_bg %}{{ previous_section_bg }}{% elif value.background_color == "dark" %}light{% else %}dark{% endif %}">
+    <div class="promo-banner bg bg--{{ value.background_color }}">
+        <div class="grid">
+            <div class="promo-banner__intro">
+                <h2 class="promo-banner__heading heading heading--one">{{ value.title }}</h2>
+                <p class="promo-banner__text heading heading--five">{{ value.strapline }}</p>
+            </div>
+            
+            {% if value.cta %}
+                <a href="{% firstof value.cta.url value.cta.page.url %}" class="promo-banner__link link link--primary link--link body body--two" rel="noopener">
+                    <span class="link__label">{% firstof value.cta.title value.cta.page.title %}</span>
+                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use href="#arrow"></use></svg>
+                </a>
+            {% endif %}
+
+            <div class="promo-banner__image-container">
+                {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=580 height=607 image_large=image_large classList='promo-banner__image' %}
+            </div>
+        </div>
+    </div>
+</section>
+
+ <section class="section bg bg--{% if next_section_bg %}{{ next_section_bg }}{% elif value.background_color == "dark" %}light{% else %}dark{% endif %}">
+    <div class="section__notch">
+        {# If the next section background color is the same as the value's background color, we don't want to show a notch so we have to fill it in. #}
+        <div class="section__notch-fill section__notch-fill--third-col {% if value.background_color == next_section_bg %} section__notch-fill--{{ next_section_bg }}{% endif %}"></div>
+    </div>
+</section>

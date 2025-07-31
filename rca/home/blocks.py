@@ -7,6 +7,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from rca.editorial.models import EditorialPage
 from rca.events.models import EventDetailPage
 from rca.home.utils import partnerships_slides_formatter, related_news_events_formatter
+from rca.navigation.models import LinkBlock
 from rca.utils.blocks import RelatedPageListBlockPage, StatisticBlock
 
 
@@ -207,6 +208,24 @@ class StatisticsBlock(blocks.StructBlock):
         label = "Statistics"
 
 
+class PromoBannerBlock(blocks.StructBlock):
+    background_color = blocks.ChoiceBlock(
+        choices=[("light", "Light"), ("dark", "Dark")],
+        default="light",
+        help_text="Select the background color for this promo banner",
+    )
+    image = ImageChooserBlock()
+    title = blocks.CharBlock()
+    strapline = blocks.CharBlock()
+    cta = LinkBlock(label="Call to Action")
+
+    class Meta:
+        template = "patterns/molecules/streamfield/blocks/promo_banner_block.html"
+        icon = "image"
+        label = "Promo Banner"
+
+
 class HomePageBodyBlock(blocks.StreamBlock):
     body_section = BodySectionBlock()
+    promo_banner = PromoBannerBlock()
     statistics = StatisticsBlock()

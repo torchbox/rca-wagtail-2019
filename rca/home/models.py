@@ -15,7 +15,7 @@ from wagtail.admin.panels import (
     ObjectList,
     TabbedInterface,
 )
-from wagtail.fields import StreamBlock, StreamField
+from wagtail.fields import StreamBlock
 from wagtail.images import get_image_model_string
 from wagtail.models import Orderable
 
@@ -24,6 +24,7 @@ from rca.editorial.models import EditorialPage
 from rca.events.models import EventDetailPage
 from rca.home.blocks import HomePageBodyBlock
 from rca.utils.blocks import RelatedPageListBlockPage, StatisticBlock
+from rca.utils.fields import StreamField
 from rca.utils.models import (
     DARK_HERO,
     DARK_TEXT_ON_LIGHT_IMAGE,
@@ -465,7 +466,10 @@ class HomePage(TapMixin, BasePage):
             next_block = self.body[i + 1] if (i + 1) < num_blocks else None
 
             is_last_block = next_block is None
-            next_is_stats = next_block and next_block.block_type == "statistics"
+            next_is_stats = next_block and next_block.block_type in [
+                "statistics",
+                "promo_banner",
+            ]
             backgrounds_match = next_block and next_block.value.get(
                 "background_color"
             ) == block.value.get("background_color")
@@ -478,9 +482,10 @@ class HomePage(TapMixin, BasePage):
                 is_last_block or next_is_stats or backgrounds_match
             )
 
-            # If the block is a statistics block, we need to check the previous and next block's
-            # background color to determine the background color for the notch.
-            if block.block_type == "statistics":
+            # If the block is a statistics or a promo banner block, we need to check the
+            # previous and next block's background color to determine the background colors
+            # for the notch.
+            if block.block_type in ["statistics", "promo_banner"]:
                 if previous_block and previous_block.block_type == "body_section":
                     processed_section["previous_block_bg"] = previous_block.value.get(
                         "background_color"
