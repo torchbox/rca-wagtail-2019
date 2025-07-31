@@ -1,5 +1,7 @@
+from collections import defaultdict
 from itertools import chain
 
+from django.core.exceptions import ValidationError
 from django.utils import timezone
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
@@ -20,6 +22,24 @@ class StraplineBlock(blocks.StructBlock):
         template = "patterns/molecules/streamfield/blocks/strapline_block.html"
         icon = "title"
         label = "Strapline"
+
+    def clean(self, value):
+        if not value:
+            return value
+
+        errors = defaultdict(list)
+        cta_url = value.get("cta_url", "")
+        cta_text = value.get("cta_text", "")
+
+        if cta_url and not cta_text:
+            errors["cta_text"].append("Please add the text to be displayed as a link")
+        if cta_text and not cta_url:
+            errors["cta_url"].append("Please add a URL value")
+
+        if errors:
+            raise ValidationError(errors)
+
+        return value
 
 
 class TransformationBlock(blocks.StructBlock):
