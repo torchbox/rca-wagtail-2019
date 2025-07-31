@@ -19,11 +19,11 @@
                 </a>
             {% endif %}
 
-            <div class="promo-banner__image-container">
+            <div class="promo-banner__media-container">
                 {% if value.image %}
                     {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=580 height=607 image_large=image_large classList='promo-banner__image' %}
                 {% else %}
-                    <video controls autoplay muted class="promo-banner__image">
+                    <video controls autoplay muted loading="lazy" preload="none" class="promo-banner__video">
                         <source src="{{ value.video.url }}" type="video/{{ value.video.file_extension }}">
                     </video>
                 {% endif %}
