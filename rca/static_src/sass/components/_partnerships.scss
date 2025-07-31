@@ -1,6 +1,18 @@
 .partnerships {
     $root: &;
 
+    &--block {
+        padding-bottom: ($gutter * 2.5);
+
+        @include media-query(medium) {
+            padding-bottom: ($gutter * 3);
+        }
+
+        @include media-query(large) {
+            padding-bottom: ($gutter * 7);
+        }
+    }
+
     &--tight-heading {
         #{$root}__heading {
             @include media-query(large) {

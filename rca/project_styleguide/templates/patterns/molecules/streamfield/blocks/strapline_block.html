@@ -1,0 +1,9 @@
+<div class="proposition-statement grid">
+    <h1 class="proposition-statement__introduction">{{ value.title }}</h1>
+    {% if value.cta_url and value.cta_text %}
+        <a href="{{ value.cta_url }}" class="proposition-statement__link link link--primary link--link link--book">
+            <span class="link__label">{{ value.cta_text }}</span>
+            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+        </a>
+    {% endif %}
+</div>

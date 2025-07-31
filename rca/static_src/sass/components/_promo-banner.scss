@@ -1,0 +1,105 @@
+.promo-banner {
+    $root: &;
+    position: relative; // allow absolute positioning of image to bottom of component
+    padding-top: ($gutter * 3);
+    padding-bottom: ($gutter * 4);
+
+    @include media-query(medium) {
+        padding-top: ($gutter * 2);
+        padding-bottom: ($gutter * 6);
+    }
+
+    @include media-query(large) {
+        min-height: ($gutter * 20);
+        padding-top: ($gutter * 7);
+        padding-bottom: ($gutter * 3.5);
+    }
+
+    &__intro {
+        grid-column: 1 / span 2;
+        margin-bottom: ($gutter * 2);
+
+        @include media-query(medium) {
+            grid-column: auto;
+            margin-bottom: 0;
+        }
+
+        @include media-query(large) {
+            grid-column: 2 / span 1;
+            min-width: 0;
+        }
+    }
+
+    &__heading {
+        padding-bottom: ($gutter * 1.5);
+        margin-bottom: ($gutter * 1.25);
+
+        .bg--dark & {
+            border-bottom: 1px solid $color--grid-line-light;
+        }
+
+        .bg--light & {
+            border-bottom: 1px solid $color--grid-line-dark;
+        }
+    }
+
+    &__text {
+        padding-right: $gutter;
+        margin-bottom: 0;
+
+        a {
+            color: $color--black;
+        }
+    }
+
+    &__link {
+        @include media-query(medium) {
+            align-self: flex-end;
+        }
+
+        @include media-query(large) {
+            margin-top: ($gutter * 12);
+            justify-content: space-between;
+        }
+    }
+
+    &__image-container {
+        grid-column: 1 / span 2;
+        order: -1;
+        margin-bottom: ($gutter * 2);
+
+        @include media-query(large) {
+            grid-column: auto;
+            order: 0;
+            margin-bottom: 0;
+        }
+
+        #{$root}__image {
+            @include z-index(above-gridlines);
+            height: 250px;
+            object-fit: cover;
+
+            @include media-query(large) {
+                bottom: 0;
+                height: calc(100% + 140px);
+                position: absolute;
+            }
+        }
+
+        @include media-query(large) {
+            display: block;
+        }
+    }
+
+    &.bg--dark {
+        #{$root}__text {
+            color: $color--meta-darkbg;
+        }
+    }
+
+    &.bg--light {
+        #{$root}__text {
+            color: $color--meta-lightbg;
+        }
+    }
+}
