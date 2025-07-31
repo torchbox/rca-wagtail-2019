@@ -2,8 +2,35 @@ import re
 
 import requests
 from bs4 import BeautifulSoup
+from wagtail.embeds.exceptions import EmbedNotFoundException
 from wagtail.embeds.finders.base import EmbedFinder
 from wagtail.embeds.finders.oembed import OEmbedFinder
+
+
+class InstagramOEmbedFinder(EmbedFinder):
+    """Embed finder support for Instagram using simple iframe approach."""
+
+    def accept(self, url):
+        return re.match(r"^https?://(?:www\.)?instagram\.com/(?:p|tv|reel)/.+$", url)
+
+    def find_embed(self, url, max_width=None):
+        # Extract the post ID from the URL
+        match = re.search(r"instagram\.com/(?:p|tv|reel)/([^/?]+)", url)
+        if not match:
+            raise EmbedNotFoundException
+
+        post_id = match.group(1)
+
+        html = f'<iframe src="https://www.instagram.com/p/{post_id}/embed/" frameborder="0" scrolling="no" allowtransparency="true"></iframe>'  # noqa: E501
+
+        return {
+            "title": f"Instagram Post {post_id}",
+            "provider_name": "Instagram",
+            "type": "rich",
+            "html": html,
+            "width": 400,
+            "height": 700,
+        }
 
 
 class CustomOEmbedFinder(OEmbedFinder):
