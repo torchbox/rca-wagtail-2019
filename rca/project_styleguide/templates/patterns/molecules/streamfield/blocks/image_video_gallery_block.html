@@ -1,0 +1,9 @@
+<div class="section">
+    <div class="section__header grid">
+        <h3 class="anchor-heading section__heading section__heading--secondary heading heading--four">{{ value.title }}</h3>
+    </div>
+
+    <div class="section__content">
+        {% include "patterns/organisms/slideshow/slideshow.html" with modifier="slideshow--block" alternative_design=True slideshow=value.image_video control_title="{{ value.title }}" %}
+    </div>
+</div>

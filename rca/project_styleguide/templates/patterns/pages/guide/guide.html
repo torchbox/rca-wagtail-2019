@@ -62,10 +62,19 @@
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
 
-                    <div class="section__row {% if not related_staff %}section__row--last{% endif %} section__row--first grid">
-                        <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                            {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body guide_page=True %}
-                        </div>
+                    <div class="section__row{% if not related_staff %} section__row--last{% endif %} section__row--first">
+                        {% for block in page.body %}
+                            {# If a block is the image video gallery, it will span the whole page so it can't be in a grid. #}
+                            {% if block.block_type == "image_video_gallery" %}
+                                {% include_block block %}
+                            {% else %}
+                                <div class="grid">
+                                    <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                                        {% include_block block %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
 
                     {% if related_staff %}

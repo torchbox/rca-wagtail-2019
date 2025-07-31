@@ -175,6 +175,46 @@ class GalleryBlock(blocks.StructBlock):
         icon = "image"
 
 
+class ImageVideoBlock(blocks.StructBlock):
+    # This differs from the 'GalleryBlock' as it only allows for an image/video.
+    image = ImageChooserBlock()
+    video_embed = EmbedBlock(
+        required=False,
+        help_text="Add a link to embed a video. Leave blank to only display an image.",
+    )
+    embed_play_button_label = blocks.CharBlock(
+        max_length=80,
+        required=False,
+        help_text="The text displayed below the video.",
+        # This is named `embed_play_button_label` to be consistent with `GalleryBlock`.
+        label="Caption",
+    )
+
+    def clean(self, value):
+        cleaned_data = super().clean(value)
+        if cleaned_data.get("video_embed") and not cleaned_data.get(
+            "embed_play_button_label"
+        ):
+            raise ValidationError("Caption is required when a video link is provided.")
+
+        return cleaned_data
+
+
+class ImageVideoGalleryBlock(blocks.StructBlock):
+    title = blocks.CharBlock()
+    image_video = blocks.StreamBlock(
+        [
+            ("item", ImageVideoBlock()),
+        ],
+    )
+
+    class Meta:
+        icon = "image"
+        template = (
+            "patterns/molecules/streamfield/blocks/image_video_gallery_block.html"
+        )
+
+
 class LinkedImageBlock(blocks.StructBlock):
     image = ImageChooserBlock()
     link = LinkBlock()

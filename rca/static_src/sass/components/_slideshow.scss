@@ -5,17 +5,14 @@
     padding-bottom: ($gutter * 2);
     overflow-x: hidden; // Prevent horizontal scroll on iOS
 
-    &__liveregion {
-        @include hidden();
+    &--block {
+        @include z-index(under-gridlines);
+        padding-bottom: 0;
+        position: relative;
     }
 
-    &__item {
-        opacity: $transition-opacity;
-        transition: opacity $transition;
-
-        &.glide__slide--active {
-            opacity: 1;
-        }
+    &__liveregion {
+        @include hidden();
     }
 
     &__controls {
@@ -25,6 +22,10 @@
             position: relative;
             top: -$meta-height;
             pointer-events: none; // ensure links in overlaid content still work
+
+            #{$root}--block & {
+                top: -50px;
+            }
         }
     }
 
@@ -34,7 +35,7 @@
         margin: 0 auto;
 
         @include media-query(large) {
-            @include z-index(overlap);
+            @include z-index(nav-overlay);
             grid-column: 5;
             margin: unset;
 
