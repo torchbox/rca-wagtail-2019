@@ -95,7 +95,28 @@ def social_media_links(context):
         "type": "wechat",
         "label": "WeChat",
     }
-    return [twitter, facebook, instagram, youtube, linkedin, tiktok, pinterest, wechat]
+    little_red_book_url = (
+        "https://www.xiaohongshu.com/user/profile/%s"
+        % settings["utils"]["SocialMediaSettings"].little_red_book_handle
+        if settings["utils"]["SocialMediaSettings"].little_red_book_handle
+        else False
+    )
+    little_red_book = {
+        "url": little_red_book_url,
+        "type": "little-red-book",
+        "label": "Little Red Book",
+    }
+    return [
+        twitter,
+        facebook,
+        instagram,
+        youtube,
+        linkedin,
+        tiktok,
+        pinterest,
+        wechat,
+        little_red_book,
+    ]
 
 
 default_domains = [
