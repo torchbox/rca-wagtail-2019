@@ -63,18 +63,20 @@
         }
     }
 
-    &__image-container {
+    &__media-container {
         grid-column: 1 / span 2;
         order: -1;
         margin-bottom: ($gutter * 2);
 
         @include media-query(large) {
+            display: block;
             grid-column: auto;
             order: 0;
             margin-bottom: 0;
         }
 
-        #{$root}__image {
+        #{$root}__image,
+        #{$root}__video {
             @include z-index(above-gridlines);
             height: 250px;
             object-fit: cover;
@@ -86,8 +88,10 @@
             }
         }
 
-        @include media-query(large) {
-            display: block;
+        #{$root}__video {
+            @include media-query(large) {
+                max-width: 620px;
+            }
         }
     }
 

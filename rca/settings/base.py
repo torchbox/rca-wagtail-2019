@@ -109,6 +109,7 @@ INSTALLED_APPS = [
     "rca.project_styleguide.apps.ProjectStyleguideConfig",
     "rest_framework",
     "corsheaders",
+    "wagtailmedia",
     "wagtail_rangefilter",
     "rangefilter",
     "wagtail_modeladmin",
