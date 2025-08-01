@@ -1110,8 +1110,12 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             {"title": "Curriculum"},
             {"title": "Requirements"},
             {"title": "Fees & funding"},
-            {"title": "Experience"},
         ]
+
+        # Only add the 'Experience' tab if the experience content is not empty.
+        if self.experience_introduction or self.experience_introduction or self.experience_content:
+            context["tabs"].append({"title": "Experience"})
+
         # Only add the 'apply tab' depending global settings or specific programme page settings
         site = Site.find_for_request(request)
         programme_settings = ProgrammeSettings.for_site(site)
