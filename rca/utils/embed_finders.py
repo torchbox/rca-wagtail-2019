@@ -45,6 +45,7 @@ class CustomOEmbedFinder(OEmbedFinder):
                 "endpoint": "https://www.tiktok.com/oembed",
                 "urls": [
                     r"^https?://(?:www\.)?tiktok\.com/@[\w.-]+/video/\d+.*$",
+                    r"^https?://(?:www\.)?tiktok\.com/@[\w.-]+/photo/\d+.*$",
                     r"^https?://vm\.tiktok\.com/[\w-]+/?$",
                     r"^https?://(?:www\.)?tiktok\.com/t/[\w-]+/?$",
                 ],
@@ -54,18 +55,24 @@ class CustomOEmbedFinder(OEmbedFinder):
         super().__init__(providers=additional_providers, **options)
 
     def find_embed(self, url, max_width=None):
+        # Convert TikTok photo URLs to video URLs for oEmbed API
+        if "tiktok.com" in url:
+            # Use regex to dynamically convert photo URLs to video URLs
+            url = re.sub(r"/photo/", "/video/", url)
+
         embed = super().find_embed(url, max_width)
         if embed["type"] == "video":
             soup = BeautifulSoup(embed["html"], "html.parser")
             iframe = soup.find("iframe")
 
             # a11y: set iframe title
-            try:
-                iframe.attrs["title"] = embed["title"]
-            except KeyError:
-                pass
+            if iframe:
+                try:
+                    iframe.attrs["title"] = embed["title"]
+                except KeyError:
+                    pass
 
-            embed["html"] = str(soup)
+                embed["html"] = str(soup)
 
         return embed
 

@@ -47,16 +47,12 @@ class NotableAlumniBlock(blocks.StructBlock):
 
 
 class ExperienceStoryBlock(blocks.StructBlock):
-    title = blocks.CharBlock(
-        max_length=255, help_text="The title of the story", required=True
-    )
-    image = ImageChooserBlock(help_text="Featured image for the story", required=True)
+    title = blocks.CharBlock(max_length=255, required=True)
+    image = ImageChooserBlock(required=True)
     content_type = blocks.CharBlock(
         max_length=100, help_text="e.g. 'Article', 'News', 'Feature'", required=True
     )
-    page = blocks.PageChooserBlock(
-        help_text="Link to the full story page", required=True
-    )
+    page = blocks.PageChooserBlock(required=True)
 
     class Meta:
         icon = "doc-full"
@@ -64,12 +60,8 @@ class ExperienceStoryBlock(blocks.StructBlock):
 
 
 class ExperienceStoriesBlock(blocks.StructBlock):
-    title = blocks.CharBlock(
-        max_length=255, help_text="The title of the stories", required=False
-    )
-    stories = blocks.ListBlock(
-        ExperienceStoryBlock(), help_text="The stories", min_num=1
-    )
+    title = blocks.CharBlock(max_length=255, required=False)
+    stories = blocks.ListBlock(ExperienceStoryBlock(), min_num=1)
 
     class Meta:
         icon = "doc-full"
@@ -79,13 +71,11 @@ class ExperienceStoriesBlock(blocks.StructBlock):
 class IndividualEmbedBlock(blocks.StructBlock):
     """A single embed with its own caption and source."""
 
-    embed = EmbedBlock(help_text="The embed URL", required=True)
-    caption = blocks.CharBlock(
-        max_length=255, help_text="The caption for this embed", required=True
-    )
+    embed = EmbedBlock(required=True)
+    caption = blocks.CharBlock(max_length=255, required=True)
     embed_source = blocks.CharBlock(
         max_length=100,
-        help_text="The source of this embed (e.g., YouTube, TikTok, Vimeo)",
+        help_text="The source of this embed (e.g., YouTube, TikTok, Instagram)",
         required=True,
     )
 
@@ -97,12 +87,10 @@ class IndividualEmbedBlock(blocks.StructBlock):
 class SocialEmbedBlock(blocks.StructBlock):
     title = blocks.CharBlock(
         max_length=255,
-        help_text="The title of the social embeds section",
         required=True,
     )
     embeds = blocks.ListBlock(
         IndividualEmbedBlock(),
-        help_text="The embeds with captions",
         min_num=1,
         max_num=12,
     )

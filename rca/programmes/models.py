@@ -856,8 +856,8 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             ObjectList(programme_curriculum_pannels, heading="Curriculum"),
             ObjectList(programme_requirements_pannels, heading="Requirements"),
             ObjectList(programme_fees_and_funding_panels, heading="Fees"),
-            ObjectList(programme_apply_pannels, heading="Apply"),
             ObjectList(experience_panels, heading="Experience"),
+            ObjectList(programme_apply_pannels, heading="Apply"),
             ObjectList(promote_panels, heading="Promote"),
             ObjectList(BasePage.settings_panels, heading="Settings"),
         ]

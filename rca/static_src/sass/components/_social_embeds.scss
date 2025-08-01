@@ -1,23 +1,18 @@
 .social-embeds {
     &__container {
-        margin-bottom: 4rem;
+        margin-bottom: $grid * 3;
     }
 
     &__caption {
-        margin-top: 1rem;
+        margin-top: $grid * 0.8;
     }
 
     &__item {
-        margin-right: 0.5rem;
+        margin-right: $grid * 0.4;
     }
 
     &__heading {
         margin: 0 0 0.5rem 0;
-    }
-
-    &__link {
-        text-decoration: underline;
-        color: inherit;
     }
 
     &__source {
