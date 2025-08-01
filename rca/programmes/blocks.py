@@ -2,6 +2,8 @@ from django.forms.utils import ErrorList
 from wagtail import blocks
 from wagtail.blocks import StructValue
 from wagtail.blocks.struct_block import StructBlockValidationError
+from wagtail.embeds.blocks import EmbedBlock
+from wagtail.images.blocks import ImageChooserBlock
 
 
 class NotableAlumniLinkStructValue(StructValue):
@@ -42,3 +44,57 @@ class NotableAlumniBlock(blocks.StructBlock):
     class Meta:
         icon = "link"
         value_class = NotableAlumniLinkStructValue
+
+
+class ExperienceStoryBlock(blocks.StructBlock):
+    title = blocks.CharBlock(max_length=255, required=True)
+    image = ImageChooserBlock(required=True)
+    content_type = blocks.CharBlock(
+        max_length=100, help_text="e.g. 'Article', 'News', 'Feature'", required=True
+    )
+    page = blocks.PageChooserBlock(required=True)
+
+    class Meta:
+        icon = "doc-full"
+        label = "Story"
+
+
+class ExperienceStoriesBlock(blocks.StructBlock):
+    title = blocks.CharBlock(max_length=255, required=False)
+    stories = blocks.ListBlock(ExperienceStoryBlock(), min_num=1)
+
+    class Meta:
+        icon = "doc-full"
+        label = "Stories"
+
+
+class IndividualEmbedBlock(blocks.StructBlock):
+    """A single embed with its own caption and source."""
+
+    embed = EmbedBlock(required=True)
+    caption = blocks.CharBlock(max_length=255, required=True)
+    embed_source = blocks.CharBlock(
+        max_length=100,
+        help_text="The source of this embed (e.g., YouTube, TikTok, Instagram)",
+        required=True,
+    )
+
+    class Meta:
+        icon = "media"
+        label = "Individual Embed"
+
+
+class SocialEmbedBlock(blocks.StructBlock):
+    title = blocks.CharBlock(
+        max_length=255,
+        required=True,
+    )
+    embeds = blocks.ListBlock(
+        IndividualEmbedBlock(),
+        min_num=1,
+        max_num=12,
+    )
+
+    class Meta:
+        icon = "code"
+        label = "Social Embed"

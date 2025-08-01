@@ -36,12 +36,17 @@ from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtailorderable.models import Orderable as WagtailOrdable
 
 from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
-from rca.programmes.blocks import NotableAlumniBlock
+from rca.programmes.blocks import (
+    ExperienceStoriesBlock,
+    NotableAlumniBlock,
+    SocialEmbedBlock,
+)
 from rca.programmes.utils import format_study_mode, get_accordion_snippet_content
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
     AccordionBlockWithTitle,
+    CTALinkBlock,
     FeeBlock,
     GalleryBlock,
     InfoBlock,
@@ -614,6 +619,27 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         help_text="The title of the social media links section",
     )
 
+    # Experience
+    experience_introduction = models.TextField(
+        blank=True,
+        help_text="Introductory text for the Experience section",
+    )
+    experience_cta_link = StreamField(
+        [("link", CTALinkBlock())],
+        blank=True,
+        max_num=1,
+        verbose_name="Experience CTA Link",
+    )
+    experience_content = StreamField(
+        [
+            ("social_embeds", SocialEmbedBlock()),
+            ("story", ExperienceStoriesBlock()),
+        ],
+        blank=True,
+        verbose_name="Experience Content",
+        help_text="Add social embeds or editorial page stories",
+    )
+
     tags = ClusterTaggableManager(through=ProgrammePageTag, blank=True)
 
     content_panels = (
@@ -801,6 +827,11 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         MultiFieldPanel([FieldPanel("steps")], heading="Before you begin"),
         FieldPanel("qs_code"),
     ]
+    experience_panels = [
+        FieldPanel("experience_introduction"),
+        FieldPanel("experience_cta_link"),
+        FieldPanel("experience_content"),
+    ]
     promote_panels = BasePage.promote_panels + [
         MultiFieldPanel(
             [
@@ -825,6 +856,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             ObjectList(programme_curriculum_pannels, heading="Curriculum"),
             ObjectList(programme_requirements_pannels, heading="Requirements"),
             ObjectList(programme_fees_and_funding_panels, heading="Fees"),
+            ObjectList(experience_panels, heading="Experience"),
             ObjectList(programme_apply_pannels, heading="Apply"),
             ObjectList(promote_panels, heading="Promote"),
             ObjectList(BasePage.settings_panels, heading="Settings"),
@@ -1078,6 +1110,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             {"title": "Curriculum"},
             {"title": "Requirements"},
             {"title": "Fees & funding"},
+            {"title": "Experience"},
         ]
         # Only add the 'apply tab' depending global settings or specific programme page settings
         site = Site.find_for_request(request)

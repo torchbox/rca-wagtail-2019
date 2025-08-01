@@ -1,0 +1,24 @@
+.social-embeds {
+    &__container {
+        margin-bottom: $grid * 3;
+    }
+
+    &__caption {
+        margin-top: $grid * 0.8;
+    }
+
+    &__item {
+        @include media-query(medium) {
+            margin-right: $grid;
+        }
+    }
+
+    &__heading {
+        margin: 0 0 0.5rem 0;
+    }
+
+    &__source {
+        margin: 0;
+        opacity: 0.8;
+    }
+}

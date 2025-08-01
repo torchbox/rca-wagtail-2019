@@ -52,6 +52,9 @@
                 <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="fees-funding" role="tabpanel" aria-labelledby="tab-fees-funding">
                     {% include "patterns/organisms/programme_tabs/fees-and-funding.html" %}
                 </div>
+                <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="experience" role="tabpanel" aria-labelledby="tab-experience">
+                    {% include "patterns/organisms/programme_tabs/experience.html" %}
+                </div>
                 {% if not settings.utils.ProgrammeSettings.disable_apply_tab and not page.disable_apply_tab %}
                 <div class="tabs__panel tabs__panel--hidden js-tab-panel" id="apply" role="tabpanel" aria-labelledby="tab-apply">
                     {% include "patterns/organisms/programme_tabs/apply.html" %}
