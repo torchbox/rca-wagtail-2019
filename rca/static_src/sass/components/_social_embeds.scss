@@ -8,7 +8,11 @@
     }
 
     &__item {
-        margin-right: $grid * 0.4;
+        margin-right: $grid;
+
+        @include media-query(tablet) {
+            margin-right: $grid;
+        }
     }
 
     &__heading {
