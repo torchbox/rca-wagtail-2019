@@ -54,9 +54,10 @@
                                 {% endfor %}
                             {% elif block.block_type == "story" %}
                                 {% for story in block.value.stories %}
+                                    {% image story.image fill-400x300 as image_small %}
+                                    {% image story.image fill-800x600 as image_large %}
                                     <div class="results__item layout__span-two layout__@medium-span-one story-sections__item">
-                                        {% image story.image fill-400x300 as story_image %}
-                                        <img src="{{ story_image.url }}" alt="{{ story.value.title }}" class="story-sections__image">
+                                        {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=400 height=300 image_large=image_large classList='story-sections__image' %}
                                         <h4 class="heading heading--five story-sections__heading">
                                             <a href="{{ story.value.page.url }}" class="link link--tertiary">{{ story.title }}</a>
                                         </h4>

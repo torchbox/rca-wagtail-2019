@@ -8,9 +8,7 @@
     }
 
     &__item {
-        margin-right: $grid;
-
-        @include media-query(tablet) {
+        @include media-query(medium) {
             margin-right: $grid;
         }
     }

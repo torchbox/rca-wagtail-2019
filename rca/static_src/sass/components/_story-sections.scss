@@ -1,7 +1,9 @@
 .story-sections {
     &__item {
-        margin-bottom: 4rem;
-        margin-right: 0.5rem;
+        margin-bottom: $grid * 3;
+        @include media-query(medium) {
+            margin-right: $grid;
+        }
     }
 
     &__image {
