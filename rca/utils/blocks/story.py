@@ -7,6 +7,7 @@ from .content import (
     CTALinkBlock,
     DocumentBlock,
     ImageBlock,
+    ImageVideoGalleryBlock,
     QuoteBlock,
     TableBlock,
 )
@@ -59,6 +60,7 @@ class GuideBlock(blocks.StreamBlock):
         label="Embed media",
         help_text="Add a URL from these providers: YouTube, Vimeo, SoundCloud, Twitter.",
     )
+    image_video_gallery = ImageVideoGalleryBlock()
     table = TableBlock()
     jw_video = JWPLayerBlock()
     vepple_panorama = VepplePanoramaBlock()

@@ -51,6 +51,15 @@
                 }
             }
         }
+
+        // When it's used in a slideshow, inactive slides should not be clickable.
+        .glide__slide & {
+            pointer-events: none;
+        }
+
+        .glide__slide--active & {
+            pointer-events: all;
+        }
     }
 
     &__play-icon {
@@ -78,5 +87,9 @@
         display: block;
         margin-top: $gutter;
         text-decoration: underline;
+
+        &--no-decoration {
+            text-decoration: none;
+        }
     }
 }
