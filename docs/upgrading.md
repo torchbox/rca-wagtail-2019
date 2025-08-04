@@ -19,6 +19,12 @@ As much as possible, we want to use the official releases available on PyPI for 
 
 It is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as they become available.
 
+## PostgreSQL extensions
+
+### pg_trgm extension
+
+The `pg_trgm` extension is enabled via Django migration (`rca/search/migrations/0001_initial.py`) to support trigram similarity search. The similarity threshold is defined as a constant in `rca/search/views.py`.
+
 ## Critical paths
 
 The following areas of functionality are critical paths for the site which don't have full automated tests and should be checked manually.
