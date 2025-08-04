@@ -687,8 +687,10 @@ WAGTAIL_SITE_NAME = "RCA Website"
 WAGTAILEMBEDS_RESPONSIVE_HTML = True
 
 WAGTAILEMBEDS_FINDERS = [
+    {"class": "wagtail.embeds.finders.oembed"},
     {"class": "rca.utils.embed_finders.CustomOEmbedFinder"},
     {"class": "rca.utils.embed_finders.WixEmbedFinder"},
+    {"class": "rca.utils.embed_finders.InstagramOEmbedFinder"},
 ]
 
 # This project uses it's own customised version

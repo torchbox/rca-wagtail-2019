@@ -1,0 +1,80 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<section class="section section--start section--end bg bg--dark">
+    <header class="section__header grid">
+        <h2 class="section__heading section__heading--primary heading heading--two">Experience</h2>
+    </header>
+    <div class="section__content">
+        
+        {% if page.experience_introduction or page.experience_cta_link %}
+            <div class="overview grid">
+                {% if page.experience_introduction %}
+                    <div class="overview__item">
+                        <div class="overview__introduction introduction">
+                            {{ page.experience_introduction }}
+                        </div>
+                    </div>
+                {% endif %}
+                
+                {% if page.experience_cta_link %}
+                    <div class="overview__item">
+                        <div class="overview__item-action">
+                            {% for block in page.experience_cta_link %}
+                                {% include_block block %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if page.experience_content %}
+            {% for block in page.experience_content %}
+                <div class="social-embeds{% if not forloop.first %} section section--top-space{% endif %}">
+                    <div class="section__header grid">
+                        <h3 class="section__heading section__heading--secondary heading heading--three">{{ block.value.title }}</h3>
+                    </div>
+                    <div class="section__row grid">
+                        <div class="results layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                            {% if block.block_type == "social_embeds" %}
+                                {% for individual_embed in block.value.embeds %}
+                                    <div class="results__item layout__span-two layout__@medium-span-one social-embeds__container">
+                                        <div class="embed-container">
+                                            {{ individual_embed.embed.html|safe }}
+                                            <div class="social-embeds__caption">
+                                                <h4 class="heading heading--five social-embeds__heading">
+                                                    <a href="{{ individual_embed.embed.url }}" class="link link--tertiary">{{ individual_embed.caption }}</a>
+                                                </h4>
+                                                <p class="social-embeds__content-type">
+                                                    From {{ individual_embed.embed_source }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% elif block.block_type == "story" %}
+                                {% for story in block.value.stories %}
+                                    {% image story.image fill-400x300 as image_small %}
+                                    {% image story.image fill-800x600 as image_large %}
+                                    <div class="results__item layout__span-two layout__@medium-span-one social-embeds__container">
+                                        {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=400 height=300 image_large=image_large classList='social-embeds__image' %}
+                                        <h4 class="heading heading--five social-embeds__heading">
+                                            <a href="{{ story.value.page.url }}" class="link link--tertiary">{{ story.title }}</a>
+                                        </h4>
+                                        <p class="social-embeds__content-type">{{ story.content_type }}</p>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="section bg bg--light">
+    <div class="section__notch section__notch--top">
+        <div class="section__notch-fill section__notch-fill--third-col"></div>
+    </div>
+</section> 
