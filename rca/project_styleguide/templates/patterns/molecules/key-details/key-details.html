@@ -87,7 +87,11 @@
                 <ul class="key-details__list">
                     {% for location in page.campus_locations %}
                     <li class="key-details__list-item">
-                        {{ location}}
+                        {% if location.programme_location_url %}
+                            <a href="{{ location.programme_location_url }}" class="link link--tertiary">{{ location.programme_location__title }}</a>
+                        {% else %}
+                            {{ location.programme_location__title }}
+                        {% endif %}
                     </li>
                     {% endfor %}
                 </ul>
