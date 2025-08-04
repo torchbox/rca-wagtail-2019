@@ -6,11 +6,11 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
-from wagtail.fields import StreamField
 from wagtail.search import index
 
 from rca.utils.blocks import GuideBlock
 from rca.utils.blocks.content import AccordionBlock
+from rca.utils.fields import StreamField
 from rca.utils.models import (
     BasePage,
     ContactFieldsMixin,
