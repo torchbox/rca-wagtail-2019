@@ -30,7 +30,7 @@
 
         {% if page.experience_content %}
             {% for block in page.experience_content %}
-                {% if block.block_type == "social_embeds" or block.block_type == "story" %}
+                <div class="social-embeds{% if not forloop.first %} section section--top-space{% endif %}">
                     <div class="section__header grid">
                         <h3 class="section__heading section__heading--secondary heading heading--three">{{ block.value.title }}</h3>
                     </div>
@@ -38,14 +38,14 @@
                         <div class="results layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                             {% if block.block_type == "social_embeds" %}
                                 {% for individual_embed in block.value.embeds %}
-                                    <div class="results__item layout__span-two layout__@medium-span-one social-embeds__item">
-                                        <div class="embed-container social-embeds__container">
+                                    <div class="results__item layout__span-two layout__@medium-span-one social-embeds__container">
+                                        <div class="embed-container">
                                             {{ individual_embed.embed.html|safe }}
                                             <div class="social-embeds__caption">
                                                 <h4 class="heading heading--five social-embeds__heading">
                                                     <a href="{{ individual_embed.embed.url }}" class="link link--tertiary">{{ individual_embed.caption }}</a>
                                                 </h4>
-                                                <p class="social-embeds__source">
+                                                <p class="social-embeds__content-type">
                                                     From {{ individual_embed.embed_source }}
                                                 </p>
                                             </div>
@@ -56,19 +56,19 @@
                                 {% for story in block.value.stories %}
                                     {% image story.image fill-400x300 as image_small %}
                                     {% image story.image fill-800x600 as image_large %}
-                                    <div class="results__item layout__span-two layout__@medium-span-one story-sections__item">
-                                        {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=400 height=300 image_large=image_large classList='story-sections__image' %}
-                                        <h4 class="heading heading--five story-sections__heading">
+                                    <div class="results__item layout__span-two layout__@medium-span-one social-embeds__container">
+                                        {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=400 height=300 image_large=image_large classList='social-embeds__image' %}
+                                        <h4 class="heading heading--five social-embeds__heading">
                                             <a href="{{ story.value.page.url }}" class="link link--tertiary">{{ story.title }}</a>
                                         </h4>
-                                        <p class="story-sections__content-type">{{ story.content_type }}</p>
+                                        <p class="social-embeds__content-type">{{ story.content_type }}</p>
                                     </div>
                                 {% endfor %}
                             {% endif %}
                         </div>
                     </div>
-                {% endif %}
-            {% endfor %}
+                {% endfor %}
+            </div>
         {% endif %}
     </div>
 </section>
