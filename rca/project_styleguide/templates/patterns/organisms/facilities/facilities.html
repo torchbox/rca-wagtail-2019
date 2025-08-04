@@ -28,6 +28,14 @@
     {% endwith %}
 </div>
 
+{% if page.vepple_post_id %}
+<div class="section__row grid">
+    <div class="facilities__vepple embed embed--vepple layout layout__start_one layout__span-two layout__@large-start-two layout__@large-span-three">
+        <vepple-tour loader="false" id="{{ page.vepple_post_id }}" url="{{ vepple_api_url }}"></vepple-tour> 
+    </div>
+</div>
+{% endif %}
+
 <div class="section__row facilities__slideshow {% if alumni_links %}{% else %}facilities__slideshow--bottom-padding{% endif %}">
     {% include "patterns/organisms/slideshow/slideshow.html" with slideshow=page.facilities_gallery control_title="Facilities slideshow" modifier=slideshowModifier %}
 </div>
