@@ -1,6 +1,29 @@
 .slide {
     $root: &;
 
+    // When used as a block, when scrolling through the slideshow
+    // it  must be on top of whatever's on the sidebar. Since we have an
+    // opacity effect, we need to set the background color to show that it's on
+    // top.
+    .slideshow--block & {
+        .bg--dark & {
+            background-color: $color--black;
+        }
+
+        .bg--light & {
+            background-color: $color--white;
+        }
+    }
+
+    &__overlay {
+        opacity: $transition-opacity;
+        transition: opacity $transition;
+
+        .glide__slide--active & {
+            opacity: 1;
+        }
+    }
+
     &--author {
         #{$root}__meta {
             @include media-query(medium) {
