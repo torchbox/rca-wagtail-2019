@@ -1113,7 +1113,11 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ]
 
         # Only add the 'Experience' tab if the experience content is not empty.
-        if self.experience_introduction or self.experience_introduction or self.experience_content:
+        if (
+            self.experience_introduction
+            or self.experience_introduction
+            or self.experience_content
+        ):
             context["tabs"].append({"title": "Experience"})
 
         # Only add the 'apply tab' depending global settings or specific programme page settings
