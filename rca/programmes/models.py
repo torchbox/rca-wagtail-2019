@@ -26,7 +26,7 @@ from wagtail.blocks import CharBlock, StructBlock
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.embeds import embeds
 from wagtail.embeds.exceptions import EmbedException
-from wagtail.fields import RichTextField, StreamBlock, StreamField
+from wagtail.fields import RichTextField, StreamBlock
 from wagtail.images import get_image_model_string
 from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.blocks import ImageChooserBlock
@@ -55,6 +55,7 @@ from rca.utils.blocks import (
     RelatedPageListBlockPage,
     StepBlock,
 )
+from rca.utils.fields import StreamField
 from rca.utils.formatters import related_list_block_slideshow
 from rca.utils.models import (
     BasePage,
