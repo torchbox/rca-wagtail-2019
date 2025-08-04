@@ -24,79 +24,88 @@
         {% include "patterns/atoms/grid-lines/grid-lines.html" %}
 
         <div class="page__content">
+            {% if page.body %}
+                {% for item in processed_body %}
+                    {% with section=item.block %}
+                        {% if section.block_type == "statistics" %}
+                            {% include "patterns/organisms/stat-block/stat-block.html" with modifier="transparent" stats_block=section.value top_notch_bg=item.previous_block_bg bottom_notch_bg=item.next_block_bg %} 
+                        {% elif section.block_type == "promo_banner" %}
+                            {% include_block section with previous_section_bg=item.previous_block_bg next_section_bg=item.next_block_bg %}
+                        {% else %}
+                            {# This is a body section block. #}
+                            <section class="section section--top-space bg bg--{{ section.value.background_color }}">
+                                {% for block in section.value.content %}
+                                    {% include_block block %}
+                                {% endfor %}
 
-            {% if page.strapline %}
-                <section class="section section--top-space-large bg bg--dark">
-
-                    <div class="proposition-statement grid">
-                        <h1 class="proposition-statement__introduction">{{ page.strapline }}</h1>
-                        {% if page.strapline_cta_url and page.strapline_cta_text %}
-                            <a href="{{ page.strapline_cta_url }}" class="proposition-statement__link link link--primary link--link link--book">
-                                <span class="link__label">{{ page.strapline_cta_text }}</span>
-                                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                            </a>
+                                {% if item.should_display_notch %}
+                                    <div class="section__notch">
+                                        <div class="section__notch-fill {% cycle 'section__notch-fill--second-col' 'section__notch-fill--third-col' %}"></div>
+                                    </div>
+                                {% endif %}
+                            </section>
                         {% endif %}
-                    </div>
-
-                    <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--second-col"></div>
-                    </div>
-
-                </section>
-            {% endif %}
-            {% if transformation_block %}
-                    <section class="section section--top-space bg bg--light">
-                        {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=transformation_block.video heading=transformation_block.heading subheading=transformation_block.sub_heading image=transformation_block.image has_meta=True meta_heading=transformation_block.page_title meta_copy=transformation_block.page_summary href=transformation_block.page_link_url caption=transformation_block.video_caption video=transformation_block.video read_more_text=transformation_block.read_more_link_text %}
-                        {% comment %}
-                            <div class="section__notch">
-                                <div class="section__notch-fill section__notch-fill--third-col"></div>
-                            </div>
-                        {% endcomment %}
+                    {% endwith %}
+                {% endfor %}
+            {% else %}
+                {% if page.strapline %}
+                    <section class="section section--top-space-large bg bg--dark">
+                        <div class="proposition-statement grid">
+                            <h1 class="proposition-statement__introduction">{{ page.strapline }}</h1>
+                            {% if page.strapline_cta_url and page.strapline_cta_text %}
+                                <a href="{{ page.strapline_cta_url }}" class="proposition-statement__link link link--primary link--link link--book">
+                                    <span class="link__label">{{ page.strapline_cta_text }}</span>
+                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                </a>
+                            {% endif %}
+                        </div>
+                        <div class="section__notch">
+                            <div class="section__notch-fill section__notch-fill--second-col"></div>
+                        </div>
                     </section>
-
-            {% endif %}
-
-            {% if alumni_stories %}
-                <section class="section section--top-space bg bg--dark">
-
-                    <div class="alumni-stories">
-                        <div class="alumni-stories__header grid">
-                            <h2 class="alumni-stories__heading heading heading--one">Where will the RCA take you?</h2>
+                {% endif %}
+                {% if transformation_block %}
+                        <section class="section section--top-space bg bg--light">
+                            {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=transformation_block.video heading=transformation_block.heading subheading=transformation_block.sub_heading image=transformation_block.image has_meta=True meta_heading=transformation_block.page_title meta_copy=transformation_block.page_summary href=transformation_block.page_link_url caption=transformation_block.video_caption video=transformation_block.video read_more_text=transformation_block.read_more_link_text %}
+                            {% comment %}
+                                <div class="section__notch">
+                                    <div class="section__notch-fill section__notch-fill--third-col"></div>
+                                </div>
+                            {% endcomment %}
+                        </section>
+                {% endif %}
+                {% if alumni_stories %}
+                    <section class="section section--top-space bg bg--dark">
+                        <div class="alumni-stories">
+                            <div class="alumni-stories__header grid">
+                                <h2 class="alumni-stories__heading heading heading--one">Where will the RCA take you?</h2>
+                            </div>
+                            <div class="alumni-stories__carousel grid">
+                                {% include "patterns/organisms/carousel/carousel_api_content.html" with carousel=alumni_stories modifier='carousel' control_title="Alumni Stories" datatag='data-carousel' %}
+                            </div>
                         </div>
-
-                        <div class="alumni-stories__carousel grid">
-                            {% include "patterns/organisms/carousel/carousel_api_content.html" with carousel=alumni_stories modifier='carousel' control_title="Alumni Stories" datatag='data-carousel' %}
+                    </section>
+                {% endif %}
+                {% if stats_block %}
+                    {% include "patterns/organisms/stat-block/stat-block.html" %}
+                {% endif %}
+                {% if partnerships_block %}
+                    <section class="section section--end section--top-space bg bg--light">
+                        <div class="partnerships">
+                            <div class="partnerships__header grid">
+                                <h2 class="partnerships__heading heading heading--one">{{ partnerships_block.title }}</h2>
+                                <p class="partnerships__introduction">{{ partnerships_block.summary }}</p>
+                            </div>
+                            <div class="partnerships__carousel">
+                                {% include "patterns/organisms/carousel/carousel--square.html" with carousel=partnerships_block.slides modifier='carousel--square' control_title="Partnership carousel" datatag='data-peek-carousel' %}
+                            </div>
                         </div>
-                    </div>
-
-                </section>
-            {% endif %}
-
-            {% if stats_block %}
-                {% include "patterns/organisms/stat-block/stat-block.html" %}
-            {% endif %}
-
-            {% if partnerships_block %}
-                <section class="section section--end section--top-space bg bg--light">
-                    <div class="partnerships">
-                        <div class="partnerships__header grid">
-                            <h2 class="partnerships__heading heading heading--one">{{ partnerships_block.title }}</h2>
-                            <p class="partnerships__introduction">{{ partnerships_block.summary }}</p>
-                        </div>
-                        <div class="partnerships__carousel">
-                            {% include "patterns/organisms/carousel/carousel--square.html" with carousel=partnerships_block.slides modifier='carousel--square' control_title="Partnership carousel" datatag='data-peek-carousel' %}
-                        </div>
-
-                    </div>
-                </section>
-            {% endif %}
-
+                    </section>
+                {% endif %}
                 <section class="section section--end bg bg--dark">
-
                     <div class="section__notch section__notch--top">
                         <div class="section__notch-fill section__notch-fill--third-col"></div>
                     </div>
-
                     {% if news_and_events %}
                         <div class="section__container">
                             <header class="section__header grid">
@@ -104,13 +113,13 @@
                                     {% firstof page.news_and_events_title 'What&#39;s happening at the RCA'%}
                                 </h3>
                             </header>
-                                <div class="section__content grid">
-                                    {% include "patterns/organisms/news/news_api_content.html" with news=news_and_events %}
-                                </div>
+                            <div class="section__content grid">
+                                {% include "patterns/organisms/news/news_api_content.html" with news=news_and_events %}
+                            </div>
                         </div>
                     {% endif %}
                 </section>
-
+            {% endif %}
         </div>
 
     </div>

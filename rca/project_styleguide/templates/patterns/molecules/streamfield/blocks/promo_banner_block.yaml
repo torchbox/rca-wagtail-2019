@@ -1,0 +1,21 @@
+context:
+  value:
+    title: Showcase
+    strapline: "Discover the art and design world's newest talent and latest innovations."
+    cta:
+      url: '#'
+      title: Register your interest with us here
+    background_color: dark
+
+tags:
+  image:
+    value.image fill-80x84 as image_small:
+      target_var: image_small
+      raw:
+        url: '//placekitten.com/80/84'
+    value.image fill-580x607 as image_large:
+      target_var: image_large
+      raw:
+        url: '//placekitten.com/580/607'
+        width: '580'
+        height: '607'

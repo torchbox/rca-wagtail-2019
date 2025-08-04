@@ -3,7 +3,7 @@
 <section class="section section--stat-block {% if modifier %}section--{{ modifier }}{% endif %} {% if stats_block_default_notch_override %}section--stat-block-notch-override{% endif %} bg bg--stat-block bg--dark" data-stat-block style="--stat-block-bg-image: url('{{ bg_image.url }}')">
 
     <div class="section__notch {% if not stats_block_default_notch_override %}section__notch--transparent section__notch--opposite{% endif %}">
-        <div class="section__notch-fill section__notch-fill--second-col"></div>
+        <div class="section__notch-fill section__notch-fill--second-col{% if top_notch_bg %} section__notch-fill--{{ top_notch_bg }}{% endif %}"></div>
     </div>
 
     <div class="section__row stat-block {% if stats_block.statistics|length > 3 %}stat-block--large{% endif %}">
@@ -56,6 +56,6 @@
     {% endif %}
 
     <div class="section__notch {% if stats_block_default_notch_override %}section__notch--opposite{% endif %}">
-        <div class="section__notch-fill section__notch-fill--second-col"></div>
+        <div class="section__notch-fill section__notch-fill--second-col{% if bottom_notch_bg %} section__notch-fill--{{ bottom_notch_bg }}{% endif %}"></div>
     </div>
 </section>

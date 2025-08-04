@@ -154,6 +154,18 @@
         }
     }
 
+    &--top-margin {
+        margin-top: ($gutter * 2.5);
+
+        @include media-query(medium) {
+            margin-top: ($gutter * 3);
+        }
+
+        @include media-query(large) {
+            margin-top: ($gutter * 7);
+        }
+    }
+
     &--extra-margin-bottom {
         @include media-query(medium) {
             margin-bottom: $notch-height-medium;
@@ -303,6 +315,14 @@
                         background-color: $color--black; // Changed from black to white for API module removal
                     }
                 }
+
+                #{$root}__notch-fill--light {
+                    background-color: $color--white; // Changed from black to white for API module removal
+
+                    &::before {
+                        background-color: $color--white; // Changed from black to white for API module removal
+                    }
+                }
             }
 
             &:last-child {
@@ -311,6 +331,14 @@
 
                     &::before {
                         background-color: $color--white; // Changed from white to black for API module removal
+                    }
+                }
+
+                #{$root}__notch-fill--dark {
+                    background-color: $color--black; // Changed from black to white for API module removal
+
+                    &::before {
+                        background-color: $color--black; // Changed from black to white for API module removal
                     }
                 }
             }
@@ -573,7 +601,7 @@
             }
         }
 
-        .bg--dark & {
+        .bg--dark &:not(&--light):not(&--dark) {
             background-color: $color--white;
 
             &::before {
@@ -581,7 +609,23 @@
             }
         }
 
-        .bg--light & {
+        .bg--light &:not(&--light):not(&--dark) {
+            background-color: $color--black;
+
+            &::before {
+                background-color: $color--black;
+            }
+        }
+
+        &--light {
+            background-color: $color--white;
+
+            &::before {
+                background-color: $color--white;
+            }
+        }
+
+        &--dark {
             background-color: $color--black;
 
             &::before {
@@ -834,6 +878,12 @@
                     }
                 }
             }
+        }
+    }
+
+    &--transparent {
+        #{$root}__notch {
+            background-color: transparent;
         }
     }
 }

@@ -49,6 +49,10 @@
         }
     }
 
+    .app--homepage & {
+        margin-bottom: ($gutter * 2);
+    }
+
     // Theme management
     .bg--dark & {
         #{$root}__sub-features {
