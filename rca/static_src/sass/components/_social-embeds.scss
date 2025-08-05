@@ -18,6 +18,17 @@
         margin-bottom: $grid * 0.4;
     }
 
+    &__link {
+        @include underline-hover-target();
+        position: relative;
+        color: $color--white;
+
+        &:hover,
+        &:focus {
+            @include underline-hover-target-reset();
+        }
+    }
+
     &__content-type {
         opacity: 0.8;
     }
