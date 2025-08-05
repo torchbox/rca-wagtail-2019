@@ -89,6 +89,8 @@
         }
 
         #{$root}__video {
+            max-width: 100%;
+
             @include media-query(large) {
                 max-width: 620px;
             }
