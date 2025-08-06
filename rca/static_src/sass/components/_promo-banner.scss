@@ -68,7 +68,7 @@
         order: -1;
         margin-bottom: ($gutter * 2);
 
-        @include media-query(large) {
+        @media only screen and (min-width: 1024px) {
             display: block;
             grid-column: auto;
             order: 0;
@@ -79,19 +79,21 @@
         #{$root}__video {
             @include z-index(above-gridlines);
             height: 250px;
+            max-width: 100%;
             object-fit: cover;
 
-            @include media-query(large) {
+            @media only screen and (min-width: 1024px) {
                 bottom: 0;
                 height: calc(100% + 140px);
+                max-width: 340px;
                 position: absolute;
             }
-        }
 
-        #{$root}__video {
-            max-width: 100%;
+            @media only screen and (min-width: 1360px) {
+                max-width: 420px;
+            }
 
-            @include media-query(large) {
+            @media only screen and (min-width: 1530px) {
                 max-width: 620px;
             }
         }
