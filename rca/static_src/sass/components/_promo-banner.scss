@@ -63,31 +63,43 @@
         }
     }
 
-    &__image-container {
+    &__media-container {
         grid-column: 1 / span 2;
         order: -1;
         margin-bottom: ($gutter * 2);
 
-        @include media-query(large) {
+        @media only screen and (min-width: 1024px) {
+            display: block;
             grid-column: auto;
             order: 0;
             margin-bottom: 0;
         }
 
-        #{$root}__image {
+        #{$root}__image,
+        #{$root}__video {
             @include z-index(above-gridlines);
             height: 250px;
+            max-width: 100%;
             object-fit: cover;
 
-            @include media-query(large) {
+            @media only screen and (min-width: 1024px) {
                 bottom: 0;
                 height: calc(100% + 140px);
+                max-width: 412px;
                 position: absolute;
             }
-        }
 
-        @include media-query(large) {
-            display: block;
+            @media only screen and (min-width: 1180px) {
+                max-width: 470px;
+            }
+
+            @media only screen and (min-width: 1300px) {
+                max-width: 519px;
+            }
+
+            @media only screen and (min-width: 1530px) {
+                max-width: 620px;
+            }
         }
     }
 
