@@ -85,12 +85,16 @@
             @media only screen and (min-width: 1024px) {
                 bottom: 0;
                 height: calc(100% + 140px);
-                max-width: 380px;
+                max-width: 412px;
                 position: absolute;
             }
 
-            @media only screen and (min-width: 1360px) {
+            @media only screen and (min-width: 1180px) {
                 max-width: 470px;
+            }
+
+            @media only screen and (min-width: 1300px) {
+                max-width: 519px;
             }
 
             @media only screen and (min-width: 1530px) {
