@@ -53,7 +53,7 @@ gunicorn = ["gunicorn"]
 
 [tool.poetry.group.dev.dependencies]
 Werkzeug = "~3.1.3"
-django-extensions = "~3.2"
+django-extensions = "~4.1"
 fabric = "~3.2"
 stellar = "~0.4"
 wagtailmakeup = "^1.1.0"
@@ -63,7 +63,7 @@ black = "^25.1.0"
 detect-secrets = "~1.5"
 flake8 = "7.3.0"
 isort = "6.0.1"
-pre-commit = "~4.2"
+pre-commit = "~4.3"
 
 # Documentation
 mkdocs = "~1.6"
