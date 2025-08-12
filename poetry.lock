@@ -2964,13 +2964,13 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 
 [[package]]
 name = "wagtail"
-version = "7.0.1"
+version = "7.0.2"
 description = "A Django content management system."
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "wagtail-7.0.1-py3-none-any.whl", hash = "sha256:92439c50a919826a4ce8c85bdaf3ed0e436d29598bb2954b4fca5f312b969666"},
-    {file = "wagtail-7.0.1.tar.gz", hash = "sha256:cfc5c37738f98cae380a15252f5676604f6c61554bef1a3791e34de1e703beec"},
+    {file = "wagtail-7.0.2-py3-none-any.whl", hash = "sha256:3bf1c9edd5ea9cdf191a83709bfbdaf071186fc11323adf7194e4fa62d52ddec"},
+    {file = "wagtail-7.0.2.tar.gz", hash = "sha256:053c8dfa3d41979eb8bb5d76e82b1b251926fa263766744f33e452b00e82fe68"},
 ]
 
 [package.dependencies]
@@ -2990,7 +2990,7 @@ openpyxl = ">=3.0.10,<4.0"
 Pillow = ">=9.1.0,<12.0.0"
 requests = ">=2.11.1,<3.0"
 telepath = ">=0.3.1,<1"
-Willow = {version = ">=1.10.0,<2", extras = ["heif"]}
+Willow = {version = ">=1.11.0,<2", extras = ["heif"]}
 
 [package.extras]
 docs = ["Sphinx (>=7.3)", "myst_parser (==2.0.0)", "pyenchant (>=3.1.1,<4)", "sphinx-autobuild (>=0.6.0)", "sphinx-wagtail-theme (==6.5.0)", "sphinxcontrib-spelling (>=7,<8)"]
@@ -3072,13 +3072,18 @@ version = "1.2.0"
 description = "Orderable support for Wagtail"
 optional = false
 python-versions = "*"
-files = [
-    {file = "wagtail-orderable-1.2.0.tar.gz", hash = "sha256:3355f91d09cd711960a03d83d2783d35b38735da6cd51fc9ab28fdbf635da050"},
-    {file = "wagtail_orderable-1.2.0-py3-none-any.whl", hash = "sha256:b1b951013630cfb6ab13b189a51cfcc78faa668f6b3bd8811359b331e2666763"},
-]
+files = []
+develop = false
 
 [package.dependencies]
-wagtail = ">=4.1"
+wagtail = ">=5.2"
+wagtail-modeladmin = ">=2.0.0"
+
+[package.source]
+type = "git"
+url = "https://github.com/torchbox-forks/wagtail-orderable.git"
+reference = "HEAD"
+resolved_reference = "03c6425f44526e301bfe869e9d33b696324382c6"
 
 [[package]]
 name = "wagtail-rangefilter"
@@ -3358,4 +3363,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.11"
-content-hash = "326254554041a064e57b98726154a7fafc8cd534db2aab9ae7713fc6e34c8226"
+content-hash = "dad687c373d0f2f86359d6059b119ba4581be83de17952c487b4fde71e3722e7"
