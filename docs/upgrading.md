@@ -17,6 +17,14 @@ As much as possible, we want to use the official releases available on PyPI for 
 
 **Last tested for wagtail 7.0 upgrade** Comments in the pyproject.toml file may have more detailed information.
 
+wagtail-accessibility
+wagtail-django-recaptcha
+wagtail-factories
+wagtail-modeladmin
+wagtail-orderable (uses a forked tag)
+wagtail-rangefilter
+wagtail-storages
+
 It is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as they become available.
 
 ## PostgreSQL extensions
