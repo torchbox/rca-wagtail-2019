@@ -133,11 +133,18 @@ As well as testing the critical paths, these areas of functionality should be ch
 
 The following templates are overridden and should be checked for changes when upgrading Wagtail:
 
-Last checked against Wagtail version: 6.4
+Last checked against Wagtail version: 7.0
 
 - `rca/account_management/templates/wagtailadmin/base.html`
 - `rca/project_styleguide/templates/patterns/pages/auth/login.html` - This was overridden to add the "Sign in with single sign-on" button to the login template.
-- `rca/images/forms.py` - default wagtail image upload form extended to provide copyright aknowledgement checkbox.
+- `rca/images/forms.py` - default wagtail image upload form extended to provide copyright acknowledgement checkbox.
+
+## Overridden wagtail-modeladmin templates
+
+These have been overridden to add the Delete button to the list view.
+
+- `rca/scholarships/templates/scholarships/index.html`
+- `rca/enquire_to_study/templates/enquire_to_study/index.html`
 
 ---
 
