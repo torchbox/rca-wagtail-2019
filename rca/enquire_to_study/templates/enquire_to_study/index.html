@@ -8,6 +8,16 @@
 {% block css %}
     {{ block.super }}
     {{ view.media.css }}
+    <style>
+        {% comment %} 
+            This causes the pagination links to be spaced evenly so they align left and right respectively.
+            Otherwise they cover the pagination content.
+            One caveat is that when only the next link is present, it will display on the left side.
+        {% endcomment %}
+        .pagination ul {
+           justify-content: space-between;
+        }
+    </style>
 {% endblock %}
 
 {% block extra_js %}
@@ -19,7 +29,6 @@
     {% block header %}
         {% fragment as breadcrumb %}{% block breadcrumb %}{% endblock %}{% endfragment %}
         {% fragment as heading %}{% block h1 %}{% endblock %}{% endfragment %}
-        {% fragment as description %}{% include 'modeladmin/includes/result_count.html' %}{% endfragment %}
         {% fragment as extra_actions %}
             {% block header_extra %}
                 {% if view.list_export or user_can_create %}
