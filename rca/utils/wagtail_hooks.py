@@ -1,9 +1,9 @@
 from django.utils.html import escape
 from wagtail import hooks
+from wagtail.admin.viewsets.base import ViewSetGroup
 from wagtail.rich_text import LinkHandler
 from wagtail_modeladmin.options import ModelAdmin, ModelAdminGroup, modeladmin_register
 from wagtail_modeladmin.views import IndexView
-from wagtailorderable.modeladmin.mixins import OrderableMixin
 
 from rca.editorial.models import Author, EditorialType
 from rca.events.models import (
@@ -18,9 +18,9 @@ from rca.programmes.models import (
     DegreeLevel,
     ProgrammeLocation,
     ProgrammeStudyMode,
-    ProgrammeType,
     Subject,
 )
+from rca.programmes.viewsets import ProgrammeTypeViewSet
 from rca.scholarships.models import (
     ScholarshipEligibilityCriteria,
     ScholarshipFeeStatus,
@@ -62,12 +62,6 @@ class ProgrammeStudyModeModelAdmin(ModelAdmin):
     model = ProgrammeStudyMode
     index_view_class = ProgrammeStudyModeIndexView
     menu_icon = "tag"
-
-
-class ProgrammeTypeModelAdmin(OrderableMixin, ModelAdmin):
-    model = ProgrammeType
-    menu_icon = "tag"
-    ordering = ["sort_order"]
 
 
 class ProgrammeLocationModelAdmin(ModelAdmin):
@@ -168,7 +162,6 @@ class TaxonomiesModelAdminGroup(ModelAdminGroup):
     menu_label = "Taxonomies"
     items = (
         DegreeLevelModelAdmin,
-        ProgrammeTypeModelAdmin,
         ProgrammeStudyModeModelAdmin,
         ProgrammeLocationModelAdmin,
         SubjectModelAdmin,
@@ -210,3 +203,16 @@ class TargetBlankExternalLinkHandler(LinkHandler):
 @hooks.register("register_rich_text_features")
 def register_external_link(features):
     features.register_link_type(TargetBlankExternalLinkHandler)
+
+
+class TaxonomiesViewSetGroup(ViewSetGroup):
+    menu_label = "Taxonomies Group"
+    menu_icon = "table"
+    items = [
+        ProgrammeTypeViewSet,
+    ]
+
+
+@hooks.register("register_admin_viewset")
+def register_taxonomies_viewset_group():
+    return TaxonomiesViewSetGroup()

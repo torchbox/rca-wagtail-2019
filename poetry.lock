@@ -3088,23 +3088,23 @@ docs = ["Sphinx (>=6.0)", "myst_parser (>=0.18.1,<1.0)", "pyenchant (>=3.1.1,<4)
 testing = ["dj-database-url (>=2.0.0)", "pre-commit (<3.0)"]
 
 [[package]]
-name = "wagtail-orderable"
-version = "1.2.0"
-description = "Orderable support for Wagtail"
+name = "wagtail-orderable-viewset"
+version = "0.1.0"
+description = "Add drag-and-drop ordering functionality to Wagtail's SnippetViewSet and ModelViewSet"
 optional = false
-python-versions = "*"
+python-versions = ">=3.9"
 files = []
 develop = false
 
 [package.dependencies]
-wagtail = ">=5.2"
-wagtail-modeladmin = ">=2.0.0"
+django = ">=4.2"
+wagtail = ">=7.0"
 
 [package.source]
 type = "git"
-url = "https://github.com/torchbox-forks/wagtail-orderable.git"
-reference = "HEAD"
-resolved_reference = "03c6425f44526e301bfe869e9d33b696324382c6"
+url = "https://github.com/nm-packages/wagtail-orderable-viewset.git"
+reference = "cd742e1"
+resolved_reference = "cd742e1d1aa6959ad25e1ee17966c9572c8755d2"
 
 [[package]]
 name = "wagtail-rangefilter"
@@ -3384,4 +3384,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.11"
-content-hash = "c819112da4982095811643daf1919d4170691b8339d012f53819578d12927870"
+content-hash = "e7e64b2625b5336ec4cdd63954fbc86e3bfa0290d61a0c3e3fd1fcea568dff10"
