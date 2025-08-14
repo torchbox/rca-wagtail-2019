@@ -3103,8 +3103,8 @@ wagtail = ">=7.0"
 [package.source]
 type = "git"
 url = "https://github.com/nm-packages/wagtail-orderable-viewset.git"
-reference = "cd742e1"
-resolved_reference = "cd742e1d1aa6959ad25e1ee17966c9572c8755d2"
+reference = "HEAD"
+resolved_reference = "a3d1d80189258d1241577db38c22ada887064d51"
 
 [[package]]
 name = "wagtail-rangefilter"
@@ -3384,4 +3384,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.11"
-content-hash = "e7e64b2625b5336ec4cdd63954fbc86e3bfa0290d61a0c3e3fd1fcea568dff10"
+content-hash = "b26d4c6916713d04fc6a1641c75a3897c596de5a8d1d14df109891c0fc720c8f"

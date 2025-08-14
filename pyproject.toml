@@ -30,7 +30,7 @@ wagtail-accessibility = "^2.0.0"
 wagtail-django-recaptcha = "^2.1.1"
 wagtail-factories = "^4.1.0"
 wagtail-modeladmin = "^2.2.0"
-wagtail-orderable-viewset = {git = "https://github.com/nm-packages/wagtail-orderable-viewset.git", rev = "cd742e1"}
+wagtail-orderable-viewset = {git = "https://github.com/nm-packages/wagtail-orderable-viewset.git"}
 wagtail-rangefilter = "^0.2.1"
 wagtail-storages = "^2.0"
 
