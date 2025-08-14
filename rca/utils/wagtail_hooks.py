@@ -206,8 +206,8 @@ def register_external_link(features):
 
 
 class TaxonomiesViewSetGroup(ViewSetGroup):
-    menu_label = "Taxonomies Group"
-    menu_icon = "table"
+    menu_label = "Taxonomies 2"
+    menu_icon = "tag"
     items = [
         ProgrammeTypeViewSet,
     ]

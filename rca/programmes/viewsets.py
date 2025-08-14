@@ -14,7 +14,7 @@ class ProgrammeTypeViewSet(OrderableModelViewSet):
         "sort_order",  # for reference with testing, not required
     ]
     menu_label = "Programme Type"
-    icon = "doc-full-inverse"
+    icon = "tag"
 
 
 programme_viewset = ProgrammeTypeViewSet("programme_type")
