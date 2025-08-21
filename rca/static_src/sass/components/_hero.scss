@@ -3,13 +3,28 @@
     overflow: hidden;
 
     &--medium {
-        max-height: 340px;
+        &::before {
+            @include z-index(under);
+            content: '';
+            background-color: $color--black;
+            height: 130px;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+
+        margin-top: 120px; // height of header
+        max-height: 170px;
 
         @include media-query(medium) {
-            max-height: 536px;
+            margin-top: 130px;
+            max-height: 320px;
         }
 
         @include media-query(large) {
+            margin-top: 90px;
+            margin-bottom: -90px;
             max-height: 780px;
         }
     }
