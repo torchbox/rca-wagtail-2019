@@ -93,7 +93,7 @@ INSTALLED_APPS = [
     "wagtail.contrib.legacy.richtext",
     "wagtail.contrib.typed_table_block",
     "wagtail",
-    "wagtailorderable",
+    "wagtail_orderable_viewset",
     "import_export",
     "modelcluster",
     "taggit",
