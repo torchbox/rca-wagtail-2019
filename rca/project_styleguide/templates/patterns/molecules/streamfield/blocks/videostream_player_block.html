@@ -1,0 +1,19 @@
+{% load wagtailimages_tags %}
+
+{% image value.poster_image fill-1920x1080 as poster_image %}
+
+<div class="streamfield-video">
+    <video
+        data-hls-video
+        id="streamfield-video-{{ block.id }}"
+        class="video-js vjs-default-skin"
+        controls
+        preload="auto"
+        width="100%"
+        height="auto"
+        poster="{{ poster_image.full_url }}"
+        data-setup="{}"
+    >
+        <source src="{{ value.video_url }}" type="application/x-mpegURL">
+    </video>
+</div>
