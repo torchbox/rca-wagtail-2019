@@ -33,7 +33,7 @@ import './components/sticky-point';
 import SubMenu from './components/submenu';
 import Tabs from './components/tabs';
 import VideoModal from './components/video-modal';
-import VideoJs from './components/livestream';
+import HLSPlayer from './components/video-stream';
 
 import '../sass/main.scss';
 
@@ -162,8 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
         new TableHint(tablehint);
     }
 
-    for (const mediaVideo of document.querySelectorAll(VideoJs.selector())) {
-        new VideoJs(mediaVideo);
+    for (const videoStream of document.querySelectorAll(HLSPlayer.selector())) {
+        new HLSPlayer(videoStream);
     }
 
     new ActualHeight();
