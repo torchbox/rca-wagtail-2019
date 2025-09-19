@@ -22,7 +22,7 @@ class DonationPageBlock(blocks.StreamBlock):
         label="Embed media",
         help_text="Add a URL from these providers: YouTube, Vimeo, SoundCloud, Twitter.",
     )
-    jw_video = utils_blocks.JWPLayerBlock()
+    livestream_video = utils_blocks.VideoStreamBlock()
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"

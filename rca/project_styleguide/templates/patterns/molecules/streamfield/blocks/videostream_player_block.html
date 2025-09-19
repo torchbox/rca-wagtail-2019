@@ -1,0 +1,13 @@
+{% load wagtailimages_tags %}
+
+{% image value.poster_image fill-1920x1080 as poster_image %}
+
+<video
+    class="streamfield-video"
+    data-hls-video
+    controls
+    width="100%"
+    height="auto"
+    poster="{{ poster_image.full_url }}"
+    data-src="{{ value.video_url }}"
+></video>

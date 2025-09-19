@@ -124,6 +124,7 @@
     "alpinejs": "^3.8.1",
     "focus-trap": "^5.1.0",
     "headroom.js": "^0.9.4",
+    "hls.js": "^1.6.12",
     "intersection-observer": "^0.7.0",
     "js-cookie": "^2.2.1",
     "lodash.debounce": "^4.0.8",
