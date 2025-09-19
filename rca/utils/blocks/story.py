@@ -11,7 +11,7 @@ from .content import (
     QuoteBlock,
     TableBlock,
 )
-from .embeds import CookieSnippetBlock, VideoStreamBlock, VepplePanoramaBlock
+from .embeds import CookieSnippetBlock, VepplePanoramaBlock, VideoStreamBlock
 
 __all__ = [
     "StoryBlock",
