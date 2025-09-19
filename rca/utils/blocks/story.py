@@ -11,7 +11,7 @@ from .content import (
     QuoteBlock,
     TableBlock,
 )
-from .embeds import CookieSnippetBlock, JWPLayerBlock, VepplePanoramaBlock
+from .embeds import CookieSnippetBlock, VideoStreamBlock, VepplePanoramaBlock
 
 __all__ = [
     "StoryBlock",
@@ -35,7 +35,7 @@ class StoryBlock(blocks.StreamBlock):
         template="patterns/molecules/streamfield/blocks/call_to_action_block.html",
     )
     document = DocumentBlock()
-    jw_video = JWPLayerBlock()
+    livestream_video = VideoStreamBlock()
 
     class Meta:
         template = "patterns/molecules/streamfield/stream_block.html"
@@ -62,7 +62,7 @@ class GuideBlock(blocks.StreamBlock):
     )
     image_video_gallery = ImageVideoGalleryBlock()
     table = TableBlock()
-    jw_video = JWPLayerBlock()
+    livestream_video = VideoStreamBlock()
     vepple_panorama = VepplePanoramaBlock()
     cookie_snippet_block = CookieSnippetBlock("utils.CookieButtonSnippet")
     cta_link = CTALinkBlock()

@@ -15,7 +15,7 @@ class EventDetailPageBlock(blocks.StreamBlock):
     paragraph = blocks.RichTextBlock()
     quote = utils_blocks.QuoteBlock()
     embed = EmbedBlock()
-    jw_video = utils_blocks.JWPLayerBlock()
+    livestream_video = utils_blocks.VideoStreamBlock()
     cta_link = utils_blocks.CTALinkBlock()
 
     class Meta:

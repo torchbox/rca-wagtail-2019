@@ -18,7 +18,7 @@ class EditorialPageBlock(blocks.StreamBlock):
     paragraph = blocks.RichTextBlock()
     embed = EmbedBlock()
     quote = utils_blocks.QuoteBlock()
-    jw_video = utils_blocks.JWPLayerBlock()
+    livestream_video = utils_blocks.VideoStreamBlock()
     cta_link = utils_blocks.CTALinkBlock()
 
     class Meta:
