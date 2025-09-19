@@ -1,21 +1,32 @@
-import Hls from 'hls.js';
+import videojs from 'video.js';
+import 'videojs-contrib-quality-levels';
+import 'videojs-hls-quality-selector';
 
-class HLSPlayer {
+class VideoPlayer {
     static selector() {
         return '[data-hls-video]';
     }
 
     constructor(node) {
         this.node = node;
-        this.videoSrc = node.getAttribute('data-src');
         this.initPlayer();
     }
 
     initPlayer() {
-        const hls = new Hls();
-        hls.loadSource(this.videoSrc);
-        hls.attachMedia(this.node);
+        this.player = videojs(this.node, {
+            responsive: true,
+            fluid: true,
+            controlBar: {
+                fullscreenToggle: true,
+                volumePanel: { inline: false },
+            },
+        });
+
+        // Enable HLS quality selector
+        this.player.hlsQualitySelector({
+            displayCurrentQuality: true,
+        });
     }
 }
 
-export default HLSPlayer;
+export default VideoPlayer;
