@@ -33,7 +33,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Orderable, Site
 from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
-from wagtailorderable.models import Orderable as WagtailOrdable
+from wagtail_orderable_viewset.models import IncrementingOrderable
 
 from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
 from rca.programmes.blocks import (
@@ -108,7 +108,7 @@ class ProgrammePageSubjectPlacement(models.Model):
     panels = [FieldPanel("subject")]
 
 
-class ProgrammeType(WagtailOrdable):
+class ProgrammeType(IncrementingOrderable):
     display_name = models.CharField(max_length=128)
     description = models.CharField(max_length=500, blank=True)
 
@@ -117,6 +117,11 @@ class ProgrammeType(WagtailOrdable):
 
     def get_fake_slug(self):
         return slugify(self.display_name)
+
+    class Meta:
+        ordering = ["display_name"]
+        verbose_name = "Programme Type"
+        verbose_name_plural = "Programme Types"
 
 
 class ProgrammePageProgrammeType(models.Model):
