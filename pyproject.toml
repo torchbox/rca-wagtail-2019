@@ -62,7 +62,7 @@ stellar = "~0.4"
 wagtailmakeup = "~1.1"
 
 # Linters etc.
-black = "~25.1"
+black = "~25.9"
 detect-secrets = "~1.5"
 flake8 = "~7.3"
 isort = "~6.0"
@@ -73,7 +73,7 @@ mkdocs = "~1.6"
 mkdocs-material = "~9.6"
 pymdown-extensions = "~10.16"
 honcho = "~2.0"
-django-upgrade = "~1.25"
+django-upgrade = "~1.28"
 pyupgrade = "~3.20"
 
 [build-system]
