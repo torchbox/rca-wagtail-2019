@@ -3,7 +3,7 @@ default_language_version:
   python: python3.11
 repos:
   - repo: https://github.com/python/black
-    rev: 25.1.0
+    rev: 25.9.0
     hooks:
       - id: black
   - repo: https://github.com/PyCQA/isort
@@ -45,7 +45,7 @@ repos:
           - stylelint@13.13.1
           - stylelint-config-torchbox@1.0.0
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.25.0
+    rev: 1.28.0
     hooks:
       - id: django-upgrade
         args: [--target-version, '4.2'] # Replace with Django version
