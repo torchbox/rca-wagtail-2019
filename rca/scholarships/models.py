@@ -95,6 +95,13 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
     body = StreamField(ScholarshipsListingPageBlock())
 
     # Scholarship listing fields
+    scholarships_listing_background_color = models.CharField(
+        max_length=10,
+        choices=(("light", "Light"), ("dark", "Dark")),
+        default="light",
+        help_text="Select the background color for this section",
+        verbose_name="Background Color"
+    )
     scholarship_listing_title = models.CharField(
         max_length=50, verbose_name="Listing Title"
     )
@@ -130,6 +137,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         FieldPanel("body"),
         MultiFieldPanel(
             [
+                FieldPanel("scholarships_listing_background_color"),
                 FieldPanel("scholarship_listing_title"),
                 FieldPanel("scholarship_listing_sub_title"),
                 FieldPanel("scholarship_application_steps"),
