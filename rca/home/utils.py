@@ -4,6 +4,9 @@ from rca.utils.models import get_listing_image
 def related_news_events_formatter(
     page, long_description=False, editorial_meta_label=""
 ):
+    if not page:
+        return {}
+
     # Organsises data into a digestable format for the template.
     editorial_meta = editorial_meta_label
     PAGE_META_MAPPING = {
@@ -55,6 +58,9 @@ def partnerships_slides_formatter(slides):
                 }
             )
         elif slide.block_type == "page":
+            if not slide.value:
+                continue
+
             page_type = None
             page_type_mapping = {
                 "GuidePage": "GUIDE",
