@@ -219,7 +219,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
                 option_value_field="slug",
             ),
             TabStyleFilter(
-                "Location",
+                "Fee Status",
                 queryset=(
                     ScholarshipLocation.objects.filter(
                         id__in=queryset.values_list("location_id", flat=True)
