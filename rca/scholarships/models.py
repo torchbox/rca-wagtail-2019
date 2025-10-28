@@ -100,7 +100,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         choices=(("light", "Light"), ("dark", "Dark")),
         default="light",
         help_text="Select the background color for this section",
-        verbose_name="Background Color"
+        verbose_name="Background Color",
     )
     scholarship_listing_title = models.CharField(
         max_length=50, verbose_name="Listing Title"
@@ -121,7 +121,6 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         blank=True,
         help_text="A small disclaimer shown just above the scholarships listing.",
     )
-    lower_body = StreamField(ScholarshipsListingPageBlock())
 
     # Scholarship form fields
     key_details = RichTextField(features=["h3", "bold", "italic", "link"], blank=True)
@@ -134,7 +133,6 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
 
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
-        FieldPanel("body"),
         MultiFieldPanel(
             [
                 FieldPanel("scholarships_listing_background_color"),
@@ -145,7 +143,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
             ],
             heading="Scholarship listing",
         ),
-        FieldPanel("lower_body"),
+        FieldPanel("body"),
         MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
     ]
 
