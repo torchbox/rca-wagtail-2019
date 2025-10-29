@@ -28,6 +28,9 @@ def related_list_block_slideshow(slides):
                     }
                 )
             elif block.block_type == "page":
+                if not block.value:
+                    continue
+
                 page = block.value.specific
                 page_type = page_type_mapping.get(page.__class__.__name__, None)
                 summary = (
@@ -71,6 +74,9 @@ def format_page_teasers(obj):
                     }
                 )
             elif block.block_type == "page":
+                if not block.value:
+                    continue
+
                 page = block.value.specific
                 summary = (
                     page.introduction
