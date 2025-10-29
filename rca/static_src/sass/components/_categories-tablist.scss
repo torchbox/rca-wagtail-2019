@@ -252,19 +252,39 @@
         margin-bottom: ($gutter * 2);
 
         // Colours are quite confusing for this component as it has many states, overriding for the scholarship listing
-        #{$root}__heading {
-            color: $color--light-grey;
+        &.bg--dark {
+            #{$root}__heading {
+                color: $color--light-grey;
+            }
+
+            #{$root}__tab {
+                color: $color--light-grey;
+
+                &--reset,
+                &--selected,
+                &[aria-selected='true'],
+                &:focus,
+                &:hover {
+                    color: $color--white;
+                }
+            }
         }
 
-        #{$root}__tab {
-            color: $color--light-grey;
+        &.bg--light {
+            #{$root}__heading {
+                color: $color--dark-grey;
+            }
 
-            &--reset,
-            &--selected,
-            &[aria-selected='true'],
-            &:focus,
-            &:hover {
-                color: $color--white;
+            #{$root}__tab {
+                color: $color--dark-grey;
+
+                &--reset,
+                &--selected,
+                &[aria-selected='true'],
+                &:focus,
+                &:hover {
+                    color: $color--black;
+                }
             }
         }
     }

@@ -95,6 +95,13 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
     body = StreamField(ScholarshipsListingPageBlock())
 
     # Scholarship listing fields
+    scholarships_listing_background_color = models.CharField(
+        max_length=10,
+        choices=(("light", "Light"), ("dark", "Dark")),
+        default="light",
+        help_text="Select the background color for this section",
+        verbose_name="Background Color",
+    )
     scholarship_listing_title = models.CharField(
         max_length=50, verbose_name="Listing Title"
     )
@@ -114,7 +121,6 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         blank=True,
         help_text="A small disclaimer shown just above the scholarships listing.",
     )
-    lower_body = StreamField(ScholarshipsListingPageBlock())
 
     # Scholarship form fields
     key_details = RichTextField(features=["h3", "bold", "italic", "link"], blank=True)
@@ -127,9 +133,9 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
 
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
-        FieldPanel("body"),
         MultiFieldPanel(
             [
+                FieldPanel("scholarships_listing_background_color"),
                 FieldPanel("scholarship_listing_title"),
                 FieldPanel("scholarship_listing_sub_title"),
                 FieldPanel("scholarship_application_steps"),
@@ -137,7 +143,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
             ],
             heading="Scholarship listing",
         ),
-        FieldPanel("lower_body"),
+        FieldPanel("body"),
         MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
     ]
 
@@ -211,7 +217,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
                 option_value_field="slug",
             ),
             TabStyleFilter(
-                "Location",
+                "Fee Status",
                 queryset=(
                     ScholarshipLocation.objects.filter(
                         id__in=queryset.values_list("location_id", flat=True)
