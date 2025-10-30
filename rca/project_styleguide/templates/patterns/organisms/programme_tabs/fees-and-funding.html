@@ -50,15 +50,15 @@
             <div class="overview__item">
                 <h4 class="overview__sub-heading heading heading--five">{{ page.scholarships_title }}</h4>
                 <p class="overview__introduction introduction">{{ page.scholarships_information }}</p>
-                <div class="overview__item-content">
-                    {% if page.scholarship_accordion_items %}
+                {% if page.scholarship_items %}
+                    <div class="overview__item-content">
                         <div class="overview__item-accordion">
-                            {% for accordion in page.scholarship_accordion_items %}
-                                {% include "patterns/molecules/accordion/accordion.html" with modifier='short' accordion=accordion.value accordion_id='3' %}
+                            {% for accordion in page.scholarship_items %}
+                                {% include "patterns/molecules/accordion/accordion.html" with modifier='short' accordion=accordion.value accordion_id='3' scholarship=True %}
                             {% endfor %}
                         </div>
-                    {% endif %}
-                </div>
+                    </div>
+                {% endif %}
             </div>
             {% if page.scholarship_information_blocks %}
                 <div class="overview__item">

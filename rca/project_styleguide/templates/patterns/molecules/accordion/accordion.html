@@ -50,10 +50,18 @@
             {% endif %}
             {% if scholarship %}
                 {# Scholarship fields #}
-                <p><strong>Eligible Programmes: </strong>{{ accordion.eligible_programmes }}</p>
-                <p><strong>Funding Categories: </strong>{{ accordion.funding_categories }}</p>
-                <p><strong>Eligible fee status: </strong>{{ accordion.fee_statuses }}</p>
-                <p><strong>Value: </strong>{{ accordion.value }}</p>
+                {% if accordion.eligible_programmes %}
+                    <p><strong>Eligible Programmes: </strong>{{ accordion.eligible_programmes }}</p>
+                {% endif %}
+                {% if accordion.funding_categories %}
+                    <p><strong>Funding Categories: </strong>{{ accordion.funding_categories }}</p>
+                {% endif %}
+                {% if accordion.fee_statuses %}
+                    <p><strong>Eligible fee status: </strong>{{ accordion.fee_statuses }}</p>
+                {% endif %}
+                {% if accordion.value %}
+                    <p><strong>Value: </strong>{{ accordion.value }}</p>
+                {% endif %}
             {% endif %}
         </div>
     </div>
