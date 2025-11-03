@@ -9,6 +9,6 @@
     {# Image `alt` used to be optional (now required). We leave the conditional in since images uploaded before the update might have their `alt` blank. #}
     <img src="{{ my_image.url }}" width="{{ my_image.width }}" height="{{ my_image.height }}" alt="{% if value.decorative %}{% elif my_image.image.alt %}{{ my_image.image.alt }}{% else %}{{ my_image.image.title }}{% endif %}">
     {% if value.caption %}
-        <p class="image-caption-link">{{ value.caption }}</p>
+        <p class="image__caption">{{ value.caption }}</p>
     {% endif %}
 </div>
