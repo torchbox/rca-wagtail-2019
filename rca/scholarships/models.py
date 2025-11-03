@@ -197,9 +197,6 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
             }
         )
 
-        for block in self.lower_body:
-            process_block(block)
-
         return items
 
     def get_context(self, request, *args, **kwargs):
