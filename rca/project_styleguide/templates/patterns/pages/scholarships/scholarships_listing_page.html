@@ -54,7 +54,7 @@
                     <nav class="section filter-bar filter-bar--large {% if not results %}filter-bar--no-results-large{% endif %} " data-filter-bar>
                         <div class="grid">
                             <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                                {% if page.scholarships_listing_background_color == "dark" %}
+                                {% if page.scholarships_has_dark_background %}
                                     {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True dark=True reset_button_text="Reset" %}
                                 {% else %}
                                     {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True dark=False reset_button_text="Reset" %}
@@ -113,7 +113,7 @@
             </form>
 
             <section class="section bg bg--light">
-                {% if page.scholarships_listing_background_color == "dark" %}
+                {% if page.scholarships_has_dark_background %}
                     <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>

@@ -94,10 +94,14 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
     introduction = models.CharField(max_length=500, blank=True)
     body = StreamField(ScholarshipsListingPageBlock())
 
+    class BackgroundColor(models.TextChoices):
+        LIGHT = "light", "Light"
+        DARK = "dark", "Dark"
+
     # Scholarship listing fields
     scholarships_listing_background_color = models.CharField(
         max_length=10,
-        choices=(("light", "Light"), ("dark", "Dark")),
+        choices=BackgroundColor.choices,
         default="light",
         help_text="Select the background color for this section",
         verbose_name="Background Color",
@@ -169,6 +173,10 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
     @property
     def show_interest_link(self):
         return True
+
+    @property
+    def scholarships_has_dark_background(self):
+        return self.scholarships_listing_background_color == self.BackgroundColor.DARK
 
     def anchor_nav(self):
         """Build list of data to be used as in-page navigation"""
