@@ -7,9 +7,7 @@
 {% endblock %}
 
 {% block content %}
-
     <div class="page page--no-hero">
-
         <header class="page__header bg bg--dark">
             <div class="title-area title-area--guide grid">
                 <div class="title-area__content">
@@ -41,10 +39,81 @@
         </header>
 
         <div class="page__content js-sticky-point js-sticky-point--bottom">
+            <section class="section bg bg--{{ page.scholarships_listing_background_color }} section--end" id="scholarships">
+                <div class="section__row section__row--first section__row--last-small grid">
+                    <h2 id="scholarship-listing-title" class="heading heading--two layout__start-one layout__span-two layout__@large-start-two layout__@large-span-two anchor-heading">{{ page.scholarship_listing_title }}</h2>
+                </div>
+
+                {% if page.scholarship_application_steps %}
+                    {% include "patterns/molecules/steps/steps.html" with title=page.scholarship_listing_sub_title steps=page.scholarship_application_steps modifier="condensed" scholarships=True %}
+                {% endif %}
+            </section>
+
+            <form class="section bg bg--{{ page.scholarships_listing_background_color }} js-tabs" method="get" action="#results" id="results">
+                <div class="section__row">
+                    <nav class="section filter-bar filter-bar--large {% if not results %}filter-bar--no-results-large{% endif %} " data-filter-bar>
+                        <div class="grid">
+                            <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                                {% if page.scholarships_has_dark_background %}
+                                    {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True dark=True reset_button_text="Reset" %}
+                                {% else %}
+                                    {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True dark=False reset_button_text="Reset" %}
+                                {% endif %}
+
+                                <div class="filter-tab-options filter-tab-options--mobile">
+                                    <div class="filter-tab-options__footer layout__start-one layout__span-two layout__@large-start-two layout__@large-span-four grid">
+                                        <div class="filter-tab-options__clear layout__start-one layout__span-one layout__@large-start-two">
+                                            <a class="filter-tab-options__clear-link hidden" href="#" data-filters-clear-category>Clear</a>
+                                        </div>
+                                        <button class="filter-tab-options__button link link--primary layout__start-two layout__span-one layout__@large-start-four" data-filter-submit>
+                                            <span class="link__label">Show results</span>
+                                            <svg width="12" height="8" class="link__icon link__icon--rotated" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <nav class="filter-bar filter-bar--small {% if not results %}filter-bar--no-results-small{% endif %} bg bg--light" data-filter-bar-small>
+                        <a class="filter-bar__link body body--two" href="#filters-active" data-filter-launcher>
+                            <span class="filter-bar__label">Filters</span>
+                            <svg width="12" height="8" class="filter-bar__icon" aria-hidden="true">
+                                <use xlink:href="#arrow"></use>
+                            </svg>
+                        </a>
+                    </nav>
+
+                    <div class="filter-takeover bg bg--light">
+                        <div class="filter-takeover__container">
+                            {% for item in filters.items %}
+                                {% if item.queryset %}
+                                    <div class="filter-takeover__tab-content tabs__panel tabs__panel--hidden js-tab-panel" id="{{ item.tab_title|slugify }}" role="tabpanel" aria-labelledby="tab-{{ item.tab_title|slugify }}">
+                                        {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" with single_filter_only=True %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                {% if results %}
+                    <div class="section__row grid">
+                        <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                            {% if programme %}
+                                <p class="body body--one"><b>Scholarship results showing for {{ programme }} programme</b></p>
+                            {% endif %}
+                            <p class="body body--two">{{ page.characteristics_disclaimer }}</p>
+                        </div>
+                    </div>
+                    <div class="section__row section__row--last-small">
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=results title=results_title section_id=page.results_title|slugify scholarship=True %}
+                    </div>
+                {% endif %}
+            </form>
 
             <section class="section bg bg--light">
-
-                {% if not results %}
+                {% if page.scholarships_has_dark_background %}
                     <div class="section__notch">
                         <div class="section__notch-fill section__notch-fill--second-col"></div>
                     </div>
@@ -55,108 +124,6 @@
                         {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body guide_page=True %}
                     </div>
                 </div>
-
-            </section>
-
-            {% if stats_block %}
-                {% include "patterns/organisms/stat-block/stat-block.html" with modifier="light-to-dark" %}
-            {% endif %}
-
-            <section class="section bg bg--dark section--end" id="scholarships">
-
-                {% if not stats_block %}
-                    <div class="section__notch">
-                        <div class="section__notch-fill section__notch-fill--fourth-col"></div>
-                    </div>
-                {% endif %}
-
-                <div class="section__row section__row--first section__row--last-small grid">
-                    <h2 id="scholarship-listing-title" class="heading heading--two layout__start-one layout__span-two layout__@large-start-two layout__@large-span-two anchor-heading">{{ page.scholarship_listing_title }}</h2>
-                </div>
-
-                {% if page.scholarship_application_steps %}
-                    {% include "patterns/molecules/steps/steps.html" with title=page.scholarship_listing_sub_title steps=page.scholarship_application_steps modifier="condensed" scholarships=True %}
-                {% endif %}
-
-            </section>
-
-
-                <form class="section bg bg--dark js-tabs" method="get" action="#results" id="results">
-
-                    <div class="section__row">
-
-                        <nav class="section filter-bar filter-bar--large {% if not results %}filter-bar--no-results-large{% endif %} " data-filter-bar>
-
-                            <div class="grid">
-                                <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                                    {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True dark=True reset_button_text="Reset" %}
-
-                                    <div class="filter-tab-options filter-tab-options--mobile">
-                                        <div class="filter-tab-options__footer layout__start-one layout__span-two layout__@large-start-two layout__@large-span-four grid">
-                                            <div class="filter-tab-options__clear layout__start-one layout__span-one layout__@large-start-two">
-                                                <a class="filter-tab-options__clear-link hidden" href="#" data-filters-clear-category>Clear</a>
-                                            </div>
-                                            <button class="filter-tab-options__button link link--primary layout__start-two layout__span-one layout__@large-start-four" data-filter-submit>
-                                                <span class="link__label">Show results</span>
-                                                <svg width="12" height="8" class="link__icon link__icon--rotated" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </nav>
-
-
-                        <nav class="filter-bar filter-bar--small {% if not results %}filter-bar--no-results-small{% endif %} bg bg--light" data-filter-bar-small>
-                            <a class="filter-bar__link body body--two" href="#filters-active" data-filter-launcher>
-                                <span class="filter-bar__label">Filters</span>
-                                <svg width="12" height="8" class="filter-bar__icon" aria-hidden="true">
-                                    <use xlink:href="#arrow"></use>
-                                </svg>
-                            </a>
-                        </nav>
-
-                        <div class="filter-takeover bg bg--light">
-                            <div class="filter-takeover__container">
-                                {% for item in filters.items %}
-                                    {% if item.queryset %}
-                                        <div class="filter-takeover__tab-content tabs__panel tabs__panel--hidden js-tab-panel" id="{{ item.tab_title|slugify }}" role="tabpanel" aria-labelledby="tab-{{ item.tab_title|slugify }}">
-                                            {% include "patterns/molecules/filter-tab-options/filter-tab-options.html" with single_filter_only=True %}
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-
-
-                    {% if results %}
-                        <div class="section__row grid">
-                            <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                                {% if programme %}
-                                    <p class="body body--one"><b>Scholarship results showing for {{ programme }} programme</b></p>
-                                {% endif %}
-                                <p class="body body--two">{{ page.characteristics_disclaimer }}</p>
-                            </div>
-                        </div>
-
-                        <div class="section__row section__row--last-small">
-                            {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=results title=results_title section_id=page.results_title|slugify scholarship=True %}
-                        </div>
-                    {% endif %}
-
-                </form>
-
-
-            <section class="section bg bg--light">
-
-                <div class="section__row section__row--last section__row--first grid">
-                    <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                        {% include "patterns/molecules/streamfield/stream_block.html" with value=page.lower_body guide_page=True %}
-                    </div>
-                </div>
-
             </section>
 
             {% if related_pages.items %}
@@ -183,7 +150,6 @@
                     <div class="section__sticky-placeholder"></div>
                 </section>
             {% endif %}
-
         </div>
     </div>
 
