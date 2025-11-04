@@ -9,9 +9,9 @@ context:
       link: '#'
     stories_summary_text: Characterised by its roots in creative and innovative practice, by engagement with partners in business, industry, government and communities.
     stories_link_target_url: '#'
-    talks_summary_text: The RCA is famed for its ability to attract leading practitioners and academics from across the creative spectrum.
-    talks_link_target_url: '#'
-    talks_image: true
+    podcasts_summary_text: The RCA is famed for its ability to attract leading practitioners and academics from across the creative spectrum.
+    podcasts_link_target_url: '#'
+    podcasts_image: true
     video: 'https://www.youtube.com/watch?v=glIIF-kBXf0'
     video_caption: Watch the course introduction
     contact: true

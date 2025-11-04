@@ -755,18 +755,18 @@ class EELandingPage(ContactFieldsMixin, BasePage):
     )
     stories_link_target_url = models.URLField(blank=False)
 
-    talks_summary_text = models.TextField(
+    podcasts_summary_text = models.TextField(
         max_length=250,
         blank=False,
-        help_text=_("Short text summary displayed with the 'Talks' title"),
+        help_text=_("Short text summary displayed with the 'Podcasts' title"),
     )
-    talks_link_text = models.TextField(
+    podcasts_link_text = models.TextField(
         max_length=120,
         blank=False,
         help_text=_("The text do display for the link"),
     )
-    talks_link_target_url = models.URLField(blank=False)
-    talks_image = models.ForeignKey(
+    podcasts_link_target_url = models.URLField(blank=False)
+    podcasts_image = models.ForeignKey(
         get_image_model_string(),
         null=True,
         blank=True,
@@ -863,7 +863,7 @@ class EELandingPage(ContactFieldsMixin, BasePage):
             {"title": "News", "link": "news"},
             {"title": "Events", "link": "events"},
             {"title": "Stories", "link": "stories"},
-            {"title": "Talks", "link": "talks"},
+            {"title": "Podcasts", "link": "podcasts"},
             {
                 "title": self.cta_navigation_title,
                 "link": slugify(self.cta_navigation_title),
@@ -907,14 +907,16 @@ class EELandingPage(ContactFieldsMixin, BasePage):
         ),
         MultiFieldPanel(
             [
-                FieldPanel("talks_summary_text"),
-                FieldPanel("talks_image"),
+                FieldPanel("podcasts_summary_text", heading="Summary text"),
+                FieldPanel("podcasts_image", heading="Image"),
                 FieldPanel("video_caption"),
                 FieldPanel("video"),
-                FieldPanel("talks_link_text"),
-                FieldPanel("talks_link_target_url"),
+                FieldPanel("podcasts_link_text", heading="Podcasts link text"),
+                FieldPanel(
+                    "podcasts_link_target_url", heading="Podcasts link target URL"
+                ),
             ],
-            heading="Talks",
+            heading="Podcasts",
         ),
         MultiFieldPanel(
             [FieldPanel("cta_navigation_title"), FieldPanel("cta_block")],
