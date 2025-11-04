@@ -5,6 +5,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models, transaction
+from django.db.models import Prefetch
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
@@ -1116,13 +1117,23 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
         # Check for eligible scholarships based on the Scholarship snippet
         if self.scholarship_set.exists():
+            # Prefetch related data to avoid n+1 queries
+            scholarships = self.scholarship_set.prefetch_related(
+                Prefetch(
+                    "eligable_programmes",
+                    queryset=ProgrammePage.objects.filter(live=True),
+                ),
+                "funding_categories",
+                "fee_statuses",
+            ).all()
+
             return [
                 {
                     "value": {
                         "heading": s.title,
                         "introduction": s.summary,
                         "eligible_programmes": ", ".join(
-                            str(x) for x in s.eligable_programmes.live()
+                            str(x) for x in s.eligable_programmes.all()
                         ),
                         "funding_categories": ", ".join(
                             x.title for x in s.funding_categories.all()
@@ -1133,7 +1144,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
                         "value": s.value,
                     }
                 }
-                for s in self.scholarship_set.all()
+                for s in scholarships
             ]
 
         return []
