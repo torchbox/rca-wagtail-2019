@@ -5,6 +5,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models, transaction
+from django.db.models import Prefetch
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
@@ -822,7 +823,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             [
                 FieldPanel("scholarships_title"),
                 FieldPanel("scholarships_information"),
-                FieldPanel("scholarship_accordion_items"),
+                FieldPanel(
+                    "scholarship_accordion_items",
+                    help_text="Override the automatically linked scholarships from 'Scholarships' snippets.",
+                ),
                 FieldPanel("scholarship_information_blocks"),
             ],
             heading="Scholarships",
@@ -1103,6 +1107,47 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             return True
 
         return False
+
+    @cached_property
+    def scholarship_items(self):
+        """Returns a list of scholarship items for this programme."""
+        # Prioritze scholarship_accordion_items, if available
+        if self.scholarship_accordion_items:
+            return self.scholarship_accordion_items
+
+        # Check for eligible scholarships based on the Scholarship snippet
+        if self.scholarship_set.exists():
+            # Prefetch related data to avoid n+1 queries
+            scholarships = self.scholarship_set.prefetch_related(
+                Prefetch(
+                    "eligable_programmes",
+                    queryset=ProgrammePage.objects.filter(live=True),
+                ),
+                "funding_categories",
+                "fee_statuses",
+            ).all()
+
+            return [
+                {
+                    "value": {
+                        "heading": s.title,
+                        "introduction": s.summary,
+                        "eligible_programmes": ", ".join(
+                            str(x) for x in s.eligable_programmes.all()
+                        ),
+                        "funding_categories": ", ".join(
+                            x.title for x in s.funding_categories.all()
+                        ),
+                        "fee_statuses": ", ".join(
+                            x.title for x in s.fee_statuses.all()
+                        ),
+                        "value": s.value,
+                    }
+                }
+                for s in scholarships
+            ]
+
+        return []
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
