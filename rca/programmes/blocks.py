@@ -73,11 +73,6 @@ class IndividualEmbedBlock(blocks.StructBlock):
 
     embed = EmbedBlock(required=True)
     caption = blocks.CharBlock(max_length=255, required=True)
-    embed_source = blocks.CharBlock(
-        max_length=100,
-        help_text="The source of this embed (e.g., YouTube, TikTok, Instagram)",
-        required=True,
-    )
 
     class Meta:
         icon = "media"
