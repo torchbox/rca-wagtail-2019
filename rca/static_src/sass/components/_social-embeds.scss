@@ -1,0 +1,35 @@
+.social-embeds {
+    &__container {
+        margin-bottom: $grid * 3;
+
+        @include media-query(medium) {
+            margin-right: $grid;
+        }
+    }
+
+    &__image {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+    &__heading {
+        margin-top: $grid * 0.75;
+        margin-bottom: $grid * 0.4;
+    }
+
+    &__link {
+        @include underline-hover-target();
+        position: relative;
+        color: $color--white;
+
+        &:hover,
+        &:focus {
+            @include underline-hover-target-reset();
+        }
+    }
+
+    &__content-type {
+        opacity: 0.8;
+    }
+}

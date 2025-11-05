@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "rca.navigation",
     "rca.programmes",
     "rca.schools",
+    "rca.search",
     "rca.standardpages",
     "rca.users",
     "rca.utils",
@@ -686,8 +687,10 @@ WAGTAIL_SITE_NAME = "RCA Website"
 WAGTAILEMBEDS_RESPONSIVE_HTML = True
 
 WAGTAILEMBEDS_FINDERS = [
+    {"class": "wagtail.embeds.finders.oembed"},
     {"class": "rca.utils.embed_finders.CustomOEmbedFinder"},
     {"class": "rca.utils.embed_finders.WixEmbedFinder"},
+    {"class": "rca.utils.embed_finders.InstagramOEmbedFinder"},
 ]
 
 # This project uses it's own customised version
@@ -703,6 +706,10 @@ if "PRIMARY_HOST" in env:
 # https://docs.wagtail.io/en/stable/advanced_topics/images/custom_image_model.html
 WAGTAILIMAGES_IMAGE_MODEL = "images.CustomImage"
 WAGTAILIMAGES_FEATURE_DETECTION_ENABLED = False
+
+# Custom image form with rights confirmation checkbox
+# https://docs.wagtail.org/en/stable/reference/settings.html#wagtailimages-image-form-base
+WAGTAILIMAGES_IMAGE_FORM_BASE = "rca.images.forms.RCAImageForm"
 
 # Rich text settings to remove unneeded features
 # We normally don't want editors to use the images

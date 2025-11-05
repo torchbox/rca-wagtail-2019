@@ -4,18 +4,18 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.snippets.blocks import SnippetChooserBlock
 
 __all__ = [
-    "JWPLayerBlock",
+    "VideoStreamBlock",
     "CookieSnippetBlock",
 ]
 
 
-class JWPLayerBlock(blocks.StructBlock):
+class VideoStreamBlock(blocks.StructBlock):
     title = blocks.CharBlock(
         help_text="Optional title to identify the video. Not shown on the page.",
         required=False,
     )
     video_url = blocks.URLBlock(
-        max_length=1000, help_text="The URL of the video to show."
+        max_length=1000, help_text="The URL of the video to show.", label="Video URL"
     )
     poster_image = ImageChooserBlock(
         help_text="The poster image to show as a placeholder for the video. "
@@ -24,8 +24,8 @@ class JWPLayerBlock(blocks.StructBlock):
 
     class Meta:
         icon = "media"
-        label = "JW Video Player"
-        template = "patterns/molecules/streamfield/blocks/jw_player_block.html"
+        label = "Video Stream Player"
+        template = "patterns/molecules/streamfield/blocks/videostream_player_block.html"
 
 
 class CookieSnippetBlock(SnippetChooserBlock):

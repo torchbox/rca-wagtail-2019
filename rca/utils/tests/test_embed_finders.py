@@ -59,3 +59,23 @@ class CustomOEmbedFinderTest(TestCase):
             result["html"],
             '<iframe src="www.example.com"></iframe>',
         )
+
+    def test_tiktok_url_acceptance(self, mock_find_embed):
+        """Test that CustomOEmbedFinder now handles TikTok URLs."""
+        mock_find_embed.return_value = {
+            "html": '<iframe src="https://www.tiktok.com/embed/1234567890123456789"></iframe>',
+            "type": "video",
+            "title": "TikTok video",
+        }
+        finder = CustomOEmbedFinder()
+
+        # Test various TikTok URL formats
+        test_urls = [
+            "https://www.tiktok.com/@username/video/1234567890123456789",
+            "https://vm.tiktok.com/ZMxxxxxx/",
+            "https://www.tiktok.com/t/ZMxxxxxx/",
+        ]
+
+        for url in test_urls:
+            with self.subTest(url=url):
+                self.assertTrue(finder.accept(url))

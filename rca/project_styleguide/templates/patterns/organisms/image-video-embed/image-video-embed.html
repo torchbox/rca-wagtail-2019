@@ -1,0 +1,29 @@
+{# This is similar to image-video-block. Key difference is that the play button is centered and the caption is below the image. #}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div class="image-video-embed">
+    <div class="image-video-embed__container" {% if modal and video %}data-video-modal{% endif %}>
+        {% image image fill-80x37 as image_small %}
+        {% image image fill-900x415 as image_large %}
+
+        {% if video %}
+            <a data-modal-open class="image-video-embed__link" aria-label="Play {{ caption }}" tabindex="0">
+
+                {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=900 height=415 image_large=image_large classList='image-video-embed__image' %}
+            
+                <svg class="image-video-embed__play-icon" aria-hidden="true" width="87" height="87" viewBox="0 0 90 85">
+                    <path d="M43.5 0C19.575 0 0 19.575 0 43.5C0 67.425 19.575 87 43.5 87C67.425 87 87 67.425 87 43.5C87 19.575 67.425 0 43.5 0ZM34.8 63.075V23.925L60.9 43.5L34.8 63.075Z" fill="white"/>
+                    <path d="M34.8 23.925V63.075L60.9 43.5L34.8 23.925Z" fill="#FF5D1C"/>
+                </svg>
+            
+                {% if caption %}
+                    <p class="image-video-embed__caption">{{ caption }}</p>
+                {% endif %}
+            </a>
+
+            {% include "patterns/molecules/video-modal/video-modal.html" with open_link=False %}
+        {% else %}
+            {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=900 height=415 image_large=image_large classList='image-video-embed__image' %}
+        {% endif %}
+    </div>
+</div>

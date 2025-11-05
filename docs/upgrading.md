@@ -15,9 +15,23 @@ As much as possible, we want to use the official releases available on PyPI for 
 
 ### Check these packages for updates
 
-**Last tested for wagtail 6.0 upgrade** Comments in the pyproject.toml file may have more detailed information.
+**Last tested for wagtail 7.0 upgrade** Comments in the pyproject.toml file may have more detailed information.
+
+wagtail-accessibility
+wagtail-django-recaptcha
+wagtail-factories
+wagtail-modeladmin
+wagtail-orderable (uses a forked tag)
+wagtail-rangefilter
+wagtail-storages
 
 It is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as they become available.
+
+## PostgreSQL extensions
+
+### pg_trgm extension
+
+The `pg_trgm` extension is enabled via Django migration (`rca/search/migrations/0001_initial.py`) to support trigram similarity search. The similarity threshold is defined as a constant in `rca/search/views.py`.
 
 ## Critical paths
 
@@ -119,10 +133,18 @@ As well as testing the critical paths, these areas of functionality should be ch
 
 The following templates are overridden and should be checked for changes when upgrading Wagtail:
 
-Last checked against Wagtail version: 6.4
+Last checked against Wagtail version: 7.0
 
 - `rca/account_management/templates/wagtailadmin/base.html`
 - `rca/project_styleguide/templates/patterns/pages/auth/login.html` - This was overridden to add the "Sign in with single sign-on" button to the login template.
+- `rca/images/forms.py` - default wagtail image upload form extended to provide copyright acknowledgement checkbox.
+
+## Overridden wagtail-modeladmin templates
+
+These have been overridden to add the Delete button to the list view.
+
+- `rca/scholarships/templates/scholarships/index.html`
+- `rca/enquire_to_study/templates/enquire_to_study/index.html`
 
 ---
 

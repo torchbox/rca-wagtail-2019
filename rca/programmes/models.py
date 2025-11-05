@@ -26,7 +26,7 @@ from wagtail.blocks import CharBlock, StructBlock
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.embeds import embeds
 from wagtail.embeds.exceptions import EmbedException
-from wagtail.fields import RichTextField, StreamBlock, StreamField
+from wagtail.fields import RichTextField, StreamBlock
 from wagtail.images import get_image_model_string
 from wagtail.images.api.fields import ImageRenditionField
 from wagtail.images.blocks import ImageChooserBlock
@@ -36,12 +36,17 @@ from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtailorderable.models import Orderable as WagtailOrdable
 
 from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
-from rca.programmes.blocks import NotableAlumniBlock
+from rca.programmes.blocks import (
+    ExperienceStoriesBlock,
+    NotableAlumniBlock,
+    SocialEmbedBlock,
+)
 from rca.programmes.utils import format_study_mode, get_accordion_snippet_content
 from rca.research.models import ResearchCentrePage
 from rca.schools.models import SchoolPage
 from rca.utils.blocks import (
     AccordionBlockWithTitle,
+    CTALinkBlock,
     FeeBlock,
     GalleryBlock,
     InfoBlock,
@@ -50,6 +55,7 @@ from rca.utils.blocks import (
     RelatedPageListBlockPage,
     StepBlock,
 )
+from rca.utils.fields import StreamField
 from rca.utils.formatters import related_list_block_slideshow
 from rca.utils.models import (
     BasePage,
@@ -310,7 +316,8 @@ class ProgrammeLocationProgrammePage(models.Model):
         "programmes.programmeLocation",
         on_delete=models.CASCADE,
     )
-    panels = [FieldPanel("programme_location")]
+    programme_location_url = models.URLField(blank=True)
+    panels = [FieldPanel("programme_location"), FieldPanel("programme_location_url")]
 
     def __str__(self):
         return self.programme_location.title
@@ -433,6 +440,13 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         verbose_name="Programme gallery",
     )
 
+    should_display_stories_above_gallery = models.BooleanField(
+        default=False,
+        help_text=(
+            "Checking this will display the programme stories above the programme gallery"
+        ),
+    )
+
     # Staff
     staff_title = models.CharField(
         blank=True,
@@ -454,6 +468,15 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="+",
+    )
+    vepple_post_id = models.IntegerField(
+        blank=True,
+        null=True,
+        help_text=(
+            'NOTE: This is the number from the <code>post="X"</code> part of the embed code '
+            "provided by Vepple. Wagtail only needs this ID, and will generate the rest of "
+            "the embed code for you."
+        ),
     )
     facilities_gallery = StreamField(
         [
@@ -607,6 +630,27 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         help_text="The title of the social media links section",
     )
 
+    # Experience
+    experience_introduction = models.TextField(
+        blank=True,
+        help_text="Introductory text for the Experience section",
+    )
+    experience_cta_link = StreamField(
+        [("link", CTALinkBlock())],
+        blank=True,
+        max_num=1,
+        verbose_name="Experience CTA Link",
+    )
+    experience_content = StreamField(
+        [
+            ("social_embeds", SocialEmbedBlock()),
+            ("story", ExperienceStoriesBlock()),
+        ],
+        blank=True,
+        verbose_name="Experience Content",
+        help_text="Add social embeds or editorial page stories",
+    )
+
     tags = ClusterTaggableManager(through=ProgrammePageTag, blank=True)
 
     content_panels = (
@@ -710,12 +754,14 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         MultiFieldPanel(
             [
                 FieldPanel("facilities_snippet"),
+                FieldPanel("vepple_post_id", heading="Vepple post ID"),
                 FieldPanel("facilities_gallery"),
             ],
             heading="Facilities",
         ),
         MultiFieldPanel([FieldPanel("notable_alumni_links")], heading="Alumni"),
         InlinePanel("programme_stories", label="Programme Stories", max_num=1),
+        FieldPanel("should_display_stories_above_gallery"),
         MultiFieldPanel(
             [
                 FieldPanel("contact_model_image"),
@@ -793,6 +839,11 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         MultiFieldPanel([FieldPanel("steps")], heading="Before you begin"),
         FieldPanel("qs_code"),
     ]
+    experience_panels = [
+        FieldPanel("experience_introduction"),
+        FieldPanel("experience_cta_link"),
+        FieldPanel("experience_content"),
+    ]
     promote_panels = BasePage.promote_panels + [
         MultiFieldPanel(
             [
@@ -817,6 +868,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             ObjectList(programme_curriculum_pannels, heading="Curriculum"),
             ObjectList(programme_requirements_pannels, heading="Requirements"),
             ObjectList(programme_fees_and_funding_panels, heading="Fees"),
+            ObjectList(experience_panels, heading="Experience"),
             ObjectList(programme_apply_pannels, heading="Apply"),
             ObjectList(promote_panels, heading="Promote"),
             ObjectList(BasePage.settings_panels, heading="Settings"),
@@ -924,8 +976,8 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
     @cached_property
     def campus_locations(self):
-        return self.programme_locations.values_list(
-            "programme_location__title", flat=True
+        return self.programme_locations.values(
+            "programme_location__title", "programme_location_url"
         ).order_by("programme_location__title")
 
     def get_admin_display_title(self):
@@ -1045,6 +1097,13 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     def has_social_media_links(self):
         return self.social_media_links.exists()
 
+    def has_vepple_panorama(self):
+        # Insert the script (in `base_page.html`) to load the Vepple panorama, if we have one.
+        if self.vepple_post_id:
+            return True
+
+        return False
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
         context["related_sections"] = [
@@ -1071,6 +1130,15 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             {"title": "Requirements"},
             {"title": "Fees & funding"},
         ]
+
+        # Only add the 'Experience' tab if the experience content is not empty.
+        if (
+            self.experience_introduction
+            or self.experience_introduction
+            or self.experience_content
+        ):
+            context["tabs"].append({"title": "Experience"})
+
         # Only add the 'apply tab' depending global settings or specific programme page settings
         site = Site.find_for_request(request)
         programme_settings = ProgrammeSettings.for_site(site)
@@ -1088,6 +1156,9 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         context["programme_stories"] = self.get_programme_stories(
             self.programme_stories.first()
         )
+
+        if self.vepple_post_id:
+            context["vepple_api_url"] = settings.VEPPLE_API_URL
 
         if self.tap_widget:
             context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
