@@ -30,4 +30,12 @@ class Migration(migrations.Migration):
             old_name="talks_summary_text",
             new_name="podcasts_summary_text",
         ),
+        migrations.AlterField(
+            model_name="eelandingpage",
+            name="podcasts_summary_text",
+            field=models.TextField(
+                help_text="Short text summary displayed with the 'Podcasts' title",
+                max_length=250,
+            ),
+        ),
     ]
