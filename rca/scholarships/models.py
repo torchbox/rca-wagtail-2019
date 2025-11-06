@@ -193,7 +193,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
 
         programme = None
         results = []
-        queryset = Scholarship.objects.prefetch_related(
+        queryset = Scholarship.objects.filter(active=True).prefetch_related(
             "eligable_programmes", "funding_categories", "fee_statuses"
         )
 
