@@ -47,9 +47,9 @@ class TestEELandingPageRules(WagtailPageTestCase):
                 stories_link_text="View more",
                 stories_link_target_url="https://rca.ac.uk",
                 stories_summary_text="These are the stories",
-                talks_link_text="View more",
-                talks_link_target_url="https://rca.ac.uk",
-                talks_summary_text="These are the talks",
+                podcasts_link_text="View more",
+                podcasts_link_target_url="https://rca.ac.uk",
+                podcasts_summary_text="These are the talks",
                 cta_navigation_title="Media centre",
             )
         )
