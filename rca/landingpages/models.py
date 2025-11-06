@@ -448,6 +448,8 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
                     }
                     item["related_items"].append(page)
                 if page_block.block_type == "page":
+                    if not page_block.value:
+                        continue
                     item["related_items"].append(page_block.value.specific)
             items.append(item)
         return items
@@ -461,6 +463,9 @@ class LandingPage(TapMixin, ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePa
         # The template is formatted to work with blocks, so we need to match the
         # data structure to now work with pages chooser values
         for slide in slideshow_pages.all():
+            if not slide.page:
+                continue
+
             page = slide.page.specific
             if not page.live:
                 continue
@@ -836,7 +841,11 @@ class EELandingPage(ContactFieldsMixin, BasePage):
 
     def get_stories(self):
         pages = self.related_editorial_story_pages.all().select_related("page")
-        return [editorial_teaser_formatter(page.page.specific) for page in pages]
+        return [
+            editorial_teaser_formatter(page.page.specific)
+            for page in pages
+            if page.page
+        ]
 
     @property
     def news_view_all(self):
