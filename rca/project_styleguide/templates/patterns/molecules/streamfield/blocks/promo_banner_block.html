@@ -6,7 +6,7 @@
 {# Match the background color of the previous section if it exists, otherwise use the value's background color #}
 <section class="section section--top-space bg bg--{% if previous_section_bg %}{{ previous_section_bg }}{% elif value.background_color == "dark" %}light{% else %}dark{% endif %}">
     <div class="promo-banner bg bg--{{ value.background_color }}">
-        <div class="promo-banner__grid">
+        <div class="promo-banner__grid grid">
             <div class="promo-banner__intro">
                 <h2 class="promo-banner__heading heading heading--one">{{ value.title }}</h2>
                 <p class="promo-banner__text heading heading--five">{{ value.strapline }}</p>
