@@ -24,8 +24,6 @@ context:
       - step:
         value:
           heading: 'Use the ‘Express interest’ button if you hold an offer'
-    lower_body:
-      - dummy
     contact: true
     contact_model_image: true
     published_at: !!timestamp '2020-05-13 2:00:00'
