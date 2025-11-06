@@ -17,11 +17,8 @@
     }
 
     &__grid {
-        @include grid-layout();
-
         @include media-query(large) {
-            padding: 0;
-            grid-template-columns: repeat(5, 1fr);
+            overflow: visible;
         }
     }
 
@@ -79,11 +76,12 @@
         margin-bottom: ($gutter * 2);
 
         @include media-query(large) {
-            display: grid;
             grid-column: 4 / span 2;
             margin-bottom: -($gutter * 3.5);
             order: 0;
             position: relative;
+            // 100% + the last grid item in `grid-layout`
+            width: 116.74%;
         }
 
         #{$root}__image,
