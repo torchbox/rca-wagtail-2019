@@ -1125,7 +1125,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
                 ),
                 "funding_categories",
                 "fee_statuses",
-            ).all()
+            ).filter(active=True)
 
             return [
                 {
