@@ -3163,6 +3163,25 @@ wagtail = ">=5.2"
 testing = ["coverage (>=4.5)"]
 
 [[package]]
+name = "wagtailmedia"
+version = "0.16.0"
+description = "A Wagtail module for audio and video files."
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "wagtailmedia-0.16.0-py3-none-any.whl", hash = "sha256:40e3adc077ed6251b9c43a7177649e8cdefa4f94828dff6f1ca3e48ba61dcdca"},
+    {file = "wagtailmedia-0.16.0.tar.gz", hash = "sha256:1f757984240822a7ddfe3eda8e58243f31a3c29935ce8014499e7e664923d4c9"},
+]
+
+[package.dependencies]
+Django = ">=4.2"
+Wagtail = ">=6.3"
+
+[package.extras]
+linting = ["pre-commit (>=4.2.0)"]
+testing = ["coverage (>=7.8.0)"]
+
+[[package]]
 name = "watchdog"
 version = "4.0.0"
 description = "Filesystem events monitoring"
@@ -3384,4 +3403,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.11"
-content-hash = "c819112da4982095811643daf1919d4170691b8339d012f53819578d12927870"
+content-hash = "ea1090f0985026a23a3f3ad0fcd93706d91f3965a1c200f09601b9816db1d4e0"

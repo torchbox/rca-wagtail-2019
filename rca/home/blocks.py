@@ -2,9 +2,12 @@ from collections import defaultdict
 from itertools import chain
 
 from django.core.exceptions import ValidationError
+from django.forms.utils import ErrorList
 from django.utils import timezone
 from wagtail import blocks
+from wagtail.blocks.struct_block import StructBlockValidationError
 from wagtail.images.blocks import ImageChooserBlock
+from wagtailmedia.blocks import VideoChooserBlock
 
 from rca.editorial.models import EditorialPage
 from rca.events.models import EventDetailPage
@@ -234,7 +237,8 @@ class PromoBannerBlock(blocks.StructBlock):
         default="light",
         help_text="Select the background color for this promo banner",
     )
-    image = ImageChooserBlock()
+    image = ImageChooserBlock(required=False)
+    video = VideoChooserBlock(required=False)
     title = blocks.CharBlock()
     strapline = blocks.CharBlock()
     cta = LinkBlock(label="Call to Action")
@@ -243,6 +247,23 @@ class PromoBannerBlock(blocks.StructBlock):
         template = "patterns/molecules/streamfield/blocks/promo_banner_block.html"
         icon = "image"
         label = "Promo Banner"
+
+    def clean(self, value):
+        value = super().clean(value)
+        errors = {}
+
+        if value["image"] and value["video"]:
+            error = ["Please select either an image or a video, but not both."]
+            errors["image"] = errors["video"] = ErrorList(error)
+
+        if not value["image"] and not value["video"]:
+            error = ["Please select either an image or a video."]
+            errors["image"] = errors["video"] = ErrorList(error)
+
+        if errors:
+            raise StructBlockValidationError(errors)
+
+        return value
 
 
 class HomePageBodyBlock(blocks.StreamBlock):

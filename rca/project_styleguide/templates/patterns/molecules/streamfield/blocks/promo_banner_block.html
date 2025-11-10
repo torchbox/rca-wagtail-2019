@@ -6,7 +6,7 @@
 {# Match the background color of the previous section if it exists, otherwise use the value's background color #}
 <section class="section section--top-space bg bg--{% if previous_section_bg %}{{ previous_section_bg }}{% elif value.background_color == "dark" %}light{% else %}dark{% endif %}">
     <div class="promo-banner bg bg--{{ value.background_color }}">
-        <div class="grid">
+        <div class="promo-banner__grid grid">
             <div class="promo-banner__intro">
                 <h2 class="promo-banner__heading heading heading--one">{{ value.title }}</h2>
                 <p class="promo-banner__text heading heading--five">{{ value.strapline }}</p>
@@ -19,8 +19,14 @@
                 </a>
             {% endif %}
 
-            <div class="promo-banner__image-container">
-                {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=580 height=607 image_large=image_large classList='promo-banner__image' %}
+            <div class="promo-banner__media-container">
+                {% if value.image %}
+                    {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=580 height=607 image_large=image_large classList='promo-banner__image' %}
+                {% else %}
+                    <video controls autoplay muted loop loading="lazy" preload="none" class="promo-banner__video">
+                        <source src="{{ value.video.url }}" type="video/{{ value.video.file_extension }}">
+                    </video>
+                {% endif %}
             </div>
         </div>
     </div>
