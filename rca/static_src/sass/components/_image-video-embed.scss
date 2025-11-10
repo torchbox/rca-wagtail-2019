@@ -1,35 +1,14 @@
 .image-video-embed {
     $root: &;
+    grid-column: 1 / span 2;
     margin-bottom: ($gutter * 2);
 
     @include media-query(medium) {
         margin-bottom: ($gutter * 3);
     }
 
-    &__container {
-        grid-column: 1 / span 2;
-
-        @include media-query(large) {
-            grid-column: 2 / span 3;
-        }
-    }
-
-    &__image {
-        @include z-index(above-gridlines);
-        position: relative;
-
-        #{$root}__link & {
-            opacity: 0.8;
-
-            @include media-query(medium) {
-                opacity: 1;
-                transition: opacity $transition;
-
-                #{$root}:hover & {
-                    opacity: 0.8;
-                }
-            }
-        }
+    @include media-query(large) {
+        grid-column: 2 / span 3;
     }
 
     &__link {
@@ -62,11 +41,33 @@
         }
     }
 
+    &__image-container {
+        position: relative;
+    }
+
+    &__image {
+        @include z-index(above-gridlines);
+        position: relative;
+
+        #{$root}__link & {
+            opacity: 0.8;
+
+            @include media-query(medium) {
+                opacity: 1;
+                transition: opacity $transition;
+
+                #{$root}:hover & {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+
     &__play-icon {
         @include z-index(above-gridlines);
         position: absolute;
         left: 50%;
-        top: 40%;
+        top: 50%;
         transform: translate3d(-50%, -50%, 0);
         pointer-events: none;
         height: 50px;
@@ -78,7 +79,6 @@
 
         @include media-query(medium) {
             height: 80px;
-            top: 45%;
             width: 80px;
         }
     }

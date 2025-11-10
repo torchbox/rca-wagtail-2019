@@ -16,7 +16,7 @@
         <div class="section__row grid">
     {% endif %}
         {% if image or video %}
-            {% include "patterns/molecules/image-caption-link/image-caption-link.html" with caption=caption modal=modal %}
+            {% include "patterns/organisms/image-video-embed/image-video-embed.html" with modal=modal image=image caption=caption video=video %}
         {% endif %}
     {% if not out_of_grid %}
         </div>
