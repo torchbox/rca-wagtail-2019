@@ -48,7 +48,7 @@ class GuidePage(
         index.SearchField("introduction"),
         index.AutocompleteField("introduction"),
         index.SearchField("body"),
-        index.SearchField("further_information"),
+        index.SearchField("further_information_block"),
     ]
 
     content_panels = (

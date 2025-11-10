@@ -75,29 +75,29 @@
             </section>
 
             {# Talks #}
-            <section class="section section--start bg bg--dark anchor-heading" id="talks">
+            <section class="section section--start bg bg--dark anchor-heading" id="podcasts">
 
                 <div class="section__row section__row--last-small">
                     <div class="section__header section__header--bottom-space-small grid">
                         <h2 class="section__heading section__heading--secondary section__heading--tight heading heading--two">
-                            Talks
+                            Podcasts
                         </h2>
-                        {% if page.talks_summary_text %}
+                        {% if page.podcasts_summary_text %}
                             <div class="section__introduction layout__start-one layout__span-two layout__@large-start-four layout__@large-span-one">
-                                {{ page.talks_summary_text }}
+                                {{ page.podcasts_summary_text }}
                             </div>
                         {% endif %}
                     </div>
                     <div class="section__content">
 
-                        {% if page.talks_image %}
-                            {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=False curriculum=False heading=False has_meta=False copy=False subheading=False image=page.talks_image caption=page.video_caption video=page.video modifier="small-bottom-margin image-video-block--no-padding" %}
+                        {% if page.podcasts_image %}
+                            {% include "patterns/organisms/image-video-block/image-video-block.html" with modal=page.video out_of_grid=False curriculum=False heading=False has_meta=False copy=False subheading=False image=page.podcasts_image caption=page.video_caption video=page.video modifier="small-bottom-margin image-video-block--no-padding" %}
                         {% endif %}
 
-                        {% if page.talks_link_target_url %}
+                        {% if page.podcasts_link_target_url %}
                         <div class="section__action grid">
-                            <a class="layout__@large-start-four link link--primary link--link body body--two" href="{{ page.talks_link_target_url }}">
-                                <span class="link__label">{% firstof page.talks_link_text 'Browse all Talks' %}</span>
+                            <a class="layout__@large-start-four link link--primary link--link body body--two" href="{{ page.podcasts_link_target_url }}">
+                                <span class="link__label">{% firstof page.podcasts_link_text 'Browse all podcasts' %}</span>
                                 <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
                             </a>
                         </div>
