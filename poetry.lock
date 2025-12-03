@@ -3195,9 +3195,9 @@ test = ["factory_boy (==3.2.1)", "flake8", "flake8-blind-except", "flake8-debugg
 
 [package.source]
 type = "git"
-url = "https://github.com/wagtail-nest/wagtail-personalisation.git"
-reference = "72d6f67b4861a69962ed050ade8ce2d5f0bfae8a"
-resolved_reference = "72d6f67b4861a69962ed050ade8ce2d5f0bfae8a"
+url = "https://github.com/patrickcuagan/wagtail-personalisation.git"
+reference = "HEAD"
+resolved_reference = "67e61b2ff48e13067771f002edcddffb1b0d9b4a"
 
 [[package]]
 name = "wagtail-rangefilter"
@@ -3496,4 +3496,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.11"
-content-hash = "7824d370577b7be1f624a208b40ac09922bd6d752463dcdb315d6776dde7537c"
+content-hash = "28c5d17b879f78c67ba0ec7c2ef58d4ee23f9bc75ddbf79118d9782120d49198"
