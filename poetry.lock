@@ -2159,6 +2159,17 @@ files = [
 ]
 
 [[package]]
+name = "pycountry"
+version = "24.6.1"
+description = "ISO country, subdivision, language, currency and script definitions and their translations"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pycountry-24.6.1-py3-none-any.whl", hash = "sha256:f1a4fb391cd7214f8eefd39556d740adcc233c778a27f8942c8dca351d6ce06f"},
+    {file = "pycountry-24.6.1.tar.gz", hash = "sha256:b61b3faccea67f87d10c1f2b0fc0be714409e8fcdcc1315613174f6466c10221"},
+]
+
+[[package]]
 name = "pycparser"
 version = "2.21"
 description = "C parser in Python"
@@ -2947,6 +2958,35 @@ files = [
 ]
 
 [[package]]
+name = "ua-parser"
+version = "1.0.1"
+description = "Python port of Browserscope's user agent parser"
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "ua_parser-1.0.1-py3-none-any.whl", hash = "sha256:b059f2cb0935addea7e551251cbbf42e9a8872f86134163bc1a4f79e0945ffea"},
+    {file = "ua_parser-1.0.1.tar.gz", hash = "sha256:f9d92bf19d4329019cef91707aecc23c6d65143ad7e29a233f0580fb0d15547d"},
+]
+
+[package.dependencies]
+ua-parser-builtins = "*"
+
+[package.extras]
+re2 = ["google-re2"]
+regex = ["ua-parser-rs"]
+yaml = ["PyYaml"]
+
+[[package]]
+name = "ua-parser-builtins"
+version = "0.18.0.post1"
+description = "Precompiled rules for User Agent Parser"
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "ua_parser_builtins-0.18.0.post1-py3-none-any.whl", hash = "sha256:eb4f93504040c3a990a6b0742a2afd540d87d7f9f05fd66e94c101db1564674d"},
+]
+
+[[package]]
 name = "urllib3"
 version = "2.5.0"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
@@ -2962,6 +3002,20 @@ brotli = ["brotli (>=1.0.9)", "brotlicffi (>=0.8.0)"]
 h2 = ["h2 (>=4,<5)"]
 socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
 zstd = ["zstandard (>=0.18.0)"]
+
+[[package]]
+name = "user-agents"
+version = "2.2.0"
+description = "A library to identify devices (phones, tablets) and their capabilities by parsing browser user agent strings."
+optional = false
+python-versions = "*"
+files = [
+    {file = "user-agents-2.2.0.tar.gz", hash = "sha256:d36d25178db65308d1458c5fa4ab39c9b2619377010130329f3955e7626ead26"},
+    {file = "user_agents-2.2.0-py3-none-any.whl", hash = "sha256:a98c4dc72ecbc64812c4534108806fb0a0b3a11ec3fd1eafe807cee5b0a942e7"},
+]
+
+[package.dependencies]
+ua-parser = ">=0.10.0"
 
 [[package]]
 name = "virtualenv"
@@ -3070,6 +3124,20 @@ docs = ["sphinx (>=7.3.7)"]
 test = ["coverage (==7.5.1)", "pytest (==8.2.1)", "pytest-cov (==5.0.0)", "pytest-django (==4.8.0)", "ruff (==0.4.4)"]
 
 [[package]]
+name = "wagtail-font-awesome-svg"
+version = "2.0"
+description = "Font Awesome 7 icons as SVG for Wagtail"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "wagtail_font_awesome_svg-2.0-py3-none-any.whl", hash = "sha256:031e0d3d64ec96a87216519502c97a29ef6e6f10f4f8d6bbb4c98dce567bd9b7"},
+    {file = "wagtail_font_awesome_svg-2.0.tar.gz", hash = "sha256:aac01b5ea8b0c3de3e363a91aa5067f514b9cd385224d6ba7153d9de47120493"},
+]
+
+[package.dependencies]
+wagtail = "*"
+
+[[package]]
 name = "wagtail-modeladmin"
 version = "2.2.0"
 description = "Add any model in your project to the Wagtail admin. Formerly wagtail.contrib.modeladmin."
@@ -3105,6 +3173,31 @@ type = "git"
 url = "https://github.com/torchbox-forks/wagtail-orderable.git"
 reference = "HEAD"
 resolved_reference = "03c6425f44526e301bfe869e9d33b696324382c6"
+
+[[package]]
+name = "wagtail-personalisation"
+version = "0.15.3"
+description = "A Wagtail add-on for showing personalized content"
+optional = false
+python-versions = "*"
+files = []
+develop = false
+
+[package.dependencies]
+pycountry = "*"
+user-agents = ">=1.1.0"
+wagtail = ">=4.1"
+wagtail-font-awesome-svg = ">=1.0.1"
+
+[package.extras]
+docs = ["sphinx (>=1.7.6)", "sphinx_rtd_theme (>=0.4.0)"]
+test = ["factory_boy (==3.2.1)", "flake8", "flake8-blind-except", "flake8-debugger", "flake8-isort", "freezegun (==1.2.1)", "pytest (==6.2.5)", "pytest-cov (==3.0.0)", "pytest-django (==4.5.2)", "pytest-mock (==3.8.1)", "pytest-pythonpath (==0.7.4)", "pytest-sugar (==0.9.4)", "wagtail_factories (==4.1.0)", "wagtail_modeladmin (>=1.0)"]
+
+[package.source]
+type = "git"
+url = "https://github.com/wagtail-nest/wagtail-personalisation.git"
+reference = "HEAD"
+resolved_reference = "72d6f67b4861a69962ed050ade8ce2d5f0bfae8a"
 
 [[package]]
 name = "wagtail-rangefilter"
@@ -3403,4 +3496,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.11"
-content-hash = "ea1090f0985026a23a3f3ad0fcd93706d91f3965a1c200f09601b9816db1d4e0"
+content-hash = "838e0bb9507e00759f164386e538b500a96e34228505592e791b1c0b42bf0b51"

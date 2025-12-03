@@ -48,6 +48,8 @@ whitenoise = "^6.9.0"
 social-auth-app-django = "^5.4.3"  # Release 5.5 drops support for Django 4.2
 django-xff = "^1.5.0"
 wagtailmedia = "^0.16.0"
+wagtail-personalisation = {git = "https://github.com/wagtail-nest/wagtail-personalisation.git"}
+wagtail-font-awesome-svg = "^2.0"
 
 [tool.poetry.extras]
 gunicorn = ["gunicorn"]
