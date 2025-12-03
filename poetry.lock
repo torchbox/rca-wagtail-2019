@@ -3196,7 +3196,7 @@ test = ["factory_boy (==3.2.1)", "flake8", "flake8-blind-except", "flake8-debugg
 [package.source]
 type = "git"
 url = "https://github.com/wagtail-nest/wagtail-personalisation.git"
-reference = "HEAD"
+reference = "72d6f67b4861a69962ed050ade8ce2d5f0bfae8a"
 resolved_reference = "72d6f67b4861a69962ed050ade8ce2d5f0bfae8a"
 
 [[package]]
@@ -3496,4 +3496,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.11"
-content-hash = "838e0bb9507e00759f164386e538b500a96e34228505592e791b1c0b42bf0b51"
+content-hash = "7824d370577b7be1f624a208b40ac09922bd6d752463dcdb315d6776dde7537c"
