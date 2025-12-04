@@ -43,7 +43,7 @@ class ScholarshipFactory(factory.django.DjangoModelFactory):
         obj.eligable_programmes.add(*extracted)
 
     @factory.post_generation
-    def funding_categories(obj, create, extracted, **kwargs):
+    def other_criteria(obj, create, extracted, **kwargs):
         if not create:
             return
 
@@ -52,7 +52,7 @@ class ScholarshipFactory(factory.django.DjangoModelFactory):
                 strategy=factory.CREATE_STRATEGY,
                 size=random.randint(1, 4),
             )
-        obj.funding_categories.add(*extracted)
+        obj.other_criteria.add(*extracted)
 
     @factory.post_generation
     def fee_statuses(obj, create, extracted, **kwargs):
