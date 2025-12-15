@@ -1,7 +1,7 @@
 .collapsible-nav {
     position: relative;
 
-    &__header {
+    &__inner {
         @include z-index(above-header-gridlines);
         position: fixed;
         top: 25%;
@@ -29,7 +29,7 @@
         }
     }
 
-    &__aside {
+    &__content {
         display: none;
         flex-direction: column;
         align-items: flex-end;
@@ -75,7 +75,7 @@
             }
         }
 
-        &__aside {
+        &__content {
             display: flex;
         }
 

@@ -1,7 +1,7 @@
 {% if collapsible_nav.links %}
     <div class="collapsible-nav" data-collapsible-nav>
-        <div class="collapsible-nav__header">
-            <aside class="collapsible-nav__aside">
+        <div class="collapsible-nav__inner">
+            <div class="collapsible-nav__content">
                 <nav class="collapsible-nav__nav" id="quick-links" aria-label="Quick links">
                     <ul>
                         {% for link in collapsible_nav.links %}
@@ -41,7 +41,7 @@
                 <button class="collapsible-nav__button collapsible-nav__button--close button" aria-expanded="true" aria-controls="quick-links" aria-label="Close quick links" data-close-collapsible-nav-button>
                     <svg width="17" height="14" class="collapsible-nav__button-icon" aria-hidden="true"><use xlink:href="#close"></use></svg>
                 </button>
-            </aside>
+            </div>
 
             <button class="collapsible-nav__button collapsible-nav__button--open button" aria-expanded="false" aria-controls="quick-links" aria-label="Open quick links" data-open-collapsible-nav-button>
                 <svg width="17" height="14" class="collapsible-nav__button-icon" aria-hidden="true"><use xlink:href="#menu-icon"></use></svg>

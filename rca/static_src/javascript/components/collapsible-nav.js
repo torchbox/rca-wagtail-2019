@@ -17,8 +17,8 @@ class CollapsibleNav {
     bindEvents() {
         this.openCollapsibleNavButton.addEventListener('click', () => {
             this.collapsibleNav.classList.add('is-open');
-            // focus the first link in the nav
-            this.collapsibleNav.querySelector('a').focus();
+            // focus the close button
+            this.closeCollapsibleNavButton.focus();
         });
         this.closeCollapsibleNavButton.addEventListener('click', () => {
             this.collapsibleNav.classList.remove('is-open');
