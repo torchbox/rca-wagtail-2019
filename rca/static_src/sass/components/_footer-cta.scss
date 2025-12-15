@@ -1,0 +1,59 @@
+.footer-cta {
+    background-color: $color--black;
+    color: $color--white;
+    padding: ($gutter * 2) 0 ($gutter * 3);
+
+    @include media-query(medium) {
+        padding: ($gutter * 2) 0;
+    }
+
+    @include media-query(large) {
+        padding: ($gutter * 2) 0 0;
+    }
+
+    &__title {
+        grid-column: 1 / span 2;
+        margin-bottom: ($gutter * 0.5);
+
+        @include media-query(medium) {
+            grid-column: 1 / span 1;
+            margin-right: $gutter;
+        }
+
+        @include media-query(large) {
+            margin-bottom: $gutter;
+            grid-column: 2 / span 1;
+        }
+    }
+
+    &__description {
+        grid-column: 1 / span 2;
+        color: $color--light-grey;
+        margin: 0;
+
+        @include media-query(medium) {
+            grid-column: 1 / span 1;
+            margin-right: $gutter;
+        }
+
+        @include media-query(large) {
+            grid-column: 2 / span 1;
+        }
+    }
+
+    &__link {
+        grid-column: 1 / span 1;
+        display: flex;
+        align-items: flex-end;
+        margin-top: ($gutter * 2);
+
+        @include media-query(medium) {
+            grid-column: 2 / span 1;
+            margin-top: 0;
+        }
+
+        @include media-query(large) {
+            grid-column: 3 / span 1;
+        }
+    }
+}
