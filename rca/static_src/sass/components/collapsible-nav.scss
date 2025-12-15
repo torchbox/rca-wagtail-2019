@@ -45,7 +45,11 @@
     }
 
     &__link-item {
-        padding: 15px $gutter;
+        padding: 15px;
+
+        @include media-query(medium) {
+            padding: 15px $gutter;
+        }
 
         &:not(:last-child) {
             border-bottom: 1px solid $color--orange-light;
@@ -54,12 +58,17 @@
 
     &__link {
         @include underline-hover();
+        font-size: 0.89rem; // 16px
         color: $color--black;
+
+        @include media-query(medium) {
+            font-size: map-get($medium-font-sizes, xs);
+        }
     }
 
     .is-open & {
         &__header {
-            width: calc(100% - #{$gutter});
+            width: 55%;
 
             @include media-query(medium) {
                 width: 50%;
