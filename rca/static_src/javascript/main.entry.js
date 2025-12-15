@@ -34,6 +34,7 @@ import SubMenu from './components/submenu';
 import Tabs from './components/tabs';
 import VideoModal from './components/video-modal';
 import VideoPlayer from './components/video-stream';
+import CollapsibleNav from './components/collapsible-nav';
 
 import '../sass/main.scss';
 
@@ -162,8 +163,16 @@ document.addEventListener('DOMContentLoaded', () => {
         new TableHint(tablehint);
     }
 
-    for (const videoStream of document.querySelectorAll(VideoPlayer.selector())) {
+    for (const videoStream of document.querySelectorAll(
+        VideoPlayer.selector(),
+    )) {
         new VideoPlayer(videoStream);
+    }
+
+    for (const collapsibleNav of document.querySelectorAll(
+        CollapsibleNav.selector(),
+    )) {
+        new CollapsibleNav(collapsibleNav);
     }
 
     new ActualHeight();

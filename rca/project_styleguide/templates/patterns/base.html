@@ -80,6 +80,8 @@
         <main class="app__content">
 
             {% include "patterns/atoms/grid-lines/grid-lines.html" with data_tag_left="data-left-edge" data_tag_center="data-grid-center" %}
+            
+            {% include 'patterns/molecules/collapsible_nav/collapsible_nav.html' %}
 
             {% block content %}
                 {% if pattern_library_rendered_pattern %}
