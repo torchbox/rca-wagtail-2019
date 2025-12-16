@@ -6,7 +6,11 @@
         position: fixed;
         top: 25%;
         right: 0;
-        width: auto;
+        width: 50%;
+
+        @include media-query(small) {
+            width: auto;
+        }
     }
 
     &__button {
