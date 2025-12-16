@@ -1,0 +1,10 @@
+context:
+  value:
+    title: Receive our exclusive brochure!
+    description: Sign up to receive our latest brochure and stay informed about upcoming events and courses.
+
+tags:
+  image:
+    value.image fill-880x473 format-webp loading="lazy":
+      raw: |
+        <img src="https://placehold.co/880x473" width="880" height="473" alt="Some alt">
