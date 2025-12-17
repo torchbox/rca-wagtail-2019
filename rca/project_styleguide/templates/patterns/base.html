@@ -102,7 +102,9 @@
             {% block footer %}{% endblock %}
         </footer>
 
-        {% include "patterns/organisms/countdown_cta/countdown_cta.html" %}
+        {% if page.countdown_cta %}
+            {% include "patterns/organisms/countdown_cta/countdown_cta.html" %}
+        {% endif %}
 
         <script src="{% static 'js/main.js' %}"></script>
         {% block extra_js %}{% endblock %}
