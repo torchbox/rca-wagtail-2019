@@ -1,8 +1,26 @@
 .modal {
+    $root: &;
+
     display: none;
 
     &.is-open {
         display: block;
+    }
+
+    &--cta {
+        #{$root}__title {
+            font-size: map-get($large-font-sizes, l);
+            margin-bottom: ($gutter * 0.5);
+        }
+
+        #{$root}__overlay {
+            display: flex;
+            align-items: center;
+
+            @include media-query(large) {
+                display: block;
+            }
+        }
     }
 
     &__overlay {
@@ -134,10 +152,11 @@
         @include media-query(large) {
             width: calc(100% / 3 * 2);
         }
+    }
 
-        p:last-child {
-            margin-bottom: 0;
-        }
+    &__description {
+        color: $color--dark-grey;
+        margin-bottom: 0;
     }
 
     @keyframes fadeIn {
