@@ -1,0 +1,10 @@
+context:
+  value:
+    countdown: !!timestamp '2021-07-19 2:00:00'
+    countdown_text: 'Registration closes in'
+    title: 'Join us for the RCA Open Day'
+    start_date: !!timestamp '2021-07-19 2:00:00'
+    end_date: !!timestamp '2021-07-19 2:00:00'
+    link:
+      url: '#'
+      text: 'Register Now'

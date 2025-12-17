@@ -102,6 +102,8 @@
             {% block footer %}{% endblock %}
         </footer>
 
+        {% include "patterns/organisms/countdown_cta/countdown_cta.html" %}
+
         <script src="{% static 'js/main.js' %}"></script>
         {% block extra_js %}{% endblock %}
         {% block tap_widget %}

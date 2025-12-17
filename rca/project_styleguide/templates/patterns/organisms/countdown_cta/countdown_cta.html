@@ -1,0 +1,21 @@
+<div class="countdown-cta">
+    <div class="grid">
+        {% include "patterns/atoms/grid-lines/grid-lines.html" %}
+        <div class="countdown-cta__details">
+            <p class="countdown-cta__counter">
+                {% if value.countdown_text %}{{ value.countdown_text }} {% endif %}
+                {{ value.countdown }}
+            </p>
+            <p class="countdown-cta__title">{{ value.title }}</p>
+            <p class="countdown-cta__date">{{ value.start_date }} - {{ value.end_date }}</p>
+        </div>
+        <div class="countdown-cta__link">
+            {% include "patterns/atoms/modal-launcher/modal-launcher--no-modal.html" %}
+        </div>
+    </div>
+    <button class="countdown-cta__close-button button" aria-label="Close countdown banner">
+        <svg class="countdown-cta__close-icon" width="15" height="15" aria-hidden="true">
+            <use xlink:href="#close" />
+        </svg>
+    </button>
+</div>
