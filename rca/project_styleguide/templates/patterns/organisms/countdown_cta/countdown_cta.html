@@ -7,7 +7,13 @@
                 <span data-countdown-timer></span>
             </p>
             <p class="countdown-cta__title">{{ value.title }}</p>
-            <p class="countdown-cta__date">{{ value.start_date }} - {{ value.end_date }}</p>
+            {% if value.start_date and value.end_date %}
+                <p class="countdown-cta__date">{{ value.start_date|date:"j" }}-{{ value.end_date|date:"j" }} {{ value.end_date|date:"F" }}, {{ value.start_date|date:"ga" }}-{{ value.end_date|date:"ga" }}</p>
+            {% elif value.start_date %}
+                <p class="countdown-cta__date">{{ value.start_date|date:"j F" }}, {{ value.start_date|date:"ga" }}</p>
+            {% elif value.end_date %}
+                <p class="countdown-cta__date">{{ value.end_date|date:"j F" }}, {{ value.end_date|date:"ga" }}</p>
+            {% endif %}
         </div>
         <div class="countdown-cta__link">
             {% include "patterns/atoms/modal-launcher/modal-launcher--no-modal.html" %}
