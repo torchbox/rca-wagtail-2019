@@ -1,10 +1,10 @@
-<div class="countdown-cta">
+<div class="countdown-cta" data-countdown-cta data-countdown-date="{{ value.countdown_date|date:'Y-m-d H:i:s' }}">
     <div class="grid">
         {% include "patterns/atoms/grid-lines/grid-lines.html" %}
         <div class="countdown-cta__details">
             <p class="countdown-cta__counter">
                 {% if value.countdown_text %}{{ value.countdown_text }} {% endif %}
-                {{ value.countdown }}
+                <span data-countdown-timer></span>
             </p>
             <p class="countdown-cta__title">{{ value.title }}</p>
             <p class="countdown-cta__date">{{ value.start_date }} - {{ value.end_date }}</p>

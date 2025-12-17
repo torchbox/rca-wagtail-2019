@@ -1,6 +1,6 @@
 context:
   value:
-    countdown: !!timestamp '2021-07-19 2:00:00'
+    countdown_date: !!timestamp '2026-12-25 10:00:00'
     countdown_text: 'Registration closes in'
     title: 'Join us for the RCA Open Day'
     start_date: !!timestamp '2021-07-19 2:00:00'

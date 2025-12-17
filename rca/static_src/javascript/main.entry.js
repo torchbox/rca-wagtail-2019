@@ -6,6 +6,7 @@ import ActualHeight from './components/actual-height';
 import AnchorNav from './components/anchor-nav';
 import BackLink from './components/back-link';
 import Carousel from './components/carousel';
+import CountdownCTA from './components/countdown-cta';
 import PeekFullCarousel from './components/carousel-full-peek';
 import PeekCarousel from './components/carousel-peek';
 import EmailShare from './components/email-share';
@@ -173,6 +174,12 @@ document.addEventListener('DOMContentLoaded', () => {
         CollapsibleNav.selector(),
     )) {
         new CollapsibleNav(collapsibleNav);
+    }
+
+    for (const countdowncta of document.querySelectorAll(
+        CountdownCTA.selector(),
+    )) {
+        new CountdownCTA(countdowncta);
     }
 
     new ActualHeight();
