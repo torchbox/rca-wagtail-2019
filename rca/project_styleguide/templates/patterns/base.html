@@ -78,7 +78,9 @@
         </nav>
 
         <main class="app__content">
-            {% include 'patterns/molecules/cta_modal/cta_modal.html' %}
+            {% if page.cta_modal %}
+                {% include 'patterns/molecules/cta_modal/cta_modal.html' %}
+            {% endif %}
 
             {% include "patterns/atoms/grid-lines/grid-lines.html" with data_tag_left="data-left-edge" data_tag_center="data-grid-center" %}
             
