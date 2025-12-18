@@ -179,6 +179,6 @@ tags:
         url: 'https://placehold.co/554x554'
         width: '554'
         height: '554'
-    value.image fill-880x473 format-webp loading="lazy":
+    value.image fill-880x495 format-webp loading="lazy":
       raw: |
-        <img src="https://placehold.co/880x473" width="880" height="473" alt="" loading="lazy" />
+        <img src="https://placehold.co/880x495" width="880" height="495" alt="" loading="lazy" />
