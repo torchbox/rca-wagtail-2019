@@ -1,5 +1,5 @@
 {% load wagtailcore_tags %}
-<div class="text-teaser">
+<div class="text-teaser{% if classes %} {{ classes }}{% endif %}">
     <div class="text-teaser__container grid">
         {% if teaser.title %}
             <h2 class="text-teaser__heading heading {% if heading_size == 'small' %}heading--three{% else %}heading--two{% endif %}">{{ teaser.title }}</h2>
