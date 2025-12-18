@@ -28,6 +28,9 @@ context:
         url: '#'
       - text: 'Visit our showcase page'
         url: '#'
+    cta_modal:
+      title: Receive our exclusive brochure!
+      description: Sign up to receive our latest brochure and stay informed about upcoming events and courses.
   image_video_block:
     heading: Ideas that can change the world
     subheading: RCA projects that have the potential to transform our world for the better
