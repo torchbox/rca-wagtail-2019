@@ -1,0 +1,8 @@
+context:
+  collapsible_nav:
+    - text: 'Join an open event'
+      url: '#'
+    - text: 'Complete your enrolment'
+      url: '#'
+    - text: 'Visit our showcase page'
+      url: '#'

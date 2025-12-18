@@ -3,38 +3,14 @@
         <div class="collapsible-nav__content">
             <nav class="collapsible-nav__nav" id="quick-links" aria-label="Quick links">
                 <ul>
-                    {% for link in collapsible_nav.links %}
-                        <li>
-                            <li class="collapsible-nav__link-item">
-                                <a href="{{ link.url }}" class="link link--link link--tertiar collapsible-nav__link">
-                                    <span class="link__label">{{ link.text }}</span>
-                                    <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                                </a>
-                            </li>
+                    {% for link in collapsible_nav %}
+                        <li class="collapsible-nav__link-item">
+                            <a href="{{ link.url }}" class="link link--link link--tertiar collapsible-nav__link">
+                                <span class="link__label">{{ link.text }}</span>
+                                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                            </a>
                         </li>
                     {% endfor %}
-                    
-                    {# Example links #}
-                    <li class="collapsible-nav__link-item">
-                        <a href="#" class="link link--link link--tertiar collapsible-nav__link">
-                            <span class="link__label">Join an open event</span>
-                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                        </a>
-                    </li>
-                    <li class="collapsible-nav__link-item">
-                        <a href="#" class="link link--link link--tertiary collapsible-nav__link">
-                            <span class="link__label">Complete your enrolment</span>
-                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                        </a>
-                    </li>
-                    <li class="collapsible-nav__link-item">
-                        <a href="#" class="link link--link link--tertiary collapsible-nav__link">
-                            <span class="link__label">Visit our showcase page</span>
-                            <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
-                        </a>
-                    </li>
-                    {# End example links #}
-                    
                 </ul>
             </nav>
             <button class="collapsible-nav__button collapsible-nav__button--close button" aria-expanded="true" aria-controls="quick-links" aria-label="Close quick links" data-close-collapsible-nav-button>
