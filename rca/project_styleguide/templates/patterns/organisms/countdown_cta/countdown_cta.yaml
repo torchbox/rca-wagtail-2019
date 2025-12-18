@@ -3,8 +3,8 @@ context:
     countdown_date: !!timestamp '2026-12-25 10:00:00'
     countdown_text: 'Registration closes in'
     title: 'Join us for the RCA Open Day'
-    start_date: !!timestamp '2025-12-01 10:00:00'
-    end_date: !!timestamp '2025-12-05 17:00:00'
+    start_date: !!timestamp '2026-12-25 10:00:00'
+    end_date: !!timestamp '2026-12-31 17:00:00'
     link:
       link: '#'
       action: 'Register Now'
