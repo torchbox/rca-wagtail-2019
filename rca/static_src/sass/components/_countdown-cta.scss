@@ -11,11 +11,13 @@
     &__details {
         grid-column: 1 / span 2;
         padding-bottom: $gutter;
+        margin-right: $gutter;
 
         @include media-query(medium) {
             grid-column: 1 / span 1;
             padding-right: $gutter;
             padding-bottom: 0;
+            margin-right: 0;
         }
 
         @include media-query(large) {
@@ -44,6 +46,7 @@
         font-weight: $weight--bold;
         color: $color--orange;
         margin-bottom: 3px;
+        text-wrap: pretty;
     }
 
     &__title {
