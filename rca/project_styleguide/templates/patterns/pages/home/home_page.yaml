@@ -21,6 +21,12 @@ context:
       description: We're here to help you find the right course for you
       link:
         title: Register now
+    collapsible_nav:
+      - text: 'Join an open event'
+        url: '#'
+      - text: 'Complete your enrolment'
+        url: '#'
+      - text: 'Visit our showcase page'
         url: '#'
   image_video_block:
     heading: Ideas that can change the world
@@ -173,3 +179,6 @@ tags:
         url: 'https://placehold.co/554x554'
         width: '554'
         height: '554'
+    value.image fill-880x473 format-webp loading="lazy":
+      raw: |
+        <img src="https://placehold.co/880x473" width="880" height="473" alt="" loading="lazy" />
