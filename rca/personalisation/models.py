@@ -3,11 +3,29 @@ from django.db import models
 from django.utils import timezone
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
+from wagtail.admin.panels import (
+    FieldPanel,
+    InlinePanel,
+    MultiFieldPanel,
+    PageChooserPanel,
+)
 from wagtail.models import Orderable
 from wagtail.snippets.models import register_snippet
 from wagtail_personalisation.models import Segment
 
+"""
+Due to constraints that we cannot set a custom form on InlinePanels to dynamically update
+the choices of page types, we just hard code the list of pages here. The choices can be
+retrieved by doing the following:
+
+>   def get_all_subclasses(cls):
+        all_subclasses = []
+        for subclass in cls.__subclasses__():
+            all_subclasses.append(subclass)
+            all_subclasses.extend(get_all_subclasses(subclass))
+            return all_subclasses
+>   get_all_subclasses(BasePage)
+"""
 PAGE_TYPE_CHOICES = [
     ("home.homepage", "Home Page"),
     ("programmes.programmepage", "Programme Page"),
@@ -18,8 +36,9 @@ PAGE_TYPE_CHOICES = [
     ("editorial.editoriallistingpage", "Editorial Listing Page"),
     ("guides.guidepage", "Guide Page"),
     ("projects.projectpage", "Project Page"),
-    ("research.researchcentrepage", "Research Centre Page"),
-    ("schools.schoolpage", "School Page"),
+    ("projects.projectpickerpage", "Project Picker Page"),
+    ("research.researchcentrepage", "Research Centre Page"),  #
+    ("schools.schoolpage", "School Page"),  #
     ("people.staffpage", "Staff Page"),
     ("people.studentpage", "Student Page"),
     ("people.staffindexpage", "Staff Index Page"),
@@ -223,24 +242,38 @@ class UserActionCallToAction(ClusterableModel):
 
         # Validate link fields
         if self.internal_link and self.external_link:
-            errors["internal_link"] = "Please choose either an internal link or an external link, not both"
-            errors["external_link"] = "Please choose either an internal link or an external link, not both"
+            errors["internal_link"] = (
+                "Please choose either an internal link or an external link, not both"
+            )
+            errors["external_link"] = (
+                "Please choose either an internal link or an external link, not both"
+            )
         elif not self.internal_link and not self.external_link:
-            errors["internal_link"] = "Please provide either an internal link or an external link"
-            errors["external_link"] = "Please provide either an internal link or an external link"
+            errors["internal_link"] = (
+                "Please provide either an internal link or an external link"
+            )
+            errors["external_link"] = (
+                "Please provide either an internal link or an external link"
+            )
 
         # Validate user action parameters
         if self.user_action == "inactivity":
             if not self.inactivity_seconds:
-                errors["inactivity_seconds"] = "Please specify the number of seconds of inactivity"
+                errors["inactivity_seconds"] = (
+                    "Please specify the number of seconds of inactivity"
+                )
             elif self.inactivity_seconds <= 0:
-                errors["inactivity_seconds"] = "Inactivity seconds must be greater than 0"
+                errors["inactivity_seconds"] = (
+                    "Inactivity seconds must be greater than 0"
+                )
 
         if self.user_action == "scroll":
             if not self.scroll_percentage:
                 errors["scroll_percentage"] = "Please specify the scroll percentage"
             elif self.scroll_percentage <= 0 or self.scroll_percentage > 100:
-                errors["scroll_percentage"] = "Scroll percentage must be between 1 and 100"
+                errors["scroll_percentage"] = (
+                    "Scroll percentage must be between 1 and 100"
+                )
 
         # Validate dates
         now = timezone.now()
