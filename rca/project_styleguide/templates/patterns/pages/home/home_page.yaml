@@ -32,8 +32,7 @@ context:
       title: Receive our exclusive brochure!
       description: Sign up to receive our latest brochure and stay informed about upcoming events and courses.
       cta_id: 'cta-modal-test'
-      cta_trigger: 'inactivity'
-      cta_delay: 7
+      cta_trigger: 'exit'
     countdown_cta: true
   image_video_block:
     heading: Ideas that can change the world
