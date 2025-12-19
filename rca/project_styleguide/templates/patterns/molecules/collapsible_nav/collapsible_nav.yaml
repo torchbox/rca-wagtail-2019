@@ -8,4 +8,4 @@ context:
       url: '#'
   cta_id: 'collapsible-nav-test'
   cta_trigger: 'inactivity'
-  cta_delay: 7
+  cta_delay: 3
