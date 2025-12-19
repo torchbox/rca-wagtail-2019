@@ -37,8 +37,8 @@ class CTATrigger {
         this.activeClass = 'is-visible';
         this.shown = false;
 
-        // Check if the CTA is a modal
-        this.isModal = this.node.dataset.ctaModal;
+        // Check if the CTA is a modal (using data attribute)
+        this.isModal = this.node.hasAttribute('data-cta-modal');
         // modalId used for MicroModal API
         this.modalId = this.isModal ? this.node.id : null;
         // AbortController for the user triggers (load, inactivity, scroll)
