@@ -1,0 +1,27 @@
+<div class="countdown-cta" data-countdown-cta data-countdown-date="{{ value.countdown_date|date:'Y-m-d H:i:s' }}">
+    <div class="grid">
+        {% include "patterns/atoms/grid-lines/grid-lines.html" %}
+        <div class="countdown-cta__details">
+            <p class="countdown-cta__counter">
+                {% if value.countdown_text %}{{ value.countdown_text }} {% endif %}
+                <span data-countdown-timer></span>
+            </p>
+            <p class="countdown-cta__title">{{ value.title }}</p>
+            {% if value.start_date and value.end_date %}
+                <p class="countdown-cta__date">{{ value.start_date|date:"j" }}-{{ value.end_date|date:"j" }} {{ value.end_date|date:"F" }}, {{ value.start_date|date:"ga" }}-{{ value.end_date|date:"ga" }}</p>
+            {% elif value.start_date %}
+                <p class="countdown-cta__date">{{ value.start_date|date:"j F" }}, {{ value.start_date|date:"ga" }}</p>
+            {% elif value.end_date %}
+                <p class="countdown-cta__date">{{ value.end_date|date:"j F" }}, {{ value.end_date|date:"ga" }}</p>
+            {% endif %}
+        </div>
+        <div class="countdown-cta__link">
+            {% include "patterns/atoms/modal-launcher/modal-launcher.html" with item=value.link %}
+        </div>
+    </div>
+    <button class="countdown-cta__close-button button" aria-label="Close countdown banner">
+        <svg class="countdown-cta__close-icon" width="15" height="15" aria-hidden="true">
+            <use xlink:href="#close" />
+        </svg>
+    </button>
+</div>
