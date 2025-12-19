@@ -1,4 +1,9 @@
-<div class="countdown-cta" data-countdown-cta data-countdown-date="{{ value.countdown_date|date:'Y-m-d H:i:s' }}">
+{% comment %}
+    This component is shown on a user action set in cta-trigger.js via [data-cta].
+    It can also count down to a specific date and time set in countdown-cta.js via [data-countdown-cta].
+{% endcomment %}
+
+<div class="countdown-cta" data-countdown-cta data-countdown-date="{{ value.countdown_date|date:'Y-m-d H:i:s' }}" data-cta{% if value.cta_id %} data-cta-id="{{ value.cta_id }}"{% endif %}{% if value.cta_trigger %} data-cta-trigger="{{ value.cta_trigger }}"{% endif %}{% if value.cta_delay %} data-cta-delay="{{ value.cta_delay }}"{% endif %}{% if value.cta_scroll %} data-cta-scroll="{{ value.cta_scroll }}"{% endif %}>
     <div class="grid">
         {% include "patterns/atoms/grid-lines/grid-lines.html" %}
         <div class="countdown-cta__details">

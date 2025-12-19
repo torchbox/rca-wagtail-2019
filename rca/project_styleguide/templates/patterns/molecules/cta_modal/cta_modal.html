@@ -1,10 +1,10 @@
 {% load wagtailimages_tags %}
 
 {% comment %}
-    Add `is-open` class to `.modal` to display it.
+    This component is shown on a user action set in cta-trigger.js via [data-cta].
 {% endcomment %}
 
-<div class="modal modal--cta" aria-hidden="true">
+<div class="modal modal--cta" aria-hidden="true" id="cta-modal{% if value.cta_id %}-{{ value.cta_id }}{% endif %}" data-cta{% if value.cta_id %} data-cta-id="{{ value.cta_id }}"{% endif %}{% if value.cta_trigger %} data-cta-trigger="{{ value.cta_trigger }}"{% endif %}{% if value.cta_delay %} data-cta-delay="{{ value.cta_delay }}"{% endif %}{% if value.cta_scroll %} data-cta-scroll="{{ value.cta_scroll }}"{% endif %}>
     <div class="modal__overlay bg bg--dark-80">
         <div class="modal__container modal__container--offset grid" role="dialog" aria-modal="true" aria-labelledby="cta-modal-title">
             <div class="modal__content">
