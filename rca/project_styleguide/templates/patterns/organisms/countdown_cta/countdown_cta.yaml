@@ -8,3 +8,5 @@ context:
     link:
       link: '#'
       action: 'Register Now'
+    cta_id: 'countdown-cta-test'
+    cta_trigger: 'load'
