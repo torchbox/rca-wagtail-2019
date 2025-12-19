@@ -7,12 +7,14 @@
     It can be triggered by:
     - Load
     - Inactivity
+    - Scroll
 
     The triggers are configured via data attributes on the component.
     - data-cta: The CTA to trigger
     - data-cta-id: The ID of the CTA
-    - data-cta-trigger: The trigger to use ('load', 'inactivity')
+    - data-cta-trigger: The trigger to use ('load', 'inactivity', 'scroll')
     - data-cta-delay: The delay in seconds before showing (for inactivity trigger)
+    - data-cta-scroll: The scroll threshold percentage before being shown (for scroll trigger)
 
     CTAs can be dismissed via the close button (if they have data-cta-close). 
     When closed, the CTA will be hidden and the user will not be able to see it again until the next session.
@@ -30,6 +32,7 @@ class CTATrigger {
         this.id = this.node.dataset.ctaId;
         this.trigger = this.node.dataset.ctaTrigger;
         this.delay = parseInt(this.node.dataset.ctaDelay, 10) || 5;
+        this.scrollThreshold = parseInt(this.node.dataset.ctaScroll, 10) || 50;
         this.closeButton = this.node.querySelector('[data-cta-close]');
         this.activeClass = 'is-visible';
         this.shown = false;
@@ -38,7 +41,7 @@ class CTATrigger {
         this.isModal = this.node.dataset.ctaModal;
         // modalId used for MicroModal API
         this.modalId = this.isModal ? this.node.id : null;
-        // AbortController for the user triggers (load, inactivity)
+        // AbortController for the user triggers (load, inactivity, scroll)
         this.abortController = new AbortController();
         // Separate AbortController for close button (needs to persist after CTA is shown)
         this.closeButtonAbortController = new AbortController();
@@ -70,6 +73,9 @@ class CTATrigger {
                 break;
             case 'inactivity':
                 this.initInactivityTrigger();
+                break;
+            case 'scroll':
+                this.initScrollTrigger();
                 break;
             default:
                 // No trigger specified, do nothing
@@ -116,6 +122,41 @@ class CTATrigger {
                 passive: true,
             });
         });
+    }
+
+    // Scroll trigger - show when user scrolls past X% of the page
+    initScrollTrigger() {
+        const checkScroll = () => {
+            // If the CTA has already been shown, return
+            if (this.shown) {
+                return;
+            }
+
+            // Get the scroll position from the top
+            const scrollTop = window.scrollY;
+
+            // Get the total scrollable height
+            const docHeight = Math.max(
+                document.documentElement.scrollHeight - window.innerHeight,
+                1, // Prevent division by zero
+            );
+
+            // Calculate the scroll percentage
+            const scrollPercent = (scrollTop / docHeight) * 100;
+
+            // If the scroll percentage is greater than or equal to the threshold, show the CTA
+            if (scrollPercent >= this.scrollThreshold) {
+                this.show();
+            }
+        };
+
+        window.addEventListener('scroll', checkScroll, {
+            signal: this.abortController.signal,
+            passive: true,
+        });
+
+        // Check immediately in case page is already scrolled
+        checkScroll();
     }
 
     // Show the CTA and remove trigger listeners
