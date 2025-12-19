@@ -6,11 +6,13 @@
 
     It can be triggered by:
     - Load
+    - Inactivity
 
     The triggers are configured via data attributes on the component.
     - data-cta: The CTA to trigger
     - data-cta-id: The ID of the CTA
-    - data-cta-trigger: The trigger to use (currently only 'load')
+    - data-cta-trigger: The trigger to use ('load', 'inactivity')
+    - data-cta-delay: The delay in seconds before showing (for inactivity trigger)
 
     CTAs can be dismissed via the close button (if they have data-cta-close). 
     When closed, the CTA will be hidden and the user will not be able to see it again until the next session.
@@ -27,6 +29,7 @@ class CTATrigger {
         this.node = node;
         this.id = this.node.dataset.ctaId;
         this.trigger = this.node.dataset.ctaTrigger;
+        this.delay = parseInt(this.node.dataset.ctaDelay, 10) || 5;
         this.closeButton = this.node.querySelector('[data-cta-close]');
         this.activeClass = 'is-visible';
         this.shown = false;
@@ -35,10 +38,11 @@ class CTATrigger {
         this.isModal = this.node.dataset.ctaModal;
         // modalId used for MicroModal API
         this.modalId = this.isModal ? this.node.id : null;
-        // AbortController for the user triggers (load)
+        // AbortController for the user triggers (load, inactivity)
         this.abortController = new AbortController();
         // Separate AbortController for close button (needs to persist after CTA is shown)
         this.closeButtonAbortController = new AbortController();
+        this.inactivityTimer = null;
 
         // Check if the CTA has already been dismissed in the current session
         if (this.isDismissed()) {
@@ -60,9 +64,58 @@ class CTATrigger {
 
     // Initialize the appropriate trigger based on the data attribute
     initTrigger() {
-        if (this.trigger === 'load') {
-            this.show();
+        switch (this.trigger) {
+            case 'load':
+                this.show();
+                break;
+            case 'inactivity':
+                this.initInactivityTrigger();
+                break;
+            default:
+                // No trigger specified, do nothing
+                break;
         }
+    }
+
+    // Inactivity trigger - show after X seconds of no activity
+    initInactivityTrigger() {
+        // Events that will reset the inactivity timer
+        const activityEvents = [
+            'mousemove',
+            'keydown',
+            'scroll',
+            'pointerdown',
+            'touchstart',
+        ];
+
+        const resetTimer = () => {
+            // Prevent the timer from being reset
+            // if the CTA has already been shown
+            if (this.shown) {
+                return;
+            }
+
+            // Clear the existing timer if it exists
+            if (this.inactivityTimer) {
+                clearTimeout(this.inactivityTimer);
+            }
+
+            // Show the CTA after the delay
+            this.inactivityTimer = setTimeout(() => {
+                this.show();
+            }, this.delay * 1000);
+        };
+
+        // Start the initial timer
+        resetTimer();
+
+        // Reset timer on any activity
+        activityEvents.forEach((eventType) => {
+            document.addEventListener(eventType, resetTimer, {
+                signal: this.abortController.signal,
+                passive: true,
+            });
+        });
     }
 
     // Show the CTA and remove trigger listeners
@@ -125,6 +178,12 @@ class CTATrigger {
     // Remove all trigger event listeners
     removeTriggerListeners() {
         this.abortController.abort();
+
+        // Clear inactivity timer if it exists
+        if (this.inactivityTimer) {
+            clearTimeout(this.inactivityTimer);
+            this.inactivityTimer = null;
+        }
     }
 
     // Add event listener to the close button

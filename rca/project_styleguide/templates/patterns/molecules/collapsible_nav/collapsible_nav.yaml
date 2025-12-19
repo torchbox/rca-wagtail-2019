@@ -6,3 +6,6 @@ context:
       url: '#'
     - text: 'Visit our showcase page'
       url: '#'
+  cta_id: 'collapsible-nav-test'
+  cta_trigger: 'inactivity'
+  cta_delay: 7
