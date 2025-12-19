@@ -8,12 +8,13 @@
     - Load
     - Inactivity
     - Scroll
+    - Exit intent
 
     The triggers are configured via data attributes on the component.
     - data-cta: The CTA to trigger
     - data-cta-modal: Whether the CTA is a modal
     - data-cta-id: The ID of the CTA
-    - data-cta-trigger: The trigger to use ('load', 'inactivity', 'scroll')
+    - data-cta-trigger: The trigger to use ('load', 'inactivity', 'scroll', 'exit')
     - data-cta-delay: The delay in seconds before showing (for inactivity trigger)
     - data-cta-scroll: The scroll threshold percentage before being shown (for scroll trigger)
 
@@ -34,6 +35,8 @@ class CTATrigger {
         this.trigger = this.node.dataset.ctaTrigger;
         this.delay = parseInt(this.node.dataset.ctaDelay, 10) || 5;
         this.scrollThreshold = parseInt(this.node.dataset.ctaScroll, 10) || 50;
+        // Exit intent sensitivity - distance in pixels from top of viewport
+        this.exitIntentSensitivity = 20;
         this.closeButton = this.node.querySelector('[data-cta-close]');
         this.activeClass = 'is-visible';
         this.shown = false;
@@ -42,7 +45,7 @@ class CTATrigger {
         this.isModal = this.node.hasAttribute('data-cta-modal');
         // modalId used for MicroModal API
         this.modalId = this.isModal ? this.node.id : null;
-        // AbortController for the user triggers (load, inactivity, scroll)
+        // AbortController for the user triggers (load, inactivity, scroll, exit intent)
         this.abortController = new AbortController();
         // Separate AbortController for close button (needs to persist after CTA is shown)
         this.closeButtonAbortController = new AbortController();
@@ -66,6 +69,11 @@ class CTATrigger {
         return dismissed === '1';
     }
 
+    // Check if device supports touch (for exit intent)
+    isTouchDevice() {
+        return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    }
+
     // Initialize the appropriate trigger based on the data attribute
     initTrigger() {
         switch (this.trigger) {
@@ -77,6 +85,9 @@ class CTATrigger {
                 break;
             case 'scroll':
                 this.initScrollTrigger();
+                break;
+            case 'exit':
+                this.initExitIntentTrigger();
                 break;
             default:
                 // No trigger specified, do nothing
@@ -158,6 +169,34 @@ class CTATrigger {
 
         // Check immediately in case page is already scrolled
         checkScroll();
+    }
+
+    // Exit intent trigger - show when mouse leaves viewport at top (desktop only)
+    initExitIntentTrigger() {
+        // Skip on touch devices
+        if (this.isTouchDevice()) {
+            return;
+        }
+
+        const handleMouseLeave = (e) => {
+            // If the CTA has already been shown, return
+            if (this.shown) {
+                return;
+            }
+
+            // Trigger when mouse is at or above the sensitivity threshold from top
+            if (e.clientY <= this.exitIntentSensitivity) {
+                this.show();
+            }
+        };
+
+        document.documentElement.addEventListener(
+            'mouseleave',
+            handleMouseLeave,
+            {
+                signal: this.abortController.signal,
+            },
+        );
     }
 
     // Show the CTA and remove trigger listeners
