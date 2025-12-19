@@ -65,12 +65,19 @@
     }
 
     &__link {
-        @include underline-hover();
+        background-size: 0% 2px;
         font-size: 0.89rem; // 16px
         color: $color--black;
 
         @include media-query(medium) {
             font-size: map-get($medium-font-sizes, xs);
+        }
+
+        // Don't show underline on mobile
+        &.link--tertiary.link--link {
+            .link__label {
+                background-size: 0% 2px;
+            }
         }
     }
 
