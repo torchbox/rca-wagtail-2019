@@ -11,6 +11,7 @@
 
     The triggers are configured via data attributes on the component.
     - data-cta: The CTA to trigger
+    - data-cta-modal: Whether the CTA is a modal
     - data-cta-id: The ID of the CTA
     - data-cta-trigger: The trigger to use ('load', 'inactivity', 'scroll')
     - data-cta-delay: The delay in seconds before showing (for inactivity trigger)
