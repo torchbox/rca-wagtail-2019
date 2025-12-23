@@ -5,12 +5,12 @@ from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import (
     FieldPanel,
+    FieldRowPanel,
     InlinePanel,
     MultiFieldPanel,
     PageChooserPanel,
 )
 from wagtail.models import Orderable
-from wagtail.snippets.models import register_snippet
 from wagtail_personalisation.models import Segment
 
 """
@@ -103,7 +103,6 @@ class UserActionCTAPageType(Orderable):
         return self.get_page_type_display()
 
 
-@register_snippet
 class UserActionCallToAction(ClusterableModel):
     USER_ACTION_CHOICES = [
         ("page_load", "On page load"),
@@ -117,16 +116,9 @@ class UserActionCallToAction(ClusterableModel):
         "images.CustomImage",
         on_delete=models.CASCADE,
         related_name="+",
-        help_text="Image to display in the pop-up CTA",
     )
-    title = models.CharField(
-        max_length=40,
-        help_text="Maximum 40 characters",
-    )
-    description = models.CharField(
-        max_length=65,
-        help_text="Maximum 65 characters",
-    )
+    title = models.CharField(max_length=40)
+    description = models.CharField(max_length=65)
 
     # Link fields (either internal or external)
     internal_link = models.ForeignKey(
@@ -169,13 +161,13 @@ class UserActionCallToAction(ClusterableModel):
         verbose_name="Go live date/time",
         blank=True,
         null=True,
-        help_text="The date and time when this CTA should start appearing on pages",
+        help_text="The date and time when this CTA should start appearing.",
     )
     expire_at = models.DateTimeField(
         verbose_name="Expiry date/time",
         blank=True,
         null=True,
-        help_text="The date and time when this CTA should stop appearing on pages",
+        help_text="The date and time when this CTA should stop appearing.",
     )
 
     class Meta:
@@ -222,14 +214,19 @@ class UserActionCallToAction(ClusterableModel):
             "page_types",
             label="Page Types",
             heading="Page Types",
-            help_text="Select the page types where this CTA should appear",
+            help_text="Select the page types where this CTA should appear.",
         ),
         MultiFieldPanel(
             [
-                FieldPanel("go_live_at"),
-                FieldPanel("expire_at"),
+                FieldRowPanel([
+                    FieldPanel("go_live_at"),
+                    FieldPanel("expire_at"),
+                ])
             ],
             heading="Scheduling",
+            help_text=(
+                "When the CTA should appear/expire. Leave blank to disable the CTA."
+            ),
         ),
     ]
 
