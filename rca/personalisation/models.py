@@ -10,8 +10,10 @@ from wagtail.admin.panels import (
     MultiFieldPanel,
     PageChooserPanel,
 )
-from wagtail.models import Orderable, PreviewableMixin
+from wagtail.models import Orderable
 from wagtail_personalisation.models import Segment
+
+from rca.utils.models import StyledPreviewableMixin
 
 """
 We cannot set a custom form on InlinePanels to dynamically update
@@ -142,7 +144,7 @@ class UserActionCTAPageType(Orderable):
         return self.get_page_type_display()
 
 
-class UserActionCallToAction(PreviewableMixin, BasePersonalisedCallToAction):
+class UserActionCallToAction(StyledPreviewableMixin, BasePersonalisedCallToAction):
     image = models.ForeignKey(
         "images.CustomImage",
         on_delete=models.CASCADE,
@@ -306,13 +308,18 @@ class UserActionCallToAction(PreviewableMixin, BasePersonalisedCallToAction):
 
     def get_preview_context(self, request, mode_name):
         context = super().get_preview_context(request, mode_name)
-        context["value"] = {
-            "image": self.image,
-            "title": self.title,
-            "description": self.description,
-            "href": self.external_link or self.internal_link.url,
-            "text": self.link_label,
-        }
+        context.update(
+            {
+                "value": {
+                    "image": self.image,
+                    "title": self.title,
+                    "description": self.description,
+                    "href": self.external_link or self.internal_link.url,
+                    "text": self.link_label,
+                },
+                "classes": "is-open",
+            }
+        )
         return context
 
 
@@ -359,7 +366,7 @@ class EmbeddedFooterCTAPageType(Orderable):
         return self.get_page_type_display()
 
 
-class EmbeddedFooterCallToAction(PreviewableMixin, BasePersonalisedCallToAction):
+class EmbeddedFooterCallToAction(StyledPreviewableMixin, BasePersonalisedCallToAction):
     title = models.CharField(max_length=40)
     description = models.CharField(max_length=65)
 
@@ -461,6 +468,7 @@ class EmbeddedFooterCallToAction(PreviewableMixin, BasePersonalisedCallToAction)
 
     def get_preview_context(self, request, mode_name):
         context = super().get_preview_context(request, mode_name)
+        context["classes"] = "text-teaser--footer-cta"
         context["teaser"] = {
             "title": self.title,
             "description": self.description,
