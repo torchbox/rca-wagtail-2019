@@ -1123,7 +1123,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
                     "eligable_programmes",
                     queryset=ProgrammePage.objects.filter(live=True),
                 ),
-                "funding_categories",
+                "other_criteria",
                 "fee_statuses",
             ).filter(active=True)
 
@@ -1135,8 +1135,8 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
                         "eligible_programmes": ", ".join(
                             str(x) for x in s.eligable_programmes.all()
                         ),
-                        "funding_categories": ", ".join(
-                            x.title for x in s.funding_categories.all()
+                        "other_criteria": ", ".join(
+                            x.title for x in s.other_criteria.all()
                         ),
                         "fee_statuses": ", ".join(
                             x.title for x in s.fee_statuses.all()

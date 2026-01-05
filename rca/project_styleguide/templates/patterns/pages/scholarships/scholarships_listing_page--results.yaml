@@ -59,7 +59,7 @@ context:
         heading: The Coats Foundation Trust Bursary
         introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
         eligible_programmes: Intelligent Mobility MA
-        funding_categories: Financial hardship, Widening participation
+        other_criteria: Financial hardship, Widening participation
         fee_statuses: Any
         value: Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000
     - accordion:
@@ -67,7 +67,7 @@ context:
         heading: Haberdashers’ Bursary
         introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
         eligible_programmes: Intelligent Mobility MA
-        funding_categories: Financial hardship, Widening participation
+        other_criteria: Financial hardship, Widening participation
         fee_statuses: Any
         value: Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000
     - accordion:
@@ -75,7 +75,7 @@ context:
         heading: House of Fraser Bursary
         introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
         eligible_programmes: Intelligent Mobility MA
-        funding_categories: Financial hardship, Widening participation
+        other_criteria: Financial hardship, Widening participation
         fee_statuses: Any
         value: Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000
     - accordion:
@@ -83,7 +83,7 @@ context:
         heading: Karakusevic Carson Scholarship
         introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
         eligible_programmes: Intelligent Mobility MA
-        funding_categories: Financial hardship, Widening participation
+        other_criteria: Financial hardship, Widening participation
         fee_statuses: Any
         value: Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000
     - accordion:
@@ -91,7 +91,7 @@ context:
         heading: World of Interiors Bursary
         introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
         eligible_programmes: Intelligent Mobility MA
-        funding_categories: Financial hardship, Widening participation
+        other_criteria: Financial hardship, Widening participation
         fee_statuses: Any
         value: Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000
     - accordion:
@@ -99,7 +99,7 @@ context:
         heading: W H Smith Bursary
         introduction: A scholarship of £30,000 with remainder after tuition fees given as cash bursary.
         eligible_programmes: Intelligent Mobility MA
-        funding_categories: Financial hardship, Widening participation
+        other_criteria: Financial hardship, Widening participation
         fee_statuses: Any
         value: Up to four full-fee scholarships plus a maintenance grant per scholar of circa £2,000
   related_pages:

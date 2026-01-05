@@ -6,6 +6,7 @@ import ActualHeight from './components/actual-height';
 import AnchorNav from './components/anchor-nav';
 import BackLink from './components/back-link';
 import Carousel from './components/carousel';
+import CountdownCTA from './components/countdown-cta';
 import PeekFullCarousel from './components/carousel-full-peek';
 import PeekCarousel from './components/carousel-peek';
 import EmailShare from './components/email-share';
@@ -34,6 +35,7 @@ import SubMenu from './components/submenu';
 import Tabs from './components/tabs';
 import VideoModal from './components/video-modal';
 import VideoPlayer from './components/video-stream';
+import CollapsibleNav from './components/collapsible-nav';
 
 import '../sass/main.scss';
 
@@ -162,8 +164,22 @@ document.addEventListener('DOMContentLoaded', () => {
         new TableHint(tablehint);
     }
 
-    for (const videoStream of document.querySelectorAll(VideoPlayer.selector())) {
+    for (const videoStream of document.querySelectorAll(
+        VideoPlayer.selector(),
+    )) {
         new VideoPlayer(videoStream);
+    }
+
+    for (const collapsibleNav of document.querySelectorAll(
+        CollapsibleNav.selector(),
+    )) {
+        new CollapsibleNav(collapsibleNav);
+    }
+
+    for (const countdowncta of document.querySelectorAll(
+        CountdownCTA.selector(),
+    )) {
+        new CountdownCTA(countdowncta);
     }
 
     new ActualHeight();
