@@ -8,8 +8,6 @@ class UserActionCallToActionViewSet(SnippetViewSet):
     model = UserActionCallToAction
     icon = "snippet"
     menu_label = "User Action Pop-up CTAs"
-    menu_order = 100
-    add_to_admin_menu = True
 
 
 class PersonalisationCTAsGroup(SnippetViewSetGroup):
