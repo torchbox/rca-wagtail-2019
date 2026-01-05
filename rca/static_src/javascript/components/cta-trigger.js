@@ -18,7 +18,7 @@
     - data-cta-delay: The delay in seconds before showing (for inactivity trigger)
     - data-cta-scroll: The scroll threshold percentage before being shown (for scroll trigger)
 
-    CTAs can be dismissed via the close button (if they have data-cta-close). 
+    Some of the CTAs can be dismissed via the close button if they have data-cta-close. 
     When closed, the CTA will be hidden and the user will not be able to see it again until the next session.
 */
 
@@ -41,7 +41,7 @@ class CTATrigger {
         this.activeClass = 'is-visible';
         this.shown = false;
 
-        // Check if the CTA is a modal (using data attribute)
+        // Check if the CTA is a modal
         this.isModal = this.node.hasAttribute('data-cta-modal');
         // modalId used for MicroModal API
         this.modalId = this.isModal ? this.node.id : null;
@@ -226,11 +226,6 @@ class CTATrigger {
         } else {
             // Add the CSS class to show the CTA
             this.node.classList.add(this.activeClass);
-
-            // Focus close button if it exists
-            if (this.closeButton) {
-                this.closeButton.focus();
-            }
         }
 
         this.removeTriggerListeners();
