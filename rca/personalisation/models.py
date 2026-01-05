@@ -10,7 +10,7 @@ from wagtail.admin.panels import (
     MultiFieldPanel,
     PageChooserPanel,
 )
-from wagtail.models import Orderable
+from wagtail.models import Orderable, PreviewableMixin
 from wagtail_personalisation.models import Segment
 
 """
@@ -103,7 +103,7 @@ class UserActionCTAPageType(Orderable):
         return self.get_page_type_display()
 
 
-class UserActionCallToAction(ClusterableModel):
+class UserActionCallToAction(PreviewableMixin, ClusterableModel):
     USER_ACTION_CHOICES = [
         ("page_load", "On page load"),
         ("inactivity", "On inactivity after X seconds"),
@@ -218,10 +218,12 @@ class UserActionCallToAction(ClusterableModel):
         ),
         MultiFieldPanel(
             [
-                FieldRowPanel([
-                    FieldPanel("go_live_at"),
-                    FieldPanel("expire_at"),
-                ])
+                FieldRowPanel(
+                    [
+                        FieldPanel("go_live_at"),
+                        FieldPanel("expire_at"),
+                    ]
+                )
             ],
             heading="Scheduling",
             help_text=(
@@ -286,3 +288,17 @@ class UserActionCallToAction(ClusterableModel):
 
         if errors:
             raise ValidationError(errors)
+
+    def get_preview_template(self, request, mode_name):
+        return "patterns/molecules/cta_modal/cta_modal.html"
+
+    def get_preview_context(self, request, mode_name):
+        context = super().get_preview_context(request, mode_name)
+        context["value"] = {
+            "image": self.image,
+            "title": self.title,
+            "description": self.description,
+            "href": self.external_link or self.internal_link.url,
+            "text": self.link_label,
+        }
+        return context

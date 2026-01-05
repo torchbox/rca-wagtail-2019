@@ -23,7 +23,7 @@
                             <p class="modal__description">{{ value.description }}</p>
                         {% endif %}
                     </div>
-                    {% include 'patterns/atoms/link-primary/link-primary--external.html' %}
+                    {% include 'patterns/atoms/link-primary/link-primary--external.html' with href=value.href text=value.text %}
                 </div>
             </div>
         </div>
