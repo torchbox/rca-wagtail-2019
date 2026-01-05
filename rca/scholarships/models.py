@@ -69,13 +69,13 @@ class ScholarshipEligibilityCriteria(SluggedTaxonomy):
 class Scholarship(models.Model):
     title = models.CharField(max_length=50)
     active = models.BooleanField(default=True)
-    summary = models.CharField(max_length=255)
+    summary = models.CharField(max_length=255, blank=True)
     value = models.CharField(max_length=100)
     location = models.ForeignKey(
         ScholarshipLocation, null=True, on_delete=models.SET_NULL
     )
     eligable_programmes = models.ManyToManyField(ProgrammePage)
-    funding_categories = models.ManyToManyField(ScholarshipFunding)
+    other_criteria = models.ManyToManyField(ScholarshipFunding)
     fee_statuses = models.ManyToManyField(ScholarshipFeeStatus)
 
     class Meta:
@@ -205,7 +205,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         programme = None
         results = []
         queryset = Scholarship.objects.filter(active=True).prefetch_related(
-            "eligable_programmes", "funding_categories", "fee_statuses"
+            "eligable_programmes", "other_criteria", "fee_statuses"
         )
 
         filters = (
@@ -247,8 +247,8 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
                         "eligible_programmes": ", ".join(
                             str(x) for x in s.eligable_programmes.live()
                         ),
-                        "funding_categories": ", ".join(
-                            x.title for x in s.funding_categories.all()
+                        "other_criteria": ", ".join(
+                            x.title for x in s.other_criteria.all()
                         ),
                         "fee_statuses": ", ".join(
                             x.title for x in s.fee_statuses.all()
