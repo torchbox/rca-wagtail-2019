@@ -98,6 +98,7 @@ class BasePersonalisedCallToAction(ClusterableModel):
         if errors:
             raise ValidationError(errors)
 
+
 class UserActionCTASegment(Orderable):
     """This links a personalised CTA to a segment"""
 
@@ -299,7 +300,7 @@ class UserActionCallToAction(PreviewableMixin, BasePersonalisedCallToAction):
 
         if errors:
             raise ValidationError(errors)
-        
+
     def get_preview_template(self, request, mode_name):
         return "patterns/molecules/cta_modal/cta_modal.html"
 
@@ -337,6 +338,7 @@ class EmbeddedFooterCTAPageType(Orderable):
     """
     This links a CTA to a page type so we know which page types to apply the CTA to.
     """
+
     page_type = models.CharField(
         max_length=100,
         choices=PAGE_TYPE_CHOICES,
@@ -356,7 +358,8 @@ class EmbeddedFooterCTAPageType(Orderable):
     def __str__(self):
         return self.get_page_type_display()
 
-class EmbeddedFooterCallToAction(BasePersonalisedCallToAction):
+
+class EmbeddedFooterCallToAction(PreviewableMixin, BasePersonalisedCallToAction):
     title = models.CharField(max_length=40)
     description = models.CharField(max_length=65)
 
@@ -413,10 +416,12 @@ class EmbeddedFooterCallToAction(BasePersonalisedCallToAction):
         ),
         MultiFieldPanel(
             [
-                FieldRowPanel([
-                    FieldPanel("go_live_at"),
-                    FieldPanel("expire_at"),
-                ])
+                FieldRowPanel(
+                    [
+                        FieldPanel("go_live_at"),
+                        FieldPanel("expire_at"),
+                    ]
+                )
             ],
             heading="Scheduling",
             help_text=(
@@ -450,3 +455,24 @@ class EmbeddedFooterCallToAction(BasePersonalisedCallToAction):
 
         if errors:
             raise ValidationError(errors)
+
+    def get_preview_template(self, request, mode_name):
+        return "patterns/molecules/text-teaser/text-teaser.html"
+
+    def get_preview_context(self, request, mode_name):
+        context = super().get_preview_context(request, mode_name)
+        context["teaser"] = {
+            "title": self.title,
+            "description": self.description,
+            "link": {
+                "url": self.external_link,
+            },
+            "action": self.link_label,
+        }
+
+        if self.external_link:
+            context["teaser"]["link"] = {"url": self.external_link}
+        elif self.internal_link:
+            context["teaser"]["page"] = self.internal_link
+
+        return context
