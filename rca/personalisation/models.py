@@ -14,9 +14,10 @@ from wagtail.models import Orderable, PreviewableMixin
 from wagtail_personalisation.models import Segment
 
 """
-Due to constraints that we cannot set a custom form on InlinePanels to dynamically update
-the choices of page types, we just hard code the list of pages here. The choices can be
-retrieved by doing the following:
+We cannot set a custom form on InlinePanels to dynamically update
+the list of page types (if/when we add more) so we just hard code
+the list of page types here. The choices can be retrieved by doing
+the following:
 
 >   def get_all_subclasses(cls):
         all_subclasses = []
