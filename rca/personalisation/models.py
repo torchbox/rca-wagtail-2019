@@ -60,11 +60,48 @@ PAGE_TYPE_CHOICES = [
 ]
 
 
+class BasePersonalisedCallToAction(ClusterableModel):
+    # Scheduling
+    go_live_at = models.DateTimeField(
+        verbose_name="Go live date/time",
+        blank=True,
+        null=True,
+        help_text="The date and time when this CTA should start appearing.",
+    )
+    expire_at = models.DateTimeField(
+        verbose_name="Expiry date/time",
+        blank=True,
+        null=True,
+        help_text="The date and time when this CTA should stop appearing.",
+    )
+
+    class Meta:
+        abstract = True
+
+    def clean(self):
+        super().clean()
+        errors = {}
+
+        # Validate dates
+        now = timezone.now()
+
+        if self.go_live_at and self.go_live_at < now:
+            errors["go_live_at"] = "Go live date/time cannot be in the past"
+
+        if self.expire_at and self.expire_at < now:
+            errors["expire_at"] = "Expiry date/time cannot be in the past"
+
+        if self.go_live_at and self.expire_at and self.expire_at <= self.go_live_at:
+            errors["expire_at"] = "Expiry date/time must be after go live date/time"
+
+        if errors:
+            raise ValidationError(errors)
+
 class UserActionCTASegment(Orderable):
     """This links a personalised CTA to a segment"""
 
     segment = models.ForeignKey(
-        Segment, related_name="personalised_call_to_actions", on_delete=models.CASCADE
+        Segment, related_name="user_action_ctas", on_delete=models.CASCADE
     )
     call_to_action = ParentalKey(
         "personalisation.UserActionCallToAction", related_name="segments"
@@ -103,15 +140,7 @@ class UserActionCTAPageType(Orderable):
         return self.get_page_type_display()
 
 
-class UserActionCallToAction(ClusterableModel):
-    USER_ACTION_CHOICES = [
-        ("page_load", "On page load"),
-        ("inactivity", "On inactivity after X seconds"),
-        ("scroll", "On scroll after X% of the way down"),
-        ("exit_intent", "On exit intent"),
-    ]
-
-    # Required fields
+class UserActionCallToAction(BasePersonalisedCallToAction):
     image = models.ForeignKey(
         "images.CustomImage",
         on_delete=models.CASCADE,
@@ -138,6 +167,13 @@ class UserActionCallToAction(ClusterableModel):
         help_text="Maximum 40 characters for the link button text",
     )
 
+    USER_ACTION_CHOICES = [
+        ("page_load", "On page load"),
+        ("inactivity", "On inactivity after X seconds"),
+        ("scroll", "On scroll after X% of the way down"),
+        ("exit_intent", "On exit intent"),
+    ]
+
     # User action condition
     user_action = models.CharField(
         max_length=20,
@@ -154,20 +190,6 @@ class UserActionCallToAction(ClusterableModel):
         null=True,
         blank=True,
         help_text="Percentage of page scrolled before showing the CTA (only for 'On scroll', e.g., 50 for 50%)",
-    )
-
-    # Scheduling
-    go_live_at = models.DateTimeField(
-        verbose_name="Go live date/time",
-        blank=True,
-        null=True,
-        help_text="The date and time when this CTA should start appearing.",
-    )
-    expire_at = models.DateTimeField(
-        verbose_name="Expiry date/time",
-        blank=True,
-        null=True,
-        help_text="The date and time when this CTA should stop appearing.",
     )
 
     class Meta:
@@ -237,22 +259,6 @@ class UserActionCallToAction(ClusterableModel):
         super().clean()
         errors = {}
 
-        # Validate link fields
-        if self.internal_link and self.external_link:
-            errors["internal_link"] = (
-                "Please choose either an internal link or an external link, not both"
-            )
-            errors["external_link"] = (
-                "Please choose either an internal link or an external link, not both"
-            )
-        elif not self.internal_link and not self.external_link:
-            errors["internal_link"] = (
-                "Please provide either an internal link or an external link"
-            )
-            errors["external_link"] = (
-                "Please provide either an internal link or an external link"
-            )
-
         # Validate user action parameters
         if self.user_action == "inactivity":
             if not self.inactivity_seconds:
@@ -272,17 +278,158 @@ class UserActionCallToAction(ClusterableModel):
                     "Scroll percentage must be between 1 and 100"
                 )
 
-        # Validate dates
-        now = timezone.now()
+        # Validate link fields
+        if self.internal_link and self.external_link:
+            errors["internal_link"] = (
+                "Please choose either an internal link or an external link, not both"
+            )
+            errors["external_link"] = (
+                "Please choose either an internal link or an external link, not both"
+            )
+        elif not self.internal_link and not self.external_link:
+            errors["internal_link"] = (
+                "Please provide either an internal link or an external link"
+            )
+            errors["external_link"] = (
+                "Please provide either an internal link or an external link"
+            )
 
-        if self.go_live_at and self.go_live_at < now:
-            errors["go_live_at"] = "Go live date/time cannot be in the past"
+        if errors:
+            raise ValidationError(errors)
 
-        if self.expire_at and self.expire_at < now:
-            errors["expire_at"] = "Expiry date/time cannot be in the past"
 
-        if self.go_live_at and self.expire_at and self.expire_at <= self.go_live_at:
-            errors["expire_at"] = "Expiry date/time must be after go live date/time"
+class EmbeddedFooterCTASegment(Orderable):
+    """This links a personalised CTA to a segment"""
+
+    segment = models.ForeignKey(
+        Segment, related_name="embedded_footer_ctas", on_delete=models.CASCADE
+    )
+    call_to_action = ParentalKey(
+        "personalisation.EmbeddedFooterCallToAction", related_name="segments"
+    )
+
+    class Meta:
+        unique_together = ("segment", "call_to_action")
+
+    panels = [
+        FieldPanel("segment"),
+    ]
+
+
+class EmbeddedFooterCTAPageType(Orderable):
+    """
+    This links a CTA to a page type so we know which page types to apply the CTA to.
+    """
+    page_type = models.CharField(
+        max_length=100,
+        choices=PAGE_TYPE_CHOICES,
+        help_text="Select the page type where this CTA should appear",
+    )
+    call_to_action = ParentalKey(
+        "personalisation.EmbeddedFooterCallToAction", related_name="page_types"
+    )
+
+    class Meta:
+        unique_together = ("page_type", "call_to_action")
+
+    panels = [
+        FieldPanel("page_type"),
+    ]
+
+    def __str__(self):
+        return self.get_page_type_display()
+
+class EmbeddedFooterCallToAction(BasePersonalisedCallToAction):
+    title = models.CharField(max_length=40)
+    description = models.CharField(max_length=65)
+
+    # Link fields (either internal or external)
+    internal_link = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text="Link to an internal page",
+    )
+    external_link = models.URLField(
+        blank=True,
+        help_text="Link to an external URL (e.g., https://example.com)",
+    )
+    link_label = models.CharField(
+        max_length=40,
+        help_text="Maximum 40 characters for the link button text",
+    )
+
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("title"),
+                FieldPanel("description"),
+                MultiFieldPanel(
+                    [
+                        PageChooserPanel("internal_link"),
+                        FieldPanel("external_link"),
+                        FieldPanel("link_label"),
+                    ],
+                    heading="Link (choose either internal or external)",
+                ),
+            ],
+            heading="Content",
+        ),
+        InlinePanel(
+            "segments",
+            label="Segments",
+            heading="Segments",
+            help_text=(
+                "Select the segments that must apply for this CTA to appear. "
+                "If no segments are selected, this CTA will not appear. "
+                "If multiple segments are selected, the CTA will appear if "
+                "any of the segments apply."
+            ),
+        ),
+        InlinePanel(
+            "page_types",
+            label="Page Types",
+            heading="Page Types",
+            help_text="Select the page types where this CTA should appear.",
+        ),
+        MultiFieldPanel(
+            [
+                FieldRowPanel([
+                    FieldPanel("go_live_at"),
+                    FieldPanel("expire_at"),
+                ])
+            ],
+            heading="Scheduling",
+            help_text=(
+                "When the CTA should appear/expire. Leave blank to disable the CTA."
+            ),
+        ),
+    ]
+
+    def __str__(self):
+        return self.title
+
+    def clean(self):
+        super().clean()
+        errors = {}
+
+        # Validate link fields
+        if self.internal_link and self.external_link:
+            errors["internal_link"] = (
+                "Please choose either an internal link or an external link, not both"
+            )
+            errors["external_link"] = (
+                "Please choose either an internal link or an external link, not both"
+            )
+        elif not self.internal_link and not self.external_link:
+            errors["internal_link"] = (
+                "Please provide either an internal link or an external link"
+            )
+            errors["external_link"] = (
+                "Please provide either an internal link or an external link"
+            )
 
         if errors:
             raise ValidationError(errors)
