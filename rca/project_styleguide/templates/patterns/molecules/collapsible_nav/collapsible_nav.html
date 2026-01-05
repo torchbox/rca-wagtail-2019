@@ -1,0 +1,25 @@
+<div class="collapsible-nav" data-collapsible-nav>
+    <div class="collapsible-nav__inner">
+        <div class="collapsible-nav__content">
+            <nav class="collapsible-nav__nav" id="quick-links" aria-label="Quick links">
+                <ul>
+                    {% for link in collapsible_nav %}
+                        <li class="collapsible-nav__link-item">
+                            <a href="{{ link.url }}" class="link link--link link--tertiary collapsible-nav__link">
+                                <span class="link__label">{{ link.text }}</span>
+                                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            <button class="collapsible-nav__button collapsible-nav__button--close button" aria-expanded="true" aria-controls="quick-links" aria-label="Close quick links" data-close-collapsible-nav-button>
+                <svg width="17" height="14" class="collapsible-nav__button-icon" aria-hidden="true"><use xlink:href="#close"></use></svg>
+            </button>
+        </div>
+
+        <button class="collapsible-nav__button collapsible-nav__button--open button" aria-expanded="false" aria-controls="quick-links" aria-label="Open quick links" data-open-collapsible-nav-button>
+            <svg width="17" height="14" class="collapsible-nav__button-icon" aria-hidden="true"><use xlink:href="#menu-icon"></use></svg>
+        </button>
+    </div>
+</div>

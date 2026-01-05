@@ -10,13 +10,14 @@ from wagtail.admin.panels import (
     MultiFieldPanel,
     PageChooserPanel,
 )
-from wagtail.models import Orderable
+from wagtail.models import Orderable, PreviewableMixin
 from wagtail_personalisation.models import Segment
 
 """
-Due to constraints that we cannot set a custom form on InlinePanels to dynamically update
-the choices of page types, we just hard code the list of pages here. The choices can be
-retrieved by doing the following:
+We cannot set a custom form on InlinePanels to dynamically update
+the list of page types (if/when we add more) so we just hard code
+the list of page types here. The choices can be retrieved by doing
+the following:
 
 >   def get_all_subclasses(cls):
         all_subclasses = []
@@ -140,7 +141,7 @@ class UserActionCTAPageType(Orderable):
         return self.get_page_type_display()
 
 
-class UserActionCallToAction(BasePersonalisedCallToAction):
+class UserActionCallToAction(PreviewableMixin, BasePersonalisedCallToAction):
     image = models.ForeignKey(
         "images.CustomImage",
         on_delete=models.CASCADE,
@@ -240,10 +241,12 @@ class UserActionCallToAction(BasePersonalisedCallToAction):
         ),
         MultiFieldPanel(
             [
-                FieldRowPanel([
-                    FieldPanel("go_live_at"),
-                    FieldPanel("expire_at"),
-                ])
+                FieldRowPanel(
+                    [
+                        FieldPanel("go_live_at"),
+                        FieldPanel("expire_at"),
+                    ]
+                )
             ],
             heading="Scheduling",
             help_text=(
@@ -296,6 +299,20 @@ class UserActionCallToAction(BasePersonalisedCallToAction):
 
         if errors:
             raise ValidationError(errors)
+        
+    def get_preview_template(self, request, mode_name):
+        return "patterns/molecules/cta_modal/cta_modal.html"
+
+    def get_preview_context(self, request, mode_name):
+        context = super().get_preview_context(request, mode_name)
+        context["value"] = {
+            "image": self.image,
+            "title": self.title,
+            "description": self.description,
+            "href": self.external_link or self.internal_link.url,
+            "text": self.link_label,
+        }
+        return context
 
 
 class EmbeddedFooterCTASegment(Orderable):

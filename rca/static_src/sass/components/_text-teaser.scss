@@ -25,6 +25,20 @@
         }
     }
 
+    &--footer-cta {
+        background-color: $color--black;
+        color: $color--white;
+        padding: ($gutter * 2) 0 ($gutter * 3);
+
+        @include media-query(medium) {
+            padding: ($gutter * 2) 0;
+        }
+
+        @include media-query(large) {
+            padding: ($gutter * 2) 0 0;
+        }
+    }
+
     .app--alumni & {
         #{$root}__heading {
             @include font-size(m);

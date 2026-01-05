@@ -16,6 +16,22 @@ context:
       summary: Check out our awesome stub content
       get_link_text: Click here
       get_link_url: '#'
+    footer_cta:
+      title: Register your interest in studying
+      description: We're here to help you find the right course for you
+      link:
+        title: Register now
+    collapsible_nav:
+      - text: 'Join an open event'
+        url: '#'
+      - text: 'Complete your enrolment'
+        url: '#'
+      - text: 'Visit our showcase page'
+        url: '#'
+    cta_modal:
+      title: Receive our exclusive brochure!
+      description: Sign up to receive our latest brochure and stay informed about upcoming events and courses.
+    countdown_cta: true
   image_video_block:
     heading: Ideas that can change the world
     subheading: RCA projects that have the potential to transform our world for the better
@@ -142,3 +158,31 @@ context:
           after: st
           number: 1
           body: We're the top rated art & design university in the world
+
+tags:
+  image:
+    page.hero_image fill-320x568 as image_small:
+      target_var: image_small
+      raw:
+        url: 'https://placehold.co/320x568'
+    page.hero_image fill-768x1024 as image_medium:
+      target_var: image_medium
+      raw:
+        url: 'https://placehold.co/768x1024'
+    page.hero_image fill-1440x900 as image_large:
+      target_var: image_large
+      raw:
+        url: 'https://placehold.co/1440x900'
+    item.image fill-80x80 as image_small:
+      target_var: image_small
+      raw:
+        url: 'https://placehold.co/80x80'
+    item.image fill-554x554 as image_large:
+      target_var: image_large
+      raw:
+        url: 'https://placehold.co/554x554'
+        width: '554'
+        height: '554'
+    value.image fill-880x495 format-webp loading="lazy":
+      raw: |
+        <img src="https://placehold.co/880x495" width="880" height="495" alt="" loading="lazy" />

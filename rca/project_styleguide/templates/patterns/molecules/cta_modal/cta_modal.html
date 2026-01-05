@@ -1,0 +1,31 @@
+{% load wagtailimages_tags %}
+
+{% comment %}
+    Add `is-open` class to `.modal` to display it.
+{% endcomment %}
+
+<div class="modal modal--cta" aria-hidden="true">
+    <div class="modal__overlay bg bg--dark-80">
+        <div class="modal__container modal__container--offset grid" role="dialog" aria-modal="true" aria-labelledby="cta-modal-title">
+            <div class="modal__content">
+                <button class="modal__close modal__close--over-image" aria-label="Close modal" data-micromodal-close>
+                    <svg width="18" height="18" class="modal__close-icon" aria-hidden="true"><use xlink:href="#close"></use></svg>
+                </button>
+
+                {% image value.image fill-880x495 format-webp loading="lazy" %}
+
+                <div class="modal__footer-notch"></div>
+                <div class="modal__footer">
+                    <div class="modal__footer-inner">
+                        <h2 class="modal__title" id="cta-modal-title">{{ value.title }}</h2>
+                        
+                        {% if value.description %}
+                            <p class="modal__description">{{ value.description }}</p>
+                        {% endif %}
+                    </div>
+                    {% include 'patterns/atoms/link-primary/link-primary--external.html' with href=value.href text=value.text %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
