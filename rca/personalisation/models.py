@@ -168,7 +168,11 @@ class UserActionCallToAction(StyledPreviewableMixin, BasePersonalisedCallToActio
     )
     link_label = models.CharField(
         max_length=40,
-        help_text="Maximum 40 characters for the link button text",
+        blank=True,
+        help_text=(
+            "Maximum 40 characters for the link button text. "
+            "If using an internal link, leave blank to use the page's title."
+        ),
     )
 
     USER_ACTION_CHOICES = [
@@ -231,9 +235,10 @@ class UserActionCallToAction(StyledPreviewableMixin, BasePersonalisedCallToActio
             heading="Segments",
             help_text=(
                 "Select the segments that must apply for this CTA to appear. "
-                "If no segments are selected, this CTA will not appear. "
-                "If multiple segments are selected, the CTA will appear if "
-                "any of the segments apply."
+                "You may select multiple segments. "
+                "If no segments are selected, the CTA will not appear. "
+                "If multiple segments are selected, the CTA will appear when at least "
+                "one of the selected segments applies."
             ),
         ),
         InlinePanel(
@@ -298,6 +303,11 @@ class UserActionCallToAction(StyledPreviewableMixin, BasePersonalisedCallToActio
             )
             errors["external_link"] = (
                 "Please provide either an internal link or an external link"
+            )
+
+        if self.external_link and not self.link_label:
+            errors["link_label"] = (
+                "If using an external link, please provide the link button text"
             )
 
         if errors:
@@ -385,7 +395,10 @@ class EmbeddedFooterCallToAction(StyledPreviewableMixin, BasePersonalisedCallToA
     )
     link_label = models.CharField(
         max_length=40,
-        help_text="Maximum 40 characters for the link button text",
+        help_text=(
+            "Maximum 40 characters for the link button text. "
+            "If using an internal link, leave blank to use the page's title."
+        ),
     )
 
     panels = [
@@ -410,9 +423,10 @@ class EmbeddedFooterCallToAction(StyledPreviewableMixin, BasePersonalisedCallToA
             heading="Segments",
             help_text=(
                 "Select the segments that must apply for this CTA to appear. "
-                "If no segments are selected, this CTA will not appear. "
-                "If multiple segments are selected, the CTA will appear if "
-                "any of the segments apply."
+                "You may select multiple segments. "
+                "If no segments are selected, the CTA will not appear. "
+                "If multiple segments are selected, the CTA will appear when at least "
+                "one of the selected segments applies."
             ),
         ),
         InlinePanel(
@@ -460,6 +474,11 @@ class EmbeddedFooterCallToAction(StyledPreviewableMixin, BasePersonalisedCallToA
                 "Please provide either an internal link or an external link"
             )
 
+        if self.external_link and not self.link_label:
+            errors["link_label"] = (
+                "If using an external link, please provide the link button text"
+            )
+
         if errors:
             raise ValidationError(errors)
 
@@ -472,15 +491,13 @@ class EmbeddedFooterCallToAction(StyledPreviewableMixin, BasePersonalisedCallToA
         context["teaser"] = {
             "title": self.title,
             "description": self.description,
-            "link": {
-                "url": self.external_link,
-            },
-            "action": self.link_label,
         }
 
         if self.external_link:
             context["teaser"]["link"] = {"url": self.external_link}
+            context["teaser"]["action"] = self.link_label
         elif self.internal_link:
             context["teaser"]["page"] = self.internal_link
+            context["teaser"]["action"] = self.link_label or self.internal_link.title
 
         return context
