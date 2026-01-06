@@ -136,7 +136,11 @@ class UserActionCallToAction(PreviewableMixin, ClusterableModel):
     )
     link_label = models.CharField(
         max_length=40,
-        help_text="Maximum 40 characters for the link button text",
+        blank=True,
+        help_text=(
+            "Maximum 40 characters for the link button text. "
+            "If using an internal link, leave blank to use the page's title."
+        ),
     )
 
     # User action condition
@@ -206,9 +210,10 @@ class UserActionCallToAction(PreviewableMixin, ClusterableModel):
             heading="Segments",
             help_text=(
                 "Select the segments that must apply for this CTA to appear. "
-                "If no segments are selected, this CTA will not appear. "
-                "If multiple segments are selected, the CTA will appear if "
-                "any of the segments apply."
+                "You may select multiple segments. "
+                "If no segments are selected, the CTA will not appear. "
+                "If multiple segments are selected, the CTA will appear when at least "
+                "one of the selected segments applies."
             ),
         ),
         InlinePanel(
@@ -256,6 +261,11 @@ class UserActionCallToAction(PreviewableMixin, ClusterableModel):
                 "Please provide either an internal link or an external link"
             )
 
+        if self.external_link and not self.link_label:
+            errors["link_label"] = (
+                "If using an external link, please provide the link button text"
+            )
+
         # Validate user action parameters
         if self.user_action == "inactivity":
             if not self.inactivity_seconds:
@@ -300,6 +310,7 @@ class UserActionCallToAction(PreviewableMixin, ClusterableModel):
             "title": self.title,
             "description": self.description,
             "href": self.external_link or self.internal_link.url,
-            "text": self.link_label,
+            "text": self.link_label
+            or (self.internal_link.title if self.internal_link else None),
         }
         return context
