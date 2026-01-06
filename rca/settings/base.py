@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "rca.home",
     "rca.images",
     "rca.navigation",
+    "rca.personalisation",
     "rca.programmes",
     "rca.schools",
     "rca.search",
