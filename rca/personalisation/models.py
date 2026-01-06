@@ -395,6 +395,7 @@ class EmbeddedFooterCallToAction(StyledPreviewableMixin, BasePersonalisedCallToA
     )
     link_label = models.CharField(
         max_length=40,
+        blank=True,
         help_text=(
             "Maximum 40 characters for the link button text. "
             "If using an internal link, leave blank to use the page's title."
