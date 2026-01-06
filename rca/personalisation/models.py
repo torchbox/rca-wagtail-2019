@@ -309,8 +309,9 @@ class UserActionCallToAction(PreviewableMixin, ClusterableModel):
             "image": self.image,
             "title": self.title,
             "description": self.description,
-            "href": self.external_link or self.internal_link.url,
+            "href": self.external_link
+            or (self.internal_link if self.internal_link else ""),
             "text": self.link_label
-            or (self.internal_link.title if self.internal_link else None),
+            or (self.internal_link.title if self.internal_link else ""),
         }
         return context
