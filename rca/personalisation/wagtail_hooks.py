@@ -1,7 +1,7 @@
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 
-from .models import UserActionCallToAction
+from .models import EmbeddedFooterCallToAction, UserActionCallToAction
 
 
 class UserActionCallToActionViewSet(SnippetViewSet):
@@ -10,11 +10,20 @@ class UserActionCallToActionViewSet(SnippetViewSet):
     menu_label = "User Action Pop-up CTAs"
 
 
+class EmbeddedFooterCallToActionViewSet(SnippetViewSet):
+    model = EmbeddedFooterCallToAction
+    icon = "snippet"
+    menu_label = "Embedded Footer CTAs"
+
+
 class PersonalisationCTAsGroup(SnippetViewSetGroup):
     menu_label = "Personalisation CTAs"
     menu_icon = "snippet"
     menu_order = 1000
-    items = (UserActionCallToActionViewSet,)
+    items = (
+        EmbeddedFooterCallToActionViewSet,
+        UserActionCallToActionViewSet,
+    )
 
 
 register_snippet(PersonalisationCTAsGroup)
