@@ -1152,5 +1152,4 @@ class StyledPreviewableMixin(PreviewableMixin):
                 "template_name": template,
             }
         )
-        print(context)
         return render(request, "patterns/preview_wrapper.html", context)
