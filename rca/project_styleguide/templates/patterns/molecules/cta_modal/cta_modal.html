@@ -4,7 +4,7 @@
     Add `is-open` class to `.modal` to display it.
 {% endcomment %}
 
-<div class="modal modal--cta" aria-hidden="true">
+<div class="modal modal--cta{% if classes %} {{ classes }}{% endif %}" aria-hidden="true">
     <div class="modal__overlay bg bg--dark-80">
         <div class="modal__container modal__container--offset grid" role="dialog" aria-modal="true" aria-labelledby="cta-modal-title">
             <div class="modal__content">
@@ -23,7 +23,7 @@
                             <p class="modal__description">{{ value.description }}</p>
                         {% endif %}
                     </div>
-                    {% include 'patterns/atoms/link-primary/link-primary--external.html' %}
+                    {% include 'patterns/atoms/link-primary/link-primary--external.html' with href=value.href text=value.text %}
                 </div>
             </div>
         </div>

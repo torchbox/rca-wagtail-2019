@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "rca.home",
     "rca.images",
     "rca.navigation",
+    "rca.personalisation",
     "rca.programmes",
     "rca.schools",
     "rca.search",
@@ -114,6 +115,8 @@ INSTALLED_APPS = [
     "wagtail_rangefilter",
     "rangefilter",
     "wagtail_modeladmin",
+    "wagtail_personalisation",
+    "wagtailfontawesomesvg",
     "social_django",
 ]
 

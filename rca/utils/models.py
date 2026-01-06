@@ -4,6 +4,7 @@ from itertools import chain
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.shortcuts import render
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
@@ -22,7 +23,7 @@ from wagtail.admin.panels import (
 from wagtail.api import APIField
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import RichTextField, StreamField
-from wagtail.models import Orderable, Page
+from wagtail.models import Orderable, Page, PreviewableMixin
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 
@@ -1136,3 +1137,19 @@ class StickyCTAMixin(models.Model):
             "link": link,
             "modal": None,
         }
+
+
+class StyledPreviewableMixin(PreviewableMixin):
+    """A custom PreviewableMixin that renders previews with proper styling."""
+
+    def serve_preview(self, request, mode_name):
+        template = self.get_preview_template(request, mode_name)
+        context = self.get_preview_context(request, mode_name)
+        context.update(
+            {
+                "request": request,
+                "is_preview": True,
+                "template_name": template,
+            }
+        )
+        return render(request, "patterns/preview_wrapper.html", context)

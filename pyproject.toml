@@ -34,6 +34,8 @@ wagtail-orderable = {git = "https://github.com/torchbox-forks/wagtail-orderable.
 wagtail-rangefilter = "~0.2"
 wagtail-storages = "~2.0"
 wagtailmedia = "~0.17"
+wagtail-personalisation = {git = "https://github.com/torchbox-forks/wagtail-personalisation.git", branch = "feature/customisable-base-rules"}
+wagtail-font-awesome-svg = "^2.0"
 
 # Various
 beautifulsoup4 = "~4.14"
