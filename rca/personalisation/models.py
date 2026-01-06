@@ -528,8 +528,8 @@ class EventCountdownCallToAction(
     title = models.CharField(max_length=40)
 
     # Date fields
-    start_date = models.DateTimeField(blank=True)
-    end_date = models.DateTimeField(blank=True)
+    start_date = models.DateTimeField(blank=True, null=True)
+    end_date = models.DateTimeField(blank=True, null=True)
     countdown_timer_pre_text = models.CharField(blank=True)
     COUNTDOWN_TO_CHOICES = [
         ("start", "Start date"),
