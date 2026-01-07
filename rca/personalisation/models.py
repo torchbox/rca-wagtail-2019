@@ -85,15 +85,6 @@ class BasePersonalisedCallToAction(ClusterableModel):
         super().clean()
         errors = {}
 
-        # Validate dates
-        now = timezone.now()
-
-        if self.go_live_at and self.go_live_at < now:
-            errors["go_live_at"] = "Go live date/time cannot be in the past"
-
-        if self.expire_at and self.expire_at < now:
-            errors["expire_at"] = "Expiry date/time cannot be in the past"
-
         if self.go_live_at and self.expire_at and self.expire_at <= self.go_live_at:
             errors["expire_at"] = "Expiry date/time must be after go live date/time"
 
