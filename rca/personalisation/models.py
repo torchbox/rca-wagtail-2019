@@ -13,6 +13,8 @@ from wagtail.admin.panels import (
 from wagtail.models import Orderable
 from wagtail_personalisation.models import Segment
 
+from rca.personalisation.blocks import CollapsibleNavigationLinkBlock
+from rca.utils.fields import StreamField
 from rca.utils.models import StyledPreviewableMixin
 
 """
@@ -500,5 +502,128 @@ class EmbeddedFooterCallToAction(StyledPreviewableMixin, BasePersonalisedCallToA
         elif self.internal_link:
             context["teaser"]["page"] = self.internal_link
             context["teaser"]["action"] = self.link_label or self.internal_link.title
+
+        return context
+
+
+class CollapsibleNavigationCTASegment(Orderable):
+    """This links a personalised CTA to a segment"""
+
+    segment = models.ForeignKey(
+        Segment, related_name="collapsible_navigation_ctas", on_delete=models.CASCADE
+    )
+    call_to_action = ParentalKey(
+        "personalisation.CollapsibleNavigationCallToAction", related_name="segments"
+    )
+
+    class Meta:
+        unique_together = ("segment", "call_to_action")
+
+    panels = [
+        FieldPanel("segment"),
+    ]
+
+
+class CollapsibleNavigationCTAPageType(Orderable):
+    """
+    This links a CTA to a page type so we know which page types to apply the CTA to.
+    """
+
+    page_type = models.CharField(
+        max_length=100,
+        choices=PAGE_TYPE_CHOICES,
+        help_text="Select the page type where this CTA should appear",
+    )
+    call_to_action = ParentalKey(
+        "personalisation.CollapsibleNavigationCallToAction", related_name="page_types"
+    )
+
+    class Meta:
+        unique_together = ("page_type", "call_to_action")
+
+    panels = [
+        FieldPanel("page_type"),
+    ]
+
+    def __str__(self):
+        return self.get_page_type_display()
+
+
+class CollapsibleNavigationCallToAction(
+    StyledPreviewableMixin, BasePersonalisedCallToAction
+):
+    title = models.CharField(
+        max_length=255, help_text="This is for internal purposes only."
+    )
+    links = StreamField(
+        [
+            ("link", CollapsibleNavigationLinkBlock()),
+        ],
+        max_num=5,
+        min_num=2,
+    )
+
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("title"),
+                FieldPanel("links"),
+            ],
+            heading="Content",
+        ),
+        InlinePanel(
+            "segments",
+            label="Segments",
+            heading="Segments",
+            help_text=(
+                "Select the segments that must apply for this CTA to appear. "
+                "You may select multiple segments. "
+                "If no segments are selected, the CTA will not appear. "
+                "If multiple segments are selected, the CTA will appear when at least "
+                "one of the selected segments applies."
+            ),
+        ),
+        InlinePanel(
+            "page_types",
+            label="Page Types",
+            heading="Page Types",
+            help_text="Select the page types where this CTA should appear.",
+        ),
+        MultiFieldPanel(
+            [
+                FieldRowPanel(
+                    [
+                        FieldPanel("go_live_at"),
+                        FieldPanel("expire_at"),
+                    ]
+                )
+            ],
+            heading="Scheduling",
+            help_text=(
+                "When the CTA should appear/expire. Leave blank to disable the CTA."
+            ),
+        ),
+    ]
+
+    def __str__(self):
+        return self.title
+
+    def get_preview_template(self, request, mode_name):
+        return "patterns/molecules/collapsible_nav/collapsible_nav.html"
+
+    def get_preview_context(self, request, mode_name):
+        context = super().get_preview_context(request, mode_name)
+
+        context.update(
+            {
+                "collapsible_nav": [
+                    {
+                        "url": link.value["page"].url,
+                        "text": link.value["title"] or link.value["page"].title,
+                    }
+                    for link in self.links
+                ],
+            }
+        )
 
         return context
