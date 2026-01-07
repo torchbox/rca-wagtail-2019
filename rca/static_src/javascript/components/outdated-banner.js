@@ -1,12 +1,13 @@
 function outdatedBanner() {
     const banner = document.querySelector('[data-outdated-banner]');
+    const bannerClose = document.querySelector('[data-outdated-banner-close]');
 
-    if (!banner) {
+    if (!banner || !bannerClose) {
         return;
     }
 
-    banner.addEventListener('click', () => {
-        document.querySelector('[data-outdated-banner]').style.display = 'none';
+    bannerClose.addEventListener('click', () => {
+        banner.style.display = 'none';
     });
 }
 
