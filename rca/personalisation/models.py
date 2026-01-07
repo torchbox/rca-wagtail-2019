@@ -651,6 +651,12 @@ class EventCountdownCallToAction(
     def get_preview_context(self, request, mode_name):
         context = super().get_preview_context(request, mode_name)
 
+        countdown_date = None
+        if self.countdown_to == "end":
+            countdown_date = self.end_date
+        elif self.countdown_to == "start":
+            countdown_date = self.start_date
+
         context.update(
             {
                 "value": {
@@ -658,9 +664,7 @@ class EventCountdownCallToAction(
                     "start_date": self.start_date,
                     "end_date": self.end_date,
                     "countdown_text": self.countdown_timer_pre_text,
-                    "countdown_date": (
-                        self.end_date if self.countdown_to == "end" else self.start_date
-                    ),
+                    "countdown_date": countdown_date,
                     "link": {
                         "link": self.external_link
                         or (self.internal_link.url if self.internal_link else ""),
