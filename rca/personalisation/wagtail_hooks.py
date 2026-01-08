@@ -4,14 +4,15 @@ from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 from .models import (
     CollapsibleNavigationCallToAction,
     EmbeddedFooterCallToAction,
+    EventCountdownCallToAction,
     UserActionCallToAction,
 )
 
 
-class UserActionCallToActionViewSet(SnippetViewSet):
-    model = UserActionCallToAction
+class CollapsibleNavigationCallToActionViewSet(SnippetViewSet):
+    model = CollapsibleNavigationCallToAction
     icon = "snippet"
-    menu_label = "User Action Pop-up CTAs"
+    menu_label = "Collapsible Navigation CTAs"
 
 
 class EmbeddedFooterCallToActionViewSet(SnippetViewSet):
@@ -20,10 +21,16 @@ class EmbeddedFooterCallToActionViewSet(SnippetViewSet):
     menu_label = "Embedded Footer CTAs"
 
 
-class CollapsibleNavigationCallToActionViewSet(SnippetViewSet):
-    model = CollapsibleNavigationCallToAction
+class EventCountdownCallToActionViewSet(SnippetViewSet):
+    model = EventCountdownCallToAction
     icon = "snippet"
-    menu_label = "Collapsible Navigation CTAs"
+    menu_label = "Event Countdown CTAs"
+
+
+class UserActionCallToActionViewSet(SnippetViewSet):
+    model = UserActionCallToAction
+    icon = "snippet"
+    menu_label = "User Action Pop-up CTAs"
 
 
 class PersonalisationCTAsGroup(SnippetViewSetGroup):
@@ -33,6 +40,7 @@ class PersonalisationCTAsGroup(SnippetViewSetGroup):
     items = (
         CollapsibleNavigationCallToActionViewSet,
         EmbeddedFooterCallToActionViewSet,
+        EventCountdownCallToActionViewSet,
         UserActionCallToActionViewSet,
     )
 

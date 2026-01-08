@@ -87,17 +87,119 @@ class BasePersonalisedCallToAction(ClusterableModel):
         super().clean()
         errors = {}
 
-        # Validate dates
-        now = timezone.now()
-
-        if self.go_live_at and self.go_live_at < now:
-            errors["go_live_at"] = "Go live date/time cannot be in the past"
-
-        if self.expire_at and self.expire_at < now:
-            errors["expire_at"] = "Expiry date/time cannot be in the past"
-
         if self.go_live_at and self.expire_at and self.expire_at <= self.go_live_at:
             errors["expire_at"] = "Expiry date/time must be after go live date/time"
+
+        if errors:
+            raise ValidationError(errors)
+
+
+class UserActionChoicesMixin(models.Model):
+    USER_ACTION_CHOICES = [
+        ("page_load", "On page load"),
+        ("inactivity", "On inactivity after X seconds"),
+        ("scroll", "On scroll after X% of the way down"),
+        ("exit_intent", "On exit intent"),
+    ]
+
+    # User action condition
+    user_action = models.CharField(
+        max_length=20,
+        choices=USER_ACTION_CHOICES,
+        default="page_load",
+        help_text="Choose when this CTA should appear",
+    )
+    inactivity_seconds = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        help_text="Number of seconds of inactivity before showing the CTA (only for 'On inactivity')",
+    )
+    scroll_percentage = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        help_text="Percentage of page scrolled before showing the CTA (only for 'On scroll', e.g., 50 for 50%)",
+    )
+
+    class Meta:
+        abstract = True
+
+    def clean(self):
+        super().clean()
+        errors = {}
+
+        # Validate user action parameters
+        if self.user_action == "inactivity":
+            if not self.inactivity_seconds:
+                errors["inactivity_seconds"] = (
+                    "Please specify the number of seconds of inactivity"
+                )
+            elif self.inactivity_seconds <= 0:
+                errors["inactivity_seconds"] = (
+                    "Inactivity seconds must be greater than 0"
+                )
+
+        if self.user_action == "scroll":
+            if not self.scroll_percentage:
+                errors["scroll_percentage"] = "Please specify the scroll percentage"
+            elif self.scroll_percentage <= 0 or self.scroll_percentage > 100:
+                errors["scroll_percentage"] = (
+                    "Scroll percentage must be between 1 and 100"
+                )
+
+        if errors:
+            raise ValidationError(errors)
+
+
+class LinkFieldsMixin(models.Model):
+    # Link fields (either internal or external)
+    internal_link = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text="Link to an internal page",
+    )
+    external_link = models.URLField(
+        blank=True,
+        help_text="Link to an external URL (e.g., https://example.com)",
+    )
+    link_label = models.CharField(
+        max_length=40,
+        blank=True,
+        help_text=(
+            "Maximum 40 characters for the link button text. "
+            "If using an internal link, leave blank to use the page's title."
+        ),
+    )
+
+    class Meta:
+        abstract = True
+
+    def clean(self):
+        super().clean()
+        errors = {}
+
+        # Validate link fields
+        if self.internal_link and self.external_link:
+            errors["internal_link"] = (
+                "Please choose either an internal link or an external link, not both"
+            )
+            errors["external_link"] = (
+                "Please choose either an internal link or an external link, not both"
+            )
+        elif not self.internal_link and not self.external_link:
+            errors["internal_link"] = (
+                "Please provide either an internal link or an external link"
+            )
+            errors["external_link"] = (
+                "Please provide either an internal link or an external link"
+            )
+
+        if self.external_link and not self.link_label:
+            errors["link_label"] = (
+                "If using an external link, please provide the link button text"
+            )
 
         if errors:
             raise ValidationError(errors)
@@ -146,7 +248,12 @@ class UserActionCTAPageType(Orderable):
         return self.get_page_type_display()
 
 
-class UserActionCallToAction(StyledPreviewableMixin, BasePersonalisedCallToAction):
+class UserActionCallToAction(
+    StyledPreviewableMixin,
+    LinkFieldsMixin,
+    UserActionChoicesMixin,
+    BasePersonalisedCallToAction,
+):
     image = models.ForeignKey(
         "images.CustomImage",
         on_delete=models.CASCADE,
@@ -154,53 +261,6 @@ class UserActionCallToAction(StyledPreviewableMixin, BasePersonalisedCallToActio
     )
     title = models.CharField(max_length=40)
     description = models.CharField(max_length=65)
-
-    # Link fields (either internal or external)
-    internal_link = models.ForeignKey(
-        "wagtailcore.Page",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-        help_text="Link to an internal page",
-    )
-    external_link = models.URLField(
-        blank=True,
-        help_text="Link to an external URL (e.g., https://example.com)",
-    )
-    link_label = models.CharField(
-        max_length=40,
-        blank=True,
-        help_text=(
-            "Maximum 40 characters for the link button text. "
-            "If using an internal link, leave blank to use the page's title."
-        ),
-    )
-
-    USER_ACTION_CHOICES = [
-        ("page_load", "On page load"),
-        ("inactivity", "On inactivity after X seconds"),
-        ("scroll", "On scroll after X% of the way down"),
-        ("exit_intent", "On exit intent"),
-    ]
-
-    # User action condition
-    user_action = models.CharField(
-        max_length=20,
-        choices=USER_ACTION_CHOICES,
-        default="page_load",
-        help_text="Choose when this CTA should appear",
-    )
-    inactivity_seconds = models.PositiveIntegerField(
-        null=True,
-        blank=True,
-        help_text="Number of seconds of inactivity before showing the CTA (only for 'On inactivity')",
-    )
-    scroll_percentage = models.PositiveIntegerField(
-        null=True,
-        blank=True,
-        help_text="Percentage of page scrolled before showing the CTA (only for 'On scroll', e.g., 50 for 50%)",
-    )
 
     class Meta:
         verbose_name = "User Action Pop-up CTA"
@@ -268,53 +328,6 @@ class UserActionCallToAction(StyledPreviewableMixin, BasePersonalisedCallToActio
     def __str__(self):
         return self.title
 
-    def clean(self):
-        super().clean()
-        errors = {}
-
-        # Validate user action parameters
-        if self.user_action == "inactivity":
-            if not self.inactivity_seconds:
-                errors["inactivity_seconds"] = (
-                    "Please specify the number of seconds of inactivity"
-                )
-            elif self.inactivity_seconds <= 0:
-                errors["inactivity_seconds"] = (
-                    "Inactivity seconds must be greater than 0"
-                )
-
-        if self.user_action == "scroll":
-            if not self.scroll_percentage:
-                errors["scroll_percentage"] = "Please specify the scroll percentage"
-            elif self.scroll_percentage <= 0 or self.scroll_percentage > 100:
-                errors["scroll_percentage"] = (
-                    "Scroll percentage must be between 1 and 100"
-                )
-
-        # Validate link fields
-        if self.internal_link and self.external_link:
-            errors["internal_link"] = (
-                "Please choose either an internal link or an external link, not both"
-            )
-            errors["external_link"] = (
-                "Please choose either an internal link or an external link, not both"
-            )
-        elif not self.internal_link and not self.external_link:
-            errors["internal_link"] = (
-                "Please provide either an internal link or an external link"
-            )
-            errors["external_link"] = (
-                "Please provide either an internal link or an external link"
-            )
-
-        if self.external_link and not self.link_label:
-            errors["link_label"] = (
-                "If using an external link, please provide the link button text"
-            )
-
-        if errors:
-            raise ValidationError(errors)
-
     def get_preview_template(self, request, mode_name):
         return "patterns/molecules/cta_modal/cta_modal.html"
 
@@ -378,31 +391,11 @@ class EmbeddedFooterCTAPageType(Orderable):
         return self.get_page_type_display()
 
 
-class EmbeddedFooterCallToAction(StyledPreviewableMixin, BasePersonalisedCallToAction):
+class EmbeddedFooterCallToAction(
+    StyledPreviewableMixin, LinkFieldsMixin, BasePersonalisedCallToAction
+):
     title = models.CharField(max_length=40)
     description = models.CharField(max_length=65)
-
-    # Link fields (either internal or external)
-    internal_link = models.ForeignKey(
-        "wagtailcore.Page",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-        help_text="Link to an internal page",
-    )
-    external_link = models.URLField(
-        blank=True,
-        help_text="Link to an external URL (e.g., https://example.com)",
-    )
-    link_label = models.CharField(
-        max_length=40,
-        blank=True,
-        help_text=(
-            "Maximum 40 characters for the link button text. "
-            "If using an internal link, leave blank to use the page's title."
-        ),
-    )
 
     panels = [
         MultiFieldPanel(
@@ -457,34 +450,6 @@ class EmbeddedFooterCallToAction(StyledPreviewableMixin, BasePersonalisedCallToA
     def __str__(self):
         return self.title
 
-    def clean(self):
-        super().clean()
-        errors = {}
-
-        # Validate link fields
-        if self.internal_link and self.external_link:
-            errors["internal_link"] = (
-                "Please choose either an internal link or an external link, not both"
-            )
-            errors["external_link"] = (
-                "Please choose either an internal link or an external link, not both"
-            )
-        elif not self.internal_link and not self.external_link:
-            errors["internal_link"] = (
-                "Please provide either an internal link or an external link"
-            )
-            errors["external_link"] = (
-                "Please provide either an internal link or an external link"
-            )
-
-        if self.external_link and not self.link_label:
-            errors["link_label"] = (
-                "If using an external link, please provide the link button text"
-            )
-
-        if errors:
-            raise ValidationError(errors)
-
     def get_preview_template(self, request, mode_name):
         return "patterns/molecules/text-teaser/text-teaser.html"
 
@@ -502,6 +467,215 @@ class EmbeddedFooterCallToAction(StyledPreviewableMixin, BasePersonalisedCallToA
         elif self.internal_link:
             context["teaser"]["page"] = self.internal_link
             context["teaser"]["action"] = self.link_label or self.internal_link.title
+
+        return context
+
+
+class EventCountdownCTASegment(Orderable):
+    segment = models.ForeignKey(
+        Segment, related_name="event_countdown_ctas", on_delete=models.CASCADE
+    )
+    call_to_action = ParentalKey(
+        "personalisation.EventCountdownCallToAction", related_name="segments"
+    )
+
+    class Meta:
+        unique_together = ("segment", "call_to_action")
+
+    panels = [
+        FieldPanel("segment"),
+    ]
+
+
+class EventCountdownCTAPageType(Orderable):
+    """
+    This links a CTA to a page type so we know which page types to apply the CTA to.
+    """
+
+    page_type = models.CharField(
+        max_length=100,
+        choices=PAGE_TYPE_CHOICES,
+        help_text="Select the page type where this CTA should appear",
+    )
+    call_to_action = ParentalKey(
+        "personalisation.EventCountdownCallToAction", related_name="page_types"
+    )
+
+    class Meta:
+        unique_together = ("page_type", "call_to_action")
+
+    panels = [
+        FieldPanel("page_type"),
+    ]
+
+    def __str__(self):
+        return self.get_page_type_display()
+
+
+class EventCountdownCallToAction(
+    StyledPreviewableMixin,
+    UserActionChoicesMixin,
+    LinkFieldsMixin,
+    BasePersonalisedCallToAction,
+):
+    title = models.CharField(max_length=40)
+
+    # Date fields
+    start_date = models.DateTimeField(blank=True, null=True)
+    end_date = models.DateTimeField(blank=True, null=True)
+    countdown_timer_pre_text = models.CharField(blank=True)
+    COUNTDOWN_TO_CHOICES = [
+        ("start", "Start date"),
+        ("end", "End date"),
+    ]
+    countdown_to = models.CharField(
+        max_length=10,
+        blank=True,
+        choices=COUNTDOWN_TO_CHOICES,
+        help_text="Choose which date the countdown must count to",
+    )
+
+    class Meta:
+        verbose_name = "Event Countdown CTA"
+        verbose_name_plural = "Event Countdown CTAs"
+
+    panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("title"),
+                MultiFieldPanel(
+                    [
+                        PageChooserPanel("internal_link"),
+                        FieldPanel("external_link"),
+                        FieldPanel("link_label"),
+                    ],
+                    heading="Link (choose either internal or external)",
+                ),
+                MultiFieldPanel(
+                    [
+                        FieldPanel("start_date"),
+                        FieldPanel("end_date"),
+                        FieldPanel("countdown_to"),
+                        FieldPanel("countdown_timer_pre_text"),
+                    ],
+                    heading="Countdown",
+                ),
+            ],
+            heading="Content",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("user_action"),
+                FieldPanel("inactivity_seconds"),
+                FieldPanel("scroll_percentage"),
+            ],
+            heading="User Action Condition",
+        ),
+        InlinePanel(
+            "segments",
+            label="Segments",
+            heading="Segments",
+            help_text=(
+                "Select the segments that must apply for this CTA to appear. "
+                "You may select multiple segments. "
+                "If no segments are selected, the CTA will not appear. "
+                "If multiple segments are selected, the CTA will appear when at least "
+                "one of the selected segments applies."
+            ),
+        ),
+        InlinePanel(
+            "page_types",
+            label="Page Types",
+            heading="Page Types",
+            help_text="Select the page types where this CTA should appear.",
+        ),
+        MultiFieldPanel(
+            [
+                FieldRowPanel(
+                    [
+                        FieldPanel("go_live_at"),
+                        FieldPanel("expire_at"),
+                    ]
+                )
+            ],
+            heading="Scheduling",
+            help_text=(
+                "When the CTA should appear/expire. Leave blank to disable the CTA."
+            ),
+        ),
+    ]
+
+    def __str__(self):
+        return self.title
+
+    def clean(self):
+        super().clean()
+        errors = {}
+
+        # Validate countdown configuration
+        if self.countdown_to:
+            # If countdown_to is set, require the countdown_timer_pre_text
+            if not self.countdown_timer_pre_text:
+                errors["countdown_timer_pre_text"] = (
+                    "Please provide the text that prepends the countdown timer"
+                )
+
+            # If counting down to start date, require start_date
+            if self.countdown_to == "start" and not self.start_date:
+                errors["start_date"] = (
+                    "Please provide the start date for the countdown timer"
+                )
+
+            # If counting down to end date, require end_date
+            if self.countdown_to == "end" and not self.end_date:
+                errors["end_date"] = (
+                    "Please provide the end date for the countdown timer"
+                )
+
+        # Validate that end_date is after start_date if both are provided
+        if self.start_date and self.end_date and self.end_date <= self.start_date:
+            errors["end_date"] = "End date must be after start date"
+
+        # Validate that dates are in the future
+        now = timezone.now()
+        if self.start_date and self.start_date < now:
+            errors["start_date"] = "Start date cannot be in the past"
+
+        if self.end_date and self.end_date < now:
+            errors["end_date"] = "End date cannot be in the past"
+
+        if errors:
+            raise ValidationError(errors)
+
+    def get_preview_template(self, request, mode_name):
+        return "patterns/organisms/countdown_cta/countdown_cta.html"
+
+    def get_preview_context(self, request, mode_name):
+        context = super().get_preview_context(request, mode_name)
+
+        countdown_date = None
+        if self.countdown_to == "end":
+            countdown_date = self.end_date
+        elif self.countdown_to == "start":
+            countdown_date = self.start_date
+
+        context.update(
+            {
+                "value": {
+                    "title": self.title,
+                    "start_date": self.start_date,
+                    "end_date": self.end_date,
+                    "countdown_text": self.countdown_timer_pre_text,
+                    "countdown_date": countdown_date,
+                    "link": {
+                        "link": self.external_link
+                        or (self.internal_link.url if self.internal_link else ""),
+                        "action": self.link_label
+                        or (self.internal_link.title if self.internal_link else ""),
+                    },
+                },
+            }
+        )
 
         return context
 
