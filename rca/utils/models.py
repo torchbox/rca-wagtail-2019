@@ -481,9 +481,12 @@ class BasePage(SocialFields, ListingFields, Page):
         # Get segments that have its rules met
         adapter = get_segment_adapter(request)
         adapter.refresh()
-        segments = []
-        for segment in adapter.get_segments():
-            segments.append(segment)
+        segments = list(adapter.get_segments())
+
+        # If no segments are active, don't proceed with checking for
+        # personalised CTAs.
+        if not segments:
+            return context
 
         # Get current time (for checking go_live_at and expire_at)
         now = timezone.now()
@@ -491,40 +494,45 @@ class BasePage(SocialFields, ListingFields, Page):
         # Get the content type for this page
         page_content_type = f"{self._meta.app_label}.{self._meta.model_name}"
 
-        # Get relevant personalised CTAs
-        user_call_to_actions = UserActionCallToAction.objects.for_page_and_segments(
-            page_content_type, segments, now
+        # Get relevant personalised CTAs - only fetch first result and prefetch related links
+        user_call_to_action = (
+            UserActionCallToAction.objects.for_page_and_segments(
+                page_content_type, segments, now
+            )
+            .select_related("internal_link")
+            .first()
         )
-        if user_call_to_actions:
-            context["personalised_user_cta"] = user_call_to_actions[
-                0
-            ].get_template_data()
+        if user_call_to_action:
+            context["personalised_user_cta"] = user_call_to_action.get_template_data()
 
-        embedded_footer_ctas = EmbeddedFooterCallToAction.objects.for_page_and_segments(
-            page_content_type, segments, now
+        embedded_footer_cta = (
+            EmbeddedFooterCallToAction.objects.for_page_and_segments(
+                page_content_type, segments, now
+            )
+            .select_related("internal_link")
+            .first()
         )
-        if embedded_footer_ctas:
-            context["personalised_footer_cta"] = embedded_footer_ctas[
-                0
-            ].get_template_data()
+        if embedded_footer_cta:
+            context["personalised_footer_cta"] = embedded_footer_cta.get_template_data()
 
-        event_countdown_ctas = EventCountdownCallToAction.objects.for_page_and_segments(
-            page_content_type, segments, now
+        event_countdown_cta = (
+            EventCountdownCallToAction.objects.for_page_and_segments(
+                page_content_type, segments, now
+            )
+            .select_related("internal_link")
+            .first()
         )
-        if event_countdown_ctas:
-            context["personalised_countdown_cta"] = event_countdown_ctas[
-                0
-            ].get_template_data()
+        if event_countdown_cta:
+            context["personalised_countdown_cta"] = event_countdown_cta.get_template_data()
 
-        collapsible_nav_ctas = (
+        collapsible_nav_cta = (
             CollapsibleNavigationCallToAction.objects.for_page_and_segments(
                 page_content_type, segments, now
             )
+            .first()
         )
-        if collapsible_nav_ctas:
-            context["personalised_collapsible_nav"] = collapsible_nav_ctas[
-                0
-            ].get_template_data()
+        if collapsible_nav_cta:
+            context["personalised_collapsible_nav"] = collapsible_nav_cta.get_template_data()
 
         return context
 
