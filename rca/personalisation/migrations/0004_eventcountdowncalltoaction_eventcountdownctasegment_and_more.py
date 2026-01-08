@@ -122,7 +122,7 @@ class Migration(migrations.Migration):
                 "verbose_name": "Event Countdown CTA",
                 "verbose_name_plural": "Event Countdown CTAs",
             },
-            bases=(rca.utils.models.StyledPreviewableMixin, models.Model),
+            bases=(rca.personalisation.models.StyledPreviewableMixin, models.Model),
         ),
         migrations.CreateModel(
             name="EventCountdownCTASegment",

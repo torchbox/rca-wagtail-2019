@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.shortcuts import render
 from django.utils import timezone
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
@@ -10,12 +11,11 @@ from wagtail.admin.panels import (
     MultiFieldPanel,
     PageChooserPanel,
 )
-from wagtail.models import Orderable
+from wagtail.models import Orderable, PreviewableMixin
 from wagtail_personalisation.models import Segment
 
 from rca.personalisation.blocks import CollapsibleNavigationLinkBlock
 from rca.utils.fields import StreamField
-from rca.utils.models import StyledPreviewableMixin
 
 """
 We cannot set a custom form on InlinePanels to dynamically update
@@ -65,6 +65,42 @@ PAGE_TYPE_CHOICES = [
 ]
 
 
+class StyledPreviewableMixin(PreviewableMixin):
+    """A custom PreviewableMixin that renders previews with proper styling."""
+
+    def serve_preview(self, request, mode_name):
+        template = self.get_preview_template(request, mode_name)
+        context = self.get_preview_context(request, mode_name)
+        context.update(
+            {
+                "request": request,
+                "is_preview": True,
+                "template_name": template,
+            }
+        )
+        return render(request, "patterns/preview_wrapper.html", context)
+
+
+class PersonalisedCTAQuerySet(models.QuerySet):
+    def for_page_and_segments(self, page_content_type, segments, now):
+        """
+        Filter CTAs by page type, segments, and time constraints.
+
+        Args:
+            page_content_type: String in format "app_label.model_name"
+            segments: List/queryset of segments
+            now: Current datetime for go_live_at/expire_at checks
+        """
+        return self.filter(
+            # Include if go_live_at is null or if now >= go_live_at
+            models.Q(go_live_at__isnull=True) | models.Q(go_live_at__lte=now),
+            # Include if expire_at is null or if now < expire_at
+            models.Q(expire_at__isnull=True) | models.Q(expire_at__gt=now),
+            page_types__page_type=page_content_type,
+            segments__segment__in=segments,
+        ).distinct()
+
+
 class BasePersonalisedCallToAction(ClusterableModel):
     # Scheduling
     go_live_at = models.DateTimeField(
@@ -79,6 +115,8 @@ class BasePersonalisedCallToAction(ClusterableModel):
         null=True,
         help_text="The date and time when this CTA should stop appearing.",
     )
+
+    objects = models.Manager.from_queryset(PersonalisedCTAQuerySet)()
 
     class Meta:
         abstract = True
@@ -328,6 +366,21 @@ class UserActionCallToAction(
     def __str__(self):
         return self.title
 
+    def get_template_data(self):
+        """
+        Returns the data structure expected by the CTA modal template.
+        This can be used both in preview and in actual page context.
+        """
+        return {
+            "image": self.image,
+            "title": self.title,
+            "description": self.description,
+            "href": self.external_link
+            or (self.internal_link.url if self.internal_link else ""),
+            "text": self.link_label
+            or (self.internal_link.title if self.internal_link else ""),
+        }
+
     def get_preview_template(self, request, mode_name):
         return "patterns/molecules/cta_modal/cta_modal.html"
 
@@ -335,13 +388,7 @@ class UserActionCallToAction(
         context = super().get_preview_context(request, mode_name)
         context.update(
             {
-                "value": {
-                    "image": self.image,
-                    "title": self.title,
-                    "description": self.description,
-                    "href": self.external_link or self.internal_link.url,
-                    "text": self.link_label,
-                },
+                "value": self.get_template_data(),
                 "classes": "is-open",
             }
         )
@@ -450,23 +497,32 @@ class EmbeddedFooterCallToAction(
     def __str__(self):
         return self.title
 
+    def get_template_data(self):
+        """
+        Returns the data structure expected by the text-teaser template.
+        This can be used both in preview and in actual page context.
+        """
+        teaser_data = {
+            "title": self.title,
+            "description": self.description,
+        }
+
+        if self.external_link:
+            teaser_data["link"] = {"url": self.external_link}
+            teaser_data["action"] = self.link_label
+        elif self.internal_link:
+            teaser_data["page"] = self.internal_link
+            teaser_data["action"] = self.link_label or self.internal_link.title
+
+        return teaser_data
+
     def get_preview_template(self, request, mode_name):
         return "patterns/molecules/text-teaser/text-teaser.html"
 
     def get_preview_context(self, request, mode_name):
         context = super().get_preview_context(request, mode_name)
         context["classes"] = "text-teaser--footer-cta"
-        context["teaser"] = {
-            "title": self.title,
-            "description": self.description,
-        }
-
-        if self.external_link:
-            context["teaser"]["link"] = {"url": self.external_link}
-            context["teaser"]["action"] = self.link_label
-        elif self.internal_link:
-            context["teaser"]["page"] = self.internal_link
-            context["teaser"]["action"] = self.link_label or self.internal_link.title
+        context["teaser"] = self.get_template_data()
 
         return context
 
@@ -647,36 +703,38 @@ class EventCountdownCallToAction(
         if errors:
             raise ValidationError(errors)
 
-    def get_preview_template(self, request, mode_name):
-        return "patterns/organisms/countdown_cta/countdown_cta.html"
-
-    def get_preview_context(self, request, mode_name):
-        context = super().get_preview_context(request, mode_name)
-
+    def get_template_data(self):
+        """
+        Returns the data structure expected by the countdown CTA template.
+        This can be used both in preview and in actual page context.
+        """
         countdown_date = None
         if self.countdown_to == "end":
             countdown_date = self.end_date
         elif self.countdown_to == "start":
             countdown_date = self.start_date
 
-        context.update(
-            {
-                "value": {
-                    "title": self.title,
-                    "start_date": self.start_date,
-                    "end_date": self.end_date,
-                    "countdown_text": self.countdown_timer_pre_text,
-                    "countdown_date": countdown_date,
-                    "link": {
-                        "link": self.external_link
-                        or (self.internal_link.url if self.internal_link else ""),
-                        "action": self.link_label
-                        or (self.internal_link.title if self.internal_link else ""),
-                    },
-                },
-            }
-        )
+        return {
+            "title": self.title,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
+            "countdown_to": self.countdown_to,
+            "countdown_text": self.countdown_timer_pre_text,
+            "countdown_date": countdown_date,
+            "link": {
+                "link": self.external_link
+                or (self.internal_link.url if self.internal_link else ""),
+                "action": self.link_label
+                or (self.internal_link.title if self.internal_link else ""),
+            },
+        }
 
+    def get_preview_template(self, request, mode_name):
+        return "patterns/organisms/countdown_cta/countdown_cta.html"
+
+    def get_preview_context(self, request, mode_name):
+        context = super().get_preview_context(request, mode_name)
+        context["value"] = self.get_template_data()
         return context
 
 
@@ -782,22 +840,23 @@ class CollapsibleNavigationCallToAction(
     def __str__(self):
         return self.title
 
+    def get_template_data(self):
+        """
+        Returns the data structure expected by the collapsible nav template.
+        This can be used both in preview and in actual page context.
+        """
+        return [
+            {
+                "url": link.value["page"].url,
+                "text": link.value["title"] or link.value["page"].title,
+            }
+            for link in self.links
+        ]
+
     def get_preview_template(self, request, mode_name):
         return "patterns/molecules/collapsible_nav/collapsible_nav.html"
 
     def get_preview_context(self, request, mode_name):
         context = super().get_preview_context(request, mode_name)
-
-        context.update(
-            {
-                "collapsible_nav": [
-                    {
-                        "url": link.value["page"].url,
-                        "text": link.value["title"] or link.value["page"].title,
-                    }
-                    for link in self.links
-                ],
-            }
-        )
-
+        context["collapsible_nav"] = self.get_template_data()
         return context

@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
             options={
                 "abstract": False,
             },
-            bases=(rca.utils.models.StyledPreviewableMixin, models.Model),
+            bases=(rca.personalisation.models.StyledPreviewableMixin, models.Model),
         ),
         migrations.CreateModel(
             name="CollapsibleNavigationCTASegment",

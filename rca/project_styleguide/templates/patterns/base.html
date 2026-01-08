@@ -78,14 +78,14 @@
         </nav>
 
         <main class="app__content">
-            {% if page.cta_modal %}
-                {% include 'patterns/molecules/cta_modal/cta_modal.html' with value=page.cta_modal %}
+            {% if personalised_user_cta %}
+                {% include 'patterns/molecules/cta_modal/cta_modal.html' with value=personalised_user_cta classes="is-open" %}
             {% endif %}
 
             {% include "patterns/atoms/grid-lines/grid-lines.html" with data_tag_left="data-left-edge" data_tag_center="data-grid-center" %}
             
-            {% if page.collapsible_nav %}
-                {% include 'patterns/molecules/collapsible_nav/collapsible_nav.html' with collapsible_nav=page.collapsible_nav %}
+            {% if personalised_collapsible_nav %}
+                {% include 'patterns/molecules/collapsible_nav/collapsible_nav.html' with collapsible_nav=personalised_collapsible_nav %}
             {% endif %}
 
             {% block content %}
@@ -102,8 +102,8 @@
             {% block footer %}{% endblock %}
         </footer>
 
-        {% if page.countdown_cta %}
-            {% include "patterns/organisms/countdown_cta/countdown_cta.html" %}
+        {% if personalised_countdown_cta %}
+            {% include "patterns/organisms/countdown_cta/countdown_cta.html" with value=personalised_countdown_cta %}
         {% endif %}
 
         <script src="{% static 'js/main.js' %}"></script>
