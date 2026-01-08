@@ -494,7 +494,8 @@ class BasePage(SocialFields, ListingFields, Page):
         # Get the content type for this page
         page_content_type = f"{self._meta.app_label}.{self._meta.model_name}"
 
-        # Get relevant personalised CTAs - only fetch first result and prefetch related links
+        # Get relevant personalised CTAs - only fetch first result so users are not
+        # shown multiple of the same CTA type.
         user_call_to_action = (
             UserActionCallToAction.objects.for_page_and_segments(
                 page_content_type, segments, now

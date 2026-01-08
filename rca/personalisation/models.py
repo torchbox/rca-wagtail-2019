@@ -90,11 +90,17 @@ class PersonalisedCTAQuerySet(models.QuerySet):
             page_content_type: String in format "app_label.model_name"
             segments: List/queryset of segments
             now: Current datetime for go_live_at/expire_at checks
+
+        Note:
+            At least one of go_live_at or expire_at must be set for the CTA to be active.
+            If both are blank, the CTA is considered disabled.
         """
         return self.filter(
-            # Include if go_live_at is null or if now >= go_live_at
+            # At least one date must be set (otherwise CTA is disabled)
+            models.Q(go_live_at__isnull=False) | models.Q(expire_at__isnull=False),
+            # If go_live_at is set, now must be >= go_live_at
             models.Q(go_live_at__isnull=True) | models.Q(go_live_at__lte=now),
-            # Include if expire_at is null or if now < expire_at
+            # If expire_at is set, now must be < expire_at
             models.Q(expire_at__isnull=True) | models.Q(expire_at__gt=now),
             page_types__page_type=page_content_type,
             segments__segment__in=segments,
@@ -358,7 +364,7 @@ class UserActionCallToAction(
             ],
             heading="Scheduling",
             help_text=(
-                "When the CTA should appear/expire. Leave blank to disable the CTA."
+                "When the CTA should appear/expire. At least one date must be set for the CTA to be active. Leave both blank to disable the CTA."
             ),
         ),
     ]
@@ -489,7 +495,7 @@ class EmbeddedFooterCallToAction(
             ],
             heading="Scheduling",
             help_text=(
-                "When the CTA should appear/expire. Leave blank to disable the CTA."
+                "When the CTA should appear/expire. At least one date must be set for the CTA to be active. Leave both blank to disable the CTA."
             ),
         ),
     ]
@@ -656,7 +662,7 @@ class EventCountdownCallToAction(
             ],
             heading="Scheduling",
             help_text=(
-                "When the CTA should appear/expire. Leave blank to disable the CTA."
+                "When the CTA should appear/expire. At least one date must be set for the CTA to be active. Leave both blank to disable the CTA."
             ),
         ),
     ]
@@ -832,7 +838,7 @@ class CollapsibleNavigationCallToAction(
             ],
             heading="Scheduling",
             help_text=(
-                "When the CTA should appear/expire. Leave blank to disable the CTA."
+                "When the CTA should appear/expire. At least one date must be set for the CTA to be active. Leave both blank to disable the CTA."
             ),
         ),
     ]

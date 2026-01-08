@@ -53,14 +53,17 @@ User visits page → Segments evaluated → Matching CTAs queried → CTAs displ
 
 ## Scheduling
 
-All CTAs support scheduling with two optional fields:
+All CTAs support scheduling with two fields:
 
 - Go live date/time: When the CTA should start appearing
 - Expiry date/time: When the CTA should stop appearing
 
-**Important**: The system checks both segment rules AND scheduling. A CTA will only display if:
+Important: At least one of these dates must be set for the CTA to be active. If both are blank, the CTA is considered disabled and will not appear.
 
-1. User matches at least one segment
-2. Current page matches a configured page type
-3. Current time is after go-live (if set)
-4. Current time is before expiry (if set)
+The system checks both segment rules AND scheduling. A CTA will only display if:
+
+1. At least one scheduling date is set (go-live or expiry)
+2. User matches at least one segment
+3. Current page matches a configured page type
+4. Current time is after go-live (if set)
+5. Current time is before expiry (if set)
