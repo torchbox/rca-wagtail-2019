@@ -1,4 +1,4 @@
-<div class="countdown-cta" data-countdown-cta data-countdown-date="{{ value.countdown_date|date:'Y-m-d H:i:s' }}">
+<div class="countdown-cta"{% if value.countdown_to %} data-countdown-cta data-countdown-date="{{ value.countdown_date|date:'Y-m-d H:i:s' }}"{% endif %}>
     <div class="grid">
         {% include "patterns/atoms/grid-lines/grid-lines.html" %}
         <div class="countdown-cta__details">
