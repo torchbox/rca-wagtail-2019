@@ -910,9 +910,9 @@ SOCIAL_AUTH_PIPELINE = (
 
 # Wagtail Personalisation
 WAGTAIL_PERSONALISATION_RULES = [
-    'wagtail_personalisation.TimeRule',
-    'wagtail_personalisation.DayRule',
-    'wagtail_personalisation.DeviceRule',
-    'wagtail_personalisation.VisitCountRule',
-    'wagtail_personalisation.OriginCountryRule',
+    "wagtail_personalisation.TimeRule",
+    "wagtail_personalisation.DayRule",
+    "wagtail_personalisation.DeviceRule",
+    "wagtail_personalisation.VisitCountRule",
+    "wagtail_personalisation.OriginCountryRule",
 ]

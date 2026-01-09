@@ -1,6 +1,5 @@
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.shortcuts import render
 from django.utils import timezone
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
@@ -349,7 +348,8 @@ class UserActionCallToAction(
             ],
             heading="Scheduling",
             help_text=(
-                "When the CTA should appear/expire. At least one date must be set for the CTA to be active. Leave both blank to disable the CTA."
+                "When the CTA should appear/expire. At least one date must be set "
+                "for the CTA to be active. Leave both blank to disable the CTA."
             ),
         ),
     ]
@@ -480,7 +480,8 @@ class EmbeddedFooterCallToAction(
             ],
             heading="Scheduling",
             help_text=(
-                "When the CTA should appear/expire. At least one date must be set for the CTA to be active. Leave both blank to disable the CTA."
+                "When the CTA should appear/expire. At least one date must "
+                "be set for the CTA to be active. Leave both blank to disable the CTA."
             ),
         ),
     ]
@@ -647,7 +648,8 @@ class EventCountdownCallToAction(
             ],
             heading="Scheduling",
             help_text=(
-                "When the CTA should appear/expire. At least one date must be set for the CTA to be active. Leave both blank to disable the CTA."
+                "When the CTA should appear/expire. At least one date must "
+                "be set for the CTA to be active. Leave both blank to disable the CTA."
             ),
         ),
     ]
@@ -823,7 +825,8 @@ class CollapsibleNavigationCallToAction(
             ],
             heading="Scheduling",
             help_text=(
-                "When the CTA should appear/expire. At least one date must be set for the CTA to be active. Leave both blank to disable the CTA."
+                "When the CTA should appear/expire. At least one date must "
+                "be set for the CTA to be active. Leave both blank to disable the CTA."
             ),
         ),
     ]

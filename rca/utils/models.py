@@ -478,6 +478,9 @@ class BasePage(SocialFields, ListingFields, Page):
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
+        if not request:
+            return context
+
         # Get segments that have its rules met
         adapter = get_segment_adapter(request)
         adapter.refresh()
@@ -524,16 +527,19 @@ class BasePage(SocialFields, ListingFields, Page):
             .first()
         )
         if event_countdown_cta:
-            context["personalised_countdown_cta"] = event_countdown_cta.get_template_data()
+            context["personalised_countdown_cta"] = (
+                event_countdown_cta.get_template_data()
+            )
 
         collapsible_nav_cta = (
             CollapsibleNavigationCallToAction.objects.for_page_and_segments(
                 page_content_type, segments, now
-            )
-            .first()
+            ).first()
         )
         if collapsible_nav_cta:
-            context["personalised_collapsible_nav"] = collapsible_nav_cta.get_template_data()
+            context["personalised_collapsible_nav"] = (
+                collapsible_nav_cta.get_template_data()
+            )
 
         return context
 
