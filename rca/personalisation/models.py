@@ -666,6 +666,7 @@ class EventCountdownCallToAction(
                     "start_date": self.start_date,
                     "end_date": self.end_date,
                     "countdown_text": self.countdown_timer_pre_text,
+                    "countdown_to": self.countdown_to,
                     "countdown_date": countdown_date,
                     "link": {
                         "link": self.external_link
