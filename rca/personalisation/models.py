@@ -11,11 +11,12 @@ from wagtail.admin.panels import (
     MultiFieldPanel,
     PageChooserPanel,
 )
-from wagtail.models import Orderable, PreviewableMixin
+from wagtail.models import Orderable
 from wagtail_personalisation.models import Segment
 
 from rca.personalisation.blocks import CollapsibleNavigationLinkBlock
 from rca.utils.fields import StreamField
+from rca.utils.mixins import StyledPreviewableMixin
 
 """
 We cannot set a custom form on InlinePanels to dynamically update
@@ -63,22 +64,6 @@ PAGE_TYPE_CHOICES = [
     ("donate.donationformpage", "Donation Form Page"),
     ("scholarships.scholarshipslistingpage", "Scholarships Listing Page"),
 ]
-
-
-class StyledPreviewableMixin(PreviewableMixin):
-    """A custom PreviewableMixin that renders previews with proper styling."""
-
-    def serve_preview(self, request, mode_name):
-        template = self.get_preview_template(request, mode_name)
-        context = self.get_preview_context(request, mode_name)
-        context.update(
-            {
-                "request": request,
-                "is_preview": True,
-                "template_name": template,
-            }
-        )
-        return render(request, "patterns/preview_wrapper.html", context)
 
 
 class PersonalisedCTAQuerySet(models.QuerySet):

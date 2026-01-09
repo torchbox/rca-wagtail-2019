@@ -79,7 +79,7 @@ class Migration(migrations.Migration):
             options={
                 "abstract": False,
             },
-            bases=(rca.personalisation.models.StyledPreviewableMixin, models.Model),
+            bases=(rca.utils.mixins.StyledPreviewableMixin, models.Model),
         ),
         migrations.AlterField(
             model_name="useractionctasegment",
