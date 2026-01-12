@@ -77,7 +77,7 @@ class CTATrigger {
     // Initialize the appropriate trigger based on the data attribute
     initTrigger() {
         switch (this.trigger) {
-            case 'load':
+            case 'page_load':
                 this.show();
                 break;
             case 'inactivity':
@@ -86,7 +86,7 @@ class CTATrigger {
             case 'scroll':
                 this.initScrollTrigger();
                 break;
-            case 'exit':
+            case 'exit_intent':
                 this.initExitIntentTrigger();
                 break;
             default:
