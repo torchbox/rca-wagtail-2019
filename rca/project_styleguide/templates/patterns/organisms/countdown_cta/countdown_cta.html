@@ -1,4 +1,9 @@
-<div class="countdown-cta"{% if value.countdown_to %} data-countdown-cta data-countdown-date="{{ value.countdown_date|date:'Y-m-d H:i:s' }}"{% endif %}>
+{% comment %}
+    This component is shown on a user action set in cta-trigger.js via [data-cta].
+    It can also count down to a specific date and time set in countdown-cta.js via [data-countdown-cta].
+{% endcomment %}
+
+<div class="countdown-cta" role="dialog" aria-labelledby="countdown-cta-title" {% if value.countdown_to %}data-countdown-cta data-countdown-date="{{ value.countdown_date|date:'Y-m-d H:i:s' }}"{% endif %} data-cta{% if value.cta_id %} data-cta-id="{{ value.cta_id }}"{% endif %}{% if value.cta_trigger %} data-cta-trigger="{{ value.cta_trigger }}"{% endif %}{% if value.cta_delay %} data-cta-delay="{{ value.cta_delay }}"{% endif %}{% if value.cta_scroll %} data-cta-scroll="{{ value.cta_scroll }}"{% endif %}>
     <div class="grid">
         {% include "patterns/atoms/grid-lines/grid-lines.html" %}
         <div class="countdown-cta__details">
@@ -6,7 +11,7 @@
                 {% if value.countdown_text %}{{ value.countdown_text }} {% endif %}
                 <span data-countdown-timer></span>
             </p>
-            <p class="countdown-cta__title">{{ value.title }}</p>
+            <p class="countdown-cta__title" id="countdown-cta-title">{{ value.title }}</p>
             {% if value.start_date and value.end_date %}
                 <p class="countdown-cta__date">{{ value.start_date|date:"j" }}-{{ value.end_date|date:"j" }} {{ value.end_date|date:"F" }}, {{ value.start_date|date:"ga" }}-{{ value.end_date|date:"ga" }}</p>
             {% elif value.start_date %}
@@ -19,7 +24,7 @@
             {% include "patterns/atoms/modal-launcher/modal-launcher.html" with item=value.link %}
         </div>
     </div>
-    <button class="countdown-cta__close-button button" aria-label="Close countdown banner">
+    <button class="countdown-cta__close-button button" aria-label="Close countdown banner" data-cta-close>
         <svg class="countdown-cta__close-icon" width="15" height="15" aria-hidden="true">
             <use xlink:href="#close" />
         </svg>

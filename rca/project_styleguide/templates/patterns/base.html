@@ -79,7 +79,7 @@
 
         <main class="app__content">
             {% if personalised_user_cta %}
-                {% include 'patterns/molecules/cta_modal/cta_modal.html' with value=personalised_user_cta classes="is-open" %}
+                {% include 'patterns/molecules/cta_modal/cta_modal.html' with value=personalised_user_cta %}
             {% endif %}
 
             {% include "patterns/atoms/grid-lines/grid-lines.html" with data_tag_left="data-left-edge" data_tag_center="data-grid-center" %}

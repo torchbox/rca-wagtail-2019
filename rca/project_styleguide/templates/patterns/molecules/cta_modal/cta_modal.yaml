@@ -2,6 +2,8 @@ context:
   value:
     title: Receive our exclusive brochure!
     description: Sign up to receive our latest brochure and stay informed about upcoming events and courses.
+    cta_id: 'cta-modal-test'
+    cta_trigger: 'load'
 
 tags:
   image:

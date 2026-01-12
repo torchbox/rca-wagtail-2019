@@ -8,3 +8,6 @@ context:
     link:
       link: '#'
       action: 'Register Now'
+    cta_id: 'countdown-cta-test'
+    cta_trigger: 'scroll'
+    cta_scroll: 50
