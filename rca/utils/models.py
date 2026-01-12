@@ -4,7 +4,6 @@ from itertools import chain
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.shortcuts import render
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
@@ -23,11 +22,18 @@ from wagtail.admin.panels import (
 from wagtail.api import APIField
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import RichTextField, StreamField
-from wagtail.models import Orderable, Page, PreviewableMixin
+from wagtail.models import Orderable, Page
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
+from wagtail_personalisation.adapters import get_segment_adapter
 
 from rca.api_content.content import CantPullFromRcaApi
+from rca.personalisation.models import (
+    CollapsibleNavigationCallToAction,
+    EmbeddedFooterCallToAction,
+    EventCountdownCallToAction,
+    UserActionCallToAction,
+)
 from rca.utils.cache import get_default_cache_control_decorator
 from rca.utils.forms import RCAPageAdminForm
 
@@ -468,6 +474,74 @@ class BasePage(SocialFields, ListingFields, Page):
         if one is detected in the field's `body` value.
         """
         return False
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        if not request:
+            return context
+
+        # Get segments that have its rules met
+        adapter = get_segment_adapter(request)
+        adapter.refresh()
+        segments = list(adapter.get_segments())
+
+        # If no segments are active, don't proceed with checking for
+        # personalised CTAs.
+        if not segments:
+            return context
+
+        # Get current time (for checking go_live_at and expire_at)
+        now = timezone.now()
+
+        # Get the content type for this page
+        page_content_type = f"{self._meta.app_label}.{self._meta.model_name}"
+
+        # Get relevant personalised CTAs - only fetch first result so users are not
+        # shown multiple of the same CTA type.
+        user_call_to_action = (
+            UserActionCallToAction.objects.for_page_and_segments(
+                page_content_type, segments, now
+            )
+            .select_related("internal_link")
+            .first()
+        )
+        if user_call_to_action:
+            context["personalised_user_cta"] = user_call_to_action.get_template_data()
+
+        embedded_footer_cta = (
+            EmbeddedFooterCallToAction.objects.for_page_and_segments(
+                page_content_type, segments, now
+            )
+            .select_related("internal_link")
+            .first()
+        )
+        if embedded_footer_cta:
+            context["personalised_footer_cta"] = embedded_footer_cta.get_template_data()
+
+        event_countdown_cta = (
+            EventCountdownCallToAction.objects.for_page_and_segments(
+                page_content_type, segments, now
+            )
+            .select_related("internal_link")
+            .first()
+        )
+        if event_countdown_cta:
+            context["personalised_countdown_cta"] = (
+                event_countdown_cta.get_template_data()
+            )
+
+        collapsible_nav_cta = (
+            CollapsibleNavigationCallToAction.objects.for_page_and_segments(
+                page_content_type, segments, now
+            ).first()
+        )
+        if collapsible_nav_cta:
+            context["personalised_collapsible_nav"] = (
+                collapsible_nav_cta.get_template_data()
+            )
+
+        return context
 
 
 class LegacySiteTag(TagBase):
@@ -1137,19 +1211,3 @@ class StickyCTAMixin(models.Model):
             "link": link,
             "modal": None,
         }
-
-
-class StyledPreviewableMixin(PreviewableMixin):
-    """A custom PreviewableMixin that renders previews with proper styling."""
-
-    def serve_preview(self, request, mode_name):
-        template = self.get_preview_template(request, mode_name)
-        context = self.get_preview_context(request, mode_name)
-        context.update(
-            {
-                "request": request,
-                "is_preview": True,
-                "template_name": template,
-            }
-        )
-        return render(request, "patterns/preview_wrapper.html", context)
