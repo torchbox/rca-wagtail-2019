@@ -799,7 +799,7 @@ class CollapsibleNavigationCTAPageType(Orderable):
 
 
 class CollapsibleNavigationCallToAction(
-    StyledPreviewableMixin, BasePersonalisedCallToAction
+    StyledPreviewableMixin, UserActionChoicesMixin, BasePersonalisedCallToAction
 ):
     title = models.CharField(
         max_length=255, help_text="This is for internal purposes only."
@@ -819,6 +819,14 @@ class CollapsibleNavigationCallToAction(
                 FieldPanel("links"),
             ],
             heading="Content",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("user_action"),
+                FieldPanel("inactivity_seconds"),
+                FieldPanel("scroll_percentage"),
+            ],
+            heading="User Action Condition",
         ),
         InlinePanel(
             "segments",
@@ -863,18 +871,32 @@ class CollapsibleNavigationCallToAction(
         Returns the data structure expected by the collapsible nav template.
         This can be used both in preview and in actual page context.
         """
-        return [
-            {
-                "url": link.value["page"].url,
-                "text": link.value["title"] or link.value["page"].title,
-            }
-            for link in self.links
-        ]
+        data = {
+            "links": [
+                {
+                    "url": link.value["page"].url,
+                    "text": link.value["title"] or link.value["page"].title,
+                }
+                for link in self.links
+            ],
+            "cta_id": self.pk,
+            "cta_trigger": self.user_action,
+        }
+
+        # Add delay for inactivity trigger
+        if self.user_action == "inactivity" and self.inactivity_seconds:
+            data["cta_delay"] = self.inactivity_seconds
+
+        # Add scroll percentage for scroll trigger
+        if self.user_action == "scroll" and self.scroll_percentage:
+            data["cta_scroll"] = self.scroll_percentage
+
+        return data
 
     def get_preview_template(self, request, mode_name):
         return "patterns/molecules/collapsible_nav/collapsible_nav.html"
 
     def get_preview_context(self, request, mode_name):
         context = super().get_preview_context(request, mode_name)
-        context["collapsible_nav"] = self.get_template_data()
+        context["value"] = self.get_template_data()
         return context
