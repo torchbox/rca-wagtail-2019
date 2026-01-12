@@ -31,14 +31,14 @@ User visits page → Segments evaluated → Matching CTAs queried → CTAs displ
 
 #### Step 1: Create Segments
 
-1. Go to Settings → Segments
+1. Go to Wagtail Admin → Segments
 2. Click 'Add segment'
 3. Define your segment rules
 4. Save the segment
 
 #### Step 2: Create a CTA
 
-1. Choose the CTA type from Settings → Personalisation
+1. Go to Wagtail Admin → Personalisation
 2. Fill in the content fields
 3. Select a user action (if available)
 4. Add segments - the CTA will show to users in ANY selected segment
