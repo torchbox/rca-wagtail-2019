@@ -7,6 +7,16 @@
     background-color: $color--black;
     color: $color--white;
     padding: $gutter 0;
+    transform: translateY(100%);
+    transition: transform $transition;
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+
+    &.is-visible {
+        transform: translateY(0);
+    }
 
     &__details {
         grid-column: 1 / span 2;
