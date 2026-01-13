@@ -803,7 +803,8 @@ class CollapsibleNavigationCTATests(BasePersonalisationCTATests):
 
         # Assert
         self.assertIn("personalised_collapsible_nav", response.context)
-        self.assertEqual(len(response.context["personalised_collapsible_nav"]), 2)
-        self.assertEqual(
-            response.context["personalised_collapsible_nav"][0]["text"], "Link 1"
-        )
+        collapsible_nav = response.context["personalised_collapsible_nav"]
+        self.assertEqual(len(collapsible_nav["links"]), 2)
+        self.assertEqual(collapsible_nav["links"][0]["text"], "Link 1")
+        self.assertEqual(collapsible_nav["cta_id"], cta.pk)
+        self.assertEqual(collapsible_nav["cta_trigger"], "page_load")
