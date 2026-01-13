@@ -107,11 +107,12 @@ class PersonalisedCTAQuerySet(models.QuerySet):
 
         # Match if page is a descendant of a selected page with include_children=True
         # Get all ancestor pages using Wagtail's get_ancestors method
-        ancestor_pages = page.get_ancestors(inclusive=False)  # Don't include the page itself
+        ancestor_pages = page.get_ancestors(
+            inclusive=False
+        )  # Don't include the page itself
         if ancestor_pages.exists():
             child_page_filter = models.Q(
-                pages__page__in=ancestor_pages,
-                pages__include_children=True
+                pages__page__in=ancestor_pages, pages__include_children=True
             )
             page_filters |= specific_page_filter | child_page_filter
         else:

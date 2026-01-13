@@ -458,9 +458,11 @@ class BasePersonalisationCTATests(TestCase):
             with self.subTest(cta_type=cta_config["name"]):
                 # Setup
                 cta_fields = cta_config["base_fields"]()
-                cta_fields.update({
-                    "go_live_at": now - timedelta(days=1),
-                })
+                cta_fields.update(
+                    {
+                        "go_live_at": now - timedelta(days=1),
+                    }
+                )
 
                 cta = cta_config["factory"](**cta_fields)
 
@@ -486,7 +488,9 @@ class BasePersonalisationCTATests(TestCase):
                 cta.delete()
 
     @patch("rca.utils.models.get_segment_adapter")
-    def test_cta_shown_on_child_pages_when_include_children_true(self, mock_get_adapter):
+    def test_cta_shown_on_child_pages_when_include_children_true(
+        self, mock_get_adapter
+    ):
         """Test that CTA appears on child pages when include_children is True"""
         now = timezone.now()
         mock_get_adapter.return_value = self._create_mock_segment_adapter(
@@ -495,6 +499,7 @@ class BasePersonalisationCTATests(TestCase):
 
         # Create a child page
         from rca.standardpages.models import InformationPage
+
         child_page = InformationPage(
             title="Child Page",
             introduction="Child introduction",
@@ -505,9 +510,11 @@ class BasePersonalisationCTATests(TestCase):
             with self.subTest(cta_type=cta_config["name"]):
                 # Setup
                 cta_fields = cta_config["base_fields"]()
-                cta_fields.update({
-                    "go_live_at": now - timedelta(days=1),
-                })
+                cta_fields.update(
+                    {
+                        "go_live_at": now - timedelta(days=1),
+                    }
+                )
 
                 cta = cta_config["factory"](**cta_fields)
 
@@ -535,7 +542,9 @@ class BasePersonalisationCTATests(TestCase):
         child_page.delete()
 
     @patch("rca.utils.models.get_segment_adapter")
-    def test_cta_not_shown_on_child_pages_when_include_children_false(self, mock_get_adapter):
+    def test_cta_not_shown_on_child_pages_when_include_children_false(
+        self, mock_get_adapter
+    ):
         """Test that CTA does NOT appear on child pages when include_children is False"""
         now = timezone.now()
         mock_get_adapter.return_value = self._create_mock_segment_adapter(
@@ -544,6 +553,7 @@ class BasePersonalisationCTATests(TestCase):
 
         # Create a child page
         from rca.standardpages.models import InformationPage
+
         child_page = InformationPage(
             title="Child Page",
             introduction="Child introduction",
@@ -554,9 +564,11 @@ class BasePersonalisationCTATests(TestCase):
             with self.subTest(cta_type=cta_config["name"]):
                 # Setup
                 cta_fields = cta_config["base_fields"]()
-                cta_fields.update({
-                    "go_live_at": now - timedelta(days=1),
-                })
+                cta_fields.update(
+                    {
+                        "go_live_at": now - timedelta(days=1),
+                    }
+                )
 
                 cta = cta_config["factory"](**cta_fields)
 

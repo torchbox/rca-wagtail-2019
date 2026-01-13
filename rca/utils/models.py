@@ -500,9 +500,7 @@ class BasePage(SocialFields, ListingFields, Page):
         # Get relevant personalised CTAs - only fetch first result so users are not
         # shown multiple of the same CTA type.
         user_call_to_action = (
-            UserActionCallToAction.objects.for_page_and_segments(
-                segments, now, self
-            )
+            UserActionCallToAction.objects.for_page_and_segments(segments, now, self)
             .select_related("internal_link")
             .first()
         )
