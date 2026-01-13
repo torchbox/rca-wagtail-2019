@@ -12,6 +12,7 @@ from wagtail.admin.panels import (
 )
 from wagtail.models import Orderable
 from wagtail_personalisation.models import Segment
+from wagtail_personalisation.rules import AbstractBaseRule
 
 from rca.personalisation.blocks import CollapsibleNavigationLinkBlock
 from rca.utils.fields import StreamField
@@ -900,3 +901,61 @@ class CollapsibleNavigationCallToAction(
         context = super().get_preview_context(request, mode_name)
         context["value"] = self.get_template_data()
         return context
+
+
+# Custom Rules
+class UserTypeRule(AbstractBaseRule):
+    """
+    Rule to segment users based on whether they are new or returning visitors.
+    A returning user is determined by checking their visit history in the session.
+    """
+
+    icon = "user"
+
+    USER_TYPE_CHOICES = [
+        ("new", "New user"),
+        ("returning", "Returning user"),
+    ]
+
+    user_type = models.CharField(
+        max_length=20,
+        choices=USER_TYPE_CHOICES,
+        default="new",
+        help_text="Select whether to target new or returning users",
+    )
+
+    panels = [
+        FieldPanel("user_type"),
+    ]
+
+    class Meta:
+        verbose_name = "User Type Rule"
+
+    def test_user(self, request=None):
+        """
+        Test if the user matches the selected user type.
+
+        A "new user" is someone with no visit history (first visit to the site).
+        A "returning user" is someone who has visited pages before (has visit history).
+        """
+        if not request:
+            return False
+
+        # The visit_count key stores a list of page visits tracked by wagtail-personalisation
+        visit_count_data = request.session.get("visit_count", [])
+
+        # Check if user has any previous visits
+        has_previous_visits = len(visit_count_data) > 0
+
+        if self.user_type == "new":
+            return not has_previous_visits
+        elif self.user_type == "returning":
+            return has_previous_visits
+
+        return False
+
+    def description(self):
+        return {
+            "new": "Show to new users only",
+            "returning": "Show to returning users only",
+        }.get(self.user_type, "")
