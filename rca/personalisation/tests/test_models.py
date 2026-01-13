@@ -478,10 +478,8 @@ class BasePersonalisationCTATests(TestCase):
                     include_children=False,
                 )
 
-                # Execute
+                # Check CTA is shown.
                 response = self.client.get(self.test_page.url)
-
-                # Assert
                 self.assertIn(cta_config["context_key"], response.context)
 
                 # Cleanup
@@ -530,10 +528,8 @@ class BasePersonalisationCTATests(TestCase):
                     include_children=True,
                 )
 
-                # Execute - view the child page
+                # Check CTA is shown in child page
                 response = self.client.get(child_page.url)
-
-                # Assert - CTA should appear on child page
                 self.assertIn(cta_config["context_key"], response.context)
 
                 # Cleanup
@@ -584,10 +580,8 @@ class BasePersonalisationCTATests(TestCase):
                     include_children=False,
                 )
 
-                # Execute - view the child page
+                # Check CTA is NOT shown in child page
                 response = self.client.get(child_page.url)
-
-                # Assert - CTA should NOT appear on child page
                 self.assertNotIn(cta_config["context_key"], response.context)
 
                 # Cleanup

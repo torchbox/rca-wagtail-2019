@@ -22,7 +22,7 @@ User visits page → Segments evaluated → Matching CTAs queried → CTAs displ
 
 1. When a user visits a page, the system evaluates which segments they belong to
 2. The system queries for CTAs configured for:
-   - The current page type (e.g., "Programme Page", "Event Detail Page") **OR** specific pages
+   - The current page type (e.g., "Programme Page", "Event Detail Page") or specific pages
    - Any of the user's active segments
    - Current date/time (respecting go-live and expiry dates)
 3. Matching CTAs are displayed in their designated locations on the page
@@ -43,9 +43,9 @@ User visits page → Segments evaluated → Matching CTAs queried → CTAs displ
 3. Select a user action (if available)
 4. Add segments - the CTA will show to users in ANY selected segment
 5. Add page types OR specific pages - where the CTA should appear:
-   - **Page Types**: CTA appears on all pages of the selected type(s)
-   - **Specific Pages** (optional): CTA appears on selected individual pages
-   - Check **Include children** to show the CTA on all child pages of the selected page
+   - Page Types: CTA appears on all pages of the selected type(s)
+   - Specific Page: CTA appears on selected individual pages
+   - Check Include children to show the CTA on all child pages of the selected page
    - The CTA will appear if it matches by page type OR specific pages
 6. Set scheduling - optional go-live and expiry dates
 7. Save and preview
@@ -68,6 +68,6 @@ The system checks both segment rules AND scheduling. A CTA will only display if:
 
 1. At least one scheduling date is set (go-live or expiry)
 2. User matches at least one segment
-3. Current page matches a configured page type OR is a selected specific page (or child page if enabled)
+3. Current page matches a configured page type or is a selected specific page (or child page if enabled)
 4. Current time is after go-live (if set)
 5. Current time is before expiry (if set)
