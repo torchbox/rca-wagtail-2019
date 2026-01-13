@@ -907,3 +907,12 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.user.user_details",
     "rca.utils.pipeline.make_sso_users_editors",
 )
+
+# Wagtail Personalisation
+WAGTAIL_PERSONALISATION_RULES = [
+    "wagtail_personalisation.TimeRule",
+    "wagtail_personalisation.DayRule",
+    "wagtail_personalisation.DeviceRule",
+    "wagtail_personalisation.VisitCountRule",
+    "wagtail_personalisation.OriginCountryRule",
+]

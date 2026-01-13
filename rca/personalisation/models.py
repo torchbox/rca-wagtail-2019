@@ -15,7 +15,7 @@ from wagtail_personalisation.models import Segment
 
 from rca.personalisation.blocks import CollapsibleNavigationLinkBlock
 from rca.utils.fields import StreamField
-from rca.utils.models import StyledPreviewableMixin
+from rca.utils.mixins import StyledPreviewableMixin
 
 """
 We cannot set a custom form on InlinePanels to dynamically update
@@ -65,6 +65,32 @@ PAGE_TYPE_CHOICES = [
 ]
 
 
+class PersonalisedCTAQuerySet(models.QuerySet):
+    def for_page_and_segments(self, page_content_type, segments, now):
+        """
+        Filter CTAs by page type, segments, and time constraints.
+
+        Args:
+            page_content_type: String in format "app_label.model_name"
+            segments: List/queryset of segments
+            now: Current datetime for go_live_at/expire_at checks
+
+        Note:
+            At least one of go_live_at or expire_at must be set for the CTA to be active.
+            If both are blank, the CTA is considered disabled.
+        """
+        return self.filter(
+            # At least one date must be set (otherwise CTA is disabled)
+            models.Q(go_live_at__isnull=False) | models.Q(expire_at__isnull=False),
+            # If go_live_at is set, now must be >= go_live_at
+            models.Q(go_live_at__isnull=True) | models.Q(go_live_at__lte=now),
+            # If expire_at is set, now must be < expire_at
+            models.Q(expire_at__isnull=True) | models.Q(expire_at__gt=now),
+            page_types__page_type=page_content_type,
+            segments__segment__in=segments,
+        ).distinct()
+
+
 class BasePersonalisedCallToAction(ClusterableModel):
     # Scheduling
     go_live_at = models.DateTimeField(
@@ -79,6 +105,8 @@ class BasePersonalisedCallToAction(ClusterableModel):
         null=True,
         help_text="The date and time when this CTA should stop appearing.",
     )
+
+    objects = models.Manager.from_queryset(PersonalisedCTAQuerySet)()
 
     class Meta:
         abstract = True
@@ -320,13 +348,41 @@ class UserActionCallToAction(
             ],
             heading="Scheduling",
             help_text=(
-                "When the CTA should appear/expire. Leave blank to disable the CTA."
+                "When the CTA should appear/expire. At least one date must be set "
+                "for the CTA to be active. Leave both blank to disable the CTA."
             ),
         ),
     ]
 
     def __str__(self):
         return self.title
+
+    def get_template_data(self):
+        """
+        Returns the data structure expected by the CTA modal template.
+        This can be used both in preview and in actual page context.
+        """
+        data = {
+            "image": self.image,
+            "title": self.title,
+            "description": self.description,
+            "href": self.external_link
+            or (self.internal_link.url if self.internal_link else ""),
+            "text": self.link_label
+            or (self.internal_link.title if self.internal_link else ""),
+            "cta_id": self.pk,
+            "cta_trigger": self.user_action,
+        }
+
+        # Add delay for inactivity trigger
+        if self.user_action == "inactivity" and self.inactivity_seconds:
+            data["cta_delay"] = self.inactivity_seconds
+
+        # Add scroll percentage for scroll trigger
+        if self.user_action == "scroll" and self.scroll_percentage:
+            data["cta_scroll"] = self.scroll_percentage
+
+        return data
 
     def get_preview_template(self, request, mode_name):
         return "patterns/molecules/cta_modal/cta_modal.html"
@@ -335,13 +391,7 @@ class UserActionCallToAction(
         context = super().get_preview_context(request, mode_name)
         context.update(
             {
-                "value": {
-                    "image": self.image,
-                    "title": self.title,
-                    "description": self.description,
-                    "href": self.external_link or self.internal_link.url,
-                    "text": self.link_label,
-                },
+                "value": self.get_template_data(),
                 "classes": "is-open",
             }
         )
@@ -442,7 +492,8 @@ class EmbeddedFooterCallToAction(
             ],
             heading="Scheduling",
             help_text=(
-                "When the CTA should appear/expire. Leave blank to disable the CTA."
+                "When the CTA should appear/expire. At least one date must "
+                "be set for the CTA to be active. Leave both blank to disable the CTA."
             ),
         ),
     ]
@@ -450,23 +501,32 @@ class EmbeddedFooterCallToAction(
     def __str__(self):
         return self.title
 
+    def get_template_data(self):
+        """
+        Returns the data structure expected by the text-teaser template.
+        This can be used both in preview and in actual page context.
+        """
+        teaser_data = {
+            "title": self.title,
+            "description": self.description,
+        }
+
+        if self.external_link:
+            teaser_data["link"] = {"url": self.external_link}
+            teaser_data["action"] = self.link_label
+        elif self.internal_link:
+            teaser_data["page"] = self.internal_link
+            teaser_data["action"] = self.link_label or self.internal_link.title
+
+        return teaser_data
+
     def get_preview_template(self, request, mode_name):
         return "patterns/molecules/text-teaser/text-teaser.html"
 
     def get_preview_context(self, request, mode_name):
         context = super().get_preview_context(request, mode_name)
         context["classes"] = "text-teaser--footer-cta"
-        context["teaser"] = {
-            "title": self.title,
-            "description": self.description,
-        }
-
-        if self.external_link:
-            context["teaser"]["link"] = {"url": self.external_link}
-            context["teaser"]["action"] = self.link_label
-        elif self.internal_link:
-            context["teaser"]["page"] = self.internal_link
-            context["teaser"]["action"] = self.link_label or self.internal_link.title
+        context["teaser"] = self.get_template_data()
 
         return context
 
@@ -600,7 +660,8 @@ class EventCountdownCallToAction(
             ],
             heading="Scheduling",
             help_text=(
-                "When the CTA should appear/expire. Leave blank to disable the CTA."
+                "When the CTA should appear/expire. At least one date must "
+                "be set for the CTA to be active. Leave both blank to disable the CTA."
             ),
         ),
     ]
@@ -647,37 +708,50 @@ class EventCountdownCallToAction(
         if errors:
             raise ValidationError(errors)
 
-    def get_preview_template(self, request, mode_name):
-        return "patterns/organisms/countdown_cta/countdown_cta.html"
-
-    def get_preview_context(self, request, mode_name):
-        context = super().get_preview_context(request, mode_name)
-
+    def get_template_data(self):
+        """
+        Returns the data structure expected by the countdown CTA template.
+        This can be used both in preview and in actual page context.
+        """
         countdown_date = None
         if self.countdown_to == "end":
             countdown_date = self.end_date
         elif self.countdown_to == "start":
             countdown_date = self.start_date
 
-        context.update(
-            {
-                "value": {
-                    "title": self.title,
-                    "start_date": self.start_date,
-                    "end_date": self.end_date,
-                    "countdown_text": self.countdown_timer_pre_text,
-                    "countdown_to": self.countdown_to,
-                    "countdown_date": countdown_date,
-                    "link": {
-                        "link": self.external_link
-                        or (self.internal_link.url if self.internal_link else ""),
-                        "action": self.link_label
-                        or (self.internal_link.title if self.internal_link else ""),
-                    },
-                },
-            }
-        )
+        data = {
+            "title": self.title,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
+            "countdown_to": self.countdown_to,
+            "countdown_text": self.countdown_timer_pre_text,
+            "countdown_date": countdown_date,
+            "link": {
+                "link": self.external_link
+                or (self.internal_link.url if self.internal_link else ""),
+                "action": self.link_label
+                or (self.internal_link.title if self.internal_link else ""),
+            },
+            "cta_id": self.pk,
+            "cta_trigger": self.user_action,
+        }
 
+        # Add delay for inactivity trigger
+        if self.user_action == "inactivity" and self.inactivity_seconds:
+            data["cta_delay"] = self.inactivity_seconds
+
+        # Add scroll percentage for scroll trigger
+        if self.user_action == "scroll" and self.scroll_percentage:
+            data["cta_scroll"] = self.scroll_percentage
+
+        return data
+
+    def get_preview_template(self, request, mode_name):
+        return "patterns/organisms/countdown_cta/countdown_cta.html"
+
+    def get_preview_context(self, request, mode_name):
+        context = super().get_preview_context(request, mode_name)
+        context["value"] = self.get_template_data()
         return context
 
 
@@ -725,7 +799,7 @@ class CollapsibleNavigationCTAPageType(Orderable):
 
 
 class CollapsibleNavigationCallToAction(
-    StyledPreviewableMixin, BasePersonalisedCallToAction
+    StyledPreviewableMixin, UserActionChoicesMixin, BasePersonalisedCallToAction
 ):
     title = models.CharField(
         max_length=255, help_text="This is for internal purposes only."
@@ -745,6 +819,14 @@ class CollapsibleNavigationCallToAction(
                 FieldPanel("links"),
             ],
             heading="Content",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("user_action"),
+                FieldPanel("inactivity_seconds"),
+                FieldPanel("scroll_percentage"),
+            ],
+            heading="User Action Condition",
         ),
         InlinePanel(
             "segments",
@@ -775,7 +857,8 @@ class CollapsibleNavigationCallToAction(
             ],
             heading="Scheduling",
             help_text=(
-                "When the CTA should appear/expire. Leave blank to disable the CTA."
+                "When the CTA should appear/expire. At least one date must "
+                "be set for the CTA to be active. Leave both blank to disable the CTA."
             ),
         ),
     ]
@@ -783,22 +866,37 @@ class CollapsibleNavigationCallToAction(
     def __str__(self):
         return self.title
 
+    def get_template_data(self):
+        """
+        Returns the data structure expected by the collapsible nav template.
+        This can be used both in preview and in actual page context.
+        """
+        data = {
+            "links": [
+                {
+                    "url": link.value["page"].url,
+                    "text": link.value["title"] or link.value["page"].title,
+                }
+                for link in self.links
+            ],
+            "cta_id": self.pk,
+            "cta_trigger": self.user_action,
+        }
+
+        # Add delay for inactivity trigger
+        if self.user_action == "inactivity" and self.inactivity_seconds:
+            data["cta_delay"] = self.inactivity_seconds
+
+        # Add scroll percentage for scroll trigger
+        if self.user_action == "scroll" and self.scroll_percentage:
+            data["cta_scroll"] = self.scroll_percentage
+
+        return data
+
     def get_preview_template(self, request, mode_name):
         return "patterns/molecules/collapsible_nav/collapsible_nav.html"
 
     def get_preview_context(self, request, mode_name):
         context = super().get_preview_context(request, mode_name)
-
-        context.update(
-            {
-                "collapsible_nav": [
-                    {
-                        "url": link.value["page"].url,
-                        "text": link.value["title"] or link.value["page"].title,
-                    }
-                    for link in self.links
-                ],
-            }
-        )
-
+        context["value"] = self.get_template_data()
         return context

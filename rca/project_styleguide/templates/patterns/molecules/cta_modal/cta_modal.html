@@ -1,14 +1,14 @@
 {% load wagtailimages_tags %}
 
 {% comment %}
-    Add `is-open` class to `.modal` to display it.
+    This component is shown on a user action set in cta-trigger.js via [data-cta].
 {% endcomment %}
 
-<div class="modal modal--cta{% if classes %} {{ classes }}{% endif %}" aria-hidden="true">
+<div class="modal modal--cta{% if classes %} {{ classes }}{% endif %}" aria-hidden="true" id="cta-modal{% if value.cta_id %}-{{ value.cta_id }}{% endif %}" data-cta data-cta-modal{% if value.cta_id %} data-cta-id="{{ value.cta_id }}"{% endif %}{% if value.cta_trigger %} data-cta-trigger="{{ value.cta_trigger }}"{% endif %}{% if value.cta_delay %} data-cta-delay="{{ value.cta_delay }}"{% endif %}{% if value.cta_scroll %} data-cta-scroll="{{ value.cta_scroll }}"{% endif %}>
     <div class="modal__overlay bg bg--dark-80">
         <div class="modal__container modal__container--offset grid" role="dialog" aria-modal="true" aria-labelledby="cta-modal-title">
             <div class="modal__content">
-                <button class="modal__close modal__close--over-image" aria-label="Close modal" data-micromodal-close>
+                <button class="modal__close modal__close--over-image" aria-label="Close modal" data-micromodal-close data-cta-close>
                     <svg width="18" height="18" class="modal__close-icon" aria-hidden="true"><use xlink:href="#close"></use></svg>
                 </button>
 

@@ -50,8 +50,8 @@
 
 {% block footer %}
 
-    {% if page.footer_cta %}
-        {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=page.footer_cta classes="text-teaser--footer-cta" %}
+    {% if personalised_footer_cta %}
+        {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=personalised_footer_cta classes="text-teaser--footer-cta" %}
     {% endif %}
 
     {% include 'patterns/organisms/footer/footer.html' %}
