@@ -494,9 +494,6 @@ class BasePage(SocialFields, ListingFields, Page):
         # Get current time (for checking go_live_at and expire_at)
         now = timezone.now()
 
-        # Get the content type for this page
-        page_content_type = f"{self._meta.app_label}.{self._meta.model_name}"
-
         # Get relevant personalised CTAs - only fetch first result so users are not
         # shown multiple of the same CTA type.
         user_call_to_action = (

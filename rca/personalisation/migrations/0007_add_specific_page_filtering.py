@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("wagtailcore", "0094_alter_page_locale"),
-        ("personalisation", "0005_collapsiblenavigationcalltoaction_and_more"),
+        ("personalisation", "0006_user_actions_for_collapsible_nav"),
     ]
 
     operations = [
