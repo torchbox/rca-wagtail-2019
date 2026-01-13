@@ -362,7 +362,7 @@ class UserActionCallToAction(
         Returns the data structure expected by the CTA modal template.
         This can be used both in preview and in actual page context.
         """
-        return {
+        data = {
             "image": self.image,
             "title": self.title,
             "description": self.description,
@@ -370,7 +370,19 @@ class UserActionCallToAction(
             or (self.internal_link.url if self.internal_link else ""),
             "text": self.link_label
             or (self.internal_link.title if self.internal_link else ""),
+            "cta_id": self.pk,
+            "cta_trigger": self.user_action,
         }
+
+        # Add delay for inactivity trigger
+        if self.user_action == "inactivity" and self.inactivity_seconds:
+            data["cta_delay"] = self.inactivity_seconds
+
+        # Add scroll percentage for scroll trigger
+        if self.user_action == "scroll" and self.scroll_percentage:
+            data["cta_scroll"] = self.scroll_percentage
+
+        return data
 
     def get_preview_template(self, request, mode_name):
         return "patterns/molecules/cta_modal/cta_modal.html"
@@ -707,7 +719,7 @@ class EventCountdownCallToAction(
         elif self.countdown_to == "start":
             countdown_date = self.start_date
 
-        return {
+        data = {
             "title": self.title,
             "start_date": self.start_date,
             "end_date": self.end_date,
@@ -720,7 +732,19 @@ class EventCountdownCallToAction(
                 "action": self.link_label
                 or (self.internal_link.title if self.internal_link else ""),
             },
+            "cta_id": self.pk,
+            "cta_trigger": self.user_action,
         }
+
+        # Add delay for inactivity trigger
+        if self.user_action == "inactivity" and self.inactivity_seconds:
+            data["cta_delay"] = self.inactivity_seconds
+
+        # Add scroll percentage for scroll trigger
+        if self.user_action == "scroll" and self.scroll_percentage:
+            data["cta_scroll"] = self.scroll_percentage
+
+        return data
 
     def get_preview_template(self, request, mode_name):
         return "patterns/organisms/countdown_cta/countdown_cta.html"
@@ -775,7 +799,7 @@ class CollapsibleNavigationCTAPageType(Orderable):
 
 
 class CollapsibleNavigationCallToAction(
-    StyledPreviewableMixin, BasePersonalisedCallToAction
+    StyledPreviewableMixin, UserActionChoicesMixin, BasePersonalisedCallToAction
 ):
     title = models.CharField(
         max_length=255, help_text="This is for internal purposes only."
@@ -795,6 +819,14 @@ class CollapsibleNavigationCallToAction(
                 FieldPanel("links"),
             ],
             heading="Content",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("user_action"),
+                FieldPanel("inactivity_seconds"),
+                FieldPanel("scroll_percentage"),
+            ],
+            heading="User Action Condition",
         ),
         InlinePanel(
             "segments",
@@ -839,18 +871,32 @@ class CollapsibleNavigationCallToAction(
         Returns the data structure expected by the collapsible nav template.
         This can be used both in preview and in actual page context.
         """
-        return [
-            {
-                "url": link.value["page"].url,
-                "text": link.value["title"] or link.value["page"].title,
-            }
-            for link in self.links
-        ]
+        data = {
+            "links": [
+                {
+                    "url": link.value["page"].url,
+                    "text": link.value["title"] or link.value["page"].title,
+                }
+                for link in self.links
+            ],
+            "cta_id": self.pk,
+            "cta_trigger": self.user_action,
+        }
+
+        # Add delay for inactivity trigger
+        if self.user_action == "inactivity" and self.inactivity_seconds:
+            data["cta_delay"] = self.inactivity_seconds
+
+        # Add scroll percentage for scroll trigger
+        if self.user_action == "scroll" and self.scroll_percentage:
+            data["cta_scroll"] = self.scroll_percentage
+
+        return data
 
     def get_preview_template(self, request, mode_name):
         return "patterns/molecules/collapsible_nav/collapsible_nav.html"
 
     def get_preview_context(self, request, mode_name):
         context = super().get_preview_context(request, mode_name)
-        context["collapsible_nav"] = self.get_template_data()
+        context["value"] = self.get_template_data()
         return context

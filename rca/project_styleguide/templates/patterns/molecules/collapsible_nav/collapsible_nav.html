@@ -1,9 +1,14 @@
-<div class="collapsible-nav" data-collapsible-nav>
+{% comment %}
+    This component is shown on a user action set in cta-trigger.js via [data-cta].
+    It can also be collapsed and expanded set in collapsible-nav.js via [data-collapsible-nav].
+{% endcomment %}
+
+<div class="collapsible-nav" data-collapsible-nav data-cta{% if value.cta_id %} data-cta-id="{{ value.cta_id }}"{% endif %}{% if value.cta_trigger %} data-cta-trigger="{{ value.cta_trigger }}"{% endif %}{% if value.cta_delay %} data-cta-delay="{{ value.cta_delay }}"{% endif %}{% if value.cta_scroll %} data-cta-scroll="{{ value.cta_scroll }}"{% endif %}>
     <div class="collapsible-nav__inner">
         <div class="collapsible-nav__content">
             <nav class="collapsible-nav__nav" id="quick-links" aria-label="Quick links">
                 <ul>
-                    {% for link in collapsible_nav %}
+                    {% for link in value.links %}
                         <li class="collapsible-nav__link-item">
                             <a href="{{ link.url }}" class="link link--link link--tertiary collapsible-nav__link">
                                 <span class="link__label">{{ link.text }}</span>
