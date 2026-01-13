@@ -66,29 +66,58 @@ PAGE_TYPE_CHOICES = [
 
 
 class PersonalisedCTAQuerySet(models.QuerySet):
-    def for_page_and_segments(self, page_content_type, segments, now):
+    def for_page_and_segments(self, segments, now, page):
         """
-        Filter CTAs by page type, segments, and time constraints.
+        Filter CTAs by page type/specific pages, segments, and time constraints.
 
         Args:
-            page_content_type: String in format "app_label.model_name"
             segments: List/queryset of segments
             now: Current datetime for go_live_at/expire_at checks
+            page: Page instance for filtering by page type and specific pages
 
         Note:
             At least one of go_live_at or expire_at must be set for the CTA to be active.
             If both are blank, the CTA is considered disabled.
+
+            CTAs are shown if they match by page type OR by specific pages:
+            - Page types: Match if the page's content type is in page_types
+            - Specific pages: Match if the page is in pages OR if include_children
+              is True and the page is a descendant of a page in pages
         """
-        return self.filter(
+        # Base filters for scheduling and segments
+        base_filters = models.Q(
             # At least one date must be set (otherwise CTA is disabled)
             models.Q(go_live_at__isnull=False) | models.Q(expire_at__isnull=False),
             # If go_live_at is set, now must be >= go_live_at
             models.Q(go_live_at__isnull=True) | models.Q(go_live_at__lte=now),
             # If expire_at is set, now must be < expire_at
             models.Q(expire_at__isnull=True) | models.Q(expire_at__gt=now),
-            page_types__page_type=page_content_type,
+            # Must match at least one segment
             segments__segment__in=segments,
-        ).distinct()
+        )
+
+        # Get page content type
+        page_content_type = f"{page._meta.app_label}.{page._meta.model_name}"
+
+        # Page filters - match by page type OR specific pages
+        page_filters = models.Q(page_types__page_type=page_content_type)
+
+        # Match if this exact page is selected
+        specific_page_filter = models.Q(pages__page=page)
+
+        # Match if page is a descendant of a selected page with include_children=True
+        # Get all ancestor pages using Wagtail's get_ancestors method
+        ancestor_pages = page.get_ancestors(inclusive=False)  # Don't include the page itself
+        if ancestor_pages.exists():
+            child_page_filter = models.Q(
+                pages__page__in=ancestor_pages,
+                pages__include_children=True
+            )
+            page_filters |= specific_page_filter | child_page_filter
+        else:
+            page_filters |= specific_page_filter
+
+        return self.filter(base_filters & page_filters).distinct()
 
 
 class BasePersonalisedCallToAction(ClusterableModel):
@@ -276,6 +305,38 @@ class UserActionCTAPageType(Orderable):
         return self.get_page_type_display()
 
 
+class UserActionCTAPage(Orderable):
+    """
+    This links a CTA to specific pages so we know which individual pages
+    to apply the CTA to.
+    """
+
+    page = models.ForeignKey(
+        "wagtailcore.Page",
+        on_delete=models.CASCADE,
+        related_name="+",
+        help_text="Select the specific page where this CTA should appear",
+    )
+    include_children = models.BooleanField(
+        default=False,
+        help_text="If checked, the CTA will also appear on all child pages of the selected page",
+    )
+    call_to_action = ParentalKey(
+        "personalisation.UserActionCallToAction", related_name="pages"
+    )
+
+    class Meta:
+        unique_together = ("page", "call_to_action")
+
+    panels = [
+        PageChooserPanel("page"),
+        FieldPanel("include_children"),
+    ]
+
+    def __str__(self):
+        return f"{self.page.title} ({self.page.url_path})"
+
+
 class UserActionCallToAction(
     StyledPreviewableMixin,
     LinkFieldsMixin,
@@ -333,9 +394,18 @@ class UserActionCallToAction(
         ),
         InlinePanel(
             "page_types",
-            label="Page Types",
+            label="Page Type",
             heading="Page Types",
             help_text="Select the page types where this CTA should appear.",
+        ),
+        InlinePanel(
+            "pages",
+            label="Specific Page",
+            heading="Specific Pages",
+            help_text=(
+                "Optionally select specific pages where this CTA should appear. "
+                "Check 'Include children' to show the CTA on all child pages of the selected page."
+            ),
         ),
         MultiFieldPanel(
             [
@@ -441,6 +511,38 @@ class EmbeddedFooterCTAPageType(Orderable):
         return self.get_page_type_display()
 
 
+class EmbeddedFooterCTAPage(Orderable):
+    """
+    This links a CTA to specific pages so we know which individual pages
+    to apply the CTA to.
+    """
+
+    page = models.ForeignKey(
+        "wagtailcore.Page",
+        on_delete=models.CASCADE,
+        related_name="+",
+        help_text="Select the specific page where this CTA should appear",
+    )
+    include_children = models.BooleanField(
+        default=False,
+        help_text="If checked, the CTA will also appear on all child pages of the selected page",
+    )
+    call_to_action = ParentalKey(
+        "personalisation.EmbeddedFooterCallToAction", related_name="pages"
+    )
+
+    class Meta:
+        unique_together = ("page", "call_to_action")
+
+    panels = [
+        PageChooserPanel("page"),
+        FieldPanel("include_children"),
+    ]
+
+    def __str__(self):
+        return f"{self.page.title} ({self.page.url_path})"
+
+
 class EmbeddedFooterCallToAction(
     StyledPreviewableMixin, LinkFieldsMixin, BasePersonalisedCallToAction
 ):
@@ -477,9 +579,18 @@ class EmbeddedFooterCallToAction(
         ),
         InlinePanel(
             "page_types",
-            label="Page Types",
+            label="Page Type",
             heading="Page Types",
             help_text="Select the page types where this CTA should appear.",
+        ),
+        InlinePanel(
+            "pages",
+            label="Specific Page",
+            heading="Specific Pages",
+            help_text=(
+                "Optionally select specific pages where this CTA should appear. "
+                "Check 'Include children' to show the CTA on all child pages of the selected page."
+            ),
         ),
         MultiFieldPanel(
             [
@@ -572,6 +683,38 @@ class EventCountdownCTAPageType(Orderable):
         return self.get_page_type_display()
 
 
+class EventCountdownCTAPage(Orderable):
+    """
+    This links a CTA to specific pages so we know which individual pages
+    to apply the CTA to.
+    """
+
+    page = models.ForeignKey(
+        "wagtailcore.Page",
+        on_delete=models.CASCADE,
+        related_name="+",
+        help_text="Select the specific page where this CTA should appear",
+    )
+    include_children = models.BooleanField(
+        default=False,
+        help_text="If checked, the CTA will also appear on all child pages of the selected page",
+    )
+    call_to_action = ParentalKey(
+        "personalisation.EventCountdownCallToAction", related_name="pages"
+    )
+
+    class Meta:
+        unique_together = ("page", "call_to_action")
+
+    panels = [
+        PageChooserPanel("page"),
+        FieldPanel("include_children"),
+    ]
+
+    def __str__(self):
+        return f"{self.page.title} ({self.page.url_path})"
+
+
 class EventCountdownCallToAction(
     StyledPreviewableMixin,
     UserActionChoicesMixin,
@@ -645,9 +788,18 @@ class EventCountdownCallToAction(
         ),
         InlinePanel(
             "page_types",
-            label="Page Types",
+            label="Page Type",
             heading="Page Types",
             help_text="Select the page types where this CTA should appear.",
+        ),
+        InlinePanel(
+            "pages",
+            label="Specific Page",
+            heading="Specific Pages",
+            help_text=(
+                "Optionally select specific pages where this CTA should appear. "
+                "Check 'Include children' to show the CTA on all child pages of the selected page."
+            ),
         ),
         MultiFieldPanel(
             [
@@ -798,6 +950,38 @@ class CollapsibleNavigationCTAPageType(Orderable):
         return self.get_page_type_display()
 
 
+class CollapsibleNavigationCTAPage(Orderable):
+    """
+    This links a CTA to specific pages so we know which individual pages
+    to apply the CTA to.
+    """
+
+    page = models.ForeignKey(
+        "wagtailcore.Page",
+        on_delete=models.CASCADE,
+        related_name="+",
+        help_text="Select the specific page where this CTA should appear",
+    )
+    include_children = models.BooleanField(
+        default=False,
+        help_text="If checked, the CTA will also appear on all child pages of the selected page",
+    )
+    call_to_action = ParentalKey(
+        "personalisation.CollapsibleNavigationCallToAction", related_name="pages"
+    )
+
+    class Meta:
+        unique_together = ("page", "call_to_action")
+
+    panels = [
+        PageChooserPanel("page"),
+        FieldPanel("include_children"),
+    ]
+
+    def __str__(self):
+        return f"{self.page.title} ({self.page.url_path})"
+
+
 class CollapsibleNavigationCallToAction(
     StyledPreviewableMixin, BasePersonalisedCallToAction
 ):
@@ -834,9 +1018,18 @@ class CollapsibleNavigationCallToAction(
         ),
         InlinePanel(
             "page_types",
-            label="Page Types",
+            label="Page Type",
             heading="Page Types",
             help_text="Select the page types where this CTA should appear.",
+        ),
+        InlinePanel(
+            "pages",
+            label="Specific Page",
+            heading="Specific Pages",
+            help_text=(
+                "Optionally select specific pages where this CTA should appear. "
+                "Check 'Include children' to show the CTA on all child pages of the selected page."
+            ),
         ),
         MultiFieldPanel(
             [
