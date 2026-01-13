@@ -14,12 +14,16 @@ from rca.personalisation.factories import (
     UserActionCallToActionFactory,
 )
 from rca.personalisation.models import (
+    CollapsibleNavigationCTAPage,
     CollapsibleNavigationCTAPageType,
     CollapsibleNavigationCTASegment,
+    EmbeddedFooterCTAPage,
     EmbeddedFooterCTAPageType,
     EmbeddedFooterCTASegment,
+    EventCountdownCTAPage,
     EventCountdownCTAPageType,
     EventCountdownCTASegment,
+    UserActionCTAPage,
     UserActionCTAPageType,
     UserActionCTASegment,
 )
@@ -38,6 +42,7 @@ class BasePersonalisationCTATests(TestCase):
             "factory": UserActionCallToActionFactory,
             "segment_model": UserActionCTASegment,
             "page_type_model": UserActionCTAPageType,
+            "page_model": UserActionCTAPage,
             "context_key": "personalised_user_cta",
             "base_fields": lambda: {"external_link": "https://example.com"},
         },
@@ -46,6 +51,7 @@ class BasePersonalisationCTATests(TestCase):
             "factory": EmbeddedFooterCallToActionFactory,
             "segment_model": EmbeddedFooterCTASegment,
             "page_type_model": EmbeddedFooterCTAPageType,
+            "page_model": EmbeddedFooterCTAPage,
             "context_key": "personalised_footer_cta",
             "base_fields": lambda: {"external_link": "https://example.com"},
         },
@@ -54,6 +60,7 @@ class BasePersonalisationCTATests(TestCase):
             "factory": EventCountdownCallToActionFactory,
             "segment_model": EventCountdownCTASegment,
             "page_type_model": EventCountdownCTAPageType,
+            "page_model": EventCountdownCTAPage,
             "context_key": "personalised_countdown_cta",
             "base_fields": lambda: {
                 "external_link": "https://example.com",
@@ -67,6 +74,7 @@ class BasePersonalisationCTATests(TestCase):
             "factory": CollapsibleNavigationCallToActionFactory,
             "segment_model": CollapsibleNavigationCTASegment,
             "page_type_model": CollapsibleNavigationCTAPageType,
+            "page_model": CollapsibleNavigationCTAPage,
             "context_key": "personalised_collapsible_nav",
             "base_fields": lambda: {},  # No link fields needed for CollapsibleNav
         },
@@ -437,6 +445,143 @@ class BasePersonalisationCTATests(TestCase):
                 # Cleanup for next subtest
                 cta1.delete()
                 cta2.delete()
+
+    @patch("rca.utils.models.get_segment_adapter")
+    def test_cta_shown_on_specific_page(self, mock_get_adapter):
+        """Test that CTA appears on a specific selected page"""
+        now = timezone.now()
+        mock_get_adapter.return_value = self._create_mock_segment_adapter(
+            [self.segment_alumni]
+        )
+
+        for cta_config in self.CTA_TYPES:
+            with self.subTest(cta_type=cta_config["name"]):
+                # Setup
+                cta_fields = cta_config["base_fields"]()
+                cta_fields.update({
+                    "go_live_at": now - timedelta(days=1),
+                })
+
+                cta = cta_config["factory"](**cta_fields)
+
+                # Link to segment but NOT to page type
+                cta_config["segment_model"].objects.create(
+                    call_to_action=cta, segment=self.segment_alumni
+                )
+
+                # Link to specific page (not page type)
+                cta_config["page_model"].objects.create(
+                    call_to_action=cta,
+                    page=self.test_page,
+                    include_children=False,
+                )
+
+                # Execute
+                response = self.client.get(self.test_page.url)
+
+                # Assert
+                self.assertIn(cta_config["context_key"], response.context)
+
+                # Cleanup
+                cta.delete()
+
+    @patch("rca.utils.models.get_segment_adapter")
+    def test_cta_shown_on_child_pages_when_include_children_true(self, mock_get_adapter):
+        """Test that CTA appears on child pages when include_children is True"""
+        now = timezone.now()
+        mock_get_adapter.return_value = self._create_mock_segment_adapter(
+            [self.segment_alumni]
+        )
+
+        # Create a child page
+        from rca.standardpages.models import InformationPage
+        child_page = InformationPage(
+            title="Child Page",
+            introduction="Child introduction",
+        )
+        self.test_page.add_child(instance=child_page)
+
+        for cta_config in self.CTA_TYPES:
+            with self.subTest(cta_type=cta_config["name"]):
+                # Setup
+                cta_fields = cta_config["base_fields"]()
+                cta_fields.update({
+                    "go_live_at": now - timedelta(days=1),
+                })
+
+                cta = cta_config["factory"](**cta_fields)
+
+                # Link to segment
+                cta_config["segment_model"].objects.create(
+                    call_to_action=cta, segment=self.segment_alumni
+                )
+
+                # Link to parent page with include_children=True
+                cta_config["page_model"].objects.create(
+                    call_to_action=cta,
+                    page=self.test_page,
+                    include_children=True,
+                )
+
+                # Execute - view the child page
+                response = self.client.get(child_page.url)
+
+                # Assert - CTA should appear on child page
+                self.assertIn(cta_config["context_key"], response.context)
+
+                # Cleanup
+                cta.delete()
+
+        child_page.delete()
+
+    @patch("rca.utils.models.get_segment_adapter")
+    def test_cta_not_shown_on_child_pages_when_include_children_false(self, mock_get_adapter):
+        """Test that CTA does NOT appear on child pages when include_children is False"""
+        now = timezone.now()
+        mock_get_adapter.return_value = self._create_mock_segment_adapter(
+            [self.segment_alumni]
+        )
+
+        # Create a child page
+        from rca.standardpages.models import InformationPage
+        child_page = InformationPage(
+            title="Child Page",
+            introduction="Child introduction",
+        )
+        self.test_page.add_child(instance=child_page)
+
+        for cta_config in self.CTA_TYPES:
+            with self.subTest(cta_type=cta_config["name"]):
+                # Setup
+                cta_fields = cta_config["base_fields"]()
+                cta_fields.update({
+                    "go_live_at": now - timedelta(days=1),
+                })
+
+                cta = cta_config["factory"](**cta_fields)
+
+                # Link to segment
+                cta_config["segment_model"].objects.create(
+                    call_to_action=cta, segment=self.segment_alumni
+                )
+
+                # Link to parent page with include_children=False
+                cta_config["page_model"].objects.create(
+                    call_to_action=cta,
+                    page=self.test_page,
+                    include_children=False,
+                )
+
+                # Execute - view the child page
+                response = self.client.get(child_page.url)
+
+                # Assert - CTA should NOT appear on child page
+                self.assertNotIn(cta_config["context_key"], response.context)
+
+                # Cleanup
+                cta.delete()
+
+        child_page.delete()
 
     @patch("rca.utils.models.get_segment_adapter")
     def test_multiple_ctas_can_appear_together(self, mock_get_adapter):
