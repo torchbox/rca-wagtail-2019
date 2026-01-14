@@ -12,7 +12,7 @@ The personalisation system consists of three main components:
 
 1. Segments - User groups defined by rules (using the `wagtail-personalisation` package)
 2. CTA Models - Four types of personalised content blocks
-3. Display Logic - Automatic rendering based on page type and segment matching
+3. Display Logic - Automatic rendering based on page type and/or specific page and segment matching
 
 ### How It Works
 
@@ -22,7 +22,7 @@ User visits page → Segments evaluated → Matching CTAs queried → CTAs displ
 
 1. When a user visits a page, the system evaluates which segments they belong to
 2. The system queries for CTAs configured for:
-   - The current page type (e.g., "Programme Page", "Event Detail Page")
+   - The current page type (e.g., "Programme Page", "Event Detail Page") and/or specific pages
    - Any of the user's active segments
    - Current date/time (respecting go-live and expiry dates)
 3. Matching CTAs are displayed in their designated locations on the page
@@ -42,7 +42,11 @@ User visits page → Segments evaluated → Matching CTAs queried → CTAs displ
 2. Fill in the content fields
 3. Select a user action (if available)
 4. Add segments - the CTA will show to users in ANY selected segment
-5. Add page types - where the CTA should appear
+5. Add page types and/or specific pages - where the CTA should appear:
+   - Page Types: CTA appears on all pages of the selected type(s)
+   - Specific Page: CTA appears on selected individual pages
+   - Check Include children to show the CTA on all child pages of the selected page
+   - The CTA will appear if it matches by page type and/or specific pages
 6. Set scheduling - optional go-live and expiry dates
 7. Save and preview
 
@@ -64,6 +68,6 @@ The system checks both segment rules AND scheduling. A CTA will only display if:
 
 1. At least one scheduling date is set (go-live or expiry)
 2. User matches at least one segment
-3. Current page matches a configured page type
+3. Current page matches a configured page type and/or is a selected specific page (or child page if enabled)
 4. Current time is after go-live (if set)
 5. Current time is before expiry (if set)
