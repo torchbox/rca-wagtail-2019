@@ -1129,22 +1129,26 @@ class UserTypeRule(AbstractBaseRule):
         """
         Test if the user matches the selected user type.
 
-        A "new user" is someone with no visit history (first visit to the site).
-        A "returning user" is someone who has visited pages before (has visit history).
+        A "new user" is someone on their first page view (total visit count <= 1).
+        A "returning user" is someone who has viewed multiple pages or returned to the site.
         """
         if not request:
             return False
 
-        # The visit_count key stores a list of page visits tracked by wagtail-personalisation
+        # The visit_count key stores a list of page visits (tracked by wagtail-personalisation)
+        # Each entry has: {'slug': '...', 'id': ..., 'path': '...', 'count': X} e.g.
+        # [{'slug': 'contact-us', 'id': 1427, 'path': '/home/contact-us/', 'count': 1}, {...}]
         visit_count_data = request.session.get("visit_count", [])
 
-        # Check if user has any previous visits
-        has_previous_visits = len(visit_count_data) > 0
+        # Calculate total visits across all pages
+        total_visits = sum(visit.get("count", 0) for visit in visit_count_data)
 
         if self.user_type == "new":
-            return not has_previous_visits
+            # New user: first page view (total visits <= 1)
+            return total_visits <= 1
         elif self.user_type == "returning":
-            return has_previous_visits
+            # Returning user: has viewed multiple pages or returned
+            return total_visits > 1
 
         return False
 
