@@ -494,15 +494,10 @@ class BasePage(SocialFields, ListingFields, Page):
         # Get current time (for checking go_live_at and expire_at)
         now = timezone.now()
 
-        # Get the content type for this page
-        page_content_type = f"{self._meta.app_label}.{self._meta.model_name}"
-
         # Get relevant personalised CTAs - only fetch first result so users are not
         # shown multiple of the same CTA type.
         user_call_to_action = (
-            UserActionCallToAction.objects.for_page_and_segments(
-                page_content_type, segments, now
-            )
+            UserActionCallToAction.objects.for_page_and_segments(segments, now, self)
             .select_related("internal_link")
             .first()
         )
@@ -511,7 +506,7 @@ class BasePage(SocialFields, ListingFields, Page):
 
         embedded_footer_cta = (
             EmbeddedFooterCallToAction.objects.for_page_and_segments(
-                page_content_type, segments, now
+                segments, now, self
             )
             .select_related("internal_link")
             .first()
@@ -521,7 +516,7 @@ class BasePage(SocialFields, ListingFields, Page):
 
         event_countdown_cta = (
             EventCountdownCallToAction.objects.for_page_and_segments(
-                page_content_type, segments, now
+                segments, now, self
             )
             .select_related("internal_link")
             .first()
@@ -533,7 +528,7 @@ class BasePage(SocialFields, ListingFields, Page):
 
         collapsible_nav_cta = (
             CollapsibleNavigationCallToAction.objects.for_page_and_segments(
-                page_content_type, segments, now
+                segments, now, self
             ).first()
         )
         if collapsible_nav_cta:
