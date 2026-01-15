@@ -46,7 +46,7 @@ class CollapsibleNav {
 
         // Track clicks on navigation links
         this.navLinks.forEach((link) => {
-            link.addEventListener('click', (e) => {
+            link.addEventListener('click', () => {
                 const linkLabel =
                     link.querySelector('.link__label')?.textContent ||
                     link.textContent.trim();

@@ -228,11 +228,17 @@ class CTATrigger {
             this.node.classList.add(this.activeClass);
         }
 
-        // Track CTA shown event in dataLayer (for collapsible nav)
+        // Track CTA shown event in dataLayer
         if (this.node.hasAttribute('data-collapsible-nav')) {
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
                 event: 'navigation_prompt',
+                feature_activity: 'shown',
+            });
+        } else if (this.node.classList.contains('countdown-cta')) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'countdown_banner',
                 feature_activity: 'shown',
             });
         }
@@ -246,6 +252,15 @@ class CTATrigger {
         // For non-modals, we just need to remove the CSS class
         if (!this.isModal) {
             this.node.classList.remove(this.activeClass);
+        }
+
+        // Track CTA closed event in dataLayer
+        if (this.node.classList.contains('countdown-cta')) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'countdown_banner',
+                feature_activity: 'closed',
+            });
         }
 
         // Add the CTA to sessionStorage
