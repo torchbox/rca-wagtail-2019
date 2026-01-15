@@ -228,6 +228,15 @@ class CTATrigger {
             this.node.classList.add(this.activeClass);
         }
 
+        // Track CTA shown event in dataLayer (for collapsible nav)
+        if (this.node.hasAttribute('data-collapsible-nav')) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'navigation_prompt',
+                feature_activity: 'shown',
+            });
+        }
+
         this.removeTriggerListeners();
     }
 

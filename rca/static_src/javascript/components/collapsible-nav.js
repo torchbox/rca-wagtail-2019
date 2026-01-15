@@ -11,6 +11,9 @@ class CollapsibleNav {
         this.closeCollapsibleNavButton = this.collapsibleNav.querySelector(
             '[data-close-collapsible-nav-button]',
         );
+        this.navLinks = this.collapsibleNav.querySelectorAll(
+            '.collapsible-nav__link',
+        );
         this.bindEvents();
     }
 
@@ -19,11 +22,43 @@ class CollapsibleNav {
             this.collapsibleNav.classList.add('is-open');
             // focus the close button
             this.closeCollapsibleNavButton.focus();
+
+            // Track open event in dataLayer
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'navigation_prompt',
+                feature_activity: 'clicked',
+            });
         });
+
         this.closeCollapsibleNavButton.addEventListener('click', () => {
             this.collapsibleNav.classList.remove('is-open');
             // focus the open button
             this.openCollapsibleNavButton.focus();
+
+            // Track close event in dataLayer
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'navigation_prompt',
+                feature_activity: 'closed',
+            });
+        });
+
+        // Track clicks on navigation links
+        this.navLinks.forEach((link) => {
+            link.addEventListener('click', (e) => {
+                const linkLabel =
+                    link.querySelector('.link__label')?.textContent ||
+                    link.textContent.trim();
+
+                // Track menu item click in dataLayer
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    event: 'navigation_prompt',
+                    feature_activity: 'menu_item_click',
+                    menu_item: linkLabel,
+                });
+            });
         });
     }
 }
