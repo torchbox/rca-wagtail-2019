@@ -23,7 +23,10 @@
                             <p class="modal__description">{{ value.description }}</p>
                         {% endif %}
                     </div>
-                    {% include 'patterns/atoms/link-primary/link-primary--external.html' with href=value.href text=value.text %}
+                    <a href="{{ value.href }}" class="link link--primary link--link body body--two" rel="noopener">
+                        <span class="link__label">{{ value.text }}</span>
+                        <svg width="12" height="8" class="link__icon" aria-hidden="true"><use href="#arrow"></use></svg>
+                    </a>
                 </div>
             </div>
         </div>
