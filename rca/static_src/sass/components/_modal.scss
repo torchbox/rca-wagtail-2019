@@ -129,6 +129,7 @@
     }
 
     &__footer {
+        position: relative;
         background-color: $color--white;
         color: $color--black;
         padding: $gutter;
