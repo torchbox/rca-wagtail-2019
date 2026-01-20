@@ -168,7 +168,8 @@ class NewsEventsBlock(blocks.StructBlock):
             value["featured_event"]
             and value["featured_event"].end_date > timezone.now().date()
         ):
-            event = value["featured_event"]
+            # Since we chain news items to events, this needs to be in a list.
+            event = [value["featured_event"]]
         else:
             # If no featured event is selected or the selected event has ended,
             # get the next upcoming event.
