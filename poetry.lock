@@ -3461,7 +3461,7 @@ test = ["factory_boy (==3.2.1)", "flake8", "flake8-blind-except", "flake8-debugg
 type = "git"
 url = "https://github.com/torchbox-forks/wagtail-personalisation.git"
 reference = "feature/customisable-base-rules"
-resolved_reference = "b6d36d1c9906236590634ff59da1c109ae8e8be1"
+resolved_reference = "c26c7c2b4f071589eb0320bf2eb5e76b11fae91b"
 
 [[package]]
 name = "wagtail-rangefilter"
