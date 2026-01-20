@@ -44,8 +44,9 @@ class CountdownCTA {
 
         this.ctaButton.addEventListener('click', () => {
             const buttonText =
-                this.ctaButton.querySelector('.modal-launcher__label')
-                    ?.textContent || this.ctaButton.textContent.trim();
+                this.ctaButton
+                    .querySelector('.modal-launcher__label')
+                    ?.textContent.trim() || this.ctaButton.textContent.trim();
 
             // Track button click in dataLayer
             window.dataLayer = window.dataLayer || [];

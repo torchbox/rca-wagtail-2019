@@ -1,6 +1,11 @@
 {% comment %}
     This component is shown on a user action set in cta-trigger.js via [data-cta].
     It can also count down to a specific date and time set in countdown-cta.js via [data-countdown-cta].
+
+    IMPORTANT: The following classes are used in cta-trigger.js and countdown-cta.js and should be updated together if needed:
+    - .countdown-cta (used for identifying the component and tracking events)
+    - .modal-launcher (used in countdown-cta.js for tracking CTA button clicks)
+    - .modal-launcher__label (used in countdown-cta.js for extracting button text)
 {% endcomment %}
 
 <div class="countdown-cta" role="dialog" aria-labelledby="countdown-cta-title" {% if value.countdown_to %}data-countdown-cta data-countdown-date="{{ value.countdown_date|date:'Y-m-d H:i:s' }}"{% endif %} data-cta{% if value.cta_id %} data-cta-id="countdown-cta-{{ value.cta_id }}"{% endif %}{% if value.cta_trigger %} data-cta-trigger="{{ value.cta_trigger }}"{% endif %}{% if value.cta_delay %} data-cta-delay="{{ value.cta_delay }}"{% endif %}{% if value.cta_scroll %} data-cta-scroll="{{ value.cta_scroll }}"{% endif %}>

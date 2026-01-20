@@ -1,6 +1,9 @@
 {% comment %}
     This component is shown on a user action set in cta-trigger.js via [data-cta].
     It can also be collapsed and expanded set in collapsible-nav.js via [data-collapsible-nav].
+
+    IMPORTANT: The following classes are used in collapsible-nav.js and should be updated together if needed:
+    - .collapsible-nav__link (used for tracking navigation link clicks)
 {% endcomment %}
 
 <div class="collapsible-nav" data-collapsible-nav data-cta{% if value.cta_id %} data-cta-id="collapsible-nav-{{ value.cta_id }}"{% endif %}{% if value.cta_trigger %} data-cta-trigger="{{ value.cta_trigger }}"{% endif %}{% if value.cta_delay %} data-cta-delay="{{ value.cta_delay }}"{% endif %}{% if value.cta_scroll %} data-cta-scroll="{{ value.cta_scroll }}"{% endif %}>
