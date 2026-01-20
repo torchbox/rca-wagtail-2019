@@ -37,6 +37,7 @@ import Tabs from './components/tabs';
 import VideoModal from './components/video-modal';
 import VideoPlayer from './components/video-stream';
 import CollapsibleNav from './components/collapsible-nav';
+import EmbeddedFooterCTA from './components/embedded-footer-cta';
 
 import '../sass/main.scss';
 
@@ -185,6 +186,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (const ctatrigger of document.querySelectorAll(CTATrigger.selector())) {
         new CTATrigger(ctatrigger);
+    }
+
+    for (const embeddedfootercta of document.querySelectorAll(
+        EmbeddedFooterCTA.selector(),
+    )) {
+        new EmbeddedFooterCTA(embeddedfootercta);
     }
 
     new ActualHeight();

@@ -38,6 +38,8 @@ class CTATrigger {
         // Exit intent sensitivity - distance in pixels from top of viewport
         this.exitIntentSensitivity = 20;
         this.closeButton = this.node.querySelector('[data-cta-close]');
+        this.ctaLink = this.node.querySelector('.link--primary');
+        this.popupTitle = this.node.querySelector('.modal__title');
         this.activeClass = 'is-visible';
         this.shown = false;
 
@@ -57,6 +59,7 @@ class CTATrigger {
         }
 
         this.bindCloseButtonEvents();
+        this.bindCTALinkEvents();
         this.initTrigger();
     }
 
@@ -228,6 +231,29 @@ class CTATrigger {
             this.node.classList.add(this.activeClass);
         }
 
+        // Track CTA shown event in dataLayer
+        if (this.node.hasAttribute('data-collapsible-nav')) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'navigation_prompt',
+                feature_activity: 'shown',
+            });
+        } else if (this.node.classList.contains('countdown-cta')) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'countdown_banner',
+                feature_activity: 'shown',
+            });
+        } else if (this.node.classList.contains('modal--cta')) {
+            const popupTitle = this.popupTitle?.textContent.trim() || '';
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'popup_cta',
+                feature_activity: 'shown',
+                popup_title: popupTitle,
+            });
+        }
+
         this.removeTriggerListeners();
     }
 
@@ -237,6 +263,23 @@ class CTATrigger {
         // For non-modals, we just need to remove the CSS class
         if (!this.isModal) {
             this.node.classList.remove(this.activeClass);
+        }
+
+        // Track CTA closed event in dataLayer
+        if (this.node.classList.contains('countdown-cta')) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'countdown_banner',
+                feature_activity: 'closed',
+            });
+        } else if (this.node.classList.contains('modal--cta')) {
+            const popupTitle = this.popupTitle?.textContent.trim() || '';
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'popup_cta',
+                feature_activity: 'closed',
+                popup_title: popupTitle,
+            });
         }
 
         // Add the CTA to sessionStorage
@@ -285,6 +328,31 @@ class CTATrigger {
             },
             { signal: this.closeButtonAbortController.signal, capture: true },
         );
+    }
+
+    // Add event listener to the CTA link button
+    bindCTALinkEvents() {
+        if (!this.ctaLink) {
+            return;
+        }
+
+        this.ctaLink.addEventListener('click', () => {
+            const buttonText =
+                this.ctaLink.querySelector('.link__label')?.textContent.trim() ||
+                this.ctaLink.textContent.trim();
+            const popupTitle = this.popupTitle?.textContent.trim() || '';
+
+            // Track button click in dataLayer (for popup CTA)
+            if (this.node.classList.contains('modal--cta')) {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    event: 'popup_cta',
+                    feature_activity: 'button_click',
+                    button_text: buttonText,
+                    popup_title: popupTitle,
+                });
+            }
+        });
     }
 }
 

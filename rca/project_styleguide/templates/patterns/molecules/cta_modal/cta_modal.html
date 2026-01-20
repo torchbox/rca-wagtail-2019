@@ -2,6 +2,11 @@
 
 {% comment %}
     This component is shown on a user action set in cta-trigger.js via [data-cta].
+
+    IMPORTANT: The following classes are used in cta-trigger.js and should be updated together if needed:
+    - .modal--cta (used for identifying the component and tracking popup events)
+    - .modal__title (used for extracting popup title in tracking events)
+    - .link--primary (used for tracking CTA link clicks)
 {% endcomment %}
 
 <div class="modal modal--cta{% if classes %} {{ classes }}{% endif %}" aria-hidden="true" id="cta-modal{% if value.cta_id %}-{{ value.cta_id }}{% endif %}" data-cta data-cta-modal{% if value.cta_id %} data-cta-id="cta-modal-{{ value.cta_id }}"{% endif %}{% if value.cta_trigger %} data-cta-trigger="{{ value.cta_trigger }}"{% endif %}{% if value.cta_delay %} data-cta-delay="{{ value.cta_delay }}"{% endif %}{% if value.cta_scroll %} data-cta-scroll="{{ value.cta_scroll }}"{% endif %}>
