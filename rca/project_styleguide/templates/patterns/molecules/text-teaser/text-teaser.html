@@ -1,4 +1,10 @@
 {% load wagtailcore_tags %}
+{% comment %}
+    IMPORTANT: The following classes are used in embedded-footer-cta.js and should be updated together if needed:
+    - .text-teaser--footer-cta (used for selecting the component - added via 'classes' variable)
+    - .text-teaser__heading (used for extracting component title in tracking events)
+    - .text-teaser__link (used for tracking CTA link clicks)
+{% endcomment %}
 <div class="text-teaser{% if classes %} {{ classes }}{% endif %}">
     <div class="text-teaser__container grid">
         {% if teaser.title %}
