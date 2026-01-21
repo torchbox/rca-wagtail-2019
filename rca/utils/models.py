@@ -481,6 +481,11 @@ class BasePage(SocialFields, ListingFields, Page):
         if not request:
             return context
 
+        # To test what's available in the request.
+        print("Checking for CF headers...")
+        print({k: v for k, v in request.META.items()})
+        print("End checking for CF headers...")
+
         # Get segments that have its rules met
         adapter = get_segment_adapter(request)
         adapter.refresh()
