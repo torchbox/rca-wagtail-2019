@@ -1157,3 +1157,365 @@ class UserTypeRule(AbstractBaseRule):
             "new": "Show to new users only",
             "returning": "Show to returning users only",
         }.get(self.user_type, "")
+
+
+class OriginContinentRule(AbstractBaseRule):
+    """
+    Rule to segment users based on their continent of origin.
+    Uses Cloudflare's CF-IPContinent header to detect the user's continent.
+    Falls back to country-to-continent mapping if the header is not available.
+    """
+
+    icon = "globe"
+
+    CONTINENT_CHOICES = [
+        ("AF", "Africa"),
+        ("AN", "Antarctica"),
+        ("AS", "Asia"),
+        ("EU", "Europe"),
+        ("NA", "North America"),
+        ("OC", "Oceania"),
+        ("SA", "South America"),
+    ]
+
+    # Country code to continent code mapping
+    # Based on ISO 3166-1 alpha-2 country codes and UN M49 continent classifications
+    COUNTRY_TO_CONTINENT = {
+        # Africa (AF)
+        "DZ": "AF",
+        "AO": "AF",
+        "BJ": "AF",
+        "BW": "AF",
+        "BF": "AF",
+        "BI": "AF",
+        "CM": "AF",
+        "CV": "AF",
+        "CF": "AF",
+        "TD": "AF",
+        "KM": "AF",
+        "CG": "AF",
+        "CD": "AF",
+        "CI": "AF",
+        "DJ": "AF",
+        "EG": "AF",
+        "GQ": "AF",
+        "ER": "AF",
+        "ET": "AF",
+        "GA": "AF",
+        "GM": "AF",
+        "GH": "AF",
+        "GN": "AF",
+        "GW": "AF",
+        "KE": "AF",
+        "LS": "AF",
+        "LR": "AF",
+        "LY": "AF",
+        "MG": "AF",
+        "MW": "AF",
+        "ML": "AF",
+        "MR": "AF",
+        "MU": "AF",
+        "YT": "AF",
+        "MA": "AF",
+        "MZ": "AF",
+        "NA": "AF",
+        "NE": "AF",
+        "NG": "AF",
+        "RE": "AF",
+        "RW": "AF",
+        "SH": "AF",
+        "ST": "AF",
+        "SN": "AF",
+        "SC": "AF",
+        "SL": "AF",
+        "SO": "AF",
+        "ZA": "AF",
+        "SS": "AF",
+        "SD": "AF",
+        "SZ": "AF",
+        "TZ": "AF",
+        "TG": "AF",
+        "TN": "AF",
+        "UG": "AF",
+        "EH": "AF",
+        "ZM": "AF",
+        "ZW": "AF",
+        # Antarctica (AN)
+        "AQ": "AN",
+        "BV": "AN",
+        "GS": "AN",
+        "HM": "AN",
+        "TF": "AN",
+        # Asia (AS)
+        "AF": "AS",
+        "AM": "AS",
+        "AZ": "AS",
+        "BH": "AS",
+        "BD": "AS",
+        "BT": "AS",
+        "BN": "AS",
+        "KH": "AS",
+        "CN": "AS",
+        "CX": "AS",
+        "CC": "AS",
+        "IO": "AS",
+        "GE": "AS",
+        "HK": "AS",
+        "IN": "AS",
+        "ID": "AS",
+        "IR": "AS",
+        "IQ": "AS",
+        "IL": "AS",
+        "JP": "AS",
+        "JO": "AS",
+        "KZ": "AS",
+        "KW": "AS",
+        "KG": "AS",
+        "LA": "AS",
+        "LB": "AS",
+        "MO": "AS",
+        "MY": "AS",
+        "MV": "AS",
+        "MN": "AS",
+        "MM": "AS",
+        "NP": "AS",
+        "KP": "AS",
+        "OM": "AS",
+        "PK": "AS",
+        "PS": "AS",
+        "PH": "AS",
+        "QA": "AS",
+        "SA": "AS",
+        "SG": "AS",
+        "KR": "AS",
+        "LK": "AS",
+        "SY": "AS",
+        "TW": "AS",
+        "TJ": "AS",
+        "TH": "AS",
+        "TL": "AS",
+        "TR": "AS",
+        "TM": "AS",
+        "AE": "AS",
+        "UZ": "AS",
+        "VN": "AS",
+        "YE": "AS",
+        # Europe (EU)
+        "AX": "EU",
+        "AL": "EU",
+        "AD": "EU",
+        "AT": "EU",
+        "BY": "EU",
+        "BE": "EU",
+        "BA": "EU",
+        "BG": "EU",
+        "HR": "EU",
+        "CY": "EU",
+        "CZ": "EU",
+        "DK": "EU",
+        "EE": "EU",
+        "FO": "EU",
+        "FI": "EU",
+        "FR": "EU",
+        "DE": "EU",
+        "GI": "EU",
+        "GR": "EU",
+        "GG": "EU",
+        "VA": "EU",
+        "HU": "EU",
+        "IS": "EU",
+        "IE": "EU",
+        "IM": "EU",
+        "IT": "EU",
+        "JE": "EU",
+        "LV": "EU",
+        "LI": "EU",
+        "LT": "EU",
+        "LU": "EU",
+        "MK": "EU",
+        "MT": "EU",
+        "MD": "EU",
+        "MC": "EU",
+        "ME": "EU",
+        "NL": "EU",
+        "NO": "EU",
+        "PL": "EU",
+        "PT": "EU",
+        "RO": "EU",
+        "RU": "EU",
+        "SM": "EU",
+        "RS": "EU",
+        "SK": "EU",
+        "SI": "EU",
+        "ES": "EU",
+        "SJ": "EU",
+        "SE": "EU",
+        "CH": "EU",
+        "UA": "EU",
+        "GB": "EU",
+        "XK": "EU",
+        # North America (NA)
+        "AI": "NA",
+        "AG": "NA",
+        "AW": "NA",
+        "BS": "NA",
+        "BB": "NA",
+        "BZ": "NA",
+        "BM": "NA",
+        "BQ": "NA",
+        "CA": "NA",
+        "KY": "NA",
+        "CR": "NA",
+        "CU": "NA",
+        "CW": "NA",
+        "DM": "NA",
+        "DO": "NA",
+        "SV": "NA",
+        "GL": "NA",
+        "GD": "NA",
+        "GP": "NA",
+        "GT": "NA",
+        "HT": "NA",
+        "HN": "NA",
+        "JM": "NA",
+        "MQ": "NA",
+        "MX": "NA",
+        "MS": "NA",
+        "NI": "NA",
+        "PA": "NA",
+        "PM": "NA",
+        "PR": "NA",
+        "BL": "NA",
+        "KN": "NA",
+        "LC": "NA",
+        "MF": "NA",
+        "VC": "NA",
+        "SX": "NA",
+        "TT": "NA",
+        "TC": "NA",
+        "US": "NA",
+        "VG": "NA",
+        "VI": "NA",
+        # Oceania (OC)
+        "AS": "OC",
+        "AU": "OC",
+        "CK": "OC",
+        "FJ": "OC",
+        "PF": "OC",
+        "GU": "OC",
+        "KI": "OC",
+        "MH": "OC",
+        "FM": "OC",
+        "NR": "OC",
+        "NC": "OC",
+        "NZ": "OC",
+        "NU": "OC",
+        "NF": "OC",
+        "MP": "OC",
+        "PW": "OC",
+        "PG": "OC",
+        "PN": "OC",
+        "WS": "OC",
+        "SB": "OC",
+        "TK": "OC",
+        "TO": "OC",
+        "TV": "OC",
+        "UM": "OC",
+        "VU": "OC",
+        "WF": "OC",
+        # South America (SA)
+        "AR": "SA",
+        "BO": "SA",
+        "BR": "SA",
+        "CL": "SA",
+        "CO": "SA",
+        "EC": "SA",
+        "FK": "SA",
+        "GF": "SA",
+        "GY": "SA",
+        "PY": "SA",
+        "PE": "SA",
+        "SR": "SA",
+        "UY": "SA",
+        "VE": "SA",
+    }
+
+    continent = models.CharField(
+        max_length=2,
+        choices=CONTINENT_CHOICES,
+        help_text=(
+            "Select origin continent of the request that this rule will "
+            "match against. This rule uses Cloudflare's IP geolocation "
+            "to detect the user's continent, with fallback to country-based detection."
+        ),
+    )
+
+    panels = [
+        FieldPanel("continent"),
+    ]
+
+    class Meta:
+        verbose_name = "Origin Continent Rule"
+
+    def get_cloudflare_continent(self, request):
+        """
+        Get continent code that has been detected by Cloudflare.
+        Cloudflare provides continent codes via the CF-IPContinent header.
+        """
+        try:
+            return request.META["HTTP_CF_IPCONTINENT"].upper()
+        except KeyError:
+            return None
+
+    def get_cloudflare_country(self, request):
+        """
+        Get country code that has been detected by Cloudflare.
+        """
+        try:
+            return request.META["HTTP_CF_IPCOUNTRY"].upper()
+        except KeyError:
+            return None
+
+    def get_continent_from_country(self, country_code):
+        """
+        Map a country code to its continent code.
+        """
+        if not country_code:
+            return None
+        return self.COUNTRY_TO_CONTINENT.get(country_code.upper())
+
+    def get_continent(self, request):
+        """
+        Get the user's continent code.
+        Tries multiple methods in order of preference:
+        1. Cloudflare CF-IPContinent header (most direct)
+        2. Map Cloudflare country to continent
+        """
+        # Check continent directly from Cloudflare
+        continent = self.get_cloudflare_continent(request)
+        if continent:
+            return continent
+
+        # Fall back to mapping country to continent
+        # Try Cloudflare country
+        country = self.get_cloudflare_country(request)
+        if country:
+            continent = self.get_continent_from_country(country)
+            if continent:
+                return continent
+
+        return None
+
+    def test_user(self, request=None):
+        """
+        Test if the user's continent matches the selected continent.
+        """
+        if not request:
+            return False
+
+        detected_continent = self.get_continent(request)
+        return detected_continent == self.continent.upper()
+
+    def description(self):
+        continent_name = dict(self.CONTINENT_CHOICES).get(self.continent, "")
+        return f"Show to users from {continent_name}"
