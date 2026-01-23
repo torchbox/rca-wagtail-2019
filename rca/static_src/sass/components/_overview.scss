@@ -30,6 +30,12 @@
                 margin-bottom: ($gutter * 1.5);
             }
         }
+
+        &--left-align {
+            @include media-query(large) {
+                grid-column: 2 / span 3;
+            }
+        }
     }
 
     &__item-action {
