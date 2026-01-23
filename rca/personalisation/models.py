@@ -1246,5 +1246,5 @@ class OriginContinentRule(AbstractBaseRule):
         return detected_continent == self.continent.upper()
 
     def description(self):
-        continent_name = dict(self.CONTINENT_CHOICES).get(self.continent, "")
+        continent_name = dict(CONTINENT_CHOICES).get(self.continent, "")
         return f"Show to users from {continent_name}"
