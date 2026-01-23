@@ -15,6 +15,7 @@ from wagtail_personalisation.models import Segment
 from wagtail_personalisation.rules import AbstractBaseRule
 
 from rca.personalisation.blocks import CollapsibleNavigationLinkBlock
+from rca.personalisation.constants import CONTINENT_CHOICES, COUNTRY_TO_CONTINENT
 from rca.utils.fields import StreamField
 from rca.utils.mixins import StyledPreviewableMixin
 
@@ -1157,3 +1158,93 @@ class UserTypeRule(AbstractBaseRule):
             "new": "Show to new users only",
             "returning": "Show to returning users only",
         }.get(self.user_type, "")
+
+
+class OriginContinentRule(AbstractBaseRule):
+    """
+    Rule to segment users based on their continent of origin.
+    Uses Cloudflare's CF-IPContinent header to detect the user's continent.
+    Falls back to country-to-continent mapping if the header is not available.
+    """
+
+    icon = "globe"
+
+    continent = models.CharField(
+        max_length=2,
+        choices=CONTINENT_CHOICES,
+        help_text=(
+            "Select origin continent of the request that this rule will "
+            "match against. This rule uses Cloudflare's IP geolocation "
+            "to detect the user's continent, with fallback to country-based detection."
+        ),
+    )
+
+    panels = [
+        FieldPanel("continent"),
+    ]
+
+    class Meta:
+        verbose_name = "Origin Continent Rule"
+
+    def get_cloudflare_continent(self, request):
+        """
+        Get continent code that has been detected by Cloudflare.
+        Cloudflare provides continent codes via the CF-IPContinent header.
+        """
+        try:
+            return request.META["HTTP_CF_IPCONTINENT"].upper()
+        except KeyError:
+            return None
+
+    def get_cloudflare_country(self, request):
+        """
+        Get country code that has been detected by Cloudflare.
+        """
+        try:
+            return request.META["HTTP_CF_IPCOUNTRY"].upper()
+        except KeyError:
+            return None
+
+    def get_continent_from_country(self, country_code):
+        """
+        Map a country code to its continent code.
+        """
+        if not country_code:
+            return None
+        return COUNTRY_TO_CONTINENT.get(country_code.upper())
+
+    def get_continent(self, request):
+        """
+        Get the user's continent code.
+        Tries multiple methods in order of preference:
+        1. Cloudflare CF-IPContinent header (most direct)
+        2. Map Cloudflare country to continent
+        """
+        # Check continent directly from Cloudflare
+        continent = self.get_cloudflare_continent(request)
+        if continent:
+            return continent
+
+        # Fall back to mapping country to continent
+        # Try Cloudflare country
+        country = self.get_cloudflare_country(request)
+        if country:
+            continent = self.get_continent_from_country(country)
+            if continent:
+                return continent
+
+        return None
+
+    def test_user(self, request=None):
+        """
+        Test if the user's continent matches the selected continent.
+        """
+        if not request:
+            return False
+
+        detected_continent = self.get_continent(request)
+        return detected_continent == self.continent.upper()
+
+    def description(self):
+        continent_name = dict(self.CONTINENT_CHOICES).get(self.continent, "")
+        return f"Show to users from {continent_name}"

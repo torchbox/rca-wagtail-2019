@@ -218,7 +218,11 @@ class CTATrigger {
             this.node.style.display = '';
 
             // Show the modal using MicroModal API
-            MicroModal.show(this.modalId);
+            MicroModal.show(this.modalId, {
+                onClose: () => {
+                    this.handleModalClose();
+                },
+            });
 
             // Focus close button after modal is shown
             if (this.closeButton) {
@@ -257,6 +261,23 @@ class CTATrigger {
         this.removeTriggerListeners();
     }
 
+    // Handle modal close for datalayer tracking
+    handleModalClose() {
+        // Track CTA closed event in dataLayer
+        if (this.node.classList.contains('modal--cta')) {
+            const popupTitle = this.popupTitle?.textContent.trim() || '';
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'popup_cta',
+                feature_activity: 'closed',
+                popup_title: popupTitle,
+            });
+        }
+
+        // Remove the close button listener
+        this.closeButtonAbortController.abort();
+    }
+
     // Dismiss the CTA and persist to sessionStorage
     dismiss() {
         // For modals, MicroModal handles closing via data-micromodal-close
@@ -271,14 +292,6 @@ class CTATrigger {
             window.dataLayer.push({
                 event: 'countdown_banner',
                 feature_activity: 'closed',
-            });
-        } else if (this.node.classList.contains('modal--cta')) {
-            const popupTitle = this.popupTitle?.textContent.trim() || '';
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({
-                event: 'popup_cta',
-                feature_activity: 'closed',
-                popup_title: popupTitle,
             });
         }
 
@@ -338,8 +351,9 @@ class CTATrigger {
 
         this.ctaLink.addEventListener('click', () => {
             const buttonText =
-                this.ctaLink.querySelector('.link__label')?.textContent.trim() ||
-                this.ctaLink.textContent.trim();
+                this.ctaLink
+                    .querySelector('.link__label')
+                    ?.textContent.trim() || this.ctaLink.textContent.trim();
             const popupTitle = this.popupTitle?.textContent.trim() || '';
 
             // Track button click in dataLayer (for popup CTA)
