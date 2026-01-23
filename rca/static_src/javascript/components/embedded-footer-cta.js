@@ -7,9 +7,29 @@ class EmbeddedFooterCTA {
         this.node = node;
         this.heading = this.node.querySelector('.text-teaser__heading');
         this.ctaLink = this.node.querySelector('.text-teaser__link');
+        this.hasBeenTracked = false;
 
-        this.trackShown();
+        this.observeVisibility();
         this.bindEvents();
+    }
+
+    observeVisibility() {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && !this.hasBeenTracked) {
+                        this.trackShown();
+                        this.hasBeenTracked = true;
+                        observer.disconnect();
+                    }
+                });
+            },
+            {
+                threshold: 0.1,
+            },
+        );
+
+        observer.observe(this.node);
     }
 
     trackShown() {
