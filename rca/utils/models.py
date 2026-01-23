@@ -475,6 +475,25 @@ class BasePage(SocialFields, ListingFields, Page):
         """
         return False
 
+    def serve(self, request, *args, **kwargs):
+        """
+        Override serve to disable public caching when personalised CTAs are shown.
+
+        When personalised CTAs are present, we need to prevent CDN/proxy caching
+        because personalised content should not be shared across different user segments.
+        """
+        # Store whether we have personalised CTAs (will be set by get_context)
+        self._has_personalised_ctas = False
+
+        response = super().serve(request, *args, **kwargs)
+
+        # If personalised CTAs were added, disable public caching
+        if getattr(self, '_has_personalised_ctas', False):
+            # Replace any existing Cache-Control header with private
+            response['Cache-Control'] = 'private, no-cache'
+
+        return response
+
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
 
@@ -503,6 +522,7 @@ class BasePage(SocialFields, ListingFields, Page):
         )
         if user_call_to_action:
             context["personalised_user_cta"] = user_call_to_action.get_template_data()
+            self._has_personalised_ctas = True
 
         embedded_footer_cta = (
             EmbeddedFooterCallToAction.objects.for_page_and_segments(
@@ -513,6 +533,7 @@ class BasePage(SocialFields, ListingFields, Page):
         )
         if embedded_footer_cta:
             context["personalised_footer_cta"] = embedded_footer_cta.get_template_data()
+            self._has_personalised_ctas = True
 
         event_countdown_cta = (
             EventCountdownCallToAction.objects.for_page_and_segments(
@@ -525,6 +546,7 @@ class BasePage(SocialFields, ListingFields, Page):
             context["personalised_countdown_cta"] = (
                 event_countdown_cta.get_template_data()
             )
+            self._has_personalised_ctas = True
 
         collapsible_nav_cta = (
             CollapsibleNavigationCallToAction.objects.for_page_and_segments(
@@ -535,6 +557,7 @@ class BasePage(SocialFields, ListingFields, Page):
             context["personalised_collapsible_nav"] = (
                 collapsible_nav_cta.get_template_data()
             )
+            self._has_personalised_ctas = True
 
         return context
 
