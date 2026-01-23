@@ -481,6 +481,8 @@ class BasePage(SocialFields, ListingFields, Page):
         if not request:
             return context
 
+        print({k: v for k, v in request.META.items()})
+
         # Get segments that have its rules met
         adapter = get_segment_adapter(request)
         adapter.refresh()
