@@ -5,6 +5,7 @@ from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
+from django.utils.cache import add_never_cache_headers, patch_cache_control
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.text import slugify
@@ -34,7 +35,7 @@ from rca.personalisation.models import (
     EventCountdownCallToAction,
     UserActionCallToAction,
 )
-from rca.utils.cache import get_default_cache_control_decorator
+from rca.utils.cache import get_default_cache_control_kwargs
 from rca.utils.forms import RCAPageAdminForm
 
 LIGHT_TEXT_ON_DARK_IMAGE = 1
@@ -439,8 +440,6 @@ class SystemMessagesSettings(BaseSiteSetting):
     ]
 
 
-# Apply default cache headers on this page model's serve method.
-@method_decorator(get_default_cache_control_decorator(), name="serve")
 class BasePage(SocialFields, ListingFields, Page):
     base_form_class = RCAPageAdminForm
     show_in_menus_default = True
@@ -488,9 +487,19 @@ class BasePage(SocialFields, ListingFields, Page):
         response = super().serve(request, *args, **kwargs)
 
         # If personalised CTAs were added, disable public caching
-        if getattr(self, '_has_personalised_ctas', False):
-            # Replace any existing Cache-Control header with private
-            response['Cache-Control'] = 'private, no-cache'
+        if getattr(self, "_has_personalised_ctas", False):
+            # Clear any cache headers that might have been set
+            if "Expires" in response:
+                del response["Expires"]
+            if "Cache-Control" in response:
+                del response["Cache-Control"]
+            # Then add no-cache headers
+            add_never_cache_headers(response)
+        else:
+            # Apply default cache control for non-personalised responses
+            cache_control_kwargs = get_default_cache_control_kwargs()
+            if cache_control_kwargs:
+                patch_cache_control(response, **cache_control_kwargs)
 
         return response
 
