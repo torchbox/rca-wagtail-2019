@@ -6,7 +6,6 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.cache import add_never_cache_headers, patch_cache_control
-from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
