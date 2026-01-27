@@ -53,13 +53,13 @@ $color--focus: $color--blue;
         format('woff2');
 }
 
-/* source-sans-3-latin-500-normal */
+/* source-sans-3-latin-600-normal */
 @font-face {
     font-family: 'Source Sans 3';
     font-style: normal;
     font-display: block;
-    font-weight: 500;
-    src: url(https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-500-normal.woff2)
+    font-weight: 600;
+    src: url(https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-600-normal.woff2)
         format('woff2');
 }
 
@@ -73,13 +73,13 @@ $color--focus: $color--blue;
         format('woff2');
 }
 
-/* source-sans-3-latin-500-italic */
+/* source-sans-3-latin-600-italic */
 @font-face {
     font-family: 'Source Sans 3';
     font-style: italic;
     font-display: block;
-    font-weight: 500;
-    src: url(https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-500-italic.woff2)
+    font-weight: 600;
+    src: url(https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-600-italic.woff2)
         format('woff2');
 }
 
@@ -88,7 +88,7 @@ $color--focus: $color--blue;
 $font--primary: 'Source Sans 3', sans-serif;
 
 // Font weights
-$weight--bold: 500;
+$weight--bold: 600;
 $weight--normal: 400;
 
 // Line heights
