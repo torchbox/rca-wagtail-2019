@@ -802,3 +802,64 @@ class CollapsibleNavigationCTATests(BasePersonalisationCTATests):
         self.assertEqual(collapsible_nav["links"][0]["text"], "Link 1")
         self.assertEqual(collapsible_nav["cta_id"], cta.pk)
         self.assertEqual(collapsible_nav["cta_trigger"], "page_load")
+
+
+class PersonalisationCacheTests(BasePersonalisationCTATests):
+    """
+    Tests for cache header behavior when personalised CTAs are present.
+    """
+
+    @patch("rca.utils.models.get_segment_adapter")
+    def test_no_cache_headers_when_personalised_cta_shown(self, mock_get_adapter):
+        """Test that no-cache headers are added when personalised CTAs are shown"""
+        now = timezone.now()
+        mock_get_adapter.return_value = self._create_mock_segment_adapter(
+            [self.segment_alumni]
+        )
+
+        for cta_config in self.CTA_TYPES:
+            with self.subTest(cta_type=cta_config["name"]):
+                # Setup
+                cta_fields = cta_config["base_fields"]()
+                cta_fields.update(
+                    {
+                        "go_live_at": now - timedelta(days=1),
+                    }
+                )
+
+                cta = cta_config["factory"](**cta_fields)
+
+                cta_config["segment_model"].objects.create(
+                    call_to_action=cta, segment=self.segment_alumni
+                )
+                cta_config["page_type_model"].objects.create(
+                    call_to_action=cta, page_type="standardpages.informationpage"
+                )
+
+                response = self.client.get(self.test_page.url)
+
+                # Check that no cache headers are present
+                self.assertIn("Cache-Control", response)
+                cache_control = response["Cache-Control"]
+                self.assertIn("no-cache", cache_control)
+                self.assertIn("no-store", cache_control)
+                self.assertIn("must-revalidate", cache_control)
+                self.assertIn("private", cache_control)
+
+                # Cleanup for next subtest
+                cta.delete()
+
+    @patch("rca.utils.models.get_segment_adapter")
+    def test_no_cache_headers_not_added_when_no_personalised_cta(
+        self, mock_get_adapter
+    ):
+        """Test that no-cache headers are NOT added when no personalised CTAs are shown"""
+        # No segments active, so no CTAs will be shown
+        mock_get_adapter.return_value = self._create_mock_segment_adapter([])
+
+        # Execute
+        response = self.client.get(self.test_page.url)
+
+        # Assert - Cache-Control should not contain no-cache/no-store
+        cache_control = response.get("Cache-Control", "")
+        self.assertNotIn("no-store", cache_control)
