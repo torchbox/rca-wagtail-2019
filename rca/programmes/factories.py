@@ -36,6 +36,7 @@ class ProgrammePageFactory(wagtail_factories.PageFactory):
     scholarships_information = factory.Faker("text", max_nb_chars=100)
     search_description = factory.Faker("text", max_nb_chars=25)
     degree_level = factory.SubFactory(DegreeLevelFactory)
+    experience_disclaimer = factory.Faker("text", max_nb_chars=200)
 
 
 class ProgrammePageProgrammeTypeFactory(factory.django.DjangoModelFactory):
