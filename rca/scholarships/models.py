@@ -12,7 +12,7 @@ from wagtail.admin.panels import (
     ObjectList,
     TabbedInterface,
 )
-from wagtail.fields import RichTextField, StreamField
+from wagtail.fields import StreamField
 from wagtail.models import Orderable
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
@@ -123,7 +123,6 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         blank=True,
         help_text="A small disclaimer shown just above the scholarships listing.",
     )
-
 
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
