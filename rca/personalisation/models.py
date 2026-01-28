@@ -1124,7 +1124,7 @@ class UserTypeRule(AbstractBaseRule):
     ]
 
     class Meta:
-        verbose_name = "User Type Rule"
+        verbose_name = "User type Rule"
 
     def test_user(self, request=None):
         """
@@ -1184,7 +1184,7 @@ class OriginContinentRule(AbstractBaseRule):
     ]
 
     class Meta:
-        verbose_name = "Origin Continent Rule"
+        verbose_name = "Origin continent Rule"
 
     def get_cloudflare_continent(self, request):
         """

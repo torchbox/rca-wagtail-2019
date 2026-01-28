@@ -71,3 +71,12 @@ The system checks both segment rules AND scheduling. A CTA will only display if:
 3. Current page matches a configured page type and/or is a selected specific page (or child page if enabled)
 4. Current time is after go-live (if set)
 5. Current time is before expiry (if set)
+
+## Caching Behavior
+
+Pages displaying personalised CTAs require special cache handling to ensure users see content appropriate to their segment.
+
+### How It Works
+
+- **Pages without personalised CTAs**: Use standard cache control headers
+- **Pages with personalised CTAs**: Automatically receive no-cache headers
