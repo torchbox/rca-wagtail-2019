@@ -5,7 +5,7 @@ from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
-from django.utils.decorators import method_decorator
+from django.utils.cache import add_never_cache_headers, patch_cache_control
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -25,9 +25,16 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Orderable, Page
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
+from wagtail_personalisation.adapters import get_segment_adapter
 
 from rca.api_content.content import CantPullFromRcaApi
-from rca.utils.cache import get_default_cache_control_decorator
+from rca.personalisation.models import (
+    CollapsibleNavigationCallToAction,
+    EmbeddedFooterCallToAction,
+    EventCountdownCallToAction,
+    UserActionCallToAction,
+)
+from rca.utils.cache import get_default_cache_control_kwargs
 from rca.utils.forms import RCAPageAdminForm
 
 LIGHT_TEXT_ON_DARK_IMAGE = 1
@@ -432,8 +439,6 @@ class SystemMessagesSettings(BaseSiteSetting):
     ]
 
 
-# Apply default cache headers on this page model's serve method.
-@method_decorator(get_default_cache_control_decorator(), name="serve")
 class BasePage(SocialFields, ListingFields, Page):
     base_form_class = RCAPageAdminForm
     show_in_menus_default = True
@@ -467,6 +472,102 @@ class BasePage(SocialFields, ListingFields, Page):
         if one is detected in the field's `body` value.
         """
         return False
+
+    def serve(self, request, *args, **kwargs):
+        """
+        Override serve to disable public caching when personalised CTAs are shown.
+
+        When personalised CTAs are present, we need to prevent CDN/proxy caching
+        because personalised content should not be shared across different user segments.
+        """
+        # Store whether we have personalised CTAs (will be set by get_context)
+        self._has_personalised_ctas = False
+
+        response = super().serve(request, *args, **kwargs)
+
+        # If personalised CTAs were added, disable public caching
+        if getattr(self, "_has_personalised_ctas", False):
+            # Clear any cache headers that might have been set
+            if "Expires" in response:
+                del response["Expires"]
+            if "Cache-Control" in response:
+                del response["Cache-Control"]
+            # Then add no-cache headers
+            add_never_cache_headers(response)
+        else:
+            # Apply default cache control for non-personalised responses
+            cache_control_kwargs = get_default_cache_control_kwargs()
+            if cache_control_kwargs:
+                patch_cache_control(response, **cache_control_kwargs)
+
+        return response
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        if not request:
+            return context
+
+        # Get segments that have its rules met
+        adapter = get_segment_adapter(request)
+        adapter.refresh()
+        segments = list(adapter.get_segments())
+
+        # If no segments are active, don't proceed with checking for
+        # personalised CTAs.
+        if not segments:
+            return context
+
+        # Get current time (for checking go_live_at and expire_at)
+        now = timezone.now()
+
+        # Get relevant personalised CTAs - only fetch first result so users are not
+        # shown multiple of the same CTA type.
+        user_call_to_action = (
+            UserActionCallToAction.objects.for_page_and_segments(segments, now, self)
+            .select_related("internal_link")
+            .first()
+        )
+        if user_call_to_action:
+            context["personalised_user_cta"] = user_call_to_action.get_template_data()
+            self._has_personalised_ctas = True
+
+        embedded_footer_cta = (
+            EmbeddedFooterCallToAction.objects.for_page_and_segments(
+                segments, now, self
+            )
+            .select_related("internal_link")
+            .first()
+        )
+        if embedded_footer_cta:
+            context["personalised_footer_cta"] = embedded_footer_cta.get_template_data()
+            self._has_personalised_ctas = True
+
+        event_countdown_cta = (
+            EventCountdownCallToAction.objects.for_page_and_segments(
+                segments, now, self
+            )
+            .select_related("internal_link")
+            .first()
+        )
+        if event_countdown_cta:
+            context["personalised_countdown_cta"] = (
+                event_countdown_cta.get_template_data()
+            )
+            self._has_personalised_ctas = True
+
+        collapsible_nav_cta = (
+            CollapsibleNavigationCallToAction.objects.for_page_and_segments(
+                segments, now, self
+            ).first()
+        )
+        if collapsible_nav_cta:
+            context["personalised_collapsible_nav"] = (
+                collapsible_nav_cta.get_template_data()
+            )
+            self._has_personalised_ctas = True
+
+        return context
 
 
 class LegacySiteTag(TagBase):

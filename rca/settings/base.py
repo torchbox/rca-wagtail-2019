@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "rca.home",
     "rca.images",
     "rca.navigation",
+    "rca.personalisation",
     "rca.programmes",
     "rca.schools",
     "rca.search",
@@ -114,6 +115,8 @@ INSTALLED_APPS = [
     "wagtail_rangefilter",
     "rangefilter",
     "wagtail_modeladmin",
+    "wagtail_personalisation",
+    "wagtailfontawesomesvg",
     "social_django",
 ]
 
@@ -904,3 +907,13 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.user.user_details",
     "rca.utils.pipeline.make_sso_users_editors",
 )
+
+# Wagtail Personalisation
+WAGTAIL_PERSONALISATION_RULES = [
+    "wagtail_personalisation.TimeRule",
+    "wagtail_personalisation.DayRule",
+    "wagtail_personalisation.DeviceRule",
+    "personalisation.UserTypeRule",
+    "wagtail_personalisation.OriginCountryRule",
+    "personalisation.OriginContinentRule",
+]

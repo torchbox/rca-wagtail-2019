@@ -139,6 +139,7 @@
     "rellax": "^1.10.0",
     "rsync": "^0.6.1",
     "scrollama": "^2.1.4",
+    "simplycountdown.js": "^3.0.1",
     "vanilla-lazyload": "^12.4.0",
     "video.js": "^8.23.4",
     "videojs-contrib-quality-levels": "^4.1.0",
