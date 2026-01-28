@@ -5,21 +5,12 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import redirect, reverse
 from django.template.response import TemplateResponse
-from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import TemplateView
-from django.views.generic.edit import CreateView
 from wagtail.admin import messages
 
 from rca.programmes.models import ProgrammePage
-from rca.utils.views import MetaTitleMixin
 
-from .forms import ScholarshipSubmissionForm
-from .models import (
-    Scholarship,
-    ScholarshipEnquiryFormSubmission,
-    ScholarshipsListingPage,
-)
+from .models import Scholarship, ScholarshipEnquiryFormSubmission
 
 
 def scholarships_delete(request):
@@ -82,50 +73,3 @@ def load_scholarships(request):
     return JsonResponse(
         [{"id": s.id, "title": str(s)} for s in scholarships], safe=False
     )
-
-
-class ScholarshipEnquiryFormView(MetaTitleMixin, CreateView):
-    meta_title = "Express your interest in a Scholarship"
-    template_name = "patterns/pages/scholarships/scholarship_form_page.html"
-    form_class = ScholarshipSubmissionForm
-    success_url = reverse_lazy("scholarships:scholarship_enquiry_form_thanks")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        scholarships_listing_page = ScholarshipsListingPage.objects.first()
-        if scholarships_listing_page:
-            context["page"] = {
-                "title": "Express your interest in a Scholarship",
-                "introduction": scholarships_listing_page.form_introduction,
-                "key_details": scholarships_listing_page.key_details,
-            }
-        return context
-
-    def get_form_kwargs(self):
-        """Return the keyword arguments for instantiating the form."""
-        kwargs = super().get_form_kwargs()
-        programme_slug = self.request.GET.get("programme")
-        if programme_slug:
-            try:
-                programme = ProgrammePage.objects.get(slug=programme_slug)
-            except Exception:
-                pass
-            else:
-                kwargs.update({"programme": programme})
-        return kwargs
-
-
-class ScholarshipEnquiryFormThanksView(MetaTitleMixin, TemplateView):
-    meta_title = "Thank for your interest"
-    template_name = "patterns/pages/scholarships/scholarship_form_thanks.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        scholarships_listing_page = ScholarshipsListingPage.objects.first()
-        if scholarships_listing_page:
-            try:
-                context["call_to_action"] = scholarships_listing_page.cta_block[0].value
-            except Exception:
-                # catch all the things so as not to crash the page.
-                pass
-        return context
