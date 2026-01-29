@@ -9,7 +9,7 @@
         {% if page.experience_introduction or page.experience_cta_link %}
             <div class="overview grid">
                 {% if page.experience_introduction %}
-                    <div class="overview__item">
+                    <div class="overview__item overview__item--left-align">
                         <div class="overview__introduction introduction">
                             {{ page.experience_introduction }}
                         </div>
@@ -17,7 +17,7 @@
                 {% endif %}
                 
                 {% if page.experience_cta_link %}
-                    <div class="overview__item">
+                    <div class="overview__item overview__item--left-align">
                         <div class="overview__item-action">
                             {% for block in page.experience_cta_link %}
                                 {% include_block block %}
@@ -65,6 +65,12 @@
                         </div>
                     </div>
                 {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if page.experience_disclaimer %}
+            <div class="grid">
+                <p class="layout__start-one layout__@large-start-two layout__span-two layout__@large-span-three">{{ page.experience_disclaimer }}</p>
             </div>
         {% endif %}
     </div>
