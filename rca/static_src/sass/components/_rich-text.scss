@@ -32,15 +32,38 @@
         @include font-size(s);
     }
 
+    /* stylelint-disable selector-max-type */
     ul {
         list-style: outside disc;
         margin: 0 0 $gutter $gutter;
+
+        ul {
+            list-style-type: revert;
+        }
     }
 
     ol {
         list-style: inside decimal;
         margin: 0 0 $gutter;
+
+        ol {
+            margin: 0 0 $gutter $gutter;
+            list-style-type: lower-alpha;
+
+            ol {
+                list-style-type: lower-roman;
+
+                ol {
+                    list-style-type: decimal;
+
+                    ol {
+                        list-style-type: lower-alpha;
+                    }
+                }
+            }
+        }
     }
+    /* stylelint-enable selector-max-type */
 
     a {
         text-decoration: underline;
