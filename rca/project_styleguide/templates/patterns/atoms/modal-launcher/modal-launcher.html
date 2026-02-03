@@ -1,4 +1,8 @@
-
+{% comment %}
+    IMPORTANT: The following classes are used in countdown-cta.js and should be updated together if needed:
+    - .modal-launcher (used for selecting the CTA button)
+    - .modal-launcher__label (used for extracting button text in tracking events)
+{% endcomment %}
 {% if item.modal %}
     <button data-micromodal-trigger="{{ item.modal }}" data-micromodal-hash class="modal-launcher">
 {% else %}

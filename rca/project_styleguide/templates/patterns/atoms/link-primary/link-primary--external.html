@@ -1,3 +1,8 @@
+{% comment %}
+    IMPORTANT: The following classes are used in cta-trigger.js and should be updated together if needed:
+    - .link--primary (used for selecting the CTA link)
+    - .link__label (used for extracting button text in tracking events)
+{% endcomment %}
 {% if href and text %}
     <a class="link link--primary link--link link--external" href="{{ href }}"{% if open_in_new_tab %} target="_blank" rel="noopener noreferrer"{% endif %}>
         <span class="link__label">{{ text }}</span>
