@@ -85,20 +85,7 @@ How to test:
 - Confirm that the submission object is created in the admin view
 - Confirm you can delete the submission(s) invidually and by bulk
 
-### 3. Scholarship
-
-URL: https://www.rca.ac.uk/study/application-process/funding-your-studies/rca-scholarships-and-awards/express-interest/
-App: https://github.com/torchbox/rca-wagtail-2019/tree/master/rca/scholarships
-
-Scholarships are added as snippets `admin/snippets/scholarships/scholarship/` and are rendered as choices on the form. After submitting the form, a submission object should be created in the admin at `admin/scholarships/scholarshipenquiryformsubmission/`
-
-How to test:
-
-- Fill out the form
-- Confirm a submission is created at `admin/scholarships/scholarshipenquiryformsubmission/`
-- Confirm you can delete the submission object individually and by bulk.
-
-### 4. Import to intranet
+### 3. Import to intranet
 
 The RCA intranet supports importing certain page types to the intranet from the main site. This is done by reading the pages API endpoint. Testing this can be a little tricky, but rca-inforca-staging can be used to test it, as that staging site has the env var `RCA_CONTENT_API_URL` to read from the rca-develompoent site.
 

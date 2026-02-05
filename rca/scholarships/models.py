@@ -1,7 +1,5 @@
 from django import forms
 from django.db import models
-from django.shortcuts import reverse
-from django.utils.http import urlencode
 from django.utils.text import slugify
 from django.utils.translation import gettext as _
 from modelcluster.fields import ParentalKey
@@ -14,13 +12,13 @@ from wagtail.admin.panels import (
     ObjectList,
     TabbedInterface,
 )
-from wagtail.fields import RichTextField, StreamField
+from wagtail.fields import StreamField
 from wagtail.models import Orderable
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
 
 from rca.programmes.models import ProgrammePage
-from rca.utils.blocks import CallToActionBlock, StepBlock
+from rca.utils.blocks import StepBlock
 from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, ContactFieldsMixin, SluggedTaxonomy
 
@@ -126,15 +124,6 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         help_text="A small disclaimer shown just above the scholarships listing.",
     )
 
-    # Scholarship form fields
-    key_details = RichTextField(features=["h3", "bold", "italic", "link"], blank=True)
-    form_introduction = models.CharField(max_length=500, blank=True)
-    cta_block = StreamField(
-        [("call_to_action", CallToActionBlock(label="text promo"))],
-        blank=True,
-        verbose_name="Call to action",
-    )
-
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
         MultiFieldPanel(
@@ -151,28 +140,13 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
     ]
 
-    form_settings_pannels = [
-        FieldPanel("key_details"),
-        FieldPanel("form_introduction"),
-        FieldPanel("cta_block"),
-    ]
-
     edit_handler = TabbedInterface(
         [
             ObjectList(content_panels, heading="Content"),
             ObjectList(BasePage.promote_panels, heading="Promote"),
             ObjectList(BasePage.settings_panels, heading="Settings"),
-            ObjectList(form_settings_pannels, heading="Enquiry form settings"),
         ]
     )
-
-    @property
-    def show_interest_bar(self):
-        return True
-
-    @property
-    def show_interest_link(self):
-        return True
 
     @property
     def scholarships_has_dark_background(self):
@@ -265,23 +239,12 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
             except Exception:
                 pass
 
-        # Create the link for the sticky CTA
-        interest_bar_link = reverse("scholarships:scholarship_enquiry_form")
-        if programme:
-            interest_bar_link += f"?{urlencode({'programme': programme.slug})}"
-
         context.update(
             anchor_nav=self.anchor_nav(),
             filters={
                 "title": _("Filter by"),
                 "aria_label": "Filter results",
                 "items": filters,
-            },
-            interest_bar={
-                "action": _("Express interest"),
-                "link": interest_bar_link,
-                "message": _("Hold an offer and want to apply for these scholarships?"),
-                "link_same_page": True,
             },
             programme=programme,
             results=results,
