@@ -45,10 +45,10 @@ repos:
           - stylelint@13.13.1
           - stylelint-config-torchbox@1.0.0
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.28.0
+    rev: 1.29.1
     hooks:
       - id: django-upgrade
-        args: [--target-version, '4.2'] # Replace with Django version
+        args: [--target-version, '5.2'] # Replace with Django version
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.21.2
     hooks:

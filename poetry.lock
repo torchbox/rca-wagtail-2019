@@ -795,17 +795,17 @@ Django = ">=4.2"
 
 [[package]]
 name = "django"
-version = "4.2.27"
+version = "5.2.11"
 description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.10"
 files = [
-    {file = "django-4.2.27-py3-none-any.whl", hash = "sha256:f393a394053713e7d213984555c5b7d3caeee78b2ccb729888a0774dff6c11a8"},
-    {file = "django-4.2.27.tar.gz", hash = "sha256:b865fbe0f4a3d1ee36594c5efa42b20db3c8bbb10dff0736face1c6e4bda5b92"},
+    {file = "django-5.2.11-py3-none-any.whl", hash = "sha256:e7130df33ada9ab5e5e929bc19346a20fe383f5454acb2cc004508f242ee92c0"},
+    {file = "django-5.2.11.tar.gz", hash = "sha256:7f2d292ad8b9ee35e405d965fbbad293758b858c34bbf7f3df551aeeac6f02d3"},
 ]
 
 [package.dependencies]
-asgiref = ">=3.6.0,<4"
+asgiref = ">=3.8.1"
 sqlparse = ">=0.3.1"
 tzdata = {version = "*", markers = "sys_platform == \"win32\""}
 
@@ -876,13 +876,13 @@ django = ">=4.2"
 
 [[package]]
 name = "django-countries"
-version = "7.6.1"
+version = "8.2.0"
 description = "Provides a country field for Django models."
 optional = false
-python-versions = "*"
+python-versions = ">=3.8"
 files = [
-    {file = "django-countries-7.6.1.tar.gz", hash = "sha256:c772d4e3e54afcc5f97a018544e96f246c6d9f1db51898ab0c15cd57e19437cf"},
-    {file = "django_countries-7.6.1-py3-none-any.whl", hash = "sha256:1ed20842fe0f6194f91faca21076649513846a8787c9eb5aeec3cbe1656b8acc"},
+    {file = "django_countries-8.2.0-py3-none-any.whl", hash = "sha256:2b2617bec7c15dc735bdec38ae89f0058e38fddfffdb19a7f6b75ef1e3d5380f"},
+    {file = "django_countries-8.2.0.tar.gz", hash = "sha256:6df3883180599052c7dfa9a8be0601792441cfb248935dc229ad1ac92e9e39e3"},
 ]
 
 [package.dependencies]
@@ -890,10 +890,7 @@ asgiref = "*"
 typing-extensions = "*"
 
 [package.extras]
-dev = ["black", "django", "djangorestframework", "graphene-django", "pytest", "pytest-django", "tox (==4.*)"]
-maintainer = ["django", "zest.releaser[recommended]"]
 pyuca = ["pyuca"]
-test = ["djangorestframework", "graphene-django", "pytest", "pytest-cov", "pytest-django"]
 
 [[package]]
 name = "django-csp"
@@ -1012,13 +1009,13 @@ testing = ["django-modelcluster"]
 
 [[package]]
 name = "django-phonenumber-field"
-version = "8.1.0"
+version = "8.4.0"
 description = "An international phone number field for django models."
 optional = false
-python-versions = ">=3.9"
+python-versions = ">=3.10"
 files = [
-    {file = "django_phonenumber_field-8.1.0-py3-none-any.whl", hash = "sha256:9ba66873bf47401b13fc57797fbf85e785864a6bfdc8b9daa3a9012886567045"},
-    {file = "django_phonenumber_field-8.1.0.tar.gz", hash = "sha256:f19450625574ad3a2de047c409527d0e57699496849e71e53b53e8679ff67b27"},
+    {file = "django_phonenumber_field-8.4.0-py3-none-any.whl", hash = "sha256:7a1cb3a6456edb54d879f11ffa0acb227ded08c93b587035d0f28093f0e46511"},
+    {file = "django_phonenumber_field-8.4.0.tar.gz", hash = "sha256:2b83e843dac35eec6a69880a166487235b737a71a1e38c9a52e5ad67d6996083"},
 ]
 
 [package.dependencies]
@@ -1158,13 +1155,13 @@ test = ["pytest-django (>=4.0,<5.0)", "pytest-pythonpath (>=0.7,<1.0)"]
 
 [[package]]
 name = "django-upgrade"
-version = "1.28.0"
+version = "1.29.1"
 description = "Automatically upgrade your Django project code."
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "django_upgrade-1.28.0-py3-none-any.whl", hash = "sha256:522ea0fb25ddf1923cdff62f7ea25d97610fcce8976e948b1f8245acb42d4762"},
-    {file = "django_upgrade-1.28.0.tar.gz", hash = "sha256:335b1efadbd93a83fdc65e0088c1dfefda488310f81fc23209621b89f6945b2c"},
+    {file = "django_upgrade-1.29.1-py3-none-any.whl", hash = "sha256:39a4d71365189ce8a5ccab534b2d1f0ed69c71bea7f1ef4c46041918d5247e64"},
+    {file = "django_upgrade-1.29.1.tar.gz", hash = "sha256:8c53b6bcd326a638a5dc908a707f26d71593bad5789b33775c90a8dc8a76afd5"},
 ]
 
 [package.dependencies]
@@ -2961,21 +2958,21 @@ files = [
 
 [[package]]
 name = "social-auth-app-django"
-version = "5.4.3"
+version = "5.7.0"
 description = "Python Social Authentication, Django integration."
 optional = false
-python-versions = ">=3.9"
+python-versions = ">=3.10"
 files = [
-    {file = "social_auth_app_django-5.4.3-py3-none-any.whl", hash = "sha256:db70b972faeb10ee1ec83d0dc7dbd0558d5f5830417bba317b712b10ff58d031"},
-    {file = "social_auth_app_django-5.4.3.tar.gz", hash = "sha256:d1f4286d5ca1e512c9b2f686e7ecb2a0128148f1a33d853b69dc07b58508362e"},
+    {file = "social_auth_app_django-5.7.0-py3-none-any.whl", hash = "sha256:492b6f64e1e9fa5ed62b24bc19bde31c235fd4eb7fbd5c310e999e752b8f699a"},
+    {file = "social_auth_app_django-5.7.0.tar.gz", hash = "sha256:c0cc118d1bb935dbf02acb8a57fabd7b07694452fce755a5956282c69f019c79"},
 ]
 
 [package.dependencies]
-Django = ">=3.2"
-social-auth-core = ">=4.4,<5.0"
+Django = ">=5.1"
+social-auth-core = ">=4.8.3,<4.9.0"
 
 [package.extras]
-dev = ["coverage (>=3.6)"]
+dev = ["coverage (>=3.6)", "django-stubs (==5.2.8)", "django-stubs-ext (==5.2.8)", "mypy (==1.19.1)", "pre-commit", "pyright (==1.1.407)", "tox"]
 
 [[package]]
 name = "social-auth-core"
@@ -3802,4 +3799,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.13"
-content-hash = "02bc904900be01d064da3931bc09ac34064ee3c53cbb50dd68be7a2a5367978d"
+content-hash = "edc3ede3429c1e0600ccae6524c041b247ed11be6fa9c84ea9700bb9ac24ba31"
