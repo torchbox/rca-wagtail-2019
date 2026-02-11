@@ -133,7 +133,7 @@ As well as testing the critical paths, these areas of functionality should be ch
 
 The following templates are overridden and should be checked for changes when upgrading Wagtail:
 
-Last checked against Wagtail version: 7.1
+Last checked against Wagtail version: 7.2
 
 - `rca/account_management/templates/wagtailadmin/base.html`
 - `rca/project_styleguide/templates/patterns/pages/auth/login.html` - This was overridden to add the "Sign in with single sign-on" button to the login template.
