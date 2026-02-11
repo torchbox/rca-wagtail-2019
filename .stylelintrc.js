@@ -9,5 +9,6 @@ module.exports = {
         'selector-class-pattern': null,
         'scale-unlimited/declaration-strict-value': null,
         'scss/operator-no-newline-after': null,
+        'nesting-selector-no-missing-scoping-root': null,
     },
 };
