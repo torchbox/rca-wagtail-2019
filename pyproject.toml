@@ -9,7 +9,7 @@ python = "~3.13"
 django = "~5.2"
 wagtail = "~7.2"
 psycopg2 = "~2.9"
-gunicorn = {version = "~23.0", optional = true}
+gunicorn = {version = "~25.0", optional = true}
 
 # Django packages
 django-basic-auth-ip-whitelist = "~0.8"
@@ -23,7 +23,7 @@ django-pattern-library = "~1.5"
 django-phonenumber-field = {version = "~8.4", extras = ["phonenumbers"]}
 django-redis = "~6.0"
 django-storages = {version = "~1.14", extras = ["boto3"]}
-dj-database-url = "~3.0"
+dj-database-url = "~3.1"
 
 # Wagtail packages
 wagtail-accessibility = "~2.0"
@@ -36,18 +36,18 @@ wagtail-storages = "~2.0"
 
 # Various
 beautifulsoup4 = "~4.14"
-coverage = "~7.10"
+coverage = "~7.13"
 freezegun = "~1.5"
 html5lib = "~1.1"
 lxml = "~6.0"
-scout-apm = "~3.4"
-sentry-sdk = "~2.39"
-tblib = "~3.1"
+scout-apm = "~3.5"
+sentry-sdk = "~2.52"
+tblib = "~3.2"
 urllib3 = "~2.6"
 whitenoise = "~6.11"
 social-auth-app-django = "~5.7"
 django-xff = "~1.5"
-wagtailmedia = "^0.16.0"
+wagtailmedia = "^0.17.2"
 wagtail-personalisation = {git = "https://github.com/torchbox-forks/wagtail-personalisation.git", branch = "feature/customisable-base-rules"}
 wagtail-font-awesome-svg = "^2.0"
 
@@ -66,12 +66,12 @@ black = "~26.1"
 detect-secrets = "~1.5"
 flake8 = "~7.3"
 isort = "~7.0"
-pre-commit = "~4.3"
+pre-commit = "~4.5"
 
 # Documentation
 mkdocs = "~1.6"
-mkdocs-material = "~9.6"
-pymdown-extensions = "~10.16"
+mkdocs-material = "~9.7"
+pymdown-extensions = "~10.20"
 honcho = "~2.0"
 django-upgrade = "~1.29"
 pyupgrade = "~3.21"
