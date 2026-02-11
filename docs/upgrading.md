@@ -15,7 +15,7 @@ As much as possible, we want to use the official releases available on PyPI for 
 
 ### Check these packages for updates
 
-**Last tested for wagtail 7.1 upgrade** Comments in the pyproject.toml file may have more detailed information.
+**Last tested for wagtail 7.2 upgrade** Comments in the pyproject.toml file may have more detailed information.
 
 wagtail-accessibility
 wagtail-django-recaptcha
