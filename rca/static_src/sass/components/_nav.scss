@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .nav {
     $root: &;
     $sub-nav-height--small: 500px;
@@ -222,7 +224,7 @@
             color: $color--primary;
 
             &:hover {
-                color: lighten($color--primary, 20%);
+                color: $color--primary-lightened;
                 border-bottom: 1px solid $color--primary;
             }
         }

@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .section {
     $root: &;
     $notch-height-small: 36px;

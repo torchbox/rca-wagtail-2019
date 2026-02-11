@@ -41,6 +41,9 @@ $color--meta-lightbg: $color--dark-grey;
 
 $color--focus: $color--blue;
 
+// Color derivatives
+$color--primary-lightened: #333; // lighten($color--primary, 20%)
+
 // --------------------------------- Font faces -------------------------------------
 
 /* source-sans-3-latin-400-normal */

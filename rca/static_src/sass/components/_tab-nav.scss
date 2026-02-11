@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .tab-nav {
     &.sticky {
         @include z-index(header);

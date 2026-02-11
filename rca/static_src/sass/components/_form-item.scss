@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .form-item {
     $root: &;
     $form-bottom-margin: ($gutter * 0.75);

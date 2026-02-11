@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .related-links {
     $root: &;
     // padding instead of margin to ensure js-sticky-point runs to the bottom

@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .categories-tablist {
     $root: &;
     position: relative;

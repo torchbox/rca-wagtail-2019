@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .filter-bar {
     $root: &;
     @include z-index(sticky-nav-bar);

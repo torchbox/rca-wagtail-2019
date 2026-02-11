@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .icon {
     width: 20px;
     height: 20px;
@@ -5,6 +7,6 @@
     fill: $color--primary;
 
     &:hover {
-        fill: darken($color--primary, 20%);
+        fill: $color--primary; // Black stays black
     }
 }

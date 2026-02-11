@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .card {
     $root: &;
     $notch-height-small: 24px;

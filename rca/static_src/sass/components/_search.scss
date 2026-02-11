@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .search {
     $root: &;
     position: relative;

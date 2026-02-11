@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .related-content {
     $root: &;
     position: relative;

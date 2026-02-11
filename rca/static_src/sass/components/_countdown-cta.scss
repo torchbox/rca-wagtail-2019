@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .countdown-cta {
     @include z-index(above-footer);
     position: fixed;

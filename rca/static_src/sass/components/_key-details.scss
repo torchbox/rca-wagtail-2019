@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .key-details {
     $root: &;
     position: relative;

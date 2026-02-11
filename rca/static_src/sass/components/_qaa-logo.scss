@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .qaa-logo {
     color: $color--white;
     transition: opacity $transition;

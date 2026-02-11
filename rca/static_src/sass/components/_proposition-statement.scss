@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .proposition-statement {
     $root: &;
     padding-bottom: ($grid * 4);

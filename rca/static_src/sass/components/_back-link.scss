@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .back-link {
     font-size: map-get($small-font-sizes, s);
     opacity: 0;

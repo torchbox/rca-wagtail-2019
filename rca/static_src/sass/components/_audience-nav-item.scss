@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .audience-nav-item {
     $root: &;
     transition: opacity $transition;

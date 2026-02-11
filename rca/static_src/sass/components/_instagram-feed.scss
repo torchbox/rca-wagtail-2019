@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .instagram-feed {
     &--\@small-top-margin {
         margin-top: ($gutter * 1.5);

@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .table {
     @include z-index(above-header-gridlines);
     position: relative;

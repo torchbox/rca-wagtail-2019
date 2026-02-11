@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .profile-detail {
     $root: &;
     $margin-top-medium-breakpoint: ($gutter * 8.85); // 177px

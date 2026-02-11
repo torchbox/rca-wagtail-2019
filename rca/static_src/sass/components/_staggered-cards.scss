@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .staggered-cards {
     margin-bottom: ($gutter * 2);
     grid-column: 1 / span 2;

@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .programmes-categories {
     @include z-index(modal);
     position: relative;

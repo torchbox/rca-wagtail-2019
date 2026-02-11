@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .short-course-details {
     &__header {
         margin-bottom: ($gutter * 2);

@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .link {
     $root: &;
     display: inline-flex;

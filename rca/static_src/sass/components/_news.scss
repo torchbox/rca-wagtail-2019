@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .news {
     $root: &;
     grid-column: 1 / span 2;
