@@ -76,12 +76,14 @@
 @mixin grid-layout() {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    padding: 0 variables.$grid;
+    padding-left: variables.$grid;
+    padding-right: variables.$grid;
     max-width: variables.$site-width;
     margin: 0 auto;
 
     @include media-query(medium) {
-        padding: 0 variables.$grid * 3;
+        padding-left: variables.$grid * 3;
+        padding-right: variables.$grid * 3;
     }
 
     @include media-query(large) {
@@ -94,8 +96,12 @@
     z-index
 */
 
+@function z-index-value($key) {
+    @return map-get(variables.$z-index, $key);
+}
+
 @mixin z-index($key) {
-    z-index: z-index($key);
+    z-index: z-index-value($key);
 }
 
 /* ============================================

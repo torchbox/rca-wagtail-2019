@@ -10,6 +10,8 @@
         margin: 0 auto;
         padding-top: ($gutter * 1.5);
         padding-bottom: ($gutter);
+        padding-left: ($gutter);
+        padding-right: ($gutter);
 
         @include media-query(medium) {
             padding-bottom: ($gutter * 1.5);
