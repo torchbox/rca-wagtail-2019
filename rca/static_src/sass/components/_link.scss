@@ -40,7 +40,7 @@
             height: 1px;
             left: 0;
             position: absolute;
-            background: currentColor;
+            background: currentcolor;
             transition: width $transition;
             width: 100%;
             top: 0;
@@ -262,13 +262,13 @@
         max-width: 12px;
         width: 12px;
         height: 8px;
-        fill: currentColor;
+        fill: currentcolor;
         will-change: transform;
         transform-origin: center center;
         transition: transform $transition;
 
         #{$root}--download & {
-            stroke: currentColor;
+            stroke: currentcolor;
         }
 
         #{$root}--close & {

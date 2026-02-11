@@ -73,7 +73,6 @@
 
     // Webkit properties added to fix currentColor not being updated correctly on older android devices
     // https://stackoverflow.com/questions/36046185/how-to-hack-around-linear-gradient-with-currentcolor-bug-in-chrome
-    /* stylelint-disable property-no-vendor-prefix */
     .js-is-sticky.jump-nav & {
         color: $color--meta-lightbg;
         -webkit-margin-start: 0.1px;
@@ -88,7 +87,6 @@
             -webkit-margin-start: 0;
         }
     }
-    /* stylelint-enable property-no-vendor-prefix */
 
     .jump-nav & {
         font-weight: $weight--normal;

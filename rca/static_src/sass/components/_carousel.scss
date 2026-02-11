@@ -283,13 +283,11 @@
         margin: 0;
         background-color: $color--scrollbar-lightbg-bg;
 
-        /* stylelint-disable a11y/no-outline-none */
         &:hover,
         &:active,
         &:focus {
             outline: 0;
         }
-        /* stylelint-enable a11y/no-outline-none */
 
         &.glide__bullet--active {
             background-color: $color--black;
@@ -304,15 +302,15 @@
         height: 46px;
         margin: 0;
         padding: 0;
-        transition: background-color $transition, opacity $transition-cubic;
+        transition:
+            background-color $transition,
+            opacity $transition-cubic;
 
-        /* stylelint-disable a11y/no-outline-none */
         &:hover,
         &:active,
         &:focus {
             outline: none;
         }
-        /* stylelint-enable a11y/no-outline-none */
 
         &--prev {
             left: -80px;

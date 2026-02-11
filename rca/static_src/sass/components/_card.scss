@@ -317,13 +317,12 @@
 
     &__heading-link-icon {
         transform: rotate(-45deg) translate(0, 0);
-        fill: currentColor;
+        fill: currentcolor;
         margin-top: 8px;
     }
 
     &__description {
         .app--programme-page .carousel & {
-            /* stylelint-disable */
             // Line clamp isn't supported in all browsers so we have
             // to declare it this way.
             display: -webkit-box;
@@ -331,7 +330,6 @@
             overflow: hidden;
             -webkit-line-clamp: 3;
             line-clamp: 3;
-            /* stylelint-enable */
         }
 
         @include media-query(medium) {

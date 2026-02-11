@@ -10,7 +10,10 @@
     opacity: 0;
     pointer-events: none;
     visibility: hidden;
-    transition: visibility 0s, opacity $transition, transform $transition;
+    transition:
+        visibility 0s,
+        opacity $transition,
+        transform $transition;
 
     &.is-open {
         opacity: 1;

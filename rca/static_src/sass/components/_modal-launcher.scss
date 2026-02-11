@@ -58,6 +58,7 @@
             width: 100%;
         }
     }
+
     .app--scholarship-listing & {
         @include media-query(large) {
             width: 100%;

@@ -54,7 +54,7 @@
 
     &__heading {
         display: inline;
-        word-break: break-word;
+        overflow-wrap: break-word;
     }
 
     &__meta {

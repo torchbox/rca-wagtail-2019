@@ -45,8 +45,9 @@ export const { clearResults } = actions;
  * Get the matching programmes and short courses from the search API.
  * @param {string} searchQuery
  */
-export const searchProgrammes = (searchQuery, filters = {}) => {
-    return (dispatch) => {
+export const searchProgrammes =
+    (searchQuery, filters = {}) =>
+    (dispatch) => {
         dispatch(actions.loadResultsStart());
 
         getProgrammes({
@@ -64,6 +65,5 @@ export const searchProgrammes = (searchQuery, filters = {}) => {
             },
         );
     };
-};
 
 export default reducer;
