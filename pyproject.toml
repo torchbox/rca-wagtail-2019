@@ -62,10 +62,10 @@ stellar = "~0.4"
 wagtailmakeup = "~1.1"
 
 # Linters etc.
-black = "~25.9"
+black = "~26.1"
 detect-secrets = "~1.5"
 flake8 = "~7.3"
-isort = "~6.0"
+isort = "~7.0"
 pre-commit = "~4.3"
 
 # Documentation
