@@ -361,10 +361,8 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             [
                 FieldPanel("research_projects_title"),
                 FieldPanel("research_projects_text"),
-                HelpPanel(
-                    content="Projects related to this School are automatically \
-                        listed, this can be overriden by defining projects manually"
-                ),
+                HelpPanel(content="Projects related to this School are automatically \
+                        listed, this can be overriden by defining projects manually"),
                 InlinePanel(
                     "manually_related_project_pages", max_num=5, label="Project"
                 ),
