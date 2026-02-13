@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .no-results {
     &__heading {
         margin-bottom: ($gutter * 0.5);

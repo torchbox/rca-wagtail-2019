@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .page {
     $root: &;
     $notch-medium-height: 75px;

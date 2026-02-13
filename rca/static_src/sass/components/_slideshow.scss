@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .slideshow {
     $root: &;
     $meta-height: 70px;
@@ -16,7 +18,7 @@
     }
 
     &__controls {
-        grid-row-gap: $gutter;
+        row-gap: $gutter;
 
         @include media-query(large) {
             position: relative;
@@ -58,19 +60,19 @@
         height: 46px;
         margin: 0;
         padding: 0;
-        transition: background-color $transition, opacity $transition-cubic;
+        transition:
+            background-color $transition,
+            opacity $transition-cubic;
 
         &:first-child {
             margin-right: $gutter;
         }
 
-        /* stylelint-disable a11y/no-outline-none */
         &:hover,
         &:active,
         &:focus {
             outline: 0;
         }
-        /* stylelint-enable a11y/no-outline-none */
 
         &:disabled {
             opacity: 0.3;
@@ -99,13 +101,11 @@
         padding: 0;
         margin: 0;
 
-        /* stylelint-disable a11y/no-outline-none */
         &:hover,
         &:active,
         &:focus {
             outline: 0;
         }
-        /* stylelint-enable a11y/no-outline-none */
     }
 
     .bg--dark & {

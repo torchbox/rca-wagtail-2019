@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .rich-text {
     h1,
     h2,
@@ -67,7 +69,9 @@
 
     a {
         text-decoration: underline;
-        transition: $transition color, $transition text-decoration;
+        transition:
+            $transition color,
+            $transition text-decoration;
         position: relative;
 
         .bg--dark & {

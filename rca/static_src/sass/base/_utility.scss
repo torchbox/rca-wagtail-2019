@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .u {
     &-small-bp-only {
         display: block;

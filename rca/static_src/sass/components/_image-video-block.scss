@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .image-video-block {
     $root: &;
     padding-bottom: ($gutter * 4);

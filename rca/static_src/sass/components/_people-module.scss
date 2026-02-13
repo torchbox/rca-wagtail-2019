@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .people-module {
     $root: &;
 
@@ -65,6 +67,7 @@
             grid-column: 1 / span 1;
         }
     }
+
     &__summary {
         grid-column: 1 / span 2;
 

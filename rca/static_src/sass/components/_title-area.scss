@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .title-area {
     $root: &;
     padding-bottom: ($gutter * 3);

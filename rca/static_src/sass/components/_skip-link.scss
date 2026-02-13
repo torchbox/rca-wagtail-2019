@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .skip-link {
     @include z-index(header-gridlines);
     position: absolute;

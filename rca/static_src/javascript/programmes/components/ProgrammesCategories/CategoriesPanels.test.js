@@ -1,27 +1,22 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import CategoriesPanels from './CategoriesPanels';
 
 describe('CategoriesPanels', () => {
     it('empty', () => {
-        expect(
-            shallow(
-                <CategoriesPanels
-                    categories={[]}
-                    activeCategory=""
-                    isFullTime
-                    isPartTime={false}
-                />,
-            ),
-        ).toMatchInlineSnapshot(`
-            <div
-              className="categories-panels bg bg--light"
-            />
-        `);
+        const { container } = render(
+            <CategoriesPanels
+                categories={[]}
+                activeCategory=""
+                isFullTime
+                isPartTime={false}
+            />,
+        );
+        expect(container).toMatchSnapshot();
     });
 
     it('categories are set to active with ARIA-attributes', () => {
-        const wrapper = shallow(
+        const { container } = render(
             <CategoriesPanels
                 categories={[
                     {
@@ -42,9 +37,11 @@ describe('CategoriesPanels', () => {
                 isPartTime={false}
             />,
         );
-        expect(wrapper.find('#test').prop('aria-expanded')).toBe(true);
-        expect(wrapper.find('#test').prop('hidden')).toBe(false);
-        expect(wrapper.find('#test2').prop('aria-expanded')).toBe(false);
-        expect(wrapper.find('#test2').prop('hidden')).toBe(true);
+        const testElement = container.querySelector('#test');
+        const test2Element = container.querySelector('#test2');
+        expect(testElement.getAttribute('aria-expanded')).toBe('true');
+        expect(testElement.hasAttribute('hidden')).toBe(false);
+        expect(test2Element.getAttribute('aria-expanded')).toBe('false');
+        expect(test2Element.hasAttribute('hidden')).toBe(true);
     });
 });

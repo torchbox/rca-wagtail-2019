@@ -236,12 +236,10 @@ ProgrammesResults.defaultProps = {
     activeValue: null,
 };
 
-const mapStateToProps = ({ programmes }) => {
-    return {
-        programmes: programmes.results,
-        isLoading: programmes.ui.isLoading || !programmes.ui.isLoaded,
-    };
-};
+const mapStateToProps = ({ programmes }) => ({
+    programmes: programmes.results,
+    isLoading: programmes.ui.isLoading || !programmes.ui.isLoaded,
+});
 
 const mapDispatchToProps = {
     startSearch: searchProgrammes,

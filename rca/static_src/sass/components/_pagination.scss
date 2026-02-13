@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .pagination {
     $root: &;
     // Space either side of pagination items

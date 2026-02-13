@@ -1,17 +1,16 @@
-/* eslint-disable no-var, func-names, prefer-template */
 /* global $ */
 
 // prettier-ignore
-$(document).ready(function() {
-    var $lastNameInput = $('#id_last_name');
-    var $firstNameInput = $('#id_first_name');
-    var $titleInput = $('#id_title');
-    var $slugInput = $('#id_slug');
+$(document).ready(() => {
+    const $lastNameInput = $('#id_last_name');
+    const $firstNameInput = $('#id_first_name');
+    const $titleInput = $('#id_title');
+    const $slugInput = $('#id_slug');
 
     function joinFirstNameLastName() {
-        var firstName = $firstNameInput.val();
-        var lastName = $lastNameInput.val();
-        var title = firstName + ' ' + lastName;
+        const firstName = $firstNameInput.val();
+        const lastName = $lastNameInput.val();
+        const title = `${firstName  } ${  lastName}`;
 
         $slugInput.data('previous-val', $slugInput.val());
         $titleInput.data('previous-val', $titleInput.val());
@@ -19,11 +18,11 @@ $(document).ready(function() {
         $titleInput.blur(); // Trigger slug update
     }
 
-    $firstNameInput.on('input', function() {
+    $firstNameInput.on('input', () => {
         joinFirstNameLastName();
     });
 
-    $lastNameInput.on('input', function() {
+    $lastNameInput.on('input', () => {
         joinFirstNameLastName();
     });
 });

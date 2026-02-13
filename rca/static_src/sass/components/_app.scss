@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .app {
     $root: &;
 
@@ -99,7 +101,6 @@
         // Prevent footer grid lines showing outside of footer area
         @include z-index(footer);
         position: relative;
-        clip: rect(auto, auto, auto, auto);
         clip-path: inset(-0.5px 0 0 0);
         backface-visibility: hidden;
     }

@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .category-item {
     $padding-top-small: $gutter;
     $padding-top-medium: $gutter * 2.5;
@@ -28,12 +30,10 @@
         }
     }
 
-    /* stylelint-disable a11y/no-outline-none */
     &:focus {
         // The outline looks strange for such a big active area. especially with the bottom border hack.
         outline: none;
     }
-    /* stylelint-enable a11y/no-outline-none */
 
     @include media-query(medium) {
         grid-template-columns: 2fr 3fr;

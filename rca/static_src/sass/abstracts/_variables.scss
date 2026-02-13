@@ -41,6 +41,9 @@ $color--meta-lightbg: $color--dark-grey;
 
 $color--focus: $color--blue;
 
+// Color derivatives
+$color--primary-lightened: #333; // lighten($color--primary, 20%)
+
 // --------------------------------- Font faces -------------------------------------
 
 /* source-sans-3-latin-400-normal */
@@ -49,7 +52,7 @@ $color--focus: $color--blue;
     font-style: normal;
     font-display: block;
     font-weight: 400;
-    src: url(https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-400-normal.woff2)
+    src: url('https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-400-normal.woff2')
         format('woff2');
 }
 
@@ -59,7 +62,7 @@ $color--focus: $color--blue;
     font-style: normal;
     font-display: block;
     font-weight: 600;
-    src: url(https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-600-normal.woff2)
+    src: url('https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-600-normal.woff2')
         format('woff2');
 }
 
@@ -69,7 +72,7 @@ $color--focus: $color--blue;
     font-style: italic;
     font-display: block;
     font-weight: 400;
-    src: url(https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-400-italic.woff2)
+    src: url('https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-400-italic.woff2')
         format('woff2');
 }
 
@@ -79,7 +82,7 @@ $color--focus: $color--blue;
     font-style: italic;
     font-display: block;
     font-weight: 600;
-    src: url(https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-600-italic.woff2)
+    src: url('https://cdn.jsdelivr.net/fontsource/fonts/source-sans-3@latest/latin-600-italic.woff2')
         format('woff2');
 }
 

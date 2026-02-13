@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .programmes-categories {
     @include z-index(above-gridlines);
     position: relative;

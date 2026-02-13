@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .categories-panels {
     @include z-index(above-gridlines);
     position: relative;

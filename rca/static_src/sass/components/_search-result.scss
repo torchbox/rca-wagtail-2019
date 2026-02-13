@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .search-result {
     $padding-top-small: $gutter;
     $padding-top-medium: $gutter * 2.5;

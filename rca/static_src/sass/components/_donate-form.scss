@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 // Skinning of Blackbaud form on the donation template
 /* stylelint-disable selector-max-id -- skinning third party classes */
 .donate-form {

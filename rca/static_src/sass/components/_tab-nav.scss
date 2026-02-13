@@ -1,9 +1,12 @@
+@use '../abstracts' as *;
+
 .tab-nav {
     &.sticky {
         @include z-index(header);
         position: sticky;
         top: 0;
-        transition: transform $transition-cubic,
+        transition:
+            transform $transition-cubic,
             background-color $transition-cubic;
 
         .headroom--pinned.headroom--not-top & {

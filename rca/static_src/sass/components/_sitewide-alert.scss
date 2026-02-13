@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .sitewide-alert {
     @include z-index(modal);
     display: none;

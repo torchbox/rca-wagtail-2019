@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .outdated-banner {
     @include z-index(modal);
     position: fixed;

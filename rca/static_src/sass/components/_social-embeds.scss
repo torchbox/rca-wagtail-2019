@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .social-embeds {
     &__container {
         margin-bottom: $grid * 3;
