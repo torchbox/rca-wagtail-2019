@@ -1,16 +1,13 @@
 # RCA Wagtail 2019 — hosts and deployment
 
-The VM comes preinstalled with Fabric, Heroku CLI and AWS CLI.
-
 Deployments are automatically handled by github actions.
 
 ## Deployed environments
 
-| Environment                        | Branch    | URL                           | Heroku            |
-| ---------------------------------- | --------- | ----------------------------- | ----------------- |
-| Production                         | `master`  | rca.ac.uk                     | `rca-production`  |
-| Staging (considered out of action) | `staging` | rca-staging.herokuapp.com     | `rca-staging`     |
-| Development                        | `dev`     | rca-development.herokuapp.com | `rca-development` |
+| Environment | Branch    | URL                       | Heroku           |
+| ----------- | --------- | ------------------------- | ---------------- |
+| Production  | `master`  | rca.ac.uk                 | `rca-production` |
+| Staging     | `staging` | rca-staging.torchbox.dev | `rca-staging`    |
 
 ## Login to Heroku
 

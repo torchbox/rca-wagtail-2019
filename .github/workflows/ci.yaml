@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [dev, staging, master]
+    branches: [staging, master]
 
 jobs:
   lint:
@@ -16,12 +16,6 @@ jobs:
     if: contains(github.ref, 'master')
     needs: [lint, test]
     uses: ./.github/workflows/deploy-production.yaml
-    secrets: inherit
-
-  deploy_dev:
-    if: contains(github.ref, 'dev')
-    needs: [lint, test]
-    uses: ./.github/workflows/deploy-dev.yaml
     secrets: inherit
 
   deploy_staging:

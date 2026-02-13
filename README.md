@@ -227,4 +227,4 @@ fab push-production-media
 
 ## Synchronising a production environment to a development environment.
 
-See the [reset development environment](docs/reset_development.md) documentation.
+See the [reset staging environment](docs/reset_staging.md) documentation.
