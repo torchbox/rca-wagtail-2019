@@ -100,13 +100,13 @@ How to test:
 
 ### 4. Import to intranet
 
-The RCA intranet supports importing certain page types to the intranet from the main site. This is done by reading the pages API endpoint. Testing this can be a little tricky, but rca-inforca-staging can be used to test it, as that staging site has the env var `RCA_CONTENT_API_URL` to read from the rca-develompoent site.
+The RCA intranet supports importing certain page types to the intranet from the main site. This is done by reading the pages API endpoint. Testing this can be a little tricky, but rca-inforca-staging can be used to test it, as that staging site has the env var `RCA_CONTENT_API_URL` to read from the rca-staging site.
 
 How to test:
 
-- Pick/edit/create an Event Or Editorial page on the rca-development site (rca-development.herokuapp.com)
+- Pick/edit/create an Event Or Editorial page on the rca-staging site (https://rca-staging.torchbox.dev)
 - Head to the intranet staging site importer at https://rca-inforca-staging.herokuapp.com/admin/content_importer/
-- Click to import content, you should be offered a search showing you pages from the rca-development site.
+- Click to import content, you should be offered a search showing you pages from the rca-staging site.
 - Import the content and make sure it's all gone smooth and fields are populated.
 
 ## Other considerations
@@ -201,8 +201,6 @@ git ls-files -z -- '*.py' | xargs -0 | pre-commit run --files
 If you are upgrading Django. There is a development tool available to help with modernising the codebase. This is installed as part of the poetry development dependencies.
 
 ### Django upgrade tool
-
-If you are upgrading django. There is a development tool available to help with modernising the codebase. This is installed as part of the poetry development dependencies.
 
 To run the tool, use the following command:
 
