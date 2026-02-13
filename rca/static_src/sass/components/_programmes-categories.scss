@@ -1,5 +1,5 @@
 .programmes-categories {
-    @include z-index(modal);
+    @include z-index(above-gridlines);
     position: relative;
     overflow: hidden;
     margin-bottom: -1px;
