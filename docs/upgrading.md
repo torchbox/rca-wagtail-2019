@@ -106,7 +106,7 @@ How to test:
 
 - Pick/edit/create an Event Or Editorial page on the rca-staging site (https://rca-staging.torchbox.dev)
 - Head to the intranet staging site importer at https://rca-inforca-staging.herokuapp.com/admin/content_importer/
-- Click to import content, you should be offered a search showing you pages from the rca-development site.
+- Click to import content, you should be offered a search showing you pages from the rca-staging site.
 - Import the content and make sure it's all gone smooth and fields are populated.
 
 ## Other considerations
