@@ -917,3 +917,8 @@ WAGTAIL_PERSONALISATION_RULES = [
     "wagtail_personalisation.OriginCountryRule",
     "personalisation.OriginContinentRule",
 ]
+
+# Custom GeoIP function that handles missing GeoIP database.
+# This function returns None when GeoIP is not configured,
+# causing the country rule to not match rather than raising an error.
+WAGTAIL_PERSONALISATION_IP_FUNCTION = "rca.utils.geoip.get_client_ip"
