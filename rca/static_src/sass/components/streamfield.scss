@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .streamfield {
     &__heading {
         margin-bottom: $gutter;

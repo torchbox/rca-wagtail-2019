@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .share-item {
     $root: &;
     flex-basis: 50%;

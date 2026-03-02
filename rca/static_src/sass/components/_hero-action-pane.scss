@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .hero-action-pane {
     $root: &;
     $hero-action-pane-overlap: 80px;
@@ -122,7 +124,7 @@
 
     &__cta-heading {
         @include font-size(xs);
-        color: currentColor;
+        color: currentcolor;
         margin-bottom: ($gutter * 0.5);
         padding-right: ($gutter * 0.5);
 
@@ -133,7 +135,7 @@
 
     &__cta-sub-heading {
         @include font-size(xs);
-        color: currentColor;
+        color: currentcolor;
         padding-right: ($gutter * 0.5);
     }
 

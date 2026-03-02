@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .programmes-results {
     $root: &;
     padding-top: $gutter;
@@ -91,7 +93,7 @@
             margin-right: 5px;
             transform: rotateY(180deg);
             transition: transform $transition;
-            fill: currentColor;
+            fill: currentcolor;
         }
 
         &:hover,

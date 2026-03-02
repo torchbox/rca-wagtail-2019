@@ -1192,7 +1192,7 @@ class OriginContinentRule(AbstractBaseRule):
         Cloudflare provides continent codes via the CF-IPContinent header.
         """
         try:
-            return request.META["HTTP_CF_IPCONTINENT"].upper()
+            return request.headers["cf-ipcontinent"].upper()
         except KeyError:
             return None
 
@@ -1201,7 +1201,7 @@ class OriginContinentRule(AbstractBaseRule):
         Get country code that has been detected by Cloudflare.
         """
         try:
-            return request.META["HTTP_CF_IPCOUNTRY"].upper()
+            return request.headers["cf-ipcountry"].upper()
         except KeyError:
             return None
 

@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .exceptional-cta {
     $root: &;
     @include font-size(s);

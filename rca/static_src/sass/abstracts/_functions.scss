@@ -1,4 +1,2 @@
-// Map z-index keys
-@function z-index($key) {
-    @return map-get($z-index, $key);
-}
+// Map z-index keys - Function moved to _mixins.scss for proper Dart Sass 1.97.3 compatibility
+// Use the @mixin z-index(key) to set z-index values throughout the codebase

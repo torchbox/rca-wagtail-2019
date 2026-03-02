@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .intro-and-video {
     // Make this content the first content on small viewports
     &--small-primary {

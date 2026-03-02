@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .contact {
     $root: &;
     position: relative; // allow absolute positioning of image to bottom of component

@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .image-info {
     &__title {
         font-weight: $weight--bold;

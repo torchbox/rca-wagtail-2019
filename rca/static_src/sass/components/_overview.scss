@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .overview {
     &__heading {
         grid-column: 1 / span 2;

@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .audience-nav-item {
     $root: &;
     transition: opacity $transition;
@@ -16,7 +18,7 @@
 
     &__icon {
         transform: rotate(-45deg) translate(0, 0);
-        fill: currentColor;
+        fill: currentcolor;
     }
 
     &__description {

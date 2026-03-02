@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .logo-card {
     $root: &;
     position: relative;
@@ -51,7 +53,9 @@
             font-weight: $weight--bold;
             transform: translate3d(0, 100%, 0);
             opacity: 0;
-            transition: transform $transition-cubic, opacity $transition-cubic;
+            transition:
+                transform $transition-cubic,
+                opacity $transition-cubic;
         }
     }
 

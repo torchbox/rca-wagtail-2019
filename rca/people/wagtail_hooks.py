@@ -22,5 +22,6 @@ def global_admin_js():
 def global_admin_css():
     # while the page is loading, hide the form to avoid a flash of the form
     return mark_safe(
-        '<script src="%s"></script>' % static("people/admin/css/student_side_bar.css")
+        '<link rel="stylesheet" href="%s">'
+        % static("people/admin/css/student_side_bar.css")
     )

@@ -45,15 +45,15 @@ class ScholarshipList {
                 const dataLocation = document.getElementById('id_scholarships');
                 const scholarships = JSON.parse(this.responseText);
                 const scholarshipsData = scholarships
-                    .map((item, index) => {
-                        return `
+                    .map(
+                        (item, index) => `
                         <li>
                             <label for="id_scholarships_${index}">
                                 <input id="id_scholarships_${index}" type="checkbox" name="scholarships" value="${item.id}">
                                 ${item.title}
                             </label>
-                        </li>`;
-                    })
+                        </li>`,
+                    )
                     .join('');
                 if (scholarships.length === 0) {
                     dataLocation.innerHTML =

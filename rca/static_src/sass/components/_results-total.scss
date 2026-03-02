@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .results-total {
     $root: &;
     position: relative;

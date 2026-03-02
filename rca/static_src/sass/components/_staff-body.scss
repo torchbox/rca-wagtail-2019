@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .staff-body {
     &--margin {
         margin-bottom: ($gutter * 2);

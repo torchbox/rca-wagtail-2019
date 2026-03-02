@@ -1,3 +1,7 @@
+@use 'sass:list';
+@use 'sass:map';
+@use 'variables';
+
 /*------------------------------------*\
     $MIXINS
 \*------------------------------------*/
@@ -8,9 +12,9 @@
 
 @mixin media-query($queries...) {
     @each $query in $queries {
-        @each $breakpoint in $breakpoints {
-            $name: nth($breakpoint, 1);
-            $declaration: nth($breakpoint, 2);
+        @each $breakpoint in variables.$breakpoints {
+            $name: list.nth($breakpoint, 1);
+            $declaration: list.nth($breakpoint, 2);
 
             @if $query == $name and $declaration {
                 @media only screen and #{$declaration} {
@@ -30,7 +34,7 @@
     width: 1px;
     height: 1px;
     overflow: hidden;
-    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
 }
 
 /* ============================================
@@ -38,19 +42,19 @@
 */
 
 @mixin font-size($size) {
-    @if $size == null {
-        @warn 'Font size ‘#{$keyword}’ does not exist';
+    @if not $size {
+        @warn 'Font size '#{$keyword}' does not exist';
     } @else {
-        $small-size: map-get($small-font-sizes, $size);
+        $small-size: map.get(variables.$small-font-sizes, $size);
         font-size: $small-size;
 
         @include media-query(medium) {
-            $medium-size: map-get($medium-font-sizes, $size);
+            $medium-size: map.get(variables.$medium-font-sizes, $size);
             font-size: $medium-size;
         }
 
         @include media-query(large) {
-            $large-size: map-get($large-font-sizes, $size);
+            $large-size: map.get(variables.$large-font-sizes, $size);
             font-size: $large-size;
         }
     }
@@ -72,12 +76,14 @@
 @mixin grid-layout() {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    padding: 0 $grid;
-    max-width: $site-width;
+    padding-left: variables.$grid;
+    padding-right: variables.$grid;
+    max-width: variables.$site-width;
     margin: 0 auto;
 
     @include media-query(medium) {
-        padding: 0 $grid * 3;
+        padding-left: variables.$grid * 3;
+        padding-right: variables.$grid * 3;
     }
 
     @include media-query(large) {
@@ -90,8 +96,12 @@
     z-index
 */
 
+@function z-index-value($key) {
+    @return map-get(variables.$z-index, $key);
+}
+
 @mixin z-index($key) {
-    z-index: z-index($key);
+    z-index: z-index-value($key);
 }
 
 /* ============================================
@@ -104,9 +114,9 @@
     position: relative;
 
     @if $bg == black {
-        color: $color--white;
+        color: variables.$color--white;
     } @else {
-        color: $color--black;
+        color: variables.$color--black;
     }
 
     &::after {
@@ -132,11 +142,11 @@
 */
 
 @mixin underline-hover-target() {
-    background-image: linear-gradient(currentColor, currentColor);
+    background-image: linear-gradient(currentcolor, currentcolor);
     background-position: 0% 100%;
     background-repeat: no-repeat;
     background-size: 100% 2px;
-    transition: background-size $transition-cubic;
+    transition: background-size variables.$transition-cubic;
 
     @include media-query(medium) {
         background-size: 0% 2px;

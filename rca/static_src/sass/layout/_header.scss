@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .header {
     $root: &;
     background-color: $color--black;
@@ -8,6 +10,8 @@
         margin: 0 auto;
         padding-top: ($gutter * 1.5);
         padding-bottom: ($gutter);
+        padding-left: ($gutter);
+        padding-right: ($gutter);
 
         @include media-query(medium) {
             padding-bottom: ($gutter * 1.5);
@@ -282,8 +286,8 @@
                     width: var(--grid-width);
                     background: linear-gradient(
                         358.73deg,
-                        rgba(0, 0, 0, 0.96) 3.08%,
-                        rgba(0, 0, 0, 0) 124.08%
+                        rgb(0, 0, 0, 0.96) 3.08%,
+                        rgb(0, 0, 0, 0) 124.08%
                     );
                 }
 

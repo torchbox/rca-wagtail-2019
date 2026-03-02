@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .proposition-statement {
     $root: &;
     padding-bottom: ($grid * 4);
@@ -5,7 +7,7 @@
     &__introduction {
         @include font-size(xxxxl);
         padding-right: ($gutter * 2);
-        color: currentColor;
+        color: currentcolor;
         line-height: $line-height-large;
         margin-bottom: $gutter;
         grid-column: 1 / span 2;

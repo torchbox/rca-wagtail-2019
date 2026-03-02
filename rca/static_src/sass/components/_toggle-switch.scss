@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .toggle-switch {
     $root: &;
     position: relative;

@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .apply-intro {
     @include grid-layout();
     margin-bottom: ($gutter * 4);
