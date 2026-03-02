@@ -23,7 +23,6 @@ import Sticky from './components/position-sticky-event';
 import ProgrammeToggleSwitch from './components/programme-toggle-switch';
 import ProjectFilters from './components/project-filters';
 import RelatedContent from './components/related-content';
-import ScholarshipList from './components/scholarship-list';
 import SitewideAlert from './components/sitewide-alert';
 import Slideshow from './components/slideshow';
 import TableHint from './components/table-hint';
@@ -138,12 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (const emailshare of document.querySelectorAll(EmailShare.selector())) {
         new EmailShare(emailshare);
-    }
-
-    for (const scholarshiplist of document.querySelectorAll(
-        ScholarshipList.selector(),
-    )) {
-        new ScholarshipList(scholarshiplist);
     }
 
     for (const eventtoggleswitch of document.querySelectorAll(

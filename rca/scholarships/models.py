@@ -1,19 +1,13 @@
-from django import forms
 from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext as _
-from modelcluster.fields import ParentalKey
-from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import (
     FieldPanel,
-    FieldRowPanel,
-    InlinePanel,
     MultiFieldPanel,
     ObjectList,
     TabbedInterface,
 )
 from wagtail.fields import StreamField
-from wagtail.models import Orderable
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
 
@@ -46,15 +40,6 @@ class ScholarshipFunding(SluggedTaxonomy):
 
 
 class ScholarshipLocation(SluggedTaxonomy):
-    panels = [
-        FieldPanel("title"),
-    ]
-
-    class Meta:
-        ordering = ("title",)
-
-
-class ScholarshipEligibilityCriteria(SluggedTaxonomy):
     panels = [
         FieldPanel("title"),
     ]
@@ -252,64 +237,3 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         return context
 
 
-class ScholarshipEnquiryFormSubmissionScholarshipOrderable(Orderable):
-    scholarship_submission = ParentalKey(
-        "scholarships.ScholarshipEnquiryFormSubmission",
-        related_name="scholarship_submission_scholarships",
-    )
-    scholarship = models.ForeignKey(
-        "scholarships.Scholarship",
-        on_delete=models.CASCADE,
-    )
-
-    panels = [
-        FieldPanel("scholarship"),
-    ]
-
-
-class ScholarshipEnquiryFormSubmission(ClusterableModel):
-    submission_date = models.DateTimeField(blank=True, null=True, auto_now_add=True)
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    email = models.EmailField()
-    rca_id_number = models.CharField(max_length=100)
-    programme = models.ForeignKey(
-        "programmes.ProgrammePage",
-        on_delete=models.CASCADE,
-    )
-    eligibility_criteria = models.ManyToManyField(
-        ScholarshipEligibilityCriteria, blank=True
-    )
-    is_read_data_protection_policy = models.BooleanField()
-    is_notification_opt_in = models.BooleanField()
-
-    panels = [
-        MultiFieldPanel(
-            [
-                FieldRowPanel(
-                    [
-                        FieldPanel("first_name", classname="fn"),
-                        FieldPanel("last_name", classname="ln"),
-                    ]
-                ),
-                FieldPanel("rca_id_number"),
-            ],
-            heading="User details",
-        ),
-        FieldPanel("programme"),
-        InlinePanel("scholarship_submission_scholarships", label="Scholarship"),
-        FieldPanel("eligibility_criteria", widget=forms.CheckboxSelectMultiple),
-        MultiFieldPanel(
-            [
-                FieldPanel("is_read_data_protection_policy"),
-                FieldPanel("is_notification_opt_in"),
-            ],
-            heading="Legal & newsletter",
-        ),
-    ]
-
-    def __str__(self):
-        return f"{self.first_name} {self.last_name} - {self.rca_id_number}"
-
-    def get_scholarships(self):
-        return [s.scholarship for s in self.scholarship_submission_scholarships.all()]
