@@ -38,5 +38,3 @@ class TestScholarshipsListingPageRules(WagtailPageTestCase):
         ScholarshipsListingPageFactory(parent=home_page)
         # A second ScholarshipsListingPage should not be creatable
         self.assertFalse(ScholarshipsListingPage.can_create_at(home_page))
-
-

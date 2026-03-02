@@ -143,8 +143,6 @@ class EditorialTypeModelAdmin(ModelAdmin):
     menu_icon = "tag"
 
 
-
-
 class ScholarshipFeeStatusModelAdmin(ModelAdmin):
     model = ScholarshipFeeStatus
     menu_icon = "tag"

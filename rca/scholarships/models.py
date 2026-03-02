@@ -235,5 +235,3 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
             results=results,
         )
         return context
-
-
