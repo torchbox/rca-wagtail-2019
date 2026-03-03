@@ -795,7 +795,6 @@ BIRDBATH_PROCESSORS = [
     "birdbath.processors.contrib.wagtail.SearchQueryCleaner",
     "birdbath.processors.contrib.wagtail.FormSubmissionCleaner",
     "rca.enquire_to_study.birdbath.EnquiryFormSubmissionDeleter",
-    "rca.scholarships.birdbath.ScholarshipEnquiryFormSubmissionDeleter",
     "rca.users.birdbath.StudentAccountAnonymiser",
 ]
 BIRDBATH_REQUIRED = env.get("BIRDBATH_REQUIRED", "true").lower() == "true"
