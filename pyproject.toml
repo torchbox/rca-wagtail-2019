@@ -48,7 +48,7 @@ whitenoise = "~6.12"
 social-auth-app-django = "~5.7"
 django-xff = "~1.5"
 wagtailmedia = "^0.17.2"
-wagtail-personalisation = {git = "https://github.com/torchbox-forks/wagtail-personalisation.git", branch = "feature/customisable-base-rules"}
+wagtail-personalisation = {git = "https://github.com/torchbox-forks/wagtail-personalisation.git", tag = "0.16.0+tbx"}
 wagtail-font-awesome-svg = "^2.0"
 
 [tool.poetry.extras]
