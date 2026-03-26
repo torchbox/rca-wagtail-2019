@@ -2,6 +2,8 @@
 
 This document inventories all usage of the `wagtail-modeladmin` and `wagtail-orderable` packages in preparation for their eventual removal. No code changes are described here — this is a scoping document only.
 
+See ticket: [R1-319](https://torchbox.atlassian.net/browse/R1-319)
+
 ---
 
 ## Overview
