@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .booking-bar {
     $booking-bar-height-small: 48px;
     $booking-bar-height-medium: 163px;

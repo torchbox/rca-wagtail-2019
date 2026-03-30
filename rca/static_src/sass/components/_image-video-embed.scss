@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .image-video-embed {
     $root: &;
     grid-column: 1 / span 2;

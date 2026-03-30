@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -44,13 +44,13 @@ if (mount) {
         },
     });
 
-    ReactDOM.render(
+    const root = createRoot(mount);
+    root.render(
         <Provider store={store}>
             <ProgrammesExplorer
                 searchLabel={searchLabel}
                 categories={filters}
             />
         </Provider>,
-        mount,
     );
 }

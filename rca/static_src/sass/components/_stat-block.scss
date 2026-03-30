@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .stat-block {
     $root: &;
     padding: ($gutter * 3) 0;

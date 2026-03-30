@@ -1,10 +1,9 @@
-/* eslint-disable no-var, func-names */
 /* global $ */
 
 // prettier-ignore
-$(document).ready(function () {
-    var $studentSideBar = $('aside[data-student-sidebar]');
-    var $searchForm;
+$(document).ready(() => {
+    const $studentSideBar = $('aside[data-student-sidebar]');
+    let $searchForm;
     if ($studentSideBar.length) {
         $searchForm = $studentSideBar.find('form[role="search"]');
         $searchForm.remove();

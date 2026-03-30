@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .research-centre-overview {
     @include media-query(large) {
         margin-bottom: ($gutter * 8);

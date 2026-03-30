@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .schools {
     // Compensating for the different between section--top-space-small and section--start
     &__anchor-compensator {

@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .anchor-nav {
     @include z-index(sticky-nav-bar);
     display: none;

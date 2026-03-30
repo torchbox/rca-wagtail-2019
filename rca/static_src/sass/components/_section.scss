@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .section {
     $root: &;
     $notch-height-small: 36px;
@@ -590,7 +592,8 @@
                             (
                                     var(--margin-width) + var(--grid-width) +
                                         var(--outer-grid-width)
-                                ) * -1
+                                ) *
+                                -1
                         ); // Make negative
                         width: calc(
                             var(--margin-width) + var(--grid-width) +

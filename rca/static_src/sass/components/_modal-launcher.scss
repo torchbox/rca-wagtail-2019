@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .modal-launcher {
     $root: &;
     display: inline-block;
@@ -58,6 +60,7 @@
             width: 100%;
         }
     }
+
     .app--scholarship-listing & {
         @include media-query(large) {
             width: 100%;

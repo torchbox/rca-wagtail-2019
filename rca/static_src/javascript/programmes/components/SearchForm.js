@@ -103,11 +103,9 @@ SearchForm.defaultProps = {
     label: null,
 };
 
-const mapStateToProps = ({ programmes }) => {
-    return {
-        isLoaded: programmes.ui.isLoaded,
-    };
-};
+const mapStateToProps = ({ programmes }) => ({
+    isLoaded: programmes.ui.isLoaded,
+});
 
 const mapDispatchToProps = {
     clear: clearResults,

@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .nav {
     $root: &;
     $sub-nav-height--small: 500px;
@@ -68,8 +70,8 @@
             height: $gradient-height;
             background: linear-gradient(
                 358.73deg,
-                rgba(0, 0, 0, 0.96) 3.08%,
-                rgba(0, 0, 0, 0) 124.08%
+                rgb(0, 0, 0, 0.96) 3.08%,
+                rgb(0, 0, 0, 0) 124.08%
             );
         }
     }
@@ -199,8 +201,10 @@
                     height: 2px;
                     left: 0;
                     position: absolute;
-                    background: currentColor;
-                    transition: width $transition, left $transition;
+                    background: currentcolor;
+                    transition:
+                        width $transition,
+                        left $transition;
                     width: 0;
                     bottom: -2px;
                 }
@@ -220,7 +224,7 @@
             color: $color--primary;
 
             &:hover {
-                color: lighten($color--primary, 20%);
+                color: $color--primary-lightened;
                 border-bottom: 1px solid $color--primary;
             }
         }
@@ -259,7 +263,9 @@
         padding: 0 12px;
         width: 40px;
         height: 100%;
-        transition: fill $transition, opacity $transition;
+        transition:
+            fill $transition,
+            opacity $transition;
         opacity: 0.3;
 
         .fade-icon & {

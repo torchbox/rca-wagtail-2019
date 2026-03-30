@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .heading {
     line-height: $line-height-large;
     font-weight: $weight--normal;

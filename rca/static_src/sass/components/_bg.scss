@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .bg {
     &--dark {
         background-color: $color--black;

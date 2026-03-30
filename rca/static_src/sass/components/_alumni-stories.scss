@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .alumni-stories {
     &__heading {
         grid-column: 1 / span 2;
