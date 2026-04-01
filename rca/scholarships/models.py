@@ -69,8 +69,7 @@ class ScholarshipEligibilityCriteria(SluggedTaxonomy):
 class Scholarship(models.Model):
     title = models.CharField(max_length=50)
     active = models.BooleanField(default=True)
-    summary = models.CharField(max_length=255, blank=True)
-    new_summary = RichTextField(
+    summary = RichTextField(
         features=["h3", "bold", "italic", "link"],
         blank=True,
     )
