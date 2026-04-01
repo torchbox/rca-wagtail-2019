@@ -70,6 +70,10 @@ class Scholarship(models.Model):
     title = models.CharField(max_length=50)
     active = models.BooleanField(default=True)
     summary = models.CharField(max_length=255, blank=True)
+    new_summary = RichTextField(
+        features=["h3", "bold", "italic", "link"],
+        blank=True,
+    )
     value = models.CharField(max_length=100)
     location = models.ForeignKey(
         ScholarshipLocation, null=True, on_delete=models.SET_NULL
