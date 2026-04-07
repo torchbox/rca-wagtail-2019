@@ -4,6 +4,14 @@
     $root: &;
     position: relative;
 
+    &__heading {
+        line-height: 40px;
+    }
+
+    &__disclaimer {
+        color: $color--dark-grey;
+    }
+
     &__anchor {
         position: absolute;
         top: -20px;
