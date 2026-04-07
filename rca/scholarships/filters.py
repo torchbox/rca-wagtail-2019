@@ -7,7 +7,9 @@ class FeeStatusFilter:
     def __init__(self):
         self.tab_title = "Fee Status"
         self.querydict = None
-        self.queryset = True  # truthy so the template {% if item.queryset %} passes
+        self.queryset = (
+            False  # no tab/takeover panel — toggle switch handles this filter
+        )
 
     def apply(self, queryset, querydict):
         self.querydict = querydict
