@@ -51,7 +51,7 @@
 
             <form class="section bg bg--{{ page.scholarships_listing_background_color }} js-tabs" method="get" action="#results" id="results">
                 <div class="section__row">
-                    <nav class="section filter-bar filter-bar--large {% if result_count == 0 %}filter-bar--no-results-large{% endif %} " data-filter-bar>
+                    <nav class="section filter-bar filter-bar--large" data-filter-bar>
                         <div class="grid">
                             <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                                 {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True dark=page.scholarships_has_dark_background reset_button_text="Clear filter" scholarships=True %}
@@ -71,7 +71,7 @@
                         </div>
                     </nav>
 
-                    <nav class="filter-bar filter-bar--small {% if result_count == 0 %}filter-bar--no-results-small{% endif %} bg bg--light" data-filter-bar-small>
+                    <nav class="filter-bar filter-bar--small bg bg--light" data-filter-bar-small>
                         <a class="filter-bar__link body body--two" href="#filters-active" data-filter-launcher>
                             <span class="filter-bar__label">Filters</span>
                             <svg width="12" height="8" class="filter-bar__icon" aria-hidden="true">
