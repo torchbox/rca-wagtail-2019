@@ -233,37 +233,38 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
             ),
         )
 
-        if "programme" in request.GET or "location" in request.GET:
-            # Apply filters
-            for f in filters:
-                queryset = f.apply(queryset, request.GET)
+        # Apply filters
+        for f in filters:
+            queryset = f.apply(queryset, request.GET)
 
-            # Format scholarships for template
-            results = [
-                {
-                    "value": {
-                        "heading": s.title,
-                        "introduction": s.summary,
-                        "eligible_programmes": ", ".join(
-                            str(x) for x in s.eligable_programmes.live()
-                        ),
-                        "other_criteria": ", ".join(
-                            x.title for x in s.other_criteria.all()
-                        ),
-                        "fee_statuses": ", ".join(
-                            x.title for x in s.fee_statuses.all()
-                        ),
-                        "value": s.value,
-                    }
+        # Format scholarships for template
+        results = [
+            {
+                "value": {
+                    "heading": s.title,
+                    "introduction": s.summary,
+                    "eligible_programmes": ", ".join(
+                        str(x) for x in s.eligable_programmes.live()
+                    ),
+                    "other_criteria": ", ".join(
+                        x.title for x in s.other_criteria.all()
+                    ),
+                    "fee_statuses": ", ".join(x.title for x in s.fee_statuses.all()),
+                    "value": s.value,
                 }
-                for s in queryset
-            ]
+            }
+            for s in queryset
+        ]
 
-            # Template needs the programme for title and slug
-            try:
-                programme = ProgrammePage.objects.get(slug=request.GET["programme"])
-            except Exception:
-                pass
+        is_filtered = bool(
+            request.GET.get("programme") or request.GET.get("fee-status")
+        )
+
+        # Template needs the programme for title and slug
+        try:
+            programme = ProgrammePage.objects.get(slug=request.GET["programme"])
+        except Exception:
+            pass
 
         # Create the link for the sticky CTA
         interest_bar_link = reverse("scholarships:scholarship_enquiry_form")
@@ -285,6 +286,8 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
             },
             programme=programme,
             results=results,
+            result_count=len(results),
+            is_filtered=is_filtered,
         )
         return context
 
