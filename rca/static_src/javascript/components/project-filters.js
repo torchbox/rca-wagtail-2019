@@ -300,7 +300,9 @@ class ProjectFilters {
 
         // Reset
         this.resetButton.addEventListener('click', () => {
-            this.closeProjectFilters();
+            if (this.body.classList.contains('project-filters')) {
+                this.closeProjectFilters();
+            }
         });
 
         // Submit
