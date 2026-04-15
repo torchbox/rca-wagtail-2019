@@ -391,3 +391,28 @@ class CTALinkBlock(InternalExternalLinkBlock):
         icon = "link"
         template = "patterns/molecules/streamfield/blocks/cta_link_block.html"
         label = "CTA link"
+
+
+class CardBlock(blocks.StructBlock):
+    image = ImageChooserBlock(required=False)
+    meta_label = blocks.CharBlock()
+    link = InternalExternalLinkBlock()
+    description = blocks.TextBlock(
+        required=False,
+        help_text="Leave blank to use internal link's introduction or listing text."
+    )
+
+    class Meta:
+        icon = "table"
+        template = "patterns/molecules/streamfield/blocks/card_block.html"
+
+class CardGridBlock(blocks.StructBlock):
+    # Choice block of 1, 2, or 3
+    number_of_columns = blocks.ChoiceBlock(
+        choices=[("1", "1"), ("2", "2"), ("3", "3")], required=True
+    )
+    cards = blocks.ListBlock(CardBlock())
+
+    class Meta:
+        icon = "table"
+        template = "patterns/molecules/streamfield/blocks/card_grid_block.html"
