@@ -109,13 +109,12 @@ class FlexibleLandingPage(BasePage):
 
             # Don't display a notch in this section if:
             # - This is the last block in the body.
-            # - The next block is a statistics block.
             # - The next block has the same background color as the current block.
             processed_section["should_display_notch"] = not (
                 is_last_block or next_is_promo_banner or backgrounds_match
             )
 
-            # If the block is a statistics or a promo banner block, we need to check the
+            # If the block is a promo banner block, we need to check the
             # previous and next block's background color to determine the background colors
             # for the notch.
             if block.block_type in ["promo_banner"]:

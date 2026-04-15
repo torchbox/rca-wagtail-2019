@@ -397,10 +397,7 @@ class CardBlock(blocks.StructBlock):
     image = ImageChooserBlock(required=False)
     meta_label = blocks.CharBlock()
     link = InternalExternalLinkBlock()
-    description = blocks.TextBlock(
-        required=False,
-        help_text="Leave blank to use internal link's introduction or listing text.",
-    )
+    description = blocks.TextBlock()
 
     class Meta:
         icon = "table"
