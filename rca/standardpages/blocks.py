@@ -1,12 +1,9 @@
-from rca.utils.blocks import ImageBlock, CTALinkBlock, QuoteBlock
-from rca.utils.blocks.content import ImageVideoGalleryBlock, CardGridBlock
+from wagtail import blocks
 from wagtail.embeds.blocks import EmbedBlock
 
-
-from wagtail import blocks
-
-
 from rca.home.blocks import PromoBannerBlock
+from rca.utils.blocks import CTALinkBlock, ImageBlock, QuoteBlock
+from rca.utils.blocks.content import CardGridBlock, ImageVideoGalleryBlock
 
 
 class LandingPageBlock(blocks.StreamBlock):

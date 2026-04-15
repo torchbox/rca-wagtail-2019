@@ -6,10 +6,10 @@ from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.fields import RichTextField, StreamField
 from wagtail.search import index
 
-from rca.utils.blocks import StoryBlock
-from rca.utils.models import BasePage, RelatedPage
-from rca.utils.fields import StreamField as CustomStreamField
 from rca.standardpages.blocks import LandingPageBodyBlock
+from rca.utils.blocks import StoryBlock
+from rca.utils.fields import StreamField as CustomStreamField
+from rca.utils.models import BasePage, RelatedPage
 
 
 class InformationPageRelatedPage(RelatedPage):

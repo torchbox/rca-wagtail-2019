@@ -399,12 +399,13 @@ class CardBlock(blocks.StructBlock):
     link = InternalExternalLinkBlock()
     description = blocks.TextBlock(
         required=False,
-        help_text="Leave blank to use internal link's introduction or listing text."
+        help_text="Leave blank to use internal link's introduction or listing text.",
     )
 
     class Meta:
         icon = "table"
         template = "patterns/molecules/streamfield/blocks/card_block.html"
+
 
 class CardGridBlock(blocks.StructBlock):
     # Choice block of 1, 2, or 3

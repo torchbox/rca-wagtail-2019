@@ -27,7 +27,7 @@
     &--2-col {
         @include media-query(large) {
             grid-template-columns: repeat(2, 1fr);
-            grid-gap: $gutter * 2;
+            gap: $gutter * 2;
         }
     }
 
