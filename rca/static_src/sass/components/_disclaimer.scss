@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .disclaimer {
     grid-column: 1 / span 2;
     margin-bottom: ($gutter * 2);

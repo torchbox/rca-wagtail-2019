@@ -6,13 +6,11 @@
     <video
         data-hls-video
         id="streamfield-video-{{ block.id }}"
-        class="video-js vjs-default-skin"
+        class="video-js vjs-default-skin vjs-fill"
         controls
         preload="auto"
-        width="100%"
-        height="auto"
         poster="{{ poster_image.full_url }}"
-        data-setup="{}"
+        data-setup='{ "fluid": true }'
     >
         <source src="{{ value.video_url }}" type="application/x-mpegURL">
     </video>

@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .overview {
     &__heading {
         grid-column: 1 / span 2;
@@ -28,6 +30,12 @@
 
             @include media-query(medium) {
                 margin-bottom: ($gutter * 1.5);
+            }
+        }
+
+        &--left-align {
+            @include media-query(large) {
+                grid-column: 2 / span 3;
             }
         }
     }

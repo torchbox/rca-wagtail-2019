@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .bg {
     &--dark {
         background-color: $color--black;
@@ -7,5 +9,10 @@
     &--light {
         background-color: $color--white;
         color: $color--black;
+    }
+
+    &--dark-80 {
+        background-color: rgba($color--black, 0.8);
+        color: $color--white;
     }
 }

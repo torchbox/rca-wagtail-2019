@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`Icon #className 1`] = `
+<div>
+  <svg
+    aria-hidden="true"
+    class="button__icon"
+  >
+    <use
+      xlink:href="#rocket"
+    />
+  </svg>
+</div>
+`;
+
+exports[`Icon #width and #height 1`] = `
+<div>
+  <svg
+    aria-hidden="true"
+    height="8px"
+    width="12px"
+  >
+    <use
+      xlink:href="#rocket"
+    />
+  </svg>
+</div>
+`;
+
+exports[`Icon renders 1`] = `
+<div>
+  <svg
+    aria-hidden="true"
+  >
+    <use
+      xlink:href="#rocket"
+    />
+  </svg>
+</div>
+`;

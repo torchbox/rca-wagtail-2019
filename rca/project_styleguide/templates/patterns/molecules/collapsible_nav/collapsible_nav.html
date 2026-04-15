@@ -1,0 +1,33 @@
+{% comment %}
+    This component is shown on a user action set in cta-trigger.js via [data-cta].
+    It can also be collapsed and expanded set in collapsible-nav.js via [data-collapsible-nav].
+
+    IMPORTANT: The following classes are used in collapsible-nav.js and should be updated together if needed:
+    - .collapsible-nav__link (used for tracking navigation link clicks)
+{% endcomment %}
+
+<div class="collapsible-nav" data-collapsible-nav data-cta{% if value.cta_id %} data-cta-id="collapsible-nav-{{ value.cta_id }}"{% endif %}{% if value.cta_trigger %} data-cta-trigger="{{ value.cta_trigger }}"{% endif %}{% if value.cta_delay %} data-cta-delay="{{ value.cta_delay }}"{% endif %}{% if value.cta_scroll %} data-cta-scroll="{{ value.cta_scroll }}"{% endif %}>
+    <div class="collapsible-nav__inner">
+        <div class="collapsible-nav__content">
+            <nav class="collapsible-nav__nav" id="quick-links" aria-label="Quick links">
+                <ul>
+                    {% for link in value.links %}
+                        <li class="collapsible-nav__link-item">
+                            <a href="{{ link.url }}" class="link link--link link--tertiary collapsible-nav__link">
+                                <span class="link__label">{{ link.text }}</span>
+                                <svg width="12" height="8" class="link__icon" aria-hidden="true"><use xlink:href="#arrow"></use></svg>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            <button class="collapsible-nav__button collapsible-nav__button--close button" aria-expanded="true" aria-controls="quick-links" aria-label="Close quick links" data-close-collapsible-nav-button>
+                <svg width="17" height="14" class="collapsible-nav__button-icon" aria-hidden="true"><use xlink:href="#close"></use></svg>
+            </button>
+        </div>
+
+        <button class="collapsible-nav__button collapsible-nav__button--open button" aria-expanded="false" aria-controls="quick-links" aria-label="Open quick links" data-open-collapsible-nav-button>
+            <svg width="17" height="14" class="collapsible-nav__button-icon" aria-hidden="true"><use xlink:href="#menu-icon"></use></svg>
+        </button>
+    </div>
+</div>

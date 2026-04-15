@@ -651,6 +651,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         verbose_name="Experience Content",
         help_text="Add social embeds or editorial page stories",
     )
+    experience_disclaimer = models.TextField()
 
     tags = ClusterTaggableManager(through=ProgrammePageTag, blank=True)
 
@@ -847,6 +848,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         FieldPanel("experience_introduction"),
         FieldPanel("experience_cta_link"),
         FieldPanel("experience_content"),
+        FieldPanel("experience_disclaimer"),
     ]
     promote_panels = BasePage.promote_panels + [
         MultiFieldPanel(

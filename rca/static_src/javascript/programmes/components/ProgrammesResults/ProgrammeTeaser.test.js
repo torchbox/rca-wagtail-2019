@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import ProgrammeTeaser from './ProgrammeTeaser';
 
@@ -41,42 +41,39 @@ const getMockProgramme = getMock.bind(null, 'programmes.ProgrammePage', {
 
 describe('ProgrammeTeaser', () => {
     it('renders short course page', () => {
-        expect(
-            shallow(
-                <ProgrammeTeaser
-                    programme={getMockShortCourse()}
-                    onMouseOver={() => {}}
-                    onFocus={() => {}}
-                />,
-            ).text(),
-        ).toMatchInlineSnapshot(
+        const { container } = render(
+            <ProgrammeTeaser
+                programme={getMockShortCourse()}
+                onMouseOver={() => {}}
+                onFocus={() => {}}
+            />,
+        );
+        expect(container.textContent).toMatchInlineSnapshot(
             `"Title summer schoolShort courseSummary intense and immersive"`,
         );
     });
 
     it('renders programme page', () => {
-        expect(
-            shallow(
-                <ProgrammeTeaser
-                    programme={getMockProgramme()}
-                    onMouseOver={() => {}}
-                    onFocus={() => {}}
-                />,
-            ).text(),
-        ).toMatchInlineSnapshot(
+        const { container } = render(
+            <ProgrammeTeaser
+                programme={getMockProgramme()}
+                onMouseOver={() => {}}
+                onFocus={() => {}}
+            />,
+        );
+        expect(container.textContent).toMatchInlineSnapshot(
             `"Title summer schoolMASummary intense and immersivePathways:Exhibition Design"`,
         );
     });
 
     it('renders programme page without pathways', () => {
-        expect(
-            shallow(
-                <ProgrammeTeaser
-                    programme={{ ...getMockProgramme(), pathway_blocks: [] }}
-                    onMouseOver={() => {}}
-                    onFocus={() => {}}
-                />,
-            ).text(),
-        ).not.toContain('Pathways:');
+        const { container } = render(
+            <ProgrammeTeaser
+                programme={{ ...getMockProgramme(), pathway_blocks: [] }}
+                onMouseOver={() => {}}
+                onFocus={() => {}}
+            />,
+        );
+        expect(container.textContent).not.toContain('Pathways:');
     });
 });

@@ -65,7 +65,19 @@ const options = {
                                 plugins: [
                                     'autoprefixer',
                                     'postcss-custom-properties',
-                                    ['cssnano', { preset: 'default' }],
+                                    [
+                                        'cssnano',
+                                        {
+                                            preset: [
+                                                'default',
+                                                {
+                                                    discardComments: {
+                                                        removeAll: true,
+                                                    },
+                                                },
+                                            ],
+                                        },
+                                    ],
                                 ],
                             },
                         },

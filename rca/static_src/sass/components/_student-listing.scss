@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .student-listing {
     margin-bottom: ($gutter * 3);
 

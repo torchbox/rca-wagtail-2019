@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .mode-checkbox {
     $root: &;
     display: grid;
@@ -44,7 +46,9 @@
         border: 3px solid $color--dark-grey;
         margin-right: 15px;
         cursor: pointer;
-        transition: border-color $transition-cubic, opacity $transition-cubic;
+        transition:
+            border-color $transition-cubic,
+            opacity $transition-cubic;
 
         &:checked {
             border-color: rgba($color--dark-grey, 0.3);

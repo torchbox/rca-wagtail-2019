@@ -35,3 +35,30 @@ The Azure environment is handled by RCA. If we need to update keys or redirect U
 The programme values the user select on the form have 'qs_code` values in Wagtail. As do some of the taxonomies. These 'qs_codes' and to lookup data from the QS endpoint. Usually the form throws 500s if these values change on the QS side but aren't updated in Wagtail. You can view the QS endpoint and inspect what codes a course should have - the endpoint is set as an env var in heroku.
 
 If it turns out a programme/course has the wrong QS code, update it in wagtail with the right one from the endpoint.
+
+## Personalised CTAs
+
+### CTA Not Appearing
+
+Check the following:
+
+1. **Segment rules**: Verify the user meets segment criteria
+
+- Check `get_segment_adapter(request).get_segments()`
+
+2. **Page type**: Ensure CTA is configured for the current page type
+
+3. **Scheduling**: Verify go-live and expiry dates
+
+- CTAs won't show before go-live or after expiry or if those fields are left blank
+
+4. **Priority**: Only the first matching CTA per type is shown
+
+- Check if another CTA is being selected first
+
+### CTA Showing Incorrectly
+
+1. **Verify segment configuration**: Check if segment rules are too broad
+2. **Check page type selection**: Ensure correct page types are selected
+3. **Review scheduling**: Confirm dates are set correctly
+4. **Clear cache**: If using page caching, clear it

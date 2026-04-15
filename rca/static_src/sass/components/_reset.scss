@@ -1,3 +1,5 @@
+@use '../abstracts' as *;
+
 .reset {
     $root: &;
     position: relative;
@@ -18,7 +20,7 @@
 
     &__icon {
         margin-right: ($gutter * 0.25);
-        fill: currentColor;
+        fill: currentcolor;
     }
 
     .bg--light & {
@@ -58,7 +60,7 @@
             height: 1px;
             left: 0;
             position: absolute;
-            background: currentColor;
+            background: currentcolor;
             transition: width $transition;
             width: 100%;
             top: 0;

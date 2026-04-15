@@ -1,10 +1,14 @@
 function outdatedBanner() {
-    document
-        .querySelector('[data-outdated-banner-close]')
-        .addEventListener('click', () => {
-            document.querySelector('[data-outdated-banner]').style.display =
-                'none';
-        });
+    const banner = document.querySelector('[data-outdated-banner]');
+    const bannerClose = document.querySelector('[data-outdated-banner-close]');
+
+    if (!banner || !bannerClose) {
+        return;
+    }
+
+    bannerClose.addEventListener('click', () => {
+        banner.style.display = 'none';
+    });
 }
 
 outdatedBanner();
