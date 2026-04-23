@@ -2,7 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased — support/R1-317-wagtail-73-maintenence
+## Unreleased
+
+### Security
+
+- ...
+
+### Added
+
+- ...
+
+### Changed
+
+- ...
+
+### Removed
+
+- ...
+
+## 2026-04-23
 
 ### Added
 
