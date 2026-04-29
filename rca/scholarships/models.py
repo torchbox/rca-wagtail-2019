@@ -1,26 +1,18 @@
-from django import forms
 from django.db import models
-from django.shortcuts import reverse
-from django.utils.http import urlencode
 from django.utils.text import slugify
 from django.utils.translation import gettext as _
-from modelcluster.fields import ParentalKey
-from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import (
     FieldPanel,
-    FieldRowPanel,
-    InlinePanel,
     MultiFieldPanel,
     ObjectList,
     TabbedInterface,
 )
 from wagtail.fields import RichTextField, StreamField
-from wagtail.models import Orderable
 from wagtail.snippets.blocks import SnippetChooserBlock
 from wagtail.snippets.models import register_snippet
 
 from rca.programmes.models import ProgrammePage
-from rca.utils.blocks import CallToActionBlock, StepBlock
+from rca.utils.blocks import StepBlock
 from rca.utils.models import BasePage, ContactFieldsMixin, SluggedTaxonomy
 
 from .blocks import ScholarshipsListingPageBlock
@@ -55,20 +47,14 @@ class ScholarshipLocation(SluggedTaxonomy):
         ordering = ("title",)
 
 
-class ScholarshipEligibilityCriteria(SluggedTaxonomy):
-    panels = [
-        FieldPanel("title"),
-    ]
-
-    class Meta:
-        ordering = ("title",)
-
-
 @register_snippet
 class Scholarship(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=255)
     active = models.BooleanField(default=True)
-    summary = models.CharField(max_length=255, blank=True)
+    summary = RichTextField(
+        features=["h3", "bold", "italic", "link"],
+        blank=True,
+    )
     value = models.CharField(max_length=100)
     location = models.ForeignKey(
         ScholarshipLocation, null=True, on_delete=models.SET_NULL
@@ -125,15 +111,6 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         help_text="A small disclaimer shown just above the scholarships listing.",
     )
 
-    # Scholarship form fields
-    key_details = RichTextField(features=["h3", "bold", "italic", "link"], blank=True)
-    form_introduction = models.CharField(max_length=500, blank=True)
-    cta_block = StreamField(
-        [("call_to_action", CallToActionBlock(label="text promo"))],
-        blank=True,
-        verbose_name="Call to action",
-    )
-
     content_panels = BasePage.content_panels + [
         FieldPanel("introduction"),
         MultiFieldPanel(
@@ -150,28 +127,13 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
     ]
 
-    form_settings_pannels = [
-        FieldPanel("key_details"),
-        FieldPanel("form_introduction"),
-        FieldPanel("cta_block"),
-    ]
-
     edit_handler = TabbedInterface(
         [
             ObjectList(content_panels, heading="Content"),
             ObjectList(BasePage.promote_panels, heading="Promote"),
             ObjectList(BasePage.settings_panels, heading="Settings"),
-            ObjectList(form_settings_pannels, heading="Enquiry form settings"),
         ]
     )
-
-    @property
-    def show_interest_bar(self):
-        return True
-
-    @property
-    def show_interest_link(self):
-        return True
 
     @property
     def scholarships_has_dark_background(self):
@@ -256,11 +218,6 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         except Exception:
             pass
 
-        # Create the link for the sticky CTA
-        interest_bar_link = reverse("scholarships:scholarship_enquiry_form")
-        if programme:
-            interest_bar_link += f"?{urlencode({'programme': programme.slug})}"
-
         context.update(
             anchor_nav=self.anchor_nav(),
             filters={
@@ -268,78 +225,9 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
                 "aria_label": "Filter results",
                 "items": filters,
             },
-            interest_bar={
-                "action": _("Express interest"),
-                "link": interest_bar_link,
-                "message": _("Hold an offer and want to apply for these scholarships?"),
-                "link_same_page": True,
-            },
             programme=programme,
             results=results,
             result_count=len(results),
             is_filtered=is_filtered,
         )
         return context
-
-
-class ScholarshipEnquiryFormSubmissionScholarshipOrderable(Orderable):
-    scholarship_submission = ParentalKey(
-        "scholarships.ScholarshipEnquiryFormSubmission",
-        related_name="scholarship_submission_scholarships",
-    )
-    scholarship = models.ForeignKey(
-        "scholarships.Scholarship",
-        on_delete=models.CASCADE,
-    )
-
-    panels = [
-        FieldPanel("scholarship"),
-    ]
-
-
-class ScholarshipEnquiryFormSubmission(ClusterableModel):
-    submission_date = models.DateTimeField(blank=True, null=True, auto_now_add=True)
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    email = models.EmailField()
-    rca_id_number = models.CharField(max_length=100)
-    programme = models.ForeignKey(
-        "programmes.ProgrammePage",
-        on_delete=models.CASCADE,
-    )
-    eligibility_criteria = models.ManyToManyField(
-        ScholarshipEligibilityCriteria, blank=True
-    )
-    is_read_data_protection_policy = models.BooleanField()
-    is_notification_opt_in = models.BooleanField()
-
-    panels = [
-        MultiFieldPanel(
-            [
-                FieldRowPanel(
-                    [
-                        FieldPanel("first_name", classname="fn"),
-                        FieldPanel("last_name", classname="ln"),
-                    ]
-                ),
-                FieldPanel("rca_id_number"),
-            ],
-            heading="User details",
-        ),
-        FieldPanel("programme"),
-        InlinePanel("scholarship_submission_scholarships", label="Scholarship"),
-        FieldPanel("eligibility_criteria", widget=forms.CheckboxSelectMultiple),
-        MultiFieldPanel(
-            [
-                FieldPanel("is_read_data_protection_policy"),
-                FieldPanel("is_notification_opt_in"),
-            ],
-            heading="Legal & newsletter",
-        ),
-    ]
-
-    def __str__(self):
-        return f"{self.first_name} {self.last_name} - {self.rca_id_number}"
-
-    def get_scholarships(self):
-        return [s.scholarship for s in self.scholarship_submission_scholarships.all()]

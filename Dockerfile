@@ -1,5 +1,5 @@
 # (Keep the version in sync with the node install below)
-FROM node:24 as frontend
+FROM node:24 AS frontend
 
 # Make build & post-install scripts behave as if we were in a CI environment (e.g. for logging verbosity purposes).
 ARG CI=true
@@ -17,7 +17,7 @@ RUN npm run build:prod
 # ones becase they use a different C compiler. Debian images also come with
 # all useful packages required for image manipulation out of the box. They
 # however weight a lot, approx. up to 1.5GiB per built image.
-FROM python:3.13-bookworm as production
+FROM python:3.13-trixie AS production
 
 ARG POETRY_INSTALL_ARGS="--no-dev"
 
@@ -104,7 +104,7 @@ COPY ./docker/bashrc.sh /home/rca/.bashrc
 CMD gunicorn rca.wsgi:application
 
 # These steps won't be run on production
-FROM production as dev
+FROM production AS dev
 
 # Swap user, so the following tasks can be run as root
 USER root
@@ -118,7 +118,7 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
 USER rca
 
 # Install nvm and node/npm
-ARG NVM_VERSION=0.40.1
+ARG NVM_VERSION=0.40.4
 COPY --chown=rca .nvmrc ./
 RUN curl https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash \
     && bash --login -c "nvm install --no-progress && nvm alias default $(nvm run --silent --version)"

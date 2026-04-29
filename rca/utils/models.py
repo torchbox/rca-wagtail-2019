@@ -992,8 +992,8 @@ class SluggedTaxonomy(models.Model):
     as a few are identical
     """
 
-    title = models.CharField(max_length=128)
-    slug = models.SlugField(blank=True, max_length=128)
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(blank=True, max_length=255)
 
     def __str__(self):
         return self.title

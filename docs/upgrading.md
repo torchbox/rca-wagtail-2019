@@ -15,7 +15,7 @@ As much as possible, we want to use the official releases available on PyPI for 
 
 ### Check these packages for updates
 
-**Last tested for wagtail 7.2 upgrade** Comments in the pyproject.toml file may have more detailed information.
+**Last tested for wagtail 7.3 upgrade** Comments in the pyproject.toml file may have more detailed information.
 
 wagtail-accessibility
 wagtail-django-recaptcha
@@ -24,6 +24,7 @@ wagtail-modeladmin
 wagtail-orderable (uses a forked tag)
 wagtail-rangefilter
 wagtail-storages
+wagtail-personalisation (uses a forked tag)
 
 It is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as they become available.
 
@@ -39,7 +40,7 @@ The following areas of functionality are critical paths for the site which don't
 
 ### 1. Account Management
 
-App https://github.com/torchbox/rca-wagtail-2019/tree/master/rca/account_management
+App <https://github.com/torchbox/rca-wagtail-2019/tree/master/rca/account_management>
 
 The account management app provides the functionality for administrators to create student accounts.
 Most of this IS covered by unit tests, however it's still worth doing a test over the UI.
@@ -55,7 +56,7 @@ Expected behaviour after submitting the form:
 
 ### 1.2 Student Accounts
 
-App https://github.com/torchbox/rca-wagtail-2019/tree/master/rca/people
+App <https://github.com/torchbox/rca-wagtail-2019/tree/master/rca/people>
 
 Most of the custom logic for students is covered by tests, but again it's worth testing the UI for any changes between wagtail versions.
 
@@ -63,7 +64,7 @@ Given in 1 (above) a student account is created, the student is able to sign in 
 
 How to test:
 
-- Sign in as admin and searh for 'students', this will show you a student page.
+- Sign in as admin and search for 'students', this will show you a student page.
 - Editing the student page as admin, you shouldn't be able to edit the ' Student user account' or ' Student user image collection' fields.
 - Next, sign in as a student to edit your own student page.
 - Students shouldn't see the Wagtail search in the sidebar, or any page, images etc menu links. It's all removed aside from 'help'
@@ -72,11 +73,11 @@ How to test:
 
 ### 2. Enquire to study form
 
-URL: https://www.rca.ac.uk/register-your-interest/
-App: https://github.com/torchbox/rca-wagtail-2019/tree/master/rca/enquire_to_study
+URL: <https://www.rca.ac.uk/register-your-interest/>
+App: <https://github.com/torchbox/rca-wagtail-2019/tree/master/rca/enquire_to_study>
 
 Whilst there are unit tests for this form, it has 2 integrations so important to test this form.
-When submitted the form will geneate a submission object at `admin/enquire_to_study/enquiryformsubmission/`.
+When submitted the form will generate a submission object at `admin/enquire_to_study/enquiryformsubmission/`.
 
 How to test:
 
@@ -85,27 +86,14 @@ How to test:
 - Confirm that the submission object is created in the admin view
 - Confirm you can delete the submission(s) invidually and by bulk
 
-### 3. Scholarship
-
-URL: https://www.rca.ac.uk/study/application-process/funding-your-studies/rca-scholarships-and-awards/express-interest/
-App: https://github.com/torchbox/rca-wagtail-2019/tree/master/rca/scholarships
-
-Scholarships are added as snippets `admin/snippets/scholarships/scholarship/` and are rendered as choices on the form. After submitting the form, a submission object should be created in the admin at `admin/scholarships/scholarshipenquiryformsubmission/`
-
-How to test:
-
-- Fill out the form
-- Confirm a submission is created at `admin/scholarships/scholarshipenquiryformsubmission/`
-- Confirm you can delete the submission object individually and by bulk.
-
-### 4. Import to intranet
+### 3. Import to intranet
 
 The RCA intranet supports importing certain page types to the intranet from the main site. This is done by reading the pages API endpoint. Testing this can be a little tricky, but rca-inforca-staging can be used to test it, as that staging site has the env var `RCA_CONTENT_API_URL` to read from the rca-staging site.
 
 How to test:
 
-- Pick/edit/create an Event Or Editorial page on the rca-staging site (https://rca-staging.torchbox.dev)
-- Head to the intranet staging site importer at https://rca-inforca-staging.herokuapp.com/admin/content_importer/
+- Pick/edit/create an Event Or Editorial page on the rca-staging site (<https://rca-staging.torchbox.dev>)
+- Head to the intranet staging site importer at <https://rca-inforca-staging.herokuapp.com/admin/content_importer/>
 - Click to import content, you should be offered a search showing you pages from the rca-staging site.
 - Import the content and make sure it's all gone smooth and fields are populated.
 
@@ -113,16 +101,16 @@ How to test:
 
 As well as testing the critical paths, these areas of functionality should be checked:
 
-### Student account vs Admin account editor viewing permissions.
+### Student account vs Admin account editor viewing permissions
 
 1. The site has custom code to show/hide fields and panels depending on if a StudentPage is viewed by an admin (superuser) or a Student (none superuser).
 2. The site has custom code to show/hide sidebar elements depending on if a Student is viewing the editor vs an admin (superuser).
 
-### Users who logged in via SSO automatically gets 'Editor' permissions.
+### Users who logged in via SSO automatically gets 'Editor' permissions
 
-1. When users log in via SSO, they are automatically made editors. This is done via `rca.utils.pipeline.make_sso_users_editors` and added to the `SOCIAL_AUTH_PIPELINE`. RCA will manually elevate permissiosn if necessary.
+1. When users log in via SSO, they are automatically made editors. This is done via `rca.utils.pipeline.make_sso_users_editors` and added to the `SOCIAL_AUTH_PIPELINE`. RCA will manually elevate permissions if necessary.
 
-### Users who logged in via SSO is redirected to a logout confirmation when they logout.
+### Users who logged in via SSO is redirected to a logout confirmation when they logout
 
 1. The site overrides the `/admin/logout/` endpoint to redirect users who logged in to `/logout/`. This is a confirmation screen that users will still need to manually log out of their SSO accounts. This is done with `rca.account_management.views.CustomLogoutView` and `rca.account_management.views.SSOLogoutConfirmationView`.
 2. Users who did not log in via SSO should be able to log out without seeing any confirmation screen.
@@ -133,7 +121,7 @@ As well as testing the critical paths, these areas of functionality should be ch
 
 The following templates are overridden and should be checked for changes when upgrading Wagtail:
 
-Last checked against Wagtail version: 7.2
+Last checked against Wagtail version: 7.3
 
 - `rca/account_management/templates/wagtailadmin/base.html`
 - `rca/project_styleguide/templates/patterns/pages/auth/login.html` - This was overridden to add the "Sign in with single sign-on" button to the login template.
