@@ -7,13 +7,23 @@ class FeeStatusFilter:
     def __init__(self):
         self.tab_title = "Fee Status"
         self.querydict = None
-        self.queryset = True  # truthy so the template {% if item.queryset %} passes
+        self.queryset = (
+            False  # no tab/takeover panel — toggle switch handles this filter
+        )
+
+    # The query parameter values are `uk` and `international`
+    # and the DB slugs are `home-fee-status` and `overseas-fee-status`.
+    SLUG_MAP = {
+        "uk": "home-fee-status",
+        "international": "overseas-fee-status",
+    }
 
     def apply(self, queryset, querydict):
         self.querydict = querydict
         fee_status = querydict.get(self.name)
-        if fee_status:
-            return queryset.filter(fee_statuses__slug=fee_status)
+        db_slug = self.SLUG_MAP.get(fee_status)
+        if db_slug:
+            return queryset.filter(fee_statuses__slug=db_slug)
         return queryset
 
     @property
