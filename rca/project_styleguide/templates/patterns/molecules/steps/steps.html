@@ -25,11 +25,7 @@
                 </div>
             {% endwith %}
         {% endfor %}
-        {% if scholarships %}
-            {% if not results %}
-                {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text="Select a programme" not_blank=True link="#programme" %}
-            {% endif %}
-        {% else %}
+        {% if not scholarships %}
             {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with link=programme_page_global_fields.apply_cta_link text=programme_page_global_fields.apply_cta_text %}
         {% endif %}
     </div>

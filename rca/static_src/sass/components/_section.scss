@@ -79,6 +79,18 @@
         }
     }
 
+    &--end-mobile-tablet-only {
+        padding-bottom: ($gutter * 2.5);
+
+        @include media-query(medium) {
+            padding-bottom: ($gutter * 3);
+        }
+
+        @include media-query(tablet) {
+            padding-bottom: 0;
+        }
+    }
+
     &--above-grid {
         @include z-index(above-gridlines);
         position: relative;

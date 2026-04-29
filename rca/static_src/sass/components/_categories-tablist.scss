@@ -121,6 +121,10 @@
             @include underline-hover-target-reset();
             position: relative;
             color: $color--black;
+
+            &.categories-tablist__tab--reset {
+                background: none;
+            }
         }
     }
 

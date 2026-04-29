@@ -11,6 +11,11 @@
         margin-top: ($gutter * 4);
     }
 
+    &--small-margin {
+        margin: $gutter * 2 0;
+        padding: 0;
+    }
+
     &--no-margin {
         margin-top: 0;
     }
