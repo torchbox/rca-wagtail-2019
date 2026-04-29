@@ -51,10 +51,14 @@
 
             <form class="section bg bg--{{ page.scholarships_listing_background_color }} js-tabs" method="get" action="#results" id="results">
                 <div class="section__row">
-                    <nav class="section filter-bar filter-bar--large" data-filter-bar>
+                    <nav class="section filter-bar filter-bar--large {% if not is_filtered %}filter-bar--no-results-large{% endif %} " data-filter-bar>
                         <div class="grid">
                             <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                                {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True dark=page.scholarships_has_dark_background reset_button_text="Clear filter" scholarships=True %}
+                                {% if page.scholarships_has_dark_background %}
+                                    {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True dark=True reset_button_text="Reset" %}
+                                {% else %}
+                                    {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True dark=False reset_button_text="Reset" %}
+                                {% endif %}
 
                                 <div class="filter-tab-options filter-tab-options--mobile">
                                     <div class="filter-tab-options__footer layout__start-one layout__span-two layout__@large-start-two layout__@large-span-four grid">
@@ -93,7 +97,7 @@
                     </div>
                 </div>
 
-                <div class="section__row grid">
+                <div class="section__row grid{% if not is_filtered %} section--top-space-small{% endif %}">
                     <h2 class="results-total results-total__heading heading heading--four layout__start-one layout__span-two layout__@large-start-two">
                         {% if is_filtered %}
                             <span class="results-total__type">Showing {{ result_count }} scholarship{{ result_count|pluralize }}</span>

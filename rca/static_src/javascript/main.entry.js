@@ -149,12 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
         new EventToggleSwitch(eventtoggleswitch);
     }
 
-    for (const scholarshipFeeStatusToggle of document.querySelectorAll(
-        ScholarshipFeeStatusToggle.selector(),
-    )) {
-        new ScholarshipFeeStatusToggle(scholarshipFeeStatusToggle);
-    }
-
     for (const studymodetoggleswitch of document.querySelectorAll(
         ProgrammeToggleSwitch.selector(),
     )) {

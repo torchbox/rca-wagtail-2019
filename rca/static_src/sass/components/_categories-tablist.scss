@@ -262,14 +262,6 @@
             margin-right: 0;
         }
 
-        #{$root}__tab {
-            &--reset {
-                @include media-query(large) {
-                    margin-left: auto;
-                }
-            }
-        }
-
         // Colours are quite confusing for this component as it has many states, overriding for the scholarship listing
         &.bg--dark {
             #{$root}__heading {

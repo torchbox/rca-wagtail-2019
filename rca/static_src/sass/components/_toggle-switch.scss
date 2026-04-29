@@ -157,17 +157,4 @@
     }
 }
 
-.app--scholarship-listing {
-    #tab-fee-status {
-        display: none !important; // don't display toggle tab, as toggle implements this functionality
-    }
-
-    .toggle-switch {
-        border-left: none !important; // don't display border on the left
-
-        &::before {
-            display: none; // don't display separator on mobile/tablet
-        }
-    }
-}
 /* stylelint-enable selector-max-id */

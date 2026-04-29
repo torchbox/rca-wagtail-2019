@@ -13,10 +13,11 @@ from wagtail.snippets.models import register_snippet
 
 from rca.programmes.models import ProgrammePage
 from rca.utils.blocks import StepBlock
+from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, ContactFieldsMixin, SluggedTaxonomy
 
 from .blocks import ScholarshipsListingPageBlock
-from .filters import FeeStatusFilter, ProgrammeTabStyleFilter
+from .filters import ProgrammeTabStyleFilter
 
 
 class ScholarshipFeeStatus(SluggedTaxonomy):
@@ -182,7 +183,16 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
                 filter_by="eligable_programmes__slug__in",
                 option_value_field="slug",
             ),
-            FeeStatusFilter(),
+            TabStyleFilter(
+                "Fee Status",
+                queryset=(
+                    ScholarshipLocation.objects.filter(
+                        id__in=queryset.values_list("location_id", flat=True)
+                    )
+                ),
+                filter_by="location__slug__in",
+                option_value_field="slug",
+            ),
         )
 
         # Apply filters
@@ -208,9 +218,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
             for s in queryset
         ]
 
-        is_filtered = bool(
-            request.GET.get("programme") or request.GET.get("fee-status")
-        )
+        is_filtered = bool(request.GET.get("programme") or request.GET.get("location"))
 
         # Template needs the programme for title and slug
         try:
