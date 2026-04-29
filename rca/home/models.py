@@ -18,11 +18,12 @@ from rca.utils.models import (
     HERO_COLOUR_CHOICES,
     LIGHT_HERO,
     BasePage,
+    ProcessedBodyMixin,
     TapMixin,
 )
 
 
-class HomePage(TapMixin, BasePage):
+class HomePage(ProcessedBodyMixin, TapMixin, BasePage):
     template = "patterns/pages/home/home_page.html"
 
     # Only allow creating HomePages at the root level
@@ -89,54 +90,6 @@ class HomePage(TapMixin, BasePage):
 
         if errors:
             raise ValidationError(errors)
-
-    def get_processed_body(self):
-        # Processes the body streamfield to determine when and what notches are displayed.
-        processed_body = []
-        num_blocks = len(self.body)
-
-        for i, block in enumerate(self.body):
-            processed_section = {
-                "block": block,
-            }
-
-            previous_block = self.body[i - 1] if i > 0 else None
-            next_block = self.body[i + 1] if (i + 1) < num_blocks else None
-
-            is_last_block = next_block is None
-            next_is_stats = next_block and next_block.block_type in [
-                "statistics",
-                "promo_banner",
-            ]
-            backgrounds_match = next_block and next_block.value.get(
-                "background_color"
-            ) == block.value.get("background_color")
-
-            # Don't display a notch in this section if:
-            # - This is the last block in the body.
-            # - The next block is a statistics block.
-            # - The next block has the same background color as the current block.
-            processed_section["should_display_notch"] = not (
-                is_last_block or next_is_stats or backgrounds_match
-            )
-
-            # If the block is a statistics or a promo banner block, we need to check the
-            # previous and next block's background color to determine the background colors
-            # for the notch.
-            if block.block_type in ["statistics", "promo_banner"]:
-                if previous_block and previous_block.block_type == "body_section":
-                    processed_section["previous_block_bg"] = previous_block.value.get(
-                        "background_color"
-                    )
-
-                if next_block and next_block.block_type == "body_section":
-                    processed_section["next_block_bg"] = next_block.value.get(
-                        "background_color"
-                    )
-
-            processed_body.append(processed_section)
-
-        return processed_body
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)

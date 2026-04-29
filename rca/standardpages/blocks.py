@@ -1,7 +1,7 @@
 from wagtail import blocks
 from wagtail.embeds.blocks import EmbedBlock
 
-from rca.home.blocks import PromoBannerBlock
+from rca.home.blocks import PromoBannerBlock, StatisticsBlock
 from rca.utils.blocks import CTALinkBlock, ImageBlock, QuoteBlock
 from rca.utils.blocks.content import CardGridBlock, ImageVideoGalleryBlock
 
@@ -39,3 +39,4 @@ class BodySectionBlock(blocks.StructBlock):
 class LandingPageBodyBlock(blocks.StreamBlock):
     body_section = BodySectionBlock()
     promo_banner = PromoBannerBlock()
+    statistics = StatisticsBlock()
