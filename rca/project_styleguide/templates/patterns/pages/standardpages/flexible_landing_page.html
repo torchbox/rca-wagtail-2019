@@ -61,7 +61,7 @@
                         {% include_block section with previous_section_bg=item.previous_block_bg next_section_bg=item.next_block_bg %}
                     {% else %}
                         {# This is a body section block. #}
-                        <section class="section bg bg--{{ section.value.background_color }}{% if not forloop.first %} section--top-space{% endif %}">
+                        <section class="section section--extra-padding-bottom section--top-space bg bg--{{ section.value.background_color }}">
                             {% for block in section.value.content %}
                             <div class="grid">
                                 <div class="streamfield layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
