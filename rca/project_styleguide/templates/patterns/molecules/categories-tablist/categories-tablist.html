@@ -25,7 +25,7 @@
             {% include "patterns/atoms/toggle-switch/toggle-switch.html" with label_one="Upcoming" label_two="Past" aria_label="Toggle past or upcoming events" %}
         {% endif %}
         {% if reset %}
-            <div class="categories-tablist__tab">
+            <div class="categories-tablist__tab categories-tablist__tab--reset">
                 {% include "patterns/atoms/reset/reset.html" with value=reset modifier="hidden" %}
             </div>
         {% endif %}

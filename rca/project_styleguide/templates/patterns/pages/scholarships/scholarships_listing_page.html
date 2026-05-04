@@ -50,9 +50,24 @@
             </section>
 
             <form class="section bg bg--{{ page.scholarships_listing_background_color }} js-tabs" method="get" action="#results" id="results">
+                {% if show_all %}
                 <div class="section__row">
-                    <nav class="section filter-bar filter-bar--large {% if not is_filtered %}filter-bar--no-results-large{% endif %} " data-filter-bar>
-                        <div class="grid">
+                    <div class="grid">
+                        <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                            <div class="streamfield rich-text">
+                                <h2 class="anchor-heading" id="see-all-scholarships" data-scrollama-index="1">See all scholarships</h2>
+                                <p>Browse all current Royal College of Art scholarships and funding opportunities for applicants and students, including RCA awards and selected external funding.</p>
+                                <p>Our scholarships support students with financial need and those from under-represented groups, including disabled students and people with refugee or asylum seeker status, or limited leave to remain.</p>
+                                <p>This page is updated regularly as new opportunities are confirmed.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="section__row">
+                    <nav class="section filter-bar filter-bar--large {% if not results %}filter-bar--no-results-large{% endif %} " data-filter-bar>
+                        <div class="grid">                            
                             <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                                 {% if page.scholarships_has_dark_background %}
                                     {% include "patterns/molecules/categories-tablist/categories-tablist.html" with value=filters modifier="large" reset=True dark=True reset_button_text="Reset" %}
@@ -75,7 +90,7 @@
                         </div>
                     </nav>
 
-                    <nav class="filter-bar filter-bar--small bg bg--light" data-filter-bar-small>
+                    <nav class="filter-bar filter-bar--small {% if not results %}filter-bar--no-results-small{% endif %} bg bg--light" data-filter-bar-small>
                         <a class="filter-bar__link body body--two" href="#filters-active" data-filter-launcher>
                             <span class="filter-bar__label">Filters</span>
                             <svg width="12" height="8" class="filter-bar__icon" aria-hidden="true">
@@ -97,22 +112,24 @@
                     </div>
                 </div>
 
-                <div class="section__row grid{% if not is_filtered %} section--top-space-small{% endif %}">
-                    <h2 class="results-total results-total__heading heading heading--four layout__start-one layout__span-two layout__@large-start-two">
-                        {% if is_filtered %}
-                            <span class="results-total__type">Showing {{ result_count }} scholarship{{ result_count|pluralize }}</span>
-                        {% else %}
-                            <span class="results-total__type">Showing all scholarships</span>
-                            <span class="results-total__number">({{ result_count }})</span>
-                        {% endif %}
-                    </h2>
-                    <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                        <p class="body body--two results-total__disclaimer">{{ page.characteristics_disclaimer }}</p>
+                {% if results %}
+                    <div class="section__row grid">
+                        <h2 class="results-total results-total__heading heading heading--four layout__start-one layout__span-two layout__@large-start-two">
+                            {% if is_filtered and not show_all %}
+                                <span class="results-total__type">Showing {{ result_count }} scholarship{{ result_count|pluralize }}</span>
+                            {% else %}
+                                <span class="results-total__type">Showing all scholarships</span>
+                                <span class="results-total__number">({{ result_count }})</span>
+                            {% endif %}
+                        </h2>
+                        <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                            <p class="body body--two results-total__disclaimer">{{ page.characteristics_disclaimer }}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="section__row">
-                    {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=results title=results_title section_id=page.results_title|slugify modifier="accordion-block--small-margin" scholarship=True %}
-                </div>
+                    <div class="section__row">
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=results title=results_title section_id=page.results_title|slugify modifier="accordion-block--small-margin" scholarship=True %}
+                    </div>
+                {% endif %}
             </form>
 
             <section class="section bg bg--light">
@@ -124,6 +141,13 @@
 
                 <div class="section__row section__row--last grid">
                     <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                        {% if not results %}
+                            <h2 class="anchor-heading" id="see-all-scholarships" data-scrollama-index="1">See all scholarships</h2>
+                            <div class="rich-text">
+                                <p>Browse our full list of funding opportunities. We update this regularly as new awards are confirmed. <a href="?show_all=1#results">See all scholarships</a></p>
+                            </div>
+                        {% endif %}
+
                         {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body guide_page=True %}
                     </div>
                 </div>

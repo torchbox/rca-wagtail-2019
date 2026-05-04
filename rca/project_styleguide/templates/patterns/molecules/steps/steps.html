@@ -27,7 +27,7 @@
         {% endfor %}
         {% if scholarships %}
             {% if not is_filtered %}
-                {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text="Select a programme" link="#programme" %}
+                {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with text="Find your scholarship" link="#programme" %}
             {% endif %}
         {% else %}
             {% include "patterns/atoms/exceptional-cta/exceptional-cta.html" with link=programme_page_global_fields.apply_cta_link text=programme_page_global_fields.apply_cta_text %}
