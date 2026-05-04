@@ -51,18 +51,18 @@
 
             <form class="section bg bg--{{ page.scholarships_listing_background_color }} js-tabs" method="get" action="#results" id="results">
                 {% if show_all %}
-                <div class="section__row">
-                    <div class="grid">
-                        <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                            <div class="streamfield rich-text">
-                                <h2 class="anchor-heading" id="see-all-scholarships" data-scrollama-index="1">See all scholarships</h2>
-                                <p>Browse all current Royal College of Art scholarships and funding opportunities for applicants and students, including RCA awards and selected external funding.</p>
-                                <p>Our scholarships support students with financial need and those from under-represented groups, including disabled students and people with refugee or asylum seeker status, or limited leave to remain.</p>
-                                <p>This page is updated regularly as new opportunities are confirmed.</p>
+                    <div class="section__row">
+                        <div class="grid">
+                            <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                                <div class="streamfield rich-text">
+                                    <h2 class="anchor-heading" id="see-all-scholarships" data-scrollama-index="1">See all scholarships</h2>
+                                    <p>Browse all current Royal College of Art scholarships and funding opportunities for applicants and students, including RCA awards and selected external funding.</p>
+                                    <p>Our scholarships support students with financial need and those from under-represented groups, including disabled students and people with refugee or asylum seeker status, or limited leave to remain.</p>
+                                    <p>This page is updated regularly as new opportunities are confirmed.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 {% endif %}
 
                 <div class="section__row">
@@ -129,6 +129,21 @@
                     <div class="section__row">
                         {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=results title=results_title section_id=page.results_title|slugify modifier="accordion-block--small-margin" scholarship=True %}
                     </div>
+                {% else %}
+                    {% if not results %}
+                        <div class="section__row grid">
+                            <div class="rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                            <h2 class="anchor-heading" id="see-all-scholarships">
+                                {% if is_filtered %}
+                                    No results found
+                                {% else %}
+                                    See all scholarships
+                                {% endif %}
+                            </h2>
+                            <p>Browse our full list of funding opportunities. We update this regularly as new awards are confirmed. <a href="?show_all=1#results">See all scholarships</a></p>
+                        </div>
+                    </div>
+                        {% endif %}
                 {% endif %}
             </form>
 
@@ -141,13 +156,6 @@
 
                 <div class="section__row section__row--last grid">
                     <div class="streamfield rich-text layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
-                        {% if not results %}
-                            <h2 class="anchor-heading" id="see-all-scholarships" data-scrollama-index="1">See all scholarships</h2>
-                            <div class="rich-text">
-                                <p>Browse our full list of funding opportunities. We update this regularly as new awards are confirmed. <a href="?show_all=1#results">See all scholarships</a></p>
-                            </div>
-                        {% endif %}
-
                         {% include "patterns/molecules/streamfield/stream_block.html" with value=page.body guide_page=True %}
                     </div>
                 </div>
