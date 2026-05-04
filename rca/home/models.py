@@ -2,13 +2,13 @@ from collections import defaultdict
 
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.safestring import mark_safe
 from wagtail.admin.panels import (
     FieldPanel,
     MultiFieldPanel,
     ObjectList,
     TabbedInterface,
 )
-from django.utils.safestring import mark_safe
 from wagtail.images import get_image_model_string
 
 from rca.home.blocks import HomePageBodyBlock
