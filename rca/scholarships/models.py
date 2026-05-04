@@ -13,10 +13,11 @@ from wagtail.snippets.models import register_snippet
 
 from rca.programmes.models import ProgrammePage
 from rca.utils.blocks import StepBlock
+from rca.utils.filter import TabStyleFilter
 from rca.utils.models import BasePage, ContactFieldsMixin, SluggedTaxonomy
 
 from .blocks import ScholarshipsListingPageBlock
-from .filters import FeeStatusFilter, ProgrammeTabStyleFilter
+from .filters import ProgrammeTabStyleFilter
 
 
 class ScholarshipFeeStatus(SluggedTaxonomy):
@@ -182,35 +183,48 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
                 filter_by="eligable_programmes__slug__in",
                 option_value_field="slug",
             ),
-            FeeStatusFilter(),
+            TabStyleFilter(
+                "Fee Status",
+                queryset=(
+                    ScholarshipLocation.objects.filter(
+                        id__in=queryset.values_list("location_id", flat=True)
+                    )
+                ),
+                filter_by="location__slug__in",
+                option_value_field="slug",
+            ),
         )
-
-        # Apply filters
-        for f in filters:
-            queryset = f.apply(queryset, request.GET)
-
-        # Format scholarships for template
-        results = [
-            {
-                "value": {
-                    "heading": s.title,
-                    "introduction": s.summary,
-                    "eligible_programmes": ", ".join(
-                        str(x) for x in s.eligable_programmes.live()
-                    ),
-                    "other_criteria": ", ".join(
-                        x.title for x in s.other_criteria.all()
-                    ),
-                    "fee_statuses": ", ".join(x.title for x in s.fee_statuses.all()),
-                    "value": s.value,
-                }
-            }
-            for s in queryset
-        ]
 
         is_filtered = bool(
-            request.GET.get("programme") or request.GET.get("fee-status")
+            request.GET.get("programme")
+            or request.GET.get("location")
         )
+        show_all = request.GET.get("show_all")
+
+        # Apply filters and build results only when a filter is active or all are requested
+        if is_filtered or show_all:
+            for f in filters:
+                queryset = f.apply(queryset, request.GET)
+
+            results = [
+                {
+                    "value": {
+                        "heading": s.title,
+                        "introduction": s.summary,
+                        "eligible_programmes": ", ".join(
+                            str(x) for x in s.eligable_programmes.live()
+                        ),
+                        "other_criteria": ", ".join(
+                            x.title for x in s.other_criteria.all()
+                        ),
+                        "fee_statuses": ", ".join(
+                            x.title for x in s.fee_statuses.all()
+                        ),
+                        "value": s.value,
+                    }
+                }
+                for s in queryset
+            ]
 
         # Template needs the programme for title and slug
         try:
@@ -229,5 +243,6 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
             results=results,
             result_count=len(results),
             is_filtered=is_filtered,
+            show_all=show_all,
         )
         return context

@@ -25,7 +25,6 @@ import Sticky from './components/position-sticky-event';
 import ProgrammeToggleSwitch from './components/programme-toggle-switch';
 import ProjectFilters from './components/project-filters';
 import RelatedContent from './components/related-content';
-import ScholarshipFeeStatusToggle from './components/scholarship-fee-status-toggle';
 import SitewideAlert from './components/sitewide-alert';
 import Slideshow from './components/slideshow';
 import TableHint from './components/table-hint';
@@ -148,12 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
         EventToggleSwitch.selector(),
     )) {
         new EventToggleSwitch(eventtoggleswitch);
-    }
-
-    for (const scholarshipFeeStatusToggle of document.querySelectorAll(
-        ScholarshipFeeStatusToggle.selector(),
-    )) {
-        new ScholarshipFeeStatusToggle(scholarshipFeeStatusToggle);
     }
 
     for (const studymodetoggleswitch of document.querySelectorAll(
