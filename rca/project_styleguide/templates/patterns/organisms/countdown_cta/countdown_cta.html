@@ -18,7 +18,7 @@
             </p>
             <p class="countdown-cta__title" id="countdown-cta-title">{{ value.title }}</p>
             {% if value.start_date and value.end_date %}
-                <p class="countdown-cta__date">{{ value.start_date|date:"j" }}-{{ value.end_date|date:"j" }} {{ value.end_date|date:"F" }}, {{ value.start_date|date:"g.iA"|lower }}, {{ value.end_date|date:"g.iA"|lower }}</p>
+                <p class="countdown-cta__date">{% if value.start_date|date:"FY" == value.end_date|date:"FY" %}{{ value.start_date|date:"j" }}-{{ value.end_date|date:"j" }} {{ value.end_date|date:"F" }}{% else %}{{ value.start_date|date:"j F" }} - {{ value.end_date|date:"j F" }}{% endif %}, {{ value.start_date|date:"g.iA"|lower }} - {{ value.end_date|date:"g.iA"|lower }}</p>
             {% elif value.start_date %}
                 <p class="countdown-cta__date">{{ value.start_date|date:"j F" }}, {{ value.start_date|date:"g.iA"|lower }}</p>
             {% elif value.end_date %}
