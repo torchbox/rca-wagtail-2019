@@ -73,6 +73,22 @@
                 opacity: 0;
             }
         }
+
+        // Hide text content on inactive slides to avoid contrast failures.
+        // The opacity still applies to the image, but text is fully hidden
+        // until the slide is active
+        #{$root}__item {
+            .card__content-container {
+                opacity: 0;
+                transition: opacity 100ms ease-out;
+            }
+
+            &.glide__slide--active {
+                .card__content-container {
+                    opacity: 1;
+                }
+            }
+        }
     }
 
     &--quotes {
