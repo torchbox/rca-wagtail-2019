@@ -99,7 +99,11 @@
 
         <footer class="app__footer">
             {% include "patterns/atoms/grid-lines/grid-lines.html" %}
-            {% block footer %}{% endblock %}
+            {% block footer %}
+                {% if personalised_footer_cta %}
+                    {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=personalised_footer_cta classes="text-teaser--footer-cta" %}
+                {% endif %}
+            {% endblock %}
         </footer>
 
         {% if personalised_countdown_cta %}
