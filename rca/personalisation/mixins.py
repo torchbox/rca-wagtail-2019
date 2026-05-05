@@ -22,7 +22,7 @@ class PersonalisedCTAMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if not self.personalised_cta_view_type:
+        if not self.personalised_cta_view_type or not hasattr(self.request, "session"):
             return context
 
         adapter = get_segment_adapter(self.request)
@@ -71,6 +71,8 @@ class PersonalisedCTAMixin:
             ).first()
         )
         if collapsible_nav:
-            context["personalised_collapsible_nav"] = collapsible_nav.get_template_data()
+            context["personalised_collapsible_nav"] = (
+                collapsible_nav.get_template_data()
+            )
 
         return context
