@@ -195,10 +195,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
             ),
         )
 
-        is_filtered = bool(
-            request.GET.get("programme")
-            or request.GET.get("location")
-        )
+        is_filtered = bool(request.GET.get("programme") or request.GET.get("location"))
         show_all = request.GET.get("show_all")
 
         # Apply filters and build results only when a filter is active or all are requested
