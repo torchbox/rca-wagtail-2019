@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.safestring import mark_safe
 from wagtail.admin.panels import (
     FieldPanel,
     MultiFieldPanel,
@@ -144,6 +145,9 @@ class HomePage(TapMixin, BasePage):
         context["processed_body"] = self.get_processed_body()
 
         context["hero_colour"] = LIGHT_HERO
+
+        if self.tap_widget:
+            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
 
         if (
             hasattr(self, "hero_colour_option")
