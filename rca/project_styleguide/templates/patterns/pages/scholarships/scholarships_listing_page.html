@@ -56,9 +56,7 @@
                             <div class="layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
                                 <div class="streamfield rich-text">
                                     <h2 class="anchor-heading" id="see-all-scholarships" data-scrollama-index="1">See all scholarships</h2>
-                                    <p>Browse all current Royal College of Art scholarships and funding opportunities for applicants and students, including RCA awards and selected external funding.</p>
-                                    <p>Our scholarships support students with financial need and those from under-represented groups, including disabled students and people with refugee or asylum seeker status, or limited leave to remain.</p>
-                                    <p>This page is updated regularly as new opportunities are confirmed.</p>
+                                    <p>{{ page.all_scholarships_disclaimer }}</p>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +138,7 @@
                                     See all scholarships
                                 {% endif %}
                             </h2>
-                            <p>Browse our full list of funding opportunities. We update this regularly as new awards are confirmed. <a href="?show_all=1#results">See all scholarships</a></p>
+                            <p>{{ page.all_scholarships_disclaimer }} <a href="?show_all=1#results">See all scholarships</a></p>
                         </div>
                     </div>
                         {% endif %}
