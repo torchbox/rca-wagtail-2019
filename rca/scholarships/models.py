@@ -106,6 +106,11 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         blank=True,
         verbose_name="Application Steps",
     )
+
+    all_scholarships_disclaimer = models.TextField(
+        blank=False, help_text="Text displayed below 'See all scholarships' heading."
+    )
+
     characteristics_disclaimer = models.CharField(
         max_length=250,
         blank=True,
@@ -120,6 +125,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
                 FieldPanel("scholarship_listing_title"),
                 FieldPanel("scholarship_listing_sub_title"),
                 FieldPanel("scholarship_application_steps"),
+                FieldPanel("all_scholarships_disclaimer"),
                 FieldPanel("characteristics_disclaimer"),
             ],
             heading="Scholarship listing",
