@@ -94,4 +94,5 @@ class ScholarshipsListingPageFactory(wagtail_factories.PageFactory):
     introduction = factory.Faker("text", max_nb_chars=500)
     scholarship_listing_title = factory.Faker("text", max_nb_chars=25)
     scholarship_listing_sub_title = factory.Faker("text", max_nb_chars=50)
+    all_scholarships_disclaimer = factory.Faker("text", max_nb_chars=250)
     # TODO: add field for scholarship_application_steps
