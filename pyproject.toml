@@ -39,7 +39,7 @@ beautifulsoup4 = "~4.14"
 coverage = "~7.13"
 freezegun = "~1.5"
 html5lib = "~1.1"
-lxml = "~6.0"
+lxml = "~6.1"
 scout-apm = "~3.5"
 sentry-sdk = "~2.56"
 tblib = "~3.2"
@@ -50,6 +50,9 @@ django-xff = "~1.5"
 wagtailmedia = "^0.17.2"
 wagtail-personalisation = {git = "https://github.com/torchbox-forks/wagtail-personalisation.git", tag = "0.16.0+tbx"}
 wagtail-font-awesome-svg = "^2.0"
+cryptography = "~46.0"
+pillow = "^12.2.0"
+requests = "^2.33.0"
 
 [tool.poetry.extras]
 gunicorn = ["gunicorn"]
