@@ -106,6 +106,11 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         blank=True,
         verbose_name="Application Steps",
     )
+
+    all_scholarships_disclaimer = models.TextField(
+        blank=False, help_text="Text displayed below 'See all scholarships' heading."
+    )
+
     characteristics_disclaimer = models.CharField(
         max_length=250,
         blank=True,
@@ -120,6 +125,7 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
                 FieldPanel("scholarship_listing_title"),
                 FieldPanel("scholarship_listing_sub_title"),
                 FieldPanel("scholarship_application_steps"),
+                FieldPanel("all_scholarships_disclaimer"),
                 FieldPanel("characteristics_disclaimer"),
             ],
             heading="Scholarship listing",
@@ -195,12 +201,14 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
             ),
         )
 
-        if "programme" in request.GET or "location" in request.GET:
-            # Apply filters
+        is_filtered = bool(request.GET.get("programme") or request.GET.get("location"))
+        show_all = request.GET.get("show_all")
+
+        # Apply filters and build results only when a filter is active or all are requested
+        if is_filtered or show_all:
             for f in filters:
                 queryset = f.apply(queryset, request.GET)
 
-            # Format scholarships for template
             results = [
                 {
                     "value": {
@@ -221,11 +229,11 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
                 for s in queryset
             ]
 
-            # Template needs the programme for title and slug
-            try:
-                programme = ProgrammePage.objects.get(slug=request.GET["programme"])
-            except Exception:
-                pass
+        # Template needs the programme for title and slug
+        try:
+            programme = ProgrammePage.objects.get(slug=request.GET["programme"])
+        except Exception:
+            pass
 
         context.update(
             anchor_nav=self.anchor_nav(),
@@ -236,5 +244,8 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
             },
             programme=programme,
             results=results,
+            result_count=len(results),
+            is_filtered=is_filtered,
+            show_all=show_all,
         )
         return context

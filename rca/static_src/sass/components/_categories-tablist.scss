@@ -121,6 +121,10 @@
             @include underline-hover-target-reset();
             position: relative;
             color: $color--black;
+
+            &.categories-tablist__tab--reset {
+                background: none;
+            }
         }
     }
 
@@ -251,7 +255,12 @@
 
     .app--scholarship-listing & {
         padding-left: 0;
+        
         margin-bottom: ($gutter * 2);
+
+        @include media-query(large) {
+            margin-right: 0;
+        }
 
         // Colours are quite confusing for this component as it has many states, overriding for the scholarship listing
         &.bg--dark {
