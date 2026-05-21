@@ -68,7 +68,7 @@ const ProgrammesResults = ({
     const { isFullTime, isPartTime } = useStudyMode();
 
     useEffect(() => {
-        if (hasActiveFilter || !!isFullTime || !!isPartTime) {
+        if (hasActiveFilter) {
             startSearch(null, { [activeCategory]: activeValue });
             const mount = document.querySelector(
                 '[data-mount-programmes-explorer]',

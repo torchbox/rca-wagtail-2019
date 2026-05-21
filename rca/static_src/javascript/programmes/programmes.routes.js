@@ -61,15 +61,12 @@ export const getSearchURL = (search) => {
     const params = getParams();
     params.delete('category');
     params.delete('value');
-    params.delete('full-time');
-    params.delete('part-time');
     params.set('search', search);
     return getURL(params);
 };
 
 export const getCourseLengthURL = (isFullTime, isPartTime) => {
     const params = getParams();
-    params.delete('search');
     if (isFullTime === 'true') {
         params.set('full-time', 'true');
     } else {
