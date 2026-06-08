@@ -916,3 +916,6 @@ WAGTAIL_PERSONALISATION_RULES = [
     "wagtail_personalisation.OriginCountryRule",
     "personalisation.OriginContinentRule",
 ]
+
+# Feature flag for Apple MDM service discovery endpoint (/.well-known/com.apple.remotemanagement)
+APPLE_MDM_ENABLED = env.get("APPLE_MDM_ENABLED", "false").lower() == "true"
