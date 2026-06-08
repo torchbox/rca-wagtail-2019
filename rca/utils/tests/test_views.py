@@ -1,6 +1,6 @@
 import json
 
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 
 class AppleRemoteManagementViewTest(TestCase):
@@ -26,3 +26,8 @@ class AppleRemoteManagementViewTest(TestCase):
                 ]
             },
         )
+
+    @override_settings(APPLE_MDM_ENABLED=False)
+    def test_returns_404_when_disabled(self):
+        response = self.client.get("/.well-known/com.apple.remotemanagement")
+        self.assertEqual(response.status_code, 404)
