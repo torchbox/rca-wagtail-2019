@@ -18,6 +18,7 @@ from rca.account_management.views import (
 )
 from rca.search import views as search_views
 from rca.utils.cache import get_default_cache_control_decorator
+from rca.utils.views import apple_remote_management
 from rca.wagtailapi.api import api_router
 
 WAGTAIL_FRONTEND_LOGIN_TEMPLATE = getattr(
@@ -43,6 +44,7 @@ private_urlpatterns = [
 # Public URLs that are meant to be cached.
 urlpatterns = [
     path("sitemap.xml", sitemap),
+    path(".well-known/com.apple.remotemanagement", apple_remote_management),
     path("", include("social_django.urls", namespace="social")),
 ]
 

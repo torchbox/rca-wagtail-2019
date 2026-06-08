@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.http import Http404, JsonResponse
 from django.views import defaults
 
 
@@ -19,3 +21,20 @@ def page_not_found(request, exception, template_name="patterns/pages/errors/404.
 
 def server_error(request, template_name="patterns/pages/errors/500.html"):
     return defaults.server_error(request, template_name)
+
+
+def apple_remote_management(request):
+    # If feature flag is disabled, raise 404.
+    if not getattr(settings, "APPLE_MDM_ENABLED", False):
+        raise Http404
+
+    return JsonResponse(
+        {
+            "Servers": [
+                {
+                    "BaseURL": "https://ios-mdm.google.com/userenrollment/enroll",
+                    "Version": "mdm-byod",
+                }
+            ]
+        }
+    )
