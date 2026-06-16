@@ -22,18 +22,18 @@ repos:
         additional_dependencies:
           - eslint@8.57.1
           - eslint-config-airbnb@19.0.4
-          - eslint-config-prettier@10.1.8
+          - eslint-config-prettier@8.10.2
           - eslint-config-torchbox@1.1.0
           - eslint-plugin-import@2.32.0
           - eslint-plugin-jsx-a11y@6.10.2
           - eslint-plugin-react@7.37.5
           - eslint-plugin-react-hooks@4.6.2
-          - '@babel/core@7.29.0'
-          - '@babel/preset-env@7.29.0'
-          - '@babel/preset-react@7.28.5'
-          - '@babel/eslint-parser@7.28.6'
+          - '@babel/core@7.29.7'
+          - '@babel/preset-env@7.29.7'
+          - '@babel/preset-react@7.29.7'
+          - '@babel/eslint-parser@7.29.7'
   - repo: https://github.com/rbubley/mirrors-prettier
-    rev: v3.8.1
+    rev: v3.8.4
     hooks:
       - id: prettier
         types_or: [markdown, css, scss, javascript, json, yaml]
@@ -42,8 +42,8 @@ repos:
     hooks:
       - id: stylelint
         additional_dependencies:
-          - stylelint@16.23.1
-          - stylelint-config-torchbox@4.0.0
+          - stylelint@17.13.0
+          - stylelint-config-torchbox@5.0.0
   - repo: https://github.com/adamchainz/django-upgrade
     rev: 1.29.1
     hooks:
