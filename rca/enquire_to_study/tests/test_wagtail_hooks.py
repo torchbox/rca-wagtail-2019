@@ -93,7 +93,7 @@ class EnquiryFormSubmissionViewSetTest(WagtailTestUtils, TestCase):
         self.assertContains(response, reverse("enquiretostudy_delete"))
 
     def test_menu_label_and_placement(self):
-        from rca.enquire_to_study.wagtail_hooks import EnquiryFormSubmissionViewSet
+        from rca.enquire_to_study.viewsets import EnquiryFormSubmissionViewSet
 
         viewset = EnquiryFormSubmissionViewSet()
         self.assertEqual(viewset.menu_label, "Enquiry Submissions")

@@ -8,7 +8,7 @@ from rca.programmes.models import DegreeLevel, ProgrammeStudyMode, ProgrammeType
 
 class TaxonomiesViewSetGroupTest(WagtailTestUtils, TestCase):
     """Tests for the taxonomy admin migrated from wagtail-modeladmin to a
-    ModelViewSetGroup in rca/utils/wagtail_hooks.py."""
+    ModelViewSetGroup in rca/utils/viewsets.py."""
 
     def setUp(self):
         self.user = self.login()
@@ -47,7 +47,7 @@ class TaxonomiesViewSetGroupTest(WagtailTestUtils, TestCase):
 
     def test_taxonomies_menu_group_registered(self):
         # The grouped "Taxonomies" menu is preserved with its members in order.
-        from rca.utils.wagtail_hooks import TaxonomiesViewSetGroup
+        from rca.utils.viewsets import TaxonomiesViewSetGroup
 
         group = TaxonomiesViewSetGroup()
         self.assertEqual(group.menu_label, "Taxonomies")
