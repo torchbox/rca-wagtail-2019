@@ -48,6 +48,10 @@ whitenoise = "~6.12"
 social-auth-app-django = "~5.9"
 django-xff = "~1.5"
 wagtailmedia = "~0.17"
+# Consider updating the fork we are using here.
+# It's wagtail-modeladmin dependency is testing only and should be moved to a main dependency
+# wagtail-modeladmin above could be removed once https://github.com/wagtail-nest/wagtail-personalisation/pull/263
+# is merged and a new release is available.
 wagtail-personalisation = {git = "https://github.com/torchbox-forks/wagtail-personalisation.git", tag = "0.16.0+tbx"}
 wagtail-font-awesome-svg = "~2.0"
 cryptography = "~49.0"
