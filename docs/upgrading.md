@@ -127,10 +127,6 @@ Last security review: 2026-06-16
 
 Run `trivy fs` from the project root each cycle. The project's real dependency surface is `poetry.lock` (Python) and `package-lock.json` (Node); Python and Node CVEs surfaced there are cleared by the quarterly version bumps and need no entry here once fixed.
 
-## Pre-commit vs CI: migration formatting
-
-CI runs black and isort with migrations excluded (`black ... --exclude migrations/`, `isort ... --skip-glob '**/migrations/*'` in `.github/workflows/lint.yaml`), so committed migrations are intentionally left unformatted. The pre-commit hooks have **no** such exclusion, so `pre-commit run --all-files` will reformat every historical migration. That churn is spurious — do not commit it. When refreshing hooks, run hooks against your actual changed files, not `--all-files`, or discard any `**/migrations/*.py` edits before committing.
-
 ---
 
 ## Overridden core Wagtail templates
