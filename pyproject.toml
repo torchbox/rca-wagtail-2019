@@ -29,9 +29,9 @@ dj-database-url = "~3.1"
 wagtail-accessibility = "~2.0"
 wagtail-django-recaptcha = "~2.2"
 wagtail-factories = "~4.5"
+# Still required transitively by wagtail-personalisation (its SegmentModelAdmin).
+# The project's own modeladmin usage has been migrated to Wagtail core viewsets.
 wagtail-modeladmin = "~2.4"
-wagtail-orderable = {git = "https://github.com/torchbox-forks/wagtail-orderable.git", tag = "1.3.1+tbx"}
-wagtail-rangefilter = "~0.2"
 wagtail-storages = "~2.0"
 
 # Various

@@ -1,9 +1,8 @@
 from django.utils.html import escape
 from wagtail import hooks
+from wagtail.admin.views.generic.models import IndexView
+from wagtail.admin.viewsets.model import ModelViewSet, ModelViewSetGroup
 from wagtail.rich_text import LinkHandler
-from wagtail_modeladmin.options import ModelAdmin, ModelAdminGroup, modeladmin_register
-from wagtail_modeladmin.views import IndexView
-from wagtailorderable.modeladmin.mixins import OrderableMixin
 
 from rca.editorial.models import Author, EditorialType
 from rca.events.models import (
@@ -30,19 +29,25 @@ from rca.utils.models import ResearchTheme, ResearchType, Sector
 from rca.utils.templatetags.util_tags import is_external
 
 
-class DegreeLevelModelAdmin(ModelAdmin):
+class TaxonomyViewSet(ModelViewSet):
+    """Base viewset for the taxonomy models. Builds the create/edit form from
+    all editable model fields (matching the previous modeladmin behaviour) and
+    uses the shared ``tag`` icon."""
+
+    icon = "tag"
+    exclude_form_fields = []
+
+
+class DegreeLevelViewSet(TaxonomyViewSet):
     model = DegreeLevel
-    menu_icon = "tag"
 
 
-class AuthorModelAdmin(ModelAdmin):
+class AuthorViewSet(TaxonomyViewSet):
     model = Author
-    menu_icon = "tag"
 
 
-class SubjectModelAdmin(ModelAdmin):
+class SubjectViewSet(TaxonomyViewSet):
     model = Subject
-    menu_icon = "tag"
 
 
 class ProgrammeStudyModeIndexView(IndexView):
@@ -50,144 +55,130 @@ class ProgrammeStudyModeIndexView(IndexView):
     Hide the "Add" button if there are >= 2 instances.
     """
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    @property
+    def header_buttons(self):
+        buttons = super().header_buttons
         if ProgrammeStudyMode.objects.count() >= 2:
-            context.update({"user_can_create": False})
-        return context
+            buttons = [button for button in buttons if button is not self.add_button]
+        return buttons
 
 
-class ProgrammeStudyModeModelAdmin(ModelAdmin):
+class ProgrammeStudyModeViewSet(TaxonomyViewSet):
     model = ProgrammeStudyMode
     index_view_class = ProgrammeStudyModeIndexView
-    menu_icon = "tag"
 
 
-class ProgrammeTypeModelAdmin(OrderableMixin, ModelAdmin):
+class ProgrammeTypeViewSet(TaxonomyViewSet):
+    # ``ProgrammeType`` subclasses ``wagtail.models.Orderable``, so the viewset
+    # auto-detects ``sort_order_field`` and offers native drag-and-drop reorder.
     model = ProgrammeType
-    menu_icon = "tag"
     ordering = ["sort_order"]
 
 
-class ProgrammeLocationModelAdmin(ModelAdmin):
+class ProgrammeLocationViewSet(TaxonomyViewSet):
     model = ProgrammeLocation
-    menu_icon = "tag"
 
 
-class ResearchTypeModelAdmin(ModelAdmin):
+class ResearchTypeViewSet(TaxonomyViewSet):
     model = ResearchType
-    menu_icon = "tag"
 
 
-class AreaOfExpertiseModelAdmin(ModelAdmin):
+class AreaOfExpertiseViewSet(TaxonomyViewSet):
     model = AreaOfExpertise
-    menu_icon = "tag"
 
 
-class ResearchThemeModelAdmin(ModelAdmin):
+class ResearchThemeViewSet(TaxonomyViewSet):
     model = ResearchTheme
-    menu_icon = "tag"
 
 
-class SectorModelAdmin(ModelAdmin):
+class SectorViewSet(TaxonomyViewSet):
     model = Sector
-    menu_icon = "tag"
 
 
-class DegreeTypeModelAdmin(ModelAdmin):
+class DegreeTypeViewSet(TaxonomyViewSet):
     model = DegreeType
-    menu_icon = "tag"
 
 
-class DegreeStatusModelAdmin(ModelAdmin):
+class DegreeStatusViewSet(TaxonomyViewSet):
     model = DegreeStatus
-    menu_icon = "tag"
 
 
-class DirectorateModelAdmin(ModelAdmin):
+class DirectorateViewSet(TaxonomyViewSet):
     model = Directorate
-    menu_icon = "tag"
 
 
-class EventAvailabilityModelAdmin(ModelAdmin):
+class EventAvailabilityViewSet(TaxonomyViewSet):
     model = EventAvailability
-    menu_icon = "tag"
     menu_label = "Event Availability"
 
 
-class EventEligibilityModelAdmin(ModelAdmin):
+class EventEligibilityViewSet(TaxonomyViewSet):
     model = EventEligibility
-    menu_icon = "tag"
     menu_label = "Event Eligibility"
 
 
-class EventLocationModelAdmin(ModelAdmin):
+class EventLocationViewSet(TaxonomyViewSet):
     model = EventLocation
-    menu_icon = "tag"
     menu_label = "Event Locations"
 
 
-class EventSeriesModelAdmin(ModelAdmin):
+class EventSeriesViewSet(TaxonomyViewSet):
     model = EventSeries
-    menu_icon = "tag"
     menu_label = "Event Series"
 
 
-class EventTypeModelAdmin(ModelAdmin):
+class EventTypeViewSet(TaxonomyViewSet):
     model = EventType
-    menu_icon = "tag"
 
 
-class EditorialTypeModelAdmin(ModelAdmin):
+class EditorialTypeViewSet(TaxonomyViewSet):
     model = EditorialType
-    menu_icon = "tag"
 
 
-class ScholarshipFeeStatusModelAdmin(ModelAdmin):
+class ScholarshipFeeStatusViewSet(TaxonomyViewSet):
     model = ScholarshipFeeStatus
-    menu_icon = "tag"
 
 
-class ScholarshipFundingModelAdmin(ModelAdmin):
+class ScholarshipFundingViewSet(TaxonomyViewSet):
     model = ScholarshipFunding
-    menu_icon = "tag"
 
 
-class ScholarshipLocationModelAdmin(ModelAdmin):
+class ScholarshipLocationViewSet(TaxonomyViewSet):
     model = ScholarshipLocation
-    menu_icon = "tag"
 
 
-class TaxonomiesModelAdminGroup(ModelAdminGroup):
+class TaxonomiesViewSetGroup(ModelViewSetGroup):
     menu_label = "Taxonomies"
-    items = (
-        DegreeLevelModelAdmin,
-        ProgrammeTypeModelAdmin,
-        ProgrammeStudyModeModelAdmin,
-        ProgrammeLocationModelAdmin,
-        SubjectModelAdmin,
-        ResearchTypeModelAdmin,
-        AreaOfExpertiseModelAdmin,
-        SectorModelAdmin,
-        ResearchThemeModelAdmin,
-        DirectorateModelAdmin,
-        DegreeTypeModelAdmin,
-        DegreeStatusModelAdmin,
-        EventAvailabilityModelAdmin,
-        EventEligibilityModelAdmin,
-        EventLocationModelAdmin,
-        EventSeriesModelAdmin,
-        EventTypeModelAdmin,
-        AuthorModelAdmin,
-        EditorialTypeModelAdmin,
-        ScholarshipFeeStatusModelAdmin,
-        ScholarshipFundingModelAdmin,
-        ScholarshipLocationModelAdmin,
-    )
     menu_icon = "tag"
+    items = (
+        DegreeLevelViewSet,
+        ProgrammeTypeViewSet,
+        ProgrammeStudyModeViewSet,
+        ProgrammeLocationViewSet,
+        SubjectViewSet,
+        ResearchTypeViewSet,
+        AreaOfExpertiseViewSet,
+        SectorViewSet,
+        ResearchThemeViewSet,
+        DirectorateViewSet,
+        DegreeTypeViewSet,
+        DegreeStatusViewSet,
+        EventAvailabilityViewSet,
+        EventEligibilityViewSet,
+        EventLocationViewSet,
+        EventSeriesViewSet,
+        EventTypeViewSet,
+        AuthorViewSet,
+        EditorialTypeViewSet,
+        ScholarshipFeeStatusViewSet,
+        ScholarshipFundingViewSet,
+        ScholarshipLocationViewSet,
+    )
 
 
-modeladmin_register(TaxonomiesModelAdminGroup)
+@hooks.register("register_admin_viewset")
+def register_taxonomies_viewset_group():
+    return TaxonomiesViewSetGroup()
 
 
 class TargetBlankExternalLinkHandler(LinkHandler):

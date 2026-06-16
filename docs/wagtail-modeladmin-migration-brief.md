@@ -349,6 +349,74 @@ items.
 
 ---
 
+## Implementation Notes (2026-06-16, post-implementation)
+
+Implementation carried out by the
+`wagtail-modeladmin-migration-implementation` skill. All tests pass (full suite:
+245 tests; targeted admin tests: 28). `manage.py check` and
+`makemigrations --check` are clean.
+
+### Done
+
+- **Taxonomies → `ModelViewSetGroup`** in `rca/utils/wagtail_hooks.py`
+  (`TaxonomiesViewSetGroup`, 22 `ModelViewSet`s via a shared `TaxonomyViewSet`
+  base with `exclude_form_fields = []`). Grouped "Taxonomies" menu, item order,
+  `tag` icons, and `menu_label`s preserved; models stay out of the Snippets index.
+- **`ProgrammeType`** base swapped to `wagtail.models.Orderable`
+  (`rca/programmes/models.py`); native `ModelViewSet` drag-reorder confirmed and
+  the base swap generated **no migration** (field-identical). Create-time
+  `sort_order` assignment preserved via the create view's `set_max_order`.
+- **`ProgrammeStudyMode`** add-button suppression at ≥2 reproduced by overriding
+  `header_buttons` on a custom `IndexView` (the model's own `save()`/manager also
+  hard-enforce the max-two rule).
+- **`EnquiryFormSubmission` → `ModelViewSet`** in
+  `rca/enquire_to_study/wagtail_hooks.py`: add disabled for all users via a
+  reusable `DisableCreatePermissionPolicy`; `list_display`/`list_export` callable
+  columns moved onto the model; queryset `select_related`/`prefetch_related`
+  carried over; search preserved; "Delete submissions" header button re-homed via
+  `header_buttons`. Old `enquire_to_study/index.html` deleted; `confirm_delete.html`
+  re-based off `wagtailadmin/base.html`. `enquiretostudy_delete` URL name preserved;
+  `views.delete()` and `test_views.py` now use `reverse("enquiryformsubmission:index")`.
+- **`wagtail-orderable` removed** (no remaining consumers anywhere): dropped from
+  `INSTALLED_APPS`, `.isort.cfg`, `pyproject.toml`, and re-locked.
+- Deleted an **orphaned** modeladmin template,
+  `rca/scholarships/templates/scholarships/index.html` (unreferenced dead code
+  that extended `modeladmin/index.html`).
+
+### Corrections to this brief found during implementation
+
+- **`wagtail-modeladmin` CANNOT be removed yet — BLOCKED by
+  `wagtail-personalisation`.** The torchbox `wagtail-personalisation` fork
+  (`wagtail_personalisation/views.py`) imports `wagtail_modeladmin.options` and
+  registers its own `SegmentModelAdmin`; its only fallback is the
+  `wagtail.contrib.modeladmin` that Wagtail 7 removed. So both the package and the
+  `"wagtail_modeladmin"` `INSTALLED_APPS` entry must stay until
+  `wagtail-personalisation` itself stops depending on modeladmin. The brief's
+  "remove `wagtail-modeladmin`" step is therefore deferred; the entry is kept with
+  an explanatory comment. The project's **own** modeladmin usage is fully migrated.
+- **`wagtail-rangefilter` is NOT django-filter based** (the brief assumed it was).
+  Its `DateTimeRangeFilter` subclasses `django.contrib.admin.filters.FieldListFilter`
+  and cannot be used inside a `WagtailFilterSet`. The `submission_date` filter was
+  ported to django-filter's native `DateFromToRangeFilter` + `DateRangePickerWidget`
+  (the same mechanism Wagtail core's form-submissions listing uses). As a result
+  `wagtail-rangefilter`/`rangefilter` became **unused** and were **removed**
+  (from `INSTALLED_APPS` and `pyproject.toml`, re-locked), superseding the brief's
+  "keep `wagtail-rangefilter`" line.
+- The brief missed `enquire_to_study/confirm_delete.html`, which also extended
+  `modeladmin/index.html`; it was re-based so the delete workflow survives.
+
+### Dependencies removed
+
+- `wagtail-orderable` (no remaining consumers).
+- `wagtail-rangefilter` / `django-admin-rangefilter` (`rangefilter`), replaced by
+  django-filter's native date-range filter.
+
+### Still blocked
+
+- `wagtail-modeladmin` removal, blocked by `wagtail-personalisation` (see above).
+
+---
+
 _Handoff: this brief is the single strategy artifact. Implementation should be
 carried out by the `wagtail-modeladmin-migration-implementation` skill after the
 Unknowns above are resolved._
