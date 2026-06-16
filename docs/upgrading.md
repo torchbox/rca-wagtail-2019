@@ -2,6 +2,12 @@
 
 This document describes aspects of the system which should be given particular attention when upgrading Wagtail or its dependencies.
 
+## Node dependencies
+
+### ESLint ceiling
+
+ESLint and its `eslint-config-torchbox` peer set (`eslint`, `eslint-config-prettier`, `eslint-plugin-react-hooks`) are held below ESLint v9 because `eslint-config-torchbox@^1.1.0` does not yet support the ESLint v9 flat-config format. The Node dependency bump enforces this ceiling automatically. Lifting it requires the ESLint v9 / flat-config migration (see <https://eslint.org/docs/latest/use/migrate-to-9.0.0>). There is no per-project hold beyond this global ceiling.
+
 ## Wagtail package dependencies
 
 We are maintaining our own forks of Wagtail packages at: <https://github.com/torchbox-forks>.
