@@ -121,6 +121,18 @@ As well as testing the critical paths, these areas of functionality should be ch
 1. The site overrides the `/admin/logout/` endpoint to redirect users who logged in to `/logout/`. This is a confirmation screen that users will still need to manually log out of their SSO accounts. This is done with `rca.account_management.views.CustomLogoutView` and `rca.account_management.views.SSOLogoutConfirmationView`.
 2. Users who did not log in via SSO should be able to log out without seeing any confirmation screen.
 
+## Security / dependency review
+
+Last security review: 2026-06-16
+
+Run `trivy fs` from the project root each cycle. The project's real dependency surface is `poetry.lock` (Python) and `package-lock.json` (Node); Python and Node CVEs surfaced there are cleared by the quarterly version bumps and need no entry here once fixed.
+
+### Trivy false positives — `wagtail-personalisation` bundled `yarn.lock`
+
+`wagtail-personalisation` is installed from a Torchbox git fork (`pyproject.toml`, tag `0.16.0+tbx`), so an editable checkout lands in `.venv/src/wagtail-personalisation/`. That checkout carries the fork's own frontend `yarn.lock`, and a `trivy fs` scan from the project root reports its dev-toolchain CVEs (`fsevents`, `tar` 4.4.10, `debug`) against this project.
+
+These are **not project dependencies**: `.venv` is gitignored, the project consumes the package's built Python distribution rather than its JS build chain, and none of these packages appear in `package-lock.json`. They cannot be remediated from this repo — the versions are pinned by the upstream fork's `yarn.lock` at the tagged commit. Treat any `.venv/src/wagtail-personalisation/yarn.lock` finding as a scan-root false positive; it clears only when the fork tag advances (or the project drops the fork for an official PyPI release — see "Check these packages for updates" above).
+
 ---
 
 ## Overridden core Wagtail templates
