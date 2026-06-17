@@ -394,6 +394,13 @@ Implementation carried out by the
   `wagtail-personalisation` itself stops depending on modeladmin. The brief's
   "remove `wagtail-modeladmin`" step is therefore deferred; the entry is kept with
   an explanatory comment. The project's **own** modeladmin usage is fully migrated.
+  - **Re-checked 2026-06-17 against `wagtail-personalisation` `0.17.0+tbx`** (the
+    currently pinned tag, fork commit `6b4fc8a`, PR #14
+    `support/wagtail-74-maintenance`). That release is a **Wagtail 7.4 maintenance
+    bump only** — it does **not** drop modeladmin. `views.py` still imports
+    `wagtail_modeladmin.options` / `.views` and registers `SegmentModelAdmin`, and
+    the fork's own `pyproject.toml` still pins `wagtail-modeladmin>=1`. The blocker
+    is unchanged.
 - **`wagtail-rangefilter` is NOT django-filter based** (the brief assumed it was).
   Its `DateTimeRangeFilter` subclasses `django.contrib.admin.filters.FieldListFilter`
   and cannot be used inside a `WagtailFilterSet`. The `submission_date` filter was
@@ -414,6 +421,22 @@ Implementation carried out by the
 ### Still blocked
 
 - `wagtail-modeladmin` removal, blocked by `wagtail-personalisation` (see above).
+  Confirmed still blocking at the pinned `0.17.0+tbx` tag (checked 2026-06-17).
+  Evidence in the installed fork
+  (`.venv/src/wagtail-personalisation/src/wagtail_personalisation/`):
+  - `views.py:11-12` — `from wagtail_modeladmin.options import ModelAdmin,
+modeladmin_register` and `from wagtail_modeladmin.views import DeleteView, IndexView`.
+  - `views.py:74-75` — `@modeladmin_register class SegmentModelAdmin(ModelAdmin)`.
+  - `wagtail_hooks.py:181,230` — reverse `wagtail_personalisation_segment_modeladmin_create`
+    / `..._index`.
+  - the fork's `pyproject.toml` declares `wagtail-modeladmin>=1`.
+  - **To unblock:** migrate the fork's `SegmentModelAdmin` to a Wagtail core ViewSet —
+    preserving its custom dashboard/list-toggle index view, the cascade page-variant
+    delete view, the `..._create` / `..._index` URL names referenced by hooks and
+    templates, and the `modeladmin/wagtail_personalisation/segment/*` templates — then
+    release a new `+tbx` tag, re-pin it here, and only then drop `wagtail-modeladmin`
+    from `INSTALLED_APPS` and `pyproject.toml`. This is upstream package work (use the
+    `wagtail-package-modernizer` skill against the fork repo), out of scope for this branch.
 
 ---
 

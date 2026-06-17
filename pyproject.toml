@@ -31,6 +31,8 @@ wagtail-django-recaptcha = "~2.2"
 wagtail-factories = "~4.5"
 # Still required transitively by wagtail-personalisation (its SegmentModelAdmin).
 # The project's own modeladmin usage has been migrated to Wagtail core viewsets.
+# Still blocking at wagtail-personalisation 0.17.0+tbx (checked 2026-06-17); see
+# docs/wagtail-modeladmin-migration-brief.md "Still blocked".
 wagtail-modeladmin = "~2.4"
 wagtail-storages = "~2.0"
 
