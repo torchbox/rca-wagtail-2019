@@ -7,14 +7,12 @@ repos:
     hooks:
       - id: black
         # Migrations are intentionally left unformatted; CI excludes them too
-        # (`black ... --exclude migrations/` in .github/workflows/lint.yaml).
         exclude: '(^|/)migrations/'
   - repo: https://github.com/PyCQA/isort
     rev: '8.0.1'
     hooks:
       - id: isort
         # Migrations are intentionally left unformatted; CI excludes them too
-        # (`isort ... --skip-glob '**/migrations/*'` in .github/workflows/lint.yaml).
         exclude: '(^|/)migrations/'
   - repo: https://github.com/pycqa/flake8
     # flake8 config is in setup.cfg

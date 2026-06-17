@@ -160,17 +160,11 @@ class SearchFilter(filters.SearchFilter):
             search_operator = request.GET.get("search_operator", None)
             order_by_relevance = "order" not in request.GET
 
-            # Earlier filter backends (e.g. DegreeLevelFilter, StudyModeFilter)
-            # narrow the queryset with `.filter()` clauses on non-indexed
-            # (often related) fields such as `title`, and apply
-            # `.order_by("title")`. As of Wagtail 7.4 the search backend's
-            # check() validates both the WHERE clause and the order_by against
-            # the model's index, raising FilterFieldError / OrderByFieldError
-            # for any non-indexed field (previously tolerated). To preserve the
-            # upstream filtering while giving the backend an index-safe queryset,
-            # collapse the accumulated filters into an `pk__in` set (pk is an
-            # indexed filterable field) and clear the ordering so relevance
-            # ordering can apply.
+            # Wagtail 7.4's search backend validates the WHERE clause and
+            # order_by against the model's index, rejecting the non-indexed
+            # fields (e.g. `title`) that earlier filter backends use. Collapse
+            # those filters into an index-safe `pk__in` set and clear the
+            # ordering so relevance ordering can apply.
             page_ids = list(queryset.values_list("pk", flat=True))
             queryset = queryset.model.objects.filter(pk__in=page_ids).order_by()
 
