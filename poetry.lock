@@ -3507,28 +3507,29 @@ testing = ["dj-database-url (>=2.0.0)", "pre-commit (<3.0)"]
 
 [[package]]
 name = "wagtail-personalisation"
-version = "0.16.0"
+version = "0.17.0"
 description = "A Wagtail add-on for showing personalized content"
 optional = false
-python-versions = "*"
+python-versions = ">=3.10"
 files = []
 develop = false
 
 [package.dependencies]
 pycountry = "*"
-user-agents = ">=1.1.0"
-wagtail = ">=4.1"
+user-agents = ">=1.1"
+wagtail = ">=7"
 wagtail-font-awesome-svg = ">=1.0.1"
+wagtail-modeladmin = ">=1"
 
 [package.extras]
-docs = ["sphinx (>=1.7.6)", "sphinx_rtd_theme (>=0.4.0)"]
-test = ["factory_boy (==3.2.1)", "flake8", "flake8-blind-except", "flake8-debugger", "flake8-isort", "freezegun (==1.2.1)", "pytest (==6.2.5)", "pytest-cov (==3.0.0)", "pytest-django (==4.5.2)", "pytest-mock (==3.8.1)", "pytest-pythonpath (==0.7.4)", "pytest-sugar (==0.9.4)", "wagtail_factories (==4.1.0)", "wagtail_modeladmin (>=1.0)"]
+docs = ["sphinx (>=7)", "sphinx-rtd-theme (>=2)"]
+test = ["django-debug-toolbar (>=6)", "factory-boy (>=3.3)", "freezegun (>=1.5)", "pre-commit (>=4)", "pytest (>=8)", "pytest-cov (>=5)", "pytest-django (>=4.8)", "pytest-mock (>=3.10)", "pytest-sugar (>=1)", "wagtail-factories (>=4.2)"]
 
 [package.source]
 type = "git"
 url = "https://github.com/torchbox-forks/wagtail-personalisation.git"
-reference = "0.16.0+tbx"
-resolved_reference = "2aa70624b486841ee66252c7b44a845527232bf0"
+reference = "0.17.0+tbx"
+resolved_reference = "6b4fc8a0a016fc2e3158441d51e3381f1d4586f5"
 
 [[package]]
 name = "wagtail-storages"
@@ -3816,4 +3817,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.13"
-content-hash = "c08f703bde3c53df0a956e0b461340866329e603cbb8913eeeec3c3e823a25c6"
+content-hash = "71bdc1b7d9cee1cc71567931f712e6ec13d3e2b5a148fe32befb37e3e6fd1008"
