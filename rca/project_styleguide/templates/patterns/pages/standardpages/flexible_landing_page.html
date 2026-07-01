@@ -1,0 +1,86 @@
+{% extends "patterns/base_page.html" %}
+{% load wagtailcore_tags wagtailimages_tags wagtailsettings_tags static %}
+{% get_settings %}
+
+{% block body_class %}{% endblock %}
+
+{% block content %}
+    {% if hero_image %}
+        {% include "patterns/molecules/hero/hero.html" with modifier="medium" %}
+    {% endif %}
+
+    <div class="page {% if hero_image %}page--overlap{% else %}page--no-hero{% endif %}">
+        {% if hero_image %}
+            <div class="page__notch grid">
+                <div class="page__notch-block bg bg--dark"></div>
+            </div>
+        {% endif %}
+
+        <header class="page__header bg bg--dark">
+            <div class="title-area title-area--breadcrumb grid">
+                <div class="title-area__content">
+                    <nav class="title-area__breadcrumb" aria-label="Breadcrumb">
+                        {% include "patterns/molecules/breadcrumb/breadcrumb.html" %}
+                    </nav>
+                    <h1 class="title-area__heading heading heading--display-two" id="main-content">{{ page.title }}</h1>
+                </div>
+                {% if hero_image_credit or hero_image %}
+                    <div class="title-area__credit layout__@large-start-five layout__@large-span-one">
+                        {% include 'patterns/atoms/image-info/image-info.html' with credit=hero_image_credit item=hero_image %}
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if page.introduction %}
+                <section class="section bg bg--dark">
+                    <div class="section__row grid{% if first_body_section_bg == "light" %} section__row--last{% endif %}">
+                        <div class="intro-and-video intro-and-video--small-primary layout__start-one layout__span-two layout__@large-start-two  layout__@large-span-three">
+                            <div class="introduction introduction--narrow">
+                                <div class="introduction__container">
+                                    <div class="section__heading heading heading--five">
+                                        {{ page.introduction|richtext }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+
+            {% if first_body_section_bg == "light" %}
+            <div class="section__notch">
+                <div class="section__notch-fill {% cycle 'section__notch-fill--second-col' 'section__notch-fill--third-col' %}"></div>
+            </div>
+            {% endif %}
+        </header>
+
+        <div class="page__content">
+            {% for item in processed_body %}
+                {% with section=item.block %}
+                    {% if section.block_type == "statistics" %}
+                        {% include "patterns/organisms/stat-block/stat-block.html" with modifier="transparent" stats_block=section.value top_notch_bg=item.previous_block_bg bottom_notch_bg=item.next_block_bg %} 
+                    {% elif section.block_type == "promo_banner" %}
+                        {% include_block section with previous_section_bg=item.previous_block_bg next_section_bg=item.next_block_bg %}
+                    {% else %}
+                        {# This is a body section block. #}
+                        <section class="section section--extra-padding-bottom section--top-space bg bg--{{ section.value.background_color }}">
+                            {% for block in section.value.content %}
+                            <div class="grid">
+                                <div class="streamfield layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                                    {% include_block block %}
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                            {% if item.should_display_notch %}
+                                <div class="section__notch">
+                                    <div class="section__notch-fill {% cycle 'section__notch-fill--second-col' 'section__notch-fill--third-col' %}"></div>
+                                </div>
+                            {% endif %}
+                        </section>
+                    {% endif %}
+                {% endwith %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
