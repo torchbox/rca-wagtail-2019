@@ -3,49 +3,55 @@ default_language_version:
   python: python3.13
 repos:
   - repo: https://github.com/python/black
-    rev: 26.1.0
+    rev: 26.5.1
     hooks:
       - id: black
+        # Migrations are intentionally left unformatted; CI excludes them too
+        exclude: '(^|/)migrations/'
   - repo: https://github.com/PyCQA/isort
-    rev: '7.0.0'
+    rev: '8.0.1'
     hooks:
       - id: isort
+        # Migrations are intentionally left unformatted; CI excludes them too
+        exclude: '(^|/)migrations/'
   - repo: https://github.com/pycqa/flake8
     # flake8 config is in setup.cfg
     rev: 7.3.0
     hooks:
       - id: flake8
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.10.0
+    # Held below v9: eslint-config-torchbox@^1.1.0 has no ESLint v9 flat-config support.
+    # The actual eslint version is pinned via additional_dependencies (eslint@8.57.1).
+    rev: v8.56.0
     hooks:
       - id: eslint
         additional_dependencies:
           - eslint@8.57.1
           - eslint-config-airbnb@19.0.4
-          - eslint-config-prettier@10.1.8
+          - eslint-config-prettier@8.10.2
           - eslint-config-torchbox@1.1.0
           - eslint-plugin-import@2.32.0
           - eslint-plugin-jsx-a11y@6.10.2
           - eslint-plugin-react@7.37.5
           - eslint-plugin-react-hooks@4.6.2
-          - '@babel/core@7.29.0'
-          - '@babel/preset-env@7.29.0'
-          - '@babel/preset-react@7.28.5'
-          - '@babel/eslint-parser@7.28.6'
+          - '@babel/core@7.29.7'
+          - '@babel/preset-env@7.29.7'
+          - '@babel/preset-react@7.29.7'
+          - '@babel/eslint-parser@7.29.7'
   - repo: https://github.com/rbubley/mirrors-prettier
-    rev: v3.8.1
+    rev: v3.8.4
     hooks:
       - id: prettier
         types_or: [markdown, css, scss, javascript, json, yaml]
   - repo: https://github.com/awebdeveloper/pre-commit-stylelint
-    rev: c4c991cd38b0218735858716b09924f8b20e3812
+    rev: 0.0.2
     hooks:
       - id: stylelint
         additional_dependencies:
-          - stylelint@16.23.1
-          - stylelint-config-torchbox@4.0.0
+          - stylelint@17.13.0
+          - stylelint-config-torchbox@5.0.0
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.29.1
+    rev: 1.30.0
     hooks:
       - id: django-upgrade
         args: [--target-version, '5.2'] # Replace with Django version

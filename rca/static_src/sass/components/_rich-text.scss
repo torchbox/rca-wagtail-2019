@@ -34,7 +34,6 @@
         @include font-size(s);
     }
 
-    /* stylelint-disable selector-max-type */
     ul {
         list-style: outside disc;
         margin: 0 0 $gutter $gutter;
@@ -65,7 +64,6 @@
             }
         }
     }
-    /* stylelint-enable selector-max-type */
 
     a {
         text-decoration: underline;
