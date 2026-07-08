@@ -1,4 +1,4 @@
-import createFocusTrap from 'focus-trap';
+import { createFocusTrap } from 'focus-trap';
 
 class HeaderDrawer {
     static selector() {
