@@ -160,6 +160,14 @@ class SearchFilter(filters.SearchFilter):
             search_operator = request.GET.get("search_operator", None)
             order_by_relevance = "order" not in request.GET
 
+            # Wagtail 7.4's search backend validates the WHERE clause and
+            # order_by against the model's index, rejecting the non-indexed
+            # fields (e.g. `title`) that earlier filter backends use. Collapse
+            # those filters into an index-safe `pk__in` set and clear the
+            # ordering so relevance ordering can apply.
+            page_ids = list(queryset.values_list("pk", flat=True))
+            queryset = queryset.model.objects.filter(pk__in=page_ids).order_by()
+
             sb = get_search_backend()
             try:
                 queryset = sb.autocomplete(

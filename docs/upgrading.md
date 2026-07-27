@@ -2,6 +2,12 @@
 
 This document describes aspects of the system which should be given particular attention when upgrading Wagtail or its dependencies.
 
+## Node dependencies
+
+### ESLint ceiling
+
+ESLint and its `eslint-config-torchbox` peer set (`eslint`, `eslint-config-prettier`, `eslint-plugin-react-hooks`) are held below ESLint v9 because `eslint-config-torchbox@^1.1.0` does not yet support the ESLint v9 flat-config format. The Node dependency bump enforces this ceiling automatically. Lifting it requires the ESLint v9 / flat-config migration (see <https://eslint.org/docs/latest/use/migrate-to-9.0.0>). There is no per-project hold beyond this global ceiling.
+
 ## Wagtail package dependencies
 
 We are maintaining our own forks of Wagtail packages at: <https://github.com/torchbox-forks>.
@@ -114,6 +120,12 @@ As well as testing the critical paths, these areas of functionality should be ch
 
 1. The site overrides the `/admin/logout/` endpoint to redirect users who logged in to `/logout/`. This is a confirmation screen that users will still need to manually log out of their SSO accounts. This is done with `rca.account_management.views.CustomLogoutView` and `rca.account_management.views.SSOLogoutConfirmationView`.
 2. Users who did not log in via SSO should be able to log out without seeing any confirmation screen.
+
+## Security / dependency review
+
+Last security review: 2026-06-16
+
+Run `trivy fs` from the project root each cycle. The project's real dependency surface is `poetry.lock` (Python) and `package-lock.json` (Node); Python and Node CVEs surfaced there are cleared by the quarterly version bumps and need no entry here once fixed.
 
 ---
 
