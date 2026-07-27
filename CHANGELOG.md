@@ -14,11 +14,15 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- [R1-344](https://torchbox.atlassian.net/browse/R1-344) Wagtail 7.4 Quarterly Upgrade
+- ...
 
 ### Removed
 
 - ...
+
+## 2026-07-27
+
+- [R1-344](https://torchbox.atlassian.net/browse/R1-344) Wagtail 7.4 Quarterly Upgrade
 
 ## 2026 pre-changelog 26-03-2026
 
