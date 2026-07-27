@@ -94,7 +94,6 @@ INSTALLED_APPS = [
     "wagtail.contrib.legacy.richtext",
     "wagtail.contrib.typed_table_block",
     "wagtail",
-    "wagtailorderable",
     "import_export",
     "modelcluster",
     "taggit",
@@ -112,8 +111,10 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "wagtailmedia",
-    "wagtail_rangefilter",
-    "rangefilter",
+    # Required by wagtail-personalisation, which registers its own
+    # SegmentModelAdmin via wagtail-modeladmin. The RCA project's own
+    # modeladmin usage has been migrated to Wagtail core viewsets, but the
+    # package must stay until wagtail-personalisation no longer depends on it.
     "wagtail_modeladmin",
     "wagtail_personalisation",
     "wagtailfontawesomesvg",

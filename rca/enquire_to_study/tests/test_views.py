@@ -21,7 +21,6 @@ from rca.enquire_to_study.factories import (
 from rca.enquire_to_study.forms import EnquireToStudyForm
 from rca.enquire_to_study.models import EnquireToStudySettings, EnquiryFormSubmission
 from rca.enquire_to_study.views import EnquireToStudyFormView
-from rca.enquire_to_study.wagtail_hooks import EnquiryFormSubmissionAdmin
 from rca.programmes.factories import (
     ProgrammePageFactory,
     ProgrammePageProgrammeTypeFactory,
@@ -179,8 +178,7 @@ class EnquireToStudyFormDeleteViewTest(TestCase):
     def test_submissions_older_than_seven_days_are_deleted(self):
         self.client.login(username="test", password="password")
 
-        url_helper = EnquiryFormSubmissionAdmin().url_helper
-        index_url = url_helper.get_action_url("index")
+        index_url = reverse("enquiryformsubmission:index")
 
         response = self.client.post(reverse("enquiretostudy_delete"), follow=True)
         self.assertRedirects(response, index_url, status_code=302)

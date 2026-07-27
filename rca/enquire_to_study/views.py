@@ -251,10 +251,7 @@ def delete(request):
     ):
         raise PermissionDenied()
 
-    from .wagtail_hooks import EnquiryFormSubmissionAdmin
-
-    url_helper = EnquiryFormSubmissionAdmin().url_helper
-    index_url = url_helper.get_action_url("index")
+    index_url = reverse("enquiryformsubmission:index")
 
     all_submissions = EnquiryFormSubmission.objects.all()
 
@@ -276,7 +273,7 @@ def delete(request):
         {
             "count_all_submissions": len(all_submissions),
             "count_delete_submissions": count_delete_submissions,
-            "index_url": url_helper.get_action_url("index"),
+            "index_url": index_url,
             "submit_url": (reverse("enquiretostudy_delete")),
         },
     )

@@ -34,7 +34,6 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Orderable, Site
 from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
-from wagtailorderable.models import Orderable as WagtailOrdable
 
 from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
 from rca.programmes.blocks import (
@@ -109,7 +108,7 @@ class ProgrammePageSubjectPlacement(models.Model):
     panels = [FieldPanel("subject")]
 
 
-class ProgrammeType(WagtailOrdable):
+class ProgrammeType(Orderable):
     display_name = models.CharField(max_length=128)
     description = models.CharField(max_length=500, blank=True)
 

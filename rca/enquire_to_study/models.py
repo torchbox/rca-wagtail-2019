@@ -79,6 +79,21 @@ class EnquiryFormSubmission(ClusterableModel):
     is_read_data_protection_policy = models.BooleanField()
     is_notification_opt_in = models.BooleanField()
 
+    def get_programmes(self):
+        return ", ".join(
+            str(item.programme) for item in self.enquiry_submission_programmes.all()
+        )
+
+    get_programmes.short_description = "Programmes"
+
+    def get_country_of_residence(self):
+        return self.country_of_residence.name
+
+    get_country_of_residence.short_description = "Country of residence"
+
+    def get_country_of_citizenship(self):
+        return self.country_of_citizenship.name
+
     panels = [
         MultiFieldPanel(
             [
