@@ -5,11 +5,16 @@
         <div class="card card--image">
             <a class="card__container" href="{% if block.link.page %}{% pageurl block.link.page %}{% else %}{{ block.link.url }}{% endif %}">
                 {% if block.image %}
-                    {% image block.image fill-80x80 as image_small %}
-                    {% image block.image fill-392x392 as image_large %}
+                    {% if value.number_of_columns == "1" %}
+                        {% image block.image fill-160x54 as image_small %}
+                        {% image block.image fill-1200x400 as image_large %}
+                    {% else %}
+                        {% image block.image fill-160x80 as image_small %}
+                        {% image block.image fill-800x400 as image_large %}
+                    {% endif %}
                 {% endif %}
                 <div class="card__image-container">
-                    {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=392 height=392 image_large=image_large classList='card__image' %}
+                    {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=image_large.width height=image_large.height image_large=image_large classList='card__image' %}
                 </div>
                 <div class="card__content-container">
                     <div class="card__content">
