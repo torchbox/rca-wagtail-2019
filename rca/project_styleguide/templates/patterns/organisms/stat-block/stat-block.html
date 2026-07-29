@@ -23,16 +23,16 @@
                             {% if stat.before %}
                                 <span class="stat-block__before">{{ stat.before }}</span>
                             {% endif %}
-                            <p class="stat-block__number">
+                            <span class="stat-block__number">
                                 {{ stat.number }}
-                            </p>
+                            </span>
                             {% if stat.after %}
                                 <span class="stat-block__after">{{ stat.after }}</span>
                             {% endif %}
                         </div>
 
                         {% if stat.meta %}
-                            <p class="stat-block__meta heading heading--five">{{ stat.meta }}</p>
+                            <p class="stat-block__meta">{{ stat.meta }}</p>
                         {% endif %}
 
                         {% if stat.summary %}
