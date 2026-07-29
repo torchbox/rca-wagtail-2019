@@ -65,13 +65,17 @@
                         {# This is a body section block. #}
                         <section class="section section--extra-padding-bottom section--top-space bg bg--{{ section.value.background_color }}">
                             {% for block in section.value.content %}
-                            <div class="grid">
-                                <div class="streamfield layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                                {% if block.block_type == "image_video_gallery" %}
+                                    {# The image video gallery spans the whole page so it can't be in a grid. #}
                                     {% include_block block %}
+                                {% else %}
+                                <div class="grid">
+                                    <div class="streamfield layout__start-one layout__span-two layout__@large-start-two layout__@large-span-three">
+                                        {% include_block block %}
+                                    </div>
                                 </div>
-                            </div>
+                                {% endif %}
                             {% endfor %}
-
                             {% if item.should_display_notch %}
                                 <div class="section__notch">
                                     <div class="section__notch-fill {% cycle 'section__notch-fill--second-col' 'section__notch-fill--third-col' %}"></div>
