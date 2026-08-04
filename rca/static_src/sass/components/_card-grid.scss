@@ -1,0 +1,63 @@
+@use '../abstracts' as *;
+
+.card-grid {
+    display: grid;
+    row-gap: $gutter * 1.5;
+    margin-bottom: $gutter;
+
+    @include media-query(medium) {
+        margin-bottom: ($gutter * 1.5);
+    }
+
+    .card {
+        &__image {
+            max-height: 170px;
+            object-fit: cover;
+
+            @include media-query(medium) {
+                max-height: 400px;
+            }
+        }
+
+        // card__content is constrained to 65%/66.66% width (to make room
+        // for the image notch) but the description should still be able
+        // to use the full card width.
+        &__description {
+            @include media-query(medium) {
+                width: (100% / 0.65);
+            }
+
+            @include media-query(large) {
+                width: (100% / 0.6666);
+            }
+        }
+    }
+
+    &--1-col {
+        grid-template-columns: 1fr;
+    }
+
+    &--2-col {
+        @include media-query(large) {
+            grid-template-columns: repeat(2, 1fr);
+            gap: $gutter * 2;
+        }
+    }
+
+    &--3-col {
+        @include media-query(large) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .card {
+            @include media-query(large) {
+                margin-right: $gutter;
+
+                &__image {
+                    max-height: 170px;
+                    object-fit: cover;
+                }
+            }
+        }
+    }
+}

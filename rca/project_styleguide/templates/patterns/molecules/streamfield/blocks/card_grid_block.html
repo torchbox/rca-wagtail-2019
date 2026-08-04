@@ -1,0 +1,35 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div class="streamfield card-grid card-grid--{{ value.number_of_columns }}-col">
+    {% for block in value.cards %}    
+        <div class="card card--image">
+            <a class="card__container" href="{% if block.link.page %}{% pageurl block.link.page %}{% else %}{{ block.link.url }}{% endif %}">
+                {% if block.image %}
+                    {% if value.number_of_columns == "1" %}
+                        {% image block.image fill-160x54 as image_small %}
+                        {% image block.image fill-1200x400 as image_large %}
+                    {% else %}
+                        {% image block.image fill-160x80 as image_small %}
+                        {% image block.image fill-800x400 as image_large %}
+                    {% endif %}
+                {% endif %}
+                <div class="card__image-container">
+                    {% include "patterns/atoms/image/image--lazyload.html" with image_small=image_small width=image_large.width height=image_large.height image_large=image_large classList='card__image' %}
+                </div>
+                <div class="card__content-container">
+                    <div class="card__content">
+                        <div class="card__meta">{{ block.meta_label }}</div>
+                        <h3 class="card__heading">
+                            <span class="card__heading-link">
+                                {{ block.link.title }}
+                            </span>
+                        </h3>
+                        <div class="card__description">
+                            {{ block.description }}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+</div>

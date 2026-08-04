@@ -224,7 +224,9 @@ class BodySectionBlock(blocks.StructBlock):
 
 
 class StatisticsBlock(blocks.StructBlock):
-    title = blocks.CharBlock(help_text="Enter the statistics section title")
+    title = blocks.CharBlock(
+        help_text="Enter the statistics section title", required=False
+    )
     # The shared template expects a stream block.
     statistics = blocks.StreamBlock([("statistic", StatisticBlock())])
     background_image = ImageChooserBlock(
