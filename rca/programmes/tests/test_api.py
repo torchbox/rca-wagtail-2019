@@ -103,3 +103,23 @@ class ProgrammesAPIResponseTest(TestCase):
         data = response.json()
 
         self.assertEqual(data["meta"]["total_count"], 0)
+
+    def test_should_exclude_flagged_programme_from_listing(self):
+        self.programme_page.exclude_from_programme_finder = True
+        self.programme_page.save()
+
+        response = self.client.get(self.base_url)
+        data = response.json()
+
+        self.assertEqual(data["meta"]["total_count"], 0)
+
+    def test_should_exclude_flagged_programme_from_text_search(self):
+        self.programme_page.exclude_from_programme_finder = True
+        self.programme_page.save()
+
+        response = self.client.get(
+            f"{self.base_url}&search={self.programme_page_title}"
+        )
+        data = response.json()
+
+        self.assertEqual(data["meta"]["total_count"], 0)
