@@ -50,6 +50,7 @@ repos:
         additional_dependencies:
           - stylelint@17.13.0
           - stylelint-config-torchbox@5.0.0
+          - file-entry-cache@11.1.3
   - repo: https://github.com/adamchainz/django-upgrade
     rev: 1.30.0
     hooks:
