@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useLocation } from 'react-use';
 
 import { programmeCategories } from '../programmes.types';
@@ -20,11 +19,10 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
     const activeCategory = params.get('category') || categories[0].id;
     const filterValue = params.get('value') || '';
     const activeValue = filterValue.split('-')[0];
-    const hasActiveCategoryFilter = !!activeValue;
     const searchQuery = params.get('search') || '';
-    const hasActiveSearch = !!searchQuery;
-    const showCategories = !hasActiveCategoryFilter && !hasActiveSearch;
-    const showResults = hasActiveCategoryFilter || hasActiveSearch;
+    // The explorer is a two-state toggle: either you are browsing the
+    // categories, or you are looking at the results of a filter or a search.
+    const showResults = Boolean(activeValue || searchQuery);
 
     const [isFullTime, setIsFullTime] = useState(params.get('full-time') || '');
     const [isPartTime, setIsPartTime] = useState(params.get('part-time') || '');
@@ -49,44 +47,26 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
             }}
         >
             <SearchForm searchQuery={searchQuery} label={searchLabel} />
-            <TransitionGroup className="explorer-transitions">
-                {showCategories ? (
-                    <CSSTransition
-                        key="categories"
-                        classNames="categories-transition"
-                        timeout={500}
-                        in={showCategories}
-                        mountOnEnter
-                        unmountOnExit
-                    >
-                        <ProgrammesCategories
-                            categories={categories}
-                            activeCategory={activeCategory}
-                            isFullTime={isFullTime === 'true'}
-                            isPartTime={isPartTime === 'true'}
-                        />
-                    </CSSTransition>
-                ) : null}
+            {/* Whichever view mounts fades itself in — see _programmes-explorer.scss. */}
+            <div className="explorer-transitions">
                 {showResults ? (
-                    <CSSTransition
-                        key="results"
-                        classNames="results-transition"
-                        timeout={500}
-                        in={showResults}
-                        mountOnEnter
-                        unmountOnExit
-                    >
-                        <ProgrammesResults
-                            categories={categories}
-                            activeCategory={activeCategory}
-                            activeValue={activeValue}
-                            searchQuery={searchQuery}
-                            isFullTime={isFullTime === 'true'}
-                            isPartTime={isPartTime === 'true'}
-                        />
-                    </CSSTransition>
-                ) : null}
-            </TransitionGroup>
+                    <ProgrammesResults
+                        categories={categories}
+                        activeCategory={activeCategory}
+                        activeValue={activeValue}
+                        searchQuery={searchQuery}
+                        isFullTime={isFullTime === 'true'}
+                        isPartTime={isPartTime === 'true'}
+                    />
+                ) : (
+                    <ProgrammesCategories
+                        categories={categories}
+                        activeCategory={activeCategory}
+                        isFullTime={isFullTime === 'true'}
+                        isPartTime={isPartTime === 'true'}
+                    />
+                )}
+            </div>
         </StudyModeContext.Provider>
     );
 };
