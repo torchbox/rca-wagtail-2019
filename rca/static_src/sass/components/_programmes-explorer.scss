@@ -2,55 +2,28 @@
 
 .explorer-transitions {
     position: relative;
-}
 
-.results-transition {
-    &-enter {
-        .programmes-results__actions {
+    @keyframes explorerFadeIn {
+        from {
             opacity: 0;
         }
-    }
 
-    &-enter-active {
-        .programmes-results__actions {
-            opacity: 1;
-            transition: opacity 500ms ease-out;
-        }
-    }
-
-    &-exit {
-        .programmes-results__actions {
+        to {
             opacity: 1;
         }
     }
 
-    &-exit-active {
+    // Switching between the categories view and the results view remounts the
+    // view, so the animation runs once each time one is shown.
+    .categories-panels,
+    .programmes-results__actions {
+        animation: explorerFadeIn 500ms ease-out;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .categories-panels,
         .programmes-results__actions {
-            opacity: 0;
-            transition: opacity 500ms ease-out;
+            animation: none;
         }
-    }
-}
-
-.categories-transition {
-    &-enter {
-        .categories-panels {
-            opacity: 0;
-        }
-    }
-
-    &-enter-active {
-        .categories-panels {
-            opacity: 1;
-            transition: opacity 500ms ease-out;
-        }
-    }
-
-    &-exit {
-        display: block;
-    }
-
-    &-exit-active {
-        display: none;
     }
 }
