@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useLocation } from 'react-use';
 
@@ -29,6 +29,9 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
     const [isFullTime, setIsFullTime] = useState(params.get('full-time') || '');
     const [isPartTime, setIsPartTime] = useState(params.get('part-time') || '');
 
+    const categoriesNodeRef = useRef(null);
+    const resultsNodeRef = useRef(null);
+
     /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         // Only do this on initial load
@@ -53,37 +56,43 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
                 {showCategories ? (
                     <CSSTransition
                         key="categories"
+                        nodeRef={categoriesNodeRef}
                         classNames="categories-transition"
                         timeout={500}
                         in={showCategories}
                         mountOnEnter
                         unmountOnExit
                     >
-                        <ProgrammesCategories
-                            categories={categories}
-                            activeCategory={activeCategory}
-                            isFullTime={isFullTime === 'true'}
-                            isPartTime={isPartTime === 'true'}
-                        />
+                        <div ref={categoriesNodeRef}>
+                            <ProgrammesCategories
+                                categories={categories}
+                                activeCategory={activeCategory}
+                                isFullTime={isFullTime === 'true'}
+                                isPartTime={isPartTime === 'true'}
+                            />
+                        </div>
                     </CSSTransition>
                 ) : null}
                 {showResults ? (
                     <CSSTransition
                         key="results"
+                        nodeRef={resultsNodeRef}
                         classNames="results-transition"
                         timeout={500}
                         in={showResults}
                         mountOnEnter
                         unmountOnExit
                     >
-                        <ProgrammesResults
-                            categories={categories}
-                            activeCategory={activeCategory}
-                            activeValue={activeValue}
-                            searchQuery={searchQuery}
-                            isFullTime={isFullTime === 'true'}
-                            isPartTime={isPartTime === 'true'}
-                        />
+                        <div ref={resultsNodeRef}>
+                            <ProgrammesResults
+                                categories={categories}
+                                activeCategory={activeCategory}
+                                activeValue={activeValue}
+                                searchQuery={searchQuery}
+                                isFullTime={isFullTime === 'true'}
+                                isPartTime={isPartTime === 'true'}
+                            />
+                        </div>
                     </CSSTransition>
                 ) : null}
             </TransitionGroup>
