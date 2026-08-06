@@ -23,6 +23,7 @@ class PagesAPIViewSet(views.PagesAPIViewSet):
         filters.ProgrammeTypesFilter,
         filters.StudyModeFilter,
         filters.DistinctFilter,
+        filters.ExcludeFromProgrammeFinderFilter,
         filters.SearchFilter,
     ]
 

@@ -599,6 +599,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             " at the global level in Settings > Programme settings."
         ),
     )
+    exclude_from_programme_finder = models.BooleanField(
+        default=False,
+        help_text="Hide this page from the programme finder search results",
+    )
     apply_image = models.ForeignKey(
         get_image_model_string(),
         blank=True,
@@ -851,6 +855,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         FieldPanel("experience_disclaimer"),
     ]
     promote_panels = BasePage.promote_panels + [
+        FieldPanel("exclude_from_programme_finder"),
         MultiFieldPanel(
             [
                 HelpPanel(
