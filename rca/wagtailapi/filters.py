@@ -93,6 +93,15 @@ class RelatedSchoolsFilter(filters.BaseFilterBackend):
             return queryset
 
 
+class ExcludeFromProgrammeFinderFilter(filters.BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        try:
+            queryset.model._meta.get_field("exclude_from_programme_finder")
+        except FieldDoesNotExist:
+            return queryset
+        return queryset.exclude(exclude_from_programme_finder=True)
+
+
 class StudyModeFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
         try:
