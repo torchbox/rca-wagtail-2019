@@ -16,7 +16,7 @@ mkdocs serve
 
 The documentation will be available at: http://localhost:8001/
 
-You can view the documnetation live on [github pages](https://torchbox.github.io/rca-wagtail-2019/)
+You can view the documentation live on [github pages](https://torchbox.github.io/rca-wagtail-2019/)
 
 ## Contributing
 
@@ -88,6 +88,7 @@ Then within the SSH session:
 ```bash
 dj migrate
 dj createcachetable
+dj run_birdbath
 dj createsuperuser
 djrun
 ```
@@ -227,4 +228,4 @@ fab push-production-media
 
 ## Synchronising a production environment to a development environment.
 
-See the [reset staging environment](docs/reset_staging.md) documentation.
+See the [reset staging environment](docs/reset-staging.md) documentation.
