@@ -31,7 +31,7 @@ class PagesAPIViewSet(views.PagesAPIViewSet):
         [
             "full-time",
             "part-time",
-            "degree_levels",
+            "degree_level_ids",
         ]
     )
 
