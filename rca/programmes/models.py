@@ -957,7 +957,18 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             "programme_locations",
             [index.RelatedFields("programme_location", [index.SearchField("title")])],
         ),
-        index.RelatedFields("degree_level", [index.SearchField("title")]),
+        index.RelatedFields(
+            "degree_levels",
+            [
+                index.RelatedFields(
+                    "level",
+                    [
+                        index.SearchField("title"),
+                        index.AutocompleteField("title"),
+                    ],
+                )
+            ],
+        ),
         index.RelatedFields(
             "subjects",
             [index.RelatedFields("subject", [index.SearchField("title")])],
@@ -1001,15 +1012,27 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         APIField("pathway_blocks"),
     ]
 
-    def __str__(self):
-        bits = [self.title]
+    @property
+    def degree_level_title(self):
+        degree_level_titles = [
+            degree_level.level.title
+            for degree_level in self.degree_levels.all()
+            if degree_level.level
+        ]
+        if degree_level_titles:
+            return ", ".join(degree_level_titles)
+
         if self.degree_level:
-            bits.append(str(self.degree_level))
-        return " ".join(bits)
+            return self.degree_level.title
+
+        return ""
+
+    def __str__(self):
+        return self.full_title
 
     @property
     def full_title(self):
-        return f"{self.title} {self.degree_level.title}"
+        return f"{self.title} {self.degree_level_title}"
 
     @property
     def introduction(self):
@@ -1034,10 +1057,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ).order_by("programme_location__title")
 
     def get_admin_display_title(self):
-        bits = [self.draft_title]
-        if self.degree_level:
-            bits.append(str(self.degree_level))
-        return " ".join(bits)
+        return self.full_title
 
     def get_schools(self):
         return self.related_schools_and_research_pages.select_related("page")

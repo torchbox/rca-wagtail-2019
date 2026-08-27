@@ -15,16 +15,26 @@ from rca.programmes.models import ProgrammeStudyMode
 
 class DegreeLevelFilter(filters.BaseFilterBackend):
     """
-    Allows to filter pages by one or multiple projects
+    Allows filtering pages by one or multiple degree levels.
     """
 
     def filter_queryset(self, request, queryset, view):
-        pks = request.GET.getlist("project", [])
-
-        if pks:
-            queryset = queryset.filter(degree_level__in=pks)
-
-        return queryset.order_by("title").live()
+        try:
+            queryset.model._meta.get_field("degree_levels")
+            degree_level_ids = [
+                int(id) for id in request.GET.getlist("degree_levels", [])
+            ]
+            if degree_level_ids:
+                queryset = (
+                    queryset.model.objects.filter(
+                        degree_levels__level_id__in=degree_level_ids
+                    )
+                    .order_by("title")
+                    .live()
+                )
+            return queryset
+        except FieldDoesNotExist:
+            return queryset
 
 
 class SubjectsFilter(filters.BaseFilterBackend):
