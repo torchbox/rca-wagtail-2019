@@ -144,6 +144,8 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("programmes", "0105_programmepagedegreelevel"),
+        ("wagtailcore", "0097_baselogentry_uuid_action_timestamp_indexes"),
+        ("contenttypes", "0002_remove_content_type_name"),
     ]
 
     operations = [
