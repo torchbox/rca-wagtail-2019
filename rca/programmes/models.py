@@ -232,6 +232,47 @@ class ProgramPageSocialMediaLinks(Orderable):
         return f"{self.link_text} » {self.link_url}"
 
 
+class ProgrammePageDegreeLevel(Orderable):
+    source_page = ParentalKey("programmes.ProgrammePage", related_name="degree_levels")
+    level = models.ForeignKey(
+        DegreeLevel,
+        on_delete=models.SET_NULL,
+        blank=False,
+        null=True,
+        related_name="+",
+    )
+    qs_code = models.PositiveIntegerField(
+        help_text="This code needs to match the name of the codeExternal value in QS, E.G 105",
+        blank=True,
+        null=True,
+    )
+    credits = models.CharField(max_length=25, blank=True)
+    credits_suffix = models.CharField(
+        max_length=1,
+        choices=(("1", "credits"), ("2", "credits at FHEQ Level 6")),
+        blank=True,
+    )
+    time = models.CharField(max_length=25, blank=True)
+    time_suffix = models.CharField(
+        max_length=1,
+        choices=(
+            ("1", "year programme"),
+            ("2", "month programme"),
+            ("3", "week programme"),
+        ),
+        blank=True,
+    )
+
+    panels = [
+        FieldPanel("level"),
+        FieldPanel("qs_code"),
+        FieldPanel("credits"),
+        FieldPanel("credits_suffix"),
+        FieldPanel("time"),
+        FieldPanel("time_suffix"),
+    ]
+
+
 class ProgrammeStoriesBlock(models.Model):
     source_page = ParentalKey("ProgrammePage", related_name="programme_stories")
     title = models.CharField(max_length=125)
@@ -687,6 +728,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         + TapMixin.panels
     )
     key_details_panels = [
+        InlinePanel("degree_levels", label="Degree levels"),
         MultiFieldPanel(
             [
                 FieldPanel("programme_details_credits"),
