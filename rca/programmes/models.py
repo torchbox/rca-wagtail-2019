@@ -704,7 +704,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         BasePage.content_panels
         + [
             # Taxonomy, relationships etc
-            FieldPanel("degree_level"),
             InlinePanel("subjects", label="Subjects"),
             InlinePanel("programme_types", label="Programme Types"),
             MultiFieldPanel(
@@ -728,13 +727,9 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         + TapMixin.panels
     )
     key_details_panels = [
-        InlinePanel("degree_levels", label="Degree levels"),
+        InlinePanel("degree_levels", label="Degree levels", min_num=1),
         MultiFieldPanel(
             [
-                FieldPanel("programme_details_credits"),
-                FieldPanel("programme_details_credits_suffix"),
-                FieldPanel("programme_details_time"),
-                FieldPanel("programme_details_time_suffix"),
                 InlinePanel(
                     "programme_study_modes",
                     heading="Programme study mode",
@@ -888,7 +883,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ),
         MultiFieldPanel([FieldPanel("apply_image")], heading="Introduction image"),
         MultiFieldPanel([FieldPanel("steps")], heading="Before you begin"),
-        FieldPanel("qs_code"),
     ]
     experience_panels = [
         FieldPanel("experience_introduction"),
