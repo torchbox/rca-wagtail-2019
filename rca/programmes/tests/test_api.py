@@ -31,31 +31,6 @@ class ProgrammesAPIResponseTest(TestCase):
             "&limit=50&fields=summary%2Chero_image_square"
         )
 
-    def test_should_return_if_querying_title_and_degree_level(self):
-        ProgrammeStudyModeProgrammePage.objects.create(
-            page=self.programme_page, programme_study_mode=self.full_time_study_mode
-        )
-
-        # Check by just using the title of the page.
-        response = self.client.get(
-            f"{self.base_url}&full-time=true"
-            f"&part-time=true&search={self.programme_page_title}"
-        )
-        data = response.json()
-
-        self.assertEqual(data["meta"]["total_count"], 1)
-        self.assertEqual(data["items"][0]["id"], self.programme_page.id)
-
-        # Check by using the page and degree name.
-        response = self.client.get(
-            f"{self.base_url}&full-time=true"
-            f"&part-time=true&search={self.programme_page_title}+{self.degree_level_title}"
-        )
-        data = response.json()
-
-        self.assertEqual(data["meta"]["total_count"], 1)
-        self.assertEqual(data["items"][0]["id"], self.programme_page.id)
-
     def test_should_not_return_full_time_programmes_if_full_time_is_false(self):
         ProgrammeStudyModeProgrammePage.objects.create(
             page=self.programme_page, programme_study_mode=self.full_time_study_mode
