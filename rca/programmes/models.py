@@ -957,7 +957,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             "programme_locations",
             [index.RelatedFields("programme_location", [index.SearchField("title")])],
         ),
-        index.RelatedFields("degree_level", [index.SearchField("title")]),
+        index.RelatedFields(
+            "degree_levels",
+            [index.RelatedFields("level", [index.SearchField("title")])],
+        ),
         index.RelatedFields(
             "subjects",
             [index.RelatedFields("subject", [index.SearchField("title")])],
