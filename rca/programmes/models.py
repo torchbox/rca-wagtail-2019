@@ -1014,12 +1014,18 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
     @property
     def degree_level_title(self):
-        if not self.degree_levels.exists():
+        degree_level_titles = [
+            degree_level.level.title
+            for degree_level in self.degree_levels.all()
+            if degree_level.level
+        ]
+        if degree_level_titles:
+            return ", ".join(degree_level_titles)
+
+        if self.degree_level:
             return self.degree_level.title
 
-        return ", ".join(
-            [degree_level.level.title for degree_level in self.degree_levels.all()]
-        )
+        return ""
 
     def __str__(self):
         return self.full_title
