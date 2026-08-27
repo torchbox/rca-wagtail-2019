@@ -11,10 +11,12 @@ from rca.enquire_to_study.models import (
     EnquiryFormSubmissionProgrammesOrderable,
 )
 from rca.programmes.factories import (
+    DegreeLevelFactory,
     ProgrammePageFactory,
     ProgrammePageProgrammeTypeFactory,
     ProgrammeTypeFactory,
 )
+from rca.programmes.models import ProgrammePageDegreeLevel
 
 
 class TestEnquireToStudyForm(TestCase):
@@ -25,6 +27,13 @@ class TestEnquireToStudyForm(TestCase):
         ProgrammePageProgrammeTypeFactory(
             page=page, programme_type=ProgrammeTypeFactory()
         )
+        self.programme_degree_level = ProgrammePageDegreeLevel.objects.create(
+            source_page=page,
+            level=DegreeLevelFactory(),
+            qs_code=105,
+            credits="180",
+            time="1 year",
+        )
         self.form_data = {
             "first_name": "Monty",
             "last_name": "python",
@@ -33,7 +42,7 @@ class TestEnquireToStudyForm(TestCase):
             "country_of_residence": "GB",
             "city": "Bristol",
             "country_of_citizenship": "GB",
-            "programmes": [page.pk],
+            "programmes": [self.programme_degree_level.pk],
             "start_date": self.start_date.pk,
             "enquiry_reason": self.enquiry_reason.pk,
             "enquiry_questions": "What is your name?",
@@ -69,7 +78,7 @@ class TestEnquireToStudyForm(TestCase):
         )
         self.assertEqual(self.form_data["city"], submission.city)
         self.assertEqual(
-            self.form_data["programmes"][0],
+            self.programme_degree_level.source_page_id,
             submission.enquiry_submission_programmes.first().programme.id,
         )
         self.assertEqual(self.start_date, submission.start_date)
@@ -91,7 +100,11 @@ class TestEnquireToStudyForm(TestCase):
 
         self.assertEqual(programmes_orderable.enquiry_submission, submission)
         self.assertEqual(
-            programmes_orderable.programme.pk, self.form_data["programmes"][0]
+            programmes_orderable.programme.pk,
+            self.programme_degree_level.source_page_id,
+        )
+        self.assertEqual(
+            programmes_orderable.degree_level_id, self.programme_degree_level.level_id
         )
 
     @patch("django_recaptcha.fields.client.submit")
