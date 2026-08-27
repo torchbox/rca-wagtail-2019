@@ -989,6 +989,8 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
                 )
             ],
         ),
+        # Combination of title + degree level.
+        index.AutocompleteField("full_title", boost=2),
     ]
     api_fields = [
         # Fields for filtering and display, shared with shortcourses.ShortCoursePage.
@@ -1011,6 +1013,22 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     ]
 
     @property
+    def degree_level_title(self):
+        if not self.degree_levels.exists():
+            return self.degree_level.title
+
+        return ", ".join(
+            [degree_level.level.title for degree_level in self.degree_levels.all()]
+        )
+
+    def __str__(self):
+        return self.full_title
+
+    @property
+    def full_title(self):
+        return f"{self.title} {self.degree_level_title}"
+
+    @property
     def introduction(self):
         return self.programme_description_subtitle
 
@@ -1031,6 +1049,9 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         return self.programme_locations.values(
             "programme_location__title", "programme_location_url"
         ).order_by("programme_location__title")
+
+    def get_admin_display_title(self):
+        return self.full_title
 
     def get_schools(self):
         return self.related_schools_and_research_pages.select_related("page")
