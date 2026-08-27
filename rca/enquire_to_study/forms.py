@@ -11,7 +11,19 @@ from rca.enquire_to_study.models import (
     EnquiryReason,
     StartDate,
 )
-from rca.programmes.models import ProgrammePage
+from rca.programmes.models import ProgrammePageDegreeLevel
+
+
+def programme_degree_level_label(programme_degree_level):
+    return (
+        f"{programme_degree_level.source_page.title} "
+        f"{programme_degree_level.level.title}"
+    )
+
+
+class ProgrammeDegreeLevelChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return programme_degree_level_label(obj)
 
 
 class EnquireToStudyForm(forms.Form):
@@ -27,10 +39,8 @@ class EnquireToStudyForm(forms.Form):
     country_of_citizenship = CountryField().formfield()
 
     # Study details
-    programmes = forms.ModelMultipleChoiceField(
-        queryset=ProgrammePage.objects.filter(
-            qs_code__isnull=False, live=True
-        ).order_by("title"),
+    programmes = ProgrammeDegreeLevelChoiceField(
+        queryset=ProgrammePageDegreeLevel.objects.none(),
         widget=forms.CheckboxSelectMultiple,
     )
 
@@ -66,6 +76,15 @@ class EnquireToStudyForm(forms.Form):
         # Set initial values
         self.fields["country_of_residence"].initial = ("GB", "United Kingdon")
         self.fields["country_of_citizenship"].initial = ("GB", "United Kingdom")
+
+        # Choices
+        self.fields["programmes"].queryset = (
+            ProgrammePageDegreeLevel.objects.filter(
+                source_page__live=True, qs_code__isnull=False
+            )
+            .select_related("source_page", "level")
+            .order_by("source_page__title", "sort_order")
+        )
 
         # Labels
         self.fields["country_of_citizenship"].label = (
@@ -124,9 +143,11 @@ class EnquireToStudyForm(forms.Form):
         data.pop("captcha")
         enquiry_submission = EnquiryFormSubmission.objects.create(**data)
 
-        for programme in programmes:
+        for programme_degree_level in programmes:
             EnquiryFormSubmissionProgrammesOrderable.objects.create(
-                enquiry_submission=enquiry_submission, programme=programme
+                enquiry_submission=enquiry_submission,
+                programme=programme_degree_level.source_page,
+                degree_level=programme_degree_level.level,
             )
 
         return enquiry_submission
