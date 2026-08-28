@@ -24,7 +24,7 @@ const getMock = (type = 'Page', overrides = {}, id = 4) => ({
 
 const getMockShortCourse = getMock.bind(null, 'shortcourses.ShortCoursePage');
 const getMockProgramme = getMock.bind(null, 'programmes.ProgrammePage', {
-    degree_level: { id: 6, title: 'MA' },
+    degree_level_title: 'MA',
     pathway_blocks: [
         {
             id: '586e1b58-c8b3-4077-9577-02b727e12cbc',

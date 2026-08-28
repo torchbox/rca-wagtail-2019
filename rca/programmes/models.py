@@ -1027,6 +1027,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         # Displayed fields, specific to programmes.
         APIField("degree_level", serializer=degree_level_serializer()),
         APIField("degree_levels"),
+        APIField("degree_level_title", serializer=CharFieldSerializer()),
         APIField("pathway_blocks"),
     ]
 
