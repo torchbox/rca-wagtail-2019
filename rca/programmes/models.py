@@ -242,7 +242,10 @@ class ProgrammePageDegreeLevel(Orderable):
         related_name="+",
     )
     qs_code = models.PositiveIntegerField(
-        help_text="This code needs to match the name of the codeExternal value in QS, E.G 105",
+        help_text=(
+            "Must match the codeExternal value in QS, e.g. 105. Also required "
+            "for this degree level to appear on the enquiry form."
+        ),
         blank=True,
         null=True,
     )
