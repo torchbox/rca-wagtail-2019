@@ -22,7 +22,7 @@ class DegreeLevelFilter(filters.BaseFilterBackend):
         try:
             queryset.model._meta.get_field("degree_levels")
             degree_level_ids = [
-                int(id) for id in request.GET.getlist("degree_levels", [])
+                int(id) for id in request.GET.getlist("degree_level_ids", [])
             ]
             if degree_level_ids:
                 queryset = (

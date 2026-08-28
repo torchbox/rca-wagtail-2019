@@ -272,6 +272,29 @@ class ProgrammePageDegreeLevel(Orderable):
         FieldPanel("time_suffix"),
     ]
 
+    api_fields = [
+        APIField("level", serializer=degree_level_serializer()),
+        APIField("qs_code"),
+        APIField("credits"),
+        APIField("credits_suffix"),
+        APIField("time"),
+        APIField("time_suffix"),
+    ]
+
+    def clean(self):
+        super().clean()
+        errors = defaultdict(list)
+        if self.credits and not self.credits_suffix:
+            errors["credits_suffix"].append("Please add a suffix")
+        if self.credits_suffix and not self.credits:
+            errors["credits"].append("Please add a credit value")
+        if self.time and not self.time_suffix:
+            errors["time_suffix"].append("Please add a suffix")
+        if self.time_suffix and not self.time:
+            errors["time"].append("Please add a time value")
+        if errors:
+            raise ValidationError(errors)
+
 
 class ProgrammeStoriesBlock(models.Model):
     source_page = ParentalKey("ProgrammePage", related_name="programme_stories")
@@ -704,7 +727,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         BasePage.content_panels
         + [
             # Taxonomy, relationships etc
-            FieldPanel("degree_level"),
             InlinePanel("subjects", label="Subjects"),
             InlinePanel("programme_types", label="Programme Types"),
             MultiFieldPanel(
@@ -728,13 +750,9 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         + TapMixin.panels
     )
     key_details_panels = [
-        InlinePanel("degree_levels", label="Degree levels"),
+        InlinePanel("degree_levels", label="Degree levels", min_num=1),
         MultiFieldPanel(
             [
-                FieldPanel("programme_details_credits"),
-                FieldPanel("programme_details_credits_suffix"),
-                FieldPanel("programme_details_time"),
-                FieldPanel("programme_details_time_suffix"),
                 InlinePanel(
                     "programme_study_modes",
                     heading="Programme study mode",
@@ -888,7 +906,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ),
         MultiFieldPanel([FieldPanel("apply_image")], heading="Introduction image"),
         MultiFieldPanel([FieldPanel("steps")], heading="Before you begin"),
-        FieldPanel("qs_code"),
     ]
     experience_panels = [
         FieldPanel("experience_introduction"),
@@ -1009,6 +1026,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         APIField("programme_study_modes"),
         # Displayed fields, specific to programmes.
         APIField("degree_level", serializer=degree_level_serializer()),
+        APIField("degree_levels"),
         APIField("pathway_blocks"),
     ]
 

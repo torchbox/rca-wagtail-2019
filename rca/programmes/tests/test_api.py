@@ -141,7 +141,7 @@ class DegreeLevelFilterTest(TestCase):
         )
 
     def test_filters_pages_by_a_single_degree_level(self):
-        response = self.client.get(f"{self.base_url}&degree_levels={self.ma.pk}")
+        response = self.client.get(f"{self.base_url}&degree_level_ids={self.ma.pk}")
         data = response.json()
 
         self.assertEqual(data["meta"]["total_count"], 1)
@@ -149,7 +149,7 @@ class DegreeLevelFilterTest(TestCase):
 
     def test_filters_pages_by_multiple_degree_levels(self):
         response = self.client.get(
-            f"{self.base_url}&degree_levels={self.ma.pk}&degree_levels={self.mfa.pk}"
+            f"{self.base_url}&degree_level_ids={self.ma.pk}&degree_level_ids={self.mfa.pk}"
         )
         data = response.json()
 
@@ -181,8 +181,10 @@ class DegreeLevelFilterTest(TestCase):
     def test_multi_award_page_is_returned_under_each_of_its_degree_levels(self):
         multi_award_page = self._create_multi_award_page()
 
-        response_ma = self.client.get(f"{self.base_url}&degree_levels={self.ma.pk}")
-        response_mfa = self.client.get(f"{self.base_url}&degree_levels={self.mfa.pk}")
+        response_ma = self.client.get(f"{self.base_url}&degree_level_ids={self.ma.pk}")
+        response_mfa = self.client.get(
+            f"{self.base_url}&degree_level_ids={self.mfa.pk}"
+        )
 
         self.assertIn(
             multi_award_page.id,
@@ -208,7 +210,7 @@ class DegreeLevelFilterTest(TestCase):
         # Filtering by both of its degree levels together should still only
         # return it once.
         response = self.client.get(
-            f"{self.base_url}&degree_levels={self.ma.pk}&degree_levels={self.mfa.pk}"
+            f"{self.base_url}&degree_level_ids={self.ma.pk}&degree_level_ids={self.mfa.pk}"
         )
         matching_items = [
             item
