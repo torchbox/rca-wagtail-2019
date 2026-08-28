@@ -1,3 +1,4 @@
+import wagtail_factories
 from django.test import TestCase
 from wagtail.images.tests.utils import get_test_image_file
 from wagtail.test.utils import WagtailPageTestCase
@@ -105,6 +106,32 @@ class ProgrammePageDegreeLevelTests(TestCase):
 
         mfa_entry.refresh_from_db()
         self.assertEqual(mfa_entry.credits, "360")
+
+    def test_each_degree_level_entry_can_have_its_own_programme_specification(self):
+        ma_spec = wagtail_factories.DocumentFactory(title="MA Programme Specification")
+        mfa_spec = wagtail_factories.DocumentFactory(
+            title="MFA Programme Specification"
+        )
+
+        ma_entry = ProgrammePageDegreeLevel.objects.create(
+            source_page=self.page,
+            level=self.ma,
+            qs_code=105,
+            programme_specification=ma_spec,
+        )
+        mfa_entry = ProgrammePageDegreeLevel.objects.create(
+            source_page=self.page,
+            level=self.mfa,
+            qs_code=106,
+            programme_specification=mfa_spec,
+        )
+
+        self.assertEqual(ma_entry.programme_specification, ma_spec)
+        self.assertEqual(mfa_entry.programme_specification, mfa_spec)
+        self.assertNotEqual(
+            ma_entry.programme_specification_id,
+            mfa_entry.programme_specification_id,
+        )
 
     def test_cannot_add_duplicate_degree_level_to_the_same_page(self):
         existing = ProgrammePageDegreeLevel.objects.create(

@@ -265,6 +265,13 @@ class ProgrammePageDegreeLevel(Orderable):
         ),
         blank=True,
     )
+    programme_specification = models.ForeignKey(
+        "documents.CustomDocument",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
 
     panels = [
         FieldPanel("level"),
@@ -273,6 +280,7 @@ class ProgrammePageDegreeLevel(Orderable):
         FieldPanel("credits_suffix"),
         FieldPanel("time"),
         FieldPanel("time_suffix"),
+        FieldPanel("programme_specification"),
     ]
 
     api_fields = [
@@ -282,6 +290,7 @@ class ProgrammePageDegreeLevel(Orderable):
         APIField("credits_suffix"),
         APIField("time"),
         APIField("time_suffix"),
+        APIField("programme_specification"),
     ]
 
     class Meta(Orderable.Meta):
