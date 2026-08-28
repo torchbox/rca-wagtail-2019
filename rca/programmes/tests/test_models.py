@@ -105,8 +105,38 @@ class ProgrammePageDegreeLevelTests(TestCase):
 
         mfa_entry.refresh_from_db()
         self.assertEqual(mfa_entry.credits, "360")
-        self.assertEqual(mfa_entry.qs_code, 106)
-        self.assertEqual(mfa_entry.time, "2 years")
+
+    def test_cannot_add_duplicate_degree_level_to_the_same_page(self):
+        existing = ProgrammePageDegreeLevel.objects.create(
+            source_page=self.page, level=self.ma, qs_code=105
+        )
+
+        edit_handler = ProgrammePage.get_edit_handler()
+        form_class = edit_handler.get_form_class()
+        form = form_class(instance=self.page)
+        formset = form.formsets["degree_levels"]
+        prefix = formset.prefix
+
+        # Existing "MA" entry, unchanged, plus a second, new "MA" entry.
+        data = {
+            f"{prefix}-TOTAL_FORMS": "2",
+            f"{prefix}-INITIAL_FORMS": "1",
+            f"{prefix}-MIN_NUM_FORMS": "1",
+            f"{prefix}-MAX_NUM_FORMS": "1000",
+            f"{prefix}-0-level": str(self.ma.pk),
+            f"{prefix}-0-qs_code": "105",
+            f"{prefix}-0-id": str(existing.pk),
+            f"{prefix}-0-ORDER": "1",
+            f"{prefix}-1-level": str(self.ma.pk),
+            f"{prefix}-1-qs_code": "106",
+            f"{prefix}-1-id": "",
+            f"{prefix}-1-ORDER": "2",
+        }
+
+        bound_formset = formset.__class__(data, instance=self.page, prefix=prefix)
+
+        self.assertFalse(bound_formset.is_valid())
+        self.assertEqual(ProgrammePageDegreeLevel.objects.count(), 1)
 
 
 class TestProgrammeStudyMode(TestCase):

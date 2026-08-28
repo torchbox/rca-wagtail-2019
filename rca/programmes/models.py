@@ -281,6 +281,14 @@ class ProgrammePageDegreeLevel(Orderable):
         APIField("time_suffix"),
     ]
 
+    class Meta(Orderable.Meta):
+        constraints = [
+            models.UniqueConstraint(
+                fields=["source_page", "level"],
+                name="unique_degree_level_per_programme_page",
+            )
+        ]
+
     def clean(self):
         super().clean()
         errors = defaultdict(list)
