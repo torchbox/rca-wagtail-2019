@@ -31,70 +31,70 @@ def forward(apps, schema_editor):
         page_model = apps.get_model(page_type)
         content_type = ContentType.objects.get_for_model(page_model)
 
-        for page in page_model.objects.all():
+        pages_with_old_school = page_model.objects.filter(
+            **{f"{field_name}__page_id": old_school_page.id}
+        ).distinct()
+
+        for page in pages_with_old_school:
             related_manager = getattr(page, field_name)
-
             old_items = related_manager.filter(page_id=old_school_page.id)
+            has_new_school = related_manager.filter(
+                page_id=new_school_page.id
+            ).exists()
 
-            if old_items.exists():
-                has_new_school = related_manager.filter(
-                    page_id=new_school_page.id
-                ).exists()
+            if has_new_school:
+                # The new school is already related
+                # Drop the old entries, rather than leaving a duplicate relation.
+                old_items.delete()
+            else:
+                # Repoint one old entry to the new school, preserving
+                # its position in the list, and drop any further
+                # duplicates of the old school.
+                first_old_item = old_items.first()
+                first_old_item.page_id = new_school_page.id
+                first_old_item.save(update_fields=["page"])
+                old_items.exclude(pk=first_old_item.pk).delete()
 
-                if has_new_school:
-                    # The new school is already related
-                    # Drop the old entries, rather than leaving a duplicate relation.
-                    old_items.delete()
-                else:
-                    # Repoint one old entry to the new school, preserving
-                    # its position in the list, and drop any further
-                    # duplicates of the old school.
-                    first_old_item = old_items.first()
-                    first_old_item.page_id = new_school_page.id
-                    first_old_item.save(update_fields=["page"])
-                    old_items.exclude(pk=first_old_item.pk).delete()
+        # Revisions: each revision only needs its own content, so check
+        # every revision of this content type in one query rather than
+        # nesting this inside the page loop above.
+        for revision in Revision.objects.filter(content_type_id=content_type.pk):
+            content = revision.content
+            items = content.get(field_name)
+            if not items:
+                continue
 
-            for revision in Revision.objects.filter(
-                content_type_id=content_type.pk,
-                object_id=str(page.pk),
-            ):
-                content = revision.content
-                items = content.get(field_name)
-                if not items:
-                    continue
+            old_indexes = [
+                i for i, item in enumerate(items) if item.get("page") == old_school_page.id
+            ]
 
-                old_indexes = [
-                    i
+            if not old_indexes:
+                continue
+
+            has_new_school = any(
+                item.get("page") == new_school_page.id for item in items
+            )
+
+            if has_new_school:
+                # The new school is already related
+                # Drop the old entries, rather than leaving a duplicate relation.
+                content[field_name] = [
+                    item for i, item in enumerate(items) if i not in old_indexes
+                ]
+            else:
+                # Repoint one old entry to the new school, preserving
+                # its position in the list, and drop any further
+                # duplicates of the old school.
+                first_old_index = old_indexes[0]
+                items[first_old_index]["page"] = new_school_page.id
+                content[field_name] = [
+                    item
                     for i, item in enumerate(items)
-                    if item.get("page") == old_school_page.id
+                    if i == first_old_index or item.get("page") != old_school_page.id
                 ]
 
-                if not old_indexes:
-                    continue
-
-                has_new_school = any(
-                    item.get("page") == new_school_page.id for item in items
-                )
-                if has_new_school:
-                    # The new school is already related
-                    # Drop the old entries, rather than leaving a duplicate relation.
-                    content[field_name] = [
-                        item for i, item in enumerate(items) if i not in old_indexes
-                    ]
-                else:
-                    # Repoint one old entry to the new school, preserving
-                    # its position in the list, and drop any further
-                    # duplicates of the old school.
-                    first_old_index = old_indexes[0]
-                    items[first_old_index]["page"] = new_school_page.id
-                    content[field_name] = [
-                        item
-                        for i, item in enumerate(items)
-                        if i == first_old_index or item.get("page") != old_school_page.id
-                    ]
-
-                revision.content = content
-                revision.save(update_fields=["content"])
+            revision.content = content
+            revision.save(update_fields=["content"])
 
 
 
