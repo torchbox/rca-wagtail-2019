@@ -412,7 +412,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     # Comments resemble tabbed panels in the editor
     # Content
     degree_level = models.ForeignKey(
-        DegreeLevel, on_delete=models.SET_NULL, blank=False, null=True, related_name="+"
+        DegreeLevel, on_delete=models.SET_NULL, blank=True, null=True, related_name="+"
     )
     hero_image = models.ForeignKey(
         "images.CustomImage",
