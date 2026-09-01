@@ -13,7 +13,7 @@ PAGE_TYPES_RELATED_SCHOOL_PAGE = [
 ]
 
 OLD_SCHOOL_PAGE_TITLE = "School of Communication"
-NEW_SCHOOL_PAGE_TITLE = "School of Communication & Design"
+NEW_SCHOOL_PAGE_TITLE = "School of Design"
 
 
 def forward(apps, schema_editor):
