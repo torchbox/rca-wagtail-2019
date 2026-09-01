@@ -300,6 +300,29 @@ class EventDetailPageDateTests(WagtailPageTestCase):
             )
 
 
+class EventDetailPageMobilePriceTests(WagtailPageTestCase):
+    """
+    The mobile-only "Price" block in key-details--event.html should display
+    the event's cost when one is set, and fall back to "Free" otherwise.
+    On any screen size other than mobile, the price instead shows in the
+    sticky booking bar.
+    """
+
+    def setUp(self):
+        self.home_page = HomePage.objects.first()
+
+    def test_shows_cost_when_set(self):
+        page = EventDetailPageFactory(parent=self.home_page, event_cost="£200-500")
+        response = self.client.get(page.url)
+        self.assertContains(response, "£200-500")
+        self.assertNotContains(response, "Free")
+
+    def test_shows_free_when_no_cost(self):
+        page = EventDetailPageFactory(parent=self.home_page, event_cost="")
+        response = self.client.get(page.url)
+        self.assertContains(response, "Free")
+
+
 class EventDetailPageRelatedContentTests(WagtailPageTestCase):
     """
     Test the values returned from the EventDetailPage.get_related_pages method
