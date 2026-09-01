@@ -57,8 +57,13 @@ def forward(apps, schema_editor):
 
         # Revisions: each revision only needs its own content, so check
         # every revision of this content type in one query rather than
-        # nesting this inside the page loop above.
-        for revision in Revision.objects.filter(content_type_id=content_type.pk):
+        # nesting this inside the page loop above. Stream via .iterator()
+        # rather than loading every revision (and its full JSON content)
+        # into memory at once — this OOM'd the Heroku release dyno when
+        # this migration first shipped.
+        for revision in Revision.objects.filter(
+            content_type_id=content_type.pk
+        ).iterator(chunk_size=200):
             content = revision.content
             items = content.get(field_name)
             if not items:
