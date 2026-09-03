@@ -23,10 +23,12 @@ from rca.enquire_to_study.models import EnquireToStudySettings, EnquiryFormSubmi
 from rca.enquire_to_study.views import EnquireToStudyFormView
 from rca.enquire_to_study.wagtail_hooks import EnquiryFormSubmissionAdmin
 from rca.programmes.factories import (
+    DegreeLevelFactory,
     ProgrammePageFactory,
     ProgrammePageProgrammeTypeFactory,
     ProgrammeTypeFactory,
 )
+from rca.programmes.models import ProgrammePageDegreeLevel
 
 
 class EnquireToStudyFormViewTest(TestCase):
@@ -62,6 +64,13 @@ class EnquireToStudyFormViewInternalEmailsTest(WagtailPageTestCase):
         ProgrammePageProgrammeTypeFactory(
             page=page, programme_type=ProgrammeTypeFactory()
         )
+        programme_degree_level = ProgrammePageDegreeLevel.objects.create(
+            source_page=page,
+            level=DegreeLevelFactory(),
+            qs_code=105,
+            credits="180",
+            time="1 year",
+        )
 
         self.form_data = {
             "first_name": "Monty",
@@ -71,7 +80,7 @@ class EnquireToStudyFormViewInternalEmailsTest(WagtailPageTestCase):
             "country_of_residence": "GB",
             "city": "Bristol",
             "country_of_citizenship": "GB",
-            "programmes": [page.pk],
+            "programmes": [programme_degree_level.pk],
             "start_date": StartDateFactory(qs_code="test-code").pk,
             "enquiry_reason": EnquiryReasonFactory().pk,
             "enquiry_questions": "What is your name?",
