@@ -232,6 +232,90 @@ class ProgramPageSocialMediaLinks(Orderable):
         return f"{self.link_text} » {self.link_url}"
 
 
+class ProgrammePageDegreeLevel(Orderable):
+    source_page = ParentalKey("programmes.ProgrammePage", related_name="degree_levels")
+    level = models.ForeignKey(
+        DegreeLevel,
+        on_delete=models.SET_NULL,
+        blank=False,
+        null=True,
+        related_name="+",
+    )
+    qs_code = models.PositiveIntegerField(
+        help_text=(
+            "Must match the codeExternal value in QS, e.g. 105. Also required "
+            "for this degree level to appear on the enquiry form."
+        ),
+        blank=True,
+        null=True,
+    )
+    credits = models.CharField(max_length=25, blank=True)
+    credits_suffix = models.CharField(
+        max_length=1,
+        choices=(("1", "credits"), ("2", "credits at FHEQ Level 6")),
+        blank=True,
+    )
+    time = models.CharField(max_length=25, blank=True)
+    time_suffix = models.CharField(
+        max_length=1,
+        choices=(
+            ("1", "year programme"),
+            ("2", "month programme"),
+            ("3", "week programme"),
+        ),
+        blank=True,
+    )
+    programme_specification = models.ForeignKey(
+        "documents.CustomDocument",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+
+    panels = [
+        FieldPanel("level"),
+        FieldPanel("qs_code"),
+        FieldPanel("credits"),
+        FieldPanel("credits_suffix"),
+        FieldPanel("time"),
+        FieldPanel("time_suffix"),
+        FieldPanel("programme_specification"),
+    ]
+
+    api_fields = [
+        APIField("level", serializer=degree_level_serializer()),
+        APIField("qs_code"),
+        APIField("credits"),
+        APIField("credits_suffix"),
+        APIField("time"),
+        APIField("time_suffix"),
+        APIField("programme_specification"),
+    ]
+
+    class Meta(Orderable.Meta):
+        constraints = [
+            models.UniqueConstraint(
+                fields=["source_page", "level"],
+                name="unique_degree_level_per_programme_page",
+            )
+        ]
+
+    def clean(self):
+        super().clean()
+        errors = defaultdict(list)
+        if self.credits and not self.credits_suffix:
+            errors["credits_suffix"].append("Please add a suffix")
+        if self.credits_suffix and not self.credits:
+            errors["credits"].append("Please add a credit value")
+        if self.time and not self.time_suffix:
+            errors["time_suffix"].append("Please add a suffix")
+        if self.time_suffix and not self.time:
+            errors["time"].append("Please add a time value")
+        if errors:
+            raise ValidationError(errors)
+
+
 class ProgrammeStoriesBlock(models.Model):
     source_page = ParentalKey("ProgrammePage", related_name="programme_stories")
     title = models.CharField(max_length=125)
@@ -348,7 +432,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     # Comments resemble tabbed panels in the editor
     # Content
     degree_level = models.ForeignKey(
-        DegreeLevel, on_delete=models.SET_NULL, blank=False, null=True, related_name="+"
+        DegreeLevel, on_delete=models.SET_NULL, blank=True, null=True, related_name="+"
     )
     hero_image = models.ForeignKey(
         "images.CustomImage",
@@ -663,7 +747,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         BasePage.content_panels
         + [
             # Taxonomy, relationships etc
-            FieldPanel("degree_level"),
             InlinePanel("subjects", label="Subjects"),
             InlinePanel("programme_types", label="Programme Types"),
             MultiFieldPanel(
@@ -687,12 +770,9 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         + TapMixin.panels
     )
     key_details_panels = [
+        InlinePanel("degree_levels", label="Degree levels", min_num=1),
         MultiFieldPanel(
             [
-                FieldPanel("programme_details_credits"),
-                FieldPanel("programme_details_credits_suffix"),
-                FieldPanel("programme_details_time"),
-                FieldPanel("programme_details_time_suffix"),
                 InlinePanel(
                     "programme_study_modes",
                     heading="Programme study mode",
@@ -846,7 +926,6 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ),
         MultiFieldPanel([FieldPanel("apply_image")], heading="Introduction image"),
         MultiFieldPanel([FieldPanel("steps")], heading="Before you begin"),
-        FieldPanel("qs_code"),
     ]
     experience_panels = [
         FieldPanel("experience_introduction"),
@@ -915,7 +994,18 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             "programme_locations",
             [index.RelatedFields("programme_location", [index.SearchField("title")])],
         ),
-        index.RelatedFields("degree_level", [index.SearchField("title")]),
+        index.RelatedFields(
+            "degree_levels",
+            [
+                index.RelatedFields(
+                    "level",
+                    [
+                        index.SearchField("title"),
+                        index.AutocompleteField("title"),
+                    ],
+                )
+            ],
+        ),
         index.RelatedFields(
             "subjects",
             [index.RelatedFields("subject", [index.SearchField("title")])],
@@ -956,18 +1046,32 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         APIField("programme_study_modes"),
         # Displayed fields, specific to programmes.
         APIField("degree_level", serializer=degree_level_serializer()),
+        APIField("degree_levels"),
+        APIField("degree_level_title", serializer=CharFieldSerializer()),
         APIField("pathway_blocks"),
     ]
 
-    def __str__(self):
-        bits = [self.title]
+    @property
+    def degree_level_title(self):
+        degree_level_titles = [
+            degree_level.level.title
+            for degree_level in self.degree_levels.all()
+            if degree_level.level
+        ]
+        if degree_level_titles:
+            return ", ".join(degree_level_titles)
+
         if self.degree_level:
-            bits.append(str(self.degree_level))
-        return " ".join(bits)
+            return self.degree_level.title
+
+        return ""
+
+    def __str__(self):
+        return self.full_title
 
     @property
     def full_title(self):
-        return f"{self.title} {self.degree_level.title}"
+        return f"{self.title} {self.degree_level_title}"
 
     @property
     def introduction(self):
@@ -992,10 +1096,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ).order_by("programme_location__title")
 
     def get_admin_display_title(self):
-        bits = [self.draft_title]
-        if self.degree_level:
-            bits.append(str(self.degree_level))
-        return " ".join(bits)
+        return self.full_title
 
     def get_schools(self):
         return self.related_schools_and_research_pages.select_related("page")

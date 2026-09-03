@@ -18,7 +18,7 @@ from wagtail.admin import messages
 
 from rca.utils.views import MetaTitleMixin
 
-from .forms import EnquireToStudyForm
+from .forms import EnquireToStudyForm, programme_degree_level_label
 from .models import EnquireToStudySettings, EnquiryFormSubmission
 
 logger = logging.getLogger(__name__)
@@ -115,17 +115,20 @@ class EnquireToStudyFormView(MetaTitleMixin, FormView):
                 data["CountryOfResidence"] = k
 
         selected_course_list = []
-        for programme in form_data["programmes"]:
+        for programme_degree_level in form_data["programmes"]:
             course_code = next(
                 (
                     course
                     for course in qs_courses
-                    if course["codeExternal"] == str(programme.qs_code)
+                    if course["codeExternal"] == str(programme_degree_level.qs_code)
                 ),
                 None,
             )
             if not course_code:
-                raise ValueError(f"{programme.title} not found in QS course list")
+                raise ValueError(
+                    f"{programme_degree_level_label(programme_degree_level)} "
+                    "not found in QS course list"
+                )
             course_code = course_code["code"]
 
             if course_code not in selected_course_list:
@@ -151,8 +154,12 @@ class EnquireToStudyFormView(MetaTitleMixin, FormView):
                 "\n\nPlease see the following pages for more "
                 "information about the courses you enquired about: \n"
             )
-            for programme in form.cleaned_data["programmes"]:
-                email_content += f"{programme.title} {settings.WAGTAILADMIN_BASE_URL + programme.url} \n"
+            for programme_degree_level in form.cleaned_data["programmes"]:
+                programme_page = programme_degree_level.source_page
+                email_content += (
+                    f"{programme_degree_level_label(programme_degree_level)} "
+                    f"{settings.WAGTAILADMIN_BASE_URL + programme_page.url} \n"
+                )
 
         user_email = form.cleaned_data["email"]
         send_mail(
@@ -171,7 +178,9 @@ class EnquireToStudyFormView(MetaTitleMixin, FormView):
         }
 
         # Transform programmes into their string representation since it's going to be a QuerySet.
-        answers["Programmes"] = ", ".join([str(p) for p in answers["Programmes"]])
+        answers["Programmes"] = ", ".join(
+            programme_degree_level_label(p) for p in answers["Programmes"]
+        )
 
         name = f"{form.cleaned_data['first_name']} {form.cleaned_data['last_name']}"
 
@@ -194,7 +203,9 @@ class EnquireToStudyFormView(MetaTitleMixin, FormView):
             "formId": "enquire_to_study_form",
             "countryResidence": form_data["country_of_residence"],
             "countryCitizen": form_data["country_of_citizenship"],
-            "programme": [i.title for i in form_data["programmes"]],
+            "programme": [
+                programme_degree_level_label(i) for i in form_data["programmes"]
+            ],
             "starting": form_data["start_date"].label,
             "enquiryType": form_data["enquiry_reason"].reason,
             "newsletter": str(form_data["is_notification_opt_in"]),
