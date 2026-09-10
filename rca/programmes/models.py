@@ -275,22 +275,22 @@ class ProgrammePageDegreeLevel(Orderable):
 
     panels = [
         FieldPanel("level"),
-        FieldPanel("qs_code"),
         FieldPanel("credits"),
         FieldPanel("credits_suffix"),
         FieldPanel("time"),
         FieldPanel("time_suffix"),
         FieldPanel("programme_specification"),
+        FieldPanel("qs_code"),
     ]
 
     api_fields = [
         APIField("level", serializer=degree_level_serializer()),
-        APIField("qs_code"),
         APIField("credits"),
         APIField("credits_suffix"),
         APIField("time"),
         APIField("time_suffix"),
         APIField("programme_specification"),
+        APIField("qs_code"),
     ]
 
     class Meta(Orderable.Meta):
@@ -1059,7 +1059,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             if degree_level.level
         ]
         if degree_level_titles:
-            return ", ".join(degree_level_titles)
+            return "/".join(degree_level_titles)
 
         if self.degree_level:
             return self.degree_level.title
