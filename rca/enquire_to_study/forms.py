@@ -80,7 +80,9 @@ class EnquireToStudyForm(forms.Form):
         # Choices
         self.fields["programmes"].queryset = (
             ProgrammePageDegreeLevel.objects.filter(
-                source_page__live=True, qs_code__isnull=False
+                source_page__live=True,
+                qs_code__isnull=False,
+                level__isnull=False,
             )
             .select_related("source_page", "level")
             .order_by("source_page__title", "sort_order")

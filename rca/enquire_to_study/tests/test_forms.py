@@ -107,6 +107,22 @@ class TestEnquireToStudyForm(TestCase):
             programmes_orderable.degree_level_id, self.programme_degree_level.level_id
         )
 
+    def test_programmes_queryset_excludes_degree_levels_with_no_level(self):
+        # A ProgrammePageDegreeLevel can end up with level=None if its
+        # DegreeLevel snippet is deleted (level is on_delete=SET_NULL).
+        # Rendering/validating the form shouldn't crash on these entries.
+        orphaned = ProgrammePageDegreeLevel.objects.create(
+            source_page=self.programme_degree_level.source_page,
+            level=None,
+            qs_code=106,
+            credits="240",
+            time="2 years",
+        )
+        form = EnquireToStudyForm()
+        queryset = form.fields["programmes"].queryset
+        self.assertIn(self.programme_degree_level, queryset)
+        self.assertNotIn(orphaned, queryset)
+
     @patch("django_recaptcha.fields.client.submit")
     def test_is_read_data_protection_policy_false(self, mocked_submit):
         # Test form errors with is_read_data_protection_policy false

@@ -166,11 +166,23 @@
                 max-width: 100%;
                 width: auto;
             }
+
+            #{$root}__list-item {
+                margin-bottom: $gutter * 1.5;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
         }
     }
 
     &__sub-heading {
         margin-bottom: ($gutter * 0.5);
+
+        &--degree-level {
+            font-weight: $weight--bold;
+        }
     }
 
     &__list {
@@ -206,6 +218,10 @@
         #{$root}__meta {
             color: $color--meta-darkbg;
         }
+
+        #{$root}__sub-heading--degree-level {
+            color: $color--white;
+        }
     }
 
     .bg--light & {
@@ -217,6 +233,10 @@
         #{$root}__heading,
         #{$root}__meta {
             color: $color--meta-lightbg;
+        }
+
+        #{$root}__sub-heading--degree-level {
+            color: $color--white;
         }
     }
 }
