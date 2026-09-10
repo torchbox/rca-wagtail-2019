@@ -1066,6 +1066,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
         return ""
 
+    @cached_property
+    def degree_levels_with_specification(self):
+        return list(self.degree_levels.exclude(programme_specification__isnull=True))
+
     def __str__(self):
         return self.full_title
 

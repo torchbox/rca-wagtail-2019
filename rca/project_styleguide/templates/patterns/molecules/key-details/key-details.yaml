@@ -42,6 +42,17 @@ context:
             title: 'MDes Architecture programme specification 2026-27'
             file_extension: 'pdf'
             get_file_size: 273408
+    degree_levels_with_specification:
+      - programme_specification:
+          url: '#'
+          title: 'MA Architecture programme specification 2026-27'
+          file_extension: 'pdf'
+          get_file_size: 260608
+      - programme_specification:
+          url: '#'
+          title: 'MDes Architecture programme specification 2026-27'
+          file_extension: 'pdf'
+          get_file_size: 273408
     study_mode: 'Full-time study'
     campus_locations:
       - Kensington
