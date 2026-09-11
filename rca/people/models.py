@@ -421,8 +421,10 @@ class StaffPage(BasePage):
         items = []
         # First populate a list of all values
         # E.G [['role title name','programme title'm 'url'], ['role title name','programme title', 'None'], ...]
-        for value in self.roles.all().select_related(
-            "programme", "programme__degree_level"
+        for value in (
+            self.roles.all()
+            .select_related("programme", "programme__degree_level")
+            .prefetch_related("programme__degree_levels__level")
         ):
             if value.programme:
                 items.append(

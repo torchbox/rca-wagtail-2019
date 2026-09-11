@@ -14,14 +14,45 @@ context:
         - text: 'Design Architect'
         - text: 'BIM Manager'
         - text: 'Project Manager'
-    programme_specification:
-      url: '#'
-    programme_details_credits: '240'
-    programme_details_credits_suffix: 'credits'
-    get_programme_details_credits_suffix_display: 'credits'
-    programme_details_time: '2'
-    programme_details_time_suffix: 'year programme'
-    get_programme_details_time_suffix_display: 'year programme'
+    degree_levels:
+      all:
+        - level:
+            title: 'MA'
+          credits: '180'
+          credits_suffix: 'credits'
+          get_credits_suffix_display: 'credits'
+          time: '1'
+          time_suffix: 'year programme'
+          get_time_suffix_display: 'year programme'
+          programme_specification:
+            url: '#'
+            title: 'MA Architecture programme specification 2026-27'
+            file_extension: 'pdf'
+            get_file_size: 260608
+        - level:
+            title: 'MDes'
+          credits: '240'
+          credits_suffix: 'credits'
+          get_credits_suffix_display: 'credits'
+          time: '2'
+          time_suffix: 'year programme'
+          get_time_suffix_display: 'year programme'
+          programme_specification:
+            url: '#'
+            title: 'MDes Architecture programme specification 2026-27'
+            file_extension: 'pdf'
+            get_file_size: 273408
+    degree_levels_with_specification:
+      - programme_specification:
+          url: '#'
+          title: 'MA Architecture programme specification 2026-27'
+          file_extension: 'pdf'
+          get_file_size: 260608
+      - programme_specification:
+          url: '#'
+          title: 'MDes Architecture programme specification 2026-27'
+          file_extension: 'pdf'
+          get_file_size: 273408
     study_mode: 'Full-time study'
     campus_locations:
       - Kensington

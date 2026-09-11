@@ -126,9 +126,16 @@ class EnquiryFormSubmissionProgrammesOrderable(Orderable):
         "programmes.ProgrammePage",
         on_delete=models.CASCADE,
     )
+    degree_level = models.ForeignKey(
+        "programmes.DegreeLevel",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
 
     panels = [
         FieldPanel("programme"),
+        FieldPanel("degree_level"),
     ]
 
 

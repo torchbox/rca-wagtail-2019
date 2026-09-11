@@ -11,10 +11,11 @@ import {
  * "Degree level" and "Pathway blocks" are for programmes only. Other fields are shared.
  */
 const ProgrammeTeaser = ({ programme, onMouseOver, onFocus }) => {
-    const { meta, title, summary, degree_level, pathway_blocks } = programme;
+    const { meta, title, summary, degree_level_title, pathway_blocks } =
+        programme;
     const isShortCourse = meta.type === SHORT_COURSE_PAGE_TYPE;
     // Short courses have no degree level. Display a distinguishing label instead.
-    const degreeLabel = isShortCourse ? 'Short course' : degree_level.title;
+    const degreeLabel = isShortCourse ? 'Short course' : degree_level_title;
 
     return (
         <a

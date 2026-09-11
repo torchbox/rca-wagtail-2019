@@ -27,8 +27,8 @@
                                 </a>
                             </h3>
                             {% with programme_types=related_item.programme_types.all %}
-                                {% if related_item.degree_levels %}
-                                    <p class="related-content__degree body body--one" property="schema:EducationalCredentialAwarded">{{ related_item.degree_level }}</p>
+                                {% if related_item.degree_level_title %}
+                                    <p class="related-content__degree body body--one" property="schema:EducationalCredentialAwarded">{{ related_item.degree_level_title }}</p>
                                 {% else %}
                                     <p class="related-content__degree body body--one" property="schema:EducationalCredentialAwarded">
                                         {% for item in programme_types %}

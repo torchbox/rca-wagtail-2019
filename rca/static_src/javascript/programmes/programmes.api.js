@@ -18,7 +18,7 @@ const listedPageTypes = [
         fields: [
             'summary',
             'hero_image_square',
-            'degree_level',
+            'degree_level_title',
             'pathway_blocks',
         ],
     },

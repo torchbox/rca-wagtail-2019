@@ -25,10 +25,7 @@ export const programmePage = {
         height: PropTypes.number.isRequired,
     }).isRequired,
     // Defined for ProgrammePage, but not ShortCoursePage.
-    degree_level: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-    }),
+    degree_level_title: PropTypes.string,
     // Defined for ProgrammePage, but not ShortCoursePage.
     pathway_blocks: PropTypes.arrayOf(
         PropTypes.shape({

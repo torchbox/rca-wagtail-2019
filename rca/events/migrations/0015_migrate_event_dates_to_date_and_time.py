@@ -64,6 +64,16 @@ class Migration(migrations.Migration):
         ("events", "0014_auto_20220125_1226"),
     ]
 
+    # This migration accesses the historical "wagtailcore.PageRevision" model
+    # via apps.get_model(), which was renamed to "Revision" in wagtailcore's
+    # own 0070_rename_pagerevision_revision migration. Without an explicit
+    # ordering constraint here, Django's migration graph has no guarantee
+    # this runs before that rename, causing a LookupError on a fresh
+    # database when the two land in the wrong relative order.
+    run_before = [
+        ("wagtailcore", "0070_rename_pagerevision_revision"),
+    ]
+
     operations = [
         migrations.RunPython(migrate_datetimes_to_separate_date_and_time),
     ]
