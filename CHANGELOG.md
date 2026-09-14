@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Security
 
-- [R1-367](https://torchbox.atlassian.net/browse/R1-367) Update Wagtail to 7.4.3 for the September 2026 security releases, and clear CVEs in sqlparse, djangorestframework and @xmldom/xmldom
+- [R1-367](https://torchbox.atlassian.net/browse/R1-367) Update Wagtail to 7.4.3 for the September 2026 security releases, clear CVEs in sqlparse, djangorestframework and @xmldom/xmldom, and remove the accidentally-added `npm` and `i` packages from package.json
 
 ### Added
 

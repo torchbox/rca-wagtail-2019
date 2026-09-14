@@ -137,12 +137,6 @@ Run `trivy fs` from the project root each cycle. The project's real dependency s
 
 Lifted by upgrading `django-import-export` to 4.x, which relaxes the tablib pin. That is itself held by the ceiling recorded in `pyproject.toml` ("v4+ has breaking changes"), and the import feature needs comprehensive testing before it moves.
 
-### Node follow-up — vendored npm CLI
-
-`npm` is declared as a runtime dependency in `package.json` (`"npm": "^11.17.0"`), so the entire npm CLI is vendored under `node_modules/npm/**` and its bundled dependencies are scanned. Every remaining Node finding — `tar` 7.5.16, `undici` 6.26.0, `ip-address` 10.2.0, `brace-expansion` 5.0.6 — comes only from that tree; no first-party build or runtime dependency is affected, and webpack does not bundle it.
-
-Lifted by removing the `npm` entry from `package.json` dependencies (no project code imports it) and relocking. An in-range bump to npm 11.19.1 could not be evaluated here: `npm update --package-lock-only npm` refused with `EALLOWREMOTE` (remote tarball fetches disabled in this environment).
-
 ---
 
 ## Overridden core Wagtail templates
