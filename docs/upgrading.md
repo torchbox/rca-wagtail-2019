@@ -121,6 +121,10 @@ As well as testing the critical paths, these areas of functionality should be ch
 1. The site overrides the `/admin/logout/` endpoint to redirect users who logged in to `/logout/`. This is a confirmation screen that users will still need to manually log out of their SSO accounts. This is done with `rca.account_management.views.CustomLogoutView` and `rca.account_management.views.SSOLogoutConfirmationView`.
 2. Users who did not log in via SSO should be able to log out without seeing any confirmation screen.
 
+## Python dependency holds
+
+- `django-import-export` (`~3.3`) — 4.x has breaking changes to the resource and admin API, and the intranet import feature (`rca/people/admin/page_import.py`) has no automated tests, so a major bump needs comprehensive manual re-testing before it lands. Every 3.3.x release also hard-pins `tablib` to 3.5.0, which is the binding constraint on the accepted tablib CVE hold under Security. Lift when the import feature is re-tested end to end on 4.x and the tablib hold is cleared in the same change.
+
 ## Security
 
 Last security review: 2026-09-14
