@@ -3,17 +3,6 @@
 import django.db.models.deletion
 from django.db import migrations, models
 
-def forward(apps, schema_editor):
-    EnquiryFormSubmissionProgrammesOrderable = apps.get_model(
-        "enquire_to_study", "EnquiryFormSubmissionProgrammesOrderable"
-    )
-    DegreeLevel = apps.get_model("programmes", "DegreeLevel")
-
-    for submission_programme in EnquiryFormSubmissionProgrammesOrderable.objects.all():
-        if degree_level := submission_programme.programme.degree_level:
-            submission_programme.degree_level = degree_level
-            submission_programme.save(update_fields=["degree_level"])
-
 
 class Migration(migrations.Migration):
 
@@ -33,5 +22,4 @@ class Migration(migrations.Migration):
                 to="programmes.degreelevel",
             ),
         ),
-        migrations.RunPython(forward, migrations.RunPython.noop),
     ]

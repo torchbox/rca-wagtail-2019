@@ -18,7 +18,7 @@ django-cors-headers = "~4.9"
 django-countries = "~9.0"
 django-csp = "~4.0"
 # If you update django-import-export, comprehensive testing of the feature should be carried out.
-django-import-export = "~3.3"  # Note: v4+ has breaking changes
+django-import-export = "~3.3"  # held: v4+ has breaking changes, import feature needs full re-test — see upgrading.md
 django-pattern-library = "~1.5"
 django-phonenumber-field = {version = "~8.4", extras = ["phonenumbers"]}
 django-redis = "~7.0"
