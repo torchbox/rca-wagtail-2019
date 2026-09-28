@@ -3,6 +3,7 @@ context:
     id: 24
   value:
     video_url: https://3d26876b73d7.us-west-2.playback.live-video.net/api/video/v1/us-west-2.913157848533.channel.rkCBS9iD1eyd.m3u8
+    mux_playback_id: ox004ElQHuJ6P6MyENSDW4rI9RzWUZ3HF9hg00w6fq02Fw
   poster_image:
     full_url: '//placekitten.com/1920/1080'
 

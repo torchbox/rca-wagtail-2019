@@ -1,19 +1,27 @@
 import videojs from 'video.js';
-import 'videojs-contrib-quality-levels';
-import 'videojs-hls-quality-selector';
+import { registerIVSTech } from 'amazon-ivs-player';
 
 class VideoPlayer {
     static selector() {
-        return '[data-hls-video]';
+        return '[data-ivs-video]';
     }
 
     constructor(node) {
         this.node = node;
+        this.src = node.dataset.ivsSrc;
+
+        // registerIVSTech is a no-op if the tech has already been registered.
+        registerIVSTech(videojs, {
+            wasmWorker: node.dataset.ivsWasmWorker,
+            wasmBinary: node.dataset.ivsWasmBinary,
+        });
+
         this.initPlayer();
     }
 
     initPlayer() {
         this.player = videojs(this.node, {
+            techOrder: ['AmazonIVS'],
             responsive: true,
             fluid: true,
             controlBar: {
@@ -22,9 +30,8 @@ class VideoPlayer {
             },
         });
 
-        // Enable HLS quality selector
-        this.player.hlsQualitySelector({
-            displayCurrentQuality: true,
+        this.player.ready(() => {
+            this.player.src(this.src);
         });
     }
 }

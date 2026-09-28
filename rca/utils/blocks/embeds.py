@@ -21,6 +21,13 @@ class VideoStreamBlock(blocks.StructBlock):
         help_text="The poster image to show as a placeholder for the video. "
         "For best results use an image 1920x1080 pixels"
     )
+    mux_playback_id = blocks.CharBlock(
+        required=False,
+        label="Mux backup playback ID",
+        help_text="Optional. If set, a 'Having trouble viewing the livestream? "
+        "Try the backup stream' option is shown below the main player, which "
+        "reveals a Mux player using this playback ID.",
+    )
 
     class Meta:
         icon = "media"
