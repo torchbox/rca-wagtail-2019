@@ -121,11 +121,23 @@ As well as testing the critical paths, these areas of functionality should be ch
 1. The site overrides the `/admin/logout/` endpoint to redirect users who logged in to `/logout/`. This is a confirmation screen that users will still need to manually log out of their SSO accounts. This is done with `rca.account_management.views.CustomLogoutView` and `rca.account_management.views.SSOLogoutConfirmationView`.
 2. Users who did not log in via SSO should be able to log out without seeing any confirmation screen.
 
-## Security / dependency review
+## Python dependency holds
 
-Last security review: 2026-06-16
+- `django-import-export` (`~3.3`) — 4.x has breaking changes to the resource and admin API, and the intranet import feature (`rca/people/admin/page_import.py`) has no automated tests, so a major bump needs comprehensive manual re-testing before it lands. Every 3.3.x release also hard-pins `tablib` to 3.5.0, which is the binding constraint on the accepted tablib CVE hold under Security. Lift when the import feature is re-tested end to end on 4.x and the tablib hold is cleared in the same change.
 
-Run `trivy fs` from the project root each cycle. The project's real dependency surface is `poetry.lock` (Python) and `package-lock.json` (Node); Python and Node CVEs surfaced there are cleared by the quarterly version bumps and need no entry here once fixed.
+## Security
+
+Last security review: 2026-09-14
+
+### Accepted CVE hold — tablib
+
+- Package: tablib held at ==3.5.0
+- Verified binding constraint: upstream hard-pin — every `django-import-export` 3.3.x release depends on `tablib[html,ods,xls,xlsx,yaml] (3.5.0)` exactly, so no later tablib is reachable while the project pins `django-import-export = "~3.3"`.
+- How verified: temporarily added `tablib = "~3.10"` to `pyproject.toml` and ran `poetry lock --no-update`; the resolver rejected it with "because rca depends on both django-import-export (~3.3) and tablib (~3.10), version solving failed", enumerating the `tablib (3.5.0)` dependency of each 3.3.x release. The edit was reverted. tablib 3.10.0 was published 2026-07-31, so release age is not the blocker.
+- Why unreachable: CVE-2026-9318 is stored XSS in tablib's HTML _export_. This project uses `django-import-export` for import only — `rca/people/admin/page_import.py` subclasses `ImportMixin` and `resources.ModelResource` with import-side hooks; no `ExportMixin`, export action, or HTML export format is registered anywhere under `rca/`.
+- Cool-down: not bypassed — the fix is six weeks old and cool-down-allowed; the `django-import-export ~3.3` ceiling blocks it, not the cool-down.
+
+Lifted by upgrading `django-import-export` to 4.x, which relaxes the tablib pin. That is itself held by the ceiling recorded in `pyproject.toml` ("v4+ has breaking changes"), and the import feature needs comprehensive testing before it moves.
 
 ---
 
