@@ -5,6 +5,7 @@ import Accordion from './components/accordion';
 import ActualHeight from './components/actual-height';
 import AnchorNav from './components/anchor-nav';
 import BackLink from './components/back-link';
+import BackupStreamToggle from './components/backup-stream-toggle';
 import Carousel from './components/carousel';
 import CountdownCTA from './components/countdown-cta';
 import CTATrigger from './components/cta-trigger';
@@ -163,6 +164,12 @@ document.addEventListener('DOMContentLoaded', () => {
         VideoPlayer.selector(),
     )) {
         new VideoPlayer(videoStream);
+    }
+
+    for (const backupStreamToggle of document.querySelectorAll(
+        BackupStreamToggle.selector(),
+    )) {
+        new BackupStreamToggle(backupStreamToggle);
     }
 
     for (const collapsibleNav of document.querySelectorAll(

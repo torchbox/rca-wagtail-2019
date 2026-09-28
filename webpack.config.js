@@ -33,6 +33,15 @@ const options = {
                         ignore: ['cssBackgrounds/*'],
                     },
                 },
+                {
+                    // The Amazon IVS player tech loads its wasm decoder worker at
+                    // runtime from a URL rather than bundling it, so these assets
+                    // must be copied to static files and referenced directly.
+                    from: 'node_modules/amazon-ivs-player/dist/assets',
+                    to: path.resolve(
+                        `./${projectRoot}/static_compiled/amazon-ivs-player`,
+                    ),
+                },
             ],
         }),
     ],

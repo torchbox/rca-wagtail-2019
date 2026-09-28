@@ -1,17 +1,48 @@
-{% load wagtailimages_tags %}
+{% load static wagtailimages_tags %}
 
 {% image value.poster_image fill-1920x1080 as poster_image %}
 
 <div class="streamfield-video">
-    <video
-        data-hls-video
-        id="streamfield-video-{{ block.id }}"
-        class="video-js vjs-default-skin vjs-fill"
-        controls
-        preload="auto"
-        poster="{{ poster_image.full_url }}"
-        data-setup='{ "fluid": true }'
-    >
-        <source src="{{ value.video_url }}" type="application/x-mpegURL">
-    </video>
+    <div data-primary-stream>
+        <video
+            data-ivs-video
+            data-ivs-src="{{ value.video_url }}"
+            data-ivs-wasm-worker="{% static 'amazon-ivs-player/amazon-ivs-wasmworker.min.js' %}"
+            data-ivs-wasm-binary="{% static 'amazon-ivs-player/amazon-ivs-wasmworker.min.wasm' %}"
+            id="streamfield-video-{{ block.id }}"
+            class="video-js vjs-default-skin vjs-fill"
+            controls
+            playsinline
+            preload="auto"
+            poster="{{ poster_image.full_url }}"
+        ></video>
+    </div>
+
+    {% if value.mux_playback_id %}
+        <div class="streamfield-video__backup">
+            <button
+                type="button"
+                class="streamfield-video__backup-toggle"
+                data-backup-stream-toggle
+                aria-controls="backup-stream-{{ block.id }}"
+                aria-expanded="false"
+            >
+                Having trouble viewing the livestream? Try the backup stream
+            </button>
+
+            <div
+                id="backup-stream-{{ block.id }}"
+                class="streamfield-video__backup-player"
+                data-backup-stream
+                hidden
+            >
+                <iframe
+                    src="https://player.mux.com/{{ value.mux_playback_id }}"
+                    title="Backup livestream"
+                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                    allowfullscreen
+                ></iframe>
+            </div>
+        </div>
+    {% endif %}
 </div>
