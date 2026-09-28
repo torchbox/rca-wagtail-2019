@@ -16,11 +16,8 @@ class BackupStreamToggle {
 
     bindEvents() {
         this.button.addEventListener('click', () => {
-            // Removing the primary player from the DOM (rather than pausing
-            // it via the video.js API) reliably stops playback regardless of
-            // how video.js/the IVS tech restructures the element internally.
+            // Removing the primary player from the DOM when the backup player is shown
             this.primaryStreamWrapper?.remove();
-
             this.stream.hidden = false;
             this.button.setAttribute('aria-expanded', 'true');
             this.button.hidden = true;
