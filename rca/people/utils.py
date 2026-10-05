@@ -69,7 +69,9 @@ def get_student_research_projects(page):
 
 class StudentPageInlinePanel(InlinePanel):
     """
-    InlinePanel that prevents non-superusers from making changes to the content
+    InlinePanel that is populated editorially by superusers only. Students
+    cannot add, edit, or delete its content, so it's hidden from their view
+    entirely rather than showing an empty, non-interactive panel.
     """
 
     class BoundPanel(InlinePanel.BoundPanel):
@@ -77,14 +79,10 @@ class StudentPageInlinePanel(InlinePanel):
             super().__init__(**kwargs)
             self.template_name = "admin/panels/student_page_inline_panel.html"
 
-            panel_class = self.panel.classname
-
-            # Collapse the panel for non-superusers
-
-            if not self.request.user.is_superuser and "collapsed" not in panel_class:
-                self.panel.classname += " collapsed"
-            elif self.request.user.is_superuser and "collapsed" in panel_class:
-                self.panel.classname = panel_class.replace("collapsed", "")
+        def is_shown(self):
+            if self.request.user.is_student():
+                return False
+            return super().is_shown()
 
         def get_context_data(self, parent_context=None):
             context = super().get_context_data(parent_context)
@@ -93,24 +91,14 @@ class StudentPageInlinePanel(InlinePanel):
 
 
 class StudentPagePromoteTab(ObjectList):
-    # ObjectList that only displays selected fields to Students
-    # As a side effect: If all fields are hidden, the panel is hidden for Students
+    """ObjectList that is hidden entirely from students, as they have no
+    permission to edit any of its fields."""
 
     class BoundPanel(ObjectList.BoundPanel):
-        def __init__(self, **kwargs):
-            super().__init__(**kwargs)
-
-            allowed_student_fields = ["slug"]
-            permission = "superuser"
-
-            if self.request.user.is_student:
-
-                children = self.panel.children  # multi field panels
-                for child in children:
-                    panels = child.children  # single field panels
-                    for panel in panels:
-                        if panel.field_name not in allowed_student_fields:
-                            panel.permission = permission
+        def is_shown(self):
+            if self.request.user.is_student():
+                return False
+            return super().is_shown()
 
 
 class StudentPageSettingsTab(ObjectList):
@@ -121,21 +109,20 @@ class StudentPageSettingsTab(ObjectList):
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
 
-            permission = "superuser"
+            if not self.request.user.is_student():
+                return
 
-            if self.request.user.is_student:
-
-                for child in self.panel.children:
-                    if child.__class__.__name__ == "PublishingPanel":
-                        for field_row_panel in child.children:
-                            if field_row_panel.__class__.__name__ == "FieldRowPanel":
-                                # Theres a FieldRowPanel inside the PublishingPanel
-                                field_row_panel.permission = permission
-                                # Since Wagtail 5.1, a FieldRowPanel would have no children here
-                                # The bugfix here: https://docs.wagtail.org/en/stable/releases/5.1.1.html#bug-fixes
-                                # seems to be when it was changed.
-                    # the elif's below are not required, but are here for clarity
-                    elif child.__class__.__name__ == "PrivacyModalPanel":
-                        pass  # Do nothing so they are still visible
-                    elif child.__class__.__name__ == "CommentPanel":
-                        pass  # Do nothing so they are still visible
+            for child in self.children:
+                if child.panel.__class__.__name__ == "PublishingPanel":
+                    for field_row_panel in child.children:
+                        if field_row_panel.panel.__class__.__name__ == "FieldRowPanel":
+                            # Theres a FieldRowPanel inside the PublishingPanel
+                            # Hide it for students by overriding this bound panel's
+                            # is_shown (per-request instance, not the shared panel
+                            # definition - the previous approach mutated
+                            # `field_row_panel.permission` on the Panel definition,
+                            # which is bound once and shared across all requests).
+                            # Since Wagtail 5.1, a FieldRowPanel would have no children here
+                            # The bugfix here: https://docs.wagtail.org/en/stable/releases/5.1.1.html#bug-fixes
+                            # seems to be when it was changed.
+                            field_row_panel.is_shown = lambda: False
