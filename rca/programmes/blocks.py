@@ -98,5 +98,8 @@ class SocialEmbedBlock(blocks.StructBlock):
 
 
 class FacilitySlideBlock(BaseSlideBlock):
+    video_embed = EmbedBlock(required=False)
+    embed_play_button_label = blocks.CharBlock(max_length=80, required=False)
+
     class Meta:
         icon = "image"
