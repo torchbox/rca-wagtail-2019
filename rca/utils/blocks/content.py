@@ -43,15 +43,7 @@ class FeeBlock(blocks.StructBlock):
     )
 
 
-class BaseSlideBlock(blocks.StructBlock):
-    title = blocks.CharBlock()
-    image = ImageChooserBlock()
-
-    class Meta:
-        icon = "image"
-
-
-class SlideBlock(BaseSlideBlock):
+class SlideBlock(blocks.StructBlock):
     image = ImageChooserBlock()
     title = blocks.CharBlock(required=False)
     type = blocks.CharBlock(required=False)
@@ -204,6 +196,41 @@ class ImageVideoBlock(blocks.StructBlock):
             "embed_play_button_label"
         ):
             raise ValidationError("Caption is required when a video link is provided.")
+
+        return cleaned_data
+
+
+class TitledImageVideoBlock(blocks.StructBlock):
+    """
+    Differs from `ImageVideoBlock` by including a required title field.
+    """
+
+    title = blocks.CharBlock()
+    image = ImageChooserBlock()
+    video_embed = EmbedBlock(
+        required=False,
+        help_text="Add a link to embed a video. Leave blank to only display an image.",
+    )
+    embed_play_button_label = blocks.CharBlock(
+        max_length=80,
+        required=False,
+        help_text="The text displayed below the video.",
+        # This is named `embed_play_button_label` to be consistent with `GalleryBlock`.
+        label="Caption",
+    )
+
+    def clean(self, value):
+        cleaned_data = super().clean(value)
+        errors = {}
+
+        if cleaned_data.get("video_embed") and not cleaned_data.get(
+            "embed_play_button_label"
+        ):
+            error = "Caption is required when a video link is provided."
+            errors["embed_play_button_label"] = ErrorList([error])
+
+        if errors:
+            raise StructBlockValidationError(errors)
 
         return cleaned_data
 

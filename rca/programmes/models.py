@@ -37,7 +37,6 @@ from wagtailorderable.models import Orderable as WagtailOrdable
 from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
 from rca.programmes.blocks import (
     ExperienceStoriesBlock,
-    FacilitySlideBlock,
     NotableAlumniBlock,
     SocialEmbedBlock,
 )
@@ -55,6 +54,7 @@ from rca.utils.blocks import (
     RelatedPageListBlockPage,
     StepBlock,
 )
+from rca.utils.blocks.content import TitledImageVideoBlock
 from rca.utils.fields import StreamField
 from rca.utils.formatters import related_list_block_slideshow
 from rca.utils.models import (
@@ -566,7 +566,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         [
             (
                 "slide",
-                FacilitySlideBlock(),
+                TitledImageVideoBlock(),
             )
         ],
         blank=True,
