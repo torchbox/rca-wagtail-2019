@@ -691,7 +691,6 @@ class BasePersonalisationCTATests(TestCase):
             [self.segment_alumni]
         )
 
-
         child_page = InformationPage(title="Child", introduction="Child")
         self.test_page.add_child(instance=child_page)
 
