@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Security
 
+- [R1-382](https://torchbox.atlassian.net/browse/R1-382) Django 5.2.18 security update
 - [R1-367](https://torchbox.atlassian.net/browse/R1-367) Wagtail 7.4.3 security update and dependency CVE fixes
 
 ### Added
