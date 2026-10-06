@@ -220,19 +220,23 @@ class TitledImageVideoBlock(blocks.StructBlock):
     )
 
     def clean(self, value):
-        cleaned_data = super().clean(value)
+        video_embed = value.get("video_embed")
+        embed_play_button_label = value.get("embed_play_button_label")
         errors = {}
 
-        if cleaned_data.get("video_embed") and not cleaned_data.get(
-            "embed_play_button_label"
-        ):
-            error = "Caption is required when a video link is provided."
-            errors["embed_play_button_label"] = ErrorList([error])
+        if video_embed and not embed_play_button_label:
+            errors["embed_play_button_label"] = ErrorList(
+                ["Caption is required when a video link is provided."]
+            )
+        elif not video_embed and embed_play_button_label:
+            errors["video_embed"] = ErrorList(
+                ["A caption requires a video to be added."]
+            )
 
         if errors:
             raise StructBlockValidationError(errors)
 
-        return cleaned_data
+        return value
 
 
 class ImageVideoGalleryBlock(blocks.StructBlock):
