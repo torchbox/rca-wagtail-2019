@@ -44,11 +44,15 @@ User visits page → Segments evaluated → Matching CTAs queried → CTAs displ
 4. Add segments - the CTA will show to users in ANY selected segment
 5. Add page types and/or specific pages - where the CTA should appear:
    - Page Types: CTA appears on all pages of the selected type(s)
-   - Specific Page: CTA appears on selected individual pages
+   - Include specific pages: CTA appears on selected individual pages
    - Check Include children to show the CTA on all child pages of the selected page
-   - The CTA will appear if it matches by page type and/or specific pages
-6. Set scheduling - optional go-live and expiry dates
-7. Save and preview
+   - The CTA will appear if it matches by page type and/or included specific pages
+6. Optionally exclude specific pages - where the CTA should never appear, even if it would otherwise match:
+   - Exclude specific pages: CTA will not appear on selected individual pages
+   - Check Include children to also exclude all child pages of the selected page
+   - Exclusions always take precedence over page type matches and included pages
+7. Set scheduling - optional go-live and expiry dates
+8. Save and preview
 
 #### Step 3: Test
 
@@ -68,9 +72,10 @@ The system checks both segment rules AND scheduling. A CTA will only display if:
 
 1. At least one scheduling date is set (go-live or expiry)
 2. User matches at least one segment
-3. Current page matches a configured page type and/or is a selected specific page (or child page if enabled)
-4. Current time is after go-live (if set)
-5. Current time is before expiry (if set)
+3. Current page matches a configured page type and/or is an included specific page (or child page if enabled)
+4. Current page is not an excluded specific page (or child page of one if enabled) - exclusions always win, even over a page type or included page match
+5. Current time is after go-live (if set)
+6. Current time is before expiry (if set)
 
 ## Caching Behavior
 
