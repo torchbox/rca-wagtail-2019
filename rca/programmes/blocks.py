@@ -5,6 +5,8 @@ from wagtail.blocks.struct_block import StructBlockValidationError
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 
+from rca.utils.blocks.content import BaseSlideBlock
+
 
 class NotableAlumniLinkStructValue(StructValue):
     def get_url(self):
@@ -93,3 +95,8 @@ class SocialEmbedBlock(blocks.StructBlock):
     class Meta:
         icon = "code"
         label = "Social Embed"
+
+
+class FacilitySlideBlock(BaseSlideBlock):
+    class Meta:
+        icon = "image"

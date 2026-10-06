@@ -23,14 +23,12 @@ from wagtail.admin.panels import (
     TabbedInterface,
 )
 from wagtail.api import APIField
-from wagtail.blocks import CharBlock, StructBlock
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.embeds import embeds
 from wagtail.embeds.exceptions import EmbedException
 from wagtail.fields import RichTextField, StreamBlock
 from wagtail.images import get_image_model_string
 from wagtail.images.api.fields import ImageRenditionField
-from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Orderable, Site
 from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
@@ -39,6 +37,7 @@ from wagtailorderable.models import Orderable as WagtailOrdable
 from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
 from rca.programmes.blocks import (
     ExperienceStoriesBlock,
+    FacilitySlideBlock,
     NotableAlumniBlock,
     SocialEmbedBlock,
 )
@@ -567,7 +566,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         [
             (
                 "slide",
-                StructBlock([("title", CharBlock()), ("image", ImageChooserBlock())]),
+                FacilitySlideBlock(),
             )
         ],
         blank=True,
