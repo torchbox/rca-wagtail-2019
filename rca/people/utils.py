@@ -72,6 +72,12 @@ class StudentPageInlinePanel(InlinePanel):
     InlinePanel that is populated editorially by superusers only. Students
     cannot add, edit, or delete its content, so it's hidden from their view
     entirely rather than showing an empty, non-interactive panel.
+
+    This is done with a CSS class (`w-hidden`) rather than `is_shown()`,
+    because `is_shown() == False` stops the panel - including its formset's
+    management form - from being rendered into the page at all, which
+    breaks form submission ("ManagementForm data is missing or has been
+    tampered with") for students even though they never touched this panel.
     """
 
     class BoundPanel(InlinePanel.BoundPanel):
@@ -79,10 +85,11 @@ class StudentPageInlinePanel(InlinePanel):
             super().__init__(**kwargs)
             self.template_name = "admin/panels/student_page_inline_panel.html"
 
-        def is_shown(self):
+        def classes(self):
+            classes = super().classes()
             if self.request.user.is_student():
-                return False
-            return super().is_shown()
+                classes = classes + ["w-hidden"]
+            return classes
 
         def get_context_data(self, parent_context=None):
             context = super().get_context_data(parent_context)
@@ -92,13 +99,20 @@ class StudentPageInlinePanel(InlinePanel):
 
 class StudentPagePromoteTab(ObjectList):
     """ObjectList that is hidden entirely from students, as they have no
-    permission to edit any of its fields."""
+    permission to edit any of its fields.
+
+    Hidden with a CSS class (`w-hidden`) rather than `is_shown()`: the tab
+    contains the required `slug` field (rendered as a hidden input for
+    students - see StudentPageAdminForm), and `is_shown() == False` would
+    stop it being rendered into the page at all, breaking submission.
+    """
 
     class BoundPanel(ObjectList.BoundPanel):
-        def is_shown(self):
+        def classes(self):
+            classes = super().classes()
             if self.request.user.is_student():
-                return False
-            return super().is_shown()
+                classes = classes + ["w-hidden"]
+            return classes
 
 
 class StudentPageSettingsTab(ObjectList):
