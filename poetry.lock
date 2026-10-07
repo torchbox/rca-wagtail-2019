@@ -802,13 +802,13 @@ django = ">=4.2"
 
 [[package]]
 name = "django"
-version = "5.2.17"
+version = "5.2.18"
 description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "django-5.2.17-py3-none-any.whl", hash = "sha256:f04fb3b36ee119e1af4fa1d397d5fd6cf12700f49321e84d4f4c642c5b1973db"},
-    {file = "django-5.2.17.tar.gz", hash = "sha256:9d4d93be539a18ab80d058eb515900e10951e04c537c5a6b394fc49528d3251f"},
+    {file = "django-5.2.18-py3-none-any.whl", hash = "sha256:92ed81d500be6408ecd704d7bd1366c534f30427bffcc63c5fefb129561aec7c"},
+    {file = "django-5.2.18.tar.gz", hash = "sha256:461c5dd06d2ea16bd5ca37d3f46e4def1d6b0fe7588c6f4e2119517bb0af8b2d"},
 ]
 
 [package.dependencies]
@@ -2043,13 +2043,13 @@ files = [
 
 [[package]]
 name = "oauthlib"
-version = "3.3.1"
+version = "4.0.0"
 description = "A generic, spec-compliant, thorough implementation of the OAuth request-signing logic"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 files = [
-    {file = "oauthlib-3.3.1-py3-none-any.whl", hash = "sha256:88119c938d2b8fb88561af5f6ee0eec8cc8d552b7bb1f712743136eb7523b7a1"},
-    {file = "oauthlib-3.3.1.tar.gz", hash = "sha256:0f0f8aa759826a193cf66c12ea1af1637f87b9b4622d46e866952bb022e538c9"},
+    {file = "oauthlib-4.0.0-py3-none-any.whl", hash = "sha256:624c28c13a0a59cabf9747dfa52af63be3e512a7f2714df16e91b5b3a145e6cd"},
+    {file = "oauthlib-4.0.0.tar.gz", hash = "sha256:efb274799819440f95b4ab3b818869f1ce9ae26c5beacba0201d1a1b76b54f86"},
 ]
 
 [package.extras]
@@ -2463,13 +2463,13 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyjwt"
-version = "2.13.0"
+version = "2.15.1"
 description = "JSON Web Token implementation in Python"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "pyjwt-2.13.0-py3-none-any.whl", hash = "sha256:66adcc2aff09b3f1bbd95fc1e1577df8ac8723c978552fd43304c8a290ac5728"},
-    {file = "pyjwt-2.13.0.tar.gz", hash = "sha256:41571c89ca91598c79e8ef18a2d07367d4810fbbd6f637794879baf1b7703423"},
+    {file = "pyjwt-2.15.1-py3-none-any.whl", hash = "sha256:42d59d631f7768a1028a64c7ff581a9bf7519804daf91fc5b6c56e30eec5e193"},
+    {file = "pyjwt-2.15.1.tar.gz", hash = "sha256:4f259e80cdfb6b3fc18a7de51fd1ef9ec79652f25019bae68975ca2468a34df8"},
 ]
 
 [package.dependencies]
@@ -3013,60 +3013,60 @@ files = [
 
 [[package]]
 name = "social-auth-app-django"
-version = "5.9.0"
+version = "6.1.0"
 description = "Python Social Authentication, Django integration."
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "social_auth_app_django-5.9.0-py3-none-any.whl", hash = "sha256:80edf5c207d871f2225a0fc6bb414004c0342c30deb3a217eb38a63b66e749bb"},
-    {file = "social_auth_app_django-5.9.0.tar.gz", hash = "sha256:5b79c53321f9528334d53ddb154452a3b7e598b7ff4c2c1302be9a76b1349e8d"},
+    {file = "social_auth_app_django-6.1.0-py3-none-any.whl", hash = "sha256:b192b1f7c432c7d5d552ac44f43d07c7c01bfd528c6dfa0f7605df5a8495afd8"},
+    {file = "social_auth_app_django-6.1.0.tar.gz", hash = "sha256:7ce0489710f450dafd652833eea833505ccf5dacda6b188daa8bf90038986557"},
 ]
 
 [package.dependencies]
 asgiref = ">=3.8.1"
 Django = ">=5.2"
-social-auth-core = ">=4.8.3,<5.0.0"
+social-auth-core = ">=5.2.0,<6.0.0"
 
 [package.extras]
-dev = ["coverage (>=3.6)", "django-stubs (==6.0.3)", "django-stubs-ext (==6.0.3)", "mypy (==1.20.2)", "pre-commit", "pyright (==1.1.409)", "tox"]
+dev = ["coverage (>=3.6)", "django-stubs (==6.0.9)", "django-stubs-ext (==6.0.9)", "mypy (==2.3.1)", "pre-commit", "pyright (==1.1.414)", "tox"]
 
 [[package]]
 name = "social-auth-core"
-version = "4.9.1"
+version = "5.2.0"
 description = "Python social authentication made simple."
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "social_auth_core-4.9.1-py3-none-any.whl", hash = "sha256:2eca8a6ae678bae7e24e5aa3c72f99c77983012a09b8916ce9791dcfccade725"},
-    {file = "social_auth_core-4.9.1.tar.gz", hash = "sha256:34ee16bddc10b8bf5d6a90c3a033f6e5bb1300197984ad66a4d363783f23bcd8"},
+    {file = "social_auth_core-5.2.0-py3-none-any.whl", hash = "sha256:e7b9990450291488deffce8d92d14d4396021b8d3c4a0ac5c32ec03bfaccc496"},
+    {file = "social_auth_core-5.2.0.tar.gz", hash = "sha256:72d3c52fe87d07c0db8421fee5f5ec33b3dacce449975b8a572cd0691e3de315"},
 ]
 
 [package.dependencies]
 cryptography = ">=46.0.7"
 defusedxml = ">=0.7.1"
 oauthlib = ">=3.3.1"
-PyJWT = {version = ">=2.12.1", extras = ["crypto"]}
+PyJWT = {version = ">=2.13.0", extras = ["crypto"]}
 python3-openid = ">=3.2.0"
-requests = ">=2.33.1"
+requests = ">=2.34.0"
 requests-oauthlib = ">=2.0.0"
 
 [package.extras]
 all = ["social-auth-core[azuread]", "social-auth-core[google-onetap]", "social-auth-core[saml]", "social-auth-core[shopify]"]
 allpy3 = ["social-auth-core[all]"]
-dev = ["coverage (==7.13.5)", "flake8 (==7.3.0)", "google-auth-stubs (==0.3.0)", "mypy (==1.20.2)", "pyright (==1.1.409)", "pytest (==9.0.3)", "pytest-cov (==7.1.0)", "pytest-github-actions-annotate-failures (==0.4.0)", "pytest-profiling (==1.8.1)", "pytest-xdist (==3.8.0)", "responses (==0.26.0)", "ty (==0.0.33)", "types-defusedxml (==0.7.0.20260408)", "types-oauthlib (==3.3.0.20260408)", "types-requests (==2.33.0.20260408)", "types-requests-oauthlib (==2.0.0.20260408)"]
-google-onetap = ["google-auth (>=2.40.0,<2.50)"]
+dev = ["coverage (==7.16.2)", "flake8 (==7.4.1)", "mypy (==2.3.1)", "pyright (==1.1.414)", "pytest (==9.1.1)", "pytest-cov (==7.1.0)", "pytest-github-actions-annotate-failures (==0.4.2)", "pytest-profiling (==1.8.1)", "pytest-xdist (==3.8.0)", "responses (==0.26.3)", "ty (==0.0.84)", "types-defusedxml (==0.7.0.20260504)", "types-lxml (==2026.2.16)", "types-oauthlib (==3.3.0.20260724)", "types-requests (==2.33.0.20260906)", "types-requests-oauthlib (==2.0.0.20260907)"]
+google-onetap = ["google-auth (>=2.40.0,<2.60)"]
 saml = ["python3-saml (>=1.16.0)"]
 shopify = ["ShopifyAPI"]
 
 [[package]]
 name = "soupsieve"
-version = "2.8.4"
+version = "2.10"
 description = "A modern CSS selector implementation for Beautiful Soup."
 optional = false
-python-versions = ">=3.9"
+python-versions = ">=3.10"
 files = [
-    {file = "soupsieve-2.8.4-py3-none-any.whl", hash = "sha256:e7e6b0769c8f51ed59acab6e994b00621096cfb1c640a7509295987388fbaf65"},
-    {file = "soupsieve-2.8.4.tar.gz", hash = "sha256:e121fd02e975c695e4e9e8774a5ee35d74714b59307868dcc5319ad2d9e3328e"},
+    {file = "soupsieve-2.10-py3-none-any.whl", hash = "sha256:8596eb8967d744174820280fa62b4542a2e955bfaccca73ed8a13c6eb8e9b502"},
+    {file = "soupsieve-2.10.tar.gz", hash = "sha256:49e9380d7d2905463583bafe285e818c7366a9ed7b3aee221c1ac79c905d8bc0"},
 ]
 
 [[package]]
@@ -3345,13 +3345,13 @@ files = [
 
 [[package]]
 name = "urllib3"
-version = "2.7.0"
+version = "2.8.0"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "urllib3-2.7.0-py3-none-any.whl", hash = "sha256:9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897"},
-    {file = "urllib3-2.7.0.tar.gz", hash = "sha256:231e0ec3b63ceb14667c67be60f2f2c40a518cb38b03af60abc813da26505f4c"},
+    {file = "urllib3-2.8.0-py3-none-any.whl", hash = "sha256:0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3"},
+    {file = "urllib3-2.8.0.tar.gz", hash = "sha256:63bf2ead4c879426ebf22ef2a781eeb4aa3b4ae798a0435506f8687fd5bb9b63"},
 ]
 
 [package.extras]
@@ -3861,4 +3861,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.13"
-content-hash = "92a86a740494647838811f447f1d1bc5fec346a1bc222808865c4b34f95be63a"
+content-hash = "078346627618a8d6a61aa78536fe6d73614ddbde83c2b596cd43bc8b0822a991"
