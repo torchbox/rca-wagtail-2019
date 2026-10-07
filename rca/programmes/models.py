@@ -1182,9 +1182,9 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             except EmbedException:
                 errors["curriculum_video"].append("invalid embed URL")
             else:
-                if embed.provider_name.lower() != "youtube":
+                if embed.provider_name.lower() not in ["vimeo", "youtube"]:
                     errors["curriculum_video"].append(
-                        "Only YouTube videos are supported for this field "
+                        "Only Vimeo and YouTube videos are supported for this field."
                     )
         if self.staff_link and not self.staff_link_text:
             errors["staff_link_text"].append("Please the text to be used for the link")
