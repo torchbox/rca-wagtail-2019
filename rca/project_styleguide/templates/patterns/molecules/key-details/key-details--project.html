@@ -1,6 +1,6 @@
 <div class="key-details {% if course_type == 'short' %}key-details--short{% endif %}">
     <div class="key-details__header">
-        <h3 class="heading heading--five key-details__heading">Key details</h3>
+        <h2 class="heading heading--five key-details__heading">Key details</h2>
     </div>
     {% if taxonomy_tags %}
         <div class="key-details__section key-details__section--tags">
@@ -24,7 +24,7 @@
     {% endif %}
     {% if page.funding %}
         <div class="key-details__section key-details__section--tags">
-            <h4 class="body body--two key-details__sub-heading">Funding</h4>
+            <h3 class="body body--two key-details__sub-heading">Funding</h3>
             <ul class="key-details__list">
                 <li class="key-details__list-item">
                     {{ page.funding }}
@@ -34,7 +34,7 @@
     {% endif %}
     {% if expertise %}
         <div class="key-details__section key-details__section--tags">
-            <h4 class="body body--two key-details__sub-heading">Expertise</h4>
+            <h3 class="body body--two key-details__sub-heading">Expertise</h3>
             <ul class="key-details__list">
                 {% for item in expertise %}
                     <li class="key-details__list-item">
@@ -52,7 +52,7 @@
     {% endif %}
     {% if sectors %}
         <div class="key-details__section key-details__section--tags">
-            <h4 class="body body--two key-details__sub-heading">Sector</h4>
+            <h3 class="body body--two key-details__sub-heading">Sector</h3>
             <ul class="key-details__list">
                 {% for item in sectors %}
                     <li class="key-details__list-item">
