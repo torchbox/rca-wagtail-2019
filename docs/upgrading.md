@@ -30,7 +30,7 @@ wagtail-modeladmin
 wagtail-orderable (uses a forked tag)
 wagtail-rangefilter
 wagtail-storages
-wagtail-personalisation (uses a forked tag)
+wagtail-personalisation (uses a forked tag) — see also the userbar hook noted under [Other considerations](#other-considerations)
 
 It is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as they become available.
 
@@ -120,6 +120,10 @@ As well as testing the critical paths, these areas of functionality should be ch
 
 1. The site overrides the `/admin/logout/` endpoint to redirect users who logged in to `/logout/`. This is a confirmation screen that users will still need to manually log out of their SSO accounts. This is done with `rca.account_management.views.CustomLogoutView` and `rca.account_management.views.SSOLogoutConfirmationView`.
 2. Users who did not log in via SSO should be able to log out without seeing any confirmation screen.
+
+### Personalisation segments hidden from the userbar
+
+1. `rca.personalisation.wagtail_hooks.remove_personalisation_segments` uses the `construct_wagtail_userbar` hook to strip personalisation segment items from the Wagtail userbar. If Wagtail changes the userbar item structure (e.g. renames/removes the `segment` attribute), this hook will silently stop filtering and segments will reappear in the userbar.
 
 ## Python dependency holds
 
