@@ -195,6 +195,13 @@
             grid-column: 1 / span 2;
         }
 
+        // `.rich-text`'s own h2-h6 tag selectors have higher specificity than
+        // the `.heading--*` size class.
+        // Restate the intended size here with enough specificity to win.
+        .rich-text & {
+            @include font-size(s);
+        }
+
         .bg--dark & {
             color: $color--white;
         }
