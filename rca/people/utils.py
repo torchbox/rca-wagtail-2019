@@ -126,17 +126,21 @@ class StudentPageSettingsTab(ObjectList):
             if not self.request.user.is_student():
                 return
 
+            scheduled_publishing_fields = {"go_live_at", "expire_at"}
+
             for child in self.children:
-                if child.panel.__class__.__name__ == "PublishingPanel":
-                    for field_row_panel in child.children:
-                        if field_row_panel.panel.__class__.__name__ == "FieldRowPanel":
-                            # Theres a FieldRowPanel inside the PublishingPanel
-                            # Hide it for students by overriding this bound panel's
-                            # is_shown (per-request instance, not the shared panel
-                            # definition - the previous approach mutated
-                            # `field_row_panel.permission` on the Panel definition,
-                            # which is bound once and shared across all requests).
-                            # Since Wagtail 5.1, a FieldRowPanel would have no children here
-                            # The bugfix here: https://docs.wagtail.org/en/stable/releases/5.1.1.html#bug-fixes
-                            # seems to be when it was changed.
-                            field_row_panel.is_shown = lambda: False
+                if child.panel.__class__.__name__ != "PublishingPanel":
+                    continue
+                for field_panel in child.children:
+                    if (
+                        getattr(field_panel.panel, "field_name", None)
+                        in scheduled_publishing_fields
+                    ):
+                        # On current Wagtail, PublishingPanel exposes
+                        # go_live_at/expire_at as plain FieldPanels directly.
+                        # Hide them for students by overriding this bound
+                        # panel's is_shown (a per-request instance, not the
+                        # shared panel definition - mutating `.permission` on
+                        # the definition would leak between requests, since
+                        # it's bound once per model class and cached).
+                        field_panel.is_shown = lambda: False
