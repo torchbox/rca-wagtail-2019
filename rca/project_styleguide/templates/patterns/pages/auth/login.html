@@ -61,11 +61,18 @@
                         {% icon name="spinner" %}
                         <em data-w-progress-target="label">{% trans 'Sign in' %}</em>
                     </button>
-                    <br /><br />
-                    <a class="button" href="{% url "social:begin" "azuread-tenant-oauth2" %}?next={{ request.path }}">
-                        Sign in with single sign-on
-                    </a>
                 {% endblock %}
+            </footer>
+        </form>
+
+        {# social:begin is POST-only, and forms can't nest, so SSO gets its own form #}
+        <form class="login-form" action="{% url "social:begin" "azuread-tenant-oauth2" %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <footer class="form-actions">
+                <button type="submit" class="button">
+                    Sign in with single sign-on
+                </button>
             </footer>
         </form>
 
