@@ -1186,6 +1186,10 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
                     errors["curriculum_video"].append(
                         "Only Vimeo and YouTube videos are supported for this field."
                     )
+            if not self.curriculum_video_caption:
+                errors["curriculum_video_caption"].append(
+                    "Caption is required when a video link is provided."
+                )
         if self.staff_link and not self.staff_link_text:
             errors["staff_link_text"].append("Please the text to be used for the link")
         if self.staff_link_text and not self.staff_link:
