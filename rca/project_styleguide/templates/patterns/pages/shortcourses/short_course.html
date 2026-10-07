@@ -73,7 +73,7 @@
 
                 {% if page.about %}
                     <div class="section__row short-course-accordion section__row--last">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.about title="About the course" course_type="short" %}
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.about title="About the course" course_type="short" parent_heading_override="h3" heading_override="h4" %}
                     </div>
                 {% endif %}
 
