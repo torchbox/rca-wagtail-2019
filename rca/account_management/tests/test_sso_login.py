@@ -3,8 +3,6 @@ import re
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
-BEGIN_URL = reverse("social:begin", args=["azuread-tenant-oauth2"])
-
 
 @override_settings(
     SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY="client-id",
@@ -17,6 +15,11 @@ class TestSingleSignOnLogin(TestCase):
     social:begin, so the SSO button must be a CSRF-protected form.
     """
 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.begin_url = reverse("social:begin", args=["azuread-tenant-oauth2"])
+
     def setUp(self):
         self.client = Client(enforce_csrf_checks=True)
 
@@ -24,7 +27,7 @@ class TestSingleSignOnLogin(TestCase):
         response = self.client.get("/admin/login/")
         self.assertEqual(response.status_code, 200)
         forms = re.findall(
-            r'<form[^>]*action="' + re.escape(BEGIN_URL) + r'"[^>]*>(.*?)</form>',
+            r'<form[^>]*action="' + re.escape(self.begin_url) + r'"[^>]*>(.*?)</form>',
             response.content.decode(),
             re.DOTALL,
         )
@@ -34,7 +37,7 @@ class TestSingleSignOnLogin(TestCase):
         )
         self.assertIn("csrfmiddlewaretoken", fields)
 
-        response = self.client.post(BEGIN_URL, fields)
+        response = self.client.post(self.begin_url, fields)
         self.assertEqual(response.status_code, 302)
         self.assertTrue(
             response["Location"].startswith(
@@ -43,5 +46,5 @@ class TestSingleSignOnLogin(TestCase):
         )
 
     def test_get_on_begin_is_rejected(self):
-        response = self.client.get(BEGIN_URL)
+        response = self.client.get(self.begin_url)
         self.assertEqual(response.status_code, 405)
