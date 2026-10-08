@@ -152,7 +152,7 @@ The following templates are overridden and should be checked for changes when up
 Last checked against Wagtail version: 7.3
 
 - `rca/account_management/templates/wagtailadmin/base.html`
-- `rca/project_styleguide/templates/patterns/pages/auth/login.html` - This was overridden to add the "Sign in with single sign-on" button to the login template.
+- `rca/project_styleguide/templates/patterns/pages/auth/login.html` - Extends `wagtailadmin/login.html` and adds the "Sign in with single sign-on" form in the `below_login` block. Only check that the block still exists.
 - `rca/images/forms.py` - default wagtail image upload form extended to provide copyright acknowledgement checkbox.
 
 ## Overridden wagtail-modeladmin templates
