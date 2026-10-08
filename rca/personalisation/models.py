@@ -54,6 +54,8 @@ PAGE_TYPE_CHOICES = [
     ("programmes.programmepage", "Programme Page"),
     ("projects.projectpage", "Project Page"),
     ("projects.projectpickerpage", "Project Picker Page"),
+    ("enquire_to_study.form", "Register Your Interest (Form)"),  # Non-page view
+    ("enquire_to_study.thanks", "Register Your Interest (Thank You)"),  # Non-page view
     ("research.researchcentrepage", "Research Centre Page"),
     ("landingpages.researchlandingpage", "Research Landing Page"),
     ("scholarships.scholarshipslistingpage", "Scholarships Listing Page"),
@@ -121,6 +123,21 @@ class PersonalisedCTAQuerySet(models.QuerySet):
             page_filters |= specific_page_filter
 
         return self.filter(base_filters & page_filters).distinct()
+
+    def for_view_and_segments(self, segments, now, view_type):
+        """
+        Filter CTAs for non-Wagtail views (e.g. plain Django views).
+
+        Unlike for_page_and_segments(), there is no page object to introspect,
+        so we match only by the view_type string in page_types.
+        """
+        base_filters = models.Q(
+            models.Q(go_live_at__isnull=False) | models.Q(expire_at__isnull=False),
+            models.Q(go_live_at__isnull=True) | models.Q(go_live_at__lte=now),
+            models.Q(expire_at__isnull=True) | models.Q(expire_at__gt=now),
+            segments__segment__in=segments,
+        )
+        return self.filter(base_filters, page_types__page_type=view_type).distinct()
 
 
 class BasePersonalisedCallToAction(ClusterableModel):

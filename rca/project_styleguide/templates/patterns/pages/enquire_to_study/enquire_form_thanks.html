@@ -32,6 +32,12 @@
     </div>
 {% endblock %}
 
+{% block footer %}
+    {% if personalised_footer_cta %}
+        {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=personalised_footer_cta classes="text-teaser--footer-cta" %}
+    {% endif %}
+{% endblock %}
+
 {% block extra_js %}
     {% if GOOGLE_TAG_MANAGER_ID and enquiry_form_session_data %}
         <script>

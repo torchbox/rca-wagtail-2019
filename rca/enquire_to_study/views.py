@@ -16,6 +16,7 @@ from django.views.generic import FormView, TemplateView
 from django_countries.ioc_data import IOC_TO_ISO
 from wagtail.admin import messages
 
+from rca.personalisation.mixins import PersonalisedCTAMixin
 from rca.utils.views import MetaTitleMixin
 
 from .forms import EnquireToStudyForm, programme_degree_level_label
@@ -24,7 +25,8 @@ from .models import EnquireToStudySettings, EnquiryFormSubmission
 logger = logging.getLogger(__name__)
 
 
-class EnquireToStudyFormView(MetaTitleMixin, FormView):
+class EnquireToStudyFormView(PersonalisedCTAMixin, MetaTitleMixin, FormView):
+    personalised_cta_view_type = "enquire_to_study.form"
     """Custom form with integrations to QS
 
     Keys can be seen here:
@@ -236,7 +238,8 @@ class EnquireToStudyFormView(MetaTitleMixin, FormView):
         return super().form_valid(form)
 
 
-class EnquireToStudyFormThanksView(MetaTitleMixin, TemplateView):
+class EnquireToStudyFormThanksView(PersonalisedCTAMixin, MetaTitleMixin, TemplateView):
+    personalised_cta_view_type = "enquire_to_study.thanks"
     meta_title = "Thank you for your enquiry"
     template_name = "patterns/pages/enquire_to_study/enquire_form_thanks.html"
 

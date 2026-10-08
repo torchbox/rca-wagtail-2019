@@ -113,6 +113,10 @@
 
     </div>
 </div>
+{% endblock %}
 
-
+{% block footer %}
+    {% if personalised_footer_cta %}
+        {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=personalised_footer_cta classes="text-teaser--footer-cta" %}
+    {% endif %}
 {% endblock %}
