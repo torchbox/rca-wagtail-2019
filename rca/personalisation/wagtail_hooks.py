@@ -1,3 +1,4 @@
+from wagtail import hooks
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 
@@ -46,3 +47,10 @@ class PersonalisationCTAsGroup(SnippetViewSetGroup):
 
 
 register_snippet(PersonalisationCTAsGroup)
+
+
+@hooks.register("construct_wagtail_userbar")
+def remove_personalisation_segments(request, items):
+    # Remove the personalisation segments from the wagtailuserbar that shows
+    # when a Wagtail editor is logged in.
+    items[:] = [item for item in items if getattr(item, "segment", None) is None]
