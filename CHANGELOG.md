@@ -9,6 +9,10 @@ All notable changes to this project will be documented in this file.
 - [R1-382](https://torchbox.atlassian.net/browse/R1-382) Django 5.2.18 security update and dependency CVE fixes
 - [R1-367](https://torchbox.atlassian.net/browse/R1-367) Wagtail 7.4.3 security update and dependency CVE fixes
 
+### Fixed
+
+- [AHM-265](https://torchbox.atlassian.net/browse/AHM-265) Fix SSO login HTTP 405: the single sign-on button now POSTs, as social-auth-app-django 6 requires
+
 ### Added
 
 - ...
