@@ -3,7 +3,7 @@
 <div class="streamfield card-grid card-grid--{{ value.number_of_columns }}-col">
     {% for block in value.cards %}    
         <div class="card card--image">
-            <a class="card__container" href="{% if block.link.page %}{% pageurl block.link.page %}{% else %}{{ block.link.url }}{% endif %}">
+            <a class="card__container" href="{{ block.link.get_url }}">
                 {% if block.image %}
                     {% if value.number_of_columns == "1" %}
                         {% image block.image fill-160x54 as image_small %}
@@ -21,7 +21,7 @@
                         <div class="card__meta">{{ block.meta_label }}</div>
                         <h3 class="card__heading">
                             <span class="card__heading-link">
-                                {{ block.link.title }}
+                                {{ block.link.get_title }}
                             </span>
                         </h3>
                         <div class="card__description">
