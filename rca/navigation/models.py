@@ -9,6 +9,7 @@ from modelcluster.models import ClusterableModel
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
 from wagtail.api import APIField
+from wagtail.blocks import StructValue
 from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import StreamField
 from wagtail.models import Page
@@ -58,6 +59,22 @@ class URLOrRelativeURLBLock(blocks.FieldBlock):
         icon = "site"
 
 
+class LinkStructValue(StructValue):
+    def get_url(self):
+        if link := self.get("url"):
+            return link
+        if page := self.get("page"):
+            return page.specific.url
+        return ""
+
+    def get_title(self):
+        if title := self.get("title"):
+            return title
+        if page := self.get("page"):
+            return page.specific.title
+        return ""
+
+
 class LinkBlock(blocks.StructBlock):
     # URL block uses the URLOrRelativeURLBLock so it can accpet relative URLs
     # E.G, /schools/
@@ -105,6 +122,9 @@ class LinkBlock(blocks.StructBlock):
         if errors:
             raise ValidationError("Validation error in LinkBlock", params=errors)
         return result
+
+    class Meta:
+        value_class = LinkStructValue
 
 
 class SecondaryLinkBlock(LinkBlock):
