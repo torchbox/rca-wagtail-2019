@@ -1161,6 +1161,44 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
         return get_accordion_snippet_content(self.requirements_blocks)
 
+    def clean_video_field(
+        self,
+        errors,
+        *,
+        label,
+        video_attr,
+        caption_attr,
+        image_attr,
+        require_image_for_video=True,
+        require_video_for_image=False,
+    ):
+        """Shared validation for a video URL field paired with a caption and
+        a preview/intro image, e.g. curriculum_video and requirements_video.
+        """
+        video = getattr(self, video_attr)
+        caption = getattr(self, caption_attr)
+        image = getattr(self, image_attr)
+
+        if video:
+            try:
+                embed = embeds.get_embed(video)
+            except EmbedException:
+                errors[video_attr].append("invalid embed URL")
+            else:
+                if embed.provider_name.lower() not in ["vimeo", "youtube"]:
+                    errors[video_attr].append(
+                        "Only Vimeo and YouTube videos are supported for this field."
+                    )
+
+        if require_image_for_video and video and not image:
+            errors[image_attr].append("Please add a preview image for the video.")
+        if require_video_for_image and image and not video:
+            errors[video_attr].append("Please add a video for the preview image.")
+        if caption and not video:
+            errors[video_attr].append(f"Please add a video for the {label} caption.")
+        if video and not caption:
+            errors[caption_attr].append(f"Please add a caption for the {label}.")
+
     def clean(self):
         super().clean()
         errors = defaultdict(list)
@@ -1176,16 +1214,13 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             errors["programme_details_time_suffix"].append("Please add a suffix")
         if self.programme_details_time_suffix and not self.programme_details_time:
             errors["programme_details_time"].append("Please add a time value")
-        if self.curriculum_video:
-            try:
-                embed = embeds.get_embed(self.curriculum_video)
-            except EmbedException:
-                errors["curriculum_video"].append("invalid embed URL")
-            else:
-                if embed.provider_name.lower() != "youtube":
-                    errors["curriculum_video"].append(
-                        "Only YouTube videos are supported for this field "
-                    )
+        self.clean_video_field(
+            errors,
+            label="curriculum video",
+            video_attr="curriculum_video",
+            caption_attr="curriculum_video_caption",
+            image_attr="curriculum_image",
+        )
         if self.staff_link and not self.staff_link_text:
             errors["staff_link_text"].append("Please the text to be used for the link")
         if self.staff_link_text and not self.staff_link:
@@ -1194,14 +1229,14 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             errors["search_description"].append(
                 "Please add a search description for the page."
             )
-        if self.requirements_video and not self.requirements_video_preview_image:
-            errors["requirements_video_preview_image"].append(
-                "Please add a preview image for the video."
-            )
-        if self.requirements_video_preview_image and not self.requirements_video:
-            errors["requirements_video"].append(
-                "Please add a video for the preview image."
-            )
+        self.clean_video_field(
+            errors,
+            label="requirements video",
+            video_attr="requirements_video",
+            caption_attr="requirements_video_caption",
+            image_attr="requirements_video_preview_image",
+            require_video_for_image=True,
+        )
         if self.link_to_open_days and not self.book_or_view_all_open_days_link_title:
             errors["book_or_view_all_open_days_link_title"].append(
                 "Please specify the 'Book open days title' for the link to open days."
