@@ -7,7 +7,7 @@ The purpose of the modifications is to prevent non-superusers from making change
 Modifications:
 1. conditionally use custom template for child elements (admin/panels/student_page_inline_panel_child.html)
 2. conditionally remove the "Add" button to prevent addition of new child elements
-3. conditionally remove the "Actions" dropdown menu to prevent editing of child elements
+3. conditionally remove each child's own chooser "Actions" dropdown menu to prevent editing of child elements
 
 TODO: Once InlinePanels have read-only / permissions support, then we can
 remove this template and the inline panel child template and work with the defaults.
@@ -78,13 +78,12 @@ See https://github.com/wagtail/wagtail/issues/8684 for more details on support f
             });
             {# Begin: Modification № 3 #}
             {% if not request.user.is_superuser %}
-            {% comment "remove the actions dropdown button to prevent editing" %}
-                https://docs.wagtail.org/en/v5.2.3/reference/pages/panels.html#javascript-dom-events
-            {% endcomment %}
             document.addEventListener('w-formset:ready', function() {
-                var dropdownDiv = document.querySelector('[data-controller="w-dropdown"]');
-                if (dropdownDiv) {
-                    dropdownDiv.remove();
+                var container = document.getElementById('id_{{ self.formset.prefix }}-FORMS');
+                if (container) {
+                    container.querySelectorAll('[data-controller="w-dropdown"]').forEach(function(dropdownDiv) {
+                        dropdownDiv.remove();
+                    });
                 }
             });
             {% endif %}
