@@ -14,15 +14,19 @@ from rca.personalisation.factories import (
     UserActionCallToActionFactory,
 )
 from rca.personalisation.models import (
+    CollapsibleNavigationCTAExcludedPage,
     CollapsibleNavigationCTAPage,
     CollapsibleNavigationCTAPageType,
     CollapsibleNavigationCTASegment,
+    EmbeddedFooterCTAExcludedPage,
     EmbeddedFooterCTAPage,
     EmbeddedFooterCTAPageType,
     EmbeddedFooterCTASegment,
+    EventCountdownCTAExcludedPage,
     EventCountdownCTAPage,
     EventCountdownCTAPageType,
     EventCountdownCTASegment,
+    UserActionCTAExcludedPage,
     UserActionCTAPage,
     UserActionCTAPageType,
     UserActionCTASegment,
@@ -43,6 +47,7 @@ class BasePersonalisationCTATests(TestCase):
             "segment_model": UserActionCTASegment,
             "page_type_model": UserActionCTAPageType,
             "page_model": UserActionCTAPage,
+            "excluded_page_model": UserActionCTAExcludedPage,
             "context_key": "personalised_user_cta",
             "base_fields": lambda: {"external_link": "https://example.com"},
         },
@@ -52,6 +57,7 @@ class BasePersonalisationCTATests(TestCase):
             "segment_model": EmbeddedFooterCTASegment,
             "page_type_model": EmbeddedFooterCTAPageType,
             "page_model": EmbeddedFooterCTAPage,
+            "excluded_page_model": EmbeddedFooterCTAExcludedPage,
             "context_key": "personalised_footer_cta",
             "base_fields": lambda: {"external_link": "https://example.com"},
         },
@@ -61,6 +67,7 @@ class BasePersonalisationCTATests(TestCase):
             "segment_model": EventCountdownCTASegment,
             "page_type_model": EventCountdownCTAPageType,
             "page_model": EventCountdownCTAPage,
+            "excluded_page_model": EventCountdownCTAExcludedPage,
             "context_key": "personalised_countdown_cta",
             "base_fields": lambda: {
                 "external_link": "https://example.com",
@@ -75,6 +82,7 @@ class BasePersonalisationCTATests(TestCase):
             "segment_model": CollapsibleNavigationCTASegment,
             "page_type_model": CollapsibleNavigationCTAPageType,
             "page_model": CollapsibleNavigationCTAPage,
+            "excluded_page_model": CollapsibleNavigationCTAExcludedPage,
             "context_key": "personalised_collapsible_nav",
             "base_fields": lambda: {},  # No link fields needed for CollapsibleNav
         },
@@ -496,8 +504,6 @@ class BasePersonalisationCTATests(TestCase):
         )
 
         # Create a child page
-        from rca.standardpages.models import InformationPage
-
         child_page = InformationPage(
             title="Child Page",
             introduction="Child introduction",
@@ -548,8 +554,6 @@ class BasePersonalisationCTATests(TestCase):
         )
 
         # Create a child page
-        from rca.standardpages.models import InformationPage
-
         child_page = InformationPage(
             title="Child Page",
             introduction="Child introduction",
@@ -588,6 +592,267 @@ class BasePersonalisationCTATests(TestCase):
                 cta.delete()
 
         child_page.delete()
+
+    @patch("rca.utils.models.get_segment_adapter")
+    def test_excluded_page_suppresses_cta_on_that_page_only(self, mock_get_adapter):
+        """Excluding a page suppresses the CTA there without affecting siblings or ancestors"""
+        now = timezone.now()
+        mock_get_adapter.return_value = self._create_mock_segment_adapter(
+            [self.segment_alumni]
+        )
+
+        sibling_page = InformationPage(title="Sibling", introduction="Sibling")
+        self.home_page.add_child(instance=sibling_page)
+
+        for cta_config in self.CTA_TYPES:
+            with self.subTest(cta_type=cta_config["name"]):
+                cta_fields = cta_config["base_fields"]()
+                cta_fields.update({"go_live_at": now - timedelta(days=1)})
+                cta = cta_config["factory"](**cta_fields)
+
+                cta_config["segment_model"].objects.create(
+                    call_to_action=cta, segment=self.segment_alumni
+                )
+                cta_config["page_model"].objects.create(
+                    call_to_action=cta,
+                    page=self.home_page,
+                    include_children=True,
+                )
+                cta_config["excluded_page_model"].objects.create(
+                    call_to_action=cta,
+                    page=self.test_page,
+                    include_children=False,
+                )
+
+                # Excluded page: CTA is NOT shown
+                response = self.client.get(self.test_page.url)
+                self.assertNotIn(cta_config["context_key"], response.context)
+
+                # Sibling page: CTA IS shown
+                response = self.client.get(sibling_page.url)
+                self.assertIn(cta_config["context_key"], response.context)
+
+                # Ancestor page: CTA IS shown
+                response = self.client.get(self.home_page.url)
+                self.assertIn(cta_config["context_key"], response.context)
+
+                cta.delete()
+
+        sibling_page.delete()
+
+    @patch("rca.utils.models.get_segment_adapter")
+    def test_excluded_subtree_suppresses_cta_on_descendants(self, mock_get_adapter):
+        """Excluding a page with include_children=True suppresses the CTA on the whole subtree"""
+        now = timezone.now()
+        mock_get_adapter.return_value = self._create_mock_segment_adapter(
+            [self.segment_alumni]
+        )
+
+        grandchild_page = InformationPage(title="Grandchild", introduction="GC")
+        self.test_page.add_child(instance=grandchild_page)
+
+        for cta_config in self.CTA_TYPES:
+            with self.subTest(cta_type=cta_config["name"]):
+                cta_fields = cta_config["base_fields"]()
+                cta_fields.update({"go_live_at": now - timedelta(days=1)})
+                cta = cta_config["factory"](**cta_fields)
+
+                cta_config["segment_model"].objects.create(
+                    call_to_action=cta, segment=self.segment_alumni
+                )
+                cta_config["page_model"].objects.create(
+                    call_to_action=cta,
+                    page=self.home_page,
+                    include_children=True,
+                )
+                cta_config["excluded_page_model"].objects.create(
+                    call_to_action=cta,
+                    page=self.test_page,
+                    include_children=True,
+                )
+
+                response = self.client.get(self.test_page.url)
+                self.assertNotIn(cta_config["context_key"], response.context)
+
+                response = self.client.get(grandchild_page.url)
+                self.assertNotIn(cta_config["context_key"], response.context)
+
+                cta.delete()
+
+        grandchild_page.delete()
+
+    @patch("rca.utils.models.get_segment_adapter")
+    def test_excluded_page_without_include_children_only_excludes_itself(
+        self, mock_get_adapter
+    ):
+        """An excluded row with include_children=False excludes only that page"""
+        now = timezone.now()
+        mock_get_adapter.return_value = self._create_mock_segment_adapter(
+            [self.segment_alumni]
+        )
+
+        child_page = InformationPage(title="Child", introduction="Child")
+        self.test_page.add_child(instance=child_page)
+
+        for cta_config in self.CTA_TYPES:
+            with self.subTest(cta_type=cta_config["name"]):
+                cta_fields = cta_config["base_fields"]()
+                cta_fields.update({"go_live_at": now - timedelta(days=1)})
+                cta = cta_config["factory"](**cta_fields)
+
+                cta_config["segment_model"].objects.create(
+                    call_to_action=cta, segment=self.segment_alumni
+                )
+                cta_config["page_model"].objects.create(
+                    call_to_action=cta,
+                    page=self.home_page,
+                    include_children=True,
+                )
+                cta_config["excluded_page_model"].objects.create(
+                    call_to_action=cta,
+                    page=self.test_page,
+                    include_children=False,
+                )
+
+                response = self.client.get(self.test_page.url)
+                self.assertNotIn(cta_config["context_key"], response.context)
+
+                response = self.client.get(child_page.url)
+                self.assertIn(cta_config["context_key"], response.context)
+
+                cta.delete()
+
+        child_page.delete()
+
+    @patch("rca.utils.models.get_segment_adapter")
+    def test_removing_excluded_page_restores_cta(self, mock_get_adapter):
+        """Deleting an exclusion row restores the CTA on that page"""
+        now = timezone.now()
+        mock_get_adapter.return_value = self._create_mock_segment_adapter(
+            [self.segment_alumni]
+        )
+
+        for cta_config in self.CTA_TYPES:
+            with self.subTest(cta_type=cta_config["name"]):
+                cta_fields = cta_config["base_fields"]()
+                cta_fields.update({"go_live_at": now - timedelta(days=1)})
+                cta = cta_config["factory"](**cta_fields)
+
+                cta_config["segment_model"].objects.create(
+                    call_to_action=cta, segment=self.segment_alumni
+                )
+                cta_config["page_model"].objects.create(
+                    call_to_action=cta,
+                    page=self.home_page,
+                    include_children=True,
+                )
+                exclusion = cta_config["excluded_page_model"].objects.create(
+                    call_to_action=cta,
+                    page=self.test_page,
+                    include_children=False,
+                )
+
+                response = self.client.get(self.test_page.url)
+                self.assertNotIn(cta_config["context_key"], response.context)
+
+                exclusion.delete()
+
+                response = self.client.get(self.test_page.url)
+                self.assertIn(cta_config["context_key"], response.context)
+
+                cta.delete()
+
+    @patch("rca.utils.models.get_segment_adapter")
+    def test_exclusion_overrides_page_type_match(self, mock_get_adapter):
+        """An exclusion beats a CTA that would otherwise match by page type"""
+        now = timezone.now()
+        mock_get_adapter.return_value = self._create_mock_segment_adapter(
+            [self.segment_alumni]
+        )
+
+        for cta_config in self.CTA_TYPES:
+            with self.subTest(cta_type=cta_config["name"]):
+                cta_fields = cta_config["base_fields"]()
+                cta_fields.update({"go_live_at": now - timedelta(days=1)})
+                cta = cta_config["factory"](**cta_fields)
+
+                cta_config["segment_model"].objects.create(
+                    call_to_action=cta, segment=self.segment_alumni
+                )
+                cta_config["page_type_model"].objects.create(
+                    call_to_action=cta, page_type="standardpages.informationpage"
+                )
+                cta_config["excluded_page_model"].objects.create(
+                    call_to_action=cta,
+                    page=self.test_page,
+                    include_children=False,
+                )
+
+                response = self.client.get(self.test_page.url)
+                self.assertNotIn(cta_config["context_key"], response.context)
+
+                cta.delete()
+
+    @patch("rca.utils.models.get_segment_adapter")
+    def test_exclusion_overrides_direct_page_match(self, mock_get_adapter):
+        """An exclusion beats a CTA that directly selects the same page"""
+        now = timezone.now()
+        mock_get_adapter.return_value = self._create_mock_segment_adapter(
+            [self.segment_alumni]
+        )
+
+        for cta_config in self.CTA_TYPES:
+            with self.subTest(cta_type=cta_config["name"]):
+                cta_fields = cta_config["base_fields"]()
+                cta_fields.update({"go_live_at": now - timedelta(days=1)})
+                cta = cta_config["factory"](**cta_fields)
+
+                cta_config["segment_model"].objects.create(
+                    call_to_action=cta, segment=self.segment_alumni
+                )
+                cta_config["page_model"].objects.create(
+                    call_to_action=cta,
+                    page=self.test_page,
+                    include_children=False,
+                )
+                cta_config["excluded_page_model"].objects.create(
+                    call_to_action=cta,
+                    page=self.test_page,
+                    include_children=False,
+                )
+
+                response = self.client.get(self.test_page.url)
+                self.assertNotIn(cta_config["context_key"], response.context)
+
+                cta.delete()
+
+    @patch("rca.utils.models.get_segment_adapter")
+    def test_exclusion_does_not_show_cta_by_itself(self, mock_get_adapter):
+        """An exclusion row alone, with no include pages or page types, does not make a CTA appear"""
+        now = timezone.now()
+        mock_get_adapter.return_value = self._create_mock_segment_adapter(
+            [self.segment_alumni]
+        )
+
+        for cta_config in self.CTA_TYPES:
+            with self.subTest(cta_type=cta_config["name"]):
+                cta_fields = cta_config["base_fields"]()
+                cta_fields.update({"go_live_at": now - timedelta(days=1)})
+                cta = cta_config["factory"](**cta_fields)
+
+                cta_config["segment_model"].objects.create(
+                    call_to_action=cta, segment=self.segment_alumni
+                )
+                cta_config["excluded_page_model"].objects.create(
+                    call_to_action=cta,
+                    page=self.test_page,
+                    include_children=False,
+                )
+
+                response = self.client.get(self.test_page.url)
+                self.assertNotIn(cta_config["context_key"], response.context)
+
+                cta.delete()
 
     @patch("rca.utils.models.get_segment_adapter")
     def test_multiple_ctas_can_appear_together(self, mock_get_adapter):
