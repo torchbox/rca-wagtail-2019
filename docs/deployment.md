@@ -1,12 +1,12 @@
 # RCA Wagtail 2019 — hosts and deployment
 
-Deployments are automatically handled by github actions.
+Deployments are automatically handled by GitHub Actions.
 
 ## Deployed environments
 
-| Environment | Branch    | URL                       | Heroku           |
-| ----------- | --------- | ------------------------- | ---------------- |
-| Production  | `master`  | rca.ac.uk                 | `rca-production` |
+| Environment | Branch    | URL                      | Heroku           |
+| ----------- | --------- | ------------------------ | ---------------- |
+| Production  | `master`  | rca.ac.uk                | `rca-production` |
 | Staging     | `staging` | rca-staging.torchbox.dev | `rca-staging`    |
 
 ## Login to Heroku
