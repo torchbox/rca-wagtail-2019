@@ -121,7 +121,7 @@
 
                 {% if page.more_information %}
                     <div class="section__row {% if not page.gallery %}staff-detail-accordion staff-detail-accordion--wo-gallery{% endif %} section__row--last">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' heading_override="h2" accordions=page.more_information title=page.more_information_title %}
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' parent_heading_override="h2" heading_override="h3" accordions=page.more_information title=page.more_information_title %}
                     </div>
                 {% endif %}
 

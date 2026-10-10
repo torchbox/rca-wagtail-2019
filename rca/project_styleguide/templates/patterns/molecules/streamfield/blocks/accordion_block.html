@@ -3,7 +3,7 @@
 
     <div>
         {% for item in value.items %}
-            {% include "patterns/molecules/accordion/accordion.html" with accordion=item %}
+            {% include "patterns/molecules/accordion/accordion.html" with accordion=item heading_override="h3" %}
         {% endfor %}
     </div>
 </div>
