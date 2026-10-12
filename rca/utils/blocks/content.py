@@ -200,6 +200,45 @@ class ImageVideoBlock(blocks.StructBlock):
         return cleaned_data
 
 
+class TitledImageVideoBlock(blocks.StructBlock):
+    """
+    Differs from `ImageVideoBlock` by including a required title field.
+    """
+
+    title = blocks.CharBlock()
+    image = ImageChooserBlock()
+    video_embed = EmbedBlock(
+        required=False,
+        help_text="Add a link to embed a video. Leave blank to only display an image.",
+    )
+    embed_play_button_label = blocks.CharBlock(
+        max_length=80,
+        required=False,
+        help_text="The text displayed below the video.",
+        # This is named `embed_play_button_label` to be consistent with `GalleryBlock`.
+        label="Caption",
+    )
+
+    def clean(self, value):
+        video_embed = value.get("video_embed")
+        embed_play_button_label = value.get("embed_play_button_label")
+        errors = {}
+
+        if video_embed and not embed_play_button_label:
+            errors["embed_play_button_label"] = ErrorList(
+                ["Caption is required when a video link is provided."]
+            )
+        elif not video_embed and embed_play_button_label:
+            errors["video_embed"] = ErrorList(
+                ["A caption requires a video to be added."]
+            )
+
+        if errors:
+            raise StructBlockValidationError(errors)
+
+        return value
+
+
 class ImageVideoGalleryBlock(blocks.StructBlock):
     title = blocks.CharBlock()
     image_video = blocks.StreamBlock(
