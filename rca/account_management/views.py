@@ -126,7 +126,7 @@ class CreateStudentFormView(FormView):
                 get_set_password_url(student_user)
             )
             # Notify the user of the account.
-            email_subject = _("Your Student account has been created")
+            email_subject = _("Your research student web profile")
             email_body = render_to_string(
                 "account_management/admin/emails/notify_user_on_creation.txt",
                 {
