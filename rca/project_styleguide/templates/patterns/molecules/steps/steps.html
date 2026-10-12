@@ -1,12 +1,12 @@
 <div class="steps grid {% if modifier %}steps--{{ modifier }}{% endif %}">
-    <h4 class="steps__heading heading heading--five">{{ title }}</h4>
+    <h3 class="steps__heading heading heading--five">{{ title }}</h3>
     <div class="steps__content">
         {% for step in steps %}
             {% with step=step.value %}
                 <div class="step-item">
                     <div class="step-item__number">{{ forloop.counter }}.</div>
                     <div class="step-item__content">
-                        <h5 class="step-item__heading body body--one">{{ step.heading }}</h5>
+                        <h4 class="step-item__heading body body--one">{{ step.heading }}</h4>
                         {% if step.link.url and step.link.title %}
                             <a class="step-item__link link link--secondary link--link" href="{{ step.link.url }}">
                                 <span class="link__label">{{ step.link.title }}</span>

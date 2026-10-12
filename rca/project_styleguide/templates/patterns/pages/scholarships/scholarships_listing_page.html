@@ -125,7 +125,7 @@
                         </div>
                     </div>
                     <div class="section__row">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=results title=results_title section_id=page.results_title|slugify modifier="accordion-block--small-margin" scholarship=True %}
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=results title=results_title section_id=page.results_title|slugify modifier="accordion-block--small-margin" scholarship=True parent_heading_override="h3" heading_override="h4" %}
                     </div>
                 {% else %}
                     {% if not results %}

@@ -104,7 +104,7 @@
 
                     <div class="section__row section__row--first {% if not page.working_with %}section__row--last{% endif %}
                     ">
-                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title=page.more_information_title course_type="short" %}
+                        {% include "patterns/organisms/accordion-block/accordion-block.html" with accordion_id='1' accordions=page.more_information title=page.more_information_title course_type="short" parent_heading_override="h3" heading_override="h4" %}
                     </div>
 
                     {% if page.working_with %}
