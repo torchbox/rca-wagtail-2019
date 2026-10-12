@@ -6,11 +6,11 @@
             <a class="card__container" href="{% if block.link.page %}{% pageurl block.link.page %}{% else %}{{ block.link.url }}{% endif %}">
                 {% if block.image %}
                     {% if value.number_of_columns == "1" %}
-                        {% image block.image fill-160x54 as image_small %}
-                        {% image block.image fill-1200x400 as image_large %}
+                        {% image block.image fill-160x90 as image_small %}
+                        {% image block.image fill-1200x675 as image_large %}
                     {% else %}
-                        {% image block.image fill-160x80 as image_small %}
-                        {% image block.image fill-800x400 as image_large %}
+                        {% image block.image fill-160x90 as image_small %}
+                        {% image block.image fill-800x450 as image_large %}
                     {% endif %}
                 {% endif %}
                 <div class="card__image-container">

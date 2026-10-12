@@ -11,24 +11,29 @@
 
     .card {
         &__image {
-            max-height: 170px;
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            height: auto;
             object-fit: cover;
-
-            @include media-query(medium) {
-                max-height: 400px;
-            }
+            // Override .streamfield img's margin-bottom (streamfield.scss) -
+            // spacing below the image is handled by card__content's
+            // padding-top instead.
+            margin-bottom: 0;
         }
 
-        // card__content is constrained to 65%/66.66% width (to make room
-        // for the image notch) but the description should still be able
-        // to use the full card width.
-        &__description {
-            @include media-query(medium) {
-                width: (100% / 0.65);
-            }
+        // No notch on card-grid cards: image stacks cleanly above the
+        // content, which can use the card's full width.
+        &__content {
+            position: static;
+            top: 0;
+            margin-bottom: 0;
+            flex-basis: 100%;
+            max-width: 100%;
+            min-width: 100%;
+            padding-top: 20px;
 
-            @include media-query(large) {
-                width: (100% / 0.6666);
+            &::after {
+                content: none;
             }
         }
     }
@@ -52,11 +57,6 @@
         .card {
             @include media-query(large) {
                 margin-right: $gutter;
-
-                &__image {
-                    max-height: 170px;
-                    object-fit: cover;
-                }
             }
         }
     }
