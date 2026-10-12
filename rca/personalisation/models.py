@@ -120,7 +120,24 @@ class PersonalisedCTAQuerySet(models.QuerySet):
         else:
             page_filters |= specific_page_filter
 
-        return self.filter(base_filters & page_filters).distinct()
+        # Exclusion filters - exclude if this exact page, or an ancestor with
+        # include_children=True, is in the excluded pages. This takes
+        # precedence over any of the include filters above.
+        excluded_page_filter = models.Q(excluded_pages__page=page)
+        if ancestor_pages.exists():
+            excluded_child_page_filter = models.Q(
+                excluded_pages__page__in=ancestor_pages,
+                excluded_pages__include_children=True,
+            )
+            exclusion_filters = excluded_page_filter | excluded_child_page_filter
+        else:
+            exclusion_filters = excluded_page_filter
+
+        return (
+            self.filter(base_filters & page_filters)
+            .exclude(exclusion_filters)
+            .distinct()
+        )
 
 
 class BasePersonalisedCallToAction(ClusterableModel):
@@ -340,6 +357,38 @@ class UserActionCTAPage(Orderable):
         return f"{self.page.title} ({self.page.url_path})"
 
 
+class UserActionCTAExcludedPage(Orderable):
+    """
+    This links a CTA to specific pages that should be excluded, even if
+    they would otherwise match by page type or by an included ancestor page.
+    """
+
+    page = models.ForeignKey(
+        "wagtailcore.Page",
+        on_delete=models.CASCADE,
+        related_name="+",
+        help_text="Select the specific page where this CTA should not appear",
+    )
+    include_children = models.BooleanField(
+        default=False,
+        help_text="If checked, the CTA will also be excluded from all child pages of the selected page",
+    )
+    call_to_action = ParentalKey(
+        "personalisation.UserActionCallToAction", related_name="excluded_pages"
+    )
+
+    class Meta:
+        unique_together = ("page", "call_to_action")
+
+    panels = [
+        PageChooserPanel("page"),
+        FieldPanel("include_children"),
+    ]
+
+    def __str__(self):
+        return f"{self.page.title} ({self.page.url_path})"
+
+
 class UserActionCallToAction(
     StyledPreviewableMixin,
     LinkFieldsMixin,
@@ -404,10 +453,21 @@ class UserActionCallToAction(
         InlinePanel(
             "pages",
             label="Specific Page",
-            heading="Specific Pages",
+            heading="Include specific pages",
             help_text=(
                 "Optionally select specific pages where this CTA should appear. "
-                "Check 'Include children' to show the CTA on all child pages of the selected page."
+                "Check 'Include children' to also show the CTA on all child pages of the selected page."
+            ),
+        ),
+        InlinePanel(
+            "excluded_pages",
+            label="Specific Page",
+            heading="Exclude specific pages",
+            help_text=(
+                "Optionally select specific pages where this CTA should never appear, "
+                "even if it would otherwise match by page type or an included parent page. "
+                "Check 'Include children' to also exclude all child pages of the selected page. "
+                "Exclusions always take precedence over inclusions."
             ),
         ),
         MultiFieldPanel(
@@ -546,6 +606,38 @@ class EmbeddedFooterCTAPage(Orderable):
         return f"{self.page.title} ({self.page.url_path})"
 
 
+class EmbeddedFooterCTAExcludedPage(Orderable):
+    """
+    This links a CTA to specific pages that should be excluded, even if
+    they would otherwise match by page type or by an included ancestor page.
+    """
+
+    page = models.ForeignKey(
+        "wagtailcore.Page",
+        on_delete=models.CASCADE,
+        related_name="+",
+        help_text="Select the specific page where this CTA should not appear",
+    )
+    include_children = models.BooleanField(
+        default=False,
+        help_text="If checked, the CTA will also be excluded from all child pages of the selected page",
+    )
+    call_to_action = ParentalKey(
+        "personalisation.EmbeddedFooterCallToAction", related_name="excluded_pages"
+    )
+
+    class Meta:
+        unique_together = ("page", "call_to_action")
+
+    panels = [
+        PageChooserPanel("page"),
+        FieldPanel("include_children"),
+    ]
+
+    def __str__(self):
+        return f"{self.page.title} ({self.page.url_path})"
+
+
 class EmbeddedFooterCallToAction(
     StyledPreviewableMixin, LinkFieldsMixin, BasePersonalisedCallToAction
 ):
@@ -589,10 +681,21 @@ class EmbeddedFooterCallToAction(
         InlinePanel(
             "pages",
             label="Specific Page",
-            heading="Specific Pages",
+            heading="Include specific pages",
             help_text=(
                 "Optionally select specific pages where this CTA should appear. "
-                "Check 'Include children' to show the CTA on all child pages of the selected page."
+                "Check 'Include children' to also show the CTA on all child pages of the selected page."
+            ),
+        ),
+        InlinePanel(
+            "excluded_pages",
+            label="Specific Page",
+            heading="Exclude specific pages",
+            help_text=(
+                "Optionally select specific pages where this CTA should never appear, "
+                "even if it would otherwise match by page type or an included parent page. "
+                "Check 'Include children' to also exclude all child pages of the selected page. "
+                "Exclusions always take precedence over inclusions."
             ),
         ),
         MultiFieldPanel(
@@ -718,6 +821,38 @@ class EventCountdownCTAPage(Orderable):
         return f"{self.page.title} ({self.page.url_path})"
 
 
+class EventCountdownCTAExcludedPage(Orderable):
+    """
+    This links a CTA to specific pages that should be excluded, even if
+    they would otherwise match by page type or by an included ancestor page.
+    """
+
+    page = models.ForeignKey(
+        "wagtailcore.Page",
+        on_delete=models.CASCADE,
+        related_name="+",
+        help_text="Select the specific page where this CTA should not appear",
+    )
+    include_children = models.BooleanField(
+        default=False,
+        help_text="If checked, the CTA will also be excluded from all child pages of the selected page",
+    )
+    call_to_action = ParentalKey(
+        "personalisation.EventCountdownCallToAction", related_name="excluded_pages"
+    )
+
+    class Meta:
+        unique_together = ("page", "call_to_action")
+
+    panels = [
+        PageChooserPanel("page"),
+        FieldPanel("include_children"),
+    ]
+
+    def __str__(self):
+        return f"{self.page.title} ({self.page.url_path})"
+
+
 class EventCountdownCallToAction(
     StyledPreviewableMixin,
     UserActionChoicesMixin,
@@ -798,10 +933,21 @@ class EventCountdownCallToAction(
         InlinePanel(
             "pages",
             label="Specific Page",
-            heading="Specific Pages",
+            heading="Include specific pages",
             help_text=(
                 "Optionally select specific pages where this CTA should appear. "
-                "Check 'Include children' to show the CTA on all child pages of the selected page."
+                "Check 'Include children' to also show the CTA on all child pages of the selected page."
+            ),
+        ),
+        InlinePanel(
+            "excluded_pages",
+            label="Specific Page",
+            heading="Exclude specific pages",
+            help_text=(
+                "Optionally select specific pages where this CTA should never appear, "
+                "even if it would otherwise match by page type or an included parent page. "
+                "Check 'Include children' to also exclude all child pages of the selected page. "
+                "Exclusions always take precedence over inclusions."
             ),
         ),
         MultiFieldPanel(
@@ -985,6 +1131,39 @@ class CollapsibleNavigationCTAPage(Orderable):
         return f"{self.page.title} ({self.page.url_path})"
 
 
+class CollapsibleNavigationCTAExcludedPage(Orderable):
+    """
+    This links a CTA to specific pages that should be excluded, even if
+    they would otherwise match by page type or by an included ancestor page.
+    """
+
+    page = models.ForeignKey(
+        "wagtailcore.Page",
+        on_delete=models.CASCADE,
+        related_name="+",
+        help_text="Select the specific page where this CTA should not appear",
+    )
+    include_children = models.BooleanField(
+        default=False,
+        help_text="If checked, the CTA will also be excluded from all child pages of the selected page",
+    )
+    call_to_action = ParentalKey(
+        "personalisation.CollapsibleNavigationCallToAction",
+        related_name="excluded_pages",
+    )
+
+    class Meta:
+        unique_together = ("page", "call_to_action")
+
+    panels = [
+        PageChooserPanel("page"),
+        FieldPanel("include_children"),
+    ]
+
+    def __str__(self):
+        return f"{self.page.title} ({self.page.url_path})"
+
+
 class CollapsibleNavigationCallToAction(
     StyledPreviewableMixin, UserActionChoicesMixin, BasePersonalisedCallToAction
 ):
@@ -1036,10 +1215,21 @@ class CollapsibleNavigationCallToAction(
         InlinePanel(
             "pages",
             label="Specific Page",
-            heading="Specific Pages",
+            heading="Include specific pages",
             help_text=(
                 "Optionally select specific pages where this CTA should appear. "
-                "Check 'Include children' to show the CTA on all child pages of the selected page."
+                "Check 'Include children' to also show the CTA on all child pages of the selected page."
+            ),
+        ),
+        InlinePanel(
+            "excluded_pages",
+            label="Specific Page",
+            heading="Exclude specific pages",
+            help_text=(
+                "Optionally select specific pages where this CTA should never appear, "
+                "even if it would otherwise match by page type or an included parent page. "
+                "Check 'Include children' to also exclude all child pages of the selected page. "
+                "Exclusions always take precedence over inclusions."
             ),
         ),
         MultiFieldPanel(
