@@ -131,6 +131,7 @@ MIDDLEWARE = [
     # http://whitenoise.evans.io/en/stable/#quickstart-for-django-apps
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "xff.middleware.XForwardedForMiddleware",
+    "rca.personalisation.middleware.PublicCacheVaryCookieMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
