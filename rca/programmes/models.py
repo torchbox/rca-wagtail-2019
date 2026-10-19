@@ -297,6 +297,11 @@ class ProgrammePageDegreeLevel(Orderable):
             models.UniqueConstraint(
                 fields=["source_page", "level"],
                 name="unique_degree_level_per_programme_page",
+                # modelcluster saves child rows one at a time, so swapping values
+                # between existing rows briefly passes through a non-unique state.
+                # Deferring the check to commit allows this while still rejecting
+                # genuine duplicates
+                deferrable=models.Deferrable.DEFERRED,
             )
         ]
 
@@ -378,6 +383,8 @@ class ProgrammeStudyModeProgrammePage(models.Model):
             models.UniqueConstraint(
                 fields=["page", "programme_study_mode"],
                 name="unique_programme_study_mode_per_programme_page",
+                # Deferred for the same reason as unique_degree_level_per_programme_page
+                deferrable=models.Deferrable.DEFERRED,
             )
         ]
 
@@ -411,6 +418,8 @@ class ProgrammeLocationProgrammePage(models.Model):
             models.UniqueConstraint(
                 fields=["page", "programme_location"],
                 name="unique_programme_location_per_programme_page",
+                # Deferred for the same reason as unique_degree_level_per_programme_page
+                deferrable=models.Deferrable.DEFERRED,
             )
         ]
 
