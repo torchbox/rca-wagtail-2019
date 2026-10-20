@@ -131,15 +131,15 @@ As well as testing the critical paths, these areas of functionality should be ch
 
 ## Security
 
-Last security review: 2026-09-14
+Last security review: 2026-10-20
 
-### Accepted CVE hold — tablib
+### Accepted CVE-2026-9318 in tablib
 
 - Package: tablib held at ==3.5.0
 - Verified binding constraint: upstream hard-pin — every `django-import-export` 3.3.x release depends on `tablib[html,ods,xls,xlsx,yaml] (3.5.0)` exactly, so no later tablib is reachable while the project pins `django-import-export = "~3.3"`.
-- How verified: temporarily added `tablib = "~3.10"` to `pyproject.toml` and ran `poetry lock --no-update`; the resolver rejected it with "because rca depends on both django-import-export (~3.3) and tablib (~3.10), version solving failed", enumerating the `tablib (3.5.0)` dependency of each 3.3.x release. The edit was reverted. tablib 3.10.0 was published 2026-07-31, so release age is not the blocker.
+- How verified: `tbx-support run trivy-scan run_relock --ecosystem python --package tablib --fixed-version 3.10.0 --force-transitive` promotes tablib to a direct 3.10.0 dependency and runs `poetry update tablib --lock`, which fails with "because rca depends on both django-import-export (~3.3) and tablib (3.10.0), version solving failed", enumerating the `tablib (3.5.0)` dependency of each 3.3.x release up to 3.3.9, the last on that line. The runner keeps nothing when the resolve fails. tablib 3.10.0 is months older than the cool-down window, so release age is not the blocker.
 - Why unreachable: CVE-2026-9318 is stored XSS in tablib's HTML _export_. This project uses `django-import-export` for import only — `rca/people/admin/page_import.py` subclasses `ImportMixin` and `resources.ModelResource` with import-side hooks; no `ExportMixin`, export action, or HTML export format is registered anywhere under `rca/`.
-- Cool-down: not bypassed — the fix is six weeks old and cool-down-allowed; the `django-import-export ~3.3` ceiling blocks it, not the cool-down.
+- Cool-down: not bypassed — the fix is cool-down-allowed; the `django-import-export ~3.3` ceiling blocks it, not the cool-down.
 
 Lifted by upgrading `django-import-export` to 4.x, which relaxes the tablib pin. That is itself held by the ceiling recorded in `pyproject.toml` ("v4+ has breaking changes"), and the import feature needs comprehensive testing before it moves.
 
