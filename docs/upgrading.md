@@ -127,7 +127,9 @@ As well as testing the critical paths, these areas of functionality should be ch
 
 ## Python dependency holds
 
-- `django-import-export` (`~3.3`) — 4.x has breaking changes to the resource and admin API, and the intranet import feature (`rca/people/admin/page_import.py`) has no automated tests, so a major bump needs comprehensive manual re-testing before it lands. Every 3.3.x release also hard-pins `tablib` to 3.5.0, which is the binding constraint on the accepted tablib CVE hold under Security. Lift when the import feature is re-tested end to end on 4.x and the tablib hold is cleared in the same change.
+- `django-import-export` (`~3.3`) — 4.x has breaking changes to the resource and admin API, and the intranet import feature (`rca/people/admin/page_import.py`) has no automated tests, so a major bump needs comprehensive manual re-testing before it lands. In 4.x `resource_class` becomes `resource_classes`, `save_instance`, `before_save_instance` and `after_save_instance` take a required `row` with `dry_run` and `using_transactions` moved into kwargs, and `ImportForm.__init__` takes `formats` and `resources` positionally. `rca/people/admin/` overrides all of these, so the move is a code migration as well as a re-test. Every 3.3.x release also hard-pins `tablib` to 3.5.0, which is the binding constraint on the accepted tablib CVE hold under Security. Lift when the import feature is re-tested end to end on 4.x and the tablib hold is cleared in the same change.
+  Evidence: `grep -nE 'resource_class =|def (before_|after_)?save_instance' rca/people/admin/__init__.py rca/people/admin/page_import.py` shows the 3.x forms 4.x changes, such as `def save_instance(self, instance, using_transactions=True, dry_run=False):` and `resource_class = StaffPageResource`
+  Release notes: https://django-import-export.readthedocs.io/en/stable/release_notes.html (the v4.0 section)
 
 ## Security
 
