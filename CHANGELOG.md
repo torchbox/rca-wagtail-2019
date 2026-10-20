@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Security
 
+- [R1-394](https://torchbox.atlassian.net/browse/R1-394) Security update: Wagtail 7.4.4 (GHSA-jm43-45cc-q9rr, GHSA-g6cr-c9h3-6j2m, GHSA-3xgh-xc8p-9h54, GHSA-4pg7-87vv-vrh7, GHSA-jrgm-fhgv-hmj9)
 - [R1-382](https://torchbox.atlassian.net/browse/R1-382) Django 5.2.18 security update and dependency CVE fixes
 - [R1-367](https://torchbox.atlassian.net/browse/R1-367) Wagtail 7.4.3 security update and dependency CVE fixes
 
