@@ -1,0 +1,20 @@
+<template data-personalisation-fragment="user">
+    {% if personalised_user_cta %}
+        {% include 'patterns/molecules/cta_modal/cta_modal.html' with value=personalised_user_cta %}
+    {% endif %}
+</template>
+<template data-personalisation-fragment="navigation">
+    {% if personalised_collapsible_nav %}
+        {% include 'patterns/molecules/collapsible_nav/collapsible_nav.html' with value=personalised_collapsible_nav %}
+    {% endif %}
+</template>
+<template data-personalisation-fragment="footer">
+    {% if personalised_footer_cta %}
+        {% include 'patterns/molecules/text-teaser/text-teaser.html' with teaser=personalised_footer_cta classes="text-teaser--footer-cta" %}
+    {% endif %}
+</template>
+<template data-personalisation-fragment="countdown">
+    {% if personalised_countdown_cta %}
+        {% include 'patterns/organisms/countdown_cta/countdown_cta.html' with value=personalised_countdown_cta %}
+    {% endif %}
+</template>

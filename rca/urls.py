@@ -16,6 +16,7 @@ from rca.account_management.views import (
     CustomLogoutView,
     SSOLogoutConfirmationView,
 )
+from rca.personalisation.views import personalisation_ctas
 from rca.search import views as search_views
 from rca.utils.cache import get_default_cache_control_decorator
 from rca.utils.views import apple_remote_management
@@ -26,6 +27,11 @@ WAGTAIL_FRONTEND_LOGIN_TEMPLATE = getattr(
 )
 # Private URLs are not meant to be cached.
 private_urlpatterns = [
+    path(
+        "personalisation/ctas/<int:page_id>/",
+        personalisation_ctas,
+        name="personalisation_ctas",
+    ),
     path("admin/login/", CustomLoginView.as_view(), name="wagtailcore_login"),
     path("admin/_util/login/", CustomLoginView.as_view(), name="wagtailcore_login"),
     path("admin/logout/", CustomLogoutView.as_view(), name="wagtailcore_logout"),

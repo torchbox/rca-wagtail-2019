@@ -43,7 +43,7 @@
 
     </head>
 
-    <body class="app {% block body_class %}app--{{ page.get_verbose_name|slugify }}{% endblock %} {% block header_class %}{% endblock %}" prefix="schema: https://schema.org/">
+    <body class="app {% block body_class %}app--{{ page.get_verbose_name|slugify }}{% endblock %} {% block header_class %}{% endblock %}" prefix="schema: https://schema.org/"{% if personalisation_url %} data-personalisation-url="{{ personalisation_url }}"{% endif %}>
 
         {% if GOOGLE_TAG_MANAGER_ID %}
             {# To enable GTM code you need to specify GOOGLE_TAG_MANAGER_ID in Django settings #}
@@ -78,13 +78,17 @@
         </nav>
 
         <main class="app__content">
-            {% if personalised_user_cta %}
+            {% if personalisation_url %}
+                <div data-personalisation-slot="user"></div>
+            {% elif personalised_user_cta %}
                 {% include 'patterns/molecules/cta_modal/cta_modal.html' with value=personalised_user_cta %}
             {% endif %}
 
             {% include "patterns/atoms/grid-lines/grid-lines.html" with data_tag_left="data-left-edge" data_tag_center="data-grid-center" %}
             
-            {% if personalised_collapsible_nav %}
+            {% if personalisation_url %}
+                <div data-personalisation-slot="navigation"></div>
+            {% elif personalised_collapsible_nav %}
                 {% include 'patterns/molecules/collapsible_nav/collapsible_nav.html' with value=personalised_collapsible_nav %}
             {% endif %}
 
@@ -102,7 +106,9 @@
             {% block footer %}{% endblock %}
         </footer>
 
-        {% if personalised_countdown_cta %}
+        {% if personalisation_url %}
+            <div data-personalisation-slot="countdown"></div>
+        {% elif personalised_countdown_cta %}
             {% include "patterns/organisms/countdown_cta/countdown_cta.html" with value=personalised_countdown_cta %}
         {% endif %}
 
