@@ -3533,28 +3533,25 @@ resolved_reference = "03c6425f44526e301bfe869e9d33b696324382c6"
 
 [[package]]
 name = "wagtail-personalisation"
-version = "0.16.0"
+version = "1.0.0"
 description = "A Wagtail add-on for showing personalized content"
 optional = false
-python-versions = "*"
-files = []
-develop = false
+python-versions = ">=3.10"
+files = [
+    {file = "wagtail_personalisation-1.0.0-py3-none-any.whl", hash = "sha256:2def5ae9ea1ad7ab3f7250923d3ceb6ad55d112e4ec91880c0fe96d4f0de8636"},
+    {file = "wagtail_personalisation-1.0.0.tar.gz", hash = "sha256:3deb8c7edcf3bbd8e2689a3cb35d3585eea0036699978ff60fe7ab5006fe760e"},
+]
 
 [package.dependencies]
 pycountry = "*"
-user-agents = ">=1.1.0"
-wagtail = ">=4.1"
+user-agents = ">=1.1"
+wagtail = ">=7"
 wagtail-font-awesome-svg = ">=1.0.1"
+wagtail-modeladmin = ">=1"
 
 [package.extras]
-docs = ["sphinx (>=1.7.6)", "sphinx_rtd_theme (>=0.4.0)"]
-test = ["factory_boy (==3.2.1)", "flake8", "flake8-blind-except", "flake8-debugger", "flake8-isort", "freezegun (==1.2.1)", "pytest (==6.2.5)", "pytest-cov (==3.0.0)", "pytest-django (==4.5.2)", "pytest-mock (==3.8.1)", "pytest-pythonpath (==0.7.4)", "pytest-sugar (==0.9.4)", "wagtail_factories (==4.1.0)", "wagtail_modeladmin (>=1.0)"]
-
-[package.source]
-type = "git"
-url = "https://github.com/torchbox-forks/wagtail-personalisation.git"
-reference = "0.16.0+tbx"
-resolved_reference = "2aa70624b486841ee66252c7b44a845527232bf0"
+docs = ["mkdocs (>=1.6)", "mkdocs-llmstxt (>=0.5)", "mkdocs-material (>=9.5)", "mkdocs-simple-hooks (>=0.1.5)", "mkdocstrings[python] (>=0.27)"]
+test = ["django-debug-toolbar (>=6)", "factory-boy (>=3.3)", "freezegun (>=1.5)", "pre-commit (>=4)", "pytest (>=7.4)", "pytest-cov (>=4)", "pytest-django (>=4.8)", "pytest-mock (>=3.10)", "pytest-sugar (>=0.9.4)", "wagtail-factories (>=4.2)"]
 
 [[package]]
 name = "wagtail-rangefilter"
@@ -3861,4 +3858,4 @@ gunicorn = ["gunicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.13"
-content-hash = "078346627618a8d6a61aa78536fe6d73614ddbde83c2b596cd43bc8b0822a991"
+content-hash = "c4325c829a7729a18e9e2f71e246f9fe723f1d5ac0e2ab5ad72d83ea556e8a8b"
