@@ -51,6 +51,11 @@ register_snippet(PersonalisationCTAsGroup)
 
 @hooks.register("before_serve_page", order=-1)
 def defer_anonymous_personalisation(page, request, serve_args, serve_kwargs):
+    """Choose inline or deferred CTAs for page rendering.
+
+    These checks control deferral, rather than access to the fragment endpoint;
+    personalisation_ctas applies its own page-access checks and private headers.
+    """
     from wagtail.contrib.forms.models import FormMixin
 
     from rca.utils.models import BasePage

@@ -9,6 +9,13 @@ from wagtail_personalisation.wagtail_hooks import segment_user, set_visit_count
 @never_cache
 @require_GET
 def personalisation_ctas(request, page_id):
+    """Return private CTA fragments for a live, unrestricted RCA page on this site.
+
+    The page hook decides whether rendering should defer personalisation here.
+    This endpoint also accepts signed-in visitors and form pages: those normally
+    render CTAs inline, but their fragments remain valid and must never be cached.
+    Each accepted request records a visit and evaluates the visitor's segments.
+    """
     from rca.utils.models import BasePage
 
     site = Site.find_for_request(request)
