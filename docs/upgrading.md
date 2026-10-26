@@ -133,7 +133,7 @@ As well as testing the critical paths, these areas of functionality should be ch
 
 ## Security
 
-Last security review: 2026-10-21
+Last security review: 2026-10-26
 
 ### Accepted CVE-2026-9318 in tablib
 
