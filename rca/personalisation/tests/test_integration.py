@@ -104,6 +104,10 @@ class PersonalisationIntegrationTests(TestCase):
 
                 self.assertContains(response, "Preview audience popup")
                 self.assertIn("personalised_user_cta", response.context_data)
+                if not preview:
+                    self.assertIn("private", response["Cache-Control"])
+                    self.assertIn("no-store", response["Cache-Control"])
+                    self.assertNotIn("public", response["Cache-Control"])
                 self.assertIn("personalised_user_cta", self.page.get_context(request))
                 segment.refresh_from_db()
                 self.assertEqual(segment.visit_count, expected_count)
