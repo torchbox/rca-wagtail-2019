@@ -169,10 +169,14 @@ class DeferredCTATests(TestCase):
 
         for page in [unpublished, restricted, restricted_child]:
             with self.subTest(page=page.pk):
-                response = self.client.get(self.fragment_url(page))
+                response = self.client.get(
+                    self.fragment_url(page), headers={"cf-ipcountry": "GB"}
+                )
                 self.assertEqual(response.status_code, 404)
                 self.assertNotIn(settings.SESSION_COOKIE_NAME, response.cookies)
                 self.assertIn("no-store", response["Cache-Control"])
+                self.segment.refresh_from_db()
+                self.assertEqual(self.segment.visit_count, 0)
 
     def test_fragment_cannot_access_pages_belonging_to_another_site(self):
         other_root = wagtail_factories.PageFactory(parent=Page.get_first_root_node())
