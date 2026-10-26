@@ -42,6 +42,8 @@ The previous fork included `0027_update_help_text`, which upstream omits. RCA's 
 
 The package still tracks visits and segments in sessions on every page request. This upgrade does not restore shared HTML caching. The integration tests in `rca/personalisation/tests/test_integration.py` exercise the real adapter and RCA rules, alongside the existing CTA tests that mock segment selection.
 
+RCA selects `rca.personalisation.adapters.RequestSegmentsAdapter` through `PERSONALISATION_SEGMENTS_ADAPTER`. This evaluates segment rules and updates segment visit counters once per request. `BasePage.get_context()` retains its refresh call for previews and direct rendering, which bypass the normal page-serving hooks. On normal page requests, it reuses the evaluation from the package's hook and preserves any segment selected by a superuser. The adapter still uses sessions and does not restore shared HTML caching.
+
 ## PostgreSQL extensions
 
 ### pg_trgm extension
