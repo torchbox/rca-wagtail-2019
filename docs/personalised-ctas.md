@@ -17,15 +17,18 @@ The personalisation system consists of three main components:
 ### How It Works
 
 ```
-User visits page → Segments evaluated → Matching CTAs queried → CTAs displayed
+Anonymous visitor → Shared page HTML → Private CTA request → Segments evaluated → Matching CTAs displayed
 ```
 
-1. When a user visits a page, the system evaluates which segments they belong to
-2. The system queries for CTAs configured for:
+1. An anonymous visitor receives shared page HTML containing placeholders for the four CTA types. This response does not create or modify a personalisation session.
+2. JavaScript requests the page's private CTA endpoint, which records the page visit and evaluates the visitor's segments once.
+3. The system queries for CTAs configured for:
    - The current page type (e.g., "Programme Page", "Event Detail Page") and/or specific pages
    - Any of the user's active segments
    - Current date/time (respecting go-live and expiry dates)
-3. Matching CTAs are displayed in their designated locations on the page
+4. The endpoint returns HTML fragments. The browser inserts them in the designated locations and initializes the existing triggers, countdowns, navigation controls and analytics.
+
+Signed-in visitors, previews, form pages and pages with view restrictions retain server-rendered CTAs. These are excluded from the shared-page path. Personalised CTAs on shared pages require JavaScript; if the fragment request fails, the page's main content remains available without the CTAs.
 
 ### Creating a Personalised CTA
 
@@ -79,9 +82,21 @@ The system checks both segment rules AND scheduling. A CTA will only display if:
 
 ## Caching Behavior
 
-Pages displaying personalised CTAs require special cache handling to ensure users see content appropriate to their segment.
+Shared page HTML and visitor-specific CTA fragments have separate cache policies.
 
 ### How It Works
 
-- **Pages without personalised CTAs**: Use standard cache control headers
-- **Pages with personalised CTAs**: Automatically receive no-cache headers
+- **Anonymous public pages**: Return the standard public cache headers and a named URL for the fragment request. Personalisation neither starts a session nor evaluates rules on this response, even if the visitor already has a session cookie.
+- **CTA fragments**: `/personalisation/ctas/<page_id>/` is GET-only and always returns `private, no-store` headers, including when no CTA matches. It owns the page-visit tracking and session writes, so returning-visitor targeting continues to work when the main page comes from a CDN.
+- **Signed-in visitors and inline personalisation**: Keep private responses and server-rendered CTAs. Superuser segment overrides and previews continue to work.
+- **Access restrictions**: The fragment endpoint only accepts live pages within the current site's page tree and rejects password-protected pages, other restricted pages and their descendants. Private pages use inline rendering instead.
+
+The early `before_serve_page` hook marks eligible requests before the package constructs its session adapter. `RequestSegmentsAdapter` leaves those requests untouched; it retains normal session-backed behaviour for fragments and inline rendering. `BasePage.get_personalised_cta_context()` shares CTA selection between the two rendering paths.
+
+### Cloudflare configuration
+
+Application headers alone do not make Cloudflare cache HTML. A matching HTML cache rule is still required, and authenticated traffic, previews, admin routes, form submissions and the fragment endpoint must be excluded from shared caching. Keep the origin's private/no-store policy and Set-Cookie protections; do not force-cache fragment responses.
+
+Confirm that publishing, unpublishing and page restriction changes purge cached HTML before enabling the rule. RCA's optional Wagtail Cloudflare purge integration is configured with the `FRONTEND_CACHE_CLOUDFLARE_TOKEN`, `FRONTEND_CACHE_CLOUDFLARE_EMAIL` and `FRONTEND_CACHE_CLOUDFLARE_ZONEID` environment variables.
+
+The application cannot tell Cloudflare whether an opaque `sessionid` belongs to an anonymous or authenticated visitor. Bypassing all session cookies is conservative but also excludes returning anonymous visitors from edge caching. Review the existing authentication and cookie rules before enabling broader HTML caching. The application change has been verified locally; Cloudflare configuration and actual edge cache hits require separate verification.
