@@ -3,6 +3,7 @@ from unittest.mock import Mock, patch
 
 import wagtail_factories
 from django.test import TestCase
+from django.urls import reverse
 from django.utils import timezone
 
 from rca.home.models import HomePage
@@ -109,6 +110,9 @@ class BasePersonalisationCTATests(TestCase):
         mock_adapter.refresh.return_value = None
         return mock_adapter
 
+    def get_ctas(self, page):
+        return self.client.get(reverse("personalisation_ctas", args=[page.pk]))
+
     @patch("rca.utils.models.get_segment_adapter")
     def test_cta_not_shown_after_expire_date(self, mock_get_adapter):
         """Test that CTA doesn't appear after expire_at date for all CTA types"""
@@ -138,7 +142,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert
                 self.assertNotIn(cta_config["context_key"], response.context)
@@ -174,7 +178,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert
                 self.assertNotIn(cta_config["context_key"], response.context)
@@ -210,7 +214,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert
                 self.assertNotIn(cta_config["context_key"], response.context)
@@ -247,7 +251,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert
                 self.assertNotIn(cta_config["context_key"], response.context)
@@ -281,7 +285,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert
                 self.assertNotIn(cta_config["context_key"], response.context)
@@ -318,7 +322,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert
                 self.assertNotIn(cta_config["context_key"], response.context)
@@ -355,7 +359,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert
                 self.assertIn(cta_config["context_key"], response.context)
@@ -392,7 +396,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert
                 self.assertIn(cta_config["context_key"], response.context)
@@ -445,7 +449,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert - only one should appear (first one returned by query)
                 self.assertIn(cta_config["context_key"], response.context)
@@ -487,7 +491,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Check CTA is shown.
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertIn(cta_config["context_key"], response.context)
 
                 # Cleanup
@@ -535,7 +539,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Check CTA is shown in child page
-                response = self.client.get(child_page.url)
+                response = self.get_ctas(child_page)
                 self.assertIn(cta_config["context_key"], response.context)
 
                 # Cleanup
@@ -585,7 +589,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Check CTA is NOT shown in child page
-                response = self.client.get(child_page.url)
+                response = self.get_ctas(child_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
                 # Cleanup
@@ -625,15 +629,15 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Excluded page: CTA is NOT shown
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
                 # Sibling page: CTA IS shown
-                response = self.client.get(sibling_page.url)
+                response = self.get_ctas(sibling_page)
                 self.assertIn(cta_config["context_key"], response.context)
 
                 # Ancestor page: CTA IS shown
-                response = self.client.get(self.home_page.url)
+                response = self.get_ctas(self.home_page)
                 self.assertIn(cta_config["context_key"], response.context)
 
                 cta.delete()
@@ -671,10 +675,10 @@ class BasePersonalisationCTATests(TestCase):
                     include_children=True,
                 )
 
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
-                response = self.client.get(grandchild_page.url)
+                response = self.get_ctas(grandchild_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
                 cta.delete()
@@ -714,10 +718,10 @@ class BasePersonalisationCTATests(TestCase):
                     include_children=False,
                 )
 
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
-                response = self.client.get(child_page.url)
+                response = self.get_ctas(child_page)
                 self.assertIn(cta_config["context_key"], response.context)
 
                 cta.delete()
@@ -752,12 +756,12 @@ class BasePersonalisationCTATests(TestCase):
                     include_children=False,
                 )
 
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
                 exclusion.delete()
 
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertIn(cta_config["context_key"], response.context)
 
                 cta.delete()
@@ -788,7 +792,7 @@ class BasePersonalisationCTATests(TestCase):
                     include_children=False,
                 )
 
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
                 cta.delete()
@@ -821,7 +825,7 @@ class BasePersonalisationCTATests(TestCase):
                     include_children=False,
                 )
 
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
                 cta.delete()
@@ -849,7 +853,7 @@ class BasePersonalisationCTATests(TestCase):
                     include_children=False,
                 )
 
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
                 cta.delete()
@@ -887,7 +891,7 @@ class BasePersonalisationCTATests(TestCase):
         )
 
         # Execute
-        response = self.client.get(self.test_page.url)
+        response = self.get_ctas(self.test_page)
 
         # Assert - both CTAs should appear
         self.assertIn("personalised_user_cta", response.context)
@@ -926,7 +930,7 @@ class UserActionCTATests(BasePersonalisationCTATests):
         )
 
         # Execute
-        response = self.client.get(self.test_page.url)
+        response = self.get_ctas(self.test_page)
 
         # Assert
         self.assertIn("personalised_user_cta", response.context)
@@ -968,7 +972,7 @@ class EmbeddedFooterCTATests(BasePersonalisationCTATests):
         )
 
         # Execute
-        response = self.client.get(self.test_page.url)
+        response = self.get_ctas(self.test_page)
 
         # Assert
         self.assertIn("personalised_footer_cta", response.context)
@@ -1009,7 +1013,7 @@ class EventCountdownCTATests(BasePersonalisationCTATests):
         )
 
         # Execute
-        response = self.client.get(self.test_page.url)
+        response = self.get_ctas(self.test_page)
 
         # Assert
         self.assertIn("personalised_countdown_cta", response.context)
@@ -1058,7 +1062,7 @@ class CollapsibleNavigationCTATests(BasePersonalisationCTATests):
         )
 
         # Execute
-        response = self.client.get(self.test_page.url)
+        response = self.get_ctas(self.test_page)
 
         # Assert
         self.assertIn("personalised_collapsible_nav", response.context)
@@ -1101,7 +1105,7 @@ class PersonalisationCacheTests(BasePersonalisationCTATests):
                     call_to_action=cta, page_type="standardpages.informationpage"
                 )
 
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Check that no cache headers are present
                 self.assertIn("Cache-Control", response)
@@ -1115,16 +1119,16 @@ class PersonalisationCacheTests(BasePersonalisationCTATests):
                 cta.delete()
 
     @patch("rca.utils.models.get_segment_adapter")
-    def test_no_cache_headers_not_added_when_no_personalised_cta(
+    def test_fragment_is_uncacheable_even_when_no_personalised_cta(
         self, mock_get_adapter
     ):
-        """Test that no-cache headers are NOT added when no personalised CTAs are shown"""
+        """Empty fragments remain private so later visits can match other segments."""
         # No segments active, so no CTAs will be shown
         mock_get_adapter.return_value = self._create_mock_segment_adapter([])
 
         # Execute
-        response = self.client.get(self.test_page.url)
+        response = self.get_ctas(self.test_page)
 
-        # Assert - Cache-Control should not contain no-cache/no-store
         cache_control = response.get("Cache-Control", "")
-        self.assertNotIn("no-store", cache_control)
+        self.assertIn("no-store", cache_control)
+        self.assertIn("private", cache_control)
