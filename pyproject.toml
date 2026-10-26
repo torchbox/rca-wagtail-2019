@@ -51,7 +51,7 @@ wagtailmedia = "~0.17"
 wagtail-personalisation = {git = "https://github.com/torchbox-forks/wagtail-personalisation.git", tag = "0.16.0+tbx"}
 wagtail-font-awesome-svg = "~2.0"
 cryptography = "~50.0"
-pillow = "~12.3"
+pillow = "~13.0"
 requests = "~2.34"
 
 [tool.poetry.extras]
