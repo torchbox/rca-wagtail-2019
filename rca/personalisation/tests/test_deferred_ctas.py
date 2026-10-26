@@ -2,10 +2,12 @@ from datetime import timedelta
 
 import wagtail_factories
 from django.conf import settings
-from django.test import Client, TestCase
+from django.contrib.auth.models import AnonymousUser
+from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
 from django.utils import timezone
-from wagtail.models import Page, PageViewRestriction
+from wagtail.models import Page, PageViewRestriction, Site
+from wagtail.views import serve
 from wagtail_personalisation.rules import OriginCountryRule
 
 from rca.forms.models import FormPage
@@ -65,6 +67,26 @@ class DeferredCTATests(TestCase):
         self.assertNotIn(settings.SESSION_COOKIE_NAME, response.cookies)
         self.assertEqual(self.client.session["visit_count"][0]["count"], 3)
         self.assertNotContains(response, self.cta.title)
+
+    def test_anonymous_preview_keeps_inline_ctas_and_private_headers(self):
+        request = RequestFactory().get(self.page.url, headers={"cf-ipcountry": "GB"})
+        request.user = AnonymousUser()
+        request.session = self.client.session
+        request.site = Site.find_for_request(request)
+        request.is_preview = True
+
+        response = serve(request, self.page.url.lstrip("/"))
+        response.render()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.cta.title)
+        self.assertNotContains(response, 'data-personalisation-url="')
+        self.assertIn("private", response["Cache-Control"])
+        self.assertIn("no-store", response["Cache-Control"])
+        self.assertNotIn("public", response["Cache-Control"])
+        self.assertEqual(request.session["visit_count"][0]["count"], 1)
+        self.segment.refresh_from_db()
+        self.assertEqual(self.segment.visit_count, 1)
 
     def test_shared_page_html_is_identical_for_different_visitors(self):
         first = self.client.get(self.page.url, headers={"cf-ipcountry": "GB"})
