@@ -44,6 +44,8 @@ The package still tracks visits and segments in sessions on every page request. 
 
 RCA selects `rca.personalisation.adapters.RequestSegmentsAdapter` through `PERSONALISATION_SEGMENTS_ADAPTER`. This evaluates segment rules and updates segment visit counters once per request. `BasePage.get_context()` retains its refresh call for previews and direct rendering, which bypass the normal page-serving hooks. On normal page requests, it reuses the evaluation from the package's hook and preserves any segment selected by a superuser. The adapter still uses sessions and does not restore shared HTML caching.
 
+Anonymous public pages now defer personalisation to a private fragment endpoint. An early page hook prevents the package adapter from touching session state for those HTML responses. The fragment request performs the visit tracking and uses the same once-per-request adapter. Signed-in visitors, previews, restricted pages and form pages keep inline rendering. See [Personalised CTAs](personalised-ctas.md#caching-behavior) for cache policies, browser behaviour and the Cloudflare configuration requirements.
+
 ## PostgreSQL extensions
 
 ### pg_trgm extension
