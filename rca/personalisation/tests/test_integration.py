@@ -1,9 +1,11 @@
 from datetime import timedelta
 
 import wagtail_factories
-from django.test import Client, TestCase
+from django.contrib.auth.models import AnonymousUser
+from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
 from django.utils import timezone
+from wagtail.models import Site
 from wagtail.test.utils.form_data import inline_formset, nested_form_data
 from wagtail_personalisation.models import Segment
 from wagtail_personalisation.rules import OriginCountryRule
@@ -50,6 +52,107 @@ class PersonalisationIntegrationTests(TestCase):
         segment_model.objects.create(call_to_action=cta, segment=segment)
         page_model.objects.create(call_to_action=cta, page=self.page)
         return cta
+
+    def test_segment_visit_count_increases_once_per_request(self):
+        segment = SegmentFactory(type="dynamic")
+        OriginCountryRule.objects.create(segment=segment, country="gb")
+        self.create_cta(
+            UserActionCallToActionFactory,
+            UserActionCTASegment,
+            UserActionCTAPage,
+            segment,
+            external_link="https://example.com/audience",
+        )
+
+        for expected_count in [1, 2]:
+            response = self.client.get(self.page.url, headers={"cf-ipcountry": "GB"})
+            self.assertEqual(response.status_code, 200)
+            self.assertIn("personalised_user_cta", response.context)
+            segment.refresh_from_db()
+            self.assertEqual(segment.visit_count, expected_count)
+
+    def test_preview_and_direct_rendering_evaluate_segments_once(self):
+        segment = SegmentFactory(type="dynamic")
+        OriginCountryRule.objects.create(segment=segment, country="gb")
+        self.create_cta(
+            UserActionCallToActionFactory,
+            UserActionCTASegment,
+            UserActionCTAPage,
+            segment,
+            title="Preview audience popup",
+            external_link="https://example.com/preview",
+        )
+
+        for expected_count, preview in enumerate([True, False], start=1):
+            with self.subTest(preview=preview):
+                request = RequestFactory().get(
+                    self.page.url, headers={"cf-ipcountry": "GB"}
+                )
+                request.session = self.client.session
+                request.user = AnonymousUser()
+                request.site = Site.find_for_request(request)
+                if preview:
+                    response = self.page.serve_preview(request, "")
+                else:
+                    response = self.page.serve(request)
+                response.render()
+
+                self.assertContains(response, "Preview audience popup")
+                self.assertIn("personalised_user_cta", response.context_data)
+                self.assertIn("personalised_user_cta", self.page.get_context(request))
+                segment.refresh_from_db()
+                self.assertEqual(segment.visit_count, expected_count)
+
+    def test_editor_override_only_shows_the_selected_segment(self):
+        matching_segment = SegmentFactory(type="dynamic")
+        OriginCountryRule.objects.create(segment=matching_segment, country="gb")
+        forced_segment = SegmentFactory(type="dynamic")
+        OriginCountryRule.objects.create(segment=forced_segment, country="us")
+        self.create_cta(
+            UserActionCallToActionFactory,
+            UserActionCTASegment,
+            UserActionCTAPage,
+            matching_segment,
+            external_link="https://example.com/matching",
+        )
+        self.create_cta(
+            EmbeddedFooterCallToActionFactory,
+            EmbeddedFooterCTASegment,
+            EmbeddedFooterCTAPage,
+            forced_segment,
+            external_link="https://example.com/forced",
+        )
+        self.client.force_login(UserFactory(is_superuser=True, is_staff=True))
+
+        response = self.client.get(
+            self.page.url,
+            {"segment": forced_segment.pk},
+            headers={"cf-ipcountry": "GB"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("personalised_footer_cta", response.context)
+        self.assertNotIn("personalised_user_cta", response.context)
+
+    def test_anonymous_visitors_cannot_force_a_segment(self):
+        segment = SegmentFactory(type="dynamic")
+        OriginCountryRule.objects.create(segment=segment, country="us")
+        self.create_cta(
+            UserActionCallToActionFactory,
+            UserActionCTASegment,
+            UserActionCTAPage,
+            segment,
+            external_link="https://example.com/restricted-audience",
+        )
+
+        response = self.client.get(
+            self.page.url,
+            {"segment": segment.pk},
+            headers={"cf-ipcountry": "GB"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn("personalised_user_cta", response.context)
 
     def test_new_and_returning_visitors_receive_different_ctas(self):
         new_segment = SegmentFactory(type="dynamic", persistent=False)
