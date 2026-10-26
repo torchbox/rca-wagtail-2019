@@ -53,6 +53,11 @@ class PersonalisationIntegrationTests(TestCase):
         page_model.objects.create(call_to_action=cta, page=self.page)
         return cta
 
+    def request_ctas(self, client=None, **extra):
+        client = client or self.client
+        client.get(self.page.url, **extra)
+        return client.get(reverse("personalisation_ctas", args=[self.page.pk]), **extra)
+
     def test_segment_visit_count_increases_once_per_request(self):
         segment = SegmentFactory(type="dynamic")
         OriginCountryRule.objects.create(segment=segment, country="gb")
@@ -65,7 +70,7 @@ class PersonalisationIntegrationTests(TestCase):
         )
 
         for expected_count in [1, 2]:
-            response = self.client.get(self.page.url, headers={"cf-ipcountry": "GB"})
+            response = self.request_ctas(headers={"cf-ipcountry": "GB"})
             self.assertEqual(response.status_code, 200)
             self.assertIn("personalised_user_cta", response.context)
             segment.refresh_from_db()
@@ -146,7 +151,7 @@ class PersonalisationIntegrationTests(TestCase):
         )
 
         response = self.client.get(
-            self.page.url,
+            reverse("personalisation_ctas", args=[self.page.pk]),
             {"segment": segment.pk},
             headers={"cf-ipcountry": "GB"},
         )
@@ -174,13 +179,13 @@ class PersonalisationIntegrationTests(TestCase):
             external_link="https://example.com/returning",
         )
 
-        first_response = self.client.get(self.page.url)
+        first_response = self.request_ctas()
         self.assertEqual(first_response.status_code, 200)
         self.assertIn("personalised_user_cta", first_response.context)
         self.assertNotIn("personalised_footer_cta", first_response.context)
         self.assertIn("no-store", first_response["Cache-Control"])
 
-        second_response = self.client.get(self.page.url)
+        second_response = self.request_ctas()
         self.assertEqual(second_response.status_code, 200)
         self.assertNotIn("personalised_user_cta", second_response.context)
         self.assertIn("personalised_footer_cta", second_response.context)
@@ -189,7 +194,7 @@ class PersonalisationIntegrationTests(TestCase):
             sum(visit["count"] for visit in self.client.session["visit_count"]), 2
         )
 
-        fresh_response = Client().get(self.page.url)
+        fresh_response = self.request_ctas(client=Client())
         self.assertIn("personalised_user_cta", fresh_response.context)
         self.assertNotIn("personalised_footer_cta", fresh_response.context)
 
@@ -222,16 +227,14 @@ class PersonalisationIntegrationTests(TestCase):
             ({}, False),
         ]:
             with self.subTest(headers=headers):
-                response = Client().get(self.page.url, **headers)
+                response = self.request_ctas(client=Client(), **headers)
                 self.assertEqual(response.status_code, 200)
                 for key in (
                     "personalised_countdown_cta",
                     "personalised_collapsible_nav",
                 ):
                     self.assertEqual(key in response.context, matches)
-                self.assertEqual(
-                    "no-store" in response.get("Cache-Control", ""), matches
-                )
+                self.assertIn("no-store", response["Cache-Control"])
 
     def test_persistent_segment_survives_a_change_in_country(self):
         segment = SegmentFactory(type="dynamic", persistent=True)
@@ -246,9 +249,7 @@ class PersonalisationIntegrationTests(TestCase):
 
         for country in ["GB", "US"]:
             with self.subTest(country=country):
-                response = self.client.get(
-                    self.page.url, headers={"cf-ipcountry": country}
-                )
+                response = self.request_ctas(headers={"cf-ipcountry": country})
                 self.assertEqual(response.status_code, 200)
                 self.assertIn("personalised_user_cta", response.context)
 

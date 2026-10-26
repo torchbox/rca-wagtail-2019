@@ -4,6 +4,7 @@ from itertools import chain
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.cache import add_never_cache_headers, patch_cache_control
 from django.utils.functional import cached_property
@@ -474,19 +475,19 @@ class BasePage(SocialFields, ListingFields, Page):
         return False
 
     def serve(self, request, *args, **kwargs):
-        """
-        Override serve to disable public caching when personalised CTAs are shown.
-
-        When personalised CTAs are present, we need to prevent CDN/proxy caching
-        because personalised content should not be shared across different user segments.
-        """
+        """Set cache headers for shared pages and private rendering."""
         # Store whether we have personalised CTAs (will be set by get_context)
         self._has_personalised_ctas = False
 
         response = super().serve(request, *args, **kwargs)
 
         # If personalised CTAs were added, disable public caching
-        if getattr(self, "_has_personalised_ctas", False):
+        if (
+            self._has_personalised_ctas
+            or request.user.is_authenticated
+            or getattr(request, "is_preview", False)
+            or getattr(request, "_personalisation_private", False)
+        ):
             # Clear any cache headers that might have been set
             if "Expires" in response:
                 del response["Expires"]
@@ -508,6 +509,18 @@ class BasePage(SocialFields, ListingFields, Page):
         if not request:
             return context
 
+        if getattr(request, "_defer_personalisation", False):
+            context["personalisation_url"] = reverse(
+                "personalisation_ctas", args=[self.pk]
+            )
+            return context
+
+        context.update(self.get_personalised_cta_context(request))
+        return context
+
+    def get_personalised_cta_context(self, request):
+        """Build visitor-specific CTA context for inline or fragment rendering."""
+        context = {}
         # Get segments that have its rules met
         adapter = get_segment_adapter(request)
         adapter.refresh()

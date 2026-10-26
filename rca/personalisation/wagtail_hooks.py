@@ -49,6 +49,27 @@ class PersonalisationCTAsGroup(SnippetViewSetGroup):
 register_snippet(PersonalisationCTAsGroup)
 
 
+@hooks.register("before_serve_page", order=-1)
+def defer_anonymous_personalisation(page, request, serve_args, serve_kwargs):
+    from wagtail.contrib.forms.models import FormMixin
+
+    from rca.utils.models import BasePage
+
+    if not isinstance(page, BasePage):
+        return
+
+    private = (
+        request.method not in ("GET", "HEAD")
+        or request.user.is_authenticated
+        or getattr(request, "is_preview", False)
+        or isinstance(page, FormMixin)
+        or page.get_view_restrictions().exists()
+    )
+    request._personalisation_private = private
+    # This runs before the package hooks construct their session adapter.
+    request._defer_personalisation = not private
+
+
 @hooks.register("construct_wagtail_userbar")
 def remove_personalisation_segments(request, items):
     # Remove the personalisation segments from the wagtailuserbar that shows
