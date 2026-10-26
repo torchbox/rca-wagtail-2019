@@ -30,9 +30,17 @@ wagtail-modeladmin
 wagtail-orderable (uses a forked tag)
 wagtail-rangefilter
 wagtail-storages
-wagtail-personalisation (uses a forked tag) — see also the userbar hook noted under [Other considerations](#other-considerations)
+wagtail-personalisation — see also the userbar hook noted under [Other considerations](#other-considerations)
 
 It is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as they become available.
+
+### Wagtail Personalisation 1.0.0
+
+RCA uses the upstream PyPI release, which includes the fork's configurable rule list and ordering. Keep the GeoIP safety patch in `rca/personalisation/apps.py`: it also handles an installed GeoIP library without a configured database.
+
+The previous fork included `0027_update_help_text`, which upstream omits. RCA's migrations depend on `0026`, which is retained. The upgrade passed migration history and model-state checks against the local database; repeat the migration plan check on staging before deployment. Do not remove applied migration records or fake migrations to account for the missing help-text migration.
+
+The package still tracks visits and segments in sessions on every page request. This upgrade does not restore shared HTML caching. The integration tests in `rca/personalisation/tests/test_integration.py` exercise the real adapter and RCA rules, alongside the existing CTA tests that mock segment selection.
 
 ## PostgreSQL extensions
 

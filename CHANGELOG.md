@@ -19,7 +19,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- ...
+- Upgrade wagtail-personalisation from the Torchbox fork to upstream 1.0.0, retaining RCA's custom segmentation rules
 
 ### Removed
 
