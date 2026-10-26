@@ -1,6 +1,6 @@
 import simplyCountdown from 'simplycountdown.js';
 
-import PersonalisedCTAs from './personalised-ctas';
+import PersonalisedCTAs, { initialiseCTAComponents } from './personalised-ctas';
 
 jest.mock('simplycountdown.js', () => jest.fn());
 
@@ -62,6 +62,27 @@ describe('Loaded CTA interactions', () => {
         delete global.fetch;
         delete global.IntersectionObserver;
         sessionStorage.clear();
+    });
+
+    it('activates existing CTA triggers outside personalisation slots without fetching fragments', () => {
+        document.body.insertAdjacentHTML(
+            'afterbegin',
+            `<aside data-cta data-cta-id="existing-cta" data-cta-trigger="page_load">
+                <button data-cta-close>Close CTA</button>
+            </aside>`,
+        );
+        const cta = document.querySelector('[data-cta-id="existing-cta"]');
+
+        expect(cta.closest('[data-personalisation-slot]')).toBeNull();
+        initialiseCTAComponents(document);
+
+        expect(cta).toHaveClass('is-visible');
+        expect(fetch).not.toHaveBeenCalled();
+
+        cta.querySelector('[data-cta-close]').click();
+
+        expect(cta).not.toHaveClass('is-visible');
+        expect(sessionStorage.getItem('cta_dismissed_existing-cta')).toBe('1');
     });
 
     it('preserves modal, navigation, countdown, dismissal and analytics behaviour', async () => {
