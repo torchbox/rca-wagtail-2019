@@ -53,6 +53,10 @@ register_snippet(PersonalisationCTAsGroup)
 def defer_anonymous_personalisation(page, request, serve_args, serve_kwargs):
     """Choose inline or deferred CTAs for page rendering.
 
+    order=-1 sets deferral before the upstream hooks construct their session
+    adapter. Setting it later would allow session access and writes, undermining
+    shared HTML caching.
+
     These checks control deferral, rather than access to the fragment endpoint;
     personalisation_ctas applies its own page-access checks and private headers.
     """
