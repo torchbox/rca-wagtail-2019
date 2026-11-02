@@ -43,6 +43,8 @@ jobs:
           node-version-file: .nvmrc
       - name: Install npm dependencies
         run: npm install
+      - name: Cloudflare Worker tests
+        run: node --test infrastructure/cloudflare/tests/cache-checks.mjs
       - name: Compile static files
         run: npm run build:prod
       - name: collectstatic
