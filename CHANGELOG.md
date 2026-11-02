@@ -16,7 +16,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- ...
+- Signed anonymous-session markers and reviewed Cloudflare Worker source so returning anonymous visitors can use shared HTML caching while personalisation remains private
 
 ### Changed
 
