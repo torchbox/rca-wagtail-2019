@@ -34,6 +34,7 @@ def personalisation_ctas(request, page_id):
 
     set_visit_count(page, request, (), {})
     segment_user(page, request, (), {})
+    request._anonymous_cache_marker_eligible = not request.user.is_authenticated
     return TemplateResponse(
         request,
         "patterns/includes/personalisation_fragments.html",
