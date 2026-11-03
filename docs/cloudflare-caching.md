@@ -49,15 +49,20 @@ SessionMiddleware in the settings list. Public HTML never renews the marker or
 creates a personalisation session.
 
 The application decides whether a page may opt in; the Worker independently
-rejects unsafe response headers before sharing it.
-`tests/test_django_contract.py` passes actual Django response headers and
-Set-Cookie values to the production Worker module through
-`tests/django-contract.mjs`. It checks public cache reuse, alternative cache
-lifetimes and rejection of private responses without reimplementing the
-cacheability checks in the test harness. These tests run as
+rejects unsafe response headers before sharing it. Signing and verification run
+in separate runtimes. `tests/test_django_contract.py` passes actual Django response
+headers, Set-Cookie values and freshly issued markers to the production Worker
+module through `tests/django-contract.mjs`. It checks cache reuse and rejection of
+private responses and rotated login sessions without reimplementing the signing
+algorithm or cacheability checks in the test harness. These tests run as part of
 a separate CI step from the repository checkout, alongside the fixed signature
 compatibility fixture. Infrastructure files are excluded from the Docker image;
 Worker deployment remains a manual copy through the Cloudflare release process.
+
+For protocol changes, update the Worker to accept the currently deployed
+application's markers before deploying the application. Retain compatibility
+until old markers expire. A simultaneous source change does not coordinate the
+two production deployments.
 
 With the secret absent or shorter than 32 bytes, the application issues no marker
 or origin opt-in header and the new Worker bypasses its RCA cache path. A wrong
@@ -149,8 +154,8 @@ markers, login rotation, private requests, response protections and the legacy
 hostname policy using a local cache/origin harness. Django tests exercise real
 session saving, CTA tracking, normal login, SSO's Django login operation, logout
 and public/private responses. The contract tests also execute the actual Worker
-against Django's responses with default and alternative cache lifetimes.
-The fixed signature fixture remains
+against Django's responses with default and alternative cache lifetimes, using
+new signing keys and markers on each test run. The fixed signature fixture remains
 a compatibility check. Restriction tests exercise commit/rollback behaviour
 and the Cloudflare prefix-purge requests for edits, deletion, descendants and
 multiple site roots. These checks do not establish live Cloudflare hits or

@@ -32,6 +32,12 @@ class WorkerContractTests(TestCase):
     def get(self, url):
         return self.client.get(url, secure=True, headers={"host": "www.rca.ac.uk"})
 
+    def cookie_header(self):
+        return "; ".join(
+            f"{name}={cookie.coded_value}"
+            for name, cookie in self.client.cookies.items()
+        )
+
     def worker_case(self, response, *, cookie="", url=None):
         headers = list(response.items())
         headers.extend(
@@ -64,11 +70,25 @@ class WorkerContractTests(TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         return json.loads(result.stdout)
 
-    def test_real_public_headers_allow_cache_reuse(self):
+    def test_real_headers_and_newly_issued_marker_allow_cache_reuse(self):
         first = self.get(self.page.url)
-        results = self.run_worker([self.worker_case(first), self.worker_case(first)])
-        self.assertEqual([result["decision"] for result in results], ["MISS", "HIT"])
-        self.assertEqual(results[-1]["originRequests"], 1)
+        fragments = self.get(reverse("personalisation_ctas", args=[self.page.pk]))
+        cookie = self.cookie_header()
+        returning = self.get(self.page.url)
+
+        results = self.run_worker(
+            [
+                self.worker_case(first),
+                self.worker_case(fragments),
+                self.worker_case(returning, cookie=cookie),
+            ]
+        )
+
+        self.assertEqual(
+            [result["decision"] for result in results],
+            ["MISS", "BYPASS-ROUTE", "HIT"],
+        )
+        self.assertEqual(results[-1]["originRequests"], 2)
         self.assertEqual(results[-1]["cacheEntries"], 1)
         self.assertEqual(results[-1]["body"], first.content.decode())
 
@@ -106,3 +126,26 @@ class WorkerContractTests(TestCase):
         )
         self.assertEqual(results[-1]["cacheEntries"], 0)
         self.assertEqual(results[-1]["originRequests"], 4)
+
+    def test_real_login_rotation_invalidates_the_issued_marker(self):
+        first = self.get(self.page.url)
+        self.get(reverse("personalisation_ctas", args=[self.page.pk]))
+        anonymous_cookie = self.cookie_header()
+        self.client.force_login(UserFactory(is_staff=True, is_superuser=True))
+        signed_in = self.get(self.page.url)
+
+        results = self.run_worker(
+            [
+                self.worker_case(first),
+                self.worker_case(first, cookie=anonymous_cookie),
+                self.worker_case(
+                    signed_in, cookie=signed_in.wsgi_request.META["HTTP_COOKIE"]
+                ),
+            ]
+        )
+        self.assertEqual(
+            [result["decision"] for result in results],
+            ["MISS", "HIT", "BYPASS-SESSION"],
+        )
+        self.assertEqual(results[-1]["originRequests"], 2)
+        self.assertEqual(results[-1]["body"], signed_in.content.decode())

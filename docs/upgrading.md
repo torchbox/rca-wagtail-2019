@@ -36,6 +36,14 @@ It is important to replace the usage of the git tags in the pyproject.toml file 
 
 ### Wagtail Personalisation 1.0.0
 
+The upgrade is isolated in commit `b4d644fe` (`Upgrade wagtail-personalisation to
+upstream 1.0`), before the adapter optimisation and caching changes. This is a
+separate bisection point within the stacked PRs. For separate release and rollback
+control, review and deploy the upgrade before the caching commits; reverting only
+the dependency underneath the complete caching stack requires compatibility
+validation. Restoring the previous Worker disables returning-visitor caching but
+does not roll back the Python package upgrade.
+
 RCA uses the upstream PyPI release, which includes the fork's configurable rule list and ordering. Keep the GeoIP safety patch in `rca/personalisation/apps.py`: it also handles an installed GeoIP library without a configured database.
 
 The previous fork included `0027_update_help_text`, which upstream omits. RCA's migrations depend on `0026`, which is retained. The upgrade passed migration history and model-state checks against the local database; repeat the migration plan check on staging before deployment. Do not remove applied migration records or fake migrations to account for the missing help-text migration.
