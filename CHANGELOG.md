@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Security
 
-- ...
+- Purge cached page subtrees when access restrictions are added, edited or removed, including descendant pages and query-string variants
 
 ### Fixed
 

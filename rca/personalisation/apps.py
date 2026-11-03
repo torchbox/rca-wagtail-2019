@@ -5,6 +5,8 @@ class PersonalisationConfig(AppConfig):
     name = "rca.personalisation"
 
     def ready(self):
+        from . import signals  # noqa: F401
+
         self._patch_origin_country_rule()
 
     def _patch_origin_country_rule(self):

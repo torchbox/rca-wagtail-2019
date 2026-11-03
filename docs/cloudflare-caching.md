@@ -73,6 +73,23 @@ Diagnostics distinguish `HIT`, `MISS`, `BYPASS-SESSION`, `BYPASS-ROUTE`,
 response was returned and a cache write attempted; it does not guarantee the cache
 accepted the write. Cache contents are local to Cloudflare's serving data centre.
 
+## Restriction changes
+
+Adding, editing or deleting a `PageViewRestriction` schedules cache invalidation
+after the database transaction commits. The RCA Cloudflare backend sends a global
+prefix purge for the page's path on every Wagtail site that serves it. This covers
+descendants and query-string variants; a restriction above a site's root purges
+that entire site. Rolled-back changes do not trigger a purge. Normal publishing
+and unpublishing retain Wagtail's existing file-purge behaviour.
+
+This requires the `FRONTEND_CACHE_CLOUDFLARE_*` settings and the configured
+`rca.utils.frontend_cache.CloudflareBackend`. Cloudflare prefix purging is
+[available on all plans](https://developers.cloudflare.com/changelog/post/2025-04-01-purge-for-all).
+Purge failures are logged under `wagtail.frontendcache`; monitor
+these errors because failed invalidation can leave public HTML cached until its
+TTL expires. Confirm that the API credentials permit prefix purging and that the
+configured Wagtail site hostnames match the production Worker routes.
+
 ## Rollout and verification
 
 1. Review the application and Worker together. Verify that publishing,
@@ -107,6 +124,7 @@ No database migration is required.
 ```sh
 node --test infrastructure/cloudflare/tests/cache-checks.mjs
 docker compose exec web python manage.py test rca.personalisation.tests.test_cache_marker --settings=rca.settings.test
+docker compose exec web python manage.py test rca.personalisation.tests.test_restriction_cache --settings=rca.settings.test
 ```
 
 The Node tests exercise first/returning visits, cross-session cache reuse, invalid
@@ -114,5 +132,7 @@ markers, login rotation, private requests, response protections and the legacy
 hostname policy using a local cache/origin harness. Django tests exercise real
 session saving, CTA tracking, normal login, SSO's Django login operation, logout
 and public/private responses. Both use the same signature fixture to check Python
-and Worker interoperability. These checks do not establish live Cloudflare hits or
-automatic purging.
+and Worker interoperability. Restriction tests exercise commit/rollback behaviour
+and the Cloudflare prefix-purge requests for edits, deletion, descendants and
+multiple site roots. These checks do not establish live Cloudflare hits or
+successful production purging.
