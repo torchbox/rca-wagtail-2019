@@ -48,6 +48,17 @@ SessionMiddleware has saved the session; keep AnonymousCacheMiddleware before
 SessionMiddleware in the settings list. Public HTML never renews the marker or
 creates a personalisation session.
 
+The application decides whether a page may opt in; the Worker independently
+rejects unsafe response headers before sharing it.
+`tests/test_django_contract.py` passes actual Django response headers and
+Set-Cookie values to the production Worker module through
+`tests/django-contract.mjs`. It checks public cache reuse, alternative cache
+lifetimes and rejection of private responses without reimplementing the
+cacheability checks in the test harness. These tests run as
+a separate CI step from the repository checkout, alongside the fixed signature
+compatibility fixture. Infrastructure files are excluded from the Docker image;
+Worker deployment remains a manual copy through the Cloudflare release process.
+
 With the secret absent or shorter than 32 bytes, the application issues no marker
 or origin opt-in header and the new Worker bypasses its RCA cache path. A wrong
 secret causes session requests to bypass. Rotation of the shared secret similarly
@@ -121,18 +132,26 @@ No database migration is required.
 
 ## Local checks
 
+The cross-runtime contract tests run separately from the application test suite.
+Run them from a repository checkout with the Poetry environment, Node from
+`.nvmrc` on PATH and a test database available. The application container does not
+need the Worker files or the contract-test runner.
+
 ```sh
 node --test infrastructure/cloudflare/tests/cache-checks.mjs
 docker compose exec web python manage.py test rca.personalisation.tests.test_cache_marker --settings=rca.settings.test
 docker compose exec web python manage.py test rca.personalisation.tests.test_restriction_cache --settings=rca.settings.test
+poetry run python manage.py test infrastructure.cloudflare.tests.test_django_contract --settings=rca.settings.test
 ```
 
 The Node tests exercise first/returning visits, cross-session cache reuse, invalid
 markers, login rotation, private requests, response protections and the legacy
 hostname policy using a local cache/origin harness. Django tests exercise real
 session saving, CTA tracking, normal login, SSO's Django login operation, logout
-and public/private responses. Both use the same signature fixture to check Python
-and Worker interoperability. Restriction tests exercise commit/rollback behaviour
+and public/private responses. The contract tests also execute the actual Worker
+against Django's responses with default and alternative cache lifetimes.
+The fixed signature fixture remains
+a compatibility check. Restriction tests exercise commit/rollback behaviour
 and the Cloudflare prefix-purge requests for edits, deletion, descendants and
 multiple site roots. These checks do not establish live Cloudflare hits or
 successful production purging.
