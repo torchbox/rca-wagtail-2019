@@ -93,3 +93,10 @@ Shared page HTML and visitor-specific CTA fragments have separate cache policies
 
 The early `before_serve_page` hook marks eligible requests before the package constructs its session adapter. `RequestSegmentsAdapter` leaves those requests untouched; it retains normal session-backed behaviour for fragments and inline rendering. `BasePage.get_personalised_cta_context()` shares CTA selection between the two rendering paths.
 
+### Cloudflare configuration
+
+The production `caching-worker` is routed to `https://www.rca.ac.uk/*` and implements HTML caching through `caches.default`. No additional Cache Everything rule is required. The existing Worker bypasses any request carrying `sessionid`; its Cache API cannot store responses containing Set-Cookie. These are distinct obstacles even when the response is marked public. `CF-Cache-Status` alone does not identify hits in the Worker's explicit Cache API lookups.
+
+The returning-visitor extension issues a signed anonymous-session marker on successful anonymous CTA responses. The updated Worker can then share explicitly approved public HTML across anonymous sessions. Sessions without valid markers still bypass caching. Application and Worker changes must be deployed together with a dedicated signing secret; this does not happen automatically when the application is deployed. See the [Worker source and rollout instructions](cloudflare-caching.md).
+
+Confirm that publishing, unpublishing and page restriction changes purge cached HTML before enabling the updated Worker. RCA's optional Wagtail Cloudflare purge integration is configured with the `FRONTEND_CACHE_CLOUDFLARE_TOKEN`, `FRONTEND_CACHE_CLOUDFLARE_EMAIL` and `FRONTEND_CACHE_CLOUDFLARE_ZONEID` environment variables. Keep private/no-store and Set-Cookie protections; do not force-cache fragment responses.

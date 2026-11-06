@@ -1,0 +1,203 @@
+import json
+import secrets
+import subprocess
+import time
+from pathlib import Path
+from unittest.mock import patch
+
+from django.conf import settings
+from django.test import TestCase, override_settings
+from django.urls import reverse
+from wagtail.models import PageViewRestriction
+
+from rca.home.models import HomePage
+from rca.personalisation.tests.test_deferred_ctas import FormPageFactory
+from rca.personalisation.tests.test_integration import InformationPageFactory
+from rca.users.factories import UserFactory
+
+
+@override_settings(
+    PERSONALISATION_CACHE_HOSTNAME="www.rca.ac.uk",
+    ALLOWED_HOSTS=["www.rca.ac.uk"],
+)
+class WorkerContractTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.page = InformationPageFactory(parent=HomePage.objects.first())
+
+    def setUp(self):
+        self.secret = secrets.token_hex(32)
+        self.enterContext(
+            override_settings(PERSONALISATION_CACHE_SIGNING_KEY=self.secret)
+        )
+
+    def get(self, url):
+        return self.client.get(url, secure=True, headers={"host": "www.rca.ac.uk"})
+
+    def cookie_header(self):
+        return "; ".join(
+            f"{name}={cookie.coded_value}"
+            for name, cookie in self.client.cookies.items()
+        )
+
+    def worker_case(self, response, *, cookie="", url=None):
+        headers = list(response.items())
+        headers.extend(
+            ("Set-Cookie", cookie.OutputString())
+            for cookie in response.cookies.values()
+        )
+        return {
+            "url": url or response.wsgi_request.build_absolute_uri(),
+            "cookie": cookie,
+            "response": {
+                "status": response.status_code,
+                "headers": headers,
+                "body": response.content.decode(),
+            },
+        }
+
+    def run_worker(self, cases):
+        script = (
+            Path(settings.BASE_DIR)
+            / "infrastructure/cloudflare/tests/django-contract.mjs"
+        )
+        result = subprocess.run(
+            ["node", str(script)],
+            input=json.dumps({"secret": self.secret, "cases": cases}),
+            capture_output=True,
+            text=True,
+            timeout=30,
+            check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        return json.loads(result.stdout)
+
+    def test_real_headers_and_newly_issued_marker_allow_cache_reuse(self):
+        first = self.get(self.page.url)
+        fragments = self.get(reverse("personalisation_ctas", args=[self.page.pk]))
+        cookie = self.cookie_header()
+        returning = self.get(self.page.url)
+
+        results = self.run_worker(
+            [
+                self.worker_case(first),
+                self.worker_case(fragments),
+                self.worker_case(returning, cookie=cookie),
+            ]
+        )
+
+        self.assertEqual(
+            [result["decision"] for result in results],
+            ["MISS", "BYPASS-ROUTE", "HIT"],
+        )
+        self.assertEqual(results[-1]["originRequests"], 2)
+        self.assertEqual(results[-1]["cacheEntries"], 1)
+        self.assertEqual(results[-1]["body"], first.content.decode())
+
+    @override_settings(
+        CACHE_CONTROL_S_MAXAGE=42, CACHE_CONTROL_STALE_WHILE_REVALIDATE=0
+    )
+    def test_real_headers_with_a_different_cache_lifetime_are_accepted(self):
+        page = self.get(self.page.url)
+        results = self.run_worker([self.worker_case(page), self.worker_case(page)])
+        self.assertEqual([result["decision"] for result in results], ["MISS", "HIT"])
+
+    def test_real_private_responses_cannot_populate_the_public_cache(self):
+        home = HomePage.objects.first()
+        form = FormPageFactory(parent=home)
+        restricted = InformationPageFactory(parent=home, title="Private contract page")
+        PageViewRestriction.objects.create(
+            page=restricted, restriction_type="password", password="test-password"
+        )
+        responses = [
+            self.get(reverse("personalisation_ctas", args=[self.page.pk])),
+            self.get(form.url),
+            self.get(restricted.url),
+        ]
+        self.client.force_login(UserFactory(is_staff=True, is_superuser=True))
+        responses.append(self.get(self.page.url))
+
+        # Use a cache-eligible request to exercise response checks, not route or
+        # session bypasses, with the real headers and Set-Cookie values intact.
+        url = responses[-1].wsgi_request.build_absolute_uri()
+        results = self.run_worker(
+            [self.worker_case(response, url=url) for response in responses]
+        )
+        self.assertEqual(
+            [result["decision"] for result in results], ["BYPASS-RESPONSE"] * 4
+        )
+        self.assertEqual(results[-1]["cacheEntries"], 0)
+        self.assertEqual(results[-1]["originRequests"], 4)
+
+    def test_real_login_rotation_invalidates_the_issued_marker(self):
+        first = self.get(self.page.url)
+        self.get(reverse("personalisation_ctas", args=[self.page.pk]))
+        anonymous_cookie = self.cookie_header()
+        self.client.force_login(UserFactory(is_staff=True, is_superuser=True))
+        signed_in = self.get(self.page.url)
+
+        results = self.run_worker(
+            [
+                self.worker_case(first),
+                self.worker_case(first, cookie=anonymous_cookie),
+                self.worker_case(
+                    signed_in, cookie=signed_in.wsgi_request.META["HTTP_COOKIE"]
+                ),
+            ]
+        )
+        self.assertEqual(
+            [result["decision"] for result in results],
+            ["MISS", "HIT", "BYPASS-SESSION"],
+        )
+        self.assertEqual(results[-1]["originRequests"], 2)
+        self.assertEqual(results[-1]["body"], signed_in.content.decode())
+
+    def test_signing_key_rotation_rejects_old_marker_until_fragment_renews_it(self):
+        with patch(
+            "rca.personalisation.cache.time.time", return_value=int(time.time())
+        ):
+            first = self.get(self.page.url)
+            fragment_url = reverse("personalisation_ctas", args=[self.page.pk])
+            self.get(fragment_url)
+            old_cookie = self.cookie_header()
+            old_marker = self.client.cookies["__Host-rca-anonymous"].value
+            session_id = self.client.cookies[settings.SESSION_COOKIE_NAME].value
+
+            new_secret = secrets.token_hex(32)
+            with override_settings(PERSONALISATION_CACHE_SIGNING_KEY=new_secret):
+                stale_page = self.get(self.page.url)
+                renewed_fragment = self.get(fragment_url)
+                new_cookie = self.cookie_header()
+                new_marker = self.client.cookies["__Host-rca-anonymous"].value
+                returning = self.get(self.page.url)
+
+        self.assertEqual(
+            self.client.cookies[settings.SESSION_COOKIE_NAME].value, session_id
+        )
+        self.assertEqual(old_marker.split(".")[:2], new_marker.split(".")[:2])
+        self.assertNotEqual(old_marker, new_marker)
+
+        rotated_cases = [
+            self.worker_case(stale_page, cookie=old_cookie),
+            self.worker_case(renewed_fragment, cookie=old_cookie),
+            self.worker_case(returning, cookie=new_cookie),
+        ]
+        for case in rotated_cases:
+            case["secret"] = new_secret
+        results = self.run_worker(
+            [
+                self.worker_case(first),
+                self.worker_case(first, cookie=old_cookie),
+                *rotated_cases,
+            ]
+        )
+
+        self.assertEqual(
+            [result["decision"] for result in results],
+            ["MISS", "HIT", "BYPASS-SESSION", "BYPASS-ROUTE", "HIT"],
+        )
+        self.assertEqual(
+            [result["originRequests"] for result in results], [1, 1, 2, 3, 3]
+        )
+        self.assertEqual(results[-1]["cacheEntries"], 1)
+        self.assertEqual(results[-1]["body"], first.content.decode())

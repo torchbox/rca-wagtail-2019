@@ -10,12 +10,13 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- [AHM-265](https://torchbox.atlassian.net/browse/AHM-265) Fix SSO login HTTP 405: the single sign-on button now POSTs, as social-auth-app-django 6 requires
 - Evaluate personalisation segments once per request, avoiding duplicate database work and preserving editor segment overrides
 - Keep signed-in page responses private even when no personalised CTA is displayed
 
 ### Added
 
-- ...
+- Signed anonymous-session markers and reviewed Cloudflare Worker source so returning anonymous visitors can use shared HTML caching while personalisation remains private
 
 ### Changed
 

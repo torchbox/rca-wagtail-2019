@@ -43,6 +43,8 @@ jobs:
           node-version-file: .nvmrc
       - name: Install npm dependencies
         run: npm install
+      - name: Cloudflare Worker tests
+        run: node --test infrastructure/cloudflare/tests/cache-checks.mjs
       - name: Compile static files
         run: npm run build:prod
       - name: collectstatic
@@ -51,6 +53,8 @@ jobs:
         run: python manage.py check
       - name: Missing migrations
         run: python manage.py makemigrations --check --noinput
+      - name: Django and Worker contract tests
+        run: python manage.py test infrastructure.cloudflare.tests.test_django_contract --settings=rca.settings.test
       - name: Test and Coverage
         run: |
           coverage run ./manage.py test --settings=rca.settings.test
