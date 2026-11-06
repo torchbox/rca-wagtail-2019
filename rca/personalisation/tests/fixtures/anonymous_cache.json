@@ -1,0 +1,7 @@
+{
+  "secret": "test-only-anonymous-cache-signing-key",
+  "hostname": "www.rca.ac.uk",
+  "session": "fixture-anonymous-session",
+  "expires": 1893456000,
+  "token": "v1.1893456000.c115a480d451c9254a4a783133d629da25053d54ab9e0432b8ef39458d875d0c"
+}

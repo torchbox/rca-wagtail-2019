@@ -5,6 +5,8 @@ from django.views.decorators.http import require_GET
 from wagtail.models import Page, Site
 from wagtail_personalisation.wagtail_hooks import segment_user, set_visit_count
 
+from .state import get_personalisation_state
+
 
 @never_cache
 @require_GET
@@ -34,6 +36,8 @@ def personalisation_ctas(request, page_id):
 
     set_visit_count(page, request, (), {})
     segment_user(page, request, (), {})
+    state = get_personalisation_state(request)
+    state.anonymous_cache_marker_eligible = not request.user.is_authenticated
     return TemplateResponse(
         request,
         "patterns/includes/personalisation_fragments.html",

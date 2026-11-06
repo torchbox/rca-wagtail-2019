@@ -492,6 +492,10 @@ if "SENTRY_DSN" in env and not is_in_shell:
     sentry_kwargs.update({"release": release})
     sentry_sdk.init(**sentry_kwargs)
 
+# A dedicated secret shared with the RCA caching Worker; empty disables markers.
+PERSONALISATION_CACHE_SIGNING_KEY = env.get("PERSONALISATION_CACHE_SIGNING_KEY", "")
+PERSONALISATION_CACHE_HOSTNAME = "www.rca.ac.uk"
+
 # Front-end cache
 # This configuration is used to allow purging pages from cache when they are
 # published.

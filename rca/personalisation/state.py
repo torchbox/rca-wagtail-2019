@@ -9,6 +9,7 @@ class PersonalisationState:
 
     defer_personalisation: bool = False
     private: bool = True
+    anonymous_cache_marker_eligible: bool = False
 
 
 def get_personalisation_state(request: HttpRequest) -> PersonalisationState:
