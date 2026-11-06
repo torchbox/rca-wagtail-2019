@@ -9,6 +9,7 @@ class PersonalisationConfig(AppConfig):
     name = "rca.personalisation"
 
     def ready(self):
+        from . import signals  # noqa: F401
         from . import checks
 
         for issue in checks.check_cache_signing_key(None):

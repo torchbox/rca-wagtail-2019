@@ -513,7 +513,7 @@ if "FRONTEND_CACHE_CLOUDFLARE_TOKEN" in env:
     INSTALLED_APPS.append("wagtail.contrib.frontend_cache")
     WAGTAILFRONTENDCACHE = {
         "default": {
-            "BACKEND": "wagtail.contrib.frontend_cache.backends.CloudflareBackend",
+            "BACKEND": "rca.utils.frontend_cache.CloudflareBackend",
             "EMAIL": env["FRONTEND_CACHE_CLOUDFLARE_EMAIL"],
             "TOKEN": env["FRONTEND_CACHE_CLOUDFLARE_TOKEN"],
             "ZONEID": env["FRONTEND_CACHE_CLOUDFLARE_ZONEID"],
