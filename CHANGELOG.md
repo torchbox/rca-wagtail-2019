@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Evaluate personalisation segments once per request, avoiding duplicate database work and preserving editor segment overrides
+- Keep signed-in page responses private even when no personalised CTA is displayed
 
 ### Added
 
@@ -19,6 +20,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Upgrade wagtail-personalisation from the Torchbox fork to upstream 1.0.0, retaining RCA's custom segmentation rules
+- Load personalised CTAs through a private endpoint so anonymous page HTML can be shared without creating a visitor session
 
 ### Removed
 

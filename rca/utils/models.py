@@ -4,6 +4,7 @@ from itertools import chain
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.cache import add_never_cache_headers, patch_cache_control
 from django.utils.functional import cached_property
@@ -28,12 +29,15 @@ from wagtail.snippets.models import register_snippet
 from wagtail_personalisation.adapters import get_segment_adapter
 
 from rca.api_content.content import CantPullFromRcaApi
+from rca.personalisation.cache import can_share_page_response
 from rca.personalisation.models import (
     CollapsibleNavigationCallToAction,
     EmbeddedFooterCallToAction,
     EventCountdownCallToAction,
     UserActionCallToAction,
 )
+from rca.personalisation.restrictions import get_cached_view_restrictions
+from rca.personalisation.state import get_personalisation_state
 from rca.utils.cache import get_default_cache_control_kwargs
 from rca.utils.forms import RCAPageAdminForm
 
@@ -473,20 +477,23 @@ class BasePage(SocialFields, ListingFields, Page):
         """
         return False
 
-    def serve(self, request, *args, **kwargs):
-        """
-        Override serve to disable public caching when personalised CTAs are shown.
+    def get_view_restrictions(self):
+        return get_cached_view_restrictions(self, super().get_view_restrictions)
 
-        When personalised CTAs are present, we need to prevent CDN/proxy caching
-        because personalised content should not be shared across different user segments.
-        """
+    def serve(self, request, *args, **kwargs):
+        """Set cache headers for shared pages and private rendering."""
         # Store whether we have personalised CTAs (will be set by get_context)
         self._has_personalised_ctas = False
 
         response = super().serve(request, *args, **kwargs)
 
-        # If personalised CTAs were added, disable public caching
-        if getattr(self, "_has_personalised_ctas", False):
+        if can_share_page_response(
+            request, has_personalised_ctas=self._has_personalised_ctas
+        ):
+            cache_control_kwargs = get_default_cache_control_kwargs()
+            if cache_control_kwargs:
+                patch_cache_control(response, **cache_control_kwargs)
+        else:
             # Clear any cache headers that might have been set
             if "Expires" in response:
                 del response["Expires"]
@@ -494,11 +501,6 @@ class BasePage(SocialFields, ListingFields, Page):
                 del response["Cache-Control"]
             # Then add no-cache headers
             add_never_cache_headers(response)
-        else:
-            # Apply default cache control for non-personalised responses
-            cache_control_kwargs = get_default_cache_control_kwargs()
-            if cache_control_kwargs:
-                patch_cache_control(response, **cache_control_kwargs)
 
         return response
 
@@ -508,6 +510,18 @@ class BasePage(SocialFields, ListingFields, Page):
         if not request:
             return context
 
+        if get_personalisation_state(request).defer_personalisation:
+            context["personalisation_url"] = reverse(
+                "personalisation_ctas", args=[self.pk]
+            )
+            return context
+
+        context.update(self.get_personalised_cta_context(request))
+        return context
+
+    def get_personalised_cta_context(self, request):
+        """Build visitor-specific CTA context for inline or fragment rendering."""
+        context = {}
         # Get segments that have its rules met
         adapter = get_segment_adapter(request)
         adapter.refresh()

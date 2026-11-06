@@ -1,0 +1,41 @@
+from django.http import HttpResponseNotFound
+from django.template.response import TemplateResponse
+from django.views.decorators.cache import never_cache
+from django.views.decorators.http import require_GET
+from wagtail.models import Page, Site
+from wagtail_personalisation.wagtail_hooks import segment_user, set_visit_count
+
+
+@never_cache
+@require_GET
+def personalisation_ctas(request, page_id):
+    """Return private CTA fragments for a live, unrestricted RCA page on this site.
+
+    The page hook decides whether rendering should defer personalisation here.
+    This endpoint also accepts signed-in visitors and form pages: those normally
+    render CTAs inline, but their fragments remain valid and must never be cached.
+    Each accepted request records a visit and evaluates the visitor's segments.
+    """
+    from rca.utils.models import BasePage
+
+    site = Site.find_for_request(request)
+    if site is None:
+        return HttpResponseNotFound()
+
+    page = (
+        Page.objects.live()
+        .descendant_of(site.root_page, inclusive=True)
+        .filter(pk=page_id)
+        .specific()
+        .first()
+    )
+    if not isinstance(page, BasePage) or page.get_view_restrictions().exists():
+        return HttpResponseNotFound()
+
+    set_visit_count(page, request, (), {})
+    segment_user(page, request, (), {})
+    return TemplateResponse(
+        request,
+        "patterns/includes/personalisation_fragments.html",
+        page.get_personalised_cta_context(request),
+    )
