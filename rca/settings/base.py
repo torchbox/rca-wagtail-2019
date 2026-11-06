@@ -908,6 +908,7 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 # Wagtail Personalisation
+PERSONALISATION_SEGMENTS_ADAPTER = "rca.personalisation.adapters.RequestSegmentsAdapter"
 WAGTAIL_PERSONALISATION_RULES = [
     "wagtail_personalisation.TimeRule",
     "wagtail_personalisation.DayRule",

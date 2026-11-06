@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- ...
+- Evaluate personalisation segments once per request, avoiding duplicate database work and preserving editor segment overrides
 
 ### Added
 
