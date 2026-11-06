@@ -6,19 +6,22 @@ All notable changes to this project will be documented in this file.
 
 ### Security
 
-- ...
+- Purge cached page subtrees when access restrictions are added, edited or removed, including descendant pages and query-string variants
 
 ### Fixed
 
-- ...
+- [AHM-265](https://torchbox.atlassian.net/browse/AHM-265) Fix SSO login HTTP 405: the single sign-on button now POSTs, as social-auth-app-django 6 requires
+- Evaluate personalisation segments once per request, avoiding duplicate database work and preserving editor segment overrides
+- Keep signed-in page responses private even when no personalised CTA is displayed
 
 ### Added
 
-- ...
+- Signed anonymous-session markers and reviewed Cloudflare Worker source so returning anonymous visitors can use shared HTML caching while personalisation remains private
 
 ### Changed
 
-- ...
+- Upgrade wagtail-personalisation from the Torchbox fork to upstream 1.0.0, retaining RCA's custom segmentation rules
+- Load personalised CTAs through a private endpoint so anonymous page HTML can be shared without creating a visitor session
 
 ### Removed
 

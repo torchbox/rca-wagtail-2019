@@ -131,6 +131,7 @@ MIDDLEWARE = [
     # http://whitenoise.evans.io/en/stable/#quickstart-for-django-apps
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "xff.middleware.XForwardedForMiddleware",
+    "rca.personalisation.middleware.AnonymousCacheMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -491,6 +492,10 @@ if "SENTRY_DSN" in env and not is_in_shell:
     sentry_kwargs.update({"release": release})
     sentry_sdk.init(**sentry_kwargs)
 
+# A dedicated secret shared with the RCA caching Worker; empty disables markers.
+PERSONALISATION_CACHE_SIGNING_KEY = env.get("PERSONALISATION_CACHE_SIGNING_KEY", "")
+PERSONALISATION_CACHE_HOSTNAME = "www.rca.ac.uk"
+
 # Front-end cache
 # This configuration is used to allow purging pages from cache when they are
 # published.
@@ -508,7 +513,7 @@ if "FRONTEND_CACHE_CLOUDFLARE_TOKEN" in env:
     INSTALLED_APPS.append("wagtail.contrib.frontend_cache")
     WAGTAILFRONTENDCACHE = {
         "default": {
-            "BACKEND": "wagtail.contrib.frontend_cache.backends.CloudflareBackend",
+            "BACKEND": "rca.utils.frontend_cache.CloudflareBackend",
             "EMAIL": env["FRONTEND_CACHE_CLOUDFLARE_EMAIL"],
             "TOKEN": env["FRONTEND_CACHE_CLOUDFLARE_TOKEN"],
             "ZONEID": env["FRONTEND_CACHE_CLOUDFLARE_ZONEID"],
@@ -908,6 +913,7 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 # Wagtail Personalisation
+PERSONALISATION_SEGMENTS_ADAPTER = "rca.personalisation.adapters.RequestSegmentsAdapter"
 WAGTAIL_PERSONALISATION_RULES = [
     "wagtail_personalisation.TimeRule",
     "wagtail_personalisation.DayRule",

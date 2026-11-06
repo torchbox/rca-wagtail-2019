@@ -1,10 +1,22 @@
+import logging
+
 from django.apps import AppConfig
+
+logger = logging.getLogger(__name__)
 
 
 class PersonalisationConfig(AppConfig):
     name = "rca.personalisation"
 
     def ready(self):
+        from . import signals  # noqa: F401
+        from . import checks
+
+        for issue in checks.check_cache_signing_key(None):
+            logger.warning(
+                "%s: %s Anonymous HTML caching is disabled.", issue.id, issue.msg
+            )
+
         self._patch_origin_country_rule()
 
     def _patch_origin_country_rule(self):

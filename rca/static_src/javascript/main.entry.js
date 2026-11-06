@@ -7,8 +7,9 @@ import AnchorNav from './components/anchor-nav';
 import BackLink from './components/back-link';
 import BackupStreamToggle from './components/backup-stream-toggle';
 import Carousel from './components/carousel';
-import CountdownCTA from './components/countdown-cta';
-import CTATrigger from './components/cta-trigger';
+import PersonalisedCTAs, {
+    initialiseCTAComponents,
+} from './components/personalised-ctas';
 import PeekFullCarousel from './components/carousel-full-peek';
 import PeekCarousel from './components/carousel-peek';
 import EmailShare from './components/email-share';
@@ -36,8 +37,6 @@ import SubMenu from './components/submenu';
 import Tabs from './components/tabs';
 import VideoModal from './components/video-modal';
 import VideoPlayer from './components/video-stream';
-import CollapsibleNav from './components/collapsible-nav';
-import EmbeddedFooterCTA from './components/embedded-footer-cta';
 
 import '../sass/main.scss';
 
@@ -172,26 +171,11 @@ document.addEventListener('DOMContentLoaded', () => {
         new BackupStreamToggle(backupStreamToggle);
     }
 
-    for (const collapsibleNav of document.querySelectorAll(
-        CollapsibleNav.selector(),
+    initialiseCTAComponents(document);
+    for (const region of document.querySelectorAll(
+        PersonalisedCTAs.selector(),
     )) {
-        new CollapsibleNav(collapsibleNav);
-    }
-
-    for (const countdowncta of document.querySelectorAll(
-        CountdownCTA.selector(),
-    )) {
-        new CountdownCTA(countdowncta);
-    }
-
-    for (const ctatrigger of document.querySelectorAll(CTATrigger.selector())) {
-        new CTATrigger(ctatrigger);
-    }
-
-    for (const embeddedfootercta of document.querySelectorAll(
-        EmbeddedFooterCTA.selector(),
-    )) {
-        new EmbeddedFooterCTA(embeddedfootercta);
+        new PersonalisedCTAs(region);
     }
 
     new ActualHeight();

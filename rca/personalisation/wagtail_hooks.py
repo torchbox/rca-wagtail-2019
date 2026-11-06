@@ -2,12 +2,14 @@ from wagtail import hooks
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 
+from .cache import can_defer_personalisation
 from .models import (
     CollapsibleNavigationCallToAction,
     EmbeddedFooterCallToAction,
     EventCountdownCallToAction,
     UserActionCallToAction,
 )
+from .state import get_personalisation_state
 
 
 class CollapsibleNavigationCallToActionViewSet(SnippetViewSet):
@@ -47,6 +49,23 @@ class PersonalisationCTAsGroup(SnippetViewSetGroup):
 
 
 register_snippet(PersonalisationCTAsGroup)
+
+
+@hooks.register("before_serve_page", order=-1)
+def defer_anonymous_personalisation(page, request, serve_args, serve_kwargs):
+    """Set deferral before upstream hooks can touch the visitor's session.
+
+    Fragment access is checked separately by personalisation_ctas.
+    """
+    from rca.utils.models import BasePage
+
+    if not isinstance(page, BasePage):
+        return
+
+    deferred = can_defer_personalisation(page, request)
+    state = get_personalisation_state(request)
+    state.defer_personalisation = deferred
+    state.private = not deferred
 
 
 @hooks.register("construct_wagtail_userbar")
