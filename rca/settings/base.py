@@ -115,7 +115,7 @@ INSTALLED_APPS = [
     "wagtail_rangefilter",
     "rangefilter",
     "wagtail_modeladmin",
-    "wagtail_personalisation",
+    "wagtail_personalisation.config.WagtailPersonalisationConfig",
     "wagtailfontawesomesvg",
     "social_django",
 ]
