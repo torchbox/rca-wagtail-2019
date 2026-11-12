@@ -3,6 +3,18 @@ from django.views.decorators.cache import cache_control
 from wagtail.contrib.frontend_cache.utils import purge_url_from_cache
 from wagtail.models import Site
 
+# See PublicCacheVaryCookieMiddleware for why this opt-in exists and who
+# should set it.
+CDN_CACHE_SAFE_ATTR = "_personalisation_cdn_cache_safe"
+
+
+def mark_response_cdn_cache_safe(response):
+    """
+    Opt ``response`` into PublicCacheVaryCookieMiddleware's session cookie /
+    Vary stripping.
+    """
+    setattr(response, CDN_CACHE_SAFE_ATTR, True)
+
 
 def purge_cache_on_all_sites(path):
     if settings.DEBUG:

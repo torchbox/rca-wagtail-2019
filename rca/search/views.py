@@ -6,7 +6,10 @@ from django.utils.cache import add_never_cache_headers, patch_cache_control
 from wagtail.contrib.search_promotions.models import Query
 from wagtail.models import Page
 
-from rca.utils.cache import get_default_cache_control_kwargs
+from rca.utils.cache import (
+    get_default_cache_control_kwargs,
+    mark_response_cdn_cache_safe,
+)
 
 # Similarity threshold for trigram search (0.0 to 1.0)
 SIMILARITY_THRESHOLD = 0.1
@@ -64,4 +67,5 @@ def search(request):
         add_never_cache_headers(response)
     else:
         patch_cache_control(response, **get_default_cache_control_kwargs())
+        mark_response_cdn_cache_safe(response)
     return response
