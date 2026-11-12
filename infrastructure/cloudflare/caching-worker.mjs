@@ -78,6 +78,11 @@ const STRIP_VALUELESS_QUERYSTRING_KEYS = false;
 // (from https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html#sec13.4)
 const CACHABLE_HTTP_STATUS_CODES = [200, 203, 206, 300, 301, 410];
 
+// If the origin's Cache-Control header contains any of these directives,
+// the response must never be cached, regardless of its status code or
+// whether the triggering request carried a private cookie.
+const UNCACHABLE_CACHE_CONTROL_DIRECTIVES = ['private', 'no-store', 'no-cache'];
+
 addEventListener('fetch', (event) => {
     event.respondWith(main(event));
 });
@@ -129,9 +134,38 @@ function requestIsCachable(request) {
 function responseIsCachable(response) {
     /*
      * Given a Response, determine if it should be cached.
-     * Currently the only factor here is whether the status code is cachable.
+     * The status code must be cachable, and the origin must not have
+     * explicitly marked the response uncachable via Cache-Control.
+     *
+     * Checking Cache-Control here - rather than relying solely on the
+     * absence of a private cookie on the triggering request (see
+     * requestIsCachable) - matters because the origin's cache decision
+     * is sometimes keyed on server-side state the request's cookies
+     * don't reveal, e.g. a response that is privately personalised for
+     * the visitor but has had its session cookie stripped for an
+     * unrelated, legitimately public response elsewhere on the same
+     * request. Cache-Control is the origin's explicit, authoritative
+     * signal for whether a response's content is safe to share with
+     * other visitors; a missing header is treated as cachable to
+     * preserve existing behaviour for responses (such as redirects) that
+     * don't set one.
      */
-    return CACHABLE_HTTP_STATUS_CODES.includes(response.status);
+    if (!CACHABLE_HTTP_STATUS_CODES.includes(response.status)) {
+        return false;
+    }
+
+    const cacheControlHeader = response.headers.get('Cache-Control');
+    if (!cacheControlHeader) {
+        return true;
+    }
+
+    const directives = cacheControlHeader
+        .split(',')
+        .map((directive) => directive.trim().toLowerCase());
+
+    return !UNCACHABLE_CACHE_CONTROL_DIRECTIVES.some((directive) =>
+        directives.includes(directive),
+    );
 }
 
 function getCachingRequest(request) {
