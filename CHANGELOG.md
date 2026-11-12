@@ -20,7 +20,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- ...
+- [R1-391](https://torchbox.atlassian.net/browse/R1-391) Upgrade wagtail-personalisation from the Torchbox fork to the upstream 1.0.0 release on PyPI
 
 ### Removed
 

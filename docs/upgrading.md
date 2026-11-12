@@ -30,7 +30,7 @@ wagtail-modeladmin
 wagtail-orderable (uses a forked tag)
 wagtail-rangefilter
 wagtail-storages
-wagtail-personalisation (uses a forked tag) — see also the userbar hook noted under [Other considerations](#other-considerations)
+wagtail-personalisation — see also the userbar hook noted under [Other considerations](#other-considerations)
 
 It is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as they become available.
 
