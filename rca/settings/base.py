@@ -115,7 +115,7 @@ INSTALLED_APPS = [
     "wagtail_rangefilter",
     "rangefilter",
     "wagtail_modeladmin",
-    "wagtail_personalisation",
+    "wagtail_personalisation.config.WagtailPersonalisationConfig",
     "wagtailfontawesomesvg",
     "social_django",
 ]
@@ -131,6 +131,9 @@ MIDDLEWARE = [
     # http://whitenoise.evans.io/en/stable/#quickstart-for-django-apps
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "xff.middleware.XForwardedForMiddleware",
+    # Must sit before SessionMiddleware so its response processing runs last,
+    # after the session cookie and any Vary: Cookie header have been added.
+    "rca.personalisation.middleware.PublicCacheVaryCookieMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",

@@ -6,11 +6,13 @@ All notable changes to this project will be documented in this file.
 
 ### Security
 
-- ...
+- [R1-391](https://torchbox.atlassian.net/browse/R1-391) Stop `PublicCacheVaryCookieMiddleware` from dropping the `Vary: Cookie` header when a CSRF cookie is set, which would otherwise let the CDN cache one visitor's CSRF token and serve it to everyone else on cached form pages
+- [R1-391](https://torchbox.atlassian.net/browse/R1-391) Stop `PublicCacheVaryCookieMiddleware` from caching authenticated requests, so a staff member's `{% wagtailuserbar %}` edit toolbar can no longer end up in the shared public cache and get served to anonymous visitors
 
 ### Fixed
 
-- ...
+- [R1-391](https://torchbox.atlassian.net/browse/R1-391) Strip the session cookie and `Vary: Cookie` header from publicly cacheable responses, so personalisation no longer defeats CDN caching for anonymous traffic
+- [R1-391](https://torchbox.atlassian.net/browse/R1-391) Fix wagtail-personalisation's `AppConfig` not loading on Django 5.2, which had silently disconnected the signal that sets `Segment.enable_date`/`disable_date`
 
 ### Added
 

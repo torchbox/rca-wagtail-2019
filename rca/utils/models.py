@@ -34,7 +34,10 @@ from rca.personalisation.models import (
     EventCountdownCallToAction,
     UserActionCallToAction,
 )
-from rca.utils.cache import get_default_cache_control_kwargs
+from rca.utils.cache import (
+    get_default_cache_control_kwargs,
+    mark_response_cdn_cache_safe,
+)
 from rca.utils.forms import RCAPageAdminForm
 
 LIGHT_TEXT_ON_DARK_IMAGE = 1
@@ -499,6 +502,7 @@ class BasePage(SocialFields, ListingFields, Page):
             cache_control_kwargs = get_default_cache_control_kwargs()
             if cache_control_kwargs:
                 patch_cache_control(response, **cache_control_kwargs)
+                mark_response_cdn_cache_safe(response)
 
         return response
 
