@@ -6,7 +6,6 @@ All notable changes to this project will be documented in this file.
 
 ### Security
 
-- [R1-399](https://torchbox.atlassian.net/browse/R1-399) Security update: Django 5.2.19 (CVE-2026-108147, CVE-2026-111211, CVE-2026-111362, CVE-2026-113593, CVE-2026-113733, CVE-2026-114582)
 - ...
 
 ### Fixed
@@ -24,6 +23,12 @@ All notable changes to this project will be documented in this file.
 ### Removed
 
 - ...
+
+## 2026-11-17
+
+### Security
+
+- [R1-399](https://torchbox.atlassian.net/browse/R1-399) Security update: Django 5.2.19 (CVE-2026-108147, CVE-2026-111211, CVE-2026-111362, CVE-2026-113593, CVE-2026-113733, CVE-2026-114582)
 
 ## 2026-10-26
 
