@@ -4,9 +4,9 @@ Deployments are automatically handled by github actions.
 
 ## Deployed environments
 
-| Environment | Branch    | URL                       | Heroku           |
-| ----------- | --------- | ------------------------- | ---------------- |
-| Production  | `master`  | rca.ac.uk                 | `rca-production` |
+| Environment | Branch    | URL                      | Heroku           |
+| ----------- | --------- | ------------------------ | ---------------- |
+| Production  | `master`  | rca.ac.uk                | `rca-production` |
 | Staging     | `staging` | rca-staging.torchbox.dev | `rca-staging`    |
 
 ## Login to Heroku
