@@ -36,7 +36,7 @@ wagtail-modeladmin
 wagtail-orderable (uses a forked tag)
 wagtail-rangefilter
 wagtail-storages
-wagtail-personalisation (uses a forked tag) — see also the userbar hook noted under [Other considerations](#other-considerations)
+wagtail-personalisation — see also the userbar hook noted under [Other considerations](#other-considerations)
 
 It is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as they become available.
 
@@ -129,12 +129,29 @@ As well as testing the critical paths, these areas of functionality should be ch
 
 ### Personalisation segments hidden from the userbar
 
-1. `rca.personalisation.wagtail_hooks.remove_personalisation_segments` uses the `construct_wagtail_userbar` hook to strip personalisation segment items from the Wagtail userbar. If Wagtail changes the userbar item structure (e.g. renames/removes the `segment` attribute), this hook will silently stop filtering and segments will reappear in the userbar.
+1. `rca.personalisation.wagtail_hooks.remove_personalisation_segments` strips segment items from the userbar via `construct_wagtail_userbar` (Wagtail 8.0's `request, items, page` form). A renamed or removed `segment` attribute would silently stop the filtering.
+2. `wagtail-personalisation`'s own `add_segment_link_items` hook is still two-argument at its latest release (1.0.0): Wagtail 8.1 calls every userbar hook as `(request, items, page)` unconditionally, so this would raise `TypeError`. `rca.personalisation.apps.PersonalisationConfig._patch_personalisation_userbar_hook` wraps it in place. Drop the patch once a newer release fixes it upstream.
+
+### Wagtail v2 API in use (rca.wagtailapi)
+
+Last checked on Wagtail 8.1
+
+`rca/wagtailapi/` builds its page, image and navigation endpoints on `wagtail.api.v2` (router, filters, serializers), with several project-specific filter backends and serializers layered on top. Wagtail 8.1 keeps v2 working with no warning yet, but it raises deprecation warnings from 8.2 and is removed in 9.0. Migrate `rca/wagtailapi/` to `wagtail.api.v3` before that upgrade; the filters and serializers will need porting, not just an import swap.
+
+### Frontend cache purge on page move or slug change (Cloudflare)
+
+Last checked on Wagtail 8.1
+
+Wagtail now purges the frontend cache on a page move or slug change, not only on publish. This project's Cloudflare backend (`wagtail.contrib.frontend_cache`) will see more purge requests for bulk page reorganisations; if that approaches Cloudflare's rate limits, set `PURGE_BATCH_SIZE` on the backend config.
+
+### `tzdata` declared for base-image timezone drift
+
+Debian Trixie drops the legacy tz aliases from its base image, so `zoneinfo` can no longer resolve a stored legacy timezone (e.g. `US/Eastern`) from the system database alone. `tzdata` is declared directly so the app carries its own IANA database, aliases included, independent of what the base image ships.
 
 ## Python dependency holds
 
-- `django-import-export` (`~3.3`) — 4.x has breaking changes to the resource and admin API, and the intranet import feature (`rca/people/admin/page_import.py`) has no automated tests, so a major bump needs comprehensive manual re-testing before it lands. In 4.x `resource_class` becomes `resource_classes`, `save_instance`, `before_save_instance` and `after_save_instance` take a required `row` with `dry_run` and `using_transactions` moved into kwargs, and `ImportForm.__init__` takes `formats` and `resources` positionally. `rca/people/admin/` overrides all of these, so the move is a code migration as well as a re-test. Every 3.3.x release also hard-pins `tablib` to 3.5.0, which is the binding constraint on the accepted tablib CVE hold under Security. Lift when the import feature is re-tested end to end on 4.x and the tablib hold is cleared in the same change.
-  Evidence: `grep -nE 'resource_class =|def (before_|after_)?save_instance' rca/people/admin/__init__.py rca/people/admin/page_import.py` shows the 3.x forms 4.x changes, such as `def save_instance(self, instance, using_transactions=True, dry_run=False):` and `resource_class = StaffPageResource`
+- `django-import-export` (`~3.3`): 4.x breaks the resource/admin API `rca/people/admin/` overrides, and the untested import feature needs full re-test. Lift when it is re-tested end to end on 4.x and the tablib hold clears too.
+  Evidence: `grep -nE 'resource_class =|def (before_|after_)?save_instance' rca/people/admin/__init__.py rca/people/admin/page_import.py` fails with unchanged 3.x signatures still present (`resource_class = StaffPageResource`, old `save_instance` signature)
   Release notes: https://django-import-export.readthedocs.io/en/stable/release_notes.html (the v4.0 section)
 
 ## Security
