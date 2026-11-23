@@ -1,3 +1,4 @@
+@use 'sass:list';
 @use '../abstracts' as *;
 
 .category-item {
@@ -108,7 +109,7 @@
 
         // Arrows only have the show-hide effect for hover-friendly browsers.
         // Does not respect mobile browsers’ fake hover support.
-        @media (hover: hover) and #{nth(nth($breakpoints, 1), 2)} {
+        @media (hover: hover) and #{list.nth(list.nth($breakpoints, 1), 2)} {
             opacity: 0;
 
             #{$root}:hover &,
