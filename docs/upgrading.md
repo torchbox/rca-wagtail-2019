@@ -6,7 +6,31 @@ This document describes aspects of the system which should be given particular a
 
 ### ESLint ceiling
 
-ESLint and its `eslint-config-torchbox` peer set (`eslint`, `eslint-config-prettier`, `eslint-plugin-react-hooks`) are held below ESLint v9 because `eslint-config-torchbox@^1.1.0` does not yet support the ESLint v9 flat-config format. The Node dependency bump enforces this ceiling automatically. Lifting it requires the ESLint v9 / flat-config migration (see <https://eslint.org/docs/latest/use/migrate-to-9.0.0>). There is no per-project hold beyond this global ceiling.
+ESLint and its `eslint-config-torchbox` peer set (`eslint`, `eslint-config-prettier`, `eslint-plugin-react-hooks`) are held below ESLint v9 because `eslint-config-torchbox@^1.1.0` does not yet support the ESLint v9 flat-config format. The Node dependency bump enforces this ceiling automatically. Lifting it requires the ESLint v9 / flat-config migration (see <https://eslint.org/docs/latest/use/migrate-to-9.0.0>).
+
+## Node dependency holds
+
+- `@babel/eslint-parser` (`^7.29.13`): held with the ESLint ceiling above: its 8.x major needs `eslint@^9||^10`, which `eslint-config-torchbox` doesn't support. Lift when `eslint-config-torchbox` supports ESLint v9's flat config.
+  Evidence: `npm install` fails with `ERESOLVE: peer eslint@"^9.0.0 || ^10.0.0" from @babel/eslint-parser@8.1.2`
+  Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
+- `@babel/core` (`^7.29.13`): held because the ESLint-ceiling-held `@babel/eslint-parser@7` needs `@babel/core@^7.11.0`, and its own 8.x major only accepts `@babel/core@^8`. Lift when `@babel/eslint-parser` lifts.
+  Evidence: `npm install` fails with `ERESOLVE: peer @babel/core@"^7.11.0" from @babel/eslint-parser@7.29.13`
+  Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
+- `@babel/preset-env` (`^7.29.14`): held with `@babel/core`: its 8.x major needs `@babel/core@^8.0.0`, which conflicts with the `@babel/core` hold above. Lift when `@babel/core` lifts.
+  Evidence: `npm install` fails with `ERESOLVE: peer @babel/core@"^8.0.0" from @babel/preset-env@8.0.7`
+  Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
+- `@babel/preset-react` (`^7.29.7`): held with `@babel/core`: its 8.x major needs `@babel/core@^8.0.0`, which conflicts with the `@babel/core` hold above. Lift when `@babel/core` lifts.
+  Evidence: `npm install` fails with `ERESOLVE: peer @babel/core@"^8.0.0" from @babel/preset-react@8.0.1`
+  Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
+- `@babel/plugin-transform-class-properties` (`^7.29.7`): held with `@babel/core`: its 8.x major needs `@babel/core@^8.0.0`, which conflicts with the `@babel/core` hold above. Lift when `@babel/core` lifts.
+  Evidence: `npm install` fails with `ERESOLVE: peer @babel/core@"^8.0.0" from @babel/plugin-transform-class-properties@8.0.1`
+  Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
+- `stylelint` (`^17.16.0`): held because `stylelint-config-torchbox@5.0.0`, its latest release, only supports `stylelint@^17`; its 18.x major has no compatible `stylelint-config-torchbox` release yet. Lift when `stylelint-config-torchbox` supports stylelint v18.
+  Evidence: `npm ci` fails with `Conflicting peer dependency: stylelint@17.16.0 ... peer stylelint@"^17.0.0" from stylelint-config-torchbox@5.0.0`
+  Release notes: https://github.com/stylelint/stylelint/releases/tag/18.0.0
+- `video.js` (`^8.24.2`): held because v10 replaced the classic `Tech` plugin API with `createPlayer`/extension packages, dropping `videojs.registerTech`/`getTech`, which `amazon-ivs-player`'s `registerIVSTech` calls to register the IVS playback tech. Lift when `amazon-ivs-player` ships a v10-compatible release.
+  Evidence: `node -e "const videojs = require('video.js'); require('amazon-ivs-player').registerIVSTech(videojs, {})"` on `video.js@10.5.0` fails with `videojs not available, AmazonIVS tech not registered`
+  Release notes: https://github.com/videojs/video.js/blob/main/CHANGELOG.md (no tagged v9/v10 release page; see the "Release Video.js 10.0.0 as stable" entry)
 
 ## Wagtail package dependencies
 
@@ -124,6 +148,10 @@ As well as testing the critical paths, these areas of functionality should be ch
 ### Personalisation segments hidden from the userbar
 
 1. `rca.personalisation.wagtail_hooks.remove_personalisation_segments` uses the `construct_wagtail_userbar` hook to strip personalisation segment items from the Wagtail userbar. If Wagtail changes the userbar item structure (e.g. renames/removes the `segment` attribute), this hook will silently stop filtering and segments will reappear in the userbar.
+
+### Legacy `@babel/polyfill`
+
+`main.entry.js` still imports `@babel/polyfill` for the Safari 11 / iOS Safari 11-12 browserslist floor. The package is frozen at `7.12.1` and bundles a deprecated `core-js@2`; no further `@babel/polyfill` release exists. Replacing it needs a `@babel/preset-env` `useBuiltIns` + `core-js@3` migration, scoped to what those browsers actually lack: out of scope for a routine dependency bump.
 
 ## Python dependency holds
 
