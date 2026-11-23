@@ -9,6 +9,22 @@ from .models import (
     UserActionCallToAction,
 )
 
+CTA_MODELS = (
+    UserActionCallToAction,
+    EmbeddedFooterCallToAction,
+    EventCountdownCallToAction,
+    CollapsibleNavigationCallToAction,
+)
+
+
+def could_show_ctas(page):
+    """Whether a live CTA could show on ``page`` for some visitor.
+
+    Only those pages fetch their CTAs, so the rest cost the origin nothing.
+    """
+    now = timezone.now()
+    return any(model.objects.for_page(now, page).exists() for model in CTA_MODELS)
+
 
 def select_ctas(segments, page):
     """The CTAs for ``page`` and the visitor's ``segments``, keyed by template name.

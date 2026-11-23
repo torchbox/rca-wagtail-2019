@@ -1,13 +1,16 @@
 from datetime import timedelta
+from importlib import import_module
 from unittest.mock import Mock, patch
 
 import wagtail_factories
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
 from rca.home.models import HomePage
+from rca.personalisation import views
 from rca.personalisation.factories import (
     CollapsibleNavigationCallToActionFactory,
     EmbeddedFooterCallToActionFactory,
@@ -1108,14 +1111,63 @@ class PersonalisationCacheTests(BasePersonalisationCTATests):
         self.assertIn("no-store", cache_control)
         self.assertIn("private", cache_control)
 
+    def create_live_footer_cta(self, segment):
+        cta = EmbeddedFooterCallToActionFactory(
+            external_link="https://example.com",
+            go_live_at=timezone.now() - timedelta(days=1),
+        )
+        EmbeddedFooterCTASegment.objects.create(call_to_action=cta, segment=segment)
+        EmbeddedFooterCTAPageType.objects.create(
+            call_to_action=cta, page_type="standardpages.informationpage"
+        )
+        return cta
+
+    def test_a_page_no_cta_could_show_on_fetches_nothing(self):
+        response = self.client.get(self.test_page.url)
+
+        self.assertFalse(response.context["personalised_ctas"])
+        self.assertNotContains(response, "data-personalised-ctas")
+
+    def test_a_page_a_live_cta_could_show_on_fetches_its_ctas(self):
+        # Whoever is visiting: the CTA request works out which segments apply.
+        self.create_live_footer_cta(self.segment_alumni)
+
+        response = self.client.get(self.test_page.url)
+
+        self.assertTrue(response.context["personalised_ctas"])
+        self.assertContains(response, "data-personalised-ctas")
+
+    def test_the_cta_request_keeps_its_session_off_page_requests(self):
+        response = self.get_ctas(self.test_page)
+
+        self.assertNotIn(settings.SESSION_COOKIE_NAME, response.cookies)
+        cookie = response.cookies[views.SESSION_COOKIE_NAME]
+        self.assertEqual(cookie["path"], reverse("personalisation_ctas"))
+
     def test_the_cta_request_records_the_visit(self):
         # The "returning user" rule reads these visits from the session.
         self.get_ctas(self.test_page)
         self.get_ctas(self.test_page)
 
+        session_store = import_module(settings.SESSION_ENGINE).SessionStore
+        session = session_store(self.client.cookies[views.SESSION_COOKIE_NAME].value)
         visits = [
             visit["count"]
-            for visit in self.client.session["visit_count"]
+            for visit in session["visit_count"]
             if visit["id"] == self.test_page.pk
         ]
         self.assertEqual(visits, [2])
+
+    def test_a_superuser_can_preview_a_segment(self):
+        segment = SegmentFactory(name="Preview", persistent=True)
+        self.create_live_footer_cta(segment)
+        self.client.force_login(
+            get_user_model().objects.create_superuser("admin", "admin@example.com")
+        )
+
+        response = self.client.get(
+            reverse("personalisation_ctas"),
+            {"page": self.test_page.pk, "segment": segment.pk},
+        )
+
+        self.assertIn("personalised_footer_cta", response.context)

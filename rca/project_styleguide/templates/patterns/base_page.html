@@ -50,7 +50,7 @@
 
 {% block footer %}
 
-    {% if page.pk %}<div data-personalised-cta-slot="footer"></div>{% endif %}
+    {% if personalised_ctas %}<div data-personalised-cta-slot="footer"></div>{% endif %}
 
     {% include 'patterns/organisms/footer/footer.html' %}
 

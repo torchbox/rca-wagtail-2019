@@ -27,6 +27,7 @@ from wagtail.search import index
 from wagtail.snippets.models import register_snippet
 
 from rca.api_content.content import CantPullFromRcaApi
+from rca.personalisation.ctas import could_show_ctas
 from rca.utils.cache import get_default_cache_control_kwargs
 from rca.utils.forms import RCAPageAdminForm
 
@@ -474,6 +475,11 @@ class BasePage(SocialFields, ListingFields, Page):
         if cache_control_kwargs:
             patch_cache_control(response, **cache_control_kwargs)
         return response
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context["personalised_ctas"] = could_show_ctas(self)
+        return context
 
 
 class LegacySiteTag(TagBase):

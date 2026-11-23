@@ -78,7 +78,7 @@
         </nav>
 
         <main class="app__content">
-            {% if page.pk %}
+            {% if personalised_ctas %}
                 {# Filled by personalised-ctas.js from the personalisation_ctas view. #}
                 <div hidden data-personalised-ctas data-url="{% url 'personalisation_ctas' %}?page={{ page.pk }}"></div>
                 <div data-personalised-cta-slot="modal"></div>
@@ -86,7 +86,7 @@
 
             {% include "patterns/atoms/grid-lines/grid-lines.html" with data_tag_left="data-left-edge" data_tag_center="data-grid-center" %}
             
-            {% if page.pk %}<div data-personalised-cta-slot="collapsible-nav"></div>{% endif %}
+            {% if personalised_ctas %}<div data-personalised-cta-slot="collapsible-nav"></div>{% endif %}
 
             {% block content %}
                 {% if pattern_library_rendered_pattern %}
@@ -102,7 +102,7 @@
             {% block footer %}{% endblock %}
         </footer>
 
-        {% if page.pk %}<div data-personalised-cta-slot="countdown"></div>{% endif %}
+        {% if personalised_ctas %}<div data-personalised-cta-slot="countdown"></div>{% endif %}
 
         <script src="{% static 'js/main.js' %}"></script>
         {% block extra_js %}{% endblock %}
