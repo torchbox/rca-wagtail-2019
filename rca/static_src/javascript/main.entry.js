@@ -38,6 +38,7 @@ import VideoModal from './components/video-modal';
 import VideoPlayer from './components/video-stream';
 import CollapsibleNav from './components/collapsible-nav';
 import EmbeddedFooterCTA from './components/embedded-footer-cta';
+import PersonalisedCTAs from './components/personalised-ctas';
 
 import '../sass/main.scss';
 
@@ -192,6 +193,12 @@ document.addEventListener('DOMContentLoaded', () => {
         EmbeddedFooterCTA.selector(),
     )) {
         new EmbeddedFooterCTA(embeddedfootercta);
+    }
+
+    for (const personalisedctas of document.querySelectorAll(
+        PersonalisedCTAs.selector(),
+    )) {
+        new PersonalisedCTAs(personalisedctas);
     }
 
     new ActualHeight();

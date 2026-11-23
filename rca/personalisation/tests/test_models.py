@@ -2,7 +2,9 @@ from datetime import timedelta
 from unittest.mock import Mock, patch
 
 import wagtail_factories
+from django.conf import settings
 from django.test import TestCase
+from django.urls import reverse
 from django.utils import timezone
 
 from rca.home.models import HomePage
@@ -102,6 +104,10 @@ class BasePersonalisationCTATests(TestCase):
         self.segment_alumni = SegmentFactory(name="Alumni")
         self.segment_students = SegmentFactory(name="Students")
 
+    def get_ctas(self, page):
+        """Request the personalised CTAs for ``page``, as the page does once it loads."""
+        return self.client.get(reverse("personalisation_ctas"), {"page": page.pk})
+
     def _create_mock_segment_adapter(self, segments):
         """Helper to create a mock segment adapter with given segments"""
         mock_adapter = Mock()
@@ -109,7 +115,7 @@ class BasePersonalisationCTATests(TestCase):
         mock_adapter.refresh.return_value = None
         return mock_adapter
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_cta_not_shown_after_expire_date(self, mock_get_adapter):
         """Test that CTA doesn't appear after expire_at date for all CTA types"""
         now = timezone.now()
@@ -138,7 +144,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert
                 self.assertNotIn(cta_config["context_key"], response.context)
@@ -146,7 +152,7 @@ class BasePersonalisationCTATests(TestCase):
                 # Cleanup for next subtest
                 cta.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_cta_not_shown_before_go_live_date(self, mock_get_adapter):
         """Test that CTA doesn't appear before go_live_at date for all CTA types"""
         now = timezone.now()
@@ -174,7 +180,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert
                 self.assertNotIn(cta_config["context_key"], response.context)
@@ -182,7 +188,7 @@ class BasePersonalisationCTATests(TestCase):
                 # Cleanup for next subtest
                 cta.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_cta_not_shown_when_both_dates_blank(self, mock_get_adapter):
         """Test that CTA is disabled when both go_live_at and expire_at are blank for all CTA types"""
         mock_get_adapter.return_value = self._create_mock_segment_adapter(
@@ -210,7 +216,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert
                 self.assertNotIn(cta_config["context_key"], response.context)
@@ -218,7 +224,7 @@ class BasePersonalisationCTATests(TestCase):
                 # Cleanup for next subtest
                 cta.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_cta_not_shown_when_segment_not_active(self, mock_get_adapter):
         """Test that CTA doesn't appear when user's segment doesn't match for all CTA types"""
         now = timezone.now()
@@ -247,7 +253,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert
                 self.assertNotIn(cta_config["context_key"], response.context)
@@ -255,7 +261,7 @@ class BasePersonalisationCTATests(TestCase):
                 # Cleanup for next subtest
                 cta.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_cta_not_shown_when_no_segments_active(self, mock_get_adapter):
         """Test that CTAs don't appear when user has no active segments for all CTA types"""
         # No segments active
@@ -281,7 +287,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert
                 self.assertNotIn(cta_config["context_key"], response.context)
@@ -289,7 +295,7 @@ class BasePersonalisationCTATests(TestCase):
                 # Cleanup for next subtest
                 cta.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_cta_not_shown_for_wrong_page_type(self, mock_get_adapter):
         """Test that CTA doesn't appear on wrong page type for all CTA types"""
         now = timezone.now()
@@ -318,7 +324,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert
                 self.assertNotIn(cta_config["context_key"], response.context)
@@ -326,7 +332,7 @@ class BasePersonalisationCTATests(TestCase):
                 # Cleanup for next subtest
                 cta.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_cta_with_only_go_live_at_set(self, mock_get_adapter):
         """Test that CTA works with only go_live_at set (no expire_at) for all CTA types"""
         now = timezone.now()
@@ -355,7 +361,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert
                 self.assertIn(cta_config["context_key"], response.context)
@@ -363,7 +369,7 @@ class BasePersonalisationCTATests(TestCase):
                 # Cleanup for next subtest
                 cta.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_cta_with_only_expire_at_set(self, mock_get_adapter):
         """Test that CTA works with only expire_at set (no go_live_at) for all CTA types"""
         now = timezone.now()
@@ -392,7 +398,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert
                 self.assertIn(cta_config["context_key"], response.context)
@@ -400,7 +406,7 @@ class BasePersonalisationCTATests(TestCase):
                 # Cleanup for next subtest
                 cta.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_only_first_matching_cta_is_shown(self, mock_get_adapter):
         """
         Test that when multiple CTAs of the same type match,
@@ -445,7 +451,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Execute
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
 
                 # Assert - only one should appear (first one returned by query)
                 self.assertIn(cta_config["context_key"], response.context)
@@ -454,7 +460,7 @@ class BasePersonalisationCTATests(TestCase):
                 cta1.delete()
                 cta2.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_cta_shown_on_specific_page(self, mock_get_adapter):
         """Test that CTA appears on a specific selected page"""
         now = timezone.now()
@@ -487,13 +493,13 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Check CTA is shown.
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertIn(cta_config["context_key"], response.context)
 
                 # Cleanup
                 cta.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_cta_shown_on_child_pages_when_include_children_true(
         self, mock_get_adapter
     ):
@@ -535,7 +541,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Check CTA is shown in child page
-                response = self.client.get(child_page.url)
+                response = self.get_ctas(child_page)
                 self.assertIn(cta_config["context_key"], response.context)
 
                 # Cleanup
@@ -543,7 +549,7 @@ class BasePersonalisationCTATests(TestCase):
 
         child_page.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_cta_not_shown_on_child_pages_when_include_children_false(
         self, mock_get_adapter
     ):
@@ -585,7 +591,7 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Check CTA is NOT shown in child page
-                response = self.client.get(child_page.url)
+                response = self.get_ctas(child_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
                 # Cleanup
@@ -593,7 +599,7 @@ class BasePersonalisationCTATests(TestCase):
 
         child_page.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_excluded_page_suppresses_cta_on_that_page_only(self, mock_get_adapter):
         """Excluding a page suppresses the CTA there without affecting siblings or ancestors"""
         now = timezone.now()
@@ -625,22 +631,22 @@ class BasePersonalisationCTATests(TestCase):
                 )
 
                 # Excluded page: CTA is NOT shown
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
                 # Sibling page: CTA IS shown
-                response = self.client.get(sibling_page.url)
+                response = self.get_ctas(sibling_page)
                 self.assertIn(cta_config["context_key"], response.context)
 
                 # Ancestor page: CTA IS shown
-                response = self.client.get(self.home_page.url)
+                response = self.get_ctas(self.home_page)
                 self.assertIn(cta_config["context_key"], response.context)
 
                 cta.delete()
 
         sibling_page.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_excluded_subtree_suppresses_cta_on_descendants(self, mock_get_adapter):
         """Excluding a page with include_children=True suppresses the CTA on the whole subtree"""
         now = timezone.now()
@@ -671,17 +677,17 @@ class BasePersonalisationCTATests(TestCase):
                     include_children=True,
                 )
 
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
-                response = self.client.get(grandchild_page.url)
+                response = self.get_ctas(grandchild_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
                 cta.delete()
 
         grandchild_page.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_excluded_page_without_include_children_only_excludes_itself(
         self, mock_get_adapter
     ):
@@ -714,17 +720,17 @@ class BasePersonalisationCTATests(TestCase):
                     include_children=False,
                 )
 
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
-                response = self.client.get(child_page.url)
+                response = self.get_ctas(child_page)
                 self.assertIn(cta_config["context_key"], response.context)
 
                 cta.delete()
 
         child_page.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_removing_excluded_page_restores_cta(self, mock_get_adapter):
         """Deleting an exclusion row restores the CTA on that page"""
         now = timezone.now()
@@ -752,17 +758,17 @@ class BasePersonalisationCTATests(TestCase):
                     include_children=False,
                 )
 
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
                 exclusion.delete()
 
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertIn(cta_config["context_key"], response.context)
 
                 cta.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_exclusion_overrides_page_type_match(self, mock_get_adapter):
         """An exclusion beats a CTA that would otherwise match by page type"""
         now = timezone.now()
@@ -788,12 +794,12 @@ class BasePersonalisationCTATests(TestCase):
                     include_children=False,
                 )
 
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
                 cta.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_exclusion_overrides_direct_page_match(self, mock_get_adapter):
         """An exclusion beats a CTA that directly selects the same page"""
         now = timezone.now()
@@ -821,12 +827,12 @@ class BasePersonalisationCTATests(TestCase):
                     include_children=False,
                 )
 
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
                 cta.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_exclusion_does_not_show_cta_by_itself(self, mock_get_adapter):
         """An exclusion row alone, with no include pages or page types, does not make a CTA appear"""
         now = timezone.now()
@@ -849,12 +855,12 @@ class BasePersonalisationCTATests(TestCase):
                     include_children=False,
                 )
 
-                response = self.client.get(self.test_page.url)
+                response = self.get_ctas(self.test_page)
                 self.assertNotIn(cta_config["context_key"], response.context)
 
                 cta.delete()
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_multiple_ctas_can_appear_together(self, mock_get_adapter):
         """Test that multiple different CTA types can appear on same page"""
         # Setup
@@ -887,7 +893,7 @@ class BasePersonalisationCTATests(TestCase):
         )
 
         # Execute
-        response = self.client.get(self.test_page.url)
+        response = self.get_ctas(self.test_page)
 
         # Assert - both CTAs should appear
         self.assertIn("personalised_user_cta", response.context)
@@ -900,7 +906,7 @@ class UserActionCTATests(BasePersonalisationCTATests):
     Common tests (scheduling, segments, page types) are in BasePersonalisationCTATests.
     """
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_user_action_cta_appears_with_correct_variables(self, mock_get_adapter):
         """Test that UserActionCallToAction appears when all conditions are met  with the correct variables"""
         # Setup
@@ -926,7 +932,7 @@ class UserActionCTATests(BasePersonalisationCTATests):
         )
 
         # Execute
-        response = self.client.get(self.test_page.url)
+        response = self.get_ctas(self.test_page)
 
         # Assert
         self.assertIn("personalised_user_cta", response.context)
@@ -944,7 +950,7 @@ class EmbeddedFooterCTATests(BasePersonalisationCTATests):
     Tests for EmbeddedFooterCallToAction display logic.
     """
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_embedded_footer_cta_appears_with_correct_variables(self, mock_get_adapter):
         """Test that EmbeddedFooterCallToAction appears in context with the correct variables"""
         # Setup
@@ -968,7 +974,7 @@ class EmbeddedFooterCTATests(BasePersonalisationCTATests):
         )
 
         # Execute
-        response = self.client.get(self.test_page.url)
+        response = self.get_ctas(self.test_page)
 
         # Assert
         self.assertIn("personalised_footer_cta", response.context)
@@ -982,7 +988,7 @@ class EventCountdownCTATests(BasePersonalisationCTATests):
     Tests for EventCountdownCallToAction display logic.
     """
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_event_countdown_cta_appears_with_correct_variables(self, mock_get_adapter):
         """Test that EventCountdownCallToAction appears in context with the correct variables"""
         # Setup
@@ -1009,7 +1015,7 @@ class EventCountdownCTATests(BasePersonalisationCTATests):
         )
 
         # Execute
-        response = self.client.get(self.test_page.url)
+        response = self.get_ctas(self.test_page)
 
         # Assert
         self.assertIn("personalised_countdown_cta", response.context)
@@ -1027,7 +1033,7 @@ class CollapsibleNavigationCTATests(BasePersonalisationCTATests):
     Tests for CollapsibleNavigationCallToAction display logic.
     """
 
-    @patch("rca.utils.models.get_segment_adapter")
+    @patch("rca.personalisation.views.get_segment_adapter")
     def test_collapsible_nav_cta_appears_with_correct_variables(self, mock_get_adapter):
         """Test that CollapsibleNavigationCallToAction appears in context with correct variables"""
         # Setup
@@ -1058,7 +1064,7 @@ class CollapsibleNavigationCTATests(BasePersonalisationCTATests):
         )
 
         # Execute
-        response = self.client.get(self.test_page.url)
+        response = self.get_ctas(self.test_page)
 
         # Assert
         self.assertIn("personalised_collapsible_nav", response.context)
@@ -1071,60 +1077,45 @@ class CollapsibleNavigationCTATests(BasePersonalisationCTATests):
 
 class PersonalisationCacheTests(BasePersonalisationCTATests):
     """
-    Tests for cache header behavior when personalised CTAs are present.
+    Pages are the same for everyone and can be cached; only the CTA request is
+    personal.
     """
 
-    @patch("rca.utils.models.get_segment_adapter")
-    def test_no_cache_headers_when_personalised_cta_shown(self, mock_get_adapter):
-        """Test that no-cache headers are added when personalised CTAs are shown"""
-        now = timezone.now()
-        mock_get_adapter.return_value = self._create_mock_segment_adapter(
-            [self.segment_alumni]
+    def test_a_page_with_a_live_cta_is_cacheable_and_sets_no_session_cookie(self):
+        cta = EmbeddedFooterCallToActionFactory(
+            external_link="https://example.com",
+            go_live_at=timezone.now() - timedelta(days=1),
+        )
+        EmbeddedFooterCTASegment.objects.create(
+            call_to_action=cta, segment=self.segment_alumni
+        )
+        EmbeddedFooterCTAPageType.objects.create(
+            call_to_action=cta, page_type="standardpages.informationpage"
         )
 
-        for cta_config in self.CTA_TYPES:
-            with self.subTest(cta_type=cta_config["name"]):
-                # Setup
-                cta_fields = cta_config["base_fields"]()
-                cta_fields.update(
-                    {
-                        "go_live_at": now - timedelta(days=1),
-                    }
-                )
-
-                cta = cta_config["factory"](**cta_fields)
-
-                cta_config["segment_model"].objects.create(
-                    call_to_action=cta, segment=self.segment_alumni
-                )
-                cta_config["page_type_model"].objects.create(
-                    call_to_action=cta, page_type="standardpages.informationpage"
-                )
-
-                response = self.client.get(self.test_page.url)
-
-                # Check that no cache headers are present
-                self.assertIn("Cache-Control", response)
-                cache_control = response["Cache-Control"]
-                self.assertIn("no-cache", cache_control)
-                self.assertIn("no-store", cache_control)
-                self.assertIn("must-revalidate", cache_control)
-                self.assertIn("private", cache_control)
-
-                # Cleanup for next subtest
-                cta.delete()
-
-    @patch("rca.utils.models.get_segment_adapter")
-    def test_no_cache_headers_not_added_when_no_personalised_cta(
-        self, mock_get_adapter
-    ):
-        """Test that no-cache headers are NOT added when no personalised CTAs are shown"""
-        # No segments active, so no CTAs will be shown
-        mock_get_adapter.return_value = self._create_mock_segment_adapter([])
-
-        # Execute
         response = self.client.get(self.test_page.url)
 
-        # Assert - Cache-Control should not contain no-cache/no-store
         cache_control = response.get("Cache-Control", "")
+        self.assertNotIn("private", cache_control)
         self.assertNotIn("no-store", cache_control)
+        self.assertNotIn(settings.SESSION_COOKIE_NAME, response.cookies)
+        self.assertNotIn("personalised_footer_cta", response.context)
+
+    def test_the_cta_request_is_never_cached(self):
+        response = self.get_ctas(self.test_page)
+
+        cache_control = response["Cache-Control"]
+        self.assertIn("no-store", cache_control)
+        self.assertIn("private", cache_control)
+
+    def test_the_cta_request_records_the_visit(self):
+        # The "returning user" rule reads these visits from the session.
+        self.get_ctas(self.test_page)
+        self.get_ctas(self.test_page)
+
+        visits = [
+            visit["count"]
+            for visit in self.client.session["visit_count"]
+            if visit["id"] == self.test_page.pk
+        ]
+        self.assertEqual(visits, [2])
