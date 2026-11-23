@@ -132,6 +132,16 @@ Last checked on Wagtail 8.1
 
 `rca/wagtailapi/` builds its page, image and navigation endpoints on `wagtail.api.v2` (router, filters, serializers), with several project-specific filter backends and serializers layered on top. Wagtail 8.1 keeps v2 working with no warning yet, but it raises deprecation warnings from 8.2 and is removed in 9.0. Migrate `rca/wagtailapi/` to `wagtail.api.v3` before that upgrade; the filters and serializers will need porting, not just an import swap.
 
+### Frontend cache purge on page move or slug change (Cloudflare)
+
+Last checked on Wagtail 8.1
+
+Wagtail now purges the frontend cache on a page move or slug change, not only on publish. This project's Cloudflare backend (`wagtail.contrib.frontend_cache`) will see more purge requests for bulk page reorganisations; if that approaches Cloudflare's rate limits, set `PURGE_BATCH_SIZE` on the backend config.
+
+### `tzdata` declared for base-image timezone drift
+
+Debian Trixie drops the legacy tz aliases from its base image, so `zoneinfo` can no longer resolve a stored legacy timezone (e.g. `US/Eastern`) from the system database alone. `tzdata` is declared directly so the app carries its own IANA database, aliases included, independent of what the base image ships.
+
 ## Python dependency holds
 
 - `django-import-export` (`~3.3`): 4.x breaks the resource/admin API `rca/people/admin/` overrides, and the untested import feature needs full re-test. Lift when it is re-tested end to end on 4.x and the tablib hold clears too.
