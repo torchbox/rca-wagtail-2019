@@ -75,6 +75,7 @@ class PersonalisedCTAs {
         COMPONENTS.forEach((Component) => {
             const selector = Component.selector();
             if (root.matches(selector)) {
+                // eslint-disable-next-line no-new
                 new Component(root);
             }
             root.querySelectorAll(selector).forEach(
