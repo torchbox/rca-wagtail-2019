@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '../abstracts' as *;
 
 .countdown-cta {
@@ -62,11 +63,11 @@
     }
 
     &__title {
-        font-size: map-get($large-font-sizes, s);
+        font-size: map.get($large-font-sizes, s);
         margin-bottom: 3px;
 
         @include media-query(large) {
-            font-size: map-get($large-font-sizes, s);
+            font-size: map.get($large-font-sizes, s);
         }
     }
 
