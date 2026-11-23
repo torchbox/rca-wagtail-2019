@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "run_type": "full",
+  "tickets": {
+    "upgrade": "R1-403",
+    "migration": "R1-403"
+  },
+  "run_base": null,
+  "python_root": null,
+  "targets": {
+    "wagtail": "8.1.0",
+    "django": "5.2.19",
+    "python": "3.15",
+    "node": "26",
+    "debian": "trixie"
+  },
+  "platform_upgrade": true,
+  "postgres_version": "17",
+  "heads_up": "none",
+  "selected_migrations": [
+    "poetry-to-uv",
+    "npm-to-pnpm",
+    "black-to-ruff",
+    "eslint-to-biome"
+  ],
+  "hold_calls": {
+    "django-import-export": "keep"
+  },
+  "deferrals": {},
+  "decisions": [],
+  "results": []
+}
