@@ -8,6 +8,8 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
+from wagtail.models import PageViewRestriction
+from wagtail_personalisation.rules import DayRule
 
 from rca.home.models import HomePage
 from rca.personalisation import views
@@ -1171,3 +1173,59 @@ class PersonalisationCacheTests(BasePersonalisationCTATests):
         )
 
         self.assertIn("personalised_footer_cta", response.context)
+
+    def test_a_segment_preview_keeps_the_segments_the_visitor_matches(self):
+        everyone = SegmentFactory(name="Everyone", type="dynamic", persistent=True)
+        DayRule.objects.create(
+            segment=everyone,
+            mon=True,
+            tue=True,
+            wed=True,
+            thu=True,
+            fri=True,
+            sat=True,
+            sun=True,
+        )
+        self.create_live_footer_cta(everyone)
+        preview = SegmentFactory(name="Preview", persistent=True)
+        user_cta = UserActionCallToActionFactory(
+            external_link="https://example.com",
+            go_live_at=timezone.now() - timedelta(days=1),
+        )
+        UserActionCTASegment.objects.create(call_to_action=user_cta, segment=preview)
+        UserActionCTAPageType.objects.create(
+            call_to_action=user_cta, page_type="standardpages.informationpage"
+        )
+        self.client.force_login(
+            get_user_model().objects.create_superuser("admin", "admin@example.com")
+        )
+
+        response = self.client.get(
+            reverse("personalisation_ctas"),
+            {"page": self.test_page.pk, "segment": preview.pk},
+        )
+
+        self.assertIn("personalised_user_cta", response.context)
+        self.assertIn("personalised_footer_cta", response.context)
+
+    def test_a_page_id_that_is_not_a_number_is_not_found(self):
+        for page in ["", "abc", "1.5"]:
+            with self.subTest(page=page):
+                response = self.client.get(
+                    reverse("personalisation_ctas"), {"page": page}
+                )
+
+                self.assertEqual(response.status_code, 404)
+
+    def test_a_restricted_page_hides_its_ctas_from_visitors_it_would_refuse(self):
+        self.create_live_footer_cta(self.segment_alumni)
+        PageViewRestriction.objects.create(
+            page=self.test_page, restriction_type=PageViewRestriction.LOGIN
+        )
+
+        self.assertEqual(self.get_ctas(self.test_page).status_code, 404)
+
+        self.client.force_login(
+            get_user_model().objects.create_user("visitor", "visitor@example.com")
+        )
+        self.assertEqual(self.get_ctas(self.test_page).status_code, 200)
