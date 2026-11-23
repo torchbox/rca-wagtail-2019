@@ -123,7 +123,14 @@ As well as testing the critical paths, these areas of functionality should be ch
 
 ### Personalisation segments hidden from the userbar
 
-1. `rca.personalisation.wagtail_hooks.remove_personalisation_segments` uses the `construct_wagtail_userbar` hook to strip personalisation segment items from the Wagtail userbar. If Wagtail changes the userbar item structure (e.g. renames/removes the `segment` attribute), this hook will silently stop filtering and segments will reappear in the userbar.
+1. `rca.personalisation.wagtail_hooks.remove_personalisation_segments` strips segment items from the userbar via `construct_wagtail_userbar` (Wagtail 8.0's `request, items, page` form). A renamed or removed `segment` attribute would silently stop the filtering.
+2. `wagtail-personalisation`'s own `add_segment_link_items` hook is still two-argument at its latest release (1.0.0): Wagtail 8.1 calls every userbar hook as `(request, items, page)` unconditionally, so this would raise `TypeError`. `rca.personalisation.apps.PersonalisationConfig._patch_personalisation_userbar_hook` wraps it in place. Drop the patch once a newer release fixes it upstream.
+
+### Wagtail v2 API in use (rca.wagtailapi)
+
+Last checked on Wagtail 8.1
+
+`rca/wagtailapi/` builds its page, image and navigation endpoints on `wagtail.api.v2` (router, filters, serializers), with several project-specific filter backends and serializers layered on top. Wagtail 8.1 keeps v2 working with no warning yet, but it raises deprecation warnings from 8.2 and is removed in 9.0. Migrate `rca/wagtailapi/` to `wagtail.api.v3` before that upgrade; the filters and serializers will need porting, not just an import swap.
 
 ## Python dependency holds
 

@@ -6,6 +6,7 @@ class PersonalisationConfig(AppConfig):
 
     def ready(self):
         self._patch_origin_country_rule()
+        self._patch_personalisation_userbar_hook()
 
     def _patch_origin_country_rule(self):
         # wagtail_personalisation's get_geoip_module() guards against ImportError
@@ -37,3 +38,33 @@ class PersonalisationConfig(AppConfig):
                 raise
 
         OriginCountryRule.get_geoip_country = get_geoip_country
+
+    def _patch_personalisation_userbar_hook(self):
+        # wagtail_personalisation's own construct_wagtail_userbar hook
+        # (add_segment_link_items) still only accepts (request, items), and
+        # its latest release (1.0.0) hasn't picked up Wagtail 8's 3-argument
+        # form. Wagtail 8.1's apply_userbar_hooks() calls every registered
+        # hook unconditionally as (request, items, page), with no
+        # compatibility fallback for a 2-argument hook, so without this
+        # patch the admin accessibility side panel raises:
+        #   TypeError: add_segment_link_items() takes 2 positional
+        #   arguments but 3 were given
+        # Wrap the hook in place to accept and discard the extra argument.
+        from wagtail import hooks
+        from wagtail_personalisation import wagtail_hooks as wp_hooks
+
+        # Hook discovery normally happens lazily on first use. Force it now
+        # so the hook we want to wrap is already registered (idempotent -
+        # the real, lazy discovery becomes a no-op once this has run).
+        hooks.search_for_hooks()
+
+        original = wp_hooks.add_segment_link_items
+
+        def add_segment_link_items(request, items, page):
+            return original(request, items)
+
+        registered = hooks._hooks.get("construct_wagtail_userbar", [])
+        hooks._hooks["construct_wagtail_userbar"] = [
+            (add_segment_link_items, order) if fn is original else (fn, order)
+            for fn, order in registered
+        ]
