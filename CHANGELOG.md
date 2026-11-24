@@ -10,8 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- [AHM-291](https://torchbox.atlassian.net/browse/AHM-291) Pages that can show a personalised CTA are cached again: the page fetches its CTAs once it has loaded, and page views no longer set a session cookie
-- [AHM-291](https://torchbox.atlassian.net/browse/AHM-291) Log ignored Redis errors as one line rather than a traceback
+- ...
 
 ### Added
 
@@ -24,6 +23,13 @@ All notable changes to this project will be documented in this file.
 ### Removed
 
 - ...
+
+## 2026-11-24
+
+### Fixed
+
+- [AHM-291](https://torchbox.atlassian.net/browse/AHM-291) Pages that can show a personalised CTA are cached again: the page fetches its CTAs once it has loaded, and page views no longer set a session cookie
+- [AHM-291](https://torchbox.atlassian.net/browse/AHM-291) Log ignored Redis errors as one line rather than a traceback
 
 ## 2026-11-17
 
