@@ -1,3 +1,6 @@
+# Keep in sync with: the astral-sh/uv-pre-commit rev in .pre-commit-config.yaml,
+# and the astral-sh/setup-uv `version` input in .github/workflows/test.yaml and
+# lint.yaml.
 ARG UV_VERSION=0.13.9
 
 # (Keep the version in sync with the node install below)
@@ -6,19 +9,22 @@ FROM node:26 AS frontend
 # Make build & post-install scripts behave as if we were in a CI environment (e.g. for logging verbosity purposes).
 ARG CI=true
 
-ARG PNPM_VERSION=12.22.0
-ARG PNPM_HASH=894940a3d9a57dfa6fd373990fb4e41e09c2f2d76d982ed1d75275d39267f988fb4e2d40900cbe9921c68d97c67aa1a1096d276633db248f7b34927ac9ddb7a4
 ARG COREPACK_VERSION=0.36.0
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+
+# package.json is needed here already: with no version given, `corepack
+# prepare` reads the pnpm version+hash to install from its "packageManager"
+# field, so that field stays the only place the pin lives.
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .babelrc.js webpack.config.js ./
+
 # node:26 ships no corepack at all, so install the resolved corepack release
 # first, then let it activate the pnpm release package.json pins.
 RUN npm install -g "corepack@${COREPACK_VERSION}" \
     && corepack enable pnpm \
-    && corepack prepare "pnpm@${PNPM_VERSION}+sha512.${PNPM_HASH}" --activate
+    && corepack prepare --activate
 
 # Install front-end dependencies.
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .babelrc.js webpack.config.js ./
 RUN pnpm install --frozen-lockfile
 
 # Compile static files
@@ -140,9 +146,10 @@ RUN curl https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh
 
 # Enable corepack and prepare pnpm for the nvm-installed node above (which,
 # like node:26, ships no corepack at all), and run it once so its platform
-# binary is downloaded now rather than on every `pnpm` invocation.
-ARG PNPM_VERSION=12.22.0
-ARG PNPM_HASH=894940a3d9a57dfa6fd373990fb4e41e09c2f2d76d982ed1d75275d39267f988fb4e2d40900cbe9921c68d97c67aa1a1096d276633db248f7b34927ac9ddb7a4
+# binary is downloaded now rather than on every `pnpm` invocation. With no
+# version given, `corepack prepare` reads the pin from package.json's
+# "packageManager" field (already present from the production stage's
+# `COPY --chown=rca . .` above), so that field stays the only place it lives.
 ARG COREPACK_VERSION=0.36.0
 # node_modules below is installed in the frontend stage and used from another
 # path here, so pnpm's pre-run dependency check would reinstall it before
@@ -150,7 +157,7 @@ ARG COREPACK_VERSION=0.36.0
 ENV pnpm_config_verify_deps_before_run=false
 RUN bash --login -c "npm install -g corepack@${COREPACK_VERSION} \
     && corepack enable pnpm \
-    && corepack prepare pnpm@${PNPM_VERSION}+sha512.${PNPM_HASH} --activate \
+    && corepack prepare --activate \
     && pnpm --version"
 
 # Pull in the node modules for the frontend

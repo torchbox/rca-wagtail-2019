@@ -45,7 +45,10 @@ repos:
     hooks:
       - id: pyupgrade
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: '0.13.9' # keep version in sync with UV_VERSION ARG in Dockerfile
+    # Keep in sync with: the UV_VERSION ARG in Dockerfile, and the
+    # astral-sh/setup-uv `version` input in .github/workflows/test.yaml and
+    # lint.yaml.
+    rev: '0.13.9'
     hooks:
       - id: uv-lock
         args: ['--locked']

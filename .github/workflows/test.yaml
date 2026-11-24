@@ -34,6 +34,8 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v10.4.0
         with:
+          # Keep in sync with: the UV_VERSION ARG in Dockerfile, and the
+          # astral-sh/uv-pre-commit rev in .pre-commit-config.yaml.
           version: '0.13.9'
       - name: Install dependencies
         run: |
@@ -44,11 +46,13 @@ jobs:
           node-version-file: .nvmrc
       - name: Enable corepack and prepare pnpm
         # Node 25+ ships no corepack, so install the resolved corepack release
-        # first, then let it activate the pnpm release package.json pins.
+        # first, then let it activate the pnpm release package.json pins (with
+        # no version given, `corepack prepare` reads the pin from package.json's
+        # "packageManager" field).
         run: |
           npm install -g corepack@0.36.0
           corepack enable pnpm
-          corepack prepare pnpm@12.22.0+sha512.894940a3d9a57dfa6fd373990fb4e41e09c2f2d76d982ed1d75275d39267f988fb4e2d40900cbe9921c68d97c67aa1a1096d276633db248f7b34927ac9ddb7a4 --activate
+          corepack prepare --activate
       - name: Install pnpm dependencies
         run: pnpm install
       - name: Compile static files
