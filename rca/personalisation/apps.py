@@ -1,3 +1,4 @@
+import inspect
 import logging
 
 from django.apps import AppConfig
@@ -88,6 +89,20 @@ class PersonalisationConfig(AppConfig):
                 "has restructured this hook and whether the patch still "
                 "applies."
             )
+            return
+
+        try:
+            inspect.signature(original).bind(None, None, None)
+            already_takes_page = True
+        except TypeError:
+            already_takes_page = False
+
+        if already_takes_page:
+            # wagtail-personalisation has already picked up Wagtail's
+            # 3-argument construct_wagtail_userbar form - nothing to patch,
+            # and wrapping it again would discard the page argument it now
+            # expects. Delete this method and its call in ready() once this
+            # is what triggers.
             return
 
         # Hook discovery normally happens lazily on first use. Force it now

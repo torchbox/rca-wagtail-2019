@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from django.apps import apps as django_apps
 from django.test import RequestFactory, TestCase
 from wagtail import hooks
@@ -18,6 +20,18 @@ class PatchPersonalisationUserbarHookTests(TestCase):
 
     def setUp(self):
         self.app_config = django_apps.get_app_config("personalisation")
+        # A couple of tests below replace the registered
+        # construct_wagtail_userbar hooks to simulate a future
+        # wagtail-personalisation release - restore the real registry
+        # afterwards so later tests see the patch applied as normal.
+        self._registered_userbar_hooks = list(
+            hooks._hooks.get("construct_wagtail_userbar", [])
+        )
+        self.addCleanup(
+            hooks._hooks.__setitem__,
+            "construct_wagtail_userbar",
+            self._registered_userbar_hooks,
+        )
 
     def test_patch_adds_segment_item_without_type_error(self):
         # PersonalisationConfig.ready() already applied the patch when
@@ -79,6 +93,24 @@ class PatchPersonalisationUserbarHookTests(TestCase):
             wp_hooks.add_segment_link_items = original_fn
 
         self.assertIn("add_segment_link_items", cm.output[0])
+
+    def test_already_three_argument_hook_is_left_alone(self):
+        # If wagtail-personalisation ever ships a hook that already accepts
+        # (request, items, page), wrapping it again would silently discard
+        # the page argument it now expects - the patch should leave it
+        # alone instead.
+        def already_compatible_hook(request, items, page):
+            items.append("already-compatible")
+
+        hooks._hooks["construct_wagtail_userbar"] = [(already_compatible_hook, 0)]
+
+        with patch.object(wp_hooks, "add_segment_link_items", already_compatible_hook):
+            self.app_config._patch_personalisation_userbar_hook()
+
+        self.assertEqual(
+            hooks._hooks["construct_wagtail_userbar"],
+            [(already_compatible_hook, 0)],
+        )
 
     def test_hook_not_found_is_logged_instead_of_silently_no_opping(self):
         # Calling the patch method again can no longer find the hook by
