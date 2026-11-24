@@ -6,13 +6,24 @@ FROM node:26 AS frontend
 # Make build & post-install scripts behave as if we were in a CI environment (e.g. for logging verbosity purposes).
 ARG CI=true
 
+ARG PNPM_VERSION=12.22.0
+ARG PNPM_HASH=894940a3d9a57dfa6fd373990fb4e41e09c2f2d76d982ed1d75275d39267f988fb4e2d40900cbe9921c68d97c67aa1a1096d276633db248f7b34927ac9ddb7a4
+ARG COREPACK_VERSION=0.36.0
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+# node:26 ships no corepack at all, so install the resolved corepack release
+# first, then let it activate the pnpm release package.json pins.
+RUN npm install -g "corepack@${COREPACK_VERSION}" \
+    && corepack enable pnpm \
+    && corepack prepare "pnpm@${PNPM_VERSION}+sha512.${PNPM_HASH}" --activate
+
 # Install front-end dependencies.
-COPY package.json package-lock.json .babelrc.js webpack.config.js ./
-RUN npm ci --no-optional --no-audit --progress=false
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .babelrc.js webpack.config.js ./
+RUN pnpm install --frozen-lockfile
 
 # Compile static files
 COPY ./rca/static_src/ ./rca/static_src/
-RUN npm run build:prod
+RUN pnpm run build:prod
 
 
 # We use Debian images because they are considered more stable than the alpine
@@ -126,6 +137,21 @@ ARG NVM_VERSION=0.40.4
 COPY --chown=rca .nvmrc ./
 RUN curl https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash \
     && bash --login -c "nvm install --no-progress && nvm alias default $(nvm run --silent --version)"
+
+# Enable corepack and prepare pnpm for the nvm-installed node above (which,
+# like node:26, ships no corepack at all), and run it once so its platform
+# binary is downloaded now rather than on every `pnpm` invocation.
+ARG PNPM_VERSION=12.22.0
+ARG PNPM_HASH=894940a3d9a57dfa6fd373990fb4e41e09c2f2d76d982ed1d75275d39267f988fb4e2d40900cbe9921c68d97c67aa1a1096d276633db248f7b34927ac9ddb7a4
+ARG COREPACK_VERSION=0.36.0
+# node_modules below is installed in the frontend stage and used from another
+# path here, so pnpm's pre-run dependency check would reinstall it before
+# every `pnpm run`. It comes from the frozen lockfile, so turn the check off.
+ENV pnpm_config_verify_deps_before_run=false
+RUN bash --login -c "npm install -g corepack@${COREPACK_VERSION} \
+    && corepack enable pnpm \
+    && corepack prepare pnpm@${PNPM_VERSION}+sha512.${PNPM_HASH} --activate \
+    && pnpm --version"
 
 # Pull in the node modules for the frontend
 COPY --chown=rca --from=frontend ./node_modules ./node_modules
