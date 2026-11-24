@@ -91,6 +91,7 @@ class FetchRelatedStudentsTest(TestCase):
     @patch("rca.api_content.content.requests.get")
     def test_timeout_raises_cannot_pull_from_rca(self, mock_get):
         logging.disable(logging.CRITICAL)
+        self.addCleanup(logging.disable, logging.NOTSET)
         with self.assertRaises(CantPullFromRcaApi):
             mock_get.side_effect = Timeout
             results = pull_related_students(1)  # noqa

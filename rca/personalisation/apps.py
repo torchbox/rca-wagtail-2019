@@ -6,7 +6,27 @@ class PersonalisationConfig(AppConfig):
 
     def ready(self):
         self._patch_origin_country_rule()
+        self._stop_personalising_page_views()
         self._patch_personalisation_userbar_hook()
+
+    def _stop_personalising_page_views(self):
+        # wagtail-personalisation registers two before_serve_page hooks that
+        # record the visit and refresh the visitor's segments on every page
+        # view. Both write to the session, so every response set a sessionid
+        # cookie and no page could be served from a shared cache. The
+        # personalised_ctas view does that work instead, in its own uncached
+        # request. Wagtail has no way to unregister a hook, so the two are
+        # filtered out of its registry; importing the module first registers
+        # them, and Wagtail's own hook discovery won't import it again.
+        from wagtail import hooks
+        from wagtail_personalisation import wagtail_hooks
+
+        moved = {wagtail_hooks.set_visit_count, wagtail_hooks.segment_user}
+        hooks._hooks["before_serve_page"] = [
+            (fn, order)
+            for fn, order in hooks._hooks.get("before_serve_page", [])
+            if fn not in moved
+        ]
 
     def _patch_origin_country_rule(self):
         # wagtail_personalisation's get_geoip_module() guards against ImportError

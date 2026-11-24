@@ -1,0 +1,21 @@
+{# Fetched by personalised-ctas.js, which moves each template's content into the matching [data-personalised-cta-slot]. #}
+{% if personalised_user_cta %}
+    <template data-personalised-cta="modal">
+        {% include "patterns/molecules/cta_modal/cta_modal.html" with value=personalised_user_cta %}
+    </template>
+{% endif %}
+{% if personalised_collapsible_nav %}
+    <template data-personalised-cta="collapsible-nav">
+        {% include "patterns/molecules/collapsible_nav/collapsible_nav.html" with value=personalised_collapsible_nav %}
+    </template>
+{% endif %}
+{% if personalised_footer_cta %}
+    <template data-personalised-cta="footer">
+        {% include "patterns/molecules/text-teaser/text-teaser.html" with teaser=personalised_footer_cta classes="text-teaser--footer-cta" %}
+    </template>
+{% endif %}
+{% if personalised_countdown_cta %}
+    <template data-personalised-cta="countdown">
+        {% include "patterns/organisms/countdown_cta/countdown_cta.html" with value=personalised_countdown_cta %}
+    </template>
+{% endif %}
