@@ -4,8 +4,8 @@ from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+
 from modelcluster.fields import ParentalKey
-from phonenumber_field.modelfields import PhoneNumberField
 from wagtail.admin.panels import (
     FieldPanel,
     HelpPanel,
@@ -19,6 +19,8 @@ from wagtail.fields import RichTextField, StreamBlock, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.models import Orderable, Page
 from wagtail.search import index
+
+from phonenumber_field.modelfields import PhoneNumberField
 
 from rca.editorial.models import EditorialPage
 from rca.events.models import EventDetailPage

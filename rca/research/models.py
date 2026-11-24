@@ -4,8 +4,8 @@ from itertools import chain
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
 from modelcluster.fields import ParentalKey
-from phonenumber_field.modelfields import PhoneNumberField
 from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
@@ -18,6 +18,8 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.models import Orderable, Page
 from wagtail.search import index
+
+from phonenumber_field.modelfields import PhoneNumberField
 
 from rca.utils.blocks import LinkBlock
 from rca.utils.models import (

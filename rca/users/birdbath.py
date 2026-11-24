@@ -1,5 +1,6 @@
-from birdbath.processors import BaseProcessor
 from django.conf import settings
+
+from birdbath.processors import BaseProcessor
 from faker import Faker
 
 from rca.people.models import StudentPage

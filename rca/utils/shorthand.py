@@ -3,13 +3,15 @@ import tempfile
 import zipfile
 from urllib.parse import urlsplit
 
-import requests
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
+
 from wagtail.search import index
 from wagtail.utils.text import text_from_html
+
+import requests
 
 from rca.utils.models import BasePage
 

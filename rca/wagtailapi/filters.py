@@ -4,11 +4,13 @@ from operator import or_
 from django.conf import settings
 from django.core.exceptions import FieldDoesNotExist
 from django.db.models import Q
-from rest_framework import filters
+
 from wagtail.api.v2.utils import BadRequestError
 from wagtail.models import Page
 from wagtail.search.backends import get_search_backend
 from wagtail.search.backends.base import FilterFieldError, OrderByFieldError
+
+from rest_framework import filters
 
 from rca.programmes.models import ProgrammeStudyMode
 

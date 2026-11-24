@@ -1,7 +1,8 @@
 import json
 
-import wagtail_factories
 from wagtail.test.utils import WagtailPageTestCase
+
+import wagtail_factories
 
 from rca.editorial.factories import (
     AuthorFactory,

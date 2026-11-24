@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext as _
+
 from wagtail.admin.panels import (
     FieldPanel,
     MultiFieldPanel,

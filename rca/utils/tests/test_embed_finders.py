@@ -1,7 +1,8 @@
 from unittest.mock import patch
 
-from bs4 import BeautifulSoup
 from django.test import TestCase
+
+from bs4 import BeautifulSoup
 
 from rca.utils.embed_finders import CustomOEmbedFinder
 

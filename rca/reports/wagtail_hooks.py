@@ -1,4 +1,5 @@
 from django.urls import path, reverse
+
 from wagtail import hooks
 from wagtail.admin.menu import MenuItem
 from wagtail.permissions import page_permission_policy

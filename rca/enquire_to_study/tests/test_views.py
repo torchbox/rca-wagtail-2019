@@ -9,9 +9,11 @@ from django.core import mail
 from django.test import RequestFactory, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
-from django_recaptcha.client import RecaptchaResponse
+
 from wagtail.models import Site
 from wagtail.test.utils import WagtailPageTestCase
+
+from django_recaptcha.client import RecaptchaResponse
 
 from rca.enquire_to_study.factories import (
     EnquiryFormSubmissionFactory,

@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+
 from wagtail.test.utils import WagtailTestUtils
 
 from rca.users.forms import CustomUserEditForm

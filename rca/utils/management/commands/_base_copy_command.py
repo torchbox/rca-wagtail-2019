@@ -1,6 +1,7 @@
-import requests
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+
+import requests
 
 
 class BaseCopyDatabaseCommand(BaseCommand):

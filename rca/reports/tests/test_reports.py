@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.contrib.auth.models import Group, Permission
 from django.test import TestCase
 from django.urls import reverse
+
 from wagtail.models import GroupPagePermission, Page
 from wagtail.test.utils import WagtailTestUtils
 

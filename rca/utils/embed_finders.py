@@ -1,10 +1,11 @@
 import re
 
-import requests
-from bs4 import BeautifulSoup
 from wagtail.embeds.exceptions import EmbedNotFoundException
 from wagtail.embeds.finders.base import EmbedFinder
 from wagtail.embeds.finders.oembed import OEmbedFinder
+
+import requests
+from bs4 import BeautifulSoup
 
 
 class InstagramOEmbedFinder(EmbedFinder):

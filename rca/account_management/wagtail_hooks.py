@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.shortcuts import reverse
 from django.urls import re_path
+
 from wagtail import hooks
 from wagtail.admin.menu import MenuItem
 

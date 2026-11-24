@@ -1,11 +1,12 @@
 import logging
 from datetime import datetime
 
-import requests
-from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core.cache import cache
 from django.http.request import QueryDict
+
+import requests
+from bs4 import BeautifulSoup
 from requests.exceptions import ConnectionError, HTTPError, Timeout
 
 """

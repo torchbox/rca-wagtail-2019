@@ -1,4 +1,5 @@
 from django.utils.html import mark_safe
+
 from wagtail.admin.forms import WagtailAdminPageForm
 
 

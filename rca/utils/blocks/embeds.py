@@ -1,4 +1,5 @@
 from django.conf import settings
+
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.snippets.blocks import SnippetChooserBlock
