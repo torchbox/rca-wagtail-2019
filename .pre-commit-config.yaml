@@ -48,7 +48,7 @@ repos:
     hooks:
       - id: stylelint
         additional_dependencies:
-          - stylelint@17.13.0
+          - stylelint@17.16.0
           - stylelint-config-torchbox@5.0.0
   - repo: https://github.com/adamchainz/django-upgrade
     rev: 1.33.0
