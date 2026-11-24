@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.test import TestCase
+
 from wagtail.rich_text import RichText
 
 from rca.utils.templatetags.util_tags import is_external, richtext_force_external_links

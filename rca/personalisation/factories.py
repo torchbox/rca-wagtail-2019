@@ -1,6 +1,7 @@
+from django.utils import timezone
+
 import factory
 import wagtail_factories
-from django.utils import timezone
 from wagtail_personalisation.models import Segment
 
 from rca.personalisation.models import (

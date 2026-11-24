@@ -59,7 +59,11 @@ class PastOrFutureFilter:
 
     def __iter__(self):
         for value, label in PastFutureChoices.choices:
-            yield dict(id=value, title=label, active=bool(value == self.selected_value))
+            yield {
+                "id": value,
+                "title": label,
+                "active": bool(value == self.selected_value),
+            }
 
     @property
     def options(self):

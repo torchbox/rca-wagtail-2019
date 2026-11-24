@@ -82,9 +82,11 @@ class TabStyleFilter:
             # would be nicer to user 'value' and 'label' as
             # keys here, but the 'id'/'title' combo seems
             # to be established already
-            yield dict(
-                id=value, title=label, active=bool(value in self.selected_values)
-            )
+            yield {
+                "id": value,
+                "title": label,
+                "active": bool(value in self.selected_values),
+            }
 
     @property
     def options(self):

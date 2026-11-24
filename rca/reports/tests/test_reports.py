@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.contrib.auth.models import Group, Permission
 from django.test import TestCase
 from django.urls import reverse
+
 from wagtail.models import GroupPagePermission, Page
 from wagtail.test.utils import WagtailTestUtils
 
@@ -16,7 +17,9 @@ class TestAgingPagesView(WagtailTestUtils, TestCase):
         self.home = Page.objects.get(slug="home").specific
         self.home.strapline = "This is a strapline"
 
-    def get(self, params={}):
+    def get(self, params=None):
+        if params is None:
+            params = {}
         return self.client.get(reverse("rca_aging_pages_report"), params)
 
     def publish_home_page(self):

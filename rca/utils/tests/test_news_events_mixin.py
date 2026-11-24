@@ -1,11 +1,13 @@
 import datetime
 from datetime import date
 
-import wagtail_factories
 from django.test import override_settings
-from faker import Faker
+
 from wagtail.images.tests.utils import Image, get_test_image_file
 from wagtail.test.utils import WagtailPageTestCase
+
+import wagtail_factories
+from faker import Faker
 
 from rca.editorial.models import (
     EditorialPage,

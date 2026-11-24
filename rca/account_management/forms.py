@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UsernameField
+
 from wagtail.models import Collection
 
 from rca.users.models import User

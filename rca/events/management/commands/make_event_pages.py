@@ -5,8 +5,10 @@ import random
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.core.management import BaseCommand
-from faker import Faker
+
 from wagtail.models import Page
+
+from faker import Faker
 
 from rca.events.models import (
     EventDetailPage,
@@ -72,7 +74,6 @@ class Command(BaseCommand):
         date = str(options["date"])
 
         for _ in range(int(number_to_create)):
-
             future_date = fake.date_between(start_date="now", end_date="+1y")
             future_dates = {
                 "start_date": future_date,

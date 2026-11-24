@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.shortcuts import reverse
 from django.urls import re_path
+
 from wagtail import hooks
 from wagtail.admin.menu import MenuItem
 
@@ -51,6 +52,6 @@ def hide_explorer_menu_item_from_students(request, menu_items):
 @hooks.register("construct_homepage_panels")
 def strip_homepage_panels_for_students(request, panels):
     if request.user.is_student():
-        for i, v in enumerate(panels):
+        for i, _v in enumerate(panels):
             del panels[i]
     return panels

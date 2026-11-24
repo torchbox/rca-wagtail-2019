@@ -1,8 +1,10 @@
 from django import forms
 from django.contrib.admin.widgets import AutocompleteSelect
 from django.contrib.auth import get_user_model
-from import_export.forms import ConfirmImportForm, ImportForm
+
 from wagtail.models import Page
+
+from import_export.forms import ConfirmImportForm, ImportForm
 
 User = get_user_model()
 

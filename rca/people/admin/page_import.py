@@ -1,7 +1,9 @@
 from django.contrib.contenttypes.models import ContentType
+
+from wagtail.models import Page
+
 from import_export import resources
 from import_export.admin import ImportMixin
-from wagtail.models import Page
 
 from .page_import_forms import PageConfirmImportForm, PageImportForm
 

@@ -32,7 +32,7 @@ def related_list_block_slideshow(slides):
                     continue
 
                 page = block.value.specific
-                page_type = page_type_mapping.get(page.__class__.__name__, None)
+                page_type = page_type_mapping.get(page.__class__.__name__)
                 summary = (
                     page.introduction
                     if hasattr(page, "introduction") and page.introduction

@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
+
 from modelcluster.fields import ParentalKey
 from wagtail.admin.mail import send_mail
 from wagtail.admin.panels import (
@@ -14,6 +15,7 @@ from wagtail.admin.panels import (
 from wagtail.contrib.forms.models import AbstractFormField
 from wagtail.fields import RichTextField
 from wagtail.search import index
+
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
 
 from rca.utils.models import BasePage
@@ -58,12 +60,14 @@ class FormPage(WagtailCaptchaEmailForm, BasePage):
     )
     key_details = RichTextField(blank=True, features=["bold", "italic", "link", "h3"])
 
-    search_fields = BasePage.search_fields + [
+    search_fields = [
+        *BasePage.search_fields,
         index.SearchField("introduction"),
         index.SearchField("key_details"),
     ]
 
-    content_panels = BasePage.content_panels + [
+    content_panels = [
+        *BasePage.content_panels,
         FieldPanel("introduction"),
         InlinePanel("form_fields", label="Form fields"),
         FieldPanel("action_text"),

@@ -12,6 +12,7 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView
+
 from wagtail.admin import messages
 from wagtail.admin.views.account import LoginView, LogoutView
 

@@ -9,10 +9,9 @@ from django.db.models import Prefetch
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
+
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
-from rest_framework.fields import CharField as CharFieldSerializer
-from taggit.models import TaggedItemBase
 from wagtail.admin.panels import (
     FieldPanel,
     HelpPanel,
@@ -32,6 +31,9 @@ from wagtail.images.api.fields import ImageRenditionField
 from wagtail.models import Orderable, Site
 from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
+
+from rest_framework.fields import CharField as CharFieldSerializer
+from taggit.models import TaggedItemBase
 from wagtailorderable.models import Orderable as WagtailOrdable
 
 from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
@@ -751,32 +753,30 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
     tags = ClusterTaggableManager(through=ProgrammePageTag, blank=True)
 
-    content_panels = (
-        BasePage.content_panels
-        + [
-            # Taxonomy, relationships etc
-            InlinePanel("subjects", label="Subjects"),
-            InlinePanel("programme_types", label="Programme Types"),
-            MultiFieldPanel(
-                [
-                    FieldPanel("hero_image"),
-                    FieldPanel("hero_image_credit"),
-                    FieldPanel("hero_video"),
-                    FieldPanel("hero_video_preview_image"),
-                ],
-                heading="Hero",
-            ),
-            MultiFieldPanel(
-                [InlinePanel("related_programmes", label="Related programmes")],
-                heading="Related Programmes",
-            ),
-            MultiFieldPanel(
-                [InlinePanel("related_schools_and_research_pages")],
-                heading="Related Schools and Research Centres",
-            ),
-        ]
-        + TapMixin.panels
-    )
+    content_panels = [
+        *BasePage.content_panels,
+        # Taxonomy, relationships etc
+        InlinePanel("subjects", label="Subjects"),
+        InlinePanel("programme_types", label="Programme Types"),
+        MultiFieldPanel(
+            [
+                FieldPanel("hero_image"),
+                FieldPanel("hero_image_credit"),
+                FieldPanel("hero_video"),
+                FieldPanel("hero_video_preview_image"),
+            ],
+            heading="Hero",
+        ),
+        MultiFieldPanel(
+            [InlinePanel("related_programmes", label="Related programmes")],
+            heading="Related Programmes",
+        ),
+        MultiFieldPanel(
+            [InlinePanel("related_schools_and_research_pages")],
+            heading="Related Schools and Research Centres",
+        ),
+        *TapMixin.panels,
+    ]
     key_details_panels = [
         InlinePanel("degree_levels", label="Degree levels", min_num=1),
         MultiFieldPanel(
@@ -941,15 +941,14 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         FieldPanel("experience_content"),
         FieldPanel("experience_disclaimer"),
     ]
-    promote_panels = BasePage.promote_panels + [
+    promote_panels = [
+        *BasePage.promote_panels,
         FieldPanel("exclude_from_programme_finder"),
         MultiFieldPanel(
             [
                 HelpPanel(
-                    content=(
-                        "Adding tags will allow users to search for the programme "
-                        "on the programmes listing page by tags"
-                    )
+                    content="Adding tags will allow users to search for the programme "
+                    "on the programmes listing page by tags"
                 ),
                 FieldPanel("tags"),
             ],
@@ -973,7 +972,8 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
         ]
     )
 
-    search_fields = BasePage.search_fields + [
+    search_fields = [
+        *BasePage.search_fields,
         index.SearchField("programme_description_copy", boost=2),
         index.SearchField("pathway_blocks", boost=2),
         # indexing 'what_you_will_cover_blocks' only works for content in the 'accordion_block' block
@@ -1258,10 +1258,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
     def has_vepple_panorama(self):
         # Insert the script (in `base_page.html`) to load the Vepple panorama, if we have one.
-        if self.vepple_post_id:
-            return True
-
-        return False
+        return bool(self.vepple_post_id)
 
     @cached_property
     def scholarship_items(self):
@@ -1361,7 +1358,9 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
             context["vepple_api_url"] = settings.VEPPLE_API_URL
 
         if self.tap_widget:
-            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
+            context["tap_widget_code"] = mark_safe(  # noqa: S308 -- editor-entered embed snippet, not user input
+                self.tap_widget.script_code
+            )
 
         if self.has_social_media_links:
             context["social_media_links"] = self.social_media_links.all()
@@ -1377,16 +1376,14 @@ class ProgrammeIndexPage(ContactFieldsMixin, BasePage):
     introduction = RichTextField(blank=False, features=["link"])
     search_placeholder_text = models.TextField(blank=True, max_length=120)
 
-    content_panels = BasePage.content_panels + [
+    content_panels = [
+        *BasePage.content_panels,
         FieldPanel("introduction"),
         FieldPanel("search_placeholder_text"),
-        MultiFieldPanel(
-            [*ContactFieldsMixin.panels],
-            heading="Contact information",
-        ),
+        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
     ]
 
-    search_fields = BasePage.search_fields + [index.SearchField("introduction")]
+    search_fields = [*BasePage.search_fields, index.SearchField("introduction")]
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)

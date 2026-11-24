@@ -1,9 +1,10 @@
 from datetime import timedelta
 from unittest.mock import Mock, patch
 
-import wagtail_factories
 from django.test import TestCase
 from django.utils import timezone
+
+import wagtail_factories
 
 from rca.home.models import HomePage
 from rca.personalisation.factories import (

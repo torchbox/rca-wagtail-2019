@@ -105,9 +105,11 @@ class ProgrammePageSwapChildValuesTest(TestCase):
             with self.subTest(model=model.__name__), transaction.atomic():
                 model.objects.create(**{page_field: self.page, value_field: value})
                 model.objects.create(**{page_field: self.page, value_field: value})
-                with self.assertRaises(IntegrityError):
-                    with connection.cursor() as cursor:
-                        cursor.execute("SET CONSTRAINTS ALL IMMEDIATE")
+                with (
+                    self.assertRaises(IntegrityError),
+                    connection.cursor() as cursor,
+                ):
+                    cursor.execute("SET CONSTRAINTS ALL IMMEDIATE")
                 # The caught IntegrityError leaves the transaction aborted, so roll
                 # back this case's savepoint before the next one
                 transaction.set_rollback(True)

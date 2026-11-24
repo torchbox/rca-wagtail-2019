@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
+
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import (
@@ -11,6 +12,7 @@ from wagtail.admin.panels import (
     PageChooserPanel,
 )
 from wagtail.models import Orderable
+
 from wagtail_personalisation.models import Segment
 from wagtail_personalisation.rules import AbstractBaseRule
 

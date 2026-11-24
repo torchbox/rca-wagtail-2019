@@ -5,8 +5,10 @@ from django.core import mail
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
-from freezegun import freeze_time
+
 from wagtail.models import Collection, GroupCollectionPermission, GroupPagePermission
+
+from freezegun import freeze_time
 from wagtail_factories import CollectionFactory
 
 from rca.account_management.forms import StudentCreateForm

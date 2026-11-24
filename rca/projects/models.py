@@ -8,6 +8,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import (
     FieldPanel,
@@ -206,17 +207,16 @@ class ProjectPage(ContactFieldsMixin, BasePage):
             Aim for logos that sit on either a white or transparent background.",
     )
 
-    search_fields = BasePage.search_fields + [
+    search_fields = [
+        *BasePage.search_fields,
         index.SearchField("introduction"),
         index.SearchField("body"),
         index.SearchField("more_information"),
     ]
 
-    content_panels = BasePage.content_panels + [
-        MultiFieldPanel(
-            [FieldPanel("hero_image")],
-            heading=_("Hero"),
-        ),
+    content_panels = [
+        *BasePage.content_panels,
+        MultiFieldPanel([FieldPanel("hero_image")], heading=_("Hero")),
         MultiFieldPanel(
             [
                 FieldPanel("introduction"),
@@ -229,10 +229,7 @@ class ProjectPage(ContactFieldsMixin, BasePage):
         FieldPanel("body"),
         FieldPanel("gallery"),
         MultiFieldPanel(
-            [
-                FieldPanel("more_information_title"),
-                FieldPanel("more_information"),
-            ],
+            [FieldPanel("more_information_title"), FieldPanel("more_information")],
             heading=_("More information"),
         ),
         MultiFieldPanel(
@@ -437,11 +434,10 @@ class ProjectPickerPage(BasePage):
         blank=True,
     )
 
-    search_fields = BasePage.search_fields + [
-        index.SearchField("introduction"),
-    ]
+    search_fields = [*BasePage.search_fields, index.SearchField("introduction")]
 
-    content_panels = BasePage.content_panels + [
+    content_panels = [
+        *BasePage.content_panels,
         FieldPanel("introduction"),
         FieldPanel("featured_project"),
     ]

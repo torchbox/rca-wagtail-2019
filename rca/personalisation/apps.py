@@ -51,6 +51,7 @@ class PersonalisationConfig(AppConfig):
         #   arguments but 3 were given
         # Wrap the hook in place to accept and discard the extra argument.
         from wagtail import hooks
+
         from wagtail_personalisation import wagtail_hooks as wp_hooks
 
         # Hook discovery normally happens lazily on first use. Force it now
