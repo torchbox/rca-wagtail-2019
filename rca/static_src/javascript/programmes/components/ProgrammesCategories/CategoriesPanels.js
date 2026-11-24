@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import { programmeCategories } from '../../programmes.types';
 
@@ -17,8 +17,8 @@ const CategoriesPanels = ({ categories, activeCategory }) => (
                 key={c.id}
                 id={c.id}
                 className="categories-panels__panel"
+                role="tabpanel"
                 aria-labelledby={`${c.id}-tab`}
-                aria-expanded={c.id === activeCategory}
                 hidden={c.id !== activeCategory}
             >
                 {c.items.map((item) => (

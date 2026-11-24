@@ -18,7 +18,7 @@ To install node on the host machine we recommend using [`nvm`](https://github.co
 - Consideration for images, currently copying the directory only - to avoid slowdowns and non-essential dependancies. We encourage using SVG for UI vectors and pre-optimised UI photograph assets.
 - [Build commands](#build-scripts) for generating testable or deployable assets only
 - Sass linting with `sass-lint`
-- JS linting with `eslint`
+- JS/TS/JSON linting and formatting with [Biome](https://biomejs.dev)
 - [Jest](https://jestjs.io/) for JavaScript unit tests.
 - React support
 

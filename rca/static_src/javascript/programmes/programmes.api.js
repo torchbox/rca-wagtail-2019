@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 
 import {
     PROGRAMME_PAGE_TYPE,
-    SHORT_COURSE_PAGE_TYPE,
     programmePage,
+    SHORT_COURSE_PAGE_TYPE,
 } from './programmes.types';
 
 const WAGTAIL_API_ENDPOINT = '/api/v3/pages';
@@ -42,8 +42,8 @@ export const getWagtailAPIQueryString = ({
 }) => {
     const parameters = {
         'type': type || null,
-        'full-time': fullTime !== undefined ? fullTime : 'false',
-        'part-time': partTime !== undefined ? partTime : 'false',
+        'full-time': fullTime === undefined ? 'false' : fullTime,
+        'part-time': partTime === undefined ? 'false' : partTime,
         'limit': limit || null,
         'fields': fields.join(',') || null,
         'search': search || null,

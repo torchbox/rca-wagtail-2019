@@ -1,5 +1,5 @@
 publicHoistPattern:
-  - '*eslint*'
+  - '*biome*'
   - '*prettier*'
   - '*stylelint*'
   - '@babel/*'
@@ -10,8 +10,6 @@ allowBuilds:
   core-js: false
 blockExoticSubdeps: true
 trustPolicy: no-downgrade
-trustPolicyExclude:
-  - eslint-config-prettier@8.10.2
 minimumReleaseAge: 4320
 # Trivy scan R1-403 (PR #1208, 2026-11-24) flagged 4 MEDIUM findings in glob
 # and minimatch nested under jest and babel-plugin-istanbul. These overrides

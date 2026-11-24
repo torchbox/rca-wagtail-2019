@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-
-import {
-    programmePageShape,
-    programmeCategories,
-} from '../../programmes.types';
-import { searchProgrammes } from '../../programmes.slice';
-
-import Icon from '../Icon/Icon';
-import ProgrammeTeaser from './ProgrammeTeaser';
-import { pushState, getCategoryURL } from '../../programmes.routes';
-import ModeCheckbox from '../StudyModeCheckbox';
 import { useStudyMode } from '../../context/StudyModeContext';
+import { getCategoryURL, pushState } from '../../programmes.routes';
+import { searchProgrammes } from '../../programmes.slice';
+import {
+    programmeCategories,
+    programmePageShape,
+} from '../../programmes.types';
+import Icon from '../Icon/Icon';
+import ModeCheckbox from '../StudyModeCheckbox';
+import ProgrammeTeaser from './ProgrammeTeaser';
 
 const getResultsStatus = (
     isLoading,
@@ -86,8 +84,6 @@ const ProgrammesResults = ({
         activeCategory,
         activeValue,
         searchQuery,
-        isFullTime,
-        isPartTime,
     ]);
 
     return (
@@ -103,8 +99,8 @@ const ProgrammesResults = ({
                                     onClick={() => {
                                         if (
                                             hasActiveFilter ||
-                                            !!isFullTime ||
-                                            !!isPartTime
+                                            isFullTime ||
+                                            isPartTime
                                         ) {
                                             const href = getCategoryURL(
                                                 activeCategory,

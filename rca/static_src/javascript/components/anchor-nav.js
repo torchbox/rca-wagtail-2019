@@ -71,7 +71,9 @@ class AnchorNav {
     }
 
     stripClasses() {
-        this.allLinks.forEach((link) => link.classList.remove('is-active'));
+        this.allLinks.forEach((link) => {
+            link.classList.remove('is-active');
+        });
     }
 }
 

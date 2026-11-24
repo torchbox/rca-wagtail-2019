@@ -56,8 +56,7 @@ class SubMenu {
 
     // add active link styles
     activateMenu(navItem) {
-        // eslint-disable-next-line radix
-        const itemLevel = parseInt(navItem.dataset.navLevel);
+        const itemLevel = Number.parseInt(navItem.dataset.navLevel, 10);
         const childDrawer = `[data-nav-level-${itemLevel + 1}]`;
         const grandChildDrawer = `[data-nav-level-${itemLevel + 2}]`;
         const childMenus = `[data-ul="${itemLevel + 1}"]`;

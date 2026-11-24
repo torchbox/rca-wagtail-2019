@@ -1,5 +1,5 @@
-import React from 'react';
 import { render } from '@testing-library/react';
+import React from 'react';
 import CategoriesPanels from './CategoriesPanels';
 
 describe('CategoriesPanels', () => {
@@ -39,9 +39,9 @@ describe('CategoriesPanels', () => {
         );
         const testElement = container.querySelector('#test');
         const test2Element = container.querySelector('#test2');
-        expect(testElement.getAttribute('aria-expanded')).toBe('true');
+        expect(testElement.getAttribute('role')).toBe('tabpanel');
         expect(testElement.hasAttribute('hidden')).toBe(false);
-        expect(test2Element.getAttribute('aria-expanded')).toBe('false');
+        expect(test2Element.getAttribute('role')).toBe('tabpanel');
         expect(test2Element.hasAttribute('hidden')).toBe(true);
     });
 });

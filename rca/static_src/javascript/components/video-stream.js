@@ -1,5 +1,5 @@
-import videojs from 'video.js';
 import { registerIVSTech } from 'amazon-ivs-player';
+import videojs from 'video.js';
 
 class VideoPlayer {
     static selector() {
