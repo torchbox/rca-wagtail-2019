@@ -95,9 +95,11 @@
         @include z-index(above-gridlines);
         position: relative;
 
-        // Make sure that grid lines can't be seen underneath the programme finder toggles
+        // Make sure that grid lines can't be seen underneath the programme finder toggles,
+        // but stay below the mobile nav overlay (z-index: nav-overlay/nav) so the toggles
+        // don't poke through the menu when it's open.
         .programmes-results__wrapper & {
-            @include z-index(above-header-gridlines);
+            @include z-index(above-header);
         }
     }
 
