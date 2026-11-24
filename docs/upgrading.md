@@ -184,7 +184,7 @@ Debian Trixie drops the legacy tz aliases from its base image, so `zoneinfo` can
 
 ## Security
 
-Last security review: 2026-11-04
+Last security review: 2026-11-24
 
 ### Accepted CVE-2026-9318 in tablib
 
