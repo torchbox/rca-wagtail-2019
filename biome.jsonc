@@ -1,0 +1,117 @@
+{
+  // Keep the $schema version in sync with @biomejs/biome in package.json.
+  // See docs/upgrading.md for instructions.
+  "$schema": "https://biomejs.dev/schemas/2.6.8/schema.json",
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "style": {
+        "useTemplate": "error",
+        "useNumberNamespace": "error",
+        "noNegationElse": "warn",
+        "useDefaultParameterLast": "error",
+        "useExponentiationOperator": "error",
+        "useNodejsImportProtocol": "off" // ESLint never enforced n/prefer-node-protocol or unicorn/prefer-node-protocol; off to keep the migration like-for-like
+      },
+      "suspicious": {
+        "noVar": "error",
+        // no-console was ESLint's `error`, with `console.error` allowed; match that here
+        "noConsole": { "level": "warn", "options": { "allow": ["error"] } },
+        "noDoubleEquals": "error"
+      },
+      "correctness": {
+        "noUndeclaredVariables": "error",
+        "noUnusedFunctionParameters": "off" // ESLint's no-unused-vars used `args: "after-used"`, which tolerates an unused parameter before the last used one (e.g. `(environment, argv) => {}` using only argv); off to keep the migration like-for-like
+      },
+      "complexity": {
+        "useOptionalChain": "off", // ESLint never enforced @typescript-eslint/prefer-optional-chain (project has no TypeScript parser); off to keep the migration like-for-like
+        "noStaticOnlyClass": "off" // ESLint never enforced @typescript-eslint/no-extraneous-class or unicorn/no-static-only-class; off to keep the migration like-for-like
+      },
+      "a11y": {
+        "useSemanticElements": "off" // ESLint never enforced jsx-a11y/prefer-tag-over-role; off to keep the migration like-for-like
+      }
+    }
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 4,
+    "lineWidth": 80
+  },
+  "javascript": {
+    // .babelrc.js has no `runtime: 'automatic'` option, so both webpack and
+    // Jest compile JSX with the classic runtime: every JSX file needs
+    // `React` in scope. Without this, Biome assumes the automatic runtime
+    // and wrongly flags those imports as unused.
+    "jsxRuntime": "reactClassic",
+    "formatter": {
+      "quoteStyle": "single",
+      // Prettier's quoteProps was "consistent" (quote every key once any key
+      // needs quoting); Biome has no equivalent mode, only "asNeeded" or
+      // "preserve". "preserve" keeps existing object keys exactly as
+      // written, which is the closer match of the two.
+      "quoteProperties": "preserve",
+      "trailingCommas": "all",
+      "arrowParentheses": "always"
+    }
+  },
+  "json": {
+    "formatter": {
+      "indentWidth": 2
+    }
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "includes": [
+      "**",
+      "!**/*.html",
+      "!**/*.css",
+      "!**/*.scss",
+      "!**/*.svg",
+      "!**/*.md",
+      "!**/*.yaml",
+      "!**/*.yml",
+      "!**/*.webmanifest",
+      "!**/fixtures",
+      "!**/static"
+    ]
+  },
+  "overrides": [
+    {
+      // Jest injects these globals into test files and this project's Jest
+      // setup files (package.json's jest.setupFiles /
+      // setupFilesAfterEach). Scope them to test and setup files only so
+      // noUndeclaredVariables still flags undeclared globals in application
+      // code.
+      "includes": [
+        "**/*.test.{js,jsx,ts,tsx}",
+        "**/static_src/javascript/tests/**"
+      ],
+      "javascript": {
+        "globals": [
+          "jest",
+          "describe",
+          "it",
+          "test",
+          "expect",
+          "beforeAll",
+          "beforeEach",
+          "afterAll",
+          "afterEach"
+        ]
+      }
+    }
+  ]
+}

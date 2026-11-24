@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-use';
-
+import { StudyModeContext } from '../context/StudyModeContext';
 import { programmeCategories } from '../programmes.types';
-
 import ProgrammesCategories from './ProgrammesCategories/ProgrammesCategories';
 import ProgrammesResults from './ProgrammesResults/ProgrammesResults';
 import SearchForm from './SearchForm';
-import { StudyModeContext } from '../context/StudyModeContext';
 
 /**
  * Programmes and short courses listing, with a search form, filters, and a results view.
@@ -27,14 +25,13 @@ const ProgrammesExplorer = ({ searchLabel, categories }) => {
     const [isFullTime, setIsFullTime] = useState(params.get('full-time') || '');
     const [isPartTime, setIsPartTime] = useState(params.get('part-time') || '');
 
-    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         // Only do this on initial load
         if (isFullTime === '' && isPartTime === '') {
             setIsFullTime('true');
             setIsPartTime('true');
         }
-    }, []);
+    }, [isPartTime, isFullTime]);
 
     return (
         <StudyModeContext.Provider

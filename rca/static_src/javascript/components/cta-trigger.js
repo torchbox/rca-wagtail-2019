@@ -33,8 +33,9 @@ class CTATrigger {
         this.node = node;
         this.id = this.node.dataset.ctaId;
         this.trigger = this.node.dataset.ctaTrigger;
-        this.delay = parseInt(this.node.dataset.ctaDelay, 10) || 5;
-        this.scrollThreshold = parseInt(this.node.dataset.ctaScroll, 10) || 50;
+        this.delay = Number.parseInt(this.node.dataset.ctaDelay, 10) || 5;
+        this.scrollThreshold =
+            Number.parseInt(this.node.dataset.ctaScroll, 10) || 50;
         // Exit intent sensitivity - distance in pixels from top of viewport
         this.exitIntentSensitivity = 20;
         this.closeButton = this.node.querySelector('[data-cta-close]');
