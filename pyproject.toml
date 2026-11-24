@@ -84,6 +84,10 @@ requires = ["poetry>=1,<2"]
 build-backend = "poetry.masonry.api"
 
 [tool.ruff]
+# Kept at 88 (matching the old `[tool.black]` config) rather than lifted to the
+# old flake8 `max-line-length = 120`: black, not flake8, was the line actually
+# enforced on every formatted line, so 88 is the width the codebase is already
+# wrapped to and keeps `ruff format` from reflowing it needlessly.
 line-length = 88
 extend-exclude = ["migrations"]
 
