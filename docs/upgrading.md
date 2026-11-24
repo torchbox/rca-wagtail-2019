@@ -164,7 +164,7 @@ As well as testing the critical paths, these areas of functionality should be ch
 ### Personalisation segments hidden from the userbar
 
 1. `rca.personalisation.wagtail_hooks.remove_personalisation_segments` strips segment items from the userbar via `construct_wagtail_userbar` (Wagtail 8.0's `request, items, page` form). A renamed or removed `segment` attribute would silently stop the filtering.
-2. `wagtail-personalisation`'s own `add_segment_link_items` hook is still two-argument at its latest release (1.0.0): Wagtail 8.1 calls every userbar hook as `(request, items, page)` unconditionally, so this would raise `TypeError`. `rca.personalisation.apps.PersonalisationConfig._patch_personalisation_userbar_hook` wraps it in place. Drop the patch once a newer release fixes it upstream.
+2. `wagtail-personalisation`'s own `add_segment_link_items` hook is still two-argument at its latest release (1.0.0): Wagtail 8.1 calls every userbar hook as `(request, items, page)` unconditionally, so this would raise `TypeError`. `rca.personalisation.apps.PersonalisationConfig._patch_personalisation_userbar_hook` wraps it in place by reaching into Wagtail's private `hooks._hooks` registry, not a documented API, so it can also break if Wagtail changes how that registry is structured, not only once wagtail-personalisation adds the third argument. Drop the patch once a newer wagtail-personalisation release fixes it upstream (the patch checks the hook's signature and leaves it alone once it does).
 
 ### Wagtail v2 API in use (rca.wagtailapi)
 
