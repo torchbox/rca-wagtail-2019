@@ -11,7 +11,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- ...
+- [AHM-291](https://torchbox.atlassian.net/browse/AHM-291) Pages that can show a personalised CTA are cached again: the page fetches its CTAs once it has loaded, and page views no longer set a session cookie
+- [AHM-291](https://torchbox.atlassian.net/browse/AHM-291) Log ignored Redis errors as one line rather than a traceback
 
 ### Added
 
@@ -24,6 +25,12 @@ All notable changes to this project will be documented in this file.
 ### Removed
 
 - ...
+
+## 2026-11-17
+
+### Security
+
+- [R1-399](https://torchbox.atlassian.net/browse/R1-399) Security update: Django 5.2.19 (CVE-2026-108147, CVE-2026-111211, CVE-2026-111362, CVE-2026-113593, CVE-2026-113733, CVE-2026-114582)
 
 ## 2026-10-26
 

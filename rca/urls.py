@@ -16,6 +16,7 @@ from rca.account_management.views import (
     CustomLogoutView,
     SSOLogoutConfirmationView,
 )
+from rca.personalisation.views import personalised_ctas
 from rca.search import views as search_views
 from rca.utils.cache import get_default_cache_control_decorator
 from rca.utils.views import apple_remote_management
@@ -38,6 +39,7 @@ private_urlpatterns = [
     # Don’t use generic cache control for API endpoints.
     path("api/v3/", api_router.urls),
     path("register-your-interest/", include("rca.enquire_to_study.urls")),
+    path("personalisation/ctas/", personalised_ctas, name="personalisation_ctas"),
 ]
 
 

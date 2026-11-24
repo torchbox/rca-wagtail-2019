@@ -374,6 +374,9 @@ if "AWS_STORAGE_BUCKET_NAME" in env:
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
+    "filters": {
+        "one_line_exception": {"()": "rca.utils.log_filters.OneLineException"},
+    },
     "handlers": {
         # Send logs with at least INFO level to the console.
         "console": {
@@ -401,6 +404,16 @@ LOGGING = {
             "propagate": False,
         },
         "xff": {"handlers": ["console"], "level": "WARNING", "propagate": False},
+        # With IGNORE_EXCEPTIONS, every cache call that fails is logged. When
+        # Redis is out of connections that is thousands a second, so log each
+        # as one line rather than a traceback. The filter is on the logger, so
+        # Sentry gets the one line too.
+        "django_redis.cache": {
+            "handlers": ["console"],
+            "level": "WARNING",
+            "filters": ["one_line_exception"],
+            "propagate": False,
+        },
     },
 }
 
