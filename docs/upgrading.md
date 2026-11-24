@@ -185,6 +185,14 @@ Last security review: 2026-11-24
 
 Lifted by upgrading `django-import-export` to 4.x, which relaxes the tablib pin. That is itself held by the ceiling recorded in `pyproject.toml` ("v4+ has breaking changes"), and the import feature needs comprehensive testing before it moves.
 
+### Accepted S308 (`mark_safe`) in the enquire-to-study thanks view
+
+- Location: `EnquireToStudyFormThanksView.get_context_data` in `rca/enquire_to_study/views.py`.
+- Why flagged: ruff's bandit-derived `S308` rule is new to this project (the previous flake8 setup had no bandit check); it flags `mark_safe()` wrapping `enquiry_form_session_data`, which is read back from the session.
+- Why it's there: `enquire_form_thanks.html` pushes that value straight into a `window.dataLayer.push({{ enquiry_form_session_data }})` script block for GTM analytics. Without `mark_safe()`, Django's autoescaping turns the dict's quote characters into HTML entities and breaks the JS.
+- Verified exposure: every value in the dict (`set_session_data` in the same file) comes from a closed-choice form field validated against a fixed queryset — country code/label, programme labels, a start-date label, an enquiry-reason label — not free-text end-user input. The only way to inject a payload is through an admin-managed snippet label (e.g. an enquiry reason or programme title), so exploiting this needs a staff account that can already edit that content, not an anonymous visitor.
+- Accepted as: a low-severity, staff-trust-boundary issue. Revisit if `set_session_data` ever starts including a free-text field (e.g. a message or comments field).
+
 ---
 
 ## Overridden core Wagtail templates

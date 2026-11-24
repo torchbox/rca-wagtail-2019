@@ -252,8 +252,8 @@ class EnquireToStudyFormThanksView(MetaTitleMixin, TemplateView):
         from django.utils.html import mark_safe
 
         if "enquiry_form_session_data" in self.request.session:
-            # Renders session data as HTML: flagged for security review
-            # rather than fixed here; see the MR description.
+            # Renders session data as HTML: accepted risk, see
+            # docs/upgrading.md#accepted-s308-mark_safe-in-the-enquire-to-study-thanks-view
             context["enquiry_form_session_data"] = mark_safe(  # noqa: S308
                 self.request.session["enquiry_form_session_data"]
             )
