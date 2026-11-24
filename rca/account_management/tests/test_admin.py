@@ -1,6 +1,7 @@
-from bs4 import BeautifulSoup as bs4
 from django.contrib.auth.models import Group, Permission
 from django.test import TestCase
+
+from bs4 import BeautifulSoup as bs4
 
 from rca.users.factories import UserFactory
 

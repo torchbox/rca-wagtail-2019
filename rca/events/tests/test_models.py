@@ -1,10 +1,12 @@
 from datetime import date, time
 
-import wagtail_factories
 from django.core.exceptions import ValidationError
 from django.test import TestCase
-from freezegun import freeze_time
+
 from wagtail.test.utils import WagtailPageTestCase
+
+import wagtail_factories
+from freezegun import freeze_time
 
 from rca.editorial.factories import EditorialPageFactory, EditorialTypeFactory
 from rca.editorial.models import EditorialPageTypePlacement

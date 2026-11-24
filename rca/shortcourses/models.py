@@ -3,10 +3,9 @@ from collections import defaultdict
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
-from rest_framework.fields import CharField as CharFieldSerializer
-from taggit.models import TaggedItemBase
 from wagtail.admin.panels import (
     FieldPanel,
     HelpPanel,
@@ -22,6 +21,9 @@ from wagtail.images import get_image_model_string
 from wagtail.images.api.fields import ImageRenditionField
 from wagtail.models import Orderable
 from wagtail.search import index
+
+from rest_framework.fields import CharField as CharFieldSerializer
+from taggit.models import TaggedItemBase
 
 from rca.utils.blocks import (
     AccordionBlockWithTitle,

@@ -4,6 +4,7 @@ from urllib.parse import urlencode
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils.text import slugify
+
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import (
     FieldPanel,

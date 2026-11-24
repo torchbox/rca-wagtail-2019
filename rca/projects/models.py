@@ -8,6 +8,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import (
     FieldPanel,

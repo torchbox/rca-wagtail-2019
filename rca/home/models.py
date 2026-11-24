@@ -3,6 +3,7 @@ from collections import defaultdict
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.safestring import mark_safe
+
 from wagtail.admin.panels import (
     FieldPanel,
     MultiFieldPanel,

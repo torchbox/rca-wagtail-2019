@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from wagtail.test.utils import WagtailPageTestCase
 
 from rca.home.models import HomePage

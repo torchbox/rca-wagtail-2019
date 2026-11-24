@@ -1,7 +1,6 @@
 import logging
 from datetime import timedelta
 
-import requests
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
@@ -13,8 +12,11 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
-from django_countries.ioc_data import IOC_TO_ISO
+
 from wagtail.admin import messages
+
+import requests
+from django_countries.ioc_data import IOC_TO_ISO
 
 from rca.utils.views import MetaTitleMixin
 

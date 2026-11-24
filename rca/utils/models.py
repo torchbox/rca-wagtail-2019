@@ -9,9 +9,9 @@ from django.utils.cache import add_never_cache_headers, patch_cache_control
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
-from taggit.models import ItemBase, TagBase
 from wagtail import blocks
 from wagtail.admin.panels import (
     FieldPanel,
@@ -25,6 +25,8 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Orderable, Page
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
+
+from taggit.models import ItemBase, TagBase
 from wagtail_personalisation.adapters import get_segment_adapter
 
 from rca.api_content.content import CantPullFromRcaApi

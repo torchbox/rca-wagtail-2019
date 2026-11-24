@@ -1,7 +1,9 @@
 from django.contrib import admin
+
+from wagtail.models import Page
+
 from import_export import widgets
 from import_export.fields import Field
-from wagtail.models import Page
 
 from ..models import StaffPage
 from .page_import import PageImportMixin, PageResource

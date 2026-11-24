@@ -9,10 +9,9 @@ from django.db.models import Prefetch
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
+
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
-from rest_framework.fields import CharField as CharFieldSerializer
-from taggit.models import TaggedItemBase
 from wagtail.admin.panels import (
     FieldPanel,
     HelpPanel,
@@ -32,6 +31,9 @@ from wagtail.images.api.fields import ImageRenditionField
 from wagtail.models import Orderable, Site
 from wagtail.search import index
 from wagtail.snippets.blocks import SnippetChooserBlock
+
+from rest_framework.fields import CharField as CharFieldSerializer
+from taggit.models import TaggedItemBase
 from wagtailorderable.models import Orderable as WagtailOrdable
 
 from rca.navigation.models import LinkBlock as InternalExternalLinkBlock

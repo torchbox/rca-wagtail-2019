@@ -1,5 +1,6 @@
 from django.apps import apps
 from django.db.models import Q
+
 from wagtail.admin.panels import InlinePanel, ObjectList
 
 
