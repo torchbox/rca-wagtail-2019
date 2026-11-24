@@ -11,22 +11,22 @@ ESLint and its `eslint-config-torchbox` peer set (`eslint`, `eslint-config-prett
 ## Node dependency holds
 
 - `@babel/eslint-parser` (`^7.29.13`): held with the ESLint ceiling above: its 8.x major needs `eslint@^9||^10`, which `eslint-config-torchbox` doesn't support. Lift when `eslint-config-torchbox` supports ESLint v9's flat config.
-  Evidence: `npm install` fails with `ERESOLVE: peer eslint@"^9.0.0 || ^10.0.0" from @babel/eslint-parser@8.1.2`
+  Evidence: `PNPM_CONFIG_STRICT_PEER_DEPENDENCIES=true pnpm install --lockfile-only` with `@babel/eslint-parser` bumped to `^8.1.2` fails with `unmet peer eslint, Installed: 8.57.1, Wanted "^9.0.0 || ^10.0.0": @babel/eslint-parser@8.1.2` (pnpm installs peer-conflicting deps by default; `strictPeerDependencies` makes this fail the way npm's `ERESOLVE` did)
   Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
 - `@babel/core` (`^7.29.13`): held because the ESLint-ceiling-held `@babel/eslint-parser@7` needs `@babel/core@^7.11.0`, and its own 8.x major only accepts `@babel/core@^8`. Lift when `@babel/eslint-parser` lifts.
-  Evidence: `npm install` fails with `ERESOLVE: peer @babel/core@"^7.11.0" from @babel/eslint-parser@7.29.13`
+  Evidence: `PNPM_CONFIG_STRICT_PEER_DEPENDENCIES=true pnpm install --lockfile-only` with `@babel/core` bumped to `^8.0.0` fails with `unmet peer @babel/core, Installed: 8.1.3, Wanted ^7.11.0: @babel/eslint-parser@7.29.13`
   Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
 - `@babel/preset-env` (`^7.29.14`): held with `@babel/core`: its 8.x major needs `@babel/core@^8.0.0`, which conflicts with the `@babel/core` hold above. Lift when `@babel/core` lifts.
-  Evidence: `npm install` fails with `ERESOLVE: peer @babel/core@"^8.0.0" from @babel/preset-env@8.0.7`
+  Evidence: `PNPM_CONFIG_STRICT_PEER_DEPENDENCIES=true pnpm install --lockfile-only` with `@babel/preset-env` bumped to `^8.0.0` fails with `unmet peer @babel/core, Installed: 7.29.13, Wanted ^8.0.0: @babel/preset-env@8.0.7`
   Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
 - `@babel/preset-react` (`^7.29.7`): held with `@babel/core`: its 8.x major needs `@babel/core@^8.0.0`, which conflicts with the `@babel/core` hold above. Lift when `@babel/core` lifts.
-  Evidence: `npm install` fails with `ERESOLVE: peer @babel/core@"^8.0.0" from @babel/preset-react@8.0.1`
+  Evidence: `PNPM_CONFIG_STRICT_PEER_DEPENDENCIES=true pnpm install --lockfile-only` with `@babel/preset-react` bumped to `^8.0.0` fails with `unmet peer @babel/core, Installed: 7.29.13, Wanted ^8.0.0: @babel/preset-react@8.0.1`
   Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
 - `@babel/plugin-transform-class-properties` (`^7.29.7`): held with `@babel/core`: its 8.x major needs `@babel/core@^8.0.0`, which conflicts with the `@babel/core` hold above. Lift when `@babel/core` lifts.
-  Evidence: `npm install` fails with `ERESOLVE: peer @babel/core@"^8.0.0" from @babel/plugin-transform-class-properties@8.0.1`
+  Evidence: `PNPM_CONFIG_STRICT_PEER_DEPENDENCIES=true pnpm install --lockfile-only` with `@babel/plugin-transform-class-properties` bumped to `^8.0.0` fails with `unmet peer @babel/core, Installed: 7.29.13, Wanted ^8.0.0: @babel/plugin-transform-class-properties@8.0.1`
   Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
 - `stylelint` (`^17.16.0`): held because `stylelint-config-torchbox@5.0.0`, its latest release, only supports `stylelint@^17`; its 18.x major has no compatible `stylelint-config-torchbox` release yet. Lift when `stylelint-config-torchbox` supports stylelint v18.
-  Evidence: `npm ci` fails with `Conflicting peer dependency: stylelint@17.16.0 ... peer stylelint@"^17.0.0" from stylelint-config-torchbox@5.0.0`
+  Evidence: `PNPM_CONFIG_STRICT_PEER_DEPENDENCIES=true pnpm install --lockfile-only` with `stylelint` bumped to `^18.0.0` fails with `unmet peer stylelint, Installed: 18.1.0, Wanted ^17.0.0: stylelint-config-torchbox@5.0.0`
   Release notes: https://github.com/stylelint/stylelint/releases/tag/18.0.0
 - `video.js` (`^8.24.2`): held because v10 replaced the classic `Tech` plugin API with `createPlayer`/extension packages, dropping `videojs.registerTech`/`getTech`, which `amazon-ivs-player`'s `registerIVSTech` calls to register the IVS playback tech. Lift when `amazon-ivs-player` ships a v10-compatible release.
   Evidence: `node -e "const videojs = require('video.js'); require('amazon-ivs-player').registerIVSTech(videojs, {})"` on `video.js@10.5.0` fails with `videojs not available, AmazonIVS tech not registered`
