@@ -110,8 +110,13 @@ select = ["E", "W", "F", "UP", "I", "B", "SIM", "C4", "S", "C90", "RUF"]
 ignore = ["E501", "SIM105", "RUF012", "C901", "RUF001", "RUF002", "RUF003", "S311"]
 
 [tool.ruff.lint.per-file-ignores]
-"**/{settings,fabfile,styleguide}.py" = ["S", "B"]
-"rca/settings/*.py" = ["S", "B"]
+# S110: bare except-pass around a best-effort local cleanup. S603/S607: fixed,
+# developer-supplied argv lists (docker-compose/heroku CLI calls), not
+# untrusted input.
+"fabfile.py" = ["S110", "S603", "S607"]
+# S104: 0.0.0.0 in INTERNAL_IPS is deliberate for local Docker access.
+# S105: these are the dev/test SECRET_KEY placeholders, not real secrets.
+"rca/settings/*.py" = ["S104", "S105"]
 "**/tests/*.py" = ["S105", "S106"]
 
 [tool.ruff.lint.isort]
