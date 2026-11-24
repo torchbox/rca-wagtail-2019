@@ -2,6 +2,7 @@ import logging
 from unittest.mock import patch
 
 from django.test import TestCase
+
 from requests.exceptions import Timeout
 
 from rca.api_content.content import CantPullFromRcaApi, pull_related_students

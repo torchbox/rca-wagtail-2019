@@ -72,7 +72,7 @@ def partnerships_slides_formatter(slides):
             page = slide.value.specific
 
             if page.__class__.__name__ in page_type_mapping:
-                page_type = page_type_mapping.get(page.__class__.__name__, None)
+                page_type = page_type_mapping.get(page.__class__.__name__)
             summary = (
                 page.introduction
                 if hasattr(page, "introduction")

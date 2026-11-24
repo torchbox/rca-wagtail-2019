@@ -1,5 +1,6 @@
-from rest_framework.fields import Field
 from wagtail.models import Page
+
+from rest_framework.fields import Field
 
 
 class EditorialTypeTaxonomySerializer(Field):

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import Group
 from django.test import TestCase
+
 from social_core.backends.azuread_tenant import AzureADTenantOAuth2
 from social_django.models import UserSocialAuth
 from social_django.utils import load_strategy

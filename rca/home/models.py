@@ -3,6 +3,7 @@ from collections import defaultdict
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.safestring import mark_safe
+
 from wagtail.admin.panels import (
     FieldPanel,
     MultiFieldPanel,
@@ -53,24 +54,22 @@ class HomePage(ProcessedBodyMixin, TapMixin, BasePage):
         blank=True,
     )
 
-    content_panels = (
-        BasePage.content_panels
-        + [
-            MultiFieldPanel(
-                [
-                    FieldPanel("hero_image"),
-                    FieldPanel("hero_image_credit"),
-                    FieldPanel("hero_colour_option"),
-                    FieldPanel("hero_cta_url", heading="Hero CTA URL"),
-                    FieldPanel("hero_cta_text", heading="Hero CTA Text"),
-                    FieldPanel("hero_cta_sub_text", heading="Hero CTA Sub Text"),
-                ],
-                heading="Hero",
-            ),
-            FieldPanel("body"),
-        ]
-        + TapMixin.panels
-    )
+    content_panels = [
+        *BasePage.content_panels,
+        MultiFieldPanel(
+            [
+                FieldPanel("hero_image"),
+                FieldPanel("hero_image_credit"),
+                FieldPanel("hero_colour_option"),
+                FieldPanel("hero_cta_url", heading="Hero CTA URL"),
+                FieldPanel("hero_cta_text", heading="Hero CTA Text"),
+                FieldPanel("hero_cta_sub_text", heading="Hero CTA Sub Text"),
+            ],
+            heading="Hero",
+        ),
+        FieldPanel("body"),
+        *TapMixin.panels,
+    ]
 
     edit_handler = TabbedInterface(
         [
@@ -100,7 +99,9 @@ class HomePage(ProcessedBodyMixin, TapMixin, BasePage):
         context["hero_colour"] = LIGHT_HERO
 
         if self.tap_widget:
-            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
+            context["tap_widget_code"] = mark_safe(  # noqa: S308 -- editor-entered embed snippet, not user input
+                self.tap_widget.script_code
+            )
 
         if (
             hasattr(self, "hero_colour_option")

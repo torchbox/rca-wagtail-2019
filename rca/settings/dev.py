@@ -36,7 +36,7 @@ INSTALLED_APPS += ["wagtail.contrib.styleguide"]  # noqa
 
 
 # Adds django-extensions into installed apps
-INSTALLED_APPS += ["django_extensions"]  # noqa
+INSTALLED_APPS += ["django_extensions"]
 
 
 # Disable forcing HTTPS locally since development server supports HTTP only.
@@ -47,7 +47,7 @@ SECURE_SSL_REDIRECT = False
 try:
     import debug_toolbar  # noqa
 
-    INSTALLED_APPS.append("debug_toolbar")  # noqa
+    INSTALLED_APPS.append("debug_toolbar")
     MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")  # noqa
 except ImportError:
     pass

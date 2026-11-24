@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.search import index
@@ -44,43 +45,37 @@ class GuidePage(
     related_staff_title = models.CharField(blank=True, max_length=120, default="Staff")
     related_pages_title = models.CharField(blank=True, max_length=120)
 
-    search_fields = ShorthandContentMixin.search_fields + [
+    search_fields = [
+        *ShorthandContentMixin.search_fields,
         index.SearchField("introduction"),
         index.AutocompleteField("introduction"),
         index.SearchField("body"),
         index.SearchField("further_information_block"),
     ]
 
-    content_panels = (
-        BasePage.content_panels
-        + [
-            FieldPanel("introduction"),
-            FieldPanel("shorthand_story_url"),
-            FieldPanel("body"),
-            MultiFieldPanel(
-                [FieldPanel("related_staff_title"), InlinePanel("related_staff")],
-                heading=_("Related staff"),
-            ),
-            MultiFieldPanel(
-                [
-                    FieldPanel("further_information_block"),
-                ],
-                heading=_("Further information"),
-            ),
-            MultiFieldPanel(
-                [
-                    FieldPanel("related_pages_title"),
-                    InlinePanel("related_pages", max_num=6),
-                ],
-                heading=_("Related pages"),
-            ),
-            MultiFieldPanel(
-                [*ContactFieldsMixin.panels], heading="Contact information"
-            ),
-        ]
-        + TapMixin.panels
-        + [StickyCTAMixin.panels]
-    )
+    content_panels = [
+        *BasePage.content_panels,
+        FieldPanel("introduction"),
+        FieldPanel("shorthand_story_url"),
+        FieldPanel("body"),
+        MultiFieldPanel(
+            [FieldPanel("related_staff_title"), InlinePanel("related_staff")],
+            heading=_("Related staff"),
+        ),
+        MultiFieldPanel(
+            [FieldPanel("further_information_block")], heading=_("Further information")
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("related_pages_title"),
+                InlinePanel("related_pages", max_num=6),
+            ],
+            heading=_("Related pages"),
+        ),
+        MultiFieldPanel([*ContactFieldsMixin.panels], heading="Contact information"),
+        *TapMixin.panels,
+        StickyCTAMixin.panels,
+    ]
 
     @property
     def listing_meta(self):
@@ -91,7 +86,7 @@ class GuidePage(
         """Build list of data to be used as
         in-page navigation"""
         items = []
-        for i, block in enumerate(self.body):
+        for _i, block in enumerate(self.body):
             if block.block_type == "anchor_heading":
                 items.append({"title": block.value, "link": f"#{slugify(block.value)}"})
         if self.related_staff.first():
@@ -139,10 +134,7 @@ class GuidePage(
         return all(data.get(key) for key in ["message", "action", "link"])
 
     def has_vepple_panorama(self):
-        for value in self.body.raw_data:
-            if value["type"] == "vepple_panorama":
-                return True
-        return False
+        return any(value["type"] == "vepple_panorama" for value in self.body.raw_data)
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -153,6 +145,8 @@ class GuidePage(
         if self.has_sticky_cta():
             context["sticky_cta"] = self.get_sticky_cta()
         if self.tap_widget:
-            context["tap_widget_code"] = mark_safe(self.tap_widget.script_code)
+            context["tap_widget_code"] = mark_safe(  # noqa: S308 -- editor-entered embed snippet, not user input
+                self.tap_widget.script_code
+            )
 
         return context

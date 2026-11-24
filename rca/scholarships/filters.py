@@ -19,9 +19,9 @@ class ProgrammeTabStyleFilter(TabStyleFilter):
         for page_id, label, title in self.queryset.values_list(
             "id", self.option_value_field, self.option_label_field
         ).order_by(self.option_label_field):
-            yield dict(
-                id=label,
-                title=title,
-                suffix=", ".join(degree_level_titles[page_id]),
-                active=bool(label in self.selected_values),
-            )
+            yield {
+                "id": label,
+                "title": title,
+                "suffix": ", ".join(degree_level_titles[page_id]),
+                "active": bool(label in self.selected_values),
+            }

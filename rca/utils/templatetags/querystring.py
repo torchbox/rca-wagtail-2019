@@ -96,7 +96,7 @@ def clean_querydict(querydict, remove_blanks=False, remove_utm=True):
         remove_vals.add("")
 
     if remove_utm:
-        for key in querydict.keys():
+        for key in querydict:
             if key.lower().startswith("utm_"):
                 querydict.pop(key)
 

@@ -4,8 +4,8 @@ from itertools import chain
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
 from modelcluster.fields import ParentalKey
-from phonenumber_field.modelfields import PhoneNumberField
 from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
@@ -18,6 +18,8 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.images import get_image_model_string
 from wagtail.models import Orderable, Page
 from wagtail.search import index
+
+from phonenumber_field.modelfields import PhoneNumberField
 
 from rca.utils.blocks import LinkBlock
 from rca.utils.models import (
@@ -179,18 +181,17 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
         ),
     )
 
-    search_fields = BasePage.search_fields + [
+    search_fields = [
+        *BasePage.search_fields,
         index.SearchField("introduction"),
         index.SearchField("centre_address"),
         index.SearchField("centre_tel"),
         index.SearchField("centre_email"),
     ]
 
-    content_panels = BasePage.content_panels + [
-        MultiFieldPanel(
-            [FieldPanel("hero_image")],
-            heading="Hero",
-        ),
+    content_panels = [
+        *BasePage.content_panels,
+        MultiFieldPanel([FieldPanel("hero_image")], heading="Hero"),
         MultiFieldPanel(
             [
                 FieldPanel("introduction"),
@@ -336,7 +337,7 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
                     "ShortCoursePage": "SHORT COURSE",
                     "ProgrammePage": "PROGRAMME",
                 }
-                page_type = page_type_mapping.get(page.__class__.__name__, None)
+                page_type = page_type_mapping.get(page.__class__.__name__)
                 research_news["slides"].append(
                     {
                         "value": {
@@ -385,11 +386,8 @@ class ResearchCentrePage(LegacyNewsAndEventsMixin, BasePage):
             errors["about_page"].append(
                 "Please choose between an internal page, or an external link"
             )
-        if (
-            self.about_page
-            and not self.about_page_link_text
-            or self.about_page_url
-            and not self.about_page_link_text
+        if (self.about_page and not self.about_page_link_text) or (
+            self.about_page_url and not self.about_page_link_text
         ):
             errors["about_page"].append("Please add some link text for the about page")
         if self.staff_link and not self.staff_link_text:

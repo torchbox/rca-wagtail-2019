@@ -1,4 +1,5 @@
 from django.forms.utils import ErrorList
+
 from wagtail import blocks
 from wagtail.blocks import StructValue
 from wagtail.blocks.struct_block import StructBlockValidationError
@@ -17,10 +18,7 @@ class NotableAlumniLinkStructValue(StructValue):
         return ""
 
     def is_external_link(self):
-        if self.get("link"):
-            return True
-
-        return False
+        return bool(self.get("link"))
 
 
 class NotableAlumniBlock(blocks.StructBlock):

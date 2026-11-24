@@ -24,10 +24,7 @@ def primarynav(context):
             continue
         page = link_block.value["primary_link"]["page"]
         title = link_block.value["primary_link"]["title"]
-        if page:
-            url = page.get_url(request)
-        else:
-            url = link_block.value["primary_link"]["url"]
+        url = page.get_url(request) if page else link_block.value["primary_link"]["url"]
         if not title and page:
             title = page.title
 

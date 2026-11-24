@@ -3,13 +3,15 @@ import tempfile
 import zipfile
 from urllib.parse import urlsplit
 
-import requests
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.functional import cached_property
+
 from wagtail.search import index
 from wagtail.utils.text import text_from_html
+
+import requests
 
 from rca.utils.models import BasePage
 
@@ -53,6 +55,7 @@ def get_api_response(path, stream=False):
         full_path,
         stream=stream,
         headers={"Authorization": f"Token {settings.SHORTHAND_API_TOKEN}"},
+        timeout=15,
     )
     response.raise_for_status()
     return response
@@ -81,7 +84,10 @@ def get_shorthand_story_zip(story_id: str):
     streams the contents to the temporary file, and returns it.
     """
     logger.info("Downloading content for Shorthand story: %s", story_id)
-    f = tempfile.NamedTemporaryFile()
+    # The file is returned open (not used as a context manager) so the caller
+    # can read it after this function returns; it is closed via garbage
+    # collection once the caller is done with it.
+    f = tempfile.NamedTemporaryFile()  # noqa: SIM115
     for bit in get_api_response(
         f"stories/{story_id}/?without_assets=true", stream=True
     ):
@@ -95,7 +101,6 @@ def extract_shorthand_story_text(story_id: str):
 
     # Unzip to temporary directory
     logger.info("Extracting text from Shorthand story: %s", story_id)
-    temp_dir = tempfile.mkdtemp()
     with tempfile.TemporaryDirectory() as temp_dir:
         with zipfile.ZipFile(file) as zip:
             zip.extractall(temp_dir)
@@ -133,7 +138,8 @@ class ShorthandContentMixin(models.Model):
     shorthand_story_id = models.CharField(max_length=15, null=True, editable=False)
     shorthand_story_text = models.TextField(editable=False)
 
-    search_fields = BasePage.search_fields + [
+    search_fields = [
+        *BasePage.search_fields,
         index.SearchField("shorthand_story_text"),
         index.AutocompleteField("shorthand_story_text"),
     ]

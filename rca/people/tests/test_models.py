@@ -1,9 +1,11 @@
 from django.contrib.auth.models import Group, Permission
 from django.test import TestCase
 from django.urls import reverse
+
 from wagtail.models import Collection, GroupCollectionPermission, GroupPagePermission
 from wagtail.test.utils import WagtailPageTestCase, WagtailTestUtils
 from wagtail.test.utils.form_data import inline_formset, rich_text
+
 from wagtail_factories import CollectionFactory
 
 from rca.home.models import HomePage
@@ -124,7 +126,6 @@ class TestStudentPage(WagtailPageTestCase):
 
 
 class TestStudentPageCreation(TestCase, WagtailTestUtils):
-
     create_view_name = "student_account_create"
 
     def setUp(self):

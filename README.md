@@ -1,6 +1,6 @@
 [![Github actions workflows](https://github.com/torchbox/rca-wagtail-2019/actions)](https://github.com/torchbox/rca-wagtail-2019/actions)
 [![codecov](https://codecov.io/gh/torchbox/rca-wagtail-2019/branch/master/graph/badge.svg?token=GBDM9H1A2X)](https://codecov.io/gh/torchbox/rca-wagtail-2019)
-[![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 # RCA Wagtail 2019
 

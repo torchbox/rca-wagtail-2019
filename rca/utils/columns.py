@@ -20,7 +20,7 @@ def insert_columns(
     either by its `name` or by its `label`.
     """
 
-    new_columns: "list[Column]" = []
+    new_columns: list[Column] = []
 
     for column in source_columns:
         column_heading_values = (

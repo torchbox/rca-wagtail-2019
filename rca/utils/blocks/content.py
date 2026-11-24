@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
+
 from wagtail import blocks
 from wagtail.blocks.struct_block import StructBlockValidationError
 from wagtail.contrib.typed_table_block.blocks import TypedTableBlock
@@ -10,25 +11,25 @@ from wagtail.images.blocks import ImageChooserBlock
 from rca.navigation.models import LinkBlock as InternalExternalLinkBlock
 
 __all__ = [
+    "AccordionBlock",
+    "AccordionBlockWithTitle",
+    "CTALinkBlock",
+    "CallToActionBlock",
+    "CustomTeaserBlock",
+    "DocumentBlock",
     "FeeBlock",
+    "GalleryBlock",
+    "ImageBlock",
+    "InfoBlock",
+    "LinkBlock",
+    "LinkedImageBlock",
+    "QuoteBlock",
+    "RelatedPageListBlock",
+    "RelatedPageListBlockPage",
     "SlideBlock",
     "StatisticBlock",
-    "ImageBlock",
-    "DocumentBlock",
-    "QuoteBlock",
-    "LinkBlock",
-    "GalleryBlock",
-    "LinkedImageBlock",
-    "InfoBlock",
     "StepBlock",
-    "AccordionBlockWithTitle",
-    "AccordionBlock",
-    "CustomTeaserBlock",
-    "RelatedPageListBlockPage",
-    "RelatedPageListBlock",
-    "CallToActionBlock",
     "TableBlock",
-    "CTALinkBlock",
 ]
 
 
@@ -145,11 +146,8 @@ class GalleryBlock(blocks.StructBlock):
         result = super().clean(value)
         errors = {}
 
-        if bool(value.get("document")):
-            if value.get("document").file_size > 10000000:
-                errors["document"] = ErrorList(
-                    ["Please ensure your file is below 10MB"]
-                )
+        if bool(value.get("document")) and value.get("document").file_size > 10000000:
+            errors["document"] = ErrorList(["Please ensure your file is below 10MB"])
 
         if bool(value.get("document")) and bool(value.get("video_embed")):
             errors["document"] = ErrorList(

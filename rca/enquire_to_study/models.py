@@ -1,8 +1,7 @@
 from django.db import models
-from django_countries.fields import CountryField
+
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from phonenumber_field.modelfields import PhoneNumberField
 from wagtail.admin.panels import (
     FieldPanel,
     FieldRowPanel,
@@ -14,6 +13,9 @@ from wagtail.contrib.settings.models import BaseSiteSetting, register_setting
 from wagtail.fields import RichTextField
 from wagtail.models import Orderable
 from wagtail.snippets.models import register_snippet
+
+from django_countries.fields import CountryField
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 @register_snippet

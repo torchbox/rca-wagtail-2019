@@ -1,6 +1,7 @@
 from collections import OrderedDict
 
 from django.utils.translation import gettext_lazy as _
+
 from wagtail.admin.views.reports.aging_pages import (
     AgingPagesView as OriginalAgingPagesView,
 )

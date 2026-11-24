@@ -1,11 +1,13 @@
 from urllib.parse import urlparse
 
-from bs4 import BeautifulSoup
 from django import template
 from django.conf import settings
 from django.template.loader import render_to_string
+
 from wagtail.coreutils import camelcase_to_underscore
 from wagtail.rich_text import RichText, expand_db_html
+
+from bs4 import BeautifulSoup
 
 from rca.utils.models import SocialMediaSettings
 
@@ -44,27 +46,31 @@ def field_type(bound_field):
 def social_media_links(context):
     settings = context["settings"]
     twitter_url = (
-        "http://twitter.com/%s"
-        % settings["utils"]["SocialMediaSettings"].twitter_handle
+        "http://twitter.com/{}".format(
+            settings["utils"]["SocialMediaSettings"].twitter_handle
+        )
         if settings["utils"]["SocialMediaSettings"].twitter_handle
         else False
     )
     twitter = {"url": twitter_url, "type": "twitter", "label": "Twitter"}
     facebook_url = (
-        "http://facebook.com/%s"
-        % settings["utils"]["SocialMediaSettings"].facebook_page_name
+        "http://facebook.com/{}".format(
+            settings["utils"]["SocialMediaSettings"].facebook_page_name
+        )
         if settings["utils"]["SocialMediaSettings"].facebook_page_name
         else False
     )
     facebook = {"url": facebook_url, "type": "facebook", "label": "Facebook"}
     instagram_url = (
-        "http://instagram.com/%s" % settings["utils"]["SocialMediaSettings"].instagram
+        "http://instagram.com/{}".format(
+            settings["utils"]["SocialMediaSettings"].instagram
+        )
         if settings["utils"]["SocialMediaSettings"].instagram
         else False
     )
     instagram = {"url": instagram_url, "type": "instagram", "label": "Instagram"}
     youtube_url = (
-        "http://youtube.com/%s" % settings["utils"]["SocialMediaSettings"].youtube
+        "http://youtube.com/{}".format(settings["utils"]["SocialMediaSettings"].youtube)
         if settings["utils"]["SocialMediaSettings"].youtube
         else False
     )
@@ -75,13 +81,15 @@ def social_media_links(context):
         "label": "Linkedin",
     }
     tiktok_url = (
-        "https://tiktok.com/@%s" % settings["utils"]["SocialMediaSettings"].tiktok
+        "https://tiktok.com/@{}".format(settings["utils"]["SocialMediaSettings"].tiktok)
         if settings["utils"]["SocialMediaSettings"].tiktok
         else False
     )
     tiktok = {"url": tiktok_url, "type": "tiktok", "label": "TikTok"}
     pinterest_url = (
-        "https://pinterest.com/%s" % settings["utils"]["SocialMediaSettings"].pinterest
+        "https://pinterest.com/{}".format(
+            settings["utils"]["SocialMediaSettings"].pinterest
+        )
         if settings["utils"]["SocialMediaSettings"].pinterest
         else False
     )
@@ -96,8 +104,9 @@ def social_media_links(context):
         "label": "WeChat",
     }
     little_red_book_url = (
-        "https://www.xiaohongshu.com/user/profile/%s"
-        % settings["utils"]["SocialMediaSettings"].little_red_book_handle
+        "https://www.xiaohongshu.com/user/profile/{}".format(
+            settings["utils"]["SocialMediaSettings"].little_red_book_handle
+        )
         if settings["utils"]["SocialMediaSettings"].little_red_book_handle
         else False
     )
@@ -125,7 +134,7 @@ default_domains = [
     "rca-development.herokuapp.com",
     "rca.ac.uk",
     "www.rca.ac.uk",
-    "0.0.0.0",
+    "0.0.0.0",  # noqa: S104 -- a recognised local domain, not a socket bind
     "localhost",
     "rca-verdant-staging.herokuapp.com",
     "rca-verdant-production.herokuapp.com",
@@ -205,11 +214,11 @@ def slice_pagination(page_range, current_page):
             new_item = page_range[current_page_index + offset]
         except IndexError:
             continue
-        if offset == 0:
-            items.append(new_item)
-        elif offset < 0 and new_item < current_item:
-            items.append(new_item)
-        elif offset > 0 and new_item > current_item:
+        if (
+            offset == 0
+            or (offset < 0 and new_item < current_item)
+            or (offset > 0 and new_item > current_item)
+        ):
             items.append(new_item)
 
     if first_item in items and last_item in items:
@@ -256,9 +265,7 @@ def richtext_force_external_links(value):
     else:
         if not isinstance(value, str):
             raise TypeError(
-                "'richtext' template filter received an invalid value; expected string, got {}.".format(
-                    type(value)
-                )
+                f"'richtext' template filter received an invalid value; expected string, got {type(value)}."
             )
         html = expand_db_html(value)
         soup = BeautifulSoup(html, "html.parser")
