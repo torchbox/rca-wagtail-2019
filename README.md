@@ -31,7 +31,7 @@ If you need to preview work on `staging`, this can be merged and deployed manual
 
 ### Code styleguide
 
-This project’s code formatting is enforced with [Prettier](https://prettier.io/) for supported languages. Make sure to have Prettier integrated with your editor to auto-format when saving files, or to manually run it before committing (`npm run format`).
+This project’s code formatting is enforced with [Prettier](https://prettier.io/) for supported languages. Make sure to have Prettier integrated with your editor to auto-format when saving files, or to manually run it before committing (`pnpm run format`).
 
 ## Automatic linting locally
 
@@ -100,21 +100,21 @@ Here are the common commands:
 
 ```bash
 # Install front-end dependencies.
-npm install
+pnpm install
 # Start the Webpack build in watch mode, without live-reload.
-npm run start
+pnpm run start
 # Start the Webpack server build on port 3000 only with live-reload.
-npm run start:reload
+pnpm run start:reload
 # Do a one-off Webpack development build.
-npm run build
+pnpm run build
 # Do a one-off Webpack production build.
-npm run build:prod
+pnpm run build:prod
 ```
 
 There are two ways to run the frontend tooling:
 
-- In Docker. This is the default, most portable and secure, but much slower on macOS. use `fab ssh` to enter the container and run `npm run start:reload` live changes should be viewable on :3000
-- Or run npm commands from a terminal on your local machine. Create a .env file in the project root (see .env.example) with FRONTEND=local. fab start will no longer start a frontend container. Now, when running fab start, Docker won't attempt to bind to the ports needed for the frontend dev server, meaning they can be run locally. All the tooling still remains available in the container.
+- In Docker. This is the default, most portable and secure, but much slower on macOS. use `fab ssh` to enter the container and run `pnpm run start:reload` live changes should be viewable on :3000
+- Or run pnpm commands from a terminal on your local machine. Create a .env file in the project root (see .env.example) with FRONTEND=local. fab start will no longer start a frontend container. Now, when running fab start, Docker won't attempt to bind to the ports needed for the frontend dev server, meaning they can be run locally. All the tooling still remains available in the container.
 
 ## Installing python packages
 
@@ -138,7 +138,7 @@ NPM packages can be installed via the web container:
 
 ```
 fab sh
-npm add [your thing]
+pnpm add [your thing]
 ```
 
 To reset installed dependencies back to how they are in the `poetry.lock` file:
@@ -152,7 +152,7 @@ poetry install --no-root
 
 The static assets should be automatically generated on deployment and you do
 not need to commit them. The command used to generate the production version
-of static files is `npm run build:prod`.
+of static files is `pnpm run build:prod`.
 
 # Servers
 
