@@ -111,7 +111,7 @@ class EnquireToStudyFormViewInternalEmailsTest(WagtailPageTestCase):
         self.assertEqual(1, len(mail.outbox))
         email = mail.outbox[0]
 
-        self.assertIn(f"Submission ID: {str(submission.id)}", email.body)
+        self.assertIn(f"Submission ID: {submission.id!s}", email.body)
         self.assertIn(f"First name: {self.form_data['first_name']}", email.body)
         self.assertIn(f"Last name: {self.form_data['last_name']}", email.body)
         self.assertEqual(["test2@example.com"], email.to)

@@ -72,6 +72,7 @@ class EnquireToStudyFormView(MetaTitleMixin, FormView):
         return requests.get(
             f"{settings.QS_API_ENDPOINT}/{query}",
             auth=(settings.QS_API_USERNAME, settings.QS_API_PASSWORD),
+            timeout=10,
         ).json()
 
     def post_qs(self, form_data):
@@ -139,6 +140,7 @@ class EnquireToStudyFormView(MetaTitleMixin, FormView):
             f"{settings.QS_API_ENDPOINT}/studentEnquiries",
             json=data,
             auth=(settings.QS_API_USERNAME, settings.QS_API_PASSWORD),
+            timeout=10,
         )
         # If the response was successful, no Exception will be raised
         response.raise_for_status()
@@ -248,7 +250,9 @@ class EnquireToStudyFormThanksView(MetaTitleMixin, TemplateView):
         from django.utils.html import mark_safe
 
         if "enquiry_form_session_data" in self.request.session:
-            context["enquiry_form_session_data"] = mark_safe(
+            # Renders session data as HTML: flagged for security review
+            # rather than fixed here; see the MR description.
+            context["enquiry_form_session_data"] = mark_safe(  # noqa: S308
                 self.request.session["enquiry_form_session_data"]
             )
             # In case the page is refreshed, make sure we clear the session form data.

@@ -23,7 +23,7 @@ class InstagramOEmbedFinder(EmbedFinder):
 
         post_id = match.group(1)
 
-        html = f'<iframe src="https://www.instagram.com/p/{post_id}/embed/" frameborder="0" scrolling="no" allowtransparency="true"></iframe>'  # noqa: E501
+        html = f'<iframe src="https://www.instagram.com/p/{post_id}/embed/" frameborder="0" scrolling="no" allowtransparency="true"></iframe>'
 
         return {
             "title": f"Instagram Post {post_id}",
@@ -85,7 +85,7 @@ class WixEmbedFinder(EmbedFinder):
 
     def find_embed(self, url, max_width=None):
         # Attempt to fetch the page content and scrape the title.
-        response = requests.get(url)
+        response = requests.get(url, timeout=10)
         soup = BeautifulSoup(response.content, "html.parser")
 
         title_tag = soup.find("title")
@@ -96,9 +96,7 @@ class WixEmbedFinder(EmbedFinder):
             "title": title if title else "",
             "provider_name": "Wix",
             "type": "video",
-            "html": '<iframe src="{url}" frameborder="0" allowfullscreen title={title}></iframe>'.format(
-                url=url, title=title
-            ),
+            "html": f'<iframe src="{url}" frameborder="0" allowfullscreen title={title}></iframe>',
             "width": 800,
             "height": 600,
         }

@@ -47,28 +47,28 @@ def fetch_data(url, **params):
     try:
         response = requests.get(url, params=params, timeout=10)
         response.raise_for_status()
-    except Timeout:
+    except Timeout as e:
         if settings.API_FETCH_LOGGING:
             logger.exception(f"Timeout error occurred when fetching data from {url}")
         raise CantPullFromRcaApi(
             f"Error occured when fetching further detail data from {url}"
-        )
-    except (HTTPError, ConnectionError):
+        ) from e
+    except (HTTPError, ConnectionError) as e:
         if settings.API_FETCH_LOGGING:
             logger.exception(
                 f"HTTP/ConnectionError occured when fetching further detail data from {url}"
             )
         raise CantPullFromRcaApi(
             f"Error occured when fetching further detail data from {url}"
-        )
-    except Exception:
+        ) from e
+    except Exception as e:
         if settings.API_FETCH_LOGGING:
             logger.exception(
                 f"Exception occured when fetching further detail data from {url}"
             )
         raise CantPullFromRcaApi(
             f"Error occured when fetching further detail data from {url}"
-        )
+        ) from e
     else:
         return response.json()
 
@@ -101,7 +101,7 @@ def parse_items_to_list(data, type):
         if not data:
             return []
 
-        if "social_image" in data and data["social_image"]:
+        if data.get("social_image"):
             social_image = data["social_image"]["meta"]["detail_url"]
             social_image = fetch_data(url=social_image)
             if "url" in social_image["rca2019_feed_image"]:

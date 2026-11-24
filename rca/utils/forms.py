@@ -3,7 +3,6 @@ from wagtail.admin.forms import WagtailAdminPageForm
 
 
 class RCAPageAdminForm(WagtailAdminPageForm):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if seo_title_field := self.fields.get("seo_title"):

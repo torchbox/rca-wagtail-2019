@@ -23,12 +23,14 @@ class InformationPage(BasePage):
     introduction = models.TextField(blank=True)
     body = StreamField(StoryBlock())
 
-    search_fields = BasePage.search_fields + [
+    search_fields = [
+        *BasePage.search_fields,
         index.SearchField("introduction"),
         index.SearchField("body"),
     ]
 
-    content_panels = BasePage.content_panels + [
+    content_panels = [
+        *BasePage.content_panels,
         FieldPanel("introduction"),
         FieldPanel("body"),
         InlinePanel("related_pages", label="Related pages"),
@@ -41,9 +43,9 @@ class IndexPage(BasePage):
 
     introduction = models.TextField(blank=True)
 
-    content_panels = BasePage.content_panels + [FieldPanel("introduction")]
+    content_panels = [*BasePage.content_panels, FieldPanel("introduction")]
 
-    search_fields = BasePage.search_fields + [index.SearchField("introduction")]
+    search_fields = [*BasePage.search_fields, index.SearchField("introduction")]
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -80,7 +82,8 @@ class FlexibleLandingPage(ProcessedBodyMixin, BasePage):
         blank=True,
     )
 
-    content_panels = BasePage.content_panels + [
+    content_panels = [
+        *BasePage.content_panels,
         FieldPanel("hero_image"),
         FieldPanel("introduction"),
         FieldPanel("body"),

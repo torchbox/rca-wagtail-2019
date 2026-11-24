@@ -72,7 +72,6 @@ class Command(BaseCommand):
         date = str(options["date"])
 
         for _ in range(int(number_to_create)):
-
             future_date = fake.date_between(start_date="now", end_date="+1y")
             future_dates = {
                 "start_date": future_date,

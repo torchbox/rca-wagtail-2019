@@ -2,23 +2,12 @@ default_language_version:
   node: system
   python: python3.15
 repos:
-  - repo: https://github.com/python/black
-    rev: 26.10.1
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: 'v0.17.6'
     hooks:
-      - id: black
-        # Migrations are intentionally left unformatted; CI excludes them too
-        exclude: '(^|/)migrations/'
-  - repo: https://github.com/PyCQA/isort
-    rev: '9.0.2'
-    hooks:
-      - id: isort
-        # Migrations are intentionally left unformatted; CI excludes them too
-        exclude: '(^|/)migrations/'
-  - repo: https://github.com/pycqa/flake8
-    # flake8 config is in setup.cfg
-    rev: 7.5.0
-    hooks:
-      - id: flake8
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
   - repo: https://github.com/pre-commit/mirrors-eslint
     # Held below v9: eslint-config-torchbox@^1.1.0 has no ESLint v9 flat-config support.
     # The actual eslint version is pinned via additional_dependencies (eslint@8.57.1).

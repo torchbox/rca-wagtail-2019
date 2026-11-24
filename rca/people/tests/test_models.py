@@ -124,7 +124,6 @@ class TestStudentPage(WagtailPageTestCase):
 
 
 class TestStudentPageCreation(TestCase, WagtailTestUtils):
-
     create_view_name = "student_account_create"
 
     def setUp(self):

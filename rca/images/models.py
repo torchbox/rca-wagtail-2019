@@ -13,7 +13,8 @@ class CustomImage(AbstractImage):
     dimensions = models.CharField(max_length=20, blank=True)
     permission = models.CharField(max_length=255, blank=True)
 
-    admin_form_fields = Image.admin_form_fields + (
+    admin_form_fields = (
+        *Image.admin_form_fields,
         "alt",
         "creator",
         "year",
@@ -36,7 +37,8 @@ class CustomImage(AbstractImage):
         APIField("focal_point_height"),
     ]
 
-    search_fields = AbstractImage.search_fields + [
+    search_fields = [
+        *AbstractImage.search_fields,
         index.SearchField("creator"),
         index.SearchField("photographer"),
     ]

@@ -25,13 +25,17 @@ class TestUserEditView(TestCase, WagtailTestUtils):
         # Login
         self.current_user = self.login()
 
-    def get(self, params={}, user_id=None):
+    def get(self, params=None, user_id=None):
+        if params is None:
+            params = {}
         return self.client.get(
             reverse("wagtailusers_users:edit", args=(user_id or self.test_user.pk,)),
             params,
         )
 
-    def post(self, post_data={}, user_id=None):
+    def post(self, post_data=None, user_id=None):
+        if post_data is None:
+            post_data = {}
         return self.client.post(
             reverse("wagtailusers_users:edit", args=(user_id or self.test_user.pk,)),
             post_data,

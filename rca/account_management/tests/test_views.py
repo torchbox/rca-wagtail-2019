@@ -11,7 +11,6 @@ from rca.users.models import User
 
 
 class TestAccountManagementViews(TestCase):
-
     create_view_name = "student_account_create"
 
     def setUp(self):
