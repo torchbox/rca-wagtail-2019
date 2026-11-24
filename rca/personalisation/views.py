@@ -5,7 +5,9 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.urls import reverse
+
 from wagtail.models import Page
+
 from wagtail_personalisation.adapters import get_segment_adapter
 from wagtail_personalisation.models import Segment
 

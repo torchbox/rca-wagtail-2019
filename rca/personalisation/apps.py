@@ -24,6 +24,7 @@ class PersonalisationConfig(AppConfig):
         # filtered out of its registry; importing the module first registers
         # them, and Wagtail's own hook discovery won't import it again.
         from wagtail import hooks
+
         from wagtail_personalisation import wagtail_hooks
 
         moved = {wagtail_hooks.set_visit_count, wagtail_hooks.segment_user}
@@ -81,7 +82,7 @@ class PersonalisationConfig(AppConfig):
             from wagtail_personalisation import wagtail_hooks as wp_hooks
 
             original = wp_hooks.add_segment_link_items
-        except (ImportError, AttributeError):
+        except ImportError, AttributeError:
             logger.warning(
                 "Could not import wagtail_personalisation.wagtail_hooks."
                 "add_segment_link_items; skipping the Wagtail 8.1 userbar "
