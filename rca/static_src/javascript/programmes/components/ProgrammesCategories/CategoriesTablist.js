@@ -1,9 +1,8 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-
-import { programmeCategories } from '../../programmes.types';
-import { getCategoryURL, pushState } from '../../programmes.routes';
+import React from 'react';
 import { useStudyMode } from '../../context/StudyModeContext';
+import { getCategoryURL, pushState } from '../../programmes.routes';
+import { programmeCategories } from '../../programmes.types';
 
 /**
  * A list of tabs, one per category. The active tab is underlined.
