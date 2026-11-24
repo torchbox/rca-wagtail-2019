@@ -70,10 +70,18 @@ PAGE_TYPE_CHOICES = [
 class PersonalisedCTAQuerySet(models.QuerySet):
     def for_page_and_segments(self, segments, now, page):
         """
-        Filter CTAs by page type/specific pages, segments, and time constraints.
+        The CTAs live on ``page`` at ``now`` for a visitor in any of ``segments``.
+        """
+        return (
+            self.for_page(now, page).filter(segments__segment__in=segments).distinct()
+        )
+
+    def for_page(self, now, page):
+        """
+        Filter CTAs by page type/specific pages and time constraints: the CTAs
+        that could show on ``page`` for a visitor in one of their segments.
 
         Args:
-            segments: List/queryset of segments
             now: Current datetime for go_live_at/expire_at checks
             page: Page instance for filtering by page type and specific pages
 
@@ -94,8 +102,8 @@ class PersonalisedCTAQuerySet(models.QuerySet):
             models.Q(go_live_at__isnull=True) | models.Q(go_live_at__lte=now),
             # If expire_at is set, now must be < expire_at
             models.Q(expire_at__isnull=True) | models.Q(expire_at__gt=now),
-            # Must match at least one segment
-            segments__segment__in=segments,
+            # A CTA with no segments never shows
+            segments__isnull=False,
         )
 
         # Get page content type
