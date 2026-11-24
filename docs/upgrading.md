@@ -36,11 +36,11 @@ ESLint and its `eslint-config-torchbox` peer set (`eslint`, `eslint-config-prett
 
 ### pillow-heif wheel availability
 
-`pillow-heif` (pulled in by Wagtail's `Willow[heif]` extra) only ships wheels for actively-supported CPython minors, so a Python bump can land on a locked version with no wheel for the new interpreter — the build then fails compiling it from source, since the production image has no `libheif` headers. Re-lock just that package (`poetry update pillow-heif --lock`) rather than widening the dependency bump.
+`pillow-heif` (pulled in by Wagtail's `Willow[heif]` extra) only ships wheels for actively-supported CPython minors, so a Python bump can land on a locked version with no wheel for the new interpreter — the build then fails compiling it from source, since the production image has no `libheif` headers. Re-lock just that package (`uv lock --upgrade-package pillow-heif`) rather than widening the dependency bump.
 
 ### lxml wheel availability
 
-Same pattern as `pillow-heif` above: `lxml` only ships wheels for actively-supported CPython minors, so a Python bump can land on a locked patch version with no wheel for the new interpreter, and the build fails compiling it from source (missing `libxml2`/`libxslt` headers in the production image). Re-lock just that package (`poetry update lxml --lock`) to the newest patch within the existing specifier rather than widening the dependency bump.
+Same pattern as `pillow-heif` above: `lxml` only ships wheels for actively-supported CPython minors, so a Python bump can land on a locked patch version with no wheel for the new interpreter, and the build fails compiling it from source (missing `libxml2`/`libxslt` headers in the production image). Re-lock just that package (`uv lock --upgrade-package lxml`) to the newest patch within the existing specifier rather than widening the dependency bump.
 
 ## Wagtail package dependencies
 
@@ -194,7 +194,7 @@ Last security review: 2026-11-24
 
 - Package: tablib held at ==3.5.0
 - Verified binding constraint: upstream hard-pin — every `django-import-export` 3.3.x release depends on `tablib[html,ods,xls,xlsx,yaml] (3.5.0)` exactly, so no later tablib is reachable while the project pins `django-import-export = "~3.3"`.
-- How verified: `tbx-support run trivy-scan run_relock --ecosystem python --package tablib --fixed-version 3.10.0 --force-transitive` promotes tablib to a direct 3.10.0 dependency and runs `poetry update tablib --lock`, which fails with "because rca depends on both django-import-export (~3.3) and tablib (3.10.0), version solving failed", enumerating the `tablib (3.5.0)` dependency of each 3.3.x release up to 3.3.9, the last on that line. The runner keeps nothing when the resolve fails. tablib 3.10.0 is months older than the cool-down window, so release age is not the blocker.
+- How verified: promoting tablib to a direct `tablib~=3.10.0` dependency and running `uv lock` fails with "Because django-import-export>=3.3.0,<=3.3.9 depends on tablib[html]==3.5.0 ..., your project's requirements are unsatisfiable", confirming every `django-import-export` 3.3.x release up to 3.3.9, the last on that line, hard-pins `tablib==3.5.0`. The lock keeps nothing when the resolve fails. tablib 3.10.0 is months older than the cool-down window, so release age is not the blocker.
 - Why unreachable: CVE-2026-9318 is stored XSS in tablib's HTML _export_. This project uses `django-import-export` for import only — `rca/people/admin/page_import.py` subclasses `ImportMixin` and `resources.ModelResource` with import-side hooks; no `ExportMixin`, export action, or HTML export format is registered anywhere under `rca/`.
 - Cool-down: not bypassed — the fix is cool-down-allowed; the `django-import-export ~3.3` ceiling blocks it, not the cool-down.
 
@@ -235,7 +235,7 @@ We don't generally upgrade python versions until a new LTS/Major version is rele
 
 If you are upgrading python, you should check the following python version references are updated:
 
-- The `python` key in the `tool.poetry.dependencies` section of the `pyproject.toml` file.
+- The `requires-python` key in the `[project]` section of the `pyproject.toml` file.
 - The `python` key in the pre-commit configuration file `.pre-commit-config.yaml`.
 - The `python` image tag in the `Dockerfile`/s.
 - Any references to the python version in documentation.
@@ -243,7 +243,7 @@ If you are upgrading python, you should check the following python version refer
 
 ### Pyupgrade tool
 
-If you are upgrading python. There is a development tool available to help with modernising the codebase. This is installed as part of the poetry development dependencies.
+If you are upgrading python. There is a development tool available to help with modernising the codebase. This is installed as part of the uv dev dependency group.
 
 To run the tool, use the following command:
 
@@ -271,7 +271,7 @@ git ls-files -z -- '*.py' | xargs -0 | pre-commit run --files
 
 ## Django upgrades
 
-If you are upgrading Django. There is a development tool available to help with modernising the codebase. This is installed as part of the poetry development dependencies.
+If you are upgrading Django. There is a development tool available to help with modernising the codebase. This is installed as part of the uv dev dependency group.
 
 ### Django upgrade tool
 
