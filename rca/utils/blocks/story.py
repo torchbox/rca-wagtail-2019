@@ -14,8 +14,8 @@ from .content import (
 from .embeds import CookieSnippetBlock, VepplePanoramaBlock, VideoStreamBlock
 
 __all__ = [
-    "StoryBlock",
     "GuideBlock",
+    "StoryBlock",
 ]
 
 

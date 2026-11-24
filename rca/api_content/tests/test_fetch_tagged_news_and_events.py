@@ -23,7 +23,7 @@ FAKE_NEWS = {
 
 
 def generate_fake_events(num=3):
-    for i in range(num):
+    for _i in range(num):
         yield FAKE_EVENT
 
 

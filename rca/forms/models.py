@@ -58,12 +58,14 @@ class FormPage(WagtailCaptchaEmailForm, BasePage):
     )
     key_details = RichTextField(blank=True, features=["bold", "italic", "link", "h3"])
 
-    search_fields = BasePage.search_fields + [
+    search_fields = [
+        *BasePage.search_fields,
         index.SearchField("introduction"),
         index.SearchField("key_details"),
     ]
 
-    content_panels = BasePage.content_panels + [
+    content_panels = [
+        *BasePage.content_panels,
         FieldPanel("introduction"),
         InlinePanel("form_fields", label="Form fields"),
         FieldPanel("action_text"),

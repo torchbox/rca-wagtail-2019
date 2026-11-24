@@ -197,16 +197,12 @@ class SearchFilter(filters.SearchFilter):
                 )
             except FilterFieldError as e:
                 raise BadRequestError(
-                    "cannot filter by '{}' while searching (field is not indexed)".format(
-                        e.field_name
-                    )
-                )
+                    f"cannot filter by '{e.field_name}' while searching (field is not indexed)"
+                ) from e
             except OrderByFieldError as e:
                 raise BadRequestError(
-                    "cannot order by '{}' while searching (field is not indexed)".format(
-                        e.field_name
-                    )
-                )
+                    f"cannot order by '{e.field_name}' while searching (field is not indexed)"
+                ) from e
 
         return queryset
 

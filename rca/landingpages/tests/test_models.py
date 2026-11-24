@@ -20,12 +20,12 @@ from rca.landingpages.models import (
 
 class TestLandingPageFactory(TestCase):
     def test_factories(self):
-        EELandingPageFactory(),
-        ResearchLandingPageFactory(),
-        InnovationLandingPageFactory(),
-        EnterpriseLandingPageFactory(),
-        LandingPageFactory(),
-        ALumniLandingPageFactory(),
+        (EELandingPageFactory(),)
+        (ResearchLandingPageFactory(),)
+        (InnovationLandingPageFactory(),)
+        (EnterpriseLandingPageFactory(),)
+        (LandingPageFactory(),)
+        (ALumniLandingPageFactory(),)
         DevelopmentLandingPageFactory()
 
 

@@ -71,11 +71,10 @@ class EventIndexPage(ContactFieldsMixin, BasePage):
 
     introduction = models.CharField(max_length=200, blank=True)
 
-    search_fields = BasePage.search_fields + [
-        index.SearchField("introduction"),
-    ]
+    search_fields = [*BasePage.search_fields, index.SearchField("introduction")]
 
-    content_panels = BasePage.content_panels + [
+    content_panels = [
+        *BasePage.content_panels,
         FieldPanel("introduction"),
         MultiFieldPanel(
             [InlinePanel("related_event_pages", max_num=6, label="Event Pages")],
@@ -442,7 +441,8 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
     )
     location_details = RichTextField(blank=True)
 
-    content_panels = BasePage.content_panels + [
+    content_panels = [
+        *BasePage.content_panels,
         FieldPanel("hero_image"),
         MultiFieldPanel(
             [
@@ -466,10 +466,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         MultiFieldPanel(
             [
                 InlinePanel(
-                    "event_types",
-                    heading="Event types",
-                    label="Event type",
-                    min_num=1,
+                    "event_types", heading="Event types", label="Event type", min_num=1
                 ),
                 FieldPanel("series"),
                 FieldPanel("eligibility"),
@@ -497,8 +494,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
             heading=_("Event Speakers"),
         ),
         MultiFieldPanel(
-            [FieldPanel("partners_heading"), FieldPanel("partners")],
-            heading="Partners",
+            [FieldPanel("partners_heading"), FieldPanel("partners")], heading="Partners"
         ),
         FieldPanel("call_to_action"),
         InlinePanel(
@@ -518,7 +514,8 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         ),
     ]
 
-    search_fields = BasePage.search_fields + [
+    search_fields = [
+        *BasePage.search_fields,
         index.SearchField("introduction"),
         index.SearchField("body"),
         index.RelatedFields("location", [index.SearchField("title")]),
@@ -573,7 +570,8 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                 )
         return programmes
 
-    api_fields = BasePage.api_fields + [
+    api_fields = [
+        *BasePage.api_fields,
         APIField("hero_image"),
         APIField("start_date"),
         APIField("end_date"),
@@ -704,15 +702,15 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
         elif end_date_year != start_date_year:
             # 4 When a span across multiple years:
             # E.G. 13 December 2021 – 13 January 2022.
-            return f"{str(self.start_date.strftime('%-d %B %Y'))} - {str(self.end_date.strftime('%-d %B %Y'))}"
+            return f"{self.start_date.strftime('%-d %B %Y')!s} - {self.end_date.strftime('%-d %B %Y')!s}"
         elif start_date_month == end_date_month:
             # 2 Same month, different days
             # E.G 20 - 22nd July 2021
-            return f"{str(self.start_date.strftime('%-d'))} - {str(self.end_date.strftime('%-d %B %Y'))}"
+            return f"{self.start_date.strftime('%-d')!s} - {self.end_date.strftime('%-d %B %Y')!s}"
         else:
             # 3 Multiple month span
             # E.G 20th June - 22nd July 2021
-            return f"{str(self.start_date.strftime('%-d %B'))} - {str(self.end_date.strftime('%-d %B %Y'))}"
+            return f"{self.start_date.strftime('%-d %B')!s} - {self.end_date.strftime('%-d %B %Y')!s}"
 
     @property
     def past(self):
@@ -866,7 +864,7 @@ class EventDetailPage(ContactFieldsMixin, BasePage):
                 [
                     "BEGIN:VEVENT",
                     "UID:"
-                    + hashlib.sha1(
+                    + hashlib.sha1(  # noqa: S324 -- deterministic ID, not a security hash
                         self.full_url.encode() + str(start_datetime).encode()
                     ).hexdigest()
                     + "@rca.ac.uk",

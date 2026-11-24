@@ -27,13 +27,15 @@ class DonationFormPage(ContactFieldsMixin, BasePage):
         help_text="The long number in brackets from the generated JavaScript snippet",
     )
 
-    search_fields = BasePage.search_fields + [
+    search_fields = [
+        *BasePage.search_fields,
         index.SearchField("introduction"),
         index.SearchField("body"),
         index.SearchField("further_information"),
     ]
 
-    content_panels = BasePage.content_panels + [
+    content_panels = [
+        *BasePage.content_panels,
         FieldPanel("introduction"),
         FieldPanel("form_id"),
         FieldPanel("body"),
@@ -51,7 +53,7 @@ class DonationFormPage(ContactFieldsMixin, BasePage):
         """Build list of data to be used as
         in-page navigation"""
         items = []
-        for i, block in enumerate(self.body):
+        for _i, block in enumerate(self.body):
             if block.block_type == "anchor_heading":
                 items.append({"title": block.value, "link": f"#{slugify(block.value)}"})
         if self.form_id:

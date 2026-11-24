@@ -60,7 +60,6 @@ class StudentAccountAnonymiser(BaseUserAnonymiser):
         """Anonymise the student page and related image collection name"""
         student_pages = StudentPage.objects.filter(student_user_account=user)
         for student_page in student_pages:
-
             # change the image collection name to match the student name count is used for uniqueness
             image_collection = student_page.student_user_image_collection
             image_collection.name = f"{fake_first} {fake_last} {count}"

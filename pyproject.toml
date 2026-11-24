@@ -67,11 +67,9 @@ stellar = "~0.4"
 wagtailmakeup = "~1.1"
 
 # Linters etc.
-black = "~26.10"
 detect-secrets = "~1.5"
-flake8 = "~7.5"
-isort = "~9.0"
 pre-commit = "~4.7"
+ruff = "~0.17.6"
 
 # Documentation
 mkdocs = "~1.6"
@@ -85,24 +83,23 @@ pyupgrade = "~3.22"
 requires = ["poetry>=1,<2"]
 build-backend = "poetry.masonry.api"
 
-[tool.black]
-line_length = 88
-target-version = ['py38']
-exclude = '''
-(
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | __pycache__
-    | _build
-    | build
-    | dist
-    | docs
-    | venv
-    | node_modules
-  )/
-)
-'''
+[tool.ruff]
+line-length = 88
+extend-exclude = ["migrations"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "UP", "I", "B", "SIM", "C4", "S", "C90", "RUF"]
+# C901: flake8 previously carried the same complexity check disabled project-wide.
+# RUF001-003: the site's copy and docs intentionally use typographic punctuation
+# (en-dashes, curly quotes), which these checks flag as "ambiguous".
+# S311: `random` is only ever used here for non-cryptographic purposes (fake
+# content generation, test factories, picking a featured item to display).
+ignore = ["E501", "SIM105", "RUF012", "C901", "RUF001", "RUF002", "RUF003", "S311"]
+
+[tool.ruff.lint.per-file-ignores]
+"**/{settings,fabfile,styleguide}.py" = ["S", "B"]
+"rca/settings/*.py" = ["S", "B"]
+"**/tests/*.py" = ["S105", "S106"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["rca"]

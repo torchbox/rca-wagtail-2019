@@ -19,7 +19,9 @@ class User(AbstractUser):
         if self.is_student():
             groups = self.groups.exclude(name=self.student_group_name)
         return [
-            mark_safe(f'<a href="/admin/groups/{g.pk}/users/">{g.name}</a>')
+            mark_safe(  # noqa: S308 -- g.name is an admin-managed Group name, not user input
+                f'<a href="/admin/groups/{g.pk}/users/">{g.name}</a>'
+            )
             for g in groups
         ]
 

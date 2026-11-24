@@ -117,7 +117,8 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         help_text="A small disclaimer shown just above the scholarships listing.",
     )
 
-    content_panels = BasePage.content_panels + [
+    content_panels = [
+        *BasePage.content_panels,
         FieldPanel("introduction"),
         MultiFieldPanel(
             [
@@ -232,7 +233,9 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         # Template needs the programme for title and slug
         try:
             programme = ProgrammePage.objects.get(slug=request.GET["programme"])
-        except Exception:
+        except (KeyError, ProgrammePage.DoesNotExist):
+            # No (or an invalid) programme filter was requested; keep the
+            # `programme = None` default set above.
             pass
 
         context.update(

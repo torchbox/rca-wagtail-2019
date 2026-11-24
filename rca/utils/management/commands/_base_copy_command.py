@@ -74,14 +74,16 @@ in your settings file."""
         except AttributeError:
             raise NotImplementedError(
                 "You must define a destination_app_name attribute"
-            )
+            ) from None
 
     @property
     def get_source_app_name(self):
         try:
             return self.SOURCE_APP_NAME
         except AttributeError:
-            raise NotImplementedError("You must define a source_app_name attribute")
+            raise NotImplementedError(
+                "You must define a source_app_name attribute"
+            ) from None
 
     def get_settings(self):
         flight_path_settings = {
@@ -117,6 +119,7 @@ in your settings file."""
             headers={
                 "Authorization": f"Token {auth_key}",
             },
+            timeout=30,
         )
 
         status = response.status_code == 200

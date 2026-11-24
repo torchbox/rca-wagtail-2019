@@ -142,7 +142,6 @@ class PrimaryNavLink(blocks.StructBlock):
 
 @register_setting(icon="list-ul")
 class NavigationSettings(BaseSiteSetting, ClusterableModel):
-
     primary_navigation = StreamField(
         [("link", PrimaryNavLink())],
         blank=True,

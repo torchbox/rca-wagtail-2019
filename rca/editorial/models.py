@@ -191,51 +191,47 @@ class EditorialPage(
         help_text="Toggle to show/hide in the listing on the landing page.",
     )
 
-    content_panels = (
-        BasePage.content_panels
-        + [
-            FieldPanel("introduction"),
-            FieldPanel("shorthand_story_url"),
-            FieldPanel("hero_image"),
-            MultiFieldPanel(
-                [
-                    FieldPanel("video"),
-                    FieldPanel("video_caption"),
-                    FieldPanel("introduction_image"),
-                ],
-                heading="Introductory Video",
-            ),
-            FieldPanel("body"),
-            FieldPanel("cta_block"),
-            FieldPanel("quote_carousel"),
-            FieldPanel("gallery"),
-            MultiFieldPanel(
-                [
-                    FieldPanel("more_information_title"),
-                    FieldPanel("more_information"),
-                ],
-                heading="More information",
-            ),
-            InlinePanel(
-                "related_editorialpages", label="Related Editorial Pages", max_num=6
-            ),
-            MultiFieldPanel(
-                [
-                    FieldPanel("contact_model_title"),
-                    FieldPanel("contact_model_email"),
-                    FieldPanel("contact_model_url"),
-                    FieldPanel("contact_model_form"),
-                    FieldPanel("contact_model_link_text"),
-                    FieldPanel("contact_model_text"),
-                    FieldPanel("contact_model_image"),
-                ],
-                "Large Call To Action",
-            ),
-        ]
-        + [StickyCTAMixin.panels]
-    )
+    content_panels = [
+        *BasePage.content_panels,
+        FieldPanel("introduction"),
+        FieldPanel("shorthand_story_url"),
+        FieldPanel("hero_image"),
+        MultiFieldPanel(
+            [
+                FieldPanel("video"),
+                FieldPanel("video_caption"),
+                FieldPanel("introduction_image"),
+            ],
+            heading="Introductory Video",
+        ),
+        FieldPanel("body"),
+        FieldPanel("cta_block"),
+        FieldPanel("quote_carousel"),
+        FieldPanel("gallery"),
+        MultiFieldPanel(
+            [FieldPanel("more_information_title"), FieldPanel("more_information")],
+            heading="More information",
+        ),
+        InlinePanel(
+            "related_editorialpages", label="Related Editorial Pages", max_num=6
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("contact_model_title"),
+                FieldPanel("contact_model_email"),
+                FieldPanel("contact_model_url"),
+                FieldPanel("contact_model_form"),
+                FieldPanel("contact_model_link_text"),
+                FieldPanel("contact_model_text"),
+                FieldPanel("contact_model_image"),
+            ],
+            "Large Call To Action",
+        ),
+        StickyCTAMixin.panels,
+    ]
 
-    search_fields = BasePage.search_fields + [
+    search_fields = [
+        *BasePage.search_fields,
         index.SearchField("introduction"),
         index.SearchField("body"),
         index.RelatedFields("author", [index.SearchField("name")]),
@@ -272,7 +268,8 @@ class EditorialPage(
         ),
         FieldPanel("contact_email"),
     ]
-    promote_panels = BasePage.promote_panels + [
+    promote_panels = [
+        *BasePage.promote_panels,
         FieldPanel("show_in_index_page"),
         FieldPanel("show_on_home_page"),
         FieldPanel("show_on_landing_page"),
@@ -287,7 +284,8 @@ class EditorialPage(
         ]
     )
 
-    api_fields = BasePage.api_fields + [
+    api_fields = [
+        *BasePage.api_fields,
         APIField("hero_image"),
         APIField("introduction"),
         APIField("video"),
@@ -425,17 +423,16 @@ class EditorialListingPage(ContactFieldsMixin, BasePage):
 
     introduction = models.CharField(max_length=200, blank=True)
 
-    search_fields = BasePage.search_fields + [
-        index.SearchField("introduction"),
-    ]
+    search_fields = [*BasePage.search_fields, index.SearchField("introduction")]
 
-    content_panels = BasePage.content_panels + [
+    content_panels = [
+        *BasePage.content_panels,
         FieldPanel("introduction"),
         MultiFieldPanel(
             [
                 InlinePanel(
                     "related_editorial_pages", max_num=6, label="Editorial Pages"
-                ),
+                )
             ],
             heading="Editors picks",
         ),

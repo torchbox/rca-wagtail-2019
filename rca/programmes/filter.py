@@ -14,6 +14,8 @@ class ProgrammeStyleFilter(TabStyleFilter):
         ]
 
         for value, label in values:
-            yield dict(
-                id=value, title=label, active=bool(value in self.selected_values)
-            )
+            yield {
+                "id": value,
+                "title": label,
+                "active": bool(value in self.selected_values),
+            }

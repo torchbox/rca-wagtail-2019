@@ -48,7 +48,7 @@ class SchoolCentreDirectorateFilter(TabStyleFilter):
         if not self.querydict:
             return set()
         return {
-            val[len(prefix) :]  # noqa (flake8 and black fighting)
+            val[len(prefix) :]
             for val in self.querydict.getlist(self.name)
             if val.startswith(prefix)
         }
