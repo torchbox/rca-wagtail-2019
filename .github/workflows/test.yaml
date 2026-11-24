@@ -41,10 +41,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-      - name: Install npm dependencies
-        run: npm install
+      - name: Enable corepack and prepare pnpm
+        # Node 25+ ships no corepack, so install the resolved corepack release
+        # first, then let it activate the pnpm release package.json pins.
+        run: |
+          npm install -g corepack@0.36.0
+          corepack enable pnpm
+          corepack prepare pnpm@12.22.0+sha512.894940a3d9a57dfa6fd373990fb4e41e09c2f2d76d982ed1d75275d39267f988fb4e2d40900cbe9921c68d97c67aa1a1096d276633db248f7b34927ac9ddb7a4 --activate
+      - name: Install pnpm dependencies
+        run: pnpm install
       - name: Compile static files
-        run: npm run build:prod
+        run: pnpm run build:prod
       - name: collectstatic
         run: python manage.py collectstatic --verbosity 0 --noinput --clear
       - name: System checks
