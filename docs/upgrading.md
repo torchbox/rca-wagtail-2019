@@ -68,6 +68,12 @@ wagtail-personalisation — see also the userbar hook noted under [Other conside
 
 It is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as they become available.
 
+### wagtail-personalisation: fork retired for upstream 1.0.0
+
+This project pinned the Torchbox fork (`torchbox-forks/wagtail-personalisation` at `0.16.0+tbx`) until this upgrade, which replaced it with the upstream `1.0.0` PyPI release. Diffed the fork against upstream 1.0.0 directly: every change the fork carried over its base (the Wagtail 5.2+ button-hook signatures, the `<li>`-based userbar markup, the custom icon registration, and the `request.headers` modernisation) is already in `1.0.0`. The only gap is one migration, `0027_update_help_text` (a cosmetic `django-countries` choice reorder plus a `Meta.verbose_name` rename), which upstream's chain doesn't carry under that name; nothing in this project depends on it, so it's a harmless gap, not a blocker.
+
+The Wagtail 8.1 `construct_wagtail_userbar` three-argument break noted under [Other considerations](#other-considerations) isn't related to this swap: the fork never patched that hook either, so the runtime patch in `PersonalisationConfig` applies regardless of which package variant is installed.
+
 ## PostgreSQL extensions
 
 ### pg_trgm extension
