@@ -1,4 +1,8 @@
+import logging
+
 from django.apps import AppConfig
+
+logger = logging.getLogger(__name__)
 
 
 class PersonalisationConfig(AppConfig):
@@ -71,19 +75,39 @@ class PersonalisationConfig(AppConfig):
         #   arguments but 3 were given
         # Wrap the hook in place to accept and discard the extra argument.
         from wagtail import hooks
-        from wagtail_personalisation import wagtail_hooks as wp_hooks
+
+        try:
+            from wagtail_personalisation import wagtail_hooks as wp_hooks
+
+            original = wp_hooks.add_segment_link_items
+        except (ImportError, AttributeError):
+            logger.warning(
+                "Could not import wagtail_personalisation.wagtail_hooks."
+                "add_segment_link_items; skipping the Wagtail 8.1 userbar "
+                "compatibility patch. Check whether wagtail-personalisation "
+                "has restructured this hook and whether the patch still "
+                "applies."
+            )
+            return
 
         # Hook discovery normally happens lazily on first use. Force it now
         # so the hook we want to wrap is already registered (idempotent -
         # the real, lazy discovery becomes a no-op once this has run).
         hooks.search_for_hooks()
 
-        original = wp_hooks.add_segment_link_items
-
         def add_segment_link_items(request, items, page):
             return original(request, items)
 
         registered = hooks._hooks.get("construct_wagtail_userbar", [])
+        if not any(fn is original for fn, _order in registered):
+            logger.warning(
+                "wagtail_personalisation's add_segment_link_items hook was "
+                "not found among the registered construct_wagtail_userbar "
+                "hooks; the Wagtail 8.1 userbar compatibility patch was not "
+                "applied."
+            )
+            return
+
         hooks._hooks["construct_wagtail_userbar"] = [
             (add_segment_link_items, order) if fn is original else (fn, order)
             for fn, order in registered
