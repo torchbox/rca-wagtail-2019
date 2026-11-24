@@ -38,6 +38,10 @@ ESLint and its `eslint-config-torchbox` peer set (`eslint`, `eslint-config-prett
 
 `pillow-heif` (pulled in by Wagtail's `Willow[heif]` extra) only ships wheels for actively-supported CPython minors, so a Python bump can land on a locked version with no wheel for the new interpreter — the build then fails compiling it from source, since the production image has no `libheif` headers. Re-lock just that package (`poetry update pillow-heif --lock`) rather than widening the dependency bump.
 
+### lxml wheel availability
+
+Same pattern as `pillow-heif` above: `lxml` only ships wheels for actively-supported CPython minors, so a Python bump can land on a locked patch version with no wheel for the new interpreter, and the build fails compiling it from source (missing `libxml2`/`libxslt` headers in the production image). Re-lock just that package (`poetry update lxml --lock`) to the newest patch within the existing specifier rather than widening the dependency bump.
+
 ## Wagtail package dependencies
 
 We are maintaining our own forks of Wagtail packages at: <https://github.com/torchbox-forks>.
@@ -51,7 +55,7 @@ As much as possible, we want to use the official releases available on PyPI for 
 
 ### Check these packages for updates
 
-**Last tested for wagtail 7.3 upgrade** Comments in the pyproject.toml file may have more detailed information.
+**Last tested for wagtail 8.1 upgrade** Comments in the pyproject.toml file may have more detailed information.
 
 wagtail-accessibility
 wagtail-django-recaptcha
