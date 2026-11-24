@@ -105,9 +105,7 @@ select = ["E", "W", "F", "UP", "I", "B", "SIM", "C4", "S", "C90", "RUF"]
 # C901: flake8 previously carried the same complexity check disabled project-wide.
 # RUF001-003: the site's copy and docs intentionally use typographic punctuation
 # (en-dashes, curly quotes), which these checks flag as "ambiguous".
-# S311: `random` is only ever used here for non-cryptographic purposes (fake
-# content generation, test factories, picking a featured item to display).
-ignore = ["E501", "SIM105", "RUF012", "C901", "RUF001", "RUF002", "RUF003", "S311"]
+ignore = ["E501", "SIM105", "RUF012", "C901", "RUF001", "RUF002", "RUF003"]
 
 [tool.ruff.lint.per-file-ignores]
 # S110: bare except-pass around a best-effort local cleanup. S603/S607: fixed,
@@ -118,6 +116,10 @@ ignore = ["E501", "SIM105", "RUF012", "C901", "RUF001", "RUF002", "RUF003", "S31
 # S105: these are the dev/test SECRET_KEY placeholders, not real secrets.
 "rca/settings/*.py" = ["S104", "S105"]
 "**/tests/*.py" = ["S105", "S106"]
+# S311: fake/placeholder content generation for local dev, never
+# security-sensitive.
+"**/management/commands/make_*.py" = ["S311"]
+"rca/scholarships/factories.py" = ["S311"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["rca"]

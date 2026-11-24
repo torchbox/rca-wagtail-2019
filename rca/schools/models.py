@@ -457,7 +457,8 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         hero_items = self.hero_items.all()
         if not hero_items:
             return
-        selected_item = random.choice(hero_items)
+        # Picking which hero item to display, not a security-sensitive choice.
+        selected_item = random.choice(hero_items)  # noqa: S311
         return {
             "image": selected_item.hero_image,
         }
