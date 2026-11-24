@@ -8,10 +8,10 @@ if TYPE_CHECKING:
 
 def insert_columns(
     *,
-    source_columns: "Sequence[Column]",
+    source_columns: Sequence[Column],
     insert_before_column_ref: str,
-    columns_to_insert: "Sequence[Column]",
-) -> "list[Column]":
+    columns_to_insert: Sequence[Column],
+) -> list[Column]:
     """
     Returns a copy of the given source column, with new column inserted before
     a given column reference in that copy.

@@ -234,7 +234,10 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         # Template needs the programme for title and slug
         try:
             programme = ProgrammePage.objects.get(slug=request.GET["programme"])
-        except (KeyError, ProgrammePage.DoesNotExist):
+        # ruff format (0.17.6) corrupts this into invalid Python 2 syntax
+        # (`except KeyError, ProgrammePage.DoesNotExist:`) when the tuple mixes a
+        # plain name with a dotted attribute — fmt: skip until that's fixed upstream.
+        except (KeyError, ProgrammePage.DoesNotExist):  # fmt: skip
             # No (or an invalid) programme filter was requested; keep the
             # `programme = None` default set above.
             pass
