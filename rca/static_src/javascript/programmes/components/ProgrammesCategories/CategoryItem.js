@@ -1,11 +1,9 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-
-import { programmeCategoryItemShape } from '../../programmes.types';
-
-import Icon from '../Icon/Icon';
-import { getCategoryItemURL, pushState } from '../../programmes.routes';
+import React from 'react';
 import { useStudyMode } from '../../context/StudyModeContext';
+import { getCategoryItemURL, pushState } from '../../programmes.routes';
+import { programmeCategoryItemShape } from '../../programmes.types';
+import Icon from '../Icon/Icon';
 
 /**
  * A single instance from a category, leading to a filtered view of matching programmes.

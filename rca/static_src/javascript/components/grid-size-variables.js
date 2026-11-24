@@ -14,8 +14,7 @@ class GridSizeVariables {
     bindEvents() {
         window.addEventListener('resize', () => {
             // Check window width has actually changed and it's not just iOS triggering a resize event on scroll
-            // eslint-disable-next-line eqeqeq
-            if (window.innerWidth != this.windowWidth) {
+            if (window.innerWidth !== this.windowWidth) {
                 // Update the window width for next time
                 this.windowWidth = window.innerWidth;
                 this.generateCSSprops();

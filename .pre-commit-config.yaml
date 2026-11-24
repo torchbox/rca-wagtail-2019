@@ -19,30 +19,26 @@ repos:
     rev: 7.5.0
     hooks:
       - id: flake8
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    # Held below v9: eslint-config-torchbox@^1.1.0 has no ESLint v9 flat-config support.
-    # The actual eslint version is pinned via additional_dependencies (eslint@8.57.1).
-    rev: v10.15.0
+  - repo: local
     hooks:
-      - id: eslint
-        additional_dependencies:
-          - eslint@8.57.1
-          - eslint-config-airbnb@19.0.4
-          - eslint-config-prettier@8.10.2
-          - eslint-config-torchbox@1.1.0
-          - eslint-plugin-import@2.32.0
-          - eslint-plugin-jsx-a11y@6.10.2
-          - eslint-plugin-react@7.37.5
-          - eslint-plugin-react-hooks@4.6.2
-          - '@babel/core@7.29.13'
-          - '@babel/preset-env@7.29.14'
-          - '@babel/preset-react@7.29.7'
-          - '@babel/eslint-parser@7.29.13'
+      - id: fix:js
+        name: fix:js
+        language: system
+        entry: pnpm run fix:js
+        # fix:js runs `biome check --write .`, which globs the whole project via
+        # Biome's own file discovery, so passing per-file paths is redundant — use the
+        # hook's file filter only to decide *whether* to run.
+        pass_filenames: false
+        types_or:
+          - javascript
+          - ts
+          - tsx
+          - json
   - repo: https://github.com/rbubley/mirrors-prettier
     rev: v3.10.1
     hooks:
       - id: prettier
-        types_or: [markdown, css, scss, javascript, json, yaml]
+        types_or: [markdown, css, scss, yaml]
   - repo: https://github.com/awebdeveloper/pre-commit-stylelint
     rev: 0.0.2
     hooks:

@@ -1,17 +1,15 @@
-import React, { useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import debounce from 'lodash.debounce';
-
-import { clearResults, searchProgrammes } from '../programmes.slice';
-
-import Icon from './Icon/Icon';
+import PropTypes from 'prop-types';
+import React, { useCallback, useState } from 'react';
+import { connect } from 'react-redux';
 import {
-    pushState,
-    replaceState,
     getIndexURL,
     getSearchURL,
+    pushState,
+    replaceState,
 } from '../programmes.routes';
+import { clearResults, searchProgrammes } from '../programmes.slice';
+import Icon from './Icon/Icon';
 
 const replaceStateDebounced = debounce(replaceState, 300);
 
@@ -20,9 +18,7 @@ const replaceStateDebounced = debounce(replaceState, 300);
  */
 const SearchForm = ({ searchQuery, label, startSearch, clear, isLoaded }) => {
     const [value, setValue] = useState(searchQuery);
-    const startSearchDebounced = useCallback(debounce(startSearch, 300), [
-        startSearch,
-    ]);
+    const startSearchDebounced = useCallback(debounce(startSearch, 300), []);
     const showClearButton = value !== '' && isLoaded;
 
     return (
