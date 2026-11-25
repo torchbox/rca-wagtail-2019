@@ -2,7 +2,14 @@ import re
 from collections import Counter
 
 from django.db import connection
-from django.test.utils import CaptureQueriesContext
+from django.test.utils import CaptureQueriesContext, override_settings
+
+# Without REDIS_URL, as in CI, the settings fall back to Django's database
+# cache, so every cache read and write shows up as a query. Image renditions
+# are cached once per image on a page, which would look like growth.
+LOCMEM_CACHES = {
+    "default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"},
+}
 
 
 class QueryCountMixin:
@@ -14,7 +21,14 @@ class QueryCountMixin:
 
         ``action`` runs once before counting starts, so one-off work on a
         first request, such as creating site settings, doesn't count.
+
+        Caching uses local memory here, so only database queries count,
+        whichever cache backend the settings pick.
         """
+        with override_settings(CACHES=LOCMEM_CACHES):
+            self._assertQueryCountDoesNotGrow(action, grow)
+
+    def _assertQueryCountDoesNotGrow(self, action, grow):
         action()
         with CaptureQueriesContext(connection) as before:
             action()
