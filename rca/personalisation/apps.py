@@ -1,4 +1,9 @@
+import inspect
+import logging
+
 from django.apps import AppConfig
+
+logger = logging.getLogger(__name__)
 
 
 class PersonalisationConfig(AppConfig):
@@ -7,6 +12,7 @@ class PersonalisationConfig(AppConfig):
     def ready(self):
         self._patch_origin_country_rule()
         self._stop_personalising_page_views()
+        self._patch_personalisation_userbar_hook()
 
     def _stop_personalising_page_views(self):
         # wagtail-personalisation registers two before_serve_page hooks that
@@ -57,3 +63,67 @@ class PersonalisationConfig(AppConfig):
                 raise
 
         OriginCountryRule.get_geoip_country = get_geoip_country
+
+    def _patch_personalisation_userbar_hook(self):
+        # wagtail_personalisation's own construct_wagtail_userbar hook
+        # (add_segment_link_items) still only accepts (request, items), and
+        # its latest release (1.0.0) hasn't picked up Wagtail 8's 3-argument
+        # form. Wagtail 8.1's apply_userbar_hooks() calls every registered
+        # hook unconditionally as (request, items, page), with no
+        # compatibility fallback for a 2-argument hook, so without this
+        # patch the admin accessibility side panel raises:
+        #   TypeError: add_segment_link_items() takes 2 positional
+        #   arguments but 3 were given
+        # Wrap the hook in place to accept and discard the extra argument.
+        from wagtail import hooks
+
+        try:
+            from wagtail_personalisation import wagtail_hooks as wp_hooks
+
+            original = wp_hooks.add_segment_link_items
+        except (ImportError, AttributeError):
+            logger.warning(
+                "Could not import wagtail_personalisation.wagtail_hooks."
+                "add_segment_link_items; skipping the Wagtail 8.1 userbar "
+                "compatibility patch. Check whether wagtail-personalisation "
+                "has restructured this hook and whether the patch still "
+                "applies."
+            )
+            return
+
+        try:
+            inspect.signature(original).bind(None, None, None)
+            already_takes_page = True
+        except TypeError:
+            already_takes_page = False
+
+        if already_takes_page:
+            # wagtail-personalisation has already picked up Wagtail's
+            # 3-argument construct_wagtail_userbar form - nothing to patch,
+            # and wrapping it again would discard the page argument it now
+            # expects. Delete this method and its call in ready() once this
+            # is what triggers.
+            return
+
+        # Hook discovery normally happens lazily on first use. Force it now
+        # so the hook we want to wrap is already registered (idempotent -
+        # the real, lazy discovery becomes a no-op once this has run).
+        hooks.search_for_hooks()
+
+        def add_segment_link_items(request, items, page):
+            return original(request, items)
+
+        registered = hooks._hooks.get("construct_wagtail_userbar", [])
+        if not any(fn is original for fn, _order in registered):
+            logger.warning(
+                "wagtail_personalisation's add_segment_link_items hook was "
+                "not found among the registered construct_wagtail_userbar "
+                "hooks; the Wagtail 8.1 userbar compatibility patch was not "
+                "applied."
+            )
+            return
+
+        hooks._hooks["construct_wagtail_userbar"] = [
+            (add_segment_link_items, order) if fn is original else (fn, order)
+            for fn, order in registered
+        ]

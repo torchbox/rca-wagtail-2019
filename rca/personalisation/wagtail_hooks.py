@@ -50,7 +50,10 @@ register_snippet(PersonalisationCTAsGroup)
 
 
 @hooks.register("construct_wagtail_userbar")
-def remove_personalisation_segments(request, items):
+def remove_personalisation_segments(request, items, page):
     # Remove the personalisation segments from the wagtailuserbar that shows
     # when a Wagtail editor is logged in.
+    # `page` isn't used here, but Wagtail 8.1 calls every construct_wagtail_
+    # userbar hook as (request, items, page), so it's required in the
+    # signature.
     items[:] = [item for item in items if getattr(item, "segment", None) is None]

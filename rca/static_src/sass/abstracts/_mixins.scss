@@ -97,7 +97,7 @@
 */
 
 @function z-index-value($key) {
-    @return map-get(variables.$z-index, $key);
+    @return map.get(variables.$z-index, $key);
 }
 
 @mixin z-index($key) {

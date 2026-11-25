@@ -6,11 +6,12 @@ All notable changes to this project will be documented in this file.
 
 ### Security
 
-- ...
+- [R1-403](https://torchbox.atlassian.net/browse/R1-403) Fix four medium Trivy findings in the glob and minimatch Node dev dependencies
 
 ### Fixed
 
-- ...
+- [R1-403](https://torchbox.atlassian.net/browse/R1-403) The programme finder's filter bar no longer shows through the open mobile menu
+- [R1-403](https://torchbox.atlassian.net/browse/R1-403) Fix the scroll icon's transition, which a missing comma had stopped from working
 
 ### Added
 
@@ -18,7 +19,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- ...
+- [R1-403](https://torchbox.atlassian.net/browse/R1-403) Wagtail 8.1 Quarterly Upgrade
+- [R1-403](https://torchbox.atlassian.net/browse/R1-403) Python 3.13 → 3.15 and Node 24 → 26
+- [R1-403](https://torchbox.atlassian.net/browse/R1-403) wagtail-personalisation now uses the upstream 1.0.0 release instead of the Torchbox fork
 
 ### Removed
 

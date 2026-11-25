@@ -1,7 +1,8 @@
+@use 'sass:map';
 @use '../abstracts' as *;
 
 .back-link {
-    font-size: map-get($small-font-sizes, s);
+    font-size: map.get($small-font-sizes, s);
     opacity: 0;
     align-items: center;
     color: $color--white;

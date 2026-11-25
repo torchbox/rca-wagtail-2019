@@ -723,6 +723,17 @@ if "PRIMARY_HOST" in env:
 WAGTAILIMAGES_IMAGE_MODEL = "images.CustomImage"
 WAGTAILIMAGES_FEATURE_DETECTION_ENABLED = False
 
+# Wagtail 8.0 stopped converting AVIF/WebP originals to PNG by default.
+# Keep the previous behaviour so an editor uploading an AVIF/WebP source
+# image doesn't change what gets served without anyone deciding to.
+# https://docs.wagtail.org/en/latest/releases/8.0.html#avif-and-webp-images-are-no-longer-converted-to-png-by-default
+WAGTAILIMAGES_FORMAT_CONVERSIONS = {
+    "bmp": "png",
+    "heic": "jpeg",
+    "avif": "png",
+    "webp": "png",
+}
+
 # Custom image form with rights confirmation checkbox
 # https://docs.wagtail.org/en/stable/reference/settings.html#wagtailimages-image-form-base
 WAGTAILIMAGES_IMAGE_FORM_BASE = "rca.images.forms.RCAImageForm"

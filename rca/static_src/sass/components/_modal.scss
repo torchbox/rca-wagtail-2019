@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '../abstracts' as *;
 
 .modal {
@@ -11,7 +12,7 @@
 
     &--cta {
         #{$root}__title {
-            font-size: map-get($large-font-sizes, l);
+            font-size: map.get($large-font-sizes, l);
             margin-bottom: ($gutter * 0.5);
         }
 

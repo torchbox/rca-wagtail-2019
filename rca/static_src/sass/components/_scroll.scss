@@ -21,7 +21,12 @@
         width: 19px;
         height: 18px;
         will-change: transform;
-        transition: transform $transition opacity $transition;
+        // Two properties, not one comma-less (and therefore invalid)
+        // shorthand value: a behaviour fix, not part of the @use sweep
+        // around it.
+        transition:
+            transform $transition,
+            opacity $transition;
         animation-name: bounce;
         animation-timing-function: cubic-bezier(0.17, 0.67, 0.83, 0.67);
         animation-iteration-count: infinite;

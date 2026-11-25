@@ -7,7 +7,7 @@ import wagtail.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("guides", "0029_accordion_streamfield_block"),
+        ("guides", "0029_accordion_block_in_streamfield"),
     ]
 
     operations = [

@@ -6,7 +6,41 @@ This document describes aspects of the system which should be given particular a
 
 ### ESLint ceiling
 
-ESLint and its `eslint-config-torchbox` peer set (`eslint`, `eslint-config-prettier`, `eslint-plugin-react-hooks`) are held below ESLint v9 because `eslint-config-torchbox@^1.1.0` does not yet support the ESLint v9 flat-config format. The Node dependency bump enforces this ceiling automatically. Lifting it requires the ESLint v9 / flat-config migration (see <https://eslint.org/docs/latest/use/migrate-to-9.0.0>). There is no per-project hold beyond this global ceiling.
+ESLint and its `eslint-config-torchbox` peer set (`eslint`, `eslint-config-prettier`, `eslint-plugin-react-hooks`) are held below ESLint v9 because `eslint-config-torchbox@^1.1.0` does not yet support the ESLint v9 flat-config format. The Node dependency bump enforces this ceiling automatically. Lifting it requires the ESLint v9 / flat-config migration (see <https://eslint.org/docs/latest/use/migrate-to-9.0.0>).
+
+## Node dependency holds
+
+- `@babel/eslint-parser` (`^7.29.13`): held with the ESLint ceiling above: its 8.x major needs `eslint@^9||^10`, which `eslint-config-torchbox` doesn't support. Lift when `eslint-config-torchbox` supports ESLint v9's flat config.
+  Evidence: `npm install` fails with `ERESOLVE: peer eslint@"^9.0.0 || ^10.0.0" from @babel/eslint-parser@8.1.2`
+  Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
+- `@babel/core` (`^7.29.13`): held because the ESLint-ceiling-held `@babel/eslint-parser@7` needs `@babel/core@^7.11.0`, and its own 8.x major only accepts `@babel/core@^8`. Lift when `@babel/eslint-parser` lifts.
+  Evidence: `npm install` fails with `ERESOLVE: peer @babel/core@"^7.11.0" from @babel/eslint-parser@7.29.13`
+  Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
+- `@babel/preset-env` (`^7.29.14`): held with `@babel/core`: its 8.x major needs `@babel/core@^8.0.0`, which conflicts with the `@babel/core` hold above. Lift when `@babel/core` lifts.
+  Evidence: `npm install` fails with `ERESOLVE: peer @babel/core@"^8.0.0" from @babel/preset-env@8.0.7`
+  Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
+- `@babel/preset-react` (`^7.29.7`): held with `@babel/core`: its 8.x major needs `@babel/core@^8.0.0`, which conflicts with the `@babel/core` hold above. Lift when `@babel/core` lifts.
+  Evidence: `npm install` fails with `ERESOLVE: peer @babel/core@"^8.0.0" from @babel/preset-react@8.0.1`
+  Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
+- `@babel/plugin-transform-class-properties` (`^7.29.7`): held with `@babel/core`: its 8.x major needs `@babel/core@^8.0.0`, which conflicts with the `@babel/core` hold above. Lift when `@babel/core` lifts.
+  Evidence: `npm install` fails with `ERESOLVE: peer @babel/core@"^8.0.0" from @babel/plugin-transform-class-properties@8.0.1`
+  Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
+- `stylelint` (`^17.16.0`): held because `stylelint-config-torchbox@5.0.0`, its latest release, only supports `stylelint@^17`; its 18.x major has no compatible `stylelint-config-torchbox` release yet. Lift when `stylelint-config-torchbox` supports stylelint v18.
+  Evidence: `npm ci` fails with `Conflicting peer dependency: stylelint@17.16.0 ... peer stylelint@"^17.0.0" from stylelint-config-torchbox@5.0.0`
+  Release notes: https://github.com/stylelint/stylelint/releases/tag/18.0.0
+- `video.js` (`^8.24.2`): held because v10 replaced the classic `Tech` plugin API with `createPlayer`/extension packages, dropping `videojs.registerTech`/`getTech`, which `amazon-ivs-player`'s `registerIVSTech` calls to register the IVS playback tech. Lift when `amazon-ivs-player` ships a v10-compatible release.
+  Evidence: `node -e "const videojs = require('video.js'); require('amazon-ivs-player').registerIVSTech(videojs, {})"` on `video.js@10.5.0` fails with `videojs not available, AmazonIVS tech not registered`
+  Release notes: https://github.com/videojs/video.js/blob/main/CHANGELOG.md (no tagged v9/v10 release page; see the "Release Video.js 10.0.0 as stable" entry)
+
+## Python dependencies
+
+### pillow-heif wheel availability
+
+`pillow-heif` (pulled in by Wagtail's `Willow[heif]` extra) only ships wheels for actively-supported CPython minors, so a Python bump can land on a locked version with no wheel for the new interpreter — the build then fails compiling it from source, since the production image has no `libheif` headers. Re-lock just that package (`poetry update pillow-heif --lock`) rather than widening the dependency bump.
+
+### lxml wheel availability
+
+Same pattern as `pillow-heif` above: `lxml` only ships wheels for actively-supported CPython minors, so a Python bump can land on a locked patch version with no wheel for the new interpreter, and the build fails compiling it from source (missing `libxml2`/`libxslt` headers in the production image). Re-lock just that package (`poetry update lxml --lock`) to the newest patch within the existing specifier rather than widening the dependency bump.
 
 ## Wagtail package dependencies
 
@@ -21,7 +55,7 @@ As much as possible, we want to use the official releases available on PyPI for 
 
 ### Check these packages for updates
 
-**Last tested for wagtail 7.3 upgrade** Comments in the pyproject.toml file may have more detailed information.
+**Last tested for wagtail 8.1 upgrade** Comments in the pyproject.toml file may have more detailed information.
 
 wagtail-accessibility
 wagtail-django-recaptcha
@@ -30,9 +64,15 @@ wagtail-modeladmin
 wagtail-orderable (uses a forked tag)
 wagtail-rangefilter
 wagtail-storages
-wagtail-personalisation (uses a forked tag) — see also the userbar hook noted under [Other considerations](#other-considerations)
+wagtail-personalisation — see also the userbar hook noted under [Other considerations](#other-considerations)
 
 It is important to replace the usage of the git tags in the pyproject.toml file with the official release version from PyPI as soon as they become available.
+
+### wagtail-personalisation: fork retired for upstream 1.0.0
+
+This project pinned the Torchbox fork (`torchbox-forks/wagtail-personalisation` at `0.16.0+tbx`) until this upgrade, which replaced it with the upstream `1.0.0` PyPI release. Diffed the fork against upstream 1.0.0 directly: every change the fork carried over its base (the Wagtail 5.2+ button-hook signatures, the `<li>`-based userbar markup, the custom icon registration, and the `request.headers` modernisation) is already in `1.0.0`. The only gap is one migration, `0027_update_help_text` (a cosmetic `django-countries` choice reorder plus a `Meta.verbose_name` rename), which upstream's chain doesn't carry under that name; nothing in this project depends on it, so it's a harmless gap, not a blocker.
+
+The Wagtail 8.1 `construct_wagtail_userbar` three-argument break noted under [Other considerations](#other-considerations) isn't related to this swap: the fork never patched that hook either, so the runtime patch in `PersonalisationConfig` applies regardless of which package variant is installed.
 
 ## PostgreSQL extensions
 
@@ -123,17 +163,38 @@ As well as testing the critical paths, these areas of functionality should be ch
 
 ### Personalisation segments hidden from the userbar
 
-1. `rca.personalisation.wagtail_hooks.remove_personalisation_segments` uses the `construct_wagtail_userbar` hook to strip personalisation segment items from the Wagtail userbar. If Wagtail changes the userbar item structure (e.g. renames/removes the `segment` attribute), this hook will silently stop filtering and segments will reappear in the userbar.
+1. `rca.personalisation.wagtail_hooks.remove_personalisation_segments` strips segment items from the userbar via `construct_wagtail_userbar` (Wagtail 8.0's `request, items, page` form). A renamed or removed `segment` attribute would silently stop the filtering.
+2. `wagtail-personalisation`'s own `add_segment_link_items` hook is still two-argument at its latest release (1.0.0): Wagtail 8.1 calls every userbar hook as `(request, items, page)` unconditionally, so this would raise `TypeError`. `rca.personalisation.apps.PersonalisationConfig._patch_personalisation_userbar_hook` wraps it in place by reaching into Wagtail's private `hooks._hooks` registry, not a documented API, so it can also break if Wagtail changes how that registry is structured, not only once wagtail-personalisation adds the third argument. Drop the patch once a newer wagtail-personalisation release fixes it upstream (the patch checks the hook's signature and leaves it alone once it does).
+
+### Wagtail v2 API in use (rca.wagtailapi)
+
+Last checked on Wagtail 8.1
+
+`rca/wagtailapi/` builds its page, image and navigation endpoints on `wagtail.api.v2` (router, filters, serializers), with several project-specific filter backends and serializers layered on top. Wagtail 8.1 keeps v2 working with no warning yet, but it raises deprecation warnings from 8.2 and is removed in 9.0. Migrate `rca/wagtailapi/` to `wagtail.api.v3` before that upgrade; the filters and serializers will need porting, not just an import swap.
+
+### Frontend cache purge on page move or slug change (Cloudflare)
+
+Last checked on Wagtail 8.1
+
+Wagtail now purges the frontend cache on a page move or slug change, not only on publish. This project's Cloudflare backend (`wagtail.contrib.frontend_cache`) will see more purge requests for bulk page reorganisations; if that approaches Cloudflare's rate limits, set `PURGE_BATCH_SIZE` on the backend config.
+
+### `tzdata` declared for base-image timezone drift
+
+Debian Trixie drops the legacy tz aliases from its base image, so `zoneinfo` can no longer resolve a stored legacy timezone (e.g. `US/Eastern`) from the system database alone. `tzdata` is declared directly so the app carries its own IANA database, aliases included, independent of what the base image ships.
+
+### Legacy `@babel/polyfill`
+
+`main.entry.js` still imports `@babel/polyfill` for the Safari 11 / iOS Safari 11-12 browserslist floor. The package is frozen at `7.12.1` and bundles a deprecated `core-js@2`; no further `@babel/polyfill` release exists. Replacing it needs a `@babel/preset-env` `useBuiltIns` + `core-js@3` migration, scoped to what those browsers actually lack: out of scope for a routine dependency bump.
 
 ## Python dependency holds
 
-- `django-import-export` (`~3.3`) — 4.x has breaking changes to the resource and admin API, and the intranet import feature (`rca/people/admin/page_import.py`) has no automated tests, so a major bump needs comprehensive manual re-testing before it lands. In 4.x `resource_class` becomes `resource_classes`, `save_instance`, `before_save_instance` and `after_save_instance` take a required `row` with `dry_run` and `using_transactions` moved into kwargs, and `ImportForm.__init__` takes `formats` and `resources` positionally. `rca/people/admin/` overrides all of these, so the move is a code migration as well as a re-test. Every 3.3.x release also hard-pins `tablib` to 3.5.0, which is the binding constraint on the accepted tablib CVE hold under Security. Lift when the import feature is re-tested end to end on 4.x and the tablib hold is cleared in the same change.
-  Evidence: `grep -nE 'resource_class =|def (before_|after_)?save_instance' rca/people/admin/__init__.py rca/people/admin/page_import.py` shows the 3.x forms 4.x changes, such as `def save_instance(self, instance, using_transactions=True, dry_run=False):` and `resource_class = StaffPageResource`
+- `django-import-export` (`~3.3`): 4.x breaks the resource/admin API `rca/people/admin/` overrides, and the untested import feature needs full re-test. Lift when it is re-tested end to end on 4.x and the tablib hold clears too.
+  Evidence: `grep -nE 'resource_class =|def (before_|after_)?save_instance' rca/people/admin/__init__.py rca/people/admin/page_import.py` fails with unchanged 3.x signatures still present (`resource_class = StaffPageResource`, old `save_instance` signature)
   Release notes: https://django-import-export.readthedocs.io/en/stable/release_notes.html (the v4.0 section)
 
 ## Security
 
-Last security review: 2026-11-04
+Last security review: 2026-11-24
 
 ### Accepted CVE-2026-9318 in tablib
 
