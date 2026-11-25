@@ -35,7 +35,7 @@ context:
     items:
       - tab_title: Programme
         filter_name: programme
-        queryset: true
+        has_options: true
         options:
           - { title: 3D modelling & visualisation, id: '1-1', active: false }
           - { title: Art & curating, id: '1-2', active: false }
@@ -48,7 +48,7 @@ context:
           - { title: Future cities, id: '1-9', active: false }
       - tab_title: Locations
         filter_name: locations
-        queryset: true
+        has_options: true
         options:
           - { title: 3D modelling & visualisation, id: '1-1', active: false }
           - { title: Art & curating, id: '1-2', active: false }

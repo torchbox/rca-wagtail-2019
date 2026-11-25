@@ -4,6 +4,14 @@ from django.utils.text import slugify
 
 
 class TabStyleFilter:
+    """
+    A filter shown as a tab on a listing page.
+
+    The listing templates show a filter's tab only when ``has_options`` is
+    true, so any filter in a listing's ``filters`` must provide it, including
+    ones that don't inherit from this class, such as ``PastOrFutureFilter``.
+    """
+
     def __init__(
         self,
         tab_title,
@@ -62,6 +70,12 @@ class TabStyleFilter:
             kwargs = {fc: self.selected_values}
             filters |= Q(**kwargs)
         return filters
+
+    @cached_property
+    def has_options(self):
+        # exists() rather than a truth test on the queryset, which would load
+        # every row just to decide whether to show the filter's tab.
+        return self.queryset.exists()
 
     @property
     def is_selected(self):

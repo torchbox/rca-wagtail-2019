@@ -15,7 +15,7 @@ context:
     items:
       - tab_title: Type
         filter_name: type
-        queryset: true
+        has_options: true
         options:
           - { title: Lecture, id: '2-1', active: false }
           - { title: Exhibition, id: '2-2', active: false }
@@ -27,7 +27,7 @@ context:
           - { title: Live stream, id: '2-8', active: false }
       - tab_title: Location
         filter_name: type
-        queryset: true
+        has_options: true
         options:
           - { title: Battersea, id: '4-1', active: false }
           - { title: Kensington, id: '4-2', active: false }
@@ -36,7 +36,7 @@ context:
           - { title: Other, id: '4-5', active: false }
       - tab_title: Who can attend
         filter_name: who-can-attend
-        queryset: true
+        has_options: true
         options:
           - { title: RCA only, id: '5-1', active: false }
           - { title: Alumni, id: '5-2', active: false }
@@ -44,7 +44,7 @@ context:
           - { title: Applicants, id: '5-4', active: false }
       - tab_title: Programmme
         filter_name: programme
-        queryset: true
+        has_options: true
         options:
           - { title: 3D modelling & visualisation, id: '3-1', active: false }
           - { title: Art & curating, id: '3-2', active: false }
@@ -66,7 +66,7 @@ context:
           - { title: Sustainable society, id: '3-18', active: false }
       - tab_title: School or Centre
         filter_name: school_or_centre
-        queryset: true
+        has_options: true
         options:
           - { title: 3D modelling & visualisation, id: '1-1', active: false }
           - { title: Art & curating, id: '1-2', active: false }
@@ -79,7 +79,7 @@ context:
           - { title: Future cities, id: '1-9', active: false }
       - tab_title: Series
         filter_name: series
-        queryset: true
+        has_options: true
         options:
           - { title: Series one, id: '6-1', active: false }
           - { title: Series two, id: '6-2', active: false }

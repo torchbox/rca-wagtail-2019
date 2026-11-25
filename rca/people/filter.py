@@ -27,9 +27,13 @@ class SchoolCentreDirectorateFilter(TabStyleFilter):
         self.school_queryset = school_queryset
         self.centre_queryset = centre_queryset
         self.directorate_queryset = directorate_queryset
-        # Trick template into displaying choices
-        self.queryset = bool(
-            self.school_queryset or self.centre_queryset or self.directorate_queryset
+
+    @cached_property
+    def has_options(self):
+        return (
+            self.school_queryset.exists()
+            or self.centre_queryset.exists()
+            or self.directorate_queryset.exists()
         )
 
     def apply(self, queryset, querydict):

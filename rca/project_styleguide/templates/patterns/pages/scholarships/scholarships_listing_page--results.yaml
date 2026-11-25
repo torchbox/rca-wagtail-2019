@@ -34,7 +34,7 @@ context:
     items:
       - tab_title: Programme
         filter_name: programme
-        queryset: true
+        has_options: true
         options:
           - { title: 3D modelling & visualisation, id: '1-1', active: false }
           - { title: Art & curating, id: '1-2', active: false }
