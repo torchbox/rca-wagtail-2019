@@ -353,9 +353,9 @@ class ProjectPage(ContactFieldsMixin, BasePage):
 
     def get_related_school_or_centre(self):
         # returns the first related schools page, if none, return the related research
-        # centre page
-        related_school = self.related_school_pages.first()
-        related_research_page = self.related_research_pages.first()
+        # centre page. Reads through all() so ProjectPickerPage's prefetch is used.
+        related_school = next(iter(self.related_school_pages.all()), None)
+        related_research_page = next(iter(self.related_research_pages.all()), None)
         if related_school:
             return related_school.page
         elif related_research_page:
@@ -423,7 +423,15 @@ class ProjectPage(ContactFieldsMixin, BasePage):
 
     @cached_property
     def is_startup_project(self):
-        return len(self.research_types.filter(research_type__title="Start-up")) > 0
+        # The projects listing prefetches research types, so read those when
+        # they're there. Elsewhere, such as a landing page's related projects,
+        # one filtered query is cheaper than loading each research type.
+        if "research_types" in getattr(self, "_prefetched_objects_cache", {}):
+            return any(
+                placement.research_type and placement.research_type.title == "Start-up"
+                for placement in self.research_types.all()
+            )
+        return self.research_types.filter(research_type__title="Start-up").exists()
 
 
 class ProjectPickerPage(BasePage):
@@ -494,7 +502,7 @@ class ProjectPickerPage(BasePage):
             # on the request
             obj.link = obj.get_url(request)
             obj.image = obj.hero_image
-            obj.school = obj.get_related_school_or_centre
+            obj.school = obj.get_related_school_or_centre()
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
@@ -586,6 +594,13 @@ class ProjectPickerPage(BasePage):
         # Apply filters
         for f in filters:
             queryset = f.apply(queryset, request.GET)
+
+        # Fetch what each project card shows up front, rather than per card
+        queryset = queryset.select_related("hero_image").prefetch_related(
+            "related_school_pages__page",
+            "related_research_pages__page",
+            "research_types__research_type",
+        )
 
         # Paginate filtered queryset
         per_page = settings.DEFAULT_PER_PAGE

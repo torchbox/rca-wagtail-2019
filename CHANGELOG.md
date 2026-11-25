@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- ...
+- [R1-405](https://torchbox.atlassian.net/browse/R1-405) Cut the memory and database queries that programme pages, site search, the listing pages and the projects listing use, so each web server needs less memory
 
 ### Added
 

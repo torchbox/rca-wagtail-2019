@@ -8,12 +8,14 @@ class ProgrammeStyleFilter(TabStyleFilter):
     """
 
     def __iter__(self):
-        values = [
-            (getattr(programme, self.option_value_field), str(programme))
-            for programme in self.queryset.order_by(self.option_value_field)
-        ]
+        rows = list(
+            self.queryset.order_by(self.option_value_field).values_list(
+                "pk", self.option_value_field
+            )
+        )
+        titles = self.queryset.model.full_titles([pk for pk, _ in rows])
 
-        for value, label in values:
+        for pk, value in rows:
             yield dict(
-                id=value, title=label, active=bool(value in self.selected_values)
+                id=value, title=titles[pk], active=bool(value in self.selected_values)
             )

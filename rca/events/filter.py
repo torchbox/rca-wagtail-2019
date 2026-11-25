@@ -13,6 +13,8 @@ TODAY = datetime.date.today()
 
 class PastOrFutureFilter:
     name = "tense"
+    # Always offers "Upcoming" and "Past", so its tab always shows.
+    has_options = True
 
     def __init__(
         self,
@@ -20,7 +22,6 @@ class PastOrFutureFilter:
     ):
         self.tab_title = tab_title
         self.querydict = None
-        self.queryset = True
 
     def apply(self, queryset, querydict):
         """
