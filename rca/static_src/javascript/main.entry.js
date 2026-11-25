@@ -7,10 +7,10 @@ import AnchorNav from './components/anchor-nav';
 import BackLink from './components/back-link';
 import BackupStreamToggle from './components/backup-stream-toggle';
 import Carousel from './components/carousel';
-import CountdownCTA from './components/countdown-cta';
-import CTATrigger from './components/cta-trigger';
 import PeekFullCarousel from './components/carousel-full-peek';
 import PeekCarousel from './components/carousel-peek';
+import CountdownCTA from './components/countdown-cta';
+import CTATrigger from './components/cta-trigger';
 import EmailShare from './components/email-share';
 import EventToggleSwitch from './components/event-toggle-switch';
 import FormFocus from './components/form-focus';
@@ -32,19 +32,17 @@ import TableHint from './components/table-hint';
 import './components/stats-block';
 import './components/sticky-header';
 import './components/sticky-point';
+import CollapsibleNav from './components/collapsible-nav';
+import EmbeddedFooterCTA from './components/embedded-footer-cta';
+import PersonalisedCTAs from './components/personalised-ctas';
 import SubMenu from './components/submenu';
 import Tabs from './components/tabs';
 import VideoModal from './components/video-modal';
 import VideoPlayer from './components/video-stream';
-import CollapsibleNav from './components/collapsible-nav';
-import EmbeddedFooterCTA from './components/embedded-footer-cta';
-import PersonalisedCTAs from './components/personalised-ctas';
 
 import '../sass/main.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
-    /* eslint-disable no-new, no-restricted-syntax */
-
     // GridSizeVariables first to ensure custom properites are populated
     for (const gridVariables of document.querySelectorAll(
         GridSizeVariables.selector(),

@@ -10,16 +10,25 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-      - name: Install npm dependencies
-        run: npm install
+      - name: Enable corepack and prepare pnpm
+        # Node 25+ ships no corepack, so install the resolved corepack release
+        # first, then let it activate the pnpm release package.json pins (with
+        # no version given, `corepack prepare` reads the pin from package.json's
+        # "packageManager" field).
+        run: |
+          npm install -g corepack@0.36.0
+          corepack enable pnpm
+          corepack prepare --activate
+      - name: Install pnpm dependencies
+        run: pnpm install
       - name: CSS linting
-        run: npm run lint:css
+        run: pnpm run lint:css
       - name: JS linting
-        run: npm run lint:js
+        run: pnpm run lint:js
       - name: Prettier
-        run: npm run format
+        run: pnpm run format
       - name: JS tests
-        run: npm run test
+        run: pnpm run test
 
   lint-python:
     runs-on: ubuntu-latest
@@ -29,16 +38,17 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: 3.15
-      - uses: Gr1N/setup-poetry@v8
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.4.0
         with:
-          poetry-version: 1.8.5
-      - name: Install Poetry
+          # Keep in sync with: the UV_VERSION ARG in Dockerfile, and the
+          # astral-sh/uv-pre-commit rev in .pre-commit-config.yaml.
+          version: '0.13.9'
+      - name: Install dependencies
         run: |
-          poetry config virtualenvs.create false &&
-          poetry install
-      - name: Flake8
-        run: flake8 ./rca fabfile.py
-      - name: isort
-        run: isort --check-only --diff ./rca --skip-glob '**/migrations/*'
-      - name: black
-        run: black --check --diff ./rca fabfile.py --exclude migrations/
+          uv sync --locked
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+      - name: Ruff check
+        run: ruff check ./rca fabfile.py
+      - name: Ruff format
+        run: ruff format --check --diff ./rca fabfile.py

@@ -1,5 +1,6 @@
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+
 from wagtail.admin.ui.tables import Column, StatusTagColumn
 from wagtail.users.views.users import IndexView
 from wagtail.users.views.users import UserViewSet as WagtailUserViewSet

@@ -8,9 +8,9 @@
     started on what was inserted, as main.entry.js starts them on page load.
 */
 
+import CollapsibleNav from './collapsible-nav';
 import CountdownCTA from './countdown-cta';
 import CTATrigger from './cta-trigger';
-import CollapsibleNav from './collapsible-nav';
 import EmbeddedFooterCTA from './embedded-footer-cta';
 
 // In the order main.entry.js starts them.
@@ -67,7 +67,9 @@ class PersonalisedCTAs {
                 }
                 const nodes = [...cta.content.children];
                 slot.replaceWith(cta.content);
-                nodes.forEach((node) => PersonalisedCTAs.start(node));
+                nodes.forEach((node) => {
+                    PersonalisedCTAs.start(node);
+                });
             });
     }
 
@@ -75,12 +77,11 @@ class PersonalisedCTAs {
         COMPONENTS.forEach((Component) => {
             const selector = Component.selector();
             if (root.matches(selector)) {
-                // eslint-disable-next-line no-new
                 new Component(root);
             }
-            root.querySelectorAll(selector).forEach(
-                (node) => new Component(node),
-            );
+            root.querySelectorAll(selector).forEach((node) => {
+                new Component(node);
+            });
         });
     }
 }

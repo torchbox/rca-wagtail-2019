@@ -27,8 +27,7 @@ class PeekFullCarousel {
 
         window.addEventListener('resize', () => {
             // Check window width has actually changed and it's not just iOS triggering a resize event on scroll
-            // eslint-disable-next-line eqeqeq
-            if (window.innerWidth != this.windowWidth) {
+            if (window.innerWidth !== this.windowWidth) {
                 // Update the window width for next time
                 this.windowWidth = window.innerWidth;
                 this.getMargins();
@@ -86,7 +85,6 @@ class PeekFullCarousel {
 
     // sets aria-hidden on inactive slides
     updateAriaRoles() {
-        // eslint-disable-next-line no-restricted-syntax
         for (const slide of this.node.querySelectorAll(
             '.glide__slide:not(.glide__slide--active)',
         )) {

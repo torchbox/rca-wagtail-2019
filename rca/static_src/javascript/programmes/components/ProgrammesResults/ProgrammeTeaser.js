@@ -1,9 +1,9 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import {
-    SHORT_COURSE_PAGE_TYPE,
     programmePageShape,
+    SHORT_COURSE_PAGE_TYPE,
 } from '../../programmes.types';
 
 /**

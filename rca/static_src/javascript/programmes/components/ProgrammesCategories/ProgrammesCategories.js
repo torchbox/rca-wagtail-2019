@@ -1,11 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import { programmeCategories } from '../../programmes.types';
-
-import CategoriesTablist from './CategoriesTablist';
-import CategoriesPanels from './CategoriesPanels';
 import ModeCheckbox from '../StudyModeCheckbox';
+import CategoriesPanels from './CategoriesPanels';
+import CategoriesTablist from './CategoriesTablist';
 
 /**
  * Filter-based navigation to programmes, displayed as tabs.

@@ -1,108 +1,140 @@
-[tool.poetry]
+[project]
 name = "rca"
 version = "0.1.0"
 description = ""
-authors = ["Kevin Howbrook <kevin.howbrook@torchbox.com>"]
+authors = [{name = "Kevin Howbrook", email = "kevin.howbrook@torchbox.com"}]
+requires-python = "~=3.15.0"
+readme = "README.md"
+dependencies = [
+    "django~=5.2.0",
+    "wagtail~=8.1.0",
+    "psycopg2~=2.9.0",
 
-[tool.poetry.dependencies]
-python = "~3.15"
-django = "~5.2"
-wagtail = "~8.1"
-psycopg2 = "~2.9"
-gunicorn = {version = "~27.0", optional = true}
+    # Django packages
+    "django-basic-auth-ip-whitelist~=0.9.0",
+    "django-birdbath~=2.0.0",
+    "django-cors-headers~=4.9.0",
+    "django-countries~=9.1.0",
+    "django-csp~=4.0.0",
+    # If you update django-import-export, comprehensive testing of the feature should be carried out.
+    "django-import-export~=3.3.0",  # held: v4+ has breaking changes, import feature needs full re-test — see upgrading.md
+    "django-pattern-library~=1.6.0",
+    "django-phonenumber-field[phonenumbers]~=9.0.0",
+    "django-redis~=7.0.0",
+    "django-storages[boto3]~=1.14.0",
+    "boto3~=1.43.0",
+    "dj-database-url~=3.1.0",
 
-# Django packages
-django-basic-auth-ip-whitelist = "~0.9"
-django-birdbath = "~2.0"
-django-cors-headers = "~4.9"
-django-countries = "~9.1"
-django-csp = "~4.0"
-# If you update django-import-export, comprehensive testing of the feature should be carried out.
-django-import-export = "~3.3"  # held: v4+ has breaking changes, import feature needs full re-test — see upgrading.md
-django-pattern-library = "~1.6"
-django-phonenumber-field = {version = "~9.0", extras = ["phonenumbers"]}
-django-redis = "~7.0"
-django-storages = {version = "~1.14", extras = ["boto3"]}
-boto3 = "~1.43"
-dj-database-url = "~3.1"
+    # Wagtail packages
+    "wagtail-accessibility~=2.0.0",
+    "wagtail-django-recaptcha~=2.2.0",
+    "wagtail-factories~=4.5.0",
+    "wagtail-modeladmin~=2.5.0",
+    "wagtail-orderable",
+    "wagtail-rangefilter~=0.2.0",
+    "wagtail-storages~=2.0.0",
 
-# Wagtail packages
-wagtail-accessibility = "~2.0"
-wagtail-django-recaptcha = "~2.2"
-wagtail-factories = "~4.5"
-wagtail-modeladmin = "~2.5"
+    # Various
+    "beautifulsoup4~=4.15.0",
+    "coverage~=7.17.0",
+    "freezegun~=1.5.0",
+    "html5lib~=1.1.0",
+    "lxml~=6.1.0",
+    "scout-apm~=4.1.0",
+    "sentry-sdk~=2.75.0",
+    "tblib~=3.2.0",
+    "urllib3~=2.8.0",
+    "whitenoise~=6.12.0",
+    "social-auth-app-django~=8.1.0",
+    "django-xff~=1.5.0",
+    "wagtailmedia~=0.19.0",
+    "wagtail-personalisation~=1.0.0",
+    "wagtail-font-awesome-svg~=2.0.0",
+    "cryptography~=50.0.0",
+    "pillow~=13.0.0",
+    "requests~=2.34.0",
+    "tzdata~=2026.6.0",
+]
+
+[project.optional-dependencies]
+gunicorn = ["gunicorn~=27.0.0"]
+
+[dependency-groups]
+dev = [
+    "Werkzeug~=3.1.0",
+    "django-extensions~=4.1.0",
+    "fabric~=3.2.0",
+    "stellar~=0.4.0",
+    "wagtailmakeup~=1.1.0",
+
+    # Linters etc.
+    "detect-secrets~=1.5.0",
+    "pre-commit~=4.7.0",
+    "ruff~=0.17.6",
+
+    # Documentation
+    "mkdocs~=1.6.0",
+    "mkdocs-material~=9.8.0",
+    "pymdown-extensions~=13.1.0",
+    "honcho~=2.0.0",
+    "django-upgrade~=1.33.0",
+    "pyupgrade~=3.22.0",
+]
+
+[tool.uv]
+exclude-newer = "3 days"
+required-version = ">=0.13"
+
+[tool.uv.sources]
 wagtail-orderable = {git = "https://github.com/torchbox-forks/wagtail-orderable.git", tag = "1.3.1+tbx"}
-wagtail-rangefilter = "~0.2"
-wagtail-storages = "~2.0"
-
-# Various
-beautifulsoup4 = "~4.15"
-coverage = "~7.17"
-freezegun = "~1.5"
-html5lib = "~1.1"
-lxml = "~6.1"
-scout-apm = "~4.1"
-sentry-sdk = "~2.75"
-tblib = "~3.2"
-urllib3 = "~2.8"
-whitenoise = "~6.12"
-social-auth-app-django = "~8.1"
-django-xff = "~1.5"
-wagtailmedia = "~0.19"
-wagtail-personalisation = "~1.0"
-wagtail-font-awesome-svg = "~2.0"
-cryptography = "~50.0"
-pillow = "~13.0"
-requests = "~2.34"
-tzdata = "~2026.6"
-
-[tool.poetry.extras]
-gunicorn = ["gunicorn"]
-
-[tool.poetry.group.dev.dependencies]
-Werkzeug = "~3.1"
-django-extensions = "~4.1"
-fabric = "~3.2"
-stellar = "~0.4"
-wagtailmakeup = "~1.1"
-
-# Linters etc.
-black = "~26.10"
-detect-secrets = "~1.5"
-flake8 = "~7.5"
-isort = "~9.0"
-pre-commit = "~4.7"
-
-# Documentation
-mkdocs = "~1.6"
-mkdocs-material = "~9.8"
-pymdown-extensions = "~13.1"
-honcho = "~2.0"
-django-upgrade = "~1.33"
-pyupgrade = "~3.22"
 
 [build-system]
-requires = ["poetry>=1,<2"]
-build-backend = "poetry.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.black]
-line_length = 88
-target-version = ['py38']
-exclude = '''
-(
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | __pycache__
-    | _build
-    | build
-    | dist
-    | docs
-    | venv
-    | node_modules
-  )/
-)
-'''
+[tool.ruff]
+# Kept at 88 (matching the old `[tool.black]` config) rather than lifted to the
+# old flake8 `max-line-length = 120`: black, not flake8, was the line actually
+# enforced on every formatted line, so 88 is the width the codebase is already
+# wrapped to and keeps `ruff format` from reflowing it needlessly.
+line-length = 88
+extend-exclude = ["migrations"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "UP", "I", "B", "SIM", "C4", "S", "C90", "RUF"]
+# C901: flake8 previously carried the same complexity check disabled project-wide.
+# RUF001-003: the site's copy and docs intentionally use typographic punctuation
+# (en-dashes, curly quotes), which these checks flag as "ambiguous".
+ignore = ["E501", "SIM105", "RUF012", "C901", "RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.per-file-ignores]
+# S110: bare except-pass around a best-effort local cleanup. S603/S607: fixed,
+# developer-supplied argv lists (docker-compose/heroku CLI calls), not
+# untrusted input.
+"fabfile.py" = ["S110", "S603", "S607"]
+# S104: 0.0.0.0 in INTERNAL_IPS is deliberate for local Docker access.
+# S105: these are the dev/test SECRET_KEY placeholders, not real secrets.
+"rca/settings/*.py" = ["S104", "S105"]
+"**/tests/*.py" = ["S105", "S106"]
+# S311: fake/placeholder content generation for local dev, never
+# security-sensitive.
+"**/management/commands/make_*.py" = ["S311"]
+"rca/scholarships/factories.py" = ["S311"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["rca"]
+# Preserves the dedicated Django/Wagtail import groups the old isort config
+# (sections=STDLIB,DJANGO,WAGTAIL,THIRDPARTY,FIRSTPARTY,LOCALFOLDER) gave them.
+section-order = [
+    "future",
+    "standard-library",
+    "django",
+    "wagtail",
+    "third-party",
+    "first-party",
+    "local-folder",
+]
+
+[tool.ruff.lint.isort.sections]
+django = ["django"]
+wagtail = ["wagtail", "modelcluster"]

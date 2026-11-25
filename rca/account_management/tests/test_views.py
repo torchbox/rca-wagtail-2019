@@ -1,6 +1,7 @@
 from django.contrib.auth.models import Group, Permission
 from django.test import TestCase
 from django.urls import reverse
+
 from wagtail_factories import CollectionFactory
 
 from rca.home.models import HomePage
@@ -11,7 +12,6 @@ from rca.users.models import User
 
 
 class TestAccountManagementViews(TestCase):
-
     create_view_name = "student_account_create"
 
     def setUp(self):

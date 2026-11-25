@@ -3,10 +3,9 @@ from collections import defaultdict
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
-from rest_framework.fields import CharField as CharFieldSerializer
-from taggit.models import TaggedItemBase
 from wagtail.admin.panels import (
     FieldPanel,
     HelpPanel,
@@ -22,6 +21,9 @@ from wagtail.images import get_image_model_string
 from wagtail.images.api.fields import ImageRenditionField
 from wagtail.models import Orderable
 from wagtail.search import index
+
+from rest_framework.fields import CharField as CharFieldSerializer
+from taggit.models import TaggedItemBase
 
 from rca.utils.blocks import (
     AccordionBlockWithTitle,
@@ -233,11 +235,9 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
             heading="course details",
         ),
     ]
-    content_panels = BasePage.content_panels + [
-        MultiFieldPanel(
-            [FieldPanel("hero_image")],
-            heading=_("Hero"),
-        ),
+    content_panels = [
+        *BasePage.content_panels,
+        MultiFieldPanel([FieldPanel("hero_image")], heading=_("Hero")),
         MultiFieldPanel(
             [
                 FieldPanel("introduction"),
@@ -279,14 +279,13 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         FieldPanel("show_register_link"),
         InlinePanel("subjects", label=_("Subjects")),
     ]
-    promote_panels = BasePage.promote_panels + [
+    promote_panels = [
+        *BasePage.promote_panels,
         MultiFieldPanel(
             [
                 HelpPanel(
-                    content=(
-                        "Adding tags will allow users to search for the course "
-                        "on the programmes listing page by tags"
-                    )
+                    content="Adding tags will allow users to search for the course "
+                    "on the programmes listing page by tags"
                 ),
                 FieldPanel("tags"),
             ],
@@ -304,7 +303,8 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
         ]
     )
 
-    search_fields = BasePage.search_fields + [
+    search_fields = [
+        *BasePage.search_fields,
         index.SearchField("introduction"),
         index.SearchField("course_details_text"),
         index.SearchField("body"),
@@ -319,18 +319,13 @@ class ShortCoursePage(ContactFieldsMixin, BasePage):
             ],
         ),
         index.RelatedFields(
-            "subjects",
-            [index.RelatedFields("subject", [index.SearchField("title")])],
+            "subjects", [index.RelatedFields("subject", [index.SearchField("title")])]
         ),
         index.RelatedFields(
             "tagged_short_course_items",
             [
                 index.RelatedFields(
-                    "tag",
-                    [
-                        index.SearchField("name"),
-                        index.AutocompleteField("name"),
-                    ],
+                    "tag", [index.SearchField("name"), index.AutocompleteField("name")]
                 )
             ],
         ),

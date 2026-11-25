@@ -2,47 +2,32 @@ default_language_version:
   node: system
   python: python3.15
 repos:
-  - repo: https://github.com/python/black
-    rev: 26.10.1
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: 'v0.17.6'
     hooks:
-      - id: black
-        # Migrations are intentionally left unformatted; CI excludes them too
-        exclude: '(^|/)migrations/'
-  - repo: https://github.com/PyCQA/isort
-    rev: '9.0.2'
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+  - repo: local
     hooks:
-      - id: isort
-        # Migrations are intentionally left unformatted; CI excludes them too
-        exclude: '(^|/)migrations/'
-  - repo: https://github.com/pycqa/flake8
-    # flake8 config is in setup.cfg
-    rev: 7.5.0
-    hooks:
-      - id: flake8
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    # Held below v9: eslint-config-torchbox@^1.1.0 has no ESLint v9 flat-config support.
-    # The actual eslint version is pinned via additional_dependencies (eslint@8.57.1).
-    rev: v10.15.0
-    hooks:
-      - id: eslint
-        additional_dependencies:
-          - eslint@8.57.1
-          - eslint-config-airbnb@19.0.4
-          - eslint-config-prettier@8.10.2
-          - eslint-config-torchbox@1.1.0
-          - eslint-plugin-import@2.32.0
-          - eslint-plugin-jsx-a11y@6.10.2
-          - eslint-plugin-react@7.37.5
-          - eslint-plugin-react-hooks@4.6.2
-          - '@babel/core@7.29.13'
-          - '@babel/preset-env@7.29.14'
-          - '@babel/preset-react@7.29.7'
-          - '@babel/eslint-parser@7.29.13'
+      - id: fix:js
+        name: fix:js
+        language: system
+        entry: pnpm run fix:js
+        # fix:js runs `biome check --write .`, which globs the whole project via
+        # Biome's own file discovery, so passing per-file paths is redundant — use the
+        # hook's file filter only to decide *whether* to run.
+        pass_filenames: false
+        types_or:
+          - javascript
+          - ts
+          - tsx
+          - json
   - repo: https://github.com/rbubley/mirrors-prettier
     rev: v3.10.1
     hooks:
       - id: prettier
-        types_or: [markdown, css, scss, javascript, json, yaml]
+        types_or: [markdown, css, scss, yaml]
   - repo: https://github.com/awebdeveloper/pre-commit-stylelint
     rev: 0.0.2
     hooks:
@@ -59,11 +44,12 @@ repos:
     rev: v3.22.0
     hooks:
       - id: pyupgrade
-  - repo: https://github.com/python-poetry/poetry
-    rev: '1.8.5' # keep version in sync with version installed in the Dockerfile
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # Keep in sync with: the UV_VERSION ARG in Dockerfile, and the
+    # astral-sh/setup-uv `version` input in .github/workflows/test.yaml and
+    # lint.yaml.
+    rev: '0.13.9'
     hooks:
-      - id: poetry-check
-      - id: poetry-lock
-        # Never update dependencies and only run on changes to pyproject.toml
-        args: [--no-update]
-        files: ^pyproject.toml$
+      - id: uv-lock
+        args: ['--locked']
+        files: ^pyproject\.toml$

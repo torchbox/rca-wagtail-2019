@@ -1,5 +1,6 @@
 from django.apps import apps
 from django.db.models import Q
+
 from wagtail.admin.panels import InlinePanel, ObjectList
 
 
@@ -38,11 +39,14 @@ def get_staff_research_projects(page):
 
     # Then return any other project pages which the staff member leads or is a team member of,
     # filtering out any of the highlights already output
-    yield from ProjectPage.objects.filter(
-        Q(project_lead__page_id=page.pk) | Q(related_staff__page_id=page.pk)
-    ).exclude(pk__in=related_project_page_ids).order_by(
-        "-first_published_at"
-    ).distinct()
+    yield from (
+        ProjectPage.objects.filter(
+            Q(project_lead__page_id=page.pk) | Q(related_staff__page_id=page.pk)
+        )
+        .exclude(pk__in=related_project_page_ids)
+        .order_by("-first_published_at")
+        .distinct()
+    )
 
 
 def get_student_research_projects(page):
@@ -60,11 +64,12 @@ def get_student_research_projects(page):
 
     # Then return any other project pages which the student is a team member of,
     # filtering out any of the highlights already output
-    yield from ProjectPage.objects.filter(
-        related_student_pages__page_id=page.pk
-    ).exclude(pk__in=related_project_page_ids).order_by(
-        "-first_published_at"
-    ).distinct()
+    yield from (
+        ProjectPage.objects.filter(related_student_pages__page_id=page.pk)
+        .exclude(pk__in=related_project_page_ids)
+        .order_by("-first_published_at")
+        .distinct()
+    )
 
 
 class StudentPageInlinePanel(InlinePanel):
@@ -88,7 +93,7 @@ class StudentPageInlinePanel(InlinePanel):
         def classes(self):
             classes = super().classes()
             if self.request.user.is_student():
-                classes = classes + ["w-hidden"]
+                classes = [*classes, "w-hidden"]
             return classes
 
         def get_context_data(self, parent_context=None):
@@ -111,7 +116,7 @@ class StudentPagePromoteTab(ObjectList):
         def classes(self):
             classes = super().classes()
             if self.request.user.is_student():
-                classes = classes + ["w-hidden"]
+                classes = [*classes, "w-hidden"]
             return classes
 
 

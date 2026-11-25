@@ -1,7 +1,6 @@
 import logging
 from datetime import timedelta
 
-import requests
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
@@ -13,8 +12,11 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, TemplateView
-from django_countries.ioc_data import IOC_TO_ISO
+
 from wagtail.admin import messages
+
+import requests
+from django_countries.ioc_data import IOC_TO_ISO
 
 from rca.utils.views import MetaTitleMixin
 
@@ -72,6 +74,7 @@ class EnquireToStudyFormView(MetaTitleMixin, FormView):
         return requests.get(
             f"{settings.QS_API_ENDPOINT}/{query}",
             auth=(settings.QS_API_USERNAME, settings.QS_API_PASSWORD),
+            timeout=10,
         ).json()
 
     def post_qs(self, form_data):
@@ -139,6 +142,7 @@ class EnquireToStudyFormView(MetaTitleMixin, FormView):
             f"{settings.QS_API_ENDPOINT}/studentEnquiries",
             json=data,
             auth=(settings.QS_API_USERNAME, settings.QS_API_PASSWORD),
+            timeout=10,
         )
         # If the response was successful, no Exception will be raised
         response.raise_for_status()
@@ -248,7 +252,9 @@ class EnquireToStudyFormThanksView(MetaTitleMixin, TemplateView):
         from django.utils.html import mark_safe
 
         if "enquiry_form_session_data" in self.request.session:
-            context["enquiry_form_session_data"] = mark_safe(
+            # Renders session data as HTML: accepted risk, see
+            # docs/upgrading.md#accepted-s308-mark_safe-in-the-enquire-to-study-thanks-view
+            context["enquiry_form_session_data"] = mark_safe(  # noqa: S308
                 self.request.session["enquiry_form_session_data"]
             )
             # In case the page is refreshed, make sure we clear the session form data.

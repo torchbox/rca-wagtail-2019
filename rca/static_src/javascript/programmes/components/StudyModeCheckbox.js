@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-
-import { getCourseLengthURL, pushState } from '../programmes.routes';
 import { useStudyMode } from '../context/StudyModeContext';
+import { getCourseLengthURL, pushState } from '../programmes.routes';
 
 const ModeCheckbox = ({ ariaLabel }) => {
     const { isFullTime, setIsFullTime, isPartTime, setIsPartTime } =
@@ -23,6 +22,7 @@ const ModeCheckbox = ({ ariaLabel }) => {
             className={`mode-checkbox ${
                 showError ? 'mode-checkbox--error' : ''
             }`}
+            role="group"
             aria-label={ariaLabel}
         >
             {showError && (

@@ -2,31 +2,10 @@
 
 This document describes aspects of the system which should be given particular attention when upgrading Wagtail or its dependencies.
 
-## Node dependencies
-
-### ESLint ceiling
-
-ESLint and its `eslint-config-torchbox` peer set (`eslint`, `eslint-config-prettier`, `eslint-plugin-react-hooks`) are held below ESLint v9 because `eslint-config-torchbox@^1.1.0` does not yet support the ESLint v9 flat-config format. The Node dependency bump enforces this ceiling automatically. Lifting it requires the ESLint v9 / flat-config migration (see <https://eslint.org/docs/latest/use/migrate-to-9.0.0>).
-
 ## Node dependency holds
 
-- `@babel/eslint-parser` (`^7.29.13`): held with the ESLint ceiling above: its 8.x major needs `eslint@^9||^10`, which `eslint-config-torchbox` doesn't support. Lift when `eslint-config-torchbox` supports ESLint v9's flat config.
-  Evidence: `npm install` fails with `ERESOLVE: peer eslint@"^9.0.0 || ^10.0.0" from @babel/eslint-parser@8.1.2`
-  Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
-- `@babel/core` (`^7.29.13`): held because the ESLint-ceiling-held `@babel/eslint-parser@7` needs `@babel/core@^7.11.0`, and its own 8.x major only accepts `@babel/core@^8`. Lift when `@babel/eslint-parser` lifts.
-  Evidence: `npm install` fails with `ERESOLVE: peer @babel/core@"^7.11.0" from @babel/eslint-parser@7.29.13`
-  Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
-- `@babel/preset-env` (`^7.29.14`): held with `@babel/core`: its 8.x major needs `@babel/core@^8.0.0`, which conflicts with the `@babel/core` hold above. Lift when `@babel/core` lifts.
-  Evidence: `npm install` fails with `ERESOLVE: peer @babel/core@"^8.0.0" from @babel/preset-env@8.0.7`
-  Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
-- `@babel/preset-react` (`^7.29.7`): held with `@babel/core`: its 8.x major needs `@babel/core@^8.0.0`, which conflicts with the `@babel/core` hold above. Lift when `@babel/core` lifts.
-  Evidence: `npm install` fails with `ERESOLVE: peer @babel/core@"^8.0.0" from @babel/preset-react@8.0.1`
-  Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
-- `@babel/plugin-transform-class-properties` (`^7.29.7`): held with `@babel/core`: its 8.x major needs `@babel/core@^8.0.0`, which conflicts with the `@babel/core` hold above. Lift when `@babel/core` lifts.
-  Evidence: `npm install` fails with `ERESOLVE: peer @babel/core@"^8.0.0" from @babel/plugin-transform-class-properties@8.0.1`
-  Release notes: https://github.com/babel/babel/releases/tag/v8.0.0
 - `stylelint` (`^17.16.0`): held because `stylelint-config-torchbox@5.0.0`, its latest release, only supports `stylelint@^17`; its 18.x major has no compatible `stylelint-config-torchbox` release yet. Lift when `stylelint-config-torchbox` supports stylelint v18.
-  Evidence: `npm ci` fails with `Conflicting peer dependency: stylelint@17.16.0 ... peer stylelint@"^17.0.0" from stylelint-config-torchbox@5.0.0`
+  Evidence: `PNPM_CONFIG_STRICT_PEER_DEPENDENCIES=true pnpm install --lockfile-only` with `stylelint` bumped to `^18.0.0` fails with `unmet peer stylelint, Installed: 18.1.0, Wanted ^17.0.0: stylelint-config-torchbox@5.0.0`
   Release notes: https://github.com/stylelint/stylelint/releases/tag/18.0.0
 - `video.js` (`^8.24.2`): held because v10 replaced the classic `Tech` plugin API with `createPlayer`/extension packages, dropping `videojs.registerTech`/`getTech`, which `amazon-ivs-player`'s `registerIVSTech` calls to register the IVS playback tech. Lift when `amazon-ivs-player` ships a v10-compatible release.
   Evidence: `node -e "const videojs = require('video.js'); require('amazon-ivs-player').registerIVSTech(videojs, {})"` on `video.js@10.5.0` fails with `videojs not available, AmazonIVS tech not registered`
@@ -36,11 +15,11 @@ ESLint and its `eslint-config-torchbox` peer set (`eslint`, `eslint-config-prett
 
 ### pillow-heif wheel availability
 
-`pillow-heif` (pulled in by Wagtail's `Willow[heif]` extra) only ships wheels for actively-supported CPython minors, so a Python bump can land on a locked version with no wheel for the new interpreter — the build then fails compiling it from source, since the production image has no `libheif` headers. Re-lock just that package (`poetry update pillow-heif --lock`) rather than widening the dependency bump.
+`pillow-heif` (pulled in by Wagtail's `Willow[heif]` extra) only ships wheels for actively-supported CPython minors, so a Python bump can land on a locked version with no wheel for the new interpreter — the build then fails compiling it from source, since the production image has no `libheif` headers. Re-lock just that package (`uv lock --upgrade-package pillow-heif`) rather than widening the dependency bump.
 
 ### lxml wheel availability
 
-Same pattern as `pillow-heif` above: `lxml` only ships wheels for actively-supported CPython minors, so a Python bump can land on a locked patch version with no wheel for the new interpreter, and the build fails compiling it from source (missing `libxml2`/`libxslt` headers in the production image). Re-lock just that package (`poetry update lxml --lock`) to the newest patch within the existing specifier rather than widening the dependency bump.
+Same pattern as `pillow-heif` above: `lxml` only ships wheels for actively-supported CPython minors, so a Python bump can land on a locked patch version with no wheel for the new interpreter, and the build fails compiling it from source (missing `libxml2`/`libxslt` headers in the production image). Re-lock just that package (`uv lock --upgrade-package lxml`) to the newest patch within the existing specifier rather than widening the dependency bump.
 
 ## Wagtail package dependencies
 
@@ -200,11 +179,19 @@ Last security review: 2026-11-24
 
 - Package: tablib held at ==3.5.0
 - Verified binding constraint: upstream hard-pin — every `django-import-export` 3.3.x release depends on `tablib[html,ods,xls,xlsx,yaml] (3.5.0)` exactly, so no later tablib is reachable while the project pins `django-import-export = "~3.3"`.
-- How verified: `tbx-support run trivy-scan run_relock --ecosystem python --package tablib --fixed-version 3.10.0 --force-transitive` promotes tablib to a direct 3.10.0 dependency and runs `poetry update tablib --lock`, which fails with "because rca depends on both django-import-export (~3.3) and tablib (3.10.0), version solving failed", enumerating the `tablib (3.5.0)` dependency of each 3.3.x release up to 3.3.9, the last on that line. The runner keeps nothing when the resolve fails. tablib 3.10.0 is months older than the cool-down window, so release age is not the blocker.
+- How verified: promoting tablib to a direct `tablib~=3.10.0` dependency and running `uv lock` fails with "Because django-import-export>=3.3.0,<=3.3.9 depends on tablib[html]==3.5.0 ..., your project's requirements are unsatisfiable", confirming every `django-import-export` 3.3.x release up to 3.3.9, the last on that line, hard-pins `tablib==3.5.0`. The lock keeps nothing when the resolve fails. tablib 3.10.0 is months older than the cool-down window, so release age is not the blocker.
 - Why unreachable: CVE-2026-9318 is stored XSS in tablib's HTML _export_. This project uses `django-import-export` for import only — `rca/people/admin/page_import.py` subclasses `ImportMixin` and `resources.ModelResource` with import-side hooks; no `ExportMixin`, export action, or HTML export format is registered anywhere under `rca/`.
 - Cool-down: not bypassed — the fix is cool-down-allowed; the `django-import-export ~3.3` ceiling blocks it, not the cool-down.
 
 Lifted by upgrading `django-import-export` to 4.x, which relaxes the tablib pin. That is itself held by the ceiling recorded in `pyproject.toml` ("v4+ has breaking changes"), and the import feature needs comprehensive testing before it moves.
+
+### Accepted S308 (`mark_safe`) in the enquire-to-study thanks view
+
+- Location: `EnquireToStudyFormThanksView.get_context_data` in `rca/enquire_to_study/views.py`.
+- Why flagged: ruff's bandit-derived `S308` rule is new to this project (the previous flake8 setup had no bandit check); it flags `mark_safe()` wrapping `enquiry_form_session_data`, which is read back from the session.
+- Why it's there: `enquire_form_thanks.html` pushes that value straight into a `window.dataLayer.push({{ enquiry_form_session_data }})` script block for GTM analytics. Without `mark_safe()`, Django's autoescaping turns the dict's quote characters into HTML entities and breaks the JS.
+- Verified exposure: every value in the dict (`set_session_data` in the same file) comes from a closed-choice form field validated against a fixed queryset — country code/label, programme labels, a start-date label, an enquiry-reason label — not free-text end-user input. The only way to inject a payload is through an admin-managed snippet label (e.g. an enquiry reason or programme title), so exploiting this needs a staff account that can already edit that content, not an anonymous visitor.
+- Accepted as: a low-severity, staff-trust-boundary issue. Revisit if `set_session_data` ever starts including a free-text field (e.g. a message or comments field).
 
 ---
 
@@ -241,7 +228,7 @@ We don't generally upgrade python versions until a new LTS/Major version is rele
 
 If you are upgrading python, you should check the following python version references are updated:
 
-- The `python` key in the `tool.poetry.dependencies` section of the `pyproject.toml` file.
+- The `requires-python` key in the `[project]` section of the `pyproject.toml` file.
 - The `python` key in the pre-commit configuration file `.pre-commit-config.yaml`.
 - The `python` image tag in the `Dockerfile`/s.
 - Any references to the python version in documentation.
@@ -249,7 +236,7 @@ If you are upgrading python, you should check the following python version refer
 
 ### Pyupgrade tool
 
-If you are upgrading python. There is a development tool available to help with modernising the codebase. This is installed as part of the poetry development dependencies.
+If you are upgrading python. There is a development tool available to help with modernising the codebase. This is installed as part of the uv dev dependency group.
 
 To run the tool, use the following command:
 
@@ -277,7 +264,7 @@ git ls-files -z -- '*.py' | xargs -0 | pre-commit run --files
 
 ## Django upgrades
 
-If you are upgrading Django. There is a development tool available to help with modernising the codebase. This is installed as part of the poetry development dependencies.
+If you are upgrading Django. There is a development tool available to help with modernising the codebase. This is installed as part of the uv dev dependency group.
 
 ### Django upgrade tool
 

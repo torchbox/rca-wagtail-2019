@@ -1,6 +1,6 @@
 // Vendor
 @use 'vendor/normalize';
-@use '../../../node_modules/@glidejs/glide/src/assets/sass/glide.core';
+@use '@glidejs/glide/dist/css/glide.core.css';
 @use 'video.js/dist/video-js.css';
 
 // Abstracts - Use wildcard namespace to maintain global availability

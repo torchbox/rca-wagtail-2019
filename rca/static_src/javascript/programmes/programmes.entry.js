@@ -1,8 +1,8 @@
+import { configureStore } from '@reduxjs/toolkit';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
 
 import ProgrammesExplorer from './components/ProgrammesExplorer';
 import programmesReducer from './programmes.slice';

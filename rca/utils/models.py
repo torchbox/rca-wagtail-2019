@@ -9,9 +9,9 @@ from django.utils.cache import patch_cache_control
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
-from taggit.models import ItemBase, TagBase
 from wagtail import blocks
 from wagtail.admin.panels import (
     FieldPanel,
@@ -25,6 +25,8 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Orderable, Page
 from wagtail.search import index
 from wagtail.snippets.models import register_snippet
+
+from taggit.models import ItemBase, TagBase
 
 from rca.api_content.content import CantPullFromRcaApi
 from rca.personalisation.ctas import could_show_ctas
@@ -760,7 +762,8 @@ class FacilitiesSnippet(OptionalLink):
         FieldPanel("admin_title"),
         FieldPanel("introduction"),
         FieldPanel("copy"),
-    ] + OptionalLink.panels
+        *OptionalLink.panels,
+    ]
 
     def __str__(self):
         return self.admin_title
@@ -775,7 +778,7 @@ class StepSnippet(OptionalLink):
 
     heading = models.CharField(max_length=500)
 
-    panels = [FieldPanel("admin_title"), FieldPanel("heading")] + OptionalLink.panels
+    panels = [FieldPanel("admin_title"), FieldPanel("heading"), *OptionalLink.panels]
 
     def __str__(self):
         return self.admin_title
@@ -810,7 +813,8 @@ class AccordionSnippet(index.Indexed, OptionalLink):
         FieldPanel("heading"),
         FieldPanel("preview_text"),
         FieldPanel("body"),
-    ] + OptionalLink.panels
+        *OptionalLink.panels,
+    ]
 
     search_fields = [
         index.SearchField("heading"),
@@ -1005,7 +1009,7 @@ def get_listing_image(page):
     Returns:
         rca.image.CustomImage / None: The image object
     """
-    image = getattr(page, "listing_image")
+    image = page.listing_image
     if not image:
         image = getattr(page, "hero_image", None)
     return image
@@ -1173,20 +1177,21 @@ class StickyCTAMixin(models.Model):
         errors = defaultdict(list)
         if self.sticky_cta_page and self.sticky_cta_link_url:
             message = "You must specify a page or link url. You can't use both."
-            errors["sticky_cta_link_url"].append(message),
-            errors["sticky_cta_page"].append(message),
+            (errors["sticky_cta_link_url"].append(message),)
+            (errors["sticky_cta_page"].append(message),)
 
         if bool(self.sticky_cta_link_url) != bool(self.sticky_cta_link_text):
             errors["sticky_cta_link_text"].append(
                 "You must specify link text, if you use the link url field."
             )
 
-        if self.sticky_cta_page or self.sticky_cta_link_url:
-            # Either page or link URL is specified, so description is required
-            if not self.sticky_cta_description:
-                errors["sticky_cta_description"].append(
-                    "You must specify a description for the sticky CTA"
-                )
+        # Either page or link URL is specified, so description is required
+        if (
+            self.sticky_cta_page or self.sticky_cta_link_url
+        ) and not self.sticky_cta_description:
+            errors["sticky_cta_description"].append(
+                "You must specify a description for the sticky CTA"
+            )
 
         if errors:
             raise ValidationError(errors)

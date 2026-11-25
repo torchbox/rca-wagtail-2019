@@ -1,28 +1,46 @@
+# Keep in sync with: the astral-sh/uv-pre-commit rev in .pre-commit-config.yaml,
+# and the astral-sh/setup-uv `version` input in .github/workflows/test.yaml and
+# lint.yaml.
+ARG UV_VERSION=0.13.9
+
 # (Keep the version in sync with the node install below)
 FROM node:26 AS frontend
 
 # Make build & post-install scripts behave as if we were in a CI environment (e.g. for logging verbosity purposes).
 ARG CI=true
 
+ARG COREPACK_VERSION=0.36.0
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+# package.json is needed here already: with no version given, `corepack
+# prepare` reads the pnpm version+hash to install from its "packageManager"
+# field, so that field stays the only place the pin lives.
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .babelrc.js webpack.config.js ./
+
+# node:26 ships no corepack at all, so install the resolved corepack release
+# first, then let it activate the pnpm release package.json pins.
+RUN npm install -g "corepack@${COREPACK_VERSION}" \
+    && corepack enable pnpm \
+    && corepack prepare --activate
+
 # Install front-end dependencies.
-COPY package.json package-lock.json .babelrc.js webpack.config.js ./
-RUN npm ci --no-optional --no-audit --progress=false
+RUN pnpm install --frozen-lockfile
 
 # Compile static files
 COPY ./rca/static_src/ ./rca/static_src/
-RUN npm run build:prod
+RUN pnpm run build:prod
 
 
 # We use Debian images because they are considered more stable than the alpine
 # ones becase they use a different C compiler. Debian images also come with
 # all useful packages required for image manipulation out of the box. They
 # however weight a lot, approx. up to 1.5GiB per built image.
+FROM ghcr.io/astral-sh/uv:${UV_VERSION}@sha256:d3b601f0c7b118bc1753febf7c41cc80981df678445e0254284eecf84db79a7d AS uv-binary
+
 FROM python:3.15-trixie AS production
 
-ARG POETRY_INSTALL_ARGS="--no-dev"
-
-# IMPORTANT: Remember to review .circleci/config.yml when upgrading
-ARG POETRY_VERSION=1.8.5
+ARG UV_SYNC_ARGS="--no-dev"
 
 # Install dependencies in a virtualenv
 ENV VIRTUAL_ENV=/venv
@@ -34,7 +52,7 @@ WORKDIR /app
 # Set default environment variables. They are used at build time and runtime.
 # If you specify your own environment variables on Heroku or Dokku, they will
 # override the ones set here. The ones below serve as sane defaults only.
-#  * PATH - Make sure that Poetry is on the PATH, along with our venv
+#  * PATH - Make sure our venv is on the PATH.
 #  * PYTHONUNBUFFERED - This is useful so Python does not hold any messages
 #    from being output.
 #    https://docs.python.org/3.11/using/cmdline.html#envvar-PYTHONUNBUFFERED
@@ -48,7 +66,11 @@ WORKDIR /app
 #  * GUNICORN_CMD_ARGS - additional arguments to be passed to Gunicorn. This
 #    variable is read by Gunicorn
 ENV PATH=$VIRTUAL_ENV/bin:$PATH \
-    POETRY_INSTALL_ARGS=${POETRY_INSTALL_ARGS} \
+    UV_SYNC_ARGS=${UV_SYNC_ARGS} \
+    UV_PROJECT_ENVIRONMENT=$VIRTUAL_ENV \
+    UV_PYTHON_DOWNLOADS=never \
+    UV_LINK_MODE=copy \
+    UV_COMPILE_BYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     DJANGO_SETTINGS_MODULE=rca.settings.production \
     PORT=8000 \
@@ -70,8 +92,8 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     git \
     && apt-get autoremove && rm -rf /var/lib/apt/lists/*
 
-# Install poetry at the system level
-RUN pip install --no-cache poetry==${POETRY_VERSION}
+# Install uv
+COPY --from=uv-binary /uv /usr/local/bin/uv
 
 # Don't use the root user as it's an anti-pattern and Heroku does not run
 # containers as root either.
@@ -79,17 +101,16 @@ RUN pip install --no-cache poetry==${POETRY_VERSION}
 USER rca
 
 # Install your app's Python requirements.
-RUN python -m venv $VIRTUAL_ENV
-COPY --chown=rca pyproject.toml poetry.lock ./
-RUN pip install --no-cache --upgrade pip && poetry install ${POETRY_INSTALL_ARGS} --no-root --extras gunicorn && rm -rf $HOME/.cache
+COPY --chown=rca pyproject.toml uv.lock ./
+RUN uv sync --locked ${UV_SYNC_ARGS} --extra gunicorn --no-install-project && rm -rf $HOME/.cache
 
 COPY --chown=rca --from=frontend ./rca/static_compiled ./rca/static_compiled
 
 # Copy application code.
 COPY --chown=rca . .
 
-# Run poetry install again to install our project (so the the rca package is always importable)
-RUN poetry install ${POETRY_INSTALL_ARGS}
+# Run uv sync again to install our project (so the rca package is always importable)
+RUN uv sync --locked ${UV_SYNC_ARGS} --extra gunicorn
 
 # Collect static. This command will move static files from application
 # directories and "static_compiled" folder to the main static directory that
@@ -122,6 +143,22 @@ ARG NVM_VERSION=0.40.4
 COPY --chown=rca .nvmrc ./
 RUN curl https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh | bash \
     && bash --login -c "nvm install --no-progress && nvm alias default $(nvm run --silent --version)"
+
+# Enable corepack and prepare pnpm for the nvm-installed node above (which,
+# like node:26, ships no corepack at all), and run it once so its platform
+# binary is downloaded now rather than on every `pnpm` invocation. With no
+# version given, `corepack prepare` reads the pin from package.json's
+# "packageManager" field (already present from the production stage's
+# `COPY --chown=rca . .` above), so that field stays the only place it lives.
+ARG COREPACK_VERSION=0.36.0
+# node_modules below is installed in the frontend stage and used from another
+# path here, so pnpm's pre-run dependency check would reinstall it before
+# every `pnpm run`. It comes from the frozen lockfile, so turn the check off.
+ENV pnpm_config_verify_deps_before_run=false
+RUN bash --login -c "npm install -g corepack@${COREPACK_VERSION} \
+    && corepack enable pnpm \
+    && corepack prepare --activate \
+    && pnpm --version"
 
 # Pull in the node modules for the frontend
 COPY --chown=rca --from=frontend ./node_modules ./node_modules

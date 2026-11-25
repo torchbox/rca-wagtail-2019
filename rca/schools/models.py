@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import (
     FieldPanel,
@@ -303,7 +304,8 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             intranet",
     )
 
-    search_fields = BasePage.search_fields + [
+    search_fields = [
+        *BasePage.search_fields,
         index.SearchField("introduction"),
         index.SearchField("body"),
         index.SearchField("location"),
@@ -361,8 +363,10 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
             [
                 FieldPanel("research_projects_title"),
                 FieldPanel("research_projects_text"),
-                HelpPanel(content="Projects related to this School are automatically \
-                        listed, this can be overriden by defining projects manually"),
+                HelpPanel(
+                    content="Projects related to this School are automatically \
+                        listed, this can be overriden by defining projects manually"
+                ),
                 InlinePanel(
                     "manually_related_project_pages", max_num=5, label="Project"
                 ),
@@ -453,7 +457,8 @@ class SchoolPage(ContactFieldsMixin, LegacyNewsAndEventsMixin, BasePage):
         hero_items = self.hero_items.all()
         if not hero_items:
             return
-        selected_item = random.choice(hero_items)
+        # Picking which hero item to display, not a security-sensitive choice.
+        selected_item = random.choice(hero_items)  # noqa: S311
         return {
             "image": selected_item.hero_image,
         }

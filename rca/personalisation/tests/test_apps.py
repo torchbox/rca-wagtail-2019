@@ -2,8 +2,10 @@ from unittest.mock import patch
 
 from django.apps import apps as django_apps
 from django.test import RequestFactory, TestCase
+
 from wagtail import hooks
 from wagtail.admin.userbar import apply_userbar_hooks
+
 from wagtail_personalisation import wagtail_hooks as wp_hooks
 
 from rca.personalisation.factories import SegmentFactory

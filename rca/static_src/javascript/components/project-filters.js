@@ -1,7 +1,6 @@
 import 'intersection-observer';
 import scrollama from 'scrollama';
 
-/* eslint-disable no-restricted-syntax */
 class ProjectFilters {
     static selector() {
         return '[data-filter-option]';

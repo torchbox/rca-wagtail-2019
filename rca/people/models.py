@@ -10,6 +10,7 @@ from django.db import models
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
+
 from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import (
     FieldPanel,
@@ -232,7 +233,8 @@ class StaffPage(BasePage):
         ),
     )
 
-    search_fields = BasePage.search_fields + [
+    search_fields = [
+        *BasePage.search_fields,
         index.SearchField("introduction"),
         index.SearchField("first_name"),
         index.SearchField("last_name"),
@@ -250,7 +252,8 @@ class StaffPage(BasePage):
         FieldPanel("research_profile_url", heading=_("Research profile URL")),
     ]
 
-    content_panels = BasePage.content_panels + [
+    content_panels = [
+        *BasePage.content_panels,
         MultiFieldPanel(
             [
                 FieldPanel("staff_title"),
@@ -279,10 +282,7 @@ class StaffPage(BasePage):
             heading=_("Related Students"),
         ),
         MultiFieldPanel(
-            [
-                FieldPanel("more_information_title"),
-                FieldPanel("more_information"),
-            ],
+            [FieldPanel("more_information_title"), FieldPanel("more_information")],
             heading="More information",
         ),
         FieldPanel("related_links"),
@@ -483,9 +483,9 @@ class StaffIndexPage(BasePage):
 
     introduction = RichTextField(blank=False, features=["link"])
 
-    content_panels = BasePage.content_panels + [FieldPanel("introduction")]
+    content_panels = [*BasePage.content_panels, FieldPanel("introduction")]
 
-    search_fields = BasePage.search_fields + [index.SearchField("introduction")]
+    search_fields = [*BasePage.search_fields, index.SearchField("introduction")]
 
     def get_base_queryset(self):
         return (
@@ -775,7 +775,8 @@ class StudentPage(BasePage):
         unique=True,
         help_text="This should link to this students image collection",
     )
-    search_fields = BasePage.search_fields + [
+    search_fields = [
+        *BasePage.search_fields,
         index.SearchField("introduction"),
         index.SearchField("first_name"),
         index.SearchField("last_name"),
@@ -791,7 +792,8 @@ class StudentPage(BasePage):
         index.SearchField("addition_information_content"),
     ]
 
-    content_panels = BasePage.content_panels + [
+    content_panels = [
+        *BasePage.content_panels,
         FieldPanel("student_user_account", permission="superuser"),
         FieldPanel("student_user_image_collection", permission="superuser"),
         MultiFieldPanel(
@@ -980,7 +982,6 @@ class StudentPage(BasePage):
         super().save()
 
         if self.student_user_image_collection and self.student_user_account:
-
             # Check if a group configuration exsists already for this user.
             group = Group.objects.filter(
                 name=self.student_user_account.student_group_name
@@ -1040,8 +1041,8 @@ class StudentIndexPage(BasePage):
     subpage_types = ["people.StudentPage"]
     template = "patterns/pages/student/student_index.html"
     introduction = RichTextField(blank=False, features=["link"])
-    content_panels = BasePage.content_panels + [FieldPanel("introduction")]
-    search_fields = BasePage.search_fields + [index.SearchField("introduction")]
+    content_panels = [*BasePage.content_panels, FieldPanel("introduction")]
+    search_fields = [*BasePage.search_fields, index.SearchField("introduction")]
 
     def get_base_queryset(self):
         return (

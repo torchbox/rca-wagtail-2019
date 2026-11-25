@@ -4,11 +4,13 @@ from operator import or_
 from django.conf import settings
 from django.core.exceptions import FieldDoesNotExist
 from django.db.models import Q
-from rest_framework import filters
+
 from wagtail.api.v2.utils import BadRequestError
 from wagtail.models import Page
 from wagtail.search.backends import get_search_backend
 from wagtail.search.backends.base import FilterFieldError, OrderByFieldError
+
+from rest_framework import filters
 
 from rca.programmes.models import ProgrammeStudyMode
 
@@ -197,16 +199,12 @@ class SearchFilter(filters.SearchFilter):
                 )
             except FilterFieldError as e:
                 raise BadRequestError(
-                    "cannot filter by '{}' while searching (field is not indexed)".format(
-                        e.field_name
-                    )
-                )
+                    f"cannot filter by '{e.field_name}' while searching (field is not indexed)"
+                ) from e
             except OrderByFieldError as e:
                 raise BadRequestError(
-                    "cannot order by '{}' while searching (field is not indexed)".format(
-                        e.field_name
-                    )
-                )
+                    f"cannot order by '{e.field_name}' while searching (field is not indexed)"
+                ) from e
 
         return queryset
 

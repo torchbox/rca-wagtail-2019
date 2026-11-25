@@ -35,16 +35,15 @@ class PagesAPIViewSet(views.PagesAPIViewSet):
         ]
     )
 
-    meta_fields = views.PagesAPIViewSet.meta_fields + [
+    meta_fields = [
+        *views.PagesAPIViewSet.meta_fields,
         "children",
         "descendants",
         "parent",
         "ancestors",
     ]
 
-    listing_default_fields = views.PagesAPIViewSet.listing_default_fields + [
-        "children",
-    ]
+    listing_default_fields = [*views.PagesAPIViewSet.listing_default_fields, "children"]
 
     # Allow the parent field to appear on listings
     detail_only_fields = []
@@ -61,7 +60,8 @@ class SitewideAlertAPIViewSet(views.BaseAPIViewSet):
 class RCAImagesViewset(ImagesAPIViewSet):
     base_serializer_class = RCAImageSerializer
 
-    body_fields = ImagesAPIViewSet.body_fields + [
+    body_fields = [
+        *ImagesAPIViewSet.body_fields,
         "thumbnail",
         "original",
         "rca2019_feed_image",

@@ -22,6 +22,10 @@ All notable changes to this project will be documented in this file.
 - [R1-403](https://torchbox.atlassian.net/browse/R1-403) Wagtail 8.1 Quarterly Upgrade
 - [R1-403](https://torchbox.atlassian.net/browse/R1-403) Python 3.13 → 3.15 and Node 24 → 26
 - [R1-403](https://torchbox.atlassian.net/browse/R1-403) wagtail-personalisation now uses the upstream 1.0.0 release instead of the Torchbox fork
+- [R1-403](https://torchbox.atlassian.net/browse/R1-403) Python packages are now managed with uv instead of Poetry
+- [R1-403](https://torchbox.atlassian.net/browse/R1-403) Python linting and formatting now use ruff instead of black, flake8 and isort
+- [R1-403](https://torchbox.atlassian.net/browse/R1-403) Node packages are now managed with pnpm instead of npm
+- [R1-403](https://torchbox.atlassian.net/browse/R1-403) JavaScript linting and formatting now use Biome instead of ESLint
 
 ### Removed
 

@@ -2,13 +2,15 @@ from datetime import timedelta
 from importlib import import_module
 from unittest.mock import Mock, patch
 
-import wagtail_factories
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
+
 from wagtail.models import PageViewRestriction
+
+import wagtail_factories
 from wagtail_personalisation.rules import DayRule
 
 from rca.home.models import HomePage

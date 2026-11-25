@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from wagtail.test.utils import WagtailPageTestCase
 
 from rca.home.models import HomePage
@@ -20,12 +21,12 @@ from rca.landingpages.models import (
 
 class TestLandingPageFactory(TestCase):
     def test_factories(self):
-        EELandingPageFactory(),
-        ResearchLandingPageFactory(),
-        InnovationLandingPageFactory(),
-        EnterpriseLandingPageFactory(),
-        LandingPageFactory(),
-        ALumniLandingPageFactory(),
+        (EELandingPageFactory(),)
+        (ResearchLandingPageFactory(),)
+        (InnovationLandingPageFactory(),)
+        (EnterpriseLandingPageFactory(),)
+        (LandingPageFactory(),)
+        (ALumniLandingPageFactory(),)
         DevelopmentLandingPageFactory()
 
 

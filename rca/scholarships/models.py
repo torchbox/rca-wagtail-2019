@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext as _
+
 from wagtail.admin.panels import (
     FieldPanel,
     MultiFieldPanel,
@@ -117,7 +118,8 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         help_text="A small disclaimer shown just above the scholarships listing.",
     )
 
-    content_panels = BasePage.content_panels + [
+    content_panels = [
+        *BasePage.content_panels,
         FieldPanel("introduction"),
         MultiFieldPanel(
             [
@@ -232,7 +234,14 @@ class ScholarshipsListingPage(ContactFieldsMixin, BasePage):
         # Template needs the programme for title and slug
         try:
             programme = ProgrammePage.objects.get(slug=request.GET["programme"])
-        except Exception:
+        except (
+            KeyError,
+            ProgrammePage.DoesNotExist,
+            ProgrammePage.MultipleObjectsReturned,
+        ):
+            # No programme filter was requested, the slug didn't match, or it
+            # matched more than one page (a data-integrity issue). Any of
+            # these keeps the `programme = None` default set above.
             pass
 
         context.update(

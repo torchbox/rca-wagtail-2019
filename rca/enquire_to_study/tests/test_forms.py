@@ -2,6 +2,7 @@ from unittest.mock import patch
 
 from django.db import IntegrityError
 from django.test import TestCase
+
 from django_recaptcha.client import RecaptchaResponse
 
 from rca.enquire_to_study.factories import EnquiryReasonFactory, StartDateFactory

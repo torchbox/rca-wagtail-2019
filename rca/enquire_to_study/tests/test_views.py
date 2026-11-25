@@ -9,9 +9,11 @@ from django.core import mail
 from django.test import RequestFactory, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
-from django_recaptcha.client import RecaptchaResponse
+
 from wagtail.models import Site
 from wagtail.test.utils import WagtailPageTestCase
+
+from django_recaptcha.client import RecaptchaResponse
 
 from rca.enquire_to_study.factories import (
     EnquiryFormSubmissionFactory,
@@ -111,7 +113,7 @@ class EnquireToStudyFormViewInternalEmailsTest(WagtailPageTestCase):
         self.assertEqual(1, len(mail.outbox))
         email = mail.outbox[0]
 
-        self.assertIn(f"Submission ID: {str(submission.id)}", email.body)
+        self.assertIn(f"Submission ID: {submission.id!s}", email.body)
         self.assertIn(f"First name: {self.form_data['first_name']}", email.body)
         self.assertIn(f"Last name: {self.form_data['last_name']}", email.body)
         self.assertEqual(["test2@example.com"], email.to)

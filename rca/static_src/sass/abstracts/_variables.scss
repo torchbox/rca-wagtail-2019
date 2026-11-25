@@ -190,5 +190,5 @@ $transition-cubic: 250ms cubic-bezier(0.24, 0.26, 0.2, 1);
 // --------------------------------- Custom properties --------------------------------------
 
 :root {
-    --grid-width: 0; // populated with carousel js
+    --grid-width: 0px; // populated with carousel js; needs a unit so calc() fallbacks stay valid
 }
