@@ -16,7 +16,9 @@ from rca.programmes.models import (
     ProgrammePageDegreeLevel,
     ProgrammeStudyMode,
 )
+from rca.scholarships.factories import ScholarshipFactory
 from rca.standardpages.models import IndexPage, InformationPage
+from rca.utils.tests.utils import QueryCountMixin
 
 
 class TestProgrammePageFactories(TestCase):
@@ -181,3 +183,107 @@ class TestProgrammeStudyMode(TestCase):
         with self.assertRaises(ValueError):
             mode = ProgrammeStudyMode(title="Hybrid")
             mode.save()
+
+
+class ProgrammePageScholarshipItemsTests(QueryCountMixin, TestCase):
+    def setUp(self):
+        home_page = HomePage.objects.first()
+        self.page = ProgrammePageFactory(parent=home_page, title="Sculpture")
+        self.ma = DegreeLevelFactory(title="MA")
+        self.mfa = DegreeLevelFactory(title="MFA")
+
+        self.multi_level = ProgrammePageFactory(
+            parent=home_page, title="Contemporary Art Practice", degree_level=None
+        )
+        ProgrammePageDegreeLevel.objects.create(
+            source_page=self.multi_level, level=self.mfa, sort_order=1
+        )
+        ProgrammePageDegreeLevel.objects.create(
+            source_page=self.multi_level, level=self.ma, sort_order=0
+        )
+        self.single_level = ProgrammePageFactory(
+            parent=home_page, title="Painting", degree_level=self.ma
+        )
+        self.no_level = ProgrammePageFactory(
+            parent=home_page, title="Print", degree_level=None
+        )
+        self.draft = ProgrammePageFactory(parent=home_page, title="Draft", live=False)
+
+        self.scholarship = ScholarshipFactory(
+            eligable_programmes=[
+                self.page,
+                self.multi_level,
+                self.single_level,
+                self.no_level,
+                self.draft,
+            ]
+        )
+
+    def eligible_programmes(self):
+        page = ProgrammePage.objects.get(pk=self.page.pk)
+        [item] = page.scholarship_items
+        return item["value"]["eligible_programmes"].split(", ")
+
+    def test_eligible_programmes_are_listed_by_full_title(self):
+        self.assertCountEqual(
+            self.eligible_programmes(),
+            [
+                str(ProgrammePage.objects.get(pk=self.page.pk)),
+                "Contemporary Art Practice MA/MFA",
+                "Painting MA",
+                "Print ",
+            ],
+        )
+
+    def test_draft_programmes_are_not_listed(self):
+        self.assertNotIn("Draft", " ".join(self.eligible_programmes()))
+
+    def test_query_count_does_not_grow_with_eligible_programmes(self):
+        self.assertQueryCountDoesNotGrow(
+            # A fresh page each time, as scholarship_items is a cached_property.
+            action=lambda: ProgrammePage.objects.get(pk=self.page.pk).scholarship_items,
+            grow=lambda: self.scholarship.eligable_programmes.add(
+                *ProgrammePageFactory.create_batch(5, parent=HomePage.objects.first())
+            ),
+        )
+
+
+class ProgrammePageFullTitlesTests(TestCase):
+    """full_titles() must give the same label as full_title for every page."""
+
+    def test_full_titles_match_full_title(self):
+        home_page = HomePage.objects.first()
+        ma = DegreeLevelFactory(title="MA")
+        mfa = DegreeLevelFactory(title="MFA")
+
+        def add_levels(page, *levels):
+            for sort_order, level in enumerate(levels):
+                ProgrammePageDegreeLevel.objects.create(
+                    source_page=page, level=level, sort_order=sort_order
+                )
+            return page
+
+        pages = [
+            add_levels(
+                ProgrammePageFactory(parent=home_page, degree_level=None), ma, mfa
+            ),
+            ProgrammePageFactory(parent=home_page, degree_level=ma),
+            ProgrammePageFactory(parent=home_page, degree_level=None),
+            # A degree level row whose level has been deleted is skipped.
+            add_levels(
+                ProgrammePageFactory(parent=home_page, degree_level=ma), None, mfa
+            ),
+            # Degree level rows take priority over the single degree_level.
+            add_levels(ProgrammePageFactory(parent=home_page, degree_level=ma), mfa),
+        ]
+
+        titles = ProgrammePage.full_titles([page.pk for page in pages])
+
+        for page in pages:
+            with self.subTest(page=page.title):
+                self.assertEqual(
+                    titles[page.pk], ProgrammePage.objects.get(pk=page.pk).full_title
+                )
+
+    def test_no_page_ids(self):
+        self.assertEqual(ProgrammePage.full_titles([]), {})

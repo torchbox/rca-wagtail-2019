@@ -1061,6 +1061,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
     @property
     def degree_level_title(self):
+        # full_titles() builds the same label in bulk. Keep the two in step.
         degree_level_titles = [
             degree_level.level.title
             for degree_level in self.degree_levels.all()
@@ -1084,6 +1085,32 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
     @property
     def full_title(self):
         return f"{self.title} {self.degree_level_title}"
+
+    @classmethod
+    def full_titles(cls, page_ids):
+        """
+        ``full_title`` for each of ``page_ids``, keyed by page id, in two
+        queries rather than loading every page and its degree levels.
+
+        Follows the same rules as ``degree_level_title``, so a change to one
+        needs the same change in the other.
+        """
+        level_titles = defaultdict(list)
+        for page_id, level_title in (
+            ProgrammePageDegreeLevel.objects.filter(
+                source_page_id__in=page_ids, level__isnull=False
+            )
+            .order_by("source_page_id", "sort_order")
+            .values_list("source_page_id", "level__title")
+        ):
+            level_titles[page_id].append(level_title)
+
+        return {
+            page_id: f"{title} {'/'.join(level_titles[page_id]) or fallback or ''}"
+            for page_id, title, fallback in cls.objects.filter(
+                pk__in=page_ids
+            ).values_list("pk", "title", "degree_level__title")
+        }
 
     @property
     def introduction(self):
@@ -1272,15 +1299,21 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
 
         # Check for eligible scholarships based on the Scholarship snippet
         if self.scholarship_set.exists():
-            # Prefetch related data to avoid n+1 queries
-            scholarships = self.scholarship_set.prefetch_related(
-                Prefetch(
-                    "eligable_programmes",
-                    queryset=ProgrammePage.objects.filter(live=True),
-                ),
-                "other_criteria",
-                "fee_statuses",
-            ).filter(active=True)
+            # Prefetch related data to avoid n+1 queries. Eligible programmes
+            # only need their ids: their titles come from full_titles().
+            scholarships = list(
+                self.scholarship_set.prefetch_related(
+                    Prefetch(
+                        "eligable_programmes",
+                        queryset=ProgrammePage.objects.filter(live=True).only("pk"),
+                    ),
+                    "other_criteria",
+                    "fee_statuses",
+                ).filter(active=True)
+            )
+            titles = ProgrammePage.full_titles(
+                {p.pk for s in scholarships for p in s.eligable_programmes.all()}
+            )
 
             return [
                 {
@@ -1288,7 +1321,7 @@ class ProgrammePage(TapMixin, ContactFieldsMixin, BasePage):
                         "heading": s.title,
                         "introduction": s.summary,
                         "eligible_programmes": ", ".join(
-                            str(x) for x in s.eligable_programmes.all()
+                            titles[x.pk] for x in s.eligable_programmes.all()
                         ),
                         "other_criteria": ", ".join(
                             x.title for x in s.other_criteria.all()
