@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- ...
+- [R1-391](https://torchbox.atlassian.net/browse/R1-391) Fix wagtail-personalisation's `AppConfig` not loading on Django 5.2, which had silently disconnected the signal that sets `Segment.enable_date`/`disable_date`
 
 ### Added
 
