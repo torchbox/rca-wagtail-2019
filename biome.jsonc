@@ -13,19 +13,41 @@
     "enabled": true,
     "rules": {
       "preset": "recommended",
+      // ESLint (via airbnb) also had no-restricted-syntax and no-new, with no
+      // direct Biome equivalent for either:
+      // - no-restricted-syntax banned ForInStatement, ForOfStatement,
+      //   LabeledStatement and WithStatement. noForIn below and noWith /
+      //   noConfusingLabels (both already in the recommended preset) cover
+      //   three of the four; Biome has no rule banning for-of loops, so that
+      //   one has no compensating control here.
+      // - no-new (a bare `new Foo()` call for side effects only) has no
+      //   Biome equivalent either; noNewArray/noNewRequire are narrower,
+      //   unrelated rules.
       "style": {
         "useTemplate": "error",
         "useNumberNamespace": "error",
         "noNegationElse": "warn",
         "useDefaultParameterLast": "error",
         "useExponentiationOperator": "error",
+        // Matches ESLint's prefer-destructuring options: object destructuring
+        // required in declarations, array destructuring required only in
+        // assignments.
+        "useDestructuring": {
+          "level": "error",
+          "options": {
+            "variableDeclarator": { "array": false, "object": true },
+            "assignmentExpression": { "array": true, "object": false }
+          }
+        },
         "useNodejsImportProtocol": "off" // ESLint never enforced n/prefer-node-protocol or unicorn/prefer-node-protocol; off to keep the migration like-for-like
       },
       "suspicious": {
         "noVar": "error",
         // no-console was ESLint's `error`, with `console.error` allowed; match that here
         "noConsole": { "level": "warn", "options": { "allow": ["error"] } },
-        "noDoubleEquals": "error"
+        "noDoubleEquals": "error",
+        // Covers no-restricted-syntax's ForInStatement ban; see the note above "style".
+        "noForIn": "error"
       },
       "correctness": {
         "noUndeclaredVariables": "error",
