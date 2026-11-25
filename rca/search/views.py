@@ -26,8 +26,9 @@ def search(request):
 
         # If no results found, try trigram similarity search
         # We can only filter by title, since that's the only field we have
-        # common to all page types.
-        if not search_results:
+        # common to all page types. count() rather than a truth test, which
+        # would load every matching page; the paginator reuses the count.
+        if not search_results.count():
             search_results = (
                 Page.objects.live()
                 .annotate(
