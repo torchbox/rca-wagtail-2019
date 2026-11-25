@@ -13,6 +13,7 @@ markdown_extensions:
 nav:
   - 'Home': 'index.md'
   - 'Front end tooling': 'front-end-tooling.md'
+  - 'Back-end testing': 'back-end-testing.md'
   - 'Personalised CTAs and Segments': 'personalised-ctas.md'
   - Implementation Specs:
       - 'Rebuild Approach': 'implementation-specs/finalised-rebuild-approach.md'
