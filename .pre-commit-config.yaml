@@ -59,11 +59,9 @@ repos:
     rev: v3.22.0
     hooks:
       - id: pyupgrade
-  - repo: https://github.com/python-poetry/poetry
-    rev: '1.8.5' # keep version in sync with version installed in the Dockerfile
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: '0.13.9' # keep version in sync with UV_VERSION ARG in Dockerfile
     hooks:
-      - id: poetry-check
-      - id: poetry-lock
-        # Never update dependencies and only run on changes to pyproject.toml
-        args: [--no-update]
-        files: ^pyproject.toml$
+      - id: uv-lock
+        args: ['--locked']
+        files: ^pyproject\.toml$

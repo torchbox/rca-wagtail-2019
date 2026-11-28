@@ -1,3 +1,5 @@
+ARG UV_VERSION=0.13.9
+
 # (Keep the version in sync with the node install below)
 FROM node:26 AS frontend
 
@@ -17,12 +19,11 @@ RUN npm run build:prod
 # ones becase they use a different C compiler. Debian images also come with
 # all useful packages required for image manipulation out of the box. They
 # however weight a lot, approx. up to 1.5GiB per built image.
+FROM ghcr.io/astral-sh/uv:${UV_VERSION}@sha256:d3b601f0c7b118bc1753febf7c41cc80981df678445e0254284eecf84db79a7d AS uv-binary
+
 FROM python:3.15-trixie AS production
 
-ARG POETRY_INSTALL_ARGS="--no-dev"
-
-# IMPORTANT: Remember to review .circleci/config.yml when upgrading
-ARG POETRY_VERSION=1.8.5
+ARG UV_SYNC_ARGS="--no-dev"
 
 # Install dependencies in a virtualenv
 ENV VIRTUAL_ENV=/venv
@@ -34,7 +35,7 @@ WORKDIR /app
 # Set default environment variables. They are used at build time and runtime.
 # If you specify your own environment variables on Heroku or Dokku, they will
 # override the ones set here. The ones below serve as sane defaults only.
-#  * PATH - Make sure that Poetry is on the PATH, along with our venv
+#  * PATH - Make sure our venv is on the PATH.
 #  * PYTHONUNBUFFERED - This is useful so Python does not hold any messages
 #    from being output.
 #    https://docs.python.org/3.11/using/cmdline.html#envvar-PYTHONUNBUFFERED
@@ -48,7 +49,11 @@ WORKDIR /app
 #  * GUNICORN_CMD_ARGS - additional arguments to be passed to Gunicorn. This
 #    variable is read by Gunicorn
 ENV PATH=$VIRTUAL_ENV/bin:$PATH \
-    POETRY_INSTALL_ARGS=${POETRY_INSTALL_ARGS} \
+    UV_SYNC_ARGS=${UV_SYNC_ARGS} \
+    UV_PROJECT_ENVIRONMENT=$VIRTUAL_ENV \
+    UV_PYTHON_DOWNLOADS=never \
+    UV_LINK_MODE=copy \
+    UV_COMPILE_BYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     DJANGO_SETTINGS_MODULE=rca.settings.production \
     PORT=8000 \
@@ -70,8 +75,8 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     git \
     && apt-get autoremove && rm -rf /var/lib/apt/lists/*
 
-# Install poetry at the system level
-RUN pip install --no-cache poetry==${POETRY_VERSION}
+# Install uv
+COPY --from=uv-binary /uv /usr/local/bin/uv
 
 # Don't use the root user as it's an anti-pattern and Heroku does not run
 # containers as root either.
@@ -79,17 +84,16 @@ RUN pip install --no-cache poetry==${POETRY_VERSION}
 USER rca
 
 # Install your app's Python requirements.
-RUN python -m venv $VIRTUAL_ENV
-COPY --chown=rca pyproject.toml poetry.lock ./
-RUN pip install --no-cache --upgrade pip && poetry install ${POETRY_INSTALL_ARGS} --no-root --extras gunicorn && rm -rf $HOME/.cache
+COPY --chown=rca pyproject.toml uv.lock ./
+RUN uv sync --locked ${UV_SYNC_ARGS} --extra gunicorn --no-install-project && rm -rf $HOME/.cache
 
 COPY --chown=rca --from=frontend ./rca/static_compiled ./rca/static_compiled
 
 # Copy application code.
 COPY --chown=rca . .
 
-# Run poetry install again to install our project (so the the rca package is always importable)
-RUN poetry install ${POETRY_INSTALL_ARGS}
+# Run uv sync again to install our project (so the rca package is always importable)
+RUN uv sync --locked ${UV_SYNC_ARGS} --extra gunicorn
 
 # Collect static. This command will move static files from application
 # directories and "static_compiled" folder to the main static directory that
